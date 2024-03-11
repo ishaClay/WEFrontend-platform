@@ -9,7 +9,7 @@ import RegisterTrainee from "./pages/auth/RegisterTrainee";
 
 function App() {
 	return (
-		<div className="App">
+		<div className="App max-w-[1500px] mx-auto">
 			<Header />
 			<Routes>
 				<Route path="/" element={<Home />} />

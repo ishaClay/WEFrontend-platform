@@ -3,12 +3,14 @@ import { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import Footer from '../../components/Footer/Footer';
+import Plus from "../../public/assets/img/Plus.png";
+import Minus from "../../public/assets/img/Minus.png";
 
 function Home() {
 	const [activeIndex, setActiveIndex] = useState(null);
 
 	const onItemClick = (index: any) => {
+		console.log(activeIndex, "activeIndex");
 		setActiveIndex(index === activeIndex ? null : index);
 	};
 
@@ -389,38 +391,92 @@ function Home() {
 				<div className=" w-[1519px] h-[610px] bg-[#F7F8FC] pt-[40px]">
 					<div className="ml-[171px] font-[700] text-[32px] relative">
 						<h3 className="">Our Building Blocks </h3>
-						<div className="w-[380px] border-3 border-secondary-button mt-[16px]"></div>
+						<div className="w-[380px] border-solid border-[4px] border-redius rounded-full border-secondary-button mt-[16px]"></div>
 						<img
 							className="absolute top-[-6px] left-[312px]"
 							src="../assets/img/Ellipse 31.png"
 						/>
 						<div className="absolute top-[-20px] left-[315px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
-						<div className="flex flex-wrap gap-x-[44px] mt-[137px]">
-							{data.map((item, index) => (
-								<div key={index}>
-									<h2 className="">
-										<button
-											className="w-[573px] h-[59px] relative"
-											onClick={() => onItemClick(index)}
-											aria-expanded={index === activeIndex}>
-											{item.title}
-
-											{index === activeIndex ? (
-												<i className="fa-solid fa-angle-up absolute right-[20px]" />
-											) : (
-												<i className="fa-solid fa-angle-down absolute right-[20px]" />
-											)}
-										</button>
-									</h2>
+						<div className="flex flex-wrap gap-8 mt-[137px]">
+							<div className="w-[571px]">
+								{data.slice(0, 3).map((item, index) => (
 									<div
-										className={`accordion-content w-[573px] border solid 1px font-[400] text-[18px] text-[#00778B] p-[20px] mb-[20px] ${
-											index !== activeIndex && "hidden"
-										}`}>
-										{item.discription}
+										key={index}
+										className="w-[573px] border-solid border-silver border-[1px] mb-5">
+										<h2
+											className={`${
+												item.title === activeIndex
+													? "bg-darkslategray-300 text-white"
+													: "bg-ghostwhite text-darkslategray-300"
+											}   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
+											<button className=" h-[59px] text-left  relative">
+												{item.title}
+											</button>
+											{item.title !== activeIndex ? (
+												<img
+													src={Plus} // Use the imported SVG file as the source
+													alt="plus icon"
+													onClick={() => onItemClick(item.title)}
+													className="h-8 w-8"
+												/>
+											) : (
+												<img
+													src={Minus} // Use the imported SVG file as the source
+													alt="minus icon"
+													onClick={() => onItemClick("")}
+													className="h-8 w-8"
+												/>
+											)}
+										</h2>
+										{item.title === activeIndex && (
+											<div
+												className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
+												{item.discription}
+											</div>
+										)}
 									</div>
-								</div>
-							))}
+								))}
+							</div>
+							<div className="w-[571px]">
+								{data.slice(3, 6).map((item, index) => (
+									<div
+										key={index}
+										className="w-[573px] border-solid border-silver border-[1px] mb-5">
+										<h2
+											className={`${
+												item.title === activeIndex
+													? "bg-darkslategray-300 text-white"
+													: "bg-ghostwhite text-darkslategray-300"
+											}   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
+											<button className=" h-[59px] text-left px-[18px] relative">
+												{item.title}
+											</button>
+											{item.title !== activeIndex ? (
+												<img
+													src={Plus}
+													alt="plus icon"
+													onClick={() => onItemClick(item.title)}
+													className="h-8 w-8"
+												/>
+											) : (
+												<img
+													src={Minus}
+													alt="minus icon"
+													onClick={() => onItemClick("")}
+													className="h-8 w-8"
+												/>
+											)}
+										</h2>
+										{item.title === activeIndex && (
+											<div
+												className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
+												{item.discription}
+											</div>
+										)}
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
