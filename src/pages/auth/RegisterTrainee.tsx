@@ -1,12 +1,16 @@
+import Header from "@/components/Header";
 import RegisterBanner from "@/components/RegisterTrainee/RegisterBanner";
 import RegisterTraineeForm from "@/components/RegisterTrainee/RegisterTraineeForm";
 
 const RegisterTrainee = () => {
 	return (
-		<div className="display flex">
-			<RegisterBanner />
-			<RegisterTraineeForm />
-		</div>
+		<>
+			<Header />
+			<div className="display flex">
+				<RegisterBanner />
+				<RegisterTraineeForm />
+			</div>
+		</>
 	);
 };
 
