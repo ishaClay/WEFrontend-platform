@@ -291,15 +291,16 @@ function Home() {
                     </div>
                 </div>
 
-                <div className="ml-[170px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px]  flex justify-center items-center">
-                    <p className="font-[700] text-[20px] leading-[27px]">For Companies</p>
-                </div>
+                
 
                 <div className="w-[1212px] h-[645px] relative  m-[auto]">
-                    <h3 className="font-[700] text-[24px] w-[270px] text-center absolute left-[550px] top-[24px]">
+                    <div className=" w-[222px] h-[47px] bg-[#C1EF84] rounded-[6px] mt-[50px] flex justify-center items-center">
+                        <p className="font-[700] text-[20px] leading-[27px]">For Training Partners</p>
+                    </div>
+                    <h3 className="font-[700] text-[24px] w-[270px] text-center absolute left-[550px] top-[80px]">
                         Sustainability platform needs you.
                     </h3>
-                    <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[150px]">
+                    <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[200px]">
                         <div className="flex w-[374px] h-[64px] gap-[20px] relative">
                             <img className="" src="../assets/img/Ellipse 62.png" />
                             <img
@@ -373,7 +374,7 @@ function Home() {
                         </div>
                     </div>
 
-                    <div className="text-center w-[990px] absolute top-[460px] tracking-[-4%] left-[130px] font-[500] text-[24px]">
+                    <div className="text-center w-[990px] absolute top-[490px] tracking-[-4%] left-[130px] font-[500] text-[24px]">
                         <h3 className="">
                             Be a catalyst for change! Partner with us and contribute to a
                             sustainable future through impactful training initiatives.
@@ -383,99 +384,7 @@ function Home() {
                         </h3>
                     </div>
 
-                    <section className="">
-                        <div className=" w-[1519px] h-[610px] bg-[#F7F8FC] pt-[40px]">
-                            <div className="ml-[171px] font-[700] text-[32px] relative">
-                                <h3 className="">Our Building Blocks </h3>
-                                <div className="w-[380px] border-solid border-[4px] border-redius rounded-full border-secondary-button mt-[16px]"></div>
-                                <img
-                                    className="absolute top-[-6px] left-[312px]"
-                                    src="../assets/img/Ellipse 31.png"
-                                />
-                                <div className="absolute top-[-20px] left-[315px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
-
-                                <div className="flex flex-wrap gap-8 mt-[137px]">
-                                    <div className="w-[571px]">
-                                        {data.slice(0, 3).map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="w-[573px] border-solid border-silver border-[1px] mb-5">
-                                                <h2
-                                                    className={`${item.title === activeIndex
-                                                        ? "bg-darkslategray-300 text-white"
-                                                        : "bg-ghostwhite text-darkslategray-300"
-                                                        }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
-                                                    <button className=" h-[59px] text-left  relative">
-                                                        {item.title}
-                                                    </button>
-                                                    {item.title !== activeIndex ? (
-                                                        <img
-                                                            src={Plus} // Use the imported SVG file as the source
-                                                            alt="plus icon"
-                                                            onClick={() => onItemClick(item.title)}
-                                                            className="h-8 w-8"
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src={Minus} // Use the imported SVG file as the source
-                                                            alt="minus icon"
-                                                            onClick={() => onItemClick("")}
-                                                            className="h-8 w-8"
-                                                        />
-                                                    )}
-                                                </h2>
-                                                {item.title === activeIndex && (
-                                                    <div
-                                                        className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
-                                                        {item.discription}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="w-[571px]">
-                                        {data.slice(3, 6).map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="w-[573px] border-solid border-silver border-[1px] mb-5">
-                                                <h2
-                                                    className={`${item.title === activeIndex
-                                                        ? "bg-darkslategray-300 text-white"
-                                                        : "bg-ghostwhite text-darkslategray-300"
-                                                        }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
-                                                    <button className=" h-[59px] text-left px-[18px] relative">
-                                                        {item.title}
-                                                    </button>
-                                                    {item.title !== activeIndex ? (
-                                                        <img
-                                                            src={Plus}
-                                                            alt="plus icon"
-                                                            onClick={() => onItemClick(item.title)}
-                                                            className="h-8 w-8"
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src={Minus}
-                                                            alt="minus icon"
-                                                            onClick={() => onItemClick("")}
-                                                            className="h-8 w-8"
-                                                        />
-                                                    )}
-                                                </h2>
-                                                {item.title === activeIndex && (
-                                                    <div
-                                                        className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
-                                                        {item.discription}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <SecondaryButton name="Register me" className="w-[169px] h-[44px] bg-[#64A70B] text-white rounded-[4px] absolute top-[580px] left-[550px]">
+                    <SecondaryButton name="Register me" className="w-[169px] h-[44px] bg-[#64A70B] text-white rounded-[4px] absolute top-[600px] left-[550px]">
 
                     </SecondaryButton>
                 </div>
@@ -485,37 +394,90 @@ function Home() {
                 <div className=" w-[1519px] h-[610px] bg-[#F7F8FC] pt-[40px]">
                     <div className="ml-[171px] font-[700] text-[32px] relative">
                         <h3 className="">Our Building Blocks </h3>
-                        <div className="w-[380px] border-3 border-secondary-button mt-[16px]"></div>
+                        <div className="w-[380px] border-solid border-[4px] border-redius rounded-full border-secondary-button mt-[16px]"></div>
                         <img
                             className="absolute top-[-6px] left-[312px]"
                             src="../assets/img/Ellipse 31.png"
                         />
                         <div className="absolute top-[-20px] left-[315px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
-                        <div className="flex flex-wrap gap-x-[44px] mt-[137px]">
-                            {data.map((item, index) => (
-                                <div key={index}>
-                                    <h2 className="">
-                                        <button
-                                            className="w-[573px] h-[59px] relative"
-                                            onClick={() => onItemClick(index)}
-                                            aria-expanded={index === activeIndex}>
-                                            {item.title}
-
-                                            {index === activeIndex ? (
-                                                <i className="fa-solid fa-angle-up absolute right-[20px]" />
-                                            ) : (
-                                                <i className="fa-solid fa-angle-down absolute right-[20px]" />
-                                            )}
-                                        </button>
-                                    </h2>
+                        <div className="flex flex-wrap gap-8 mt-[137px]">
+                            <div className="w-[571px]">
+                                {data.slice(0, 3).map((item, index) => (
                                     <div
-                                        className={`accordion-content w-[573px] border solid 1px font-[400] text-[18px] text-[#00778B] p-[20px] mb-[20px] ${index !== activeIndex && "hidden"
-                                            }`}>
-                                        {item.discription}
+                                        key={index}
+                                        className="w-[573px] border-solid border-silver border-[1px] mb-5">
+                                        <h2
+                                            className={`${item.title === activeIndex
+                                                ? "bg-darkslategray-300 text-white"
+                                                : "bg-ghostwhite text-darkslategray-300"
+                                                }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
+                                            <button className=" h-[59px] text-left  relative">
+                                                {item.title}
+                                            </button>
+                                            {item.title !== activeIndex ? (
+                                                <img
+                                                    src={Plus} // Use the imported SVG file as the source
+                                                    alt="plus icon"
+                                                    onClick={() => onItemClick(item.title)}
+                                                    className="h-8 w-8"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={Minus} // Use the imported SVG file as the source
+                                                    alt="minus icon"
+                                                    onClick={() => onItemClick("")}
+                                                    className="h-8 w-8"
+                                                />
+                                            )}
+                                        </h2>
+                                        {item.title === activeIndex && (
+                                            <div
+                                                className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
+                                                {item.discription}
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                            <div className="w-[571px]">
+                                {data.slice(3, 6).map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className="w-[573px] border-solid border-silver border-[1px] mb-5">
+                                        <h2
+                                            className={`${item.title === activeIndex
+                                                ? "bg-darkslategray-300 text-white"
+                                                : "bg-ghostwhite text-darkslategray-300"
+                                                }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
+                                            <button className=" h-[59px] text-left px-[18px] relative">
+                                                {item.title}
+                                            </button>
+                                            {item.title !== activeIndex ? (
+                                                <img
+                                                    src={Plus}
+                                                    alt="plus icon"
+                                                    onClick={() => onItemClick(item.title)}
+                                                    className="h-8 w-8"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={Minus}
+                                                    alt="minus icon"
+                                                    onClick={() => onItemClick("")}
+                                                    className="h-8 w-8"
+                                                />
+                                            )}
+                                        </h2>
+                                        {item.title === activeIndex && (
+                                            <div
+                                                className={`accordion-content font-[400] font-['calibri'] text-[18px] text-[#00778B] p-[20px] `}>
+                                                {item.discription}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -526,7 +488,7 @@ function Home() {
                     className="absolute left-[300px] top-[50px] z-[999]"
                     src="../assets/img/pngwing 3.png"
                 />
-                <div className="absolute w-[843px] h-[173px] border solid 1px top-[145px] left-[550px] flex flex-col justify-center gap-y-[23   px] ">
+                <div className="absolute w-[843px] h-[173px] border solid 1px top-[145px] left-[550px] flex flex-col justify-center gap-y-[23px] ">
                     <h3 className="font-[700] text-[32px] ml-[200px] leading-[36px]">
                         Ready to commence your journey towards{" "}
                         <span className="text-[#00778B]">sustainability?</span>

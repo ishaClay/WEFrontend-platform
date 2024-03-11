@@ -1,29 +1,11 @@
-import { ChangeEvent, useState } from "react";
-// import Slider from 'react-slick/lib/slider';
-import { Link } from "react-router-dom";
+
 import IngSection from "@/components/comman/section/IngSection";
 import Logo from "@/components/comman/logo/Logo";
 import Slider from "react-slick";
 
+
 function Company() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [otp, setOTP] = useState("");
 
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const handleOTPChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setOTP(e.target.value);
-    };
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-
-        console.log("Entered OTP:", otp);
-
-        setIsOpen(false);
-    };
 
     const settings = {
         dots: true,
@@ -73,46 +55,18 @@ function Company() {
                 </div>
 
                 <div className="ml-[100px] flex gap-x-[40px]">
-                    <Link to="/otp">
+      
                         <button
-                            onClick={togglePopup}
+                    
                             className="w-[480px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
                             Get OTP
                         </button>
-                    </Link>
-
-                    {isOpen && (
-                        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-50">
-                            <div className="bg-white p-6 rounded shadow-lg">
-                                <p>Enter OTP:</p>
-                                <form onSubmit={handleSubmit}>
-                                    <input
-                                        type="text"
-                                        value={otp}
-                                        onChange={handleOTPChange}
-                                        className="mt-2 px-4 py-2 border border-gray-300 rounded w-full"
-                                        placeholder="Enter OTP"
-                                        required
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-                                        Submit
-                                    </button>
-                                    <button
-                                        onClick={togglePopup}
-                                        className="mt-4 ml-2 px-4 py-2 bg-red-500 text-white rounded">
-                                        Cancel
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    )}
+                                    
                 </div>
 
                 <div className="ml-[116px] mt-[150px] flex gap-x-[40px]">
                     <Logo />
-                    <Slider className="w-[381px] h-[44px]" {...settings}>
+                    <Slider className="w-[381px] h-[44px]" {...settings} >
                         <div>
                             <span>
                                 “Small choices, big impact. Ripples of eco-friendly actions

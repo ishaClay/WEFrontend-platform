@@ -1,7 +1,9 @@
 import RegisterButton from "@/components/comman/Button/RegisterButton";
 import Logo from "@/components/comman/logo/Logo";
+import Slider from "react-slick";
 
 function Register() {
+
 	const settings = {
 		dots: true,
 		infinite: true,
@@ -52,7 +54,7 @@ function Register() {
 
 				<div className="ml-[116px] flex gap-x-[40px]">
 					<Logo />
-					{/* <Slider className='w-[381px] h-[44px]' {...settings} >
+					<Slider className='w-[381px] h-[44px]' {...settings} >
                         <div>
                             <span>“Small choices, big impact. Ripples of eco-friendly actions shape a sustainable future”</span>
                         </div>
@@ -62,7 +64,7 @@ function Register() {
                         <div>
                             <span>“Small choices, big impact. Ripples of eco-friendly actions shape a sustainable future”</span>
                         </div>
-                    </Slider> */}
+                    </Slider>
 				</div>
 
 				<div className="w-[296px] h-[30px] font-[400] text-[12px] mt-[154px] ml-[180px]">
