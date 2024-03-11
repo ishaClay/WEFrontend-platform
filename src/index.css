@@ -39,12 +39,14 @@ code {
 	content: '←';
 	font-size: 51px;
 	color: lightgray;
+
 }
 
 .slick-next:before {
 	content: '→';
 	font-size: 51px;
 	color: lightgray;
+
 }
 .slick-prev {
 	left: -95px;

@@ -16,7 +16,10 @@ function Home() {
         setActiveIndex(index === activeIndex ? null : index);
     };
 
+
+
     const settings = {
+        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
@@ -68,30 +71,33 @@ function Home() {
             <section>
                 <div className="relative mt-[30px] overflow-hidden">
                     <img src="../assets/img/Environment 3.png" />
-                    <div className="absolute top-[131px] left-[-15px]  opacity-[10] )]">
-                        <img src="../assets/img/Rectangle.png" />
+                    <div className="absolute top-[131px] left-[-15px]  bg-primary-button top-94 left-823 rounded-[24px]  border border-solid border-[#64A70B] ]">
+                        <img src="../assets/img/Rectangle.png " />
                     </div>
                     <div className="absolute top-[160px] left-[171px] text-white">
                         <img
-                            className="absolute left-[-100px] top-[10px]"
+                            className="absolute left-[-100px] top-[10px] "
                             src="../assets/img/Forward.png"
                         />
-                        <p className="font-[700] text-[28px]">
+                        <p className="font-[700] text-[28px]  leading-[37px]">
                             Pathway to Sustainability Maturity
                         </p>
-                        <p className="w-[353px] h-[44px] font-[300] mt-[5px] text-[18px] leading-[21.97px]">
+                        <p className="w-[353px] h-[44px] font-[300] mt-[5px] text-[18px] leading-[21.97px] font-[calibri]">
                             Empower growing business to drive positive sustainability outcomes
                         </p>
-                        <SecondaryButton name="Start your journey" className="w-[278px] h-[59px] mt-[22px]  rounded-md ">
-                        </SecondaryButton>
+                        <div className="relative">
+                            <SecondaryButton name="Start your journey" className="  w-[278px] h-[59px] mt-[22px]  rounded-md ">
+                            </SecondaryButton>
+                            <img className="absolute left-[215px] top-[40px] " src="../assets/img/Move Right.png" />
+                        </div>
                     </div>
 
                     <img
-                        className="absolute top-[530px]"
+                        className="absolute top-[530px]  bg-primary-button border border-solid"
                         src="../assets/img/Rectang.png"
                     />
 
-                    <div className=" absolute top-[552px] left-[480px] text-white flex gap-[16px]">
+                    <div className=" absolute top-[552px] left-[480px] text-white flex gap-[16px] ">
                         <p>ENGAGE</p>
                         <img className="" src="../assets/img/Arrow Right.png" />
                         <p>ASSESS</p>
@@ -123,7 +129,7 @@ function Home() {
                     </div>
                     {data.map((v) => {
                         return (
-                            <div className="w-[193.23px] h-[268px] bg-gradient-to-br from-white to-gray-200">
+                            <div className="w-[193.23px] h-[268px] bg-gradient-to-r from-[rgba(235, 234, 234, 0.5)] via-transparent to-[rgba(255, 255, 255, 0.5)]">
                                 <img
                                     className="w-[66.56px] h-[74.72px] mt-[30px] ml-[26px]"
                                     src={v.image}
@@ -155,7 +161,7 @@ function Home() {
                             className="absolute top-[360px] left-[194px] w-[62px] h-[76px]"
                             src="../assets/img/Voltage.png"
                         />
-                        <div className="w-[697px] h-[37px] ml-[100px] mt-[80px]">
+                        <div className=" w-[697px] h-[37px] ml-[100px] mt-[80px]">
                             <Slider {...settings}>
                                 <div>
                                     <img src="../assets/img/Component 1.png" />
@@ -291,7 +297,7 @@ function Home() {
                     </div>
                 </div>
 
-                
+
 
                 <div className="w-[1212px] h-[645px] relative  m-[auto]">
                     <div className=" w-[222px] h-[47px] bg-[#C1EF84] rounded-[6px] mt-[50px] flex justify-center items-center">

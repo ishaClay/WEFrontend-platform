@@ -20,20 +20,16 @@ function Footer() {
 						<a>Contact Us</a>
 					</ul>
 
-					<div className="text-white absolute left-[350px] top-[350px]">
+					<div className="text-white absolute left-[350px] top-[300px]">
 						<ul className="no-underline">
 							© County Wexford Chamber 2023. All Rights Reserved.
 						</ul>
 
-						<div className="flex gap-[18.27px] justify-center mt-[20px]">
+						<div className="flex gap-[18.27px] justify-center mt-[30px]">
 							<FaXTwitter />
 							<BsInstagram />
 							<FaFacebookF />
 							<IoLogoYoutube />
-							{/* <i className="fa-brands fa-x-twitter" />
-							<i className="fa-brands fa-instagram" />
-							<i className="fa-brands fa-facebook-f" /
-							<i className="fa-brands fa-youtube" /> */}
 						</div>
 					</div>
 				</div>
