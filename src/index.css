@@ -3,9 +3,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=D-DIN-PRO:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Uni+Neue-Trial:wght@800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 body {
 	margin: 0;
@@ -31,3 +34,25 @@ code {
 	display: flex !important;
 	justify-content: flex-end !important;
 }
+
+.slick-prev:before {
+	content: '←';
+	font-size: 51px;
+	color: lightgray;
+}
+
+.slick-next:before {
+	content: '→';
+	font-size: 51px;
+	color: lightgray;
+}
+.slick-prev {
+	left: -95px;
+	top: 95px;
+}
+
+.slick-next {
+	right: -50px;
+	top: 95px;
+}	
+

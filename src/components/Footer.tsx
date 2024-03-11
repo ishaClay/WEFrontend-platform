@@ -1,7 +1,11 @@
+import {  FaFacebookF, FaXTwitter } from "react-icons/fa6";
+import { BsInstagram } from "react-icons/bs";
+import { IoLogoYoutube } from "react-icons/io5";
+
 function Footer() {
 	return (
-		<footer className="absolute w-[1575px] h-[300px] bg-[#71B2C9] top-[4683px] left-[56px] ">
-			<div className="w-[1162px] h-[440px] bg-[#002A3A] absolute top-[-140px] left-[200px] rounded-tl-[20px] rounded-tr-[20px] ">
+		<footer className="container absolute max-w-[1500px] mx-auto h-[300px] bg-[#71B2C9]">
+			<div className="w-[1162px] h-[440px] bg-[#002A3A] absolute top-[-140px] left-[165px] rounded-tl-[20px] rounded-tr-[20px] ">
 				<div>
 					<img
 						className="absolute top-[59px] left-[29px]"
@@ -21,11 +25,15 @@ function Footer() {
 							© County Wexford Chamber 2023. All Rights Reserved.
 						</ul>
 
-						<div className="flex gap-[18.27px] justify-center">
-							<i className="fa-brands fa-x-twitter" />
+						<div className="flex gap-[18.27px] justify-center mt-[20px]">
+							<FaXTwitter />
+							<BsInstagram />
+							<FaFacebookF />
+							<IoLogoYoutube />
+							{/* <i className="fa-brands fa-x-twitter" />
 							<i className="fa-brands fa-instagram" />
-							<i className="fa-brands fa-facebook-f" />
-							<i className="fa-brands fa-youtube" />
+							<i className="fa-brands fa-facebook-f" /
+							<i className="fa-brands fa-youtube" /> */}
 						</div>
 					</div>
 				</div>
