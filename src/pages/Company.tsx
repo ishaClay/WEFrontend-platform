@@ -40,7 +40,7 @@ function Company() {
     };
 
     return (
-        <div className='container flex'>
+        <div className='container  mx-auto  flex'>
             <IngSection />
 
             <div className='w-[694px]'>
@@ -102,7 +102,7 @@ function Company() {
 
                 <div className='ml-[116px] mt-[150px] flex gap-x-[40px]'>
                     <Logo />
-                    <Slider className='w-[381px] h-[44px]' {...settings} >
+                    {/* <Slider className='w-[381px] h-[44px]' {...settings} >
                         <div>
                             <span>“Small choices, big impact. Ripples of eco-friendly actions shape a sustainable future”</span>
                         </div>
@@ -112,7 +112,7 @@ function Company() {
                         <div>
                             <span>“Small choices, big impact. Ripples of eco-friendly actions shape a sustainable future”</span>
                         </div>
-                    </Slider>
+                    </Slider> */}
 
                 </div>
 

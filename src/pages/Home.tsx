@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import { useState } from 'react';
 import Slider from "react-slick";
 // import "slick-carousel/slick/slick.css";
@@ -56,7 +57,7 @@ function Home() {
     ]
 
     return (
-        <div className='container'>
+        <div className='container  mx-auto '>
             <section>
                 <div className='relative mt-[30px] overflow-hidden'>
                     <img src='../assets/img/Environment 3.png' />
@@ -121,14 +122,14 @@ function Home() {
                         <img className='absolute top-[352px] left-[171px] w-[108px] h-[85px]' src='../assets/img/Rectangle 6.png' />
                         <img className='absolute top-[360px] left-[194px] w-[62px] h-[76px]' src='../assets/img/Voltage.png' />
                         <div className="w-[697px] h-[37px] ml-[100px] mt-[80px]">
-                            <Slider {...settings}>
+                            {/* <Slider {...settings}>
                                 <div>
                                     <img src='../assets/img/Component 1.png' />
                                 </div>
                                 <div>
                                     <h3>2</h3>
                                 </div>
-                            </Slider>
+                            </Slider> */}
                         </div>
                     </div>
                 </div>
@@ -321,7 +322,7 @@ function Home() {
 
             </section>
 
-            {/* <Footer /> */}
+            <Footer />
 
 
         </div>

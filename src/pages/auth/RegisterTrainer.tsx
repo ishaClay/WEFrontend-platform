@@ -5,7 +5,7 @@ import SelectBox from "@/components/comman/SelectBox/SelectBox";
 
 function RegisterTrainer() {
     return (
-        <div className='container flex relative mt-[40px]'>
+        <div className='container mx-auto  flex relative mt-[40px]'>
             <div className='relative'>
                 <img className='w-[707px] h-[958px] sm:w-[550px]' src='../assets/img/Base.png' />
                 <img className='absolute top-[87px] left-[174px] sm:left-[100px]' src='../assets/img/Group 99.png' />

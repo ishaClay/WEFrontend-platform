@@ -2,7 +2,7 @@ import React from 'react';
 
 function Auth() {
     return (
-        <div className='container flex mt-[26px]'>
+        <div className='container mx-auto flex mt-[26px]'>
             <div className='relative'>
                 <img className='w-[686px] h-[900px]' src='../assets/img/Image.png' />
 
