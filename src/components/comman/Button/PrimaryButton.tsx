@@ -3,6 +3,7 @@ import React from "react";
 interface InputProps {
 	name: string;
 	className?: string;
+	symbol?: React.ReactNode;
 }
 
 export const PrimaryButton: React.FC<InputProps> = ({ name, className }) => {
@@ -13,10 +14,11 @@ export const PrimaryButton: React.FC<InputProps> = ({ name, className }) => {
 	);
 };
 
-export const SecondaryButton: React.FC<InputProps> = ({ name, className }) => {
+export const SecondaryButton: React.FC<InputProps> = ({ name, symbol, className }) => {
 	return (
 		<button className={`bg-secondary-button top-94 left-823 rounded text-white ${className}`}>
 			{name}
+			{symbol && <span className="">{symbol}</span>}
 		</button>
 	);
 };

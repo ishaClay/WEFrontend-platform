@@ -8,6 +8,8 @@ import Minus from "../../public/assets/img/Minus.png";
 import { SecondaryButton } from "@/components/comman/Button/PrimaryButton";
 import Header from "@/components/Header";
 // import Footer from '../../components/Footer/Footer';
+import { GrNext, GrPrevious } from "react-icons/gr";
+import Symbol from "@/components/comman/symbol/Symbol";
 
 function Home() {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -16,14 +18,14 @@ function Home() {
         setActiveIndex(index === activeIndex ? null : index);
     };
 
-
-
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        prevArrow: <GrPrevious />,
+        nextArrow: <GrNext />
     };
 
     const data = [
@@ -129,15 +131,15 @@ function Home() {
                     </div>
                     {data.map((v) => {
                         return (
-                            <div className="w-[193.23px] h-[268px] bg-gradient-to-r from-[rgba(235, 234, 234, 0.5)] via-transparent to-[rgba(255, 255, 255, 0.5)]">
+                            <div className="w-[193.23px] h-[268px] flex flex-col justify-items-baseline justify-evenly px-[14px] bg-gradient-to-r from-[rgba(235, 234, 234, 0.5)] via-transparent to-[rgba(255, 255, 255, 0.5)]">
                                 <img
-                                    className="w-[66.56px] h-[74.72px] mt-[30px] ml-[26px]"
+                                    className="w-[66.56px] h-[74.72px] "
                                     src={v.image}
                                 />
-                                <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] mt-[9px] ml-[19px]">
+                                <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] ">
                                     {v.title}
                                 </h3>
-                                <p className="mt-[30px] ml-[18px] w-[140px] h-[64px] font-[400] text-[14px] leading-[15.75px]">
+                                <p className=" w-[140px] h-[64px] font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
                                     {v.discription}
                                 </p>
                             </div>
@@ -167,7 +169,10 @@ function Home() {
                                     <img src="../assets/img/Component 1.png" />
                                 </div>
                                 <div>
-                                    <h3>2</h3>
+                                    <img src="../assets/img/Component 1.png" />
+                                </div>
+                                <div>
+                                    <img src="../assets/img/Component 1.png" />
                                 </div>
                             </Slider>
                         </div>
@@ -180,11 +185,11 @@ function Home() {
 
                 <div className="mt-[24px] h-[900px]">
                     <div className="ml-[170px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px]  flex justify-center items-center">
-                        <p className="font-[700] text-[20px] leading-[27px]">
+                        <p className="font-bold text-[20px] leading-[27px] font-[uni_neue]">
                             For Companies
                         </p>
                     </div>
-                    <h3 className="mt-[50px] ml-[330px] text-center w-[800px] h-[54px] text-[32px] leading-[36px] traking-[4px] font-uni-neue font-semibold ">
+                    <h3 className="mt-[50px] ml-[330px] text-center w-[800px] h-[54px] text-[32px] leading-[32px] traking-[4px] ">
                         Is your business seeking to align its sustainability practices with
                         Ireland's national goals?
                     </h3>
@@ -291,8 +296,9 @@ function Home() {
                             </div>
                         </div>
 
-                        <button className="absolute top-[550px] left-[45%] w-[249px] h-[59px] rounded-[4px] border border-solid border-black 1px">
+                        <button className="absolute top-[550px] left-[45%] w-[249px] h-[59px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px]">
                             Get Started
+                            <img className="" src="../assets/img/Move Right Dark.png"/>
                         </button>
                     </div>
                 </div>
@@ -306,7 +312,7 @@ function Home() {
                     <h3 className="font-[700] text-[24px] w-[270px] text-center absolute left-[550px] top-[80px]">
                         Sustainability platform needs you.
                     </h3>
-                    <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[200px]">
+                    <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[200px] font-[uni_neue]">
                         <div className="flex w-[374px] h-[64px] gap-[20px] relative">
                             <img className="" src="../assets/img/Ellipse 62.png" />
                             <img
@@ -315,7 +321,7 @@ function Home() {
                             />
                             <div className="w-[298px] h-[36px]">
                                 <h3>Market Reach</h3>
-                                <p>
+                                <p className="mt-[8px] text-[#4E5566]">
                                     Enhance economy of scale by developing training solutions
                                     tailored to market demands.
                                 </p>
@@ -329,10 +335,9 @@ function Home() {
                                 src="../assets/img/Satellites.png"
                             />
                             <div className="w-[298px] h-[36px]">
-                                <h3>Market Reach</h3>
-                                <p>
-                                    Enhance economy of scale by developing training solutions
-                                    tailored to market demands.
+                                <h3>Enhanced Visibility</h3>
+                                <p className="mt-[8px] text-[#4E5566]">
+                                    Showcase your expertise to potential clients and learners through our dedicated training provider directory.
                                 </p>
                             </div>
                         </div>
@@ -343,10 +348,9 @@ function Home() {
                                 src="../assets/img/Satellites.png"
                             />
                             <div className="w-[298px] h-[36px]">
-                                <h3>Market Reach</h3>
-                                <p>
-                                    Enhance economy of scale by developing training solutions
-                                    tailored to market demands.
+                                <h3>Collaborative Ecosystem</h3>
+                                <p className="mt-[8px] text-[#4E5566]">
+                                    Engage with like-minded trainers, share insights, and explore collaborative opportunities within our community.
                                 </p>
                             </div>
                         </div>
@@ -357,10 +361,9 @@ function Home() {
                                 src="../assets/img/Satellites.png"
                             />
                             <div className="w-[298px] h-[36px]">
-                                <h3>Market Reach</h3>
-                                <p>
-                                    Enhance economy of scale by developing training solutions
-                                    tailored to market demands.
+                                <h3>Cutting-edge Technology</h3>
+                                <p className="mt-[8px] text-[#4E5566]">
+                                    Leverage our advanced learning management system for seamless course delivery and management.
                                 </p>
                             </div>
                         </div>
@@ -371,16 +374,15 @@ function Home() {
                                 src="../assets/img/Satellites.png"
                             />
                             <div className="w-[298px] h-[36px]">
-                                <h3>Market Reach</h3>
-                                <p>
-                                    Enhance economy of scale by developing training solutions
-                                    tailored to market demands.
+                                <h3>Comprehensive Analytics</h3>
+                                <p className="mt-[8px]  text-[#4E5566] ">
+                                    Gain valuable insights into learner performance and course effectiveness to refine your training strategies.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="text-center w-[990px] absolute top-[490px] tracking-[-4%] left-[130px] font-[500] text-[24px]">
+                    <div className="text-center w-[990px] absolute top-[500px] tracking-[-4%] left-[130px] font-[500] text-[24px]">
                         <h3 className="">
                             Be a catalyst for change! Partner with us and contribute to a
                             sustainable future through impactful training initiatives.
@@ -390,9 +392,12 @@ function Home() {
                         </h3>
                     </div>
 
-                    <SecondaryButton name="Register me" className="w-[169px] h-[44px] bg-[#64A70B] text-white rounded-[4px] absolute top-[600px] left-[550px]">
+            
+                    <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px] absolute top-[600px] left-[550px] flex items-center justify-center gap-[10px]">
+                        </SecondaryButton>
+                        
+   
 
-                    </SecondaryButton>
                 </div>
             </section>
 
@@ -400,12 +405,12 @@ function Home() {
                 <div className=" w-[1519px] h-[610px] bg-[#F7F8FC] pt-[40px]">
                     <div className="ml-[171px] font-[700] text-[32px] relative">
                         <h3 className="">Our Building Blocks </h3>
-                        <div className="w-[380px] border-solid border-[4px] border-redius rounded-full border-secondary-button mt-[16px]"></div>
+                        <div className="w-[450px] border-solid border-[3px] border-redius rounded-full border-secondary-button mt-[16px] hover:border-[#00778B]"></div>
                         <img
-                            className="absolute top-[-6px] left-[312px]"
+                            className="absolute top-[4px] left-[318px]"
                             src="../assets/img/Ellipse 31.png"
                         />
-                        <div className="absolute top-[-20px] left-[315px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
+                        <div className="absolute top-[-11px] left-[320px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
                         <div className="flex flex-wrap gap-8 mt-[137px]">
                             <div className="w-[571px]">

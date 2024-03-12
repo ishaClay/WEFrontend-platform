@@ -54,10 +54,10 @@ export default {
       spacing: {},
       fontFamily: {
         inter: "Inter",
-        "uni-neue": "'Uni Neue'",
         "d-din-pro": "D-DIN-PRO",
         calibri: "Calibri",
         "uni-neue-trial": "'Uni Neue-Trial'",
+        uni_neue: "Uni Neue",
       },
       borderRadius: {
         xl: "20px",
