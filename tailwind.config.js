@@ -57,7 +57,7 @@ export default {
         "d-din-pro": "D-DIN-PRO",
         calibri: "Calibri",
         "uni-neue-trial": "'Uni Neue-Trial'",
-        uni_neue: "Uni Neue",
+        UniNeue: "UniNeue",
       },
       borderRadius: {
         xl: "20px",

@@ -4,7 +4,7 @@ import { IoLogoYoutube } from "react-icons/io5";
 
 function Footer() {
 	return (
-		<footer className="container absolute max-w-[1500px] mx-auto h-[300px] bg-[#71B2C9]">
+		<footer className=" absolute w-[1500px] h-[300px] bg-[#71B2C9]">
 			<div className="w-[1162px] h-[440px] bg-[#002A3A] absolute top-[-140px] left-[165px] rounded-tl-[20px] rounded-tr-[20px] ">
 				<div>
 					<img

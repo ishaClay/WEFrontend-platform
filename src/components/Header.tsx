@@ -4,7 +4,7 @@ import { PrimaryButton } from "./comman/Button/PrimaryButton";
 
 function Header() {
     return (
-        <header className="container flex max-w-[1500px] mx-auto">
+        <header className="container flex">
             <div className="ml-[167px] mt-[57px] ">
                 <img className="w-[131px] h-[86px]" src="../assets/img/logo1.png" />
             </div>
@@ -22,9 +22,9 @@ function Header() {
                 <PrimaryButton name="Register" className="w-[139px] h-[42px] py-[10px] px-[39px]" />
                 <PrimaryButton name="Login" className="w-[186px] h-[42px] py-[10px] px-[39px] ml-[20px] " />
             </div>
-         
-                <img className="ml-[31px] mt-[42px] w-[136px] h-[105px]" src="../assets/img/logo2.png" />
-            
+
+            <img className="ml-[31px] mt-[42px] w-[136px] h-[105px]" src="../assets/img/logo2.png" />
+
         </header>
     );
 }

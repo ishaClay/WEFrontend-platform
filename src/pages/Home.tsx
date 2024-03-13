@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 // import Footer from '../../components/Footer/Footer';
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Symbol from "@/components/comman/symbol/Symbol";
+import Logo from "@/components/comman/logo/Logo";
 
 function Home() {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -26,6 +27,7 @@ function Home() {
         slidesToScroll: 1,
         prevArrow: <GrPrevious />,
         nextArrow: <GrNext />
+
     };
 
     const data = [
@@ -34,72 +36,76 @@ function Home() {
             title: "Enviroment",
             discription:
                 "Minimize your environmental footprint and promote eco-friendly practices.",
+            background: "bg-[#F9F9F9]",
         },
         {
             image: "../assets/img/Neighbour.png",
             title: "Social",
             discription:
                 "Create a workplace that fosters social responsibility and inclusivity.",
+            background: "bg-[#F9F9F9]",
         },
         {
             image: "../assets/img/Weak Financial Growth.png",
             title: "Economic",
             discription:
                 "Achieve financial sustainability while contributing to the local economy.",
+            background: "bg-gradient-to-r from-white from-44% via-transparent via-30% to-[#ebeaea]",
         },
         {
             image: "../assets/img/Morale.png",
             title: "Governance",
             discription: "Ensure transparent and ethical business practices.",
+            background: "bg-[#F1EFEF]",
         },
         {
             image: "../assets/img/Light On.png",
             title: "Technology & Innovation ",
             discription:
                 "Embrace innovation to stay ahead in the ever-evolving world of sustainability.",
+            background: "bg-gradient-to-r from-[#ebeaea] from-44% via-transparent via-30% to-white",
         },
         {
             image: "../assets/img/Path Steps.png",
             title: "Strategic Integration",
             discription:
                 "Strategic planning is key to sustainable, resilient foundations.",
+            background: "bg-[#F9F9F9]   ",
         },
     ];
 
     return (
 
-        <div className="container mx-auto justify-center items-center h-screen ">
+        <div className="container justify-center items-center max-w-[1500px] mx-auto">
             <Header />
-            <section>
-                <div className="relative mt-[30px] overflow-hidden">
+            <section className="max-[640px]:hidden">
+                <div className="relative mt-[30px] overflow-hidden max-w-[1500px] mx-auto ">
                     <img src="../assets/img/Environment 3.png" />
-                    <div className="absolute top-[131px] left-[-15px]  bg-primary-button top-94 left-823 rounded-[24px]  border border-solid border-[#64A70B] ]">
-                        <img src="../assets/img/Rectangle.png " />
-                    </div>
-                    <div className="absolute top-[160px] left-[171px] text-white">
-                        <img
-                            className="absolute left-[-100px] top-[10px] "
-                            src="../assets/img/Forward.png"
-                        />
-                        <p className="font-[700] text-[28px]  leading-[37px]">
-                            Pathway to Sustainability Maturity
-                        </p>
-                        <p className="w-[353px] h-[44px] font-[300] mt-[5px] text-[18px] leading-[21.97px] font-[calibri]">
-                            Empower growing business to drive positive sustainability outcomes
-                        </p>
-                        <div className="relative">
-                            <SecondaryButton name="Start your journey" className="  w-[278px] h-[59px] mt-[22px]  rounded-md ">
-                            </SecondaryButton>
-                            <img className="absolute left-[215px] top-[40px] " src="../assets/img/Move Right.png" />
+                    <div className="absolute top-[131px]  bg-primary-button top-94 rounded-[24px] rounded-l-none  border border-solid border-[#64A70B] pt-[34px] pr-[113px] pb-[60px] pl-[74px]">
+    
+                        <div className="text-white flex gap-[55px] items-start">
+                            <img
+                                className=""
+                                src="../assets/img/Forward.png"
+                            />
+                            <div>
+                                <p className="font-[700] text-[28px]  leading-[37px]">
+                                    Pathway to Sustainability Maturity
+                                </p>
+                                <p className="w-[353px] h-[44px] font-[300] mt-[5px] text-[18px] leading-[21.97px] font-[calibri]">
+                                    Empower growing business to drive positive sustainability outcomes
+                                </p>
+                                <div className="relative">
+                                    <SecondaryButton name="Start your journey" symbol={<img src="../assets/img/Move Right.png" />} className="w-[278px] h-[59px] mt-[22px]  rounded-md flex justify-center items-center gap-[10px]">
+
+                                    </SecondaryButton>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <img
-                        className="absolute top-[530px]  bg-primary-button border border-solid"
-                        src="../assets/img/Rectang.png"
-                    />
-
-                    <div className=" absolute top-[552px] left-[480px] text-white flex gap-[16px] ">
+                    <div className="text-white flex gap-[16px] backdrop-blur-[30px] absolute w-full bottom-0 py-[22px] justify-center border-t border-[white]">
                         <p>ENGAGE</p>
                         <img className="" src="../assets/img/Arrow Right.png" />
                         <p>ASSESS</p>
@@ -113,33 +119,58 @@ function Home() {
                         <p>ATTAIN PROFICIENCY</p>
                     </div>
                 </div>
+
             </section>
+
+            <section className="md:hidden min-[320px] block relative">
+                <div >
+                    <img className="object-cover h-[400px] object-[right_center]" src="../assets/img/Environment 3.png" />
+                    <img className="absolute top-[90px] left-[-15px] h-[200px]  bg-primary-button top-94 left-823 rounded-[24px]  border border-solid border-[#64A70B]" src="../assets/img/Rectangle.png " />
+                    <div className="absolute top-[100px] px-5 text-white ">
+
+                        <p className="font-[700] text-[18px]">
+                            Pathway to Sustainability Maturity
+                        </p>
+                        <p className="max-w-[353px] h-[44px] font-[300] mt-[5px] text-[16px] leading-[21.97px] font-[calibri]">
+                            Empower growing business to drive positive sustainability outcomes
+                        </p>
+                        <div className="relative">
+                            <SecondaryButton name="Start your journey" className="  w-full h-[45px] mt-[22px]  rounded-md ">
+                            </SecondaryButton>
+                            <img className="absolute left-[190px] top-[32px] " src="../assets/img/Move Right.png" />
+                        </div>
+                    </div>
+
+
+                </div>
+            </section>
+
             <section>
-                <div className="relative flex">
+                <div className="relative flex w-[373px] h-[259px]">
                     <img
-                        className="w-[373px] h-[259px]"
                         src="../assets/img/Rectangle 6.png"
                     />
-                    <div className="absolute top-[36px] left-[171px] text-white">
-                        <p className="w-[184px] h-[108px] font-[800] text-[27px] leading-[27px]">
+                    <div className="absolute top-[36px] left-[170px] text-white">
+                        <p className="w-[190px]  font-[400] text-[24px] leading-[112%] font-[UniNeue] tracking-[1px]">
                             Start your Sustainability journey with firm foundations
                         </p>
                         <img
-                            className="absolute top-[150px] left-[120px] w-[62px] h-[76px]"
+                            className="absolute top-[130px] left-[135px] w-[62px] h-[76px]"
                             src="../assets/img/Voltage.png"
                         />
                     </div>
                     {data.map((v) => {
                         return (
-                            <div className="w-[193.23px] h-[268px] flex flex-col justify-items-baseline justify-evenly px-[14px] bg-gradient-to-r from-[rgba(235, 234, 234, 0.5)] via-transparent to-[rgba(255, 255, 255, 0.5)]">
+                            <div className={`min-w-[190px] max-w-[193.23px] w-full h-[268px] py-[30px] px-[20px] ${v.background}`}>
+
                                 <img
-                                    className="w-[66.56px] h-[74.72px] "
+                                    className="w-[66.56px] h-[74.72px] mb-[10px]"
                                     src={v.image}
                                 />
-                                <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] ">
+                                <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] mb-[10px] h-[40px]">
                                     {v.title}
                                 </h3>
-                                <p className=" w-[140px] h-[64px] font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
+                                <p className=" font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
                                     {v.discription}
                                 </p>
                             </div>
@@ -164,6 +195,7 @@ function Home() {
                             src="../assets/img/Voltage.png"
                         />
                         <div className=" w-[697px] h-[37px] ml-[100px] mt-[80px]">
+
                             <Slider {...settings}>
                                 <div>
                                     <img src="../assets/img/Component 1.png" />
@@ -180,148 +212,116 @@ function Home() {
                 </div>
             </section>
 
-            <section className="mt-[76px] overflow-hidden">
-                <div className="w-[1567px] h-[12px] bg-[#64A70B]"></div>
+            <div className="mt-[76px] mb-[24px] w-full h-[12px] bg-[#64A70B]"></div>
 
-                <div className="mt-[24px] h-[900px]">
-                    <div className="ml-[170px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px]  flex justify-center items-center">
-                        <p className="font-bold text-[20px] leading-[27px] font-[uni_neue]">
-                            For Companies
-                        </p>
+            <section className="">
+
+                <div className="ml-[130px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px] text-center flex justify-center items-center">
+                    <p className="font-bold text-[20px] leading-[27px] font-[UniNeue] text-[#4E5566]">
+                        For Companies
+                    </p>
+                </div>
+
+                <div className="mt-[24px] flex flex-col items-center ">
+
+                    <div className=" w-[800px]">
+                        <h3 className="text-[32px] font-[800] leading-[112%] traking-[4px] text-center text-[#414655] font-[UniNeue]">
+                            Is your business seeking to align its sustainability practices with
+                            Ireland's national goals?
+                        </h3>
                     </div>
-                    <h3 className="mt-[50px] ml-[330px] text-center w-[800px] h-[54px] text-[32px] leading-[32px] traking-[4px] ">
-                        Is your business seeking to align its sustainability practices with
-                        Ireland's national goals?
-                    </h3>
 
-                    <div className="mt-[80px] relative flex text-center">
-                        <div className="flex flex-col  gap-[35px] ml-[171px]">
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3 className="font-[700]">
+                    <div className="relative w-[1250px] flex mt-[40px] justify-between items-center">
+                        <div className="flex flex-col  gap-[35px] ">
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]">
                                     Comprehensive Sustainability Training
                                 </h3>
-                                <p>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Elevate your business with Ireland's green vision through
                                     comprehensive sustainability learning.
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3 className="font-[700]">
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]">
                                     {" "}
                                     Employee Engagement & Development
                                 </h3>
-                                <p>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Foster a culture of growth and engagement through
                                     sustainability-focused professional development.
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3 className="font-[700]">
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]">
                                     Effortless Enrollment and Administration
                                 </h3>
-                                <p>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Simplify your sustainability journey with seamless course
                                     enrollment and management.
                                 </p>
                             </div>
                         </div>
                         <div>
-                            <div className="absolute w-[80px] top-[100px]  left-[565px] border border-solid border-black transform rotate-[18.89deg]"></div>
-                            <div className="absolute w-[51px] top-[250px]  left-[570px] border border-solid border-black transform rotate-0"></div>
-                            <div className="absolute w-[80px] top-[412px]  left-[565px] border border-solid border-black transform rotate-[-30deg]"></div>
-                            <img
-                                className="absolute top-[100px] left-[650px]"
-                                src="../assets/img/E-Learning.png"
-                            />
-                            <img
-                                className="absolute top-[230px] left-[630px]"
-                                src="../assets/img/Safety.png"
-                            />
-                            <img
-                                className="absolute top-[360px] left-[650px]"
-                                src="../assets/img/Conflict.png"
-                            />
-                            <div className="rounded-full absolute top-[150px] left-[700px] w-[203px] h-[203px] bg-white  shadow-md">
-                                <h3 className="font-[700] text-[32px] absolute top-[80px] left-[30px]">
-                                    Benefits
-                                </h3>
-                                <img
-                                    className="absolute top-[85px] left-[165px]"
-                                    src="../assets/img/Ellipse 31.png"
-                                />
-                                <div className="absolute top-[70px] left-[166px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
+
+                            <div>
+                                <img src="../assets/img/Group 177.png" />
                             </div>
-                            <img
-                                className="absolute top-[100px] left-[880px]"
-                                src="../assets/img/Classroom.png"
-                            />
-                            <img
-                                className="absolute top-[230px] left-[930px]"
-                                src="../assets/img/Recycling.png"
-                            />
-                            <img
-                                className="absolute top-[360px] left-[900px]"
-                                src="../assets/img/Environmental.png"
-                            />
-                            <div className="absolute w-[80px] top-[100px] left-[950px] border border-solid border-black transform rotate-[-200deg]"></div>
-                            <div className="absolute w-[51px] top-[250px]  left-[1000px] border border-solid border-black transform rotate-0"></div>
-                            <div className="absolute w-[80px] top-[412px]  left-[970px] border border-solid border-black transform rotate-[28deg]"></div>
+
                         </div>
 
-                        <div className="flex flex-col  gap-[35px] ml-[171px] absolute   left-[900px]">
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3>Flexible Learning Paths for Businesses</h3>
-                                <p>
+                        <div className="flex flex-col  gap-[35px]">
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]">Flexible Learning Paths for Businesses</h3>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Embrace adaptive learning for continuous sustainability growth
                                     across your organisation.
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3> Reputation & Trust Building</h3>
-                                <p>
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]"> Reputation & Trust Building</h3>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Elevate your brand with a reputation for genuine
                                     sustainability commitment.
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px]">
-                                <h3>Promotion of Sustainable Business Practices</h3>
-                                <p>
+                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                                <h3 className="font-bold text-[16px]">Promotion of Sustainable Business Practices</h3>
+                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Lead the sustainability charge with innovative practices that
                                     inspire industry and community.
                                 </p>
                             </div>
                         </div>
-
-                        <button className="absolute top-[550px] left-[45%] w-[249px] h-[59px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px]">
-                            Get Started
-                            <img className="" src="../assets/img/Move Right Dark.png"/>
-                        </button>
                     </div>
+                    <button className="w-[249px] h-[59px] mt-[49px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px]">
+                        Get Started
+                        <img className="" src="../assets/img/Move Right Dark.png" />
+                    </button>
                 </div>
 
 
-
-                <div className="w-[1212px] h-[645px] relative  m-[auto]">
-                    <div className=" w-[222px] h-[47px] bg-[#C1EF84] rounded-[6px] mt-[50px] flex justify-center items-center">
-                        <p className="font-[700] text-[20px] leading-[27px]">For Training Partners</p>
+                <div className="max-w-[1260px] h-[645px] relative mt-[56px] m-[auto]">
+                    <div className=" w-[250px] h-[55px] bg-[#C1EF84] rounded-[6px] flex justify-center items-center">
+                        <p className="font-[700] text-[24px] leading-[112%] font-[UniNeue] traking-[-4%] text-[#4E5566] ">For Training Partners</p>
                     </div>
-                    <h3 className="font-[700] text-[24px] w-[270px] text-center absolute left-[550px] top-[80px]">
+                    <h3 className="font-[700] text-[24px] w-[256px] text-center absolute left-[550px] top-[80px] font-[UniNeue] text-[#373c48]">
                         Sustainability platform needs you.
                     </h3>
                     <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[200px] font-[uni_neue]">
-                        <div className="flex w-[374px] h-[64px] gap-[20px] relative">
-                            <img className="" src="../assets/img/Ellipse 62.png" />
+                        <div className="flex w-[374px]  gap-[20px] relative">
+                            <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                             <img
-                                className="absolute top-[13px] left-[14px] "
+                                className="absolute top-[10px] left-[10px] "
                                 src="../assets/img/Satellites.png"
                             />
-                            <div className="w-[298px] h-[36px]">
+                            <div className="">
                                 <h3>Market Reach</h3>
-                                <p className="mt-[8px] text-[#4E5566]">
+                                <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
                                     Enhance economy of scale by developing training solutions
                                     tailored to market demands.
                                 </p>
@@ -380,31 +380,33 @@ function Home() {
                                 </p>
                             </div>
                         </div>
+
+                        <div className="text-center tracking-[-4%] left-[130px] font-[500] text-[24px] font-[UniNeue] leading-[112%]">
+                            <h3>
+                                Be a catalyst for change! Partner with us and contribute to a
+                                sustainable future through impactful training initiatives.
+                                <span className="text-[#64A70B]">
+                                    Ready to Transform Sustainability Training?{" "}
+                                </span>
+                            </h3>
+                        </div>
                     </div>
 
-                    <div className="text-center w-[990px] absolute top-[500px] tracking-[-4%] left-[130px] font-[500] text-[24px]">
-                        <h3 className="">
-                            Be a catalyst for change! Partner with us and contribute to a
-                            sustainable future through impactful training initiatives.
-                            <span className="text-[#64A70B]">
-                                Ready to Transform Sustainability Training?{" "}
-                            </span>
-                        </h3>
-                    </div>
 
-            
+
+
                     <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px] absolute top-[600px] left-[550px] flex items-center justify-center gap-[10px]">
-                        </SecondaryButton>
-                        
-   
+                    </SecondaryButton>
+
+
 
                 </div>
             </section>
 
             <section className="mt-[80px]">
-                <div className=" w-[1519px] h-[610px] bg-[#F7F8FC] pt-[40px]">
+                <div className="h-[610px] bg-[#F7F8FC] pt-[40px]">
                     <div className="ml-[171px] font-[700] text-[32px] relative">
-                        <h3 className="">Our Building Blocks </h3>
+                        <h3 className="text-[32px] leading-[112%] traking-[-4%] font-[700] font-[calibri]  text-[#3A3A3A]">Our Building Blocks </h3>
                         <div className="w-[450px] border-solid border-[3px] border-redius rounded-full border-secondary-button mt-[16px] hover:border-[#00778B]"></div>
                         <img
                             className="absolute top-[4px] left-[318px]"
@@ -412,7 +414,7 @@ function Home() {
                         />
                         <div className="absolute top-[-11px] left-[320px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
-                        <div className="flex flex-wrap gap-8 mt-[137px]">
+                        <div className="flex flex-wrap gap-8 mt-[45px]">
                             <div className="w-[571px]">
                                 {data.slice(0, 3).map((item, index) => (
                                     <div
@@ -499,12 +501,12 @@ function Home() {
                     className="absolute left-[300px] top-[50px] z-[999]"
                     src="../assets/img/pngwing 3.png"
                 />
-                <div className="absolute w-[843px] h-[173px] border solid 1px top-[145px] left-[550px] flex flex-col justify-center gap-y-[23px] ">
-                    <h3 className="font-[700] text-[32px] ml-[200px] leading-[36px]">
+                <div className="absolute w-[843px] h-[173px] border solid 1px top-[145px] left-[550px] ">
+                    <h3 className="font-[700] text-[32px] ml-[265px] leading-[112%] traking-[-4%] font-[calibri] pt-[13px] p">
                         Ready to commence your journey towards{" "}
-                        <span className="text-[#00778B]">sustainability?</span>
+                        <span className="text-[#00778B]">sustainability?</span> 
                     </h3>
-                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[200px] text-white rounded-[4px]">
+                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[265px] font-[700] text-white rounded-[4px] mt-[23px]">
 
                     </SecondaryButton>
                 </div>
