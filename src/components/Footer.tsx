@@ -4,33 +4,39 @@ import { IoLogoYoutube } from "react-icons/io5";
 
 function Footer() {
 	return (
-		<footer className=" absolute w-[1500px] h-[300px] bg-[#71B2C9]">
-			<div className="w-[1162px] h-[440px] bg-[#002A3A] absolute top-[-140px] left-[165px] rounded-tl-[20px] rounded-tr-[20px] ">
-				<div>
-					<img
-						className="absolute top-[59px] left-[29px]"
-						src="../assets/img/network-group.png"
-					/>
-					<div className=" absolute h-[1px] top-[180px] left-[35px] w-[950px] bg-[#FFFFFF]"></div>
-					<ul className="absolute right-[52px] top-[38px] text-white flex flex-col justify-center gap-y-[3px]">
+		<footer className=" w-[1500px] relative flex justify-center items-end">
+
+			<div className="w-[1500px] h-[230px] absolute bottom-0 bg-[#71B2C9]"></div>
+			<div className="w-[1162px] h-[380px] bg-[#002A3A] z-[999] rounded-tl-[20px] rounded-tr-[20px] text-center">
+				<div className="flex items-end gap-x-[33px] ml-[32px] mt-[38px]">
+					<div className="relative"> {/* Add relative positioning for the container */}
+						<img
+							className="w-[961px] h-[97px]"
+							src="../assets/img/network-group.png"
+						/>
+						<div className="absolute bottom-0 left-[12px] w-[940px] h-0.5 top-[120px] bg-white"></div> {/* White underline */}
+					</div>
+
+					<ul className=" text-white flex flex-col justify-center gap-y-[3px] text-start">
 						<a>Our Courses</a>
 						<a>Membership</a>
 						<a>Testimonial</a>
 						<a>News</a>
 						<a>Contact Us</a>
 					</ul>
+				</div>
+				
 
-					<div className="text-white absolute left-[350px] top-[300px]">
-						<ul className="no-underline">
-							© County Wexford Chamber 2023. All Rights Reserved.
-						</ul>
+				<div className="text-white mt-[90px]">
+					<ul className="no-underline text-[14px] font-[calibri] traking-[-4%] leading-[142%]">
+						© County Wexford Chamber 2023. All Rights Reserved.
+					</ul>
 
-						<div className="flex gap-[18.27px] justify-center mt-[30px]">
-							<FaXTwitter />
-							<BsInstagram />
-							<FaFacebookF />
-							<IoLogoYoutube />
-						</div>
+					<div className="flex gap-[18.27px]  justify-center mt-[30px]">
+						<FaXTwitter className="w-[19px] h-[19px]"/>
+						<BsInstagram className="w-[19px] h-[19px]" />
+						<FaFacebookF className="w-[19px] h-[19px]" />
+						<IoLogoYoutube className="w-[19px] h-[19px]"/>
 					</div>
 				</div>
 			</div>

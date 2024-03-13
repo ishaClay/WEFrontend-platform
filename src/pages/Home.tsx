@@ -82,7 +82,7 @@ function Home() {
                 <div className="relative mt-[30px] overflow-hidden max-w-[1500px] mx-auto ">
                     <img src="../assets/img/Environment 3.png" />
                     <div className="absolute top-[131px]  bg-primary-button top-94 rounded-[24px] rounded-l-none  border border-solid border-[#64A70B] pt-[34px] pr-[113px] pb-[60px] pl-[74px]">
-    
+
                         <div className="text-white flex gap-[55px] items-start">
                             <img
                                 className=""
@@ -161,18 +161,20 @@ function Home() {
                     </div>
                     {data.map((v) => {
                         return (
-                            <div className={`min-w-[190px] max-w-[193.23px] w-full h-[268px] py-[30px] px-[20px] ${v.background}`}>
+                            <div className="max-w-[1123px]">
+                                <div className={`min-w-[188px] max-w-[193.23px] w-full h-[268px] py-[30px] px-[20px] ${v.background}`}>
 
-                                <img
-                                    className="w-[66.56px] h-[74.72px] mb-[10px]"
-                                    src={v.image}
-                                />
-                                <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] mb-[10px] h-[40px]">
-                                    {v.title}
-                                </h3>
-                                <p className=" font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
-                                    {v.discription}
-                                </p>
+                                    <img
+                                        className="w-[66.56px] h-[74.72px] mb-[10px]"
+                                        src={v.image}
+                                    />
+                                    <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] mb-[10px] h-[40px]">
+                                        {v.title}
+                                    </h3>
+                                    <p className=" font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
+                                        {v.discription}
+                                    </p>
+                                </div>
                             </div>
                         );
                     })}
@@ -305,84 +307,88 @@ function Home() {
                 </div>
 
 
-                <div className="max-w-[1260px] h-[645px] relative mt-[56px] m-[auto]">
-                    <div className=" w-[250px] h-[55px] bg-[#C1EF84] rounded-[6px] flex justify-center items-center">
+                <div className="max-w-[1260px]  mt-[56px] m-[auto]">
+                    <div className=" w-[250px] h-[55px] bg-[#C1EF84] rounded-[6px] flex justify-center items-center ">
                         <p className="font-[700] text-[24px] leading-[112%] font-[UniNeue] traking-[-4%] text-[#4E5566] ">For Training Partners</p>
                     </div>
-                    <h3 className="font-[700] text-[24px] w-[256px] text-center absolute left-[550px] top-[80px] font-[UniNeue] text-[#373c48]">
-                        Sustainability platform needs you.
-                    </h3>
-                    <div className="flex gap-[39px] gap-y-[83px] flex-wrap absolute top-[200px] font-[uni_neue]">
-                        <div className="flex w-[374px]  gap-[20px] relative">
-                            <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
-                            <img
-                                className="absolute top-[10px] left-[10px] "
-                                src="../assets/img/Satellites.png"
-                            />
-                            <div className="">
-                                <h3>Market Reach</h3>
-                                <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
-                                    Enhance economy of scale by developing training solutions
-                                    tailored to market demands.
-                                </p>
+
+                    <div className="text-center flex flex-wrap justify-center mt-[27px]">
+                        <h3 className="font-[700] text-[24px] w-[256px] text-center font-[UniNeue] text-[#373c48]">
+                            Sustainability platform needs you.
+                        </h3>
+                        <div className="flex gap-[39px] mt-[40px]  flex-wrap gap-y-[83px] font-[uni_neue]">
+
+                            <div className="flex w-[374px]  gap-[20px] relative text-start">
+                                <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
+                                <img
+                                    className="absolute top-[10px] left-[10px] "
+                                    src="../assets/img/Satellites.png"
+                                />
+                                <div className="">
+                                    <h3>Market Reach</h3>
+                                    <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
+                                        Enhance economy of scale by developing training solutions
+                                        tailored to market demands.
+                                    </p>
+                                </div>
                             </div>
+                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                                <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
+                                <img
+                                    className="absolute top-[10px] left-[10px] "
+                                    src="../assets/img/Class (1).png"
+                                />
+                                <div className="w-[298px] h-[36px]">
+                                    <h3>Enhanced Visibility</h3>
+                                    <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
+                                        Showcase your expertise to potential clients and learners through our dedicated training provider directory.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                                <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
+                                <img
+                                    className="absolute top-[10px] left-[10px] "
+                                    src="../assets/img/People Working Together (1).png"
+                                />
+                                <div className="w-[298px] h-[36px]">
+                                    <h3>Collaborative Ecosystem</h3>
+                                    <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
+                                        Engage with like-minded trainers, share insights, and explore collaborative opportunities within our community.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                                <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
+                                <img
+                                    className="absolute top-[10px] left-[10px] "
+                                    src="../assets/img/E-Learning (2).png"
+                                />
+                                <div className="w-[298px] h-[36px]">
+                                    <h3>Cutting-edge Technology</h3>
+                                    <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
+                                        Leverage our advanced learning management system for seamless course delivery and management.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                                <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
+                                <img
+                                    className="absolute top-[10px] left-[10px] "
+                                    src="../assets/img/Website Analytics (1).png"
+                                />
+                                <div className="w-[298px] h-[36px]">
+                                    <h3>Comprehensive Analytics</h3>
+                                    <p className="mt-[8px] text-[#4E5566] leading-[112%] text-[14px] traking-[-4%]">
+                                        Gain valuable insights into learner performance and course effectiveness to refine your training strategies.
+                                    </p>
+                                </div>
+                            </div>
+                            
                         </div>
 
-                        <div className="flex w-[374px] h-[64px]  gap-[20px] relative">
-                            <img className="" src="../assets/img/Ellipse 62.png" />
-                            <img
-                                className="absolute top-[13px] left-[14px]  "
-                                src="../assets/img/Satellites.png"
-                            />
-                            <div className="w-[298px] h-[36px]">
-                                <h3>Enhanced Visibility</h3>
-                                <p className="mt-[8px] text-[#4E5566]">
-                                    Showcase your expertise to potential clients and learners through our dedicated training provider directory.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex w-[374px] h-[64px]  gap-[20px] relative">
-                            <img className="" src="../assets/img/Ellipse 62.png" />
-                            <img
-                                className="absolute top-[13px] left-[14px] "
-                                src="../assets/img/Satellites.png"
-                            />
-                            <div className="w-[298px] h-[36px]">
-                                <h3>Collaborative Ecosystem</h3>
-                                <p className="mt-[8px] text-[#4E5566]">
-                                    Engage with like-minded trainers, share insights, and explore collaborative opportunities within our community.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex w-[374px] h-[64px]  gap-[20px] relative">
-                            <img className="" src="../assets/img/Ellipse 62.png" />
-                            <img
-                                className="absolute top-[13px] left-[14px]  "
-                                src="../assets/img/Satellites.png"
-                            />
-                            <div className="w-[298px] h-[36px]">
-                                <h3>Cutting-edge Technology</h3>
-                                <p className="mt-[8px] text-[#4E5566]">
-                                    Leverage our advanced learning management system for seamless course delivery and management.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex w-[374px] h-[64px]  gap-[20px] relative">
-                            <img className="" src="../assets/img/Ellipse 62.png" />
-                            <img
-                                className="absolute top-[13px] left-[14px]  "
-                                src="../assets/img/Satellites.png"
-                            />
-                            <div className="w-[298px] h-[36px]">
-                                <h3>Comprehensive Analytics</h3>
-                                <p className="mt-[8px]  text-[#4E5566] ">
-                                    Gain valuable insights into learner performance and course effectiveness to refine your training strategies.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="text-center tracking-[-4%] left-[130px] font-[500] text-[24px] font-[UniNeue] leading-[112%]">
-                            <h3>
+                        <div className="font-[500] text-[24px] font-[UniNeue] leading-[112%] pl-[92px] pr-[90px] pt-[120px] ">
+                            <h3 className="tracking-[-4%] ">
                                 Be a catalyst for change! Partner with us and contribute to a
                                 sustainable future through impactful training initiatives.
                                 <span className="text-[#64A70B]">
@@ -390,15 +396,11 @@ function Home() {
                                 </span>
                             </h3>
                         </div>
+                        <div className=' w-full flex justify-center mt-[40px]'>
+                            <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px]  flex items-center justify-center gap-[10px]">
+                            </SecondaryButton>
+                        </div>
                     </div>
-
-
-
-
-                    <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px] absolute top-[600px] left-[550px] flex items-center justify-center gap-[10px]">
-                    </SecondaryButton>
-
-
 
                 </div>
             </section>
@@ -501,10 +503,10 @@ function Home() {
                     className="absolute left-[300px] top-[50px] z-[999]"
                     src="../assets/img/pngwing 3.png"
                 />
-                <div className="absolute w-[843px] h-[173px] border solid 1px top-[145px] left-[550px] ">
+                <div className="absolute w-[843px] h-[173px] border solid 1px border-[#B9B9B9] top-[145px] left-[550px] ">
                     <h3 className="font-[700] text-[32px] ml-[265px] leading-[112%] traking-[-4%] font-[calibri] pt-[13px] p">
                         Ready to commence your journey towards{" "}
-                        <span className="text-[#00778B]">sustainability?</span> 
+                        <span className="text-[#00778B]">sustainability?</span>
                     </h3>
                     <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[265px] font-[700] text-white rounded-[4px] mt-[23px]">
 
@@ -512,7 +514,7 @@ function Home() {
                 </div>
             </section>
 
-            <div className="mt-[700px]">
+            <div className="mt-[500px]">
                 <Footer />
             </div>
         </div>

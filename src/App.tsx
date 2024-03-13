@@ -9,7 +9,7 @@ import Assessment from "./pages/Assessment";
 
 function App() {
   return (
-    <div className="App mx-auto">
+    <div className="App max-w-[1500px] mx-auto">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
