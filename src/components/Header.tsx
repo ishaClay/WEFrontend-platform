@@ -10,8 +10,9 @@ function Header() {
             </div>
             <div className="mt-[106px] ml-[22px] text-[#3A3A3A] font-[calibri]">
                 <ul className="flex gap-[31px] font-[400] text-[16px] leading-[19.53px] ">
-                    <li className="relative group">
+                    <li className="relative group flex items-center gap-[5px]">
                         <span className="cursor-pointer">Our Courses</span>
+                        <img className="w-[6px] h-[6px]" src="../assets/img/Vector 1.png"/>
                     </li>
                     <li>Testimonial</li>
                     <li>Blogs</li>

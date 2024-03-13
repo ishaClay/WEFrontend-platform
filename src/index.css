@@ -61,3 +61,17 @@ code {
 	right: -60px;
 	top: 95px;
 }
+
+.slick-prev:hover,
+.slick-next:hover{
+	color: black !important;
+}
+
+.slick-dots li {
+	margin: 0 3px !important;
+}
+
+
+.slick-dots li button:before {
+	font-size: 14px !important;
+}

@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Symbol from "@/components/comman/symbol/Symbol";
 import Logo from "@/components/comman/logo/Logo";
+import SliderData from "@/components/comman/SliderData/SliderData";
 
 function Home() {
     const [activeIndex, setActiveIndex] = useState(null);
@@ -96,7 +97,7 @@ function Home() {
                                     Empower growing business to drive positive sustainability outcomes
                                 </p>
                                 <div className="relative">
-                                    <SecondaryButton name="Start your journey" symbol={<img src="../assets/img/Move Right.png" />} className="w-[278px] h-[59px] mt-[22px]  rounded-md flex justify-center items-center gap-[10px]">
+                                    <SecondaryButton name="Start your journey" symbol={<img src="../assets/img/Move Right.png" />} className="w-[278px] h-[59px] mt-[22px]  rounded-md flex justify-center items-center gap-[10px] hover:bg-[green]">
 
                                     </SecondaryButton>
 
@@ -199,14 +200,23 @@ function Home() {
                         <div className=" w-[697px] h-[37px] ml-[100px] mt-[80px]">
 
                             <Slider {...settings}>
-                                <div>
-                                    <img src="../assets/img/Component 1.png" />
+                                {/* <div>
+                                    <img src="../assets/img/Component 1 (2).png" />
                                 </div>
                                 <div>
-                                    <img src="../assets/img/Component 1.png" />
+                                    <img src="../assets/img/Component 1 (2).png" />
                                 </div>
                                 <div>
-                                    <img src="../assets/img/Component 1.png" />
+                                    <img src="../assets/img/Component 1 (2).png" />
+                                </div> */}
+                                <div>
+                                    <SliderData />
+                                </div>
+                                <div>
+                                    <SliderData />
+                                </div>
+                                <div>
+                                    <SliderData />
                                 </div>
                             </Slider>
                         </div>
@@ -300,7 +310,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <button className="w-[249px] h-[59px] mt-[49px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px]">
+                    <button className="w-[249px] h-[59px] mt-[49px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px] hover:bg-[#c4c4c4]">
                         Get Started
                         <img className="" src="../assets/img/Move Right Dark.png" />
                     </button>
@@ -384,7 +394,7 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div className="font-[500] text-[24px] font-[UniNeue] leading-[112%] pl-[92px] pr-[90px] pt-[120px] ">
@@ -397,7 +407,7 @@ function Home() {
                             </h3>
                         </div>
                         <div className=' w-full flex justify-center mt-[40px]'>
-                            <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px]  flex items-center justify-center gap-[10px]">
+                            <SecondaryButton name="Register me" symbol={<Symbol />} className="w-[169px] h-[44px] bg-[#64A70B]  text-white rounded-[4px]  flex items-center justify-center gap-[10px] hover:bg-[green]">
                             </SecondaryButton>
                         </div>
                     </div>
@@ -508,7 +518,7 @@ function Home() {
                         Ready to commence your journey towards{" "}
                         <span className="text-[#00778B]">sustainability?</span>
                     </h3>
-                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[265px] font-[700] text-white rounded-[4px] mt-[23px]">
+                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[265px] font-[700] text-white rounded-[4px] mt-[23px] hover:bg-[green]">
 
                     </SecondaryButton>
                 </div>

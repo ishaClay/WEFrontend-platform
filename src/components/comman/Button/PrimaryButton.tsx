@@ -9,7 +9,7 @@ interface InputProps {
 
 export const PrimaryButton: React.FC<InputProps> = ({ name, className }) => {
 	return (
-		<button className={`bg-primary-button top-94 left-823 rounded text-white  ${className}`}>
+		<button className={`bg-primary-button top-94 left-823 rounded hover:bg-[#489db0] text-white  ${className}`}>
 			{name}
 		</button>
 	);
