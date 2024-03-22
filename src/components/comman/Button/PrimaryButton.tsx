@@ -1,15 +1,16 @@
 import React from "react";
-import Symbol from "../symbol/Symbol";
 
 interface InputProps {
 	name: string;
 	className?: string;
 	symbol?: React.ReactNode;
+	onClick?: () => void;
 }
 
-export const PrimaryButton: React.FC<InputProps> = ({ name, className }) => {
+export const PrimaryButton: React.FC<InputProps> = ({ name, className, symbol, onClick }) => {
 	return (
-		<button className={`bg-primary-button top-94 left-823 rounded hover:bg-[#489db0] text-white  ${className}`}>
+		<button className={`bg-primary-button top-94 left-823 rounded hover:bg-[#489db0] text-white  ${className}`} onClick={onClick}>
+			{symbol && <span className="">{symbol}</span>}
 			{name}
 		</button>
 	);
@@ -23,4 +24,5 @@ export const SecondaryButton: React.FC<InputProps> = ({ name, symbol, className 
 		</button>
 	);
 };
+
 

@@ -26,9 +26,8 @@ function Home() {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        prevArrow: <GrPrevious />,
-        nextArrow: <GrNext />
-
+        prevArrow: <div className="hidden sm:block"><GrPrevious /></div>,
+        nextArrow: <div className="hidden sm:block"><GrNext /></div>
     };
 
     const data = [
@@ -77,12 +76,13 @@ function Home() {
 
     return (
 
-        <div className="container justify-center items-center max-w-[1500px] mx-auto">
-            <Header />
-            <section className="max-[640px]:hidden">
-                <div className="relative mt-[30px] overflow-hidden max-w-[1500px] mx-auto ">
-                    <img src="../assets/img/Environment 3.png" />
-                    <div className="absolute top-[131px]  bg-primary-button top-94 rounded-[24px] rounded-l-none  border border-solid border-[#64A70B] pt-[34px] pr-[113px] pb-[60px] pl-[74px]">
+        <div className="h-[auto]">
+            {/* <Header /> */}
+            <section className="">
+                <div className="relative mt-[30px] overflow-hidden mx-auto ">
+                    <img className="w-full sm:block hidden" src="../assets/img/Component 4.png" />
+                    
+                    {/* <div className="absolute top-[131px]  bg-primary-button top-94 rounded-[24px] rounded-l-none  border border-solid border-[#64A70B] pt-[34px] pr-[113px] pb-[60px] pl-[74px]">
 
                         <div className="text-white flex gap-[55px] items-start">
                             <img
@@ -118,12 +118,12 @@ function Home() {
                         <p>APPLY</p>
                         <img src="../assets/img/Arrow Right.png" />
                         <p>ATTAIN PROFICIENCY</p>
-                    </div>
+                    </div> */}
                 </div>
 
             </section>
 
-            <section className="md:hidden min-[320px] block relative">
+            {/* <section className="md:hidden min-[320px] block relative">
                 <div >
                     <img className="object-cover h-[400px] object-[right_center]" src="../assets/img/Environment 3.png" />
                     <img className="absolute top-[90px] left-[-15px] h-[200px]  bg-primary-button top-94 left-823 rounded-[24px]  border border-solid border-[#64A70B]" src="../assets/img/Rectangle.png " />
@@ -144,26 +144,28 @@ function Home() {
 
 
                 </div>
-            </section>
+            </section> */}
 
             <section>
-                <div className="relative flex w-[373px] h-[259px]">
-                    <img
-                        src="../assets/img/Rectangle 6.png"
-                    />
-                    <div className="absolute top-[36px] left-[170px] text-white">
-                        <p className="w-[190px]  font-[400] text-[24px] leading-[112%] font-[UniNeue] tracking-[1px]">
-                            Start your Sustainability journey with firm foundations
-                        </p>
+                <div className="relative flex flex-wrap max-w-full h-[auto] justify-center">
+                    <div className="sm:block hidden">
                         <img
-                            className="absolute top-[130px] left-[135px] w-[62px] h-[76px]"
-                            src="../assets/img/Voltage.png"
+                            src="../assets/img/Rectangle 6.png"
                         />
+                        <div className="absolute top-[36px] left-[170px] text-white">
+                            <p className="w-[190px]  font-[400] text-[24px] leading-[112%] font-[UniNeue] tracking-[1px]">
+                                Start your Sustainability journey with firm foundations
+                            </p>
+                            <img
+                                className="absolute top-[130px] left-[135px] w-[62px] h-[76px]"
+                                src="../assets/img/Voltage.png"
+                            />
+                        </div>
                     </div>
                     {data.map((v) => {
                         return (
-                            <div className="max-w-[1123px]">
-                                <div className={`min-w-[188px] max-w-[193.23px] w-full h-[268px] py-[30px] px-[20px] ${v.background}`}>
+                            <div className="sm:min-w-[165px] sm:max-w-[187px] w-full h-[268px]">
+                                <div className={`sm:min-w-[188px] sm:max-w-[193.23px] w-[full] sm:block flex flex-col items-center h-[268px] py-[30px] px-[20px] ${v.background}`}>
 
                                     <img
                                         className="w-[66.56px] h-[74.72px] mb-[10px]"
@@ -172,7 +174,7 @@ function Home() {
                                     <h3 className="font-[700] text-[18px] leading-[20.25px] text-[#00778B] mb-[10px] h-[40px]">
                                         {v.title}
                                     </h3>
-                                    <p className=" font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A]">
+                                    <p className=" font-[400] text-[14px] leading-[15.75px] text-[#3A3A3A] sm:text-start text-center">
                                         {v.discription}
                                     </p>
                                 </div>
@@ -180,11 +182,42 @@ function Home() {
                         );
                     })}
                 </div>
+                <div className="sm:hidden  relative flex justify-center mt-[20px]">
+                    <SecondaryButton name="Start your journey" symbol={<img src="../assets/img/Move Right.png" />} className="w-[200px] h-[50px] flex items-center justify-center gap-[10px]" />
+                </div>
             </section>
 
-            <section className="mt-[38px]">
-                <div className="relative">
-                    <div className="bg-[#F7F8FC] h-[517px] flex">
+            <section>
+                <div className="max-w-full sm:h-[517px]  bg-[#F7F8FC] mt-[38px] flex items-center justify-center gap-[76px]">
+
+                    <div className="md:block hidden">
+                        <img className="xl:w-[393px] md:w-[300px] w-[250px] xl:h-[357px] h-[250px]" src="../assets/img/Group 1000001820.png" />
+                    </div>
+
+
+                    <div className="md:w-[450px] lg:w-[600px] sm:w-[500px] w-screen sm:p-0 p-[10px] sm:h-[370px] ">
+
+                        <Slider {...settings}>
+                            <div>
+                                <SliderData />
+                            </div>
+                            <div>
+                                <SliderData />
+                            </div>
+                            <div>
+                                <SliderData />
+                            </div>
+                        </Slider>
+                    </div>
+                </div>
+
+
+
+            </section>
+
+            {/* <section className="mt-[38px]">
+                <div className="">
+                    <div className="bg-[#F7F8FC]  h-[517px] ">
                         <img
                             className="ml-[232px] mt-[80px] w-[332px] h-[357px]"
                             src="../assets/img/pngwing 5.png"
@@ -197,18 +230,9 @@ function Home() {
                             className="absolute top-[360px] left-[194px] w-[62px] h-[76px]"
                             src="../assets/img/Voltage.png"
                         />
-                        <div className=" w-[697px] h-[37px] ml-[100px] mt-[80px]">
+                        <div className=" h-[37px]  mt-[80px]">
 
                             <Slider {...settings}>
-                                {/* <div>
-                                    <img src="../assets/img/Component 1 (2).png" />
-                                </div>
-                                <div>
-                                    <img src="../assets/img/Component 1 (2).png" />
-                                </div>
-                                <div>
-                                    <img src="../assets/img/Component 1 (2).png" />
-                                </div> */}
                                 <div>
                                     <SliderData />
                                 </div>
@@ -222,13 +246,13 @@ function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
-            <div className="mt-[76px] mb-[24px] w-full h-[12px] bg-[#64A70B]"></div>
+            <div className="mt-[76px] mb-[24px] max-w-full h-[12px] bg-[#64A70B]"></div>
 
-            <section className="">
+            <section>
 
-                <div className="ml-[130px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px] text-center flex justify-center items-center">
+                <div className="sm:ml-[130px] w-[165px] h-[47px] bg-[#C1EF84] rounded-[6px] text-center flex justify-center items-center">
                     <p className="font-bold text-[20px] leading-[27px] font-[UniNeue] text-[#4E5566]">
                         For Companies
                     </p>
@@ -236,16 +260,16 @@ function Home() {
 
                 <div className="mt-[24px] flex flex-col items-center ">
 
-                    <div className=" w-[800px]">
-                        <h3 className="text-[32px] font-[800] leading-[112%] traking-[4px] text-center text-[#414655] font-[UniNeue]">
+                    <div className="max-w-[800px]">
+                        <h3 className="sm:text-[32px] text-[16px] font-[800] leading-[112%] traking-[4px] text-center text-[#414655] font-[UniNeue]">
                             Is your business seeking to align its sustainability practices with
                             Ireland's national goals?
                         </h3>
                     </div>
 
-                    <div className="relative w-[1250px] flex mt-[40px] justify-between items-center">
-                        <div className="flex flex-col  gap-[35px] ">
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                    <div className="relative max-w-full flex mt-[40px] sm:gap-[20px] gap-[10px] md:gap-[10px] lg:gap-0 justify-between items-center">
+                        <div className="flex flex-col gap-[35px] ">
+                            <div className="md:w-[350px] sm:w-[300px]  sm:h-[180px] h-[250px] w-auto md:h-[150px] bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]">
                                     Comprehensive Sustainability Training
                                 </h3>
@@ -255,18 +279,18 @@ function Home() {
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                            <div className="md:w-[350px] sm:w-[300px] sm:h-[180px] h-[250px]  w-auto md:h-[150px] bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]">
                                     {" "}
                                     Employee Engagement & Development
                                 </h3>
-                                <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
+                                <p className="text-[14px] sm:w-[300px] leading-[112%] font-[inter]  pt-[8px]">
                                     Foster a culture of growth and engagement through
                                     sustainability-focused professional development.
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                            <div className="md:w-[350px] sm:w-[300px] sm:h-[180px] h-[250px] w-auto md:h-[150px] bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]">
                                     Effortless Enrollment and Administration
                                 </h3>
@@ -276,16 +300,16 @@ function Home() {
                                 </p>
                             </div>
                         </div>
-                        <div>
 
-                            <div>
-                                <img src="../assets/img/Group 177.png" />
-                            </div>
 
+                        <div className="lg:block hidden">
+                            <img src="../assets/img/Group 177.png" />
                         </div>
 
+
+
                         <div className="flex flex-col  gap-[35px]">
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                            <div className="md:w-[350px] sm:w-[300px] sm:h-[180px] h-[250px] w-auto md:h-[150px] bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]">Flexible Learning Paths for Businesses</h3>
                                 <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Embrace adaptive learning for continuous sustainability growth
@@ -293,7 +317,7 @@ function Home() {
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                            <div className="md:w-[350px] sm:w-[300px] sm:h-[180px] h-[250px] w-auto md:h-[150px]  bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]"> Reputation & Trust Building</h3>
                                 <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Elevate your brand with a reputation for genuine
@@ -301,7 +325,7 @@ function Home() {
                                 </p>
                             </div>
 
-                            <div className="w-[370px] h-[auto] bg-[#4C7D0A] rounded-[6px] text-white p-[24px] traking-[-4%]">
+                            <div className="md:w-[350px] sm:w-[300px] sm:h-[180px] h-[250px] w-auto md:h-[150px] bg-[#4C7D0A] rounded-[6px] text-white sm:p-[24px] p-[12px] traking-[-4%]">
                                 <h3 className="font-bold text-[16px]">Promotion of Sustainable Business Practices</h3>
                                 <p className="text-[14px] leading-[112%] font-[inter]  pt-[8px]">
                                     Lead the sustainability charge with innovative practices that
@@ -322,13 +346,13 @@ function Home() {
                         <p className="font-[700] text-[24px] leading-[112%] font-[UniNeue] traking-[-4%] text-[#4E5566] ">For Training Partners</p>
                     </div>
 
-                    <div className="text-center flex flex-wrap justify-center mt-[27px]">
-                        <h3 className="font-[700] text-[24px] w-[256px] text-center font-[UniNeue] text-[#373c48]">
+                    <div className="text-center flex flex-wrap sm:justify-normal justify-center mt-[27px]">
+                        <h3 className="font-[700] sm:text-[24px] text-[16px] w-[256px] text-center font-[UniNeue] text-[#373c48]">
                             Sustainability platform needs you.
                         </h3>
-                        <div className="flex gap-[39px] mt-[40px]  flex-wrap gap-y-[83px] font-[uni_neue]">
+                        <div className="flex justify-center  gap-[39px] mt-[40px] flex-wrap gap-y-[83px] font-[uni_neue]">
 
-                            <div className="flex w-[374px]  gap-[20px] relative text-start">
+                            <div className="flex sm:w-[374px] w-[300px]  gap-[20px] relative text-start">
                                 <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                                 <img
                                     className="absolute top-[10px] left-[10px] "
@@ -342,7 +366,7 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                            <div className="flex sm:w-[374px] w-[300px] gap-[20px] relative  text-start">
                                 <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                                 <img
                                     className="absolute top-[10px] left-[10px] "
@@ -355,7 +379,7 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                            <div className="flex sm:w-[374px] w-[300px] gap-[20px] relative  text-start">
                                 <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                                 <img
                                     className="absolute top-[10px] left-[10px] "
@@ -368,7 +392,7 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                            <div className="flex sm:w-[374px] w-[300px] gap-[20px] relative  text-start">
                                 <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                                 <img
                                     className="absolute top-[10px] left-[10px] "
@@ -381,7 +405,7 @@ function Home() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex w-[374px] gap-[20px] relative  text-start">
+                            <div className="flex sm:w-[374px] w-[300px] gap-[20px] relative  text-start">
                                 <img className="w-[56px] h-[56px]" src="../assets/img/Ellipse 62.png" />
                                 <img
                                     className="absolute top-[10px] left-[10px] "
@@ -397,7 +421,7 @@ function Home() {
 
                         </div>
 
-                        <div className="font-[500] text-[24px] font-[UniNeue] leading-[112%] pl-[92px] pr-[90px] pt-[120px] ">
+                        <div className="font-[500] sm:text-[24px] text-[16px] font-[UniNeue] leading-[112%] pl-[92px] pr-[90px] pt-[120px] ">
                             <h3 className="tracking-[-4%] ">
                                 Be a catalyst for change! Partner with us and contribute to a
                                 sustainable future through impactful training initiatives.
@@ -415,28 +439,28 @@ function Home() {
                 </div>
             </section>
 
-            <section className="mt-[80px]">
-                <div className="h-[610px] bg-[#F7F8FC] pt-[40px]">
-                    <div className="ml-[171px] font-[700] text-[32px] relative">
-                        <h3 className="text-[32px] leading-[112%] traking-[-4%] font-[700] font-[calibri]  text-[#3A3A3A]">Our Building Blocks </h3>
-                        <div className="w-[450px] border-solid border-[3px] border-redius rounded-full border-secondary-button mt-[16px] hover:border-[#00778B]"></div>
+            <section>
+                <div className="h-[auto] bg-[#F7F8FC] pt-[40px] mt-[80px]">
+                    <div className="lg:ml-[171px] font-[700] text-[32px] relative">
+                        <h3 className="sm:text-[32px] text-[24px] leading-[112%] traking-[-4%] font-[700] font-[calibri]  text-[#3A3A3A]">Our Building Blocks </h3>
+                        <div className="max-w-[450px] border-solid border-[3px] border-redius rounded-full border-secondary-button mt-[16px] hover:border-[#00778B]"></div>
                         <img
-                            className="absolute top-[4px] left-[318px]"
+                            className="absolute top-[4px] sm:left-[318px] left-[270px]"
                             src="../assets/img/Ellipse 31.png"
                         />
-                        <div className="absolute top-[-11px] left-[320px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
+                        <div className="absolute top-[-11px] sm:left-[320px] left-[270px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
-                        <div className="flex flex-wrap gap-8 mt-[45px]">
+                        <div className="flex flex-wrap justify-center gap-8 mt-[45px]">
                             <div className="w-[571px]">
                                 {data.slice(0, 3).map((item, index) => (
                                     <div
                                         key={index}
-                                        className="w-[573px] border-solid border-silver border-[1px] mb-5">
+                                        className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
                                         <h2
                                             className={`${item.title === activeIndex
                                                 ? "bg-darkslategray-300 text-white"
                                                 : "bg-ghostwhite text-darkslategray-300"
-                                                }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
+                                                }   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
                                             <button className=" h-[59px] text-left  relative">
                                                 {item.title}
                                             </button>
@@ -469,13 +493,13 @@ function Home() {
                                 {data.slice(3, 6).map((item, index) => (
                                     <div
                                         key={index}
-                                        className="w-[573px] border-solid border-silver border-[1px] mb-5">
+                                        className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
                                         <h2
                                             className={`${item.title === activeIndex
                                                 ? "bg-darkslategray-300 text-white"
                                                 : "bg-ghostwhite text-darkslategray-300"
-                                                }   font-[700] text-[24px] flex justify-between items-center px-[18px]`}>
-                                            <button className=" h-[59px] text-left px-[18px] relative">
+                                                }   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+                                            <button className=" h-[59px] text-left  relative">
                                                 {item.title}
                                             </button>
                                             {item.title !== activeIndex ? (
@@ -508,23 +532,23 @@ function Home() {
                 </div>
             </section>
 
-            <section className="flex relative ">
+            <section className="md:flex relative ">
                 <img
-                    className="absolute left-[300px] top-[50px] z-[999]"
+                    className="absolute left-[300px] top-[50px] z-[999] lg:block hidden"
                     src="../assets/img/pngwing 3.png"
                 />
-                <div className="absolute w-[843px] h-[173px] border solid 1px border-[#B9B9B9] top-[145px] left-[550px] ">
-                    <h3 className="font-[700] text-[32px] ml-[265px] leading-[112%] traking-[-4%] font-[calibri] pt-[13px] p">
+                <div className="absolute md:w-[843px] w-full h-[173px]  lg:border solid 1px border-[#B9B9B9] md:top-[145px] top-[80px] lg:left-[550px] lg:block flex flex-col items-center justify-center sm:p-0 p-[20px]">
+                    <h3 className="font-[700] md:text-[32px] text-[18px]  leading-[112%] traking-[-4%] font-[calibri] lg:pt-[13px] ">
                         Ready to commence your journey towards{" "}
                         <span className="text-[#00778B]">sustainability?</span>
                     </h3>
-                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] ml-[265px] font-[700] text-white rounded-[4px] mt-[23px] hover:bg-[green]">
+                    <SecondaryButton name="Enroll Now" className="w-[168px] h-[40px] lg:ml-[265px] font-[700] text-white rounded-[4px] mt-[23px] hover:bg-[green]">
 
                     </SecondaryButton>
                 </div>
             </section>
 
-            <div className="mt-[500px]">
+            <div className="md:mt-[500px] mt-[250px]">
                 <Footer />
             </div>
         </div>
