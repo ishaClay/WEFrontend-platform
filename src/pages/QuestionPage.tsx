@@ -15,8 +15,15 @@ import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
 import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
 import Question from "@/components/comman/Question";
 import ProgressIndicator from "/assets/img/ProgressIndicator.png";
+import { Button } from "@/components/ui/button";
+import { IoIosArrowDown } from "react-icons/io";
+import { Slider } from "@/components/ui/slider";
+import Footer from "@/components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const QuestionPage = () => {
+	const navigate = useNavigate();
+
 	const paths = [
 		{
 			name: "Engage",
@@ -209,11 +216,42 @@ const QuestionPage = () => {
 			hint: false,
 		},
 	];
+	const progressbar = [
+		{
+			category: "Environment",
+			questionAttemps: [1, 1, 1, 1, 1],
+		},
+		{
+			category: "Social",
+			questionAttemps: [1, 0, 1, 0, 0],
+		},
+		{
+			category: "Economic",
+			questionAttemps: [0, 0, 0, 0, 0],
+		},
+		{
+			category: "Governance",
+			questionAttemps: [0, 1, 1, 0, 0],
+		},
+		{
+			category: "Technology & Innovation",
+			questionAttemps: [0, 1, 1, 1, 0],
+		},
+		{
+			category: " Strategic Integration",
+			questionAttemps: [0, 1, 1, 0, 0],
+		},
+	];
+
 	return (
 		<div className="font-calibri font-normal">
-			<div className="h-[44px] bg-teal text-white flex justify-between items-center pl-12 pr-[166px] text-lg leading-[21.97px]">
+			<div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 lg:pr-[166px] px-4 text-lg leading-[21.97px]">
 				<div className="flex gap-[9px]">
-					<button className="flex items-center gap-2">
+					<button
+						className="flex items-center gap-2"
+						onClick={() => {
+							navigate("/");
+						}}>
 						<img src={LeftArrow} alt="arrow" width={22} height={22} />
 						<span>back</span>
 					</button>
@@ -223,6 +261,9 @@ const QuestionPage = () => {
 						width={23}
 						height={23}
 						className="cursor-pointer"
+						onClick={() => {
+							navigate("/");
+						}}
 					/>
 				</div>
 
@@ -232,7 +273,7 @@ const QuestionPage = () => {
 				</button>
 			</div>
 			<div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
-				<div className="relative flex gap-[79.4px] items-center">
+				<div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
 					{paths.map((path) => {
 						return (
 							<div className="flex flex-col self-end items-center">
@@ -268,20 +309,29 @@ const QuestionPage = () => {
 					<div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
 				</div>
 			</div>
-			<div className="h-[129px] bg-[#E7E7E8] flex justify-center">
-				<div className="flex gap-[31px] items-center">
+			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
+				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
 					{categorys.map((category) => {
 						return (
 							<div
-								className={`w-[169px] h-[88px] rounded-[9px] p-3 shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center ${
+								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center ${
 									category.active ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
 								}`}>
-								<div className="flex gap-3">
-									<img
-										src={category.icon}
-										alt="img"
-										className="w-10 h-10 object-cover"
-									/>
+								<div className="flex gap-2">
+									<div className="flex flex-col gap-1">
+										<img
+											src={category.icon}
+											alt="img"
+											className="w-8 h-8 object-cover"
+										/>
+										<p
+											className={`text-nowrap ${
+												category.active ? "text-white" : "text-[#848181]"
+											}`}>
+											{" "}
+											{category.percentange} %
+										</p>
+									</div>
 									<div>
 										<h2
 											className={`leading-[19px] ${
@@ -297,37 +347,89 @@ const QuestionPage = () => {
 										</p>
 									</div>
 								</div>
-								<p
-									className={`${
-										category.active ? "text-white" : "text-[#848181]"
-									}`}>
-									{" "}
-									{category.percentange} %
-								</p>
+
+								<Slider
+									defaultValue={[category.percentange]}
+									max={100}
+									step={1}
+									className="bg-red-50"
+									classNameThumb="hidden"
+									classNameRange={`${!category.active && "!bg-[#64A70B]"}`}
+									disabled
+								/>
 							</div>
 						);
 					})}
 				</div>
 			</div>
-			<div className="mt-[89px] ml-[177px] flex">
-				<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px]">
+			<div className="mt-[89px] ml-[177px] flex ">
+				<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]">
 					{questions.map((question) => {
 						return <Question question={question} />;
 					})}
 				</div>
-				<div className="w-[271px]">
-					<h2 className="h-[42px] bg-te">Current Progress</h2>
-					<div className="flex items-center gap-3 mt-[9px]">
-						<span>Attempted</span>
-						<p>0/5</p>
+				<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
+					<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
+						Current Progress
+					</h2>
+					<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+						<span className="ml-[18px] text-teal">Attempted</span>
+						<p className="text-teal">0/5</p>
 						<img
 							src={ProgressIndicator}
 							alt="progressbar"
 							width={24}
 							height={24}
+							className="mr-[34px]"
 						/>
 					</div>
+					<div className="ml-[14px] mt-[17px] w-[267px]">
+						<div className="flex items-center justify-between font-bold	">
+							<span>Attempted</span>
+							<p>14/30</p>
+							<span className="mr-2">
+								<IoIosArrowDown className="w-[14px] h-[14px]" />
+							</span>
+						</div>
+						<div className="font-normal text-[#3a3a3a]">
+							{progressbar.map((category, index) => {
+								return (
+									<div className="flex mt-3">
+										<div
+											className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
+												progressbar.length - 1 !== index &&
+												"border-b border--solid border-[#EAEAEA]"
+											}`}>
+											<p>{category.category}</p>
+											<div className="flex gap-[10px]">
+												<div className="flex gap-1">
+													{category.questionAttemps.map((question) => {
+														return (
+															<p
+																className={`w-3 h-3 ${
+																	question ? "bg-[#64A70B]" : "bg-[#D8D0D0]"
+																}`}></p>
+														);
+													})}
+												</div>
+											</div>
+										</div>
+										<span className="mr-2 ml-[11px] mt-[10px]">
+											<IoIosArrowDown className="w-[14px] h-[14px]" />
+										</span>
+									</div>
+								);
+							})}
+						</div>
+						<Button className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]">
+							Submit & Continue
+						</Button>
+					</div>
 				</div>
+			</div>
+
+			<div className="mt-[238px]">
+				<Footer />
 			</div>
 		</div>
 	);

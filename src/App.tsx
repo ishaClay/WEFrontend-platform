@@ -7,6 +7,7 @@ import Company from "./pages/Company";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import Assessment from "./pages/Assessment";
 import QuestionPage from "./pages/QuestionPage";
+import MaturityLevelPage from "./pages/MaturityLevelPage";
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 				<Route path="/company" element={<Company />} />
 				<Route path="/assessment" element={<Assessment />} />
 				<Route path="/question" element={<QuestionPage />} />
+				<Route path="/maturelevel" element={<MaturityLevelPage />} />
 			</Routes>
 		</div>
 	);

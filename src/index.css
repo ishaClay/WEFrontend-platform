@@ -106,7 +106,6 @@ code {
 .slick-dots {
 	display: flex !important;
 	justify-content: center !important;
-
 }
 
 .slick-prev {
@@ -115,7 +114,6 @@ code {
 	width: 29px;
 	height: 29px;
 	color: gray;
-
 }
 
 .slick-next {

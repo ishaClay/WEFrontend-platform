@@ -99,6 +99,7 @@ module.exports = {
         calibri: "Calibri",
         "uni-neue-trial": "'Uni Neue-Trial'",
         UniNeue: "UniNeue",
+        Poppins: "Poppins",
       },
       borderRadius: {
         lg: "var(--radius)",
