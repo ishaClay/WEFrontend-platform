@@ -1,88 +1,153 @@
-import Button from "@/components/comman/Button/Button";
+import Header from "@/components/Header";
+import { PrimaryButton, SecondaryButton } from "@/components/comman/Button/PrimaryButton";
 import Input from "@/components/comman/Input/Input";
 import SelectBox from "@/components/comman/SelectBox/SelectBox";
 
 function RegisterTrainer() {
 	return (
-		<div className="container mx-auto  flex relative mt-[40px]">
-			<div className="relative">
-				<img
-					className="w-[707px] h-[958px] sm:w-[550px]"
-					src="../assets/img/Base.png"
-				/>
-				<img
-					className="absolute top-[87px] left-[174px] sm:left-[100px]"
-					src="../assets/img/Group 99.png"
-				/>
-			</div>
-
-			<div className="h-[700px] mt-[130px] ml-[38px] 2xl:w-[800px] xl:w-[600px]  sm:w-[550px]">
-				<p className="absolute top-[10px] right-[280px] md:right-[-250px] lg:right-0">
-					Already have an account? <a className="text-[#042937]">Sign In</a>
-				</p>
-				<h3 className="5xl">Complete your registration</h3>
-				<div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[30px] mt-[32px]">
-					<div>
-						<label>Provider Name</label>
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider Type</label>
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider City/Town</label>
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider County</label>
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Contact Surname</label>
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Contact Telephone No.</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Foreign Provider</label>
-						<SelectBox value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider Address</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider Country</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Contact First Name</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>{" "}
-					<div>
-						<label>Email Address</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>
-					<div>
-						<label>Provider Notes</label>
-
-						<Input value={"1"} onChange={() => {}} />
-					</div>
+		<>
+			<Header />
+			<div className="flex relative mt-[40px]">
+				<div>
+					<img
+						className="w-[707px] h-[1000px]"
+						src="../assets/img/Group 1000001826.png"
+					/>
 				</div>
 
-				{/* <button  className='w-[370px] h-[48px] bg-primary-button rounded-[4px] ml-[70px] mt-[40px] text-white'>Submit</button> */}
-
-				<Button />
+				<div className="h-auto ">
+					<div className="w-full ml-[400px]">
+						<p>
+							Already have an account? <a className="text-[#042937]">Sign In</a>
+						</p>
+					</div>
+					<div className="w-[707px] mt-[90px] ">
+						<div className="flex gap-x-[8px] h-180px items-end ml-[50px]">
+							<h3 className="text-[24px]">Complete your registration</h3>
+							<img
+								className="mb-[10px]"
+								src="../assets/img/Group 1000001825.png"
+							/>
+						</div>
+						<div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[30px] mt-[32px] justify-center">
+							<div>
+								<Input
+									value={""}
+									placeholder="Sample Consulting Company"
+									onChange={() => {}}
+									className=""
+									label="Provider Name"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="IT or University"
+									onChange={() => {}}
+									className=""
+									label="Provider Type"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="London"
+									onChange={() => {}}
+									className=""
+									label="Provider City/Town"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="London"
+									onChange={() => {}}
+									className=""
+									label="Provider County"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="Sample"
+									onChange={() => {}}
+									className=""
+									label="Contact Surname"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="0044 1234 1234567"
+									onChange={() => {}}
+									className=""
+									label="Contact Telephone No."
+								/>
+							</div>
+							<div>
+								<label>Foreign Provider</label>
+								<SelectBox value={""} onChange={() => {}} />
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="221 B Baker Street"
+									onChange={() => {}}
+									className=""
+									label="Provider Address"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="United Kingdom"
+									onChange={() => {}}
+									className=""
+									label="Provider Country"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="John"
+									onChange={() => {}}
+									className=""
+									label="Contact First Name"
+								/>
+							</div>{" "}
+							<div>
+								<Input
+									value={""}
+									placeholder="john.sample@emailsample.com"
+									onChange={() => {}}
+									className=""
+									label="Email Address"
+								/>
+							</div>
+							<div>
+								<Input
+									value={""}
+									placeholder="Notes 1"
+									onChange={() => {}}
+									className=""
+									label="Provider Notes"
+								/>
+							</div>
+							<PrimaryButton name="Submit" className="w-[370px] h-[48px]" />
+							<div>
+								<ul className="w-[300px] mt-[70px] h-[30px] text-[12px] font-[400] text-center">
+									<li>
+										Protected by reCAPTCHA and subject to the Skillnet{" "}
+										<a className="text-[#042937] ">Privacy Policy </a> and{" "}
+										<a className="text-[#042937] ">Terms of Service.</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

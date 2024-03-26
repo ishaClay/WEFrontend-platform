@@ -1,20 +1,30 @@
 import {  FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { BsInstagram } from "react-icons/bs";
 import { IoLogoYoutube } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
 
 function Footer() {
+
+	const location = useLocation(); // Get the current location
+
+	// Function to check if it's the home page
+	const isHomePage = () => {
+		return location.pathname === "/";
+	};
+
 	return (
 		<footer className=" max-w-[1500px] relative flex justify-center items-end">
-
-			<div className="w-[1500px] h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
+			{isHomePage() && (
+				<div className="w-[1500px] h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
+			)}
 			<div className="w-[1162px] h-[380px] bg-[#002A3A] z-[999] rounded-tl-[20px] rounded-tr-[20px] text-center">
 				<div className="flex items-end sm:gap-x-[33px] md:ml-[32px] mt-[38px] md:justify-normal justify-center ">
-					<div className="relative"> 
+					<div className="relative">
 						<img
 							className="w-[961px] h-[97px] md:block hidden"
 							src="../assets/img/network-group.png"
 						/>
-						<div className="absolute bottom-0 left-[12px] max-w-[940px] h-0.5 top-[120px] bg-white"></div> 
+						<div className="absolute bottom-0 left-[12px] w-[940px] h-0.5 top-[120px] bg-white"></div>
 					</div>
 
 					<ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start">
@@ -24,9 +34,7 @@ function Footer() {
 						<a>News</a>
 						<a>Contact Us</a>
 					</ul>
-					
 				</div>
-				
 
 				<div className="text-white mt-[90px]">
 					<ul className="no-underline sm:text-[14px] text-[10px] font-[calibri] traking-[-4%] leading-[142%]">
@@ -34,10 +42,10 @@ function Footer() {
 					</ul>
 
 					<div className="flex gap-[18.27px]  justify-center mt-[30px]">
-						<FaXTwitter className="w-[19px] h-[19px]"/>
+						<FaXTwitter className="w-[19px] h-[19px]" />
 						<BsInstagram className="w-[19px] h-[19px]" />
 						<FaFacebookF className="w-[19px] h-[19px]" />
-						<IoLogoYoutube className="w-[19px] h-[19px]"/>
+						<IoLogoYoutube className="w-[19px] h-[19px]" />
 					</div>
 				</div>
 			</div>
