@@ -13,6 +13,7 @@ function Register() {
 	const [selectedRole, setSelectedRole] = useState(null);
 	const [showOtpPopup, setShowOtpPopup] = useState(false);
 	const [otpValue, setOtpValue] = useState("");
+	const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
 	const navigate = useNavigate();
 	const settings = {
@@ -24,6 +25,10 @@ function Register() {
 		autoplay: true,
 		autoplaySpeed: 3000,
 		cssEase: "linear",
+	};
+
+	const handleLaunchJourney = () => {
+		setShowRegistrationForm(true);
 	};
 
 	const handleOtpSubmit = () => {
@@ -85,41 +90,73 @@ function Register() {
 							</div>
 						</div>
 					) : (
-						<div className="w-[600px] ">
-							<div className="w-[500px] h-[524px] relative mt-[142px] ml-[91px]">
-								<h3>Secure your berth & set sail</h3>
-								<img
-									className="absolute right-0 top-[-20px]"
-									src="../assets/img/pngwing 25.png"
-								/>
-								<img className="" src="../assets/img/Line 23.png" />
-								<p className="w-[530px] h-[80px] text-[16px] font-[400]">
-									Enter your company name eamil and set a password to anchor
-									your details. submit to receive an OTP, steering you towards
-									the next leg of your sustainable journey.
-								</p>
-								<label>Company name</label>
-								<input className="w-[500px] h-[46px] border solid 1.5px" />
-								<label>Email</label>
-								<input className="w-[500px] h-[46px] border solid 1.5px" />
+						showRegistrationForm ? (
 
-								<div className="flex flex-wrap gap-x-[20px]">
-									<label className="w-[250px]">Set a password</label>
-									<label>confirm Password</label>
-									<input className="w-[240px] h-[46px] border solid 1.5px" />
 
-									<input className="w-[240px] h-[46px] border solid 1.5px" />
-								</div>
+							<div className="w-[600px] ">
+								<div className="w-[500px] h-[524px] relative mt-[142px] ml-[91px]">
+									<h3>Secure your berth & set sail</h3>
+									<img
+										className="absolute right-0 top-[-20px]"
+										src="../assets/img/pngwing 25.png"
+									/>
+									<img className="" src="../assets/img/Line 23.png" />
+									<p className="w-[530px] h-[80px] text-[16px] font-[400]">
+										Enter your company name eamil and set a password to anchor
+										your details. submit to receive an OTP, steering you towards
+										the next leg of your sustainable journey.
+									</p>
+									<label>Company name</label>
+									<input className="w-[500px] h-[46px] border solid 1.5px" />
+									<label>Email</label>
+									<input className="w-[500px] h-[46px] border solid 1.5px" />
 
-								<div className=" mt-[20px] flex gap-x-[40px]">
-									<button
-										onClick={() => setShowOtpPopup(true)}
-										className="w-[480px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
-										Get OTP
-									</button>
+									<div className="flex flex-wrap gap-x-[20px]">
+										<label className="w-[250px]">Set a password</label>
+										<label>confirm Password</label>
+										<input className="w-[240px] h-[46px] border solid 1.5px" />
+
+										<input className="w-[240px] h-[46px] border solid 1.5px" />
+									</div>
+
+									<div className=" mt-[20px] flex gap-x-[40px]">
+										<button
+											onClick={() => setShowOtpPopup(true)}
+											className="w-[480px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
+											Get OTP
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
+						) : (
+
+
+							<div className="w-[700px] ">
+								<div className="w-[600px] h-[524px] relative mt-[142px] ml-[91px]">
+									<h3 className="font-[700] text-[24px] font-[UniNeue]">Setting sail on your sustainability voyage</h3>
+									<img
+										className="absolute right-[100px] top-[-5px]"
+										src="../assets/img/pngwing 25.png"
+									/>
+									<img className="" src="../assets/img/Line 23.png" />
+									<p>
+										just a few quick details - your company's name, email, and a new password- and you'll be all set to navigate through your
+										sustainable and continue your impactful journey anytime.
+									</p>
+
+									<div className=" mt-[20px] flex gap-x-[40px] font-[700]">
+										<button
+											className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
+											onClick={handleLaunchJourney}
+										>
+											Launch your journey!
+										</button>
+									</div>
+								</div>
+							</div>
+						)
+
+
 					)}
 
 					<div className="ml-[116px] flex gap-x-[19px]">
