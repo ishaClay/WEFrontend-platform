@@ -1,3 +1,4 @@
+
 import mandatory from "/assets/img/Mandatory.svg";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -80,6 +81,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+									label=""
 								value={formik.values.firstName}
 								onChange={formik.handleChange}
 								name="firstName"
@@ -95,6 +97,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="surname"
 								value={formik.values.surname}
 								onChange={formik.handleChange}
@@ -110,6 +113,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="gender"
 								value={formik.values.gender}
 								onChange={formik.handleChange}
@@ -125,6 +129,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="ageRange"
 								value={formik.values.ageRange}
 								onChange={formik.handleChange}
@@ -140,6 +145,8 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+									label=""
+							
 								name="emailAddress"
 								value={formik.values.emailAddress}
 								onChange={formik.handleChange}
@@ -155,6 +162,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="phone"
 								value={formik.values.phone}
 								onChange={formik.handleChange}
@@ -170,6 +178,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="currentHighestNFQ"
 								value={formik.values.currentHighestNFQ}
 								onChange={formik.handleChange}
@@ -185,6 +194,7 @@ const RegisterTraineeForm = () => {
 								Employment Status
 							</label>
 							<Input
+							label=""
 								name="employmentStatus"
 								value={formik.values.employmentStatus}
 								onChange={formik.handleChange}
@@ -194,6 +204,7 @@ const RegisterTraineeForm = () => {
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">Member Company</label>
 							<Input
+							label=""
 								name="memberCompany"
 								value={formik.values.memberCompany}
 								onChange={formik.handleChange}
@@ -205,6 +216,7 @@ const RegisterTraineeForm = () => {
 								Occupational Category
 							</label>
 							<Input
+							label=""
 								name="occupationalCategory"
 								value={formik.values.occupationalCategory}
 								onChange={formik.handleChange}
@@ -216,6 +228,7 @@ const RegisterTraineeForm = () => {
 								Unemployment Time
 							</label>
 							<Input
+							label=""
 								name="unemploymentTime"
 								value={formik.values.unemploymentTime}
 								onChange={formik.handleChange}
@@ -228,6 +241,7 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
+							label=""
 								name="countyOfResidence"
 								value={formik.values.countyOfResidence}
 								onChange={formik.handleChange}
@@ -241,6 +255,7 @@ const RegisterTraineeForm = () => {
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">Attended Event</label>
 							<Input
+							label=""
 								name="attendedEvent"
 								value={formik.values.attendedEvent}
 								onChange={formik.handleChange}
