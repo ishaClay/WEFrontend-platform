@@ -8,7 +8,12 @@ import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import Assessment from "./pages/Assessment";
 import QuestionPage from "./pages/QuestionPage";
 import MaturityLevelPage from "./pages/MaturityLevelPage";
-
+import TeaserScore from "./pages/TeaserScore";
+import SelectLevel from "./pages/SelectLevel";
+import MaturityLevelActionItem from "./pages/MaturityLevelActionItem";
+import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionableMeasurePopup";
+import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
+import CoursesRecommended from "./pages/CoursesRecommended";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -22,6 +27,12 @@ function App() {
 				<Route path="/assessment" element={<Assessment />} />
 				<Route path="/question" element={<QuestionPage />} />
 				<Route path="/maturelevel" element={<MaturityLevelPage />} />
+				<Route path="/teaserscore" element={<TeaserScore />} />
+				<Route path="/selectlevel" element={<SelectLevel />} />	
+		    	<Route path="/maturitylevelactionitem" element={<MaturityLevelActionItem />} />
+                <Route path="/maturitylevelactionablepopup" element={<MaturityLevelActionableMeasurePopup />} />
+				<Route path="/maturitylevelanswerspopup" element={<MaturityLevelAnswersPopup />} />
+				<Route path="/coursesrecommended" element={<CoursesRecommended />} />
 			</Routes>
 		</div>
 	);
