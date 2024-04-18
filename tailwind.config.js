@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        'abhaya': ['Abhaya Libre ExtraBold', 'sans'],
+      },
+
       colors: {
         'primary-button': '#00778B',
         'secondary-button': '#64A70B',
@@ -36,6 +40,10 @@ module.exports = {
           "100": "#3a3a3a",
           "200": "#042937",
           "300": "#002a3a",
+        },
+        glacier: {
+          300: '#7AB3C0',
+          800: '#00778B',
         },
         black: "#000",
         teal: "#00778b",
@@ -120,6 +128,8 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      
+
     },
   },
   plugins: [require("tailwindcss-animate")],

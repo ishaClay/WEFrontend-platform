@@ -1,5 +1,4 @@
 
-import IngSection from "@/components/comman/section/IngSection";
 import Logo from "@/components/comman/logo/Logo";
 import Slider from "react-slick";
 import Header from "@/components/Header";
