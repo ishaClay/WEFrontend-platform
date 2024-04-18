@@ -7,6 +7,8 @@ import Attainproficiency from "/assets/img/Attainproficiency.png";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaStar } from 'react-icons/fa';
 import Footer from "@/components/Footer";
+import { useState } from 'react';
+
 function SelectLevel() {
   const paths = [
     {
@@ -40,6 +42,14 @@ function SelectLevel() {
       status: "pending",
     },
   ];
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleCheckbox = () => {
+    setIsChecked(!isChecked);
+  };
+
+
 
   return (
     <div>
@@ -105,10 +115,16 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
 
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
+
+
 
             </div>
 
@@ -186,11 +202,13 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
-
             </div>
 
 
@@ -266,9 +284,12 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>
@@ -344,9 +365,12 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>
@@ -420,11 +444,13 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
-
             </div>
 
 
@@ -500,9 +526,12 @@ function SelectLevel() {
                 </h2>
 
               </div>
-              <div className="ml-auto  h-8 w-8 mr-3">
-                <img src="/public/assets/img/checkbox.png" alt="Leaf Icon" />
+              <div
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
+                onClick={toggleCheckbox}
+              >
+                {isChecked && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>

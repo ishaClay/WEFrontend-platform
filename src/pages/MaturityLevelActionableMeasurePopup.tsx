@@ -1,4 +1,7 @@
-
+import { BsFillPlusSquareFill } from "react-icons/bs";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BsPencil } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
 function MaturityLevelActionableMeasurePopup() {
     return (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
@@ -13,9 +16,8 @@ function MaturityLevelActionableMeasurePopup() {
                     </div>
                     <div className="ml-8">
                         <button className="text-[#1D2026] hover:text-red-500">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                           
+                            <RxCross2  className="h-6 w-6"/>
                         </button>
 
                     </div>
@@ -31,15 +33,19 @@ function MaturityLevelActionableMeasurePopup() {
 
 
                         <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
-                            <div className="w-full h-74 border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
+                            <div className="w-full h-74 border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                                 <div className="pb-2 pt-2 h-[42px] w-[350px]">
                                     <div className="ml-6  text-[#1D2026] font-calibri font-bold">Measures</div>
-                                    <div className="p-4">
-                                        <ul className="list-disc list-inside text-xs font-bold font-calibri">
-                                            <li>Enhance and execute your Net Zero strategy with clear goals  and comprehensive actions.</li>
-                                            <li>Lead in energy efficiency through continuous optimization and strategic energy management.</li>
-                                            <li>Achieve sustainability leadership by fully embracing and expanding renewable energy use.</li>
-                                            <li>Optimize transportation and logistics for minimal environmental impact through advanced strategies and technologies.</li>
+                                    <div className="p-4 ">
+                                        <ul className="list-disc list-inside text-[12px]  font-calibri">
+                                            <li>Enhance and execute your Net Zero strategy with clear goals  </li>
+                                            <p className="ml-[17px]"> and comprehensive actions.</p>
+                                            <li>Lead in energy efficiency through continuous optimization </li>
+                                            <p className="ml-[17px]">and strategic energy management.</p>
+                                            <li>Achieve sustainability leadership by fully embracing and</li>
+                                            <p className="ml-[17px]"> expanding renewable energy use.</p>
+                                            <li>Optimize transportation and logistics for minimal</li>
+                                            <p className="ml-[17px]">environmental impact through advanced strategies and technologies.</p>
                                         </ul>
                                     </div>
 
@@ -47,7 +53,7 @@ function MaturityLevelActionableMeasurePopup() {
                             </div>
                         </div>
                         <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
-                            <div className="w-full h-74 border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
+                            <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                                 <div className="pb-2 pt-2 h-[42px] w-[350px]">
                                     <div className="ml-6  text-[#1D2026] font-calibri font-bold">Enter initiatives or action items</div>
 
@@ -60,8 +66,8 @@ function MaturityLevelActionableMeasurePopup() {
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
                                                 />
                                             </div>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2">✎</button>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer  mt-2">🗑</button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2"><BsPencil className="text-[#B9B9B9]"/></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer gap-4 mt-2"><RiDeleteBin6Line className="text-[#B9B9B9]" /></button>
 
                                         </div>
                                     </div>
@@ -77,28 +83,16 @@ function MaturityLevelActionableMeasurePopup() {
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
                                                 />
                                             </div>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2">✎</button>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer  mt-2">🗑</button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer  mt-2"><RiDeleteBin6Line className="text-[#B9B9B9] "/></button>
 
                                         </div>
                                     </div>
 
 
-                                    <div className="flex items-center justify-center w-4 h-4 border border-black bg-black ml-[315px] mt-8">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6 text-white"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                            />
-                                        </svg>
+                                    <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
+                                        
+                                        <BsFillPlusSquareFill />
                                     </div>
                                 </div>
                             </div>
