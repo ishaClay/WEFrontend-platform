@@ -7,25 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { BsPencilFill } from "react-icons/bs";
 import { BsSearch } from 'react-icons/bs';
 
-// const Message = ({ name, time, company, message, date }) => {
-//     return (
-//         <div className="flex mb-4 items-start">
-//             <div className="flex-none h-[43px] w-[42px] rounded-full bg-[#0E9CFF] flex items-center justify-center mr-4 mt-2 text-[white]">LR</div>
-//             <div className="flex-auto">
-//                 <div className="flex items-center">
-//                     <div className="font-semibold pt-2 ">{name}</div>
 
-//                     <div className="text-sm text-black-400 ml-[90px]">{time}</div>
-//                     <div className="text-sm text-black-400 ml-[10px]">{date}</div>
-
-//                 </div>
-
-//                 <div className="text-gray-600 text-xs mt-1 text-[#A3A3A3]">{company}</div>
-//                 <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">{message}</div>
-//             </div>
-//         </div>
-//     );
-// };
 
 function Messaging() {
     return (
