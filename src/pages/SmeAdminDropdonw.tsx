@@ -44,26 +44,7 @@ export default SmeAdminDropdonw
 
 
 
-// import  { useState } from 'react';
 
-// const Checkbox = () => {
-//   const [isChecked, setIsChecked] = useState(false);
-
-//   const toggleCheckbox = () => {
-//     setIsChecked(!isChecked);
-//   };
-
-//   return (
-//     <div
-//       className={`w-12 h-12 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-green-500' : 'bg-white border border-gray-300'}`}
-//       onClick={toggleCheckbox}
-//     >
-//       {isChecked && <span className="text-white text-xl">&#10003;</span>}
-//     </div>
-//   );
-// };
-
-// export default Checkbox;
 
 
 
