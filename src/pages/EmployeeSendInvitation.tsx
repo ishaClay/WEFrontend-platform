@@ -1,6 +1,10 @@
 
 
 
+
+
+
+
 import HeaderCourse from "@/components/HeaderCourse"
 
 import { LuMoveLeft } from "react-icons/lu";
@@ -25,13 +29,17 @@ function EmployeeSendInvitation() {
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-                    <div className=" pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex justify-between items-center">
-                        <p className="text-[#000000] text-[Calibri] font-bold">Send Invitation</p>
-                        <div className="flex justify-between items-center ml-[220px] ">
+                <div className="bg-[#FFFFFF]  w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
+                    <div className=" pl-[30px]  w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex ">
+                       <div className=" mt-[15px]">
+                       <p className="text-[#000000] text-[Calibri] font-bold">Send Invitation</p>
+                       </div>
+                       <div className="  ml-[1005px] mt-[10px]">
+                       <div className="flex justify-between items-center  ">
                             <LuMoveLeft className="" />
-                            <h1 className="text-black px-6 py-2 rounded h-[45px] w-[150px] font-bold ">Back</h1>
+                            <h1 className="text-black px-6 py-2 rounded  font-bold ">Back</h1>
                         </div>
+                       </div>
                     </div>
 
                     <div className=" p-6">

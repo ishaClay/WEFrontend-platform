@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/PrimaryButton";
-import IngSection from "@/components/comman/section/IngSection";
+
 import { useNavigate } from "react-router-dom";
 
 
