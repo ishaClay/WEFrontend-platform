@@ -106,9 +106,9 @@ function MaturityLevelActionItem() {
 
                                 <div className="flex relative ml-20">
                                     <div className="ml-[450px] text-[#1D2026] mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#EFF4FAF5] h-[30px] w-[107px] flex items-center justify-center">Intermediate</div>
-                                    <div className="absolute top-3 left-28 right-16 border-2 border-dashed border-gray-700 w-40 mt-5 ml-[446px]">
+                                    <div className="absolute top-3 left-28 right-16 border-2 border-dashed border-[#A6A6A6] w-40 mt-5 ml-[446px]">
 
-                                        <svg className="absolute top-1/2 transform -translate-y-1/2 right-0 -mr-2 text-gray-700 mt-8 " xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 256 256" fill="#85B6FF">
+                                        <svg className="absolute top-1/2 transform -translate-y-1/2 right-0  text-gray-700 mt-7 " xmlns="http://www.w3.org/2000/svg" width="85" height="85" viewBox="0 0 256 256" fill="#85B6FF">
                                             <path d="M 87.85 41.551 L 5.545 1.167 C 2.414 -0.369 -0.979 2.725 0.263 5.984 l 14.342 37.648 c 0.336 0.881 0.336 1.854 0 2.735 L 0.263 84.016 c -1.241 3.259 2.152 6.353 5.282 4.817 L 87.85 48.449 C 90.717 47.043 90.717 42.957 87.85 41.551 z" />
                                         </svg>
                                     </div>
@@ -154,9 +154,9 @@ function MaturityLevelActionItem() {
                                 <div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">Governance</div>
 
 
-                                <div className="flex relative ml-20">
+                                <div className="flex relative ml-24">
                                     <div className="ml-[450px] text-[#1D2026] mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#EFF4FAF5] h-[30px] w-[107px] flex items-center justify-center">Intermediate</div>
-                                    <div className="absolute top-3 left-28 right-16 border-2 border-dashed border-gray-700 w-40 mt-5 ml-[446px]">
+                                    <div className="absolute top-3 left-28 right-16 border-2 border-dashed border-[#A6A6A6] w-40 mt-5 ml-[446px]">
 
                                         <svg className="absolute top-1/2 transform -translate-y-1/2 right-0 -mr-2 text-gray-700 mt-8 " xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 256 256" fill="#85B6FF">
                                             <path d="M 87.85 41.551 L 5.545 1.167 C 2.414 -0.369 -0.979 2.725 0.263 5.984 l 14.342 37.648 c 0.336 0.881 0.336 1.854 0 2.735 L 0.263 84.016 c -1.241 3.259 2.152 6.353 5.282 4.817 L 87.85 48.449 C 90.717 47.043 90.717 42.957 87.85 41.551 z" />
@@ -185,11 +185,11 @@ function MaturityLevelActionItem() {
 
 
             <div className="flex ml-[550px] mt-20">
-                <div className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold ">
+                <div className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold ">
                     View Recommended Courses
 
                 </div>
-                <div className=" ml-4 bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold ">
+                <div className=" ml-4 bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold ">
                     Edit Roadmap
 
                 </div>

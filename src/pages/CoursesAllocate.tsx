@@ -1,6 +1,5 @@
 import { MdOutlineGroup } from "react-icons/md";
 import HeaderCourse from "@/components/HeaderCourse"
-import SidebarCourse from "@/components/SidebarCourse"
 import { FaStar } from 'react-icons/fa';
 
 
@@ -18,12 +17,13 @@ import avatar11 from '/public/assets/img/face3.jpg';
 import avatar12 from '/public/assets/img/face3.jpg';
 import avatar13 from '/public/assets/img/face3.jpg';
 import avatar14 from '/public/assets/img/face3.jpg';
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 function CoursesAllocate() {
   const avatars = [avatar1,avatar2,avatar3,avatar4,avatar5,avatar6,avatar7,avatar8,avatar9,avatar10,avatar11,avatar12,avatar13,avatar14, ];
   return (
     <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1 overflow-hidden">
       <div className=" w-[235px] h-[1608px]">
-        <SidebarCourse />
+        <EmployeeListSidebar />
       </div>
       <div className="flex flex-col  ">
         <div className="w-[1204px] h-[120px] ">

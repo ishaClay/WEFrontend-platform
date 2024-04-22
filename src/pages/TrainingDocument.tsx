@@ -14,7 +14,8 @@ import HeaderCourse from "@/components/HeaderCourse"
 import { BsSearch } from 'react-icons/bs';
 import { TbSelector } from "react-icons/tb";
 
-import FaqsListSidebar from "@/components/FaqsListSidebar";
+
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 function TrainingDocument() {
@@ -53,12 +54,12 @@ function TrainingDocument() {
         // Add more employee data as needed
     ];
     return (
-        <div className="flex bg-[#f5f3ff] w-[1520px] h-[760px] gap-1 overflow-x-hidden">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
             <div className=" w-[235px] h-[760px]">
-                <FaqsListSidebar />
+                <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
-                <div className="w-[1204px] h-[120px] ">
+                <div className="w-[1250px] h-[120px] ">
                     <HeaderCourse />
                 </div>
 
@@ -88,7 +89,7 @@ function TrainingDocument() {
                     </div>
 
 
-                    <div className="overflow-x-auto">
+                    <div className="overflow-auto">
                         <table className="table-auto w-full  ">
                             <thead>
                                 <tr className="bg-[#F1F1F1] h-[50px]">

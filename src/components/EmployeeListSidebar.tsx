@@ -12,15 +12,32 @@ import { useState } from 'react';
 import { HiChevronRight, HiChevronDown } from 'react-icons/hi';
 
 const EmployeeListSidebar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen1, setIsOpen1] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+    const [isOpen3, setIsOpen3] = useState(false);
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
+    const toggleDropdown1 = () => {
+        setIsOpen1(!isOpen1);
+        setIsOpen2(false); 
+        setIsOpen3(false);
     };
+
+    const toggleDropdown2 = () => {
+        setIsOpen2(!isOpen2);
+        setIsOpen1(false); 
+        setIsOpen3(false);
+    };
+
+    const toggleDropdown3 = () => {
+        setIsOpen3(!isOpen3);
+        setIsOpen1(false); 
+        setIsOpen2(false);
+    };
+
 
     return (
         <div className="top-0 left-0 lg:flex flex-col justify-between w-60 duration-500 bg-[#FFFFFF] overflow-hidden shadow">
-            <div className="px-1 w-[235px] h-[1690px]">
+            <div className="px-1 w-[235px] h-[980px]">
                 <div className="ml-[40px] mt-[20px]">
                     <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
                 </div>
@@ -34,40 +51,68 @@ const EmployeeListSidebar = () => {
                         <h2>Maturity Assessment</h2>
                     </Link>
                     <Link
-                        to="/courses"
-                        className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] "
-                    >
-                        <TfiBook size={22} />
-                        <h2>Course Management</h2>
-                        <HiChevronRight/>
-                    </Link>
-                    <Link
-                        to=""
-                        className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] "
-                        onClick={toggleDropdown}
-                    >
-                        <FaUserGroup size={22} />
-                        <h2>Team Management</h2>
-                         <HiChevronDown /> 
-                    </Link>
-                    {isOpen && (
-                        <ul className="absolute left-0 right-0 bg-white rounded-md mt-[210px] list-disc pl-6 w-[245px] h-[90px]">
-                            <li className="ml-[20px] text-xs mt-2">
-                                <Link to="/Employee List">Team Member List</Link>
-                            </li>
-                            <li className="ml-[20px] text-xs mt-2">
-                                <Link to="/Employee Progress">Team Member Progress</Link>
-                            </li>
+                to=""
+                className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] "
+                onClick={toggleDropdown1}
+            >
+                <TfiBook size={22} />
+                <h2>Course Management</h2>
+                {isOpen1 ? <HiChevronDown /> : <HiChevronRight />}
+            </Link>
+            {isOpen1 && (
+                <ul className="absolute left-0 right-0 bg-white rounded-md mt-[160px] list-disc pl-6 w-[245px] h-[90px]">
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-list">Allocated Courses</Link>
+                    </li>
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-progress">Recommended Courses</Link>
+                    </li>
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-progress">All courses</Link>
+                    </li>
+                </ul>
+            )}
+            <Link
+                to=""
+                className={`group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] ${isOpen1 ? 'mt-[85px]' : ''}`}
+                onClick={toggleDropdown2}
+            >
+                <FaUserGroup size={22} />
+                <h2>Team Management</h2>
+                {isOpen2 ? <HiChevronDown /> : <HiChevronRight />}
+            </Link>
+            {isOpen2 && (
+                <ul className="absolute left-0 right-0 bg-white rounded-md mt-[200px] list-disc pl-6 w-[245px] h-[90px]">
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-list">Team List</Link>
+                    </li>
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-progress">Team Progress</Link>
+                    </li>
+                </ul>
+            )}
 
-                        </ul>
-                    )}
-
-                    <Link to="" className={`group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] ${isOpen ? 'mt-[75px]' : ''}`}>
+                    <Link to="" className={`group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] ${isOpen2 ? 'mt-[75px]' : ''}`}
+                    onClick={toggleDropdown3}
+                    >
                         <BsTicketPerforated size={22} />
                         <h2>Support</h2>
-                        <HiChevronRight />
+                        {isOpen3 ? <HiChevronDown /> : <HiChevronRight />}
                     </Link>
-                    <Link to="/global-setting" className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060]">
+                    {isOpen3 && (
+                <ul className="absolute left-0 right-0 bg-white rounded-md mt-[260px] list-disc pl-6 w-[245px] h-[90px]">
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-list">FAQ's</Link>
+                    </li>
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-progress">User Manual</Link>
+                    </li>
+                    <li className="ml-[20px] text-xs mt-2">
+                        <Link to="/employee-progress">Support Request</Link>
+                    </li>
+                </ul>
+            )}
+                    <Link to="/global-setting" className={`group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] ${isOpen3 ? 'mt-[75px]' : ''}`}>
                         <FiSettings size={22} />
                         <h2>Setting</h2>
                     </Link>

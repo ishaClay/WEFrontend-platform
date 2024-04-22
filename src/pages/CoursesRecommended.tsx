@@ -1,16 +1,18 @@
 
 import HeaderCourse from "@/components/HeaderCourse"
-import SidebarCourse from "@/components/SidebarCourse"
+
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { FaStar } from 'react-icons/fa';
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
+
 
 function CoursesRecommended() {
 
     return (
         <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1 overflow-x-hidden">
             <div className=" w-[235px] h-[1608px]">
-                <SidebarCourse />
+                <EmployeeListSidebar/>
             </div>
             <div className="flex flex-col">
                 <div className="w-[1204px] h-[120px] ">

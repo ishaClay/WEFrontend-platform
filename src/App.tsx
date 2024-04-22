@@ -34,6 +34,7 @@ import Messaging from "./pages/Messaging";
 import Compose from "./pages/Compose";
 import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
 import CoursesAllCourse from "./pages/CoursesAllCourse";
+import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -73,6 +74,7 @@ function App() {
 				<Route path="/compose" element={<Compose />} />
 				<Route path="/smeadmindropdonw" element={<SmeAdminDropdonw />} />
 				<Route path="/Coursesallcourse" element={<CoursesAllCourse />} />
+				<Route path="/maturityassessmentroadmap" element={<MaturityAssessmentRoadmapAfterbuild />} />
 			</Routes>
 		</div>
 	);

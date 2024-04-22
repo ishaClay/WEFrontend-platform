@@ -101,6 +101,7 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      
       fontFamily: {
         inter: "Inter",
         "d-din-pro": "D-DIN-PRO",

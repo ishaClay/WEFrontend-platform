@@ -13,7 +13,7 @@ import HeaderCourse from "@/components/HeaderCourse"
 import { BsSearch } from 'react-icons/bs';
 import { TbSelector } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
-import FaqsListSidebar from "@/components/FaqsListSidebar";
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 
@@ -59,16 +59,16 @@ function CoursesAllocate() {
         // Add more employee data as needed
     ];
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
             <div className=" w-[235px] h-[760px]">
-                <FaqsListSidebar />
+                <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
                 <div className="w-[1204px] h-[120px] ">
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
+                <div className="bg-[#FFFFFF] w-[1250px] h-[1465px] m-[12px] rounded-t-[10px]">
                     <div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
                         <p className="text-[#000000] text-[Calibri] font-bold">Support Requests</p>
                         <button className="bg-[#00778B] text-white px-4 py-2 rounded mr-[20px] mb-[13px] h-[40px] w-[153px]" >Add New Ticket</button>

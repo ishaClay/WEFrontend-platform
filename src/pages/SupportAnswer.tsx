@@ -1,12 +1,8 @@
 
-
-
 import HeaderCourse from "@/components/HeaderCourse"
 
-
-import FaqsListSidebar from "@/components/FaqsListSidebar";
-
 import { VscFilePdf } from "react-icons/vsc";
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 
@@ -18,7 +14,7 @@ function SupportAnswer() {
     return (
         <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
             <div className=" w-[235px] h-[760px]">
-                <FaqsListSidebar />
+                <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
                 <div className="w-[1204px] h-[120px] ">
@@ -30,9 +26,6 @@ function SupportAnswer() {
                         <p className="text-[#000000] text-[Calibri] font-bold">Ticket Details</p>
 
                     </div>
-
-
-
 
                     <div className="flex justify-between">
                         <div className="flex p-6">
@@ -103,7 +96,7 @@ function SupportAnswer() {
 
 
                     </div>
-                    <div className="flex flex-col gap-4 p-4 border w-[1210px] ml-[20px] mt-[10px] rounded">
+                 <div className="flex flex-col gap-4 p-4 border w-[1210px] ml-[20px] mt-[10px] rounded">
                     <div className="flex p-1">
                             <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 " />
                             <div className="flex flex-col">

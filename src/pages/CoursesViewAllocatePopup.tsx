@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
@@ -16,12 +16,12 @@ function CourseViewAllocatePopup() {
         { id: 5, name: 'Employee Name5', selected: false, imageUrl: '/public/assets/img/face2.jpg' },
     ]);
 
-    const [sliderValue, setSliderValue] = useState(0);
+   
 
-    const handleSliderChange = (event) => {
-        setSliderValue(event.target.value);
-        // You can add logic here to handle slider value changes
-    };
+    // const handleSliderChange = (event) => {
+    //     setSliderValue(event.target.value);
+    //     // You can add logic here to handle slider value changes
+    // };
 
     const handleSelectAll = () => {
         const updatedEmployees = employees.map(employee => ({
