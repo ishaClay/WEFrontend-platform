@@ -40,16 +40,3 @@ function SmeAdminDropdonw() {
 }
 
 export default SmeAdminDropdonw
-
-
-
-
-
-
-
-
-
-
-
-
-

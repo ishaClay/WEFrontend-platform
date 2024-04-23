@@ -1,20 +1,17 @@
 
-
-
 import HeaderCourse from "@/components/HeaderCourse"
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
-
-import FaqsListSidebar from "@/components/FaqsListSidebar";
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 function FaqsList() {
 
 
   return (
-    <div className="flex bg-[#f5f3ff] w-[1510px] h-[730px] gap-1 overflow-x-hidden">
+    <div className="flex bg-[#f5f3ff] w-[1510px] h-[730px] gap-1 overflow-hidden">
       <div className=" w-[235px] h-[730px]">
-        <FaqsListSidebar />
+        <EmployeeListSidebar />
       </div>
       <div className="flex flex-col  ">
         <div className="w-[1204px] h-[120px] ">

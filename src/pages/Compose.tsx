@@ -1,11 +1,10 @@
 
 import HeaderCourse from "@/components/HeaderCourse"
 
-import FaqsListSidebar from "@/components/FaqsListSidebar";
-
 import { MdOutlineAttachFile } from "react-icons/md";
 
 import { TbPhoto } from "react-icons/tb";
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 
@@ -14,9 +13,9 @@ function Compose() {
 
 
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
             <div className=" w-[235px] h-[760px]">
-                <FaqsListSidebar />
+                <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
                 <div className="w-[1204px] h-[120px] ">

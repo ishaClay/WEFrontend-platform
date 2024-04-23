@@ -1,6 +1,8 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-import { FaStar } from "react-icons/fa";
+
+
+
+import  { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 
@@ -38,22 +40,12 @@ function CourseViewAllocatePopup() {
 		},
 	]);
 
-	const handleSelectAll = () => {
-		const updatedEmployees = employees.map((employee) => ({
-			...employee,
-			selected: true,
-		}));
-		setEmployees(updatedEmployees);
-	};
+   
 
-	const handleSelectEmployee = (id: number) => {
-		const updatedEmployees = employees.map((employee) =>
-			employee.id === id
-				? { ...employee, selected: !employee.selected }
-				: employee
-		);
-		setEmployees(updatedEmployees);
-	};
+    // const handleSliderChange = (event) => {
+    //     setSliderValue(event.target.value);
+    //     // You can add logic here to handle slider value changes
+    // };
 
 	const handleInviteEmployee = () => {
 		// Logic to invite selected employees

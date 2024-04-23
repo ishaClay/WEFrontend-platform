@@ -34,6 +34,10 @@ import Messaging from "./pages/Messaging";
 import Compose from "./pages/Compose";
 import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
 import CoursesAllCourse from "./pages/CoursesAllCourse";
+import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
+import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
+import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
+import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -73,6 +77,10 @@ function App() {
 				<Route path="/compose" element={<Compose />} />
 				<Route path="/smeadmindropdonw" element={<SmeAdminDropdonw />} />
 				<Route path="/Coursesallcourse" element={<CoursesAllCourse />} />
+				<Route path="/maturityassessmentroadmap" element={<MaturityAssessmentRoadmapAfterbuild />} />
+				<Route path="/maturityassessmentroadmaphistory" element={<MaturityAssessmentRoadmapHistory />} />
+				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
+				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
 			</Routes>
 		</div>
 	);
