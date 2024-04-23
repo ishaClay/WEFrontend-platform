@@ -4,12 +4,35 @@ import HeaderCourse from "@/components/HeaderCourse"
 import { VscFilePdf } from "react-icons/vsc";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
-
-
 function SupportAnswer() {
+	return (
+		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
+			<div className=" w-[235px] h-[760px]">
+				<EmployeeListSidebar />
+			</div>
+			<div className="flex flex-col  ">
+				<div className="w-[1204px] h-[120px] ">
+					<HeaderCourse />
+				</div>
 
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1490px] m-[12px] rounded-t-[10px]">
+					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
+						<p className="text-[#000000] text-[Calibri] font-bold">
+							Ticket Details
+						</p>
+					</div>
 
-    // Add more employee data as needed
+					<div className="flex justify-between">
+						<div className="flex p-6">
+							<img
+								src="/public/assets/img/face1.jpg"
+								alt="Employee Name"
+								className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px]"
+							/>
+							<div className="flex flex-col">
+								<span className="text-[16px]  text-[#000000]">
+									Danila Raffel
+								</span>
 
     return (
         <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
@@ -21,11 +44,25 @@ function SupportAnswer() {
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[1490px] m-[12px] rounded-t-[10px]">
-                    <div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
-                        <p className="text-[#000000] text-[Calibri] font-bold">Ticket Details</p>
+						<div className="flex flex-col mb-4 ml-8">
+							<div className="flex mt-8 ml-2 gap-2 ">
+								<h1 className="text-[16px]">Status:</h1>
+								<div className="bg-[#58BA66] text-xs text-white py-2 h-[25px] w-[71px] px-4 rounded-full mr-2 flex items-center justify-center">
+									Answered
+								</div>
+								<h1 className="text-[16px]">Priority:</h1>
+								<div className="bg-[#FF5252]  text-xs text-white py-2 h-[25px] w-[43px] px-4 rounded-full mr-2 flex items-center justify-center">
+									High
+								</div>
+							</div>
+						</div>
+					</div>
 
-                    </div>
+					<div className="flex flex-col gap-4 p-4 border w-[1210px] ml-[20px] mt-[10px] rounded">
+						<div className="text-[16px] text-[#A3A3A3] font-semibold">
+							Ticket Subject
+						</div>
+						<div className="text-black">How to customize the template?</div>
 
                     <div className="flex justify-between">
                         <div className="flex p-6">

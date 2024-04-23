@@ -1,13 +1,11 @@
-import {  FaFacebookF, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { BsInstagram } from "react-icons/bs";
 import { IoLogoYoutube } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 
 function Footer() {
+	const location = useLocation();
 
-	const location = useLocation(); // Get the current location
-
-	// Function to check if it's the home page
 	const isHomePage = () => {
 		return location.pathname === "/";
 	};

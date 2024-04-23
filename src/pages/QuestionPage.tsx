@@ -1,28 +1,39 @@
-import LeftArrow from "/assets/img/LeftArrow.png";
-import Home from "/assets/img/Home.png";
-import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-import Assess from "/assets/img/Assess.png";
-import SetTargets from "/assets/img/SetTargets.png";
-import Learn from "/assets/img/Learn.png";
 import Apply from "/assets/img/Apply.png";
+import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
-import Light from "/assets/img/Light On.png";
-import Morale from "/assets/img/Morale.png";
-import Neighbour from "/assets/img/Neighbour.png";
-import PathSteps from "/assets/img/Path Steps.png";
-import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
-import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
-import Question from "@/components/comman/Question";
-import ProgressIndicator from "/assets/img/ProgressIndicator.png";
-import { Button } from "@/components/ui/button";
-import { IoIosArrowDown } from "react-icons/io";
-import { Slider } from "@/components/ui/slider";
+import Home from "/assets/img/Home.png";
+import Learn from "/assets/img/Learn.png";
+import LeftArrow from "/assets/img/LeftArrow.png";
+import SetTargets from "/assets/img/SetTargets.png";
+import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
+// import Light from "/assets/img/Light On.png";
+// import Morale from "/assets/img/Morale.png";
+// import Neighbour from "/assets/img/Neighbour.png";
+// import PathSteps from "/assets/img/Path Steps.png";
+// import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
+// import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
 import Footer from "@/components/Footer";
+import Question from "@/components/comman/Question";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchPillarList } from "@/services/apiServices/pillar";
+import { Pillar } from "@/types/Pillar";
+import { useQuery } from "@tanstack/react-query";
+import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
+
+	const { data: pillarList } = useQuery({
+		queryKey: [QUERY_KEYS.pillarList],
+		queryFn: () => fetchPillarList(),
+	});
+
+	console.log("pillarList", pillarList);
 
 	const paths = [
 		{
@@ -56,45 +67,45 @@ const QuestionPage = () => {
 			status: "pending",
 		},
 	];
-	const categorys = [
-		{
-			title: "Environment",
-			progress: "0/5",
-			icon: TreePlantingBlack,
-			percentange: 0,
-			active: true,
-		},
-		{
-			title: "Social",
-			progress: "1/5",
-			icon: Neighbour,
-			percentange: 20,
-		},
-		{
-			title: "Economic",
-			progress: "2/5",
-			icon: WeakFinancialGrowth,
-			percentange: 40,
-		},
-		{
-			title: "Governance",
-			progress: "3/5",
-			icon: Morale,
-			percentange: 60,
-		},
-		{
-			title: "Technology & Innovation",
-			progress: "4/5",
-			icon: Light,
-			percentange: 80,
-		},
-		{
-			title: " Strategic Integration",
-			progress: "5/5",
-			icon: PathSteps,
-			percentange: 100,
-		},
-	];
+	// const categorys = [
+	// 	{
+	// 		title: "Environment",
+	// 		progress: "0/5",
+	// 		icon: TreePlantingBlack,
+	// 		percentange: 0,
+	// 		active: true,
+	// 	},
+	// 	{
+	// 		title: "Social",
+	// 		progress: "1/5",
+	// 		icon: Neighbour,
+	// 		percentange: 20,
+	// 	},
+	// 	{
+	// 		title: "Economic",
+	// 		progress: "2/5",
+	// 		icon: WeakFinancialGrowth,
+	// 		percentange: 40,
+	// 	},
+	// 	{
+	// 		title: "Governance",
+	// 		progress: "3/5",
+	// 		icon: Morale,
+	// 		percentange: 60,
+	// 	},
+	// 	{
+	// 		title: "Technology & Innovation",
+	// 		progress: "4/5",
+	// 		icon: Light,
+	// 		percentange: 80,
+	// 	},
+	// 	{
+	// 		title: " Strategic Integration",
+	// 		progress: "5/5",
+	// 		icon: PathSteps,
+	// 		percentange: 100,
+	// 	},
+	// ];
 	const questions = [
 		{
 			category: "Environment",
@@ -274,9 +285,9 @@ const QuestionPage = () => {
 			</div>
 			<div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
 				<div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
-					{paths.map((path) => {
+					{paths.map((path, index: number) => {
 						return (
-							<div className="flex flex-col self-end items-center">
+							<div className="flex flex-col self-end items-center" key={index}>
 								{path.status === "checked" ? (
 									<img
 										src={Correct}
@@ -311,9 +322,10 @@ const QuestionPage = () => {
 			</div>
 			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
 				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-					{categorys.map((category) => {
+					{pillarList?.data?.data.map((category: Pillar, index: number) => {
 						return (
 							<div
+								key={index}
 								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center ${
 									category.active ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
 								}`}>
@@ -329,7 +341,7 @@ const QuestionPage = () => {
 												category.active ? "text-white" : "text-[#848181]"
 											}`}>
 											{" "}
-											{category.percentange} %
+											{(index / (pillarList?.data?.data.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
@@ -337,19 +349,21 @@ const QuestionPage = () => {
 											className={`leading-[19px] ${
 												category.active ? "text-white" : "#3A3A3A"
 											}`}>
-											{category.title}
+											{category.pillarName}
 										</h2>
 										<p
 											className={`text-[12px] leading-[14.65px] ${
 												category.active ? "text-white" : "text-[#848181]"
 											}`}>
-											My progress {category.progress}
+											My progress {index} / {pillarList?.data?.data.length - 1}
 										</p>
 									</div>
 								</div>
 
 								<Slider
-									defaultValue={[category.percentange]}
+									defaultValue={[
+										(index / (pillarList?.data?.data.length - 1)) * 100,
+									]}
 									max={100}
 									step={1}
 									className="bg-red-50"
@@ -364,8 +378,8 @@ const QuestionPage = () => {
 			</div>
 			<div className="mt-[89px] ml-[177px] flex ">
 				<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]">
-					{questions.map((question) => {
-						return <Question question={question} />;
+					{questions.map((question, index: number) => {
+						return <Question question={question} key={index} />;
 					})}
 				</div>
 				<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
@@ -392,9 +406,9 @@ const QuestionPage = () => {
 							</span>
 						</div>
 						<div className="font-normal text-[#3a3a3a]">
-							{progressbar.map((category, index) => {
+							{progressbar.map((category, index: number) => {
 								return (
-									<div className="flex mt-3">
+									<div className="flex mt-3" key={index}>
 										<div
 											className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
 												progressbar.length - 1 !== index &&
@@ -403,14 +417,17 @@ const QuestionPage = () => {
 											<p>{category.category}</p>
 											<div className="flex gap-[10px]">
 												<div className="flex gap-1">
-													{category.questionAttemps.map((question) => {
-														return (
-															<p
-																className={`w-3 h-3 ${
-																	question ? "bg-[#64A70B]" : "bg-[#D8D0D0]"
-																}`}></p>
-														);
-													})}
+													{category.questionAttemps.map(
+														(question, index: number) => {
+															return (
+																<p
+																	key={index}
+																	className={`w-3 h-3 ${
+																		question ? "bg-[#64A70B]" : "bg-[#D8D0D0]"
+																	}`}></p>
+															);
+														}
+													)}
 												</div>
 											</div>
 										</div>
