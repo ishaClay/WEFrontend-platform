@@ -1,28 +1,39 @@
-import LeftArrow from "/assets/img/LeftArrow.png";
-import Home from "/assets/img/Home.png";
-import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-import Assess from "/assets/img/Assess.png";
-import SetTargets from "/assets/img/SetTargets.png";
-import Learn from "/assets/img/Learn.png";
 import Apply from "/assets/img/Apply.png";
+import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
-import Light from "/assets/img/Light On.png";
-import Morale from "/assets/img/Morale.png";
-import Neighbour from "/assets/img/Neighbour.png";
-import PathSteps from "/assets/img/Path Steps.png";
-import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
-import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
-import Question from "@/components/comman/Question";
-import ProgressIndicator from "/assets/img/ProgressIndicator.png";
-import { Button } from "@/components/ui/button";
-import { IoIosArrowDown } from "react-icons/io";
-import { Slider } from "@/components/ui/slider";
+import Home from "/assets/img/Home.png";
+import Learn from "/assets/img/Learn.png";
+import LeftArrow from "/assets/img/LeftArrow.png";
+import SetTargets from "/assets/img/SetTargets.png";
+import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
+// import Light from "/assets/img/Light On.png";
+// import Morale from "/assets/img/Morale.png";
+// import Neighbour from "/assets/img/Neighbour.png";
+// import PathSteps from "/assets/img/Path Steps.png";
+// import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
+// import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
 import Footer from "@/components/Footer";
+import Question from "@/components/comman/Question";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchPillarList } from "@/services/apiServices/pillar";
+import { Pillar } from "@/types/Pillar";
+import { useQuery } from "@tanstack/react-query";
+import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
+
+	const { data: pillarList } = useQuery({
+		queryKey: [QUERY_KEYS.pillarList],
+		queryFn: () => fetchPillarList(),
+	});
+
+	console.log("pillarList", pillarList);
 
 	const paths = [
 		{
@@ -56,45 +67,45 @@ const QuestionPage = () => {
 			status: "pending",
 		},
 	];
-	const categorys = [
-		{
-			title: "Environment",
-			progress: "0/5",
-			icon: TreePlantingBlack,
-			percentange: 0,
-			active: true,
-		},
-		{
-			title: "Social",
-			progress: "1/5",
-			icon: Neighbour,
-			percentange: 20,
-		},
-		{
-			title: "Economic",
-			progress: "2/5",
-			icon: WeakFinancialGrowth,
-			percentange: 40,
-		},
-		{
-			title: "Governance",
-			progress: "3/5",
-			icon: Morale,
-			percentange: 60,
-		},
-		{
-			title: "Technology & Innovation",
-			progress: "4/5",
-			icon: Light,
-			percentange: 80,
-		},
-		{
-			title: " Strategic Integration",
-			progress: "5/5",
-			icon: PathSteps,
-			percentange: 100,
-		},
-	];
+	// const categorys = [
+	// 	{
+	// 		title: "Environment",
+	// 		progress: "0/5",
+	// 		icon: TreePlantingBlack,
+	// 		percentange: 0,
+	// 		active: true,
+	// 	},
+	// 	{
+	// 		title: "Social",
+	// 		progress: "1/5",
+	// 		icon: Neighbour,
+	// 		percentange: 20,
+	// 	},
+	// 	{
+	// 		title: "Economic",
+	// 		progress: "2/5",
+	// 		icon: WeakFinancialGrowth,
+	// 		percentange: 40,
+	// 	},
+	// 	{
+	// 		title: "Governance",
+	// 		progress: "3/5",
+	// 		icon: Morale,
+	// 		percentange: 60,
+	// 	},
+	// 	{
+	// 		title: "Technology & Innovation",
+	// 		progress: "4/5",
+	// 		icon: Light,
+	// 		percentange: 80,
+	// 	},
+	// 	{
+	// 		title: " Strategic Integration",
+	// 		progress: "5/5",
+	// 		icon: PathSteps,
+	// 		percentange: 100,
+	// 	},
+	// ];
 	const questions = [
 		{
 			category: "Environment",
@@ -311,7 +322,7 @@ const QuestionPage = () => {
 			</div>
 			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
 				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-					{categorys.map((category, index: number) => {
+					{pillarList?.data?.data.map((category: Pillar, index: number) => {
 						return (
 							<div
 								key={index}
@@ -330,7 +341,7 @@ const QuestionPage = () => {
 												category.active ? "text-white" : "text-[#848181]"
 											}`}>
 											{" "}
-											{category.percentange} %
+											{(index / (pillarList?.data?.data.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
@@ -338,19 +349,21 @@ const QuestionPage = () => {
 											className={`leading-[19px] ${
 												category.active ? "text-white" : "#3A3A3A"
 											}`}>
-											{category.title}
+											{category.pillarName}
 										</h2>
 										<p
 											className={`text-[12px] leading-[14.65px] ${
 												category.active ? "text-white" : "text-[#848181]"
 											}`}>
-											My progress {category.progress}
+											My progress {index} / {pillarList?.data?.data.length - 1}
 										</p>
 									</div>
 								</div>
 
 								<Slider
-									defaultValue={[category.percentange]}
+									defaultValue={[
+										(index / (pillarList?.data?.data.length - 1)) * 100,
+									]}
 									max={100}
 									step={1}
 									className="bg-red-50"
