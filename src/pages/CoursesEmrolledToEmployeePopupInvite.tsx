@@ -21,9 +21,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		// Here you can add your logic to send the invitation
 		console.log("Form submitted:", formData);
-		// Reset form fields after submission
 		setFormData({
 			firstName: "",
 			lastName: "",

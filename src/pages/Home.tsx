@@ -7,7 +7,6 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
 import Plus from "../../public/assets/img/Plus.png";
-// import Footer from '../../components/Footer/Footer';
 import SliderData from "@/components/comman/SliderData/SliderData";
 import Symbol from "@/components/comman/symbol/Symbol";
 import { GrNext, GrPrevious } from "react-icons/gr";
@@ -109,9 +108,11 @@ function Home() {
 							/>
 						</div>
 					</div>
-					{data.map((v) => {
+					{data.map((v, i: number) => {
 						return (
-							<div className="sm:min-w-[165px] sm:max-w-[187px] w-full h-[268px]">
+							<div
+								className="sm:min-w-[165px] sm:max-w-[187px] w-full h-[268px]"
+								key={i}>
 								<div
 									className={`sm:min-w-[188px] sm:max-w-[193.23px] w-[full] sm:block flex flex-col items-center h-[268px] py-[30px] px-[20px] ${v.background}`}>
 									<img
@@ -409,14 +410,14 @@ function Home() {
 											</button>
 											{item.title !== activeIndex ? (
 												<img
-													src={Plus} // Use the imported SVG file as the source
+													src={Plus}
 													alt="plus icon"
 													onClick={() => onItemClick(item.title)}
 													className="h-8 w-8"
 												/>
 											) : (
 												<img
-													src={Minus} // Use the imported SVG file as the source
+													src={Minus}
 													alt="minus icon"
 													onClick={() => onItemClick("")}
 													className="h-8 w-8"
