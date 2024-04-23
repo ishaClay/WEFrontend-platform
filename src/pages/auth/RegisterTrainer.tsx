@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { PrimaryButton, SecondaryButton } from "@/components/comman/Button/PrimaryButton";
+import { PrimaryButton } from "@/components/comman/Button/PrimaryButton";
 import Input from "@/components/comman/Input/Input";
 import SelectBox from "@/components/comman/SelectBox/SelectBox";
 
@@ -35,8 +35,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="Sample Consulting Company"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Provider Name"
+									name=""
 								/>
 							</div>
 							<div>
@@ -44,8 +46,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="IT or University"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Provider Type"
+									name=""
 								/>
 							</div>
 							<div>
@@ -53,7 +57,9 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="London"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
+									name=""
 									label="Provider City/Town"
 								/>
 							</div>
@@ -62,7 +68,9 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="London"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
+									name=""
 									label="Provider County"
 								/>
 							</div>
@@ -71,8 +79,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="Sample"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Contact Surname"
+									name=""
 								/>
 							</div>
 							<div>
@@ -80,8 +90,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="0044 1234 1234567"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Contact Telephone No."
+									name=""
 								/>
 							</div>
 							<div>
@@ -93,8 +105,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="221 B Baker Street"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Provider Address"
+									name=""
 								/>
 							</div>
 							<div>
@@ -102,7 +116,9 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="United Kingdom"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
+									name=""
 									label="Provider Country"
 								/>
 							</div>
@@ -111,7 +127,9 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="John"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
+									name=""
 									label="Contact First Name"
 								/>
 							</div>{" "}
@@ -120,8 +138,10 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="john.sample@emailsample.com"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
 									label="Email Address"
+									name=""
 								/>
 							</div>
 							<div>
@@ -129,7 +149,9 @@ function RegisterTrainer() {
 									value={""}
 									placeholder="Notes 1"
 									onChange={() => {}}
+									onBlur={() => {}}
 									className=""
+									name=""
 									label="Provider Notes"
 								/>
 							</div>

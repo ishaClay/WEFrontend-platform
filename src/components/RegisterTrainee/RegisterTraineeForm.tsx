@@ -1,53 +1,8 @@
-
 import mandatory from "/assets/img/Mandatory.svg";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import ErrorMessage from "../comman/Error.tsx/ErrorMessage";
 import Input from "../comman/Input/Input";
 
 const RegisterTraineeForm = () => {
-	const validationSchema = Yup.object().shape({
-		firstName: Yup.string().required("First Name is required"),
-		surname: Yup.string().required("Surname is required"),
-		gender: Yup.string().required("Gender is required"),
-		ageRange: Yup.string().required("Age Range is required"),
-		emailAddress: Yup.string()
-			.email("Invalid email address")
-			.required("Email Address is required"),
-		phone: Yup.string().required("Phone is required"),
-		currentHighestNFQ: Yup.string().required("Current Highest NFQ is required"),
-		employmentStatus: Yup.string(),
-		memberCompany: Yup.string().required("Member Company is required"),
-		occupationalCategory: Yup.string().required(
-			"Occupational Category is required"
-		),
-		unemploymentTime: Yup.string().required("Unemployment Time is required"),
-		countyOfResidence: Yup.string().required("County Of Residence is required"),
-		attendedEvent: Yup.string().required("Attended Event is required"),
-	});
-
-	const formik = useFormik({
-		initialValues: {
-			firstName: "",
-			surname: "",
-			gender: "",
-			ageRange: "",
-			emailAddress: "",
-			phone: "",
-			currentHighestNFQ: "",
-			employmentStatus: "",
-			memberCompany: "",
-			occupationalCategory: "",
-			unemploymentTime: "",
-			countyOfResidence: "",
-			attendedEvent: "",
-		},
-		validationSchema: validationSchema,
-		onSubmit: (values) => {
-			console.log(values);
-		},
-	});
-
 	return (
 		<div className="relative font-['calibri'] w-1/2">
 			<ul className="absolute w-[212px] text-[14px] text-[#042937] top-[11px] left-[344px]">
@@ -71,9 +26,7 @@ const RegisterTraineeForm = () => {
 				</div>
 			</div>
 			<div className="w-[592px] m-8 flex flex-col items-center">
-				<form
-					onSubmit={formik.handleSubmit}
-					className="flex flex-col items-center">
+				<form className="flex flex-col items-center">
 					<div className="flex flex-row flex-wrap gap-x-8 text-[16px] leading-[19.53px] font-bold">
 						<div className="mb-4">
 							<label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5">
@@ -81,15 +34,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-									label=""
-								value={formik.values.firstName}
-								onChange={formik.handleChange}
+								label=""
+								onChange={() => {}}
+								onBlur={() => {}}
+								value={""}
 								name="firstName"
-								onBlur={formik.handleBlur}
 							/>
-							{formik.touched.firstName && formik.errors.firstName ? (
-								<ErrorMessage message={formik.errors.firstName} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -97,15 +48,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="surname"
-								value={formik.values.surname}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.surname && formik.errors.surname ? (
-								<ErrorMessage message={formik.errors.surname} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -113,15 +62,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="gender"
-								value={formik.values.gender}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.gender && formik.errors.gender ? (
-								<ErrorMessage message={formik.errors.gender} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -129,15 +76,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="ageRange"
-								value={formik.values.ageRange}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.ageRange && formik.errors.ageRange ? (
-								<ErrorMessage message={formik.errors.ageRange} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -145,16 +90,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-									label=""
-							
+								label=""
 								name="emailAddress"
-								value={formik.values.emailAddress}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.emailAddress && formik.errors.emailAddress ? (
-								<ErrorMessage message={formik.errors.emailAddress} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -162,15 +104,13 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="phone"
-								value={formik.values.phone}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.phone && formik.errors.phone ? (
-								<ErrorMessage message={formik.errors.phone} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
@@ -178,37 +118,34 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="currentHighestNFQ"
-								value={formik.values.currentHighestNFQ}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.currentHighestNFQ &&
-							formik.errors.currentHighestNFQ ? (
-								<ErrorMessage message={formik.errors.currentHighestNFQ} />
-							) : null}
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">
 								Employment Status
 							</label>
 							<Input
-							label=""
+								label=""
 								name="employmentStatus"
-								value={formik.values.employmentStatus}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">Member Company</label>
 							<Input
-							label=""
+								label=""
 								name="memberCompany"
-								value={formik.values.memberCompany}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
 						</div>
 						<div className="mb-4">
@@ -216,11 +153,11 @@ const RegisterTraineeForm = () => {
 								Occupational Category
 							</label>
 							<Input
-							label=""
+								label=""
 								name="occupationalCategory"
-								value={formik.values.occupationalCategory}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
 						</div>
 						<div className="mb-4">
@@ -228,11 +165,11 @@ const RegisterTraineeForm = () => {
 								Unemployment Time
 							</label>
 							<Input
-							label=""
+								label=""
 								name="unemploymentTime"
-								value={formik.values.unemploymentTime}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
 						</div>
 						<div className="mb-4">
@@ -241,25 +178,23 @@ const RegisterTraineeForm = () => {
 								<img src={mandatory} className="p-1" />
 							</label>
 							<Input
-							label=""
+								label=""
 								name="countyOfResidence"
-								value={formik.values.countyOfResidence}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
-							{formik.touched.countyOfResidence &&
-							formik.errors.countyOfResidence ? (
-								<ErrorMessage message={formik.errors.countyOfResidence} />
-							) : null}
+
+							<ErrorMessage message={""} />
 						</div>
 						<div className="mb-4">
 							<label className="mb-1 flex items-center">Attended Event</label>
 							<Input
-							label=""
+								label=""
 								name="attendedEvent"
-								value={formik.values.attendedEvent}
-								onChange={formik.handleChange}
-								onBlur={formik.handleBlur}
+								value={""}
+								onChange={() => {}}
+								onBlur={() => {}}
 							/>
 						</div>
 					</div>

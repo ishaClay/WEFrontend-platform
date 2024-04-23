@@ -1,17 +1,16 @@
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { SecondaryButton } from "@/components/comman/Button/PrimaryButton";
 import { useState } from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Plus from "../../public/assets/img/Plus.png";
+import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
-import { SecondaryButton } from "@/components/comman/Button/PrimaryButton";
-import Header from "@/components/Header";
+import Plus from "../../public/assets/img/Plus.png";
 // import Footer from '../../components/Footer/Footer';
-import { GrNext, GrPrevious } from "react-icons/gr";
-import Symbol from "@/components/comman/symbol/Symbol";
-import Logo from "@/components/comman/logo/Logo";
 import SliderData from "@/components/comman/SliderData/SliderData";
+import Symbol from "@/components/comman/symbol/Symbol";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 function Home() {
 	const [activeIndex, setActiveIndex] = useState(null);
