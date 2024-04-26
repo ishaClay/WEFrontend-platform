@@ -16,27 +16,17 @@ import Plus from "../../public/assets/img/Plus.png";
 import { SecondaryButton } from "@/components/comman/Button/CustomButton";
 
 function Home() {
-
 	const [activeIndex, setActiveIndex] = useState(null);
 
-	const {
-		data: bannerList,
-		isPending,
-	} = useQuery({
+	const { data: bannerList, isPending } = useQuery({
 		queryKey: [QUERY_KEYS.bannerSlider],
 		queryFn: () => fetchBannerSlider(),
 	});
-
-	console.log(bannerList?.data.data);
-
 
 	const { data: courseslider, isPending: coursesliderPending } = useQuery({
 		queryKey: [QUERY_KEYS.courseSlider],
 		queryFn: () => CourseSlider(),
 	});
-
-	console.log("courseslider", courseslider?.data.data);
-
 
 	const onItemClick = (index: any) => {
 		setActiveIndex(index === activeIndex ? null : index);
@@ -71,7 +61,7 @@ function Home() {
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 2500,
-	}
+	};
 
 	const data = [
 		{
@@ -123,54 +113,54 @@ function Home() {
 		<div className="h-[auto]">
 			<Header />
 			<section className="">
-
 				<div className="relative mt-[30px] overflow-hidden mx-auto ">
 					<Slider {...bannerSetting}>
-						{
-							bannerList?.data.data.map((item: any) => {
-								return (
-									<div className="relative">
-										<img className="h-[600px]" src={item.banner} />
-										<div className="absolute top-[175px] left-[-10px] w-[700px] h-[262px] backdrop-blur-[20px] backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border rounded-xl border-solid border-[rgba(209,213,219,0.3)]">
-											<div className="flex text-white">
-												<div className="w-[200px] flex justify-center">
-													<img className="mt-[42px] w-[42px] h-[42px]" src="../assets/img/Forward (1).png" />
-												</div>
-
-												<div className="mt-[34px]">
-													<h2 className="font-[UniNeue] text-[28px]  font-[700]">{item.title}</h2>
-													<p className="w-[337px] mt-[5px]">{item.content}</p>
-													<SecondaryButton name={item.buttonTitle} symbol={<img src="../assets/img/Move Right.png" />} className="w-[250px] h-[50px] mt-[20px] flex gap-[10px] justify-center items-center" ></SecondaryButton>
-												</div>
-
-
-											</div>
-										</div>
-
-										<div className="w-full h-[69px] backdrop-blur-[20px] absolute bottom-0 backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border  border-solid border-[rgba(209,213,219,0.3)] text-white text-[18px] flex justify-center items-center ">
-
-											<h3>ENGAGE</h3>
-
-											<h3>ASSESS</h3>
-
-											<h3>SET TARGETS</h3>
-
-											<h3>LEARN</h3>
-
-											<h3>APPLY</h3>
-
-											<h3>ATTAIN PROFICIENCY</h3>
-
-											<div>
-												<img src="../assets/img/Arrow Right (1).png" />
+						{bannerList?.data.data.map((item: any) => {
+							return (
+								<div className="relative">
+									<img className="h-[600px]" src={item.banner} />
+									<div className="absolute top-[175px] left-[-10px] w-[700px] h-[262px] backdrop-blur-[20px] backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border rounded-xl border-solid border-[rgba(209,213,219,0.3)]">
+										<div className="flex text-white">
+											<div className="w-[200px] flex justify-center">
+												<img
+													className="mt-[42px] w-[42px] h-[42px]"
+													src="../assets/img/Forward (1).png"
+												/>
 											</div>
 
+											<div className="mt-[34px]">
+												<h2 className="font-[UniNeue] text-[28px]  font-[700]">
+													{item.title}
+												</h2>
+												<p className="w-[337px] mt-[5px]">{item.content}</p>
+												<SecondaryButton
+													name={item.buttonTitle}
+													symbol={<img src="../assets/img/Move Right.png" />}
+													className="w-[250px] h-[50px] mt-[20px] flex gap-[10px] justify-center items-center"></SecondaryButton>
+											</div>
 										</div>
 									</div>
-								)
-							})
-						}
 
+									<div className="w-full h-[69px] backdrop-blur-[20px] absolute bottom-0 backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border  border-solid border-[rgba(209,213,219,0.3)] text-white text-[18px] flex justify-center items-center ">
+										<h3>ENGAGE</h3>
+
+										<h3>ASSESS</h3>
+
+										<h3>SET TARGETS</h3>
+
+										<h3>LEARN</h3>
+
+										<h3>APPLY</h3>
+
+										<h3>ATTAIN PROFICIENCY</h3>
+
+										<div>
+											<img src="../assets/img/Arrow Right (1).png" />
+										</div>
+									</div>
+								</div>
+							);
+						})}
 					</Slider>
 				</div>
 			</section>
@@ -233,38 +223,41 @@ function Home() {
 						/>
 					</div>
 
-
-
-
 					<div className="w-[697px] ">
 						<Slider {...settings}>
+							{courseslider?.data.data.map((item: any) => {
+								return (
+									// <div>
+									// 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
+									// </div>
 
-							{
-								courseslider?.data.data.map((item: any) => {
-									return (
-										// <div>
-										// 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
-										// </div>
+									<div className="relative">
+										<div className="w-[697px] h-[357px]  flex justify-between">
+											<div className="w-[413px] mt-[90px]">
+												<h2 className="w-[350px] h-[115px] font-[UniNeue] leading-[28px] text-[24px] font-[600]">
+													{item.courseTitle}
+												</h2>
 
-										<div className="relative">
-											<div className="w-[697px] h-[357px]  flex justify-between">
-												<div className="w-[413px] mt-[90px]">
-													<h2 className="w-[350px] h-[115px] font-[UniNeue] leading-[28px] text-[24px] font-[600]">{item.courseTitle}</h2>
+												<p className=" w-[413px] h-[80px] font-[Calibri] text-[16px]">
+													{item.content}
+												</p>
 
-													<p className=" w-[413px] h-[80px] font-[Calibri] text-[16px]">{item.content}</p>
+												<SecondaryButton
+													name={item.buttonTitle}
+													symbol={<img src="../assets/img/Move Right.png" />}
+													className="w-[195px] h-[62px] flex items-center justify-center gap-[10px]"></SecondaryButton>
+											</div>
 
-													<SecondaryButton name={item.buttonTitle} symbol={<img src="../assets/img/Move Right.png" />} className="w-[195px] h-[62px] flex items-center justify-center gap-[10px]"></SecondaryButton>
-												</div>
-
-												<div>
-													<img className="w-[274px] h-[357px]" src={item.courseImage} />
-												</div>
+											<div>
+												<img
+													className="w-[274px] h-[357px]"
+													src={item.courseImage}
+												/>
 											</div>
 										</div>
-									)
-
-								})
-							}
+									</div>
+								);
+							})}
 						</Slider>
 					</div>
 				</div>
@@ -502,10 +495,11 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${item.title === activeIndex
-												? "bg-darkslategray-300 text-white"
-												: "bg-ghostwhite text-darkslategray-300"
-												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${
+												item.title === activeIndex
+													? "bg-darkslategray-300 text-white"
+													: "bg-ghostwhite text-darkslategray-300"
+											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -540,10 +534,11 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${item.title === activeIndex
-												? "bg-darkslategray-300 text-white"
-												: "bg-ghostwhite text-darkslategray-300"
-												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${
+												item.title === activeIndex
+													? "bg-darkslategray-300 text-white"
+													: "bg-ghostwhite text-darkslategray-300"
+											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -600,7 +595,6 @@ function Home() {
 			</div>
 
 			<Loading isLoading={isPending || coursesliderPending} />
-
 		</div>
 	);
 }

@@ -1,3 +1,5 @@
+import { Pillar } from "./Pillar";
+
 export interface Option {
     name: string;
     point: number;
@@ -12,4 +14,6 @@ export interface QuestionType {
     deletedAt: string | null;
     createdAt: string;
     updatedAt: string;
+    pillar: Pillar;
+    hint: string;
 }

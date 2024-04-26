@@ -1,7 +1,7 @@
 import HeaderCourse from "@/components/HeaderCourse";
 
 import { FiFile, FiVideo } from "react-icons/fi";
-import FaqsListSidebar from "@/components/FaqsListSidebar";
+// import FaqsListSidebar from "@/components/FaqsListSidebar";
 
 import { VscFilePdf } from "react-icons/vsc";
 import React, { useState } from "react";
@@ -29,9 +29,7 @@ function SupportDetails() {
 
 	return (
 		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
-			<div className=" w-[235px] h-[760px]">
-				<FaqsListSidebar />
-			</div>
+			<div className=" w-[235px] h-[760px]">{/* <FaqsListSidebar /> */}</div>
 			<div className="flex flex-col  ">
 				<div className="w-[1204px] h-[120px] ">
 					<HeaderCourse />

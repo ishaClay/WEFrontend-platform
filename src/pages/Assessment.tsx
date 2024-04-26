@@ -1,15 +1,10 @@
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Assessment() {
 	const navigate = useNavigate();
-
-	const companyId = useSelector((state) => state.company.id);
-
-	console.log("companyId", companyId);
 
 	return (
 		<div>

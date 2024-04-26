@@ -32,7 +32,6 @@ const QuestionPage = () => {
 	const navigate = useNavigate();
 
 	const [activePillar, setActivePillar] = useState<string>("");
-	console.log("activePillar", activePillar);
 
 	const { data: pillarList } = useQuery({
 		queryKey: [QUERY_KEYS.pillarList],
@@ -49,11 +48,6 @@ const QuestionPage = () => {
 		queryKey: [QUERY_KEYS.questionList],
 		queryFn: () => fetchQuestionList("6"),
 	});
-
-	console.log(
-		"questionList?.data?.data?.activePillar",
-		Object.keys(questionList?.data?.data || {})
-	);
 
 	const paths = [
 		{
@@ -187,10 +181,11 @@ const QuestionPage = () => {
 						return (
 							<div
 								key={index}
-								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category.pillarName
-									? "bg-[#64A70B]"
-									: "bg-[#EDF0F4]"
-									}`}
+								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
+									activePillar === category.pillarName
+										? "bg-[#64A70B]"
+										: "bg-[#EDF0F4]"
+								}`}
 								onClick={() => setActivePillar(category.pillarName)}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
@@ -204,27 +199,30 @@ const QuestionPage = () => {
 											)}
 										</div>
 										<p
-											className={`text-nowrap ${activePillar === category.pillarName
-												? "text-white"
-												: "text-[#848181]"
-												}`}>
+											className={`text-nowrap ${
+												activePillar === category.pillarName
+													? "text-white"
+													: "text-[#848181]"
+											}`}>
 											{" "}
 											{(index / (pillarList?.data?.data.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
 										<h2
-											className={`leading-[19px] ${activePillar === category.pillarName
-												? "text-white"
-												: "#3A3A3A"
-												}`}>
+											className={`leading-[19px] ${
+												activePillar === category.pillarName
+													? "text-white"
+													: "#3A3A3A"
+											}`}>
 											{category.pillarName}
 										</h2>
 										<p
-											className={`text-[12px] leading-[14.65px] ${activePillar === category.pillarName
-												? "text-white"
-												: "text-[#848181]"
-												}`}>
+											className={`text-[12px] leading-[14.65px] ${
+												activePillar === category.pillarName
+													? "text-white"
+													: "text-[#848181]"
+											}`}>
 											My progress {index} / {pillarList?.data?.data.length - 1}
 										</p>
 									</div>
@@ -238,8 +236,9 @@ const QuestionPage = () => {
 									step={1}
 									className="bg-red-50"
 									classNameThumb="hidden"
-									classNameRange={`${!(activePillar === category.pillarName) && "!bg-[#64A70B]"
-										}`}
+									classNameRange={`${
+										!(activePillar === category.pillarName) && "!bg-[#64A70B]"
+									}`}
 									disabled
 								/>
 							</div>
@@ -285,24 +284,33 @@ const QuestionPage = () => {
 								</span>
 							</div>
 							<div className="font-normal text-[#3a3a3a]">
-								{(questionList?.data?.data ? Object.keys(questionList?.data?.data) : []).map((category, index: number) => {
-									console.log("questionList?.data?.data?.category", questionList?.data?.data);
-
-									const categoryData = questionList?.data?.data?.[category] || []; // Handle null or undefined case
+								{(questionList?.data?.data
+									? Object.keys(questionList?.data?.data)
+									: []
+								).map((category, index: number) => {
+									const categoryData =
+										questionList?.data?.data?.[category] || [];
 									return (
 										<div className="flex mt-3" key={index}>
-											<div className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${progressbar.length - 1 !== index && "border-b border--solid border-[#EAEAEA]"}`}>
+											<div
+												className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
+													progressbar.length - 1 !== index &&
+													"border-b border--solid border-[#EAEAEA]"
+												}`}>
 												<p>{category}</p>
 												<div className="flex gap-[10px]">
 													<div className="flex gap-1">
-														{categoryData.map((question, index: number) => {
-															console.log("question", question);
+														{categoryData.map(
+															(question: QuestionType, index: number) => {
+																console.log("question", question);
 
-															return (
-																<p key={index} className={`w-3 h-3 bg-[#ffffff]`}>
-																</p>
-															);
-														})}
+																return (
+																	<p
+																		key={index}
+																		className={`w-3 h-3 bg-[#ffffff]`}></p>
+																);
+															}
+														)}
 													</div>
 												</div>
 											</div>
@@ -314,10 +322,9 @@ const QuestionPage = () => {
 								})}
 							</div>
 
-
-							<Button className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
-								onClick={() => navigate("/companyregister")}
-							>
+							<Button
+								className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+								onClick={() => navigate("/companyregister")}>
 								Submit & Continue
 							</Button>
 						</div>

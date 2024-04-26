@@ -1,22 +1,14 @@
-import { Option } from "@/types/Question";
+import { Option, QuestionType } from "@/types/Question";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import Suggestion from "/assets/img/Suggestion.png";
-import { useState } from "react";
 
 interface QuestionProps {
-	category: string;
-	no: string;
-	question: string;
-	options: {
-		optionid: string;
-		option: string;
-	}[];
-	hint: boolean;
+	question: QuestionType;
+	index: number;
+	arr: QuestionType[];
 }
-[];
 
-const Question = ({ question, index, arr }) => {
-
+const Question = ({ question, index, arr }: QuestionProps) => {
 	return (
 		<div className="relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] w-[773px] max-w-full">
 			<div className="py-[17px] bg-[#EEF9FD] flex items-center px-9 mt-[72px]">
@@ -33,7 +25,6 @@ const Question = ({ question, index, arr }) => {
 							value={option.optionId}
 							id={option.optionId}
 							className="border-[#EAE5E5] text-[#64A70B] mt-[3px]"
-				
 						/>
 						<p className="overflow-hidden text-wrap w-full whitespace-nowrap max-w-[632px] ml-2">
 							{option.name}

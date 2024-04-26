@@ -4,7 +4,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import { InputWithLable } from "@/components/ui/inputwithlable";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorType } from "@/types/Errors";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -14,20 +22,10 @@ import Loading from "@/components/comman/Error/Loading";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import { useToast } from "@/components/ui/use-toast";
 
-
-
-
 function RegisterTrainer() {
-
 	const queryClient = useQueryClient();
 
 	const { toast } = useToast();
-
-
-
-	
-
-
 
 	const { mutate: createtrainer, isPending: createPending } = useMutation({
 		mutationFn: (question: Trainer) => registerTrainer(question),
@@ -36,61 +34,60 @@ function RegisterTrainer() {
 				queryKey: [QUERY_KEYS.trainerList],
 			});
 
-			toast ({
+			toast({
 				description: "Trainer created successfully",
 			});
-
-			
 		},
 		onError: (error: ErrorType) => {
-			console.log(error);
-			
+			console.error(error);
 		},
 	});
-
-
-	console.log("createtrainer", createtrainer);
-	
 
 	const schema = z.object({
 		providerName: z.string().min(1, { message: "Provider Name is required" }),
 		providerType: z.string().min(1, { message: "Provider Type is required" }),
 		providerCity: z.string().min(1, { message: "Provider City is required" }),
-		providerCountry: z.string().min(1, { message: "Provider Country is required" }),
+		providerCountry: z
+			.string()
+			.min(1, { message: "Provider Country is required" }),
 		// surname: z.string().min(1, { message: "Contact Surname is required" }),
 		// number: z.string().min(1, { message: "Contact Telephone No. is required" }),
-		ProviderAddress: z.string().min(1, { message: "Provider Address is required" }),
-		ProviderCountry: z.string().min(1, { message: "Provider Country is required" }),
+		ProviderAddress: z
+			.string()
+			.min(1, { message: "Provider Address is required" }),
+		ProviderCountry: z
+			.string()
+			.min(1, { message: "Provider Country is required" }),
 		name: z.string().min(1, { message: "Contact First Name is required" }),
 		email: z.string().min(1, { message: "Email Address is required" }),
 		ProviderNotes: z.string().min(1, { message: "Provider Notes is required" }),
-		foreignProvider: z.enum(["Yes", "No"]).optional().default("No").refine(value => value !== undefined && (value === "Yes" || value === "No"), {
-			message: "Please select a valid option for Foreign Provider",
-			path: ["foreignProvider"],
-		}),
+		foreignProvider: z
+			.enum(["Yes", "No"])
+			.optional()
+			.default("No")
+			.refine(
+				(value) => value !== undefined && (value === "Yes" || value === "No"),
+				{
+					message: "Please select a valid option for Foreign Provider",
+					path: ["foreignProvider"],
+				}
+			),
 	});
-
-
 
 	type ValidationSchema = z.infer<typeof schema>;
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset
+		reset,
 	} = useForm<ValidationSchema>({
 		resolver: zodResolver(schema),
 		mode: "all",
 	});
 
-
-
 	const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-		console.log(data);
-		
 		createtrainer(data);
 		reset();
-
 	};
 
 	return (
@@ -123,13 +120,14 @@ function RegisterTrainer() {
 							<div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[30px] mt-[32px] justify-center">
 								<div>
 									<InputWithLable
-
 										placeholder="Sample Consulting Company"
 										label="Provider Name"
 										{...register("providerName")}
 									/>
 									{errors.providerName && (
-										<ErrorMessage message={errors.providerName.message as string} />
+										<ErrorMessage
+											message={errors.providerName.message as string}
+										/>
 									)}
 								</div>
 								<div>
@@ -140,33 +138,35 @@ function RegisterTrainer() {
 										{...register("providerType")}
 									/>
 									{errors.providerType && (
-										<ErrorMessage message={errors.providerType.message as string} />
+										<ErrorMessage
+											message={errors.providerType.message as string}
+										/>
 									)}
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="London"
 										className=""
 										label="Provider City/Town"
 										{...register("providerCity")}
-
 									/>
 									{errors.providerCity && (
-										<ErrorMessage message={errors.providerCity.message as string} />
+										<ErrorMessage
+											message={errors.providerCity.message as string}
+										/>
 									)}
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="London"
 										className=""
 										label="Provider County"
 										{...register("providerCountry")}
-
 									/>
 									{errors.providerCountry && (
-										<ErrorMessage message={errors.providerCountry.message as string} />
+										<ErrorMessage
+											message={errors.providerCountry.message as string}
+										/>
 									)}
 								</div>
 								<div>
@@ -196,13 +196,10 @@ function RegisterTrainer() {
 									)} */}
 								</div>
 								<div>
-									<Select
-										{...register("foreignProvider")}
-										
-									>
+									<Select {...register("foreignProvider")}>
 										<SelectGroup>
 											<SelectLabel className="text-[16px] font-[400]">
-											Foregin Provider
+												Foregin Provider
 											</SelectLabel>
 
 											<SelectTrigger className="w-[274px] h-10 text-[gray]">
@@ -212,47 +209,46 @@ function RegisterTrainer() {
 										<SelectContent>
 											<SelectItem value="Yes">Yes</SelectItem>
 											<SelectItem value="No">No</SelectItem>
-											
 										</SelectContent>
 									</Select>
 									{errors.foreignProvider && (
-										<ErrorMessage message={errors.foreignProvider.message as string} />
+										<ErrorMessage
+											message={errors.foreignProvider.message as string}
+										/>
 									)}
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="221 B Baker Street"
 										className=""
 										label="Provider Address"
 										{...register("ProviderAddress")}
-
 									/>
 									{errors.ProviderAddress && (
-										<ErrorMessage message={errors.ProviderAddress.message as string} />
+										<ErrorMessage
+											message={errors.ProviderAddress.message as string}
+										/>
 									)}
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="United Kingdom"
 										className=""
 										label="Provider Country"
 										{...register("ProviderCountry")}
-
 									/>
 									{errors.ProviderCountry && (
-										<ErrorMessage message={errors.ProviderCountry.message as string} />
+										<ErrorMessage
+											message={errors.ProviderCountry.message as string}
+										/>
 									)}
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="John"
 										className=""
 										label="Contact First Name"
 										{...register("name")}
-
 									/>
 									{errors.name && (
 										<ErrorMessage message={errors.name.message as string} />
@@ -260,12 +256,10 @@ function RegisterTrainer() {
 								</div>{" "}
 								<div>
 									<InputWithLable
-
 										placeholder="john.sample@emailsample.com"
 										className=""
 										label="Email Address"
 										{...register("email")}
-
 									/>
 									{errors.email && (
 										<ErrorMessage message={errors.email.message as string} />
@@ -273,18 +267,22 @@ function RegisterTrainer() {
 								</div>
 								<div>
 									<InputWithLable
-
 										placeholder="Notes 1"
 										className=""
 										label="Provider Notes"
 										{...register("ProviderNotes")}
-
 									/>
 									{errors.ProviderNotes && (
-										<ErrorMessage message={errors.ProviderNotes.message as string} />
+										<ErrorMessage
+											message={errors.ProviderNotes.message as string}
+										/>
 									)}
 								</div>
-								<PrimaryButton type="submit" name="Submit" className="w-[370px] h-[48px]" />
+								<PrimaryButton
+									type="submit"
+									name="Submit"
+									className="w-[370px] h-[48px]"
+								/>
 								<div>
 									<ul className="w-[300px] mt-[70px] h-[30px] text-[12px] font-[400] text-center">
 										<li>
@@ -299,7 +297,6 @@ function RegisterTrainer() {
 					</div>
 				</div>
 				<Loading isLoading={createPending} />
-
 			</div>
 		</>
 	);

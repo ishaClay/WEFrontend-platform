@@ -1,13 +1,11 @@
-
-
-
-import  { useState } from 'react';
-import { FaStar } from 'react-icons/fa';
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { useState } from "react";
+import { FaStar } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 
 function CourseViewAllocatePopup() {
-	const [employees, setEmployees] = useState([
+	const [employees] = useState([
 		{
 			id: 1,
 			name: "Employee Name1",
@@ -40,12 +38,10 @@ function CourseViewAllocatePopup() {
 		},
 	]);
 
-   
-
-    // const handleSliderChange = (event) => {
-    //     setSliderValue(event.target.value);
-    //     // You can add logic here to handle slider value changes
-    // };
+	// const handleSliderChange = (event) => {
+	//     setSliderValue(event.target.value);
+	//     // You can add logic here to handle slider value changes
+	// };
 
 	const handleInviteEmployee = () => {
 		// Logic to invite selected employees
@@ -172,7 +168,7 @@ function CourseViewAllocatePopup() {
 						<input
 							type="checkbox"
 							className="h-[18px] w-[18px] rounded ml-[5px] mr-[5px]"
-							onChange={handleSelectAll}
+							onChange={() => {}}
 						/>
 					</div>
 				</div>
@@ -190,7 +186,7 @@ function CourseViewAllocatePopup() {
 								<input
 									type="checkbox"
 									checked={employee.selected}
-									onChange={() => handleSelectEmployee(employee.id)}
+									onChange={() => {}}
 									className="ml-[520px]  h-[18px] w-[18px] rounded"
 								/>
 							</div>

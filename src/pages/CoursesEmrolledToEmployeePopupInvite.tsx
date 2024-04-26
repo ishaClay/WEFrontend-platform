@@ -21,7 +21,6 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		console.log("Form submitted:", formData);
 		setFormData({
 			firstName: "",
 			lastName: "",
