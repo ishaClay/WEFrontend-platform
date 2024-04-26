@@ -1,3 +1,22 @@
+import Footer from "@/components/Footer";
+import Question from "@/components/comman/Question";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+	setActivePillar,
+	setPillarName,
+	setQuestion,
+} from "@/redux/reducer/QuestionReducer";
+import { fetchPillarList } from "@/services/apiServices/pillar";
+import { fetchQuestionList } from "@/services/apiServices/question";
+import { Pillar } from "@/types/Pillar";
+import { QuestionType } from "@/types/Question";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
@@ -5,33 +24,20 @@ import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
+import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-// import Light from "/assets/img/Light On.png";
-// import Morale from "/assets/img/Morale.png";
-// import Neighbour from "/assets/img/Neighbour.png";
-// import PathSteps from "/assets/img/Path Steps.png";
-// import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
-// import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
-import Footer from "@/components/Footer";
-import Question from "@/components/comman/Question";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { QUERY_KEYS } from "@/lib/constants";
-import { fetchPillarList } from "@/services/apiServices/pillar";
-import { fetchQuestionList } from "@/services/apiServices/question";
-import { Pillar } from "@/types/Pillar";
-import { useQuery } from "@tanstack/react-query";
-import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import ProgressIndicator from "/assets/img/ProgressIndicator.png";
-import { Fragment, useEffect, useState } from "react";
-import { QuestionType } from "@/types/Question";
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const [activePillar, setActivePillar] = useState<string>("");
+	const { activePillar, allPillar } = useSelector(
+		(state: any) => state.question
+	);
+	const question = useSelector((state: any) => state.question);
+
+	const [totalQuestions, setTotalQuestions] = useState(0);
 
 	const { data: pillarList } = useQuery({
 		queryKey: [QUERY_KEYS.pillarList],
@@ -39,8 +45,17 @@ const QuestionPage = () => {
 	});
 
 	useEffect(() => {
+		const pillarName = pillarList?.data?.data?.map(
+			(i: Pillar) => i?.pillarName
+		);
+		if (pillarName?.length) {
+			dispatch(setPillarName(pillarName));
+		}
+	}, [pillarList?.data?.data]);
+
+	useEffect(() => {
 		if (!activePillar) {
-			setActivePillar(pillarList?.data?.data[0]?.pillarName);
+			dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
 		}
 	}, [pillarList?.data?.data]);
 
@@ -48,6 +63,14 @@ const QuestionPage = () => {
 		queryKey: [QUERY_KEYS.questionList],
 		queryFn: () => fetchQuestionList("6"),
 	});
+
+	useEffect(() => {
+		allPillar?.forEach((i: string) => {
+			if (questionList?.data?.data) {
+				dispatch(setQuestion({ q: questionList?.data?.data?.[i], p: i }));
+			}
+		});
+	}, [allPillar?.length, questionList?.data?.data]);
 
 	const paths = [
 		{
@@ -82,32 +105,13 @@ const QuestionPage = () => {
 		},
 	];
 
-	const progressbar = [
-		{
-			category: "Environment",
-			questionAttemps: [1, 1, 1, 1, 1],
-		},
-		{
-			category: "Social",
-			questionAttemps: [1, 0, 1, 0, 0],
-		},
-		{
-			category: "Economic",
-			questionAttemps: [0, 0, 0, 0, 0],
-		},
-		{
-			category: "Governance",
-			questionAttemps: [0, 1, 1, 0, 0],
-		},
-		{
-			category: "Technology & Innovation",
-			questionAttemps: [0, 1, 1, 1, 0],
-		},
-		{
-			category: " Strategic Integration",
-			questionAttemps: [0, 1, 1, 0, 0],
-		},
-	];
+	useEffect(() => {
+		setTotalQuestions(0);
+		allPillar?.forEach((i: string) => {
+			question[i]?.length &&
+				setTotalQuestions((prev) => +prev + question[i]?.length);
+		});
+	}, [allPillar?.length, question]);
 
 	return (
 		<div className="font-calibri font-normal">
@@ -186,7 +190,7 @@ const QuestionPage = () => {
 										? "bg-[#64A70B]"
 										: "bg-[#EDF0F4]"
 								}`}
-								onClick={() => setActivePillar(category.pillarName)}>
+								onClick={() => dispatch(setActivePillar(category.pillarName))}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
 										<div className="w-8 h-8">
@@ -250,15 +254,7 @@ const QuestionPage = () => {
 			<form>
 				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
 					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
-						{questionList?.data?.data?.[activePillar]?.map(
-							(question: QuestionType, index: number, arr: QuestionType[]) => {
-								return (
-									<Fragment key={index}>
-										<Question question={question} index={index} arr={arr} />
-									</Fragment>
-								);
-							}
-						)}
+						<Question />
 					</div>
 					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
 						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
@@ -266,7 +262,7 @@ const QuestionPage = () => {
 						</h2>
 						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
 							<span className="ml-[18px] text-teal">Attempted</span>
-							<p className="text-teal">0/5</p>
+							<p className="text-teal">0/{question?.[activePillar]?.length}</p>
 							<img
 								src={ProgressIndicator}
 								alt="progressbar"
@@ -278,39 +274,35 @@ const QuestionPage = () => {
 						<div className="ml-[14px] mt-[17px] w-[267px]">
 							<div className="flex items-center justify-between font-bold	">
 								<span>Attempted</span>
-								<p>14/30</p>
+								<p>0/{totalQuestions}</p>
 								<span className="mr-2">
 									<IoIosArrowDown className="w-[14px] h-[14px]" />
 								</span>
 							</div>
 							<div className="font-normal text-[#3a3a3a]">
-								{(questionList?.data?.data
-									? Object.keys(questionList?.data?.data)
-									: []
-								).map((category, index: number) => {
-									const categoryData =
-										questionList?.data?.data?.[category] || [];
+								{allPillar.map((category: string, index: number) => {
 									return (
 										<div className="flex mt-3" key={index}>
 											<div
 												className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-													progressbar.length - 1 !== index &&
+													index !== allPillar.length - 1 &&
 													"border-b border--solid border-[#EAEAEA]"
 												}`}>
 												<p>{category}</p>
 												<div className="flex gap-[10px]">
 													<div className="flex gap-1">
-														{categoryData.map(
-															(question: QuestionType, index: number) => {
-																console.log("question", question);
+														{Array.isArray(question[category]) &&
+															question[category]?.map(
+																(i: QuestionType, index: number) => {
+																	console.log("i", i);
 
-																return (
-																	<p
-																		key={index}
-																		className={`w-3 h-3 bg-[#ffffff]`}></p>
-																);
-															}
-														)}
+																	return (
+																		<p
+																			key={index}
+																			className={`w-3 h-3 bg-[#D8D0D0]`}></p>
+																	);
+																}
+															)}
 													</div>
 												</div>
 											</div>

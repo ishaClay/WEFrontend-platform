@@ -10,7 +10,7 @@ import {
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { setCompanyData } from "@/redux/reducer/UserReducer";
+import { setCompanyData } from "@/redux/reducer/CompanyReducer";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";

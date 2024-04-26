@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
-import UserReducer from './reducer/UserReducer';
+import CompanyReducer from './reducer/CompanyReducer';
+import QuestionReducer from './reducer/QuestionReducer';
 
 const persistConfig = {
     key: 'root',
     storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, UserReducer)
+const persistedReducer = persistReducer(persistConfig, CompanyReducer)
 
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     }),
     reducer: {
         company: persistedReducer,
+        question: QuestionReducer
     },
 })
 
