@@ -1,8 +1,8 @@
 import React, { ChangeEvent } from "react";
 
 interface SelectProps {
-	value: string;
-	onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
+	value?: string;
+	onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const SelectBox: React.FC<SelectProps> = ({ value, onChange }) => {

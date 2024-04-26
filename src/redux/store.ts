@@ -6,16 +6,17 @@ import UserReducer from './reducer/UserReducer';
 const persistConfig = {
     key: 'root',
     storage,
-}
+};
 
 const persistedReducer = persistReducer(persistConfig, UserReducer)
+
 
 export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
     }),
     reducer: {
-        user: persistedReducer,
+        company: persistedReducer,
     },
 })
 

@@ -5,6 +5,7 @@ interface InputProps {
 	className?: string;
 	symbol?: React.ReactNode;
 	onClick?: () => void;
+	type?: "button" | "submit" | "reset" | undefined;
 }
 
 export const PrimaryButton: React.FC<InputProps> = ({ name, className, symbol, onClick }) => {

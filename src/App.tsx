@@ -38,6 +38,7 @@ import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadm
 import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
 import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
 import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
+import CompanyRegister from "./pages/CompanyRegister";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -48,13 +49,14 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/registertrainee" element={<RegisterTrainee />} />
 				<Route path="/company" element={<Company />} />
+				<Route path="/companyregister" element={<CompanyRegister />} />
 				<Route path="/assessment" element={<Assessment />} />
-				<Route path="/question" element={<QuestionPage />} />
+				<Route path="/questions" element={<QuestionPage />} />
 				<Route path="/maturelevel" element={<MaturityLevelPage />} />
 				<Route path="/teaserscore" element={<TeaserScore />} />
-				<Route path="/selectlevel" element={<SelectLevel />} />	
-		    	<Route path="/maturitylevelactionitem" element={<MaturityLevelActionItem />} />
-                <Route path="/maturitylevelactionablepopup" element={<MaturityLevelActionableMeasurePopup />} />
+				<Route path="/selectlevel" element={<SelectLevel />} />
+				<Route path="/maturitylevelactionitem" element={<MaturityLevelActionItem />} />
+				<Route path="/maturitylevelactionablepopup" element={<MaturityLevelActionableMeasurePopup />} />
 				<Route path="/maturitylevelanswerspopup" element={<MaturityLevelAnswersPopup />} />
 				<Route path="/coursesrecommended" element={<CoursesRecommended />} />
 				<Route path="/savedassesment" element={<SavedAssesment />} />
@@ -68,7 +70,7 @@ function App() {
 				<Route path="/employeesendinvitation" element={<EmployeeSendInvitation />} />
 				<Route path="/trainingdocument" element={<TrainingDocument />} />
 				<Route path="/supportticket" element={<SupportTicket />} />
-				<Route path="/supportdetails" element={<SupportDetails />} />
+				{/* <Route path="/supportdetails" element={<SupportDetails />} /> */}
 				<Route path="/supportanswer" element={<SupportAnswer />} />
 				<Route path="/supportaddnewticket" element={<SupportAddNewTicket />} />
 				<Route path="/employeepermission" element={<EmployeePermission />} />
@@ -80,7 +82,7 @@ function App() {
 				<Route path="/maturityassessmentroadmap" element={<MaturityAssessmentRoadmapAfterbuild />} />
 				<Route path="/maturityassessmentroadmaphistory" element={<MaturityAssessmentRoadmapHistory />} />
 				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
-				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
+				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem />} />
 			</Routes>
 		</div>
 	);

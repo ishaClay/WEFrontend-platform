@@ -1,14 +1,10 @@
 import HeaderCourse from "@/components/HeaderCourse";
 
-import HeaderCourse from "@/components/HeaderCourse"
-
-import { FiFile, FiVideo } from 'react-icons/fi';
-
+import { FiFile, FiVideo } from "react-icons/fi";
+import FaqsListSidebar from "@/components/FaqsListSidebar";
 
 import { VscFilePdf } from "react-icons/vsc";
-import React, { useState } from 'react';
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-
+import React, { useState } from "react";
 
 function SupportDetails() {
 	const [assignedTo, setAssignedTo] = useState<string>("");
@@ -34,22 +30,19 @@ function SupportDetails() {
 	return (
 		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
 			<div className=" w-[235px] h-[760px]">
-				<EmployeeListSidebar />
+				<FaqsListSidebar />
 			</div>
 			<div className="flex flex-col  ">
 				<div className="w-[1204px] h-[120px] ">
 					<HeaderCourse />
 				</div>
 
-    return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
-            <div className=" w-[235px] h-[160px]">
-                <EmployeeListSidebar />
-            </div>
-            <div className="flex flex-col">
-                <div className="w-[1204px] h-[120px] ">
-                    <HeaderCourse />
-                </div>
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1490px] m-[12px] rounded-t-[10px]">
+					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
+						<p className="text-[#000000] text-[Calibri] font-bold">
+							Ticket Details
+						</p>
+					</div>
 
 					<div className="flex justify-between">
 						<div className="flex p-6">

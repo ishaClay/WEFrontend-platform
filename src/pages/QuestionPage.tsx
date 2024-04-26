@@ -19,21 +19,41 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchPillarList } from "@/services/apiServices/pillar";
+import { fetchQuestionList } from "@/services/apiServices/question";
 import { Pillar } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import ProgressIndicator from "/assets/img/ProgressIndicator.png";
+import { Fragment, useEffect, useState } from "react";
+import { QuestionType } from "@/types/Question";
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
+
+	const [activePillar, setActivePillar] = useState<string>("");
+	console.log("activePillar", activePillar);
 
 	const { data: pillarList } = useQuery({
 		queryKey: [QUERY_KEYS.pillarList],
 		queryFn: () => fetchPillarList(),
 	});
 
-	console.log("pillarList", pillarList);
+	useEffect(() => {
+		if (!activePillar) {
+			setActivePillar(pillarList?.data?.data[0]?.pillarName);
+		}
+	}, [pillarList?.data?.data]);
+
+	const { data: questionList } = useQuery({
+		queryKey: [QUERY_KEYS.questionList],
+		queryFn: () => fetchQuestionList("6"),
+	});
+
+	console.log(
+		"questionList?.data?.data?.activePillar",
+		Object.keys(questionList?.data?.data || {})
+	);
 
 	const paths = [
 		{
@@ -67,166 +87,7 @@ const QuestionPage = () => {
 			status: "pending",
 		},
 	];
-	// const categorys = [
-	// 	{
-	// 		title: "Environment",
-	// 		progress: "0/5",
-	// 		icon: TreePlantingBlack,
-	// 		percentange: 0,
-	// 		active: true,
-	// 	},
-	// 	{
-	// 		title: "Social",
-	// 		progress: "1/5",
-	// 		icon: Neighbour,
-	// 		percentange: 20,
-	// 	},
-	// 	{
-	// 		title: "Economic",
-	// 		progress: "2/5",
-	// 		icon: WeakFinancialGrowth,
-	// 		percentange: 40,
-	// 	},
-	// 	{
-	// 		title: "Governance",
-	// 		progress: "3/5",
-	// 		icon: Morale,
-	// 		percentange: 60,
-	// 	},
-	// 	{
-	// 		title: "Technology & Innovation",
-	// 		progress: "4/5",
-	// 		icon: Light,
-	// 		percentange: 80,
-	// 	},
-	// 	{
-	// 		title: " Strategic Integration",
-	// 		progress: "5/5",
-	// 		icon: PathSteps,
-	// 		percentange: 100,
-	// 	},
-	// ];
-	const questions = [
-		{
-			category: "Environment",
-			no: "1",
-			question:
-				"How aware is your organisation of the concept and importance of achieving Net Zero emissions by 2050.",
-			options: [
-				{
-					optionid: "1",
-					option: "Not aware, or aware but taking no action",
-				},
-				{
-					optionid: "2",
-					option:
-						"Moderately aware and proactive, but with some knowledge gaps and steps taken towards implementation of a plan",
-				},
-				{
-					optionid: "3",
-					option:
-						"Very aware and proactive, with a good understanding of Net Zero goals and a well-executed action plan",
-				},
-			],
-			hint: true,
-		},
-		{
-			category: "Environment",
-			no: "2",
-			question:
-				"How does your organisation approach energy management and conduct energy assessments",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We do not monitor energy consumption or focus on energy efficiency, and we have not conducted ",
-				},
-				{
-					optionid: "2",
-					option:
-						"We monitor energy consumption and implement energy-saving measures",
-				},
-				{
-					optionid: "3",
-					option:
-						"We systematically track and optimise energy consumption and efficiency, complemented by regular energy assessments and audits to identify, and capitalise on energy-saving opportunities.",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "3",
-			question:
-				"A. How does your business approach waste management to reduce environmental impact and promote sustainability",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We have no specific waste management policy or practices in place",
-				},
-				{
-					optionid: "2",
-					option:
-						"We actively manage waste, recycling, across various processes, but there is room for improvement",
-				},
-				{
-					optionid: "3",
-					option:
-						" We have a comprehensive waste management policy and plan with a focus on minimising waste generation, promoting recycling, and implementing circular economy practices.",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "4",
-			question:
-				"To what extent has your organisation evaluated and acted upon incorporating renewable energy systems",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We have not yet considered or explored the possibility of incorporating renewable energy into our business",
-				},
-				{
-					optionid: "2",
-					option:
-						"We have started to assess the potential of renewable energy systems but have not made any definitive plans ",
-				},
-				{
-					optionid: "3",
-					option:
-						"We have extensively incorporated renewable energy systems into our business",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "5",
-			question:
-				"How do you manage transportation and logistics to minimise environmental impacts, track and report emissions",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We do not consider environmental impacts or track emissions of our transportation and logistics",
-				},
-				{
-					optionid: "2",
-					option:
-						"We make some efforts to track and report transportation and logistics, to optimise and reduce emissions",
-				},
-				{
-					optionid: "3",
-					option:
-						"We have a comprehensive optimisation strategy to minimise environmental and social impact.",
-				},
-			],
-			hint: false,
-		},
-	];
+
 	const progressbar = [
 		{
 			category: "Environment",
@@ -326,35 +187,44 @@ const QuestionPage = () => {
 						return (
 							<div
 								key={index}
-								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center ${
-									category.active ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-								}`}>
+								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category.pillarName
+									? "bg-[#64A70B]"
+									: "bg-[#EDF0F4]"
+									}`}
+								onClick={() => setActivePillar(category.pillarName)}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
-										<img
-											src={category.icon}
-											alt="img"
-											className="w-8 h-8 object-cover"
-										/>
+										<div className="w-8 h-8">
+											{category.icon && (
+												<img
+													src={category.icon}
+													alt="img"
+													className="w-8 h-8 object-cover"
+												/>
+											)}
+										</div>
 										<p
-											className={`text-nowrap ${
-												category.active ? "text-white" : "text-[#848181]"
-											}`}>
+											className={`text-nowrap ${activePillar === category.pillarName
+												? "text-white"
+												: "text-[#848181]"
+												}`}>
 											{" "}
 											{(index / (pillarList?.data?.data.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
 										<h2
-											className={`leading-[19px] ${
-												category.active ? "text-white" : "#3A3A3A"
-											}`}>
+											className={`leading-[19px] ${activePillar === category.pillarName
+												? "text-white"
+												: "#3A3A3A"
+												}`}>
 											{category.pillarName}
 										</h2>
 										<p
-											className={`text-[12px] leading-[14.65px] ${
-												category.active ? "text-white" : "text-[#848181]"
-											}`}>
+											className={`text-[12px] leading-[14.65px] ${activePillar === category.pillarName
+												? "text-white"
+												: "text-[#848181]"
+												}`}>
 											My progress {index} / {pillarList?.data?.data.length - 1}
 										</p>
 									</div>
@@ -368,7 +238,8 @@ const QuestionPage = () => {
 									step={1}
 									className="bg-red-50"
 									classNameThumb="hidden"
-									classNameRange={`${!category.active && "!bg-[#64A70B]"}`}
+									classNameRange={`${!(activePillar === category.pillarName) && "!bg-[#64A70B]"
+										}`}
 									disabled
 								/>
 							</div>
@@ -376,74 +247,83 @@ const QuestionPage = () => {
 					})}
 				</div>
 			</div>
-			<div className="mt-[89px] ml-[177px] flex ">
-				<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]">
-					{questions.map((question, index: number) => {
-						return <Question question={question} key={index} />;
-					})}
-				</div>
-				<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
-					<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
-						Current Progress
-					</h2>
-					<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
-						<span className="ml-[18px] text-teal">Attempted</span>
-						<p className="text-teal">0/5</p>
-						<img
-							src={ProgressIndicator}
-							alt="progressbar"
-							width={24}
-							height={24}
-							className="mr-[34px]"
-						/>
-					</div>
-					<div className="ml-[14px] mt-[17px] w-[267px]">
-						<div className="flex items-center justify-between font-bold	">
-							<span>Attempted</span>
-							<p>14/30</p>
-							<span className="mr-2">
-								<IoIosArrowDown className="w-[14px] h-[14px]" />
-							</span>
-						</div>
-						<div className="font-normal text-[#3a3a3a]">
-							{progressbar.map((category, index: number) => {
+
+			<form>
+				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
+					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
+						{questionList?.data?.data?.[activePillar]?.map(
+							(question: QuestionType, index: number, arr: QuestionType[]) => {
 								return (
-									<div className="flex mt-3" key={index}>
-										<div
-											className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-												progressbar.length - 1 !== index &&
-												"border-b border--solid border-[#EAEAEA]"
-											}`}>
-											<p>{category.category}</p>
-											<div className="flex gap-[10px]">
-												<div className="flex gap-1">
-													{category.questionAttemps.map(
-														(question, index: number) => {
+									<Fragment key={index}>
+										<Question question={question} index={index} arr={arr} />
+									</Fragment>
+								);
+							}
+						)}
+					</div>
+					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
+						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
+							Current Progress
+						</h2>
+						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+							<span className="ml-[18px] text-teal">Attempted</span>
+							<p className="text-teal">0/5</p>
+							<img
+								src={ProgressIndicator}
+								alt="progressbar"
+								width={24}
+								height={24}
+								className="mr-[34px]"
+							/>
+						</div>
+						<div className="ml-[14px] mt-[17px] w-[267px]">
+							<div className="flex items-center justify-between font-bold	">
+								<span>Attempted</span>
+								<p>14/30</p>
+								<span className="mr-2">
+									<IoIosArrowDown className="w-[14px] h-[14px]" />
+								</span>
+							</div>
+							<div className="font-normal text-[#3a3a3a]">
+								{(questionList?.data?.data ? Object.keys(questionList?.data?.data) : []).map((category, index: number) => {
+									console.log("questionList?.data?.data?.category", questionList?.data?.data);
+
+									const categoryData = questionList?.data?.data?.[category] || []; // Handle null or undefined case
+									return (
+										<div className="flex mt-3" key={index}>
+											<div className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${progressbar.length - 1 !== index && "border-b border--solid border-[#EAEAEA]"}`}>
+												<p>{category}</p>
+												<div className="flex gap-[10px]">
+													<div className="flex gap-1">
+														{categoryData.map((question, index: number) => {
+															console.log("question", question);
+
 															return (
-																<p
-																	key={index}
-																	className={`w-3 h-3 ${
-																		question ? "bg-[#64A70B]" : "bg-[#D8D0D0]"
-																	}`}></p>
+																<p key={index} className={`w-3 h-3 bg-[#ffffff]`}>
+																</p>
 															);
-														}
-													)}
+														})}
+													</div>
 												</div>
 											</div>
+											<span className="mr-2 ml-[11px] mt-[10px]">
+												<IoIosArrowDown className="w-[14px] h-[14px]" />
+											</span>
 										</div>
-										<span className="mr-2 ml-[11px] mt-[10px]">
-											<IoIosArrowDown className="w-[14px] h-[14px]" />
-										</span>
-									</div>
-								);
-							})}
+									);
+								})}
+							</div>
+
+
+							<Button className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+								onClick={() => navigate("/companyregister")}
+							>
+								Submit & Continue
+							</Button>
 						</div>
-						<Button className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]">
-							Submit & Continue
-						</Button>
 					</div>
 				</div>
-			</div>
+			</form>
 
 			<div className="mt-[238px]">
 				<Footer />
