@@ -1,9 +1,11 @@
+import { setAnswer } from "@/redux/reducer/QuestionReducer";
 import { Option, QuestionType } from "@/types/Question";
-import { useSelector } from "react-redux";
-// import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { useDispatch, useSelector } from "react-redux";
 import Suggestion from "/assets/img/Suggestion.png";
 
 const Question = () => {
+	const dispatch = useDispatch();
+
 	const question = useSelector((state: any) => state.question);
 	const { activePillar } = useSelector((state: any) => state.question);
 
@@ -20,39 +22,31 @@ const Question = () => {
 									{index + 1}. {i.title}
 								</h2>
 							</div>
-							{/* <RadioGroup
-								defaultValue=""
-								className="mt-[21px] flex flex-col gap-[17px] px-10">
-								{i.options.map((option: Option) => (
-									<div key={option.optionId} className="flex items-start">
-										<RadioGroupItem
-											value={option.optionId}
-											id={option.optionId}
-											className="border-[#EAE5E5] text-[#64A70B] mt-[3px]"
-										/>
-										<p className="overflow-hidden text-wrap w-full whitespace-nowrap max-w-[632px] ml-2">
-											{option.name}
-										</p>
-									</div>
-								))}
-							</RadioGroup> */}
 							<div className="mt-[21px] flex flex-col gap-[17px] px-10">
-								{i.options.map((option: Option) => (
-									<div className="flex items-center">
+								{i.options.map((option: Option, oIndex: number) => {
+									return (
 										<div>
-											<input
-												type="radio"
-												name={option.optionId}
-												id={option.optionId}
-												value={option.optionId}
-												className="border-[#EAE5E5] text-[#64A70B]"
-											/>
+											<div
+												className="inline-flex items-center cursor-pointer"
+												onClick={() => {
+													dispatch(
+														setAnswer({
+															qId: index,
+															oId: oIndex,
+															isChecked: !option?.checked,
+														})
+													);
+												}}>
+												<input
+													type="radio"
+													className=" cursor-pointer"
+													checked={option?.checked}
+												/>
+												<span className="ml-[9px]">{option.name}</span>
+											</div>
 										</div>
-										<span className="overflow-hidden text-wrap w-full whitespace-nowrap max-w-[632px] ml-2">
-											{option.name}
-										</span>
-									</div>
-								))}
+									);
+								})}
 							</div>
 
 							<div className="absolute flex items-center justify-center top-0 left-0 bg-teal text-white w-[207.83px] h-[52.15px] rounded-br-[62.27px] font-bold text-[18px] leading-[21.97px]">

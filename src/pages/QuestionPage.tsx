@@ -38,6 +38,7 @@ const QuestionPage = () => {
 	const question = useSelector((state: any) => state.question);
 
 	const [totalQuestions, setTotalQuestions] = useState(0);
+	const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
 
 	const { data: pillarList } = useQuery({
 		queryKey: [QUERY_KEYS.pillarList],
@@ -54,7 +55,7 @@ const QuestionPage = () => {
 	}, [pillarList?.data?.data]);
 
 	useEffect(() => {
-		if (!activePillar) {
+		if (!activePillar && pillarList?.data?.data) {
 			dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
 		}
 	}, [pillarList?.data?.data]);
@@ -106,12 +107,38 @@ const QuestionPage = () => {
 	];
 
 	useEffect(() => {
-		setTotalQuestions(0);
-		allPillar?.forEach((i: string) => {
-			question[i]?.length &&
-				setTotalQuestions((prev) => +prev + question[i]?.length);
+		let totalQuestions = 0;
+		let totalAttemptedQuestions = 0;
+
+		allPillar?.forEach((pillar: string) => {
+			const pillarQuestions = question[pillar];
+			if (pillarQuestions && pillarQuestions.length > 0) {
+				totalQuestions += pillarQuestions.length;
+				totalAttemptedQuestions += pillarQuestions.filter((que: QuestionType) =>
+					que.options.some((opt) => opt.checked)
+				).length;
+			}
 		});
+
+		setTotalQuestions(totalQuestions);
+		setTotalAttemptedQuestions(totalAttemptedQuestions);
 	}, [allPillar?.length, question]);
+
+	const currentAttemptedTotal = Array.isArray(question?.[activePillar])
+		? question[activePillar].filter((que: QuestionType) =>
+				que.options.some((opt) => opt.checked)
+		  ).length
+		: 0;
+
+	const handleSubmit = (event: any) => {
+		event.preventDefault();
+		let allQueAns: any = {};
+		allPillar.forEach((pillar: string) => {
+			allQueAns[pillar] = question[pillar];
+		});
+		console.log("allQueAns", allQueAns);
+		navigate("/teaserscore");
+	};
 
 	return (
 		<div className="font-calibri font-normal">
@@ -181,67 +208,62 @@ const QuestionPage = () => {
 			</div>
 			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
 				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-					{pillarList?.data?.data.map((category: Pillar, index: number) => {
+					{allPillar.map((category: string, index: number) => {
 						return (
 							<div
 								key={index}
 								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
-									activePillar === category.pillarName
-										? "bg-[#64A70B]"
-										: "bg-[#EDF0F4]"
+									activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
 								}`}
-								onClick={() => dispatch(setActivePillar(category.pillarName))}>
+								onClick={() => dispatch(setActivePillar(category))}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
 										<div className="w-8 h-8">
-											{category.icon && (
+											{/* {category.icon && (
 												<img
 													src={category.icon}
 													alt="img"
 													className="w-8 h-8 object-cover"
 												/>
-											)}
+											)} */}
 										</div>
 										<p
 											className={`text-nowrap ${
-												activePillar === category.pillarName
+												activePillar === category
 													? "text-white"
 													: "text-[#848181]"
 											}`}>
-											{" "}
-											{(index / (pillarList?.data?.data.length - 1)) * 100} %
+											{(index / (allPillar.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
 										<h2
 											className={`leading-[19px] ${
-												activePillar === category.pillarName
+												activePillar === category
 													? "text-white"
-													: "#3A3A3A"
+													: "text-[#3A3A3A]"
 											}`}>
-											{category.pillarName}
+											{category}
 										</h2>
 										<p
 											className={`text-[12px] leading-[14.65px] ${
-												activePillar === category.pillarName
+												activePillar === category
 													? "text-white"
 													: "text-[#848181]"
 											}`}>
-											My progress {index} / {pillarList?.data?.data.length - 1}
+											My progress {index} / {allPillar.length - 1}
 										</p>
 									</div>
 								</div>
 
 								<Slider
-									defaultValue={[
-										(index / (pillarList?.data?.data.length - 1)) * 100,
-									]}
+									defaultValue={[(index / (allPillar.length - 1)) * 100]}
 									max={100}
 									step={1}
 									className="bg-red-50"
 									classNameThumb="hidden"
 									classNameRange={`${
-										!(activePillar === category.pillarName) && "!bg-[#64A70B]"
+										!(activePillar === category) && "!bg-[#64A70B]"
 									}`}
 									disabled
 								/>
@@ -262,7 +284,9 @@ const QuestionPage = () => {
 						</h2>
 						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
 							<span className="ml-[18px] text-teal">Attempted</span>
-							<p className="text-teal">0/{question?.[activePillar]?.length}</p>
+							<p className="text-teal">
+								{currentAttemptedTotal}/{question?.[activePillar]?.length}
+							</p>
 							<img
 								src={ProgressIndicator}
 								alt="progressbar"
@@ -274,7 +298,9 @@ const QuestionPage = () => {
 						<div className="ml-[14px] mt-[17px] w-[267px]">
 							<div className="flex items-center justify-between font-bold	">
 								<span>Attempted</span>
-								<p>0/{totalQuestions}</p>
+								<p>
+									{totalAttemptedQuestions}/{totalQuestions}
+								</p>
 								<span className="mr-2">
 									<IoIosArrowDown className="w-[14px] h-[14px]" />
 								</span>
@@ -294,12 +320,16 @@ const QuestionPage = () => {
 														{Array.isArray(question[category]) &&
 															question[category]?.map(
 																(i: QuestionType, index: number) => {
-																	console.log("i", i);
-
 																	return (
 																		<p
 																			key={index}
-																			className={`w-3 h-3 bg-[#D8D0D0]`}></p>
+																			className={`w-3 h-3 ${
+																				i.options.some(
+																					(o) => o?.checked === true
+																				)
+																					? "bg-[#64A70B]"
+																					: "bg-[#D8D0D0]"
+																			}`}></p>
 																	);
 																}
 															)}
@@ -316,7 +346,7 @@ const QuestionPage = () => {
 
 							<Button
 								className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
-								onClick={() => navigate("/companyregister")}>
+								onClick={handleSubmit}>
 								Submit & Continue
 							</Button>
 						</div>

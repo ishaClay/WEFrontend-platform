@@ -4,6 +4,7 @@ export interface Option {
     name: string;
     point: number;
     optionId: string;
+    checked?: boolean;
 }
 
 export interface QuestionType {

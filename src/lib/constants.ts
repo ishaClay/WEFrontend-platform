@@ -7,4 +7,5 @@ export const QUERY_KEYS = {
     questionList: "question_list",
     companyList: "company_list",
     oneCompany: "one_company",
+    assessment: "assessment",
 };

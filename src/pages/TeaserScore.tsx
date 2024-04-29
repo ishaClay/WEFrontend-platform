@@ -7,8 +7,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchAssessment } from "@/services/apiServices/assessment";
+import { useQuery } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -46,6 +50,14 @@ const findMaturityLevel = (score: number) => {
 const currentLavel = findMaturityLevel(score);
 
 const TeaserScore = () => {
+	const navigate = useNavigate();
+
+	const { data: assessmant } = useQuery({
+		queryKey: [QUERY_KEYS.assessment],
+		queryFn: () => fetchAssessment("5"),
+	});
+	console.log("assessmant", assessmant?.data?.data);
+
 	const data = {
 		labels: [currentLavel?.maturityLevelName],
 		datasets: [
@@ -159,7 +171,9 @@ const TeaserScore = () => {
 										🚀
 										<br />
 									</p>
-									<button className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4">
+									<button
+										className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4"
+										onClick={() => navigate("/companyregister")}>
 										Complete your Registration
 									</button>
 								</div>

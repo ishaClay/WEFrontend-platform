@@ -41,7 +41,7 @@ function Register() {
 		mutationFn: (company: Company) => createCompany(company),
 		onSuccess: async (data) => {
 			dispatch(setCompanyData(data?.data?.data?.user.id));
-
+			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
 			});
@@ -226,7 +226,6 @@ function Register() {
 									<div className=" mt-[20px] flex gap-x-[40px]">
 										<button
 											type="submit"
-											onClick={() => setShowOtpPopup(true)}
 											className="w-[480px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
 											Get OTP
 										</button>
@@ -235,7 +234,7 @@ function Register() {
 							</div>
 						</div>
 					) : (
-						<div className="w-[700px] ">
+						<div className="w-[700px]">
 							<div className="w-[600px] h-[524px] relative mt-[142px] ml-[91px]">
 								<h3 className="font-[700] text-[24px] font-[UniNeue]">
 									Setting sail on your sustainability voyage

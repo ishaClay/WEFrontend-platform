@@ -17,10 +17,14 @@ export const QuestionSlice = createSlice({
         },
         setQuestion: (state: any, action) => {
             state[action.payload.p] = action.payload.q
+        },
+        setAnswer: (state: any, action) => {
+            state[state.activePillar][action.payload.qId].options[action.payload.oId].checked = action.payload.isChecked
         }
+
     },
 });
 
-export const { setPillarName, setActivePillar, setQuestion } = QuestionSlice.actions;
+export const { setPillarName, setActivePillar, setQuestion, setAnswer } = QuestionSlice.actions;
 
 export default QuestionSlice.reducer;
