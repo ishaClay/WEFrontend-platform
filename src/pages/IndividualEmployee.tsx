@@ -12,17 +12,17 @@ function IndividualEmployee() {
 
 
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[1500px] gap-1 overflow-hidden">
-            <div className=" w-[235px] h-[760px]">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[1500px]  overflow-hidden">
+            <div className="">
                 <EmployeeListSidebar />
             </div>
             <div className="flex flex-col">
-                <div className="w-[1204px] h-[120px] ">
+                <div className="">
                     <HeaderCourse />
                 </div>
 
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[930px] m-[12px] rounded-t-[10px] ">
+                <div className="bg-[#FFFFFF] w-[1250px] h-[1230px] m-[12px] rounded-t-[10px] ">
                     <div className="  w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] gap-[100px] flex rounded-t-[10px]  ">
 
                         <div className='h-38px w-[143px] bg-[#FFFFFF] ml-6'>

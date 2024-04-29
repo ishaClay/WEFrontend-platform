@@ -39,17 +39,17 @@ function EmployeePermission() {
 		},
 	];
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[730px] gap-1 overflow-hidden">
-			<div className=" w-[235px] h-[760px]">
+		<div className="flex bg-[#f5f3ff] w-[1510px] h-[730px]  overflow-hidden">
+			<div className="">
 				<EmployeeListSidebar />
 			</div>
 			<div className="flex flex-col  ">
-				<div className="w-[1204px] h-[120px] ">
+				<div className="">
 					<HeaderCourse />
 				</div>
 
 				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
+					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
 							Team Member List
 						</p>

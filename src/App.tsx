@@ -38,6 +38,10 @@ import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadm
 import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
 import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
 import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
+import Dashbord from "./pages/Dashbord";
+import MaturityAssessmentRoadmapSetTarget from "./pages/MaturityAssessmentRoadmapSetTarget";
+import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
+import EmployeeDashbord from "./pages/EmployeeDashbord";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -81,6 +85,10 @@ function App() {
 				<Route path="/maturityassessmentroadmaphistory" element={<MaturityAssessmentRoadmapHistory />} />
 				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
 				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
+				<Route path="/dashbord" element={<Dashbord/>} />
+				<Route path="/maturityassessmentroadmapsettarget" element={<MaturityAssessmentRoadmapSetTarget/>} />
+				<Route path="/maturityassessmentresult" element={<MaturityAssessmentResult/>} />
+				<Route path="/employeedashbord" element={<EmployeeDashbord/>} />
 			</Routes>
 		</div>
 	);

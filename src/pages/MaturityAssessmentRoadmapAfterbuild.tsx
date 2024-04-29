@@ -6,6 +6,7 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BiCheckCircle, BiShow } from 'react-icons/bi';
 import Footer from "@/components/Footer";
 
+
 function MaturityAssessmentRoadmapAfterbuild() {
 
   const [activeTab, setActiveTab] = useState('Assessment Result');
@@ -19,26 +20,26 @@ function MaturityAssessmentRoadmapAfterbuild() {
   // };
 
   return (
-    <div className="flex bg-[#EDEFF9] w-[1510px] h-[1890px] gap-1 overflow-hidden">
-      <div className=" w-[235px] h-[1608px]">
+    <div className="flex bg-[#EDEFF9] w-[1510px] h-[1950px]  overflow-hidden">
+      <div className="">
         <EmployeeListSidebar />
       </div>
       <div className="flex flex-col">
-        <div className="w-[1204px] h-[120px] ">
+        <div className=" ">
           <HeaderCourse />
         </div>
         <div className="ml-[20px] mt-[15px]">
           <h1 className="text-[16px] font-bold">Re Assessment 2</h1>
           <p className="text-[12px] text-[#606060]">Completed Date: 12/03/2024</p>
         </div>
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1890px] m-[12px] rounded-t-[10px] ">
+        <div className="bg-[#FFFFFF] w-[1250px] h-[1950px] m-[12px] rounded-t-[10px] ">
 
 
           <div className=" w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px]">
 
             <div className="pt-[10px]">
               <button
-                className={`${activeTab === 'Assessment Result' ? '  text-[#00778B]  font-bold border-b border-[#00778B]' : ' text-[#000000] '
+                className={`${activeTab === 'Assessment Result' ? '  text-[#00778B]  font-semibold border-b border-[#00778B]' : ' text-[#000000] '
 
                   }  py-2 px-4  text-[16px] h-[49px]  `}
                 onClick={() => handleTabChange('Assessment Result')}
@@ -46,7 +47,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                 Assessment Result
               </button>
               <button
-                className={`${activeTab === 'Roadmap' ? 'text-[#00778B]  font-bold  border-b border-[#00778B]' : ' text-[#000000]'
+                className={`${activeTab === 'Roadmap' ? 'text-[#00778B]  font-semibold  border-b border-[#00778B]' : ' text-[#000000]'
                   }  py-2 px-4  text-[16px] h-[49px] `}
                 onClick={() => handleTabChange('Roadmap')}
               >
@@ -54,7 +55,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
               </button>
               <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[880px] ">Export</button>
             </div>
-            <div className="mt-4 p-4 ">
+            <div className="p-4">
               {activeTab === 'Assessment Result' && <div>Anurag</div>}
               {activeTab === 'Roadmap' &&
                 <div className="flex flex-col">
@@ -280,7 +281,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                           <div className="flex relative ml-[20px]">
 
 
-                            <div className="ml-[60px] text-[#1D2026] mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#FFD56A] h-[30px] w-[107px] flex items-center justify-center ">Intermediate</div>
+                            <div className="ml-[80px] text-[#1D2026] mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#FFD56A] h-[30px] w-[107px] flex items-center justify-center ">Intermediate</div>
                             <div className="absolute top-3 ml-[167px]  border-2 border-dashed border-[#A6A6A6] w-40 mt-5 ">
 
                               <svg className="absolute top-1/2 transform -translate-y-1/2 right-0  text-gray-700 mt-7 " xmlns="http://www.w3.org/2000/svg" width="85" height="85" viewBox="0 0 256 256" fill="#85B6FF">
@@ -457,7 +458,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                   <div className="ml-[200px] mt-[10px]">
                     <p className="text-[#64A70B] font-semibold">Keep up the fantastic work, and remember, every small step counts towards a brighter and more sustainable world! </p>
                   </div>
-                  <div className="">
+                  <div className="mt-[10px]">
                     <Footer/>
                   </div>
                 </div>

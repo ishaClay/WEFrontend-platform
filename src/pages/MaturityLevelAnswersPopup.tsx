@@ -102,11 +102,11 @@ function MaturityLevelAnswersPopup() {
 					<div className="flex gap-2">
 						<div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
 							<div className="text-xs font-bold">Question : 01</div>
-							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
 								{`Does your business have a clearly defined vision, mission, and values that reflect a commitment to sustainability and social responsibility?Equipment Sales Specialist`}
 							</div>
 
-							<div className="overflow-hidden h-6 mb-1 text-xs flex rounded-full bg-[#EDF0F4]">
+							<div className="overflow-hidden h-4  text-xs flex rounded-full bg-[#EDF0F4]">
 								<div
 									style={{ width: `${progress}%` }}
 									className="rounded-full bg-[#64A70B]"></div>
@@ -115,11 +115,11 @@ function MaturityLevelAnswersPopup() {
 
 						<div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
 							<div className="text-xs font-bold">Question : 02</div>
-							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
 								{`How does your business integrate sustainability into its overall business strategy and decision-making processes? `}
 							</div>
 
-							<div className="overflow-hidden h-4 mb-1 text-xs flex rounded-full bg-[#EDF0F4]">
+							<div className="overflow-hidden h-4  text-xs flex rounded-full bg-[#EDF0F4]">
 								<div
 									style={{ width: `${progress1}%` }}
 									className="rounded-full bg-[#F63636]"></div>
@@ -128,11 +128,11 @@ function MaturityLevelAnswersPopup() {
 
 						<div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
 							<div className="text-xs font-bold">Question : 03</div>
-							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
 								{`How well does your business align its strategy with United Nations Sustainable Development Goals (UNSDGs) or other recognised sustainability standards or goals?`}
 							</div>
 
-							<div className="overflow-hidden h-6 mb-1 text-xs flex rounded-full bg-[#EDF0F4]">
+							<div className="overflow-hidden h-4  text-xs flex rounded-full bg-[#EDF0F4]">
 								<div
 									style={{ width: `${progress2}%` }}
 									className="rounded-full bg-[#FFD56A]"></div>
@@ -143,11 +143,11 @@ function MaturityLevelAnswersPopup() {
 					<div className="flex gap-2 mt-[6px] h-[150px] w-[508px]">
 						<div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
 							<div className="text-xs font-bold">Question : 04</div>
-							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
 								{`How do you communicate your commitment to sustainability to your customers, clients, and the public?`}
 							</div>
 
-							<div className="overflow-hidden h-4 mb-1 text-xs flex rounded-full bg-[#EDF0F4]">
+							<div className="overflow-hidden h-4   text-xs flex rounded-full bg-[#EDF0F4]">
 								<div
 									style={{ width: `${progress3}%` }}
 									className="rounded-full bg-[#F63636]"></div>
@@ -156,11 +156,11 @@ function MaturityLevelAnswersPopup() {
 
 						<div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
 							<div className="text-xs font-bold">Question : 05</div>
-							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+							<div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
 								{`Does our business actively engage in collaborative efforts to influence policy and drive systemic changes that contribute to the global transition towards a sustainable future?`}
 							</div>
 
-							<div className="overflow-hidden h-6 mb-1 text-xs flex rounded-full bg-[#EDF0F4]">
+							<div className="overflow-hidden h-4  text-xs flex rounded-full bg-[#EDF0F4]">
 								<div
 									style={{ width: `${progress4}%` }}
 									className="rounded-full bg-[#F63636]"></div>
@@ -169,7 +169,7 @@ function MaturityLevelAnswersPopup() {
 					</div>
 
 					<div className="flex">
-						<button className="bg-green-500 text-white px-2 py-1 rounded-md text-sm w-[119px] h-[48px] ml-[650px] mt-4">
+						<button className="bg-green-500 text-white px-2 py-1 rounded-md text-[12px] w-[119px] h-[48px] ml-[650px] mt-4">
 							Close
 						</button>
 					</div>

@@ -48,7 +48,33 @@ function SelectLevel() {
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
   };
+ 
+  const [isChecked1, setIsChecked1] = useState(false);
 
+  const toggleCheckbox1 = () => {
+    setIsChecked1(!isChecked1);
+  };
+
+  const [isChecked2, setIsChecked2] = useState(false);
+
+  const toggleCheckbox2 = () => {
+    setIsChecked2(!isChecked2);
+  };
+  const [isChecked3, setIsChecked3] = useState(false);
+
+  const toggleCheckbox3 = () => {
+    setIsChecked3(!isChecked3);
+  };
+  const [isChecked4, setIsChecked4] = useState(false);
+
+  const toggleCheckbox4 = () => {
+    setIsChecked4(!isChecked4);
+  };
+  const [isChecked5, setIsChecked5] = useState(false);
+
+  const toggleCheckbox5 = () => {
+    setIsChecked5(!isChecked5);
+  };
 
 
   return (
@@ -107,7 +133,9 @@ function SelectLevel() {
 
       <div className="flex flex-col items-center h-full w-full ">
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B] ">
+
+
             <div className="flex h-8">
               <div className="bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter ">
@@ -185,7 +213,7 @@ function SelectLevel() {
 
               <div className="mt-8">
 
-                <button className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex  justify-between h-[40px] w-[150px] items-center mr-3">
+                <button className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex  justify-between h-[40px] w-[150px] items-center mr-3 ">
                   <span className="font-Calibri text-xs">Define Action Items</span>
 
                 </button>
@@ -194,7 +222,7 @@ function SelectLevel() {
           </div>
         </div>
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1127px] h-[212px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1127px] h-[212px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B] ">
             <div className="flex h-8">
               <div className="bg-[#EDF0F4] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter">
@@ -203,11 +231,11 @@ function SelectLevel() {
 
               </div>
               <div
-                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked1 ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                onClick={toggleCheckbox}
+                onClick={toggleCheckbox1}
               >
-                {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                {isChecked1 && <span className="text-white text-sm">&#10003;</span>}
               </div>
             </div>
 
@@ -276,7 +304,7 @@ function SelectLevel() {
           </div>
         </div>
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B] ">
             <div className="flex h-8">
               <div className="bg-[#EDF0F4]  rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter">
@@ -285,11 +313,11 @@ function SelectLevel() {
 
               </div>
               <div
-                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked2 ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                onClick={toggleCheckbox}
+                onClick={toggleCheckbox2}
               >
-                {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                {isChecked2 && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>
@@ -357,7 +385,7 @@ function SelectLevel() {
           </div>
         </div>
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B]">
             <div className="flex h-8">
               <div className="bg-[#EDF0F4]  rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter">
@@ -366,11 +394,11 @@ function SelectLevel() {
 
               </div>
               <div
-                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked3 ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                onClick={toggleCheckbox}
+                onClick={toggleCheckbox3}
               >
-                {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                {isChecked3 && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>
@@ -436,7 +464,7 @@ function SelectLevel() {
           </div>
         </div>
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B] ">
             <div className="flex h-8">
               <div className="bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter">
@@ -445,11 +473,11 @@ function SelectLevel() {
 
               </div>
               <div
-                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked4 ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                onClick={toggleCheckbox}
+                onClick={toggleCheckbox4}
               >
-                {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                {isChecked4 && <span className="text-white text-sm">&#10003;</span>}
               </div>
             </div>
 
@@ -518,7 +546,7 @@ function SelectLevel() {
           </div>
         </div>
         <div className=" ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+          <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col hover:border-[#64A70B] focus:border-[#64A70B] ">
             <div className="flex h-8">
               <div className="bg-[#EDF0F4]  rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                 <h2 className="text-lg font-inter">
@@ -527,11 +555,11 @@ function SelectLevel() {
 
               </div>
               <div
-                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
+                className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked5 ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                onClick={toggleCheckbox}
+                onClick={toggleCheckbox5}
               >
-                {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                {isChecked5 && <span className="text-white text-sm">&#10003;</span>}
               </div>
 
             </div>

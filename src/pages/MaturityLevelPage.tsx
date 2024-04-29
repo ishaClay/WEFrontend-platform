@@ -1,5 +1,3 @@
-
-
 import { Button } from "@/components/ui/button";
 import { Doughnut } from 'react-chartjs-2';
 import GovernanceGray from "../../public/assets/img/GovernanceGray.png";
@@ -12,86 +10,86 @@ import Footer from "@/components/Footer";
 import TeaserScoreHeader from "@/components/TeaserScoreHeader";
 
 const MaturityLevelPage = () => {
-    const data = {
-        labels: ['Introductory', 'Intermediate', 'Advanced',],
-        datasets: [{
-            label: 'Poll',
-            data: [100], 
-            backgroundColor: ['#FFD56A','green', 'red'],
-            borderColor: ['#FFD56A','green', 'red', ],
+  const data = {
+    labels: ['Introductory', 'Intermediate', 'Advanced',],
+    datasets: [{
+      label: 'Poll',
+      data: [100],
+      backgroundColor: ['#FFD56A', 'green', 'red'],
+      borderColor: ['#FFD56A', 'green', 'red',],
 
-        }]
-    };
+    }]
+  };
 
 
-    const textCenter = {
-        id: 'textCenter',
-        beforeDatasetDraw(chart:any) {
-            const { ctx, data } = chart;
-            ctx.save();
-            ctx.font = 'bold 25px sans-serif';
-            ctx.fillStyle = 'black';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(`${data.datasets[0].data[0]}%`, chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y)
-            ctx.restore();
-        }
-    };
-    const options = {
-        cutout: '80%',
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context:any) {
-                        let label = context.label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        label += Math.round(context.parsed * 100) + '%';
-                        return label;
-                    }
-                }
+  const textCenter = {
+    id: 'textCenter',
+    beforeDatasetDraw(chart: any) {
+      const { ctx, data } = chart;
+      ctx.save();
+      ctx.font = 'bold 25px sans-serif';
+      ctx.fillStyle = 'black';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(`${data.datasets[0].data[0]}%`, chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y)
+      ctx.restore();
+    }
+  };
+  const options = {
+    cutout: '80%',
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            let label = context.label || '';
+            if (label) {
+              label += ': ';
             }
+            label += Math.round(context.parsed * 100) + '%';
+            return label;
+          }
         }
-    };
+      }
+    }
+  };
 
-    const Labels = () => (
-        <div className="absolute left-0 top-0 flex flex-col justify-center h-full mt-[60px]">
-            {data.labels.map((label, index) => {
-                let colorClass, opacityClass;
-                if (index === 0) {
-                    colorClass = 'bg-gradient-to-r from-red-500 via-red-500 to-transparent';
-                    opacityClass = 'bg-opacity-25';
-                  
-                } else if (index === 1) {
-                    colorClass = 'bg-gradient-to-r from-yellow-500 via-yellow-500 to-transparent';
-                    opacityClass = 'bg-opacity-50';
-              
-                } else {
-                    colorClass = 'bg-gradient-to-r from-green-500 via-green-500 to-transparent';
-                    opacityClass = 'bg-opacity-75';
-                  
-                }
-                return (
-                    <div key={index} className="text-sm flex flex-col items-center relative  mt-10 h-6">
-                        <div className={`absolute left-0 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}></div>
-                        <div className="ml-2 pl-2 rounded-r-lg">{label}</div>
-                    
-                    </div>
-                );
-            })}
-			<div className="mt-[20px] mb-[100px]">
-				<p className="font-abhaya font-extrabold text-base leading-[18.88px]">Total Score-<span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
-  57
-</span>
-<span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">/90</span>
-</p>
-			</div>
-        </div>
-    );
+  const Labels = () => (
+    <div className="absolute left-0 top-0 flex flex-col justify-center h-full mt-[60px]">
+      {data.labels.map((label, index) => {
+        let colorClass, opacityClass;
+        if (index === 0) {
+          colorClass = 'bg-gradient-to-r from-red-500 via-red-500 to-transparent';
+          opacityClass = 'bg-opacity-25';
+
+        } else if (index === 1) {
+          colorClass = 'bg-gradient-to-r from-yellow-500 via-yellow-500 to-transparent';
+          opacityClass = 'bg-opacity-50';
+
+        } else {
+          colorClass = 'bg-gradient-to-r from-green-500 via-green-500 to-transparent';
+          opacityClass = 'bg-opacity-75';
+
+        }
+        return (
+          <div key={index} className="text-sm flex flex-col items-center relative  mt-10 h-6">
+            <div className={`absolute left-0 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}></div>
+            <div className="ml-2 pl-2 rounded-r-lg">{label}</div>
+
+          </div>
+        );
+      })}
+      <div className="mt-[20px] mb-[100px]">
+        <p className="font-abhaya font-extrabold text-base leading-[18.88px]">Total Score-<span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
+          57
+        </span>
+          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">/90</span>
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
@@ -112,22 +110,22 @@ const MaturityLevelPage = () => {
           </div>
         </div>
         <div>
-		<div className=" mt-0 mb-6 mr-18 ml-8   relative">
-                                
-                                <Labels />
-                                <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
-                                    <div className="w-40 h-40 mt-0 ml-16 relative">
-                                        <Doughnut data={data} options={options} plugins={[textCenter]} />
-                                    </div>
+          <div className=" mt-0 mb-6 mr-18 ml-8   relative">
 
-                                </div>
-                            </div>
-							    <div className="mt-[60px]">
-							       <p className="inline ml-[35px] ">Your overall sustainability level -</p>{" "}
-                      <span className="font-poppins font-bold text-[#000000] leading-6">
-                        Intermediate
-                      </span>
-							      </div>
+            <Labels />
+            <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
+              <div className="w-40 h-40 mt-0 ml-16 relative">
+                <Doughnut data={data} options={options} plugins={[textCenter]} />
+              </div>
+
+            </div>
+          </div>
+          <div className="mt-[60px]">
+            <p className="inline ml-[35px] ">Your overall sustainability level -</p>{" "}
+            <span className="font-poppins font-bold text-[#000000] leading-6">
+              Intermediate
+            </span>
+          </div>
 
 
         </div>
@@ -149,7 +147,7 @@ const MaturityLevelPage = () => {
             </Button>
           </div>
           <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
               <img
                 src={StrategicIntegrationGray}
                 alt="img"
@@ -160,7 +158,7 @@ const MaturityLevelPage = () => {
                 35%
               </span>
             </div>
-            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
               <img
                 src={TechInnovationGray}
                 alt="img"
@@ -171,7 +169,7 @@ const MaturityLevelPage = () => {
                 33%
               </span>
             </div>
-            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
               <img
                 src={EconomicsGray}
                 alt="img"
@@ -191,7 +189,7 @@ const MaturityLevelPage = () => {
             </Button>
           </div>
           <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-            <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
               <img
                 src={GovernanceGray}
                 alt="img"
@@ -202,7 +200,7 @@ const MaturityLevelPage = () => {
                 56%
               </span>
             </div>
-            <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
               <img
                 src={EnvironmentalGray}
                 alt="img"
@@ -222,7 +220,7 @@ const MaturityLevelPage = () => {
             </Button>
           </div>
           <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-            <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+            <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#64A70B]">
               <img src={SocialGray} alt="img" className="w-[52px] h-[52px]" />
               <h4 className="mt-3">Social</h4>
               <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
@@ -240,7 +238,7 @@ const MaturityLevelPage = () => {
       <div className="mt-[15px] ml-[340px] text-green-500 mb-[30px]">
         <p>Keep up the fantastic work, and remember, every small step counts towards a brighter and more sustainable world! </p>
       </div>
-      <div className="mb-240px"><Footer/></div>
+      <div className="mb-240px"><Footer /></div>
     </div>
   );
 };

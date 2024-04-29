@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import HeaderCourse from "@/components/HeaderCourse"
 
 import { LuMoveLeft } from "react-icons/lu";
@@ -20,12 +14,12 @@ function EmployeeSendInvitation() {
     };
 
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
-            <div className=" w-[235px] h-[760px]">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px]  overflow-hidden">
+            <div className=" ">
                 <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
-                <div className="w-[1204px] h-[120px] ">
+                <div className=" ">
                     <HeaderCourse />
                 </div>
 
