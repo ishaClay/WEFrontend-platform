@@ -17,7 +17,7 @@ export const store = configureStore({
         serializableCheck: false
     }),
     reducer: {
-        company: persistedReducer,
+        user: persistedReducer,
         question: QuestionReducer
     },
 })

@@ -19,7 +19,13 @@ export const QuestionSlice = createSlice({
             state[action.payload.p] = action.payload.q
         },
         setAnswer: (state: any, action) => {
-            state[state.activePillar][action.payload.qId].options[action.payload.oId].checked = action.payload.isChecked
+            state[state.activePillar][action.payload.qId].options[action.payload.oId].checked = true
+            action.payload.arr.map((_: any, index: number) => {
+                if (action.payload.oId !== index) {
+                    state[state.activePillar][action.payload.qId].options[index].checked = false
+                }
+
+            })
         }
 
     },

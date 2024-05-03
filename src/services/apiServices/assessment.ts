@@ -6,3 +6,9 @@ export const fetchAssessment = (id: string) => {
 
     return api({ url });
 };
+
+
+export const getAllassessment = (id: string) => {
+    const url = `api/v1/question/get-total-Assessment-scores/${id}`;
+    return api({ url });
+}

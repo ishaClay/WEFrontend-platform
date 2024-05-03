@@ -7,3 +7,11 @@ export const fetchBannerSlider = () => {
 
     return api({ url });
 };
+
+export const clientwiseBannerSlider = (id: string) => {
+    const url = `api/v1/slider/list?clientId=${id}`;
+
+    return api({ url });
+};
+
+clientwiseBannerSlider

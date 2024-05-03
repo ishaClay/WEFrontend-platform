@@ -8,15 +8,15 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchAssessment } from "@/services/apiServices/assessment";
+import { getAllassessment } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const score = 63;
 const maturityLevel = [
 	{
 		maturityLevelName: "Introductory",
@@ -47,23 +47,31 @@ const findMaturityLevel = (score: number) => {
 	return null;
 };
 
-const currentLavel = findMaturityLevel(score);
+
 
 const TeaserScore = () => {
 	const navigate = useNavigate();
 
-	const { data: assessmant } = useQuery({
+
+	const UserId = useSelector((state: any) => state.user.UserId);
+
+
+
+	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.assessment],
-		queryFn: () => fetchAssessment("5"),
+		queryFn: () => getAllassessment(UserId),
 	});
-	console.log("assessmant", assessmant?.data?.data);
+
+	const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+	const currentLavel = findMaturityLevel(Number(score));
+
 
 	const data = {
 		labels: [currentLavel?.maturityLevelName],
 		datasets: [
 			{
 				label: "Poll",
-				data: [score, 100 - score],
+				data: [score, 100 - Number(score)],
 				backgroundColor: [currentLavel?.color, "#E8E8E8"],
 			},
 		],

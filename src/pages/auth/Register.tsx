@@ -10,7 +10,7 @@ import {
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { setCompanyData } from "@/redux/reducer/CompanyReducer";
+import { setUserData } from "@/redux/reducer/CompanyReducer";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
@@ -39,8 +39,8 @@ function Register() {
 
 	const { mutate: createcompany, isPending: createPending } = useMutation({
 		mutationFn: (company: Company) => createCompany(company),
-		onSuccess: async (data) => {
-			dispatch(setCompanyData(data?.data?.data?.user.id));
+		onSuccess: async () => {
+			
 			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
@@ -56,7 +56,11 @@ function Register() {
 
 	const { mutate: createotp, isPending: createOtp } = useMutation({
 		mutationFn: (company: any) => checkOTP(company),
-		onSuccess: async () => {
+		onSuccess: async (data) => {
+			console.log(data?.data?.data?.id);
+			
+			dispatch(setUserData(data?.data?.data?.id));
+
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
 			});

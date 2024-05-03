@@ -11,7 +11,7 @@ function Footer() {
 	};
 
 	return (
-		<footer className=" max-w-[1500px] relative flex justify-center items-end">
+		<footer className=" max-w-[1500px] relative flex justify-center items-end ">
 			{isHomePage() && (
 				<div className="w-[1500px] h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
 			)}

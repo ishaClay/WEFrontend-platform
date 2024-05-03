@@ -3,10 +3,10 @@ import Header from "@/components/Header";
 import Loading from "@/components/comman/Error/Loading";
 import Symbol from "@/components/comman/symbol/Symbol";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchBannerSlider } from "@/services/apiServices/bannerSlider";
-import { CourseSlider } from "@/services/apiServices/courseSlider";
+import { clientwiseBannerSlider, fetchBannerSlider } from "@/services/apiServices/bannerSlider";
+import { clientwiseCourseSlider, CourseSlider, fetchDataByClientwise } from "@/services/apiServices/courseSlider";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,18 +14,45 @@ import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
 import Plus from "../../public/assets/img/Plus.png";
 import { SecondaryButton } from "@/components/comman/Button/CustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { setClientId } from "@/redux/reducer/CompanyReducer";
 
 function Home() {
+	const dispatch = useDispatch();
+
+	const { clientId } = useSelector((state: any) => state.user)
+
 	const [activeIndex, setActiveIndex] = useState(null);
+
+	const { data: fetchByClientwise, isPending: fetchByClientwisePending } = useQuery({
+		queryKey: [QUERY_KEYS.fetchDataByClientwise],
+		queryFn: () => fetchDataByClientwise("localhost:5173"),
+	});
+
+	useEffect(() => {
+		dispatch(setClientId(fetchByClientwise?.data?.data?.id))
+	}, [fetchByClientwise?.data?.data])
+
 
 	const { data: bannerList, isPending } = useQuery({
 		queryKey: [QUERY_KEYS.bannerSlider],
 		queryFn: () => fetchBannerSlider(),
 	});
 
+
+	const { data: clientwiseBannerList, isPending: clientwiseBannerListPending } = useQuery({
+		queryKey: [QUERY_KEYS.clientwiseBannerSlider],
+		queryFn: () => clientwiseBannerSlider(clientId?.toString()),
+	});
+
 	const { data: courseslider, isPending: coursesliderPending } = useQuery({
 		queryKey: [QUERY_KEYS.courseSlider],
 		queryFn: () => CourseSlider(),
+	});
+
+	const { data: clientwiseCourseslider, isPending: clientwiseCoursesliderPending } = useQuery({
+		queryKey: [QUERY_KEYS.clientwiseCourseSlider],
+		queryFn: () => clientwiseCourseSlider(clientId.toString()),
 	});
 
 	const onItemClick = (index: any) => {
@@ -115,7 +142,7 @@ function Home() {
 			<section className="">
 				<div className="relative mt-[30px] overflow-hidden mx-auto ">
 					<Slider {...bannerSetting}>
-						{bannerList?.data.data.map((item: any) => {
+						{(clientwiseBannerList?.data?.data?.length > 0 ? clientwiseBannerList?.data?.data : bannerList?.data.data)?.map((item: any) => {
 							return (
 								<div className="relative">
 									<img className="h-[600px]" src={item.banner} />
@@ -225,7 +252,7 @@ function Home() {
 
 					<div className="w-[697px] ">
 						<Slider {...settings}>
-							{courseslider?.data.data.map((item: any) => {
+							{(clientwiseCourseslider?.data?.data?.length > 0 ? clientwiseCourseslider?.data?.data : courseslider?.data.data)?.map((item: any) => {
 								return (
 									// <div>
 									// 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
@@ -495,11 +522,10 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${
-												item.title === activeIndex
-													? "bg-darkslategray-300 text-white"
-													: "bg-ghostwhite text-darkslategray-300"
-											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${item.title === activeIndex
+												? "bg-darkslategray-300 text-white"
+												: "bg-ghostwhite text-darkslategray-300"
+												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -534,11 +560,10 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${
-												item.title === activeIndex
-													? "bg-darkslategray-300 text-white"
-													: "bg-ghostwhite text-darkslategray-300"
-											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${item.title === activeIndex
+												? "bg-darkslategray-300 text-white"
+												: "bg-ghostwhite text-darkslategray-300"
+												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -594,7 +619,7 @@ function Home() {
 				<Footer />
 			</div>
 
-			<Loading isLoading={isPending || coursesliderPending} />
+			<Loading isLoading={isPending || coursesliderPending || clientwiseBannerListPending || clientwiseCoursesliderPending || fetchByClientwisePending} />
 		</div>
 	);
 }

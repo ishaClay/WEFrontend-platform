@@ -9,6 +9,9 @@ import Footer from "@/components/Footer";
 
 
 function MaturityLevelActionItem() {
+
+
+
 	const paths = [
 		{
 			name: "Engage",
@@ -112,7 +115,7 @@ function MaturityLevelActionItem() {
 											<path d="M 87.85 41.551 L 5.545 1.167 C 2.414 -0.369 -0.979 2.725 0.263 5.984 l 14.342 37.648 c 0.336 0.881 0.336 1.854 0 2.735 L 0.263 84.016 c -1.241 3.259 2.152 6.353 5.282 4.817 L 87.85 48.449 C 90.717 47.043 90.717 42.957 87.85 41.551 z" />
 										</svg>
 									</div>
-									<div className="ml-2 text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">Advanced</div>
+									<div className=" text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">Advanced</div>
 								</div>
 
 
@@ -162,7 +165,7 @@ function MaturityLevelActionItem() {
 											<path d="M 87.85 41.551 L 5.545 1.167 C 2.414 -0.369 -0.979 2.725 0.263 5.984 l 14.342 37.648 c 0.336 0.881 0.336 1.854 0 2.735 L 0.263 84.016 c -1.241 3.259 2.152 6.353 5.282 4.817 L 87.85 48.449 C 90.717 47.043 90.717 42.957 87.85 41.551 z" />
 										</svg>
 									</div>
-									<div className="ml-2 text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">Advanced</div>
+									<div className=" text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">Advanced</div>
 								</div>
 							</div>
 						</div>
@@ -185,14 +188,14 @@ function MaturityLevelActionItem() {
 
 
 			<div className="flex ml-[550px] mt-20">
-				<div className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold ">
+				<button className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold ">
 					View Recommended Courses
 
-				</div>
-				<div className=" ml-4 bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold ">
+				</button>
+				<button className=" ml-4 bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold ">
 					Edit Roadmap
 
-				</div>
+				</button>
 
 			</div>
 

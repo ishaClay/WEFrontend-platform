@@ -2,12 +2,48 @@ import { setAnswer } from "@/redux/reducer/QuestionReducer";
 import { Option, QuestionType } from "@/types/Question";
 import { useDispatch, useSelector } from "react-redux";
 import Suggestion from "/assets/img/Suggestion.png";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addAnswer } from "@/services/apiServices/question";
+import { ErrorType } from "@/types/Errors";
+import { useToast } from "../ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import { Answer } from "@/types/Answer";
 
 const Question = () => {
 	const dispatch = useDispatch();
 
 	const question = useSelector((state: any) => state.question);
 	const { activePillar } = useSelector((state: any) => state.question);
+
+	const userId = useSelector((state: any) => state.user.UserId);
+
+	const queryClient = useQueryClient();
+
+	const { toast } = useToast();
+
+
+	const { mutate: addanswer } = useMutation({
+		mutationFn: (question: Answer) => addAnswer(question),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({
+				queryKey: [QUERY_KEYS.questionList],
+			});
+		},
+		onError: (error: ErrorType) => {
+			toast({
+				variant: "destructive",
+				title: error.data.message,
+			});
+		},
+	});
+
+	const handleChange = (questionId: any, selectedOptions: any) => {
+		console.log(questionId, selectedOptions);
+
+		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
+		
+	};
+
 
 	return (
 		<>
@@ -23,7 +59,9 @@ const Question = () => {
 								</h2>
 							</div>
 							<div className="mt-[21px] flex flex-col gap-[17px] px-10">
-								{i.options.map((option: Option, oIndex: number) => {
+								{i.options.map((option: Option, oIndex: number, arr) => {
+									// console.log(option);
+									
 									return (
 										<div>
 											<div
@@ -33,7 +71,7 @@ const Question = () => {
 														setAnswer({
 															qId: index,
 															oId: oIndex,
-															isChecked: !option?.checked,
+															arr: arr,
 														})
 													);
 												}}>
@@ -41,6 +79,11 @@ const Question = () => {
 													type="radio"
 													className=" cursor-pointer"
 													checked={option?.checked}
+													onChange={(e) => {
+														if (e.target.checked) {
+															handleChange(i.id, option);
+														}
+													}}
 												/>
 												<span className="ml-[9px]">{option.name}</span>
 											</div>
@@ -62,6 +105,8 @@ const Question = () => {
 						</div>
 					);
 				})}
+
+
 		</>
 	);
 };

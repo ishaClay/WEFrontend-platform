@@ -16,8 +16,8 @@ function MaturityLevelActionableMeasurePopup() {
                     </div>
                     <div className="ml-8">
                         <button className="text-[#1D2026] hover:text-red-500">
-                           
-                            <RxCross2  className="h-6 w-6"/>
+
+                            <RxCross2 className="h-6 w-6" />
                         </button>
 
                     </div>
@@ -66,7 +66,7 @@ function MaturityLevelActionableMeasurePopup() {
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
                                                 />
                                             </div>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2"><BsPencil className="text-[#B9B9B9]"/></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
                                             <button className="border-none bg-transparent text-lg cursor-pointer gap-4 mt-2"><RiDeleteBin6Line className="text-[#B9B9B9]" /></button>
 
                                         </div>
@@ -84,14 +84,14 @@ function MaturityLevelActionableMeasurePopup() {
                                                 />
                                             </div>
                                             <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer  mt-2"><RiDeleteBin6Line className="text-[#B9B9B9] "/></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer  mt-2"><RiDeleteBin6Line className="text-[#B9B9B9] " /></button>
 
                                         </div>
                                     </div>
 
 
                                     <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
-                                        
+
                                         <BsFillPlusSquareFill />
                                     </div>
                                 </div>

@@ -276,7 +276,7 @@ const QuestionPage = () => {
 			<form>
 				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
 					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
-						<Question />
+						<Question  />
 					</div>
 					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
 						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">

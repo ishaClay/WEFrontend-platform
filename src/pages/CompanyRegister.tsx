@@ -13,10 +13,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function CompanyRegister() {
-	const companyId = useSelector((state: any) => state.company.id);
+
+	const navigate = useNavigate()
+
+	const UserId = useSelector((state: any) => state.user.UserId);
 
 	const [soleTrader, setSoleTrader] = useState("");
 
@@ -29,9 +33,9 @@ function CompanyRegister() {
 	const queryClient = useQueryClient();
 
 	const { data: companydetails } = useQuery({
-		queryKey: [QUERY_KEYS.oneCompany, companyId],
-		queryFn: () => getOneCompany(companyId as string),
-		enabled: !!companyId,
+		queryKey: [QUERY_KEYS.oneCompany, UserId],
+		queryFn: () => getOneCompany(UserId as string),
+		enabled: !!UserId,
 	});
 
 	const { mutate: updatecompany, isPending: updatePanding } = useMutation({
@@ -97,6 +101,8 @@ function CompanyRegister() {
 			soleTrader: soleTrader === "true" ? true : false,
 		};
 		updatecompany(updatedData);
+
+		navigate('/maturelevel')
 	};
 
 	return (
