@@ -26,7 +26,7 @@ const Question = () => {
 		mutationFn: (question: Answer) => addAnswer(question),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: [QUERY_KEYS.questionList],
+				queryKey: [QUERY_KEYS.getQuestionAnswer],
 			});
 		},
 		onError: (error: ErrorType) => {
@@ -38,10 +38,7 @@ const Question = () => {
 	});
 
 	const handleChange = (questionId: any, selectedOptions: any) => {
-		console.log(questionId, selectedOptions);
-
 		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
-		
 	};
 
 
@@ -60,13 +57,13 @@ const Question = () => {
 							</div>
 							<div className="mt-[21px] flex flex-col gap-[17px] px-10">
 								{i.options.map((option: Option, oIndex: number, arr) => {
-									// console.log(option);
-									
+
 									return (
 										<div>
 											<div
 												className="inline-flex items-center cursor-pointer"
 												onClick={() => {
+													handleChange(i.id, option)
 													dispatch(
 														setAnswer({
 															qId: index,
@@ -79,11 +76,11 @@ const Question = () => {
 													type="radio"
 													className=" cursor-pointer"
 													checked={option?.checked}
-													onChange={(e) => {
-														if (e.target.checked) {
-															handleChange(i.id, option);
-														}
-													}}
+												// onChange={(e) => {
+												// 	if (e.target.checked) {
+												// 		handleChange(i.id, option);
+												// 	}
+												// }}
 												/>
 												<span className="ml-[9px]">{option.name}</span>
 											</div>

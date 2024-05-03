@@ -33,7 +33,6 @@ function SelectLevel() {
     queryKey: [QUERY_KEYS.assessment],
     queryFn: () => fetchAssessment("6"),
   });
-  console.log("assessmant", assessmant?.data?.data);
 
   const paths = [
     {
@@ -134,7 +133,6 @@ function SelectLevel() {
 
         {
           assessmant?.data?.data.map((item: any) => {
-            console.log("item", item);
 
             return (
               <div className="ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">

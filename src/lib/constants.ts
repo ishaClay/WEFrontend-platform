@@ -11,4 +11,6 @@ export const QUERY_KEYS = {
     clientwiseBannerSlider: "clientwise_banner_slider",
     clientwiseCourseSlider: "clientwise_course_slider",
     fetchDataByClientwise: "fetch_data_by_clientwise",
+    clientwisePillarList: "clientwise_pillar_list",
+    getQuestionAnswer: "get_question_answer",
 };

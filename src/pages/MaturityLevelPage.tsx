@@ -19,7 +19,6 @@ const MaturityLevelPage = () => {
     queryKey: [QUERY_KEYS.assessment],
     queryFn: () => fetchAssessment("6"),
   });
-  console.log("assessmant", assessmant?.data?.data);
 
 
   const data = {

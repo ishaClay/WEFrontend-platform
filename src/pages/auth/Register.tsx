@@ -16,14 +16,17 @@ import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { z } from "zod";
 
 function Register() {
+
+	const { clientId } = useSelector((state: any) => state.user)
+
 	const [selectedRole, setSelectedRole] = useState<any>(null);
 	const [showOtpPopup, setShowOtpPopup] = useState(false);
 	const [otp, setOtp] = useState("");
@@ -40,7 +43,7 @@ function Register() {
 	const { mutate: createcompany, isPending: createPending } = useMutation({
 		mutationFn: (company: Company) => createCompany(company),
 		onSuccess: async () => {
-			
+
 			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
@@ -57,8 +60,7 @@ function Register() {
 	const { mutate: createotp, isPending: createOtp } = useMutation({
 		mutationFn: (company: any) => checkOTP(company),
 		onSuccess: async (data) => {
-			console.log(data?.data?.data?.id);
-			
+
 			dispatch(setUserData(data?.data?.data?.id));
 
 			await queryClient.invalidateQueries({
@@ -112,8 +114,14 @@ function Register() {
 		createcompany(data);
 	};
 
+	useEffect(() => {
+		if (!clientId) {
+			navigate("/")
+		}
+	}, [clientId]);
+
 	const handleVerifyOtp = () => {
-		createotp({ otp: otp, email: getValues("email") });
+		createotp({ otp: otp, email: getValues("email"), clientId });
 	};
 
 	return (

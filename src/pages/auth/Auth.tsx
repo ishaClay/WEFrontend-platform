@@ -82,7 +82,6 @@ function Auth() {
 
 	const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
 		login_user(data);
-		console.log(data);
 
 	};
 

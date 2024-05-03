@@ -5,11 +5,12 @@ export const QuestionSlice = createSlice({
     initialState: {
         activePillar: "",
         allPillar: [],
+        temp: null
     },
     reducers: {
         setPillarName: (state: any, action) => {
             state.allPillar = action.payload;
-            action.payload?.map((i: string) => state[i] = { questions: [] })
+            // action.payload?.map((i: string) => state[i] = { questions: [] })
 
         },
         setActivePillar: (state, action) => {
@@ -26,11 +27,15 @@ export const QuestionSlice = createSlice({
                 }
 
             })
+        },
+        setGettedAnswer: (state: any, action) => {
+            state[state.activePillar] = action.payload
         }
+
 
     },
 });
 
-export const { setPillarName, setActivePillar, setQuestion, setAnswer } = QuestionSlice.actions;
+export const { setPillarName, setActivePillar, setQuestion, setAnswer, setGettedAnswer } = QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

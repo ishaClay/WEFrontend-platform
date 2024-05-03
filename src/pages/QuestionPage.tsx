@@ -5,11 +5,12 @@ import { Slider } from "@/components/ui/slider";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
 	setActivePillar,
+	setGettedAnswer,
 	setPillarName,
 	setQuestion,
 } from "@/redux/reducer/QuestionReducer";
-import { fetchPillarList } from "@/services/apiServices/pillar";
-import { fetchQuestionList } from "@/services/apiServices/question";
+import { fetchClientwisePillarList, fetchPillarList } from "@/services/apiServices/pillar";
+import { fetchQuestionAnswerList, fetchQuestionList } from "@/services/apiServices/question";
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
 import { useQuery } from "@tanstack/react-query";
@@ -32,6 +33,7 @@ const QuestionPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const { clientId, UserId } = useSelector((state: any) => state.user);
 	const { activePillar, allPillar } = useSelector(
 		(state: any) => state.question
 	);
@@ -45,24 +47,74 @@ const QuestionPage = () => {
 		queryFn: () => fetchPillarList(),
 	});
 
+	const { data: clientwisePillarList } = useQuery({
+		queryKey: [QUERY_KEYS.clientwisePillarList],
+		queryFn: () => fetchClientwisePillarList(clientId?.toString()),
+	});
+
+	const { data: fetchQuestionAnswer } = useQuery({
+		queryKey: [QUERY_KEYS.getQuestionAnswer],
+		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
+	});
+
+
+
+	const allQ = question?.[activePillar];
+
 	useEffect(() => {
-		const pillarName = pillarList?.data?.data?.map(
+		if (fetchQuestionAnswer?.data?.data && Array.isArray(allQ)) {
+			let updatedAnswers = [...allQ];
+			fetchQuestionAnswer.data.data.forEach((j: any) => {
+				if (j) {
+					const c = allQ.find((i) => i?.id === j?.questionId?.id);
+					if (c) {
+						const d = c.options.find((o: any) => o?.optionId === j?.selectedOptions[0]?.optionId);
+						if (d) {
+							const updatedOption = { ...d, checked: true };
+							const updatedOptions = c.options.map((o: any) =>
+								o.optionId === updatedOption.optionId ? updatedOption : o
+							);
+
+							const updatedC = { ...c, options: updatedOptions };
+
+							const index = updatedAnswers.findIndex((itemA) => updatedC.id === itemA.id);
+							if (index !== -1) {
+								updatedAnswers[index] = updatedC;
+							}
+						}
+					}
+				}
+			});
+
+			dispatch(setGettedAnswer(updatedAnswers));
+		}
+	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, allQ?.length]);
+
+
+
+
+	useEffect(() => {
+		const pillarName = (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)?.map(
 			(i: Pillar) => i?.pillarName
 		);
 		if (pillarName?.length) {
 			dispatch(setPillarName(pillarName));
 		}
-	}, [pillarList?.data?.data]);
+	}, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
 
 	useEffect(() => {
-		if (!activePillar && pillarList?.data?.data) {
-			dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
+		if (!activePillar && (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)) {
+			if (clientwisePillarList?.data?.data?.length > 0) {
+				dispatch(setActivePillar(clientwisePillarList?.data?.data[0]?.pillarName));
+			} else {
+				dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
+			}
 		}
-	}, [pillarList?.data?.data]);
+	}, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
 
 	const { data: questionList } = useQuery({
 		queryKey: [QUERY_KEYS.questionList],
-		queryFn: () => fetchQuestionList("6"),
+		queryFn: () => fetchQuestionList(clientId?.toString()),
 	});
 
 	useEffect(() => {
@@ -126,8 +178,8 @@ const QuestionPage = () => {
 
 	const currentAttemptedTotal = Array.isArray(question?.[activePillar])
 		? question[activePillar].filter((que: QuestionType) =>
-				que.options.some((opt) => opt.checked)
-		  ).length
+			que.options.some((opt) => opt.checked)
+		).length
 		: 0;
 
 	const handleSubmit = (event: any) => {
@@ -136,7 +188,6 @@ const QuestionPage = () => {
 		allPillar.forEach((pillar: string) => {
 			allQueAns[pillar] = question[pillar];
 		});
-		console.log("allQueAns", allQueAns);
 		navigate("/teaserscore");
 	};
 
@@ -212,9 +263,8 @@ const QuestionPage = () => {
 						return (
 							<div
 								key={index}
-								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
-									activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-								}`}
+								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
+									}`}
 								onClick={() => dispatch(setActivePillar(category))}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
@@ -228,29 +278,26 @@ const QuestionPage = () => {
 											)} */}
 										</div>
 										<p
-											className={`text-nowrap ${
-												activePillar === category
-													? "text-white"
-													: "text-[#848181]"
-											}`}>
+											className={`text-nowrap ${activePillar === category
+												? "text-white"
+												: "text-[#848181]"
+												}`}>
 											{(index / (allPillar.length - 1)) * 100} %
 										</p>
 									</div>
 									<div>
 										<h2
-											className={`leading-[19px] ${
-												activePillar === category
-													? "text-white"
-													: "text-[#3A3A3A]"
-											}`}>
+											className={`leading-[19px] ${activePillar === category
+												? "text-white"
+												: "text-[#3A3A3A]"
+												}`}>
 											{category}
 										</h2>
 										<p
-											className={`text-[12px] leading-[14.65px] ${
-												activePillar === category
-													? "text-white"
-													: "text-[#848181]"
-											}`}>
+											className={`text-[12px] leading-[14.65px] ${activePillar === category
+												? "text-white"
+												: "text-[#848181]"
+												}`}>
 											My progress {index} / {allPillar.length - 1}
 										</p>
 									</div>
@@ -262,9 +309,8 @@ const QuestionPage = () => {
 									step={1}
 									className="bg-red-50"
 									classNameThumb="hidden"
-									classNameRange={`${
-										!(activePillar === category) && "!bg-[#64A70B]"
-									}`}
+									classNameRange={`${!(activePillar === category) && "!bg-[#64A70B]"
+										}`}
 									disabled
 								/>
 							</div>
@@ -276,7 +322,7 @@ const QuestionPage = () => {
 			<form>
 				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
 					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
-						<Question  />
+						<Question />
 					</div>
 					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
 						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
@@ -285,7 +331,7 @@ const QuestionPage = () => {
 						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
 							<span className="ml-[18px] text-teal">Attempted</span>
 							<p className="text-teal">
-								{currentAttemptedTotal}/{question?.[activePillar]?.length}
+								{currentAttemptedTotal}/{question?.[activePillar]?.length || 0}
 							</p>
 							<img
 								src={ProgressIndicator}
@@ -310,10 +356,9 @@ const QuestionPage = () => {
 									return (
 										<div className="flex mt-3" key={index}>
 											<div
-												className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-													index !== allPillar.length - 1 &&
+												className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${index !== allPillar.length - 1 &&
 													"border-b border--solid border-[#EAEAEA]"
-												}`}>
+													}`}>
 												<p>{category}</p>
 												<div className="flex gap-[10px]">
 													<div className="flex gap-1">
@@ -323,13 +368,12 @@ const QuestionPage = () => {
 																	return (
 																		<p
 																			key={index}
-																			className={`w-3 h-3 ${
-																				i.options.some(
-																					(o) => o?.checked === true
-																				)
-																					? "bg-[#64A70B]"
-																					: "bg-[#D8D0D0]"
-																			}`}></p>
+																			className={`w-3 h-3 ${i.options.some(
+																				(o) => o?.checked === true
+																			)
+																				? "bg-[#64A70B]"
+																				: "bg-[#D8D0D0]"
+																				}`}></p>
 																	);
 																}
 															)}
