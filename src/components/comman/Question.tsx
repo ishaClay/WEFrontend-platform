@@ -19,6 +19,7 @@ const Question = () => {
 
 	const userId = useSelector((state: any) => state.user.UserId);
 
+
 	const queryClient = useQueryClient();
 
 	const { toast } = useToast();
@@ -62,7 +63,7 @@ const Question = () => {
 								{i.options.map((option: Option, oIndex: number, arr) => {
 
 									return (
-										<div>
+										<div key={oIndex}>
 											<div
 												className="inline-flex items-center cursor-pointer"
 												onClick={() => {
