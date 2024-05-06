@@ -13,8 +13,7 @@ const Question = () => {
 	const dispatch = useDispatch();
 
 	const question = useSelector((state: any) => state.question);
-	console.log(question);
-	
+
 	const { activePillar } = useSelector((state: any) => state.question);
 
 	const userId = useSelector((state: any) => state.user.UserId);
@@ -41,7 +40,7 @@ const Question = () => {
 	});
 
 	const handleChange = (questionId: any, selectedOptions: any) => {
-		
+
 		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
 	};
 
@@ -61,7 +60,6 @@ const Question = () => {
 							</div>
 							<div className="mt-[21px] flex flex-col gap-[17px] px-10">
 								{i.options.map((option: Option, oIndex: number, arr) => {
-
 									return (
 										<div key={oIndex}>
 											<div
@@ -79,7 +77,7 @@ const Question = () => {
 												<input
 													type="radio"
 													className=" cursor-pointer"
-													checked={option?.checked}
+													checked={option?.checked ? true : false}
 												/>
 												<span className="ml-[9px]">{option.name}</span>
 											</div>

@@ -43,8 +43,6 @@ function Register() {
 	const { mutate: createcompany, isPending: createPending } = useMutation({
 		mutationFn: (company: Company) => createCompany(company),
 		onSuccess: async (data) => {
-			console.log(data?.data?.data?.user?.id);
-
 			dispatch(setCompanyId(data?.data?.data?.user?.id));
 			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({

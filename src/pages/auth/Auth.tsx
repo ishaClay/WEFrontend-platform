@@ -30,7 +30,7 @@ function Auth() {
 		email: z
 			.string()
 			.min(1, "Email is required"),
-			// .email("Please enter a valid email"),
+		// .email("Please enter a valid email"),
 		password: z
 			.string({
 				required_error: "Password is required",
@@ -43,8 +43,6 @@ function Auth() {
 		mutationFn: Login,
 		onSuccess: (data) => {
 			const user = data.data.data.query;
-			console.log(user);
-			
 			if (user.role === UserRole.SuperAdmin) {
 				toast({
 					variant: "destructive",

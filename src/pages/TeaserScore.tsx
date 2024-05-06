@@ -50,15 +50,13 @@ const findMaturityLevel = (score: number) => {
 const TeaserScore = () => {
 	const navigate = useNavigate();
 	const UserId = useSelector((state: any) => state.user.UserId);
-	console.log(UserId);
-	
 
 	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.totalAssessment],
 		queryFn: () => getAllassessment(UserId),
 	});
 
-	const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+	const score = Number(((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2));
 	const currentLavel = findMaturityLevel(Number(score));
 
 

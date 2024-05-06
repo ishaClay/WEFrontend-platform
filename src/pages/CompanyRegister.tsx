@@ -21,8 +21,6 @@ function CompanyRegister() {
 	const navigate = useNavigate()
 
 	const CompanyId = useSelector((state: any) => state.user.CompanyId);
-	console.log(CompanyId, 'CompanyId');
-	
 
 	const [soleTrader, setSoleTrader] = useState("");
 

@@ -29,8 +29,6 @@ export const QuestionSlice = createSlice({
             })
         },
         setGettedAnswer: (state: any, action) => {
-            console.log("acc", action.payload);
-
             state[action.payload.name] = action.payload.updatedAnswers
         }
 

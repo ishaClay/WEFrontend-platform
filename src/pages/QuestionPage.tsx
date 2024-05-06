@@ -13,7 +13,7 @@ import { fetchClientwisePillarList, fetchPillarList } from "@/services/apiServic
 import { fetchQuestionAnswerList, fetchQuestionList } from "@/services/apiServices/question";
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +34,6 @@ const QuestionPage = () => {
 	const dispatch = useDispatch();
 
 	const { clientId, UserId } = useSelector((state: any) => state.user);
-	console.log(UserId);
 
 	const { activePillar, allPillar } = useSelector(
 		(state: any) => state.question

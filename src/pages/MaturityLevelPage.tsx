@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 const MaturityLevelPage = () => {
 
   const navigate = useNavigate()
-  const UserId = useSelector((state: any) => state.user.UserId);  
+  const UserId = useSelector((state: any) => state.user.UserId);
 
 
   const { data: assessmant } = useQuery({
@@ -28,9 +28,6 @@ const MaturityLevelPage = () => {
     queryKey: [QUERY_KEYS.totalAssessment],
     queryFn: () => getAllassessment(UserId),
   });
-
-  console.log("allassessmant", allassessmant);
-
 
   const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
   // const currentLavel = findMaturityLevel(Number(score));
