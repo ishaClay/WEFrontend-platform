@@ -34,6 +34,8 @@ const QuestionPage = () => {
 	const dispatch = useDispatch();
 
 	const { clientId, UserId } = useSelector((state: any) => state.user);
+	console.log(UserId);
+	
 	const { activePillar, allPillar } = useSelector(
 		(state: any) => state.question
 	);
@@ -54,10 +56,8 @@ const QuestionPage = () => {
 
 	const { data: fetchQuestionAnswer } = useQuery({
 		queryKey: [QUERY_KEYS.getQuestionAnswer],
-		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
+		queryFn: () => fetchQuestionAnswerList(UserId.id?.toString()),
 	});
-
-
 
 	const allQ = question?.[activePillar];
 
@@ -89,8 +89,6 @@ const QuestionPage = () => {
 			dispatch(setGettedAnswer(updatedAnswers));
 		}
 	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, allQ?.length]);
-
-
 
 
 	useEffect(() => {
@@ -393,6 +391,7 @@ const QuestionPage = () => {
 								onClick={handleSubmit}>
 								Submit & Continue
 							</Button>
+
 						</div>
 					</div>
 				</div>

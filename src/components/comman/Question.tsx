@@ -13,6 +13,8 @@ const Question = () => {
 	const dispatch = useDispatch();
 
 	const question = useSelector((state: any) => state.question);
+	console.log(question);
+	
 	const { activePillar } = useSelector((state: any) => state.question);
 
 	const userId = useSelector((state: any) => state.user.UserId);
@@ -38,7 +40,8 @@ const Question = () => {
 	});
 
 	const handleChange = (questionId: any, selectedOptions: any) => {
-		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
+		
+		addanswer({ userId: userId.id, questionId: questionId, selectedOptions: [selectedOptions] })
 	};
 
 
@@ -76,11 +79,6 @@ const Question = () => {
 													type="radio"
 													className=" cursor-pointer"
 													checked={option?.checked}
-												// onChange={(e) => {
-												// 	if (e.target.checked) {
-												// 		handleChange(i.id, option);
-												// 	}
-												// }}
 												/>
 												<span className="ml-[9px]">{option.name}</span>
 											</div>

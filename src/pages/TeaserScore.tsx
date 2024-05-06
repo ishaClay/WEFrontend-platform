@@ -47,15 +47,9 @@ const findMaturityLevel = (score: number) => {
 	return null;
 };
 
-
-
 const TeaserScore = () => {
 	const navigate = useNavigate();
-
-
 	const UserId = useSelector((state: any) => state.user.UserId);
-
-
 
 	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.totalAssessment],

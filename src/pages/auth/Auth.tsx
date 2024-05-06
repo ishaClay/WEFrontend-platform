@@ -68,7 +68,6 @@ function Auth() {
 	});
 
 
-
 	type ValidationSchema = z.infer<typeof schema>;
 	const {
 		register,
@@ -82,7 +81,6 @@ function Auth() {
 
 	const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
 		login_user(data);
-
 	};
 
 
