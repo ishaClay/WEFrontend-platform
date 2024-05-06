@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 const MaturityLevelPage = () => {
 
   const navigate = useNavigate()
-  const UserId = useSelector((state: any) => state.user.UserId);
+  const UserId = useSelector((state: any) => state.user.UserId);  
 
 
   const { data: assessmant } = useQuery({
@@ -30,7 +30,7 @@ const MaturityLevelPage = () => {
   });
 
   console.log("allassessmant", allassessmant);
-  
+
 
   const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
   // const currentLavel = findMaturityLevel(Number(score));
@@ -40,8 +40,8 @@ const MaturityLevelPage = () => {
     datasets: [{
       label: 'Poll',
       data: [score, 100 - Number(score)],
-      backgroundColor: ['#FFD56A', 'green', 'red'],
-      borderColor: ['#FFD56A', 'green', 'red',],
+      backgroundColor: ['#FFD56A', '#D1D1D1', 'red'],
+      borderColor: ['#FFD56A', '#D1D1D1', 'red',],
 
     }]
   };
@@ -60,6 +60,7 @@ const MaturityLevelPage = () => {
       ctx.restore();
     }
   };
+
   const options = {
     cutout: '80%',
     plugins: {
@@ -149,9 +150,9 @@ const MaturityLevelPage = () => {
           <div className="mt-[60px]">
             <p className="inline ml-[35px] ">Your overall sustainability level -</p>{" "}
             <span className="font-poppins font-bold text-[#000000] leading-6">
-              { score < "40" && "Introductory" }
-              { score >= "40" && score < "70" && "Intermediate" }
-              { score >= "70" && "Advanced" }
+              {score < "40" && "Introductory"}
+              {score >= "40" && score < "70" && "Intermediate"}
+              {score >= "70" && "Advanced"}
             </span>
           </div>
 
@@ -178,50 +179,29 @@ const MaturityLevelPage = () => {
           {
             assessmant?.data?.data.map((item: any) => (
 
-              <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+              <>
                 {
-                  parseInt(item.totalpoints) < 40 &&
+                  item.totalpoints < "40" &&
+
                   (
-                    <div onClick={() => navigate(`/maturitylevelanswerspopup`)} className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                      <img
-                        src={StrategicIntegrationGray}
-                        alt="img"
-                        className="w-[52px] h-[52px]"
-                      />
-                      <h4 className="mt-3">{item.pillarname}</h4>
-                      <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                        {item.totalpoints * item.totalmaxpoint / 100}%
-                      </span>
+                    <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+                      <div onClick={() => navigate(`/maturitylevelanswerspopup`)} className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                        <img
+                          src={StrategicIntegrationGray}
+                          alt="img"
+                          className="w-[52px] h-[52px]"
+                        />
+                        <h4 className="mt-3">{item.pillarname}</h4>
+                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
+                          {item.totalpoints * item.totalmaxpoint / 100}%
+                        </span>
+                      </div>
                     </div>
 
-                    // <Dialog>
-                    //   <DialogTrigger asChild>
-                    //     <Button variant="outline">Share</Button>
-                    //   </DialogTrigger>
-                    //   <DialogContent className="sm:max-w-md">
-                    //     <DialogHeader>
-                    //       <DialogTitle>Share link</DialogTitle>
-                    //       <DialogDescription>
-                    //         Anyone who has this link will be able to view this.
-                    //       </DialogDescription>
-                    //     </DialogHeader>
-                    //     <div className="flex items-center space-x-2">
-
-
-                    //     </div>
-                    //     <DialogFooter className="sm:justify-start">
-                    //       <DialogClose asChild>
-                    //         <Button type="button" variant="secondary">
-                    //           Close
-                    //         </Button>
-                    //       </DialogClose>
-                    //     </DialogFooter>
-                    //   </DialogContent>
-                    // </Dialog>
                   )
                 }
 
-              </div>
+              </>
             ))
           }
         </div>
@@ -234,24 +214,26 @@ const MaturityLevelPage = () => {
           </div>
           {
             assessmant?.data?.data.map((item: any) => (
-              <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+              <>
                 {
-                  parseInt(item.totalpoints) >= 40 && parseInt(item.totalpoints) < 70 &&
+                  item.totalpoints >= "40" && item.totalpoints < "70" &&
                   (
-                    <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                      <img
-                        src={GovernanceGray}
-                        alt="img"
-                        className="w-[52px] h-[52px]"
-                      />
-                      <h4 className="mt-3">Governance</h4>
-                      <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                        56%
-                      </span>
+                    <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+                      <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                        <img
+                          src={GovernanceGray}
+                          alt="img"
+                          className="w-[52px] h-[52px]"
+                        />
+                        <h4 className="mt-3">Governance</h4>
+                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
+                          56%
+                        </span>
+                      </div>
                     </div>
                   )
                 }
-              </div>
+              </>
             ))
           }
         </div>
@@ -264,19 +246,21 @@ const MaturityLevelPage = () => {
           </div>
           {
             assessmant?.data?.data.map((item: any) => (
-              <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+              < >
                 {
-                  parseInt(item.totalpoints) >= 70 && (
-                    <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                      <img src={SocialGray} alt="img" className="w-[52px] h-[52px]" />
-                      <h4 className="mt-3">Social</h4>
-                      <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                        75%
-                      </span>
+                  item.totalpoints >= "70" && (
+                    <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+                      <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                        <img src={SocialGray} alt="img" className="w-[52px] h-[52px]" />
+                        <h4 className="mt-3">Social</h4>
+                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
+                          75%
+                        </span>
+                      </div>
                     </div>
                   )
                 }
-              </div>
+              </>
             ))
           }
 

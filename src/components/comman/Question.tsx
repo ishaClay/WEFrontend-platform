@@ -42,7 +42,7 @@ const Question = () => {
 
 	const handleChange = (questionId: any, selectedOptions: any) => {
 		
-		addanswer({ userId: userId.id, questionId: questionId, selectedOptions: [selectedOptions] })
+		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
 	};
 
 

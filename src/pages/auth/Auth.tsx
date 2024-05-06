@@ -29,8 +29,8 @@ function Auth() {
 	const schema = z.object({
 		email: z
 			.string()
-			.min(1, "Email is required")
-			.email("Please enter a valid email"),
+			.min(1, "Email is required"),
+			// .email("Please enter a valid email"),
 		password: z
 			.string({
 				required_error: "Password is required",
@@ -43,6 +43,8 @@ function Auth() {
 		mutationFn: Login,
 		onSuccess: (data) => {
 			const user = data.data.data.query;
+			console.log(user);
+			
 			if (user.role === UserRole.SuperAdmin) {
 				toast({
 					variant: "destructive",
@@ -55,7 +57,7 @@ function Auth() {
 				title: "Login Successfully",
 			});
 
-			dispatch(setUserData(user));
+			dispatch(setUserData(user.id));
 			localStorage.setItem("token", data.data.data.accessToken);
 			navigate("/savedassesment");
 		},

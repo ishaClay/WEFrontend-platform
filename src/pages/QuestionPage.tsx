@@ -35,7 +35,7 @@ const QuestionPage = () => {
 
 	const { clientId, UserId } = useSelector((state: any) => state.user);
 	console.log(UserId);
-	
+
 	const { activePillar, allPillar } = useSelector(
 		(state: any) => state.question
 	);
@@ -56,17 +56,19 @@ const QuestionPage = () => {
 
 	const { data: fetchQuestionAnswer } = useQuery({
 		queryKey: [QUERY_KEYS.getQuestionAnswer],
-		queryFn: () => fetchQuestionAnswerList(UserId.id?.toString()),
+		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
 	});
 
-	const allQ = question?.[activePillar];
+	const pillarwiseQuestions = allPillar?.map((item: string) => {
+		return { q: question?.[item], name: item };
+	})
 
-	useEffect(() => {
-		if (fetchQuestionAnswer?.data?.data && Array.isArray(allQ)) {
-			let updatedAnswers = [...allQ];
-			fetchQuestionAnswer.data.data.forEach((j: any) => {
+	const updateAnswers = (pillarwiseQuestion : any, fetchQuestionAnswer : any) => {
+		if (fetchQuestionAnswer?.data?.data && Array.isArray(pillarwiseQuestion?.q)) {
+			let updatedAnswers = [...pillarwiseQuestion?.q];
+			fetchQuestionAnswer.data.data.forEach((j : any) => {
 				if (j) {
-					const c = allQ.find((i) => i?.id === j?.questionId?.id);
+					const c = pillarwiseQuestion?.q.find((i : any) => i?.id === j?.questionId?.id);
 					if (c) {
 						const d = c.options.find((o: any) => o?.optionId === j?.selectedOptions[0]?.optionId);
 						if (d) {
@@ -86,9 +88,17 @@ const QuestionPage = () => {
 				}
 			});
 
-			dispatch(setGettedAnswer(updatedAnswers));
+			dispatch(setGettedAnswer({ updatedAnswers, name: pillarwiseQuestion?.name }));
 		}
-	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, allQ?.length]);
+	};
+
+	useEffect(() => {
+		pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
+			updateAnswers(pillarwiseQuestion, fetchQuestionAnswer);
+		});
+	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, ...pillarwiseQuestions.map(question => question?.q?.length)]);
+
+
 
 
 	useEffect(() => {
@@ -196,7 +206,7 @@ const QuestionPage = () => {
 					<button
 						className="flex items-center gap-2"
 						onClick={() => {
-							navigate("/");
+							history.back()
 						}}>
 						<img src={LeftArrow} alt="arrow" width={22} height={22} />
 						<span>back</span>
@@ -359,23 +369,19 @@ const QuestionPage = () => {
 													}`}>
 												<p>{category}</p>
 												<div className="flex gap-[10px]">
-													<div className="flex gap-1">
-														{Array.isArray(question[category]) &&
-															question[category]?.map(
-																(i: QuestionType, index: number) => {
-																	return (
-																		<p
-																			key={index}
-																			className={`w-3 h-3 ${i.options.some(
-																				(o) => o?.checked === true
-																			)
-																				? "bg-[#64A70B]"
-																				: "bg-[#D8D0D0]"
-																				}`}></p>
-																	);
-																}
-															)}
-													</div>
+													{Array.isArray(question[category]) && question[category]?.length > 0 && (
+														<div className="flex gap-1">
+															{question[category].map((i: QuestionType, index: number) => (
+																<p
+																	key={index}
+																	className={`w-3 h-3 ${i.options.some((o) => o?.checked === true)
+																		? "bg-[#64A70B]"
+																		: "bg-[#D8D0D0]"
+																		}`}
+																></p>
+															))}
+														</div>
+													)}
 												</div>
 											</div>
 											<span className="mr-2 ml-[11px] mt-[10px]">

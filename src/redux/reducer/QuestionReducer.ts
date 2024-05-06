@@ -29,7 +29,9 @@ export const QuestionSlice = createSlice({
             })
         },
         setGettedAnswer: (state: any, action) => {
-            state[state.activePillar] = action.payload
+            console.log("acc", action.payload);
+
+            state[action.payload.name] = action.payload.updatedAnswers
         }
 
 

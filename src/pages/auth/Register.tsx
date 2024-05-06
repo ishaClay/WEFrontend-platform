@@ -44,7 +44,7 @@ function Register() {
 		mutationFn: (company: Company) => createCompany(company),
 		onSuccess: async (data) => {
 			console.log(data?.data?.data?.user?.id);
-			
+
 			dispatch(setCompanyId(data?.data?.data?.user?.id));
 			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({
@@ -215,27 +215,30 @@ function Register() {
 									)}
 
 									<div className="flex flex-wrap gap-x-[20px]">
-										<InputWithLable
-											label="Set a password"
-											className="w-[240px] h-[46px] border solid 1.5px"
-											{...register("password")}
-										/>
-										{errors.password && (
-											<ErrorMessage
-												message={errors.password.message as string}
+										<div>
+											<InputWithLable
+												label="Set a password"
+												className="w-[240px] h-[46px] border solid 1.5px"
+												{...register("password")}
 											/>
-										)}
-
-										<InputWithLable
-											label="Confirm Password"
-											className="w-[240px] h-[46px] border solid 1.5px"
-											{...register("cpassword")}
-										/>
-										{errors.cpassword && (
-											<ErrorMessage
-												message={errors.cpassword.message as string}
+											{errors.password && (
+												<ErrorMessage
+													message={errors.password.message as string}
+												/>
+											)}
+										</div>
+										<div>
+											<InputWithLable
+												label="Confirm Password"
+												className="w-[240px] h-[46px] border solid 1.5px"
+												{...register("cpassword")}
 											/>
-										)}
+											{errors.cpassword && (
+												<ErrorMessage
+													message={errors.cpassword.message as string}
+												/>
+											)}
+										</div>
 									</div>
 
 									<div className=" mt-[20px] flex gap-x-[40px]">
@@ -276,7 +279,7 @@ function Register() {
 						</div>
 					)}
 
-					<div className="ml-[116px] flex gap-x-[19px]">
+					<div className="mt-[50px] ml-[116px] flex gap-x-[19px]">
 						<div>
 							<img className="" src="../assets/img/Group 1000001825.png" />
 						</div>
