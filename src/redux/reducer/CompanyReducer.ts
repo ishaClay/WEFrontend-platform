@@ -5,11 +5,15 @@ export const UserSlice = createSlice({
     initialState: {
         UserId: null,
         clientId: "",
-        targetAudienceId: ""
+        targetAudienceId: "",
+        CompanyId: ""
     },
     reducers: {
         setUserData: (state, action) => {
             state.UserId = action.payload
+        },
+        setCompanyId: (state, action) => {
+            state.CompanyId = action.payload
         },
         setClientId: (state, action) => {
             state.clientId = action.payload;
@@ -17,6 +21,6 @@ export const UserSlice = createSlice({
     },
 });
 
-export const { setUserData, setClientId } = UserSlice.actions;
+export const { setUserData, setClientId, setCompanyId } = UserSlice.actions;
 
 export default UserSlice.reducer;

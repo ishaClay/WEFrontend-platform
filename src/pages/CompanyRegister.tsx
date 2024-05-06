@@ -20,7 +20,9 @@ function CompanyRegister() {
 
 	const navigate = useNavigate()
 
-	const UserId = useSelector((state: any) => state.user.UserId);
+	const CompanyId = useSelector((state: any) => state.user.CompanyId);
+	console.log(CompanyId, 'CompanyId');
+	
 
 	const [soleTrader, setSoleTrader] = useState("");
 
@@ -33,9 +35,9 @@ function CompanyRegister() {
 	const queryClient = useQueryClient();
 
 	const { data: companydetails } = useQuery({
-		queryKey: [QUERY_KEYS.oneCompany, UserId],
-		queryFn: () => getOneCompany(UserId as string),
-		enabled: !!UserId,
+		queryKey: [QUERY_KEYS.oneCompany, CompanyId],
+		queryFn: () => getOneCompany(CompanyId as string),
+		enabled: !!CompanyId,
 	});
 
 	const { mutate: updatecompany, isPending: updatePanding } = useMutation({

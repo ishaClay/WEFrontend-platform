@@ -1,9 +1,11 @@
 import TeaserScoreHeader from "@/components/TeaserScoreHeader"
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
+import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
 
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -145,18 +147,10 @@ function SavedAssesment() {
                             </div>
                             <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">Complete the Assessment and Reap the Benefits</p>
                             <p> Every question answered propels you closer to a sustainable and successful voyage. Don't miss the chance to refine your course and make a positive impact. Your sustainable map awaits completion!</p>
-                            <Button className="bg-[#64A70B] text-[20pxpx] leading-5 w-[180px] mt-[20px]">
-
-
+                            <Button onClick={() => navigate("/question")} className="bg-[#64A70B] text-[20pxpx] leading-5 w-[180px] mt-[20px]">
                                 Continue Assessment
                             </Button>
                         </div>
-
-
-
-
-
-
 
                     </div>
 

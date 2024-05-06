@@ -2,30 +2,44 @@ import Footer from "@/components/Footer";
 import TeaserScoreHeader from "@/components/TeaserScoreHeader";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchAssessment } from "@/services/apiServices/assessment";
+import { fetchAssessment, getAllassessment } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import { Doughnut } from 'react-chartjs-2';
 import { useNavigate } from "react-router-dom";
 import GovernanceGray from "../../public/assets/img/GovernanceGray.png";
 import SocialGray from "../../public/assets/img/SocialGray.png";
 import StrategicIntegrationGray from "../../public/assets/img/StrategicIntegrationGray.png";
+import { useSelector } from "react-redux";
 
 
 const MaturityLevelPage = () => {
 
   const navigate = useNavigate()
+  const UserId = useSelector((state: any) => state.user.UserId);
+
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
-    queryFn: () => fetchAssessment("6"),
+    queryFn: () => fetchAssessment(UserId),
   });
 
+
+  const { data: allassessmant } = useQuery({
+    queryKey: [QUERY_KEYS.totalAssessment],
+    queryFn: () => getAllassessment(UserId),
+  });
+
+  console.log("allassessmant", allassessmant);
+  
+
+  const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+  // const currentLavel = findMaturityLevel(Number(score));
 
   const data = {
     labels: ['Introductory', 'Intermediate', 'Advanced',],
     datasets: [{
       label: 'Poll',
-      data: [100],
+      data: [score, 100 - Number(score)],
       backgroundColor: ['#FFD56A', 'green', 'red'],
       borderColor: ['#FFD56A', 'green', 'red',],
 
@@ -94,9 +108,9 @@ const MaturityLevelPage = () => {
       })}
       <div className="mt-[20px] mb-[100px]">
         <p className="font-abhaya font-extrabold text-base leading-[18.88px]">Total Score-<span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
-          57
+          {allassessmant?.data?.data?.avTotalpoints}
         </span>
-          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">/90</span>
+          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">/{allassessmant?.data?.data?.avTotalmaxpoint}</span>
         </p>
       </div>
     </div>
@@ -135,7 +149,9 @@ const MaturityLevelPage = () => {
           <div className="mt-[60px]">
             <p className="inline ml-[35px] ">Your overall sustainability level -</p>{" "}
             <span className="font-poppins font-bold text-[#000000] leading-6">
-              Intermediate
+              { score < "40" && "Introductory" }
+              { score >= "40" && score < "70" && "Intermediate" }
+              { score >= "70" && "Advanced" }
             </span>
           </div>
 

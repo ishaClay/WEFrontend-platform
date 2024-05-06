@@ -8,6 +8,7 @@ export const QUERY_KEYS = {
     companyList: "company_list",
     oneCompany: "one_company",
     assessment: "assessment",
+    totalAssessment: "total_assessment",
     clientwiseBannerSlider: "clientwise_banner_slider",
     clientwiseCourseSlider: "clientwise_course_slider",
     fetchDataByClientwise: "fetch_data_by_clientwise",

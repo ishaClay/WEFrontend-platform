@@ -57,7 +57,7 @@ function Auth() {
 
 			dispatch(setUserData(user));
 			localStorage.setItem("token", data.data.data.accessToken);
-			navigate("/");
+			navigate("/savedassesment");
 		},
 		onError: (error: ErrorType) => {
 			toast({
