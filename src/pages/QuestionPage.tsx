@@ -13,7 +13,7 @@ import { fetchClientwisePillarList, fetchPillarList } from "@/services/apiServic
 import { fetchQuestionAnswerList, fetchQuestionList } from "@/services/apiServices/question";
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,53 +54,6 @@ const QuestionPage = () => {
 		queryFn: () => fetchClientwisePillarList(clientId?.toString()),
 	});
 
-	const { data: fetchQuestionAnswer } = useQuery({
-		queryKey: [QUERY_KEYS.getQuestionAnswer],
-		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
-	});
-
-	const pillarwiseQuestions = allPillar?.map((item: string) => {
-		return { q: question?.[item], name: item };
-	})
-
-	const updateAnswers = (pillarwiseQuestion : any, fetchQuestionAnswer : any) => {
-		if (fetchQuestionAnswer?.data?.data && Array.isArray(pillarwiseQuestion?.q)) {
-			let updatedAnswers = [...pillarwiseQuestion?.q];
-			fetchQuestionAnswer.data.data.forEach((j : any) => {
-				if (j) {
-					const c = pillarwiseQuestion?.q.find((i : any) => i?.id === j?.questionId?.id);
-					if (c) {
-						const d = c.options.find((o: any) => o?.optionId === j?.selectedOptions[0]?.optionId);
-						if (d) {
-							const updatedOption = { ...d, checked: true };
-							const updatedOptions = c.options.map((o: any) =>
-								o.optionId === updatedOption.optionId ? updatedOption : o
-							);
-
-							const updatedC = { ...c, options: updatedOptions };
-
-							const index = updatedAnswers.findIndex((itemA) => updatedC.id === itemA.id);
-							if (index !== -1) {
-								updatedAnswers[index] = updatedC;
-							}
-						}
-					}
-				}
-			});
-
-			dispatch(setGettedAnswer({ updatedAnswers, name: pillarwiseQuestion?.name }));
-		}
-	};
-
-	useEffect(() => {
-		pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
-			updateAnswers(pillarwiseQuestion, fetchQuestionAnswer);
-		});
-	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, ...pillarwiseQuestions.map(question => question?.q?.length)]);
-
-
-
-
 	useEffect(() => {
 		const pillarName = (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)?.map(
 			(i: Pillar) => i?.pillarName
@@ -128,10 +81,10 @@ const QuestionPage = () => {
 	useEffect(() => {
 		allPillar?.forEach((i: string) => {
 			if (questionList?.data?.data) {
-				dispatch(setQuestion({ q: questionList?.data?.data?.[i], p: i }));
+				dispatch(setQuestion({ q: questionList?.data?.data?.[i], p: i }))
 			}
 		});
-	}, [allPillar?.length, questionList?.data?.data]);
+	}, [allPillar?.length, questionList?.data?.data, activePillar]);
 
 	const paths = [
 		{
@@ -198,6 +151,51 @@ const QuestionPage = () => {
 		});
 		navigate("/teaserscore");
 	};
+
+	const { data: fetchQuestionAnswer } = useQuery({
+		queryKey: [QUERY_KEYS.getQuestionAnswer],
+		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
+	});
+
+	const pillarwiseQuestions = allPillar?.map((item: string) => {
+		return { q: question?.[item], name: item };
+	})
+
+	const updateAnswers = (pillarwiseQuestion: any, fetchQuestionAnswer: any) => {
+		if (fetchQuestionAnswer?.data?.data && Array.isArray(pillarwiseQuestion?.q)) {
+			let updatedAnswers = [...pillarwiseQuestion?.q];
+			fetchQuestionAnswer.data.data.forEach((j: any) => {
+				if (j) {
+					const c = pillarwiseQuestion?.q.find((i: any) => i?.id === j?.questionId?.id);
+					if (c) {
+						const d = c.options.find((o: any) => o?.optionId === j?.selectedOptions[0]?.optionId);
+						if (d) {
+							const updatedOption = { ...d, checked: true };
+							const updatedOptions = c.options.map((o: any) =>
+								o.optionId === updatedOption.optionId ? updatedOption : o
+							);
+
+							const updatedC = { ...c, options: updatedOptions };
+
+							const index = updatedAnswers.findIndex((itemA) => updatedC.id === itemA.id);
+							if (index !== -1) {
+								updatedAnswers[index] = updatedC;
+							}
+						}
+					}
+				}
+			});
+
+			dispatch(setGettedAnswer({ updatedAnswers, name: pillarwiseQuestion?.name }));
+		}
+	};
+
+	useEffect(() => {
+		pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
+			updateAnswers(pillarwiseQuestion, fetchQuestionAnswer);
+		});
+	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, ...pillarwiseQuestions.map((question: any) => question?.q?.length)]);
+
 
 	return (
 		<div className="font-calibri font-normal">
