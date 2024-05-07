@@ -17,8 +17,7 @@ const Question = () => {
 	const { activePillar } = useSelector((state: any) => state.question);
 
 	const userId = useSelector((state: any) => state.user.UserId);
-
-
+	
 	const queryClient = useQueryClient();
 
 	const { toast } = useToast();

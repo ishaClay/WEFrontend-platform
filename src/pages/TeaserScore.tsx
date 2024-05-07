@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
+import { fetchClientwiseMaturityLevel, fetchmaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useQuery } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -50,7 +51,20 @@ const findMaturityLevel = (score: number) => {
 const TeaserScore = () => {
 	const navigate = useNavigate();
 	const UserId = useSelector((state: any) => state.user.UserId);
+	const { clientId } = useSelector((state: any) => state.user)
 
+
+	const { data: maturitylevel } = useQuery({
+		queryKey: [QUERY_KEYS.maturityLevel],
+		queryFn: () => fetchmaturityLevel(),
+	});
+
+	const { data: fetchClientmaturitylevel } = useQuery({
+		queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+		queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+	});
+	console.log(fetchClientmaturitylevel?.data?.data);
+	
 	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.totalAssessment],
 		queryFn: () => getAllassessment(UserId),
@@ -111,8 +125,8 @@ const TeaserScore = () => {
 	};
 
 	const Labels = () => (
-		<div className="absolute left-0 top-0 flex flex-col justify-center h-full">
-			{maturityLevel.map((label, index) => {
+		<div className="absolute left-0 top-0 flex flex-col justify-center h-fulzl">
+			{(fetchClientmaturitylevel?.data?.data?.length > 0 ? fetchClientmaturitylevel?.data?.data : maturitylevel?.data.data)?.map((label, index) => {
 				return (
 					<div
 						key={index}
@@ -121,14 +135,16 @@ const TeaserScore = () => {
 							style={{
 								backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
 							}}
-							className={`absolute left-0 top-0 h-full w-2/4 rounded-l-lg rounded-r-none`}></div>
-						<div className="ml-10 pl-2 rounded-r-lg">
+							className={`absolute left-0 top-[50px] h-full w-2/4 rounded-l-lg rounded-r-none`}></div>
+						<div className="ml-10 mt-[50px] pl-2 rounded-r-lg">
 							{label.maturityLevelName}
 						</div>
-						<div className="ml-10 pl-2 rounded-r-lg">
+						<div className="ml-10 mt-[0px] pl-2 rounded-r-lg">
 							{label?.rangeStart} to {label?.rangeEnd}
 						</div>
 					</div>
+
+				
 				);
 			})}
 		</div>

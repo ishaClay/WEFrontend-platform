@@ -21,9 +21,14 @@ import { Trainer } from "@/types/Trainer";
 import Loading from "@/components/comman/Error/Loading";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import { useToast } from "@/components/ui/use-toast";
+import { useSelector } from "react-redux";
 
 function RegisterTrainer() {
 	const queryClient = useQueryClient();
+	const { clientId } = useSelector((state: any) => state.user)
+	console.log(clientId);
+	
+
 
 	const { toast } = useToast();
 

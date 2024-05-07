@@ -14,4 +14,6 @@ export const QUERY_KEYS = {
     fetchDataByClientwise: "fetch_data_by_clientwise",
     clientwisePillarList: "clientwise_pillar_list",
     getQuestionAnswer: "get_question_answer",
+    maturityLevel : "maturity_level",
+    fetchbyclientMaturity: "fetch_by_client_maturity"
 };

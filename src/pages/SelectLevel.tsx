@@ -23,16 +23,23 @@ import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
+import { useSelector } from "react-redux";
 
 
 function SelectLevel() {
 
   const navigate = useNavigate();
+  const UserId = useSelector((state: any) => state.user.UserId);
+  console.log(UserId);
+  
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
-    queryFn: () => fetchAssessment("6"),
+    queryFn: () => fetchAssessment(UserId),
   });
+
+  console.log(assessmant);
+  
 
   const paths = [
     {
@@ -72,7 +79,6 @@ function SelectLevel() {
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
   };
-
 
 
   return (
