@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
 	setActivePillar,
@@ -28,6 +28,7 @@ import LeftArrow from "/assets/img/LeftArrow.png";
 import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
+
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
@@ -61,6 +62,7 @@ const QuestionPage = () => {
 			dispatch(setPillarName(pillarName));
 		}
 	}, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
+
 
 	useEffect(() => {
 		if (!activePillar && (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)) {
@@ -264,63 +266,34 @@ const QuestionPage = () => {
 			</div>
 			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
 				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
+
 					{allPillar.map((category: string, index: number) => {
+
+
+						const pillarQuestions = question[category];
+						const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
+						const pillarAttempted = Array.isArray(pillarQuestions) ? pillarQuestions.filter((que: QuestionType) => que.options.some((opt) => opt.checked)).length : 0;
+
 						return (
-							<div
-								key={index}
-								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-									}`}
-								onClick={() => dispatch(setActivePillar(category))}>
+							<div key={index} className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"}`} onClick={() => dispatch(setActivePillar(category))}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
 										<div className="w-8 h-8">
-											{/* {category.icon && (
-												<img
-													src={category.icon}
-													alt="img"
-													className="w-8 h-8 object-cover"
-												/>
-											)} */}
+
 										</div>
-										<p
-											className={`text-nowrap ${activePillar === category
-												? "text-white"
-												: "text-[#848181]"
-												}`}>
-											{(index / (allPillar.length - 1)) * 100} %
-										</p>
+										<p className={`text-nowrap ${activePillar === category ? "text-white" : "text-[#848181]"}`}>{(pillarAttempted / pillarTotal) * 100} %</p>
 									</div>
 									<div>
-										<h2
-											className={`leading-[19px] ${activePillar === category
-												? "text-white"
-												: "text-[#3A3A3A]"
-												}`}>
-											{category}
-										</h2>
-										<p
-											className={`text-[12px] leading-[14.65px] ${activePillar === category
-												? "text-white"
-												: "text-[#848181]"
-												}`}>
-											My progress {index} / {allPillar.length - 1}
-										</p>
+										<h2 className={`leading-[19px] ${activePillar === category ? "text-white" : "text-[#3A3A3A]"}`}>{category}</h2>
+										<p className={`text-[12px] leading-[14.65px] ${activePillar === category ? "text-white" : "text-[#848181]"}`}>My progress {pillarAttempted}/{pillarTotal}</p>
 									</div>
 								</div>
 
-								<Slider
-									defaultValue={[(index / (allPillar.length - 1)) * 100]}
-									max={100}
-									step={1}
-									className="bg-red-50"
-									classNameThumb="hidden"
-									classNameRange={`${!(activePillar === category) && "!bg-[#64A70B]"
-										}`}
-									disabled
-								/>
+								<Progress color="#64A70B" className={`${!(activePillar === category) && "!bg-[white]"} h-[4px]`} value={pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0} />
 							</div>
 						);
 					})}
+
 				</div>
 			</div>
 

@@ -1,3 +1,4 @@
+import Loading from "@/components/comman/Error/Loading";
 import Footer from "@/components/Footer";
 import TeaserScoreHeader from "@/components/TeaserScoreHeader";
 import { Button } from "@/components/ui/button";
@@ -10,36 +11,112 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchAssessment } from "@/services/apiServices/assessment";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from 'react';
+import { getAllassessment } from "@/services/apiServices/assessment";
+import { addMeasuresItems, fetchMaturityPillar, getMeasuresItems } from "@/services/apiServices/pillar";
+import { ErrorType } from "@/types/Errors";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from 'react';
 import { BsFillPlusSquareFill, BsPencil } from "react-icons/bs";
 import { FaStar } from 'react-icons/fa';
-import { RiArrowDropDownLine, RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
-import { useSelector } from "react-redux";
+
 
 
 function SelectLevel() {
 
   const navigate = useNavigate();
-  const UserId = useSelector((state: any) => state.user.UserId);
-  console.log(UserId);
-  
+  const [actionItems, setActionItems] = useState(['']);
+  const [pid, setPId] = useState("")
+  const [checkedStates, setCheckedStates] = useState([]);
 
-  const { data: assessmant } = useQuery({
-    queryKey: [QUERY_KEYS.assessment],
-    queryFn: () => fetchAssessment(UserId),
+  const { clientId, UserId } = useSelector((state: any) => state.user);
+
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const addActionItem = () => {
+    setActionItems([...actionItems, '']);
+  };
+
+  const { data: maturitypillar } = useQuery({
+    queryKey: [QUERY_KEYS.maturitypillar],
+    queryFn: () => fetchMaturityPillar(clientId, UserId),
+
   });
 
-  console.log(assessmant);
-  
+  const handleChange = (_: any, p_id: string) => {
+    setPId(p_id)
+  }
+
+  const { data: allassessmant } = useQuery({
+    queryKey: [QUERY_KEYS.totalAssessment],
+    queryFn: () => getAllassessment(UserId),
+  });
+
+  const score = +((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+
+  let proficiencyLevel;
+  if (score < 30) {
+    proficiencyLevel = "Introductory";
+  } else if (score >= 30 && score < 60) {
+    proficiencyLevel = "Intermediate";
+  } else {
+    proficiencyLevel = "Advanced";
+  }
+
+
+  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
+    mutationFn: (actionitems: any) => addMeasuresItems(actionitems),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.measuresItems],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const { data: getmeasuresitem, refetch: refetchmeasuresitem } = useQuery({
+    queryKey: [QUERY_KEYS.measuresItems],
+    queryFn: () => getMeasuresItems(UserId as string, pid as string),
+    enabled: !!(UserId && pid)
+  });
+
+  useEffect(() => {
+    if (getmeasuresitem?.data?.data) {
+      setActionItems(() => [
+        ...getmeasuresitem.data.data[0]?.measure_measures?.map((i: any) => i?.name),
+      ]);
+    }
+  }, [getmeasuresitem?.data?.data]);
+
+
+  useEffect(() => {
+    if (UserId && pid) {
+      refetchmeasuresitem();
+    }
+  }, [UserId, pid])
 
   const paths = [
     {
@@ -74,10 +151,34 @@ function SelectLevel() {
     },
   ];
 
-  const [isChecked, setIsChecked] = useState(false);
+  const toggleCheckbox = (index: number) => {
+    const newCheckedStates: any = [...checkedStates];
+    newCheckedStates[index] = !newCheckedStates[index];
+    setCheckedStates(newCheckedStates);
+  };
 
-  const toggleCheckbox = () => {
-    setIsChecked(!isChecked);
+
+  const handleActionItemChange = (index: number, value: any) => {
+    const updatedItems = [...actionItems];
+    updatedItems[index] = value;
+    setActionItems(updatedItems);
+  };
+
+  const [editId, setEditId] = useState<number | null>(null)
+  console.log("editId", editId);
+
+
+  const removeActionItem = (index: number) => {
+    const updatedItems = [...actionItems];
+    updatedItems.splice(index, 1);
+    setActionItems(updatedItems);
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    refetchmeasuresitem();
+    const measures = actionItems.map((item: string) => ({ name: item }));
+    createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
 
 
@@ -138,25 +239,27 @@ function SelectLevel() {
       <div className="flex flex-col items-center h-full w-full ">
 
         {
-          assessmant?.data?.data.map((item: any) => {
-
+          maturitypillar?.data?.data.map((item: any, index: number) => {
+            const isChecked = proficiencyLevel === item.maturityLevelName;
             return (
               <div className="ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-                <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[164px] rounded-[10.06px] flex flex-col ">
+                <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[200px] rounded-[10.06px] flex flex-col">
                   <div className="flex h-8">
                     <div className="bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
                       <h2 className="text-lg font-inter ">
-                        <span className="text-white">Your level -</span><span className="text-[#FFD56A]">Intermediate</span>
+                        <span className="text-white">Your level -</span><span className="text-[#FFD56A]">{item.maturityLevelName}</span>
                       </h2>
 
                     </div>
 
-                    <div
-                      className={` ml-auto mr-3 w-5 h-5 mt-2 flex justify-center items-center cursor-pointer ${isChecked ? 'bg-[#64A70B]' : 'bg-white border border-[#B9B9B9]'}`}
 
-                      onClick={toggleCheckbox}
-                    >
-                      {isChecked && <span className="text-white text-sm">&#10003;</span>}
+                    <div className="ml-auto mr-3 mt-2 ">
+                      <input
+                        className={`w-5 h-5 cursor-pointer ${isChecked ? 'accent-[#64A70B]' : 'accent-[white] border border-[#B9B9B9]'}`}
+                        type="checkbox"
+                        checked={checkedStates[index]}
+                        onChange={() => toggleCheckbox(index)}
+                      />
                     </div>
 
                   </div>
@@ -177,15 +280,22 @@ function SelectLevel() {
                         <div className="flex items-center ">
                           <FaStar className="text-yellow-500" />
                           <p className="text-gray-800 mb-1 ml-1 mr-2"> RECOMMENDED</p>
-
                         </div>
-                        <div className=" text-black-500 py-2 px-4  flex items-center justify-between border border-[#E9EAF0] ">
-                          <span >Advanced</span>
-                          <div className="ml-12">
-                            <RiArrowDropDownLine className="text-3xl " />
-                          </div>
 
-                        </div>
+                        <Select
+                          onValueChange={(e) => handleChange(e, maturitypillar?.data?.data[index]?.pillarid)}
+                        >
+                          <SelectGroup>
+                            <SelectTrigger className="max-w-[180px]">
+                              <SelectValue placeholder={item.maturityNameRecommended} />
+                            </SelectTrigger>
+                          </SelectGroup>
+                          <SelectContent>
+                            <SelectItem value="Introductory">Introductory</SelectItem>
+                            <SelectItem value="Intermediate">Intermediate</SelectItem>
+                            <SelectItem value="Advance">Advance</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
 
                     </div>
@@ -197,18 +307,19 @@ function SelectLevel() {
                       </div>
                       <div>
                         <ul className="list-disc ml-6 text-xs text-[#000000]">
-                          <li>
-                            Enhance and execute your Net Zero strategy with clear goals and comprehensive actions.
-                          </li>
-                          <li>
-                            Lead in energy efficiency through continuous optimization and strategic energy management.
-                          </li>
-                          <li>
-                            Achieve sustainability leadership by fully embracing and expanding renewable energy use.
-                          </li>
-                          <li>
-                            Optimise transportation and logistics for minimal environmental impact through advanced strategies and technologies.
-                          </li>
+                          {
+                            item?.filteredOptions.map((m: any) => {
+
+                              if (m.measures) {
+                                return (
+                                  <li>
+                                    {m.measures}
+                                  </li>
+                                )
+                              }
+
+                            })
+                          }
                         </ul>
                       </div>
 
@@ -219,7 +330,7 @@ function SelectLevel() {
 
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 ">Define Action Items</Button>
+                          <Button onClick={() => { setPId(item.pillarid); refetchmeasuresitem() }} className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 ">Define Action Items</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[50rem] z-[999]">
                           <DialogHeader>
@@ -239,7 +350,7 @@ function SelectLevel() {
 
                             </div>
                             <div className="flex flex-col space-y-4 ">
-                              <div className="text-[#1D2026] font-Calibri font-bold ml-4">Environmental</div>
+                              <div className="text-[#1D2026] font-Calibri font-bold ml-4">{item.pillarname}</div>
                               <div className="flex h-full w-full mt-2">
                                 <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
                                   <div className="w-full h-74 border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
@@ -247,70 +358,86 @@ function SelectLevel() {
                                       <div className="ml-6  text-[#1D2026] font-calibri font-bold">Measures</div>
                                       <div className="p-4 ">
                                         <ul className="list-disc list-inside text-[12px]  font-calibri">
-                                          <li>Enhance and execute your Net Zero strategy with clear goals  </li>
-                                          <p className="ml-[17px]"> and comprehensive actions.</p>
-                                          <li>Lead in energy efficiency through continuous optimization </li>
-                                          <p className="ml-[17px]">and strategic energy management.</p>
-                                          <li>Achieve sustainability leadership by fully embracing and</li>
-                                          <p className="ml-[17px]"> expanding renewable energy use.</p>
-                                          <li>Optimize transportation and logistics for minimal</li>
-                                          <p className="ml-[17px]">environmental impact through advanced strategies and technologies.</p>
+                                          {
+                                            item?.filteredOptions.map((m: any) => {
+
+                                              if (m.measures) {
+                                                return (
+                                                  <li>
+                                                    {m.measures}
+                                                  </li>
+                                                )
+                                              }
+
+                                            })
+                                          }
                                         </ul>
                                       </div>
 
                                     </div>
                                   </div>
                                 </div>
-                                <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
-                                  <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
-                                    <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                                      <div className="ml-6  text-[#1D2026] font-calibri font-bold">Enter initiatives or action items</div>
 
-                                      <div className="p-4">
-                                        <div className="flex  p-2 w-[322px] h-[42px] mt-2">
-                                          <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
-                                            <input
-                                              type="text"
-                                              placeholder="Action item 1"
-                                              className="flex-1 border-none outline-none pl-2 pt-2"
-                                            />
-                                          </div>
-                                          <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
-                                          <button className="border-none bg-transparent text-lg cursor-pointer gap-4 mt-2"><RiDeleteBin6Line className="text-[#B9B9B9]" /></button>
+                                <form onSubmit={handleSubmit}>
+                                  <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
+                                    <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
+                                      <div className="pb-2 pt-2 h-[42px] w-[350px]">
+                                        <div className="ml-6  text-[#1D2026] font-calibri font-bold">Enter initiatives or action items</div>
 
+                                        {
+                                          actionItems.map((item: any, index: number) => (
+                                            <div key={index} className="pl-4">
+                                              <div className="flex p-2 w-[322px] h-[42px] mt-2">
+                                                <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
+                                                  <input
+                                                    type="text"
+                                                    placeholder="Action item"
+                                                    value={item}
+                                                    onChange={(e) => handleActionItemChange(index, e.target.value)}
+                                                    className="flex-1 border-none outline-none pl-2 pt-2"
+                                                  // readOnly={(editId === editId ? false : true)}
+                                                  />
+                                                </div>
+                                                <div>
+                                                  <button
+                                                    type="button"
+                                                    className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
+                                                    onClick={() => setEditId(index)}
+                                                  >
+                                                    <BsPencil className="text-[#B9B9B9]" />
+                                                  </button>
+                                                  <button
+                                                    className="border-none bg-transparent text-lg cursor-pointer mt-2"
+                                                    onClick={() => removeActionItem(index)}
+                                                  >
+                                                    <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          ))
+                                        }
+
+
+
+                                        <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
+                                          <BsFillPlusSquareFill onClick={addActionItem} />
                                         </div>
-                                      </div>
-
-
-                                      <div className="pl-4 ">
-                                        <div className="flex  p-2 w-[322px] h-[42px] mt-2">
-                                          <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
-
-                                            <input
-                                              type="text"
-                                              placeholder=""
-                                              className="flex-1 border-none outline-none pl-2 pt-2"
-                                            />
-                                          </div>
-                                          <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
-                                          <button className="border-none bg-transparent text-lg cursor-pointer  mt-2"><RiDeleteBin6Line className="text-[#B9B9B9] " /></button>
-
-                                        </div>
-                                      </div>
-
-
-                                      <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
-
-                                        <BsFillPlusSquareFill />
                                       </div>
                                     </div>
                                   </div>
-                                </div>
+
+                                  <Button type="submit" className="absolute bottom-6 right-[100px]" >
+                                    save
+                                  </Button>
+                                </form>
 
                               </div>
                             </div>
+
                           </div>
                           <DialogFooter className="sm:justify-end">
+
                             <DialogClose asChild>
                               <Button type="button" variant="secondary">
                                 Close
@@ -319,6 +446,8 @@ function SelectLevel() {
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
+
+
                     </div>
                   </div>
                 </div>
@@ -341,6 +470,8 @@ function SelectLevel() {
         </div>
       </div>
       <Footer />
+
+      <Loading isLoading={createPending} />
     </div>
   );
 }

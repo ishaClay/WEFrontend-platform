@@ -3,7 +3,7 @@ import { Option, QuestionType } from "@/types/Question";
 import { useDispatch, useSelector } from "react-redux";
 import Suggestion from "/assets/img/Suggestion.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addAnswer } from "@/services/apiServices/question";
+import { addAnswer, removeAnswer } from "@/services/apiServices/question";
 import { ErrorType } from "@/types/Errors";
 import { useToast } from "../ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -17,7 +17,7 @@ const Question = () => {
 	const { activePillar } = useSelector((state: any) => state.question);
 
 	const userId = useSelector((state: any) => state.user.UserId);
-	
+
 	const queryClient = useQueryClient();
 
 	const { toast } = useToast();
@@ -38,9 +38,29 @@ const Question = () => {
 		},
 	});
 
+	const { mutate: removeanswer } = useMutation({
+		mutationFn: (question: any) => removeAnswer(question),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getQuestionAnswer] });
+		},
+		onError: (error: ErrorType) => {
+			toast({
+				variant: "destructive",
+				title: error.data.message,
+			});
+		},
+	});
+
 	const handleChange = (questionId: any, selectedOptions: any) => {
 
-		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
+		if (selectedOptions.checked === true) {
+
+			removeanswer({ userId: userId, questionId: questionId });
+			selectedOptions.checked = false;
+
+		} else {
+			addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
+		}
 	};
 
 

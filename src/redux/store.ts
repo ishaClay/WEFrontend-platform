@@ -9,7 +9,8 @@ const persistConfig = {
     storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, CompanyReducer)
+const persistedCompanyReducer = persistReducer(persistConfig, CompanyReducer);
+const persistedQuestionReducer = persistReducer(persistConfig, QuestionReducer);
 
 
 export const store = configureStore({
@@ -17,8 +18,8 @@ export const store = configureStore({
         serializableCheck: false
     }),
     reducer: {
-        user: persistedReducer,
-        question: QuestionReducer
+        user: persistedCompanyReducer,
+        question: persistedQuestionReducer
     },
 })
 

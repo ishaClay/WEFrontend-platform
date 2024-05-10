@@ -63,8 +63,7 @@ const TeaserScore = () => {
 		queryKey: [QUERY_KEYS.fetchbyclientMaturity],
 		queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
 	});
-	console.log(fetchClientmaturitylevel?.data?.data);
-	
+
 	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.totalAssessment],
 		queryFn: () => getAllassessment(UserId),
@@ -126,7 +125,7 @@ const TeaserScore = () => {
 
 	const Labels = () => (
 		<div className="absolute left-0 top-0 flex flex-col justify-center h-fulzl">
-			{(fetchClientmaturitylevel?.data?.data?.length > 0 ? fetchClientmaturitylevel?.data?.data : maturitylevel?.data.data)?.map((label, index) => {
+			{(fetchClientmaturitylevel?.data?.data?.length > 0 ? fetchClientmaturitylevel?.data?.data : maturitylevel?.data.data)?.map((label: any, index: number) => {
 				return (
 					<div
 						key={index}
@@ -144,7 +143,7 @@ const TeaserScore = () => {
 						</div>
 					</div>
 
-				
+
 				);
 			})}
 		</div>

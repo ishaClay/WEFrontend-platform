@@ -27,3 +27,11 @@ export const fetchQuestionAnswerList = (id: string) => {
 
     return api({ url });
 };
+
+
+export const removeAnswer = (data: any) => {
+
+    const url = `api/v1/question/remove-answer`;
+
+    return api({ url, data, method: "delete" });
+}

@@ -8,6 +8,6 @@ export const fetchmaturityLevel = () => {
 };
 
 export const fetchClientwiseMaturityLevel = (id: string) => {
-    const url = `api/v1/maturity-level/list?clientId=${6}`;
+    const url = `api/v1/maturity-level/list?clientId=${id}`;
     return api({ url });
 };

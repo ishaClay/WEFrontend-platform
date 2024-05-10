@@ -1,8 +1,7 @@
-import Header from "@/components/Header";
-import { z } from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
+import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import {
 	Select,
@@ -13,22 +12,18 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ErrorType } from "@/types/Errors";
+import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { registerTrainer } from "@/services/apiServices/trainer";
+import { ErrorType } from "@/types/Errors";
 import { Trainer } from "@/types/Trainer";
-import Loading from "@/components/comman/Error/Loading";
-import { PrimaryButton } from "@/components/comman/Button/CustomButton";
-import { useToast } from "@/components/ui/use-toast";
-import { useSelector } from "react-redux";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 function RegisterTrainer() {
 	const queryClient = useQueryClient();
-	const { clientId } = useSelector((state: any) => state.user)
-	console.log(clientId);
-	
-
 
 	const { toast } = useToast();
 
