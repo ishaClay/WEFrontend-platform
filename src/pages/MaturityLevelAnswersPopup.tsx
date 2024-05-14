@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Card} from '@/components/ui/card';
 function MaturityLevelAnswersPopup() {
 	const [progress, setProgress] = React.useState(0);
 	const [progress1, setProgress1] = React.useState(0);
@@ -32,8 +32,8 @@ function MaturityLevelAnswersPopup() {
 		return () => clearTimeout(timer);
 	}, []);
 	return (
-		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-			<div className="bg-white rounded-lg p-6 h-[540px] w-[812px] ">
+		<div className="fixed inset-0 flex justify-center items-center ">
+			<Card className="bg-white rounded-lg p-6 h-[540px] w-[812px] ">
 				<div className="flex">
 					<div className="h-[105px] w-[270px] flex flex-col">
 						<div className="flex ">
@@ -174,7 +174,7 @@ function MaturityLevelAnswersPopup() {
 						</button>
 					</div>
 				</div>
-			</div>
+				</Card>
 		</div>
 	);
 }

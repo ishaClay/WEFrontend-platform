@@ -11,7 +11,7 @@ function MaturityAssessmentRoadmapSetTarget() {
 
     const [activeTab, setActiveTab] = useState('Assessment Result');
 
-    const handleTabChange = (tabName) => {
+    const handleTabChange = (tabName:any) => {
         setActiveTab(tabName);
     };
 
@@ -72,7 +72,7 @@ function MaturityAssessmentRoadmapSetTarget() {
 
                         <div className="pt-[10px]">
                             <button
-                                className={`${activeTab === 'Assessment Result' ? '  text-[#00778B]  font-semibold border-b border-[#00778B]' : ' text-[#000000] '
+                                className={`${activeTab === 'Assessment Result' ? '  text-[#00778B]  font-semibold border-b-2 border-[#00778B]' : ' text-[#000000] '
 
                                     }  py-2 px-4  text-[16px] h-[49px]  `}
                                 onClick={() => handleTabChange('Assessment Result')}
@@ -80,7 +80,7 @@ function MaturityAssessmentRoadmapSetTarget() {
                                 Assessment Result
                             </button>
                             <button
-                                className={`${activeTab === 'Roadmap' ? 'text-[#00778B]  font-semibold  border-b border-[#00778B]' : ' text-[#000000]'
+                                className={`${activeTab === 'Roadmap' ? 'text-[#00778B]  font-semibold  border-b-2 border-[#00778B]' : ' text-[#000000]'
                                     }  py-2 px-4  text-[16px] h-[49px] `}
                                 onClick={() => handleTabChange('Roadmap')}
                             >
@@ -607,14 +607,6 @@ function MaturityAssessmentRoadmapSetTarget() {
 
 
                         </div>
-
-
-
-
-
-
-
-
 
                     </div>
 

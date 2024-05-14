@@ -1,6 +1,7 @@
 import mandatory from "/assets/img/Mandatory.svg";
-import ErrorMessage from "../comman/Error.tsx/ErrorMessage";
+
 import Input from "../comman/Input/Input";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 
 const RegisterTraineeForm = () => {
 	return (

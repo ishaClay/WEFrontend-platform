@@ -108,32 +108,32 @@ code {
 	justify-content: center !important;
 }
 
+.slick-prev:before {
+	display: none;
+}
+
+.slick-next:before {
+	display: none;
+}
+
 .slick-prev {
-	left: -50px;
+	left: -55px;
 	top: 95px;
 	width: 29px;
 	height: 29px;
 	color: gray;
+	font-size: 30px;
 }
 
 .slick-next {
-	right: -50px;
+	right: -55px;
 	top: 95px;
 	width: 29px;
 	height: 29px;
 	color: gray;
-	display: none !important;
+	/* display: none !important; */
+	font-size: 30px;
 }
-
-/* .slick-prev {
-	left: -95px;
-	top: 95px;
-}
-
-.slick-next {
-	right: -60px;
-	top: 95px;
-} */
 
 .slick-prev:hover,
 .slick-next:hover {
@@ -146,4 +146,8 @@ code {
 
 .slick-dots li button:before {
 	font-size: 14px !important;
+}
+
+input[type="radio"] {
+	accent-color: green;
 }

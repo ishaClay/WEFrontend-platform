@@ -1,0 +1,77 @@
+import { Card } from '@/components/ui/card';
+import { FaStar, FaRegStar } from 'react-icons/fa';
+import { useState } from 'react';
+interface FeedbackRatingProps {
+    label: string;
+    rating: number;
+    onRate: (newRating: number) => void; 
+  }
+const FeedbackRating: React.FC<FeedbackRatingProps> = ({ label, rating, onRate }) => {
+    return (
+        <div className="flex items-center">
+            <span className="font-semibold mr-2">{label}</span>
+            {[...Array(5)].map((_, i) => (
+                <button key={i} onClick={() => onRate(i + 1)} className="focus:outline-none">
+                    {i < rating ? <FaStar className="text-[#FFA000]" /> : <FaRegStar className="text-[#606060]" />}
+
+                </button>
+            ))}
+        </div>
+    );
+};
+
+function RatingPopup() {
+
+    const [courseRating, setCourseRating] = useState(0);
+    const [trainerRating, setTrainerRating] = useState(0);
+    const [consent, setConsent] = useState(false);
+
+    const handleConsentChange = () => {
+        setConsent(!consent);
+    }
+    return (
+        <div className="fixed inset-0 flex justify-center items-center ">
+            < Card className="bg-white rounded-lg  h-[421px] w-[610px] ">
+                <div className="ml-8 mt-4">
+                    <h1 className="text-[28px] font-bold mb-4">Wind energy basic course</h1>
+                        <FeedbackRating label="Course Feedback:" rating={courseRating} onRate={setCourseRating} />
+                    <div className='mt-4'>
+                        <FeedbackRating label="Trainer Feedback:" rating={trainerRating} onRate={setTrainerRating} />
+                    </div>
+                </div>
+
+                <div className="p-4 ml-4 mt-4">
+                    <textarea
+                        className="border-2 border-[#D9D9D9] rounded w-[545px] h-[150px] py-2 px-3 placeholder-[#A3A3A3]"
+                        placeholder="Write a review..."
+
+                    />
+                </div>
+
+                <div className="flex items-center space-x-4 ml-8 ">
+                    <input
+                        type="checkbox"
+                        checked={consent}
+                        onChange={handleConsentChange}
+                        className="w-5 h-5"
+                    />
+                    <div className='w-[215px]'>
+                    <label className="flex-1 text-[#888888]">
+                        I have no objections sharing my review in social media.
+                    </label>
+                    </div>
+                    
+                    <button className="bg-[#64A70B] w-[130px] h-[48px] text-white font-bold py-2 px-4 rounded">
+                        Submit
+                    </button>
+                    <button className="bg-[#E41B1B] w-[130px] h-[48px] text-white font-bold py-2 px-4 rounded">
+                        Cancel
+                    </button>
+                </div>
+
+            </Card>
+        </div>
+    )
+}
+
+export default RatingPopup

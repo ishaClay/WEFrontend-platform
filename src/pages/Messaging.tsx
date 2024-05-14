@@ -1,26 +1,24 @@
 import HeaderCourse from "@/components/HeaderCourse";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import { MdOutlineAttachFile } from "react-icons/md";
-
 import { TbPhoto } from "react-icons/tb";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { BsPencilFill } from "react-icons/bs";
 import { BsSearch } from 'react-icons/bs';
 
-
-
 function Messaging() {
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[795px] gap-1 overflow-hidden">
-            <div className="w-[235px] h-[760px] flex-shrink-0">
+        <div className="flex  bg-[#f5f3ff] w-[1510px] h-[795px] overflow-hidden">
+            <div className="">
                 <EmployeeListSidebar />
             </div>
-            <div className="flex flex-col flex-grow">
-                <div className="w-[1204px] h-[120px]">
+            <div className="">
+                <div className="">
                     <HeaderCourse />
                 </div>
-                <div className="flex flex-grow ">
-                    <div className="w-[320px] h-[690px] bg-white  mr-3 ml-4 mt-4 rounded   flex flex-col bg-[#FFFFFF]">
+
+                <div className="flex">
+                    <div className="w-[320px] h-[690px] bg-[#FFFFFF] ml-4 mt-4 rounded ">
                         <div className="w-[320px] h-[60px] bg-[#FFFFFF] border-b rounded-t-[10px] ">
                             <div className="p-2">
 
@@ -36,124 +34,137 @@ function Messaging() {
                                 </div>
                             </div>
                         </div>
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black  p-2 cursor-pointer">
-                        <div className="flex pt-4">
+                            <div className="flex ">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#0E9CFF] flex items-center justify-center mr-4 mt-2 text-[white]" >LR</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black p-2 cursor-pointer">
-                        <div className="flex pt-4">
+                            <div className="flex">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#0077A2] flex items-center justify-center mr-4 mt-2 text-[white]" >HR</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black  p-2 cursor-pointer">
-                            <div className="flex pt-4">
+                            <div className="flex">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#64A70B] flex items-center justify-center mr-4 mt-2 text-[white]" >CR</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black p-2 cursor-pointer" >
-                        <div className="flex pt-4">
+                            <div className="flex">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#1FA8DC] flex items-center justify-center mr-4 mt-2 text-[white]" >EJ</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black p-2 cursor-pointer">
-                        <div className="flex pt-4">
+                            <div className="flex">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#FD9372] flex items-center justify-center mr-4 mt-2 text-[white]" >JD</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
 
                         </div>
+
                         <div className="w-[320px] h-[90px] bg-[#FFFFFF] hover:bg-[#EDEFF9] hover:text-black p-2 cursor-pointer">
-                        <div className="flex pt-4">
+                            <div className="flex ">
                                 <div><div className=" h-[42px] w-[43px] rounded-full bg-[#A81F58] flex items-center justify-center mr-4 mt-2 text-[white]" >LR</div></div>
                                 <div className="flex flex-col">
-                                <div className="flex  ">
-                                    <div className="text-[16px] font-semibold">Honey Risher</div>
-                                    <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
-                                </div>
+                                    <div className="flex  ">
+                                        <div className="text-[16px] font-semibold">Honey Risher</div>
+                                        <div className="text-gray-600 text-xs ml-24">11:57 AM</div>
+                                    </div>
 
-                                <div className="flex flex-col">
-                                  <div className="text-xs text-[#A3A3A3]">company</div>
-                                  <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <div className="text-xs text-[#A3A3A3]">company</div>
+                                        <div className="text-sm overflow-hidden w-[226px] whitespace-nowrap overflow-ellipsis mt-1">Inquiry Subject Sample — Regarding Inquiry Subject Sample</div>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
+
+
+
                     </div>
-                    <div className="flex-1 bg-white rounded mt-4 mr-4 ">
+
+                    <div className=" w-[905px] h-[690px] bg-[#FFFFFF] ml-4 mt-4 rounded">
+
 
                         <div className="h-[60px] w-full  flex pl-2 border-b">
-                        <div className="flex">
-                                <div><div className=" h-[42px] w-[43px] rounded-full bg-[#0077A2] flex items-center justify-center mr-4 mt-2 text-[white]" >LR</div></div>
-                               
-                                <div className="flex flex-col  ">
-                                    <div className="text-[14px] font-semibold mt-1">Honey Risher</div>
-                                    <div className="text-[#A3A3A3] text-xs ">company</div>
+                            <div className="flex">
+                                <div>
+                                    <div className=" h-[42px] w-[43px] rounded-full bg-[#0077A2] flex items-center justify-center mr-4 mt-2 text-[white]" >
+                                        LR
+                                    </div>
                                 </div>
 
-                            
-                                
-
+                                <div className="flex flex-col  ">
+                                    <div className="text-[14px] font-semibold mt-3">Honey Risher</div>
+                                    <div className="text-[#A3A3A3] text-xs ">company</div>
+                                </div>
                             </div>
                             <button className="flex items-center bg-[#00778B] text-white px-4 py-2 rounded ml-[620px] w-[120px] h-[37px] mt-[13px]">
                                 <BsPencilFill className="mr-1" /> Compose
@@ -204,9 +215,7 @@ function Messaging() {
                             </ScrollArea>
                         </div>
 
-
-
-                        <div className="p-2">
+                        <div className="w-[870px] ml-4">
                             <textarea
                                 id="description"
                                 className="border border-[#D9D9D9] rounded-lg px-3 py-2 w-full placeholder-[#D9D9D9]"
@@ -214,7 +223,8 @@ function Messaging() {
                                 rows={4}
                             />
                         </div>
-                        <div className="flex items-center justify-between bg-[#FFFFFF] mr-[10px] ">
+
+                        <div className="flex items-center justify-between bg-[#FFFFFF] mr-[18px] ">
                             <div className="flex items-center">
                                 <div className="  flex items-center justify-center h-16 w-16 "><TbPhoto size={30} /></div>
                                 <div className="  flex items-center justify-center h-16 w-16 "><MdOutlineAttachFile size={30} /></div>
@@ -222,10 +232,14 @@ function Messaging() {
                             </div>
                             <button className="bg-[#58BA66] text-[#FFFFFF] px-6 py-3 rounded-md border border-[#58BA66] ">SEND</button>
                         </div>
+
+
                     </div>
                 </div>
+
             </div>
         </div>
+
     );
 }
 

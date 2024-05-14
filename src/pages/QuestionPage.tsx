@@ -1,5 +1,23 @@
-
-
+import Footer from "@/components/Footer";
+import Question from "@/components/comman/Question";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+	setActivePillar,
+	setGettedAnswer,
+	setPillarName,
+	setQuestion,
+} from "@/redux/reducer/QuestionReducer";
+import { fetchClientwisePillarList, fetchPillarList } from "@/services/apiServices/pillar";
+import { fetchQuestionAnswerList, fetchQuestionList } from "@/services/apiServices/question";
+import { Pillar } from "@/types/Pillar";
+import { QuestionType } from "@/types/Question";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
@@ -7,35 +25,67 @@ import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
+import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-// import Light from "/assets/img/Light On.png";
-// import Morale from "/assets/img/Morale.png";
-// import Neighbour from "/assets/img/Neighbour.png";
-// import PathSteps from "/assets/img/Path Steps.png";
-// import TreePlantingBlack from "/assets/img/TreePlantingBlack.png";
-// import WeakFinancialGrowth from "/assets/img/Weak Financial Growth.png";
-import Footer from "@/components/Footer";
-import Question from "@/components/comman/Question";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { QUERY_KEYS } from "@/lib/constants";
-import { fetchPillarList } from "@/services/apiServices/pillar";
-import { Pillar } from "@/types/Pillar";
-import { useQuery } from "@tanstack/react-query";
-import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import ProgressIndicator from "/assets/img/ProgressIndicator.png";
+
 
 const QuestionPage = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const { clientId, UserId } = useSelector((state: any) => state.user);
+
+	const { activePillar, allPillar } = useSelector(
+		(state: any) => state.question
+	);
+	const question = useSelector((state: any) => state.question);
+
+	const [totalQuestions, setTotalQuestions] = useState(0);
+	const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
 
 	const { data: pillarList } = useQuery({
 		queryKey: [QUERY_KEYS.pillarList],
 		queryFn: () => fetchPillarList(),
 	});
 
-	console.log("pillarList", pillarList);
+	const { data: clientwisePillarList } = useQuery({
+		queryKey: [QUERY_KEYS.clientwisePillarList],
+		queryFn: () => fetchClientwisePillarList(clientId?.toString()),
+	});
+
+	useEffect(() => {
+		const pillarName = (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)?.map(
+			(i: Pillar) => i?.pillarName
+		);
+		if (pillarName?.length) {
+			dispatch(setPillarName(pillarName));
+		}
+	}, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
+
+
+	useEffect(() => {
+		if (!activePillar && (clientwisePillarList?.data?.data?.length > 0 ? clientwisePillarList?.data?.data : pillarList?.data?.data)) {
+			if (clientwisePillarList?.data?.data?.length > 0) {
+				dispatch(setActivePillar(clientwisePillarList?.data?.data[0]?.pillarName));
+			} else {
+				dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
+			}
+		}
+	}, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
+
+	const { data: questionList } = useQuery({
+		queryKey: [QUERY_KEYS.questionList],
+		queryFn: () => fetchQuestionList(clientId?.toString()),
+	});
+
+	useEffect(() => {
+		allPillar?.forEach((i: string) => {
+			if (questionList?.data?.data) {
+				dispatch(setQuestion({ q: questionList?.data?.data?.[i], p: i }))
+			}
+		});
+	}, [allPillar?.length, questionList?.data?.data, activePillar]);
 
 	const paths = [
 		{
@@ -69,192 +119,84 @@ const QuestionPage = () => {
 			status: "pending",
 		},
 	];
-	// const categorys = [
-	// 	{
-	// 		title: "Environment",
-	// 		progress: "0/5",
-	// 		icon: TreePlantingBlack,
-	// 		percentange: 0,
-	// 		active: true,
-	// 	},
-	// 	{
-	// 		title: "Social",
-	// 		progress: "1/5",
-	// 		icon: Neighbour,
-	// 		percentange: 20,
-	// 	},
-	// 	{
-	// 		title: "Economic",
-	// 		progress: "2/5",
-	// 		icon: WeakFinancialGrowth,
-	// 		percentange: 40,
-	// 	},
-	// 	{
-	// 		title: "Governance",
-	// 		progress: "3/5",
-	// 		icon: Morale,
-	// 		percentange: 60,
-	// 	},
-	// 	{
-	// 		title: "Technology & Innovation",
-	// 		progress: "4/5",
-	// 		icon: Light,
-	// 		percentange: 80,
-	// 	},
-	// 	{
-	// 		title: " Strategic Integration",
-	// 		progress: "5/5",
-	// 		icon: PathSteps,
-	// 		percentange: 100,
-	// 	},
-	// ];
-	const questions = [
-		{
-			category: "Environment",
-			no: "1",
-			question:
-				"How aware is your organisation of the concept and importance of achieving Net Zero emissions by 2050.",
-			options: [
-				{
-					optionid: "1",
-					option: "Not aware, or aware but taking no action",
-				},
-				{
-					optionid: "2",
-					option:
-						"Moderately aware and proactive, but with some knowledge gaps and steps taken towards implementation of a plan",
-				},
-				{
-					optionid: "3",
-					option:
-						"Very aware and proactive, with a good understanding of Net Zero goals and a well-executed action plan",
-				},
-			],
-			hint: true,
-		},
-		{
-			category: "Environment",
-			no: "2",
-			question:
-				"How does your organisation approach energy management and conduct energy assessments",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We do not monitor energy consumption or focus on energy efficiency, and we have not conducted ",
-				},
-				{
-					optionid: "2",
-					option:
-						"We monitor energy consumption and implement energy-saving measures",
-				},
-				{
-					optionid: "3",
-					option:
-						"We systematically track and optimise energy consumption and efficiency, complemented by regular energy assessments and audits to identify, and capitalise on energy-saving opportunities.",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "3",
-			question:
-				"A. How does your business approach waste management to reduce environmental impact and promote sustainability",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We have no specific waste management policy or practices in place",
-				},
-				{
-					optionid: "2",
-					option:
-						"We actively manage waste, recycling, across various processes, but there is room for improvement",
-				},
-				{
-					optionid: "3",
-					option:
-						" We have a comprehensive waste management policy and plan with a focus on minimising waste generation, promoting recycling, and implementing circular economy practices.",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "4",
-			question:
-				"To what extent has your organisation evaluated and acted upon incorporating renewable energy systems",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We have not yet considered or explored the possibility of incorporating renewable energy into our business",
-				},
-				{
-					optionid: "2",
-					option:
-						"We have started to assess the potential of renewable energy systems but have not made any definitive plans ",
-				},
-				{
-					optionid: "3",
-					option:
-						"We have extensively incorporated renewable energy systems into our business",
-				},
-			],
-			hint: false,
-		},
-		{
-			category: "Environment",
-			no: "5",
-			question:
-				"How do you manage transportation and logistics to minimise environmental impacts, track and report emissions",
-			options: [
-				{
-					optionid: "1",
-					option:
-						"We do not consider environmental impacts or track emissions of our transportation and logistics",
-				},
-				{
-					optionid: "2",
-					option:
-						"We make some efforts to track and report transportation and logistics, to optimise and reduce emissions",
-				},
-				{
-					optionid: "3",
-					option:
-						"We have a comprehensive optimisation strategy to minimise environmental and social impact.",
-				},
-			],
-			hint: false,
-		},
-	];
-	const progressbar = [
-		{
-			category: "Environment",
-			questionAttemps: [1, 1, 1, 1, 1],
-		},
-		{
-			category: "Social",
-			questionAttemps: [1, 0, 1, 0, 0],
-		},
-		{
-			category: "Economic",
-			questionAttemps: [0, 0, 0, 0, 0],
-		},
-		{
-			category: "Governance",
-			questionAttemps: [0, 1, 1, 0, 0],
-		},
-		{
-			category: "Technology & Innovation",
-			questionAttemps: [0, 1, 1, 1, 0],
-		},
-		{
-			category: " Strategic Integration",
-			questionAttemps: [0, 1, 1, 0, 0],
-		},
-	];
+
+	useEffect(() => {
+		let totalQuestions = 0;
+		let totalAttemptedQuestions = 0;
+
+		allPillar?.forEach((pillar: string) => {
+			const pillarQuestions = question[pillar];
+			if (pillarQuestions && pillarQuestions.length > 0) {
+				totalQuestions += pillarQuestions.length;
+				totalAttemptedQuestions += pillarQuestions.filter((que: QuestionType) =>
+					que.options.some((opt) => opt.checked)
+				).length;
+			}
+		});
+
+		setTotalQuestions(totalQuestions);
+		setTotalAttemptedQuestions(totalAttemptedQuestions);
+	}, [allPillar?.length, question]);
+
+	const currentAttemptedTotal = Array.isArray(question?.[activePillar])
+		? question[activePillar].filter((que: QuestionType) =>
+			que.options.some((opt) => opt.checked)
+		).length
+		: 0;
+
+	const handleSubmit = (event: any) => {
+		event.preventDefault();
+		let allQueAns: any = {};
+		allPillar.forEach((pillar: string) => {
+			allQueAns[pillar] = question[pillar];
+		});
+		navigate("/teaserscore");
+	};
+
+	const { data: fetchQuestionAnswer } = useQuery({
+		queryKey: [QUERY_KEYS.getQuestionAnswer],
+		queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
+	});
+
+	const pillarwiseQuestions = allPillar?.map((item: string) => {
+		return { q: question?.[item], name: item };
+	})
+
+	const updateAnswers = (pillarwiseQuestion: any, fetchQuestionAnswer: any) => {
+		if (fetchQuestionAnswer?.data?.data && Array.isArray(pillarwiseQuestion?.q)) {
+			let updatedAnswers = [...pillarwiseQuestion?.q];
+			fetchQuestionAnswer.data.data.forEach((j: any) => {
+				if (j) {
+					const c = pillarwiseQuestion?.q.find((i: any) => i?.id === j?.questionId?.id);
+					if (c) {
+						const d = c.options.find((o: any) => o?.optionId === j?.selectedOptions[0]?.optionId);
+						if (d) {
+							const updatedOption = { ...d, checked: true };
+							const updatedOptions = c.options.map((o: any) =>
+								o.optionId === updatedOption.optionId ? updatedOption : o
+							);
+
+							const updatedC = { ...c, options: updatedOptions };
+
+							const index = updatedAnswers.findIndex((itemA) => updatedC.id === itemA.id);
+							if (index !== -1) {
+								updatedAnswers[index] = updatedC;
+							}
+						}
+					}
+				}
+			});
+
+			dispatch(setGettedAnswer({ updatedAnswers, name: pillarwiseQuestion?.name }));
+		}
+	};
+
+	useEffect(() => {
+		pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
+			updateAnswers(pillarwiseQuestion, fetchQuestionAnswer);
+		});
+	}, [fetchQuestionAnswer?.data?.data?.length, allPillar?.length, activePillar, ...pillarwiseQuestions.map((question: any) => question?.q?.length)]);
+
 
 	return (
 		<div className="font-calibri font-normal">
@@ -263,7 +205,7 @@ const QuestionPage = () => {
 					<button
 						className="flex items-center gap-2"
 						onClick={() => {
-							navigate("/");
+							history.back()
 						}}>
 						<img src={LeftArrow} alt="arrow" width={22} height={22} />
 						<span>back</span>
@@ -324,128 +266,112 @@ const QuestionPage = () => {
 			</div>
 			<div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
 				<div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-					{pillarList?.data?.data.map((category: Pillar, index: number) => {
+
+					{allPillar.map((category: string, index: number) => {
+
+
+						const pillarQuestions = question[category];
+						const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
+						const pillarAttempted = Array.isArray(pillarQuestions) ? pillarQuestions.filter((que: QuestionType) => que.options.some((opt) => opt.checked)).length : 0;
+
 						return (
-							<div
-								key={index}
-								className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center ${
-									category.active ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-								}`}>
+							<div key={index} className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"}`} onClick={() => dispatch(setActivePillar(category))}>
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
-										<img
-											src={category.icon}
-											alt="img"
-											className="w-8 h-8 object-cover"
-										/>
-										<p
-											className={`text-nowrap ${
-												category.active ? "text-white" : "text-[#848181]"
-											}`}>
-											{" "}
-											{(index / (pillarList?.data?.data.length - 1)) * 100} %
-										</p>
+										<div className="w-8 h-8">
+
+										</div>
+										<p className={`text-nowrap ${activePillar === category ? "text-white" : "text-[#848181]"}`}>{(pillarAttempted / pillarTotal) * 100} %</p>
 									</div>
 									<div>
-										<h2
-											className={`leading-[19px] ${
-												category.active ? "text-white" : "#3A3A3A"
-											}`}>
-											{category.pillarName}
-										</h2>
-										<p
-											className={`text-[12px] leading-[14.65px] ${
-												category.active ? "text-white" : "text-[#848181]"
-											}`}>
-											My progress {index} / {pillarList?.data?.data.length - 1}
-										</p>
+										<h2 className={`leading-[19px] ${activePillar === category ? "text-white" : "text-[#3A3A3A]"}`}>{category}</h2>
+										<p className={`text-[12px] leading-[14.65px] ${activePillar === category ? "text-white" : "text-[#848181]"}`}>My progress {pillarAttempted}/{pillarTotal}</p>
 									</div>
 								</div>
 
-								<Slider
-									defaultValue={[
-										(index / (pillarList?.data?.data.length - 1)) * 100,
-									]}
-									max={100}
-									step={1}
-									className="bg-red-50"
-									classNameThumb="hidden"
-									classNameRange={`${!category.active && "!bg-[#64A70B]"}`}
-									disabled
-								/>
+								<Progress color="#64A70B" className={`${!(activePillar === category) && "!bg-[white]"} h-[4px]`} value={pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0} />
 							</div>
 						);
 					})}
+
 				</div>
 			</div>
-			<div className="mt-[89px] ml-[177px] flex ">
-				<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]">
-					{questions.map((question, index: number) => {
-						return <Question question={question} key={index} />;
-					})}
-				</div>
-				<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
-					<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
-						Current Progress
-					</h2>
-					<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
-						<span className="ml-[18px] text-teal">Attempted</span>
-						<p className="text-teal">0/5</p>
-						<img
-							src={ProgressIndicator}
-							alt="progressbar"
-							width={24}
-							height={24}
-							className="mr-[34px]"
-						/>
+
+			<form>
+				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
+					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
+						<Question />
 					</div>
-					<div className="ml-[14px] mt-[17px] w-[267px]">
-						<div className="flex items-center justify-between font-bold	">
-							<span>Attempted</span>
-							<p>14/30</p>
-							<span className="mr-2">
-								<IoIosArrowDown className="w-[14px] h-[14px]" />
-							</span>
+					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
+						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
+							Current Progress
+						</h2>
+						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+							<span className="ml-[18px] text-teal">Attempted</span>
+							<p className="text-teal">
+								{currentAttemptedTotal}/{question?.[activePillar]?.length || 0}
+							</p>
+							<img
+								src={ProgressIndicator}
+								alt="progressbar"
+								width={24}
+								height={24}
+								className="mr-[34px]"
+							/>
 						</div>
-						<div className="font-normal text-[#3a3a3a]">
-							{progressbar.map((category, index: number) => {
-								return (
-									<div className="flex mt-3" key={index}>
-										<div
-											className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-												progressbar.length - 1 !== index &&
-												"border-b border--solid border-[#EAEAEA]"
-											}`}>
-											<p>{category.category}</p>
-											<div className="flex gap-[10px]">
-												<div className="flex gap-1">
-													{category.questionAttemps.map(
-														(question, index: number) => {
-															return (
+						<div className="ml-[14px] mt-[17px] w-[267px]">
+							<div className="flex items-center justify-between font-bold	">
+								<span>Attempted</span>
+								<p>
+									{totalAttemptedQuestions}/{totalQuestions}
+								</p>
+								<span className="mr-2">
+									<IoIosArrowDown className="w-[14px] h-[14px]" />
+								</span>
+							</div>
+							<div className="font-normal text-[#3a3a3a]">
+								{allPillar.map((category: string, index: number) => {
+									return (
+										<div className="flex mt-3" key={index}>
+											<div
+												className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${index !== allPillar.length - 1 &&
+													"border-b border--solid border-[#EAEAEA]"
+													}`}>
+												<p>{category}</p>
+												<div className="flex gap-[10px]">
+													{Array.isArray(question[category]) && question[category]?.length > 0 && (
+														<div className="flex gap-1">
+															{question[category].map((i: QuestionType, index: number) => (
 																<p
 																	key={index}
-																	className={`w-3 h-3 ${
-																		question ? "bg-[#64A70B]" : "bg-[#D8D0D0]"
-																	}`}></p>
-															);
-														}
+																	className={`w-3 h-3 ${i.options.some((o) => o?.checked === true)
+																		? "bg-[#64A70B]"
+																		: "bg-[#D8D0D0]"
+																		}`}
+																></p>
+															))}
+														</div>
 													)}
 												</div>
 											</div>
+											<span className="mr-2 ml-[11px] mt-[10px]">
+												<IoIosArrowDown className="w-[14px] h-[14px]" />
+											</span>
 										</div>
-										<span className="mr-2 ml-[11px] mt-[10px]">
-											<IoIosArrowDown className="w-[14px] h-[14px]" />
-										</span>
-									</div>
-								);
-							})}
+									);
+								})}
+							</div>
+
+							<Button
+								className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+								onClick={handleSubmit}>
+								Submit & Continue
+							</Button>
+
 						</div>
-						<Button className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]">
-							Submit & Continue
-						</Button>
 					</div>
 				</div>
-			</div>
+			</form>
 
 			<div className="mt-[238px]">
 				<Footer />

@@ -1,10 +1,14 @@
 import { VscBellDot } from "react-icons/vsc";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 function TeaserScoreHeader() {
+
+    const navigate = useNavigate();
+
     return (
         <header className="max-container flex">
             <div className="xl:ml-[167px] ml-[50px] mt-[57px]">
-                <img className="max-w-[131px] h-[86px]" src="../assets/img/logo1.png" alt="Logo 1" />
+                <img onClick={() => { navigate("/") }} className="max-w-[131px] h-[86px] cursor-pointer" src="../assets/img/logo1.png" alt="Logo 1" />
             </div>
             <div className="mt-[106px] ml-[22px] text-[#3A3A3A] font-[calibri]">
                 <ul className="flex gap-[31px] font-[400] text-[16px] leading-[19.53px]">

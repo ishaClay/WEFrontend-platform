@@ -1,8 +1,20 @@
-import TeaserScoreHeader from "@/components/TeaserScoreHeader"
-import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
+import TeaserScoreHeader from "@/components/TeaserScoreHeader";
+import { Button } from "@/components/ui/button";
+import { QuestionType } from "@/types/Question";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
+
+    const navigate = useNavigate();
+
+
+    const { allPillar } = useSelector(
+        (state: any) => state.question
+    );
+
+    const question = useSelector((state: any) => state.question);
 
 
     return (
@@ -58,103 +70,42 @@ function SavedAssesment() {
                                 </div>
                             </div>
                             <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">Your Progress So Far:</p>
-                            <div className="pt-8 pl-[px] pb-5 flex gap-5">
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                            <div className="pt-8 pl-[px] pb-5 w-[800px] flex flex-wrap gap-5">
 
-                                    <img
-                                        src="../assets/img/EnvironmentalGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Environmental</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        100%
-                                    </span>
-                                </div>
+                                {allPillar.map((category: string, index: number) => {
 
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                                    const pillarQuestions = question[category];
+                                    const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
+                                    const pillarAttempted = Array.isArray(pillarQuestions) ? pillarQuestions.filter((que: QuestionType) => que.options.some((opt: any) => opt.checked)).length : 0;
 
-                                    <img
-                                        src="../assets/img/SocialGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Social</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        20%
-                                    </span>
-                                </div>
+                                    return (
+                                        <div className="">
+                                            <div key={index} className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3">
 
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                                                <img
+                                                    src="../assets/img/EnvironmentalGray.png"
+                                                    alt="img"
+                                                    className="w-[52px] h-[52px]"
+                                                />
+                                                <h4 className="mt-3">{category}</h4>
 
-                                    <img
-                                        src="../assets/img/EconomicsGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Economics</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        40%
-                                    </span>
-                                </div>
+                                                <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">{(pillarAttempted / pillarTotal) * 100} %</span>
 
+                                            </div>
+                                        </div>
+                                    );
+                                })}
 
                             </div>
 
-                            <div className="pt-2 pl-[px] pb-5 flex gap-5">
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-
-                                    <img
-                                        src="../assets/img/GovernanceGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Governance</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        60%
-                                    </span>
-                                </div>
-
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-
-                                    <img
-                                        src="../assets/img/Tech&InnovationGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Tech & Innovation</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        80%
-                                    </span>
-                                </div>
-
-                                <div className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-
-                                    <img
-                                        src="../assets/img/StrategicIntegrationGray.png"
-                                        alt="img"
-                                        className="w-[52px] h-[52px]"
-                                    />
-                                    <h4 className="mt-3">Strategic Integration</h4>
-                                    <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                                        100%
-                                    </span>
-                                </div>
 
 
-                            </div>
                             <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">Complete the Assessment and Reap the Benefits</p>
                             <p> Every question answered propels you closer to a sustainable and successful voyage. Don't miss the chance to refine your course and make a positive impact. Your sustainable map awaits completion!</p>
-                            <Button className="bg-[#64A70B] text-[20pxpx] leading-5 w-[180px] mt-[20px]">
-                              Continue Assessment
+                            <Button onClick={() => navigate("/question")} className="bg-[#64A70B] text-[20pxpx] leading-5 w-[180px] mt-[20px]">
+                                Continue Assessment
                             </Button>
                         </div>
-
-
-
-
-
-
 
                     </div>
 
@@ -163,9 +114,9 @@ function SavedAssesment() {
 
 
             </div>
-            
+
             <Footer />
-            
+
         </div>
 
     )

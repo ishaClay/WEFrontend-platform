@@ -67,8 +67,8 @@ function CoursesAllocate() {
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-					<div className="  pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
+					<div className="  pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
 							Team Member List
 						</p>

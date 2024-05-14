@@ -1,9 +1,9 @@
-import HeaderCourse from "@/components/HeaderCourse"
+import HeaderCourse from "@/components/HeaderCourse";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-import { useState } from 'react';
-import { BsPencilFill } from "react-icons/bs"
+import { useState } from "react";
+import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { BiCheckCircle, BiShow } from 'react-icons/bi';
+import { BiCheckCircle, BiShow } from "react-icons/bi";
 import Footer from "@/components/Footer";
 
 
@@ -11,7 +11,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
 
   const [activeTab, setActiveTab] = useState('Assessment Result');
 
-  const handleTabChange = (tabName) => {
+  const handleTabChange = (tabName: any) => {
     setActiveTab(tabName);
   };
 
@@ -32,7 +32,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
           <h1 className="text-[16px] font-bold">Re Assessment 2</h1>
           <p className="text-[12px] text-[#606060]">Completed Date: 12/03/2024</p>
         </div>
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1950px] m-[12px] rounded-t-[10px] ">
+        <div className="bg-[#FFFFFF] w-[1250px] h-[1950px] m-[12px] rounded-[10px] ">
 
 
           <div className=" w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px]">
@@ -445,13 +445,13 @@ function MaturityAssessmentRoadmapAfterbuild() {
 
                     <div className="flex gap-6">
                       <button className="bg-[#64A70B]  text-white font-semibold py-2 px-4 rounded h-[48px] w-[223px]">
-                      Edit Roadmap
+                        Edit Roadmap
                       </button>
                       <button className="bg-[#002A3A]  text-white text-[16px]  py-2  rounded h-[48px] w-[223px]">
-                      View Recommended Course
+                        View Recommended Course
                       </button>
                       <button className="bg-[#00778B]  text-white font-semibold py-2 px-4 rounded h-[48px] w-[223px]">
-                      Retake Assessment
+                        Retake Assessment
                       </button>
                     </div>
                   </div>
@@ -459,7 +459,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                     <p className="text-[#64A70B] font-semibold">Keep up the fantastic work, and remember, every small step counts towards a brighter and more sustainable world! </p>
                   </div>
                   <div className="mt-[10px]">
-                    <Footer/>
+                    <Footer />
                   </div>
                 </div>
 
@@ -495,4 +495,4 @@ function MaturityAssessmentRoadmapAfterbuild() {
   )
 }
 
-export default MaturityAssessmentRoadmapAfterbuild
+export default MaturityAssessmentRoadmapAfterbuild;

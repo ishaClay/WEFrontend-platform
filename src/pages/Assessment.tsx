@@ -1,6 +1,6 @@
+import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { PrimaryButton } from "@/components/comman/Button/PrimaryButton";
 import { useNavigate } from "react-router-dom";
 
 function Assessment() {

@@ -22,7 +22,7 @@ function Compose() {
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[590px] m-[12px] rounded-t-[10px]">
+                <div className="bg-[#FFFFFF] w-[1250px] h-[590px] m-[12px] rounded-[10px]">
                     <div className="  pt-[16px] pl-[17px] w-[1250px] h-[82px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
                          <div className="flex gap-4">
                         <div className="flex items-center p-4 border border-[#D9D9D9] rounded w-[190px] h-[58px] hover:border-[#00778B]">
@@ -96,12 +96,6 @@ function Compose() {
 
 
                     </div>
-
-
-
-
-
-
 
                 </div>
 

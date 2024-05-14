@@ -98,7 +98,7 @@ function MaturityAssessmentResult() {
 
     const [activeTab, setActiveTab] = useState('Assessment Result');
 
-    const handleTabChange = (tabName) => {
+    const handleTabChange = (tabName:any) => {
         setActiveTab(tabName);
     };
 

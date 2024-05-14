@@ -4,12 +4,13 @@ import { BsPencil } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { BsInfoLg } from "react-icons/bs";
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Card } from '@/components/ui/card';
 
 function MaturityLevelActionableMeasurePopup() {
     return (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+        <div className="fixed inset-0 flex justify-center items-center ">
 
-            <div className="bg-white rounded-lg p-4 h-[634px] w-[814px]">
+            <Card  className="bg-white rounded-lg p-4 h-[634px] w-[814px]">
                 <div className="flex  mb-4">
                     <div className="   bg-white border-[2px] rounded-full  w-10 h-9 p-2 mb-2">
                         <img src="/public/assets/img/Tree Planting.png" alt="Leaf Icon" />
@@ -83,8 +84,8 @@ function MaturityLevelActionableMeasurePopup() {
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
                                                 />
                                             </div>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-2  ml-2 mt-2"><BsPencil className="text-[#B9B9B9] " /></button>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer  gap-4 mt-2"><RiDeleteBin6Line className="text-[#B9B9B9]" /></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer gap-4 mt-2"><RiDeleteBin6Line className="text-[#B9B9B9]" /></button>
 
                                         </div>
                                     </div>
@@ -100,7 +101,7 @@ function MaturityLevelActionableMeasurePopup() {
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
                                                 />
                                             </div>
-                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-2 ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
+                                            <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"><BsPencil className="text-[#B9B9B9]" /></button>
                                             <button className="border-none bg-transparent text-lg cursor-pointer  mt-2"><RiDeleteBin6Line className="text-[#B9B9B9] " /></button>
 
                                         </div>
@@ -129,7 +130,7 @@ function MaturityLevelActionableMeasurePopup() {
 
                 </div>
 
-            </div>
+                </Card>
 
         </div>
     )

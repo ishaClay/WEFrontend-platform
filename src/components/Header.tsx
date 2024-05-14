@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { PrimaryButton } from "./comman/Button/PrimaryButton";
+import { PrimaryButton } from "./comman/Button/CustomButton";
 
 function Header() {
 	const navigate = useNavigate();

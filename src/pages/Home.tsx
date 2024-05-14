@@ -1,18 +1,59 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { SecondaryButton } from "@/components/comman/Button/PrimaryButton";
-import { useState } from "react";
+import Loading from "@/components/comman/Error/Loading";
+import Symbol from "@/components/comman/symbol/Symbol";
+import { QUERY_KEYS } from "@/lib/constants";
+import { clientwiseBannerSlider, fetchBannerSlider } from "@/services/apiServices/bannerSlider";
+import { clientwiseCourseSlider, CourseSlider, fetchDataByClientwise } from "@/services/apiServices/courseSlider";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { GrNext, GrPrevious } from "react-icons/gr";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
 import Plus from "../../public/assets/img/Plus.png";
-import SliderData from "@/components/comman/SliderData/SliderData";
-import Symbol from "@/components/comman/symbol/Symbol";
-import { GrNext, GrPrevious } from "react-icons/gr";
+import { SecondaryButton } from "@/components/comman/Button/CustomButton";
+import { useDispatch, useSelector } from "react-redux";
+import { setClientId } from "@/redux/reducer/CompanyReducer";
 
 function Home() {
+	const dispatch = useDispatch();
+
+	const { clientId } = useSelector((state: any) => state.user)
+
 	const [activeIndex, setActiveIndex] = useState(null);
+
+	const { data: fetchByClientwise, isPending: fetchByClientwisePending } = useQuery({
+		queryKey: [QUERY_KEYS.fetchDataByClientwise],
+		queryFn: () => fetchDataByClientwise("localhost:5173"),
+	});
+
+	useEffect(() => {
+		dispatch(setClientId(fetchByClientwise?.data?.data?.id))
+	}, [fetchByClientwise?.data?.data])
+
+
+	const { data: bannerList, isPending } = useQuery({
+		queryKey: [QUERY_KEYS.bannerSlider],
+		queryFn: () => fetchBannerSlider(),
+	});
+
+
+	const { data: clientwiseBannerList, isPending: clientwiseBannerListPending } = useQuery({
+		queryKey: [QUERY_KEYS.clientwiseBannerSlider],
+		queryFn: () => clientwiseBannerSlider(clientId?.toString()),
+	});
+
+	const { data: courseslider, isPending: coursesliderPending } = useQuery({
+		queryKey: [QUERY_KEYS.courseSlider],
+		queryFn: () => CourseSlider(),
+	});
+
+	const { data: clientwiseCourseslider, isPending: clientwiseCoursesliderPending } = useQuery({
+		queryKey: [QUERY_KEYS.clientwiseCourseSlider],
+		queryFn: () => clientwiseCourseSlider(clientId.toString()),
+	});
 
 	const onItemClick = (index: any) => {
 		setActiveIndex(index === activeIndex ? null : index);
@@ -24,6 +65,8 @@ function Home() {
 		speed: 500,
 		slidesToShow: 1,
 		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 2000,
 		prevArrow: (
 			<div className="hidden sm:block">
 				<GrPrevious />
@@ -34,6 +77,17 @@ function Home() {
 				<GrNext />
 			</div>
 		),
+	};
+
+	const bannerSetting = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		fade: true,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 2500,
 	};
 
 	const data = [
@@ -87,10 +141,54 @@ function Home() {
 			<Header />
 			<section className="">
 				<div className="relative mt-[30px] overflow-hidden mx-auto ">
-					<img
-						className="w-full sm:block hidden"
-						src="../assets/img/Component 4.png"
-					/>
+					<Slider {...bannerSetting}>
+						{(clientwiseBannerList?.data?.data?.length > 0 ? clientwiseBannerList?.data?.data : bannerList?.data.data)?.map((item: any) => {
+							return (
+								<div className="relative">
+									<img className="h-[600px]" src={item.banner} />
+									<div className="absolute top-[175px] left-[-10px] w-[700px] h-[262px] backdrop-blur-[20px] backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border rounded-xl border-solid border-[rgba(209,213,219,0.3)]">
+										<div className="flex text-white">
+											<div className="w-[200px] flex justify-center">
+												<img
+													className="mt-[42px] w-[42px] h-[42px]"
+													src="../assets/img/Forward (1).png"
+												/>
+											</div>
+
+											<div className="mt-[34px]">
+												<h2 className="font-[UniNeue] text-[28px]  font-[700]">
+													{item.title}
+												</h2>
+												<p className="w-[337px] mt-[5px]">{item.content}</p>
+												<SecondaryButton
+													name={item.buttonTitle}
+													symbol={<img src="../assets/img/Move Right.png" />}
+													className="w-[250px] h-[50px] mt-[20px] flex gap-[10px] justify-center items-center"></SecondaryButton>
+											</div>
+										</div>
+									</div>
+
+									<div className="w-full h-[69px] backdrop-blur-[20px] absolute bottom-0 backdrop-saturate-[200%] bg-[rgba(255,255,255,0.26)] border  border-solid border-[rgba(209,213,219,0.3)] text-white text-[18px] flex justify-center items-center ">
+										<h3>ENGAGE</h3>
+
+										<h3>ASSESS</h3>
+
+										<h3>SET TARGETS</h3>
+
+										<h3>LEARN</h3>
+
+										<h3>APPLY</h3>
+
+										<h3>ATTAIN PROFICIENCY</h3>
+
+										<div>
+											<img src="../assets/img/Arrow Right (1).png" />
+										</div>
+									</div>
+								</div>
+							);
+						})}
+					</Slider>
 				</div>
 			</section>
 
@@ -152,17 +250,41 @@ function Home() {
 						/>
 					</div>
 
-					<div className="md:w-[450px] lg:w-[600px] sm:w-[500px] w-screen sm:p-0 p-[10px] sm:h-[370px] ">
+					<div className="w-[697px] ">
 						<Slider {...settings}>
-							<div>
-								<SliderData />
-							</div>
-							<div>
-								<SliderData />
-							</div>
-							<div>
-								<SliderData />
-							</div>
+							{(clientwiseCourseslider?.data?.data?.length > 0 ? clientwiseCourseslider?.data?.data : courseslider?.data.data)?.map((item: any) => {
+								return (
+									// <div>
+									// 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
+									// </div>
+
+									<div className="relative">
+										<div className="w-[697px] h-[357px]  flex justify-between">
+											<div className="w-[413px] mt-[90px]">
+												<h2 className="w-[350px] h-[115px] font-[UniNeue] leading-[28px] text-[24px] font-[600]">
+													{item.courseTitle}
+												</h2>
+
+												<p className=" w-[413px] h-[80px] font-[Calibri] text-[16px]">
+													{item.content}
+												</p>
+
+												<SecondaryButton
+													name={item.buttonTitle}
+													symbol={<img src="../assets/img/Move Right.png" />}
+													className="w-[195px] h-[62px] flex items-center justify-center gap-[10px]"></SecondaryButton>
+											</div>
+
+											<div>
+												<img
+													className="w-[274px] h-[357px]"
+													src={item.courseImage}
+												/>
+											</div>
+										</div>
+									</div>
+								);
+							})}
 						</Slider>
 					</div>
 				</div>
@@ -400,11 +522,10 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${
-												item.title === activeIndex
-													? "bg-darkslategray-300 text-white"
-													: "bg-ghostwhite text-darkslategray-300"
-											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${item.title === activeIndex
+												? "bg-darkslategray-300 text-white"
+												: "bg-ghostwhite text-darkslategray-300"
+												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -439,11 +560,10 @@ function Home() {
 										key={index}
 										className="max-w-[573px] border-solid border-silver border-[1px] mb-5">
 										<h2
-											className={`${
-												item.title === activeIndex
-													? "bg-darkslategray-300 text-white"
-													: "bg-ghostwhite text-darkslategray-300"
-											}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
+											className={`${item.title === activeIndex
+												? "bg-darkslategray-300 text-white"
+												: "bg-ghostwhite text-darkslategray-300"
+												}   font-[700] sm:text-[24px] text-[18px] flex justify-between items-center px-[18px]`}>
 											<button className=" h-[59px] text-left  relative">
 												{item.title}
 											</button>
@@ -498,6 +618,8 @@ function Home() {
 			<div className="md:mt-[500px] mt-[250px]">
 				<Footer />
 			</div>
+
+			<Loading isLoading={isPending || coursesliderPending || clientwiseBannerListPending || clientwiseCoursesliderPending || fetchByClientwisePending} />
 		</div>
 	);
 }

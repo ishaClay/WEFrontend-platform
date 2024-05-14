@@ -32,8 +32,7 @@ const EmployeeSidebar = () => {
                 <div className="ml-[25px] mt-[20px]">
                     {/* <img src={sidebarlogo} alt="logo" width={121.17} height={80} /> */}
                     <h1 className="text-[28px] text-[#000000] font-semibold">Product Logo</h1>
-                   
-
+                    
 
 
                 </div>

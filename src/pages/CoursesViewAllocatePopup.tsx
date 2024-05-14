@@ -1,11 +1,11 @@
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
-
+import { Card } from '@/components/ui/card';
 function CourseViewAllocatePopup() {
-	const [employees, setEmployees] = useState([
+	const [employees] = useState([
 		{
 			id: 1,
 			name: "Employee Name1",
@@ -38,30 +38,18 @@ function CourseViewAllocatePopup() {
 		},
 	]);
 
-	const handleSelectAll = () => {
-		const updatedEmployees = employees.map((employee) => ({
-			...employee,
-			selected: true,
-		}));
-		setEmployees(updatedEmployees);
-	};
-
-	const handleSelectEmployee = (id: number) => {
-		const updatedEmployees = employees.map((employee) =>
-			employee.id === id
-				? { ...employee, selected: !employee.selected }
-				: employee
-		);
-		setEmployees(updatedEmployees);
-	};
+	// const handleSliderChange = (event) => {
+	//     setSliderValue(event.target.value);
+	//     // You can add logic here to handle slider value changes
+	// };
 
 	const handleInviteEmployee = () => {
 		// Logic to invite selected employees
 	};
 
 	return (
-		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-			<div className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
+		<div className="fixed inset-0 flex justify-center items-center">
+			<Card className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
 				<div className=" border-b-2 pb-[10px]">
 					<div className="flex overflow-hidden rounded">
 						<img
@@ -180,7 +168,7 @@ function CourseViewAllocatePopup() {
 						<input
 							type="checkbox"
 							className="h-[18px] w-[18px] rounded ml-[5px] mr-[5px]"
-							onChange={handleSelectAll}
+							onChange={() => {}}
 						/>
 					</div>
 				</div>
@@ -198,7 +186,7 @@ function CourseViewAllocatePopup() {
 								<input
 									type="checkbox"
 									checked={employee.selected}
-									onChange={() => handleSelectEmployee(employee.id)}
+									onChange={() => {}}
 									className="ml-[520px]  h-[18px] w-[18px] rounded"
 								/>
 							</div>
@@ -210,7 +198,7 @@ function CourseViewAllocatePopup() {
 					onClick={handleInviteEmployee}>
 					Edit Allocation
 				</button>
-			</div>
+			</Card>
 		</div>
 	);
 }

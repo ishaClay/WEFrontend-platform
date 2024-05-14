@@ -1,14 +1,11 @@
 
 
-import HeaderCourse from "@/components/HeaderCourse"
-
-import { FiFile, FiVideo } from 'react-icons/fi';
-
-
-import { VscFilePdf } from "react-icons/vsc";
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { FiFile, FiVideo } from "react-icons/fi";
+// import FaqsListSidebar from "@/components/FaqsListSidebar";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-
+import { VscFilePdf } from "react-icons/vsc";
+import HeaderCourse from "@/components/HeaderCourse";
 
 function SupportDetails() {
 	const [assignedTo, setAssignedTo] = useState<string>("");
@@ -44,7 +41,7 @@ function SupportDetails() {
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1000px] m-[12px] rounded-t-[10px]">
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1000px] m-[12px] rounded-[10px]">
 					<div className="  pt-[5px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
 						Ticket Details

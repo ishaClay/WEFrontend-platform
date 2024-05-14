@@ -23,17 +23,17 @@ function EmployeeSendInvitation() {
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF]  w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
+                <div className="bg-[#FFFFFF]  w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
                     <div className=" pl-[30px]  w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex ">
-                       <div className=" mt-[15px]">
-                       <p className="text-[#000000] text-[Calibri] font-bold">Send Invitation</p>
-                       </div>
-                       <div className="  ml-[1005px] mt-[10px]">
-                       <div className="flex justify-between items-center  ">
-                            <LuMoveLeft className="" />
-                            <h1 className="text-black px-6 py-2 rounded  font-bold ">Back</h1>
+                        <div className="flex justify-between items-center mt-[15px] w-full">
+                            <p className="text-black font-bold text-[16px]" style={{ fontFamily: 'Calibri' }}>Send Invitation</p>
+                            <button className="flex items-center mr-4 rounded gap-2">
+                                <LuMoveLeft />
+                                <h1 className="text-black font-bold ">Back</h1>
+                            </button>
                         </div>
-                       </div>
+
+
                     </div>
 
                     <div className=" p-6">
@@ -78,15 +78,15 @@ function EmployeeSendInvitation() {
                         <p className="mt-[5px]">invites.csv</p>
                     </div>
                     <div className="p-2  ml-[15px]">
-                    <label htmlFor="description" className="block mb-2">
-                    Invitation Details
-                            </label>
-                            <textarea
-                                id="description"
-                                className="border border-[#D9D9D9] rounded-lg px-3 py-2 w-full placeholder-[#D9D9D9]"
-                                placeholder="Enter details"
-                                rows={4}
-                            />
+                        <label htmlFor="description" className="block mb-2">
+                            Invitation Details
+                        </label>
+                        <textarea
+                            id="description"
+                            className="border border-[#D9D9D9] rounded-lg px-3 py-2 w-full placeholder-[#D9D9D9]"
+                            placeholder="Enter details"
+                            rows={4}
+                        />
 
                         <div className="flex justify-end">
                             <button className="bg-[#58BA66] hover:bg-[#58BA66] text-white  py-2 px-4 rounded">

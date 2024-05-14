@@ -18,14 +18,11 @@ function FaqsList() {
           <HeaderCourse />
         </div>
 
-        <div className="bg-[#FFFFFF] w-[1247px] h-[1460px] m-[12px] rounded-t-[10px]">
+        <div className="bg-[#FFFFFF] w-[1247px] h-[1460px] m-[12px] rounded-[10px]">
           <div className="  pt-[16px] pl-[30px] w-[1247px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
             <p className="text-[#000000] text-[Calibri] font-bold">FAQ’s</p>
 
           </div>
-
-
-
 
           <div className="mt-[10px]  ">
             <div className=" border-red-200 mr-[10px] ml-[10px] ">
@@ -69,19 +66,11 @@ function FaqsList() {
             </div>
           </div>
 
-
-
-
-
         </div>
 
       </div>
 
-
-
     </div>
-
-
 
   )
 }

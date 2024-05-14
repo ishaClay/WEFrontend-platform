@@ -43,36 +43,36 @@ function Dashbord() {
             ID: "#01",
             CourseName: "Greening the emerald isle: Ireland's journey to carbon neutrality",
             Category: "Economics",
-            Level:"Intermediate ",
-            Rating:"5/5 ",
+            Level: "Intermediate ",
+            Rating: "5/5 ",
         },
         {
             ID: "#02",
             CourseName: "Greening the emerald isle: Ireland's journey to carbon neutrality",
             Category: "Economics",
-            Level:"Intermediate ",
-            Rating:"5/5 ",
+            Level: "Intermediate ",
+            Rating: "5/5 ",
         },
         {
             ID: "#03",
             CourseName: "Greening the emerald isle: Ireland's journey to carbon neutrality",
             Category: "Economics",
-            Level:"Intermediate ",
-            Rating:"5/5 ",
+            Level: "Intermediate ",
+            Rating: "5/5 ",
         },
         {
             ID: "#04",
             CourseName: "Greening the emerald isle: Ireland's journey to carbon neutrality",
             Category: "Economics",
-            Level:"Intermediate ",
-            Rating:"5/5 ",
+            Level: "Intermediate ",
+            Rating: "5/5 ",
         },
         {
             ID: "#05",
             CourseName: "Greening the emerald isle: Ireland's journey to carbon neutrality",
             Category: "Economics",
-            Level:"Intermediate ",
-            Rating:"5/5 ",
+            Level: "Intermediate ",
+            Rating: "5/5 ",
         },
     ];
 
@@ -314,15 +314,15 @@ function Dashbord() {
                                                 </th>
                                                 <th className=" ">
                                                     <span className="flex ml-2">
-                                                          Course Name
+                                                        Course Name
                                                         <span className="mt-1">
-                                                            <TbSelector className="text-[#A3A3A3]"  />
+                                                            <TbSelector className="text-[#A3A3A3]" />
                                                         </span>
                                                     </span>
                                                 </th>
                                                 <th className=" ">
                                                     <span className="flex mr-6">
-                                                          Category
+                                                        Category
                                                         <span className="mt-1">
                                                             <TbSelector className="text-[#A3A3A3]" />
                                                         </span>
@@ -330,17 +330,17 @@ function Dashbord() {
                                                 </th>
                                                 <th className=" ">
                                                     <span className="flex">
-                                                         Level
+                                                        Level
                                                         <span className="mt-1">
-                                                            <TbSelector className="text-[#A3A3A3]"  />
+                                                            <TbSelector className="text-[#A3A3A3]" />
                                                         </span>
                                                     </span>
                                                 </th>
                                                 <th className=" ">
                                                     <span className="flex mr-2">
-                                                          Rating
+                                                        Rating
                                                         <span className="mt-1">
-                                                            <TbSelector className="text-[#A3A3A3]"  />
+                                                            <TbSelector className="text-[#A3A3A3]" />
                                                         </span>
                                                     </span>
                                                 </th>
@@ -349,17 +349,21 @@ function Dashbord() {
                                         <tbody>
                                             {employeeData.map((employee) => (
                                                 <tr key={employee.ID}>
-                                                    <td className=" border-b  py-2">
+                                                    <td className=" border-b ">
                                                         <span className="w-[110px]">{employee.ID}</span>
                                                     </td>
-                                                    <td className=" border-b py-2  ">
+                                                    <td className=" border-b   ">
                                                         <span className="flex">
                                                             {employee.CourseName}
                                                         </span>
                                                     </td>
-                                                    <td className=" border-b  py-2 ">{employee.Category}</td>
-                                                    <td className=" border-b pl-4  py-2"> <div className=" flex w-4 h-4 bg-yellow-400 rounded "> </div>{employee.Level}</td>
-                                                    <td className=" border-b  pl-8 px-4 py-2">{employee.Rating}</td>
+                                                    <td className=" border-b ">{employee.Category}</td>
+                                                    <td className="flex items-center border-b  py-5">
+                                                        <div className="flex w-4 h-4 bg-yellow-400 rounded"></div>
+                                                        <span className="ml-1">{employee.Level}</span>
+                                                    </td>
+
+                                                    <td className=" border-b  px-4 ">{employee.Rating}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

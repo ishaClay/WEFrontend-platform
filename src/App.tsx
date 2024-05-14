@@ -42,6 +42,30 @@ import Dashbord from "./pages/Dashbord";
 import MaturityAssessmentRoadmapSetTarget from "./pages/MaturityAssessmentRoadmapSetTarget";
 import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
 import EmployeeDashbord from "./pages/EmployeeDashbord";
+import MyCourses from "./pages/MyCourses";
+import InProgress from "./pages/InProgress";
+import EmployeeCompleted from "./pages/EmployeeCompleted";
+import EmployeeCompletedSecond from "./pages/EmployeeCompletedSecond";
+import MyCoursesAll from "./pages/MyCoursesAll";
+import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
+import TeamMemberDropdown from "./pages/TeamMemberDropdown";
+import MyCoursesInformaction from "./pages/MyCoursesInformaction";
+import MyCoursesSocial from "./pages/MyCoursesSocial";
+import Module  from"./pages/Module";
+import ModulePdf from "./pages/ModulePdf";
+import ModuleVideo from "./pages/ModuleVideo";
+import ModulePdfDetail from "./pages/ModulePdfDetail";
+import LiveSession from "./pages/LiveSession";
+import RatingPopup from "./pages/RatingPopup";
+import EmployeeFqs from "./pages/EmployeeFaq";
+import UserManual from "./pages/UserManual";
+import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
+import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
+import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
+import EmployeeMsg from "./pages/EmployeeMsg";
+import MessagePopup from "./pages/MessagePopup";
+import CompanyRegister from "./pages/CompanyRegister";
+
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -52,24 +76,46 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/registertrainee" element={<RegisterTrainee />} />
 				<Route path="/company" element={<Company />} />
+				<Route path="/companyregister" element={<CompanyRegister />} />
 				<Route path="/assessment" element={<Assessment />} />
 				<Route path="/question" element={<QuestionPage />} />
 				<Route path="/maturelevel" element={<MaturityLevelPage />} />
 				<Route path="/teaserscore" element={<TeaserScore />} />
-				<Route path="/selectlevel" element={<SelectLevel />} />	
-		    	<Route path="/maturitylevelactionitem" element={<MaturityLevelActionItem />} />
-                <Route path="/maturitylevelactionablepopup" element={<MaturityLevelActionableMeasurePopup />} />
-				<Route path="/maturitylevelanswerspopup" element={<MaturityLevelAnswersPopup />} />
+				<Route path="/selectlevel" element={<SelectLevel />} />
+				<Route
+					path="/maturitylevelactionitem"
+					element={<MaturityLevelActionItem />}
+				/>
+				<Route
+					path="/maturitylevelactionablepopup"
+					element={<MaturityLevelActionableMeasurePopup />}
+				/>
+				<Route
+					path="/maturitylevelanswerspopup"
+					element={<MaturityLevelAnswersPopup />}
+				/>
 				<Route path="/coursesrecommended" element={<CoursesRecommended />} />
 				<Route path="/savedassesment" element={<SavedAssesment />} />
-				<Route path="/courseemrolledemployeepopup" element={<CourseEmrolledToEmployeePopup />} />
-				<Route path="/courseviewallocatepopup" element={<CoursesViewAllocatePopup />} />
-				<Route path="/coursesemrolledtoemployeeinvitepopup" element={<CoursesEmrolledToEmployeeInvitePopup />} />
+				<Route
+					path="/courseemrolledemployeepopup"
+					element={<CourseEmrolledToEmployeePopup />}
+				/>
+				<Route
+					path="/courseviewallocatepopup"
+					element={<CoursesViewAllocatePopup />}
+				/>
+				<Route
+					path="/coursesemrolledtoemployeeinvitepopup"
+					element={<CoursesEmrolledToEmployeeInvitePopup />}
+				/>
 				<Route path="/coursesallocate" element={<CoursesAllocate />} />
 				<Route path="/employeelist" element={<EmployeeList />} />
 				<Route path="/employeeprogress" element={<EmployeeProgress />} />
 				<Route path="/faqslist" element={<FaqsList />} />
-				<Route path="/employeesendinvitation" element={<EmployeeSendInvitation />} />
+				<Route
+					path="/employeesendinvitation"
+					element={<EmployeeSendInvitation />}
+				/>
 				<Route path="/trainingdocument" element={<TrainingDocument />} />
 				<Route path="/supportticket" element={<SupportTicket />} />
 				<Route path="/supportdetails" element={<SupportDetails />} />
@@ -85,10 +131,33 @@ function App() {
 				<Route path="/maturityassessmentroadmaphistory" element={<MaturityAssessmentRoadmapHistory />} />
 				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
 				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
+
 				<Route path="/dashbord" element={<Dashbord/>} />
 				<Route path="/maturityassessmentroadmapsettarget" element={<MaturityAssessmentRoadmapSetTarget/>} />
 				<Route path="/maturityassessmentresult" element={<MaturityAssessmentResult/>} />
 				<Route path="/employeedashbord" element={<EmployeeDashbord/>} />
+				<Route path="/mycourses" element={<MyCourses/>} />
+				<Route path="/inprogress" element={<InProgress/>} />
+				<Route path="/employeecompleted" element={<EmployeeCompleted/>} />
+				<Route path="/employeecompletedsecond" element={<EmployeeCompletedSecond/>} />
+				<Route path="/mycoursesall" element={<MyCoursesAll/>} />
+				<Route path="/mycoursesallsecond" element={<MyCoursesAllSecond/>} />
+				<Route path="/teammemberdropdown" element={<TeamMemberDropdown/>} />
+				<Route path="/mycoursesinformaction" element={<MyCoursesInformaction/>} />
+				<Route path="/mycoursessocial" element={<MyCoursesSocial/>} />
+				<Route path="/module" element={<Module/>} />
+				<Route path="/modulepdf" element={<ModulePdf/>} />
+				<Route path="/modulevideo" element={<ModuleVideo/>} />
+				<Route path="/modulepdfdetail" element={<ModulePdfDetail/>} />
+				<Route path="/livesession" element={<LiveSession/>} />
+				<Route path="/ratingpopup" element={<RatingPopup/>} />
+				<Route path="/employeefaq" element={<EmployeeFqs/>} />
+				<Route path="/usermanual" element={<UserManual/>} />
+				<Route path="/employeesupportrequest" element={<EmployeeSupportRequest/>} />
+				<Route path="/employeesupportrequestfirst" element={<EmployeeSupportRequestFirst/>} />
+				<Route path="/employeesupportrequestsecond" element={<EmployeeSupportRequestSecond/>} />
+				<Route path="/employeemsg" element={<EmployeeMsg/>} />
+				<Route path="/messagepopup" element={<MessagePopup/>} />
 			</Routes>
 		</div>
 	);

@@ -32,8 +32,6 @@ function MaturityAssessmentRoadmapAssignActionItem() {
                                             <GoChevronDown className="h-4 w-4 text-balck-400" />
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div className="mb-4">
                                     <label className="block mb-1">Start Date</label>
