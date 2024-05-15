@@ -65,6 +65,7 @@ import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
 import EmployeeMsg from "./pages/EmployeeMsg";
 import MessagePopup from "./pages/MessagePopup";
 import CompanyRegister from "./pages/CompanyRegister";
+import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
 
 function App() {
 	return (
@@ -82,6 +83,7 @@ function App() {
 				<Route path="/maturelevel" element={<MaturityLevelPage />} />
 				<Route path="/teaserscore" element={<TeaserScore />} />
 				<Route path="/selectlevel" element={<SelectLevel />} />
+				
 				<Route
 					path="/maturitylevelactionitem"
 					element={<MaturityLevelActionItem />}
@@ -94,8 +96,14 @@ function App() {
 					path="/maturitylevelanswerspopup"
 					element={<MaturityLevelAnswersPopup />}
 				/>
-				<Route path="/coursesrecommended" element={<CoursesRecommended />} />
-				<Route path="/savedassesment" element={<SavedAssesment />} />
+				<Route 
+				     path="/coursesrecommended" 
+					 element={<CoursesRecommended />} 
+				/>
+				<Route 
+				     path="/savedassesment"
+					element={<SavedAssesment />}
+				 />
 				<Route
 					path="/courseemrolledemployeepopup"
 					element={<CourseEmrolledToEmployeePopup />}
@@ -112,10 +120,7 @@ function App() {
 				<Route path="/employeelist" element={<EmployeeList />} />
 				<Route path="/employeeprogress" element={<EmployeeProgress />} />
 				<Route path="/faqslist" element={<FaqsList />} />
-				<Route
-					path="/employeesendinvitation"
-					element={<EmployeeSendInvitation />}
-				/>
+				<Route path="/employeesendinvitation" element={<EmployeeSendInvitation />} />
 				<Route path="/trainingdocument" element={<TrainingDocument />} />
 				<Route path="/supportticket" element={<SupportTicket />} />
 				<Route path="/supportdetails" element={<SupportDetails />} />
@@ -132,9 +137,9 @@ function App() {
 				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
 				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
 				<Route path="/dashbord" element={<Dashbord/>} />
-				{/* semiemployee */}
 				<Route path="/maturityassessmentroadmapsettarget" element={<MaturityAssessmentRoadmapSetTarget/>} />
 				<Route path="/maturityassessmentresult" element={<MaturityAssessmentResult/>} />
+				{/* semiemployee */}
 				<Route path="/employeedashbord" element={<EmployeeDashbord/>} />
 				<Route path="/mycourses" element={<MyCourses/>} />
 				<Route path="/inprogress" element={<InProgress/>} />
@@ -158,6 +163,7 @@ function App() {
 				<Route path="/employeesupportrequestsecond" element={<EmployeeSupportRequestSecond/>} />
 				<Route path="/employeemsg" element={<EmployeeMsg/>} />
 				<Route path="/messagepopup" element={<MessagePopup/>} />
+				<Route path="/myaccomplishmentscertifications" element={<MyAccomplishmentsCertifications/>} />
 			</Routes>
 		</div>
 	);

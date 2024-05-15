@@ -36,7 +36,7 @@ function ModulePdfDetail() {
 
     return (
 
-        <div className="flex bg-[#EDEFF9] w-[1510px] h-[3030px]  overflow-hidden">
+        <div className="flex bg-[#EDEFF9] w-[1510px] h-[3080px]  overflow-hidden">
 
             <div className="relative">
                 <EmployeeSidebar />
@@ -50,7 +50,7 @@ function ModulePdfDetail() {
                 </div>
             </div>
 
-            <div className="bg-[#FFFFFF] w-[1230px] h-[3030px] mt-[20px] ml-[20px] rounded-t-[10px]  ">
+            <div className="bg-[#FFFFFF] w-[1230px] h-[3015px] mt-[20px] ml-[20px] rounded-[10px]  ">
                 <div className="p-4">
                     <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-[2px] ">
 

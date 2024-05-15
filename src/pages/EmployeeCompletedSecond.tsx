@@ -12,7 +12,7 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 function EmployeeCompletedSecond() {
 
     return (
-        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1670px]  overflow-hidden">
+        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1640px]  overflow-hidden">
 
             <div className="relative">
                 <EmployeeSidebar />
@@ -28,7 +28,7 @@ function EmployeeCompletedSecond() {
 
             </div>
 
-            <div className="bg-[#FFFFFF] w-[1230px] h-[1600px] mt-[20px] ml-[20px] rounded-t-[10px]  ">
+            <div className="bg-[#FFFFFF] w-[1230px] h-[1600px] mt-[20px] ml-[20px] rounded-[10px]  ">
                 <div className="p-4">
                     <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-[2px] ">
 

@@ -86,7 +86,7 @@ function EmployeeDashbord() {
 
 
     return (
-        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1330px]  overflow-hidden">
+        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1350px]  overflow-hidden">
 
             <div className="relative">
                 <EmployeeSidebar />
@@ -102,7 +102,7 @@ function EmployeeDashbord() {
 
             </div>
 
-            <div className="bg-[#FFFFFF] w-[1230px] h-[1460px] mt-[20px] ml-[20px] rounded-t-[10px] p-4 ">
+            <div className="bg-[#FFFFFF] w-[1230px] h-[1313px] mt-[20px] ml-[20px] rounded-[10px] p-4 ">
 
                 <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-sm ">
 

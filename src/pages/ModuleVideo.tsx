@@ -32,7 +32,7 @@ function ModuleVideo() {
     ];
     return (
 
-        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1300px]  overflow-hidden">
+        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1320px]  overflow-hidden">
 
             <div className="relative">
                 <EmployeeSidebar />
@@ -46,7 +46,7 @@ function ModuleVideo() {
                 </div>
             </div>
 
-            <div className="bg-[#FFFFFF] w-[1230px] h-[1300px] mt-[20px] ml-[20px] rounded-t-[10px]  ">
+            <div className="bg-[#FFFFFF] w-[1230px] h-[1280px] mt-[20px] ml-[20px] rounded-[10px]  ">
                 <div className="p-4">
                     <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-[2px] ">
                         <span className="text-[24px] font-semibold">My Courses<span className="text-[24px] font-semibold text-[#00778B]"> / Social</span></span>

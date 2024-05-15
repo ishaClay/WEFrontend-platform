@@ -41,7 +41,7 @@ function MyCoursesSocial() {
 
       </div>
 
-      <div className="bg-[#FFFFFF] w-[1230px] h-[740px] mt-[20px] ml-[20px] rounded-t-[10px]  ">
+      <div className="bg-[#FFFFFF] w-[1230px] h-[740px] mt-[20px] ml-[20px] rounded-[10px]  ">
         <div className="p-4">
           <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-[2px] ">
 
