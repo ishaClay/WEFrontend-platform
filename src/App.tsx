@@ -131,8 +131,8 @@ function App() {
 				<Route path="/maturityassessmentroadmaphistory" element={<MaturityAssessmentRoadmapHistory />} />
 				<Route path="/maturityassessmentroadmapactionview" element={<MaturityAssessmentRoadmapActionView />} />
 				<Route path="/maturityassessmentroadmapassignactionitem" element={<MaturityAssessmentRoadmapAssignActionItem/>} />
-
 				<Route path="/dashbord" element={<Dashbord/>} />
+				{/* semiemployee */}
 				<Route path="/maturityassessmentroadmapsettarget" element={<MaturityAssessmentRoadmapSetTarget/>} />
 				<Route path="/maturityassessmentresult" element={<MaturityAssessmentResult/>} />
 				<Route path="/employeedashbord" element={<EmployeeDashbord/>} />

@@ -10,10 +10,8 @@ import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 function Compose() {
 
-
-
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px]  overflow-hidden">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[740px]  overflow-hidden">
             <div className="">
                 <EmployeeListSidebar />
             </div>

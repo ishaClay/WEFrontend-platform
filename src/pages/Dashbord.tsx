@@ -185,7 +185,7 @@ function Dashbord() {
     };
 
     return (
-        <div className="flex bg-[#F5F7FF] w-[1510px] h-[1550px] overflow-hidden">
+        <div className="flex bg-[#F5F7FF] w-[1510px] h-[1310px] overflow-hidden">
             <div className=" ">
                 <EmployeeListSidebar />
             </div>

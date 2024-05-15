@@ -8,7 +8,7 @@ import { BsSearch } from 'react-icons/bs';
 
 function Messaging() {
     return (
-        <div className="flex  bg-[#f5f3ff] w-[1510px] h-[795px] overflow-hidden">
+        <div className="flex  bg-[#f5f3ff] w-[1510px] h-[820px] overflow-hidden">
             <div className="">
                 <EmployeeListSidebar />
             </div>
@@ -18,7 +18,7 @@ function Messaging() {
                 </div>
 
                 <div className="flex">
-                    <div className="w-[320px] h-[690px] bg-[#FFFFFF] ml-4 mt-4 rounded ">
+                    <div className="w-[320px] h-[670px] bg-[#FFFFFF] ml-4 mt-4 rounded ">
                         <div className="w-[320px] h-[60px] bg-[#FFFFFF] border-b rounded-t-[10px] ">
                             <div className="p-2">
 
@@ -150,7 +150,7 @@ function Messaging() {
 
                     </div>
 
-                    <div className=" w-[905px] h-[690px] bg-[#FFFFFF] ml-4 mt-4 rounded">
+                    <div className=" w-[905px] h-[670px] bg-[#FFFFFF] ml-4 mt-4 rounded">
 
 
                         <div className="h-[60px] w-full  flex pl-2 border-b">
