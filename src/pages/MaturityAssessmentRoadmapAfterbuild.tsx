@@ -58,6 +58,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
             <div className="p-4">
               {activeTab === 'Assessment Result' && <div>Anurag</div>}
               {activeTab === 'Roadmap' &&
+
                 <div className="flex flex-col">
                   <div className="flex relative ">
                     <div className="flex flex-col  ">
@@ -166,7 +167,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
 
                     </div>
-
 
                     <div className=" flex w-full h-[112px] border-b border-l border-r border-solid border-[#D9D9D9] ">
                       <div className=" h-[112px] w-[900px] pl-4   ">
@@ -280,7 +280,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
 
                           <div className="flex relative ml-[20px]">
 
-
                             <div className="ml-[80px] text-[#1D2026] mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#FFD56A] h-[30px] w-[107px] flex items-center justify-center ">Intermediate</div>
                             <div className="absolute top-3 ml-[167px]  border-2 border-dashed border-[#A6A6A6] w-40 mt-5 ">
 
@@ -297,7 +296,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
                     </div>
 
                     <div className=" flex w-full h-[90px] border-b border-l border-r border-solid border-[#D9D9D9]  ">
-
 
                       <div className="flex h-[90px] w-[900px]  pt-8 pl-4">
                         <p className=" pl-3 font-Calibri text-[#000000]">Lead in energy efficiency through continuous optimization and strategic energy management.</p>
@@ -348,7 +346,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
 
                     </div>
-
 
                     <div className=" flex w-full h-[112px] border-b border-l border-r border-solid border-[#D9D9D9] ">
                       <div className=" h-[112px] w-[900px] pl-4   ">
@@ -440,10 +437,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
 
                     </div>
-                  </div>
-                  <div className="mt-[150px] ml-[240px]">
 
-                    <div className="flex gap-6">
+                    <div className=" ml-[250px] mt-6 flex gap-6">
                       <button className="bg-[#64A70B]  text-white font-semibold py-2 px-4 rounded h-[48px] w-[223px]">
                         Edit Roadmap
                       </button>
@@ -454,13 +449,16 @@ function MaturityAssessmentRoadmapAfterbuild() {
                         Retake Assessment
                       </button>
                     </div>
+                    <div className="ml-[200px] mt-[10px]">
+                      <p className="text-[#64A70B] font-semibold">Keep up the fantastic work, and remember, every small step counts towards a brighter and more sustainable world! </p>
+                    </div>
+
+                    <div className="mt-[10px]">
+                      <Footer />
+                    </div>
+
                   </div>
-                  <div className="ml-[200px] mt-[10px]">
-                    <p className="text-[#64A70B] font-semibold">Keep up the fantastic work, and remember, every small step counts towards a brighter and more sustainable world! </p>
-                  </div>
-                  <div className="mt-[10px]">
-                    <Footer />
-                  </div>
+
                 </div>
 
 
@@ -475,7 +473,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
 
 
           <div>
-
 
 
 

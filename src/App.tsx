@@ -66,6 +66,12 @@ import EmployeeMsg from "./pages/EmployeeMsg";
 import MessagePopup from "./pages/MessagePopup";
 import CompanyRegister from "./pages/CompanyRegister";
 import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
+import MyAccomplishments from "./pages/MyAccomplishments";
+import AssessmentResult from "./pages/AssessmentResult";
+import ProfileSetting from "./pages/ProfileSetting";
+import ChangePassword from "./pages/ChangePassword";
+import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
+import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
 
 function App() {
 	return (
@@ -164,6 +170,12 @@ function App() {
 				<Route path="/employeemsg" element={<EmployeeMsg/>} />
 				<Route path="/messagepopup" element={<MessagePopup/>} />
 				<Route path="/myaccomplishmentscertifications" element={<MyAccomplishmentsCertifications/>} />
+				<Route path="/myaccomplishments" element={<MyAccomplishments/>} />
+				<Route path="/assessmentresult" element={<AssessmentResult/>} />
+				<Route path="/profilesetting" element={<ProfileSetting/>} />
+				<Route path="/changepassword" element={<ChangePassword/>} />
+				<Route path="/employeeassessmentresult" element={<EmployeeAssessmentResult/>} />
+				<Route path="/employeeassessmentresultfirst" element={<EmployeeAssessmentResultFirst/>} />
 			</Routes>
 		</div>
 	);

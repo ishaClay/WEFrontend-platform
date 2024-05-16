@@ -1,24 +1,22 @@
+
+import { useState } from 'react';
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import { Link } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { RiShutDownLine } from "react-icons/ri";
 import { LuMapPin } from "react-icons/lu";
-
-
 import { BsTicketPerforated } from "react-icons/bs";
 import { TfiBook } from "react-icons/tfi";
 import { GrCertificate } from "react-icons/gr";
 
-import { useState } from 'react';
+
 import { HiChevronRight, HiChevronDown } from 'react-icons/hi';
 
 const EmployeeSidebar = () => {
     const [isOpen1, setIsOpen1] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [isOpen3, setIsOpen3] = useState(false);
-
-   
-    
+  
     const toggleDropdown3 = () => {
         setIsOpen3(!isOpen3);
         setIsOpen1(false);
