@@ -18,5 +18,7 @@ export const QUERY_KEYS = {
     fetchbyclientMaturity: "fetch_by_client_maturity",
     maturitypillar: "maturity_pillar",
     filterMaturityMeasures: "filter_maturity_measures",
-    measuresItems: "measures_items"
+    measuresItems: "measures_items",
+    updatePillar: "update_pillar",
+    checkedMeasures: "checked_measures",
 };
