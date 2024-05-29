@@ -38,6 +38,9 @@ function CompanyRegister() {
 		enabled: !!CompanyId,
 	});
 
+	console.log("companydetailscompanydetails", companydetails);
+	
+
 	const { mutate: updatecompany, isPending: updatePanding } = useMutation({
 		mutationFn: (data: Company) => updateCompany(data),
 		onSuccess: async () => {

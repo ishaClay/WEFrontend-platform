@@ -22,20 +22,21 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
-import { addMeasuresItems, fetchMaturityPillar, getMeasuresItems } from "@/services/apiServices/pillar";
+import { addMeasuresItems, fetchMaturityPillar, filterMaturityMeasures, getCheckedMeasures, getMeasuresItems, updatePillarCheckbox } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from 'react';
 import { BsFillPlusSquareFill, BsPencil } from "react-icons/bs";
 import { FaStar } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
+import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 
 
 
@@ -43,10 +44,20 @@ function SelectLevel() {
 
   const navigate = useNavigate();
   const [actionItems, setActionItems] = useState(['']);
-  const [pid, setPId] = useState("")
-  const [checkedStates, setCheckedStates] = useState([]);
+  const [pid, setPId] = useState<string | null>("")
+  // const [checkedStates, setCheckedStates] = useState([]);
+
+  const [selectmaturity, setselectMaturity] = useState("");
+  const [editId, setEditId] = useState<number | null>(null)
+
+  const dispatch = useDispatch();
+  const pillars = useSelector((state: any) => state.pillar?.maturitypillar);
+  console.log("pillarspillars", pillars);
+
 
   const { clientId, UserId } = useSelector((state: any) => state.user);
+  console.log("clientIdclientId", clientId);
+
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -58,28 +69,37 @@ function SelectLevel() {
   const { data: maturitypillar } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
     queryFn: () => fetchMaturityPillar(clientId, UserId),
-
+    enabled: true
   });
 
-  const handleChange = (_: any, p_id: string) => {
-    setPId(p_id)
-  }
 
-  const { data: allassessmant } = useQuery({
-    queryKey: [QUERY_KEYS.totalAssessment],
-    queryFn: () => getAllassessment(UserId),
+  const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures],
+    queryFn: () => filterMaturityMeasures(clientId as string, UserId as string, selectmaturity as any, pid as string),
+    enabled: !!selectmaturity && !!pid
   });
 
-  const score = +((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+  useEffect(() => {
+    refetchfiltermesuresdata();
+  }, [selectmaturity])
 
-  let proficiencyLevel;
-  if (score < 30) {
-    proficiencyLevel = "Introductory";
-  } else if (score >= 30 && score < 60) {
-    proficiencyLevel = "Intermediate";
-  } else {
-    proficiencyLevel = "Advanced";
-  }
+
+
+  // const { data: allassessmant } = useQuery({
+  //   queryKey: [QUERY_KEYS.totalAssessment],
+  //   queryFn: () => getAllassessment(UserId),
+  // });
+
+  // const score = +((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+
+  // let proficiencyLevel;
+  // if (score < 30) {
+  //   proficiencyLevel = "Introductory";
+  // } else if (score >= 30 && score < 60) {
+  //   proficiencyLevel = "Intermediate";
+  // } else {
+  //   proficiencyLevel = "Advanced";
+  // }
 
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
@@ -97,26 +117,37 @@ function SelectLevel() {
     },
   });
 
-  const { data: getmeasuresitem, refetch: refetchmeasuresitem } = useQuery({
-    queryKey: [QUERY_KEYS.measuresItems],
-    queryFn: () => getMeasuresItems(UserId as string, pid as string),
-    enabled: !!(UserId && pid)
+  const { data: getCheckedmeasures } = useQuery({
+    queryKey: [QUERY_KEYS.checkedMeasures],
+    queryFn: () => getCheckedMeasures(UserId, clientId),
+    enabled: true
   });
 
-  useEffect(() => {
-    if (getmeasuresitem?.data?.data) {
-      setActionItems(() => [
-        ...getmeasuresitem.data.data[0]?.measure_measures?.map((i: any) => i?.name),
-      ]);
-    }
-  }, [getmeasuresitem?.data?.data]);
+  console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
+
 
 
   useEffect(() => {
-    if (UserId && pid) {
-      refetchmeasuresitem();
-    }
-  }, [UserId, pid])
+    maturitypillar?.data?.data?.length > 0 && dispatch(setMaturitypillar(maturitypillar?.data?.data));
+  }, [maturitypillar?.data?.data?.length])
+
+
+  const { mutate: updatepillarcheckbox } = useMutation({
+    mutationFn: (data: any) => updatePillarCheckbox(data.checked, data.id as string),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.maturitypillar],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+
 
   const paths = [
     {
@@ -151,12 +182,6 @@ function SelectLevel() {
     },
   ];
 
-  const toggleCheckbox = (index: number) => {
-    const newCheckedStates: any = [...checkedStates];
-    newCheckedStates[index] = !newCheckedStates[index];
-    setCheckedStates(newCheckedStates);
-  };
-
 
   const handleActionItemChange = (index: number, value: any) => {
     const updatedItems = [...actionItems];
@@ -164,9 +189,14 @@ function SelectLevel() {
     setActionItems(updatedItems);
   };
 
-  const [editId, setEditId] = useState<number | null>(null)
-  console.log("editId", editId);
+  const handleChange = (e: any, p_id: string) => {
+    console.log("p_idp_id", p_id);
 
+    setselectMaturity(e)
+    if (p_id !== null) {
+      setPId(p_id);
+    }
+  }
 
   const removeActionItem = (index: number) => {
     const updatedItems = [...actionItems];
@@ -176,10 +206,10 @@ function SelectLevel() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    refetchmeasuresitem();
     const measures = actionItems.map((item: string) => ({ name: item }));
     createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
+
 
 
   return (
@@ -239,15 +269,17 @@ function SelectLevel() {
       <div className="flex flex-col items-center h-full w-full ">
 
         {
-          maturitypillar?.data?.data.map((item: any, index: number) => {
-            const isChecked = proficiencyLevel === item.maturityLevelName;
+          pillars?.map((item: any, index: number) => {
+            console.log("item", item);
+
+
             return (
               <div className="ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
                 <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[200px] rounded-[10.06px] flex flex-col">
                   <div className="flex h-8">
-                    <div className="bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start">
+                    <div className={`${item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"} bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start`}>
                       <h2 className="text-lg font-inter ">
-                        <span className="text-white">Your level -</span><span className="text-[#FFD56A]">{item.maturityLevelName}</span>
+                        <span className={`${item?.checked ? "text-white" : "text-[#FFD56A]"} text-[black]`}>Your level -</span><span className="text-[#FFD56A]">{item.maturityLevelName}</span>
                       </h2>
 
                     </div>
@@ -255,10 +287,13 @@ function SelectLevel() {
 
                     <div className="ml-auto mr-3 mt-2 ">
                       <input
-                        className={`w-5 h-5 cursor-pointer ${isChecked ? 'accent-[#64A70B]' : 'accent-[white] border border-[#B9B9B9]'}`}
+                        className={`w-5 h-5 cursor-pointer ${item?.checked ? 'accent-[white]' : 'accent-[white] border border-[#B9B9B9]'}`}
                         type="checkbox"
-                        checked={checkedStates[index]}
-                        onChange={() => toggleCheckbox(index)}
+                        checked={item?.checked ? true : false}
+                        onChange={() => {
+                          dispatch(setPillars({ id: item?.pillarid, checked: item?.checked ? 0 : 1 }));
+                          updatepillarcheckbox({ id: item?.pillarid, checked: item?.checked ? 0 : 1 })
+                        }}
                       />
                     </div>
 
@@ -283,7 +318,7 @@ function SelectLevel() {
                         </div>
 
                         <Select
-                          onValueChange={(e) => handleChange(e, maturitypillar?.data?.data[index]?.pillarid)}
+                          onValueChange={(e) => handleChange(e, item?.pillarid)}
                         >
                           <SelectGroup>
                             <SelectTrigger className="max-w-[180px]">
@@ -307,7 +342,12 @@ function SelectLevel() {
                       </div>
                       <div>
                         <ul className="list-disc ml-6 text-xs text-[#000000]">
-                          {
+                          {pid ? filtermesuresdata?.data?.data && filtermesuresdata?.data?.data.map((m: any, index: number) => (
+                            m?.filteredOptions?.map((measures: any, subIndex: number) => (
+                              measures?.measures && <li key={`item-${index}-${subIndex}`}>{measures?.measures}</li>
+                            ))
+                          )) :
+
                             item?.filteredOptions.map((m: any) => {
 
                               if (m.measures) {
@@ -322,15 +362,13 @@ function SelectLevel() {
                           }
                         </ul>
                       </div>
-
-
                     </div>
 
                     <div className="w-[162px] mt-8">
 
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button onClick={() => { setPId(item.pillarid); refetchmeasuresitem() }} className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 ">Define Action Items</Button>
+                          <Button disabled={item.checked === 0} onClick={() => { setPId(item.pillarid) }} className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 ">Define Action Items</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[50rem] z-[999]">
                           <DialogHeader>
@@ -384,44 +422,95 @@ function SelectLevel() {
                                       <div className="pb-2 pt-2 h-[42px] w-[350px]">
                                         <div className="ml-6  text-[#1D2026] font-calibri font-bold">Enter initiatives or action items</div>
 
-                                        {
-                                          actionItems.map((item: any, index: number) => (
-                                            <div key={index} className="pl-4">
-                                              <div className="flex p-2 w-[322px] h-[42px] mt-2">
-                                                <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
-                                                  <input
-                                                    type="text"
-                                                    placeholder="Action item"
-                                                    value={item}
-                                                    onChange={(e) => handleActionItemChange(index, e.target.value)}
-                                                    className="flex-1 border-none outline-none pl-2 pt-2"
-                                                  // readOnly={(editId === editId ? false : true)}
-                                                  />
-                                                </div>
-                                                <div>
-                                                  <button
-                                                    type="button"
-                                                    className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
-                                                    onClick={() => setEditId(index)}
-                                                  >
-                                                    <BsPencil className="text-[#B9B9B9]" />
-                                                  </button>
-                                                  <button
-                                                    className="border-none bg-transparent text-lg cursor-pointer mt-2"
-                                                    onClick={() => removeActionItem(index)}
-                                                  >
-                                                    <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                                  </button>
+
+                                        <div className="h-[265px] overflow-auto">
+                                          {
+                                            getCheckedmeasures?.data?.data && getCheckedmeasures?.data?.data.map((m: any) => {
+
+                                              if (m.pillarId === item.pillarid) {
+                                                return (
+                                                  m?.measures?.map((measure: any) => {
+
+                                                    return (
+                                                      actionItems.map((item: any, index: number) => (
+                                                        <div key={index} className="pl-4">
+                                                          <div className="flex p-2 w-[322px] h-[42px] mt-2">
+                                                            <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
+                                                              <input
+                                                                type="text"
+                                                                placeholder="Action item"
+                                                                value={measure.name}
+                                                                onChange={(e) => handleActionItemChange(index, e.target.value
+                                                                )}
+                                                                className="flex-1 border-none outline-none pl-2 pt-2"
+
+                                                              />
+                                                            </div>
+                                                            <div>
+                                                              <button
+                                                                type="button"
+                                                                className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
+                                                                onClick={() => setEditId(index)}
+                                                              >
+                                                                <BsPencil className="text-[#B9B9B9]" />
+                                                              </button>
+                                                              <button
+                                                                className="border-none bg-transparent text-lg cursor-pointer mt-2"
+                                                                onClick={() => removeActionItem(index)}
+                                                              >
+                                                                <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                                              </button>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      ))
+                                                    )
+                                                  })
+                                                )
+                                              }
+
+                                            })
+                                          }
+
+
+                                          {
+                                            actionItems.map((item: any, index: number) => (
+                                              <div key={index} className="pl-4">
+                                                <div className="flex p-2 w-[322px] h-[42px] mt-2">
+                                                  <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
+                                                    <input
+                                                      type="text"
+                                                      placeholder="Action item"
+                                                      value={item}
+                                                      onChange={(e) => handleActionItemChange(index, e.target.value
+                                                      )}
+                                                      className="flex-1 border-none outline-none pl-2 pt-2"
+
+                                                    />
+                                                  </div>
+                                                  <div>
+                                                    <button
+                                                      type="button"
+                                                      className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
+                                                      onClick={() => setEditId(index)}
+                                                    >
+                                                      <BsPencil className="text-[#B9B9B9]" />
+                                                    </button>
+                                                    <button
+                                                      className="border-none bg-transparent text-lg cursor-pointer mt-2"
+                                                      onClick={() => removeActionItem(index)}
+                                                    >
+                                                      <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                                    </button>
+                                                  </div>
                                                 </div>
                                               </div>
-                                            </div>
-                                          ))
-                                        }
+                                            ))
+                                          }
 
-
-
-                                        <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
-                                          <BsFillPlusSquareFill onClick={addActionItem} />
+                                          <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
+                                            <BsFillPlusSquareFill onClick={addActionItem} />
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -437,7 +526,6 @@ function SelectLevel() {
 
                           </div>
                           <DialogFooter className="sm:justify-end">
-
                             <DialogClose asChild>
                               <Button type="button" variant="secondary">
                                 Close
@@ -449,13 +537,13 @@ function SelectLevel() {
 
 
                     </div>
+
                   </div>
                 </div>
               </div>
             )
           })
         }
-
 
         <button onClick={() => navigate('/maturitylevelactionitem')} className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold ">
           BUILD
@@ -477,8 +565,3 @@ function SelectLevel() {
 }
 
 export default SelectLevel;
-
-
-
-
-

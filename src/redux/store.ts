@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage'
 import CompanyReducer from './reducer/CompanyReducer';
 import QuestionReducer from './reducer/QuestionReducer';
+import PillarReducer from './reducer/PillarReducer';
 
 const persistConfig = {
     key: 'root',
@@ -10,7 +11,8 @@ const persistConfig = {
 };
 
 const persistedCompanyReducer = persistReducer(persistConfig, CompanyReducer);
-const persistedQuestionReducer = persistReducer(persistConfig, QuestionReducer);
+// const persistedQuestionReducer = persistReducer(persistConfig, QuestionReducer);
+// const persistedPillarReducer = persistReducer(persistConfig, PillarReducer);
 
 
 export const store = configureStore({
@@ -19,7 +21,8 @@ export const store = configureStore({
     }),
     reducer: {
         user: persistedCompanyReducer,
-        question: persistedQuestionReducer
+        question: QuestionReducer,
+        pillar: PillarReducer
     },
 })
 

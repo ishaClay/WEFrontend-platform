@@ -53,14 +53,16 @@ const Question = () => {
 
 	const handleChange = (questionId: any, selectedOptions: any) => {
 
-		if (selectedOptions.checked === true) {
+		// if (selectedOptions.checked === true) {
 
-			removeanswer({ userId: userId, questionId: questionId });
-			selectedOptions.checked = false;
+		// 	removeanswer({ userId: userId, questionId: questionId });
+		// 	selectedOptions.checked = false;
 
-		} else {
-			addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
-		}
+		// } else {
+		// 	addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
+		// }
+
+		addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
 	};
 
 

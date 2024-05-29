@@ -39,6 +39,8 @@ import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapH
 import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
 import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
 import CompanyRegister from "./pages/CompanyRegister";
+import EnrolledCourses from "./pages/EnrolledCourses";
+import AllCourses from "./pages/AllCourses";
 function App() {
 	return (
 		<div className="App max-w-[1500px] mx-auto">
@@ -69,6 +71,7 @@ function App() {
 				/>
 				<Route path="/coursesrecommended" element={<CoursesRecommended />} />
 				<Route path="/savedassesment" element={<SavedAssesment />} />
+				<Route path="/enrolledcourses" element={<EnrolledCourses />} />
 				<Route
 					path="/courseemrolledemployeepopup"
 					element={<CourseEmrolledToEmployeePopup />}
@@ -91,6 +94,8 @@ function App() {
 				/>
 				<Route path="/trainingdocument" element={<TrainingDocument />} />
 				<Route path="/supportticket" element={<SupportTicket />} />
+
+
 				<Route path="/supportdetails" element={<SupportDetails />} />
 				<Route path="/supportanswer" element={<SupportAnswer />} />
 				<Route path="/supportaddnewticket" element={<SupportAddNewTicket />} />
@@ -100,6 +105,7 @@ function App() {
 				<Route path="/compose" element={<Compose />} />
 				<Route path="/smeadmindropdonw" element={<SmeAdminDropdonw />} />
 				<Route path="/Coursesallcourse" element={<CoursesAllCourse />} />
+				<Route path="/allcourses"  element={<AllCourses />}/>
 				<Route
 					path="/maturityassessmentroadmap"
 					element={<MaturityAssessmentRoadmapAfterbuild />}
