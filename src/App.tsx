@@ -72,6 +72,9 @@ import ProfileSetting from "./pages/ProfileSetting";
 import ChangePassword from "./pages/ChangePassword";
 import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
 import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
+import EmployeeRodemap from "./pages/EmployeeRodemap";
+import ModuleFrist from "./pages/ModuleFrist";
+import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
 
 function App() {
 	return (
@@ -129,6 +132,8 @@ function App() {
 				<Route path="/employeesendinvitation" element={<EmployeeSendInvitation />} />
 				<Route path="/trainingdocument" element={<TrainingDocument />} />
 				<Route path="/supportticket" element={<SupportTicket />} />
+
+
 				<Route path="/supportdetails" element={<SupportDetails />} />
 				<Route path="/supportanswer" element={<SupportAnswer />} />
 				<Route path="/supportaddnewticket" element={<SupportAddNewTicket />} />
@@ -157,6 +162,7 @@ function App() {
 				<Route path="/mycoursesinformaction" element={<MyCoursesInformaction/>} />
 				<Route path="/mycoursessocial" element={<MyCoursesSocial/>} />
 				<Route path="/module" element={<Module/>} />
+				<Route path="/modulefrist" element={<ModuleFrist/>} />
 				<Route path="/modulepdf" element={<ModulePdf/>} />
 				<Route path="/modulevideo" element={<ModuleVideo/>} />
 				<Route path="/modulepdfdetail" element={<ModulePdfDetail/>} />
@@ -176,6 +182,8 @@ function App() {
 				<Route path="/changepassword" element={<ChangePassword/>} />
 				<Route path="/employeeassessmentresult" element={<EmployeeAssessmentResult/>} />
 				<Route path="/employeeassessmentresultfirst" element={<EmployeeAssessmentResultFirst/>} />
+				<Route path="/employeerodemap" element={<EmployeeRodemap/>} />
+				<Route path="/employeeassessmentresultpopup" element={<EmployeeAssessmentResultPopup/>} />
 			</Routes>
 		</div>
 	);

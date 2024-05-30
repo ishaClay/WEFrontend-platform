@@ -189,22 +189,139 @@ const MaturityLevelPage = () => {
               <>
                 {
                   item.totalpoints < "40" &&
-
                   (
-                    <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                      <div onClick={() => navigate(`/maturitylevelanswerspopup`)} className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                        <img
-                          src={StrategicIntegrationGray}
-                          alt="img"
-                          className="w-[52px] h-[52px]"
-                        />
-                        <h4 className="mt-3">{item.pillarname}</h4>
-                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                          {item.totalpoints * item.totalmaxpoint / 100}%
-                        </span>
-                      </div>
-                    </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+                          <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                            <img
+                              src={StrategicIntegrationGray}
+                              alt="img"
+                              className="w-[52px] h-[52px]"
+                            />
+                            <h4 className="mt-3">{item.pillarname}</h4>
+                            <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
+                              56%
+                            </span>
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[52rem] z-[999]">
+                        <DialogHeader>
+                          <DialogTitle>Have you identified actionable items on provided measures?</DialogTitle>
 
+                        </DialogHeader>
+
+                        <div className="flex">
+                          <div className="h-[105px] w-[270px] flex flex-col">
+                            <div className="flex ">
+                              <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
+                                <img src="/public/assets/img/Path Steps.png" alt="Leaf Icon" />
+                              </div>
+
+                              <div className="ml-2 mt-2 h-[25px] w-[203px]">
+                                <h2 className="text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+                                  Strategic Integration
+                                </h2>
+                              </div>
+                            </div>
+
+                            <div className="h-[19px] w-[270px]  flex mt-[35px]">
+                              <div className="h-[19px] w-[86px] flex">
+                                <div className="h-[12px] w-[12px] rounded  bg-[#F63636] mt-[3px]"></div>
+                                <div className="h-[19px] w-[62.21px] text-xs ml-[10px]">
+                                  Introductory
+                                </div>
+                              </div>
+
+                              <div className="h-[19px] w-[86px] flex ml-[12px]">
+                                <div className="h-[12px] w-[12px] rounded  bg-[#FFD56A] mt-[3px] "></div>
+                                <div className="h-[19px] w-[65px] text-xs ml-[10px]">
+                                  Intermediate
+                                </div>
+                              </div>
+                              <div className="h-[19px] w-[86px] flex ml-[12px]">
+                                <div className="h-[12px] w-[12px] rounded  bg-[#64A70B] mt-[3px] "></div>
+                                <div className="h-[19px] w-[49px] text-xs ml-[10px]">
+                                  Advanced
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="h-[105px] w-[270px] ">
+                            <div className="ml-3 mt-2 h-[25px] w-[230px]">
+                              <h2 className=" text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+                                Maturity level of your answers
+                              </h2>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div className="flex  flex-col mt-6">
+                          <div className="flex gap-2">
+                            <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                              <div className="text-xs font-bold">Question : 01</div>
+                              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                {`Does your business have a clearly defined vision, mission, and values that reflect a commitment to sustainability and social responsibility?Equipment Sales Specialist`}
+                              </div>
+
+                              <Progress className="" value={33} color="green" />
+                            </div>
+
+                            <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                              <div className="text-xs font-bold">Question : 02</div>
+                              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                {`How does your business integrate sustainability into its overall business strategy and decision-making processes? `}
+                              </div>
+
+                              <Progress value={33} color="red" />
+                            </div>
+
+                            <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                              <div className="text-xs font-bold">Question : 03</div>
+                              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                {`How well does your business align its strategy with United Nations Sustainable Development Goals (UNSDGs) or other recognised sustainability standards or goals?`}
+                              </div>
+
+                              <Progress value={33} color="#fcd56a" />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 mt-[6px] h-[150px] w-[508px]">
+                            <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                              <div className="text-xs font-bold">Question : 04</div>
+                              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                {`How do you communicate your commitment to sustainability to your customers, clients, and the public?`}
+                              </div>
+
+                              <Progress value={33} color="red" />
+                            </div>
+
+                            <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                              <div className="text-xs font-bold">Question : 05</div>
+                              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                {`Does our business actively engage in collaborative efforts to influence policy and drive systemic changes that contribute to the global transition towards a sustainable future?`}
+                              </div>
+
+                              <Progress value={33} color="green" />
+
+                            </div>
+                          </div>
+
+
+                        </div>
+
+
+                        <DialogFooter className="sm:justify-end">
+                          <DialogClose asChild>
+                            <Button type="button" variant="secondary">
+                              Close
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   )
                 }
 
@@ -225,8 +342,6 @@ const MaturityLevelPage = () => {
                 {
                   item.totalpoints >= "40" && item.totalpoints < "70" &&
                   (
-
-
                     <Dialog>
                       <DialogTrigger asChild>
                         <div className="pt-8 pl-[30px] pb-5 flex gap-5">
@@ -236,7 +351,7 @@ const MaturityLevelPage = () => {
                               alt="img"
                               className="w-[52px] h-[52px]"
                             />
-                            <h4 className="mt-3">Governance</h4>
+                            <h4 className="mt-3">{item.pillarname}</h4>
                             <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
                               56%
                             </span>
@@ -376,17 +491,143 @@ const MaturityLevelPage = () => {
             assessmant?.data?.data.map((item: any) => (
               < >
                 {
-                  item.totalpoints >= "70" && (
-                    <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                      <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                        <img src={SocialGray} alt="img" className="w-[52px] h-[52px]" />
-                        <h4 className="mt-3">Social</h4>
-                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                          75%
-                        </span>
-                      </div>
-                    </div>
-                  )
+                  item.totalpoints >= "70" &&
+
+                    (
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <div className="pt-8 pl-[30px] pb-5 flex gap-5">
+                            <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                              <img
+                                src={SocialGray}
+                                alt="img"
+                                className="w-[52px] h-[52px]"
+                              />
+                              <h4 className="mt-3">{item.pillarname}</h4>
+                              <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
+                                56%
+                              </span>
+                            </div>
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[52rem] z-[999]">
+                          <DialogHeader>
+                            <DialogTitle>Have you identified actionable items on provided measures?</DialogTitle>
+
+                          </DialogHeader>
+
+                          <div className="flex">
+                            <div className="h-[105px] w-[270px] flex flex-col">
+                              <div className="flex ">
+                                <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
+                                  <img src="/public/assets/img/Path Steps.png" alt="Leaf Icon" />
+                                </div>
+
+                                <div className="ml-2 mt-2 h-[25px] w-[203px]">
+                                  <h2 className="text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+                                    Strategic Integration
+                                  </h2>
+                                </div>
+                              </div>
+
+                              <div className="h-[19px] w-[270px]  flex mt-[35px]">
+                                <div className="h-[19px] w-[86px] flex">
+                                  <div className="h-[12px] w-[12px] rounded  bg-[#F63636] mt-[3px]"></div>
+                                  <div className="h-[19px] w-[62.21px] text-xs ml-[10px]">
+                                    Introductory
+                                  </div>
+                                </div>
+
+                                <div className="h-[19px] w-[86px] flex ml-[12px]">
+                                  <div className="h-[12px] w-[12px] rounded  bg-[#FFD56A] mt-[3px] "></div>
+                                  <div className="h-[19px] w-[65px] text-xs ml-[10px]">
+                                    Intermediate
+                                  </div>
+                                </div>
+                                <div className="h-[19px] w-[86px] flex ml-[12px]">
+                                  <div className="h-[12px] w-[12px] rounded  bg-[#64A70B] mt-[3px] "></div>
+                                  <div className="h-[19px] w-[49px] text-xs ml-[10px]">
+                                    Advanced
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="h-[105px] w-[270px] ">
+                              <div className="ml-3 mt-2 h-[25px] w-[230px]">
+                                <h2 className=" text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+                                  Maturity level of your answers
+                                </h2>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div className="flex  flex-col mt-6">
+                            <div className="flex gap-2">
+                              <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                                <div className="text-xs font-bold">Question : 01</div>
+                                <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                  {`Does your business have a clearly defined vision, mission, and values that reflect a commitment to sustainability and social responsibility?Equipment Sales Specialist`}
+                                </div>
+
+                                <Progress className="" value={33} color="green" />
+                              </div>
+
+                              <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                                <div className="text-xs font-bold">Question : 02</div>
+                                <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                  {`How does your business integrate sustainability into its overall business strategy and decision-making processes? `}
+                                </div>
+
+                                <Progress value={33} color="red" />
+                              </div>
+
+                              <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                                <div className="text-xs font-bold">Question : 03</div>
+                                <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                  {`How well does your business align its strategy with United Nations Sustainable Development Goals (UNSDGs) or other recognised sustainability standards or goals?`}
+                                </div>
+
+                                <Progress value={33} color="#fcd56a" />
+                              </div>
+                            </div>
+
+                            <div className="flex gap-2 mt-[6px] h-[150px] w-[508px]">
+                              <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                                <div className="text-xs font-bold">Question : 04</div>
+                                <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                  {`How do you communicate your commitment to sustainability to your customers, clients, and the public?`}
+                                </div>
+
+                                <Progress value={33} color="red" />
+                              </div>
+
+                              <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                                <div className="text-xs font-bold">Question : 05</div>
+                                <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                                  {`Does our business actively engage in collaborative efforts to influence policy and drive systemic changes that contribute to the global transition towards a sustainable future?`}
+                                </div>
+
+                                <Progress value={33} color="green" />
+
+                              </div>
+                            </div>
+
+
+                          </div>
+
+
+                          <DialogFooter className="sm:justify-end">
+                            <DialogClose asChild>
+                              <Button type="button" variant="secondary">
+                                Close
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                    )
+                  
                 }
               </>
             ))

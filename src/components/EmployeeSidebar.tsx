@@ -8,15 +8,14 @@ import { LuMapPin } from "react-icons/lu";
 import { BsTicketPerforated } from "react-icons/bs";
 import { TfiBook } from "react-icons/tfi";
 import { GrCertificate } from "react-icons/gr";
-
-
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { HiChevronRight, HiChevronDown } from 'react-icons/hi';
 
 const EmployeeSidebar = () => {
     const [isOpen1, setIsOpen1] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [isOpen3, setIsOpen3] = useState(false);
-  
+
     const toggleDropdown3 = () => {
         setIsOpen3(!isOpen3);
         setIsOpen1(false);
@@ -27,12 +26,18 @@ const EmployeeSidebar = () => {
     return (
         <div className=" lg:flex flex-col justify-between w-60 duration-500 bg-[#FFFFFF] overflow-hidden ">
             <div className=" w-[235px] h-[780px]">
-                <div className="ml-[25px] mt-[20px]">
+                <div className="ml-[20px] mt-[20px]">
                     {/* <img src={sidebarlogo} alt="logo" width={121.17} height={80} /> */}
                     <h1 className="text-[28px] text-[#000000] font-semibold">Product Logo</h1>
-                    
 
+                    <div className="absolute mt-[60px] -top-2 -right-[14px] flex items-center justify-center  ">
+                        <button
 
+                            className=" h-[30px] w-[30px] bg-[#FFFFFF] border border-[#E5E7EE] rounded-full  inline-flex items-center justify-center "
+                        >
+                            <MdOutlineKeyboardArrowLeft className="h-[20px] w-[20px] text-[#606060]" />
+                        </button>
+                    </div>
                 </div>
                 <div className="mt-8 flex flex-col gap-4 relative">
                     <Link to="/dashboard" className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-[400] text-[16px] font-[Calibri]">
@@ -61,7 +66,7 @@ const EmployeeSidebar = () => {
                         className={`group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] ${isOpen1 ? 'mt-[85px]' : ''}`}
 
                     >
-                       <GrCertificate size={22} />
+                        <GrCertificate size={22} />
                         <h2>Certifications</h2>
 
                     </Link>

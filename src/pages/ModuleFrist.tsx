@@ -1,21 +1,21 @@
 
+
+
 import EmployeeSidebar from "@/components/EmployeeSidebar"
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 import { useState } from 'react';
 import { IoChevronDownSharp } from "react-icons/io5";
-import { BsHandThumbsUpFill } from "react-icons/bs";
-import { BsHandThumbsDownFill } from "react-icons/bs";
-import { MdOutlineMessage } from "react-icons/md";
-import { FiDownload } from "react-icons/fi";
-import { PiShareFat } from "react-icons/pi";
-import { MdKeyboardArrowUp } from "react-icons/md";
-import { MdOutlineStar } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
+import { FaCheckCircle } from 'react-icons/fa';
 import { VscFilePdf } from "react-icons/vsc";
+import { MdPlayCircleOutline } from "react-icons/md";
+import { CiCircleAlert } from "react-icons/ci";
+import { VscDeviceCameraVideo } from "react-icons/vsc";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
 
-function ModulePdf() {
+function ModuleFrist() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -39,7 +39,6 @@ function ModulePdf() {
         { name: 'Chapter 2 - Required tools', status: 'Not Started', isActive: false },
         { name: 'Chapter 3 - jcdjxcdm', status: 'Not Started', isActive: false }
     ];
-
     return (
         <div className="flex flex-col md:flex-row bg-[#EDEFF9] w-full md:w-[1510px] h-full md:h-[780px] overflow-hidden relative">
             {sidebarOpen && (
@@ -53,7 +52,7 @@ function ModulePdf() {
                 <EmployeeSidebar />
             </div>
 
-            <div className="bg-[#FFFFFF] w-full lg:w-[1230px] h-auto lg:h-[750px] mt-[20px] lg:ml-[20px] rounded-[10px] ">
+            <div className="bg-[#FFFFFF] w-full lg:w-[1230px] h-auto lg:h-[740px] mt-[20px] lg:ml-[20px] rounded-[10px] ">
                 <div className="p-4">
                     <div className="pb-4 w-full lg:w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between">
                         <div className="flex items-center">
@@ -170,89 +169,107 @@ function ModulePdf() {
                         }
                         {activeTab === 'tab2' &&
 
-                            <div className="m-4">
-                                <div className="w-full md:w-[1200px] h-[100px] bg-[#F1F1F1] flex border border-[#D9D9D9] rounded-md">
-                                    <div className="flex items-center p-2 md:p-0">
-                                        <VscFilePdf className="h-[50px] w-[35px] mr-4 text-[#D9D9D9] ml-4" />
+                            <div className="p-4">
+                                <div className="border-b border-[#D9D9D9] pb-3">
+                                    <div className="bg-white flex items-center ml-1">
+                                        <FaCheckCircle className="text-green-500 h-[24px] w-[24px]" />
+                                        <div className="flex-grow ml-2">
+                                            <p className="font-semibold text-[16px]">Chapter 1 - Intro</p>
+                                        </div>
+                                        <button className="text-gray-800">
+                                            <MdKeyboardArrowDown className="h-8 w-8" />
+                                        </button>
+                                    </div>
+                                    <p className="text-[#606060] text-[12px] ml-1">Section: 1 | Duration: 00:30:00</p>
+                                </div>
+
+                                <div className="flex items-center justify-between bg-white py-4 border-b border-[#D9D9D9]">
+                                    <div className="flex items-center m-1">
+                                        <MdPlayCircleOutline className="h-[32px] w-[32px] mr-4 text-[#D9D9D9]" />
                                         <div>
-                                            <h1 className="font-semibold text-[#000000] text-[14px] md:text-[16px]">Doug's Story 3.pdf</h1>
-                                            <p className="text-[#A3A3A3] text-[14px] md:text-[16px]">PDF File</p>
+                                            <h1 className="font-semibold text-[16px]">Doug's Story 1</h1>
+                                            <p className="text-[#606060] text-[12px]">MP4 | Duration: 00:04:42</p>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div className="mt-4">
-                                    <div className="flex justify-between items-center">
-                                        <p className="text-[12px]">Category:<span className="text-[12px] text-[#00778B]">Environment</span></p>
-                                        <div className="flex items-center space-x-2">
-                                            <BsHandThumbsUpFill className="text-[#00778B]" />
-                                            <BsHandThumbsDownFill className="text-[#A3A3A3]" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <h1 className="text-[18px] md:text-[20px] font-semibold text-[#000000] mt-2">Doug's Story 3</h1>
-                                <div className="flex flex-col md:flex-row justify-between items-center mt-4 bg-white">
-                                    <div className="flex items-center space-x-4">
-                                        <img
-                                            src="/public/assets/img/face1.jpg"
-                                            alt="Emilia Anderson"
-                                            className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
-                                        />
-                                        <div className="ml-2">
-                                            <div className="text-[14px] md:text-[16px] font-medium text-gray-700">Devon Lane</div>
-                                            <div className="flex items-center space-x-1">
-                                                <p className="text-[14px] md:text-[16px] text-[#A3A3A3]">Rating 4/5</p>
-                                                <MdOutlineStar className="text-[#FFA25E]" />
-                                                <span className="text-[14px] md:text-[16px] text-[#A3A3A3]">• 100 Views</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col md:flex-row space-x-0 space-y-2 md:space-y-0 md:space-x-4 mt-4 md:mt-0">
-                                        <button className="p-2 border border-gray-300 rounded h-[42px] w-full md:w-[110px] flex items-center justify-center space-x-2">
-                                            <MdOutlineMessage className="h-[22px] w-[22px]" />
-                                            <span className="text-[12px]">Feedback</span>
-                                        </button>
-                                        <button className="p-2 border border-gray-300 rounded h-[42px] w-full md:w-[150px] flex items-center justify-center space-x-2">
-                                            <FiDownload className="h-[22px] w-[22px]" />
-                                            <span className="text-[12px]">Download Video</span>
-                                        </button>
-                                        <button className="pl-3 border border-gray-300 rounded h-[42px] w-full md:w-[50px]">
-                                            <PiShareFat className="h-[22px] w-[25px]" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="mt-8 w-full md:w-[1170px] font-Inter text-[14px] md:text-[16px]">
-                                    <p className="text-gray-800 text-sm leading-relaxed">
-                                        It is a long established fact that a reader will
-                                        be distracted by the readable content of a page
-                                        when looking at its layout. The point of using Lorem
-                                        Ipsum is that it has a more-or-less normal distribution
-                                        of letters, as opposed to using 'Content here, content here',
-                                        making it look like readable English. Many desktop publishing
-                                        packages and web page editors now use Lorem Ipsum as their default
-                                        model text, and a search for 'lorem ipsum' will uncover many web sites
-                                        still in their infancy. Various versions have evolved over the years,
-                                        sometimes by accident, sometimes on purpose (injected humour and the like).
-                                    </p>
-                                </div>
-                                <div className="mt-8 md:mt-16  flex justify-center">
-                                    <button className="bg-[#00778B] text-white rounded-md text-sm h-[37px] w-[137px]">
-                                        Mark as Complete
+                                    <button className="bg-[#64A70B] text-white px-4 py-1 rounded-md text-sm h-[42px] w-[110px]">
+                                        Completed
                                     </button>
                                 </div>
 
-                                <div className="fixed  mt-2 right-4 md:absolute md:right-0 md:top-[690px] md:bottom-0 md:left-[1157px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
+                                <div className="flex items-center justify-between bg-white py-4 border-b border-[#D9D9D9]">
+                                    <div className="flex items-center">
+                                        <MdPlayCircleOutline className="h-[32px] w-[32px] mr-4 text-[#D9D9D9] m-1" />
+                                        <div>
+                                            <h1 className="font-semibold text-[16px]">Doug's Story 2</h1>
+                                            <p className="text-[#606060] text-[12px]">MP4 | Duration: 00:04:42</p>
+                                        </div>
+                                    </div>
+                                    <button className="bg-[#FFD56A] text-white px-4 py-1 rounded-md text-sm h-[42px] w-[110px]">
+                                        In Progress
+                                    </button>
+                                </div>
+
+                                <div className="flex items-center justify-between bg-white py-4 border-b border-[#D9D9D9]">
+                                    <div className="flex items-center">
+                                        <VscFilePdf className="h-[32px] w-[32px] mr-4 text-[#D9D9D9] m-1" />
+                                        <div>
+                                            <h1 className="font-semibold text-[16px]">Doug's Story 3</h1>
+                                            <p className="text-[#606060] text-[12px]">MP4 | Duration: 00:04:42</p>
+                                        </div>
+                                    </div>
+                                    <button className="bg-[#00778B] text-white px-4 py-1 rounded-md text-sm h-[42px] w-[110px]">
+                                        Start
+                                    </button>
+                                </div>
+
+                                <div className="border-b border-[#D9D9D9] pb-4 mt-3">
+                                    <div className="bg-white flex items-center ml-1">
+                                        <CiCircleAlert className="text-[#D9D9D9] h-[19px] w-[19px] m-1" />
+                                        <div className="flex-grow ml-2">
+                                            <p className="font-semibold text-[16px]">Chapter 2 - Required Tools</p>
+                                        </div>
+                                        <button className="text-gray-800 mt-1">
+                                            <MdKeyboardArrowDown className="h-8 w-8" />
+                                        </button>
+                                    </div>
+                                    <p className="text-[#606060] text-[12px] ml-2">Section: 2 | Duration: 00:30:00</p>
+                                </div>
+
+                                <div className="flex items-center justify-between bg-white py-4 border-b border-[#D9D9D9]">
+                                    <div className="flex items-center">
+                                        <div className="bg-[#D9D9D9] p-2 rounded-full border border-white w-[40px] h-[40px] flex items-center justify-center m-1">
+                                            <VscDeviceCameraVideo className="text-white text-3xl" />
+                                        </div>
+                                        <div className="ml-2">
+                                            <h1 className="font-semibold text-[16px]">Live Session(session title)</h1>
+                                            <p className="text-[#606060] text-[12px]">Date : 29th march, 2024 | Time: 9:10AM</p>
+                                        </div>
+                                    </div>
+                                    {/* <button className="bg-[#00778B] text-white px-4 py-1 rounded-md text-sm h-[42px] w-[110px]">
+                                        Join
+                                    </button> */}
+                                </div>
+
+                                <div className="flex items-center justify-between bg-white py-4">
+                                    <div className="flex items-center">
+                                        <MdPlayCircleOutline className="h-[32px] w-[32px] mr-4 text-[#D9D9D9] m-2" />
+                                        <div>
+                                            <h1 className="font-semibold text-[16px]">Doug's Story 4</h1>
+                                            <p className="text-[#606060] text-[12px]">MP4 | Duration: 00:04:42</p>
+                                        </div>
+                                    </div>
+                                    <button className="bg-[#64A70B] text-white px-4 py-1 rounded-md text-sm h-[42px] w-[110px]">
+                                        Completed
+                                    </button>
+                                </div>
+                                <div className="absolute mr-2 right-0 bottom-6 lg:left-[1160px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px]  md:w-[332px]">
                                     <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                     </div>
-                                    <MdKeyboardArrowUp className="h-5 w-5 text-gray-700" />
+                                    <MdKeyboardArrowUp className=" mt-2 h-5 w-5 text-gray-700" />
                                 </div>
                             </div>
-
-
                         }
 
                     </div>
@@ -266,4 +283,4 @@ function ModulePdf() {
     )
 }
 
-export default ModulePdf
+export default ModuleFrist

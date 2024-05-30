@@ -3,7 +3,6 @@ import { useState } from 'react';
 import EmployeeSidebar from "@/components/EmployeeSidebar"
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDownSLine } from "react-icons/ri";
-import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { IoChevronDownSharp } from "react-icons/io5";
@@ -15,9 +14,15 @@ import TechInnovationGray from "../../public/assets/img/Tech&InnovationGray.png"
 import EconomicsGray from "../../public/assets/img/EconomicsGray.png";
 import EnvironmentalGray from "../../public/assets/img/EnvironmentalGray.png";
 import SocialGray from "../../public/assets/img/SocialGray.png";
-
+import { RiMenuLine, RiCloseLine } from "react-icons/ri";
 
 function AssessmentResult() {
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -116,71 +121,71 @@ function AssessmentResult() {
 
     return (
 
-        <div className="flex bg-[#EDEFF9] w-[1510px] h-[1650px]  overflow-hidden">
-
-            <div className="relative">
-                <EmployeeSidebar />
-                <div className="absolute mt-[60px] -top-2 -right-[14px] flex items-center justify-center  ">
-                    <button
-
-                        className=" h-[30px] w-[30px] bg-[#FFFFFF] border border-[#E5E7EE] rounded-full  inline-flex items-center justify-center "
-                    >
-                        <MdOutlineKeyboardArrowLeft className="h-[20px] w-[20px] text-[#606060]" />
-                    </button>
+        <div className="flex flex-col md:flex-row bg-[#EDEFF9] w-full md:w-[1510px] h-full md:h-[1650px] overflow-hidden relative">
+            {sidebarOpen && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 z-10" onClick={toggleSidebar}></div>
+            )}
+            <div className={`fixed top-0 left-0 h-full z-20 bg-white ${sidebarOpen ? 'block' : 'hidden'} lg:relative lg:block lg:bg-transparent`}>
+                <div className="flex justify-between items-center p-4 lg:hidden">
+                    <span className="text-xl font-semibold">Menu</span>
+                    <RiCloseLine className="h-6 w-6 cursor-pointer" onClick={toggleSidebar} />
                 </div>
-
+                <EmployeeSidebar />
             </div>
 
-            <div className="bg-[#FFFFFF] w-[1230px] h-[1620px] mt-[20px] ml-[20px] rounded-[10px]  ">
+            <div className="bg-[#FFFFFF] w-full lg:w-[1230px] h-auto lg:h-[1620px] mt-[20px] lg:ml-[20px] rounded-[10px] ">
                 <div className="p-4">
-                    <div className=" pb-4 w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between shadow-[2px] ">
-
-                        <span className="text-[18px] font-semibold">Maturity Assessment /  <span className="text-[18px] text-[#00778B]">Assessment Result</span></span>
-
+                    <div className="pb-4 w-full lg:w-[1195px] h-[50px] bg-[#FFFFFF] border-b border-[#F1F1F1] rounded-t-[10px] flex items-center justify-between">
                         <div className="flex items-center">
-                            <div className="flex mt-[2px] mr-3 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[250px] h-[50px] text-[#A3A3A3]">
-                                <BsSearch className="text-[#D9D9D9] mr-2" />
-
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
-                                />
+                            <RiMenuLine className="h-6 w-6 lg:hidden cursor-pointer" onClick={toggleSidebar} />
+                            <div className="text-[18px] ml-1 font-semibold">
+                                <span className="hidden md:inline text-[18px] font-semibold ">Maturity Assessment /</span> <span className='md:text-[#00778B] text-[#000000]'> Assessment Result</span>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-4">
+                            <div className="relative  md:w-[250px]">
+                                <div className="hidden md:flex mt-[2px] mr-2 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-full md:w-[240px] h-[50px] text-[#A3A3A3]">
+                                    <BsSearch className="text-[#D9D9D9] mr-2"/>
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
+                                    />
+                                </div>
+                                <div className="flex md:hidden justify-center items-center w-[50px] h-[50px] bg-[#F3F3F3] rounded-full text-gray-900">
+                                    <BsSearch />
+                                </div>
                             </div>
                             <div className="relative">
                                 <div className="bg-[#F5F5F5] rounded-full h-[30px] w-[30px] p-1">
-                                    <IoMdNotificationsOutline className="h-6 w-6 " />
+                                    <IoMdNotificationsOutline className="h-6 w-6" />
                                 </div>
                                 <div className="absolute -top-2 -right-2 flex items-center justify-center h-[20px] w-[20px] bg-red-500 rounded-full text-white text-[10px]">
                                     5
                                 </div>
-
                             </div>
-                            <div className="flex items-center ml-4 ">
+                            <div className="flex items-center">
                                 <img
                                     src="/public/assets/img/face1.jpg"
                                     alt="Emilia Anderson"
-                                    className="h-8 w-8 rounded-full border-[#D9D9D9]  border-2"
+                                    className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
                                 <div className="ml-2">
                                     <div className="text-sm font-medium text-gray-700">Emilia Anderson</div>
-                                    <div className="text-xs  text-[#000000]">Team Member</div>
+                                    <div className="text-xs text-[#000000]">Team Member</div>
                                 </div>
-                                < RiArrowDownSLine className="h-5 w-5 ml-1 mb-3 text-gray-700" />
+                                <RiArrowDownSLine className="h-5 w-5 ml-1 mb-3 text-gray-700" />
                             </div>
                         </div>
-
                     </div>
-
                 </div>
 
-                <div className="ml-[20px]  flex  ">
-                    <div className=''>
+                <div className="flex flex-col md:flex-row">
+                    <div className='ml-4 md:w-[200px]'>
                         <h1 className="text-[16px] font-bold">Re Assessment 2</h1>
                         <p className="text-[12px] text-[#606060]">Completed Date: 12/03/2024</p>
                     </div>
-                    <div className="flex ml-[835px]">
-
+                    <div className="flex md:ml-[790px]">
                         <div className="relative">
                             <button
                                 onClick={toggleDropdown}
@@ -190,7 +195,7 @@ function AssessmentResult() {
                                 <IoChevronDownSharp className="w-5 h-5 text-[#000000]" />
                             </button>
                             {isOpen && (
-                                <ul className="absolute w-[197px] h-[157px] bg-white shadow-lg rounded-lg">
+                                <ul className="md:absolute md:w-[197px] h-[157px] bg-white shadow-md rounded-md">
                                     <li className="pl-6 pr-2 text-sm text-[#000000] pt-2">Baseline Self Assessment</li>
                                     <p className="ml-auto text-[#606060] text-[12px] pl-6">08/03/2024</p>
                                     <li className="pl-6 pr-6 text-sm text-[#000000] pt-2">Re-assessment 1</li>
@@ -199,17 +204,14 @@ function AssessmentResult() {
                                     <p className="ml-auto text-[#606060] text-[12px] pl-6">08/03/2024</p>
                                 </ul>
                             )}
-
                         </div>
-
                     </div>
                 </div>
 
-                <div className="  m-[12px] rounded-[10px] ">
+                <div className="">
+                    <div className="md:h-[49px] bg-[#FFFFFF] border-b border-[#D9D9D9]">
 
-                    <div className=" h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px]">
-
-                        <div className="pt-[10px]">
+                        <div className="mt-[9px] flex flex-col md:flex-row">
                             <button
                                 className={`${activeTab === 'Assessment Result' ? '  text-[#00778B]  font-semibold border-b border-[#00778B]' : ' text-[#000000] '
 
@@ -234,22 +236,25 @@ function AssessmentResult() {
                                 My Action Items
                             </button>
 
-                            <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[710px] ">Export</button>
+                            <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px]">
+                                Export
+                            </button>
                         </div>
+                        
                         <div className="  ">
                             {activeTab === 'Assessment Result' &&
                                 <div>
-                                    <div className='text-[15px] font-semibold mt-3'>
+                                    <div className='ml-5 text-[15px] font-semibold mt-3'>
                                         <p>Self Assessment Details</p>
                                     </div>
 
-                                    <div className="flex ml-[20px] mr-[50px] mt-[50px] justify-between">
-                                        <div className="h-[369px] pt-[38px]">
-                                            <h3 className="max-w-[350.34px] text-2xl font-bold leading-[29.3px]">
+                                    <div className="flex flex-col lg:flex-row ml-[20px] mr-[20px] lg:mr-[50px] mt-[40px] justify-between">
+                                        <div className="h-auto lg:h-[369px]">
+                                            <h3 className="max-w-full lg:max-w-[350.34px] text-2xl font-bold leading-[29.3px]">
                                                 How does "Company Name" measure up?
                                             </h3>
-                                            <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]" />
-                                            <div className="max-w-[640.78px]">
+                                            <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]"/>
+                                            <div className="max-w-full lg:max-w-[640.78px]">
                                                 <p className="">
                                                     Congratulations! 🎉You've completed your sustainability assessment, and now it's time to unveil your results! Below, you'll find a comprehensive breakdown of your sustainability score,
                                                 </p>
@@ -258,36 +263,33 @@ function AssessmentResult() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div className=" mt-0 mb-6 mr-18 ml-8   relative">
-
+                                        <div className="mt-10 lg:mt-0">
+                                            <div className="relative flex justify-center lg:justify-start mt-0 mb-6">
                                                 <Labels />
-                                                <div className="text-center mt-10 mb-0 mr-8 ml-20  relative">
-                                                    <div className="w-40 h-40 mt-0 ml-16 relative">
+                                                <div className="text-center mt-7 mb-0 relative">
+                                                    <div className="w-40 h-40 md:ml-[200px] relative">
                                                         <Doughnut data={data} options={options} plugins={[textCenter]} />
                                                     </div>
-
                                                 </div>
                                             </div>
-                                            <div className="mt-[60px]">
-                                                <p className="inline ml-[35px] ">Your overall sustainability level -</p>{" "}
+                                            <div className="mt-[60px] text-center lg:text-left">
+                                                <p className="inline ml-[35px]">Your overall sustainability level -</p>{" "}
                                                 <span className="font-poppins font-bold text-[#000000] leading-6">
                                                     Intermediate
                                                 </span>
                                             </div>
-
-
                                         </div>
                                     </div>
-                                    <hr className="border-2 border-solid border-[#D9D9D9] mt-[20px] mb-6" />
-                                    <div className="mr-[100px] ml-[20px] flex justify-between">
-                                        <h2 className="text-[24px] leading-9 font-bold">
+
+                                    <div className="ml-[20px]">
+                                        <h2 className="text-[20px] font-bold">
                                             How you fare across the Maturity levels
                                         </h2>
                                         {/* <Button className="w-[100px] h-10 rounded bg-teal text-[16px] leading-[18px]">
                                             Export
                                         </Button> */}
                                     </div>
+
                                     <div className="mr-[20px] ml-[20px] mt-10 flex flex-col gap-5">
                                         <div className="border border-solid border-[#D9D9D9] rounded-[6px]">
                                             <div className="flex items-center pl-[17px] border-b-[#D9D9D9] border-b border-solid h-[62px]">
@@ -295,8 +297,8 @@ function AssessmentResult() {
                                                     Introductory
                                                 </Button>
                                             </div>
-                                            <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                                                <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
+                                            <div className="pt-8 pl-[30px] pb-5 flex flex-col lg:flex-row gap-5">
+                                                <div className="border border-solid border-[red] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
                                                     <img
                                                         src={StrategicIntegrationGray}
                                                         alt="img"
@@ -307,7 +309,7 @@ function AssessmentResult() {
                                                         35%
                                                     </span>
                                                 </div>
-                                                <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
+                                                <div className="border border-solid border-[red] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
                                                     <img
                                                         src={TechInnovationGray}
                                                         alt="img"
@@ -318,7 +320,7 @@ function AssessmentResult() {
                                                         33%
                                                     </span>
                                                 </div>
-                                                <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
+                                                <div className="border border-solid border-[red] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#F63636]">
                                                     <img
                                                         src={EconomicsGray}
                                                         alt="img"
@@ -337,8 +339,8 @@ function AssessmentResult() {
                                                     Intermediate
                                                 </Button>
                                             </div>
-                                            <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                                                <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
+                                            <div className="pt-8 pl-[30px] pb-5 flex flex-col lg:flex-row gap-5">
+                                                <div className="border border-solid border-[#FFD56A] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
                                                     <img
                                                         src={GovernanceGray}
                                                         alt="img"
@@ -349,7 +351,7 @@ function AssessmentResult() {
                                                         56%
                                                     </span>
                                                 </div>
-                                                <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
+                                                <div className="border border-solid border-[#FFD56A] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#FFD56A]">
                                                     <img
                                                         src={EnvironmentalGray}
                                                         alt="img"
@@ -368,8 +370,8 @@ function AssessmentResult() {
                                                     Advanced
                                                 </Button>
                                             </div>
-                                            <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                                                <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#64A70B]">
+                                            <div className="pt-8 pl-[30px] pb-5 flex flex-col lg:flex-row gap-5">
+                                                <div className="border border-solid border-[green] w-full lg:w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3 bg-[#64A70B]">
                                                     <img src={SocialGray} alt="img" className="w-[52px] h-[52px]" />
                                                     <h4 className="mt-3">Social</h4>
                                                     <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
@@ -377,10 +379,10 @@ function AssessmentResult() {
                                                     </span>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
 
-                                    <div className="  top-[1565px] absolute right-0  bottom-0 left-[1165px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
+                                    <div className="md:ml-[895px] mt-2 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
                                         <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
                                         <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                             <span className="text-gray-900 font-semibold">Messaging</span>
@@ -388,14 +390,14 @@ function AssessmentResult() {
                                         < MdKeyboardArrowUp className="h-5 w-5 text-gray-700" />
                                     </div>
 
-
                                 </div>
 
                             }
+
                             {activeTab === 'Roadmap' && <div>Anurag </div>}
 
                             {activeTab === 'My Action Items' && <div>Golu</div>}
-                            
+
 
                         </div>
 

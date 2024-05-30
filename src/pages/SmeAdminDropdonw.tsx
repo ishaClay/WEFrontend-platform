@@ -39,6 +39,4 @@ function SmeAdminDropdonw() {
     )
 }
 
-export default SmeAdminDropdonw
- 
-
+export default SmeAdminDropdonw;
