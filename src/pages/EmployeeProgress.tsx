@@ -13,22 +13,20 @@ function EmployeeProgress() {
 
 
   return (
-    <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1 overflow-hidden ">
-      <div className=" w-[235px] h-[1608px]">
+    <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] overflow-hidden ">
+      <div className="">
         <EmployeeListSidebar />
       </div>
       <div className="flex flex-col  ">
-        <div className="w-[1204px] h-[120px] ">
+        <div className="">
           <HeaderCourse />
         </div>
 
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-          <div className="  pt-[px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
+        <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
+          <div className="  pt-[px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
             <p className="text-[#000000] text-[Calibri] font-bold">Employee Progress</p>
 
           </div>
-
-
 
           <div className="flex pl-[30px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
             <div>
@@ -47,9 +45,6 @@ function EmployeeProgress() {
 
           </div>
           <div className="h-[609px] w-[1175px] border border-[#D9D9D9] rounded-lg ml-8">
-
-
-
 
             <div className=" h-[100px] w-[1175px] border-[#D9D9D9] border-b  flex">
 
@@ -232,28 +227,18 @@ function EmployeeProgress() {
                     </div>
                   </div>
 
-
-
-
-
                 </div >
-                <div className="flex ml-[250px]"> 
-                  <div className="w-4 h-4 rounded-full bg-[#00778B] mr-2"></div> 
+                <div className="flex ml-[250px]">
+                  <div className="w-4 h-4 rounded-full bg-[#00778B] mr-2"></div>
 
                   <div className="w-4 h-4 rounded-full bg-[#D9D9D9] mr-2"></div>
-                  <div className="w-4 h-4 rounded-full bg-[#D9D9D9]"></div> 
+                  <div className="w-4 h-4 rounded-full bg-[#D9D9D9]"></div>
                 </div>
               </div>
 
             </div>
 
           </div>
-
-
-
-
-
-
 
           <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
 
@@ -323,8 +308,6 @@ function EmployeeProgress() {
             </div>
           </div>
 
-
-
           <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
 
             <div className=" flex">
@@ -392,8 +375,6 @@ function EmployeeProgress() {
             </div>
           </div>
 
-
-
           <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
 
             <div className=" flex">
@@ -452,7 +433,6 @@ function EmployeeProgress() {
                   </span></div>
                 </div>
 
-
               </div>
               <div className="text-6xl ml-[120px] mt-[25px]">
                 <IoIosArrowDown className="h-[30px] w-[30px]" />
@@ -461,16 +441,13 @@ function EmployeeProgress() {
             </div>
           </div>
 
-          <button className="bg-[#58BA66] text-white px-4 py-2 rounded ml-[550px] mt-[10px]" >Load More Record</button>
+          <div className="ml-[550px] mt-[20px]">
+            <button className="bg-[#58BA66] text-white px-4 py-2 rounded " >Load More Record</button>
+          </div>
 
         </div>
 
-
-
       </div>
-
-
-
     </div>
 
 

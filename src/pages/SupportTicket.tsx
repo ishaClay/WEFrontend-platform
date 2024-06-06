@@ -58,17 +58,19 @@ function CoursesAllocate() {
 
 		// Add more employee data as needed
 	];
+	
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
-			<div className=" w-[235px] h-[760px]">
+
+		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px]  overflow-hidden">
+			<div className="">
 				<EmployeeListSidebar />
 			</div>
-			<div className="flex flex-col  ">
-				<div className="w-[1204px] h-[120px] ">
+			<div className="flex flex-col">
+				<div className=" ">
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1465px] m-[12px] rounded-t-[10px]">
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
 					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">Support Requests</p>
 						<button className="bg-[#00778B] text-white px-4 py-2 rounded mr-[20px] mb-[13px] h-[40px] w-[153px]" >Add New Ticket</button>
@@ -164,36 +166,104 @@ function CoursesAllocate() {
 
 					</div>
 
-
 					<div className="overflow-x-auto">
 						<table className="table-auto w-full mt-[10px] ">
 							<thead>
 								<tr className="bg-[#F1F1F1] h-[50px]">
-
-									<th className=" "> <span className="flex ml-4 ">ID <span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Last Updated<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Requestor<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Subject<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Status<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Assign to<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "><span className="flex ml-4">Priority<span className="mt-1"><TbSelector /></span></span></th>
-									<th className=" "> <span className=" ml-4">Action</span></th>
+									<th className=" ">
+										{" "}
+										<span className="flex ml-4 ">
+											ID{" "}
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Last Updated
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Requestor
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Subject
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Status
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Assign to
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										<span className="flex ml-4">
+											Priority
+											<span className="mt-1">
+												<TbSelector />
+											</span>
+										</span>
+									</th>
+									<th className=" ">
+										{" "}
+										<span className=" ml-4">Action</span>
+									</th>
 								</tr>
 							</thead>
-							<tbody >
-								{employeeData.map(employee => (
-									<tr >
-										<td className=" border-b px-18 pl-4 py-2"><span className="w-[110px]">{employee.id}</span></td>
-										<td className=" border-b px-18 py-4 "><span className="flex">   {employee.lastupdate}</span>    </td>
-										<td className=" border-b px-18 py-2">{employee.requestor}</td>
-										<td className="border-b px-18 pl-4 py-2">{employee.subject}</td>
+							<tbody>
+								{employeeData.map((employee, index: number) => (
+									<tr key={index}>
+										<td className=" border-b px-18 pl-4 py-2">
+											<span className="w-[110px]">{employee.id}</span>
+										</td>
+										<td className=" border-b px-18 py-4 ">
+											<span className="flex"> {employee.lastupdate}</span>{" "}
+										</td>
+										<td className=" border-b px-18 py-2">
+											{employee.requestor}
+										</td>
+										<td className="border-b px-18 pl-4 py-2">
+											{employee.subject}
+										</td>
 										<td className={`border-b px-18 py-2`}>
-											<button className={`text-xs rounded ${employee.status === 'Open' ? 'bg-[#FEA77C] text-white h-[32px] w-[80px]' : employee.status === 'In Process' ? 'bg-[#58BA66] text-white h-[32px] w-[80px]' : 'bg-[#0E9CFF] text-white h-[32px] w-[80px]'}`}>
+											<button
+												className={`text-xs rounded ${
+													employee.status === "Open"
+														? " text-[#FEA77C] font-semibold h-[32px] w-[80px]"
+														: employee.status === "In Process"
+														? " text-[#58BA66] font-semibold h-[32px] w-[80px]"
+														: " text-[#0E9CFF] font-semibold h-[32px] w-[80px]"
+												}`}>
 												{employee.status}
 											</button>
 										</td>
 
-										<td className="border-b px-18 pl-4 py-2">{employee.assignto}</td>
+										<td className="border-b px-18 pl-4 py-2">
+											{employee.assignto}
+										</td>
 
 										<td className={`border-b px-18 py-2`}>
 											<button className={`text-xs rounded ${employee.priority === 'High' ? 'bg-[#FF5252] text-white h-[32px] w-[80px]' : employee.priority === 'Normal' ? 'bg-[#58BA66] text-white h-[32px] w-[80px]' : 'bg-[#FFD56A] text-white h-[32px] w-[80px]'}`}>

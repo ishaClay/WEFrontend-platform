@@ -68,7 +68,6 @@ const MaturityLevelPage = () => {
       ctx.restore();
     }
   };
-
   const options = {
     cutout: '80%',
     plugins: {

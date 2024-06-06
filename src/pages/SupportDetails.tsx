@@ -1,10 +1,11 @@
-import HeaderCourse from "@/components/HeaderCourse";
 
+
+import React, { useState } from "react";
 import { FiFile, FiVideo } from "react-icons/fi";
 // import FaqsListSidebar from "@/components/FaqsListSidebar";
-
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import { VscFilePdf } from "react-icons/vsc";
-import React, { useState } from "react";
+import HeaderCourse from "@/components/HeaderCourse";
 
 function SupportDetails() {
 	const [assignedTo, setAssignedTo] = useState<string>("");
@@ -27,20 +28,27 @@ function SupportDetails() {
 		setTicketReply(e.target.value);
 	};
 
+
+
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-x-hidden">
-			<div className=" w-[235px] h-[760px]">{/* <FaqsListSidebar /> */}</div>
+
+		<div className="flex bg-[#f5f3ff] w-[1510px] h-[1100px] overflow-hidden">
+			<div className="">
+				<EmployeeListSidebar />
+			</div>
 			<div className="flex flex-col  ">
-				<div className="w-[1204px] h-[120px] ">
+				<div className=" ">
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1490px] m-[12px] rounded-t-[10px]">
-					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1000px] m-[12px] rounded-[10px]">
+					<div className="  pt-[5px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
-							Ticket Details
+						Ticket Details
 						</p>
+
 					</div>
+
 
 					<div className="flex justify-between">
 						<div className="flex p-6">
@@ -61,7 +69,7 @@ function SupportDetails() {
 						<div className="flex flex-col mb-4 ml-8">
 							<div className="flex mt-8 ml-2 gap-2 ">
 								<h1 className="text-[16px]">Status:</h1>
-								<div className="bg-[#0E9CFF] text-xs text-white py-2 h-[25px] w-[71px] px-4 rounded-full mr-2 flex items-center justify-center">
+								<div className=" text-[#FFD56A] text-xs font-semibold py-2 h-[25px] w-[71px] px-4 rounded-full mr-2 flex items-center justify-center">
 									InProgress
 								</div>
 								<h1 className="text-[16px]">Priority:</h1>
@@ -106,7 +114,6 @@ function SupportDetails() {
 							</div>
 						</div>
 					</div>
-
 					<div className="p-4   rounded-lg">
 						<div className="flex flex-wrap -mx-2">
 							<div className="w-full md:w-1/2 px-2 mb-4">
@@ -184,9 +191,15 @@ function SupportDetails() {
 						</button>
 					</div>
 				</div>
+
+
+					
 			</div>
 		</div>
+
+
 	);
 }
 
 export default SupportDetails;
+

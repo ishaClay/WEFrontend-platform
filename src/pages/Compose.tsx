@@ -10,22 +10,21 @@ import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 function Compose() {
 
-
-
     return (
-        <div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
-            <div className=" w-[235px] h-[760px]">
+        <div className="flex bg-[#f5f3ff] w-[1510px] h-[740px]  overflow-hidden">
+            <div className="">
                 <EmployeeListSidebar />
             </div>
             <div className="flex flex-col  ">
-                <div className="w-[1204px] h-[120px] ">
+                <div className="">
                     <HeaderCourse />
                 </div>
 
-                <div className="bg-[#FFFFFF] w-[1250px] h-[590px] m-[12px] rounded-t-[10px]">
+                <div className="bg-[#FFFFFF] w-[1250px] h-[590px] m-[12px] rounded-[10px]">
                     <div className="  pt-[16px] pl-[17px] w-[1250px] h-[82px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] ">
                          <div className="flex gap-4">
-                        <div className="flex items-center p-4 border border-[#00778B] rounded w-[190px] h-[58px]">
+                        <div className="flex items-center p-4 border border-[#D9D9D9] rounded w-[190px] h-[58px] hover:border-[#00778B]">
+
                             <div className="w-10 h-10 flex justify-center items-center bg-[#0077A2] text-white rounded-full">HR</div>
                             <div className="ml-4">
                                 <div className="font-semibold">Honey Risher</div>
@@ -34,7 +33,7 @@ function Compose() {
                             </div>
                         </div>
 
-                        <div className="flex items-center p-4 border border-[#D9D9D9] rounded w-[190px] h-[58px]">
+                        <div className="flex items-center p-4 border border-[#D9D9D9] rounded w-[190px] h-[58px] hover:border-[#00778B]">
                             <div className="w-10 h-10 flex justify-center items-center bg-[#0077A2] text-white rounded-full">TR</div>
                             <div className="ml-4">
                                 <div className="font-semibold">Trainer Name</div>
@@ -95,12 +94,6 @@ function Compose() {
 
 
                     </div>
-
-
-
-
-
-
 
                 </div>
 

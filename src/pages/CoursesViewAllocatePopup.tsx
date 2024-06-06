@@ -3,8 +3,8 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
-
-function CourseViewAllocatePopup() {a
+import { Card } from '@/components/ui/card';
+function CourseViewAllocatePopup() {
 	const [employees] = useState([
 		{
 			id: 1,
@@ -48,8 +48,8 @@ function CourseViewAllocatePopup() {a
 	};
 
 	return (
-		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-			<div className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
+		<div className="fixed inset-0 flex justify-center items-center">
+			<Card className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
 				<div className=" border-b-2 pb-[10px]">
 					<div className="flex overflow-hidden rounded">
 						<img
@@ -198,7 +198,7 @@ function CourseViewAllocatePopup() {a
 					onClick={handleInviteEmployee}>
 					Edit Allocation
 				</button>
-			</div>
+			</Card>
 		</div>
 	);
 }

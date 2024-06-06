@@ -9,7 +9,7 @@ import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 function CoursesAllCourse() {
 
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1 overflow-x-hidden">
+		<div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1 overflow-hidden">
 			<div className=" w-[235px] h-[1608px]">
 				<EmployeeListSidebar />
 			</div>
@@ -18,9 +18,11 @@ function CoursesAllCourse() {
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-					<div className="flex  bg-white border-b border-[#D9D9D9] rounded-tl-full w-[1250px] h-[80px]">
-						<p className="text-black text-lg font-bold mt-[25px] ml-[20px]">All Course</p>
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
+					<div className="flex  bg-white border-b border-[#D9D9D9] rounded-t-[10px] w-[1250px] h-[80px]">
+						<p className="text-black text-lg font-bold mt-[25px] ml-[20px]">
+							All Course
+						</p>
 
 						<div className=" mt-[15px] flex items-center ml-auto border border-[#D9D9D9] rounded-md px-2 w-[550px] h-[52px]">
 							<BsSearch className="text-[#D9D9D9] mr-2" />
@@ -47,7 +49,7 @@ function CoursesAllCourse() {
 
 
 									<img
-										className="w-[26px]"
+										className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
 										src="../assets/img/Tree Planting.png"
 									/>
 
@@ -67,7 +69,7 @@ function CoursesAllCourse() {
 							<div>
 								<div className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white">
 									<img
-										className="w-[26px]"
+										className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
 										src="../assets/img/Weak Financial Growth.png"
 									/>
 									<p className="text-[##3A3A3A]">Economic</p>
@@ -94,7 +96,7 @@ function CoursesAllCourse() {
 							<div>
 								<div className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white">
 									<img
-										className="w-[26px]"
+										className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
 										src="../assets/img/Path Steps.png"
 									/>
 									<p className="text-[##3A3A3A]">Strategic Integration</p>

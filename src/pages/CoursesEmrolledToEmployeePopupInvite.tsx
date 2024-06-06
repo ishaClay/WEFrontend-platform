@@ -2,6 +2,7 @@ import { FaStar } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 import { useState } from "react";
+import { Card } from '@/components/ui/card';
 
 function CoursesEmrolledToEmployeeInvitePopup() {
 	const [formData, setFormData] = useState({
@@ -30,8 +31,8 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 	};
 
 	return (
-		<div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-			<div className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
+		<div className="fixed inset-0 flex justify-center items-center">
+			<Card className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
 				<div className=" border-b-2 pb-[10px]">
 					<div className="flex overflow-hidden rounded">
 						<img
@@ -209,7 +210,9 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 							placeholder="Enter Details"
 							className="border border-[#D9D9D9] rounded px-3 py-2 w-full h-[100px] placeholder-[#A3A3A3]"
 							rows={4}
-							required></textarea>
+							required>
+
+						</textarea>
 					</div>
 					<button
 						type="submit"
@@ -217,7 +220,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 						Send Invite
 					</button>
 				</form>
-			</div>
+			</Card>
 		</div>
 	);
 }

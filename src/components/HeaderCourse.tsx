@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 import { VscBellDot } from "react-icons/vsc";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -21,7 +15,7 @@ function HeaderCourse() {
 					<li className="group flex  gap-[5px] mt-[50px]">
 						<span className="cursor-pointer">Our Courses</span>
 						<img
-							className="w-[6px] h-[6px] mt-3"
+							className="w-[6px] h-[6px] mt-[11px]"
 							src="../assets/img/Vector 1.png"
 							alt="Vector 1"
 						/>

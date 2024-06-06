@@ -54,22 +54,21 @@ function TrainingDocument() {
 		// Add more employee data as needed
 	];
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px] gap-1 overflow-hidden">
-			<div className=" w-[235px] h-[760px]">
+		<div className="flex bg-[#f5f3ff] w-[1520px] h-[760px]  overflow-hidden">
+			<div className=" ">
 				<EmployeeListSidebar />
 			</div>
 			<div className="flex flex-col  ">
-				<div className="w-[1250px] h-[120px] ">
+				<div className=" ">
 					<HeaderCourse />
 				</div>
 
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
+				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
 					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
-						<p className="text-[#000000] text-[Calibri] font-bold">Team Member List</p>
-
+						<p className="text-[#000000] text-[Calibri] font-bold">
+							Team Member List
+						</p>
 					</div>
-
-
 
 					<div className="flex pl-[10px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
 						<div>
@@ -142,27 +141,13 @@ function TrainingDocument() {
 
 					</div>
 
-
-
 					<div className="ml-[20px]">
 						<p className="font-bold text-[10px] ">Showing 10/200 Records</p>
 					</div>
-
-
-
 				</div>
-
-
-
 			</div>
-
-
-
 		</div>
-
-
-
-	)
+	);
 }
 
 export default TrainingDocument;
