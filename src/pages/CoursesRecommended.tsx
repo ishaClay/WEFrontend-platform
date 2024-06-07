@@ -2,13 +2,13 @@ import HeaderCourse from "@/components/HeaderCourse"
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { FaStar } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 
 function CoursesRecommended() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     return (
         <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px]  overflow-hidden">

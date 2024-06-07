@@ -6,7 +6,7 @@ export const UserSlice = createSlice({
         UserId: null,
         clientId: "",
         targetAudienceId: "",
-        CompanyId: ""
+        CompanyId: "",
     },
     reducers: {
         setUserData: (state, action) => {

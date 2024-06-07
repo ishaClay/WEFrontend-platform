@@ -63,6 +63,7 @@ const TeaserScore = () => {
 		queryKey: [QUERY_KEYS.fetchbyclientMaturity],
 		queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
 	});
+	console.log(fetchClientmaturitylevel)
 
 	const { data: allassessmant } = useQuery({
 		queryKey: [QUERY_KEYS.totalAssessment],
@@ -70,15 +71,16 @@ const TeaserScore = () => {
 	});
 
 	const score = Number(((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2));
+	const setScore = isNaN(score)? 0 : score
+
 	const currentLavel = findMaturityLevel(Number(score));
-
-
+	
 	const data = {
 		labels: [currentLavel?.maturityLevelName],
 		datasets: [
 			{
 				label: "Poll",
-				data: [score, 100 - Number(score)],
+				data: [setScore, 100 - Number(setScore)],
 				backgroundColor: [currentLavel?.color, "#E8E8E8"],
 			},
 		],
@@ -148,6 +150,16 @@ const TeaserScore = () => {
 			})}
 		</div>
 	);
+	
+	
+	// const dataArray = data && data?.datasets?.map((item) => item.data.map((item) => item)) 
+	
+	// const dataValue = dataArray.find((x) => !x.includes(NaN))
+	// // // console.log(dataValue)
+	// const a =(dataValue == undefined) ? 0 : dataValue
+
+	// console.log(a)
+	// console.log(data)
 
 	return (
 		<div className="flex flex-col h-screen">
@@ -166,7 +178,7 @@ const TeaserScore = () => {
 											alt="Green checkmark"
 										/>
 									</div>
-									<div className="bg-[#64A70B] h-1 w-20 mt-0 ml-0"></div>
+									<div className="bg-[#64A70B] h-[2px] w-20 mt-0 ml-0"></div>
 								</div>
 							</CardHeader>
 							<CardContent className=" pr-0 flex">
@@ -175,7 +187,7 @@ const TeaserScore = () => {
 										You've taken the first stride on your sustainability
 										journey!🌿
 									</CardDescription>
-									<p className="font-bold font-[calibri] text-[#002A3A]">
+									<p className="font-bold font-[calibri] text-[#002A3A] my-[12px]">
 										Curious about your progress?
 									</p>
 									<p className="text-sm font-[calibri] text-[#002A3A]">
@@ -189,7 +201,7 @@ const TeaserScore = () => {
 										<br />
 									</p>
 									<button
-										className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4"
+										className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
 										onClick={() => navigate("/companyregister")}>
 										Complete your Registration
 									</button>
@@ -198,7 +210,7 @@ const TeaserScore = () => {
 						</div>
 
 						<div className="flex justify-between">
-							<div className=" mt-0 mb-6 mr-18 ml-8   relative">
+							<div className=" mt-0 mb-6 mr-18 ml-8 relative">
 								<h2 className="text-lg font-semibold mt-8 ml-5">
 									Here's a sneak peek at your score!
 								</h2>

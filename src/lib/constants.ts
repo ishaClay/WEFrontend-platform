@@ -21,4 +21,5 @@ export const QUERY_KEYS = {
     measuresItems: "measures_items",
     updatePillar: "update_pillar",
     checkedMeasures: "checked_measures",
+    themeChanges: "theme_Changes"
 };

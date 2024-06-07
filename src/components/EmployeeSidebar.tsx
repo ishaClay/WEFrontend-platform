@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import sidebarlogo from "/assets/img/sidebarlogo.png";
 import { Link } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { RiShutDownLine } from "react-icons/ri";
@@ -27,7 +26,6 @@ const EmployeeSidebar = () => {
         <div className=" lg:flex flex-col justify-between w-60 duration-500 bg-[#FFFFFF] overflow-hidden ">
             <div className=" w-[235px] h-[780px]">
                 <div className="ml-[20px] mt-[20px]">
-                    {/* <img src={sidebarlogo} alt="logo" width={121.17} height={80} /> */}
                     <h1 className="text-[28px] text-[#000000] font-semibold">Product Logo</h1>
 
                     <div className="absolute mt-[60px] -top-2 -right-[14px] flex items-center justify-center  ">

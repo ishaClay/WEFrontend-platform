@@ -66,7 +66,7 @@ function Register() {
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
 			});
-
+			localStorage.setItem("token", data.data.data.password)
 			navigate("/assessment");
 		},
 		onError: (error: ErrorType) => {
@@ -123,6 +123,7 @@ function Register() {
 
 	const handleVerifyOtp = () => {
 		createotp({ otp: otp, email: getValues("email"), clientId });
+		
 	};
 
 	return (
@@ -132,28 +133,28 @@ function Register() {
 				<img src="../assets/img/1000001825.png.png" />
 
 				<div className="w-[694px]">
-					<div className="flex justify-end mr-[90px]">
+					<div className="flex justify-end mr-[90px] text-color">
 						<label>
 							Already have an account?
-							<a className="text-[#042937] font-[700]"> Sign In</a>
+							<a className="font-[700] text-color">Sign In</a>
 						</label>
 					</div>
 
 					{selectedRole !== "company" ? (
 						<div className="w-[600px] h-[524px] relative">
 							<div className="mt-[145px] ml-[91px]">
-								<h3 className="font-[UniNeue] text-[24px] font-[700]">
+								<h3 className="text-[24px] font-[700] text-color">
 									Choose your role...
 								</h3>
 								<img
 									className="absolute right-[5px] top-[15px]"
 									src="../assets/img/pngwing 25.png"
 								/>
-								<p className="mb-0 font-[calibri] text-[18px] text-[#332626]">
+								<p className="mb-0 text-[18px] text-color">
 									Hey there! Ready to start your adventure?
 								</p>
 								<img className="" src="../assets/img/Line 23.png" />
-								<p className="w-[446px] h-[40px] text-[16px] font-[400] font-[calibri] text-[#332626]">
+								<p className="w-[446px] h-[40px] text-[16px] font-[400] text-color">
 									Just click on your role “Company or Trainer” and let's drive
 									into your journey!
 								</p>
@@ -163,7 +164,7 @@ function Register() {
 										onClick={() => {
 											navigate("/trainer");
 										}}
-										className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] "
+										className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background"
 										symbol={<img src="../assets/img/Analyzing Skill.png" />}
 									/>
 
@@ -172,14 +173,14 @@ function Register() {
 										onClick={() => {
 											setSelectedRole("company");
 										}}
-										className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px]"
+										className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background"
 										symbol={<img src="../assets/img/Company.png" />}
 									/>
 								</div>
 							</div>
 						</div>
 					) : showRegistrationForm ? (
-						<div className="w-[600px] ">
+						<div className="w-[600px]">
 							<div className="w-[500px] h-[524px] relative mt-[142px] ml-[91px]">
 								<h3>Secure your berth & set sail</h3>
 								<img
@@ -252,7 +253,7 @@ function Register() {
 					) : (
 						<div className="w-[700px]">
 							<div className="w-[600px] h-[524px] relative mt-[142px] ml-[91px]">
-								<h3 className="font-[700] text-[24px] font-[UniNeue]">
+								<h3 className="font-[700] text-[24px]">
 									Setting sail on your sustainability voyage
 								</h3>
 								<img
@@ -283,24 +284,24 @@ function Register() {
 						</div>
 						<Slider className="w-[381px] h-[44px]" {...settings}>
 							<div>
-								<span>
+								<span className="text-color">
 									“Small choices, big impact. Ripples of eco-friendly actions
 									shape a{" "}
-									<span className="text-[#64A70B]">sustainable future</span>”
+									<span className="button-text-color">sustainable future</span>”
 								</span>
 							</div>
 							<div>
-								<span>
+								<span className="text-color">
 									“Small choices, big impact. Ripples of eco-friendly actions
 									shape a{" "}
-									<span className="text-[#64A70B]">sustainable future</span>”
+									<span className="button-text-color">sustainable future</span>”
 								</span>
 							</div>
 							<div>
-								<span>
+								<span className="text-color">
 									“Small choices, big impact. Ripples of eco-friendly actions
 									shape a{" "}
-									<span className="text-[#64A70B]">sustainable future</span>”
+									<span className="button-text-color">sustainable future</span>”
 								</span>
 							</div>
 						</Slider>
@@ -309,8 +310,8 @@ function Register() {
 					<div className="w-[296px] h-[30px] font-[400] text-[12px] mt-[154px] ml-[180px] text-center text-[#898989]">
 						<label>
 							Protected by reCAPTCHA and subject to the Skillnet{" "}
-							<a className="text-[#042937]">Privacy Policy</a> and{" "}
-							<a className="text-[#042937]">Terms of Service.</a>
+							<a className="text-color">Privacy Policy</a> and{" "}
+							<a className="text-color">Terms of Service.</a>
 						</label>
 					</div>
 				</div>

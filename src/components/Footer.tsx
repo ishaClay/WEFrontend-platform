@@ -22,10 +22,10 @@ function Footer() {
 							className="w-[961px] h-[97px] md:block hidden"
 							src="../assets/img/network-group.png"
 						/>
-						<div className="absolute bottom-0 left-[12px] w-[940px] h-0.5 top-[120px] bg-white"></div>
+						<div className="absolute bottom-0 left-[12px] w-[940px] h-0.5 top-[120px] secondary-background"></div>
 					</div>
 
-					<ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start">
+					<ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start secondary-text">
 						<a>Our Courses</a>
 						<a>Membership</a>
 						<a>Testimonial</a>
@@ -34,8 +34,8 @@ function Footer() {
 					</ul>
 				</div>
 
-				<div className="text-white mt-[90px]">
-					<ul className="no-underline sm:text-[14px] text-[10px] font-[calibri] traking-[-4%] leading-[142%]">
+				<div className="secondary-text mt-[90px]">
+					<ul className="no-underline sm:text-[14px] text-[10px] traking-[-4%] leading-[142%]">
 						© County Wexford Chamber 2023. All Rights Reserved.
 					</ul>
 

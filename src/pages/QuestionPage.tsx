@@ -25,7 +25,6 @@ import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
-import ProgressIndicator from "/assets/img/ProgressIndicator.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 
@@ -138,12 +137,11 @@ const QuestionPage = () => {
 		setTotalAttemptedQuestions(totalAttemptedQuestions);
 	}, [allPillar?.length, question]);
 
-	const currentAttemptedTotal = Array.isArray(question?.[activePillar])
-		? question[activePillar].filter((que: QuestionType) =>
-			que.options.some((opt) => opt.checked)
-		).length
-		: 0;
-
+	// const currentAttemptedTotal = Array.isArray(question?.[activePillar])
+	// 	? question[activePillar].filter((que: QuestionType) =>
+	// 		que.options.some((opt) => opt.checked)
+	// 	).length
+	// 	: 0;
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		let allQueAns: any = {};
@@ -164,7 +162,7 @@ const QuestionPage = () => {
 
 	const updateAnswers = (pillarwiseQuestion: any, fetchQuestionAnswer: any) => {
 		if (fetchQuestionAnswer?.data?.data && Array.isArray(pillarwiseQuestion?.q)) {
-			let updatedAnswers = [...pillarwiseQuestion?.q];
+			const updatedAnswers = [...pillarwiseQuestion?.q];
 			fetchQuestionAnswer.data.data.forEach((j: any) => {
 				if (j) {
 					const c = pillarwiseQuestion?.q.find((i: any) => i?.id === j?.questionId?.id);
@@ -279,9 +277,10 @@ const QuestionPage = () => {
 								<div className="flex gap-2">
 									<div className="flex flex-col gap-1">
 										<div className="w-8 h-8">
-
+									
 										</div>
-										<p className={`text-nowrap ${activePillar === category ? "text-white" : "text-[#848181]"}`}>{(pillarAttempted / pillarTotal) * 100} %</p>
+										<p className={`text-nowrap ${activePillar === category ? "text-white" : "text-[#848181]"}`}>{Math.floor((pillarAttempted / pillarTotal) * 100)} %</p>
+										
 									</div>
 									<div>
 										<h2 className={`leading-[19px] ${activePillar === category ? "text-white" : "text-[#3A3A3A]"}`}>{category}</h2>
@@ -306,7 +305,7 @@ const QuestionPage = () => {
 						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
 							Current Progress
 						</h2>
-						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+						{/* <div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
 							<span className="ml-[18px] text-teal">Attempted</span>
 							<p className="text-teal">
 								{currentAttemptedTotal}/{question?.[activePillar]?.length || 0}
@@ -318,7 +317,7 @@ const QuestionPage = () => {
 								height={24}
 								className="mr-[34px]"
 							/>
-						</div>
+						</div> */}
 						<div className="ml-[14px] mt-[17px] w-[267px]">
 							<div className="flex items-center justify-between font-bold	">
 								<span>Attempted</span>

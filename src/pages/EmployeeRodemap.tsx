@@ -4,9 +4,6 @@ import EmployeeSidebar from "@/components/EmployeeSidebar"
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
 
 function EmployeeRodemap() {

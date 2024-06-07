@@ -4,6 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 import { Card } from '@/components/ui/card';
+
 function CourseViewAllocatePopup() {
 	const [employees] = useState([
 		{

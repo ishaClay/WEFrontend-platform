@@ -111,33 +111,40 @@ function CompanyRegister() {
 	return (
 		<>
 			<Header />
-			<div className="flex relative mt-[40px]">
+			<div className="flex relative mt-[40px] gap-[50px]">
 				<div>
 					<img
-						className="w-[707px] h-[1000px]"
+						className="w-[686px] h-[1073px]"
 						src="../assets/img/Group 1000001826.png"
 					/>
 				</div>
 
-				<div className="h-auto ">
-					<div className="w-full ml-[400px]">
-						<p>
-							Already have an account? <a className="text-[#042937]">Sign In</a>
+				<div className="h-auto">
+					<div className="w-full mt-[31px]">
+						<p className="text-[14px]">
+							Already have an account? <a className="text-[#042937] font-semibold">Sign In</a>
 						</p>
 					</div>
-					<div className="w-[707px] mt-[90px] ">
-						<div className="flex gap-x-[8px] h-180px items-end ml-[50px]">
+					<div className="w-[707px] mt-[67px] ">
+						<div className="flex gap-x-[8px] h-180px items-end">
 							<h3 className="text-[24px]">Complete your registration</h3>
 							<img
 								className="mb-[10px]"
 								src="../assets/img/Group 1000001825.png"
 							/>
 						</div>
+						<div className="flex gap-x-[8px] h-180px items-end">
+
+						<h3 className="text-[24px]">to unlock your full <span className="text-secondary-button font-semibold text-[24px]">self-assessment score</span></h3>
+						</div>
+					
+						
 
 						<form onSubmit={handleSubmit(onSubmit)}>
-							<div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[30px] mt-[32px] justify-center">
+							<div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[5px] mt-[45px]">
 								<div>
 									<InputWithLable
+										className="w-[241px] h-[46px]"
 										placeholder="Sample Consulting Company"
 										label="Name"
 										{...register("name")}
@@ -149,7 +156,7 @@ function CompanyRegister() {
 								<div>
 									<InputWithLable
 										placeholder="IT or University"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Address"
 										{...register("address")}
 									/>
@@ -157,10 +164,13 @@ function CompanyRegister() {
 										<ErrorMessage message={errors.address.message as string} />
 									)}
 								</div>
+							
+
+								
 								<div>
 									<InputWithLable
 										placeholder="Select your country"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="County"
 										{...register("county")}
 									/>
@@ -171,7 +181,7 @@ function CompanyRegister() {
 								<div>
 									<InputWithLable
 										placeholder="Number of employees"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Average Number Of Employees"
 										{...register("averageNumberOfEmployees")}
 									/>
@@ -183,10 +193,13 @@ function CompanyRegister() {
 										/>
 									)}
 								</div>
+								
+									
+								
 								<div>
 									<InputWithLable
-										placeholder="Sector"
-										className=""
+										placeholder="Select sector"
+										className="w-[241px] h-[46px]"
 										label="Sector"
 										{...register("sector")}
 									/>
@@ -197,7 +210,7 @@ function CompanyRegister() {
 								<div>
 									<InputWithLable
 										placeholder=""
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Parent Company Address."
 										{...register("parentCompanyAddress")}
 									/>
@@ -207,11 +220,13 @@ function CompanyRegister() {
 										/>
 									)}
 								</div>
+								
 
+								
 								<div>
 									<InputWithLable
 										placeholder="221 B Baker Street"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Parent Company Name"
 										{...register("parentCompanyName")}
 									/>
@@ -224,7 +239,7 @@ function CompanyRegister() {
 								<div>
 									<InputWithLable
 										placeholder="United Kingdom"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Email Address"
 										{...register("email")}
 									/>
@@ -232,10 +247,12 @@ function CompanyRegister() {
 										<ErrorMessage message={errors.email.message as string} />
 									)}
 								</div>
+							
+
 								<div>
 									<InputWithLable
 										placeholder="John"
-										className=""
+										className="w-[241px] h-[46px]"
 										label="Parent Company County"
 										{...register("parentCompanyCounty")}
 									/>
@@ -246,8 +263,8 @@ function CompanyRegister() {
 									)}
 								</div>
 
-								<div className="w-[274px]">
-									<label className="block pb-[25px]">Sole Trader</label>
+								<div className="w-[241px] ">
+									<label className="block font-bold text-[16px] mt-[20px] pb-[5px]">Sole Trader</label>
 
 									<div className="flex items-center gap-[10px] h-[52px]">
 										<input
@@ -269,11 +286,11 @@ function CompanyRegister() {
 								<PrimaryButton
 									type="submit"
 									name="Submit"
-									className="w-[370px] h-[48px]"
+									className="w-[370px] h-[48px] mt-[107px] ml-[87px]"
 								/>
 								<div>
-									<ul className="w-[300px] mt-[70px] h-[30px] text-[12px] font-[400] text-center">
-										<li>
+									<ul className="w-[300px] mt-[93px] h-[30px] mb-[143px] text-[12px] font-[400] text-center ml-[124px]">
+										<li className="text-[#898989]">
 											Protected by reCAPTCHA and subject to the Skillnet{" "}
 											<a className="text-[#042937] ">Privacy Policy </a> and{" "}
 											<a className="text-[#042937] ">Terms of Service.</a>

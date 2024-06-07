@@ -41,6 +41,10 @@
 		--ring: 222.2 84% 4.9%;
 
 		--radius: 0.5rem;
+
+		--rkp-primary-color:--rkp-primary-color
+
+		
 	}
 
 	.dark {
@@ -85,11 +89,15 @@
 
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+	/* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
 		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif, "Uni Neue";
+		sans-serif, "Uni Neue"; */
+	font-family: --rkp-font-family;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	
+
+	
 }
 
 *,
@@ -99,8 +107,9 @@ body {
 }
 
 code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+	/* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", */
+	font-family: --rkp-font-family,
+	monospace;
 }
 
 .slick-dots {
@@ -150,4 +159,36 @@ code {
 
 input[type="radio"] {
 	accent-color: green;
+}
+
+.button-color {
+	background-color: var(--rkp-button-color) !important;
+}
+.button-text-color {
+	color: var(--rkp-button-color) !important;
+}
+.button-border-color{
+	border-color: var(--rkp-button-color) !important;
+}
+
+.primary-text{
+	color : var(--rkp-primary-color) !important;
+}
+.primary-background{
+	background-color : var(--rkp-primary-color) !important;
+}
+
+.secondary-text{
+	color : var(--rkp-secondary-color) !important;
+}
+.secondary-background{
+	background-color : var(--rkp-secondary-color) !important;
+}
+
+.text-color{
+	color : var(--rkp-text-color) !important
+}
+
+.text-bg-color{
+	background-color : var(--rkp-text-color) !important
 }

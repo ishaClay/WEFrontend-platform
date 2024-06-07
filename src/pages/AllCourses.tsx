@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import HeaderCourse from "@/components/HeaderCourse";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,7 +12,7 @@ function AllCourses() {
     const [replyMode, setReplyMode] = useState(null);
 
     // Handler to toggle reply mode for a comment
-    const handleReplyClick = (commentId: any) => {
+    const handleReplyClick = (commentId:any) => {
         setReplyMode(replyMode === commentId ? null : commentId);
     };
 

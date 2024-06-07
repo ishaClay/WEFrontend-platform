@@ -41,13 +41,15 @@ const MaturityLevelPage = () => {
   });
 
   const score = ((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
+  
+  const setScore = isNaN(Number(score))? 0 : score
   // const currentLavel = findMaturityLevel(Number(score));
 
   const data = {
     labels: ['Introductory', 'Intermediate', 'Advanced',],
     datasets: [{
       label: 'Poll',
-      data: [score, 100 - Number(score)],
+      data: [setScore, 100 - Number(setScore)],
       backgroundColor: ['#FFD56A', '#D1D1D1', 'red'],
       borderColor: ['#FFD56A', '#D1D1D1', 'red',],
 
@@ -193,7 +195,7 @@ const MaturityLevelPage = () => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                          <div className="border border-solid border-[red] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                          <div className="border border-solid bg-[#F63636] border-[#F63636] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
                             <img
                               src={StrategicIntegrationGray}
                               alt="img"
@@ -345,7 +347,7 @@ const MaturityLevelPage = () => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                          <div className="border border-solid border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                          <div className="border border-solid bg-[#FFD56A] border-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
                             <img
                               src={GovernanceGray}
                               alt="img"
@@ -497,7 +499,7 @@ const MaturityLevelPage = () => {
                       <Dialog>
                         <DialogTrigger asChild>
                           <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                            <div className="border border-solid border-[green] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                            <div className="border border-solid bg-[#64A70B] border-[64A70B] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
                               <img
                                 src={SocialGray}
                                 alt="img"

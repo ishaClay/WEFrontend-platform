@@ -38,7 +38,7 @@ const Question = () => {
 		},
 	});
 
-	const { mutate: removeanswer } = useMutation({
+	const { mutate: removeanswer} = useMutation({
 		mutationFn: (question: any) => removeAnswer(question),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.getQuestionAnswer] });
@@ -50,7 +50,7 @@ const Question = () => {
 			});
 		},
 	});
-
+	console.log(removeanswer)
 	const handleChange = (questionId: any, selectedOptions: any) => {
 
 		// if (selectedOptions.checked === true) {

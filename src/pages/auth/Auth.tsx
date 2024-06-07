@@ -32,10 +32,11 @@ function Auth() {
 			.min(1, "Email is required"),
 		// .email("Please enter a valid email"),
 		password: z
-			.string({
-				required_error: "Password is required",
-			})
-
+			.string().min(1,{message: "Password is required",})
+		// 	{
+		// 		required_error: "Password is required",
+		// 	}
+		
 	});
 
 
@@ -43,6 +44,7 @@ function Auth() {
 		mutationFn: Login,
 		onSuccess: (data) => {
 			const user = data.data.data.query;
+
 			if (user.role === UserRole.SuperAdmin) {
 				toast({
 					variant: "destructive",
@@ -56,17 +58,26 @@ function Auth() {
 			});
 
 			dispatch(setUserData(user.id));
-			localStorage.setItem("token", data.data.data.accessToken);
+			localStorage.setItem("token", data.data.data);
 			navigate("/savedassesment");
 		},
 		onError: (error: ErrorType) => {
+			console.log(error)
 			toast({
-				variant: "destructive",
-				title: error.data.message,
-			});
-		},
-	});
+				// variant: "destructive",
+				// title: error.data.message,
 
+
+
+				// variant: "error",
+				title: "Error",
+				description: "Something went wrong",
+			});
+
+			
+		},	
+	});
+	
 
 	type ValidationSchema = z.infer<typeof schema>;
 	const {
@@ -102,16 +113,16 @@ function Auth() {
 				</div>
 
 				<div className="relative">
-					<ul className="absolute w-[212px] text-[14px] text-[#042937] top-[11px] left-[380px]">
+					<ul className="absolute w-[212px] text-[14px] text-color top-[11px] left-[380px]">
 						<li>
 							Don’t have an account? <a className="font-[700]">Sign Up</a>
 						</li>
 					</ul>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="relative LoginBox w-[418px] h-[463px] ml-[120px] mt-[112px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
-							<p className="text-[24px] font-[700] ">Login</p>
+							<p className="text-[24px] font-[700] text-color">Login</p>
 							<InputWithLable
-								className="w-full h-[52px] mt-2 bg-white"
+								className="w-full h-[52px] mt-2 secondary-background"
 								placeholder="Enter Username"
 								{...register("email")}
 							/>
@@ -119,33 +130,36 @@ function Auth() {
 								<ErrorMessage message={errors.email.message as string} />
 							)}
 							<PasswordInput
-								className="w-full h-[52px] mt-2 bg-white"
+								className="w-full h-[52px] mt-2 secondary-background"
 								placeholder="Password"
 								validationHandler={register("password")}
 							/>
-							<ul className="mt-[24px]">
+							{errors.password && (
+								<ErrorMessage message={errors.password.message as string} />
+							)}
+							<ul className="mt-[24px] text-color">
 								<li>
 									<a>Forgot password?</a>
 								</li>
 							</ul>
-							<button type="submit" className=" bg-primary-button rounded w-[370px] h-[48px] text-white mt-[32px]">
+							<button type="submit" className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px]">
 								Login
 							</button>
 
-							<div className="absolute top-[350px] left-0 w-full flex items-center justify-center">
+							<div className="absolute top-[325px] left-0 w-full flex items-center justify-center">
 								<div className="w-1/3 h-px bg-[#DCDCDC]"></div>
 								<div className="px-4 text-[#898989]">or</div>
 								<div className="w-1/3 h-px bg-[#DCDCDC]"></div>
 							</div>
 							<div className="relative">
-								<button className="w-[173px] mt-[50px] h-[48px] rounded-[6px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)]">
+								<button className="w-[173px] mt-[50px] h-[48px] rounded-[6px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] text-color">
 									<img
 										className="absolute left-[35px] top-[67px]"
 										src="../assets/img/googlelogo.png"
 									/>
 									Google
 								</button>
-								<button className="w-[173px] ml-[23px] mt-[50px] h-[48px] rounded-[6px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)]">
+								<button className="w-[173px] ml-[23px] mt-[50px] h-[48px] rounded-[6px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] text-color">
 									<img
 										className="absolute left-[222px] top-[66px]"
 										src="../assets/img/fblogo.png"
@@ -156,11 +170,11 @@ function Auth() {
 						</div>
 					</form>
 					<div>
-						<ul className="w-[370px] h-[30px] text-[12px] font-[400] absolute top-[800px] left-[180px]">
-							<li>
+						<ul className="w-[370px] h-[30px] text-[12px] font-[400] absolute bottom-[48px] left-[131px]">
+							<li className="text-[#898989]">
 								Protected by reCAPTCHA and subject to the Skillnet{" "}
-								<a className="text-[#042937] ">Privacy Policy </a> and{" "}
-								<a className="text-[#042937] ">Terms of Service.</a>
+								<a className="text-color">Privacy Policy </a> and{" "}
+								<a className="text-color">Terms of Service.</a>
 							</li>
 						</ul>
 					</div>

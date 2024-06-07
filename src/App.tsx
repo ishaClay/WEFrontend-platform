@@ -75,10 +75,31 @@ import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst
 import EmployeeRodemap from "./pages/EmployeeRodemap";
 import ModuleFrist from "./pages/ModuleFrist";
 import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "./lib/constants";
+import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
+
+	// const {clientId }= useSelector((state: any) => state.user);	
+	const clientId = "15"
+
+	const {data : themes} = useQuery({
+		queryKey: [QUERY_KEYS.themeChanges],
+		queryFn: () => changeTheme(clientId as string),
+	});
+	console.log(themes?.data?.data)
+
+	document.documentElement.style.setProperty("--rkp-button-color", (themes?.data?.data?.buttonColor))
+	document.documentElement.style.setProperty("--rkp-font-family", (themes?.data?.data?.fontFamily))
+	document.documentElement.style.setProperty("--rkp-primary-color", (themes?.data?.data?.primaryColor))
+	document.documentElement.style.setProperty("--rkp-secondary-color", (themes?.data?.data?.secondaryColor))
+	document.documentElement.style.setProperty("--rkp-text-color", (themes?.data?.data?.textColor))
+
+
 	return (
 		<div className="App max-w-[1500px] mx-auto">
+			<button className="primary">sd'sd's</button>
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/auth" element={<Auth />} />
@@ -106,13 +127,13 @@ function App() {
 					element={<MaturityLevelAnswersPopup />}
 				/>
 				<Route 
-				     path="/coursesrecommended" 
-					 element={<CoursesRecommended />} 
+					path="/coursesrecommended" 
+					element={<CoursesRecommended />} 
 				/>
 				<Route 
-				     path="/savedassesment"
-					element={<SavedAssesment />}
-				 />
+				path="/savedassesment"
+				element={<SavedAssesment />}
+				/>
 				<Route
 					path="/courseemrolledemployeepopup"
 					element={<CourseEmrolledToEmployeePopup />}

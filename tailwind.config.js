@@ -1,4 +1,10 @@
+
+
 /** @type {import('tailwindcss').Config} */
+
+
+
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -7,6 +13,9 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+
+	
+
   prefix: "",
   theme: {
     container: {
@@ -23,7 +32,9 @@ module.exports = {
 
       colors: {
         'primary-button': '#00778B',
-        'secondary-button': '#64A70B',
+        'secondary-button': '#64A70B'
+
+        ,
         white: "#fff",
         silver: "#b9b9b9",
         olivedrab: "#4c7d0a",
