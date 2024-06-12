@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { PrimaryButton } from "./comman/Button/CustomButton";
 
 interface headerProps {
-  hasDiffHeader?: any;
+  hasDiffHeader?: boolean;
 }
 
 function Header(props: headerProps) {
