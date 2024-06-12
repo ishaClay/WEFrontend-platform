@@ -301,8 +301,8 @@ function SelectLevel() {
         {pillars?.map((item: any) => {
          
           return (
-            <div className="ml-[180px] pt-8 pl-[10px] pb-0 flex gap-5">
-              <div className="border border-solid border-[#D9D9D9] w-[1124px] h-[200px] rounded-[10.06px] flex flex-col">
+            <div className="2xl:ml-[180px] xl:ml-[100px] pt-8 pl-[10px] pb-0 flex gap-5">
+              <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px] h-[200px] rounded-[10.06px] flex flex-col">
                 <div className="flex h-8">
                   <div 
                     className={`${
@@ -424,7 +424,7 @@ function SelectLevel() {
                       </ul>
                     </div>
                   </div>
-
+                  
                   <div className="w-[162px] mt-8">
                     <Dialog open={open} onOpenChange={setOpen}>
                       <DialogTrigger asChild>

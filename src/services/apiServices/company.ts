@@ -7,7 +7,7 @@ export const createCompany = (data: Company) => {
 
     const url = `api/v1/user/register-company`,
         method = "post";
-
+    
     return api({ url, method, data });
 };
 

@@ -100,26 +100,26 @@ function Auth() {
 			<Header />
 			<div className="flex mt-[26px]">
 				<div className="relative">
-					<img className="w-[686px] h-[900px]" src="../assets/img/Image.png" />
+					<img className="xl:w-[686px] w-[500px] h-[900px]" src="../assets/img/Image.png" />
 
 					<img
-						className="absolute top-[137px] left-[220px]  w-[234px] h-[365px]"
+						className="absolute top-[137px] xl:left-[220px] left-[150px] w-[234px] h-[365px]"
 						src="../assets/img/pngwing.png"
 					/>
 					<img
-						className="absolute top-[558px] left-[86px] w-[514px] h-[184px]"
+						className="absolute top-[558px] xl:left-[86px] left-[40px] xl:w-[514px] w-[450px] h-[184px]"
 						src="../assets/img/Multi.png"
 					/>
 				</div>
 
 				<div className="relative">
-					<ul className="absolute w-[212px] text-[14px] text-color top-[11px] left-[380px]">
+					<ul className="absolute w-[212px] text-[14px] text-color top-[11px] 2xl:left-[380px] xl:left-[320px] left-[250px]">
 						<li>
 							Don’t have an account? <a className="font-[700]">Sign Up</a>
 						</li>
 					</ul>
 					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="relative LoginBox w-[418px] h-[463px] ml-[120px] mt-[112px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
+						<div className="relative LoginBox w-[418px] h-[463px] 2xl:ml-[120px] xl:ml-[60px] ml-[40px] mt-[112px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
 							<p className="text-[24px] font-[700] text-color">Login</p>
 							<InputWithLable
 								className="w-full h-[52px] mt-2 secondary-background"
@@ -170,7 +170,7 @@ function Auth() {
 						</div>
 					</form>
 					<div>
-						<ul className="w-[370px] h-[30px] text-[12px] font-[400] absolute bottom-[48px] left-[131px]">
+						<ul className="w-[370px] h-[30px] text-[12px] font-[400] absolute bottom-[48px] 2xl:left-[150px] xl:left-[90px] left-[70px]">
 							<li className="text-[#898989]">
 								Protected by reCAPTCHA and subject to the Skillnet{" "}
 								<a className="text-color">Privacy Policy </a> and{" "}

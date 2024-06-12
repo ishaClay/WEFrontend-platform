@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
-import Register from "./pages/auth/Register";
+
 import Company from "./pages/Company";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import Assessment from "./pages/Assessment";
@@ -78,17 +78,19 @@ import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "./lib/constants";
 import { changeTheme } from "./services/apiServices/theme";
+import { useSelector } from "react-redux";
+import Register from "./pages/auth/Register";
+
 
 function App() {
 
-	// const {clientId }= useSelector((state: any) => state.user);	
-	const clientId = "15"
-
+	const {clientId }= useSelector((state: any) => state.user);
+	
 	const {data : themes} = useQuery({
 		queryKey: [QUERY_KEYS.themeChanges],
 		queryFn: () => changeTheme(clientId as string),
 	});
-	console.log(themes?.data?.data)
+
 
 	document.documentElement.style.setProperty("--rkp-button-color", (themes?.data?.data?.buttonColor))
 	document.documentElement.style.setProperty("--rkp-font-family", (themes?.data?.data?.fontFamily))
@@ -99,12 +101,11 @@ function App() {
 
 	return (
 		<div className="App max-w-[1500px] mx-auto">
-			<button className="primary">sd'sd's</button>
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/auth" element={<Auth />} />
 				<Route path="/trainer" element={<RegisterTrainer />} />
-				<Route path="/register" element={<Register />} />
+				<Route path="/register" element={<Register/>} />
 				<Route path="/registertrainee" element={<RegisterTrainee />} />
 				<Route path="/company" element={<Company />} />
 				<Route path="/companyregister" element={<CompanyRegister />} />

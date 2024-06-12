@@ -13,13 +13,13 @@ function Footer() {
 	return (
 		<footer className=" max-w-[1500px] relative flex justify-center items-end ">
 			{isHomePage() && (
-				<div className="w-[1500px] h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
+				<div className="h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
 			)}
 			<div className="w-[1162px] h-[380px] bg-[#002A3A] z-[999] rounded-tl-[20px] rounded-tr-[20px] text-center">
 				<div className="flex items-end sm:gap-x-[33px] md:ml-[32px] mt-[38px] md:justify-normal justify-center ">
 					<div className="relative">
 						<img
-							className="w-[961px] h-[97px] md:block hidden"
+							className="xl:w-[961px] w-[810px] h-[97px] md:block hidden"
 							src="../assets/img/network-group.png"
 						/>
 						<div className="absolute bottom-0 left-[12px] w-[940px] h-0.5 top-[120px] secondary-background"></div>

@@ -10,6 +10,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
 	:root {
 		--background: 0 0% 100%;
@@ -41,10 +42,6 @@
 		--ring: 222.2 84% 4.9%;
 
 		--radius: 0.5rem;
-
-		--rkp-primary-color:--rkp-primary-color
-
-		
 	}
 
 	.dark {
@@ -81,9 +78,12 @@
 @layer base {
 	* {
 		@apply border-border;
+	
 	}
 	body {
 		@apply bg-background text-foreground;
+
+	
 	}
 }
 
@@ -105,6 +105,10 @@ body {
 ::after {
 	border-width: 0;
 }
+
+/* *{
+	border: 1px solid black;
+} */
 
 code {
 	/* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", */

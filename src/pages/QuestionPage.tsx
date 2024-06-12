@@ -29,6 +29,7 @@ import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 
 
+
 const QuestionPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -137,11 +138,11 @@ const QuestionPage = () => {
 		setTotalAttemptedQuestions(totalAttemptedQuestions);
 	}, [allPillar?.length, question]);
 
-	// const currentAttemptedTotal = Array.isArray(question?.[activePillar])
-	// 	? question[activePillar].filter((que: QuestionType) =>
-	// 		que.options.some((opt) => opt.checked)
-	// 	).length
-	// 	: 0;
+	const currentAttemptedTotal = Array.isArray(question?.[activePillar])
+		? question[activePillar].filter((que: QuestionType) =>
+			que.options.some((opt) => opt.checked)
+		).length
+		: 0;
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
 		let allQueAns: any = {};
@@ -297,27 +298,27 @@ const QuestionPage = () => {
 			</div>
 
 			<form>
-				<div className="mt-[89px] ml-[177px] flex flex-wrap justify-between">
-					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px]] w-[871px] max-w-full">
+				<div className="mt-[89px] 2xl:ml-[177px] xl:ml-[130px] ml-[50px] flex flex-wrap">
+					<div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px] 2xl:w-[871px] xl:w-[700px] w-[600px] max-w-full">
 						<Question />
 					</div>
 					<div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
 						<h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
 							Current Progress
 						</h2>
-						{/* <div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+						<div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
 							<span className="ml-[18px] text-teal">Attempted</span>
 							<p className="text-teal">
 								{currentAttemptedTotal}/{question?.[activePillar]?.length || 0}
 							</p>
-							<img
+							{/* <img
 								src={ProgressIndicator}
 								alt="progressbar"
 								width={24}
 								height={24}
 								className="mr-[34px]"
-							/>
-						</div> */}
+							/> */}
+						</div>
 						<div className="ml-[14px] mt-[17px] w-[267px]">
 							<div className="flex items-center justify-between font-bold	">
 								<span>Attempted</span>

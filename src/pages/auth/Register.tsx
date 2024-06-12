@@ -24,9 +24,7 @@ import Slider from "react-slick";
 import { z } from "zod";
 
 function Register() {
-
-	const { clientId } = useSelector((state: any) => state.user)
-
+	const {clientId} = useSelector((state: any) => state.user)
 	const [selectedRole, setSelectedRole] = useState<any>(null);
 	const [showOtpPopup, setShowOtpPopup] = useState(false);
 	const [otp, setOtp] = useState("");
@@ -43,7 +41,10 @@ function Register() {
 	const { mutate: createcompany, isPending: createPending } = useMutation({
 		mutationFn: (company: Company) => createCompany(company),
 		onSuccess: async (data) => {
+		
 			dispatch(setCompanyId(data?.data?.data?.user?.id));
+			// dispatch(setCompanyId(data?.data?.data?.user?.clientId));
+
 			setShowOtpPopup(true);
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
@@ -60,9 +61,8 @@ function Register() {
 	const { mutate: createotp, isPending: createOtp } = useMutation({
 		mutationFn: (company: any) => checkOTP(company),
 		onSuccess: async (data) => {
-
+			
 			dispatch(setUserData(data?.data?.data?.id));
-
 			await queryClient.invalidateQueries({
 				queryKey: [QUERY_KEYS.companyList],
 			});
@@ -116,6 +116,7 @@ function Register() {
 	};
 
 	useEffect(() => {
+		
 		if (!clientId) {
 			navigate("/")
 		}
@@ -130,10 +131,10 @@ function Register() {
 		<div className="">
 			<Header />
 			<div className="flex mt-[26px]">
-				<img src="../assets/img/1000001825.png.png" />
+				<img src="../assets/img/1000001825.png.png" className="xl:max-w-full max-w-[500px]"/>
 
-				<div className="w-[694px]">
-					<div className="flex justify-end mr-[90px] text-color">
+				<div className="xl:w-[694px]">
+					<div className="flex justify-end text-color 2xl:mr-[130px] xl:mr-[100px] mr-[40px]">
 						<label>
 							Already have an account?
 							<a className="font-[700] text-color">Sign In</a>
@@ -141,8 +142,8 @@ function Register() {
 					</div>
 
 					{selectedRole !== "company" ? (
-						<div className="w-[600px] h-[524px] relative">
-							<div className="mt-[145px] ml-[91px]">
+						<div className="2xl:w-[600px] h-[524px] relative w-[450px] xl:w-[530px]">
+							<div className="mt-[145px] 2xl:ml-[91px] ml-[60px]">
 								<h3 className="text-[24px] font-[700] text-color">
 									Choose your role...
 								</h3>
@@ -154,7 +155,7 @@ function Register() {
 									Hey there! Ready to start your adventure?
 								</p>
 								<img className="" src="../assets/img/Line 23.png" />
-								<p className="w-[446px] h-[40px] text-[16px] font-[400] text-color">
+								<p className="xl:w-[446px] w-[400px] h-[40px] text-[16px] font-[400] text-color">
 									Just click on your role “Company or Trainer” and let's drive
 									into your journey!
 								</p>
@@ -180,15 +181,15 @@ function Register() {
 							</div>
 						</div>
 					) : showRegistrationForm ? (
-						<div className="w-[600px]">
-							<div className="w-[500px] h-[524px] relative mt-[142px] ml-[91px]">
-								<h3>Secure your berth & set sail</h3>
+						<div className="2xl:w-[600px] w-[400px]">
+							<div className="xl:w-[500px] w-[400px] h-[524px] relative mt-[142px] 2xl:ml-[91px] ml-[60px]">
+								<h3 className="text-[24px] font-bold">Secure your berth & set sail</h3>
 								<img
 									className="absolute right-0 top-[-20px]"
 									src="../assets/img/pngwing 25.png"
 								/>
 								<img className="" src="../assets/img/Line 23.png" />
-								<p className="w-[530px] h-[80px] text-[16px] font-[400]">
+								<p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
 									Enter your company name eamil and set a password to anchor
 									your details. submit to receive an OTP, steering you towards
 									the next leg of your sustainable journey.
@@ -197,7 +198,7 @@ function Register() {
 								<form onSubmit={handleSubmit(onSubmit)}>
 									<InputWithLable
 										label="Company Name"
-										className="w-[500px] h-[46px] border solid 1.5px"
+										className="xl:w-[500px] w-[400px] h-[46px] border solid 1.5px"
 										{...register("name")}
 									/>
 									{errors.name && (
@@ -206,7 +207,7 @@ function Register() {
 
 									<InputWithLable
 										label="Email"
-										className="w-[500px] h-[46px] border solid 1.5px"
+										className="xl:w-[500px] w-[400px] h-[46px] border solid 1.5px"
 										{...register("email")}
 									/>
 									{errors.email && (
@@ -217,7 +218,7 @@ function Register() {
 										<div>
 											<InputWithLable
 												label="Set a password"
-												className="w-[240px] h-[46px] border solid 1.5px"
+												className="xl:w-[240px] w-[190px] h-[46px] border solid 1.5px"
 												{...register("password")}
 											/>
 											{errors.password && (
@@ -229,7 +230,7 @@ function Register() {
 										<div>
 											<InputWithLable
 												label="Confirm Password"
-												className="w-[240px] h-[46px] border solid 1.5px"
+												className="xl:w-[240px] w-[190px] h-[46px] border solid 1.5px"
 												{...register("cpassword")}
 											/>
 											{errors.cpassword && (
@@ -243,31 +244,34 @@ function Register() {
 									<div className=" mt-[20px] flex gap-x-[40px]">
 										<button
 											type="submit"
-											className="w-[480px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
+											className="xl:w-[480px] w-[450px] h-[48px] bg-[#00778B] rounded-[4px] text-white">
 											Get OTP
 										</button>
 									</div>
 								</form>
 							</div>
 						</div>
-					) : (
-						<div className="w-[700px]">
-							<div className="w-[600px] h-[524px] relative mt-[142px] ml-[91px]">
-								<h3 className="font-[700] text-[24px]">
+					) :
+					(
+						<div className="2xl:w-[700px] xl:w-[500px] w-[400px]">
+							<div className="2xl:w-[600px] xl:w-[500px] w-[450px] h-[524px] relative mt-[142px] 2xl:ml-[91px] xl:ml-[60px] ml-[30px]">
+							
+								<h3 className="font-[700] xl:text-[24px] text-[22px]">
 									Setting sail on your sustainability voyage
 								</h3>
 								<img
-									className="absolute right-[100px] top-[-5px]"
+									className="absolute 2xl:right-[100px] right-[10px] top-[-10px]"
 									src="../assets/img/pngwing 25.png"
 								/>
 								<img className="" src="../assets/img/Line 23.png" />
-								<p>
+							
+								<p className="w-[450px] xl:w-full">
 									just a few quick details - your company's name, email, and a
 									new password- and you'll be all set to navigate through your
 									sustainable and continue your impactful journey anytime.
 								</p>
 
-								<div className=" mt-[20px] flex gap-x-[40px] font-[700]">
+								<div className="mt-[20px] flex gap-x-[40px] font-[700]">
 									<button
 										className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
 										onClick={handleLaunchJourney}>
@@ -276,9 +280,10 @@ function Register() {
 								</div>
 							</div>
 						</div>
-					)}
+					)
+					}
 
-					<div className="mt-[50px] ml-[116px] flex gap-x-[19px]">
+					<div className="mt-[50px] 2xl:ml-[116px] xl:ml-[80px] ml-[40px] flex gap-x-[19px]">
 						<div>
 							<img className="" src="../assets/img/Group 1000001825.png" />
 						</div>
@@ -307,7 +312,7 @@ function Register() {
 						</Slider>
 					</div>
 
-					<div className="w-[296px] h-[30px] font-[400] text-[12px] mt-[154px] ml-[180px] text-center text-[#898989]">
+					<div className="w-[296px] h-[30px] font-[400] text-[12px] mt-[154px] 2xl:ml-[180px] ml-[100px] xl:ml-[150px] text-center text-[#898989]">
 						<label>
 							Protected by reCAPTCHA and subject to the Skillnet{" "}
 							<a className="text-color">Privacy Policy</a> and{" "}
@@ -318,7 +323,7 @@ function Register() {
 			</div>
 
 			{showOtpPopup && (
-				<div className="fixed inset-0 flex items-center text-center justify-center ml-[500px] mb-[100px]">
+				<div className="fixed inset-0 flex items-center text-center justify-center 2xl:ml-[250px] xl:ml-[350px] ml-[550px] mb-[100px] xl:w-full w-[400px]">
 					<div className="fixed inset-0 bg-black opacity-50"></div>
 
 					<div className="bg-white p-6 rounded-lg relative z-10">
@@ -364,6 +369,7 @@ function Register() {
 
 			<Loading isLoading={createPending || createOtp} />
 		</div>
+		
 	);
 }
 

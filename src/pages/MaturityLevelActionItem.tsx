@@ -66,7 +66,7 @@ function MaturityLevelActionItem() {
 	return (
 		<div>
 			<TeaserScoreHeader />
-			<div className="border-t border-b border-#DED7D7">
+			<div className="border-t border-b border-[#DED7D7]">
 				<div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
 					<div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
 						{paths.map((path) => (
@@ -117,11 +117,11 @@ function MaturityLevelActionItem() {
 						console.log(item)
 						return(
 							<div className="flex flex-col h-full w-full mt-8">
-								<div className="ml-[180px]   h-[390px] w-[1126px]">
+								<div className="2xl:ml-[180px] xl:ml-[80px] h-[390px] ml-[30px] xl:w-[1126px] w-[970px]">
 									<div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
-										<div className=" pb-2 pt-2 flex  gap-5  h-[70px] w-[1126px]">
+										<div className=" pb-2 pt-2 flex gap-5 h-[70px] xl:w-[1126px] w-[970px]">
 
-											<div className="flex items-center justify-center gap-[718px]">
+											<div className="flex items-center justify-center xl:gap-[718px] gap-[560px]">
 												<div className="flex">
 												<div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
 													<img src="/public/assets/img/Tree Planting.png" alt="Leaf Icon" />
@@ -203,7 +203,7 @@ function MaturityLevelActionItem() {
 			</div> */}
 
 
-			<div className="flex ml-[550px] mt-20">
+			<div className="flex justify-center mt-20">
 				<button onClick={() => navigate("/coursesrecommended")} className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold">
 					View Recommended Courses
 				</button>
@@ -212,9 +212,9 @@ function MaturityLevelActionItem() {
 				</button>
 			</div>
 
-			<div className="  pb-4 w-[940px]  "></div>
+			<div className="pb-4 w-[940px]  "></div>
 
-			<div className="  font-bold ml-[420px] font-Abhaya Libre ExtraBold text-red-500 pb-2 ">
+			<div className="font-bold 2xl:ml-[420px] xl:ml-[300px] ml-[200px] font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-[122px]">
 
 				<p> Congratulations! 🌿 Your chosen maturity levels have been noted. You're now on a unique </p>
 				<p>sustainability journey tailored just for you. Keep moving forward, and watch your impact grow! 🌍✨</p>

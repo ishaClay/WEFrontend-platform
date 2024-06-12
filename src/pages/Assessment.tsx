@@ -7,14 +7,18 @@ function Assessment() {
 	const navigate = useNavigate();
 
 	return (
-		<div>
-			<Header />
+		<div className="">
+		
+			<Header />	
+			
 
-			<div className="flex">
-				<img src="../assets/img/Group 1000001824.png" />
+			<div className="flex flex-row xl:gap-[78px] gap-[30px]">
+				<div>
+				<img src="../assets/img/Group 1000001824.png" className="xl:max-w-[800px] max-w-[400px]"/>
+				</div>
 
-				<div className="w-[600px] h-[524px] ">
-					<div className="mt-[140px] ml-[78px]">
+				<div className="2xl:max-w-[800px] xl:max-w-[600px] w-[500px]  h-[524px] xl:mr-[-50px]">
+					<div className="mt-[140px]">
 						<div className="flex items-end gap-x-[14px]">
 							<h3 className="font-[UniNeue] italic text-[24px] font-[400]">
 								Navigate your Green Compass
@@ -24,7 +28,7 @@ function Assessment() {
 
 						<img className="w-[380px]" src="../assets/img/Line 23.png" />
 
-						<p className="w-[525px]  text-[16px] font-[400] font-[calibri] text-[#332626] leading-[17px] mt-[22px]">
+						<p className="w-[525px] text-[16px] font-[400] font-[calibri] text-[#332626] leading-[17px] mt-[22px]">
 							Steer through 30 pivotal questions under 6 sustainability pillars
 							to chart your company's course towards environmental stewardship.
 							<br></br>
@@ -37,14 +41,14 @@ function Assessment() {
 						<h2 className="font-[700] text-[24px] font-calibri mt-[24px]">
 							What's all covered under this assessment?
 						</h2>
-
-						<div className="font-calibri flex items-center w-[800px]">
+						{/* flex-col 2xl:flex-row gap-8 2xl: */}
+						<div className="font-calibri flex items-center 2xl:w-[800px]">
 							<div>
 								<p className="">
 									This self-assessment covers a variety of essential topics,
 									including:
 								</p>
-								<div className="flex gap-x-[42px] items-center mt-[24px]">
+								<div className="flex 2xl:gap-x-[42px] gap-x-[24px] items-center mt-[24px]">
 									<div className="flex flex-col gap-y-[16px]">
 										<div className="flex gap-x-[10px] items-center">
 											<img
@@ -100,11 +104,11 @@ function Assessment() {
 							</div>
 
 							<div>
-								<img src="../assets/img/Group 60.png" />
+								<img src="../assets/img/Group 60.png" className=""/>
 							</div>
 						</div>
 
-						<p className="w-[685px] font-[400] text-[16px] mt-[24px]">
+						<p className="2xl:w-[685px] xl:w-[500px] font-[400] text-[16px] mt-[24px]">
 							Embarking on this assessment voyage sets your sails towards market
 							distinction through sustainability. It's your sextant to gauge and
 							refine your green practices, ensuring your journey not only charts
@@ -119,9 +123,9 @@ function Assessment() {
 					</div>
 				</div>
 			</div>
-			<div className="">
+			
 				<Footer />
-			</div>
+			
 		</div>
 	);
 }

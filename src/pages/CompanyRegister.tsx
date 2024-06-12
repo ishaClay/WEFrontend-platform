@@ -19,6 +19,7 @@ import { z } from "zod";
 function CompanyRegister() {
 
 	const navigate = useNavigate()
+	
 
 	const CompanyId = useSelector((state: any) => state.user.CompanyId);
 
@@ -38,7 +39,7 @@ function CompanyRegister() {
 		enabled: !!CompanyId,
 	});
 
-	console.log("companydetailscompanydetails", companydetails);
+	console.log(companydetails?.data.data);
 	
 
 	const { mutate: updatecompany, isPending: updatePanding } = useMutation({
@@ -92,6 +93,7 @@ function CompanyRegister() {
 	useEffect(() => {
 		if (companydetails) {
 			const data = companydetails.data.data.userDetails;
+			console.log(data)
 			Object.keys(data).forEach((key: any) => {
 				setValue(key, data[key]);
 			});
@@ -110,7 +112,7 @@ function CompanyRegister() {
 
 	return (
 		<>
-			<Header />
+			<Header hasDiffHeader={true}/>
 			<div className="flex relative mt-[40px] gap-[50px]">
 				<div>
 					<img
@@ -120,12 +122,12 @@ function CompanyRegister() {
 				</div>
 
 				<div className="h-auto">
-					<div className="w-full mt-[31px]">
+					<div className="mt-[31px] ml-[220px] ">
 						<p className="text-[14px]">
 							Already have an account? <a className="text-[#042937] font-semibold">Sign In</a>
 						</p>
 					</div>
-					<div className="w-[707px] mt-[67px] ">
+					<div className="2xl:w-[707px] xl:w-[600px] w-[550px] mt-[67px] ">
 						<div className="flex gap-x-[8px] h-180px items-end">
 							<h3 className="text-[24px]">Complete your registration</h3>
 							<img
