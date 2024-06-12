@@ -101,7 +101,7 @@ function RegisterTrainer() {
           />
         </div>
 
-        <div className="  "> 
+        <div className="  ">
           <div className="2xl:ml-[350px] xl:ml-[270px] ml-[270px]">
             <p>
               Already have an account?{" "}
@@ -177,22 +177,16 @@ function RegisterTrainer() {
                     placeholder="Sample"
                     className="w-[241px] h-[46px]"
                     label="Contact Surname"
-                  
-
                     name=""
                   />
-                
                 </div>
                 <div>
                   <InputWithLable
                     placeholder="0044 1234 1234567"
                     className="w-[241px] h-[46px]"
                     label="Contact Telephone No."
-                   
-
                     name=""
                   />
-                 
                 </div>
                 <div>
                   <Select {...register("foreignProvider")}>

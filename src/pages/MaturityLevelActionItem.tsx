@@ -1,4 +1,4 @@
-import TeaserScoreHeader from "@/components/TeaserScoreHeader"
+import TeaserScoreHeader from "@/components/TeaserScoreHeader";
 import Correct from "/assets/img/Correct.png";
 import Assess from "/assets/img/Assess.png";
 import Learn from "/assets/img/Learn.png";
@@ -12,154 +12,152 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-
-
 function MaturityLevelActionItem() {
+  const { clientId, UserId } = useSelector((state: any) => state.user);
 
-	const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { data: getCheckedmeasures } = useQuery({
+    queryKey: [QUERY_KEYS.checkedMeasures],
+    queryFn: () => getCheckedMeasures(UserId, clientId),
+    enabled: true,
+  });
 
+  console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
 
-	const { data: getCheckedmeasures } = useQuery({
-		queryKey: [QUERY_KEYS.checkedMeasures],
-		queryFn: () => getCheckedMeasures(UserId,clientId),
-		enabled: true
-	});
+  const navigate = useNavigate();
 
-	console.log("qqqqqqqq",getCheckedmeasures?.data?.data);
-	
+  const paths = [
+    {
+      name: "Engage",
+      img: Correct,
+      status: "checked",
+    },
+    {
+      name: "Assess",
+      img: Correct,
+      status: "checked",
+    },
+    {
+      name: "Set Targets",
+      img: Correct,
+      status: "indeterminate",
+    },
+    {
+      name: "Learn",
+      img: Learn,
+      status: "pending",
+    },
+    {
+      name: "Apply",
+      img: Apply,
+      status: "pending",
+    },
+    {
+      name: "Attain proficiency",
+      img: Attainproficiency,
+      status: "pending",
+    },
+  ];
+  return (
+    <div>
+      <TeaserScoreHeader />
+      <div className="border-t border-b border-[#DED7D7]">
+        <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
+          <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
+            {paths.map((path) => (
+              <div
+                key={path.name}
+                className={`flex flex-col self-end items-center ${
+                  path.name === "Engage" || path.name === "Assess" ? " " : " "
+                }`}
+              >
+                {path.status === "checked" ? (
+                  <img
+                    src={Correct}
+                    alt="img"
+                    width={59.6}
+                    height={59.6}
+                    className="mt-[13.4]"
+                  />
+                ) : path.status === "indeterminate" ? (
+                  <img
+                    src={Assess}
+                    alt="img"
+                    width={70}
+                    height={70}
+                    className="mt-[7px]"
+                  />
+                ) : (
+                  <img
+                    src={path.img}
+                    alt="img"
+                    width={59.6}
+                    height={59.6}
+                    className="mt-[15.4px]"
+                  />
+                )}
+                <p
+                  className={`${
+                    path.name === "Engage" || path.name === "Assess"
+                      ? "bg-[#64A70B] text-white"
+                      : ""
+                  }`}
+                >
+                  {path.name}
+                </p>
+              </div>
+            ))}
+            <div className="absolute top-[47.5px] left-3 right-10 border-2  border-[#585858] -z-10"></div>
+          </div>
+        </div>
+      </div>
 
+      {getCheckedmeasures?.data?.data?.map((item: any) => {
+        console.log(item);
+        return (
+          <div className="flex flex-col h-full w-full mt-8">
+            <div className="2xl:ml-[180px] xl:ml-[80px] h-[390px] ml-[30px] xl:w-[1126px] w-[970px]">
+              <div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
+                <div className=" pb-2 pt-2 flex gap-5 h-[70px] xl:w-[1126px] w-[970px]">
+                  <div className="flex items-center justify-center xl:gap-[718px] gap-[560px]">
+                    <div className="flex">
+                      <div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
+                        <img
+                          src="/public/assets/img/Tree Planting.png"
+                          alt="Leaf Icon"
+                        />
+                      </div>
 
-	const navigate = useNavigate()
+                      <div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">
+                        {item.pillarName}
+                      </div>
+                    </div>
 
-	const paths = [
-		{
-			name: "Engage",
-			img: Correct,
-			status: "checked",
-		},
-		{
-			name: "Assess",
-			img: Correct,
-			status: "checked",
-		},
-		{
-			name: "Set Targets",
-			img: Correct,
-			status: "indeterminate",
-		},
-		{
-			name: "Learn",
-			img: Learn,
-			status: "pending",
-		},
-		{
-			name: "Apply",
-			img: Apply,
-			status: "pending",
-		},
-		{
-			name: "Attain proficiency",
-			img: Attainproficiency,
-			status: "pending",
-		},
-	];
-	return (
-		<div>
-			<TeaserScoreHeader />
-			<div className="border-t border-b border-[#DED7D7]">
-				<div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
-					<div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
-						{paths.map((path) => (
-							<div
-								key={path.name}
-								className={`flex flex-col self-end items-center ${path.name === "Engage" || path.name === "Assess"
-									? " "
-									: " "
-									}`}
-							>
-								{path.status === "checked" ? (
-									<img
-										src={Correct}
-										alt="img"
-										width={59.6}
-										height={59.6}
-										className="mt-[13.4]"
-									/>
-								) : path.status === "indeterminate" ? (
-									<img
-										src={Assess}
-										alt="img"
-										width={70}
-										height={70}
-										className="mt-[7px]"
-									/>
-								) : (
-									<img
-										src={path.img}
-										alt="img"
-										width={59.6}
-										height={59.6}
-										className="mt-[15.4px]"
-									/>
-								)}
-								<p className={`${path.name === "Engage" || path.name === "Assess" ? "bg-[#64A70B] text-white" : ""}`}>
-									{path.name}
-								</p>
-							</div>
-						))}
-						<div className="absolute top-[47.5px] left-3 right-10 border-2  border-[#585858] -z-10"></div>
-					</div>
-				</div>
-			</div>
+                    <div className="flex items-center gap-[12px]">
+                      <div className="mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#EFF4FAF5] h-[30px] w-[107px] flex items-center justify-center ">
+                        {item.maturityNextLevelName}
+                      </div>
 
-			{
-				getCheckedmeasures?.data?.data?.map((item: any) => {
-						console.log(item)
-						return(
-							<div className="flex flex-col h-full w-full mt-8">
-								<div className="2xl:ml-[180px] xl:ml-[80px] h-[390px] ml-[30px] xl:w-[1126px] w-[970px]">
-									<div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
-										<div className=" pb-2 pt-2 flex gap-5 h-[70px] xl:w-[1126px] w-[970px]">
+                      <div className=" text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center">
+                        {item.maturityLevelName}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-											<div className="flex items-center justify-center xl:gap-[718px] gap-[560px]">
-												<div className="flex">
-												<div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
-													<img src="/public/assets/img/Tree Planting.png" alt="Leaf Icon" />
-												</div>
+              {item?.measures?.map((v: any) => {
+                return (
+                  <div className="w-full h-[70px] border border-solid border-[#D9D9D9] ">
+                    <p className=" pt-5 pl-6">{v.name}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
 
-												<div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">{item.pillarName}</div>
-												</div>
-
-												<div className="flex items-center gap-[12px]">
-													<div className="mt-4 text-center font-Calibri rounded-full bg-opacity-70 bg-[#EFF4FAF5] h-[30px] w-[107px] flex items-center justify-center ">{item.maturityNextLevelName}</div>
-												
-													<div className=" text-white mt-4 text-center font-sans rounded-full bg-green-700 bg-opacity-70 h-8 w-24 flex items-center justify-center">{item.maturityLevelName}</div>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-
-									{
-										item?.measures?.map((v:any) => {
-											return(
-												<div className="w-full h-[70px] border border-solid border-[#D9D9D9] ">
-													<p className=" pt-5 pl-6">{v.name}</p>
-												</div>
-											)
-										})
-									}
-									
-									
-
-								</div>
-							</div>
-						)
-				
-				})
-			}
-
-			{/* <div className="flex flex-col h-full w-full mt-2">
+      {/* <div className="flex flex-col h-full w-full mt-2">
 				<div className="ml-[180px]   h-[390px] w-[1126px]">
 					<div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
 						<div className=" pb-2 pt-2 flex  gap-5  h-[70px] w-[1126px]">
@@ -202,28 +200,37 @@ function MaturityLevelActionItem() {
 				</div>
 			</div> */}
 
+      <div className="flex justify-center mt-20">
+        <button
+          onClick={() => navigate("/coursesrecommended")}
+          className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold"
+        >
+          View Recommended Courses
+        </button>
+        <button
+          onClick={() => navigate("/maturelevel")}
+          className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold"
+        >
+          Edit Roadmap
+        </button>
+      </div>
 
-			<div className="flex justify-center mt-20">
-				<button onClick={() => navigate("/coursesrecommended")} className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold">
-					View Recommended Courses
-				</button>
-				<button onClick={() => navigate("/maturelevel")} className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold">
-					Edit Roadmap
-				</button>
-			</div>
+      <div className="pb-4 w-[940px]  "></div>
 
-			<div className="pb-4 w-[940px]  "></div>
-
-			<div className="font-bold 2xl:ml-[420px] xl:ml-[300px] ml-[200px] font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-[122px]">
-
-				<p> Congratulations! 🌿 Your chosen maturity levels have been noted. You're now on a unique </p>
-				<p>sustainability journey tailored just for you. Keep moving forward, and watch your impact grow! 🌍✨</p>
-			</div>
-			<Footer />
-
-		</div>
-	)
+      <div className="font-bold 2xl:ml-[420px] xl:ml-[300px] ml-[200px] font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-[122px]">
+        <p>
+          {" "}
+          Congratulations! 🌿 Your chosen maturity levels have been noted.
+          You're now on a unique{" "}
+        </p>
+        <p>
+          sustainability journey tailored just for you. Keep moving forward, and
+          watch your impact grow! 🌍✨
+        </p>
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
-export default MaturityLevelActionItem
-
+export default MaturityLevelActionItem;

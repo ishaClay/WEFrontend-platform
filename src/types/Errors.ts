@@ -1,9 +1,9 @@
 export type ErrorType = {
-    code: number;
-    data: ErrorData;
+  code: number;
+  data: ErrorData;
 };
 
 export type ErrorData = {
-    message: string
-    status: boolean;
+  message: string;
+  status: boolean;
 };

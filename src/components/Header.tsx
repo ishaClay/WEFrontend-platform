@@ -9,17 +9,23 @@ function Header(props: headerProps) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-console.log(props,"props++")
+  console.log(props, "props++");
   const handleLogout = () => {
     navigate("/");
     localStorage.clear();
   };
- 
+
   return (
     // Note : This below code is for backup
-    <header className={` max-container flex  ${props.hasDiffHeader ? 'mx-30' : ''}`}>
-      <div className={` ${!props.hasDiffHeader ? 'mx-30' : ''} mt-[57px] 2xl:ml-[167px] xl:ml-[100px] ml-[50px]`}>
-    {/* <header className={` max-container flex`}>
+    <header
+      className={` max-container flex  ${props.hasDiffHeader ? "mx-30" : ""}`}
+    >
+      <div
+        className={` ${
+          !props.hasDiffHeader ? "mx-30" : ""
+        } mt-[57px] 2xl:ml-[167px] xl:ml-[100px] ml-[50px]`}
+      >
+        {/* <header className={` max-container flex`}>
       <div className={`ml-30 mt-[57px] 2xl:ml-[167px] xl:ml-[100px]`}> */}
         <img
           onClick={() => {
@@ -41,8 +47,6 @@ console.log(props,"props++")
         </ul>
       </div>
       <div className="mt-[94px] xl:ml-[136px] ml-[20px] font-[700] text-[18px] text-color">
-      
-
         {token ? (
           <PrimaryButton
             onClick={handleLogout}
@@ -50,30 +54,28 @@ console.log(props,"props++")
             className="max-w-[186px] h-[42px] py-[10px] px-[39px] ml-[20px] primary-background"
           />
         ) : (
-         <>
-          <PrimaryButton
-          onClick={() => {
-            navigate("/register");
-          }}
-          name="Register" 
-          className="xl:max-w-[139px] max-w-[129px] h-[42px] py-[10px] xl:px-[39px] px-[19px] primary-background"
-        />
-          <PrimaryButton
-            onClick={() => {
-              navigate("/auth");
-            }}
-            name="Login"
-            className="xl:max-w-[186px] max-w-[110px] h-[42px] py-[10px] xl:px-[39px] px-[19px] ml-[20px] primary-background"
-          />
-         </>
-       
+          <>
+            <PrimaryButton
+              onClick={() => {
+                navigate("/register");
+              }}
+              name="Register"
+              className="xl:max-w-[139px] max-w-[129px] h-[42px] py-[10px] xl:px-[39px] px-[19px] primary-background"
+            />
+            <PrimaryButton
+              onClick={() => {
+                navigate("/auth");
+              }}
+              name="Login"
+              className="xl:max-w-[186px] max-w-[110px] h-[42px] py-[10px] xl:px-[39px] px-[19px] ml-[20px] primary-background"
+            />
+          </>
         )}
-      </div>     
+      </div>
       <img
         className="ml-[31px] mt-[42px] w-[136px] h-[105px]"
         src="../assets/img/logo2.png"
       />
-      
     </header>
   );
 }

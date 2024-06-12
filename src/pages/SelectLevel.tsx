@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-
 import {
   addMeasuresItems,
   fetchMaturityPillar,
@@ -52,15 +51,13 @@ function SelectLevel() {
   const [actionItems, setActionItems] = useState([""]);
   // const [actionItems1, setActionItems1] = useState([""]);
 
- 
-
   const [pid, setPId] = useState<string | null>("");
 
   // const [checkedStates, setCheckedStates] = useState([]);
 
   const [selectmaturity, setselectMaturity] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
-  console.log(editId)
+  console.log(editId);
   const dispatch = useDispatch();
   const pillars = useSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
@@ -73,15 +70,12 @@ function SelectLevel() {
 
   // console.log(actionItems)
   const addActionItem = () => {
-    setActionItems([...actionItems, ""])
-    
-    
+    setActionItems([...actionItems, ""]);
   };
 
   // const addActionItem1 = () => {
   //   setActionItems1([...actionItems1, ""]);
   // };
-  
 
   const { data: maturitypillar } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
@@ -143,8 +137,6 @@ function SelectLevel() {
     enabled: true,
   });
 
-  console.log(getCheckedmeasures)
-
   useEffect(() => {
     maturitypillar?.data?.data?.length > 0 &&
       dispatch(setMaturitypillar(maturitypillar?.data?.data));
@@ -203,9 +195,7 @@ function SelectLevel() {
     const updatedItems = [...actionItems];
     updatedItems[index] = value;
     setActionItems(updatedItems);
-   
   };
- 
 
   const handleChange = (e: any, p_id: string) => {
     // console.log("p_idp_id", p_id);
@@ -217,7 +207,6 @@ function SelectLevel() {
   };
 
   const removeActionItem = (index: number) => {
-    
     const updatedItems = [...actionItems];
     // console.log(index)
     updatedItems.splice(index, 1);
@@ -228,9 +217,8 @@ function SelectLevel() {
     setOpen(!open);
     e.preventDefault();
     const measures = actionItems.map((item: string) => ({ name: item }));
-   
-    createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
 
+    createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
 
   return (
@@ -297,14 +285,12 @@ function SelectLevel() {
       </div>
 
       <div className="flex flex-col items-center h-full w-full ">
-        
         {pillars?.map((item: any) => {
-         
           return (
             <div className="2xl:ml-[180px] xl:ml-[100px] pt-8 pl-[10px] pb-0 flex gap-5">
               <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px] h-[200px] rounded-[10.06px] flex flex-col">
                 <div className="flex h-8">
-                  <div 
+                  <div
                     className={`${
                       item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
                     } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start`}
@@ -431,10 +417,10 @@ function SelectLevel() {
                         <Button
                           disabled={item.checked === 0}
                           onClick={() => {
-                            setPId(item.pillarid)
+                            setPId(item.pillarid);
                           }}
                           className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 "
-                          >
+                        >
                           Define Action Items
                         </Button>
                       </DialogTrigger>
@@ -554,7 +540,6 @@ function SelectLevel() {
                                                                 }
                                                               >
                                                                 <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                                         
                                                               </button>
                                                             </div>
                                                           </div>
@@ -566,14 +551,12 @@ function SelectLevel() {
                                               }
                                             }
                                           )}  */}
-                                          
-                                     {/* {console.log(item.pillarid ,pid)} */}
-                                     {/* {console.log(pid)} */}
 
-                                      {actionItems.map(
-                                        
-                                            (item: any, index: number) => (
-                          
+                                        {/* {console.log(item.pillarid ,pid)} */}
+                                        {/* {console.log(pid)} */}
+
+                                        {actionItems.map(
+                                          (item: any, index: number) => (
                                             <div key={index} className="pl-4">
                                               <div className="flex p-2 w-[322px] h-[42px] mt-2">
                                                 <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
@@ -631,8 +614,6 @@ function SelectLevel() {
                                   save
                                 </Button>
                               </form>
-
-
                             </div>
                           </div>
                         </div>
