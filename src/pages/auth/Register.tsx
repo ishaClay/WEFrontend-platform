@@ -8,8 +8,8 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
-import { ToastAction } from "@/components/ui/toast";
-import { toast, useToast } from "@/components/ui/use-toast";
+// import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
 import { checkOTP, createCompany } from "@/services/apiServices/company";

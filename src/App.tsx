@@ -75,20 +75,20 @@ import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst
 import EmployeeRodemap from "./pages/EmployeeRodemap";
 import ModuleFrist from "./pages/ModuleFrist";
 import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "./lib/constants";
-import { changeTheme } from "./services/apiServices/theme";
-import { useSelector } from "react-redux";
+// import { useQuery } from "@tanstack/react-query";
+// import { QUERY_KEYS } from "./lib/constants";
+// import { changeTheme } from "./services/apiServices/theme";
+// import { useSelector } from "react-redux";
 import Register from "./pages/auth/Register";
 import { Toaster } from "./components/ui/toaster";
 
 function App() {
-  const { clientId } = useSelector((state: any) => state.user);
+  // const { clientId } = useSelector((state: any) => state.user);
 
-  const { data: themes } = useQuery({
-    queryKey: [QUERY_KEYS.themeChanges],
-    queryFn: () => changeTheme(clientId as string),
-  });
+  // const { data: themes } = useQuery({
+  //   queryKey: [QUERY_KEYS.themeChanges],
+  //   queryFn: () => changeTheme(clientId as string),
+  // });
 
   return (
     <div className="App max-w-[1500px] mx-auto">

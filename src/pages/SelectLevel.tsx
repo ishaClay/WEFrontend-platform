@@ -25,7 +25,7 @@ import {
   addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
-  getCheckedMeasures,
+  // getCheckedMeasures,
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
@@ -131,11 +131,11 @@ function SelectLevel() {
     },
   });
 
-  const { data: getCheckedmeasures } = useQuery({
-    queryKey: [QUERY_KEYS.checkedMeasures],
-    queryFn: () => getCheckedMeasures(UserId, clientId),
-    enabled: true,
-  });
+  // const { data: getCheckedmeasures } = useQuery({
+  //   queryKey: [QUERY_KEYS.checkedMeasures],
+  //   queryFn: () => getCheckedMeasures(UserId, clientId),
+  //   enabled: true,
+  // });
 
   useEffect(() => {
     maturitypillar?.data?.data?.length > 0 &&
@@ -410,7 +410,7 @@ function SelectLevel() {
                       </ul>
                     </div>
                   </div>
-                  
+
                   <div className="w-[162px] mt-8">
                     <Dialog open={open} onOpenChange={setOpen}>
                       <DialogTrigger asChild>
