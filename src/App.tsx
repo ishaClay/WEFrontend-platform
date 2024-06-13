@@ -83,6 +83,7 @@ import Register from "./pages/auth/Register";
 import { Toaster } from "./components/ui/toaster";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 
 function App() {
   // const { clientId } = useSelector((state: any) => state.user);
@@ -244,6 +245,7 @@ function App() {
 
         <Route path="/test" element={<DashboardLayout />}>
           <Route path="abc" element={<EnrollmentRequest />} />
+          <Route path="xyz" element={<EnrolledCourse />} />
         </Route>
       </Routes>
     </div>
