@@ -81,6 +81,8 @@ import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup
 // import { useSelector } from "react-redux";
 import Register from "./pages/auth/Register";
 import { Toaster } from "./components/ui/toaster";
+import DashboardLayout from "./components/layouts/DashboardLayout";
+import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 
 function App() {
   // const { clientId } = useSelector((state: any) => state.user);
@@ -239,6 +241,10 @@ function App() {
           path="/employeeassessmentresultpopup"
           element={<EmployeeAssessmentResultPopup />}
         />
+
+        <Route path="/test" element={<DashboardLayout />}>
+          <Route path="abc" element={<EnrollmentRequest />} />
+        </Route>
       </Routes>
     </div>
   );
