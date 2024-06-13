@@ -3,7 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdArrowDropdown } from "react-icons/io";
 function HeaderCourse() {
   return (
-    <header className="  bg-[#FAFAFA] h-[120px] w-[1304px]  ">
+    <header className="  bg-[#FAFAFA] h-[120px] ">
       <div className="  text-[#3A3A3A] font-[calibri] ">
         <ul className="flex  font-[400px] text-[16px] gap-8 ">
           <li className="mt-[48px] ml-[20px]">
