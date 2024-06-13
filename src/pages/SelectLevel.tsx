@@ -21,11 +21,11 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+
 import {
   addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
-  // getCheckedMeasures,
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
@@ -43,21 +43,25 @@ import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 
+interface PillerItem  {
+  [key: string]: string[]
+}
+
 function SelectLevel() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
-  const [actionItems, setActionItems] = useState([""]);
-  // const [actionItems1, setActionItems1] = useState([""]);
+  const [pillerItems, setPillerItems] = useState<PillerItem>({});
 
   const [pid, setPId] = useState<string | null>("");
+  const [currentPiller, setCurrentPiller] = useState<string>('')
 
   // const [checkedStates, setCheckedStates] = useState([]);
 
   const [selectmaturity, setselectMaturity] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
-  console.log(editId);
+  console.log(editId)
   const dispatch = useDispatch();
   const pillars = useSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
@@ -69,8 +73,9 @@ function SelectLevel() {
   const queryClient = useQueryClient();
 
   // console.log(actionItems)
-  const addActionItem = () => {
-    setActionItems([...actionItems, ""]);
+  const addActionItem = (currentPiller: string) => {
+    // setActionItems([...actionItems, ""]);
+    setPillerItems(prev => ({...prev, [currentPiller]: [...pillerItems[currentPiller], '']}))
   };
 
   // const addActionItem1 = () => {
@@ -95,6 +100,21 @@ function SelectLevel() {
         ),
       enabled: !!selectmaturity && !!pid,
     });
+  
+  useEffect(() => {
+    if (maturitypillar?.data?.data?.length > 0) {
+      maturitypillar?.data?.data?.map((item:any) => {
+        const oldData = Object.keys(pillerItems);  
+        if (!oldData.includes(item?.pillarname)) {
+          return setPillerItems((prev) => ({
+            ...prev,
+            [item.pillarname]: [""],
+          }));
+        }
+        return;
+      });
+    }
+  }, [maturitypillar]);
 
   useEffect(() => {
     refetchfiltermesuresdata();
@@ -136,6 +156,8 @@ function SelectLevel() {
   //   queryFn: () => getCheckedMeasures(UserId, clientId),
   //   enabled: true,
   // });
+
+  // console.log(getCheckedmeasures)
 
   useEffect(() => {
     maturitypillar?.data?.data?.length > 0 &&
@@ -191,10 +213,15 @@ function SelectLevel() {
     },
   ];
 
-  const handleActionItemChange = (index: number, value: any) => {
-    const updatedItems = [...actionItems];
-    updatedItems[index] = value;
-    setActionItems(updatedItems);
+  const handleActionItemChange = (index: number, value: string, currentPiller: string) => {
+    setPillerItems((prev) => ({
+         ...prev, [currentPiller]: prev[currentPiller].map((item: string, i: number) => {
+          if (i === index) {
+              return value
+          }
+          return item
+        })
+    }))
   };
 
   const handleChange = (e: any, p_id: string) => {
@@ -206,17 +233,19 @@ function SelectLevel() {
     }
   };
 
-  const removeActionItem = (index: number) => {
-    const updatedItems = [...actionItems];
-    // console.log(index)
-    updatedItems.splice(index, 1);
-    setActionItems(updatedItems);
+  const removeActionItem = (index: number, currentPiller: string) => {
+    setPillerItems((prev) => ({
+      ...prev, [currentPiller]: prev[currentPiller].filter((item: string, i: number) => {
+        console.log(item)
+        return i !== index
+      })
+ }))
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, currentPiller: string) => {
     setOpen(!open);
     e.preventDefault();
-    const measures = actionItems.map((item: string) => ({ name: item }));
+    const measures = pillerItems[currentPiller].map((item) => ({ name: item }));
 
     createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
@@ -286,6 +315,8 @@ function SelectLevel() {
 
       <div className="flex flex-col items-center h-full w-full ">
         {pillars?.map((item: any) => {
+          console.log("currentPiller",pillerItems[currentPiller]);
+          
           return (
             <div className="2xl:ml-[180px] xl:ml-[100px] pt-8 pl-[10px] pb-0 flex gap-5">
               <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px] h-[200px] rounded-[10.06px] flex flex-col">
@@ -418,6 +449,7 @@ function SelectLevel() {
                           disabled={item.checked === 0}
                           onClick={() => {
                             setPId(item.pillarid);
+                            setCurrentPiller(item.pillarname)
                           }}
                           className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 "
                         >
@@ -471,7 +503,7 @@ function SelectLevel() {
                                 </div>
                               </div>
 
-                              <form onSubmit={handleSubmit}>
+                              <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
                                 <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
                                   <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                                     <div className="pb-2 pt-2 h-[42px] w-[350px]">
@@ -540,6 +572,7 @@ function SelectLevel() {
                                                                 }
                                                               >
                                                                 <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                                         
                                                               </button>
                                                             </div>
                                                           </div>
@@ -555,7 +588,7 @@ function SelectLevel() {
                                         {/* {console.log(item.pillarid ,pid)} */}
                                         {/* {console.log(pid)} */}
 
-                                        {actionItems.map(
+                                        {pillerItems[currentPiller]?.map(
                                           (item: any, index: number) => (
                                             <div key={index} className="pl-4">
                                               <div className="flex p-2 w-[322px] h-[42px] mt-2">
@@ -567,7 +600,8 @@ function SelectLevel() {
                                                     onChange={(e) =>
                                                       handleActionItemChange(
                                                         index,
-                                                        e.target.value
+                                                        e.target.value,
+                                                        currentPiller
                                                       )
                                                     }
                                                     className="flex-1 border-none outline-none pl-2 pt-2"
@@ -586,7 +620,7 @@ function SelectLevel() {
                                                   <button
                                                     className="border-none bg-transparent text-lg cursor-pointer mt-2"
                                                     onClick={() =>
-                                                      removeActionItem(index)
+                                                      removeActionItem(index,currentPiller)
                                                     }
                                                   >
                                                     <RiDeleteBin6Line className="text-[#B9B9B9]" />
@@ -599,7 +633,7 @@ function SelectLevel() {
 
                                         <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
                                           <BsFillPlusSquareFill
-                                            onClick={addActionItem}
+                                            onClick={() => addActionItem(currentPiller)}
                                           />
                                         </div>
                                       </div>

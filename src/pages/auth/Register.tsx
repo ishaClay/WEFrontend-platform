@@ -110,9 +110,11 @@ function Register() {
     setShowRegistrationForm(true);
   };
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-    createcompany(data);
-  };
+	const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
+		console.log(data)
+		createcompany({...data,client:clientId});
+		
+	};
 
   useEffect(() => {
     if (!clientId) {
