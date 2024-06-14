@@ -42,6 +42,7 @@ function Register() {
   const { mutate: createcompany, isPending: createPending } = useMutation({
     mutationFn: (company: Company) => createCompany(company),
     onSuccess: async (data) => {
+      console.log(data, "data++");
       dispatch(setCompanyId(data?.data?.data?.user?.id));
       // dispatch(setCompanyId(data?.data?.data?.user?.clientId));
 
@@ -110,11 +111,10 @@ function Register() {
     setShowRegistrationForm(true);
   };
 
-	const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-		console.log(data)
-		createcompany({...data,client:clientId});
-		
-	};
+  const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
+    createcompany({ ...data, client: clientId });
+    console.log(data, "da++++++++++");
+  };
 
   useEffect(() => {
     if (!clientId) {
@@ -125,6 +125,7 @@ function Register() {
   const handleVerifyOtp = () => {
     createotp({ otp: otp, email: getValues("email"), clientId });
   };
+  const email = getValues("email");
 
   return (
     <div className="">
@@ -335,7 +336,7 @@ function Register() {
               Please enter the one-time password to verify your account
             </h2>
             <p className="text-[#848181] text-[16px]">
-              A one-time password has been sent to info@evergrow.com
+              A one-time password has been sent to {email}
             </p>
             <div className="flex justify-center gap-3">
               <InputOTP

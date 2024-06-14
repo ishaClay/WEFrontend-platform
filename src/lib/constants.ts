@@ -23,6 +23,11 @@ export const QUERY_KEYS = {
   checkedMeasures: "checked_measures",
   themeChanges: "theme_Changes",
   fetchbycourse: "course",
-  authenums:"authenums",
-  enumUpadateList:"enum_upadate_list"
+  authenums: "authenums",
+  enumUpadateList: "enum_upadate_list",
+  fetchbyallcourse: "allcourse",
+  fetchbycourseallocate: "allocatedcourse",
+  fetchbyrecommendedcourse: "recommendedcourses",
+  fetchbypillarcource: "fetchbypillarcource",
+  fetchbypillar: "fetchbypillar",
 };

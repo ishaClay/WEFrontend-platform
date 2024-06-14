@@ -90,11 +90,26 @@ function App() {
     queryFn: () => changeTheme(clientId as string),
   });
 
-  document.documentElement.style.setProperty("--rkp-button-color", (themes?.data?.data?.buttonColor))
-	document.documentElement.style.setProperty("--rkp-font-family", (themes?.data?.data?.fontFamily))
-	document.documentElement.style.setProperty("--rkp-primary-color", (themes?.data?.data?.primaryColor))
-	document.documentElement.style.setProperty("--rkp-secondary-color", (themes?.data?.data?.secondaryColor))
-	document.documentElement.style.setProperty("--rkp-text-color", (themes?.data?.data?.textColor))
+  document.documentElement.style.setProperty(
+    "--rkp-button-color",
+    themes?.data?.data?.buttonColor
+  );
+  document.documentElement.style.setProperty(
+    "--rkp-font-family",
+    themes?.data?.data?.fontFamily
+  );
+  document.documentElement.style.setProperty(
+    "--rkp-primary-color",
+    themes?.data?.data?.primaryColor
+  );
+  document.documentElement.style.setProperty(
+    "--rkp-secondary-color",
+    themes?.data?.data?.secondaryColor
+  );
+  document.documentElement.style.setProperty(
+    "--rkp-text-color",
+    themes?.data?.data?.textColor
+  );
 
   return (
     <div className="App max-w-[1500px] mx-auto">
