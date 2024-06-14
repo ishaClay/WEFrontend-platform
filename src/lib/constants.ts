@@ -23,4 +23,6 @@ export const QUERY_KEYS = {
   checkedMeasures: "checked_measures",
   themeChanges: "theme_Changes",
   fetchbycourse: "course",
+  authenums:"authenums",
+  enumUpadateList:"enum_upadate_list"
 };

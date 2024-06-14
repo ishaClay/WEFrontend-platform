@@ -9,7 +9,7 @@ function Header(props: headerProps) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  console.log(props, "props++");
+  
   const handleLogout = () => {
     navigate("/");
     localStorage.clear();

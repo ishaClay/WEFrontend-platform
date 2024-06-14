@@ -42,6 +42,7 @@ import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
+import { enumUpadate } from "@/services/apiServices/enum";
 
 interface PillerItem  {
   [key: string]: string[]
@@ -158,6 +159,28 @@ function SelectLevel() {
   // });
 
   // console.log(getCheckedmeasures)
+  
+
+
+
+const path = 6+1
+  const { mutate: EnumUpadate }:any = useMutation({
+    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+    },
+    
+  });
+
+
+  const handleSelect = () =>{	
+	EnumUpadate(path)
+	navigate("/maturitylevelactionitem")
+  }
+
+
 
   useEffect(() => {
     maturitypillar?.data?.data?.length > 0 &&
@@ -668,7 +691,7 @@ function SelectLevel() {
         })}
 
         <button
-          onClick={() => navigate("/maturitylevelactionitem")}
+          onClick={handleSelect}
           className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold "
         >
           BUILD

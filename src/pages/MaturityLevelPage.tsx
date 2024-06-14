@@ -6,7 +6,7 @@ import {
   fetchAssessment,
   getAllassessment,
 } from "@/services/apiServices/assessment";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Doughnut } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import GovernanceGray from "../../public/assets/img/GovernanceGray.png";
@@ -24,10 +24,12 @@ import {
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import Loading from "@/components/comman/Error/Loading";
+import { enumUpadate } from "@/services/apiServices/enum";
 
 const MaturityLevelPage = () => {
   const navigate = useNavigate();
   const UserId = useSelector((state: any) => state.user.UserId);
+  const queryClient = useQueryClient();
 
   const { data: assessmant, isPending } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -38,6 +40,26 @@ const MaturityLevelPage = () => {
     queryKey: [QUERY_KEYS.totalAssessment],
     queryFn: () => getAllassessment(UserId),
   });
+
+
+  const path = 5+1
+    const { mutate: EnumUpadate } :any= useMutation({
+      mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.enumUpadateList],
+        });
+      },
+      
+    });
+  
+  
+    const handleMaturity = () =>{	
+    EnumUpadate(path)
+    navigate("/selectlevel")
+    }
+
+
 
   const score = (
     (+allassessmant?.data?.data?.avTotalpoints /
@@ -642,7 +664,7 @@ const MaturityLevelPage = () => {
 
       <div className="mt-[40px]">
         <Button
-          onClick={() => navigate("/selectlevel")}
+          onClick={handleMaturity}
           className="bg-[#64A70B] text-[16px] leading-5 w-[180px] font-bold ml-[650px]"
         >
           Set targets

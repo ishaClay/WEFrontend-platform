@@ -9,17 +9,20 @@ import {
 } from "@/components/ui/card";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
+import { enumUpadate } from "@/services/apiServices/enum";
 import {
   fetchClientwiseMaturityLevel,
   fetchmaturityLevel,
 } from "@/services/apiServices/maturityLevel";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+
 
 const maturityLevel = [
   {
@@ -55,6 +58,8 @@ const TeaserScore = () => {
   const navigate = useNavigate();
   const UserId = useSelector((state: any) => state.user.UserId);
   const { clientId } = useSelector((state: any) => state.user);
+  const queryClient = useQueryClient();
+
 
   const { data: maturitylevel } = useQuery({
     queryKey: [QUERY_KEYS.maturityLevel],
@@ -72,7 +77,25 @@ const TeaserScore = () => {
     queryFn: () => getAllassessment(UserId),
   });
 
-  const score = Number(
+  const path = 3+1
+  const { mutate: EnumUpadate }:any = useMutation({
+    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+
+    },
+    
+  });
+
+  const handleScore = () =>{	
+	EnumUpadate(path)
+  navigate("/companyregister")
+
+  }
+
+const score = Number(
     (
       (+allassessmant?.data?.data?.avTotalpoints /
         +allassessmant?.data?.data?.avTotalmaxpoint) *
@@ -212,7 +235,7 @@ const TeaserScore = () => {
                   </p>
                   <button
                     className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
-                    onClick={() => navigate("/companyregister")}
+                    onClick={handleScore}
                   >
                     Complete your Registration
                   </button>

@@ -19,7 +19,7 @@ import {
 } from "@/services/apiServices/question";
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,16 +33,22 @@ import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
+import { enumUpadate } from "@/services/apiServices/enum";
+
+
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
 
   const { clientId, UserId } = useSelector((state: any) => state.user);
 
   const { activePillar, allPillar } = useSelector(
     (state: any) => state.question
   );
+
   const question = useSelector((state: any) => state.question);
 
   const [totalQuestions, setTotalQuestions] = useState(0);
@@ -52,10 +58,20 @@ const QuestionPage = () => {
     queryKey: [QUERY_KEYS.pillarList],
     queryFn: () => fetchPillarList(),
   });
-
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
+    });
+
+  const path = 2+1
+  const { mutate: EnumUpadate } :any= useMutation({
+    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+
+    },
   });
 
   useEffect(() => {
@@ -157,6 +173,7 @@ const QuestionPage = () => {
     : 0;
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    EnumUpadate(path)
     let allQueAns: any = {};
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
@@ -224,6 +241,7 @@ const QuestionPage = () => {
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
 
+  
   return (
     <div className="font-calibri font-normal">
       <div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 lg:pr-[166px] px-4 text-lg leading-[21.97px]">
@@ -301,13 +319,14 @@ const QuestionPage = () => {
                   que.options.some((opt) => opt.checked)
                 ).length
               : 0;
+        
 
             return (
               <div
                 key={index}
                 className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
                   activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-                }`}
+                }`} 
                 onClick={() => dispatch(setActivePillar(category))}
               >
                 <div className="flex gap-2">

@@ -9,9 +9,9 @@ import { Login } from "@/services/apiServices/authService";
 import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation} from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -21,6 +21,8 @@ function Auth() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+
 
   const schema = z.object({
     email: z.string().min(1, "Email is required"),
@@ -43,14 +45,29 @@ function Auth() {
         });
         return;
       }
-
       toast({
         title: "Login Successfully",
       });
+        
 
       dispatch(setUserData(user.id));
       localStorage.setItem("token", data.data.data);
-      navigate("/savedassesment");
+
+      console.log(user.pathstatus)
+
+      if(user.role == UserRole.Company){
+      // console.log(user.pathstatus ===)
+
+        if(user.pathstatus === "8"){
+          
+          navigate("/dashbord");
+        }
+        else{
+          navigate("/SavedAssesment");
+        }
+      }
+
+    
     },
     onError: (error: ErrorType) => {
       console.log(error);
@@ -77,6 +94,8 @@ function Auth() {
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
     login_user(data);
+    
+    
   };
 
   return (

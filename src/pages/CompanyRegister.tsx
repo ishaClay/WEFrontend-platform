@@ -6,6 +6,7 @@ import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getOneCompany, updateCompany } from "@/services/apiServices/company";
+import { enumUpadate } from "@/services/apiServices/enum";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +21,7 @@ function CompanyRegister() {
   const navigate = useNavigate();
 
   const CompanyId = useSelector((state: any) => state.user.CompanyId);
+  const UserId = useSelector((state: any) => state.user.UserId);
 
   const [soleTrader, setSoleTrader] = useState("");
 
@@ -56,6 +58,18 @@ function CompanyRegister() {
     },
   });
 
+  const path = 4+1
+    const { mutate: EnumUpadate } :any= useMutation({
+      mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.enumUpadateList],
+        });
+      },
+      
+    });
+
+
   const schema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
     address: z.string().min(1, { message: "Address is required" }),
@@ -89,7 +103,7 @@ function CompanyRegister() {
 
   useEffect(() => {
     if (companydetails) {
-      const data = companydetails.data.data.userDetails;
+      const data = companydetails.data.data.client;
       Object.keys(data).forEach((key: any) => {
         setValue(key, data[key]);
       });
@@ -102,7 +116,7 @@ function CompanyRegister() {
       soleTrader: soleTrader === "true" ? true : false,
     };
     updatecompany(updatedData);
-
+    EnumUpadate(path)
     navigate("/maturelevel");
   };
 

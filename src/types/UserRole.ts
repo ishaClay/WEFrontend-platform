@@ -5,4 +5,6 @@ export enum UserRole {
     CompanyEmployee = 4,
     SuperAdmin = 5,
     Client = 6,
+
 }
+

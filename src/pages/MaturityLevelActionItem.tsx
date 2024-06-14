@@ -5,15 +5,17 @@ import Learn from "/assets/img/Learn.png";
 import Apply from "/assets/img/Apply.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Footer from "@/components/Footer";
-
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { QUERY_KEYS } from "@/lib/constants";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { enumUpadate } from "@/services/apiServices/enum";
 
 function MaturityLevelActionItem() {
+  const navigate = useNavigate();
   const { clientId, UserId } = useSelector((state: any) => state.user);
+  const queryClient = useQueryClient();
 
   const { data: getCheckedmeasures } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasures],
@@ -21,9 +23,29 @@ function MaturityLevelActionItem() {
     enabled: true,
   });
 
+  
+const path = 7+1
+const { mutate: EnumUpadate }:any = useMutation({
+  mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+  onSuccess: async () => {
+    await queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.enumUpadateList],
+    });
+  },
+  
+});
+
+
+const handlematurityAction = () =>{	
+EnumUpadate(path)
+navigate("/coursesrecommended")
+}
+
+
+
+
   console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
 
-  const navigate = useNavigate();
 
   const paths = [
     {
@@ -202,7 +224,7 @@ function MaturityLevelActionItem() {
 
       <div className="flex justify-center mt-20">
         <button
-          onClick={() => navigate("/coursesrecommended")}
+          onClick={handlematurityAction}
           className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold"
         >
           View Recommended Courses
