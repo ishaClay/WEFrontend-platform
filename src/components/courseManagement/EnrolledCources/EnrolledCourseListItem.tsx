@@ -1,11 +1,33 @@
+import CourseList from "@/components/comman/CourseList";
+import { Badge } from "@/components/ui/badge";
+
 const EnrolledCourseListItem = ({ data }: { data: any }) => {
   return (
     <div className="">
-      <div className="flex items-center">
-        <div className="w-[250px] rounded-md overflow-hidden">
-          <img src={data.image} alt=""></img>
+      <div className="flex">
+        <div className="">
+          <img
+            src={data.image}
+            alt=""
+            className="w-[152px] xl:h-[152px] h-[100px] rounded-md overflow-hidden"
+          ></img>
         </div>
         <div className="text-left ps-6">
+          <div className="flex items-cent+er xl:pb-5 pb-3">
+            <CourseList rating={data.rating} />
+            <Badge
+              variant="outline"
+              className="bg-[#FFD56A] p-1 px-3 text-[#3A3A3A] text-xs mx-2 font-Poppins font-normal"
+            >
+              Technology & Innovation
+            </Badge>
+            <Badge
+              variant="outline"
+              className="bg-[#D6F5AC] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal"
+            >
+              Social
+            </Badge>
+          </div>
           <h5 className="text-[#1D2026] font-bold mb-3 text-base">
             {data.title}
           </h5>

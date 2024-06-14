@@ -4,7 +4,6 @@ import RejectedIcons from "@/assets/images/Rejected_icons.png";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Euro } from "lucide-react";
-import React from "react";
 
 interface EnrollmentCourseListCardProps {
   data: {

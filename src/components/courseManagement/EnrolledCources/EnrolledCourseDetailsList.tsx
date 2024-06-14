@@ -39,7 +39,7 @@ const EnrolledCourseDetailsList = () => {
   });
   return (
     <div>
-      <Accordions items={accordionItems} rounded={false} separator />
+      <Accordions items={accordionItems} rounded={false} />
     </div>
   );
 };

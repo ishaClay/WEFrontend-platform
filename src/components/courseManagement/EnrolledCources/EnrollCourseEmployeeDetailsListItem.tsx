@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { FilePenLine, ShieldCheck } from "lucide-react";
-import acceptedIcons from "@/assets/images/Accepted_icons_1.png";
+import { CircleCheck, FilePenLine, ShieldCheck } from "lucide-react";
+import Modal from "@/components/comman/Modal";
+import { useState } from "react";
+import EvaluateModalDetails from "./EvaluateModalDetails";
+import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 
 const EnrollCourseEmployeeDetailsListItem = ({ data }: { data: any }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAllocate, setIsOpenAllocate] = useState(false);
   return (
     <div>
       <div className="grid grid-cols-12 border border-solid py-4 px-6">
@@ -32,43 +37,60 @@ const EnrollCourseEmployeeDetailsListItem = ({ data }: { data: any }) => {
             </span>
           </div>
 
-          {/* <div className="flex pe-5">
-              <img src={acceptedIcons} alt="" className="pe-3" />
-              <span className="text-[#58BA66] text-base font-calibri pe-5">
-                {data.complete}
-              </span>
-            </div> */}
+          <div className="pe-5 hidden">
+            <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+              <CircleCheck className="me-2" width={18} /> {data.complete}
+            </span>
+          </div>
 
           <div className="me-4">
             <Button
               variant={"outlinePrimary"}
               className="text-[#00778b] border-[#00778b] rounded-none"
+              onClick={() => setIsOpenAllocate(true)}
             >
               <ShieldCheck width={18} />
               Allocate Certificate
             </Button>
           </div>
 
-          {/* <div className="flex pe-5">
-              <img src={acceptedIcons} alt="" className="pe-3" />
-              <span className="text-[#58BA66] text-base font-calibri pe-5">
-                {data.certificate}
-              </span>
-            </div> */}
+          <div className="pe-5 hidden">
+            <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+              <CircleCheck className="me-2" width={18} /> {data.certificate}
+            </span>
+          </div>
 
           <div className="">
-            <Button className="text-white flex bg-[#00778b] px-5 py-2 font-calibri text-base rounded-none">
+            <Button
+              className="text-white flex bg-[#00778b] px-5 py-2 font-calibri text-base rounded-none"
+              onClick={() => setIsOpen(true)}
+            >
               <FilePenLine width={18} /> Evaluate
             </Button>
           </div>
 
-          {/* <div className="">
-              <h6 className="text-base ">
-                Score: <span className="font-bold">{data.score}</span>
-              </h6>
-            </div> */}
+          <div className="hidden">
+            <h6 className="text-base">
+              Score: <span className="font-bold">{data.score}</span>
+            </h6>
+          </div>
         </div>
       </div>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="max-w-3xl px-0"
+      >
+        <EvaluateModalDetails />
+      </Modal>
+
+      <Modal
+        open={isOpenAllocate}
+        onClose={() => setIsOpenAllocate(false)}
+        className="max-w-3xl"
+      >
+        <AllocateCertificateModalDetails />
+      </Modal>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Accordions = ({
               <AccordionTrigger className="">{item.title}</AccordionTrigger>
               {separator && (
                 <Separator
-                  className="bg-slate-400 my-5"
+                  className="bg-[#D9D9D9] mt-5"
                   orientation="horizontal"
                 />
               )}

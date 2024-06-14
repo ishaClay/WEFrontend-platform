@@ -8,6 +8,7 @@ const EnrolledCourseList = () => {
   const courseListItems = [
     {
       image: course_img,
+      rating: 4.5,
       title:
         "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
       trainer: " Trainer Name, Trainer Name",
@@ -16,6 +17,7 @@ const EnrolledCourseList = () => {
     },
     {
       image: course_img,
+      rating: 4.5,
       title:
         "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
       trainer: " Trainer Name, Trainer Name",
@@ -24,6 +26,7 @@ const EnrolledCourseList = () => {
     },
     {
       image: course_img,
+      rating: 4.5,
       title:
         "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
       trainer: " Trainer Name, Trainer Name",
