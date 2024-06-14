@@ -35,8 +35,6 @@ import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 import { enumUpadate } from "@/services/apiServices/enum";
 
-
-
 const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,6 +47,8 @@ const QuestionPage = () => {
     (state: any) => state.question
   );
 
+  console.log(allPillar)
+
   const question = useSelector((state: any) => state.question);
 
   const [totalQuestions, setTotalQuestions] = useState(0);
@@ -58,6 +58,7 @@ const QuestionPage = () => {
     queryKey: [QUERY_KEYS.pillarList],
     queryFn: () => fetchPillarList(),
   });
+  
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
@@ -80,6 +81,7 @@ const QuestionPage = () => {
         ? clientwisePillarList?.data?.data
         : pillarList?.data?.data
     )?.map((i: Pillar) => i?.pillarName);
+
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
     }
@@ -106,6 +108,7 @@ const QuestionPage = () => {
     queryKey: [QUERY_KEYS.questionList],
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
+
 
   useEffect(() => {
     allPillar?.forEach((i: string) => {

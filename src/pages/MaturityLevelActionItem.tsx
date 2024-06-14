@@ -137,7 +137,7 @@ navigate("/coursesrecommended")
         console.log(item);
         return (
           <div className="flex flex-col h-full w-full mt-8">
-            <div className="2xl:ml-[180px] xl:ml-[80px] h-[390px] ml-[30px] xl:w-[1126px] w-[970px]">
+            <div className="2xl:ml-[180px] xl:ml-[80px] ml-[30px] xl:w-[1126px] w-[970px]">
               <div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                 <div className=" pb-2 pt-2 flex gap-5 h-[70px] xl:w-[1126px] w-[970px]">
                   <div className="flex items-center justify-center xl:gap-[718px] gap-[560px]">
@@ -222,7 +222,7 @@ navigate("/coursesrecommended")
 				</div>
 			</div> */}
 
-      <div className="flex justify-center mt-20">
+      <div className="flex justify-center mt-[274px]">
         <button
           onClick={handlematurityAction}
           className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold"

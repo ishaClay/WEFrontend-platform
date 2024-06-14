@@ -20,6 +20,7 @@ import { Trainer } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { z } from "zod";
 
 function RegisterTrainer() {
@@ -27,8 +28,10 @@ function RegisterTrainer() {
 
   const { toast } = useToast();
 
+  const { clientId } = useSelector((state: any) => state.user);
+
   const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
+    mutationFn: (question: Trainer) => registerTrainer(question,clientId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],

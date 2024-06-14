@@ -502,12 +502,12 @@ const path = 6+1
                               </h2>
                             </div>
                           </div>
-                          <div className="flex flex-col space-y-4 ">
+                          <div className="flex flex-col space-y-4">
                             <div className="text-[#1D2026] font-Calibri font-bold ml-4">
                               {item.pillarname}
                             </div>
                             <div className="flex h-full w-full mt-2">
-                              <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
+                              <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded overflow-auto">
                                 <div className="w-full h-74 border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                                   <div className="pb-2 pt-2 h-[42px] w-[350px]">
                                     <div className="ml-6  text-[#1D2026] font-calibri font-bold">
@@ -530,7 +530,7 @@ const path = 6+1
                                 <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
                                   <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                                     <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                                      <div className="ml-6  text-[#1D2026] font-calibri font-bold">
+                                      <div className="ml-6 text-[#1D2026] font-calibri font-bold">
                                         Enter initiatives or action items
                                       </div>
 
