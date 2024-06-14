@@ -245,10 +245,19 @@ function App() {
           element={<EmployeeAssessmentResultPopup />}
         />
 
-        <Route path="/test" element={<DashboardLayout />}>
-          <Route path="abc" element={<EnrollmentRequest />} />
-          <Route path="xyz" element={<EnrolledCourse />} />
-          <Route path="course-management" element={<CourseManagement />} />
+        <Route path="/dashboardlayout" element={<DashboardLayout />}>
+          <Route
+            path="/dashboardlayout/enrolledrequest"
+            element={<EnrollmentRequest />}
+          />
+          <Route
+            path="/dashboardlayout/enrolledcourses"
+            element={<EnrolledCourse />}
+          />
+          <Route
+            path="/dashboardlayout/coursemanagement"
+            element={<CourseManagement />}
+          />
         </Route>
       </Routes>
     </div>
