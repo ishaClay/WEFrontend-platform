@@ -142,7 +142,7 @@ const sidebar1: SidebarItem[] = [
       },
       {
         label: "All Courses",
-        link: "/trainer/coursesrecommended",
+        link: "/trainer/allcourse",
       },
       {
         label: "Live Sessions",

@@ -82,10 +82,10 @@ import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
-import BasicDetails from "./pages/courseManagement/BasicDetails";
 import { Toaster } from "./components/ui/toaster";
 import Register from "./pages/auth/Register";
 import CourseManagement from "./pages/courseManagement";
+import AllCoursesPage from "./pages/courseManagement/AllCourses";
 
 function App() {
   // const { clientId } = useSelector((state: any) => state.user);
@@ -246,6 +246,7 @@ function App() {
         />
 
         <Route path="/trainer" element={<DashboardLayout />}>
+          <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="coursemanagement" element={<CourseManagement />} />
