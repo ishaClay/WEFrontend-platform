@@ -84,7 +84,7 @@ import { Toaster } from "./components/ui/toaster";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
-import BasicDetails from "./pages/courseManagement/basicDetails";
+import BasicDetails from "./pages/courseManagement/BasicDetails";
 import CourseManagement from "./pages/courseManagement";
 
 function App() {
@@ -245,19 +245,10 @@ function App() {
           element={<EmployeeAssessmentResultPopup />}
         />
 
-        <Route path="/dashboardlayout" element={<DashboardLayout />}>
-          <Route
-            path="/dashboardlayout/enrolledrequest"
-            element={<EnrollmentRequest />}
-          />
-          <Route
-            path="/dashboardlayout/enrolledcourses"
-            element={<EnrolledCourse />}
-          />
-          <Route
-            path="/dashboardlayout/coursemanagement"
-            element={<CourseManagement />}
-          />
+        <Route path="/trainer" element={<DashboardLayout />}>
+          <Route path="enrolledrequest" element={<EnrollmentRequest />} />
+          <Route path="enrolledcourses" element={<EnrolledCourse />} />
+          <Route path="coursemanagement" element={<CourseManagement />} />
         </Route>
       </Routes>
     </div>

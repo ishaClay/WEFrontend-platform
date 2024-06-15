@@ -1,3 +1,4 @@
+import EmployeeListSidebar from "../EmployeeListSidebar";
 import HeaderCourse from "../HeaderCourse";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar";
@@ -132,16 +133,20 @@ const sidebar1: SidebarItem[] = [
     link: "#",
     children: [
       {
-        label: "Allocated Courses",
-        link: "/allocatedcourses",
+        label: "Enrollment Requests",
+        link: "/trainer/enrolledrequest",
       },
       {
-        label: "Recommended Courses",
-        link: "/coursesrecommended",
+        label: "Enrolled Courses",
+        link: "/trainer/enrolledcourses",
       },
       {
-        label: "All Course",
-        link: "/allcourses",
+        label: "All Courses",
+        link: "/trainer/coursesrecommended",
+      },
+      {
+        label: "Live Sessions",
+        link: "/trainer/allcourses",
       },
     ],
   },
