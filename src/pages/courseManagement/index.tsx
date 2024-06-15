@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
-import BasicDetails from "./basicDetails";
+import BasicDetails from "./BasicDetails";
+import CoursePathway from "./CoursePathway";
+import ModuleCreation from "./ModuleCreation";
 
 const CourseManagement = () => {
   return (
@@ -16,19 +17,19 @@ const CourseManagement = () => {
             </TabsTrigger>
             <TabsTrigger
               value="course-pathway"
-              className="text-base font-calibri font-bold text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
             >
               Course Pathway
             </TabsTrigger>
             <TabsTrigger
               value="module-creation"
-              className="text-base font-calibri font-bold text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
             >
               Module Creation
             </TabsTrigger>
             <TabsTrigger
               value="forum"
-              className="text-base font-calibri font-bold text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
             >
               Forum
             </TabsTrigger>
@@ -37,8 +38,12 @@ const CourseManagement = () => {
         <TabsContent value="basic-details">
           <BasicDetails />
         </TabsContent>
-        <TabsContent value="course-pathway"></TabsContent>
-        <TabsContent value="module-creation"></TabsContent>
+        <TabsContent value="course-pathway">
+          <CoursePathway />
+        </TabsContent>
+        <TabsContent value="module-creation">
+          <ModuleCreation />
+        </TabsContent>
         <TabsContent value="forum"></TabsContent>
       </Tabs>
     </div>

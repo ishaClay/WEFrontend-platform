@@ -21,7 +21,7 @@ const Accordions = ({
   separator = false,
 }: AccordionsProps) => {
   return (
-    <Accordion type={type}>
+    <Accordion type={type} collapsible>
       <div className="space-y-[24px]">
         {items.map((item, index) => {
           return (

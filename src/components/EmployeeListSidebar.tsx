@@ -67,7 +67,7 @@ const EmployeeListSidebar = () => {
 
           {isOpen1 && (
             <ul className="absolute left-0 right-0 bg-white rounded-md mt-[160px] list-disc pl-6 w-[245px] h-[90px]">
-              <li className="ml-[20px] text-xs mt-2">
+              <li className="ml-[20px] mt-2 font-calibri text-base">
                 <Link to="/allocatedcourses">Allocated Courses</Link>
               </li>
 
