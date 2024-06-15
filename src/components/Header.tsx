@@ -8,7 +8,7 @@ interface headerProps {
 function Header(props: headerProps) {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const userData = JSON.parse(localStorage.getItem("user") || "");
   const handleLogout = () => {
     navigate("/");
     localStorage.clear();
@@ -17,64 +17,66 @@ function Header(props: headerProps) {
   return (
     // Note : This below code is for backup
     <header
-      className={` max-container flex  ${props.hasDiffHeader ? "mx-30" : ""}`}
+      className={`xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 py-7 ${
+        props.hasDiffHeader ? "mx-7" : ""
+      }`}
     >
-      <div
-        className={` ${
-          !props.hasDiffHeader ? "mx-30" : ""
-        } mt-[57px] 2xl:ml-[167px] xl:ml-[100px] ml-[50px]`}
-      >
-        {/* <header className={` max-container flex`}>
-      <div className={`ml-30 mt-[57px] 2xl:ml-[167px] xl:ml-[100px]`}> */}
-        <img
-          onClick={() => {
-            navigate("/");
-          }}
-          className="max-w-[131px] h-[86px] cursor-pointer"
-          src="../assets/img/logo1.png"
-        />
-      </div>
-      <div className="mt-[106px] ml-[22px] text-[#1f1313]">
-        <ul className="flex gap-[31px] font-[400] text-[16px] leading-[19.53px] text-color">
-          <li className="group flex items-center gap-[5px]">
-            <span className="cursor-pointer">Our Courses</span>
-            <img className="w-[6px] h-[6px]" src="../assets/img/Vector 1.png" />
-          </li>
-          <li>Testimonial</li>
-          <li>Blogs</li>
-          <li>Contact Us</li>
-        </ul>
-      </div>
-      <div className="mt-[94px] xl:ml-[136px] ml-[20px] font-[700] text-[18px] text-color">
-        {token ? (
-          <PrimaryButton
-            onClick={handleLogout}
-            name="Logout"
-            className="max-w-[186px] h-[42px] py-[10px] px-[39px] ml-[20px] primary-background"
-          />
-        ) : (
-          <>
-            <PrimaryButton
+      <div className="flex justify-between">
+        <div className="flex items-end">
+          <div className={` ${!props.hasDiffHeader ? "xl:mr-7 mr-3" : ""}`}>
+            <img
               onClick={() => {
-                navigate("/register");
+                navigate("/");
               }}
-              name="Register"
-              className="xl:max-w-[139px] max-w-[129px] h-[42px] py-[10px] xl:px-[39px] px-[19px] primary-background"
+              className="cursor-pointer"
+              src="../assets/img/logo1.png"
             />
-            <PrimaryButton
-              onClick={() => {
-                navigate("/auth");
-              }}
-              name="Login"
-              className="xl:max-w-[186px] max-w-[110px] h-[42px] py-[10px] xl:px-[39px] px-[19px] ml-[20px] primary-background"
-            />
-          </>
-        )}
+          </div>
+          <div className="xl:ml-5 ml-3 text-[#1f1313]">
+            <ul className="flex gap-[31px] font-normal text-base leading-5 text-color font-calibri">
+              <li className="group flex items-center gap-[5px]">
+                <span className="cursor-pointer">Our Courses</span>
+                <img
+                  className="w-[6px] h-[6px]"
+                  src="../assets/img/Vector 1.png"
+                />
+              </li>
+              <li>Testimonial</li>
+              <li>Blogs</li>
+              <li>Contact Us</li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex items-end">
+          <div className="font-bold text-lg text-color">
+            {userData ? (
+              <PrimaryButton
+                onClick={handleLogout}
+                name="Logout"
+                className="max-w-[186px] h-[42px] py-2.5 px-10 ml-5 primary-background"
+              />
+            ) : (
+              <>
+                <PrimaryButton
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                  name="Register"
+                  className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
+                />
+                <PrimaryButton
+                  onClick={() => {
+                    navigate("/auth");
+                  }}
+                  name="Login"
+                  className="xl:px-[73px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
+                />
+              </>
+            )}
+          </div>
+          <img className="xl:ml-7 ml-3" src="../assets/img/logo2.png" />
+        </div>
       </div>
-      <img
-        className="ml-[31px] mt-[42px] w-[136px] h-[105px]"
-        src="../assets/img/logo2.png"
-      />
     </header>
   );
 }

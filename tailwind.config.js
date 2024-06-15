@@ -1,20 +1,13 @@
-
-
 /** @type {import('tailwindcss').Config} */
-
-
-
 
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
-
-	
 
   prefix: "",
   theme: {
@@ -27,56 +20,56 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        'abhaya': ['Abhaya Libre ExtraBold', 'sans'],
+        abhaya: ["Abhaya Libre ExtraBold", "sans"],
+        "d-din-pro": ["D-DIN PRO", "Sans Serif"],
       },
 
       colors: {
-        'primary-button': '#00778B',
-        'secondary-button': '#64A70B'
+        "primary-button": "#00778B",
+        "secondary-button": "#64A70B",
 
-        ,
         white: "#fff",
         silver: "#b9b9b9",
         olivedrab: "#4c7d0a",
         dimgray: {
-          "100": "#4e5566",
-          "200": "#555454",
+          100: "#4e5566",
+          200: "#555454",
         },
         yellowgreen: {
-          "100": "#76bc42",
-          "200": "#64a70b",
+          100: "#76bc42",
+          200: "#64a70b",
         },
         lightgreen: "#c1ef85",
         darkslategray: {
-          "100": "#3a3a3a",
-          "200": "#042937",
-          "300": "#002a3a",
+          100: "#3a3a3a",
+          200: "#042937",
+          300: "#002a3a",
         },
         glacier: {
-          300: '#7AB3C0',
-          800: '#00778B',
+          300: "#7AB3C0",
+          800: "#00778B",
         },
         black: "#000",
         teal: "#00778b",
         gainsboro: {
-          "100": "#e8e8e8",
-          "200": "#d9d9d9",
+          100: "#e8e8e8",
+          200: "#d9d9d9",
         },
         darkgray: "#adabab",
         lightslategray: "#7c878e",
         skyblue: "#71b2c9",
         ghostwhite: "#f7f8fc",
         steelblue: {
-          "100": "#1762a7",
-          "200": "rgba(11, 101, 167, 0.75)",
+          100: "#1762a7",
+          200: "rgba(11, 101, 167, 0.75)",
         },
         paleturquoise: "#acebf5",
         gray: {
-          "100": "#fafafa",
-          "200": "#898989",
-          "300": "#332727",
-          "400": "#202020",
-          "500": "rgba(255, 255, 255, 0.5)",
+          100: "#fafafa",
+          200: "#898989",
+          300: "#332727",
+          400: "#202020",
+          500: "rgba(255, 255, 255, 0.5)",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -112,7 +105,7 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      
+
       fontFamily: {
         inter: "Inter",
         "d-din-pro": "D-DIN-PRO",
@@ -140,9 +133,7 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      
-
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
