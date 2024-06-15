@@ -8,7 +8,7 @@ interface headerProps {
 function Header(props: headerProps) {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const userData = JSON.parse(localStorage.getItem("user") || "");
   const handleLogout = () => {
     navigate("/");
     localStorage.clear();
@@ -49,7 +49,7 @@ function Header(props: headerProps) {
         </div>
         <div className="flex items-end">
           <div className="font-bold text-lg text-color">
-            {token ? (
+            {userData ? (
               <PrimaryButton
                 onClick={handleLogout}
                 name="Logout"

@@ -35,6 +35,17 @@ function Auth() {
     // 	}
   });
 
+  type ValidationSchema = z.infer<typeof schema>;
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
+
   const { mutate: login_user, isPending: loginPanding } = useMutation({
     mutationFn: Login,
     onSuccess: (data) => {
@@ -42,6 +53,11 @@ function Auth() {
       console.log(data.data.data.query.detailsid, "data+++++");
       dispatch(setCompanyId(data.data.data.query.detailsid));
       // dispatch(setClientId(data.data.data.query.clientid));
+
+      if(data.data.data.status === "Inactive"){
+        navigate("/resetpassword", { state: { oldPassword: getValues("password"), email: getValues("email"), status: data?.data?.data?.status || "", token: data?.data?.data?.accessToken || ""} });
+        dispatch(setUserData(user.id));
+      }else{
       if (user.role === UserRole.SuperAdmin) {
         toast({
           variant: "destructive",
@@ -67,6 +83,9 @@ function Auth() {
           navigate("/SavedAssesment");
         }
       }
+      localStorage.setItem("user", JSON.stringify(data.data.data));
+      navigate("/savedassesment");
+    }
     },
     onError: (error: ErrorType) => {
       console.log(error);
@@ -79,16 +98,6 @@ function Auth() {
         description: "Something went wrong",
       });
     },
-  });
-
-  type ValidationSchema = z.infer<typeof schema>;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(schema),
-    mode: "all",
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {

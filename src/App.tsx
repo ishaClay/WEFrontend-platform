@@ -81,6 +81,8 @@ import { changeTheme } from "./services/apiServices/theme";
 import { useSelector } from "react-redux";
 import Register from "./pages/auth/Register";
 import { Toaster } from "./components/ui/toaster";
+import ReSetPassword from "./pages/auth/ResetPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -118,6 +120,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer" element={<RegisterTrainer />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/registertrainee" element={<RegisterTrainee />} />
         <Route path="/company" element={<Company />} />
