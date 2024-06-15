@@ -1,78 +1,53 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
-import Company from "./pages/Company";
-import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import Assessment from "./pages/Assessment";
-import QuestionPage from "./pages/QuestionPage";
-import MaturityLevelPage from "./pages/MaturityLevelPage";
-import TeaserScore from "./pages/TeaserScore";
-import SelectLevel from "./pages/SelectLevel";
-import MaturityLevelActionItem from "./pages/MaturityLevelActionItem";
-import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionableMeasurePopup";
-import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
-import CoursesRecommended from "./pages/CoursesRecommended";
-import SavedAssesment from "./pages/SavedAssesment";
-import CourseEmrolledToEmployeePopup from "./pages/CourseEmrolledToEmployeePopup";
-import CoursesViewAllocatePopup from "./pages/CoursesViewAllocatePopup";
-import CoursesEmrolledToEmployeeInvitePopup from "./pages/CoursesEmrolledToEmployeePopupInvite";
-import CoursesAllocate from "./pages/CoursesAllocate";
-import EmployeeList from "./pages/EmployeeList";
-import EmployeeProgress from "./pages/EmployeeProgress";
-import FaqsList from "./pages/FaqsList";
-import EmployeeSendInvitation from "./pages/EmployeeSendInvitation";
-import TrainingDocument from "./pages/TrainingDocument";
-import SupportTicket from "./pages/SupportTicket";
-import SupportDetails from "./pages/SupportDetails";
-import SupportAnswer from "./pages/SupportAnswer";
-import SupportAddNewTicket from "./pages/SupportAddNewTicket";
-import EmployeePermission from "./pages/EmployeePermission";
-import IndividualEmployee from "./pages/IndividualEmployee";
-import Messaging from "./pages/Messaging";
+import AssessmentResult from "./pages/AssessmentResult";
+import ChangePassword from "./pages/ChangePassword";
+import Company from "./pages/Company";
+import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
-import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
+import CourseEmrolledToEmployeePopup from "./pages/CourseEmrolledToEmployeePopup";
 import CoursesAllCourse from "./pages/CoursesAllCourse";
-import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
-import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
-import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
-import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
+import CoursesAllocate from "./pages/CoursesAllocate";
+import CoursesEmrolledToEmployeeInvitePopup from "./pages/CoursesEmrolledToEmployeePopupInvite";
+import CoursesRecommended from "./pages/CoursesRecommended";
+import CoursesViewAllocatePopup from "./pages/CoursesViewAllocatePopup";
 import Dashbord from "./pages/Dashbord";
-import MaturityAssessmentRoadmapSetTarget from "./pages/MaturityAssessmentRoadmapSetTarget";
-import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
-import EmployeeDashbord from "./pages/EmployeeDashbord";
-import MyCourses from "./pages/MyCourses";
-import InProgress from "./pages/InProgress";
+import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
+import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
 import EmployeeCompleted from "./pages/EmployeeCompleted";
 import EmployeeCompletedSecond from "./pages/EmployeeCompletedSecond";
-import MyCoursesAll from "./pages/MyCoursesAll";
-import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
-import TeamMemberDropdown from "./pages/TeamMemberDropdown";
-import MyCoursesInformaction from "./pages/MyCoursesInformaction";
-import MyCoursesSocial from "./pages/MyCoursesSocial";
-import Module from "./pages/Module";
-import ModulePdf from "./pages/ModulePdf";
-import ModuleVideo from "./pages/ModuleVideo";
-import ModulePdfDetail from "./pages/ModulePdfDetail";
-import LiveSession from "./pages/LiveSession";
-import RatingPopup from "./pages/RatingPopup";
+import EmployeeDashbord from "./pages/EmployeeDashbord";
 import EmployeeFqs from "./pages/EmployeeFaq";
-import UserManual from "./pages/UserManual";
+import EmployeeList from "./pages/EmployeeList";
+import EmployeeMsg from "./pages/EmployeeMsg";
+import EmployeePermission from "./pages/EmployeePermission";
+import EmployeeProgress from "./pages/EmployeeProgress";
+import EmployeeRodemap from "./pages/EmployeeRodemap";
+import EmployeeSendInvitation from "./pages/EmployeeSendInvitation";
 import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
 import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
 import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
-import EmployeeMsg from "./pages/EmployeeMsg";
+import FaqsList from "./pages/FaqsList";
+import InProgress from "./pages/InProgress";
+import IndividualEmployee from "./pages/IndividualEmployee";
+import LiveSession from "./pages/LiveSession";
+import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
+import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
+import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
+import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
+import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
+import MaturityAssessmentRoadmapSetTarget from "./pages/MaturityAssessmentRoadmapSetTarget";
+import MaturityLevelActionItem from "./pages/MaturityLevelActionItem";
+import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionableMeasurePopup";
+import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
+import MaturityLevelPage from "./pages/MaturityLevelPage";
 import MessagePopup from "./pages/MessagePopup";
-import CompanyRegister from "./pages/CompanyRegister";
-import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
-import MyAccomplishments from "./pages/MyAccomplishments";
-import AssessmentResult from "./pages/AssessmentResult";
-import ProfileSetting from "./pages/ProfileSetting";
-import ChangePassword from "./pages/ChangePassword";
-import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
-import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
-import EmployeeRodemap from "./pages/EmployeeRodemap";
+import Messaging from "./pages/Messaging";
+import Module from "./pages/Module";
 import ModuleFrist from "./pages/ModuleFrist";
 import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
 import { useQuery } from "@tanstack/react-query";
@@ -81,6 +56,34 @@ import { changeTheme } from "./services/apiServices/theme";
 import { useSelector } from "react-redux";
 import Register from "./pages/auth/Register";
 import { Toaster } from "./components/ui/toaster";
+import CourseManagement from "./pages/courseManagement";
+import SelectLevel from "./pages/SelectLevel";
+import TeaserScore from "./pages/TeaserScore";
+import QuestionPage from "./pages/QuestionPage";
+import RegisterTrainee from "./pages/auth/RegisterTrainee";
+import SavedAssesment from "./pages/SavedAssesment";
+import TrainingDocument from "./pages/TrainingDocument";
+import SupportAddNewTicket from "./pages/SupportAddNewTicket";
+import SupportAnswer from "./pages/SupportAnswer";
+import SupportDetails from "./pages/SupportDetails";
+import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
+import MyCoursesSocial from "./pages/MyCoursesSocial";
+import ModulePdf from "./pages/ModulePdf";
+import ModuleVideo from "./pages/ModuleVideo";
+import ModulePdfDetail from "./pages/ModulePdfDetail";
+import RatingPopup from "./pages/RatingPopup";
+import UserManual from "./pages/UserManual";
+import MyCourses from "./pages/MyCourses";
+import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
+import TeamMemberDropdown from "./pages/TeamMemberDropdown";
+import MyCoursesInformaction from "./pages/MyCoursesInformaction";
+import MyCoursesAll from "./pages/MyCoursesAll";
+import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
+import MyAccomplishments from "./pages/MyAccomplishments";
+import ProfileSetting from "./pages/ProfileSetting";
+import DashboardLayout from "./components/layouts/DashboardLayout";
+import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -97,7 +100,7 @@ function App() {
 	document.documentElement.style.setProperty("--rkp-text-color", (themes?.data?.data?.textColor))
 
   return (
-    <div className="App max-w-[1500px] mx-auto">
+    <div className="App mx-auto">
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -148,7 +151,7 @@ function App() {
           element={<EmployeeSendInvitation />}
         />
         <Route path="/trainingdocument" element={<TrainingDocument />} />
-        <Route path="/supportticket" element={<SupportTicket />} />
+        <Route path="/supportticket" element={<SupportAddNewTicket />} />
 
         <Route path="/supportdetails" element={<SupportDetails />} />
         <Route path="/supportanswer" element={<SupportAnswer />} />
@@ -245,6 +248,12 @@ function App() {
           path="/employeeassessmentresultpopup"
           element={<EmployeeAssessmentResultPopup />}
         />
+
+        <Route path="/trainer" element={<DashboardLayout />}>
+          <Route path="enrolledrequest" element={<EnrollmentRequest />} />
+          <Route path="enrolledcourses" element={<EnrolledCourse />} />
+          <Route path="coursemanagement" element={<CourseManagement />} />
+        </Route>
       </Routes>
     </div>
   );

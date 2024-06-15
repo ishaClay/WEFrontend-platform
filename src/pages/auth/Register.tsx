@@ -117,7 +117,7 @@ function Register() {
 	};
 
   useEffect(() => {
-    if (!clientId) {
+    if (clientId) {
       navigate("/");
     }
   }, [clientId]);
