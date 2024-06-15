@@ -58,7 +58,7 @@ function Auth() {
         navigate("/resetpassword", { state: { oldPassword: getValues("password"), email: getValues("email"), status: data?.data?.data?.status || "", token: data?.data?.data?.accessToken || ""} });
         dispatch(setUserData(user.id));
       }else{
-      if (user.role === UserRole.SuperAdmin) {
+      if (+user.role === UserRole.SuperAdmin) {
         toast({
           variant: "destructive",
           title: "User Not found",
@@ -70,7 +70,6 @@ function Auth() {
       });
 
       dispatch(setUserData(user.id));
-      localStorage.setItem("token", data.data.data.accessToken);
 
       console.log(user.pathstatus);
 
@@ -83,7 +82,7 @@ function Auth() {
           navigate("/SavedAssesment");
         }
       }
-      localStorage.setItem("user", JSON.stringify(data.data.data));
+      localStorage.setItem("user", JSON?.stringify(data.data.data));
       navigate("/savedassesment");
     }
     },
