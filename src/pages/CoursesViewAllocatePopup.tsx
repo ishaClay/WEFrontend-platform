@@ -5,6 +5,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 import { Card } from "@/components/ui/card";
 
+// function CourseViewAllocatePopup({ onClose }) {
 function CourseViewAllocatePopup() {
   const [employees] = useState([
     {
@@ -49,8 +50,8 @@ function CourseViewAllocatePopup() {
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center">
-      <Card className="bg-white rounded-lg p-6 h-[640px] w-[800px] ">
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-10">
+      <Card className="bg-white rounded-lg p-6 max-h-max w-[800px] ">
         <div className=" border-b-2 pb-[10px]">
           <div className="flex overflow-hidden rounded">
             <img
@@ -60,12 +61,16 @@ function CourseViewAllocatePopup() {
             />
 
             <div className="flex flex-col ml-[15px]">
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between">
                 <span className="text-[#1D2026] text-xl font-bold">
+                  Certificate in the Sustainable Development Goals, Partnership,
                   Certificate in the Sustainable Development Goals, Partnership,
                   People, Planet and Prosperit
                 </span>
-                <IoCloseCircleOutline className=" cursor-pointer h-[50px] w-[50px] pb-[20px] ml-[15px]" />
+                <IoCloseCircleOutline
+                  className=" cursor-pointer h-[50px] w-[50px] pb-[20px] ml-[15px]"
+                  // onClick={onClose}
+                />
               </div>
 
               <div className="flex items-center mt-[10px] ml-[2px]">
@@ -164,7 +169,7 @@ function CourseViewAllocatePopup() {
         </div>
         <div className="flex items-center mt-[20px]">
           <h2 className="text-[15px] mb-2 ml-[25px] font-bold">Employees</h2>
-          <div className="flex items-center ml-[524px]">
+          <div className="flex items-center ml-[527px]">
             <label className="font-bold mr-[10px]">Select All</label>
             <input
               type="checkbox"

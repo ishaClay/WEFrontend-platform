@@ -303,7 +303,7 @@ function Home() {
 
                       <div>
                         <img
-                          className="w-[274px] h-[357px]"
+                          className="w-[274px] h-[357px] object-cover"
                           src={item.courseImage}
                         />
                       </div>

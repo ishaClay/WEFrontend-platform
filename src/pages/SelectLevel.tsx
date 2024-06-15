@@ -342,7 +342,7 @@ const path = 6+1
           
           return (
             <div className="2xl:ml-[180px] xl:ml-[100px] pt-8 pl-[10px] pb-0 flex gap-5">
-              <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px] h-[200px] rounded-[10.06px] flex flex-col">
+              <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px]  h-max-content rounded-[10.06px] flex flex-col">
                 <div className="flex h-8">
                   <div
                     className={`${
@@ -388,7 +388,7 @@ const path = 6+1
                   </div>
                 </div>
 
-                <div className="flex h-32">
+                <div className="flex h-max-content pb-6">
                   <div className="w-[176px] text-center">
                     <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-[50px]">
                       <img
@@ -434,7 +434,7 @@ const path = 6+1
                       </Select>
                     </div>
                   </div>
-                  <div className="w-[543px] h-[110px]">
+                  <div className="w-[543px]  h-max-content">
                     <div className="bg-white rounded-full   flex drop-shadow-md w-6 h-6 mb-2">
                       <img src="public/assets/img/manu.png" alt="Leaf Icon" />
                       <div className="text-[#8C94A3] ml-2 font-semibold ">
