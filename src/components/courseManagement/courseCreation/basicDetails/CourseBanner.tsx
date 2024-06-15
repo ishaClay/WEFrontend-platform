@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Image } from "lucide-react";
-import React from "react";
 
 const CourseBanner = () => {
   return (

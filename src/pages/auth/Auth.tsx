@@ -36,7 +36,10 @@ function Auth() {
     onSuccess: (data) => {
       const user = data.data.data.query;
 
-      if (user.role === UserRole.SuperAdmin) {
+      if (
+        +user.role === UserRole.SuperAdmin ||
+        +user.role === UserRole.Client
+      ) {
         toast({
           variant: "destructive",
           title: "User Not found",

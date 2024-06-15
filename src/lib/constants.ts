@@ -23,4 +23,5 @@ export const QUERY_KEYS = {
   checkedMeasures: "checked_measures",
   themeChanges: "theme_Changes",
   fetchbycourse: "course",
+  fetchEnrollmentRequestBytrainer: "fetch_enrollment_request_by_trainer",
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
 import CloseIcon from "@/assets/images/close_img.png";
 import { CircleX } from "lucide-react";

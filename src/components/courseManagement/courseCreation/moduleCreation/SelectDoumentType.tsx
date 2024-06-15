@@ -6,7 +6,6 @@ import document_Option_5 from "@/assets/images/upload_option_5.png";
 import document_Option_6 from "@/assets/images/upload_option_6.png";
 import document_Option_7 from "@/assets/images/upload_option_7.png";
 import SelectDoumentTypeItems from "./SelectDoumentTypeItems";
-import { CircleX } from "lucide-react";
 
 const SelectDoumentType = () => {
   const documentUploadType = [
