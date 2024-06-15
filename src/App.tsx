@@ -112,7 +112,7 @@ function App() {
   );
 
   return (
-    <div className="App max-w-[1500px] mx-auto">
+    <div className="App mx-auto">
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
