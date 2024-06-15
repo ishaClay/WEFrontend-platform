@@ -56,8 +56,22 @@ function Auth() {
 
       if(data.data.data.status === "Inactive"){
         navigate("/resetpassword", { state: { oldPassword: getValues("password"), email: getValues("email"), status: data?.data?.data?.status || "", token: data?.data?.data?.accessToken || ""} });
+        toast({
+          title: "Login Successfully sav4e",
+        });
         dispatch(setUserData(user.id));
       }else{
+
+      dispatch(setUserData(user.id));
+      localStorage.setItem("token", data.data.data.accessToken);
+
+      localStorage.setItem("user", JSON.stringify(data.data.data));
+      navigate("/savedassesment");
+
+      toast({
+        title: "Login Successfully",
+      });
+        
       if (user.role === UserRole.SuperAdmin) {
         toast({
           variant: "destructive",
@@ -65,26 +79,23 @@ function Auth() {
         });
         return;
       }
-      toast({
-        title: "Login Successfully",
-      });
-
-      dispatch(setUserData(user.id));
-      localStorage.setItem("token", data.data.data.accessToken);
-
-      console.log(user.pathstatus);
-
-      if (user.role == UserRole.Company) {
+      
+      if(user.role === UserRole.TrainerCompany){
+        if(data.data.data.status === "Active"){
+          navigate("/trainer/enrolledcourses")
+        }
+      }
+    
+    
+     if (user.role == UserRole.Company) {
         // console.log(user.pathstatus ===)
-
         if (user.pathstatus === "8") {
           navigate("/dashbord");
         } else {
           navigate("/SavedAssesment");
         }
       }
-      localStorage.setItem("user", JSON.stringify(data.data.data));
-      navigate("/savedassesment");
+     
     }
     },
     onError: (error: ErrorType) => {

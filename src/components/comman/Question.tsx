@@ -51,7 +51,7 @@ const Question = () => {
       });
     },
   });
-  // console.log(removeanswer);
+  console.log(removeanswer);
   const handleChange = (questionId: any, selectedOptions: any) => {
     // if (selectedOptions.checked === true) {
 

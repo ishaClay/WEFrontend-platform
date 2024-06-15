@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+
 import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {

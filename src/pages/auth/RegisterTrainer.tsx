@@ -15,35 +15,32 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { registerTrainer } from "@/services/apiServices/trainer";
-import { ErrorType } from "@/types/Errors";
+
 import { Trainer } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { toast } = useToast();
 
   const { clientId } = useSelector((state: any) => state.user);
 
   const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question,clientId),
+    mutationFn: (question: Trainer) => registerTrainer(question),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
-
-      toast({
-        description: "Trainer created successfully",
-      });
+      toast({ title: "Trainer created successfully" });
     },
-    onError: (error: ErrorType) => {
-      console.error(error);
-    },
+ 
   });
 
   const schema = z.object({
@@ -53,21 +50,21 @@ function RegisterTrainer() {
     providerCountry: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    // surname: z.string().min(1, { message: "Contact Surname is required" }),
-    // number: z.string().min(1, { message: "Contact Telephone No. is required" }),
-    ProviderAddress: z
+    contactSurname: z.string().min(1, { message: "Contact Surname is required" }),
+    contactTelephone: z.string().min(1, { message: "Contact Telephone No. is required" }),
+    providerAddress: z
       .string()
       .min(1, { message: "Provider Address is required" }),
-    ProviderCountry: z
+      providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    name: z.string().min(1, { message: "Contact First Name is required" }),
+    contactFirstName: z.string().min(1, { message: "Contact First Name is required" }),
     email: z.string().min(1, { message: "Email Address is required" }),
-    ProviderNotes: z.string().min(1, { message: "Provider Notes is required" }),
+    providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
       .enum(["Yes", "No"])
       .optional()
-      .default("No")
+      .default("Yes")
       .refine(
         (value) => value !== undefined && (value === "Yes" || value === "No"),
         {
@@ -89,8 +86,9 @@ function RegisterTrainer() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-    createtrainer(data);
+    createtrainer({...data,clientId});
     reset();
+    navigate("/auth")
   };
 
   return (
@@ -180,16 +178,27 @@ function RegisterTrainer() {
                     placeholder="Sample"
                     className="w-[241px] h-[46px]"
                     label="Contact Surname"
-                    name=""
+                    {...register("contactSurname")} 
                   />
+                 {errors.contactSurname && (
+                    <ErrorMessage
+                      message={errors.contactSurname.message as string}
+                    />
+                  )}
                 </div>
                 <div>
                   <InputWithLable
-                    placeholder="0044 1234 1234567"
+                    placeholder="0044 1234 1234567"  
                     className="w-[241px] h-[46px]"
                     label="Contact Telephone No."
-                    name=""
+                    {...register("contactTelephone")}
+                  
                   />
+                  {errors.contactTelephone && (
+                    <ErrorMessage
+                      message={errors.contactTelephone.message as string}
+                    />
+                  )}
                 </div>
                 <div>
                   <Select {...register("foreignProvider")}>
@@ -199,7 +208,7 @@ function RegisterTrainer() {
                       </SelectLabel>
 
                       <SelectTrigger className="w-[241px] h-[46px] text-[gray]">
-                        <SelectValue placeholder="Select" />
+                        <SelectValue placeholder="Select"/>
                       </SelectTrigger>
                     </SelectGroup>
                     <SelectContent>
@@ -218,11 +227,11 @@ function RegisterTrainer() {
                     placeholder="221 B Baker Street"
                     className="w-[241px] h-[46px]"
                     label="Provider Address"
-                    {...register("ProviderAddress")}
+                    {...register("providerAddress")}
                   />
-                  {errors.ProviderAddress && (
+                  {errors.providerAddress && (
                     <ErrorMessage
-                      message={errors.ProviderAddress.message as string}
+                      message={errors.providerAddress.message as string}
                     />
                   )}
                 </div>
@@ -231,11 +240,11 @@ function RegisterTrainer() {
                     placeholder="United Kingdom"
                     className="w-[241px] h-[46px]"
                     label="Provider Country"
-                    {...register("ProviderCountry")}
+                    {...register("providerCounty")}
                   />
-                  {errors.ProviderCountry && (
+                  {errors.providerCounty && (
                     <ErrorMessage
-                      message={errors.ProviderCountry.message as string}
+                      message={errors.providerCounty.message as string}
                     />
                   )}
                 </div>
@@ -244,10 +253,10 @@ function RegisterTrainer() {
                     placeholder="John"
                     className="w-[241px] h-[46px]"
                     label="Contact First Name"
-                    {...register("name")}
+                    {...register("contactFirstName")}
                   />
-                  {errors.name && (
-                    <ErrorMessage message={errors.name.message as string} />
+                  {errors.contactFirstName && (
+                    <ErrorMessage message={errors.contactFirstName.message as string} />
                   )}
                 </div>{" "}
                 <div>
@@ -266,11 +275,11 @@ function RegisterTrainer() {
                     placeholder="Notes 1"
                     className="w-[241px] h-[46px]"
                     label="Provider Notes"
-                    {...register("ProviderNotes")}
+                    {...register("providerNotes")}
                   />
-                  {errors.ProviderNotes && (
+                  {errors.providerNotes && (
                     <ErrorMessage
-                      message={errors.ProviderNotes.message as string}
+                      message={errors.providerNotes.message as string}
                     />
                   )}
                 </div>

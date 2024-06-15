@@ -17,7 +17,7 @@ import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -116,11 +116,11 @@ function Register() {
     console.log(data, "da++++++++++");
   };
 
-  // useEffect(() => {
-  //   if (!clientId) {
-  //     navigate("/");
-  //   }
-  // }, [clientId]);
+  useEffect(() => {
+    if (!clientId) {
+      navigate("/");
+    }
+  }, [clientId]);
 
   const handleVerifyOtp = () => {
     createotp({ otp: otp, email: getValues("email"), clientId });
