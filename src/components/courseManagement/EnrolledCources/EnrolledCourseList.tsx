@@ -43,7 +43,7 @@ const EnrolledCourseList = () => {
   });
 
   return (
-    <div>
+    <div className="px-5 pb-4">
       <Accordions items={accordionItems} separator />
     </div>
   );

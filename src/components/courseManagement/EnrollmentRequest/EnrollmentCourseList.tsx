@@ -21,7 +21,7 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
   return (
     <>
       <div>
-        <div className="bg-white">
+        <div className="pb-4">
           {fetchEnrollRequestPending ? (
             <Loader />
           ) : (

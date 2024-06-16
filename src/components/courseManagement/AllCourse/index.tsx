@@ -25,74 +25,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { QUERY_KEYS } from "@/lib/constants";
+import CohortModal from "./CohortModal";
+import { useState } from "react";
 
 const AllCourses = () => {
-  const courseList = [
-    {
-      image: CourseMangagementImage1,
-      title: "Greening the emerald isle: Ireland's journey to carbon...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage2,
-      title: "Certificate in the Sustainable Development Goals, Partners...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage3,
-      title: "Greening the emerald isle: Ireland's journey to carbon...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage4,
-      title: "Certificate in the Sustainable Development Goals, Partners...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage3,
-      title: "Greening the emerald isle: Ireland's journey to carbon...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage4,
-      title: "Certificate in the Sustainable Development Goals, Partners...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage1,
-      title: "Greening the emerald isle: Ireland's journey to carbon...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-    {
-      image: CourseMangagementImage2,
-      title: "Certificate in the Sustainable Development Goals, Partners...",
-      subtitle: "Prime Infotech",
-      rating: "4/5",
-      module: 3,
-      duration: "3 Days",
-    },
-  ];
+  const [cohort, setCohort] = useState(false);
+  const [course, setCourse] = useState<string | number>("");
 
   const {
     data: fetchCourseAllCourseData,
@@ -102,10 +40,16 @@ const AllCourses = () => {
     queryFn: () => fetchCourseAllCourse(),
   });
 
+  const handleCohort = (id: any) => {
+    setCohort(true);
+    setCourse(id);
+  };
+
   console.log("data", fetchCourseAllCourseData, fetchCourseAllCoursePending);
 
   return (
     <div>
+      <CohortModal open={cohort} setOpen={setCohort} id={course} />
       <div>
         <div className="bg-[#FFFFFF] rounded-[10px] w-full">
           <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
@@ -179,10 +123,10 @@ const AllCourses = () => {
                         </div>
                         <div className="flex justify-between items-center mb-[11px]">
                           <h5 className="text-[14px] font-nunito">
-                            Module : {list.module}
+                            Module : {list.data.module.length}
                           </h5>
                           <p className="text-[14px] font-nunito">
-                            Duration : {list.duration}
+                            Duration : {list.course.duration}
                           </p>
                         </div>
                         <div className="flex items-center justify-between">
@@ -198,7 +142,10 @@ const AllCourses = () => {
                         <Button className="xl:max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full">
                           PUBLISH
                         </Button>
-                        <Button className="xl:max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full">
+                        <Button
+                          onClick={() => handleCohort(list.course.id)}
+                          className="xl:max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
+                        >
                           + Cohort
                         </Button>
                         <Select>
