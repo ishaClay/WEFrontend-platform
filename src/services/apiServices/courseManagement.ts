@@ -1,3 +1,4 @@
+import { AllCourseResponse } from "@/types/courseManagement";
 import api from "./api";
 
 export const fetchEnrollmentRequest = (trainerID: string, params?: string) => {
@@ -11,4 +12,12 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
   const method = "put";
 
   return api({ url, data, method });
+};
+
+export const fetchCourseAllCourse = async (): Promise<AllCourseResponse> => {
+  const url = `api/v1/course/getAllCourses`;
+  const res = await api({ url });
+  console.log("res=====>", res.data);
+
+  return res.data;
 };

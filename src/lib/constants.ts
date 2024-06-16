@@ -31,4 +31,5 @@ export const QUERY_KEYS = {
   fetchbypillarcource: "fetchbypillarcource",
   fetchbypillar: "fetchbypillar",
   fetchEnrollmentRequestBytrainer: "fetch_enrollment_request_by_trainer",
+  fetchAllCourse: "fetchAllCourse",
 };
