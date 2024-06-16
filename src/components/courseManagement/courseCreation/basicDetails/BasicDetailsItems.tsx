@@ -1,5 +1,3 @@
-
-
 const BasicDetailsItems = ({ data }: { data: any }) => {
   return (
     <div>

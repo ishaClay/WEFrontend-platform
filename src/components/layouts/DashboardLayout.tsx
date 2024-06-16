@@ -1,4 +1,3 @@
-
 import HeaderCourse from "../HeaderCourse";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../Sidebar";
@@ -114,7 +113,7 @@ const sidebar2: SidebarItem[] = [
   },
 ];
 
-const sidebar1: SidebarItem[] = [
+const TarinerSidebar: SidebarItem[] = [
   {
     label: "Dashboard",
     Icon: <RxDashboard size={22} />,
@@ -142,7 +141,7 @@ const sidebar1: SidebarItem[] = [
       },
       {
         label: "All Courses",
-        link: "/trainer/coursesrecommended",
+        link: "/trainer/allcourse",
       },
       {
         label: "Live Sessions",
@@ -205,14 +204,14 @@ const sidebar1: SidebarItem[] = [
 ];
 
 const DashboardLayout = () => {
-  const [num, setNum] = useState(1);
+  const [num, setNum] = useState(3);
   const [data, setData]: any = useState([]);
 
   useEffect(() => {
     setNum(1);
     switch (num) {
-      case 1:
-        setData(sidebar1);
+      case 3:
+        setData(TarinerSidebar);
         break;
 
       case 2:

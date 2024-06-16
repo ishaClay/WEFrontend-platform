@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Image } from "lucide-react";
 
-
 const CourseBanner = () => {
   return (
     <div className="border border-[#D9D9D9] rounded-md p-7">

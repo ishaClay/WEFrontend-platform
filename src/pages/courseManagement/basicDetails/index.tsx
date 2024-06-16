@@ -1,4 +1,3 @@
-
 import CourseBanner from "@/components/courseManagement/courseCreation/basicDetails/CourseBanner";
 
 

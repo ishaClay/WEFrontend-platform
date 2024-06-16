@@ -1,4 +1,3 @@
-
 import star from "@/assets/images/Vector.png";
 
 interface CoursListProps {

@@ -85,6 +85,7 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import ResetPassword from "./pages/auth/ResetPassword";
+import AllCoursesPage from "./pages/courseManagement/AllCourses";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -267,6 +268,7 @@ function App() {
         />
 
         <Route path="/trainer" element={<DashboardLayout />}>
+          <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="coursemanagement" element={<CourseManagement />} />

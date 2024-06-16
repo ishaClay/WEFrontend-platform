@@ -19,11 +19,6 @@ module.exports = {
       },
     },
     extend: {
-      fontFamily: {
-        abhaya: ["Abhaya Libre ExtraBold", "sans"],
-        "d-din-pro": ["D-DIN PRO", "Sans Serif"],
-      },
-
       colors: {
         "primary-button": "#00778B",
         "secondary-button": "#64A70B",
@@ -113,6 +108,7 @@ module.exports = {
         "uni-neue-trial": "'Uni Neue-Trial'",
         UniNeue: "UniNeue",
         Poppins: "Poppins",
+        abhaya: ["Abhaya Libre ExtraBold", "sans"],
       },
       borderRadius: {
         lg: "var(--radius)",
