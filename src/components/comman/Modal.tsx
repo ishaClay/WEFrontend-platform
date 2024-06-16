@@ -12,6 +12,7 @@ type ModalProps = PropsWithChildren &
     open: boolean;
     showCloseButton?: boolean;
     onClose: () => void;
+    className?: string;
     header?: string;
     description?: string;
     titleClassName?: string;
@@ -27,12 +28,17 @@ const Modal = ({
   children,
   titleClassName,
   descriptionClassName,
+  className,
   ...props
 }: ModalProps) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       {/* <DialogContent {...props} closeButton={showCloseButton}> */}
-      <DialogContent {...props}>
+      <DialogContent
+        {...props}
+        className={className}
+        showCloseButton={showCloseButton}
+      >
         {header && (
           <DialogHeader>
             <DialogTitle className={titleClassName}>{header}</DialogTitle>

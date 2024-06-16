@@ -54,48 +54,61 @@ function Auth() {
       dispatch(setCompanyId(data.data.data.query.detailsid));
       // dispatch(setClientId(data.data.data.query.clientid));
 
-      if(data.data.data.status === "Inactive"){
-        navigate("/resetpassword", { state: { oldPassword: getValues("password"), email: getValues("email"), status: data?.data?.data?.status || "", token: data?.data?.data?.accessToken || ""} });
-        toast({
+      if (data.data.data.status === "Inactive") {
+        navigate("/resetpassword", {
+          state: {
+            oldPassword: getValues("password"),
+            email: getValues("email"),
+            status: data?.data?.data?.status || "",
+            token: data?.data?.data?.accessToken || "",
+          },
         });
+        toast({});
         dispatch(setUserData(user.id));
-      }else{
+      } else {
+        dispatch(setUserData(user.id));
+        localStorage.setItem("token", data.data.data.accessToken);
 
-      dispatch(setUserData(user.id));
-      localStorage.setItem("token", data.data.data.accessToken);
+        localStorage.setItem("user", JSON.stringify(data.data.data));
+        navigate("/savedassesment");
 
-      localStorage.setItem("user", JSON.stringify(data.data.data));
-      navigate("/savedassesment");
-
-      toast({
-        title: "Login Successfully",
-      });
-        
-      if (user.role === UserRole.SuperAdmin) {
         toast({
-          variant: "destructive",
-          title: "User Not found",
+          title: "Login Successfully",
         });
-        return;
-      }
-      
-      if(user.role === UserRole.TrainerCompany){
-        if(data.data.data.status === "Active"){
-          navigate("/trainer/enrolledcourses")
+
+        if (user.role === UserRole.SuperAdmin) {
+          toast({
+            variant: "destructive",
+            title: "User Not found",
+          });
+          return;
+        }
+
+        if (user.role === UserRole.TrainerCompany) {
+          if (data.data.data.status === "Active") {
+            navigate("/trainer/enrolledcourses");
+          }
+        }
+
+        if (user.role == UserRole.Company) {
+          toast({
+            title: "Login Successfully",
+          });
+
+          dispatch(setUserData(user.id));
+
+          console.log(user.pathstatus);
+
+          if (user.role == UserRole.Company) {
+            // console.log(user.pathstatus ===)
+            if (user.pathstatus === "8") {
+              navigate("/dashbord");
+            } else {
+              navigate("/SavedAssesment");
+            }
+          }
         }
       }
-    
-    
-     if (user.role == UserRole.Company) {
-        // console.log(user.pathstatus ===)
-        if (user.pathstatus === "8") {
-          navigate("/dashbord");
-        } else {
-          navigate("/SavedAssesment");
-        }
-      }
-     
-    }
     },
     onError: (error: ErrorType) => {
       console.log(error);

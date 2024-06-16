@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { QUERY_KEYS } from "@/lib/constants";
 import { enumUpadate } from "@/services/apiServices/enum";
+import { UserData } from "@/types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,29 +12,25 @@ function Assessment() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const UserId = useSelector((state: UserData) => state.user.UserId);
 
-  const UserId = useSelector((state: any) => state.user.UserId);
-
-
-
-  const { mutate: EnumUpadate } :any = useMutation({
-    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+  const { mutate: EnumUpadate } = useMutation({
+    mutationFn: () => enumUpadate({ path: 2 }, UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
     },
-    
   });
+  console.log("EnumUpadate", EnumUpadate);
 
-  const path:string = (1+1).toString()
-  const handleAssesment = () =>{	
-	EnumUpadate(path)
-	navigate("/question")
-  }
+  const handleAssesment = () => {
+    EnumUpadate();
+    navigate("/question");
+  };
 
   return (
-    <div className="">
+    <div className="max-w-[1512px] w-full m-auto">
       <Header />
 
       <div className="flex flex-row xl:gap-[78px] gap-[30px]">
@@ -44,7 +41,7 @@ function Assessment() {
           />
         </div>
 
-        <div className="2xl:max-w-[800px] xl:max-w-[600px] w-[500px]  h-[524px] xl:mr-[-50px]">
+        <div className="2xl:max-w-[calc(100%_-_800px)] xl:max-w-[calc(100%_-_600px)] w-full xl:mr-[-50px]">
           <div className="mt-[140px]">
             <div className="flex items-end gap-x-[14px]">
               <h3 className="font-[UniNeue] italic text-[24px] font-[400]">
