@@ -3,6 +3,12 @@ import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import DashboardLayout from "./components/layouts/DashboardLayout";
+import { Toaster } from "./components/ui/toaster";
+import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
 import ChangePassword from "./pages/ChangePassword";
@@ -18,6 +24,7 @@ import CoursesViewAllocatePopup from "./pages/CoursesViewAllocatePopup";
 import Dashbord from "./pages/Dashbord";
 import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
 import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
+import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
 import EmployeeCompleted from "./pages/EmployeeCompleted";
 import EmployeeCompletedSecond from "./pages/EmployeeCompletedSecond";
 import EmployeeDashbord from "./pages/EmployeeDashbord";
@@ -49,43 +56,38 @@ import MessagePopup from "./pages/MessagePopup";
 import Messaging from "./pages/Messaging";
 import Module from "./pages/Module";
 import ModuleFrist from "./pages/ModuleFrist";
-import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "./lib/constants";
-import { changeTheme } from "./services/apiServices/theme";
-import { useSelector } from "react-redux";
-import Register from "./pages/auth/Register";
-import { Toaster } from "./components/ui/toaster";
-import CourseManagement from "./pages/courseManagement";
-import SelectLevel from "./pages/SelectLevel";
-import TeaserScore from "./pages/TeaserScore";
+import ModulePdf from "./pages/ModulePdf";
+import ModulePdfDetail from "./pages/ModulePdfDetail";
+import ModuleVideo from "./pages/ModuleVideo";
+import MyAccomplishments from "./pages/MyAccomplishments";
+import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
+import MyCourses from "./pages/MyCourses";
+import MyCoursesAll from "./pages/MyCoursesAll";
+import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
+import MyCoursesInformaction from "./pages/MyCoursesInformaction";
+import MyCoursesSocial from "./pages/MyCoursesSocial";
+import ProfileSetting from "./pages/ProfileSetting";
 import QuestionPage from "./pages/QuestionPage";
-import RegisterTrainee from "./pages/auth/RegisterTrainee";
+import RatingPopup from "./pages/RatingPopup";
 import SavedAssesment from "./pages/SavedAssesment";
-import TrainingDocument from "./pages/TrainingDocument";
+import SelectLevel from "./pages/SelectLevel";
+import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
 import SupportAddNewTicket from "./pages/SupportAddNewTicket";
 import SupportAnswer from "./pages/SupportAnswer";
 import SupportDetails from "./pages/SupportDetails";
-import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
-import MyCoursesSocial from "./pages/MyCoursesSocial";
-import ModulePdf from "./pages/ModulePdf";
-import ModuleVideo from "./pages/ModuleVideo";
-import ModulePdfDetail from "./pages/ModulePdfDetail";
-import RatingPopup from "./pages/RatingPopup";
-import UserManual from "./pages/UserManual";
-import MyCourses from "./pages/MyCourses";
-import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
 import TeamMemberDropdown from "./pages/TeamMemberDropdown";
-import MyCoursesInformaction from "./pages/MyCoursesInformaction";
-import MyCoursesAll from "./pages/MyCoursesAll";
-import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
-import MyAccomplishments from "./pages/MyAccomplishments";
-import ProfileSetting from "./pages/ProfileSetting";
-import DashboardLayout from "./components/layouts/DashboardLayout";
-import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
-import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
+import TeaserScore from "./pages/TeaserScore";
+import TrainerManagementPage from "./pages/TrainerManagement";
+import TrainingDocument from "./pages/TrainingDocument";
+import UserManual from "./pages/UserManual";
+import Register from "./pages/auth/Register";
+import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import ResetPassword from "./pages/auth/ResetPassword";
+import CourseManagement from "./pages/courseManagement";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
+import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
+import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -272,6 +274,14 @@ function App() {
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="coursemanagement" element={<CourseManagement />} />
+          <Route
+            path="trainer-management"
+            element={<TrainerManagementPage />}
+          />
+          <Route
+            path="trainer-management/details/:id"
+            element={<TrainerDetails />}
+          />
         </Route>
       </Routes>
     </div>

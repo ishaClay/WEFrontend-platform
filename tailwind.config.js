@@ -109,6 +109,7 @@ module.exports = {
         UniNeue: "UniNeue",
         Poppins: "Poppins",
         abhaya: ["Abhaya Libre ExtraBold", "sans"],
+        nunito: ["Nunito Sans", "sans"],
       },
       borderRadius: {
         lg: "var(--radius)",

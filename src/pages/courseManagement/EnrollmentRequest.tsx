@@ -2,7 +2,7 @@ import EnrollmentRequestPage from "@/components/courseManagement/EnrollmentReque
 
 const EnrollmentRequest = () => {
   return (
-    <div>
+    <div className="bg-white p-4">
       <EnrollmentRequestPage />
     </div>
   );
