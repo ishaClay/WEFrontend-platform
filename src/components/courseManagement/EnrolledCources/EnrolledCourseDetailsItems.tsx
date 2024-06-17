@@ -1,4 +1,15 @@
-const EnrolledCourseDetailsItems = ({ data }: { data: any }) => {
+type detailsListProps = {
+  data: {
+    cohortGroup: number;
+    enrolledCompanies: number;
+    enrolledEmployees: number;
+    buttonAction: string;
+    startDate: string;
+    endDate: string;
+  };
+};
+
+const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
   return (
     <div className="grid grid-cols-5 gap-2 w-full">
       <div className="col-span-1 text-left font-bold text-base font-calibri">

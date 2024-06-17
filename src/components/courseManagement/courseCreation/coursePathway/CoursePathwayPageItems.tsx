@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const CoursePathwayPageItems = ({ data }: { data: any }) => {
+type coursePageItemsProps = {
+  data: {
+    courseName: string;
+  };
+};
+const CoursePathwayPageItems = ({ data }: coursePageItemsProps) => {
   return (
     <div className="h-[100px] border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
       <div className="h-full flex items-center col-span-3 p-4 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">

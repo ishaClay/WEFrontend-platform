@@ -7,7 +7,20 @@ import { useState } from "react";
 import EvaluateModalDetails from "./EvaluateModalDetails";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 
-const EnrollCourseEmployeeDetailsListItem = ({ data }: { data: any }) => {
+type employeeCourseDetailsProps = {
+  data: {
+    image: string;
+    name: string;
+    subtitle: string;
+    complete: string;
+    score: string;
+    certificate: string;
+    evauate: string;
+  };
+};
+const EnrollCourseEmployeeDetailsListItem = ({
+  data,
+}: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAllocate, setIsOpenAllocate] = useState(false);
   return (

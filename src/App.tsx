@@ -89,6 +89,7 @@ import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import { changeTheme } from "./services/apiServices/theme";
+import Assecessment from "./pages/courseManagement/AddAssecessment";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -287,6 +288,8 @@ function App() {
             path="trainer-management/invitation"
             element={<TrainerInvitation />}
           />
+          <Route path="coursemanagement" element={<CourseManagement />} />
+          <Route path="addassecessment" element={<Assecessment />} />
         </Route>
       </Routes>
     </div>

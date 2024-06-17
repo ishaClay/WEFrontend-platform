@@ -1,7 +1,17 @@
 import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 
-const EnrolledCourseListItem = ({ data }: { data: any }) => {
+type courseListItemsProps = {
+  data: {
+    image: string;
+    rating: number;
+    title: string;
+    trainer: string;
+    enrolledComany: number;
+    enrolledEmployees: number;
+  };
+};
+const EnrolledCourseListItem = ({ data }: courseListItemsProps) => {
   return (
     <div className="">
       <div className="flex">

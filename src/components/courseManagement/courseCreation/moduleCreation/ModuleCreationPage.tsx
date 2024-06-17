@@ -34,17 +34,19 @@ const ModuleCreationPage = () => {
         </Button>
       </div>
 
-      {moduleCreationItems.map((data, index) => {
-        return <ModuleCreationItems key={index} data={data} />;
-      })}
+      {/* <div className="">
+        {moduleCreationItems.map((data, index) => {
+          return <ModuleCreationItems key={index} data={data} />;
+        })}
 
-      {/* <CourseViewPage /> */}
+        <div className="text-right">
+          <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+            Next
+          </Button>
+        </div>
+      </div> */}
 
-      <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-          Next
-        </Button>
-      </div>
+      <CourseViewPage />
     </div>
   );
 };
