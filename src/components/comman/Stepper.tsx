@@ -8,13 +8,13 @@ type StepperProps = {
 
 const Stepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
   const activeColor = (index: number) =>
-    currentStep === index || currentStep > index ? "bg-orange" : "bg-muted";
+    currentStep === index || currentStep > index ? "bg-muted" : "bg-muted";
 
   const activeTextColor = (index: number) =>
     currentStep === index ? "text-orange" : "text-grey";
 
   const activeColorLine = (index: number) =>
-    currentStep > index ? "bg-orange" : "bg-muted";
+    currentStep > index ? "bg-muted" : "bg-muted";
 
   const isFinalStep = (index: number) => index === steps.length - 1;
   return (

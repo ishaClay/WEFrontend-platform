@@ -6,6 +6,8 @@ export interface CourseEntity {
   id: number;
   version: number;
   createdAt: string;
+  subtitle: string;
+  rating: number;
   course: {
     id: number;
     bannerImage: string;
@@ -14,7 +16,7 @@ export interface CourseEntity {
       pillarId: number;
     }[];
     createdAt: string;
-    deletedAt: any;
+    deletedAt: string;
     description: string;
     discountApplicable: number;
     discout: number;
@@ -46,7 +48,7 @@ export interface CourseEntity {
       pillarId: number;
     }[];
     createdAt: string;
-    deletedAt: any;
+    deletedAt: string;
     description: string;
     discountApplicable: number;
     discout: number;

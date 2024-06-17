@@ -1,3 +1,4 @@
+import InputWithLabel from "@/components/comman/InputWithLabel";
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 import CourseSpecificationsQuestionsItems from "./CourseSpecificationsQuestionsItems";
@@ -33,6 +34,26 @@ const CourseSpecifications = ({ setStep }: CourseSpecifications) => {
         {courseSpecificationsQuestion.map((data, index) => {
           return <CourseSpecificationsQuestionsItems key={index} data={data} />;
         })}
+        <div className="mb-[18px]">
+          <InputWithLabel
+            label="How many ECTS credits does this course offer?"
+            labelClassName="font-calibri text-[16px] text-[#515151]"
+            placeholder="60 Credits"
+            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
+            // {...register("title")}
+            // error={errors.title?.message as string}
+          />
+        </div>
+        <div className="mb-[18px]">
+          <InputWithLabel
+            label="How many FET credits does this course offer?"
+            labelClassName="font-calibri text-[16px] text-[#515151]"
+            placeholder="60 Credits"
+            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
+            // {...register("title")}
+            // error={errors.title?.message as string}
+          />
+        </div>
       </div>
       <div className="text-right">
         <Button

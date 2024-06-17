@@ -10,6 +10,7 @@ import Loader from "../comman/Loader";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
 const schema = Zod.object({
   email: Zod.string().email("This is not a valid email."),
@@ -20,6 +21,7 @@ const TrainerInvitation = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -28,6 +30,29 @@ const TrainerInvitation = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: trainerInvitation,
+    onSuccess: (data) => {
+      if (data?.data?.trainerExist?.length > 0) {
+        toast({
+          title: "Success",
+          description: "Trainer invitation Already send.",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: data?.message,
+          variant: "success",
+        });
+      }
+      reset();
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
   console.log("errors", errors);
@@ -85,7 +110,7 @@ const TrainerInvitation = () => {
           <div className="text-right">
             <Button
               type="submit"
-              className="text-[16px] font-semibold font-nunito py-[14px] px-[8px] h-auto bg-[#58BA66]"
+              className="text-[16px] font-semibold min-w-[98px] font-nunito py-[14px] px-[8px] h-auto bg-[#58BA66]"
             >
               {isPending ? (
                 <Loader containerClassName="h-auto" />

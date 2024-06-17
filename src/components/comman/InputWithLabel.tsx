@@ -37,7 +37,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
     ref
   ) => {
     return (
-      <div className={cn(`space-y-2`, mainClassName)}>
+      <div className={cn(``, mainClassName)}>
         {label && (
           <Label
             className={cn(
