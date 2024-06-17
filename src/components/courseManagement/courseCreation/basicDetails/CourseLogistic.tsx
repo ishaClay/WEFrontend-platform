@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import CourseLogisticItems from "./CourseLogisticItems";
 import {
   Select,
   SelectContent,
@@ -7,8 +6,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Dispatch, SetStateAction } from "react";
+import CourseLogisticItems from "./CourseLogisticItems";
 
-const CourseLogistic = () => {
+interface CourseLogisticProps {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const CourseLogistic = ({ setStep }: CourseLogisticProps) => {
   const courseLogisticItems = [
     {
       question: "Is this course offered on a full-time or part-time basis?",
@@ -64,7 +69,11 @@ const CourseLogistic = () => {
         </div>
       </div>
       <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+        <Button
+          type="button"
+          onClick={() => setStep((prev) => prev + 1)}
+          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+        >
           Next
         </Button>
       </div>

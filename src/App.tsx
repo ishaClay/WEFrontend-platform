@@ -6,6 +6,7 @@ import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import { Toaster } from "./components/ui/toaster";
 import { QUERY_KEYS } from "./lib/constants";
@@ -273,7 +274,7 @@ function App() {
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
-          <Route path="coursemanagement" element={<CourseManagement />} />
+          <Route path="create_course" element={<CourseManagement />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}
@@ -281,6 +282,10 @@ function App() {
           <Route
             path="trainer-management/details/:id"
             element={<TrainerDetails />}
+          />
+          <Route
+            path="trainer-management/invitation"
+            element={<TrainerInvitation />}
           />
         </Route>
       </Routes>

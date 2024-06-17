@@ -1,8 +1,13 @@
-import BasicDetailsItems from "./BasicDetailsItems";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Dispatch, SetStateAction } from "react";
+import BasicDetailsItems from "./BasicDetailsItems";
 
-const CourseInformation = () => {
+interface CourseInformationProps {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const CourseInformation = ({ setStep }: CourseInformationProps) => {
   const basicDetails = [
     {
       qestion: "What is the title of the course you're offering?",
@@ -78,7 +83,11 @@ const CourseInformation = () => {
       </div>
 
       <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+        <Button
+          type="button"
+          onClick={() => setStep((prev) => prev + 1)}
+          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+        >
           Next
         </Button>
       </div>

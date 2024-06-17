@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Dispatch, SetStateAction } from "react";
 import CourseAffiliationsItems from "./CourseAffiliationsItems";
 
-const CourseAffiliations = () => {
+interface CourseAffiliationsProps {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   const CourseAffiliationsItem = [
     {
       question:
@@ -21,7 +26,11 @@ const CourseAffiliations = () => {
         })}
       </div>
       <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+        <Button
+          type="button"
+          onClick={() => setStep((prev) => prev + 1)}
+          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+        >
           Next
         </Button>
       </div>

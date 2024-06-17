@@ -1,7 +1,12 @@
-import CourseSpecificationsQuestionsItems from "./CourseSpecificationsQuestionsItems";
 import { Button } from "@/components/ui/button";
+import { Dispatch, SetStateAction } from "react";
+import CourseSpecificationsQuestionsItems from "./CourseSpecificationsQuestionsItems";
 
-const CourseSpecifications = () => {
+interface CourseSpecifications {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const CourseSpecifications = ({ setStep }: CourseSpecifications) => {
   const courseSpecificationsQuestion = [
     {
       question: "Specify the NFQ level for this course (if applicable).",
@@ -30,7 +35,11 @@ const CourseSpecifications = () => {
         })}
       </div>
       <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+        <Button
+          type="button"
+          onClick={() => setStep((prev) => prev + 1)}
+          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+        >
           Next
         </Button>
       </div>

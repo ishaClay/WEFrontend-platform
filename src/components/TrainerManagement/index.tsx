@@ -67,8 +67,8 @@ const TrainerManagement = () => {
             <Avatar className="w-8 h-8">
               <AvatarImage src={row.original?.imageUrl} />
               <AvatarFallback className="uppercase shadow-lg text-[12px]">
-                {row.original.name[0]}
-                {row.original.name[1]}
+                {row?.original?.name?.[0]}
+                {row?.original?.name?.[1]}
               </AvatarFallback>
             </Avatar>
             <p className="text-[15px] font-medium">{row.original.name}</p>
@@ -222,7 +222,11 @@ const TrainerManagement = () => {
         <h3 className="text-[16px] font-[700] font-nunito">
           Trainer Management
         </h3>
-        <Button className="bg-[#00778B] font-nunito px-5 text-[16px]">
+        <Button
+          type="button"
+          onClick={() => navigate("/trainer/trainer-management/invitation")}
+          className="bg-[#00778B] font-nunito px-5 text-[16px]"
+        >
           INVITE TRAINER
         </Button>
       </div>

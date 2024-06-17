@@ -18,3 +18,15 @@ export const getTrainerById = async ({ id }: { id: string }) => {
   const response = await api({ url });
   return response.data;
 }
+
+export const updateTrainerStatusById = async ({ id, data }: { id: string, data: { status: number, approved: boolean } }) => {
+  const url = `api/v1/trainer/update-status/${id}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+}
+
+export const trainerInvitation = async (data: { email: string[], invitationDetails: string, TrainerCompanyId: string }) => {
+  const url = `api/v1/trainer-company/send-invitation`;
+  const response = await api({ url, data, method: "post" });
+  return response.data;
+}

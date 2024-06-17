@@ -1,20 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
-import CourseMangagementImage1 from "@/assets/images/Coursemanagement_1.png";
-import CourseMangagementImage2 from "@/assets/images/Coursemanagement_2.png";
-import CourseMangagementImage3 from "@/assets/images/Coursemanagement_3.png";
-import CourseMangagementImage4 from "@/assets/images/Coursemanagement_4.png";
 import StarImage from "@/assets/images/Vector.png";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,15 +8,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { QUERY_KEYS } from "@/lib/constants";
-import CohortModal from "./CohortModal";
+import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { useQuery } from "@tanstack/react-query";
+import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import CohortModal from "./CohortModal";
 
 const AllCourses = () => {
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
+  const navigate = useNavigate();
 
   const {
     data: fetchCourseAllCourseData,
@@ -49,7 +47,7 @@ const AllCourses = () => {
 
   return (
     <div>
-      <CohortModal open={cohort} setOpen={setCohort} id={course} />
+      <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div>
         <div className="bg-[#FFFFFF] rounded-[10px] w-full">
           <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
@@ -59,7 +57,11 @@ const AllCourses = () => {
               </p>
             </div>
             <div>
-              <Button className="text-base font-semibold leading-5 font-sans bg-[#00778B]">
+              <Button
+                type="button"
+                onClick={() => navigate("/trainer/create_course")}
+                className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
+              >
                 ADD NEW COURSE
               </Button>
             </div>
