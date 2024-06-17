@@ -7,7 +7,7 @@ import CourseSpecifications from "@/components/courseManagement/courseCreation/b
 import React from "react";
 
 const BasicDetails = () => {
-  const [step, setStep] = React.useState(0);
+  const [step, setStep] = React.useState(2);
   return (
     <div>
       <div className="w-full my-[40px]">

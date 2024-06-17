@@ -7,7 +7,7 @@ import { useState } from "react";
 interface CohortModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number | number;
+  id: number;
 }
 
 const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {

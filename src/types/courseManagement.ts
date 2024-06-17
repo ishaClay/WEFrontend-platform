@@ -74,3 +74,78 @@ export interface CourseEntity {
     updatedAt: string;
   };
 }
+
+export interface CourseResponse {
+  data?: DataEntity[];
+  message: string;
+}
+export interface DataEntity {
+  id: number;
+  version: number;
+  data: Data;
+  createdAt: string;
+  updatedAt: string;
+  course: Course;
+}
+export interface Data {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2?: string | null;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  duration?: string | null;
+  price?: number | null;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys?: KeysEntity[] | null;
+  courseData?: CourseDataEntity[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  module?: null[] | null;
+}
+export interface KeysEntity {
+  key: string;
+}
+export interface CourseDataEntity {
+  pillarId: number;
+  maturityId: number;
+}
+export interface Course {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2?: string | null;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  duration: string;
+  price?: number | null;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys?: KeysEntity[] | null;
+  courseData?: CourseDataEntity[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}

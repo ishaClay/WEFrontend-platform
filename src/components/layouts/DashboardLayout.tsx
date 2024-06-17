@@ -153,6 +153,17 @@ const TarinerSidebar: SidebarItem[] = [
     ],
   },
   {
+    label: "Certificate Management",
+    Icon: <LuMapPin size={22} />,
+    link: "#",
+    children: [
+      {
+        label: "Certificate Template",
+        link: "/trainer/certificate-template",
+      },
+    ],
+  },
+  {
     label: "Trainer Management",
     Icon: <FaUserGroup size={22} />,
     link: "/trainer/trainer-management",
