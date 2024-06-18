@@ -9,9 +9,8 @@ import { useToast } from "../ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { Answer } from "@/types/Answer";
 
-const Question = ({ selectQuestion }) => {
+const Question = () => {
   const dispatch = useDispatch();
-  console.log("question", selectQuestion);
 
   const question = useSelector((state: any) => state.question);
 
@@ -71,8 +70,8 @@ const Question = ({ selectQuestion }) => {
   };
 
   return (
-    <>
-      {selectQuestion?.map((i: QuestionType, index: number) => {
+      Array.isArray(question[activePillar]) &&
+        question[activePillar]?.map((i: QuestionType, index: number) => {
         return (
           <div
             className="relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] w-[773px] max-w-full"
@@ -113,7 +112,7 @@ const Question = ({ selectQuestion }) => {
             </div>
 
             <div className="absolute flex items-center justify-center top-0 left-0 bg-teal text-white w-[207.83px] h-[52.15px] rounded-br-[62.27px] font-bold text-[18px] leading-[21.97px]">
-              {activePillar} {index + 1}/{selectQuestion?.length}
+              {activePillar} {index + 1}/{question[activePillar]?.length}
             </div>
             {question.hint && (
               <img
@@ -124,8 +123,7 @@ const Question = ({ selectQuestion }) => {
             )}
           </div>
         );
-      })}
-    </>
+      })
   );
 };
 

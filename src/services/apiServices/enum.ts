@@ -1,6 +1,6 @@
 import api from "./api";
 
-export const enumUpadate = (data: { path: number }, UserId: number) => {
+export const enumUpadate = (data: { path: string }, UserId: number) => {
   const url = `api/v1/companyPath/update-path/${UserId}`,
     method = "put";
 

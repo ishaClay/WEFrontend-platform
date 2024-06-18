@@ -94,6 +94,9 @@ function RegisterTrainer() {
     navigate("/auth")
   };
 
+  console.log("errors", errors);
+  
+
   return (
     <div className="">
       <Header />
@@ -184,16 +187,26 @@ function RegisterTrainer() {
                       placeholder="Sample"
                       className="h-[46px]"
                       label="Contact Surname"
-                      name=""
+                      {...register("contactSurname")}
                     />
+                    {errors.contactSurname && (
+                      <ErrorMessage
+                        message={errors.contactSurname.message as string}
+                      />
+                    )}
                   </div>
                   <div>
                     <InputWithLable
                       placeholder="0044 1234 1234567"
                       className="h-[46px]"
                       label="Contact Telephone No."
-                      name=""
+                      {...register("contactTelephone")}
                     />
+                    {errors.contactTelephone && (
+                      <ErrorMessage
+                        message={errors.contactTelephone.message as string}
+                      />
+                    )}
                   </div>
                   <div className="max-w-[220px] w-full">
                     <Select {...register("foreignProvider")}>
@@ -222,11 +235,11 @@ function RegisterTrainer() {
                       placeholder="221 B Baker Street"
                       className="h-[46px]"
                       label="Provider Address"
-                      {...register("ProviderAddress")}
+                      {...register("providerAddress")}
                     />
-                    {errors.ProviderAddress && (
+                    {errors.providerAddress && (
                       <ErrorMessage
-                        message={errors.ProviderAddress.message as string}
+                        message={errors.providerAddress.message as string}
                       />
                     )}
                   </div>
@@ -235,11 +248,11 @@ function RegisterTrainer() {
                       placeholder="United Kingdom"
                       className="h-[46px]"
                       label="Provider Country"
-                      {...register("ProviderCountry")}
+                      {...register("providerCounty")}
                     />
-                    {errors.ProviderCountry && (
+                    {errors.providerCounty && (
                       <ErrorMessage
-                        message={errors.ProviderCountry.message as string}
+                        message={errors.providerCounty.message as string}
                       />
                     )}
                   </div>
@@ -248,10 +261,10 @@ function RegisterTrainer() {
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
-                      {...register("name")}
+                      {...register("contactFirstName")}
                     />
-                    {errors.name && (
-                      <ErrorMessage message={errors.name.message as string} />
+                    {errors.contactFirstName && (
+                      <ErrorMessage message={errors.contactFirstName.message as string} />
                     )}
                   </div>{" "}
                   <div>
@@ -270,11 +283,11 @@ function RegisterTrainer() {
                       placeholder="Notes 1"
                       className="h-[46px]"
                       label="Provider Notes"
-                      {...register("ProviderNotes")}
+                      {...register("providerNotes")}
                     />
-                    {errors.ProviderNotes && (
+                    {errors.providerNotes && (
                       <ErrorMessage
-                        message={errors.ProviderNotes.message as string}
+                        message={errors.providerNotes.message as string}
                       />
                     )}
                   </div>

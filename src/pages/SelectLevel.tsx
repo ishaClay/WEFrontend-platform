@@ -43,6 +43,7 @@ import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
+import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 
 interface PillerItem  {
   [key: string]: string[]
@@ -52,8 +53,10 @@ function SelectLevel() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-
+  const [actionItems, setActionItems] = useState<SinglePillar>();
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
+  console.log("actionItems", actionItems);
+  
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>('')
@@ -273,6 +276,12 @@ const path = 6+1
     createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
 
+  const handleClose = () => {
+    setOpen(false);
+    setActionItems();
+  }
+  const filteredOptions:FilteredOptionsEntity[] | any = actionItems?.filteredOptions;
+
   return (
     <div>
       <TeaserScoreHeader />
@@ -336,13 +345,13 @@ const path = 6+1
         </h1>
       </div>
 
-      <div className="flex flex-col items-center h-full w-full ">
+      <div className="flex flex-col items-center h-full w-full max-w-[1440px] mx-auto">
         {pillars?.map((item: any) => {
           console.log("currentPiller",pillerItems[currentPiller]);
           
           return (
-            <div className="2xl:ml-[180px] xl:ml-[100px] pt-8 pl-[10px] pb-0 flex gap-5">
-              <div className="border border-solid border-[#D9D9D9] xl:w-[1124px] w-[900px]  h-max-content rounded-[10.06px] flex flex-col">
+            <div className="pt-8 pl-[10px] pb-0 flex gap-5 w-full">
+              <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full">
                 <div className="flex h-8">
                   <div
                     className={`${
@@ -388,7 +397,8 @@ const path = 6+1
                   </div>
                 </div>
 
-                <div className="flex h-max-content pb-6">
+                <div className="flex justify-between">
+                  <div className="flex h-max-content pb-6">
                   <div className="w-[176px] text-center">
                     <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-[50px]">
                       <img
@@ -464,21 +474,53 @@ const path = 6+1
                       </ul>
                     </div>
                   </div>
+                  </div>
 
                   <div className="w-[162px] mt-8">
-                    <Dialog open={open} onOpenChange={setOpen}>
-                      <DialogTrigger asChild>
-                        <Button
+                  <Button
                           disabled={item.checked === 0}
                           onClick={() => {
                             setPId(item.pillarid);
                             setCurrentPiller(item.pillarname)
+                            setActionItems(item)
+                            setOpen(true)
                           }}
                           className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 "
                         >
                           Define Action Items
                         </Button>
-                      </DialogTrigger>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        <button
+          onClick={handleSelect}
+          className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold "
+        >
+          BUILD
+        </button>
+
+        <div className="border-b  pb-4 w-[940px] border-[#DED7D7] "></div>
+
+        <div className="font-Abhaya Libre ExtraBold text-red-500 pb-2 pt-3">
+          <p>
+            {" "}
+            Congratulations! 🌿 Your chosen maturity levels have been noted.
+            You're now on a unique{" "}
+          </p>
+          <p>
+            sustainability journey tailored just for you. Keep moving forward,
+            and watch your impact grow! 🌍✨
+          </p>
+        </div>
+      </div>
+      <Footer />
+
+      <Dialog open={open} onOpenChange={handleClose}>
+                      
                       <DialogContent className="sm:max-w-[50rem] z-[999]">
                         <DialogHeader>
                           <DialogTitle>
@@ -504,7 +546,7 @@ const path = 6+1
                           </div>
                           <div className="flex flex-col space-y-4">
                             <div className="text-[#1D2026] font-Calibri font-bold ml-4">
-                              {item.pillarname}
+                              {actionItems?.pillarname}
                             </div>
                             <div className="flex h-full w-full mt-2">
                               <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded overflow-auto">
@@ -515,7 +557,7 @@ const path = 6+1
                                     </div>
                                     <div className="p-4 ">
                                       <ul className="list-disc list-inside text-[12px]  font-calibri">
-                                        {item?.filteredOptions.map((m: any) => {
+                                        {filteredOptions?.map((m: any) => {
                                           if (m.measures) {
                                             return <li>{m.measures}</li>;
                                           }
@@ -683,36 +725,6 @@ const path = 6+1
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-
-        <button
-          onClick={handleSelect}
-          className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold "
-        >
-          BUILD
-        </button>
-
-        <div className="border-b  pb-4 w-[940px] border-[#DED7D7] "></div>
-
-        <div className="font-Abhaya Libre ExtraBold text-red-500 pb-2 pt-3">
-          <p>
-            {" "}
-            Congratulations! 🌿 Your chosen maturity levels have been noted.
-            You're now on a unique{" "}
-          </p>
-          <p>
-            sustainability journey tailored just for you. Keep moving forward,
-            and watch your impact grow! 🌍✨
-          </p>
-        </div>
-      </div>
-      <Footer />
-
       <Loading isLoading={createPending} />
     </div>
   );

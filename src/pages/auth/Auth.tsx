@@ -50,7 +50,7 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
-      console.log(data.data.data.query.detailsid, "data+++++");
+      console.log(data.data.data, "data+++++");
       dispatch(setCompanyId(data.data.data.query.detailsid));
       // dispatch(setClientId(data.data.data.query.clientid));
 
@@ -66,28 +66,34 @@ function Auth() {
         toast({});
         dispatch(setUserData(user.id));
       } else {
-        dispatch(setUserData(user.id));
-        localStorage.setItem("token", data.data.data.accessToken);
+        // dispatch(setUserData(user.id));
+        // localStorage.setItem("token", data.data.data.accessToken);
 
-        localStorage.setItem("user", JSON.stringify(data.data.data));
-        navigate("/savedassesment");
+        // localStorage.setItem("user", JSON.stringify(data.data.data));
+        // navigate("/savedassesment");
 
-        toast({
-          title: "Login Successfully",
-        });
+        // toast({
+        //   title: "Login Successfully",
+        // });
 
-        if (user.role === UserRole.SuperAdmin) {
+        if (user.role == UserRole.SuperAdmin) {
           toast({
             variant: "destructive",
             title: "User Not found",
           });
-          return;
         }
 
-        if (user.role === UserRole.TrainerCompany) {
+        if (user.role == UserRole.TrainerCompany) {
           if (data.data.data.status === "Active") {
             navigate("/trainer/enrolledcourses");
           }
+        }
+
+        if (user.role == UserRole.Client) {
+            toast({
+              variant: "default",
+              title: "Only Company, Trainer Company and Trainee can login",
+            });
         }
 
         if (user.role == UserRole.Company) {
@@ -97,16 +103,30 @@ function Auth() {
 
           dispatch(setUserData(user.id));
 
-          console.log(user.pathstatus);
+          console.log("user.pathstatus", user.pathstatus);
 
-          if (user.role == UserRole.Company) {
+          // if (user.role == UserRole.Company) {
             // console.log(user.pathstatus ===)
             if (user.pathstatus === "8") {
               navigate("/dashbord");
-            } else {
-              navigate("/SavedAssesment");
+            } else if(user.pathstatus === "0" || user.pathstatus === "1") {
+              navigate("/assessment");
+            }else if(user.pathstatus === "2") {
+              navigate("/question");              
+            }else if(user.pathstatus === "3") {
+              navigate("/teaserscore");
+            }else if(user.pathstatus === "4") {
+              navigate("/companyregister");
+            }else if(user.pathstatus === "5") {
+              navigate("/maturelevel");
+            }else if(user.pathstatus === "6") {
+              navigate("/selectlevel");
+            }else if(user.pathstatus === "7") {
+              navigate("/maturitylevelactionitem");
+            }else {
+              navigate("/savedassesment");
             }
-          }
+          // }
         }
       }
     },

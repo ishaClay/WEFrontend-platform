@@ -20,7 +20,7 @@ import {
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -40,13 +40,11 @@ const QuestionPage = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { clientId, UserId } = useSelector((state: any) => state.user);   
 
   const { activePillar, allPillar } = useSelector(
     (state: any) => state.question
   );
-
-  console.log(allPillar);
 
   const question = useSelector((state: any) => state.question);
 
@@ -57,15 +55,14 @@ const QuestionPage = () => {
     queryKey: [QUERY_KEYS.pillarList],
     queryFn: () => fetchPillarList(),
   });
-
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
   });
 
-  const path = 2 + 1;
-  const { mutate: EnumUpadate }: any = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+  const path = 2+1
+  const { mutate: EnumUpadate } :any= useMutation({
+    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -107,16 +104,8 @@ const QuestionPage = () => {
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
 
-  const selectQuestion =
-    questionList?.data?.data &&
-    Object?.entries(questionList?.data?.data).find(
-      (item) => item?.[0] === question.activePillar
-    )?.[1];
-
   useEffect(() => {
     allPillar?.forEach((i: string) => {
-      console.log("asdasd", i);
-
       if (questionList?.data?.data) {
         dispatch(setQuestion({ q: questionList?.data?.data?.[i], p: i }));
       }
@@ -249,7 +238,6 @@ const QuestionPage = () => {
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
 
-  console.log("selectQuestion", selectQuestion);
 
   return (
     <div className="font-calibri font-normal">
@@ -320,175 +308,144 @@ const QuestionPage = () => {
       </div>
       <div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
         <div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-          {questionList?.data?.data &&
-            Object?.entries(questionList?.data?.data)?.map(
-              (category: any, index: number) => {
-                const pillarQuestions = question[category?.[1]];
-                const pillarTotal = pillarQuestions
-                  ? pillarQuestions.length
-                  : 0;
-                const pillarAttempted = Array.isArray(pillarQuestions)
-                  ? pillarQuestions.filter((que: QuestionType) =>
-                      que.options.some((opt) => opt.checked)
-                    ).length
-                  : 0;
+          {allPillar.map((category: string, index: number) => {
+            const pillarQuestions = question[category];
+            const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
+            const pillarAttempted = Array.isArray(pillarQuestions)
+              ? pillarQuestions.filter((que: QuestionType) =>
+                  que.options.some((opt) => opt.checked)
+                ).length
+              : 0;        
 
-                return (
-                  <div
-                    key={index}
-                    className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
-                      activePillar === category?.[0]
-                        ? "bg-[#64A70B]"
-                        : "bg-[#EDF0F4]"
-                    }`}
-                    onClick={() => dispatch(setActivePillar(category?.[0]))}
-                  >
-                    <div className="flex gap-2">
-                      <div className="flex flex-col gap-1">
-                        <div className="w-8 h-8"></div>
-                        <p
-                          className={`text-nowrap ${
-                            activePillar === category?.[0]
-                              ? "text-white"
-                              : "text-[#848181]"
-                          }`}
-                        >
-                          {Math.floor((pillarAttempted / pillarTotal) * 100)} %
-                        </p>
-                      </div>
-                      <div>
-                        <h2
-                          className={`leading-[19px] ${
-                            activePillar === category?.[0]
-                              ? "text-white"
-                              : "text-[#3A3A3A]"
-                          }`}
-                        >
-                          {category?.[0]}
-                        </h2>
-                        <p
-                          className={`text-[12px] leading-[14.65px] ${
-                            activePillar === category?.[0]
-                              ? "text-white"
-                              : "text-[#848181]"
-                          }`}
-                        >
-                          My progress {pillarAttempted}/{category?.[1]?.length}
-                        </p>
-                      </div>
-                    </div>
-
-                    <Progress
-                      color="#64A70B"
-                      className={`${
-                        !(activePillar === category?.[0]) && "!bg-[white]"
-                      } h-[4px]`}
-                      value={
-                        pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
-                      }
-                    />
+            return (
+              <div
+                key={index}
+                className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
+                  activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
+                }`} 
+                onClick={() => dispatch(setActivePillar(category))}
+              >
+                <div className="flex gap-2">
+                  <div className="flex flex-col gap-1">
+                    <div className="w-8 h-8"></div>
+                    <p
+                      className={`text-nowrap ${
+                        activePillar === category
+                          ? "text-white"
+                          : "text-[#848181]"
+                      }`}
+                    >
+                      {Math.floor((pillarAttempted / pillarTotal) * 100)} %
+                    </p>
                   </div>
-                );
-              }
-            )}
+                  <div>
+                    <h2
+                      className={`leading-[19px] ${
+                        activePillar === category
+                          ? "text-white"
+                          : "text-[#3A3A3A]"
+                      }`}
+                    >
+                      {category}
+                    </h2>
+                    <p
+                      className={`text-[12px] leading-[14.65px] ${
+                        activePillar === category
+                          ? "text-white"
+                          : "text-[#848181]"
+                      }`}
+                    >
+                      My progress {pillarAttempted}/{pillarTotal}
+                    </p>
+                  </div>
+                </div>
+
+                <Progress
+                  color={activePillar === category ? "#002A3A" : "#64A70B"}
+                  className={`${
+                    !(activePillar === category) && "!bg-[white]"
+                  } h-[4px]`}
+                  value={
+                    pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
+                  }
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
       <form>
-        <div className="mt-[89px] 2xl:ml-[177px] xl:ml-[130px] ml-[50px] flex flex-wrap">
-          <div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px] 2xl:w-[871px] xl:w-[700px] w-[600px] max-w-full">
-            <Question selectQuestion={selectQuestion} />
+        <div className="m-[24px] flex gap-12 flex-wrap justify-between max-w-[1440px] mx-auto">
+          <div className="flex gap-12 flex-col w-full max-w-[773px]">
+            <Question />
           </div>
-          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
+          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal">
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
               Current Progress
             </h2>
             <div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
               <span className="ml-[18px] text-teal">Attempted</span>
               <p className="text-teal">
-                {currentAttemptedTotal}/{selectQuestion?.length || 0}
+                {currentAttemptedTotal}/{question?.[activePillar]?.length || 0}
               </p>
               {/* <img
-                src={ProgressIndicator}
-                alt="progressbar"
-                width={24}
-                height={24}
-                className="mr-[34px]"
-              /> */}
+								src={ProgressIndicator}
+								alt="progressbar"
+								width={24}
+								height={24}
+								className="mr-[34px]"
+							/> */}
             </div>
-            <div className="ml-[14px] mt-[17px] w-[267px]">
+            <div className="mt-[17px] w-[267px]">
               <div className="flex items-center justify-between font-bold	">
                 <span>Attempted</span>
-                <p>{/* {totalAttemptedQuestions}/{totalQuestions} */}</p>
+                <p>
+                  {totalAttemptedQuestions}/{totalQuestions}
+                </p>
                 <span className="mr-2">
                   <IoIosArrowDown className="w-[14px] h-[14px]" />
                 </span>
               </div>
               <div className="font-normal text-[#3a3a3a]">
-                {questionList?.data?.data &&
-                  Object?.entries(questionList?.data?.data)?.map(
-                    (category: string, index: number) => {
-                      let question = category?.[1];
-                      console.log(
-                        "question+++++",
-                        question.map((item) => item?.options)
-                      );
-
-                      return (
-                        <div className="flex mt-3" key={index}>
-                          <div
-                          // className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-                          //   index !== allPillar.length - 1 &&
-                          //   "border-b border--solid border-[#EAEAEA]"
-                          // }`}
-                          >
-                            <p>{category?.[0]}</p>
-                            <div className="flex gap-[10px]">
+                {allPillar.map((category: string, index: number) => {
+                  return (
+                    <div className="flex mt-3" key={index}>
+                      <div
+                        className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
+                          index !== allPillar.length - 1 &&
+                          "border-b border--solid border-[#EAEAEA]"
+                        }`}
+                      >
+                        <p>{category}</p>
+                        <div className="flex gap-[10px]">
+                          {Array.isArray(question[category]) &&
+                            question[category]?.length > 0 && (
                               <div className="flex gap-1">
-                                {question?.map((item: any) => {
-                                  return (
+                                {question[category].map(
+                                  (i: QuestionType, index: number) => (
                                     <p
                                       key={index}
-                                      className="w-3 h-3 bg-[#D8D0D0]"
-                                      // className={`w-3 h-3 ${
-                                      //   i.options.some(
-                                      //     (o) => o?.checked === true
-                                      //   )
-                                      //     ? "bg-[#64A70B]"
-                                      //     : "bg-[#D8D0D0]"
-                                      // }`}
+                                      className={`w-3 h-3 ${
+                                        i.options.some(
+                                          (o) => o?.checked === true
+                                        )
+                                          ? "bg-[#64A70B]"
+                                          : "bg-[#D8D0D0]"
+                                      }`}
                                     ></p>
-                                  );
-                                })}
+                                  )
+                                )}
                               </div>
-                              {/* {Array.isArray(question[category]) &&
-                              question[category]?.length > 0 && (
-                                <div className="flex gap-1">
-                                  {question[category].map(
-                                    (i: QuestionType, index: number) => (
-                                      <p
-                                        key={index}
-                                        className={`w-3 h-3 ${
-                                          i.options.some(
-                                            (o) => o?.checked === true
-                                          )
-                                            ? "bg-[#64A70B]"
-                                            : "bg-[#D8D0D0]"
-                                        }`}
-                                      ></p>
-                                    )
-                                  )}
-                                </div>
-                              )} */}
-                            </div>
-                          </div>
-                          <span className="mr-2 ml-[11px] mt-[10px]">
-                            <IoIosArrowDown className="w-[14px] h-[14px]" />
-                          </span>
+                            )}
                         </div>
-                      );
-                    }
-                  )}
+                      </div>
+                      <span className="mr-2 ml-[11px] mt-[10px]">
+                        <IoIosArrowDown className="w-[14px] h-[14px]" />
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
 
               <Button

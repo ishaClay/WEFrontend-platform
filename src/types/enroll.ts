@@ -1,5 +1,5 @@
 export interface enroll {
-  id: number;
+  id?: number;
   courseId: number;
   userId: number;
   trainerId: number;
