@@ -36,6 +36,7 @@ interface DataTableProps<TData, TValue> {
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
   searchFilter?: (e: string) => void;
+  rounded?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -48,6 +49,7 @@ export function DataTable<TData, TValue>({
   totalCount = 2000,
   setPage,
   searchFilter,
+  rounded = true,
   searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -102,7 +104,11 @@ export function DataTable<TData, TValue>({
           <img src={search} alt="" className="absolute left-10" />
         </div>
       )}
-      <div className="rounded-md border">
+      <div
+        className={`border ${
+          rounded ? "rounded-md" : "rounded-none border-none"
+        }`}
+      >
         <Table>
           <TableHeader className="bg-[#F1F1F1] text-[15px] font-semibold">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -171,7 +177,7 @@ export function DataTable<TData, TValue>({
       </div>
       {pagenationbox ? null : (
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-black px-4">
+          <div className="flex-1 text-sm text-black px-4 font-inter">
             Showing {pagination.pageIndex}/{pageCount} Records
           </div>
           <div className="pr-[24px]">

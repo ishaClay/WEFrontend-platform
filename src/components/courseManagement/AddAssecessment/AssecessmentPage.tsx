@@ -11,7 +11,7 @@ import AssessmentModal from "../courseCreation/courseView/AssessmentModal";
 const AssecessmentPage = () => {
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
   return (
-    <div>
+    <div className="bg-white p-5">
       <div className="flex justify-between items-center pb-5 mb-5 border-b border-[#D9D9D9]">
         <h3 className="text-base font-calibri font-bold">Add Assessment</h3>
         <Button

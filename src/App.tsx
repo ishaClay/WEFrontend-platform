@@ -91,6 +91,7 @@ import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import { changeTheme } from "./services/apiServices/theme";
+import AllocatedCertificate from "./pages/allocatedCertificate";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -295,6 +296,7 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
+          <Route path="add-newcertificate" element={<AllocatedCertificate />} />
         </Route>
       </Routes>
     </div>
