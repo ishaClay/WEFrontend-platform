@@ -34,12 +34,12 @@ const SelectMenu: FC<IProps> = ({
       <SelectTrigger className={`bg-white outline-none ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className={`bg-white max-h-[250px] overflow-auto`}>
         {option.map((item, index: number) => (
           <SelectItem
             key={index}
             value={item.value}
-            className={`${itemClassName}`}
+            className={`font-calibri ${itemClassName}`}
           >
             {item.label}
           </SelectItem>

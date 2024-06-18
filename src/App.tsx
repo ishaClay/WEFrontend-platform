@@ -84,16 +84,13 @@ import UserManual from "./pages/UserManual";
 import Register from "./pages/auth/Register";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import ResetPassword from "./pages/auth/ResetPassword";
+import CertificateTempletePage from "./pages/certificateManagement";
 import CourseManagement from "./pages/courseManagement";
+import Assecessment from "./pages/courseManagement/AddAssecessment";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import { changeTheme } from "./services/apiServices/theme";
-<<<<<<< Updated upstream
-import Assecessment from "./pages/courseManagement/AddAssecessment";
-=======
-import CertificateTempletePage from "./pages/certificateManagement";
->>>>>>> Stashed changes
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -292,15 +289,12 @@ function App() {
             path="trainer-management/invitation"
             element={<TrainerInvitation />}
           />
-<<<<<<< Updated upstream
           <Route path="coursemanagement" element={<CourseManagement />} />
           <Route path="addassecessment" element={<Assecessment />} />
-=======
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
->>>>>>> Stashed changes
         </Route>
       </Routes>
     </div>

@@ -12,6 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 interface CourseInformationProps {
   setStep: Dispatch<SetStateAction<number>>;
@@ -61,6 +62,7 @@ const CourseInformation = ({ setStep }: CourseInformationProps) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const { clientId } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -83,21 +85,22 @@ const CourseInformation = ({ setStep }: CourseInformationProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
         description: "Course created successfully",
         variant: "success",
       });
-      setStep((prev) => prev + 1);
+      navigate(`/trainer/create_course?step=${1}&id=${data?.data?.data?.id}`, {
+        replace: true,
+      });
     },
     onError: (error) => {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.data?.message,
         variant: "destructive",
       });
-      setStep((prev) => prev + 1);
     },
   });
 

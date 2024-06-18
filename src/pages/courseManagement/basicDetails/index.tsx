@@ -4,10 +4,30 @@ import CourseBanner from "@/components/courseManagement/courseCreation/basicDeta
 import CourseInformation from "@/components/courseManagement/courseCreation/basicDetails/CourseInformation";
 import CourseLogistic from "@/components/courseManagement/courseCreation/basicDetails/CourseLogistic";
 import CourseSpecifications from "@/components/courseManagement/courseCreation/basicDetails/CourseSpecifications";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BasicDetails = () => {
-  const [step, setStep] = React.useState(2);
+  const [step, setStep] = React.useState(1);
+  const search = window.location.search;
+  const params = new URLSearchParams(search).get("step") || "";
+  const paramsId = new URLSearchParams(search).get("id");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!!params && !!paramsId) {
+      navigate(
+        `/trainer/create_course?step=${parseInt(params)}&id=${paramsId}`,
+        {
+          replace: true,
+        }
+      );
+      setStep(parseInt(params));
+    } else {
+      navigate(`/trainer/create_course?step=${0}`, { replace: true });
+      setStep(0);
+    }
+  }, [params, step, paramsId]);
+
   return (
     <div>
       <div className="w-full my-[40px]">
