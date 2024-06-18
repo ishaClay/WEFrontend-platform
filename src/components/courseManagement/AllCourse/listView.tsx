@@ -27,7 +27,7 @@ const ListView = ({ list }: { list: CourseEntity[] }) => {
                   </div>
                 </div>
                 <div>
-                  <div>Module : {data.module}</div>
+                  <div>Module : {data?.data?.module?.length || "-"}</div>
                 </div>
               </div>
             </div>
