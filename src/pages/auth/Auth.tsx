@@ -54,7 +54,6 @@ function Auth() {
       dispatch(setCompanyId(data.data.data.query.detailsid));
       // dispatch(setClientId(data.data.data.query.clientid));
 
-<<<<<<< HEAD
       if (data.data.data.status === "Inactive") {
         navigate("/resetpassword", {
           state: {
@@ -63,16 +62,6 @@ function Auth() {
             status: data?.data?.data?.status || "",
             token: data?.data?.data?.accessToken || "",
           },
-=======
-      if(data.data.data.status === "Inactive"){
-        navigate("/resetpassword", { state: { oldPassword: getValues("password"), email: getValues("email"), status: data?.data?.data?.status || "", token: data?.data?.data?.accessToken || ""} });
-        dispatch(setUserData(user.id));
-      }else{
-      if (+user.role === UserRole.SuperAdmin) {
-        toast({
-          variant: "destructive",
-          title: "User Not found",
->>>>>>> 045e8d7ad22fecf08302599931ff2f7916a69fdc
         });
         toast({});
         dispatch(setUserData(user.id));
@@ -80,12 +69,9 @@ function Auth() {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
 
-<<<<<<< HEAD
         // localStorage.setItem("user", JSON.stringify(data.data.data));
         // navigate("/savedassesment");
-=======
       dispatch(setUserData(user.id));
->>>>>>> 045e8d7ad22fecf08302599931ff2f7916a69fdc
 
         // toast({
         //   title: "Login Successfully",
@@ -145,12 +131,6 @@ function Auth() {
           // }
         }
       }
-<<<<<<< HEAD
-=======
-      localStorage.setItem("user", JSON?.stringify(data.data.data));
-      navigate("/savedassesment");
-    }
->>>>>>> 045e8d7ad22fecf08302599931ff2f7916a69fdc
     },
     onError: (error: ErrorType) => {
       console.log(error);
