@@ -177,7 +177,7 @@ const AllocatedCertificatePage = () => {
           </h5>
         );
       },
-      cell: ({ row }) => {
+      cell: () => {
         return (
           <div className="flex items-center">
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
@@ -220,6 +220,7 @@ const AllocatedCertificatePage = () => {
           data={data}
           totalCount={data?.length}
           setPage={setPage}
+          pagination={{ pageIndex: page, pageSize: 10 }}
           rounded={false}
         />
       </div>

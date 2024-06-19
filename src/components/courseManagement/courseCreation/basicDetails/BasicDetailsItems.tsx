@@ -5,7 +5,7 @@ interface BasicDetailsItemsProps {
   data: any;
 }
 
-const BasicDetailsItems = ({ data }: { data: any }) => {
+const BasicDetailsItems = ({ data }: BasicDetailsItemsProps) => {
   return (
     <div>
       <div className="pb-4">

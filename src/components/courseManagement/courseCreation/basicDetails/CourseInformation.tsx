@@ -55,7 +55,7 @@ const schema = zod
 
 type FormData = zod.infer<typeof schema>;
 
-const CourseInformation = ({ setStep }: CourseInformationProps) => {
+const CourseInformation = () => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");

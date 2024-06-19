@@ -30,7 +30,22 @@ function RegisterTrainer() {
   const navigate = useNavigate();
 
   const { toast } = useToast();
+<<<<<<< Updated upstream
   const { clientId } = useSelector((state: any) => state.user);
+=======
+  S;
+
+  const { mutate: createtrainer, isPending: createPending } = useMutation({
+    mutationFn: (question: Trainer) => registerTrainer(question),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.trainerList],
+      });
+      toast({ title: "Trainer created successfully" });
+    },
+  });
+
+>>>>>>> Stashed changes
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
     providerType: z.string().min(1, { message: "Provider Type is required" }),
@@ -38,15 +53,25 @@ function RegisterTrainer() {
     providerCountry: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    contactSurname: z.string().min(1, { message: "Contact Surname is required" }),
-    contactTelephone: z.string().min(1, { message: "Contact Telephone No. is required" }),
+    contactSurname: z
+      .string()
+      .min(1, { message: "Contact Surname is required" }),
+    contactTelephone: z
+      .string()
+      .min(1, { message: "Contact Telephone No. is required" }),
     providerAddress: z
       .string()
       .min(1, { message: "Provider Address is required" }),
-      providerCounty: z
+    providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
+<<<<<<< Updated upstream
       name: z.string().min(1, { message: "Contact First Name is required" }),
+=======
+    contactFirstName: z
+      .string()
+      .min(1, { message: "Contact First Name is required" }),
+>>>>>>> Stashed changes
     email: z.string().min(1, { message: "Email Address is required" }),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
@@ -93,7 +118,13 @@ function RegisterTrainer() {
   const onSubmit: SubmitHandler<ValidationSchema> = async (
     data: ValidationSchema
   ) => {
+<<<<<<< Updated upstream
     createtrainer(data);    
+=======
+    createtrainer(data);
+    reset();
+    navigate("/auth");
+>>>>>>> Stashed changes
   };
 
   console.log("errors", errors);

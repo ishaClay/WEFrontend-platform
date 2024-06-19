@@ -44,7 +44,7 @@ const nfqOption = [
   },
 ];
 
-const CourseSpecifications = ({ setStep }: CourseSpecifications) => {
+const CourseSpecifications = () => {
   const {
     register,
     handleSubmit,

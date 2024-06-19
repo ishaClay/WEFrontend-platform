@@ -62,7 +62,6 @@ import ModulePdfDetail from "./pages/ModulePdfDetail";
 import ModuleVideo from "./pages/ModuleVideo";
 import MyAccomplishments from "./pages/MyAccomplishments";
 import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
-import MyCourses from "./pages/MyCourses";
 import MyCoursesAll from "./pages/MyCoursesAll";
 import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
 import MyCoursesInformaction from "./pages/MyCoursesInformaction";
@@ -92,9 +91,14 @@ import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import { changeTheme } from "./services/apiServices/theme";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+<<<<<<< Updated upstream
 import AuthLayout from "./Layout/AuthLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RootLayout from "./Layout/RootLayout";
+=======
+import MyCourses from "./pages/MyCourses";
+import MyCoursesList from "./pages/myCourse";
+>>>>>>> Stashed changes
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -648,6 +652,7 @@ function App() {
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
+          <Route path="mycourses" element={<MyCoursesList />} />
         </Route>
       </Routes> */}
       <RouterProvider router={router} />
