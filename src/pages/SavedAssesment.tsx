@@ -5,13 +5,35 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { enumApi } from "@/services/apiServices/enum";
 import { QuestionType } from "@/types/Question";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
-  const { allPillar } = useSelector((state: any) => state.question);
+  const {allPillar } = useSelector(
+    (state: any) => state.question
+  );
+
+  console.log(allPillar)
+
+
+  // const { data: pillarList } = useQuery({
+  //   queryKey: [QUERY_KEYS.pillarList],
+  //   queryFn: () => fetchPillarList(),
+  // });
+
+  // useEffect(() => {
+  //   const pillarName = (
+  //     pillarList?.data?.data
+  //   )?.map((i:any) => i?.pillarName);
+
+  //   if (pillarName?.length) {
+  //     dispatch(setPillarName(pillarName));
+  //   }
+  // }, [pillarList]);
+
 
   const question = useSelector((state: any) => state.question);
 
@@ -132,8 +154,10 @@ function SavedAssesment() {
                 Your Progress So Far:
               </p>
               <div className="pt-8 pl-[px] pb-5 w-[800px] flex flex-wrap gap-5">
+     
                 {allPillar.map((category: string, index: number) => {
                   const pillarQuestions = question[category];
+
                   const pillarTotal = pillarQuestions
                     ? pillarQuestions.length
                     : 0;
@@ -157,7 +181,7 @@ function SavedAssesment() {
                         <h4 className="mt-3">{category}</h4>
 
                         <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {(pillarAttempted / pillarTotal) * 100} %
+                          {Math.round((pillarAttempted / pillarTotal)*100)} %
                         </span>
                       </div>
                     </div>

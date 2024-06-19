@@ -5,6 +5,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Uni+Neue-Trial:wght@800&display=swap");
 @import "../public/assets/css/fonts.css";
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -216,4 +217,20 @@ input[type="radio"] {
   width: 100%;
   height: 220px;
   background-color: #71b2c9;
+}
+
+.mainContailner {
+  max-width: 1372px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1536px) {
+  .mainContailner {
+    max-width: 100%;
+  }
+}
+
+#auth-slider .slick-dots {
+  justify-content: flex-end !important;
 }

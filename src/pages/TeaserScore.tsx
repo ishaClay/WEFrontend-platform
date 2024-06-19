@@ -157,7 +157,7 @@ const score = Number(
   };
 
   const Labels = () => (
-    <div className="absolute left-0 top-0 flex flex-col justify-center h-fulzl">
+    <div className="flex flex-col justify-center h-fulzl w-[200px]">
       {(fetchClientmaturitylevel?.data?.data?.length > 0
         ? fetchClientmaturitylevel?.data?.data
         : maturitylevel?.data.data
@@ -171,12 +171,12 @@ const score = Number(
               style={{
                 backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
               }}
-              className={`absolute left-0 top-[50px] h-full w-2/4 rounded-l-lg rounded-r-none`}
+              className={`absolute left-0 h-full w-2/4 rounded-l-lg rounded-r-none`}
             ></div>
-            <div className="ml-10 mt-[50px] pl-2 rounded-r-lg">
+            <div className="rounded-r-lg mt-[2px]">
               {label.maturityLevelName}
             </div>
-            <div className="ml-10 mt-[0px] pl-2 rounded-r-lg">
+            <div className="rounded-r-lg">
               {label?.rangeStart} to {label?.rangeEnd}
             </div>
           </div>
@@ -199,9 +199,10 @@ const score = Number(
       <TeaserScoreHeader />
       <div className="bg-[url('../assets/img/backgroundscore.png')]">
         <div className="w-full max-w-[800px] mx-auto mt-20 mb-32 flex justify-center">
-          <Card className="border-t-8 border-solid border-[#00778B] flex justify-between">
-            <div className="mr-0">
-              <CardHeader>
+          <div className="border-t-8 border-solid border-[#00778B] flex justify-between bg-white rounded-lg w-full">
+          
+                <div className="flex w-full">
+                <div className="mr-0">
                 <div className="flex flex-col pl-8 pt-4">
                   <div className="flex items-center">
                     <CardTitle className="text-xl font-bold">Hooray!</CardTitle>
@@ -213,8 +214,10 @@ const score = Number(
                   </div>
                   <div className="bg-[#64A70B] h-[2px] w-20 mt-0 ml-0"></div>
                 </div>
-              </CardHeader>
-              <CardContent className=" pr-0 flex">
+              <div>
+
+              </div>
+              <div className=" pr-0 flex">
                 <div className="pl-8 flex-1">
                   <CardDescription className="text-sm font-[calibri] text-[#002A3A]">
                     You've taken the first stride on your sustainability
@@ -240,14 +243,15 @@ const score = Number(
                     Complete your Registration
                   </button>
                 </div>
-              </CardContent>
+                </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className=" mt-0 mb-6 mr-18 ml-8 relative">
-                <h2 className="text-lg font-semibold mt-8 ml-5">
+            <div className="flex justify-between max-w-[calc(100%_-_382px)] mb-10">
+              <div className="p-4 relative w-full">
+                <h2 className="text-lg font-semibold">
                   Here's a sneak peek at your score!
                 </h2>
+                <div className="flex w-full justify-between">
                 <Labels />
                 <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
                   <div className="w-40 h-40 mt-0 ml-16 relative">
@@ -266,9 +270,11 @@ const score = Number(
                     </button>
                   </div>
                 </div>
+                </div>
               </div>
             </div>
-          </Card>
+                </div>
+          </div>
         </div>
         <Footer />
       </div>

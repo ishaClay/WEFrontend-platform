@@ -35,15 +35,12 @@ import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 import { enumUpadate } from "@/services/apiServices/enum";
 
-
-
 const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-
-  const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { clientId, UserId } = useSelector((state: any) => state.user);   
 
   const { activePillar, allPillar } = useSelector(
     (state: any) => state.question
@@ -61,7 +58,7 @@ const QuestionPage = () => {
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
-    });
+  });
 
   const path = 2+1
   const { mutate: EnumUpadate } :any= useMutation({
@@ -70,7 +67,6 @@ const QuestionPage = () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
-
     },
   });
 
@@ -80,6 +76,7 @@ const QuestionPage = () => {
         ? clientwisePillarList?.data?.data
         : pillarList?.data?.data
     )?.map((i: Pillar) => i?.pillarName);
+
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
     }
@@ -173,7 +170,7 @@ const QuestionPage = () => {
     : 0;
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    EnumUpadate(path)
+    EnumUpadate(path);
     let allQueAns: any = {};
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
@@ -241,7 +238,7 @@ const QuestionPage = () => {
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
 
-  
+
   return (
     <div className="font-calibri font-normal">
       <div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 lg:pr-[166px] px-4 text-lg leading-[21.97px]">
@@ -318,8 +315,7 @@ const QuestionPage = () => {
               ? pillarQuestions.filter((que: QuestionType) =>
                   que.options.some((opt) => opt.checked)
                 ).length
-              : 0;
-        
+              : 0;        
 
             return (
               <div
@@ -365,7 +361,7 @@ const QuestionPage = () => {
                 </div>
 
                 <Progress
-                  color="#64A70B"
+                  color={activePillar === category ? "#002A3A" : "#64A70B"}
                   className={`${
                     !(activePillar === category) && "!bg-[white]"
                   } h-[4px]`}
@@ -380,11 +376,11 @@ const QuestionPage = () => {
       </div>
 
       <form>
-        <div className="mt-[89px] 2xl:ml-[177px] xl:ml-[130px] ml-[50px] flex flex-wrap">
-          <div className="bg-[#EFEEEE] flex gap-12 flex-col pr-[98px] pb-[68px] 2xl:w-[871px] xl:w-[700px] w-[600px] max-w-full">
+        <div className="m-[24px] flex gap-12 flex-wrap justify-between max-w-[1440px] mx-auto">
+          <div className="flex gap-12 flex-col w-full max-w-[773px]">
             <Question />
           </div>
-          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal ml-[27px]">
+          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal">
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
               Current Progress
             </h2>
@@ -401,7 +397,7 @@ const QuestionPage = () => {
 								className="mr-[34px]"
 							/> */}
             </div>
-            <div className="ml-[14px] mt-[17px] w-[267px]">
+            <div className="mt-[17px] w-[267px]">
               <div className="flex items-center justify-between font-bold	">
                 <span>Attempted</span>
                 <p>

@@ -36,7 +36,7 @@ const EmployeeListSidebar = () => {
 
   return (
     <div className="top-0 left-0 lg:flex flex-col justify-between w-60 duration-500 bg-[#FFFFFF] overflow-hidden">
-      <div className="w-[235px] h-[2060px]">
+      <div className="w-[235px] h-screen">
         <div className="ml-[40px] mt-[20px]">
           <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
         </div>
@@ -67,7 +67,7 @@ const EmployeeListSidebar = () => {
 
           {isOpen1 && (
             <ul className="absolute left-0 right-0 bg-white rounded-md mt-[160px] list-disc pl-6 w-[245px] h-[90px]">
-              <li className="ml-[20px] text-xs mt-2">
+              <li className="ml-[20px] mt-2 font-calibri text-base">
                 <Link to="/allocatedcourses">Allocated Courses</Link>
               </li>
 

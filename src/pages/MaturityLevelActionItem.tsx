@@ -38,7 +38,7 @@ const { mutate: EnumUpadate }:any = useMutation({
 
 const handlematurityAction = () =>{	
 EnumUpadate(path)
-navigate("/coursesrecommended")
+navigate("/dashbord")
 }
 
 
@@ -137,7 +137,7 @@ navigate("/coursesrecommended")
         console.log(item);
         return (
           <div className="flex flex-col h-full w-full mt-8">
-            <div className="2xl:ml-[180px] xl:ml-[80px] h-[390px] ml-[30px] xl:w-[1126px] w-[970px]">
+            <div className="mx-auto xl:w-[1126px] w-[970px]">
               <div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                 <div className=" pb-2 pt-2 flex gap-5 h-[70px] xl:w-[1126px] w-[970px]">
                   <div className="flex items-center justify-center xl:gap-[718px] gap-[560px]">
@@ -222,7 +222,7 @@ navigate("/coursesrecommended")
 				</div>
 			</div> */}
 
-      <div className="flex justify-center mt-20">
+      <div className="flex justify-center mt-10">
         <button
           onClick={handlematurityAction}
           className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold"
@@ -239,7 +239,7 @@ navigate("/coursesrecommended")
 
       <div className="pb-4 w-[940px]  "></div>
 
-      <div className="font-bold 2xl:ml-[420px] xl:ml-[300px] ml-[200px] font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-[122px]">
+      <div className="font-bold max-w-[1160px] w-full text-center mx-auto font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-10">
         <p>
           {" "}
           Congratulations! 🌿 Your chosen maturity levels have been noted.
