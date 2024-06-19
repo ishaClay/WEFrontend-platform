@@ -107,9 +107,7 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
             // console.log(user.pathstatus ===)
-            if (user.pathstatus === "8") {
-              navigate("/dashbord");
-            } else if(user.pathstatus === "0" || user.pathstatus === "1") {
+            if(user.pathstatus === "0" || user.pathstatus === "1") {
               navigate("/assessment");
             }else if(user.pathstatus === "2") {
               navigate("/question");              
@@ -123,6 +121,9 @@ function Auth() {
               navigate("/selectlevel");
             }else if(user.pathstatus === "7") {
               navigate("/maturitylevelactionitem");
+            }else if(user.pathstatus === "8") {
+              navigate("/dashbord");
+              localStorage.setItem("user", JSON?.stringify(data.data.data))
             }else {
               navigate("/savedassesment");
             }
