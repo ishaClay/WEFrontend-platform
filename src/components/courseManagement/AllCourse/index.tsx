@@ -24,7 +24,7 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
-import ListView from "./listView";
+// import ListView from "./listView";
 
 const AllCourses = () => {
   const [cohort, setCohort] = useState(false);
@@ -87,7 +87,7 @@ const AllCourses = () => {
             </div>
           </div>
           <div className="px-[18px]">
-            {/* <div className="grid xl:grid-cols-4 grid-cols-3 gap-5">
+            <div className="grid xl:grid-cols-4 grid-cols-3 gap-5">
             {fetchCourseAllCourseData?.data.map((list: any, index: number) => {
               console.log("list+++", list);
 
@@ -187,8 +187,8 @@ const AllCourses = () => {
                 </div>
               );
             })}
-            </div> */}
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            </div>
+            {/* <ListView list={fetchCourseAllCourseData?.data || []} /> */}
           </div>
         </div>
       </div>

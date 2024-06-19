@@ -53,6 +53,8 @@ const data = [
 
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(0);
+  console.log("page", page);
+  
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",
@@ -177,7 +179,7 @@ const AllocatedCertificatePage = () => {
           </h5>
         );
       },
-      cell: ({ row }) => {
+      cell: () => {
         return (
           <div className="flex items-center">
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />

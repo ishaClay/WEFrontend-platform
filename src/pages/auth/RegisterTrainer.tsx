@@ -19,8 +19,7 @@ import { registerTrainer } from "@/services/apiServices/trainer";
 import { Trainer } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { z } from "zod";
@@ -30,7 +29,6 @@ function RegisterTrainer() {
   const navigate = useNavigate();
 
   const { toast } = useToast();
-  const { clientId } = useSelector((state: any) => state.user);
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
     providerType: z.string().min(1, { message: "Provider Type is required" }),
@@ -90,9 +88,10 @@ function RegisterTrainer() {
   });
   
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (
-    data: ValidationSchema
+  const onSubmit = async (
+    data: FieldValues
   ) => {
+    // @ts-ignore
     createtrainer(data);    
   };
 
@@ -263,10 +262,10 @@ function RegisterTrainer() {
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
-                      {...register("contactFirstName")}
+                      {...register("name")}
                     />
-                    {errors.contactFirstName && (
-                      <ErrorMessage message={errors.contactFirstName.message as string} />
+                    {errors.name && (
+                      <ErrorMessage message={errors.name.message as string} />
                     )}
                   </div>{" "}
                   <div>

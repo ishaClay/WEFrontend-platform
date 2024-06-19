@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroupItem } from "@/components/ui/radio-group";
 import { Trash2 } from "lucide-react";
 
 type optionsProps = {

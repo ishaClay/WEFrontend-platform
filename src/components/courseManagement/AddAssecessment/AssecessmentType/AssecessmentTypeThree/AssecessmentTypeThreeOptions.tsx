@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
-import React from "react";
 
 type optionsProps = {
   data: {

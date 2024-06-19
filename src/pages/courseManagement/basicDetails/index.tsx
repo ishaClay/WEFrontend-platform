@@ -44,9 +44,9 @@ const BasicDetails = () => {
         />
       </div>
       {step === 0 ? (
-        <CourseInformation setStep={setStep} />
+        <CourseInformation />
       ) : step === 1 ? (
-        <CourseSpecifications setStep={setStep} />
+        <CourseSpecifications />
       ) : step === 2 ? (
         <CourseLogistic setStep={setStep} />
       ) : step === 3 ? (
