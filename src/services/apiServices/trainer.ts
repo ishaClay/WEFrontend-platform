@@ -30,3 +30,14 @@ export const trainerInvitation = async (data: { email: string[], invitationDetai
   const response = await api({ url, data, method: "post" });
   return response.data;
 }
+export const trainerCreate = async (data: any) => {
+  const url = `api/v1/trainer/create`;
+  const response = await api({ url, data, method: "post" });
+  return response.data;
+}
+
+export const trainerUpdate = async (data: any) => {
+  const url = `api/v1/trainer/updateTrainer`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+}

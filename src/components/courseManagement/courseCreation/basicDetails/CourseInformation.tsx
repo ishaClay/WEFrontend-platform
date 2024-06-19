@@ -3,7 +3,7 @@ import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
-import { urlRegex } from "@/lib/constants";
+// import { urlRegex } from "@/lib/constants";
 import { fetchClientById } from "@/services/apiServices/client";
 import { createCourse } from "@/services/apiServices/courseManagement";
 import { ClientResponse } from "@/types/client";
@@ -28,7 +28,7 @@ const schema = zod
       .string()
       .optional()
       .refine((val) => {
-        return val === undefined || val === "" || urlRegex.test(val);
+        return val === undefined || val === ""
       }, "Invalid URL"),
     coursePrise: zod
       .string()

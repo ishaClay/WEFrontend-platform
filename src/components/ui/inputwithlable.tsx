@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  disable?: boolean;
 }
 
 const InputWithLable = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, ...props }, ref) => {
+  ({ className, type, label, disable = false, ...props }, ref) => {
     return (
       <div className="flex flex-col">
         {label && (
@@ -21,6 +22,7 @@ const InputWithLable = React.forwardRef<HTMLInputElement, InputProps>(
             className
           )}
           ref={ref}
+          disabled={disable}
           {...props}
         />
       </div>

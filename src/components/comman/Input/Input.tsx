@@ -7,6 +7,7 @@ interface InputProps {
   label?: string;
   placeholder?: string;
   className?: string;
+  disable?: boolean;
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   className,
   label,
   placeholder,
+  disable = false,
   ...rest
 }) => {
   return (
@@ -25,9 +27,9 @@ const Input: React.FC<InputProps> = ({
       <input
         value={value}
         placeholder={placeholder}
-        className={`h-[46px] border-[1.53px] border-solid border-[#DFDFDF] rounded-[4px] lg:w-[180px] sm:w-[180px] md:w-[170px] p-3 font-normal placeholder-[#AEACAC] ${
-          className || ""
-        }`}
+        disabled={disable}
+        className={`h-[46px] border-[1.53px] border-solid border-[#DFDFDF] rounded-[4px] lg:w-[180px] sm:w-[180px] md:w-[170px] p-3 font-normal placeholder-[#AEACAC] ${className || ""
+          }`}
         {...rest}
       />
     </div>
