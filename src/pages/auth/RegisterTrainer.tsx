@@ -30,20 +30,7 @@ function RegisterTrainer() {
   const navigate = useNavigate();
 
   const { toast } = useToast();
-
   const { clientId } = useSelector((state: any) => state.user);
-
-  const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.trainerList],
-      });
-      toast({ title: "Trainer created successfully" });
-    },
- 
-  });
-
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
     providerType: z.string().min(1, { message: "Provider Type is required" }),
@@ -59,7 +46,7 @@ function RegisterTrainer() {
       providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    contactFirstName: z.string().min(1, { message: "Contact First Name is required" }),
+      name: z.string().min(1, { message: "Contact First Name is required" }),
     email: z.string().min(1, { message: "Email Address is required" }),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
@@ -85,13 +72,28 @@ function RegisterTrainer() {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  console.log("errorserrors", errors);
+
+  
+
+  const { mutate: createtrainer, isPending: createPending } = useMutation({
+    mutationFn: (question: Trainer) => registerTrainer(question),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.trainerList],
+      });
+      reset();
+    navigate("/auth")
+      toast({ title: "Trainer created successfully" });
+    },
+ 
+  });
+  
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (
     data: ValidationSchema
   ) => {
-    createtrainer(data);
-    reset();
-    navigate("/auth")
+    createtrainer(data);    
   };
 
   return (
@@ -184,16 +186,26 @@ function RegisterTrainer() {
                       placeholder="Sample"
                       className="h-[46px]"
                       label="Contact Surname"
-                      name=""
+                      {...register("contactSurname")}
                     />
+                    {errors.contactSurname && (
+                      <ErrorMessage
+                        message={errors.contactSurname.message as string}
+                      />
+                    )}
                   </div>
                   <div>
                     <InputWithLable
                       placeholder="0044 1234 1234567"
                       className="h-[46px]"
                       label="Contact Telephone No."
-                      name=""
+                      {...register("contactTelephone")}
                     />
+                    {errors.contactTelephone && (
+                      <ErrorMessage
+                        message={errors.contactTelephone.message as string}
+                      />
+                    )}
                   </div>
                   <div className="max-w-[220px] w-full">
                     <Select {...register("foreignProvider")}>
@@ -222,11 +234,11 @@ function RegisterTrainer() {
                       placeholder="221 B Baker Street"
                       className="h-[46px]"
                       label="Provider Address"
-                      {...register("ProviderAddress")}
+                      {...register("providerAddress")}
                     />
-                    {errors.ProviderAddress && (
+                    {errors.providerAddress && (
                       <ErrorMessage
-                        message={errors.ProviderAddress.message as string}
+                        message={errors.providerAddress.message as string}
                       />
                     )}
                   </div>
@@ -235,11 +247,11 @@ function RegisterTrainer() {
                       placeholder="United Kingdom"
                       className="h-[46px]"
                       label="Provider Country"
-                      {...register("ProviderCountry")}
+                      {...register("providerCounty")}
                     />
-                    {errors.ProviderCountry && (
+                    {errors.providerCounty && (
                       <ErrorMessage
-                        message={errors.ProviderCountry.message as string}
+                        message={errors.providerCounty.message as string}
                       />
                     )}
                   </div>
@@ -270,11 +282,11 @@ function RegisterTrainer() {
                       placeholder="Notes 1"
                       className="h-[46px]"
                       label="Provider Notes"
-                      {...register("ProviderNotes")}
+                      {...register("providerNotes")}
                     />
-                    {errors.ProviderNotes && (
+                    {errors.providerNotes && (
                       <ErrorMessage
-                        message={errors.ProviderNotes.message as string}
+                        message={errors.providerNotes.message as string}
                       />
                     )}
                   </div>
