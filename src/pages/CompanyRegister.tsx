@@ -122,7 +122,7 @@ function CompanyRegister() {
   return (
     <>
       <Header />
-      <div className="flex relative mt-[40px] gap-[50px]">
+      <div className="max-w-[1440px] w-full flex relative mt-[34px] gap-[50px] mx-auto">
         <div>
           <img
             className="w-[686px] h-[1073px]"

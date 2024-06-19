@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import Modal from "@/components/comman/Modal";
 import {
   InputOTP,
   InputOTPGroup,
@@ -346,50 +347,53 @@ function Register() {
       </div>
 
       {showOtpPopup && (
-        <div className="fixed inset-0 flex items-center text-center justify-center 2xl:ml-[250px] xl:ml-[350px] ml-[550px] mb-[100px] xl:w-full w-[400px]">
-          <div className="fixed inset-0 bg-black opacity-50"></div>
-
-          <div className="bg-white p-6 rounded-lg relative z-10">
-            <button onClick={() => setShowOtpPopup(false)}>x</button>
+        <Modal
+          open={showOtpPopup}
+          onClose={() => setShowOtpPopup(false)}
+          className="max-w-[550px]"
+        >
+          <div className="mb-5 mt-5">
             <h2 className="text-xl font-semibold">
               Please enter the one-time password to verify your account
             </h2>
             <p className="text-[#848181] text-[16px]">
               A one-time password has been sent to {email}
             </p>
-            <div className="flex justify-center gap-3">
-              <InputOTP
-                maxLength={6}
-                onChange={(e) => {
-                  setOtp(e);
-                }}
-              >
+          </div>
+          <div className="flex justify-center gap-3 mb-5">
+            <InputOTP
+              maxLength={6}
+              onChange={(e) => {
+                setOtp(e);
+              }}
+            >
+              <InputOTPGroup>
                 <InputOTPGroup>
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
-                  </InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
                 </InputOTPGroup>
-              </InputOTP>
-            </div>
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+          <ul className="flex flex-col gap-2 items-center">
+            <a className="text-[#848181] text-[16px] font-[700] block">
+              Resend OTP
+            </a>
+            <a className="text-[#369FFF] text-[16px] block">Wrong Email?</a>
+          </ul>
+          <div className="flex justify-center">
             <button
-              className="text-white w-[181px] p-[10px] rounded-[10px]  bg-[#64A70B] h-[50px] mt-6 rounded-600"
+              className="text-white w-[181px] p-[10px] rounded-[10px]  bg-[#64A70B] h-[50px]rounded-600"
               onClick={() => handleVerifyOtp()}
             >
               Validate
             </button>
-            <ul className="text-[#848181] text-[16px] font-[700] mt-[15px]">
-              <a>Resend OTP</a>
-            </ul>
-            <ul className="text-[#369FFF] text-[16px] mt-[12px]">
-              <a>Wrong Email?</a>
-            </ul>
           </div>
-        </div>
+        </Modal>
       )}
 
       <Loading isLoading={createPending || createOtp} />

@@ -96,6 +96,9 @@ function RegisterTrainer() {
     createtrainer(data);    
   };
 
+  console.log("errors", errors);
+  
+
   return (
     <div className="">
       <Header />
@@ -260,10 +263,10 @@ function RegisterTrainer() {
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
-                      {...register("name")}
+                      {...register("contactFirstName")}
                     />
-                    {errors.name && (
-                      <ErrorMessage message={errors.name.message as string} />
+                    {errors.contactFirstName && (
+                      <ErrorMessage message={errors.contactFirstName.message as string} />
                     )}
                   </div>{" "}
                   <div>

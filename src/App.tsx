@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
@@ -92,6 +92,9 @@ import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import { changeTheme } from "./services/apiServices/theme";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+import AuthLayout from "./Layout/AuthLayout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RootLayout from "./Layout/RootLayout";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -122,10 +125,355 @@ function App() {
     themes?.data?.data?.textColor
   );
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+			element: <AuthLayout />,
+			children: [
+        {
+          path: "/",
+          element: <Home />
+        },
+        {
+          path: "/auth",
+          element: <Auth />
+        },
+        {
+          path: "/trainer",
+          element: <RegisterTrainer />
+        },
+        {
+          path: "/resetpassword",
+          element: <ResetPassword />
+        },
+        {
+          path: "/register",
+          element: <Register />
+        },
+        {
+          path: "/registertrainee",
+          element: <RegisterTrainee />
+        },
+        {
+          path: "/company",
+          element: <Company />
+        },
+      ]
+    },
+    {
+      path: "/",
+			element:  <ProtectedRoute>
+                  <RootLayout />
+                </ProtectedRoute>,
+			children: [
+        {
+          path: "/assessment",
+          element: <Assessment />
+        },
+        {
+          path: "/question",
+          element: <QuestionPage />
+        },
+        {
+          path: "/teaserscore",
+          element: <TeaserScore />
+        },
+        {
+          path: "/companyregister",
+          element: <CompanyRegister />
+        },
+        {
+          path: "/maturelevel",
+          element: <MaturityLevelPage />
+        },
+        {
+          path: "/selectlevel",
+          element: <SelectLevel />
+        },
+        {
+          path: "/maturitylevelactionitem",
+          element: <MaturityLevelActionItem />
+        },
+        {
+          path: "/savedassesment",
+          element: <SavedAssesment />
+        },
+        {
+          path: "/dashbord",
+          element: <Dashbord />
+        },
+        {
+          path: "/maturitylevelactionablepopup",
+          element: <MaturityLevelActionableMeasurePopup />
+        },
+        {
+          path: "/maturitylevelanswerspopup",
+          element: <MaturityLevelAnswersPopup />
+        },
+        {
+          path: "/coursesrecommended",
+          element: <CoursesRecommended />
+        },
+        {
+          path: "/courseemrolledemployeepopup",
+          element: <CourseEmrolledToEmployeePopup />
+        },
+        {
+          path: "/courseviewallocatepopup",
+          element: <CoursesViewAllocatePopup />
+        },
+        {
+          path: "/coursesemrolledtoemployeeinvitepopup",
+          element: <CoursesEmrolledToEmployeeInvitePopup />
+        },
+        {
+          path: "/allocatedcourses",
+          element: <CoursesAllocate />
+        },
+        {
+          path: "/employeelist",
+          element: <EmployeeList />
+        },
+        {
+          path: "/employeeprogress",
+          element: <EmployeeProgress />
+        },
+        {
+          path: "/faqslist",
+          element: <FaqsList />
+        },
+        {
+          path: "/employeesendinvitation",
+          element: <EmployeeSendInvitation />
+        },
+        {
+          path: "/trainingdocument",
+          element: <TrainingDocument />
+        },
+        {
+          path: "/supportticket",
+          element: <SupportAddNewTicket />
+        },
+        {
+          path: "/supportdetails",
+          element: <SupportDetails />
+        },
+        {
+          path: "/supportanswer",
+          element: <SupportAnswer />
+        },
+        {
+          path: "/supportaddnewticket",
+          element: <SupportAddNewTicket />
+        },
+        {
+          path: "/employeepermission",
+          element: <EmployeePermission />
+        },
+        {
+          path: "/individualemployee",
+          element: <IndividualEmployee />
+        },
+        {
+          path: "/messaging",
+          element: <Messaging />
+        },
+        {
+          path: "/compose",
+          element: <Compose />
+        },
+        {
+          path: "/smeadmindropdonw",
+          element: <SmeAdminDropdonw />
+        },
+        {
+          path: "/allcourses",
+          element: <CoursesAllCourse />
+        },
+        {
+          path: "/maturityassessmentroadmap",
+          element: <MaturityAssessmentRoadmapAfterbuild />
+        },
+        {
+          path: "/maturityassessmentroadmaphistory",
+          element: <MaturityAssessmentRoadmapHistory />
+        },
+        { 
+          path:"/maturityassessmentroadmapactionview", 
+          element: <MaturityAssessmentRoadmapActionView /> 
+        },
+        { 
+          path:"/maturityassessmentroadmapassignactionitem", 
+          element: <MaturityAssessmentRoadmapAssignActionItem /> 
+        },
+        { 
+          path:"/maturityassessmentroadmapsettarget", 
+          element: <MaturityAssessmentRoadmapSetTarget /> 
+        },
+        { 
+          path:"/maturityassessmentresult", 
+          element: <MaturityAssessmentResult /> 
+        },
+        { 
+          path:"/employeedashbord", 
+          element: <EmployeeDashbord /> 
+        },
+        { 
+          path:"/mycourses", 
+          element: <MyCourses /> 
+        },
+        { 
+          path:"/inprogress", 
+          element: <InProgress /> 
+        },
+        { 
+          path:"/employeecompleted", 
+          element: <EmployeeCompleted /> 
+        },
+        { 
+          path:"/employeecompletedsecond", 
+          element: <EmployeeCompletedSecond /> 
+        },
+        { 
+          path:"/mycoursesall", 
+          element: <MyCoursesAll /> 
+        },
+        { 
+          path:"/mycoursesallsecond", 
+          element: <MyCoursesAllSecond /> 
+        },
+        { 
+          path:"/teammemberdropdown", 
+          element: <TeamMemberDropdown /> 
+        },
+        { 
+          path:"/mycoursesinformaction", 
+          element: <MyCoursesInformaction /> 
+        },
+        { 
+          path:"/mycoursessocial", 
+          element: <MyCoursesSocial /> 
+        },
+        { 
+          path:"/module", 
+          element: <Module /> 
+        },
+        { 
+          path:"/modulefrist", 
+          element: <ModuleFrist /> 
+        },
+        { 
+          path:"/modulepdf", 
+          element: <ModulePdf /> 
+        },
+        { 
+          path:"/modulevideo", 
+          element: <ModuleVideo /> 
+        },
+        { 
+          path:"/modulepdfdetail", 
+          element: <ModulePdfDetail /> 
+        },
+        { 
+          path:"/livesession", 
+          element: <LiveSession /> 
+        },
+        { 
+          path:"/ratingpopup", 
+          element: <RatingPopup /> 
+        },
+        { 
+          path:"/employeefaq", 
+          element: <EmployeeFqs /> 
+        },
+        { 
+          path:"/usermanual", 
+          element: <UserManual /> 
+        },
+        { 
+          path:"/employeesupportrequest", 
+          element: <EmployeeSupportRequest /> 
+        },
+        { 
+          path:"/employeesupportrequestfirst", 
+          element: <EmployeeSupportRequestFirst /> 
+        },
+        { 
+          path:"/employeesupportrequestsecond", 
+          element: <EmployeeSupportRequestSecond /> 
+        },
+        { 
+          path:"/employeemsg", 
+          element: <EmployeeMsg /> 
+        },
+        { 
+          path:"/messagepopup", 
+          element: <MessagePopup /> 
+        },
+        { 
+          path:"/myaccomplishmentscertifications", 
+          element: <MyAccomplishmentsCertifications /> 
+        },
+        { 
+          path:"/myaccomplishments", 
+          element: <MyAccomplishments /> 
+        },
+        { 
+          path:"/assessmentresult", 
+          element: <AssessmentResult /> 
+        },
+        { 
+          path:"/profilesetting", 
+          element: <ProfileSetting /> 
+        },
+        { 
+          path:"/changepassword", 
+          element: <ChangePassword /> 
+        },
+        { 
+          path:"/employeeassessmentresult", 
+          element: <EmployeeAssessmentResult /> 
+        },
+        { 
+          path:"/employeeassessmentresultfirst", 
+          element: <EmployeeAssessmentResultFirst /> 
+        },
+        { 
+          path:"/employeerodemap", 
+          element: <EmployeeRodemap /> 
+        },
+        { 
+          path:"/employeeassessmentresultpopup", 
+          element: <EmployeeAssessmentResultPopup /> 
+        },
+        { 
+          path:"/trainer", 
+          element: <DashboardLayout /> 
+        },
+        { 
+            path:"/allcourse", 
+            element: <AllCoursesPage /> 
+        },
+        { 
+            path:"/enrolledrequest", 
+            element: <EnrollmentRequest /> 
+        },
+        { 
+            path:"/enrolledcourses", 
+            element: <EnrolledCourse /> 
+        },
+        { 
+            path:"/coursemanagement", 
+            element: <CourseManagement /> 
+        },
+      ]
+    },
+  ])
+
   return (
     <div className="App mx-auto">
       <Toaster />
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer" element={<RegisterTrainer />} />
@@ -211,7 +559,7 @@ function App() {
           path="/maturityassessmentresult"
           element={<MaturityAssessmentResult />}
         />
-        {/* semiemployee */}
+        
         <Route path="/employeedashbord" element={<EmployeeDashbord />} />
         <Route path="/mycourses" element={<MyCourses />} />
         <Route path="/inprogress" element={<InProgress />} />
@@ -301,7 +649,8 @@ function App() {
             element={<AllocatedCertificate />}
           />
         </Route>
-      </Routes>
+      </Routes> */}
+      <RouterProvider router={router} />
     </div>
   );
 }
