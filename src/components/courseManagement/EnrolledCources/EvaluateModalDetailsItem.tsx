@@ -1,7 +1,23 @@
 import { Button } from "@/components/ui/button";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
 
-const EvaluateModalDetailsItem = ({ data }: { data: any }) => {
+type evaluteModalProps = {
+  data: {
+    modalId: number;
+    sessionId: number;
+    assessmentId: number;
+    questions: {
+      questionId: number;
+      pointId: number;
+      desription: string;
+      answer: string;
+      keyWords: string;
+    }[];
+    page1: number;
+    page2: number;
+  };
+};
+const EvaluateModalDetailsItem = ({ data }: evaluteModalProps) => {
   return (
     <div className="p-5 border-b border-[#D9D9D9]">
       <div className="">

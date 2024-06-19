@@ -2,7 +2,7 @@ import EnrolledCourcesPage from "@/components/courseManagement/EnrolledCources/E
 
 const EnrolledCourse = () => {
   return (
-    <div>
+    <div className="bg-white rounded-[10px]">
       <EnrolledCourcesPage />
     </div>
   );

@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Image } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
-const CourseBanner = () => {
+interface CourseBannerProps {
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const CourseBanner = ({ setStep }: CourseBannerProps) => {
   return (
     <div className="border border-[#D9D9D9] rounded-md p-7">
       <div className="">
@@ -53,7 +58,11 @@ const CourseBanner = () => {
         </div>
       </div>
       <div className="text-right">
-        <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+        <Button
+          type="button"
+          onClick={() => setStep((prev) => prev + 1)}
+          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+        >
           Next
         </Button>
       </div>

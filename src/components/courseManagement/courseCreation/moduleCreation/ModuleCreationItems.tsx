@@ -3,7 +3,18 @@ import { CirclePlus, CircleX, Link } from "lucide-react";
 import UploadContent from "./UploadContent";
 import { Switch } from "@/components/ui/switch";
 
-const ModuleCreationItems = ({ data }: { data: any }) => {
+type moduleCreationItemsProps = {
+  data: {
+    moduleId: number;
+    moduleTitle: string;
+    sectionTitle: string;
+    moduleInformation: string;
+    uploadContent: string;
+    moduleUrl: string;
+    documentDownload: string;
+  };
+};
+const ModuleCreationItems = ({ data }: moduleCreationItemsProps) => {
   return (
     <div className="">
       <div className="border border-[#D9D9D9] rounded-lg mb-5">

@@ -30,20 +30,7 @@ function RegisterTrainer() {
   const navigate = useNavigate();
 
   const { toast } = useToast();
-
   const { clientId } = useSelector((state: any) => state.user);
-
-  const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.trainerList],
-      });
-      toast({ title: "Trainer created successfully" });
-    },
- 
-  });
-
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
     providerType: z.string().min(1, { message: "Provider Type is required" }),
@@ -59,7 +46,7 @@ function RegisterTrainer() {
       providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    contactFirstName: z.string().min(1, { message: "Contact First Name is required" }),
+      name: z.string().min(1, { message: "Contact First Name is required" }),
     email: z.string().min(1, { message: "Email Address is required" }),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
@@ -85,13 +72,28 @@ function RegisterTrainer() {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  console.log("errorserrors", errors);
+
+  
+
+  const { mutate: createtrainer, isPending: createPending } = useMutation({
+    mutationFn: (question: Trainer) => registerTrainer(question),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.trainerList],
+      });
+      reset();
+    navigate("/auth")
+      toast({ title: "Trainer created successfully" });
+    },
+ 
+  });
+  
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (
     data: ValidationSchema
   ) => {
-    createtrainer(data);
-    reset();
-    navigate("/auth")
+    createtrainer(data);    
   };
 
   console.log("errors", errors);

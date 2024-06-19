@@ -4,7 +4,7 @@ import { MoveLeft } from "lucide-react";
 const EnrolledCourcesPage = () => {
   return (
     <div>
-      <div className="flex justify-between items-center p-5 border-b border-[#D9D9D9] mb-7">
+      <div className="flex justify-between items-center py-5 px-4 border-b border-[#D9D9D9] mb-7">
         <div>
           <h6 className="text-base font-bold">Enrolled Courses</h6>
         </div>

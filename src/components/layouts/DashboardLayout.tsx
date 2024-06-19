@@ -1,21 +1,24 @@
-import HeaderCourse from "../HeaderCourse";
-import { Outlet } from "react-router-dom";
-import Sidebar from "../Sidebar";
-import { RxDashboard } from "react-icons/rx";
-import { RiShutDownLine } from "react-icons/ri";
-import { LuMapPin } from "react-icons/lu";
-import { FaUserGroup } from "react-icons/fa6";
-import { PiEnvelopeThin } from "react-icons/pi";
-import { BsTicketPerforated } from "react-icons/bs";
-import { TfiBook } from "react-icons/tfi";
-import { FiSettings } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { BsTicketPerforated } from "react-icons/bs";
+import { FaUserGroup } from "react-icons/fa6";
+import { FiSettings } from "react-icons/fi";
+import { LuMapPin } from "react-icons/lu";
+import { PiEnvelopeThin } from "react-icons/pi";
+import { RiShutDownLine } from "react-icons/ri";
+import { RxDashboard } from "react-icons/rx";
+import { TfiBook } from "react-icons/tfi";
+import { Outlet } from "react-router-dom";
+import HeaderCourse from "../HeaderCourse";
+import Sidebar from "../Sidebar";
 
 interface SidebarItem {
   label: string;
   Icon: JSX.Element;
   link: string;
-  children?: any;
+  children?: {
+    label: string;
+    link: string;
+  }[];
 }
 
 const sidebar2: SidebarItem[] = [
@@ -150,19 +153,25 @@ const TarinerSidebar: SidebarItem[] = [
     ],
   },
   {
-    label: "Team Management",
-    Icon: <FaUserGroup size={22} />,
+    label: "Certificate Management",
+    Icon: <LuMapPin size={22} />,
     link: "#",
     children: [
       {
-        label: "Team List",
-        link: "/employeelist",
+        label: "Certificate Template",
+        link: "/trainer/certificate-template",
       },
       {
-        label: "Team Progress",
-        link: "/employeeprogress",
+        label: "Allocated Certificate",
+        link: "/trainer/allocated-certificate",
       },
     ],
+  },
+  {
+    label: "Trainer Management",
+    Icon: <FaUserGroup size={22} />,
+    link: "/trainer/trainer-management",
+    children: [],
   },
   {
     label: "Support",
@@ -205,8 +214,8 @@ const TarinerSidebar: SidebarItem[] = [
 
 const DashboardLayout = () => {
   const [num, setNum] = useState(3);
-  const [data, setData]: any = useState([]);
-
+  const [data, setData] = useState<SidebarItem[]>([]);
+  0;
   useEffect(() => {
     setNum(1);
     switch (num) {
@@ -218,7 +227,7 @@ const DashboardLayout = () => {
         setData(sidebar2);
         break;
     }
-  }, []);
+  }, [num]);
 
   return (
     <div className="flex bg-[#F5F7FF] overflow-hidden">
@@ -229,9 +238,7 @@ const DashboardLayout = () => {
       <div className="w-full">
         <HeaderCourse />
         <div className="p-4 h-[calc(100vh-135px)] overflow-auto">
-          <div className="bg-white p-4">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
       </div>
     </div>

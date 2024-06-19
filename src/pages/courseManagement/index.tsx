@@ -1,12 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import CoursePathway from "./CoursePathway";
 import ModuleCreation from "./ModuleCreation";
 import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
   return (
-    <div>
+    <div className="bg-white p-4">
       <Tabs defaultValue="basic-details" className="">
         <div className="border-b">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">

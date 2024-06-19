@@ -2,7 +2,7 @@ import EnrollmentRequestPage from "@/components/courseManagement/EnrollmentReque
 
 const EnrollmentRequest = () => {
   return (
-    <div>
+    <div className="bg-white rounded-[10px]">
       <EnrollmentRequestPage />
     </div>
   );

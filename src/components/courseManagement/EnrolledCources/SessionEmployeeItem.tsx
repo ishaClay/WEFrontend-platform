@@ -1,6 +1,13 @@
 import { Checkbox } from "@/components/ui/checkbox";
 
-const SessionEmployeeItem = ({ data }: { data: any }) => {
+type sessionEmpoyeeProps = {
+  data: {
+    image: string;
+    empoyeeName: string;
+  };
+};
+
+const SessionEmployeeItem = ({ data }: sessionEmpoyeeProps) => {
   return (
     <div>
       <div className="flex items-center justify-between py-2.5 border-b border-[#D9D9D9]">

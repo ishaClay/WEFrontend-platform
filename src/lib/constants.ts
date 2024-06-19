@@ -31,4 +31,7 @@ export const QUERY_KEYS = {
   fetchbypillarcource: "fetchbypillarcource",
   fetchbypillar: "fetchbypillar",
   fetchEnrollmentRequestBytrainer: "fetch_enrollment_request_by_trainer",
+  fetchAllCourse: "fetchAllCourse",
 };
+
+export const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
