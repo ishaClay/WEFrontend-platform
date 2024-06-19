@@ -454,6 +454,10 @@ function App() {
           element: <DashboardLayout />,
           children: [
             {
+              path: "dashboard",
+              element: <Dashbord />,
+            },
+            {
               path: "allcourse",
               element: <AllCoursesPage />,
             },

@@ -21,7 +21,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     }
   }, []);
 
-  if (userToken) {
+  if (!userToken) {
     return <Navigate to={"/auth"} />;
   }
   return <>{children}</>;
