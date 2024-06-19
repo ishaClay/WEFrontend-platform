@@ -8,9 +8,8 @@ interface headerProps {
 function Header(props: headerProps) {
   const navigate = useNavigate();
 
-  const userData = localStorage?.getItem("user" || "");
-  const userToken = userData;
-  console.log("userToken", userToken);
+  const userData = localStorage?.getItem("user");
+  const userToken = !!userData && JSON.parse(userData)?.accessToken;  
 
   const handleLogout = () => {
     navigate("/");
