@@ -6,17 +6,13 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { getCertificate } from "@/services/apiServices/certificate";
 import { createCourseTwoPage } from "@/services/apiServices/courseManagement";
+import { ErrorResponse } from "@/types/Errors";
 import { CertificateResponse } from "@/types/certificate";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
-import { Dispatch, SetStateAction } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
-interface CourseSpecifications {
-  setStep: Dispatch<SetStateAction<number>>;
-}
 
 const schema = zod.object({
   nfqLevel: zod.string().min(1, "NQF level is required"),
@@ -76,7 +72,7 @@ const CourseSpecifications = () => {
         replace: true,
       });
     },
-    onError: (error: AxiosError) => {
+    onError: (error: ErrorResponse) => {
       toast({
         title: "Error",
         description: error.data?.message,

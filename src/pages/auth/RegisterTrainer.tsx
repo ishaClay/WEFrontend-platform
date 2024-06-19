@@ -15,12 +15,9 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { registerTrainer } from "@/services/apiServices/trainer";
-
-import { Trainer } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { z } from "zod";
@@ -30,22 +27,6 @@ function RegisterTrainer() {
   const navigate = useNavigate();
 
   const { toast } = useToast();
-<<<<<<< Updated upstream
-  const { clientId } = useSelector((state: any) => state.user);
-=======
-  S;
-
-  const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.trainerList],
-      });
-      toast({ title: "Trainer created successfully" });
-    },
-  });
-
->>>>>>> Stashed changes
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
     providerType: z.string().min(1, { message: "Provider Type is required" }),
@@ -65,13 +46,7 @@ function RegisterTrainer() {
     providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-<<<<<<< Updated upstream
-      name: z.string().min(1, { message: "Contact First Name is required" }),
-=======
-    contactFirstName: z
-      .string()
-      .min(1, { message: "Contact First Name is required" }),
->>>>>>> Stashed changes
+    name: z.string().min(1, { message: "Contact First Name is required" }),
     email: z.string().min(1, { message: "Email Address is required" }),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
@@ -99,36 +74,24 @@ function RegisterTrainer() {
   });
   console.log("errorserrors", errors);
 
-  
-
   const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
+    mutationFn: (question) => registerTrainer(question),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
       reset();
-    navigate("/auth")
+      navigate("/auth");
       toast({ title: "Trainer created successfully" });
     },
- 
   });
-  
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (
-    data: ValidationSchema
-  ) => {
-<<<<<<< Updated upstream
-    createtrainer(data);    
-=======
+  const onSubmit = async (data: FieldValues) => {
+    // @ts-ignore
     createtrainer(data);
-    reset();
-    navigate("/auth");
->>>>>>> Stashed changes
   };
 
   console.log("errors", errors);
-  
 
   return (
     <div className="">
@@ -294,10 +257,10 @@ function RegisterTrainer() {
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
-                      {...register("contactFirstName")}
+                      {...register("name")}
                     />
-                    {errors.contactFirstName && (
-                      <ErrorMessage message={errors.contactFirstName.message as string} />
+                    {errors.name && (
+                      <ErrorMessage message={errors.name.message as string} />
                     )}
                   </div>{" "}
                   <div>

@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -53,7 +52,7 @@ function SelectLevel() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [actionItems, setActionItems] = useState<SinglePillar>();
+  const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
   console.log("actionItems", actionItems);
   
@@ -278,7 +277,7 @@ const path = 6+1
 
   const handleClose = () => {
     setOpen(false);
-    setActionItems();
+    setActionItems(null);
   }
   const filteredOptions:FilteredOptionsEntity[] | any = actionItems?.filteredOptions;
 

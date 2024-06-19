@@ -2,13 +2,12 @@ import mandatory from "/assets/img/Mandatory.svg";
 
 import { Link } from "react-router-dom";
 import ErrorMessage from "../comman/Error/ErrorMessage";
-import Input from "../comman/Input/Input";
 import { useMutation } from "@tanstack/react-query";
-import { trainerCreate, trainerUpdate } from "@/services/apiServices/trainer";
+import { trainerUpdate } from "@/services/apiServices/trainer";
 import { toast } from "../ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Zod from "zod";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { InputWithLable } from "../ui/inputwithlable";
 import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
@@ -37,7 +36,6 @@ const RegisterTraineeForm = () => {
     countyOfResidence: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid county of residence" }).min(1, { message: "Please enter valid county of residence" }),
     attendedEvent: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid attended event" }).min(1, { message: "Please enter valid attended event" }),
   });
-  type ValidationSchema = Zod.z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
@@ -57,7 +55,7 @@ const RegisterTraineeForm = () => {
   console.log(typeof getValues("ageRange"), "errorserrorserrors");
 
 
-  const { mutate: updateTrainee, isPending } = useMutation({
+  const { mutate: updateTrainee } = useMutation({
     mutationFn: trainerUpdate,
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
@@ -139,7 +137,7 @@ const RegisterTraineeForm = () => {
 
             />
             {
-              errors.firstName && <ErrorMessage message={errors?.firstName?.message || ""} />
+              errors.firstName && <ErrorMessage message={errors?.firstName?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -152,7 +150,7 @@ const RegisterTraineeForm = () => {
               {...register("surname")}
             />
             {
-              errors.surname && <ErrorMessage message={errors?.surname?.message || ""} />
+              errors.surname && <ErrorMessage message={errors?.surname?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -165,7 +163,7 @@ const RegisterTraineeForm = () => {
               {...register("gender")}
             />
             {
-              errors.gender && <ErrorMessage message={errors?.gender?.message || ""} />
+              errors.gender && <ErrorMessage message={errors?.gender?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -179,7 +177,7 @@ const RegisterTraineeForm = () => {
               {...register("ageRange")}
             />
             {
-              errors.ageRange && <ErrorMessage message={errors?.ageRange?.message || ""} />
+              errors.ageRange && <ErrorMessage message={errors?.ageRange?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -194,7 +192,7 @@ const RegisterTraineeForm = () => {
               disable={email ? true : false}
             />
             {
-              errors.email && <ErrorMessage message={errors?.email?.message || ""} />
+              errors.email && <ErrorMessage message={errors?.email?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -207,7 +205,7 @@ const RegisterTraineeForm = () => {
               {...register("phone")}
             />
             {
-              errors.phone && <ErrorMessage message={errors?.phone?.message || ""} />
+              errors.phone && <ErrorMessage message={errors?.phone?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -221,7 +219,7 @@ const RegisterTraineeForm = () => {
 
             />
             {
-              errors.currentHighestNFQ && <ErrorMessage message={errors?.currentHighestNFQ?.message || ""} />
+              errors.currentHighestNFQ && <ErrorMessage message={errors?.currentHighestNFQ?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -242,7 +240,7 @@ const RegisterTraineeForm = () => {
               </SelectContent>
             </Select>
             {
-              errors.employmentStatus && <ErrorMessage message={errors?.employmentStatus?.message || ""} />
+              errors.employmentStatus && <ErrorMessage message={errors?.employmentStatus?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -254,7 +252,7 @@ const RegisterTraineeForm = () => {
               {...register("memberCompany")}
             />
             {
-              errors.memberCompany && <ErrorMessage message={errors?.memberCompany?.message || ""} />
+              errors.memberCompany && <ErrorMessage message={errors?.memberCompany?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -266,7 +264,7 @@ const RegisterTraineeForm = () => {
               {...register("occupationalCategory")}
             />
             {
-              errors.occupationalCategory && <ErrorMessage message={errors?.occupationalCategory?.message || ""} />
+              errors.occupationalCategory && <ErrorMessage message={errors?.occupationalCategory?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -278,7 +276,7 @@ const RegisterTraineeForm = () => {
               {...register("unemploymentTime")}
             />
             {
-              errors.unemploymentTime && <ErrorMessage message={errors?.unemploymentTime?.message || ""} />
+              errors.unemploymentTime && <ErrorMessage message={errors?.unemploymentTime?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -291,7 +289,7 @@ const RegisterTraineeForm = () => {
               {...register("countyOfResidence")}
             />
             {
-              errors.countyOfResidence && <ErrorMessage message={errors?.countyOfResidence?.message || ""} />
+              errors.countyOfResidence && <ErrorMessage message={errors?.countyOfResidence?.message as string || ""} />
             }
           </div>
           <div className="mb-4 col-span-1">
@@ -303,7 +301,7 @@ const RegisterTraineeForm = () => {
               {...register("attendedEvent")}
             />
             {
-              errors.attendedEvent && <ErrorMessage message={errors?.attendedEvent?.message || ""} />
+              errors.attendedEvent && <ErrorMessage message={errors?.attendedEvent?.message as string || ""} />
             }
           </div>
         </div>

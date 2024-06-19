@@ -1,10 +1,7 @@
 import Footer from "@/components/Footer";
 import TeaserScoreHeader from "@/components/TeaserScoreHeader";
 import {
-  Card,
-  CardContent,
   CardDescription,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { QUERY_KEYS } from "@/lib/constants";

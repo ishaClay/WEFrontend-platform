@@ -53,6 +53,8 @@ const data = [
 
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(0);
+  console.log("page", page);
+  
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",

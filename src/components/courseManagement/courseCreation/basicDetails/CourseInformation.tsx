@@ -6,17 +6,15 @@ import { toast } from "@/components/ui/use-toast";
 // import { urlRegex } from "@/lib/constants";
 import { fetchClientById } from "@/services/apiServices/client";
 import { createCourse } from "@/services/apiServices/courseManagement";
+import { ErrorResponse } from "@/types/Errors";
 import { ClientResponse } from "@/types/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
-interface CourseInformationProps {
-  setStep: Dispatch<SetStateAction<number>>;
-}
 
 const schema = zod
   .object({
@@ -95,7 +93,7 @@ const CourseInformation = () => {
         replace: true,
       });
     },
-    onError: (error) => {
+    onError: (error: ErrorResponse) => {
       toast({
         title: "Error",
         description: error.data?.message,

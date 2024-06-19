@@ -69,9 +69,9 @@ function Auth() {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
 
-        // localStorage.setItem("user", JSON.stringify(data.data.data));
         // navigate("/savedassesment");
-      dispatch(setUserData(user.id));
+        dispatch(setUserData(user.id));
+        localStorage.setItem("user", JSON.stringify(data.data.data));
 
         // toast({
         //   title: "Login Successfully",
@@ -91,10 +91,10 @@ function Auth() {
         }
 
         if (user.role == UserRole.Client) {
-            toast({
-              variant: "default",
-              title: "Only Company, Trainer Company and Trainee can login",
-            });
+          toast({
+            variant: "default",
+            title: "Only Company, Trainer Company and Trainee can login",
+          });
         }
 
         if (user.role == UserRole.Company) {
@@ -107,27 +107,27 @@ function Auth() {
           console.log("user.pathstatus", user.pathstatus);
 
           // if (user.role == UserRole.Company) {
-            // console.log(user.pathstatus ===)
-            if(user.pathstatus === "0" || user.pathstatus === "1") {
-              navigate("/assessment");
-            }else if(user.pathstatus === "2") {
-              navigate("/question");              
-            }else if(user.pathstatus === "3") {
-              navigate("/teaserscore");
-            }else if(user.pathstatus === "4") {
-              navigate("/companyregister");
-            }else if(user.pathstatus === "5") {
-              navigate("/maturelevel");
-            }else if(user.pathstatus === "6") {
-              navigate("/selectlevel");
-            }else if(user.pathstatus === "7") {
-              navigate("/maturitylevelactionitem");
-            }else if(user.pathstatus === "8") {
-              navigate("/dashbord");
-              localStorage.setItem("user", JSON?.stringify(data.data.data))
-            }else {
-              navigate("/savedassesment");
-            }
+          // console.log(user.pathstatus ===)
+          if (user.pathstatus === "0" || user.pathstatus === "1") {
+            navigate("/assessment");
+          } else if (user.pathstatus === "2") {
+            navigate("/question");
+          } else if (user.pathstatus === "3") {
+            navigate("/teaserscore");
+          } else if (user.pathstatus === "4") {
+            navigate("/companyregister");
+          } else if (user.pathstatus === "5") {
+            navigate("/maturelevel");
+          } else if (user.pathstatus === "6") {
+            navigate("/selectlevel");
+          } else if (user.pathstatus === "7") {
+            navigate("/maturitylevelactionitem");
+          } else if (user.pathstatus === "8") {
+            navigate("/dashbord");
+            localStorage.setItem("user", JSON?.stringify(data.data.data));
+          } else {
+            navigate("/savedassesment");
+          }
           // }
         }
       }
