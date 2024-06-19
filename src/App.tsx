@@ -296,7 +296,10 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
-          <Route path="add-newcertificate" element={<AllocatedCertificate />} />
+          <Route
+            path="allocated-certificate"
+            element={<AllocatedCertificate />}
+          />
         </Route>
       </Routes>
     </div>

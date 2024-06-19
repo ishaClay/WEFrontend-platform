@@ -161,6 +161,10 @@ const TarinerSidebar: SidebarItem[] = [
         label: "Certificate Template",
         link: "/trainer/certificate-template",
       },
+      {
+        label: "Allocated Certificate",
+        link: "/trainer/allocated-certificate",
+      },
     ],
   },
   {
