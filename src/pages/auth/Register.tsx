@@ -67,7 +67,7 @@ function Register() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
-      localStorage.setItem("user", data.data.data.password);
+      localStorage.setItem("user", JSON?.stringify(data.data.data));
       navigate("/assessment");
     },
     onError: (error: ErrorType) => {
