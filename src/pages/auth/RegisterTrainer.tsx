@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
@@ -15,6 +16,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { registerTrainer } from "@/services/apiServices/trainer";
+import { ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
@@ -38,7 +40,11 @@ function RegisterTrainer() {
       .min(1, { message: "Contact Surname is required" }),
     contactTelephone: z
       .string()
-      .min(1, { message: "Contact Telephone No. is required" }),
+      .regex(/^\d{1,10}$/, {
+        message: "Please enter a valid phone number (1-9 digits).",
+      })
+      .min(1, { message: "Please enter a valid phone number" })
+      .max(10, { message: "Please enter a valid phone number" }),
     providerAddress: z
       .string()
       .min(1, { message: "Provider Address is required" }),
@@ -46,7 +52,10 @@ function RegisterTrainer() {
       .string()
       .min(1, { message: "Provider Country is required" }),
     name: z.string().min(1, { message: "Contact First Name is required" }),
-    email: z.string().min(1, { message: "Email Address is required" }),
+    email: z
+      .string()
+      .min(1, { message: "Email Address is required" })
+      .email("Invalid email address"),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
       .enum(["Yes", "No"])
@@ -80,8 +89,17 @@ function RegisterTrainer() {
         queryKey: [QUERY_KEYS.trainerList],
       });
       reset();
+      toast({
+        variant: "success",
+        title: "Trainer Registered Successfully",
+      });
       navigate("/auth");
-      toast({ title: "Trainer created successfully" });
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
     },
   });
 
@@ -124,12 +142,13 @@ function RegisterTrainer() {
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-wrap gap-x-[30px] gap-y-[22px] xl:mt-[32px] mt-4 justify-start">
-                  <div>
+                <div className="grid grid-cols-4 gap-x-[30px] gap-y-[22px] xl:mt-[32px] mt-4 justify-start">
+                  <div className="col-span-2">
                     <InputWithLable
                       className="h-[46px]"
                       placeholder="Sample Consulting Company"
                       label="Provider Name"
+                      isMendatory={true}
                       {...register("providerName")}
                     />
                     {errors.providerName && (
@@ -138,11 +157,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="IT or University"
                       className="h-[46px]"
                       label="Provider Type"
+                      isMendatory={true}
                       {...register("providerType")}
                     />
                     {errors.providerType && (
@@ -151,11 +171,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="London"
                       className="h-[46px]"
                       label="Provider City/Town"
+                      isMendatory={true}
                       {...register("providerCity")}
                     />
                     {errors.providerCity && (
@@ -164,11 +185,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="London"
                       className="h-[46px]"
                       label="Provider County"
+                      isMendatory={true}
                       {...register("providerCountry")}
                     />
                     {errors.providerCountry && (
@@ -177,11 +199,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="Sample"
                       className="h-[46px]"
                       label="Contact Surname"
+                      isMendatory={true}
                       {...register("contactSurname")}
                     />
                     {errors.contactSurname && (
@@ -190,11 +213,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="0044 1234 1234567"
                       className="h-[46px]"
                       label="Contact Telephone No."
+                      isMendatory={true}
                       {...register("contactTelephone")}
                     />
                     {errors.contactTelephone && (
@@ -203,11 +227,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div className="max-w-[220px] w-full">
+                  <div className="col-span-2">
                     <Select {...register("foreignProvider")}>
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
                           Foregin Provider
+                          <span className="text-red-500">*</span>
                         </SelectLabel>
 
                         <SelectTrigger className="h-[46px] text-[gray]">
@@ -225,11 +250,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="221 B Baker Street"
                       className="h-[46px]"
                       label="Provider Address"
+                      isMendatory={true}
                       {...register("providerAddress")}
                     />
                     {errors.providerAddress && (
@@ -238,11 +264,12 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="United Kingdom"
                       className="h-[46px]"
                       label="Provider Country"
+                      isMendatory={true}
                       {...register("providerCounty")}
                     />
                     {errors.providerCounty && (
@@ -251,33 +278,36 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
+                      isMendatory={true}
                       {...register("name")}
                     />
                     {errors.name && (
                       <ErrorMessage message={errors.name.message as string} />
                     )}
                   </div>{" "}
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="john.sample@emailsample.com"
                       className="h-[46px]"
                       label="Email Address"
+                      isMendatory={true}
                       {...register("email")}
                     />
                     {errors.email && (
                       <ErrorMessage message={errors.email.message as string} />
                     )}
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <InputWithLable
                       placeholder="Notes 1"
                       className="h-[46px]"
                       label="Provider Notes"
+                      isMendatory={true}
                       {...register("providerNotes")}
                     />
                     {errors.providerNotes && (
@@ -297,8 +327,13 @@ function RegisterTrainer() {
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
-                    <a className="text-color">Privacy Policy</a> and{" "}
-                    <a className="text-color">Terms of Service.</a>
+                    <Link to="/privacypolicy" className="text-color">
+                      Privacy Policy{" "}
+                    </Link>{" "}
+                    and{" "}
+                    <Link to={"/termsofservices"} className="text-color">
+                      Terms of Service.
+                    </Link>
                   </label>
                 </div>
               </form>

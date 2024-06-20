@@ -6,6 +6,7 @@ import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import MyCourseGrid from "./MyCourseGrid";
+import MyCourseList from "./MyCourseList";
 
 const filterOption = [
   {
@@ -51,27 +52,33 @@ const MyCoursePage = () => {
   const myPagesList = [
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
     {
       image: CourseImage,
-      title: "Certificate in the Sustainable Develop...",
+      title:
+        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
   ];
 
@@ -131,12 +138,18 @@ const MyCoursePage = () => {
       </div>
       {params === "0" || !params ? (
         <div className="grid gap-5 2xl:grid-cols-4 xl:grid-cols-3 grid-cols-2 p-5">
-          {myPagesList.map((list, index) => {
-            return <MyCourseGrid key={index} list={list} />;
+          {myPagesList.map((grid, index) => {
+            return <MyCourseGrid key={index} grid={grid} />;
           })}
         </div>
       ) : (
-        <>Hello</>
+        <>
+          <div className="p-5">
+            {myPagesList.map((list, index) => {
+              return <MyCourseList key={index} list={list} />;
+            })}
+          </div>
+        </>
       )}
     </div>
   );

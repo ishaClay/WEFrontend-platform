@@ -25,3 +25,8 @@ export const checkOTP = (data: any) => {
     method = "post";
   return api({ url, method, data });
 };
+
+export const getCompanyDetailsById = (company_num: number | undefined) => {
+  const url = `api/v1/thirdparty/thirdparty?companyNumber=${company_num}`;
+  return api({ url });
+};

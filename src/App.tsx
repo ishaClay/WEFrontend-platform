@@ -99,6 +99,10 @@ import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
+import TermsOfServices from "./pages/TermsOfServices";
+import PrivacyPolicyPage from "./pages/privacyPolicy/PrivacyPolicyPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -161,6 +165,14 @@ function App() {
         {
           path: "/company",
           element: <Company />,
+        },
+        {
+          path: "/termsofservices",
+          element: <TermsOfServices />,
+        },
+        {
+          path: "/privacypolicy",
+          element: <PrivacyPolicyPage />,
         },
       ],
     },
@@ -458,7 +470,7 @@ function App() {
           children: [
             {
               path: "dashboard",
-              element: <Dashbord />,
+              element: <DashboardPage />,
             },
             {
               path: "allcourse",
@@ -519,6 +531,10 @@ function App() {
             {
               path: "support-training-documnet",
               element: <TrainingDocumentPage />,
+            },
+            {
+              path: "ticket-details-reply",
+              element: <TicketDetailsReplyPage />,
             },
           ],
         },

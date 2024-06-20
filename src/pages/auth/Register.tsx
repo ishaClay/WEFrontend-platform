@@ -3,6 +3,8 @@ import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Modal from "@/components/comman/Modal";
+import PasswordInputWithLabel from "@/components/comman/PasswordInputWithLabel";
+import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
@@ -11,8 +13,10 @@ import {
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
+import { ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
@@ -20,14 +24,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { z } from "zod";
 
+const schema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { message: "Please enter min 3 alphabets in company name" }),
+    email: z
+      .string()
+      .min(1, { message: "Please enter email" })
+      .email("Please Enter Valid Email"),
+    password: z.string().min(1, { message: "Please enter password" }),
+    cpassword: z.string().min(1, { message: "Please enter confirm password" }),
+  })
+  .refine((data) => data.password === data.cpassword, {
+    message: "Passwords don't match",
+    path: ["cpassword"], // Set the error path to 'cpassword'
+  });
+
 function Register() {
-  const { clientId } = useSelector((state: any) => state.user);
-  const [selectedRole, setSelectedRole] = useState<any>(null);
+  const { clientId } = useAppSelector((state) => state.user);
+  const [selectedRole, setSelectedRole] = useState<null | string>(null);
+  const [time, setTime] = useState<number>(0);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [otp, setOtp] = useState("");
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
@@ -40,6 +62,20 @@ function Register() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [time]);
+
   const { mutate: createcompany, isPending: createPending } = useMutation({
     mutationFn: (company: Company) => createCompany(company),
     onSuccess: async (data) => {
@@ -48,6 +84,7 @@ function Register() {
       // dispatch(setCompanyId(data?.data?.data?.user?.clientId));
 
       setShowOtpPopup(true);
+      setTime(299);
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
@@ -60,14 +97,23 @@ function Register() {
     },
   });
 
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   const { mutate: createotp, isPending: createOtp } = useMutation({
-    mutationFn: (company: any) => checkOTP(company),
+    mutationFn: checkOTP,
     onSuccess: async (data) => {
       dispatch(setUserData(data?.data?.data?.id));
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
-      localStorage.setItem("user", data.data.data.password);
+      setShowOtpPopup(false);
+      localStorage.setItem("user", JSON?.stringify(data.data.data));
       navigate("/assessment");
     },
     onError: (error: ErrorType) => {
@@ -76,13 +122,6 @@ function Register() {
         title: error.data.message,
       });
     },
-  });
-
-  const schema = z.object({
-    name: z.string().min(1, { message: "Please enter company name" }),
-    email: z.string().min(1, { message: "Please enter email" }),
-    password: z.string().min(1, { message: "Please enter password" }),
-    cpassword: z.string().min(1, { message: "Please enter confirm password" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -115,6 +154,19 @@ function Register() {
     setShowRegistrationForm(true);
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: ResendOtp,
+    onSuccess: async () => {
+      setTime(300);
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
   const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
     createcompany({ ...data, client: clientId });
     console.log(data, "da++++++++++");
@@ -127,7 +179,11 @@ function Register() {
   }, [clientId]);
 
   const handleVerifyOtp = () => {
-    createotp({ otp: otp, email: getValues("email"), clientId });
+    createotp({ otp: otp, email: getValues("email") });
+  };
+
+  const handleResendOtp = (email: string) => {
+    mutate({ email: email });
   };
 
   return (
@@ -211,6 +267,7 @@ function Register() {
                       <InputWithLable
                         label="Company Name"
                         className="h-[46px] border solid 1.5px"
+                        placeholder="Enter Company Name"
                         {...register("name")}
                       />
                       {errors.name && (
@@ -221,6 +278,7 @@ function Register() {
                       <InputWithLable
                         label="Email"
                         className="h-[46px] border solid 1.5px"
+                        placeholder="Enter Email Address"
                         {...register("email")}
                       />
                       {errors.email && (
@@ -230,28 +288,22 @@ function Register() {
                       )}
                     </div>
                     <div className="mb-2">
-                      <InputWithLable
+                      <PasswordInputWithLabel
                         label="Set a password"
                         className="h-[46px] border solid 1.5px"
+                        placeholder="Enter Password"
                         {...register("password")}
+                        error={errors?.password?.message as string}
                       />
-                      {errors.password && (
-                        <ErrorMessage
-                          message={errors.password.message as string}
-                        />
-                      )}
                     </div>
                     <div className="mb-2">
-                      <InputWithLable
+                      <PasswordInputWithLabel
                         label="Confirm Password"
                         className="h-[46px] border solid 1.5px"
+                        placeholder="Enter Confirm Password"
                         {...register("cpassword")}
+                        error={errors?.cpassword?.message as string}
                       />
-                      {errors.cpassword && (
-                        <ErrorMessage
-                          message={errors.cpassword.message as string}
-                        />
-                      )}
                     </div>
 
                     <div className=" mt-[20px] flex gap-x-[40px]">
@@ -338,8 +390,13 @@ function Register() {
             <div className="max-w-[296px] mx-auto mt-[154px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
               <label>
                 Protected by reCAPTCHA and subject to the Skillnet{" "}
-                <a className="text-color">Privacy Policy</a> and{" "}
-                <a className="text-color">Terms of Service.</a>
+                <Link to={"/privacypolicy"} className="text-color">
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link to={"/termsofservices"} className="text-color">
+                  Terms of Service.
+                </Link>
               </label>
             </div>
           </div>
@@ -352,7 +409,7 @@ function Register() {
           onClose={() => setShowOtpPopup(false)}
           className="max-w-[550px]"
         >
-          <div className="mb-5 mt-5">
+          <div className="mb-[2px] mt-2 text-center">
             <h2 className="text-xl font-semibold">
               Please enter the one-time password to verify your account
             </h2>
@@ -360,7 +417,7 @@ function Register() {
               A one-time password has been sent to {email}
             </p>
           </div>
-          <div className="flex justify-center gap-3 mb-5">
+          <div className="flex justify-center gap-3 mb-[7px]">
             <InputOTP
               maxLength={6}
               onChange={(e) => {
@@ -379,12 +436,6 @@ function Register() {
               </InputOTPGroup>
             </InputOTP>
           </div>
-          <ul className="flex flex-col gap-2 items-center">
-            <a className="text-[#848181] text-[16px] font-[700] block">
-              Resend OTP
-            </a>
-            <a className="text-[#369FFF] text-[16px] block">Wrong Email?</a>
-          </ul>
           <div className="flex justify-center">
             <button
               className="text-white w-[181px] p-[10px] rounded-[10px]  bg-[#64A70B] h-[50px]rounded-600"
@@ -392,6 +443,30 @@ function Register() {
             >
               Validate
             </button>
+          </div>
+          <div className="flex flex-col gap-2 items-center">
+            <div className="flex justify-center gap-2">
+              <Button
+                variant={"ghost"}
+                disabled={time !== 0 || isPending}
+                onClick={() => handleResendOtp(email)}
+                className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent"
+              >
+                Resend OTP
+              </Button>
+              {time !== 0 && (
+                <p className="text-[#848181] text-[16px] font-[700]">
+                  {formatTime(time)}
+                </p>
+              )}
+            </div>
+            <Button
+              variant={"ghost"}
+              onClick={() => setShowOtpPopup(false)}
+              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent"
+            >
+              Wrong Email?
+            </Button>
           </div>
         </Modal>
       )}

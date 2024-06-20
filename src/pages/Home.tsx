@@ -177,7 +177,7 @@ function Home() {
                         <h2 className="text-[28px] font-[700] secondary-text font-UniNeue">
                           {item.title}
                         </h2>
-                        <p className="w-[337px] mt-[5px] secondary-text text-lg font-calibri font-light">
+                        <p className="w-[380px] mt-[5px] secondary-text text-lg font-calibri font-light line-clamp-2">
                           {item.content}
                         </p>
                         <SecondaryButton
@@ -242,7 +242,7 @@ function Home() {
 
       <section>
         <div className="relative flex flex-wrap w-full h-[auto] mx-0 justify-center">
-          <div className="sm:block hidden w-1/5 bg-[#64A70B] relative xl:h-auto h-[259px]">
+          <div className="sm:block hidden w-1/5 bg-[#64A70B] relative h-[259px]">
             <div className="text-white flex justify-end pr-3 pt-6">
               <p className="xl:w-[190px] w-[150px] font-[400] xl:text-2xl text-lg leading-7 tracking-[1px] secondary-text font-UniNeue text-white">
                 Start your Sustainability journey with firm foundations
@@ -260,16 +260,18 @@ function Home() {
               return (
                 <div key={i}>
                   <div
-                    className={`sm:block flex flex-col items-center h-[268px] xl:py-8 py-6 px-[20px] ${v.background}`}
+                    className={`sm:block flex flex-col items-center h-[268px] 2xl:py-8 xl:py-5 py-4 px-[20px] ${v.background}`}
                   >
-                    <img
-                      className="w-[66.56px] h-[74.72px] mb-[10px]"
-                      src={v.image}
-                    />
-                    <h3 className="font-bold 2xl:text-lg text-base leading-5 primary-text mb-[10px] h-10 font-UniNeue">
-                      {v.title}
-                    </h3>
-                    <p className=" font-normal text-sm leading-4 text-color sm:text-start text-center">
+                    <div className="xl:h-[150px] h-[140px]">
+                      <img
+                        className="w-[66.56px] h-[74.72px] mb-[10px]"
+                        src={v.image}
+                      />
+                      <h3 className="font-bold xl:text-lg text-base leading-5 primary-text mb-[10px] font-UniNeue">
+                        {v.title}
+                      </h3>
+                    </div>
+                    <p className=" font-normal text-sm leading-4 text-color sm:text-start text-center font-['D-Din-pro-Regular']">
                       {v.discription}
                     </p>
                   </div>
@@ -288,7 +290,7 @@ function Home() {
       </section>
 
       <section className="bg-[#F7F8FC]">
-        <div className="mt-[38px] xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-9 py-6 xl:pb-6 pb-16">
+        <div className="mt-[38px] xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-[30px] py-[24px] xl:pb-6 pb-16">
           <div>
             <h5 className="text-2xl font-UniNeue font-bold text-[#64A70B] tracking-wider xl:text-left text-center">
               Featured Courses
@@ -320,11 +322,11 @@ function Home() {
                     <div className="relative">
                       <div className="w-[697px] h-[357px] flex justify-between items-center">
                         <div className="w-full">
-                          <h2 className="w-[350px] min-h-[40px] leading-7 xl:text-2xl text-xl font-bold text-color font-UniNeue pb-7">
+                          <h2 className="w-[413px] min-h-[40px] leading-7 xl:text-2xl text-xl font-bold text-color font-UniNeue pb-7">
                             {item.courseTitle}
                           </h2>
 
-                          <p className="xl:w-[413px] xl:h-[80px] h-[60px] text-base text-color leading-5 pr-4 font-calibri">
+                          <p className="xl:w-[413px] mb-8 text-lg text-color leading-5 pr-4 font-calibri line-clamp-3">
                             {item.content}
                           </p>
 
@@ -351,7 +353,7 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-[76px] mb-[24px] max-w-full h-[12px] button-color"></div>
+      <div className="xl:mt-[76px] mt-[60px] xl:mb-[24px] mb-[20px] max-w-full h-[12px] button-color"></div>
 
       <section className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
         <div className="button-color rounded-[6px] text-center inline-block">
@@ -371,31 +373,31 @@ function Home() {
           <div className="relative max-w-full flex mt-[40px] sm:gap-[20px] gap-[10px] md:gap-[10px] lg:gap-0 justify-between items-center">
             <div className="flex flex-col gap-[35px] ">
               <div className="md:w-[350px] sm:w-[300px] w-auto h-[100px] button-color  rounded-[6px] secondary-text p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   Cost Efficiency
                 </h3>
-                <p className="text-sm leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-3 font-inter font-normal">
                   Drive down operational costs with smart, sustainable
                   practices.
                 </p>
               </div>
 
               <div className="md:w-[350px] sm:w-[300px] h-[100px]  w-auto button-color rounded-[6px] secondary-text p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   {" "}
                   Productivity Boost
                 </h3>
-                <p className="text-sm sm:w-[300px] leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-3 font-inter font-normal">
                   Elevate productivity by embedding sustainability at the heart
                   of your operations.
                 </p>
               </div>
 
               <div className="md:w-[350px] sm:w-[300px] h-[100px] w-auto button-color rounded-[6px] secondary-text  p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   Building a Sustainable Workforce
                 </h3>
-                <p className="text-sm leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-3 font-inter font-normal">
                   Attract and keep the best talent with a forward-thinking
                   sustainability ethos.
                 </p>
@@ -408,51 +410,51 @@ function Home() {
 
             <div className="flex flex-col  gap-[35px]">
               <div className="md:w-[350px] sm:w-[300px] h-[100px] w-auto button-color rounded-[6px] secondary-text p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   Win Customers
                 </h3>
-                <p className="text-sm leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-3 font-inter font-normal">
                   Capture the hearts and minds of customers with your
                   sustainability commitment.
                 </p>
               </div>
 
               <div className="md:w-[350px] sm:w-[300px] h-[100px] w-auto  button-color rounded-[6px] secondary-text p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   {" "}
                   Attract Investment
                 </h3>
-                <p className="text-sm leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-3 font-inter font-normal">
                   Unlock new funding channels with a compelling sustainability
                   narrative.
                 </p>
               </div>
 
-              <div className="md:w-[350px] sm:w-[300px] h-[100px] w-auto button-color  rounded-[6px] secondary-text  p-5 traking-[-4%]">
-                <h3 className="font-bold text-base font-inter leading-4">
+              <div className="md:w-[350px] sm:w-[300px] h-[100px] w-auto button-color  rounded-[6px] secondary-text p-5 traking-[-4%]">
+                <h3 className="font-bold text-base font-inter leading-[18px]">
                   Elevate Your Brand
                 </h3>
-                <p className="text-sm leading-4 pt-3">
+                <p className="text-sm leading-[14px] pt-2 font-inter font-normal">
                   Set your brand apart with a pledge to planet-friendly
                   practices.
                 </p>
               </div>
             </div>
           </div>
-          <button className="xl:py-5 py-4 xl:px-16 px-12 mt-[49px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px] hover:bg-[#c4c4c4] text-color text-lg font-extrabold">
+          <button className="xl:py-[14px] py-[10px] xl:px-[59px] px-[50px] mt-[49px] rounded-[4px] border border-solid border-black 1px flex justify-center items-center gap-[10px] hover:bg-[#c4c4c4] text-color text-lg font-extrabold font-abhaya">
             Get Started
             <img className="" src="../assets/img/Move Right Dark.png" />
           </button>
         </div>
 
-        <div className="mt-[56px]">
+        <div className="2xl:mt-[40px] mt-[32px]">
           <div className=" w-[250px] h-[55px] button-color rounded-[6px] flex justify-center items-center">
-            <p className="font-[700] xl:text-2xl text-xl leading-5 traking-[-4%] text-color">
+            <p className="font-bold xl:text-2xl text-xl leading-5 traking-[-4%] text-color font-UniNeue">
               For Training Partners
             </p>
           </div>
 
-          <div className="text-center mt-[27px]">
+          <div className="text-center mt-[24px]">
             <h3 className="font-bold text-2xl font-UniNeue text-center text-color leading-7">
               Sustainability platform
               <br /> needs you.
@@ -471,7 +473,7 @@ function Home() {
                   <h3 className="text-lg font-UniNeue font-medium leading-5">
                     Market Reach
                   </h3>
-                  <p className="mt-[8px] leading-5 text-base traking-[-4%] font-UniNeue text-[#4E5566]">
+                  <p className="mt-[8px] leading-[18px] text-base font-normal traking-[-4%] font-UniNeue text-[#4E5566]">
                     Enhance economy of scale by developing training solutions
                     tailored to market demands.
                   </p>
@@ -568,16 +570,16 @@ function Home() {
               <SecondaryButton
                 name="Register me"
                 symbol={<Symbol />}
-                className="rounded-[4px] flex items-center justify-center gap-[10px] hover:bg-[green] font-d-din-pro font-bold py-3 px-8 text-lg"
+                className="rounded-[4px] flex items-center justify-center gap-[10px] hover:bg-[green] py-2 px-[21px] text-lg font-['D-Din-pro-Regular']"
               ></SecondaryButton>
             </div>
           </div>
         </div>
       </section>
-      <section className="bg-[#F7F8FC] xl:py-11 py-8 mt-[80px]">
+      <section className="bg-[#F7F8FC] xl:py-11 py-8 xl:mt-[80px] mt-[60px]">
         <div className="h-[auto] xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
           <div className="font-[700] text-[32px] relative">
-            <h3 className="xl:text-3xl text-2xl font-UniNeue leading-9 font-bold traking-[-4%] text-color">
+            <h3 className="xl:text-[32px] text-[26px] font-UniNeue leading-9 font-bold traking-[-4%] text-color">
               Our Building Blocks{" "}
             </h3>
             <div className="max-w-[450px] border-solid border-[3px] border-redius rounded-full button-border-color mt-[16px]"></div>
@@ -587,8 +589,8 @@ function Home() {
             />
             <div className="absolute top-[-11px] sm:left-[320px] left-[270px] w-[31px] h-[30px] border border-solid border-gray-600 rounded-full"></div>
 
-            <div className="flex gap-8 mt-[45px] justify-center">
-              <div className="2xl:w-[571px] xl:w-[450px] w-[400px]">
+            <div className="flex gap-8 mt-[45px] justify-between">
+              <div className="w-full">
                 {data.slice(0, 3).map((item, index) => (
                   <div
                     key={index}
@@ -630,7 +632,7 @@ function Home() {
                   </div>
                 ))}
               </div>
-              <div className="2xl:w-[571px] xl:w-[450px] w-[400px]">
+              <div className="w-full">
                 {data.slice(3, 6).map((item, index) => (
                   <div
                     key={index}
@@ -677,7 +679,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="flex items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 relative xl:my-16 my-8 lg:h-[350px] h-full">
+      <section className="flex items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 relative xl:my-20 my-8 lg:h-[350px] h-full">
         <div className="z-50">
           <img
             className="left-14 top-1/2 -translate-y-1/2 md:block hidden xl:w-[400px] w-[350px] absolute"
@@ -692,7 +694,7 @@ function Home() {
             </h3>
             <SecondaryButton
               name="Enroll Now"
-              className="font-bold py-2 px-9 rounded-[4px] mt-[23px] hover:bg-[green] font-d-din-pro"
+              className="py-[10px] px-[43px] rounded-[4px] mt-[23px] hover:bg-[green] text-[18px] leading-5 font-['D-Din-pro-Medium']"
             ></SecondaryButton>
           </div>
         </div>

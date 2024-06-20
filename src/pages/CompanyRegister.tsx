@@ -5,7 +5,11 @@ import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getOneCompany, updateCompany } from "@/services/apiServices/company";
+import {
+  getCompanyDetailsById,
+  getOneCompany,
+  updateCompany,
+} from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
@@ -22,7 +26,7 @@ function CompanyRegister() {
 
   const CompanyId = useSelector((state: any) => state.user.CompanyId);
   const UserId = useSelector((state: any) => state.user.UserId);
-
+  const [companyNumberId, setCompanyNumberId] = useState<number | undefined>();
   const [soleTrader, setSoleTrader] = useState("");
 
   const handleCheckboxChange = (value: string) => {
@@ -38,6 +42,13 @@ function CompanyRegister() {
     queryFn: () => getOneCompany(CompanyId as string),
     enabled: !!CompanyId,
   });
+
+  const { data: getCompanyDetails, refetch: refetchCompanyDetails } = useQuery({
+    queryKey: [QUERY_KEYS.companyDetailsId, companyNumberId],
+    queryFn: () => getCompanyDetailsById(companyNumberId),
+    enabled: false,
+  });
+  console.log("getCompanyDetails", getCompanyDetails);
 
   const { mutate: updatecompany, isPending: updatePanding } = useMutation({
     mutationFn: (data: Company) => updateCompany(data),
@@ -57,19 +68,21 @@ function CompanyRegister() {
   });
   console.log(companydetails, "companydetails++");
 
-  const path = 4+1
-    const { mutate: EnumUpadate } :any= useMutation({
-      mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.enumUpadateList],
-        });
-      },
-      
-    });
-
+  const path = 4 + 1;
+  const { mutate: EnumUpadate }: any = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+    },
+  });
 
   const schema = z.object({
+    companyNumberId: z
+      .string()
+      .regex(/^\d{5}$/, { message: "please enter valid number" })
+      .min(5, { message: "please enter 5 digit number" }),
     name: z.string().min(1, { message: "Name is required" }),
     address: z.string().min(1, { message: "Address is required" }),
     county: z.string().min(1, { message: "County is required" }),
@@ -115,8 +128,12 @@ function CompanyRegister() {
       soleTrader: soleTrader === "true" ? true : false,
     };
     updatecompany(updatedData);
-    EnumUpadate(path)
+    EnumUpadate(path);
     navigate("/maturelevel");
+  };
+
+  const handleVerifyId = () => {
+    refetchCompanyDetails();
   };
 
   return (
@@ -154,8 +171,24 @@ function CompanyRegister() {
               </h3>
             </div>
 
+            <div className="w-full flex items-end mb-5 mt-[45px]">
+              <div>
+                <InputWithLable
+                  className="w-[241px] h-[46px]"
+                  placeholder="Id"
+                  label="Id"
+                  onChange={(e: any) => setCompanyNumberId(e?.target?.value)}
+                />
+              </div>
+              <button
+                className="h-[46px] px-5 rounded ml-5 bg-primary-button text-white"
+                onClick={handleVerifyId}
+              >
+                Verify
+              </button>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[5px] mt-[45px]">
+              <div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[5px]">
                 <div>
                   <InputWithLable
                     className="w-[241px] h-[46px]"
