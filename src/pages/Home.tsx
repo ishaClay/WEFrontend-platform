@@ -177,7 +177,7 @@ function Home() {
                         <h2 className="text-[28px] font-[700] secondary-text font-UniNeue">
                           {item.title}
                         </h2>
-                        <p className="w-[337px] mt-[5px] secondary-text text-lg font-calibri font-light line-clamp-2">
+                        <p className="w-[380px] mt-[5px] secondary-text text-lg font-calibri font-light line-clamp-2">
                           {item.content}
                         </p>
                         <SecondaryButton
@@ -322,7 +322,7 @@ function Home() {
                     <div className="relative">
                       <div className="w-[697px] h-[357px] flex justify-between items-center">
                         <div className="w-full">
-                          <h2 className="w-[350px] min-h-[40px] leading-7 xl:text-2xl text-xl font-bold text-color font-UniNeue pb-7">
+                          <h2 className="w-[413px] min-h-[40px] leading-7 xl:text-2xl text-xl font-bold text-color font-UniNeue pb-7">
                             {item.courseTitle}
                           </h2>
 

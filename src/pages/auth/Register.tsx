@@ -342,7 +342,7 @@ function Register() {
                   Privacy Policy
                 </Link>{" "}
                 and{" "}
-                <Link to={""} className="text-color">
+                <Link to={"/termsofservices"} className="text-color">
                   Terms of Service.
                 </Link>
               </label>

@@ -400,7 +400,7 @@ const RegisterTraineeForm = () => {
           Privacy Policy
         </Link>
         and{" "}
-        <Link to={""} className="text-darkslategray-200">
+        <Link to={"/termsofservices"} className="text-darkslategray-200">
           Terms of Service.
         </Link>
       </p>

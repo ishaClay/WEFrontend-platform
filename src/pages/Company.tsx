@@ -91,7 +91,7 @@ function Company() {
                 Privacy Policy{" "}
               </Link>{" "}
               and{" "}
-              <Link to={" "} className="text-[#042937]">
+              <Link to={"/termsofservices"} className="text-[#042937]">
                 Terms of Service.
               </Link>
             </label>

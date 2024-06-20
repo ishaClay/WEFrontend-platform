@@ -239,7 +239,10 @@ function Auth() {
                     Privacy Policy{" "}
                   </Link>{" "}
                   and{" "}
-                  <Link to={" "} className="text-color font-bold">
+                  <Link
+                    to={"/termsofservices"}
+                    className="text-color font-bold"
+                  >
                     Terms of Service.
                   </Link>
                 </li>

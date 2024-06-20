@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const TermsofService = () => {
   return (
     <div>
-      <header className="bg-primary text-primary-foreground py-6 px-4 md:px-6">
+      <Header />
+      <div className="bg-primary text-primary-foreground py-6 px-4 md:px-6">
         <div className="xl:max-w-[1160px] max-w-full mx-auto">
           <h1 className="text-4xl font-bold font-calibri">Terms of Service</h1>
         </div>
-      </header>
+      </div>
       <main className="flex-1 py-12 2xl:py-24 xl:py-20 ">
         <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
           <section className="mb-12">
@@ -71,19 +73,9 @@ const TermsofService = () => {
           </section>
         </div>
       </main>
-      <footer className="bg-muted text-muted-foreground xl:py-6 py-4 px-5">
-        <div className="xl:max-w-[1160px] max-w-full mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <p>&copy; 2024 Acme Inc. All rights reserved.</p>
-          <div className="flex items-center gap-4">
-            <Link to="/" className="hover:underline">
-              Contact Us
-            </Link>
-            <Link to="/" className="hover:underline">
-              Privacy Policy
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <section>
+        <Footer />
+      </section>
     </div>
   );
 };
