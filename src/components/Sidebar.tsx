@@ -32,7 +32,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     <div className="top-0 left-0 lg:flex flex-col justify-between w-60 duration-500 bg-[#FFFFFF] overflow-hidden">
       <div className="w-[235px] h-screen">
         <div className="ml-[40px] mt-[20px]">
-          <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
+          <Link to={"/"}>
+            <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
+          </Link>
         </div>
         <div className="mt-4 flex flex-col gap-4 relative">
           {sidebarItems.map((item, index) => (

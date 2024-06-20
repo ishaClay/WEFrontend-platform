@@ -235,8 +235,13 @@ function Auth() {
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989]">
                   Protected by reCAPTCHA and subject to the Skillnet{" "}
-                  <a className="text-color font-bold">Privacy Policy </a> and{" "}
-                  <a className="text-color font-bold">Terms of Service.</a>
+                  <Link to={""} className="text-color font-bold">
+                    Privacy Policy{" "}
+                  </Link>{" "}
+                  and{" "}
+                  <Link to={""} className="text-color font-bold">
+                    Terms of Service.
+                  </Link>
                 </li>
               </ul>
             </div>

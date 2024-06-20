@@ -2,17 +2,20 @@ import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Header from "@/components/Header";
-import { Button } from "@/components/ui/button";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getCompanyDetailsById, getOneCompany, updateCompany } from "@/services/apiServices/company";
+import {
+  getCompanyDetailsById,
+  getOneCompany,
+  updateCompany,
+} from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -43,10 +46,9 @@ function CompanyRegister() {
   const { data: getCompanyDetails, refetch: refetchCompanyDetails } = useQuery({
     queryKey: [QUERY_KEYS.companyDetailsId, companyNumberId],
     queryFn: () => getCompanyDetailsById(companyNumberId),
-    enabled: false
+    enabled: false,
   });
   console.log("getCompanyDetails", getCompanyDetails);
-  
 
   const { mutate: updatecompany, isPending: updatePanding } = useMutation({
     mutationFn: (data: Company) => updateCompany(data),
@@ -66,20 +68,21 @@ function CompanyRegister() {
   });
   console.log(companydetails, "companydetails++");
 
-  const path = 4+1
-    const { mutate: EnumUpadate } :any= useMutation({
-      mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.enumUpadateList],
-        });
-      },
-      
-    });
-
+  const path = 4 + 1;
+  const { mutate: EnumUpadate }: any = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+    },
+  });
 
   const schema = z.object({
-    companyNumberId: z.string().regex(/^\d{5}$/, { message: "please enter valid number" }).min(5, { message: "please enter 5 digit number" }),
+    companyNumberId: z
+      .string()
+      .regex(/^\d{5}$/, { message: "please enter valid number" })
+      .min(5, { message: "please enter 5 digit number" }),
     name: z.string().min(1, { message: "Name is required" }),
     address: z.string().min(1, { message: "Address is required" }),
     county: z.string().min(1, { message: "County is required" }),
@@ -125,14 +128,13 @@ function CompanyRegister() {
       soleTrader: soleTrader === "true" ? true : false,
     };
     updatecompany(updatedData);
-    EnumUpadate(path)
+    EnumUpadate(path);
     navigate("/maturelevel");
   };
 
   const handleVerifyId = () => {
     refetchCompanyDetails();
-  }
-
+  };
 
   return (
     <>
@@ -169,17 +171,22 @@ function CompanyRegister() {
               </h3>
             </div>
 
-                <div className="w-full flex items-end mb-5 mt-[45px]">
-                  <div>
-                  <InputWithLable
-                    className="w-[241px] h-[46px]"
-                    placeholder="Id"
-                    label="Id"
-                    onChange={(e: any) => setCompanyNumberId(e?.target?.value)}
-                  />
-                  </div>
-                  <button className="h-[46px] px-5 rounded ml-5 bg-primary-button text-white" onClick={handleVerifyId}>Verify</button>
-                </div>
+            <div className="w-full flex items-end mb-5 mt-[45px]">
+              <div>
+                <InputWithLable
+                  className="w-[241px] h-[46px]"
+                  placeholder="Id"
+                  label="Id"
+                  onChange={(e: any) => setCompanyNumberId(e?.target?.value)}
+                />
+              </div>
+              <button
+                className="h-[46px] px-5 rounded ml-5 bg-primary-button text-white"
+                onClick={handleVerifyId}
+              >
+                Verify
+              </button>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[5px]">
                 <div>

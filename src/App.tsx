@@ -99,6 +99,7 @@ import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
+import TermsOfServices from "./pages/TermsOfServices";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -161,6 +162,10 @@ function App() {
         {
           path: "/company",
           element: <Company />,
+        },
+        {
+          path: "/termsofservices",
+          element: <TermsOfServices />,
         },
       ],
     },
