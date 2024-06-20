@@ -41,6 +41,8 @@ const data = [
 
 const SupportRequestTable = () => {
   const [page, setPage] = useState(0);
+  console.log("page", page);
+
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",

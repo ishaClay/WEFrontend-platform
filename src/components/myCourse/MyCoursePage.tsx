@@ -1,11 +1,10 @@
-import { Button } from "../ui/button";
-import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
-import SelectMenu from "../comman/SelectMenu";
-import { useState } from "react";
-import { Label } from "../ui/label";
-import { useNavigate } from "react-router-dom";
 import CourseImage from "@/assets/images/Course_image.png";
-import { Badge } from "../ui/badge";
+import { useState } from "react";
+import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import SelectMenu from "../comman/SelectMenu";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
 import MyCourseGrid from "./MyCourseGrid";
 
 const filterOption = [
