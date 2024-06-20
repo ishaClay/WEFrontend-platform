@@ -60,7 +60,7 @@ const AllCourses = () => {
             <div>
               <Button
                 type="button"
-                onClick={() => navigate("/trainer/create_course")}
+                onClick={() => navigate("/trainer/create_course?tab=1")}
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
                 ADD NEW COURSE

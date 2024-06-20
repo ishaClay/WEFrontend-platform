@@ -4,9 +4,15 @@ import ModuleCreation from "./ModuleCreation";
 import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
+  const tab = ["basic-details", "course-pathway", "module-creation", "forum"];
+  const search = window.location.search;
+  const paramsTab = new URLSearchParams(search).get("tab") || 1;
+
+  console.log("paramsTab", paramsTab);
+
   return (
     <div className="bg-white p-4">
-      <Tabs defaultValue="basic-details" className="">
+      <Tabs defaultValue={tab[+paramsTab - 1]} className="">
         <div className="border-b">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
             <TabsTrigger

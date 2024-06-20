@@ -10,23 +10,34 @@ import { useNavigate } from "react-router-dom";
 const BasicDetails = () => {
   const [step, setStep] = React.useState(1);
   const search = window.location.search;
+  const paramsTab = new URLSearchParams(search).get("tab") || "";
   const params = new URLSearchParams(search).get("step") || "";
   const paramsId = new URLSearchParams(search).get("id");
+  const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
   useEffect(() => {
-    if (!!params && !!paramsId) {
+    if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
       navigate(
-        `/trainer/create_course?step=${parseInt(params)}&id=${paramsId}`,
+        `/trainer/create_course?tab=${paramsTab}&step=${parseInt(
+          params
+        )}&id=${paramsId}&version=${paramsversion}`,
         {
           replace: true,
         }
       );
       setStep(parseInt(params));
+    } else if (!!paramsId && !!paramsversion && !!paramsTab) {
+      navigate(
+        `/trainer/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
+        { replace: true }
+      );
     } else {
-      navigate(`/trainer/create_course?step=${0}`, { replace: true });
+      navigate(`/trainer/create_course?tab=${paramsTab}&step=${0}`, {
+        replace: true,
+      });
       setStep(0);
     }
-  }, [params, step, paramsId]);
+  }, [params, step, paramsId, paramsversion, paramsTab]);
 
   return (
     <div>
@@ -48,11 +59,11 @@ const BasicDetails = () => {
       ) : step === 1 ? (
         <CourseSpecifications />
       ) : step === 2 ? (
-        <CourseLogistic setStep={setStep} />
+        <CourseLogistic />
       ) : step === 3 ? (
-        <CourseAffiliations setStep={setStep} />
+        <CourseAffiliations />
       ) : (
-        <CourseBanner setStep={setStep} />
+        <CourseBanner />
       )}
     </div>
   );

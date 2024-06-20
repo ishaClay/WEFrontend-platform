@@ -86,7 +86,7 @@ function Auth() {
 
         if (user.role == UserRole.TrainerCompany) {
           if (data.data.data.status === "Active") {
-            navigate("/trainer/dashbord");
+            navigate("/trainer/dashboard");
           }
         }
 

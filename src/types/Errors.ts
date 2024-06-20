@@ -8,8 +8,9 @@ export type ErrorData = {
   status: boolean;
 };
 
-
-export interface ErrorResponse {
+export interface ResponseError {
   code: number;
-  data: ErrorData;
+  data: {
+    message: string;
+  }
 }
