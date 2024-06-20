@@ -96,6 +96,9 @@ import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Assecessment from "./pages/courseManagement/AddAssecessment";
 import CertificateTempletePage from "./pages/certificateManagement";
+import FaqsListPage from "./pages/support/FaqsListPage";
+import SupportRequestPage from "./pages/support/SupportRequestPage";
+import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 
 function App() {
   const { clientId } = useSelector((state: any) => state.user);
@@ -504,6 +507,18 @@ function App() {
             {
               path: "mycourses",
               element: <MyCoursesList />,
+            },
+            {
+              path: "support-faqslist",
+              element: <FaqsListPage />,
+            },
+            {
+              path: "support-request",
+              element: <SupportRequestPage />,
+            },
+            {
+              path: "support-training-documnet",
+              element: <TrainingDocumentPage />,
             },
           ],
         },

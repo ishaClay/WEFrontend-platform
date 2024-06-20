@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CoursePathway from "./CoursePathway";
 import ModuleCreation from "./ModuleCreation";
-import BasicDetails from "./basicDetails";
+import BasicDetails from "./BasicDetails";
 
 const CourseManagement = () => {
   return (

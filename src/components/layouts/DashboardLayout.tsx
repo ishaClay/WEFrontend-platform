@@ -180,15 +180,15 @@ const TarinerSidebar: SidebarItem[] = [
     children: [
       {
         label: "FAQ's",
-        link: "/faqslist",
+        link: "/trainer/support-faqslist",
       },
       {
-        label: "User Manual",
-        link: "/trainingdocument",
+        label: "Training Document",
+        link: "/trainer/support-training-documnet",
       },
       {
         label: "Support Request",
-        link: "/supportticket",
+        link: "/trainer/support-request",
       },
     ],
   },
