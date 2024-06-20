@@ -236,3 +236,12 @@ input[type="radio"] {
 #auth-slider .slick-dots {
   justify-content: flex-end !important;
 }
+
+.ck-content ol,
+.ck-content ul {
+  padding-left: 40px !important;
+}
+
+.ck-content {
+  min-height: 147px !important;
+}

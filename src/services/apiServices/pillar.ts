@@ -1,3 +1,5 @@
+import { PillerResponse } from "@/types/Pillar";
+import { AxiosResponse } from "axios";
 import api from "./api";
 
 export const fetchPillarList = () => {
@@ -5,9 +7,10 @@ export const fetchPillarList = () => {
     return api({ url });
 };
 
-export const fetchClientwisePillarList = (id: string) => {
+export const fetchClientwisePillarList = async (id: string): Promise<AxiosResponse<PillerResponse>> => {
     const url = `api/v1/pillar/list?clientId=${id}`;
-    return api({ url });
+    const res = await api({ url });
+    return res
 };
 
 export const fetchMaturityPillar = (clientId: number, userId: number) => {

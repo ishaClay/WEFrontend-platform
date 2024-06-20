@@ -15,10 +15,19 @@ export interface courseRequest {
 }
 
 export interface courseRequestTwoPage {
-  nfqLeval: number,
-  ectsCredits: string,
-  fetCredits: string,
-  certificate: number
+  nfqLeval?: number,
+  ectsCredits?: string,
+  fetCredits?: string,
+  certificate?: number,
+  time?: number,
+  isOnline?: number,
+  universityAddress?: string,
+  duration?: string,
+  instituteOther?: string,
+  otherInstitutionName?: string,
+  description?: string,
+  bannerImage?: string,
+  keys?: string
 }
 
 export const fetchEnrollmentRequest = (trainerID: string, params?: string) => {
@@ -48,8 +57,15 @@ export const createCourse = (data: courseRequest) => {
   return api({ url, data, method });
 }
 
-export const createCourseTwoPage = ({ data, id }: { data: courseRequestTwoPage, id: string }) => {
-  const url = `api/v1/course/update-course/${id}`;
+export const createCourseTwoPage = ({ data, id, paramsversion }: { data: courseRequestTwoPage, id: string, paramsversion: string }) => {
+  const url = `api/v1/course/update-course/${id}/${paramsversion}`;
   const method = "put";
   return api({ url, data, method });
+}
+
+export const fetchNfqlLevel = async () => {
+  const url = `api/v1/course/nfqlevel/nfqlevellist`
+  const method = "get";
+  const res = await api({ url, method });
+  return res.data
 }

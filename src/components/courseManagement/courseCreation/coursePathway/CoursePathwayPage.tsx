@@ -1,29 +1,20 @@
-import CoursePathwayPageItems from "./CoursePathwayPageItems";
 import CloseIcon from "@/assets/images/close_img.png";
-import { CircleX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/use-redux";
+import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
+import { useQuery } from "@tanstack/react-query";
+import { CircleX } from "lucide-react";
+import CoursePathwayPageItems from "./CoursePathwayPageItems";
 
 const CoursePathwayPage = () => {
-  const coursePageItems = [
-    {
-      courseName: "Context & Strategy",
-    },
-    {
-      courseName: "Social",
-    },
-    {
-      courseName: "Economic",
-    },
-    {
-      courseName: "Governance",
-    },
-    {
-      courseName: "Technology & Innovation",
-    },
-    {
-      courseName: "Environmental",
-    },
-  ];
+  const { clientId } = useAppSelector((state) => state.user);
+
+  const { data } = useQuery({
+    queryKey: ["pillerItems"],
+    queryFn: () => fetchClientwisePillarList(clientId as string),
+  });
+
+  console.log("data", data?.data);
 
   return (
     <div className="p-5">
@@ -31,8 +22,8 @@ const CoursePathwayPage = () => {
         <span className="font-bold">Target areas / pillars</span> (Select
         applicable pillars)
       </h4>
-      {coursePageItems.map((data, index) => {
-        return <CoursePathwayPageItems key={index} data={data} />;
+      {data?.data?.data?.map((item, index) => {
+        return <CoursePathwayPageItems key={index} data={item} />;
       })}
 
       <div className="w-full bg-[#F8D7DA] p-4 flex rounded-lg items-center justify-between mb-5">

@@ -9,6 +9,7 @@ import {
   setPillarName,
   setQuestion,
 } from "@/redux/reducer/QuestionReducer";
+import { enumUpadate } from "@/services/apiServices/enum";
 import {
   fetchClientwisePillarList,
   fetchPillarList,
@@ -33,14 +34,13 @@ import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-import { enumUpadate } from "@/services/apiServices/enum";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
-  const { clientId, UserId } = useSelector((state: any) => state.user);   
+  const { clientId, UserId } = useSelector((state: any) => state.user);
 
   const { activePillar, allPillar } = useSelector(
     (state: any) => state.question
@@ -60,9 +60,9 @@ const QuestionPage = () => {
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
   });
 
-  const path = 2+1
-  const { mutate: EnumUpadate } :any= useMutation({
-    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+  const path = 2 + 1;
+  const { mutate: EnumUpadate }: any = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -72,6 +72,7 @@ const QuestionPage = () => {
 
   useEffect(() => {
     const pillarName = (
+      !!clientwisePillarList?.data?.data &&
       clientwisePillarList?.data?.data?.length > 0
         ? clientwisePillarList?.data?.data
         : pillarList?.data?.data
@@ -80,16 +81,20 @@ const QuestionPage = () => {
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
     }
-  }, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
+  }, [pillarList?.data?.data, clientwisePillarList?.data?.data, dispatch]);
 
   useEffect(() => {
     if (
       !activePillar &&
-      (clientwisePillarList?.data?.data?.length > 0
+      (!!clientwisePillarList?.data?.data &&
+      clientwisePillarList?.data?.data?.length > 0
         ? clientwisePillarList?.data?.data
         : pillarList?.data?.data)
     ) {
-      if (clientwisePillarList?.data?.data?.length > 0) {
+      if (
+        !!clientwisePillarList?.data?.data &&
+        clientwisePillarList?.data?.data?.length > 0
+      ) {
         dispatch(
           setActivePillar(clientwisePillarList?.data?.data[0]?.pillarName)
         );
@@ -97,7 +102,12 @@ const QuestionPage = () => {
         dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
       }
     }
-  }, [pillarList?.data?.data, clientwisePillarList?.data?.data]);
+  }, [
+    pillarList?.data?.data,
+    clientwisePillarList?.data?.data,
+    activePillar,
+    dispatch,
+  ]);
 
   const { data: questionList } = useQuery({
     queryKey: [QUERY_KEYS.questionList],
@@ -171,7 +181,7 @@ const QuestionPage = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     EnumUpadate(path);
-    let allQueAns: any = {};
+    const allQueAns: any = {};
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
     });
@@ -192,6 +202,7 @@ const QuestionPage = () => {
       fetchQuestionAnswer?.data?.data &&
       Array.isArray(pillarwiseQuestion?.q)
     ) {
+      // eslint-disable-next-line no-unsafe-optional-chaining
       const updatedAnswers = [...pillarwiseQuestion?.q];
       fetchQuestionAnswer.data.data.forEach((j: any) => {
         if (j) {
@@ -237,7 +248,6 @@ const QuestionPage = () => {
     activePillar,
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
-
 
   return (
     <div className="font-calibri font-normal">
@@ -315,14 +325,14 @@ const QuestionPage = () => {
               ? pillarQuestions.filter((que: QuestionType) =>
                   que.options.some((opt) => opt.checked)
                 ).length
-              : 0;        
+              : 0;
 
             return (
               <div
                 key={index}
                 className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
                   activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-                }`} 
+                }`}
                 onClick={() => dispatch(setActivePillar(category))}
               >
                 <div className="flex gap-2">

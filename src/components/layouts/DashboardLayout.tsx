@@ -120,13 +120,13 @@ const TarinerSidebar: SidebarItem[] = [
   {
     label: "Dashboard",
     Icon: <RxDashboard size={22} />,
-    link: "/dashbord",
+    link: "/trainer/dashboard",
     children: [],
   },
   {
     label: "Maturity Assessment",
     Icon: <LuMapPin size={22} />,
-    link: "/maturityassessmentroadmap",
+    link: "/trainer/maturityassessmentroadmap",
     children: [],
   },
   {
@@ -180,28 +180,28 @@ const TarinerSidebar: SidebarItem[] = [
     children: [
       {
         label: "FAQ's",
-        link: "/faqslist",
+        link: "/trainer/faqslist",
       },
       {
         label: "User Manual",
-        link: "/trainingdocument",
+        link: "/trainer/trainingdocument",
       },
       {
         label: "Support Request",
-        link: "/supportticket",
+        link: "/trainer/supportticket",
       },
     ],
   },
   {
     label: "Setting",
     Icon: <FiSettings size={22} />,
-    link: "/employeepermission",
+    link: "/trainer/employeepermission",
     children: [],
   },
   {
     label: "Message",
     Icon: <PiEnvelopeThin size={22} />,
-    link: "/messaging",
+    link: "/trainer/messaging",
     children: [],
   },
   {
@@ -215,7 +215,6 @@ const TarinerSidebar: SidebarItem[] = [
 const DashboardLayout = () => {
   const [num, setNum] = useState(3);
   const [data, setData] = useState<SidebarItem[]>([]);
-  0;
   useEffect(() => {
     setNum(1);
     switch (num) {

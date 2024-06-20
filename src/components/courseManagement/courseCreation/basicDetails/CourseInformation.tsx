@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/use-toast";
 // import { urlRegex } from "@/lib/constants";
 import { fetchClientById } from "@/services/apiServices/client";
 import { createCourse } from "@/services/apiServices/courseManagement";
-import { ErrorResponse } from "@/types/Errors";
+import { ResponseError } from "@/types/Errors";
 import { ClientResponse } from "@/types/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ const schema = zod
       .string()
       .optional()
       .refine((val) => {
-        return val === undefined || val === ""
+        return val === undefined || val === "";
       }, "Invalid URL"),
     coursePrise: zod
       .string()
@@ -75,6 +75,8 @@ const CourseInformation = () => {
       isFreeCourse: false,
     },
   });
+  const search = window.location.search;
+  const params = new URLSearchParams(search).get("tab");
   const coursePrise = watch("coursePrise") || 0;
   const { data } = useQuery<ClientResponse>({
     queryKey: ["coursePrise", { clientId }],
@@ -89,11 +91,16 @@ const CourseInformation = () => {
         description: "Course created successfully",
         variant: "success",
       });
-      navigate(`/trainer/create_course?step=${1}&id=${data?.data?.data?.id}`, {
-        replace: true,
-      });
+      navigate(
+        `/trainer/create_course?tab=${params}&step=${1}&id=${
+          data?.data?.data?.course?.id
+        }&version=${data?.data?.data?.version}`,
+        {
+          replace: true,
+        }
+      );
     },
-    onError: (error: ErrorResponse) => {
+    onError: (error: ResponseError) => {
       toast({
         title: "Error",
         description: error.data?.message,

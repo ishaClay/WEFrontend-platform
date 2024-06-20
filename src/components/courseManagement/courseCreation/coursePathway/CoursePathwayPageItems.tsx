@@ -1,17 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { DataEntity } from "@/types/Pillar";
 
-type coursePageItemsProps = {
-  data: {
-    courseName: string;
-  };
-};
-const CoursePathwayPageItems = ({ data }: coursePageItemsProps) => {
+const CoursePathwayPageItems = ({ data }: { data: DataEntity }) => {
   return (
     <div className="h-[100px] border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
       <div className="h-full flex items-center col-span-3 p-4 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">
         <h4 className="align-middle text-base font-calibri font-bold">
-          {data.courseName}
+          {data.pillarName}
         </h4>
       </div>
       <div className="col-span-9 flex items-center">
@@ -34,6 +32,23 @@ const CoursePathwayPageItems = ({ data }: coursePageItemsProps) => {
           </Button>
         </div>
       </div>
+      <RadioGroup
+        defaultValue="comfortable"
+        className="col-span-9 flex items-center"
+      >
+        <div className="flex items-center space-x-2 py-4 px-5 rounded-full outline-none bg-[#FF5252] text-white text-base font-calibri">
+          <RadioGroupItem value="default" id="r1" />
+          <Label htmlFor="r1">Default</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="comfortable" id="r2" />
+          <Label htmlFor="r2">Comfortable</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="compact" id="r3" />
+          <Label htmlFor="r3">Compact</Label>
+        </div>
+      </RadioGroup>
     </div>
   );
 };

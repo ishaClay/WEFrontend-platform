@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { getCertificate } from "@/services/apiServices/certificate";
-import { createCourseTwoPage } from "@/services/apiServices/courseManagement";
-import { ErrorResponse } from "@/types/Errors";
+import {
+  createCourseTwoPage,
+  fetchNfqlLevel,
+} from "@/services/apiServices/courseManagement";
+import { ResponseError } from "@/types/Errors";
 import { CertificateResponse } from "@/types/certificate";
+import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
@@ -20,25 +24,6 @@ const schema = zod.object({
   ectsCredit: zod.string().min(1, "ECTS credit is required"),
   fetCredit: zod.string().min(1, "FET credit is required"),
 });
-
-const nfqOption = [
-  {
-    label: "NQF Level 1",
-    value: "NQF Level 1",
-  },
-  {
-    label: "NQF Level 2",
-    value: "NQF Level 2",
-  },
-  {
-    label: "NQF Level 3",
-    value: "NQF Level 3",
-  },
-  {
-    label: "NQF Level 4",
-    value: "NQF Level 4",
-  },
-];
 
 const CourseSpecifications = () => {
   const {
@@ -53,11 +38,18 @@ const CourseSpecifications = () => {
   });
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
+  const paramsTab = new URLSearchParams(search).get("tab");
+  const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
 
   const { data } = useQuery<CertificateResponse>({
     queryKey: ["certificate"],
     queryFn: getCertificate,
+  });
+
+  const { data: nfql } = useQuery<NfqlLevelResponse>({
+    queryKey: ["nfqllevel"],
+    queryFn: fetchNfqlLevel,
   });
 
   const { mutate, isPending } = useMutation({
@@ -68,11 +60,14 @@ const CourseSpecifications = () => {
         description: "Course created successfully",
         variant: "success",
       });
-      navigate(`/trainer/create_course?step=${2}&id=${params}`, {
-        replace: true,
-      });
+      navigate(
+        `/trainer/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
+        {
+          replace: true,
+        }
+      );
     },
-    onError: (error: ErrorResponse) => {
+    onError: (error: ResponseError) => {
       toast({
         title: "Error",
         description: error.data?.message,
@@ -81,13 +76,22 @@ const CourseSpecifications = () => {
     },
   });
 
-  console.log("data", params);
+  console.log("data", nfql);
 
   const certificateOption =
     data?.data?.length &&
     data?.data?.map((item) => {
       return {
         label: item.templateName,
+        value: item.id.toString(),
+      };
+    });
+
+  const nfqlLevelOption =
+    nfql?.data?.length &&
+    nfql?.data?.map((item) => {
+      return {
+        label: item.leval,
         value: item.id.toString(),
       };
     });
@@ -100,7 +104,11 @@ const CourseSpecifications = () => {
       certificate: data?.participants,
     };
     console.log(data);
-    mutate({ data: payload, id: params || "" });
+    mutate({
+      data: payload,
+      id: params || "",
+      paramsversion: paramsversion || "",
+    });
   };
 
   return (
@@ -111,7 +119,7 @@ const CourseSpecifications = () => {
             Specify the NFQ level for this course (if applicable).
           </Label>
           <SelectMenu
-            option={nfqOption}
+            option={nfqlLevelOption || []}
             setValue={(e: string) => setValue("nfqLevel", e)}
             value={watch("nfqLevel")}
             placeholder="NQF Level 4"

@@ -15,13 +15,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { registerTrainer } from "@/services/apiServices/trainer";
-
-import { Trainer } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function RegisterTrainer() {
@@ -36,15 +33,19 @@ function RegisterTrainer() {
     providerCountry: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    contactSurname: z.string().min(1, { message: "Contact Surname is required" }),
-    contactTelephone: z.string().min(1, { message: "Contact Telephone No. is required" }),
+    contactSurname: z
+      .string()
+      .min(1, { message: "Contact Surname is required" }),
+    contactTelephone: z
+      .string()
+      .min(1, { message: "Contact Telephone No. is required" }),
     providerAddress: z
       .string()
       .min(1, { message: "Provider Address is required" }),
-      providerCounty: z
+    providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-      name: z.string().min(1, { message: "Contact First Name is required" }),
+    name: z.string().min(1, { message: "Contact First Name is required" }),
     email: z.string().min(1, { message: "Email Address is required" }),
     providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
     foreignProvider: z
@@ -72,31 +73,24 @@ function RegisterTrainer() {
   });
   console.log("errorserrors", errors);
 
-  
-
   const { mutate: createtrainer, isPending: createPending } = useMutation({
-    mutationFn: (question: Trainer) => registerTrainer(question),
+    mutationFn: (question) => registerTrainer(question),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
       reset();
-    navigate("/auth")
+      navigate("/auth");
       toast({ title: "Trainer created successfully" });
     },
- 
   });
-  
 
-  const onSubmit = async (
-    data: FieldValues
-  ) => {
+  const onSubmit = async (data: FieldValues) => {
     // @ts-ignore
-    createtrainer(data);    
+    createtrainer(data);
   };
 
   console.log("errors", errors);
-  
 
   return (
     <div className="">

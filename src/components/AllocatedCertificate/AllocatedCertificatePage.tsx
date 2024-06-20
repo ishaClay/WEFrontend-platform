@@ -222,6 +222,7 @@ const AllocatedCertificatePage = () => {
           data={data}
           totalCount={data?.length}
           setPage={setPage}
+          pagination={{ pageIndex: page, pageSize: 10 }}
           rounded={false}
         />
       </div>
