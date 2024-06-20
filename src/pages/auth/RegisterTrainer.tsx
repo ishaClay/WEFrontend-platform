@@ -297,8 +297,13 @@ function RegisterTrainer() {
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
-                    <a className="text-color">Privacy Policy</a> and{" "}
-                    <a className="text-color">Terms of Service.</a>
+                    <Link to="/privacypolicy" className="text-color">
+                      Privacy Policy{" "}
+                    </Link>{" "}
+                    and{" "}
+                    <Link to={""} className="text-color">
+                      Terms of Service.
+                    </Link>
                   </label>
                 </div>
               </form>

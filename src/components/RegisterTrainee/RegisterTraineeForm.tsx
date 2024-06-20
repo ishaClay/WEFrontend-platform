@@ -10,8 +10,13 @@ import * as Zod from "zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { InputWithLable } from "../ui/inputwithlable";
 import { useEffect } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
 
@@ -22,19 +27,59 @@ const RegisterTraineeForm = () => {
   const email: string | null = params.get("email");
 
   const schema = Zod.object({
-    email: Zod.string().email({ message: "This is not a valid email." }).optional(),
-    ageRange: Zod.string().regex(/^\d{1,2}$/, { message: "Please enter a valid age range (1-2 digits)." }).min(1, { message: "Please enter a valid age range" }).max(2, { message: "Please enter a valid age range" }),
-    gender: Zod.string().regex(/^[A-Za-z]+$/, { message: "Please enter a valid gender" }).min(1, { message: "Please enter valid gender" }),
-    firstName: Zod.string().regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" }).min(1, { message: "Please enter a valid first name" }),
-    surname: Zod.string().regex(/^[A-Za-z]+$/, { message: "Surname can only contain letters" }).min(1, { message: "Please enter a valid surname" }),
-    phone: Zod.string().regex(/^\d{1,10}$/, { message: "Please enter a valid phone number (1-9 digits)." }).min(1, { message: "Please enter a valid phone number" }).max(10, { message: "Please enter a valid phone number" }),
-    currentHighestNFQ: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid NFQ" }).min(1, { message: "Please enter valid NFQ" }),
-    employmentStatus: Zod.enum(employmentStatusOptions, { message: "Please enter valid employment status" }),
-    memberCompany: Zod.string().regex(/^[0-9]$/, { message: "Please enter a valid member company" }).min(1, { message: "Please enter valid member company" }),
-    occupationalCategory: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid occupational category" }).min(1, { message: "Please enter valid occupational category" }),
-    unemploymentTime: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid unemployment time" }).min(1, { message: "Please enter valid unemployment time" }),
-    countyOfResidence: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid county of residence" }).min(1, { message: "Please enter valid county of residence" }),
-    attendedEvent: Zod.string().regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid attended event" }).min(1, { message: "Please enter valid attended event" }),
+    email: Zod.string()
+      .email({ message: "This is not a valid email." })
+      .optional(),
+    ageRange: Zod.string()
+      .regex(/^\d{1,2}$/, {
+        message: "Please enter a valid age range (1-2 digits).",
+      })
+      .min(1, { message: "Please enter a valid age range" })
+      .max(2, { message: "Please enter a valid age range" }),
+    gender: Zod.string()
+      .regex(/^[A-Za-z]+$/, { message: "Please enter a valid gender" })
+      .min(1, { message: "Please enter valid gender" }),
+    firstName: Zod.string()
+      .regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" })
+      .min(1, { message: "Please enter a valid first name" }),
+    surname: Zod.string()
+      .regex(/^[A-Za-z]+$/, { message: "Surname can only contain letters" })
+      .min(1, { message: "Please enter a valid surname" }),
+    phone: Zod.string()
+      .regex(/^\d{1,10}$/, {
+        message: "Please enter a valid phone number (1-9 digits).",
+      })
+      .min(1, { message: "Please enter a valid phone number" })
+      .max(10, { message: "Please enter a valid phone number" }),
+    currentHighestNFQ: Zod.string()
+      .regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid NFQ" })
+      .min(1, { message: "Please enter valid NFQ" }),
+    employmentStatus: Zod.enum(employmentStatusOptions, {
+      message: "Please enter valid employment status",
+    }),
+    memberCompany: Zod.string()
+      .regex(/^[0-9]$/, { message: "Please enter a valid member company" })
+      .min(1, { message: "Please enter valid member company" }),
+    occupationalCategory: Zod.string()
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Please enter a valid occupational category",
+      })
+      .min(1, { message: "Please enter valid occupational category" }),
+    unemploymentTime: Zod.string()
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Please enter a valid unemployment time",
+      })
+      .min(1, { message: "Please enter valid unemployment time" }),
+    countyOfResidence: Zod.string()
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Please enter a valid county of residence",
+      })
+      .min(1, { message: "Please enter valid county of residence" }),
+    attendedEvent: Zod.string()
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Please enter a valid attended event",
+      })
+      .min(1, { message: "Please enter valid attended event" }),
   });
   const {
     register,
@@ -49,11 +94,10 @@ const RegisterTraineeForm = () => {
   });
 
   useEffect(() => {
-    setValue('email', email)
-  }, [email])
+    setValue("email", email);
+  }, [email]);
 
   console.log(typeof getValues("ageRange"), "errorserrorserrors");
-
 
   const { mutate: updateTrainee } = useMutation({
     mutationFn: trainerUpdate,
@@ -117,9 +161,31 @@ const RegisterTraineeForm = () => {
           Register as
         </span>
         <div className="flex overflow-hidden justify-evenly border-gainsboro-100 border-solid border-[1px] rounded-[5px] w-[328px] h-[42px] text-[18px] leading-[18px] font-normal text-darkslategray-100 mt-[27px] mb-[33px]">
-          <button className={`w-full ${type === "trainer" ? "bg-[#73AF26] text-white font-bold" : "pointer-events-none"} `}>Trainer</button>
-          <button className={`w-full ${type === "company" ? "bg-[#73AF26] text-white font-bold" : "pointer-events-none"} `}>company</button>
-          <button className={`w-full ${type === "trainee" ? "bg-[#73AF26] text-white font-bold" : "pointer-events-none"} `}>
+          <button
+            className={`w-full ${
+              type === "trainer"
+                ? "bg-[#73AF26] text-white font-bold"
+                : "pointer-events-none"
+            } `}
+          >
+            Trainer
+          </button>
+          <button
+            className={`w-full ${
+              type === "company"
+                ? "bg-[#73AF26] text-white font-bold"
+                : "pointer-events-none"
+            } `}
+          >
+            company
+          </button>
+          <button
+            className={`w-full ${
+              type === "trainee"
+                ? "bg-[#73AF26] text-white font-bold"
+                : "pointer-events-none"
+            } `}
+          >
             Trainee
           </button>
         </div>
@@ -131,40 +197,36 @@ const RegisterTraineeForm = () => {
               First Name
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("firstName")}
-
-            />
-            {
-              errors.firstName && <ErrorMessage message={errors?.firstName?.message as string || ""} />
-            }
+            <InputWithLable className={"!w-full"} {...register("firstName")} />
+            {errors.firstName && (
+              <ErrorMessage
+                message={(errors?.firstName?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
               Surname
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("surname")}
-            />
-            {
-              errors.surname && <ErrorMessage message={errors?.surname?.message as string || ""} />
-            }
+            <InputWithLable className={"!w-full"} {...register("surname")} />
+            {errors.surname && (
+              <ErrorMessage
+                message={(errors?.surname?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
               Gender
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("gender")}
-            />
-            {
-              errors.gender && <ErrorMessage message={errors?.gender?.message as string || ""} />
-            }
+            <InputWithLable className={"!w-full"} {...register("gender")} />
+            {errors.gender && (
+              <ErrorMessage
+                message={(errors?.gender?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -176,9 +238,11 @@ const RegisterTraineeForm = () => {
               // type="number"
               {...register("ageRange")}
             />
-            {
-              errors.ageRange && <ErrorMessage message={errors?.ageRange?.message as string || ""} />
-            }
+            {errors.ageRange && (
+              <ErrorMessage
+                message={(errors?.ageRange?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -191,22 +255,23 @@ const RegisterTraineeForm = () => {
               value={email ? email : ""}
               disable={email ? true : false}
             />
-            {
-              errors.email && <ErrorMessage message={errors?.email?.message as string || ""} />
-            }
+            {errors.email && (
+              <ErrorMessage
+                message={(errors?.email?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
               Phone
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("phone")}
-            />
-            {
-              errors.phone && <ErrorMessage message={errors?.phone?.message as string || ""} />
-            }
+            <InputWithLable className={"!w-full"} {...register("phone")} />
+            {errors.phone && (
+              <ErrorMessage
+                message={(errors?.phone?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -216,17 +281,20 @@ const RegisterTraineeForm = () => {
             <InputWithLable
               className={"!w-full"}
               {...register("currentHighestNFQ")}
-
             />
-            {
-              errors.currentHighestNFQ && <ErrorMessage message={errors?.currentHighestNFQ?.message as string || ""} />
-            }
+            {errors.currentHighestNFQ && (
+              <ErrorMessage
+                message={(errors?.currentHighestNFQ?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
               Employment Status
             </label>
-            <Select onValueChange={(value) => setValue("employmentStatus", value)}>
+            <Select
+              onValueChange={(value) => setValue("employmentStatus", value)}
+            >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
                 <SelectValue placeholder="select status" />
               </SelectTrigger>
@@ -239,9 +307,11 @@ const RegisterTraineeForm = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
-            {
-              errors.employmentStatus && <ErrorMessage message={errors?.employmentStatus?.message as string || ""} />
-            }
+            {errors.employmentStatus && (
+              <ErrorMessage
+                message={(errors?.employmentStatus?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -251,9 +321,11 @@ const RegisterTraineeForm = () => {
               className={"!w-full"}
               {...register("memberCompany")}
             />
-            {
-              errors.memberCompany && <ErrorMessage message={errors?.memberCompany?.message as string || ""} />
-            }
+            {errors.memberCompany && (
+              <ErrorMessage
+                message={(errors?.memberCompany?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -263,9 +335,13 @@ const RegisterTraineeForm = () => {
               className={"!w-full"}
               {...register("occupationalCategory")}
             />
-            {
-              errors.occupationalCategory && <ErrorMessage message={errors?.occupationalCategory?.message as string || ""} />
-            }
+            {errors.occupationalCategory && (
+              <ErrorMessage
+                message={
+                  (errors?.occupationalCategory?.message as string) || ""
+                }
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -275,9 +351,11 @@ const RegisterTraineeForm = () => {
               className={"!w-full"}
               {...register("unemploymentTime")}
             />
-            {
-              errors.unemploymentTime && <ErrorMessage message={errors?.unemploymentTime?.message as string || ""} />
-            }
+            {errors.unemploymentTime && (
+              <ErrorMessage
+                message={(errors?.unemploymentTime?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -288,9 +366,11 @@ const RegisterTraineeForm = () => {
               className={"!w-full"}
               {...register("countyOfResidence")}
             />
-            {
-              errors.countyOfResidence && <ErrorMessage message={errors?.countyOfResidence?.message as string || ""} />
-            }
+            {errors.countyOfResidence && (
+              <ErrorMessage
+                message={(errors?.countyOfResidence?.message as string) || ""}
+              />
+            )}
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
@@ -300,19 +380,29 @@ const RegisterTraineeForm = () => {
               className={"!w-full"}
               {...register("attendedEvent")}
             />
-            {
-              errors.attendedEvent && <ErrorMessage message={errors?.attendedEvent?.message as string || ""} />
-            }
+            {errors.attendedEvent && (
+              <ErrorMessage
+                message={(errors?.attendedEvent?.message as string) || ""}
+              />
+            )}
           </div>
         </div>
-        <button type="submit" className="xl:mt-12 mt-6 bg-primary-button rounded w-[370px] h-12 text-white border border-solid border-black shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-calibri font-bold">
+        <button
+          type="submit"
+          className="xl:mt-12 mt-6 bg-primary-button rounded w-[370px] h-12 text-white border border-solid border-black shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-calibri font-bold"
+        >
           Submit
         </button>
       </form>
       <p className="xl:mt-[39px] mt-[30px] text-[#898989] text-[12px] leading-[14.65px] w-[296px] text-center font-normal mx-auto">
         Protected by reCAPTCHA and subject to the Skillnet{" "}
-        <span className="text-darkslategray-200">Privacy Policy</span> and{" "}
-        <span className="text-darkslategray-200">Terms of Service.</span>
+        <Link to={"/privacypolicy"} className="text-darkslategray-200">
+          Privacy Policy
+        </Link>
+        and{" "}
+        <Link to={""} className="text-darkslategray-200">
+          Terms of Service.
+        </Link>
       </p>
     </>
   );

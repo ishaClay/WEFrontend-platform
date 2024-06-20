@@ -338,8 +338,13 @@ function Register() {
             <div className="max-w-[296px] mx-auto mt-[154px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
               <label>
                 Protected by reCAPTCHA and subject to the Skillnet{" "}
-                <a className="text-color">Privacy Policy</a> and{" "}
-                <a className="text-color">Terms of Service.</a>
+                <Link to={"/privacypolicy"} className="text-color">
+                  Privacy Policy
+                </Link>{" "}
+                and{" "}
+                <Link to={""} className="text-color">
+                  Terms of Service.
+                </Link>
               </label>
             </div>
           </div>
