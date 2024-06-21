@@ -6,11 +6,15 @@ import Symbol from "@/components/comman/symbol/Symbol";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setClientId } from "@/redux/reducer/CompanyReducer";
-import { clientwiseBannerSlider } from "@/services/apiServices/bannerSlider";
+import { getHomeBanner } from "@/services/apiServices/bannerSlider";
 import {
-  clientwiseCourseSlider,
   fetchDataByClientwise,
+  getCourseSlider,
 } from "@/services/apiServices/courseSlider";
+import {
+  GetHomeBannerResponse,
+  HomeCourseSlidersResponse,
+} from "@/types/banner";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
@@ -45,19 +49,20 @@ function Home() {
   }, [dispatch, fetchByClientwise?.data?.data]);
 
   const { data: clientwiseBannerList, isPending: clientwiseBannerListPending } =
-    useQuery({
+    useQuery<GetHomeBannerResponse>({
       queryKey: [QUERY_KEYS.clientwiseBannerSlider, { clientId }],
-      queryFn: () => clientwiseBannerSlider(clientId?.toString()),
+      queryFn: () => getHomeBanner(clientId?.toString(), "Active"),
     });
 
   const {
     data: clientwiseCourseslider,
     isPending: clientwiseCoursesliderPending,
-  } = useQuery({
+  } = useQuery<HomeCourseSlidersResponse>({
     queryKey: [QUERY_KEYS.clientwiseCourseSlider, clientId],
-    queryFn: () => clientwiseCourseSlider(clientId.toString()),
+    queryFn: () => getCourseSlider(clientId.toString(), "Active"),
   });
 
+  console.log("+++++++++++++++++", clientwiseCourseslider);
   const onItemClick = (index: string) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
@@ -146,7 +151,7 @@ function Home() {
       <section className="w-full">
         <div className="relative overflow-hidden mx-auto ">
           <Slider {...bannerSetting}>
-            {clientwiseBannerList?.data?.data?.map((item) => {
+            {clientwiseBannerList?.data?.map((item) => {
               return (
                 <div className="relative">
                   <img
@@ -299,7 +304,7 @@ function Home() {
 
             <div className="max-w-[697px] w-full">
               <Slider {...settings}>
-                {clientwiseCourseslider?.data?.data?.map((item) => {
+                {clientwiseCourseslider?.data?.map((item) => {
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />

@@ -15,4 +15,10 @@ export const clientwiseCourseSlider = (id: string) => {
     return api({ url });
 };
 
+export const getCourseSlider = async (id: string, type: string) => {
+    const url = `api/v1/course-slider/getDeshboardcoursesSlider?clientId=${id}&status=${type}`;
+    const res = await api({ url });
+    return res.data;
+};
+
 clientwiseCourseSlider
