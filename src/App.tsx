@@ -4,12 +4,12 @@ import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import { Toaster } from "./components/ui/toaster";
+import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
@@ -103,7 +103,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
-  const { clientId } = useSelector((state: any) => state.user);
+  const { clientId } = useAppSelector((state) => state.user);
 
   const { data: themes } = useQuery({
     queryKey: [QUERY_KEYS.themeChanges],

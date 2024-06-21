@@ -14,4 +14,10 @@ export const clientwiseBannerSlider = (id: string) => {
     return api({ url });
 };
 
+export const getHomeBanner = async (id: string, type: string) => {
+    const url = `api/v1/slider/getDeshboardSlider?clientId=${id}&status=${type}`;
+    const res = await api({ url });
+    return res.data;
+};
+
 clientwiseBannerSlider
