@@ -29,10 +29,10 @@ const AllCourses = () => {
     queryFn: () => fetchCourseAllCourse(),
   });
 
-  const handleCohort = (id: number) => {
-    setCohort(true);
-    setCourse(id);
-  };
+  // const handleCohort = (id: number) => {
+  //   setCohort(true);
+  //   setCourse(id);
+  // };
 
   console.log("data", fetchCourseAllCourseData, fetchCourseAllCoursePending);
 
