@@ -47,7 +47,7 @@ function Header(props: headerProps) {
         props.hasDiffHeader ? "mx-7" : ""
       }`}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <div className="flex items-end">
           <div className={` ${!props.hasDiffHeader ? "xl:mr-7 mr-2" : ""}`}>
             <img
@@ -75,13 +75,15 @@ function Header(props: headerProps) {
         </div>
         <div className="flex items-end">
           <div className="font-bold text-lg text-color">
-            {userToken ? (
+            {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
-                <PrimaryButton
-                  onClick={handleGotoDashboard}
-                  name="Go to Dashboard"
-                  className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
-                />
+                {userToken && (
+                  <PrimaryButton
+                    onClick={handleGotoDashboard}
+                    name="Go to Dashboard"
+                    className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                  />
+                )}
                 <PrimaryButton
                   onClick={handleLogout}
                   name="Logout"
@@ -102,7 +104,7 @@ function Header(props: headerProps) {
                     navigate("/auth");
                   }}
                   name="Login"
-                  className="xl:px-[73px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
+                  className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
                 />
               </>
             )}

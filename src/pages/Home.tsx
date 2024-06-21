@@ -1,72 +1,64 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { SecondaryButton } from "@/components/comman/Button/CustomButton";
 import Loading from "@/components/comman/Error/Loading";
 import Symbol from "@/components/comman/symbol/Symbol";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import {
-  clientwiseBannerSlider,
-  fetchBannerSlider,
-} from "@/services/apiServices/bannerSlider";
+import { setClientId } from "@/redux/reducer/CompanyReducer";
+import { clientwiseBannerSlider } from "@/services/apiServices/bannerSlider";
 import {
   clientwiseCourseSlider,
-  CourseSlider,
   fetchDataByClientwise,
 } from "@/services/apiServices/courseSlider";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
+import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
 import Plus from "../../public/assets/img/Plus.png";
-import { SecondaryButton } from "@/components/comman/Button/CustomButton";
-import { useDispatch, useSelector } from "react-redux";
-import { setClientId } from "@/redux/reducer/CompanyReducer";
 
 function Home() {
   const dispatch = useDispatch();
 
-  const { clientId } = useSelector((state: any) => state.user);
+  const { clientId } = useAppSelector((state) => state.user);
 
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<null | string>(null);
+  const domain = document.location.origin;
+
+  console.log("domain+++++++", domain);
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchDataByClientwise],
-      queryFn: () => fetchDataByClientwise("localhost:5173"),
+      queryFn: () => fetchDataByClientwise(domain),
       // queryFn: () => fetchDataByClientwise("weidev.clay.in"),
     });
 
   useEffect(() => {
-    dispatch(setClientId(fetchByClientwise?.data?.data?.id));
-  }, [fetchByClientwise?.data?.data]);
-
-  const { data: bannerList, isPending } = useQuery({
-    queryKey: [QUERY_KEYS.bannerSlider],
-    queryFn: () => fetchBannerSlider(),
-  });
+    if (fetchByClientwise?.data?.data) {
+      dispatch(setClientId(fetchByClientwise?.data?.data?.id));
+    }
+  }, [dispatch, fetchByClientwise?.data?.data]);
 
   const { data: clientwiseBannerList, isPending: clientwiseBannerListPending } =
     useQuery({
-      queryKey: [QUERY_KEYS.clientwiseBannerSlider],
+      queryKey: [QUERY_KEYS.clientwiseBannerSlider, { clientId }],
       queryFn: () => clientwiseBannerSlider(clientId?.toString()),
     });
-
-  const { data: courseslider, isPending: coursesliderPending } = useQuery({
-    queryKey: [QUERY_KEYS.courseSlider],
-    queryFn: () => CourseSlider(),
-  });
 
   const {
     data: clientwiseCourseslider,
     isPending: clientwiseCoursesliderPending,
   } = useQuery({
-    queryKey: [QUERY_KEYS.clientwiseCourseSlider],
+    queryKey: [QUERY_KEYS.clientwiseCourseSlider, clientId],
     queryFn: () => clientwiseCourseSlider(clientId.toString()),
   });
 
-  const onItemClick = (index: any) => {
+  const onItemClick = (index: string) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
@@ -154,10 +146,7 @@ function Home() {
       <section className="w-full">
         <div className="relative overflow-hidden mx-auto ">
           <Slider {...bannerSetting}>
-            {(clientwiseBannerList?.data?.data?.length > 0
-              ? clientwiseBannerList?.data?.data
-              : bannerList?.data.data
-            )?.map((item: any) => {
+            {clientwiseBannerList?.data?.data?.map((item) => {
               return (
                 <div className="relative">
                   <img
@@ -310,10 +299,7 @@ function Home() {
 
             <div className="max-w-[697px] w-full">
               <Slider {...settings}>
-                {(clientwiseCourseslider?.data?.data?.length > 0
-                  ? clientwiseCourseslider?.data?.data
-                  : courseslider?.data.data
-                )?.map((item: any) => {
+                {clientwiseCourseslider?.data?.data?.map((item) => {
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
@@ -706,8 +692,6 @@ function Home() {
 
       <Loading
         isLoading={
-          isPending ||
-          coursesliderPending ||
           clientwiseBannerListPending ||
           clientwiseCoursesliderPending ||
           fetchByClientwisePending

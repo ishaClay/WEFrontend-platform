@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
-import TeaserScoreHeader from "@/components/TeaserScoreHeader";
-import {
-  CardDescription,
-  CardTitle,
-} from "@/components/ui/card";
+import Header from "@/components/Header";
+import { CardDescription, CardTitle } from "@/components/ui/card";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
@@ -18,8 +15,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-
 
 const maturityLevel = [
   {
@@ -57,7 +52,6 @@ const TeaserScore = () => {
   const { clientId } = useSelector((state: any) => state.user);
   const queryClient = useQueryClient();
 
-
   const { data: maturitylevel } = useQuery({
     queryKey: [QUERY_KEYS.maturityLevel],
     queryFn: () => fetchmaturityLevel(),
@@ -74,25 +68,22 @@ const TeaserScore = () => {
     queryFn: () => getAllassessment(UserId),
   });
 
-  const path = 3+1
-  const { mutate: EnumUpadate }:any = useMutation({
-    mutationFn: () => enumUpadate({path: path.toString()} ,UserId),
+  const path = 3 + 1;
+  const { mutate: EnumUpadate }: any = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
-
     },
-    
   });
 
-  const handleScore = () =>{	
-	EnumUpadate(path)
-  navigate("/companyregister")
+  const handleScore = () => {
+    EnumUpadate(path);
+    navigate("/companyregister");
+  };
 
-  }
-
-const score = Number(
+  const score = Number(
     (
       (+allassessmant?.data?.data?.avTotalpoints /
         +allassessmant?.data?.data?.avTotalmaxpoint) *
@@ -193,13 +184,12 @@ const score = Number(
 
   return (
     <div className="flex flex-col h-screen">
-      <TeaserScoreHeader />
+      <Header />
       <div className="bg-[url('../assets/img/backgroundscore.png')]">
         <div className="w-full max-w-[800px] mx-auto mt-20 mb-32 flex justify-center">
           <div className="border-t-8 border-solid border-[#00778B] flex justify-between bg-white rounded-lg w-full">
-          
-                <div className="flex w-full">
-                <div className="mr-0">
+            <div className="flex w-full">
+              <div className="mr-0">
                 <div className="flex flex-col pl-8 pt-4">
                   <div className="flex items-center">
                     <CardTitle className="text-xl font-bold">Hooray!</CardTitle>
@@ -211,66 +201,65 @@ const score = Number(
                   </div>
                   <div className="bg-[#64A70B] h-[2px] w-20 mt-0 ml-0"></div>
                 </div>
-              <div>
-
-              </div>
-              <div className=" pr-0 flex">
-                <div className="pl-8 flex-1">
-                  <CardDescription className="text-sm font-[calibri] text-[#002A3A]">
-                    You've taken the first stride on your sustainability
-                    journey!🌿
-                  </CardDescription>
-                  <p className="font-bold font-[calibri] text-[#002A3A] my-[12px]">
-                    Curious about your progress?
-                  </p>
-                  <p className="text-sm font-[calibri] text-[#002A3A]">
-                    To view the full results and embark on the complete learning
-                    <br />
-                    experience, hop over to our registration page. Your
-                    adventure
-                    <br />
-                    towards sustainability is about to get even more exciting!
-                    🚀
-                    <br />
-                  </p>
-                  <button
-                    className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
-                    onClick={handleScore}
-                  >
-                    Complete your Registration
-                  </button>
-                </div>
-                </div>
-            </div>
-
-            <div className="flex justify-between max-w-[calc(100%_-_382px)] mb-10">
-              <div className="p-4 relative w-full">
-                <h2 className="text-lg font-semibold">
-                  Here's a sneak peek at your score!
-                </h2>
-                <div className="flex w-full justify-between">
-                <Labels />
-                <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
-                  <div className="w-40 h-40 mt-0 ml-16 relative">
-                    <Doughnut
-                      data={data}
-                      options={options}
-                      plugins={[textCenter]}
-                    />
-                  </div>
-                  <div>
+                <div></div>
+                <div className=" pr-0 flex">
+                  <div className="pl-8 flex-1">
+                    <CardDescription className="text-sm font-[calibri] text-[#002A3A]">
+                      You've taken the first stride on your sustainability
+                      journey!🌿
+                    </CardDescription>
+                    <p className="font-bold font-[calibri] text-[#002A3A] my-[12px]">
+                      Curious about your progress?
+                    </p>
+                    <p className="text-sm font-[calibri] text-[#002A3A]">
+                      To view the full results and embark on the complete
+                      learning
+                      <br />
+                      experience, hop over to our registration page. Your
+                      adventure
+                      <br />
+                      towards sustainability is about to get even more exciting!
+                      🚀
+                      <br />
+                    </p>
                     <button
-                      style={{ backgroundColor: currentLavel?.color }}
-                      className=" text-white font-bold py-1 px-4 mt-3 ml-20 rounded"
+                      className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
+                      onClick={handleScore}
                     >
-                      {currentLavel?.maturityLevelName}
+                      Complete your Registration
                     </button>
                   </div>
                 </div>
+              </div>
+
+              <div className="flex justify-between max-w-[calc(100%_-_382px)] mb-10">
+                <div className="p-4 relative w-full">
+                  <h2 className="text-lg font-semibold">
+                    Here's a sneak peek at your score!
+                  </h2>
+                  <div className="flex w-full justify-between">
+                    <Labels />
+                    <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
+                      <div className="w-40 h-40 mt-0 ml-16 relative">
+                        <Doughnut
+                          data={data}
+                          options={options}
+                          plugins={[textCenter]}
+                        />
+                      </div>
+                      <div>
+                        <button
+                          style={{ backgroundColor: currentLavel?.color }}
+                          className=" text-white font-bold py-1 px-4 mt-3 ml-20 rounded"
+                        >
+                          {currentLavel?.maturityLevelName}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-                </div>
           </div>
         </div>
         <Footer />
