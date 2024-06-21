@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { cn } from "@/lib/utils";
 
 interface IProps {
   className?: string;
@@ -19,6 +20,7 @@ interface IProps {
     | ((e: string) => void);
   value: string;
   itemClassName?: string;
+  containClassName?: string;
 }
 
 const SelectMenu: FC<IProps> = ({
@@ -28,13 +30,16 @@ const SelectMenu: FC<IProps> = ({
   setValue,
   value,
   itemClassName,
+  containClassName,
 }) => {
   return (
     <Select onValueChange={(e) => setValue(e)} value={value}>
       <SelectTrigger className={`bg-white outline-none ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className={`bg-white max-h-[250px] overflow-auto`}>
+      <SelectContent
+        className={cn(`bg-white max-h-[250px] overflow-auto`, containClassName)}
+      >
         {option.map((item, index: number) => (
           <SelectItem
             key={index}
