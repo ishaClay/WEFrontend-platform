@@ -1,7 +1,7 @@
 import api from "./api";
 
 export const fetchDataByClientwise = (clienturl: string) => {
-    const url = `api/v1/client/get_by_url/${clienturl}`;
+    const url = `api/v1/client/get_by_url?url=${clienturl}`;
     return api({ url });
 };
 

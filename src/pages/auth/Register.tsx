@@ -53,13 +53,9 @@ function Register() {
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [otp, setOtp] = useState("");
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
-
   const queryClient = useQueryClient();
-
   const { toast } = useToast();
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -108,11 +104,13 @@ function Register() {
   const { mutate: createotp, isPending: createOtp } = useMutation({
     mutationFn: checkOTP,
     onSuccess: async (data) => {
+      console.log("++++++++++++++++++++", data);
+
+      setShowOtpPopup(false);
       dispatch(setUserData(data?.data?.data?.id));
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
-      setShowOtpPopup(false);
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       navigate("/assessment");
     },
@@ -228,7 +226,7 @@ function Register() {
                     <PrimaryButton
                       name="Trainer"
                       onClick={() => {
-                        navigate("/trainer");
+                        navigate("/trainer-regestration");
                       }}
                       className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background"
                       symbol={<img src="../assets/img/Analyzing Skill.png" />}
