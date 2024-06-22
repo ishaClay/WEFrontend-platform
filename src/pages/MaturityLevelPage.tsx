@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import {
@@ -160,8 +159,7 @@ const MaturityLevelPage = () => {
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
-      <Header />
-      <div className="mainContailner">
+      <div>
         <div className="flex ml-[172px] mr-[152px] justify-between">
           <div className="h-[369px] pt-[38px]">
             <h3 className="max-w-[290.34px] text-2xl font-bold leading-[29.3px]">

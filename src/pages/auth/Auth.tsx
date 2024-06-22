@@ -123,7 +123,7 @@ function Auth() {
           } else if (user.pathstatus === "7") {
             navigate("/maturitylevelactionitem");
           } else if (user.pathstatus === "8") {
-            navigate("/dashbord");
+            navigate("/company/dashboard");
             localStorage.setItem("user", JSON?.stringify(data.data.data));
           } else {
             navigate("/savedassesment");

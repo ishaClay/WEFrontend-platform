@@ -381,6 +381,27 @@ function App() {
           }
         />
         <Route
+          path="/company"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<Dashbord />} />
+          <Route path="maturityassessmentroadmap" element={<MaturityAssessmentRoadmapAfterbuild />} />
+          <Route path="allocatedcourses" element={<CoursesAllocate />} />
+          <Route path="coursesrecommended" element={<CoursesRecommended />} />
+          <Route path="allcourses" element={<CoursesAllCourse />} />
+          <Route path="employeelist" element={<EmployeeList />} />
+          <Route path="employeeprogress" element={<EmployeeProgress />} />
+          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="employeepermission" element={<EmployeePermission />} />
+          <Route path="messaging" element={<Messaging />} />
+        </Route>
+        <Route
           path="/maturityassessmentroadmapsettarget"
           element={
             <ProtectedRoute>

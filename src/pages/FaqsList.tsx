@@ -1,30 +1,14 @@
-
-import HeaderCourse from "@/components/HeaderCourse"
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-
 
 function FaqsList() {
-
-
   return (
-    <div className="flex bg-[#f5f3ff] w-[1510px] h-[730px]  overflow-hidden">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col">
-        <div className="">
-          <HeaderCourse />
-        </div>
-
-        <div className="bg-[#FFFFFF] w-[1247px] h-[1460px] m-[12px] rounded-[10px]">
-          <div className="  pt-[16px] pl-[30px] w-[1247px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+    <div className="bg-[#f5f3ff]">
+        <div className="bg-[#FFFFFF] rounded-[10px]">
+          <div className="pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
             <p className="text-[#000000] text-[Calibri] font-bold">FAQ’s</p>
-
           </div>
-
-          <div className="mt-[10px]  ">
+          <div className="p-5">
             <div className=" border-red-200 mr-[10px] ml-[10px] ">
               <div className=" flex justify-between p-4 border border-[#D9D9D9] ">
 
@@ -67,11 +51,7 @@ function FaqsList() {
           </div>
 
         </div>
-
-      </div>
-
     </div>
-
   )
 }
 

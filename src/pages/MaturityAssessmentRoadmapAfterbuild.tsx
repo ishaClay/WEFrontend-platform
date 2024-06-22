@@ -1,5 +1,3 @@
-import HeaderCourse from "@/components/HeaderCourse";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import { useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
@@ -15,23 +13,16 @@ function MaturityAssessmentRoadmapAfterbuild() {
   };
 
   return (
-    <div className="flex bg-[#EDEFF9] w-[1510px] h-[1930px] overflow-hidden">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col">
-        <div className=" ">
-          <HeaderCourse />
-        </div>
+    <div className="bg-[#EDEFF9]">
         <div className="ml-[20px] mt-[15px]">
           <h1 className="text-[16px] font-bold">Re Assessment 2</h1>
           <p className="text-[12px] text-[#606060]">
             Completed Date: 12/03/2024
           </p>
         </div>
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1880px] m-[12px] rounded-[10px] ">
-          <div className="w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px]">
-            <div className="pt-[10px]">
+        <div className="bg-[#FFFFFF] m-[12px] rounded-[10px] ">
+          <div className="bg-[#FFFFFF] rounded-t-[10px]">
+            <div className="pt-[10px] border-b border-[#D9D9D9]">
               <button
                 className={`${
                   activeTab === "Assessment Result"
@@ -587,7 +578,6 @@ function MaturityAssessmentRoadmapAfterbuild() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

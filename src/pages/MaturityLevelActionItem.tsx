@@ -35,7 +35,7 @@ function MaturityLevelActionItem() {
 
   const handlematurityAction = () => {
     EnumUpadate(path);
-    navigate("/dashbord");
+    navigate("/dashboard");
   };
 
   console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
