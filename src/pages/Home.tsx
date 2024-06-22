@@ -673,7 +673,7 @@ function Home() {
       <section className="flex items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 relative xl:my-20 my-8 lg:h-[350px] h-full">
         <div className="z-50">
           <img
-            className="left-14 top-1/2 -translate-y-1/2 md:block hidden xl:w-[400px] w-[350px] absolute"
+            className="xl:left-24 left-16 top-1/2 -translate-y-1/2 md:block hidden xl:w-[400px] w-[350px] absolute"
             src="../assets/img/pngwing 3.png"
           />
         </div>

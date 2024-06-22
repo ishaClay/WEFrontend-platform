@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Footer from "@/components/Footer";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   setActivePillar,
@@ -23,7 +25,7 @@ import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
@@ -39,14 +41,13 @@ const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const [selectedData, setSelectedData] = useState<string[]>([]);
 
-  const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { clientId, UserId } = useAppSelector((state) => state.user);
 
-  const { activePillar, allPillar } = useSelector(
-    (state: any) => state.question
-  );
+  const { activePillar, allPillar } = useAppSelector((state) => state.question);
 
-  const question = useSelector((state: any) => state.question);
+  const question: any = useAppSelector((state) => state.question);
 
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
@@ -61,8 +62,8 @@ const QuestionPage = () => {
   });
 
   const path = 2 + 1;
-  const { mutate: EnumUpadate }: any = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+  const { mutate: EnumUpadate } = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -77,9 +78,11 @@ const QuestionPage = () => {
         ? clientwisePillarList?.data?.data
         : pillarList?.data?.data
     )?.map((i: Pillar) => i?.pillarName);
+    console.log("clientwisePillarList", pillarName);
 
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
+      dispatch(setActivePillar(pillarName[0]));
     }
   }, [pillarList?.data?.data, clientwisePillarList?.data?.data, dispatch]);
 
@@ -108,6 +111,8 @@ const QuestionPage = () => {
     activePillar,
     dispatch,
   ]);
+
+  console.log(activePillar, "activePillar");
 
   const { data: questionList } = useQuery({
     queryKey: [QUERY_KEYS.questionList],
@@ -155,11 +160,26 @@ const QuestionPage = () => {
     },
   ];
 
+  const handleSelected = (e: string) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setSelectedData((prev) => {
+      if (prev?.includes(e)) {
+        return prev;
+      } else {
+        return [...prev, e];
+      }
+    });
+  };
+
+  console.log(selectedData, "selectedData+++++++++++++");
+
   useEffect(() => {
     let totalQuestions = 0;
     let totalAttemptedQuestions = 0;
 
     allPillar?.forEach((pillar: string) => {
+      // @ts-ignore
       const pillarQuestions = question[pillar];
       if (pillarQuestions && pillarQuestions.length > 0) {
         totalQuestions += pillarQuestions.length;
@@ -180,7 +200,7 @@ const QuestionPage = () => {
     : 0;
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    EnumUpadate(path);
+    EnumUpadate();
     const allQueAns: any = {};
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
@@ -327,13 +347,18 @@ const QuestionPage = () => {
                 ).length
               : 0;
 
+            console.log("+++++++++++++", category);
+
             return (
               <div
                 key={index}
                 className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
                   activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
                 }`}
-                onClick={() => dispatch(setActivePillar(category))}
+                onClick={() => {
+                  dispatch(setActivePillar(category));
+                  handleSelected(category);
+                }}
               >
                 <div className="flex gap-2">
                   <div className="flex flex-col gap-1">
@@ -461,6 +486,7 @@ const QuestionPage = () => {
               <Button
                 className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
                 onClick={handleSubmit}
+                disabled={allPillar?.length !== selectedData?.length}
               >
                 Submit & Continue
               </Button>

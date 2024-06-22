@@ -1,3 +1,4 @@
+import { CompanyResponse } from "@/pages/CompanyRegister";
 import { Company } from "@/types/Company";
 import api from "./api";
 
@@ -26,7 +27,9 @@ export const checkOTP = (data: any) => {
   return api({ url, method, data });
 };
 
-export const getCompanyDetailsById = (company_num: number | undefined) => {
-  const url = `api/v1/thirdparty/thirdparty?companyNumber=${company_num}`;
-  return api({ url });
+export const getCompanyDetailsById = async (company_num: number): Promise<CompanyResponse> => {
+  const url = `api/v1/thirdparty/getCompany?companyNumber=${company_num}`;
+  const method = "post";
+  const res = await api({ url, method, data: {} });
+  return res.data
 };

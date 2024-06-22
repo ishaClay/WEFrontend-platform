@@ -1,9 +1,11 @@
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   getCompanyDetailsById,
@@ -11,78 +13,48 @@ import {
   updateCompany,
 } from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
-import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { FieldValues, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+
+export interface CompanyResponse {
+  data?: DataEntity[] | null;
+  message: string;
+}
+interface DataEntity {
+  company_num: number;
+  company_bus_ind: string;
+  company_name: string;
+  company_addr_1: string;
+  company_addr_2: string;
+  company_addr_3: string;
+  company_addr_4: string;
+  company_reg_date: string;
+  company_status_desc: string;
+  company_status_date: string;
+  last_ar_date: string;
+  next_ar_date: string;
+  last_acc_date: string;
+  comp_type_desc: string;
+  company_type_code: number;
+  company_status_code: number;
+  place_of_business: string;
+  eircode: string;
+}
 
 function CompanyRegister() {
   const navigate = useNavigate();
-
-  const CompanyId = useSelector((state: any) => state.user.CompanyId);
-  const UserId = useSelector((state: any) => state.user.UserId);
-  const [companyNumberId, setCompanyNumberId] = useState<number | undefined>();
+  const [isAble, setIsAble] = useState(true);
+  const CompanyId = useAppSelector((state) => state.user.CompanyId);
+  const UserId = useAppSelector((state) => state.user.UserId);
+  const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [soleTrader, setSoleTrader] = useState("");
 
-  const handleCheckboxChange = (value: string) => {
-    setSoleTrader(value);
-  };
-
-  const { toast } = useToast();
-
-  const queryClient = useQueryClient();
-
-  const { data: companydetails } = useQuery({
-    queryKey: [QUERY_KEYS.oneCompany, CompanyId],
-    queryFn: () => getOneCompany(CompanyId as string),
-    enabled: !!CompanyId,
-  });
-
-  const { data: getCompanyDetails, refetch: refetchCompanyDetails } = useQuery({
-    queryKey: [QUERY_KEYS.companyDetailsId, companyNumberId],
-    queryFn: () => getCompanyDetailsById(companyNumberId),
-    enabled: false,
-  });
-  console.log("getCompanyDetails", getCompanyDetails);
-
-  const { mutate: updatecompany, isPending: updatePanding } = useMutation({
-    mutationFn: (data: Company) => updateCompany(data),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.companyList],
-      });
-
-      toast({ title: "Company update Successfully" });
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
-  console.log(companydetails, "companydetails++");
-
-  const path = 4 + 1;
-  const { mutate: EnumUpadate }: any = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.enumUpadateList],
-      });
-    },
-  });
-
   const schema = z.object({
-    companyNumberId: z
-      .string()
-      .regex(/^\d{5}$/, { message: "please enter valid number" })
-      .min(5, { message: "please enter 5 digit number" }),
     name: z.string().min(1, { message: "Name is required" }),
     address: z.string().min(1, { message: "Address is required" }),
     county: z.string().min(1, { message: "County is required" }),
@@ -113,6 +85,79 @@ function CompanyRegister() {
     mode: "all",
   });
 
+  const handleCheckboxChange = (value: string) => {
+    setSoleTrader(value);
+  };
+
+  const { toast } = useToast();
+
+  const queryClient = useQueryClient();
+
+  const { data: companydetails } = useQuery({
+    queryKey: [QUERY_KEYS.oneCompany, CompanyId],
+    queryFn: () => getOneCompany(CompanyId as string),
+    enabled: !!CompanyId,
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: getCompanyDetailsById,
+    onSuccess: async (data: CompanyResponse) => {
+      console.log("getCompanyDetails", data?.data);
+      if (!!data?.data && data?.data?.length > 0) {
+        const getData = data?.data?.[0];
+        const add =
+          getData?.company_addr_1 +
+          ", " +
+          getData?.company_addr_2 +
+          ", " +
+          getData?.company_addr_3 +
+          ", " +
+          getData?.company_addr_4;
+        setIsAble(false);
+        setValue("name", data?.data?.[0]?.company_name);
+        setValue("address", add);
+      } else {
+        setIsAble(true);
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error.data?.error?.message || error.data?.message,
+      });
+    },
+  });
+
+  const { mutate: updatecompany, isPending: updatePanding } = useMutation({
+    mutationFn: updateCompany,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.companyList],
+      });
+
+      toast({ title: "Company update Successfully" });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+  console.log(companydetails, "companydetails++");
+
+  const path = 4 + 1;
+  const { mutate: EnumUpadate }: any = useMutation({
+    mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.enumUpadateList],
+      });
+    },
+  });
+
+  console.log("errors", errors);
+
   useEffect(() => {
     if (companydetails) {
       const data = companydetails.data.data.client;
@@ -122,7 +167,7 @@ function CompanyRegister() {
     }
   }, [companydetails]);
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
+  const onSubmit = async (data: FieldValues) => {
     const updatedData: any = {
       ...data,
       soleTrader: soleTrader === "true" ? true : false,
@@ -133,28 +178,30 @@ function CompanyRegister() {
   };
 
   const handleVerifyId = () => {
-    refetchCompanyDetails();
+    mutate(companyNumberId || 0);
   };
 
   return (
     <>
       <Header />
-      <div className="max-w-[1440px] w-full flex relative mt-[34px] gap-[50px] mx-auto">
+      <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
         <div>
           <img
-            className="w-[686px] h-[1073px]"
+            className="max-w-full h-full object-cover"
             src="../assets/img/Group 1000001826.png"
           />
         </div>
 
-        <div className="h-auto">
-          <div className="w-full mt-[31px]">
-            <p className="text-[14px]">
+        <div className="w-full xl:px-0 px-2 max-w-[515px] mx-auto">
+          <div className="flex justify-end text-color">
+            <label>
               Already have an account?{" "}
-              <a className="text-[#042937] font-semibold">Sign In</a>
-            </p>
+              <Link to={"/auth"} className="font-[700] text-[#042937]">
+                Sign In
+              </Link>
+            </label>
           </div>
-          <div className="w-[707px] mt-[67px] ">
+          <div className=" mt-[67px] ">
             <div className="flex gap-x-[8px] h-180px items-end">
               <h3 className="text-[24px]">Complete your registration</h3>
               <img
@@ -177,18 +224,35 @@ function CompanyRegister() {
                   className="w-[241px] h-[46px]"
                   placeholder="Id"
                   label="Id"
-                  onChange={(e: any) => setCompanyNumberId(e?.target?.value)}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    console.log("value.match(/^[0-9]+(?:.[0-9]+)?$/)", value);
+
+                    if (value.match(/^[0-9]*$/)) {
+                      setCompanyNumberId(+e?.target?.value as number);
+                    }
+                    return;
+                  }}
+                  value={companyNumberId || ""}
                 />
               </div>
-              <button
+              <PrimaryButton
+                type="button"
+                name={
+                  isPending ? <Loader containerClassName="h-auto" /> : "Verify"
+                }
+                className="px-5 h-[46px] ml-[20px]"
+                onClick={handleVerifyId}
+              />
+              {/* <button
                 className="h-[46px] px-5 rounded ml-5 bg-primary-button text-white"
                 onClick={handleVerifyId}
               >
-                Verify
-              </button>
+                {isPending ? <Loader containerClassName="h-auto" /> : "Verify"}
+              </button> */}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-wrap gap-x-[100px] sm:gap-x-[40px] gap-y-[5px]">
+              <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] gap-y-[5px]">
                 <div>
                   <InputWithLable
                     className="w-[241px] h-[46px]"
@@ -304,7 +368,7 @@ function CompanyRegister() {
                 </div>
 
                 <div className="w-[241px] ">
-                  <label className="block font-bold text-[16px] mt-[20px] pb-[5px]">
+                  <label className="block font-bold text-[16px] mt-[2px] pb-[5px]">
                     Sole Trader
                   </label>
 
@@ -329,15 +393,19 @@ function CompanyRegister() {
                   type="submit"
                   name="Submit"
                   className="w-[370px] h-[48px] mt-[107px] ml-[87px]"
+                  disabled={isAble}
                 />
-                <div>
-                  <ul className="w-[300px] mt-[93px] h-[30px] mb-[143px] text-[12px] font-[400] text-center ml-[124px]">
-                    <li className="text-[#898989]">
-                      Protected by reCAPTCHA and subject to the Skillnet{" "}
-                      <a className="text-[#042937] ">Privacy Policy </a> and{" "}
-                      <a className="text-[#042937] ">Terms of Service.</a>
-                    </li>
-                  </ul>
+                <div className="max-w-[296px] mx-auto mt-[60px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
+                  <label>
+                    Protected by reCAPTCHA and subject to the Skillnet{" "}
+                    <Link to={"/privacypolicy"} className="text-color">
+                      Privacy Policy
+                    </Link>{" "}
+                    and{" "}
+                    <Link to={"/termsofservices"} className="text-color">
+                      Terms of Service.
+                    </Link>
+                  </label>
                 </div>
               </div>
             </form>
