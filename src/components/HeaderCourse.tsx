@@ -1,6 +1,6 @@
-import { VscBellDot } from "react-icons/vsc";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { VscBellDot } from "react-icons/vsc";
 function HeaderCourse() {
   return (
     <header className="  bg-[#FAFAFA] h-[120px]">

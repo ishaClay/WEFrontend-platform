@@ -207,7 +207,7 @@ const TarinerSidebar: SidebarItem[] = [
   {
     label: "Logout",
     Icon: <RiShutDownLine size={22} />,
-    link: "/login",
+    link: "/auth",
     children: [],
   },
 ];

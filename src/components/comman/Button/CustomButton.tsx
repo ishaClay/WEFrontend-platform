@@ -1,11 +1,12 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 interface InputProps {
-  name: string;
+  name: string | ReactElement;
   className?: string;
   symbol?: React.ReactNode;
   onClick?: () => void;
   type?: "button" | "submit" | "reset" | undefined;
+  disabled?: boolean;
 }
 
 export const PrimaryButton: React.FC<InputProps> = ({
@@ -13,10 +14,14 @@ export const PrimaryButton: React.FC<InputProps> = ({
   className,
   symbol,
   onClick,
+  disabled = false,
 }) => {
   return (
     <button
-      className={`button-color top-94 left-823 secondary-text rounded hover:bg-[#489db0] font-d-din-pro ${className}`}
+      className={`button-color top-94 left-823 secondary-text rounded hover:bg-[#489db0] font-d-din-pro ${
+        disabled ? "cursor-not-allowed opacity-80" : ""
+      } ${className}`}
+      disabled={disabled}
       onClick={onClick}
     >
       {symbol && <span className="">{symbol}</span>}

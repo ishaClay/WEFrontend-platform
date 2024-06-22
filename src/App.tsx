@@ -150,15 +150,11 @@ function App() {
         <Route path="/selectlevel" element={<SelectLevel />} />
         <Route path="/termsofservices" element={<TermsOfServices />} />
         <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
-
         <Route
           path="/maturitylevelactionitem"
-          element={
-            <ProtectedRoute>
-              <MaturityLevelActionItem />
-            </ProtectedRoute>
-          }
+          element={<MaturityLevelActionItem />}
         />
+
         <Route
           path="/maturitylevelactionablepopup"
           element={
