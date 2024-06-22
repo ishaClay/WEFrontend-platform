@@ -137,7 +137,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/trainer" element={<RegisterTrainer />} />
+        <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
