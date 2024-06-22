@@ -23,7 +23,7 @@ import {
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +36,7 @@ import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
+import TreePlantingImg from "@/assets/images/TreePlanting.svg";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -269,9 +270,11 @@ const QuestionPage = () => {
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
 
+  console.log("allPillar", allPillar);
+
   return (
     <div className="font-calibri font-normal">
-      <div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 lg:pr-[166px] px-4 text-lg leading-[21.97px]">
+      <div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 xl:pr-[180px] pr-[80px] px-4 text-lg leading-[21.97px]">
         <div className="flex gap-[9px]">
           <button
             className="flex items-center gap-2"
@@ -310,7 +313,7 @@ const QuestionPage = () => {
                     alt="img"
                     width={59.6}
                     height={59.6}
-                    className="mt-[13.4]"
+                    className="mt-[13.4] pb-[15px]"
                   />
                 ) : path.status === "indeterminate" ? (
                   <img
@@ -318,7 +321,7 @@ const QuestionPage = () => {
                     alt="img"
                     width={70}
                     height={70}
-                    className="mt-[7px]"
+                    className="mt-[7px] pb-[15px]"
                   />
                 ) : (
                   <img
@@ -326,94 +329,101 @@ const QuestionPage = () => {
                     alt="img"
                     width={59.6}
                     height={59.6}
-                    className="mt-[15.4px]"
+                    className="mt-[15.4px] pb-[15px]"
                   />
                 )}
-                <p className="">{path.name}</p>
+                <p
+                  className={`text-[13px] font-medium font-Poppins px-2 py-[2px] ${
+                    path.name === "Engage" ? "bg-[#64A70B] text-[#FFF]" : ""
+                  }`}
+                >
+                  {path.name}
+                </p>
               </div>
             );
           })}
-          <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+          <div className="absolute top-[30px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
         </div>
       </div>
-      <div className="min-h-[129px] bg-[#E7E7E8] flex justify-center">
-        <div className="flex gap-[31px] items-center flex-wrap p-3 justify-center">
-          {allPillar.map((category: string, index: number) => {
-            const pillarQuestions = question[category];
-            const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
-            const pillarAttempted = Array.isArray(pillarQuestions)
-              ? pillarQuestions.filter((que: QuestionType) =>
-                  que.options.some((opt) => opt.checked)
-                ).length
-              : 0;
+      <div className="bg-[#E7E7E8]">
+        <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5">
+          <div className="flex gap-8 items-center flex-wrap justify-center">
+            {allPillar.map((category: string, index: number) => {
+              const pillarQuestions = question[category];
+              const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
+              const pillarAttempted = Array.isArray(pillarQuestions)
+                ? pillarQuestions.filter((que: QuestionType) =>
+                    que.options.some((opt) => opt.checked)
+                  ).length
+                : 0;
 
-            console.log("+++++++++++++", category);
+              return (
+                <div
+                  key={index}
+                  className={`w-[169px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
+                    activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
+                  }`}
+                  onClick={() => dispatch(setActivePillar(category))}
+                >
+                  <div className="flex gap-2">
+                    <div className="flex flex-col gap-1">
+                      <div className="w-8 h-8">
+                        <img src={TreePlantingImg} alt="" />
+                      </div>
+                      <p
+                        className={`text-nowrap font-bold pt-1 ${
+                          activePillar === category
+                            ? "text-white"
+                            : "text-[#3A3A3A]"
+                        }`}
+                      >
+                        {Math.floor((pillarAttempted / pillarTotal) * 100)} %
+                      </p>
+                    </div>
+                    <div>
+                      <h2
+                        className={`leading-5 ${
+                          activePillar === category
+                            ? "text-white"
+                            : "text-[#3A3A3A]"
+                        }`}
+                      >
+                        {category}
+                      </h2>
+                      <p
+                        className={`text-[12px] leading-[14.65px] ${
+                          activePillar === category
+                            ? "text-white"
+                            : "text-[#848181]"
+                        }`}
+                      >
+                        My progress {pillarAttempted}/{pillarTotal}
+                      </p>
+                    </div>
+                  </div>
 
-            return (
-              <div
-                key={index}
-                className={`w-[169px] h-[88px] p-3 rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
-                  activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-                }`}
-                onClick={() => {
-                  dispatch(setActivePillar(category));
-                  handleSelected(category);
-                }}
-              >
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="w-8 h-8"></div>
-                    <p
-                      className={`text-nowrap ${
-                        activePillar === category
-                          ? "text-white"
-                          : "text-[#848181]"
-                      }`}
-                    >
-                      {Math.floor((pillarAttempted / pillarTotal) * 100)} %
-                    </p>
-                  </div>
-                  <div>
-                    <h2
-                      className={`leading-[19px] ${
-                        activePillar === category
-                          ? "text-white"
-                          : "text-[#3A3A3A]"
-                      }`}
-                    >
-                      {category}
-                    </h2>
-                    <p
-                      className={`text-[12px] leading-[14.65px] ${
-                        activePillar === category
-                          ? "text-white"
-                          : "text-[#848181]"
-                      }`}
-                    >
-                      My progress {pillarAttempted}/{pillarTotal}
-                    </p>
-                  </div>
+                  <Progress
+                    color={activePillar === category ? "#002A3A" : "#64A70B"}
+                    className={`${
+                      !(activePillar === category) && "!bg-[white]"
+                    } h-[4px]`}
+                    value={
+                      pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
+                    }
+                  />
                 </div>
-
-                <Progress
-                  color={activePillar === category ? "#002A3A" : "#64A70B"}
-                  className={`${
-                    !(activePillar === category) && "!bg-[white]"
-                  } h-[4px]`}
-                  value={
-                    pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
-                  }
-                />
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
       <form>
-        <div className="m-[24px] flex gap-12 flex-wrap justify-between max-w-[1440px] mx-auto">
-          <div className="flex gap-12 flex-col w-full max-w-[773px]">
-            <Question />
+        <div className="m-[24px] flex flex-wrap gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5 xl:mt-[89px] mt-[60px]">
+          <div className="max-w-[871px] w-full bg-[#EFEEEE]">
+            <div className="flex gap-12 flex-col w-full max-w-[773px]">
+              <Question />
+            </div>
           </div>
           <div className="w-[271px] text-[18px] leading-[21.97px] font-normal">
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
@@ -433,7 +443,7 @@ const QuestionPage = () => {
 							/> */}
             </div>
             <div className="mt-[17px] w-[267px]">
-              <div className="flex items-center justify-between font-bold	">
+              <div className="flex items-center justify-between font-bold	text-base">
                 <span>Attempted</span>
                 <p>
                   {totalAttemptedQuestions}/{totalQuestions}
@@ -495,7 +505,7 @@ const QuestionPage = () => {
         </div>
       </form>
 
-      <div className="mt-[238px]">
+      <div className="xl:mt-[238px] mt-[150px]">
         <Footer />
       </div>
     </div>

@@ -31,7 +31,7 @@ export const DatePicker = ({
   // const [date, setDate] = React.useState<Date>();
 
   return (
-    <div className="flex flex-col gap-[9px]">
+    <div className="flex flex-col">
       <Label className="text-md font-normal font-calibri">{labelText}</Label>
       <Popover>
         <PopoverTrigger asChild>
