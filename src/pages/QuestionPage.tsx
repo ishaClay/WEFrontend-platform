@@ -23,7 +23,7 @@ import {
 import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +43,8 @@ const QuestionPage = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const [selectedData, setSelectedData] = useState<string[]>([]);
+
+  console.log("setSelectedData", setSelectedData);
 
   const { clientId, UserId } = useAppSelector((state) => state.user);
 
@@ -160,18 +162,6 @@ const QuestionPage = () => {
       status: "pending",
     },
   ];
-
-  const handleSelected = (e: string) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setSelectedData((prev) => {
-      if (prev?.includes(e)) {
-        return prev;
-      } else {
-        return [...prev, e];
-      }
-    });
-  };
 
   console.log(selectedData, "selectedData+++++++++++++");
 

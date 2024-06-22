@@ -288,82 +288,85 @@ function SelectLevel() {
 
   return (
     <div>
-      <Header />
-      <div className="mainContailner">
-        <div className="border-t border-b border-#DED7D7">
-          <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
-            <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
-              {paths.map((path) => (
-                <div
-                  key={path.name}
-                  className={`flex flex-col self-end items-center ${
-                    path.name === "Engage" || path.name === "Assess" ? " " : " "
-                  }`}
-                >
-                  {path.status === "checked" ? (
-                    <img
-                      src={Correct}
-                      alt="img"
-                      width={59.6}
-                      height={59.6}
-                      className="mt-[13.4]"
-                    />
-                  ) : path.status === "indeterminate" ? (
-                    <img
-                      src={Assess}
-                      alt="img"
-                      width={70}
-                      height={70}
-                      className="mt-[7px]"
-                    />
-                  ) : (
-                    <img
-                      src={path.img}
-                      alt="img"
-                      width={59.6}
-                      height={59.6}
-                      className="mt-[15.4px]"
-                    />
-                  )}
-                  <p
-                    className={`${
+      <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">
+        <Header />
+      </div>
+
+      <div>
+        <div className="border-b border-[#DED7D7]">
+          <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
+            <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
+              <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
+                {paths.map((path) => (
+                  <div
+                    key={path.name}
+                    className={`flex flex-col self-end items-center ${
                       path.name === "Engage" || path.name === "Assess"
-                        ? "bg-[#64A70B] text-white"
-                        : ""
+                        ? " "
+                        : " "
                     }`}
                   >
-                    {path.name}
-                  </p>
-                </div>
-              ))}
-              <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+                    {path.status === "checked" ? (
+                      <img
+                        src={Correct}
+                        alt="img"
+                        width={59.6}
+                        height={59.6}
+                        className="mt-[13.4]"
+                      />
+                    ) : path.status === "indeterminate" ? (
+                      <img
+                        src={Assess}
+                        alt="img"
+                        width={70}
+                        height={70}
+                        className="mt-[7px]"
+                      />
+                    ) : (
+                      <img
+                        src={path.img}
+                        alt="img"
+                        width={59.6}
+                        height={59.6}
+                        className="mt-[15.4px]"
+                      />
+                    )}
+                    <p
+                      className={`px-2 mt-2 ${
+                        path.name === "Engage" || path.name === "Assess"
+                          ? "bg-[#64A70B] text-white"
+                          : ""
+                      }`}
+                    >
+                      {path.name}
+                    </p>
+                  </div>
+                ))}
+                <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="ml-[290px] mt-8 text-[#3A3A3A] font-se text-2xl ">
-          <h1 className="text-[#00778B] font-semibold text-[16px]">
-            {" "}
-            Set Target{" "}
-            <span className="text-[#606060] font-normal text-[12px]">
-              (select the required pillars)
-            </span>
-          </h1>
-        </div>
 
-        <div className="flex flex-col items-center h-full w-full max-w-[1440px] mx-auto">
+        <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
+          <div className="my-6">
+            <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
+              Select target pillars and maturity levels
+            </h1>
+          </div>
           {pillars?.map((item: any) => {
             console.log("currentPiller", pillerItems[currentPiller]);
 
             return (
-              <div className="pt-8 pl-[10px] pb-0 flex gap-5 w-full">
-                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full">
-                  <div className="flex h-8">
+              <div className="pb-0 flex w-full">
+                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full mb-6">
+                  <div className="flex justify-between h-8">
                     <div
                       className={`${
                         item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
-                      } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start`}
+                      } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
                     >
-                      <h2 className="text-lg font-inter ">
+                      <h2 className="text-sm font-inter">
                         <span
                           className={`${
                             item?.checked ? "text-white" : "text-[#FFD56A]"
@@ -377,12 +380,12 @@ function SelectLevel() {
                       </h2>
                     </div>
 
-                    <div className="ml-auto mr-3 mt-2 ">
+                    <div className="mt-3 mr-[17px]">
                       <input
-                        className={`w-5 h-5 cursor-pointer ${
-                          item?.checked
+                        className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
+                          item?.checkbox
                             ? "accent-[white]"
-                            : "accent-[white] border border-[#B9B9B9]"
+                            : "accent-[#64A70B] text-[#FFF]"
                         }`}
                         type="checkbox"
                         checked={item?.checked ? true : false}
@@ -402,91 +405,93 @@ function SelectLevel() {
                     </div>
                   </div>
 
-                  <div className="flex justify-between">
-                    <div className="flex h-max-content pb-6">
-                      <div className="w-[176px] text-center">
-                        <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-[50px]">
-                          <img
-                            src="public/assets/img/Tree Planting.png"
-                            alt="Leaf Icon"
-                          />
-                        </div>
-                        <div className="mt-4 text-[#1D2026] font-Calibri text-[16px] text-center">
-                          {item.pillarname}
-                        </div>
+                  <div className="grid grid-cols-12">
+                    <div className="text-center col-span-2 pt-3 pb-2">
+                      <div className="bg-white rounded-full drop-shadow-md w-[90px] h-[90px] p-4 m-auto">
+                        <img
+                          src="public/assets/img/Tree Planting.png"
+                          alt="Leaf Icon"
+                        />
                       </div>
-                      <div className="">
-                        <div className="bg-white rounded-lg  p-4 flex flex-col ">
-                          <div className="flex justify-center items-center">
-                            <div>
-                              <FaStar className="text-[#FD8E1F]" />
-                            </div>
-
-                            <p className="mb-1 ml-1 mr-2 text-[14px] text-[#8C94A3]">
-                              RECOMMENDED
-                            </p>
+                      <div className="mt-2 text-[#1D2026] font-Calibri text-base text-center font-bold leading-5">
+                        {item.pillarname}
+                      </div>
+                    </div>
+                    <div className="col-span-2">
+                      <div className="bg-white rounded-lg py-4 px-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div>
+                            <FaStar className="text-[#FD8E1F]" />
                           </div>
 
-                          <Select
-                            onValueChange={(e) =>
-                              handleChange(e, item?.pillarid)
-                            }
-                          >
-                            <SelectGroup>
-                              <SelectTrigger className="max-w-[176px]">
-                                <SelectValue
-                                  placeholder={item.maturityNameRecommended}
-                                />
-                              </SelectTrigger>
-                            </SelectGroup>
-                            <SelectContent>
-                              <SelectItem value="Introductory">
-                                Introductory
-                              </SelectItem>
-                              <SelectItem value="Intermediate">
-                                Intermediate
-                              </SelectItem>
-                              <SelectItem value="Advance">Advance</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <p className="text-sm font-normal font-calibri text-[#8C94A3]">
+                            RECOMMENDED
+                          </p>
+                        </div>
+
+                        <Select
+                          onValueChange={(e) => handleChange(e, item?.pillarid)}
+                        >
+                          <SelectGroup>
+                            <SelectTrigger className="max-w-[176px]">
+                              <SelectValue
+                                placeholder={item.maturityNameRecommended}
+                                className="w-[176px]"
+                              />
+                            </SelectTrigger>
+                          </SelectGroup>
+                          <SelectContent>
+                            <SelectItem value="Introductory">
+                              Introductory
+                            </SelectItem>
+                            <SelectItem value="Intermediate">
+                              Intermediate
+                            </SelectItem>
+                            <SelectItem value="Advance">Advance</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {/* <SelectMenu
+                          option={LevelOption}
+                          setValue={(e: string) =>
+                            handleChange(e, item?.pillarid)
+                          }
+                          value={item.maturityNameRecommended}
+                          className="max-w-[176px]"
+                        /> */}
+                      </div>
+                    </div>
+                    <div className="col-span-6 px-4">
+                      <div className="bg-white rounded-full flex items-center drop-shadow-md w-6 h-6 mb-2">
+                        <img src="public/assets/img/manu.png" alt="Leaf Icon" />
+                        <div className="text-[#8C94A3] ml-2 font-bold text-sm leading-[22px]">
+                          MEASURES
                         </div>
                       </div>
-                      <div className="w-[543px]  h-max-content">
-                        <div className="bg-white rounded-full   flex drop-shadow-md w-6 h-6 mb-2">
-                          <img
-                            src="public/assets/img/manu.png"
-                            alt="Leaf Icon"
-                          />
-                          <div className="text-[#8C94A3] ml-2 font-semibold ">
-                            MEASURES
-                          </div>
-                        </div>
-                        <div>
-                          <ul className="list-disc ml-6 text-xs text-[#8C94A3] ">
-                            {pid
-                              ? filtermesuresdata?.data?.data &&
-                                filtermesuresdata?.data?.data.map(
-                                  (m: any, index: number) =>
-                                    m?.filteredOptions?.map(
-                                      (measures: any, subIndex: number) =>
-                                        measures?.measures && (
-                                          <li key={`item-${index}-${subIndex}`}>
-                                            {measures?.measures}
-                                          </li>
-                                        )
-                                    )
-                                )
-                              : item?.filteredOptions.map((m: any) => {
-                                  if (m.measures) {
-                                    return <li>{m.measures}</li>;
-                                  }
-                                })}
-                          </ul>
-                        </div>
+                      <div>
+                        <ul className="list-disc ml-6 text-sm text-[#000000]">
+                          {pid
+                            ? filtermesuresdata?.data?.data &&
+                              filtermesuresdata?.data?.data.map(
+                                (m: any, index: number) =>
+                                  m?.filteredOptions?.map(
+                                    (measures: any, subIndex: number) =>
+                                      measures?.measures && (
+                                        <li key={`item-${index}-${subIndex}`}>
+                                          {measures?.measures}
+                                        </li>
+                                      )
+                                  )
+                              )
+                            : item?.filteredOptions.map((m: any) => {
+                                if (m.measures) {
+                                  return <li>{m.measures}</li>;
+                                }
+                              })}
+                        </ul>
                       </div>
                     </div>
 
-                    <div className="w-[162px] mt-8">
+                    <div className="col-span-2 mr-0 ml-auto pr-[17px] flex items-center">
                       <Button
                         disabled={item.checked === 0}
                         onClick={() => {
@@ -495,7 +500,7 @@ function SelectLevel() {
                           setActionItems(item);
                           setOpen(true);
                         }}
-                        className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 "
+                        className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center font-bold"
                       >
                         Define Action Items
                       </Button>
@@ -506,16 +511,18 @@ function SelectLevel() {
             );
           })}
 
-          <button
-            onClick={handleSelect}
-            className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold "
-          >
-            BUILD
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleSelect}
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
+            >
+              BUILD
+            </button>
+          </div>
 
-          <div className="border-b  pb-4 w-[940px] border-[#DED7D7] "></div>
+          <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
 
-          <div className="font-Abhaya Libre ExtraBold text-red-500 pb-2 pt-3">
+          <div className="font-abhaya font-extrabold text-base text-[#EF2626] leading-5 text-center pt-2 pb-4">
             <p>
               {" "}
               Congratulations! 🌿 Your chosen maturity levels have been noted.
