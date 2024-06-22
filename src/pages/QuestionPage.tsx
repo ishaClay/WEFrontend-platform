@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Footer from "@/components/Footer";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
@@ -46,7 +47,7 @@ const QuestionPage = () => {
 
   const { activePillar, allPillar } = useAppSelector((state) => state.question);
 
-  const question = useAppSelector((state) => state.question);
+  const question: any = useAppSelector((state) => state.question);
 
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
@@ -178,6 +179,7 @@ const QuestionPage = () => {
     let totalAttemptedQuestions = 0;
 
     allPillar?.forEach((pillar: string) => {
+      // @ts-ignore
       const pillarQuestions = question[pillar];
       if (pillarQuestions && pillarQuestions.length > 0) {
         totalQuestions += pillarQuestions.length;
@@ -198,7 +200,7 @@ const QuestionPage = () => {
     : 0;
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    EnumUpadate(path);
+    EnumUpadate();
     const allQueAns: any = {};
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
