@@ -7,12 +7,14 @@ import { ErrorType } from "@/types/Errors";
 import { Option, QuestionType } from "@/types/Question";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import Loading from "./Error/Loading";
 import Suggestion from "/assets/img/Suggestion.png";
 
 const Question = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const question = useAppSelector((state) => state.question);
@@ -72,6 +74,7 @@ const Question = () => {
         variant: "destructive",
         title: "Please login again",
       });
+      navigate("/auth");
     }
   };
 

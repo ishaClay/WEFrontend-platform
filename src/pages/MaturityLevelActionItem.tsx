@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getGreenImages } from "@/lib/utils";
+import { getImages } from "@/lib/utils";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ function MaturityLevelActionItem() {
     enabled: true,
   });
 
-  const path = 7 + 1;
+  const path = 6 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
     onSuccess: async () => {
@@ -36,7 +36,7 @@ function MaturityLevelActionItem() {
 
   const handlematurityAction = () => {
     EnumUpadate(path);
-    navigate("/company/dashboard");
+    navigate("/company/coursesrecommended");
   };
 
   console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
@@ -138,7 +138,7 @@ function MaturityLevelActionItem() {
                     <div className="flex items-center gap-[15px]">
                       <div className="bg-white rounded-full drop-shadow-md w-[52px] h-[52px] flex items-center justify-center p-3">
                         <img
-                          src={getGreenImages(item?.pillarName)}
+                          src={getImages(item?.pillarName, true)}
                           alt="Leaf Icon"
                           className="w-full h-full"
                         />

@@ -15,7 +15,7 @@ function Assessment() {
   const UserId = useSelector((state: UserData) => state.user.UserId);
 
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: "2" }, UserId),
+    mutationFn: () => enumUpadate({ path: "1" }, UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],

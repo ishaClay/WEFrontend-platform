@@ -94,7 +94,7 @@ const ForgotPassword = () => {
                   label="Email"
                   labelClassName="text-[16px] text-[#3A3A3A] font-bold font-calibri"
                   type="email"
-                  placeholder="Enter Username"
+                  placeholder="Enter Email"
                   {...register("email")}
                   error={errors.email?.message as string}
                 />

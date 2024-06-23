@@ -14,7 +14,7 @@ import { enumUpadate } from "@/services/apiServices/enum";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
@@ -48,6 +48,7 @@ const findMaturityLevel = (score: number) => {
 
 const MaturityLevelPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
@@ -69,7 +70,7 @@ const MaturityLevelPage = () => {
     queryFn: () => getAllassessment(userID, clientId),
   });
 
-  const path = 5 + 1;
+  const path = 4 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
     onSuccess: async () => {
@@ -188,9 +189,12 @@ const MaturityLevelPage = () => {
     </div>
   );
 
+  const isShowHeader =
+    location.pathname !== "/company/maturityassessmentroadmap";
+
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
-      <Header />
+      {isShowHeader && <Header />}
       <div className="mainContailner">
         <div className="flex ml-[172px] mr-[152px] justify-between">
           <div className="h-[369px] pt-[38px]">

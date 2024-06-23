@@ -77,7 +77,7 @@ function Auth() {
         //   title: "Login Successfully",
         // });
 
-        if (user.role == UserRole.SuperAdmin) {
+        if (user.role == UserRole.SuperAdmin || user.role == UserRole.Client) {
           toast({
             variant: "destructive",
             title: "User Not found",
@@ -108,7 +108,7 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (user.pathstatus !== "8") {
+          if (user.pathstatus !== "7") {
             navigate("/savedassesment");
           } else {
             navigate("/company/dashboard");

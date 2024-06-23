@@ -23,7 +23,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
 import { useAppSelector } from "@/hooks/use-redux";
-import { getGreenImages } from "@/lib/utils";
+import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
@@ -153,7 +153,7 @@ function SelectLevel() {
 
   // console.log(getCheckedmeasures)
 
-  const path = 6 + 1;
+  const path = 5 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
     onSuccess: async () => {
@@ -423,7 +423,7 @@ function SelectLevel() {
                       <div className="text-center col-span-2 pt-3 pb-2">
                         <div className="bg-white rounded-full drop-shadow-md w-[90px] h-[90px] flex items-center justify-center p-4 m-auto">
                           <img
-                            src={getGreenImages(item?.pillarname)}
+                            src={getImages(item?.pillarname, true)}
                             alt="Leaf Icon"
                           />
                         </div>

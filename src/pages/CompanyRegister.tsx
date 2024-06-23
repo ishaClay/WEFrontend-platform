@@ -183,7 +183,7 @@ function CompanyRegister() {
   });
   console.log(companydetails, "companydetails++");
 
-  const path = 4 + 1;
+  const path = 3 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
     onSuccess: async () => {

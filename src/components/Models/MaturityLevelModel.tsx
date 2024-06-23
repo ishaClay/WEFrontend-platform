@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/hooks/use-redux";
-import { getGreenImages } from "@/lib/utils";
+import { getImages } from "@/lib/utils";
 import { getDataByPillerId } from "@/services/apiServices/pillar";
 import { QuestionsByPillerResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
@@ -57,7 +57,7 @@ const MaturityLevelModel = ({
           <div className="flex ">
             <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
               <img
-                src={getGreenImages(pillerName)}
+                src={getImages(pillerName, true)}
                 alt="Leaf Icon"
                 className="w-full h-full"
               />

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import TreePlantingImg from "@/assets/images/TreePlanting.svg";
 import Footer from "@/components/Footer";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { getImages } from "@/lib/utils";
 import {
   setActivePillar,
   setGettedAnswer,
@@ -62,7 +62,7 @@ const QuestionPage = () => {
 
   console.log("clientwisePillarList", clientwisePillarList);
 
-  const path = 2 + 1;
+  const path = 1 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async () => {
@@ -189,6 +189,7 @@ const QuestionPage = () => {
   const { data: fetchQuestionAnswer } = useQuery({
     queryKey: [QUERY_KEYS.getQuestionAnswer],
     queryFn: () => fetchQuestionAnswerList(userID?.toString()),
+    enabled: !!userID,
   });
 
   const pillarwiseQuestions = allPillar?.map((item: string) => {
@@ -377,7 +378,11 @@ const QuestionPage = () => {
                   <div className="flex gap-2">
                     <div className="flex flex-col gap-1">
                       <div className="w-8 h-8">
-                        <img src={TreePlantingImg} alt="" />
+                        <img
+                          src={getImages(category, activePillar !== category)}
+                          alt="img"
+                          className="w-full h-full"
+                        />
                       </div>
                       <p
                         className={`text-nowrap font-bold pt-1 ${
@@ -386,7 +391,8 @@ const QuestionPage = () => {
                             : "text-[#3A3A3A]"
                         }`}
                       >
-                        {Math.floor((pillarAttempted / pillarTotal) * 100)} %
+                        {Math.floor((pillarAttempted / pillarTotal) * 100) || 0}{" "}
+                        %
                       </p>
                     </div>
                     <div>

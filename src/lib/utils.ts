@@ -17,23 +17,27 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const getImages = (name: string) => {
+export const getImages = (name: string, active?: boolean) => {
   console.log("name", name);
   switch (name) {
     case "Social":
-      return SocialGray;
+      return active ? GreenSocialGray : SocialGray;
     case "Technology & Innovation":
-      return Tech;
+      return active ? GreenTech : Tech;
     case "Economics":
-      return Economic;
+      return active ? GreenEconomic : Economic;
+    case "Economic":
+      return active ? GreenEconomic : Economic;
     case "Governance":
-      return Governance;
+      return active ? GreenGovernance : Governance;
     case "Enviromental":
-      return Environmental;
+      return active ? GreenEnvironmental : Environmental;
     case "Strategic Intergration":
-      return StrategicIntegrationGray;
+      return active ? GreenStrategicIntegrationGray : StrategicIntegrationGray;
+    case "Strategic Integration":
+      return active ? GreenStrategicIntegrationGray : StrategicIntegrationGray;
     default:
-      return Environmental;
+      return active ? GreenEnvironmental : Environmental;
   }
 };
 

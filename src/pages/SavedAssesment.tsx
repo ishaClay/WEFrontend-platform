@@ -55,24 +55,21 @@ function SavedAssesment() {
 
     switch (pathStatus) {
       case 1:
-        navigate("/savedassesment");
-        break;
-      case 2:
         navigate("/question");
         break;
-      case 3:
+      case 2:
         navigate("/teaserscore");
         break;
-      case 4:
+      case 3:
         navigate("/companyregister");
         break;
-      case 5:
-        navigate("/maturelevel");
+      case 4:
+        navigate("/company/dashboard");
         break;
-      case 6:
+      case 5:
         navigate("/selectlevel");
         break;
-      case 7:
+      case 6:
         navigate("/maturitylevelactionitem");
         break;
       default:
@@ -162,6 +159,7 @@ function SavedAssesment() {
                   <Loader />
                 ) : (
                   data?.data &&
+                  data?.data?.length > 0 &&
                   data?.data.map((category, index: number) => {
                     return (
                       <div className="">
