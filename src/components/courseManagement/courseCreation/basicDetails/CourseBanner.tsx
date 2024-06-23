@@ -18,7 +18,6 @@ const CourseBanner = () => {
   const { mutate, isPending: isUploading } = useMutation({
     mutationFn: uploadImage,
     onSuccess: (data) => {
-      console.log(data);
       setImage(data.data?.data?.image);
     },
     onError: (error) => {
@@ -86,7 +85,7 @@ const CourseBanner = () => {
           <CKEditorComponent
             value={editorData}
             onChange={(e, data) => {
-              console.log(e, data.getData(), "editorData");
+              console.log(e);
               setEditorData(data.getData());
             }}
           />
@@ -139,7 +138,7 @@ const CourseBanner = () => {
           <CKEditorComponent
             value={keyData}
             onChange={(e, data) => {
-              console.log(e, data.getData(), "editorData");
+              console.log("e", e);
               setKeyData(data.getData());
             }}
           />

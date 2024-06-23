@@ -19,6 +19,7 @@ const schema = z.object({
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const url = window.location.origin;
   const {
     register,
     handleSubmit,
@@ -32,7 +33,6 @@ const ForgotPassword = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: ForgetPassword,
     onSuccess: (data) => {
-      console.log(data);
       toast({
         title: "Success",
         description: data?.data?.message,
@@ -43,7 +43,6 @@ const ForgotPassword = () => {
       navigate("/auth");
     },
     onError: (error: ResponseError) => {
-      console.log(error);
       toast({
         title: "Error",
         description: error?.data?.message || "Something went wrong",
@@ -53,7 +52,7 @@ const ForgotPassword = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    mutate(data?.email);
+    mutate({ email: data?.email, baseurl: url });
   };
 
   return (

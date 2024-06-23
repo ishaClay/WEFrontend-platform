@@ -214,8 +214,6 @@ const TrainerManagement = () => {
     queryFn: () => getTrainer({ page, limit, keyword: searchValue, id }),
   });
 
-  console.log("data", data);
-
   return (
     <div>
       <div className="px-[14px] py-[10px] flex items-center justify-between border-b">

@@ -7,6 +7,8 @@ interface InputProps {
   onClick?: () => void;
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean;
+  isLink?: boolean;
+  href?: string;
 }
 
 export const PrimaryButton: React.FC<InputProps> = ({
@@ -34,13 +36,31 @@ export const SecondaryButton: React.FC<InputProps> = ({
   name,
   symbol,
   className,
+  onClick,
+  isLink = false,
+  href = "",
 }) => {
   return (
-    <button
-      className={`button-color top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
-    >
-      {name}
-      {symbol && <span className="">{symbol}</span>}
-    </button>
+    <>
+      {isLink ? (
+        <a
+          className={`button-color top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
+          href={href}
+          target="_blank"
+        >
+          {name}
+          {symbol && <span className="">{symbol}</span>}
+        </a>
+      ) : (
+        <button
+          type="button"
+          className={`button-color top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
+          onClick={onClick}
+        >
+          {name}
+          {symbol && <span className="">{symbol}</span>}
+        </button>
+      )}
+    </>
   );
 };

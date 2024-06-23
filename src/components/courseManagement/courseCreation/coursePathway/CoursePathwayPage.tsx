@@ -1,11 +1,11 @@
 import CloseIcon from "@/assets/images/close_img.png";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
 import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import { useQuery } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
-import { QUERY_KEYS } from "@/lib/constants";
 
 const CoursePathwayPage = () => {
   const { clientId } = useAppSelector((state) => state.user);
@@ -14,8 +14,6 @@ const CoursePathwayPage = () => {
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId as string),
   });
-
-  console.log("data++++", data?.data.data);
 
   return (
     <div className="p-5">

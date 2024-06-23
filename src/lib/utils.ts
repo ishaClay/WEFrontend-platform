@@ -18,7 +18,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getImages = (name: string, active?: boolean) => {
-  console.log("name", name);
   switch (name) {
     case "Social":
       return active ? GreenSocialGray : SocialGray;
@@ -42,7 +41,6 @@ export const getImages = (name: string, active?: boolean) => {
 };
 
 export const getGreenImages = (name: string) => {
-  console.log("name", name);
   switch (name) {
     case "Social":
       return GreenSocialGray;

@@ -121,8 +121,6 @@ const CourseLogistic = () => {
     },
   });
 
-  console.log("watch", typeof watch("duration"));
-
   const onSubmit = (data: FieldValues) => {
     const payload = {
       time: +data?.time,

@@ -56,7 +56,6 @@ const Question = () => {
   //     });
   //   },
   // });
-  console.log(userData?.id);
   const handleChange = (questionId: any, selectedOptions: any) => {
     const userID = userId
       ? userId

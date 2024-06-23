@@ -43,7 +43,6 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
       mavigate("/");
     },
     onError: (error: ResponseError) => {
-      console.log(error);
       toast({
         title: "Error",
         description: error?.data?.message || "Something went wrong",

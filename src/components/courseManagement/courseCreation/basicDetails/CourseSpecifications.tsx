@@ -76,8 +76,6 @@ const CourseSpecifications = () => {
     },
   });
 
-  console.log("data", nfql);
-
   const certificateOption =
     data?.data?.length &&
     data?.data?.map((item) => {
@@ -103,7 +101,6 @@ const CourseSpecifications = () => {
       fetCredits: data?.fetCredit,
       certificate: data?.participants,
     };
-    console.log(data);
     mutate({
       data: payload,
       id: params || "",

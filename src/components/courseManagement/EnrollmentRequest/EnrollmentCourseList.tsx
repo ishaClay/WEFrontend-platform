@@ -1,8 +1,8 @@
-import EnrollmentCourseListCard from "./EnrollmentCourseListCard";
-import { useQuery } from "@tanstack/react-query";
+import Loader from "@/components/comman/Loader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchEnrollmentRequest } from "@/services/apiServices/courseManagement";
-import Loader from "@/components/comman/Loader";
+import { useQuery } from "@tanstack/react-query";
+import EnrollmentCourseListCard from "./EnrollmentCourseListCard";
 
 const EnrollmentCourseList = ({ status }: { status: string }) => {
   const statusparams = status === "0" ? "" : status;
@@ -11,12 +11,6 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
       queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
       queryFn: () => fetchEnrollmentRequest("11", statusparams),
     });
-
-  console.log(
-    "fetchEnrollRequestData",
-    fetchEnrollRequestData,
-    fetchEnrollRequestPending
-  );
 
   return (
     <>

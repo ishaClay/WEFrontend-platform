@@ -39,8 +39,6 @@ function MaturityLevelActionItem() {
     navigate("/company/coursesrecommended");
   };
 
-  console.log("qqqqqqqq", getCheckedmeasures?.data?.data);
-
   const paths = [
     {
       name: "Engage",

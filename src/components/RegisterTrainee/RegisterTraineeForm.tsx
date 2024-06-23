@@ -1,15 +1,14 @@
 import mandatory from "/assets/img/Mandatory.svg";
 
-import { Link } from "react-router-dom";
-import ErrorMessage from "../comman/Error/ErrorMessage";
-import { useMutation } from "@tanstack/react-query";
 import { trainerUpdate } from "@/services/apiServices/trainer";
-import { toast } from "../ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as Zod from "zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { InputWithLable } from "../ui/inputwithlable";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import * as Zod from "zod";
+import ErrorMessage from "../comman/Error/ErrorMessage";
+import { InputWithLable } from "../ui/inputwithlable";
 import {
   Select,
   SelectContent,
@@ -17,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { toast } from "../ui/use-toast";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
 
@@ -86,7 +86,6 @@ const RegisterTraineeForm = () => {
     handleSubmit,
     reset,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -96,8 +95,6 @@ const RegisterTraineeForm = () => {
   useEffect(() => {
     setValue("email", email);
   }, [email]);
-
-  console.log(typeof getValues("ageRange"), "errorserrorserrors");
 
   const { mutate: updateTrainee } = useMutation({
     mutationFn: trainerUpdate,

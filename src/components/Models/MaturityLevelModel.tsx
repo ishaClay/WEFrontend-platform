@@ -21,7 +21,6 @@ const MaturityLevelModel = ({
   pillerName,
   setPillerName,
 }: MaturityLevelModelProps) => {
-  console.log(isOpen);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userID = UserId
