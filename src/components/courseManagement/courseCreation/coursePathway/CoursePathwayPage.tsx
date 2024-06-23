@@ -5,16 +5,17 @@ import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import { useQuery } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
+import { QUERY_KEYS } from "@/lib/constants";
 
 const CoursePathwayPage = () => {
   const { clientId } = useAppSelector((state) => state.user);
 
   const { data } = useQuery({
-    queryKey: ["pillerItems"],
+    queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId as string),
   });
 
-  console.log("data", data?.data);
+  console.log("data++++", data?.data.data);
 
   return (
     <div className="p-5">

@@ -18,7 +18,6 @@ import {
   fetchQuestionAnswerList,
   fetchQuestionList,
 } from "@/services/apiServices/question";
-import { Pillar } from "@/types/Pillar";
 import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -74,11 +73,9 @@ const QuestionPage = () => {
   });
 
   useEffect(() => {
-    const pillarName: string[] =
-      clientwisePillarList?.data?.data &&
-      clientwisePillarList?.data?.data?.length > 0 &&
-      clientwisePillarList?.data?.data?.map((itm: Pillar) => itm?.pillarName);
-    console.log("clientwisePillarList", pillarName);
+    const pillarName: string[] = clientwisePillarList?.data?.data?.length
+      ? clientwisePillarList?.data?.data?.map((itm) => itm?.pillarName)
+      : [];
 
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
@@ -249,6 +246,35 @@ const QuestionPage = () => {
     activePillar,
     ...pillarwiseQuestions.map((question: any) => question?.q?.length),
   ]);
+
+  const handleSelected = (e: string) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setSelectedData((prev) => {
+      if (prev?.includes(e)) {
+        return prev;
+      } else {
+        return [...prev, e];
+      }
+    });
+  };
+
+  const handlePrev = () => {
+    const currentIndex = allPillar.indexOf(activePillar);
+    if (currentIndex > 0) {
+      const prevPillar = allPillar[currentIndex - 1];
+      handleSelected(prevPillar);
+      dispatch(setActivePillar(prevPillar));
+    }
+  };
+  const handleNext = () => {
+    const currentIndex = allPillar.indexOf(activePillar);
+    if (currentIndex < allPillar.length - 1) {
+      const nextPillar = allPillar[currentIndex + 1];
+      handleSelected(nextPillar);
+      dispatch(setActivePillar(nextPillar));
+    }
+  };
 
   console.log("allPillar", allPillar);
 
@@ -481,8 +507,27 @@ const QuestionPage = () => {
                 onClick={handleSubmit}
                 disabled={allPillar?.length !== selectedData?.length}
               >
-                Submit & Continue
+                Save
               </Button>
+
+              <div className="w-full mt-[18px] gap-2 flex justify-center">
+                <Button
+                  // variant={"outline"}
+                  type="button"
+                  className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+                  onClick={handlePrev}
+                >
+                  Prev
+                </Button>
+                <Button
+                  type="button"
+                  // variant={"outline"}
+                  className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+                  onClick={handleNext}
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           </div>
         </div>
