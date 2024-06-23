@@ -111,7 +111,7 @@ function Auth() {
           if (user.pathstatus !== "8") {
             navigate("/savedassesment");
           } else {
-            navigate("/dashbord");
+            navigate("/company/dashboard");
             localStorage.setItem("user", JSON?.stringify(data.data.data));
           }
           // }
@@ -184,7 +184,7 @@ function Auth() {
                 )}
                 <ul className="mt-[24px] text-color">
                   <li>
-                    <a>Forgot password?</a>
+                    <Link to="/forgot-password">Forgot password?</Link>
                   </li>
                 </ul>
                 <button

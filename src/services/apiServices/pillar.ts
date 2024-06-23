@@ -50,3 +50,9 @@ export const getCheckedMeasures = (userId: string, clientId: string) => {
     const url = `api/v1/pillar/get-measures-items/${userId}&clientId=${clientId}`;
     return api({ url });
 }
+
+export const getDataByPillerId = async ({ pillerId, userId, clientId }: { pillerId: number, userId: number, clientId: number }) => {
+    const url = `api/v1/question/get-question-assessment-scores?clientId=${clientId}&userId=${userId}&pillarId=${pillerId}`;
+    const res = await api({ url });
+    return res.data
+}

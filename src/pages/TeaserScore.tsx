@@ -71,7 +71,7 @@ const TeaserScore = () => {
 
   const { data: allassessmant } = useQuery({
     queryKey: [QUERY_KEYS.totalAssessment],
-    queryFn: () => getAllassessment(userID),
+    queryFn: () => getAllassessment(userID, clientId),
   });
 
   const path = 3 + 1;

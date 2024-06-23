@@ -14,7 +14,7 @@ function SavedAssesment() {
 
   const { allPillar } = useAppSelector((state) => state.question);
 
-  const question = useAppSelector((state) => state.question);
+  const question: any = useAppSelector((state) => state.question);
 
   const { UserId } = useAppSelector((state) => state.user);
   console.log(allPillar);

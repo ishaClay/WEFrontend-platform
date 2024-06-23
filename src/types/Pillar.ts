@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export interface Pillar {
   id: number;
   pillarName: string;
@@ -76,4 +77,40 @@ export interface EnvOrRequest {
 export interface Headers1 {
   Accept: string;
   "Content-Type": string;
+}
+
+
+export interface QuestionsByPillerResponse {
+  data: Data;
+  message: string;
+}
+export interface Data {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  // @ts-ignore
+  [key: string]: (EnviromentalEntity)[];
+}
+export interface EnviromentalEntity {
+  id: number;
+  title: string;
+  maxPoint: number;
+  options?: (OptionsEntityOrSelectedOptionsEntity)[] | null;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  pillar: DataEntity;
+  questionAnswers?: (QuestionAnswersEntity)[] | null;
+  questionScores: number;
+}
+export interface OptionsEntityOrSelectedOptionsEntity {
+  name: string;
+  point: number;
+  measures: string;
+  optionId: string;
+}
+export interface QuestionAnswersEntity {
+  id: number;
+  selectedOptions?: (OptionsEntityOrSelectedOptionsEntity)[] | null;
+  point: number;
+  createdAt: string;
+  updatedAt: string;
 }

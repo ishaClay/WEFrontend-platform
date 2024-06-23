@@ -111,7 +111,7 @@ const sidebar2: SidebarItem[] = [
   {
     label: "Logout",
     Icon: <RiShutDownLine size={22} />,
-    link: "/login",
+    link: "/auth",
     children: [],
   },
 ];
@@ -298,19 +298,19 @@ const companySidebar: SidebarItem[] = [
   },
 ];
 
-const DashboardLayout = () => { 
+const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
-    const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  const userRole = userData ? JSON.parse(userData)?.query?.role : null;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
-    switch (userRole) {
-      case '1':
+    switch (+userRole) {
+      case 1:
         setData(companySidebar);
         break;
-      case '3':
+      case 2:
         setData(TarinerSidebar);
         break;
-      case '2':
+      case 3:
         setData(sidebar2);
         break;
     }

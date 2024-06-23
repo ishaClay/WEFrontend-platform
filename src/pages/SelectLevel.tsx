@@ -20,7 +20,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
+import { useAppSelector } from "@/hooks/use-redux";
+import { getGreenImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
@@ -32,11 +35,11 @@ import {
 import { ErrorType } from "@/types/Errors";
 import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BsFillPlusSquareFill, BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
@@ -65,10 +68,10 @@ function SelectLevel() {
   const [editId, setEditId] = useState<number | null>(null);
   console.log(editId);
   const dispatch = useDispatch();
-  const pillars = useSelector((state: any) => state.pillar?.maturitypillar);
+  const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
 
-  const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { clientId, UserId } = useAppSelector((state: any) => state.user);
   // console.log("clientIdclientId", clientId);
 
   const { toast } = useToast();
@@ -87,7 +90,7 @@ function SelectLevel() {
   //   setActionItems1([...actionItems1, ""]);
   // };
 
-  const { data: maturitypillar } = useQuery({
+  const { data: maturitypillar, isPending } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
     queryFn: () => fetchMaturityPillar(clientId, UserId),
     enabled: true,
@@ -103,8 +106,10 @@ function SelectLevel() {
           selectmaturity as any,
           pid as string
         ),
-      enabled: !!selectmaturity && !!pid,
+      enabled: !!selectmaturity && !!pid && !!clientId && !!UserId,
     });
+
+  console.log("isPending", isPending);
 
   useEffect(() => {
     if (maturitypillar?.data?.data?.length > 0) {
@@ -124,22 +129,6 @@ function SelectLevel() {
   useEffect(() => {
     refetchfiltermesuresdata();
   }, [selectmaturity]);
-
-  // const { data: allassessmant } = useQuery({
-  //   queryKey: [QUERY_KEYS.totalAssessment],
-  //   queryFn: () => getAllassessment(UserId),
-  // });
-
-  // const score = +((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
-
-  // let proficiencyLevel;
-  // if (score < 30) {
-  //   proficiencyLevel = "Introductory";
-  // } else if (score >= 30 && score < 60) {
-  //   proficiencyLevel = "Intermediate";
-  // } else {
-  //   proficiencyLevel = "Advanced";
-  // }
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
     mutationFn: (actionitems: any) => addMeasuresItems(actionitems),
@@ -279,12 +268,34 @@ function SelectLevel() {
     createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
 
+  console.log("pillerItemspillerItemspillerItems", pillerItems);
+
   const handleClose = () => {
     setOpen(false);
     setActionItems(null);
   };
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
+
+  const handleDisabledButton = useMemo(() => {
+    if (pillerItems && pillars) {
+      const fetchData = pillars?.map((item: any) => {
+        if (item?.checked === 1) {
+          return pillerItems[item?.pillarname]?.filter(
+            (item: string) => item !== ""
+          )?.length > 0
+            ? false
+            : true;
+        }
+        return false;
+      });
+
+      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
+      return !checkPiller
+        ? fetchData?.filter((item: boolean) => item === true).length === 0
+        : !checkPiller;
+    }
+  }, [pillars, pillerItems]);
 
   return (
     <div>
@@ -354,103 +365,108 @@ function SelectLevel() {
               Select target pillars and maturity levels
             </h1>
           </div>
-          {pillars?.map((item: any) => {
-            console.log("currentPiller", pillerItems[currentPiller]);
+          {isPending ? (
+            <Loader className="w-8 h-8" />
+          ) : (
+            pillars?.map((item: any) => {
+              console.log("currentPiller", pillerItems[currentPiller]);
 
-            return (
-              <div className="pb-0 flex w-full">
-                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full mb-6">
-                  <div className="flex justify-between h-8">
-                    <div
-                      className={`${
-                        item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
-                      } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
-                    >
-                      <h2 className="text-sm font-inter">
-                        <span
-                          className={`${
-                            item?.checked ? "text-white" : "text-[#FFD56A]"
-                          } text-[black]`}
-                        >
-                          Your level -
-                        </span>
-                        <span className="text-[#FFD56A]">
-                          {item.maturityLevelName}
-                        </span>
-                      </h2>
-                    </div>
+              return (
+                <div className="pb-0 flex w-full">
+                  <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full mb-6">
+                    <div className="flex justify-between h-8">
+                      <div
+                        className={`${
+                          item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
+                        } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
+                      >
+                        <h2 className="text-sm font-inter">
+                          <span
+                            className={`${
+                              item?.checked ? "text-white" : "text-[#FFD56A]"
+                            } text-[black]`}
+                          >
+                            Your level -
+                          </span>
+                          <span className="text-[#FFD56A]">
+                            {item.maturityLevelName}
+                          </span>
+                        </h2>
+                      </div>
 
-                    <div className="mt-3 mr-[17px]">
-                      <input
-                        className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
-                          item?.checkbox
-                            ? "accent-[white]"
-                            : "accent-[#64A70B] text-[#FFF]"
-                        }`}
-                        type="checkbox"
-                        checked={item?.checked ? true : false}
-                        onChange={() => {
-                          dispatch(
-                            setPillars({
+                      <div className="mt-3 mr-[17px]">
+                        <input
+                          className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
+                            item?.checkbox
+                              ? "accent-[white]"
+                              : "accent-[#64A70B] text-[#FFF]"
+                          }`}
+                          type="checkbox"
+                          checked={item?.checked ? true : false}
+                          onChange={() => {
+                            dispatch(
+                              setPillars({
+                                id: item?.pillarid,
+                                checked: item?.checked ? 0 : 1,
+                              })
+                            );
+                            updatepillarcheckbox({
                               id: item?.pillarid,
                               checked: item?.checked ? 0 : 1,
-                            })
-                          );
-                          updatepillarcheckbox({
-                            id: item?.pillarid,
-                            checked: item?.checked ? 0 : 1,
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-12">
-                    <div className="text-center col-span-2 pt-3 pb-2">
-                      <div className="bg-white rounded-full drop-shadow-md w-[90px] h-[90px] p-4 m-auto">
-                        <img
-                          src="public/assets/img/Tree Planting.png"
-                          alt="Leaf Icon"
+                            });
+                          }}
                         />
                       </div>
-                      <div className="mt-2 text-[#1D2026] font-Calibri text-base text-center font-bold leading-5">
-                        {item.pillarname}
-                      </div>
                     </div>
-                    <div className="col-span-2">
-                      <div className="bg-white rounded-lg py-4 px-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div>
-                            <FaStar className="text-[#FD8E1F]" />
+
+                    <div className="grid grid-cols-12">
+                      <div className="text-center col-span-2 pt-3 pb-2">
+                        <div className="bg-white rounded-full drop-shadow-md w-[90px] h-[90px] flex items-center justify-center p-4 m-auto">
+                          <img
+                            src={getGreenImages(item?.pillarname)}
+                            alt="Leaf Icon"
+                          />
+                        </div>
+                        <div className="mt-2 text-[#1D2026] font-Calibri text-base text-center font-bold leading-5">
+                          {item.pillarname}
+                        </div>
+                      </div>
+                      <div className="col-span-2">
+                        <div className="bg-white rounded-lg py-4 px-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div>
+                              <FaStar className="text-[#FD8E1F]" />
+                            </div>
+
+                            <p className="text-sm font-normal font-calibri text-[#8C94A3]">
+                              RECOMMENDED
+                            </p>
                           </div>
 
-                          <p className="text-sm font-normal font-calibri text-[#8C94A3]">
-                            RECOMMENDED
-                          </p>
-                        </div>
-
-                        <Select
-                          onValueChange={(e) => handleChange(e, item?.pillarid)}
-                        >
-                          <SelectGroup>
-                            <SelectTrigger className="max-w-[176px]">
-                              <SelectValue
-                                placeholder={item.maturityNameRecommended}
-                                className="w-[176px]"
-                              />
-                            </SelectTrigger>
-                          </SelectGroup>
-                          <SelectContent>
-                            <SelectItem value="Introductory">
-                              Introductory
-                            </SelectItem>
-                            <SelectItem value="Intermediate">
-                              Intermediate
-                            </SelectItem>
-                            <SelectItem value="Advance">Advance</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        {/* <SelectMenu
+                          <Select
+                            onValueChange={(e) =>
+                              handleChange(e, item?.pillarid)
+                            }
+                          >
+                            <SelectGroup>
+                              <SelectTrigger className="max-w-[176px]">
+                                <SelectValue
+                                  placeholder={item.maturityNameRecommended}
+                                  className="w-[176px]"
+                                />
+                              </SelectTrigger>
+                            </SelectGroup>
+                            <SelectContent>
+                              <SelectItem value="Introductory">
+                                Introductory
+                              </SelectItem>
+                              <SelectItem value="Intermediate">
+                                Intermediate
+                              </SelectItem>
+                              <SelectItem value="Advance">Advance</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          {/* <SelectMenu
                           option={LevelOption}
                           setValue={(e: string) =>
                             handleChange(e, item?.pillarid)
@@ -458,66 +474,71 @@ function SelectLevel() {
                           value={item.maturityNameRecommended}
                           className="max-w-[176px]"
                         /> */}
-                      </div>
-                    </div>
-                    <div className="col-span-6 px-4">
-                      <div className="bg-white rounded-full flex items-center drop-shadow-md w-6 h-6 mb-2">
-                        <img src="public/assets/img/manu.png" alt="Leaf Icon" />
-                        <div className="text-[#8C94A3] ml-2 font-bold text-sm leading-[22px]">
-                          MEASURES
                         </div>
                       </div>
-                      <div>
-                        <ul className="list-disc ml-6 text-sm text-[#000000]">
-                          {pid
-                            ? filtermesuresdata?.data?.data &&
-                              filtermesuresdata?.data?.data.map(
-                                (m: any, index: number) =>
-                                  m?.filteredOptions?.map(
-                                    (measures: any, subIndex: number) =>
-                                      measures?.measures && (
-                                        <li key={`item-${index}-${subIndex}`}>
-                                          {measures?.measures}
-                                        </li>
-                                      )
-                                  )
-                              )
-                            : item?.filteredOptions.map((m: any) => {
-                                if (m.measures) {
-                                  return <li>{m.measures}</li>;
-                                }
-                              })}
-                        </ul>
+                      <div className="col-span-6 px-4">
+                        <div className="bg-white rounded-full flex items-center drop-shadow-md w-6 h-6 mb-2">
+                          <img
+                            src="public/assets/img/manu.png"
+                            alt="Leaf Icon"
+                          />
+                          <div className="text-[#8C94A3] ml-2 font-bold text-sm leading-[22px]">
+                            MEASURES
+                          </div>
+                        </div>
+                        <div>
+                          <ul className="list-disc ml-6 text-sm text-[#000000]">
+                            {pid
+                              ? filtermesuresdata?.data?.data &&
+                                filtermesuresdata?.data?.data.map(
+                                  (m: any, index: number) =>
+                                    m?.filteredOptions?.map(
+                                      (measures: any, subIndex: number) =>
+                                        measures?.measures && (
+                                          <li key={`item-${index}-${subIndex}`}>
+                                            {measures?.measures}
+                                          </li>
+                                        )
+                                    )
+                                )
+                              : item?.filteredOptions.map((m: any) => {
+                                  if (m.measures) {
+                                    return <li>{m.measures}</li>;
+                                  }
+                                })}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="col-span-2 mr-0 ml-auto pr-[17px] flex items-center">
-                      <Button
-                        disabled={item.checked === 0}
-                        onClick={() => {
-                          setPId(item.pillarid);
-                          setCurrentPiller(item.pillarname);
-                          setActionItems(item);
-                          setOpen(true);
-                        }}
-                        className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center font-bold"
-                      >
-                        Define Action Items
-                      </Button>
+                      <div className="col-span-2 mr-0 ml-auto pr-[17px] flex items-center">
+                        <Button
+                          disabled={item.checked === 0}
+                          onClick={() => {
+                            setPId(item.pillarid);
+                            setCurrentPiller(item.pillarname);
+                            setActionItems(item);
+                            setOpen(true);
+                          }}
+                          className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center font-bold"
+                        >
+                          Define Action Items
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
 
           <div className="flex justify-center">
-            <button
+            <Button
+              disabled={!handleDisabledButton}
               onClick={handleSelect}
               className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
             >
               BUILD
-            </button>
+            </Button>
           </div>
 
           <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
