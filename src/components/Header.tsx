@@ -40,11 +40,6 @@ function Header(props: headerProps) {
     }
   };
 
-  console.log(
-    "userData",
-    !!userData && JSON.parse(userData)?.query?.pathstatus
-  );
-
   return (
     // Note : This below code is for backup
     <header

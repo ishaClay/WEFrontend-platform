@@ -58,7 +58,6 @@ const TrainerInvitation = () => {
   console.log("errors", errors);
 
   const onSubmit = (data: FieldValues) => {
-    console.log(data, "++++++++++++++++");
     const payload = {
       email: [data?.email],
       invitationDetails: data?.details,

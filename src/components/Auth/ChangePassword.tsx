@@ -54,7 +54,6 @@ const ChangePassword = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: SetPassword,
     onSuccess: (data) => {
-      console.log(data);
       toast({
         title: "Success",
         description: data?.data?.message,

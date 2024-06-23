@@ -27,13 +27,10 @@ import Plus from "../../public/assets/img/Plus.png";
 
 function Home() {
   const dispatch = useDispatch();
-
   const { clientId } = useAppSelector((state) => state.user);
 
   const [activeIndex, setActiveIndex] = useState<null | string>(null);
   const domain = document.location.origin;
-
-  console.log("domain+++++++", domain);
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({
@@ -64,7 +61,6 @@ function Home() {
     enabled: !!clientId,
   });
 
-  console.log("+++++++++++++++++", clientwiseCourseslider);
   const onItemClick = (index: string) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
@@ -178,9 +174,11 @@ function Home() {
                         </p>
                         <SecondaryButton
                           name={item.buttonTitle}
+                          href={item.buttonUrl}
                           symbol={<img src="../assets/img/Move Right.png" />}
                           className="w-[250px] h-[50px] mt-[20px] flex gap-[10px] justify-center items-center "
-                        ></SecondaryButton>
+                          isLink
+                        />
                       </div>
                     </div>
                   </div>

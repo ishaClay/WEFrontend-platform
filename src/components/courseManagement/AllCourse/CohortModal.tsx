@@ -26,7 +26,7 @@ const cohortTable = [
 
 const CohortModal = ({ open, setOpen }: CohortModalProps) => {
   const [page, setPage] = useState(0);
-  console.log("+++++", page);
+  console.log("page", page);
   const [date, setDate] = useState<Date | undefined>(new Date());
   // console.log("date", date, id);
 

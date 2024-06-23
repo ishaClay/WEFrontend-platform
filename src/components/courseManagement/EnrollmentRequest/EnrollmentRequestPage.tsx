@@ -1,6 +1,3 @@
-import { useState } from "react";
-import EnrollmentCourseList from "./EnrollmentCourseList";
-import { MoveLeft } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -8,10 +5,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { MoveLeft } from "lucide-react";
+import { useState } from "react";
+import EnrollmentCourseList from "./EnrollmentCourseList";
 
 const EnrollmentRequestPage = () => {
   const [statusFilter, setStatusFilter] = useState("0");
-  console.log("statusFilter", statusFilter);
 
   return (
     <div className="bg-white">

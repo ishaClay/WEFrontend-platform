@@ -1,5 +1,5 @@
-import { CourseEntity } from "@/types/courseManagement";
 import starImage from "@/assets/images/Vector.png";
+import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +9,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CourseEntity } from "@/types/courseManagement";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import SelectMenu from "@/components/comman/SelectMenu";
 import { useState } from "react";
 import CohortModal from "./CohortModal";
 const selectOption = [
@@ -40,7 +40,6 @@ const ListView = ({ list }: { list: CourseEntity[] }) => {
     <div>
       <div>
         {list.map((data: any, index: number) => {
-          console.log("++++++++++++++", data);
           // data?.data?.module?.length
           return (
             <>

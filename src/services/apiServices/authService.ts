@@ -29,10 +29,10 @@ export const LogOut = async (userId: string) => {
     return res?.data
 }
 
-export const ForgetPassword = async (email: string) => {
+export const ForgetPassword = async ({ email, baseurl }: { email: string, baseurl: string }) => {
     const url = `api/v1/user/forgot-password`;
     const method = "post";
-    const res = await api({ url, method, data: { email } });
+    const res = await api({ url, method, data: { email }, headers: { "Content-Type": "application/json", baseurl: baseurl } });
     return res
 }
 

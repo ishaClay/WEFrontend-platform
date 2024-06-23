@@ -60,8 +60,6 @@ const QuestionPage = () => {
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
   });
 
-  console.log("clientwisePillarList", clientwisePillarList);
-
   const path = 1 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
@@ -101,8 +99,6 @@ const QuestionPage = () => {
       }
     }
   }, [clientwisePillarList?.data?.data, activePillar, dispatch]);
-
-  console.log(activePillar, "activePillar");
 
   const { data: questionList } = useQuery({
     queryKey: [QUERY_KEYS.questionList],

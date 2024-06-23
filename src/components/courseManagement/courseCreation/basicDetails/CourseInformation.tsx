@@ -110,7 +110,6 @@ const CourseInformation = () => {
   });
 
   const onSubmit = (formdata: FieldValues) => {
-    console.log(data);
     const payload = {
       title: formdata?.title,
       institute: formdata?.instituteName,

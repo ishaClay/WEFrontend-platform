@@ -16,7 +16,6 @@ const AllCourses = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
-
   console.log("params", setCourse);
 
   const changeList = (id: number) => {

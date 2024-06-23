@@ -12,7 +12,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import {
   getCompanyDetailsById,
   getCountry,
-  getOneCompany,
   updateCompany,
 } from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
@@ -53,7 +52,6 @@ interface DataEntity {
 function CompanyRegister() {
   const navigate = useNavigate();
   const [isAble, setIsAble] = useState(true);
-  const CompanyId = useAppSelector((state) => state.user.CompanyId);
   const UserId = useAppSelector((state) => state.user.UserId);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
@@ -109,12 +107,6 @@ function CompanyRegister() {
 
   const queryClient = useQueryClient();
 
-  const { data: companydetails } = useQuery({
-    queryKey: [QUERY_KEYS.oneCompany, CompanyId],
-    queryFn: () => getOneCompany(CompanyId as string),
-    enabled: !!CompanyId,
-  });
-
   const { data: country } = useQuery<CountryResponse>({
     queryKey: ["CountryData"],
     queryFn: getCountry,
@@ -129,7 +121,6 @@ function CompanyRegister() {
   const { mutate, isPending } = useMutation({
     mutationFn: getCompanyDetailsById,
     onSuccess: async (data: CompanyResponse) => {
-      console.log("getCompanyDetails", data?.data);
       if (!!data?.data && data?.data?.length > 0) {
         const getData = data?.data?.[0];
         const add =
@@ -166,8 +157,6 @@ function CompanyRegister() {
         queryKey: [QUERY_KEYS.companyList],
       });
 
-      console.log("updatecompany", data);
-
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
 
       toast({ title: "Company update Successfully" });
@@ -181,7 +170,6 @@ function CompanyRegister() {
       });
     },
   });
-  console.log(companydetails, "companydetails++");
 
   const path = 3 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
@@ -261,7 +249,6 @@ function CompanyRegister() {
                   label="Id"
                   onChange={(e) => {
                     const { value } = e.target;
-                    console.log("value.match(/^[0-9]+(?:.[0-9]+)?$/)", value);
 
                     if (value.match(/^[0-9]*$/)) {
                       setCompanyNumberId(+e?.target?.value as number);
