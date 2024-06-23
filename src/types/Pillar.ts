@@ -110,3 +110,12 @@ export interface QuestionAnswersEntity {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface PillerWiseProgressResponse {
+  data?: (DataEntity)[] | null;
+  message: string;
+}
+export interface DataEntity {
+  pillarName: string;
+  progress: number;
+}

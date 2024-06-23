@@ -1,10 +1,13 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { getImages } from "@/lib/utils";
 import { enumApi } from "@/services/apiServices/enum";
-import { QuestionType } from "@/types/Question";
+import { getPillerWiseProgress } from "@/services/apiServices/pillar";
+import { PillerWiseProgressResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +15,20 @@ function SavedAssesment() {
   const navigate = useNavigate();
   // const dispatch = useAppDispatch();
 
-  const { allPillar } = useAppSelector((state) => state.question);
+  const { UserId, clientId } = useAppSelector((state) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
-  const question: any = useAppSelector((state) => state.question);
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
+  const { data, isPending } = useQuery<PillerWiseProgressResponse>({
+    queryKey: [QUERY_KEYS.clientwisePillarList],
+    queryFn: () => getPillerWiseProgress(clientId, userID),
+  });
 
-  const { UserId } = useAppSelector((state) => state.user);
-  console.log(allPillar);
+  console.log(data?.data);
 
   // const { data: pillarList } = useQuery({
   //   queryKey: [QUERY_KEYS.pillarList],
@@ -44,7 +55,7 @@ function SavedAssesment() {
 
     switch (pathStatus) {
       case 1:
-        navigate("/assessment");
+        navigate("/savedassesment");
         break;
       case 2:
         navigate("/question");
@@ -65,7 +76,7 @@ function SavedAssesment() {
         navigate("/maturitylevelactionitem");
         break;
       default:
-        navigate("/assessment");
+        navigate("/savedassesment");
         break;
     }
   };
@@ -147,38 +158,34 @@ function SavedAssesment() {
                 Your Progress So Far:
               </p>
               <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
-                {allPillar.map((category: string, index: number) => {
-                  const pillarQuestions = question[category];
+                {isPending ? (
+                  <Loader />
+                ) : (
+                  data?.data &&
+                  data?.data.map((category, index: number) => {
+                    return (
+                      <div className="">
+                        <div
+                          key={index}
+                          className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                        >
+                          <div>
+                            <img
+                              src={getImages(category.pillarName)}
+                              alt="img"
+                              className="w-[52px] h-[52px]"
+                            />
+                          </div>
+                          <h4 className="mt-3">{category.pillarName}</h4>
 
-                  const pillarTotal = pillarQuestions
-                    ? pillarQuestions.length
-                    : 0;
-                  const pillarAttempted = Array.isArray(pillarQuestions)
-                    ? pillarQuestions.filter((que: QuestionType) =>
-                        que.options.some((opt: any) => opt.checked)
-                      ).length
-                    : 0;
-
-                  return (
-                    <div className="">
-                      <div
-                        key={index}
-                        className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
-                      >
-                        <img
-                          src="../assets/img/EnvironmentalGray.png"
-                          alt="img"
-                          className="w-[52px] h-[52px]"
-                        />
-                        <h4 className="mt-3">{category}</h4>
-
-                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {Math.round((pillarAttempted / pillarTotal) * 100)} %
-                        </span>
+                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
+                            {category?.progress} %
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
               <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">
