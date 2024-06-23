@@ -1,54 +1,46 @@
 import Footer from "@/components/Footer";
-import TeaserScoreHeader from "@/components/TeaserScoreHeader";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { enumApi } from "@/services/apiServices/enum";
 import { QuestionType } from "@/types/Question";
 import { useQuery } from "@tanstack/react-query";
-import {useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  // const dispatch = useAppDispatch();
 
-  const {allPillar } = useSelector(
-    (state: any) => state.question
-  );
+  const { allPillar } = useAppSelector((state) => state.question);
 
-  console.log(allPillar)
+  const question = useAppSelector((state) => state.question);
 
+  const { UserId } = useAppSelector((state) => state.user);
+  console.log(allPillar);
 
   // const { data: pillarList } = useQuery({
   //   queryKey: [QUERY_KEYS.pillarList],
-  //   queryFn: () => fetchPillarList(),
+  //   queryFn: () => fetchClientwisePillarList(clientId),
   // });
 
   // useEffect(() => {
-  //   const pillarName = (
-  //     pillarList?.data?.data
-  //   )?.map((i:any) => i?.pillarName);
+  //   const pillarName = pillarList?.data?.data?.map((i: any) => i?.pillarName);
 
-  //   if (pillarName?.length) {
+  //   if (allPillar?.length) {
   //     dispatch(setPillarName(pillarName));
   //   }
-  // }, [pillarList]);
-
-
-  const question = useSelector((state: any) => state.question);
-
-  const UserId = useSelector((state: any) => state.user.UserId);
+  // }, [allPillar, dispatch, pillarList?.data?.data]);
 
   const { data: enums } = useQuery({
     queryKey: [QUERY_KEYS.authenums],
     queryFn: () => enumApi(UserId),
   });
 
-  const handleAssesment = () =>{
-
+  const handleAssesment = () => {
     const pathStatus = enums?.data.data.pathStatus;
-  
-    console.log(pathStatus)
+
+    console.log(pathStatus);
 
     switch (pathStatus) {
       case 1:
@@ -72,27 +64,28 @@ function SavedAssesment() {
       case 7:
         navigate("/maturitylevelactionitem");
         break;
-      default: 
-      navigate("/assessment")
+      default:
+        navigate("/assessment");
         break;
     }
-
-  }
-
+  };
 
   return (
     <div>
       <div>
         <div className=" border-b-[2px]  ">
-          <TeaserScoreHeader />
+          <Header />
         </div>
-        <div className="flex">
-          <div className="mt-[20px] h-[1170px] bg-[#F6F6F6] ">
-            <img className="" src="../assets/img/Group 1000001826.png" />
+        <div className="flex mainContailner">
+          <div>
+            <img
+              src="../assets/img/Group 1000001824.png"
+              className="xl:max-w-[800px] max-w-[400px]"
+            />
           </div>
 
-          <div className="w-[694px]">
-            <div className="w-[720px] h-[400px] relative mt-[142px] ml-[40px]">
+          <div className="xl:px-0 px-2">
+            <div className="h-[400px] relative xl:mt-[142px] mt-[50px] ml-[40px]">
               <div className="flex items-center">
                 <h3 className="text-[Calibri] italic text-[#3A3A3A] font-bold">
                   Welcome Back to Your Sustainability Journey!
@@ -153,8 +146,7 @@ function SavedAssesment() {
               <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">
                 Your Progress So Far:
               </p>
-              <div className="pt-8 pl-[px] pb-5 w-[800px] flex flex-wrap gap-5">
-     
+              <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
                 {allPillar.map((category: string, index: number) => {
                   const pillarQuestions = question[category];
 
@@ -181,7 +173,7 @@ function SavedAssesment() {
                         <h4 className="mt-3">{category}</h4>
 
                         <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {Math.round((pillarAttempted / pillarTotal)*100)} %
+                          {Math.round((pillarAttempted / pillarTotal) * 100)} %
                         </span>
                       </div>
                     </div>

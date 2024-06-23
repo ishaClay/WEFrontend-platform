@@ -1,28 +1,31 @@
-import { setAnswer } from "@/redux/reducer/QuestionReducer";
-import { Option, QuestionType } from "@/types/Question";
-import { useDispatch, useSelector } from "react-redux";
-import Suggestion from "/assets/img/Suggestion.png";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addAnswer, removeAnswer } from "@/services/apiServices/question";
-import { ErrorType } from "@/types/Errors";
-import { useToast } from "../ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setAnswer } from "@/redux/reducer/QuestionReducer";
+import { addAnswer } from "@/services/apiServices/question";
 import { Answer } from "@/types/Answer";
+import { ErrorType } from "@/types/Errors";
+import { Option, QuestionType } from "@/types/Question";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
+import { useToast } from "../ui/use-toast";
+import Loading from "./Error/Loading";
+import Suggestion from "/assets/img/Suggestion.png";
 
 const Question = () => {
   const dispatch = useDispatch();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
-  const question = useSelector((state: any) => state.question);
+  const question = useAppSelector((state) => state.question);
 
-  const { activePillar } = useSelector((state: any) => state.question);
+  const { activePillar } = useAppSelector((state) => state.question);
 
-  const userId = useSelector((state: any) => state.user.UserId);
+  const userId = useAppSelector((state) => state.user.UserId);
 
   const queryClient = useQueryClient();
 
   const { toast } = useToast();
 
-  const { mutate: addanswer } = useMutation({
+  const { mutate: addanswer, isPending } = useMutation({
     mutationFn: (question: Answer) => addAnswer(question),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -37,36 +40,39 @@ const Question = () => {
     },
   });
 
-  const { mutate: removeanswer } = useMutation({
-    mutationFn: (question: any) => removeAnswer(question),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.getQuestionAnswer],
+  // const { mutate: removeanswer } = useMutation({
+  //   mutationFn: (question) => removeAnswer(question),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: [QUERY_KEYS.getQuestionAnswer],
+  //     });
+  //   },
+  //   onError: (error: ErrorType) => {
+  //     toast({
+  //       variant: "destructive",
+  //       title: error.data.message,
+  //     });
+  //   },
+  // });
+  console.log(userData?.id);
+  const handleChange = (questionId: any, selectedOptions: any) => {
+    const userID = userId
+      ? userId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
+    if (userID) {
+      addanswer({
+        userId: userID,
+        questionId: questionId,
+        selectedOptions: [selectedOptions],
       });
-    },
-    onError: (error: ErrorType) => {
+    } else {
       toast({
         variant: "destructive",
-        title: error.data.message,
+        title: "Please login again",
       });
-    },
-  });
-  console.log(removeanswer);
-  const handleChange = (questionId: any, selectedOptions: any) => {
-    // if (selectedOptions.checked === true) {
-
-    // 	removeanswer({ userId: userId, questionId: questionId });
-    // 	selectedOptions.checked = false;
-
-    // } else {
-    // 	addanswer({ userId: userId, questionId: questionId, selectedOptions: [selectedOptions] })
-    // }
-
-    addanswer({
-      userId: userId,
-      questionId: questionId,
-      selectedOptions: [selectedOptions],
-    });
+    }
   };
 
   return (
@@ -121,6 +127,8 @@ const Question = () => {
               className="absolute top-5 right-12 w-8 h-8 cursor-auto"
             />
           )}
+
+          {isPending && <Loading isLoading={isPending} />}
         </div>
       );
     })

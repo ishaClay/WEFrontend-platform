@@ -82,6 +82,7 @@ const PasswordInputWithLabel = forwardRef<
           />
           <Button
             variant={"ghost"}
+            type="button"
             onClick={toggleShowPassword}
             className="absolute right-3 top-1/2 -translate-y-1/2 h-auto p-0"
           >

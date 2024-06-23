@@ -2,17 +2,21 @@ import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
+import SelectMenu from "@/components/comman/SelectMenu";
 import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   getCompanyDetailsById,
+  getCountry,
   getOneCompany,
   updateCompany,
 } from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
+import { CountryResponse } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -51,6 +55,7 @@ function CompanyRegister() {
   const [isAble, setIsAble] = useState(true);
   const CompanyId = useAppSelector((state) => state.user.CompanyId);
   const UserId = useAppSelector((state) => state.user.UserId);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [soleTrader, setSoleTrader] = useState("");
 
@@ -60,7 +65,8 @@ function CompanyRegister() {
     county: z.string().min(1, { message: "County is required" }),
     averageNumberOfEmployees: z
       .string()
-      .min(1, { message: "Average Number Of Employees is required" }),
+      .min(1, { message: "Average Number Of Employees is required" })
+      .regex(/^[0-9]+$/, "Average Number Of Employees is Invalid"),
     sector: z.string().min(1, { message: "Sector is required" }),
     parentCompanyAddress: z
       .string()
@@ -79,11 +85,21 @@ function CompanyRegister() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
+
+  useEffect(() => {
+    if (userData) {
+      const userEmail = userData?.query
+        ? userData?.query.email
+        : userData?.email;
+      setValue("email", userEmail);
+    }
+  }, [setValue, userData]);
 
   const handleCheckboxChange = (value: string) => {
     setSoleTrader(value);
@@ -98,6 +114,17 @@ function CompanyRegister() {
     queryFn: () => getOneCompany(CompanyId as string),
     enabled: !!CompanyId,
   });
+
+  const { data: country } = useQuery<CountryResponse>({
+    queryKey: ["CountryData"],
+    queryFn: getCountry,
+  });
+
+  const countryOption =
+    country?.data &&
+    country?.data?.map((item) => {
+      return { value: item?.name, label: item?.name };
+    });
 
   const { mutate, isPending } = useMutation({
     mutationFn: getCompanyDetailsById,
@@ -118,24 +145,34 @@ function CompanyRegister() {
         setValue("address", add);
       } else {
         setIsAble(true);
+        toast({
+          variant: "destructive",
+          title: "Invalid Company Id",
+        });
       }
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
         variant: "destructive",
-        title: error.data?.error?.message || error.data?.message,
+        title: "Invalid Company Id",
       });
     },
   });
 
   const { mutate: updatecompany, isPending: updatePanding } = useMutation({
     mutationFn: updateCompany,
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
 
+      console.log("updatecompany", data);
+
+      localStorage.setItem("user", JSON.stringify(data?.data?.data));
+
       toast({ title: "Company update Successfully" });
+      EnumUpadate(path);
+      navigate("/maturelevel");
     },
     onError: (error: ErrorType) => {
       toast({
@@ -158,14 +195,14 @@ function CompanyRegister() {
 
   console.log("errors", errors);
 
-  useEffect(() => {
-    if (companydetails) {
-      const data = companydetails.data.data.client;
-      Object.keys(data).forEach((key: any) => {
-        setValue(key, data[key]);
-      });
-    }
-  }, [companydetails]);
+  // useEffect(() => {
+  //   if (companydetails) {
+  //     const data = companydetails.data.data.client;
+  //     Object.keys(data).forEach((key: any) => {
+  //       setValue(key, data[key]);
+  //     });
+  //   }
+  // }, [companydetails]);
 
   const onSubmit = async (data: FieldValues) => {
     const updatedData: any = {
@@ -173,8 +210,6 @@ function CompanyRegister() {
       soleTrader: soleTrader === "true" ? true : false,
     };
     updatecompany(updatedData);
-    EnumUpadate(path);
-    navigate("/maturelevel");
   };
 
   const handleVerifyId = () => {
@@ -277,11 +312,15 @@ function CompanyRegister() {
                 </div>
 
                 <div>
-                  <InputWithLable
+                  <Label className="mb-[8px]  font-bold text-[16px]">
+                    County
+                  </Label>
+                  <SelectMenu
+                    option={countryOption || []}
                     placeholder="Select your country"
-                    className="w-[241px] h-[46px]"
-                    label="County"
-                    {...register("county")}
+                    className="w-[241px] h-[46px] mt-2"
+                    setValue={(data: string) => setValue("county", data)}
+                    value={watch("county") || ""}
                   />
                   {errors.county && (
                     <ErrorMessage message={errors.county.message as string} />
@@ -347,6 +386,7 @@ function CompanyRegister() {
                     className="w-[241px] h-[46px]"
                     label="Email Address"
                     {...register("email")}
+                    disabled
                   />
                   {errors.email && (
                     <ErrorMessage message={errors.email.message as string} />

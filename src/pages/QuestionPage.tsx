@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import TreePlantingImg from "@/assets/images/TreePlanting.svg";
 import Footer from "@/components/Footer";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
@@ -12,10 +13,7 @@ import {
   setQuestion,
 } from "@/redux/reducer/QuestionReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
-import {
-  fetchClientwisePillarList,
-  fetchPillarList,
-} from "@/services/apiServices/pillar";
+import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import {
   fetchQuestionAnswerList,
   fetchQuestionList,
@@ -36,37 +34,38 @@ import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
-import TreePlantingImg from "@/assets/images/TreePlanting.svg";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const [selectedData, setSelectedData] = useState<string[]>([]);
-
-  console.log("setSelectedData", setSelectedData);
-
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
+
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
 
   const { activePillar, allPillar } = useAppSelector((state) => state.question);
 
-  const question: any = useAppSelector((state) => state.question);
+  const question = useAppSelector((state) => state.question);
 
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [totalAttemptedQuestions, setTotalAttemptedQuestions] = useState(0);
 
-  const { data: pillarList } = useQuery({
-    queryKey: [QUERY_KEYS.pillarList],
-    queryFn: () => fetchPillarList(),
-  });
   const { data: clientwisePillarList } = useQuery({
     queryKey: [QUERY_KEYS.clientwisePillarList],
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
   });
 
+  console.log("clientwisePillarList", clientwisePillarList);
+
   const path = 2 + 1;
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
+    mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -75,27 +74,25 @@ const QuestionPage = () => {
   });
 
   useEffect(() => {
-    const pillarName = (
-      !!clientwisePillarList?.data?.data &&
-      clientwisePillarList?.data?.data?.length > 0
-        ? clientwisePillarList?.data?.data
-        : pillarList?.data?.data
-    )?.map((i: Pillar) => i?.pillarName);
+    const pillarName: string[] =
+      clientwisePillarList?.data?.data &&
+      clientwisePillarList?.data?.data?.length > 0 &&
+      clientwisePillarList?.data?.data?.map((itm: Pillar) => itm?.pillarName);
     console.log("clientwisePillarList", pillarName);
 
     if (pillarName?.length) {
       dispatch(setPillarName(pillarName));
       dispatch(setActivePillar(pillarName[0]));
+      setSelectedData([pillarName[0]]);
     }
-  }, [pillarList?.data?.data, clientwisePillarList?.data?.data, dispatch]);
+  }, [clientwisePillarList?.data?.data, dispatch]);
 
   useEffect(() => {
     if (
       !activePillar &&
-      (!!clientwisePillarList?.data?.data &&
-      clientwisePillarList?.data?.data?.length > 0
-        ? clientwisePillarList?.data?.data
-        : pillarList?.data?.data)
+      !!clientwisePillarList?.data?.data &&
+      clientwisePillarList?.data?.data?.length > 0 &&
+      clientwisePillarList?.data?.data
     ) {
       if (
         !!clientwisePillarList?.data?.data &&
@@ -104,16 +101,9 @@ const QuestionPage = () => {
         dispatch(
           setActivePillar(clientwisePillarList?.data?.data[0]?.pillarName)
         );
-      } else {
-        dispatch(setActivePillar(pillarList?.data?.data[0]?.pillarName));
       }
     }
-  }, [
-    pillarList?.data?.data,
-    clientwisePillarList?.data?.data,
-    activePillar,
-    dispatch,
-  ]);
+  }, [clientwisePillarList?.data?.data, activePillar, dispatch]);
 
   console.log(activePillar, "activePillar");
 
@@ -201,7 +191,7 @@ const QuestionPage = () => {
 
   const { data: fetchQuestionAnswer } = useQuery({
     queryKey: [QUERY_KEYS.getQuestionAnswer],
-    queryFn: () => fetchQuestionAnswerList(UserId?.toString()),
+    queryFn: () => fetchQuestionAnswerList(userID?.toString()),
   });
 
   const pillarwiseQuestions = allPillar?.map((item: string) => {
@@ -337,7 +327,7 @@ const QuestionPage = () => {
       </div>
       <div className="bg-[#E7E7E8]">
         <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5">
-          <div className="flex gap-8 items-center flex-wrap justify-center">
+          <div className="flex gap-[30px] items-center flex-wrap justify-center">
             {allPillar.map((category: string, index: number) => {
               const pillarQuestions = question[category];
               const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
@@ -353,7 +343,10 @@ const QuestionPage = () => {
                   className={`w-[169px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
                     activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
                   }`}
-                  onClick={() => dispatch(setActivePillar(category))}
+                  onClick={() => {
+                    dispatch(setActivePillar(category));
+                    handleSelected(category);
+                  }}
                 >
                   <div className="flex gap-2">
                     <div className="flex flex-col gap-1">

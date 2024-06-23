@@ -33,3 +33,10 @@ export const getCompanyDetailsById = async (company_num: number): Promise<Compan
   const res = await api({ url, method, data: {} });
   return res.data
 };
+
+export const getCountry = async () => {
+  const url = `api/v1/thirdparty/getcountry`,
+    method = "get";
+  const res = await api({ url, method });
+  return res.data
+};

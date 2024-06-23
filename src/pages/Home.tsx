@@ -52,6 +52,7 @@ function Home() {
     useQuery<GetHomeBannerResponse>({
       queryKey: [QUERY_KEYS.clientwiseBannerSlider, { clientId }],
       queryFn: () => getHomeBanner(clientId?.toString(), "Active"),
+      enabled: !!clientId,
     });
 
   const {
@@ -60,6 +61,7 @@ function Home() {
   } = useQuery<HomeCourseSlidersResponse>({
     queryKey: [QUERY_KEYS.clientwiseCourseSlider, clientId],
     queryFn: () => getCourseSlider(clientId.toString(), "Active"),
+    enabled: !!clientId,
   });
 
   console.log("+++++++++++++++++", clientwiseCourseslider);

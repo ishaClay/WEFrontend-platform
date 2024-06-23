@@ -142,7 +142,7 @@ function Assessment() {
             <PrimaryButton
               onClick={handleAssesment}
               name="Take assessment"
-              className="w-[266px] h-[55px] mt-[24px]"
+              className="w-[266px] h-[55px] mt-[24px] text-[20px] !font-calibri"
             />
           </div>
         </div>

@@ -4,7 +4,7 @@ export interface Pillar {
   deletedAt: string | null;
   createdAt: string;
   updatedAt: string;
-  icon: string;
+  checked: number;
 }
 
 export interface SinglePillar {

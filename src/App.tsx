@@ -155,6 +155,7 @@ function App() {
           element={<MaturityLevelActionItem />}
         />
 
+        <Route path="/savedassesment" element={<SavedAssesment />} />
         <Route
           path="/maturitylevelactionablepopup"
           element={
@@ -176,14 +177,6 @@ function App() {
           element={
             <ProtectedRoute>
               <CoursesRecommended />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/savedassesment"
-          element={
-            <ProtectedRoute>
-              <SavedAssesment />
             </ProtectedRoute>
           }
         />
@@ -682,6 +675,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* <Route >
+
+        </Route> */}
 
         <Route
           path="/trainer"
