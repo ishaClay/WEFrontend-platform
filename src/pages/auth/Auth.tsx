@@ -77,7 +77,7 @@ function Auth() {
         //   title: "Login Successfully",
         // });
 
-        if (user.role == UserRole.SuperAdmin) {
+        if (user.role == UserRole.SuperAdmin || user.role == UserRole.Client) {
           toast({
             variant: "destructive",
             title: "User Not found",
@@ -108,25 +108,11 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (user.pathstatus === "0" || user.pathstatus === "1") {
-            navigate("/assessment");
-          } else if (user.pathstatus === "2") {
-            navigate("/question");
-          } else if (user.pathstatus === "3") {
-            navigate("/teaserscore");
-          } else if (user.pathstatus === "4") {
-            navigate("/companyregister");
-          } else if (user.pathstatus === "5") {
-            navigate("/maturelevel");
-          } else if (user.pathstatus === "6") {
-            navigate("/selectlevel");
-          } else if (user.pathstatus === "7") {
-            navigate("/maturitylevelactionitem");
-          } else if (user.pathstatus === "8") {
-            navigate("/dashbord");
-            localStorage.setItem("user", JSON?.stringify(data.data.data));
-          } else {
+          if (user.pathstatus !== "7") {
             navigate("/savedassesment");
+          } else {
+            navigate("/company/dashboard");
+            localStorage.setItem("user", JSON?.stringify(data.data.data));
           }
           // }
         }
@@ -198,7 +184,7 @@ function Auth() {
                 )}
                 <ul className="mt-[24px] text-color">
                   <li>
-                    <a>Forgot password?</a>
+                    <Link to="/forgot-password">Forgot password?</Link>
                   </li>
                 </ul>
                 <button

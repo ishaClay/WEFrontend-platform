@@ -7,13 +7,8 @@ import {
 	PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Switch } from "@/components/ui/switch";
-
-import HeaderCourse from "@/components/HeaderCourse";
-
 import { BsSearch } from "react-icons/bs";
 import { TbSelector } from "react-icons/tb";
-
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 function EmployeePermission() {
 	const employeeData = [
@@ -39,17 +34,9 @@ function EmployeePermission() {
 		},
 	];
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[730px]  overflow-hidden">
-			<div className="">
-				<EmployeeListSidebar />
-			</div>
-			<div className="flex flex-col  ">
-				<div className="">
-					<HeaderCourse />
-				</div>
-
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
-					<div className="  pt-[16px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+		<div className="bg-[#f5f3ff]">
+				<div className="bg-[#FFFFFF] m-[12px] rounded-[10px]">
+					<div className="pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
 							Team Member List
 						</p>
@@ -57,12 +44,10 @@ function EmployeePermission() {
 							Send Invitation
 						</button>
 					</div>
-
-					<div className="flex pl-[15px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
+					<div className="flex pl-[15px] h-[70px] bg-[#FFFFFF] ">
 						<div>
 							<div className="flex mt-[9px]  items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
 								<BsSearch className="text-[#D9D9D9] mr-2" />
-
 								<input
 									type="text"
 									placeholder="Search by pilier, level, recommended, course name etc."
@@ -176,7 +161,6 @@ function EmployeePermission() {
 						<p className="font-bold text-[10px] ">Showing 10/200 Records</p>
 					</div>
 				</div>
-			</div>
 		</div>
 	);
 }

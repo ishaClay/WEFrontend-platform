@@ -38,7 +38,13 @@ const schema = z
       .string()
       .min(1, { message: "Please enter email" })
       .email("Please Enter Valid Email"),
-    password: z.string().min(1, { message: "Please enter password" }),
+    password: z
+      .string()
+      .min(1, { message: "Please enter password" })
+      .regex(
+        /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
+        "Password must contain at least one uppercase letter, one Number letter, and one special character and Minimum 8 characters"
+      ),
     cpassword: z.string().min(1, { message: "Please enter confirm password" }),
   })
   .refine((data) => data.password === data.cpassword, {

@@ -1,5 +1,4 @@
 import { MdOutlineGroup } from "react-icons/md";
-import HeaderCourse from "@/components/HeaderCourse";
 import { FaStar } from "react-icons/fa";
 import avatar1 from "/public/assets/img/face1.jpg";
 import avatar2 from "/public/assets/img/face2.jpg";
@@ -15,7 +14,6 @@ import avatar11 from "/public/assets/img/face3.jpg";
 import avatar12 from "/public/assets/img/face3.jpg";
 import avatar13 from "/public/assets/img/face3.jpg";
 import avatar14 from "/public/assets/img/face3.jpg";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 // import { Course } from "@/types/Course";
 // import { useSelector } from "react-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -82,14 +80,7 @@ function CoursesAllocate() {
   //   setPopupOpen(false);
   // };
   return (
-    <div className="flex bg-[#f5f3ff] overflow-hidden">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col  max-w-[calc(100%_-_200px)] w-full">
-        <div className="">
-          <HeaderCourse />
-        </div>
+    <div className="bg-[#f5f3ff]">
 
         <div className="p-3">
           <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] rounded-[10px] overflow-auto">
@@ -319,7 +310,6 @@ function CoursesAllocate() {
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

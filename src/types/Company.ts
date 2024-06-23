@@ -14,3 +14,12 @@ export interface Company {
     parentCompanyCounty: string,
     soleTrader?: boolean,
 }
+
+export interface CountryResponse {
+    data?: (DataEntity)[];
+    message: string;
+}
+export interface DataEntity {
+    name: string;
+    code: string;
+}

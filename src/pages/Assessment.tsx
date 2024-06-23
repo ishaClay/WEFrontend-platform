@@ -15,7 +15,7 @@ function Assessment() {
   const UserId = useSelector((state: UserData) => state.user.UserId);
 
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: "2" }, UserId),
+    mutationFn: () => enumUpadate({ path: "1" }, UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -142,7 +142,7 @@ function Assessment() {
             <PrimaryButton
               onClick={handleAssesment}
               name="Take assessment"
-              className="w-[266px] h-[55px] mt-[24px]"
+              className="w-[266px] h-[55px] mt-[24px] text-[20px] !font-calibri"
             />
           </div>
         </div>

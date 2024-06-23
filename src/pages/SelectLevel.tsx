@@ -20,7 +20,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
+import { useAppSelector } from "@/hooks/use-redux";
+import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
@@ -32,11 +35,11 @@ import {
 import { ErrorType } from "@/types/Errors";
 import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BsFillPlusSquareFill, BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Apply from "/assets/img/Apply.png";
 import Assess from "/assets/img/Assess.png";
@@ -65,10 +68,10 @@ function SelectLevel() {
   const [editId, setEditId] = useState<number | null>(null);
   console.log(editId);
   const dispatch = useDispatch();
-  const pillars = useSelector((state: any) => state.pillar?.maturitypillar);
+  const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
 
-  const { clientId, UserId } = useSelector((state: any) => state.user);
+  const { clientId, UserId } = useAppSelector((state: any) => state.user);
   // console.log("clientIdclientId", clientId);
 
   const { toast } = useToast();
@@ -87,7 +90,7 @@ function SelectLevel() {
   //   setActionItems1([...actionItems1, ""]);
   // };
 
-  const { data: maturitypillar } = useQuery({
+  const { data: maturitypillar, isPending } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
     queryFn: () => fetchMaturityPillar(clientId, UserId),
     enabled: true,
@@ -103,8 +106,10 @@ function SelectLevel() {
           selectmaturity as any,
           pid as string
         ),
-      enabled: !!selectmaturity && !!pid,
+      enabled: !!selectmaturity && !!pid && !!clientId && !!UserId,
     });
+
+  console.log("isPending", isPending);
 
   useEffect(() => {
     if (maturitypillar?.data?.data?.length > 0) {
@@ -124,22 +129,6 @@ function SelectLevel() {
   useEffect(() => {
     refetchfiltermesuresdata();
   }, [selectmaturity]);
-
-  // const { data: allassessmant } = useQuery({
-  //   queryKey: [QUERY_KEYS.totalAssessment],
-  //   queryFn: () => getAllassessment(UserId),
-  // });
-
-  // const score = +((+allassessmant?.data?.data?.avTotalpoints / +allassessmant?.data?.data?.avTotalmaxpoint) * 100).toFixed(2);
-
-  // let proficiencyLevel;
-  // if (score < 30) {
-  //   proficiencyLevel = "Introductory";
-  // } else if (score >= 30 && score < 60) {
-  //   proficiencyLevel = "Intermediate";
-  // } else {
-  //   proficiencyLevel = "Advanced";
-  // }
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
     mutationFn: (actionitems: any) => addMeasuresItems(actionitems),
@@ -164,7 +153,7 @@ function SelectLevel() {
 
   // console.log(getCheckedmeasures)
 
-  const path = 6 + 1;
+  const path = 5 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
     onSuccess: async () => {
@@ -279,6 +268,8 @@ function SelectLevel() {
     createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
   };
 
+  console.log("pillerItemspillerItemspillerItems", pillerItems);
+
   const handleClose = () => {
     setOpen(false);
     setActionItems(null);
@@ -286,143 +277,168 @@ function SelectLevel() {
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
 
+  const handleDisabledButton = useMemo(() => {
+    if (pillerItems && pillars) {
+      const fetchData = pillars?.map((item: any) => {
+        if (item?.checked === 1) {
+          return pillerItems[item?.pillarname]?.filter(
+            (item: string) => item !== ""
+          )?.length > 0
+            ? false
+            : true;
+        }
+        return false;
+      });
+
+      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
+      return !checkPiller
+        ? fetchData?.filter((item: boolean) => item === true).length === 0
+        : !checkPiller;
+    }
+  }, [pillars, pillerItems]);
+
   return (
     <div>
-      <Header />
-      <div className="mainContailner">
-        <div className="border-t border-b border-#DED7D7">
-          <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
-            <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
-              {paths.map((path) => (
-                <div
-                  key={path.name}
-                  className={`flex flex-col self-end items-center ${
-                    path.name === "Engage" || path.name === "Assess" ? " " : " "
-                  }`}
-                >
-                  {path.status === "checked" ? (
-                    <img
-                      src={Correct}
-                      alt="img"
-                      width={59.6}
-                      height={59.6}
-                      className="mt-[13.4]"
-                    />
-                  ) : path.status === "indeterminate" ? (
-                    <img
-                      src={Assess}
-                      alt="img"
-                      width={70}
-                      height={70}
-                      className="mt-[7px]"
-                    />
-                  ) : (
-                    <img
-                      src={path.img}
-                      alt="img"
-                      width={59.6}
-                      height={59.6}
-                      className="mt-[15.4px]"
-                    />
-                  )}
-                  <p
-                    className={`${
+      <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">
+        <Header />
+      </div>
+
+      <div>
+        <div className="border-b border-[#DED7D7]">
+          <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
+            <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
+              <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
+                {paths.map((path) => (
+                  <div
+                    key={path.name}
+                    className={`flex flex-col self-end items-center ${
                       path.name === "Engage" || path.name === "Assess"
-                        ? "bg-[#64A70B] text-white"
-                        : ""
+                        ? " "
+                        : " "
                     }`}
                   >
-                    {path.name}
-                  </p>
-                </div>
-              ))}
-              <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+                    {path.status === "checked" ? (
+                      <img
+                        src={Correct}
+                        alt="img"
+                        width={59.6}
+                        height={59.6}
+                        className="mt-[13.4]"
+                      />
+                    ) : path.status === "indeterminate" ? (
+                      <img
+                        src={Assess}
+                        alt="img"
+                        width={70}
+                        height={70}
+                        className="mt-[7px]"
+                      />
+                    ) : (
+                      <img
+                        src={path.img}
+                        alt="img"
+                        width={59.6}
+                        height={59.6}
+                        className="mt-[15.4px]"
+                      />
+                    )}
+                    <p
+                      className={`px-2 mt-2 ${
+                        path.name === "Engage" || path.name === "Assess"
+                          ? "bg-[#64A70B] text-white"
+                          : ""
+                      }`}
+                    >
+                      {path.name}
+                    </p>
+                  </div>
+                ))}
+                <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="ml-[290px] mt-8 text-[#3A3A3A] font-se text-2xl ">
-          <h1 className="text-[#00778B] font-semibold text-[16px]">
-            {" "}
-            Set Target{" "}
-            <span className="text-[#606060] font-normal text-[12px]">
-              (select the required pillars)
-            </span>
-          </h1>
-        </div>
 
-        <div className="flex flex-col items-center h-full w-full max-w-[1440px] mx-auto">
-          {pillars?.map((item: any) => {
-            console.log("currentPiller", pillerItems[currentPiller]);
+        <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
+          <div className="my-6">
+            <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
+              Select target pillars and maturity levels
+            </h1>
+          </div>
+          {isPending ? (
+            <Loader className="w-8 h-8" />
+          ) : (
+            pillars?.map((item: any) => {
+              console.log("currentPiller", pillerItems[currentPiller]);
 
-            return (
-              <div className="pt-8 pl-[10px] pb-0 flex gap-5 w-full">
-                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full">
-                  <div className="flex h-8">
-                    <div
-                      className={`${
-                        item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
-                      } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[30px] w-[209px] items-start`}
-                    >
-                      <h2 className="text-lg font-inter ">
-                        <span
-                          className={`${
-                            item?.checked ? "text-white" : "text-[#FFD56A]"
-                          } text-[black]`}
-                        >
-                          Your level -
-                        </span>
-                        <span className="text-[#FFD56A]">
-                          {item.maturityLevelName}
-                        </span>
-                      </h2>
-                    </div>
+              return (
+                <div className="pb-0 flex w-full">
+                  <div className="border border-solid border-[#D9D9D9] h-max-content rounded-[10.06px] flex flex-col w-full mb-6">
+                    <div className="flex justify-between h-8">
+                      <div
+                        className={`${
+                          item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
+                        } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
+                      >
+                        <h2 className="text-sm font-inter">
+                          <span
+                            className={`${
+                              item?.checked ? "text-white" : "text-[#FFD56A]"
+                            } text-[black]`}
+                          >
+                            Your level -
+                          </span>
+                          <span className="text-[#FFD56A]">
+                            {item.maturityLevelName}
+                          </span>
+                        </h2>
+                      </div>
 
-                    <div className="ml-auto mr-3 mt-2 ">
-                      <input
-                        className={`w-5 h-5 cursor-pointer ${
-                          item?.checked
-                            ? "accent-[white]"
-                            : "accent-[white] border border-[#B9B9B9]"
-                        }`}
-                        type="checkbox"
-                        checked={item?.checked ? true : false}
-                        onChange={() => {
-                          dispatch(
-                            setPillars({
+                      <div className="mt-3 mr-[17px]">
+                        <input
+                          className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
+                            item?.checkbox
+                              ? "accent-[white]"
+                              : "accent-[#64A70B] text-[#FFF]"
+                          }`}
+                          type="checkbox"
+                          checked={item?.checked ? true : false}
+                          onChange={() => {
+                            dispatch(
+                              setPillars({
+                                id: item?.pillarid,
+                                checked: item?.checked ? 0 : 1,
+                              })
+                            );
+                            updatepillarcheckbox({
                               id: item?.pillarid,
                               checked: item?.checked ? 0 : 1,
-                            })
-                          );
-                          updatepillarcheckbox({
-                            id: item?.pillarid,
-                            checked: item?.checked ? 0 : 1,
-                          });
-                        }}
-                      />
+                            });
+                          }}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex justify-between">
-                    <div className="flex h-max-content pb-6">
-                      <div className="w-[176px] text-center">
-                        <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-[50px]">
+                    <div className="grid grid-cols-12">
+                      <div className="text-center col-span-2 pt-3 pb-2">
+                        <div className="bg-white rounded-full drop-shadow-md w-[90px] h-[90px] flex items-center justify-center p-4 m-auto">
                           <img
-                            src="public/assets/img/Tree Planting.png"
+                            src={getImages(item?.pillarname, true)}
                             alt="Leaf Icon"
                           />
                         </div>
-                        <div className="mt-4 text-[#1D2026] font-Calibri text-[16px] text-center">
+                        <div className="mt-2 text-[#1D2026] font-Calibri text-base text-center font-bold leading-5">
                           {item.pillarname}
                         </div>
                       </div>
-                      <div className="">
-                        <div className="bg-white rounded-lg  p-4 flex flex-col ">
-                          <div className="flex justify-center items-center">
+                      <div className="col-span-2">
+                        <div className="bg-white rounded-lg py-4 px-1">
+                          <div className="flex items-center gap-2 mb-2">
                             <div>
                               <FaStar className="text-[#FD8E1F]" />
                             </div>
 
-                            <p className="mb-1 ml-1 mr-2 text-[14px] text-[#8C94A3]">
+                            <p className="text-sm font-normal font-calibri text-[#8C94A3]">
                               RECOMMENDED
                             </p>
                           </div>
@@ -436,6 +452,7 @@ function SelectLevel() {
                               <SelectTrigger className="max-w-[176px]">
                                 <SelectValue
                                   placeholder={item.maturityNameRecommended}
+                                  className="w-[176px]"
                                 />
                               </SelectTrigger>
                             </SelectGroup>
@@ -449,20 +466,28 @@ function SelectLevel() {
                               <SelectItem value="Advance">Advance</SelectItem>
                             </SelectContent>
                           </Select>
+                          {/* <SelectMenu
+                          option={LevelOption}
+                          setValue={(e: string) =>
+                            handleChange(e, item?.pillarid)
+                          }
+                          value={item.maturityNameRecommended}
+                          className="max-w-[176px]"
+                        /> */}
                         </div>
                       </div>
-                      <div className="w-[543px]  h-max-content">
-                        <div className="bg-white rounded-full   flex drop-shadow-md w-6 h-6 mb-2">
+                      <div className="col-span-6 px-4">
+                        <div className="bg-white rounded-full flex items-center drop-shadow-md w-6 h-6 mb-2">
                           <img
                             src="public/assets/img/manu.png"
                             alt="Leaf Icon"
                           />
-                          <div className="text-[#8C94A3] ml-2 font-semibold ">
+                          <div className="text-[#8C94A3] ml-2 font-bold text-sm leading-[22px]">
                             MEASURES
                           </div>
                         </div>
                         <div>
-                          <ul className="list-disc ml-6 text-xs text-[#8C94A3] ">
+                          <ul className="list-disc ml-6 text-sm text-[#000000]">
                             {pid
                               ? filtermesuresdata?.data?.data &&
                                 filtermesuresdata?.data?.data.map(
@@ -484,38 +509,41 @@ function SelectLevel() {
                           </ul>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="w-[162px] mt-8">
-                      <Button
-                        disabled={item.checked === 0}
-                        onClick={() => {
-                          setPId(item.pillarid);
-                          setCurrentPiller(item.pillarname);
-                          setActionItems(item);
-                          setOpen(true);
-                        }}
-                        className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center mr-3 "
-                      >
-                        Define Action Items
-                      </Button>
+                      <div className="col-span-2 mr-0 ml-auto pr-[17px] flex items-center">
+                        <Button
+                          disabled={item.checked === 0}
+                          onClick={() => {
+                            setPId(item.pillarid);
+                            setCurrentPiller(item.pillarname);
+                            setActionItems(item);
+                            setOpen(true);
+                          }}
+                          className="bg-[#64A70B] text-white py-2 px-4 rounded-md flex justify-center h-[40px] w-[150px] items-center font-bold"
+                        >
+                          Define Action Items
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
 
-          <button
-            onClick={handleSelect}
-            className="bg-[#64A70B] text-[white] w-[160px] h-[30px] rounded mt-7 text-center text-Abhaya Libre ExtraBold "
-          >
-            BUILD
-          </button>
+          <div className="flex justify-center">
+            <Button
+              disabled={!handleDisabledButton}
+              onClick={handleSelect}
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
+            >
+              BUILD
+            </Button>
+          </div>
 
-          <div className="border-b  pb-4 w-[940px] border-[#DED7D7] "></div>
+          <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
 
-          <div className="font-Abhaya Libre ExtraBold text-red-500 pb-2 pt-3">
+          <div className="font-abhaya font-extrabold text-base text-[#EF2626] leading-5 text-center pt-2 pb-4">
             <p>
               {" "}
               Congratulations! 🌿 Your chosen maturity levels have been noted.

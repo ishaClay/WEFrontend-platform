@@ -27,8 +27,6 @@ Chart.register(
 );
 
 import { useState } from "react";
-import HeaderCourse from "@/components/HeaderCourse";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 function Dashbord() {
   const employeeData = [
@@ -199,18 +197,10 @@ function Dashbord() {
   };
 
   return (
-    <div className="flex bg-[#F5F7FF] w-[1510px] h-[1310px] overflow-hidden">
-      <div className=" ">
-        <EmployeeListSidebar />
-      </div>
-      <div>
-        <div className=" ">
-          <HeaderCourse />
-        </div>
-
-        <div className="flex m-8 gap-6 ">
+    <div className="bg-[#F5F7FF] p-5">
+        <div className="flex gap-6 mb-5">
           <button
-            className="py-[21px] h-[192px] w-[390px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
+            className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
             onClick={() => handleClick("companies")}
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -225,7 +215,7 @@ function Dashbord() {
           </button>
 
           <button
-            className="py-[21px] h-[192px] w-[390px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
+            className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
             onClick={() => handleClick("companies")}
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -240,7 +230,7 @@ function Dashbord() {
           </button>
 
           <button
-            className="py-[21px] h-[192px] w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
+            className="py-[21px]  w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center"
             onClick={() => handleClick("companies")}
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -254,8 +244,8 @@ function Dashbord() {
             <p className="text-[16px] mt-[4px]">Completed Courses</p>
           </button>
         </div>
-        <div className="flex h-[430px] w-[1195px]  m-8 bg-[#FFFFFF]">
-          <div className=" w-[1195px]  m-4 bg-[#FFFFFF]">
+        <div className="flex h-[430px] bg-[#FFFFFF] mb-5 rounded-[10px]">
+          <div className="m-4 bg-[#FFFFFF]">
             <div className="flex justify-between">
               <div className="  font-semibold">Course Completion Trend</div>
 
@@ -269,9 +259,9 @@ function Dashbord() {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="flex h-[450px] w-[580px] ml-[30px]  bg-[#FFFFFF]">
-            <div className=" w-[px]  m-4 bg-[#FFFFFF]">
+        <div className="flex gap-[22px]">
+          <div className="p-4 flex h-[450px] w-[50%] bg-[#FFFFFF] rounded-[10px]">
+            <div className="bg-[#FFFFFF] w-full">
               <div className="flex justify-between">
                 <div className="  font-semibold">
                   Course Enrollment Trends Over Time
@@ -287,8 +277,8 @@ function Dashbord() {
               </div>
             </div>
           </div>
-          <div className="flex h-[450px] w-[600px] ml-[20px]  bg-[#FFFFFF]">
-            <div className=" w-[1195px]   bg-[#FFFFFF]">
+          <div className="flex h-[450px] w-[50%] bg-[#FFFFFF] rounded-[10px] overflow-hidden">
+            <div className="bg-[#FFFFFF]">
               <div className="flex justify-between">
                 <div className="  font-semibold m-4">Top 5 Courses</div>
 
@@ -346,7 +336,7 @@ function Dashbord() {
                     <tbody>
                       {employeeData.map((employee) => (
                         <tr key={employee.ID}>
-                          <td className=" border-b ">
+                          <td className=" border-b ps-2">
                             <span className="w-[110px]">{employee.ID}</span>
                           </td>
                           <td className=" border-b   ">
@@ -370,7 +360,6 @@ function Dashbord() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

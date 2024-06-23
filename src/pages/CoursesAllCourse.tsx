@@ -1,9 +1,7 @@
 import { useState } from "react";
-import HeaderCourse from "@/components/HeaderCourse";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import { QUERY_KEYS } from "@/lib/constants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
@@ -74,16 +72,8 @@ function CoursesAllCourse() {
   }
   console.log(selectedCourse);
   return (
-    <div className="flex bg-[#f5f3ff] gap-1 overflow-hidden">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col max-w-[calc(100%_-_235px)] w-full">
-        <div className="">
-          <HeaderCourse />
-        </div>
-
-        <div className="p-3">
+    <div className="bg-[#f5f3ff] ">
+        <div>
           <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] overflow-auto rounded-[10px]">
             <div className="flex  bg-white border-b border-[#D9D9D9] rounded-t-[10px] h-[80px]">
               <p className="text-black text-lg font-bold mt-[25px] ml-[20px]">
@@ -319,7 +309,6 @@ function CoursesAllCourse() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

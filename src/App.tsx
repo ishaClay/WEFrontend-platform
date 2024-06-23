@@ -13,7 +13,6 @@ import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
-import ChangePassword from "./pages/ChangePassword";
 import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
@@ -84,6 +83,8 @@ import TrainerManagementPage from "./pages/TrainerManagement";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import Register from "./pages/auth/Register";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import ResetPassword from "./pages/auth/ResetPassword";
@@ -139,6 +140,8 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
         <Route path="/company" element={<Company />} />
@@ -155,6 +158,7 @@ function App() {
           element={<MaturityLevelActionItem />}
         />
 
+        <Route path="/savedassesment" element={<SavedAssesment />} />
         <Route
           path="/maturitylevelactionablepopup"
           element={
@@ -176,14 +180,6 @@ function App() {
           element={
             <ProtectedRoute>
               <CoursesRecommended />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/savedassesment"
-          element={
-            <ProtectedRoute>
-              <SavedAssesment />
             </ProtectedRoute>
           }
         />
@@ -380,6 +376,30 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/company"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route
+            path="maturityassessmentroadmap"
+            element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route path="allocatedcourses" element={<CoursesAllocate />} />
+          <Route path="coursesrecommended" element={<CoursesRecommended />} />
+          <Route path="allcourses" element={<CoursesAllCourse />} />
+          <Route path="employeelist" element={<EmployeeList />} />
+          <Route path="employeeprogress" element={<EmployeeProgress />} />
+          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="employeepermission" element={<EmployeePermission />} />
+          <Route path="messaging" element={<Messaging />} />
+        </Route>
         <Route
           path="/maturityassessmentroadmapsettarget"
           element={
@@ -622,14 +642,6 @@ function App() {
           }
         />
         <Route
-          path="/changepassword"
-          element={
-            <ProtectedRoute>
-              <ChangePassword />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/employeeassessmentresult"
           element={
             <ProtectedRoute>
@@ -661,6 +673,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* <Route >
+
+        </Route> */}
 
         <Route
           path="/trainer"

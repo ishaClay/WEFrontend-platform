@@ -25,7 +25,7 @@ const sidebar2: SidebarItem[] = [
   {
     label: "Dashboard",
     Icon: <RxDashboard size={22} />,
-    link: "/dashbord",
+    link: "/dashboard",
     children: [],
   },
   {
@@ -111,7 +111,7 @@ const sidebar2: SidebarItem[] = [
   {
     label: "Logout",
     Icon: <RiShutDownLine size={22} />,
-    link: "/login",
+    link: "/auth",
     children: [],
   },
 ];
@@ -212,21 +212,109 @@ const TarinerSidebar: SidebarItem[] = [
   },
 ];
 
+const companySidebar: SidebarItem[] = [
+  {
+    label: "Dashboard",
+    Icon: <RxDashboard size={22} />,
+    link: "/company/dashboard",
+    children: [],
+  },
+  {
+    label: "Maturity Assessment",
+    Icon: <LuMapPin size={22} />,
+    link: "/company/maturityassessmentroadmap",
+    children: [],
+  },
+  {
+    label: "Course Management",
+    Icon: <TfiBook size={22} />,
+    link: "#",
+    children: [
+      {
+        label: "Allocated Courses",
+        link: "/company/allocatedcourses",
+      },
+      {
+        label: "Recommended Courses",
+        link: "/company/coursesrecommended",
+      },
+      {
+        label: "All Courses",
+        link: "/company/allcourses",
+      },
+    ],
+  },
+  {
+    label: "Team Management",
+    Icon: <FaUserGroup size={22} />,
+    link: "#",
+    children: [
+      {
+        label: "Team List",
+        link: "/company/employeelist",
+      },
+      {
+        label: "Team Progress",
+        link: "/company/employeeprogress",
+      },
+    ],
+  },
+  {
+    label: "Support",
+    Icon: <BsTicketPerforated size={22} />,
+    link: "#",
+    children: [
+      {
+        label: "FAQ's",
+        link: "/company/faqslist",
+      },
+      {
+        label: "User Manual",
+        link: "/company/trainingdocument",
+      },
+      {
+        label: "Support Request",
+        link: "/company/supportticket",
+      },
+    ],
+  },
+  {
+    label: "Setting",
+    Icon: <FiSettings size={22} />,
+    link: "/company/employeepermission",
+    children: [],
+  },
+  {
+    label: "Message",
+    Icon: <PiEnvelopeThin size={22} />,
+    link: "/company/messaging",
+    children: [],
+  },
+  {
+    label: "Logout",
+    Icon: <RiShutDownLine size={22} />,
+    link: "/auth",
+    children: [],
+  },
+];
+
 const DashboardLayout = () => {
-  const [num, setNum] = useState(3);
+  const userData = localStorage.getItem("user");
+  const userRole = userData ? JSON.parse(userData)?.query?.role : null;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
-    setNum(1);
-    switch (num) {
-      case 3:
+    switch (+userRole) {
+      case 1:
+        setData(companySidebar);
+        break;
+      case 2:
         setData(TarinerSidebar);
         break;
-
-      case 2:
+      case 3:
         setData(sidebar2);
         break;
     }
-  }, [num]);
+  }, [userRole]);
 
   return (
     <div className="flex bg-[#F5F7FF] overflow-hidden">

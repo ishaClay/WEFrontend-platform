@@ -1,36 +1,17 @@
-
-
-import HeaderCourse from "@/components/HeaderCourse"
 import { FaStar } from 'react-icons/fa';
-
 import { BsSearch } from 'react-icons/bs';
-
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-
 import { IoIosArrowUp } from "react-icons/io";
-import { IoIosArrowDown } from "react-icons/io";
 function EmployeeProgress() {
-
-
   return (
-    <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] overflow-hidden ">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col  ">
-        <div className="">
-          <HeaderCourse />
-        </div>
-
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
-          <div className="  pt-[px] pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+    <div className="bg-[#f5f3ff]">
+        <div className="bg-[#FFFFFF] rounded-[10px]">
+          <div className="pt-[px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
             <p className="text-[#000000] text-[Calibri] font-bold">Employee Progress</p>
-
           </div>
-
-          <div className="flex pl-[30px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
+          <div className='p-5'>
+          <div className="flex h-[70px] bg-[#FFFFFF] ">
             <div>
-              <div className="flex mt-[9px] ml-[3px] ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
+              <div className="flex mt-[9px] items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
 
                 <BsSearch className="text-[#D9D9D9] " />
 
@@ -44,11 +25,11 @@ function EmployeeProgress() {
             </div>
 
           </div>
-          <div className="h-[609px] w-[1175px] border border-[#D9D9D9] rounded-lg ml-8">
+          <div className="h-[609px] border border-[#D9D9D9] rounded-lg">
 
-            <div className=" h-[100px] w-[1175px] border-[#D9D9D9] border-b  flex">
+            <div className="h-[100px] border-[#D9D9D9] border-b flex justify-between py-4 px-5 items-center">
 
-              <div className="flex p-6">
+              <div className="flex">
                 <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-12 h-12 rounded-full mr-4" />
                 <div className="flex flex-col">
                   <span className="text-[12px]  text-[#A3A3A3]">Employee Name</span>
@@ -57,65 +38,65 @@ function EmployeeProgress() {
 
               </div>
 
-              <div className="flex flex-col mb-4">
-                <div className="mt-2">
+              <div className="flex flex-col">
+                <div className="">
                   Action Items
                 </div>
-                <div className="flex mt-2">
-                  <div className="  bg-[#0000000F]  text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col"><span>Assigned
+                <div className="flex">
+                  <div className="  bg-[#0000000F] text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span></div>
-                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col"><span>Delayed
+                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Delayed
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span>
                   </div>
-                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col"><span>Ontime
+                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Ontime
                   </span>
-                    <span className="ml-4">2</span>
+                    <span className="">2</span>
                   </span></div>
-                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
               </div>
-              <div className="flex flex-col mb-4 ml-8">
-                <div className="mt-2 ml-[50px]">
+              <div className="flex flex-col">
+                <div className="">
                   Courses
                 </div>
-                <div className="flex mt-2 ml-2">
+                <div className="flex">
 
-                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2 ml-[50px]"><span className="flex flex-col"><span>Assigned
+                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col"><span>InProgress
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col items-center"><span>InProgress
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
               </div>
-              <div className="text-6xl ml-[120px] mt-[25px]">
+              <div className="text-6xl">
                 <IoIosArrowUp className="h-[30px] w-[30px]" />
               </div>
 
 
             </div>
-            <div className="h-[466px] w-[1200px]  m-4  flex gap-9">
-              <div className="h-[466px] w-[550px] border rounded-lg  border-[#D9D9D9]">
-                <div className="w-[550px] h-[30px] border-b  border-[#D9D9D9]">
+            <div className="h-[466px] m-4 flex gap-9">
+              <div className="h-[466px] w-[50%] border rounded-lg  border-[#D9D9D9]">
+                <div className="h-[30px] border-b  border-[#D9D9D9]">
                   <h1 className=" mt-[10px] ml-[20px]  text-[16px] font-bold ">Action Items</h1>
 
                 </div >
-                <div className="w-[550px] h-[141px] border-b  border-[#D9D9D9]">
+                <div className="h-[141px] border-b  border-[#D9D9D9]">
                   <tbody className="text-gray-700">
                     <tr>
                       <td className="py-3 px-4 flex items-center">
@@ -191,12 +172,12 @@ function EmployeeProgress() {
                   </tbody>
                 </div>
               </div>
-              <div className="h-[466px] w-[550px] border  rounded-lg  border-[#D9D9D9] ">
-                <div className="w-[550px] h-[30px] border-b  border-[#D9D9D9]">
+              <div className="h-[466px] w-[50%] border  rounded-lg  border-[#D9D9D9] ">
+                <div className="h-[30px] border-b  border-[#D9D9D9]">
                   <h1 className="mt-[10px] ml-[20px]  text-[16px] font-bold ">Enrolled Courses</h1>
                 </div >
 
-                <div className="w-[513px] h-[160px] border rounded  border-[#D9D9D9] m-4 mt-28 shadow-sm">
+                <div className="h-[160px] border rounded  border-[#D9D9D9] m-4 mt-28 shadow-sm">
 
 
 
@@ -239,12 +220,9 @@ function EmployeeProgress() {
             </div>
 
           </div>
+          <div className="h-[100px] border-[#D9D9D9] border-b flex justify-between py-4 px-5 items-center">
 
-          <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
-
-            <div className=" flex">
-
-              <div className="flex p-6">
+              <div className="flex">
                 <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-12 h-12 rounded-full mr-4" />
                 <div className="flex flex-col">
                   <span className="text-[12px]  text-[#A3A3A3]">Employee Name</span>
@@ -253,66 +231,61 @@ function EmployeeProgress() {
 
               </div>
 
-              <div className="flex flex-col mb-4">
-                <div className="mt-2">
+              <div className="flex flex-col">
+                <div className="">
                   Action Items
                 </div>
-                <div className="flex mt-2">
-                  <div className="  bg-[#0000000F]  text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col"><span>Assigned
+                <div className="flex">
+                  <div className="  bg-[#0000000F] text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span></div>
-                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col"><span>Delayed
+                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Delayed
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span>
                   </div>
-                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col"><span>Ontime
+                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Ontime
                   </span>
-                    <span className="ml-4">2</span>
+                    <span className="">2</span>
                   </span></div>
-                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
-
               </div>
-              <div className="flex flex-col mb-4 ml-8">
-                <div className="mt-2 ml-[50px]">
+              <div className="flex flex-col">
+                <div className="">
                   Courses
                 </div>
-                <div className="flex mt-2 ml-2">
+                <div className="flex">
 
-                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2 ml-[50px]"><span className="flex flex-col"><span>Assigned
+                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col"><span>InProgress
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col items-center"><span>InProgress
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
+              </div>
+              <div className="text-6xl">
+                <IoIosArrowUp className="h-[30px] w-[30px]" />
+              </div>
 
-              </div>
-              <div className="text-6xl ml-[120px] mt-[25px]">
-                <IoIosArrowDown className="h-[30px] w-[30px]" />
-              </div>
 
             </div>
-          </div>
+            <div className="h-[100px] border-[#D9D9D9] border-b flex justify-between py-4 px-5 items-center">
 
-          <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
-
-            <div className=" flex">
-
-              <div className="flex p-6">
+              <div className="flex">
                 <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-12 h-12 rounded-full mr-4" />
                 <div className="flex flex-col">
                   <span className="text-[12px]  text-[#A3A3A3]">Employee Name</span>
@@ -321,65 +294,61 @@ function EmployeeProgress() {
 
               </div>
 
-              <div className="flex flex-col mb-4">
-                <div className="mt-2">
+              <div className="flex flex-col">
+                <div className="">
                   Action Items
                 </div>
-                <div className="flex mt-2">
-                  <div className="  bg-[#0000000F]  text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col"><span>Assigned
+                <div className="flex">
+                  <div className="  bg-[#0000000F] text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span></div>
-                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col"><span>Delayed
+                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Delayed
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span>
                   </div>
-                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col"><span>Ontime
+                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Ontime
                   </span>
-                    <span className="ml-4">2</span>
+                    <span className="">2</span>
                   </span></div>
-                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
-
               </div>
-              <div className="flex flex-col mb-4 ml-8">
-                <div className="mt-2 ml-[50px]">
+              <div className="flex flex-col">
+                <div className="">
                   Courses
                 </div>
-                <div className="flex mt-2 ml-2">
+                <div className="flex">
 
-                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2 ml-[50px]"><span className="flex flex-col"><span>Assigned
+                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col"><span>InProgress
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col items-center"><span>InProgress
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
               </div>
-              <div className="text-6xl ml-[120px] mt-[25px]">
-                <IoIosArrowDown className="h-[30px] w-[30px]" />
+              <div className="text-6xl">
+                <IoIosArrowUp className="h-[30px] w-[30px]" />
               </div>
 
+
             </div>
-          </div>
+            <div className="h-[100px] border-[#D9D9D9] border-b flex justify-between py-4 px-5 items-center">
 
-          <div className="h-[100px] w-[1175px] border border-[#D9D9D9] mt-[10px] rounded-lg ml-8">
-
-            <div className=" flex">
-
-              <div className="flex p-6">
+              <div className="flex">
                 <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-12 h-12 rounded-full mr-4" />
                 <div className="flex flex-col">
                   <span className="text-[12px]  text-[#A3A3A3]">Employee Name</span>
@@ -388,70 +357,65 @@ function EmployeeProgress() {
 
               </div>
 
-              <div className="flex flex-col mb-4">
-                <div className="mt-2">
+              <div className="flex flex-col">
+                <div className="">
                   Action Items
                 </div>
-                <div className="flex mt-2">
-                  <div className="  bg-[#0000000F]  text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col"><span>Assigned
+                <div className="flex">
+                  <div className="  bg-[#0000000F] text-xs h-[46px] w-[90px] py-2 px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span></div>
-                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col"><span>Delayed
+                  <div className="bg-[#F1B89C]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Delayed
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span>
                   </div>
-                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col"><span>Ontime
+                  <div className="bg-[#EDEA89]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2"><span className="flex flex-col items-center"><span>Ontime
                   </span>
-                    <span className="ml-4">2</span>
+                    <span className="">2</span>
                   </span></div>
-                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#D2EFB6]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
               </div>
-              <div className="flex flex-col mb-4 ml-8">
-                <div className="mt-2 ml-[50px]">
+              <div className="flex flex-col">
+                <div className="">
                   Courses
                 </div>
-                <div className="flex mt-2 ml-2">
+                <div className="flex">
 
-                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2 ml-[50px]"><span className="flex flex-col"><span>Assigned
+                  <div className="bg-[#00000026]  py-2  text-xs px-4  h-[46px] w-[90px] rounded-full mr-2"><span className="flex flex-col items-center"><span>Assigned
                   </span>
-                    <span className="ml-4">5</span>
+                    <span className="">5</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col"><span>InProgress
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full mr-2 "><span className="flex flex-col items-center"><span>InProgress
                   </span>
-                    <span className="ml-4">3</span>
+                    <span className="">3</span>
                   </span> </div>
-                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col"><span>Completed
+                  <div className="bg-[#F1B89C]  text-xs py-2 h-[46px] w-[90px] px-4 rounded-full"><span className="flex flex-col items-center"><span>Completed
                   </span>
-                    <span className="ml-4">1</span>
+                    <span className="">1</span>
                   </span></div>
                 </div>
 
               </div>
-              <div className="text-6xl ml-[120px] mt-[25px]">
-                <IoIosArrowDown className="h-[30px] w-[30px]" />
+              <div className="text-6xl">
+                <IoIosArrowUp className="h-[30px] w-[30px]" />
               </div>
 
-            </div>
-          </div>
 
-          <div className="ml-[550px] mt-[20px]">
+            </div>
+          <div className="text-center mt-[20px]">
             <button className="bg-[#58BA66] text-white px-4 py-2 rounded " >Load More Record</button>
+          </div>
           </div>
 
         </div>
-
-      </div>
     </div>
-
-
-
   )
 }
 

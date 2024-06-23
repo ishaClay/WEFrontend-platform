@@ -40,10 +40,15 @@ function Header(props: headerProps) {
     }
   };
 
+  console.log(
+    "userData",
+    !!userData && JSON.parse(userData)?.query?.pathstatus
+  );
+
   return (
     // Note : This below code is for backup
     <header
-      className={`xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-4 py-7 ${
+      className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
         props.hasDiffHeader ? "mx-7" : ""
       }`}
     >
@@ -77,13 +82,15 @@ function Header(props: headerProps) {
           <div className="font-bold text-lg text-color">
             {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
-                {userToken && (
-                  <PrimaryButton
-                    onClick={handleGotoDashboard}
-                    name="Go to Dashboard"
-                    className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
-                  />
-                )}
+                {userToken &&
+                  !!userData &&
+                  JSON.parse(userData)?.query?.pathstatus === "8" && (
+                    <PrimaryButton
+                      onClick={handleGotoDashboard}
+                      name="Go to Dashboard"
+                      className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                    />
+                  )}
                 <PrimaryButton
                   onClick={handleLogout}
                   name="Logout"

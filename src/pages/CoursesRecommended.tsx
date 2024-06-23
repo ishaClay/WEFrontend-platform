@@ -1,9 +1,7 @@
 import { useState } from "react";
-import HeaderCourse from "@/components/HeaderCourse";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import {
   CourseTime,
   IsOnline,
@@ -47,16 +45,8 @@ function CoursesRecommended() {
   });
 
   return (
-    <div className="flex bg-[#f5f3ff] overflow-hidden">
-      <div className="">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex-col max-w[calc(100%_-_240px)] w-full">
-        <div className=" ">
-          <HeaderCourse />
-        </div>
-
-        <div className="p-3 h-[calc(100vh_-_120px)]">
+    <div className="bg-[#f5f3ff]">
+        <div className="h-[calc(100vh_-_120px)]">
           <div className="bg-[#FFFFFF] rounded-[10px] h-full">
             <div className=" pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
               <p className="text-[#000000] text-[Calibri]">Recommended Courses</p>
@@ -260,7 +250,6 @@ function CoursesRecommended() {
             )}
           </div>
         </div>
-      </div>
     </div>
   );
 }

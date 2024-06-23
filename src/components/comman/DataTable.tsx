@@ -37,6 +37,7 @@ interface DataTableProps<TData, TValue> {
   searchPlaceholder?: string;
   searchFilter?: (e: string) => void;
   rounded?: boolean;
+  headerBackground?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -50,6 +51,7 @@ export function DataTable<TData, TValue>({
   setPage,
   searchFilter,
   rounded = true,
+  headerBackground = true,
   searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -110,7 +112,11 @@ export function DataTable<TData, TValue>({
         }`}
       >
         <Table>
-          <TableHeader className="bg-[#F1F1F1] text-[15px] font-semibold">
+          <TableHeader
+            className={`font-semibold text-[15px] ${
+              headerBackground ? "bg-[#F1F1F1]" : "bg-transparent"
+            }`}
+          >
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

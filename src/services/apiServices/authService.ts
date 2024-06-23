@@ -21,3 +21,24 @@ export const ResendOtp = async (data: { email: string }): Promise<any> => {
     const res = await api({ url, method, data });
     return res.data
 }
+
+export const LogOut = async (userId: string) => {
+    const url = `api/v1/user/logout`;
+    const method = "post";
+    const res = await api({ url, method, data: { userid: userId } });
+    return res?.data
+}
+
+export const ForgetPassword = async (email: string) => {
+    const url = `api/v1/user/forgot-password`;
+    const method = "post";
+    const res = await api({ url, method, data: { email } });
+    return res
+}
+
+export const SetPassword = async (data: { token: string, password: string, confirmPassword: string }) => {
+    const url = `api/v1/user/set-password`;
+    const method = "post";
+    const res = await api({ url, method, data });
+    return res
+}

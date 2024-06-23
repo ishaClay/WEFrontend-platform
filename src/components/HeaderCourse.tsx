@@ -19,9 +19,9 @@ function HeaderCourse() {
               alt="Vector 1"
             />
           </li>
-          <li className="mt-[50px]">Testimonial</li>
-          <li className="mt-[50px]">Blogs</li>
-          <li className="mt-[50px]">Contact Us</li>
+          <li className="mt-[50px] cursor-pointer">Testimonial</li>
+          <li className="mt-[50px] cursor-pointer">Blogs</li>
+          <li className="mt-[50px] cursor-pointer">Contact Us</li>
         </ul>
 
         <div className="flex ">

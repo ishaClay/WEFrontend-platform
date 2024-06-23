@@ -1,98 +1,99 @@
 import Footer from "@/components/Footer";
-import TeaserScoreHeader from "@/components/TeaserScoreHeader";
+import Header from "@/components/Header";
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { getImages } from "@/lib/utils";
 import { enumApi } from "@/services/apiServices/enum";
-import { QuestionType } from "@/types/Question";
+import { getPillerWiseProgress } from "@/services/apiServices/pillar";
+import { PillerWiseProgressResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
-import {useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  // const dispatch = useAppDispatch();
 
-  const {allPillar } = useSelector(
-    (state: any) => state.question
-  );
+  const { UserId, clientId } = useAppSelector((state) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
-  console.log(allPillar)
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
+  const { data, isPending } = useQuery<PillerWiseProgressResponse>({
+    queryKey: [QUERY_KEYS.clientwisePillarList],
+    queryFn: () => getPillerWiseProgress(clientId, userID),
+  });
 
+  console.log(data?.data);
 
   // const { data: pillarList } = useQuery({
   //   queryKey: [QUERY_KEYS.pillarList],
-  //   queryFn: () => fetchPillarList(),
+  //   queryFn: () => fetchClientwisePillarList(clientId),
   // });
 
   // useEffect(() => {
-  //   const pillarName = (
-  //     pillarList?.data?.data
-  //   )?.map((i:any) => i?.pillarName);
+  //   const pillarName = pillarList?.data?.data?.map((i: any) => i?.pillarName);
 
-  //   if (pillarName?.length) {
+  //   if (allPillar?.length) {
   //     dispatch(setPillarName(pillarName));
   //   }
-  // }, [pillarList]);
-
-
-  const question = useSelector((state: any) => state.question);
-
-  const UserId = useSelector((state: any) => state.user.UserId);
+  // }, [allPillar, dispatch, pillarList?.data?.data]);
 
   const { data: enums } = useQuery({
     queryKey: [QUERY_KEYS.authenums],
     queryFn: () => enumApi(UserId),
   });
 
-  const handleAssesment = () =>{
-
+  const handleAssesment = () => {
     const pathStatus = enums?.data.data.pathStatus;
-  
-    console.log(pathStatus)
+
+    console.log(pathStatus);
 
     switch (pathStatus) {
       case 1:
-        navigate("/assessment");
-        break;
-      case 2:
         navigate("/question");
         break;
-      case 3:
+      case 2:
         navigate("/teaserscore");
         break;
-      case 4:
+      case 3:
         navigate("/companyregister");
         break;
-      case 5:
-        navigate("/maturelevel");
+      case 4:
+        navigate("/company/dashboard");
         break;
-      case 6:
+      case 5:
         navigate("/selectlevel");
         break;
-      case 7:
+      case 6:
         navigate("/maturitylevelactionitem");
         break;
-      default: 
-      navigate("/assessment")
+      default:
+        navigate("/savedassesment");
         break;
     }
-
-  }
-
+  };
 
   return (
     <div>
       <div>
         <div className=" border-b-[2px]  ">
-          <TeaserScoreHeader />
+          <Header />
         </div>
-        <div className="flex">
-          <div className="mt-[20px] h-[1170px] bg-[#F6F6F6] ">
-            <img className="" src="../assets/img/Group 1000001826.png" />
+        <div className="flex mainContailner">
+          <div>
+            <img
+              src="../assets/img/Group 1000001824.png"
+              className="xl:max-w-[800px] max-w-[400px]"
+            />
           </div>
 
-          <div className="w-[694px]">
-            <div className="w-[720px] h-[400px] relative mt-[142px] ml-[40px]">
+          <div className="xl:px-0 px-2">
+            <div className="h-[400px] relative xl:mt-[142px] mt-[50px] ml-[40px]">
               <div className="flex items-center">
                 <h3 className="text-[Calibri] italic text-[#3A3A3A] font-bold">
                   Welcome Back to Your Sustainability Journey!
@@ -153,40 +154,36 @@ function SavedAssesment() {
               <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">
                 Your Progress So Far:
               </p>
-              <div className="pt-8 pl-[px] pb-5 w-[800px] flex flex-wrap gap-5">
-     
-                {allPillar.map((category: string, index: number) => {
-                  const pillarQuestions = question[category];
+              <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
+                {isPending ? (
+                  <Loader />
+                ) : (
+                  data?.data &&
+                  data?.data?.length > 0 &&
+                  data?.data.map((category, index: number) => {
+                    return (
+                      <div className="">
+                        <div
+                          key={index}
+                          className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                        >
+                          <div>
+                            <img
+                              src={getImages(category.pillarName)}
+                              alt="img"
+                              className="w-[52px] h-[52px]"
+                            />
+                          </div>
+                          <h4 className="mt-3">{category.pillarName}</h4>
 
-                  const pillarTotal = pillarQuestions
-                    ? pillarQuestions.length
-                    : 0;
-                  const pillarAttempted = Array.isArray(pillarQuestions)
-                    ? pillarQuestions.filter((que: QuestionType) =>
-                        que.options.some((opt: any) => opt.checked)
-                      ).length
-                    : 0;
-
-                  return (
-                    <div className="">
-                      <div
-                        key={index}
-                        className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
-                      >
-                        <img
-                          src="../assets/img/EnvironmentalGray.png"
-                          alt="img"
-                          className="w-[52px] h-[52px]"
-                        />
-                        <h4 className="mt-3">{category}</h4>
-
-                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {Math.round((pillarAttempted / pillarTotal)*100)} %
-                        </span>
+                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
+                            {category?.progress} %
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
               <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">

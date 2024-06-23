@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { CardDescription, CardTitle } from "@/components/ui/card";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
@@ -11,7 +12,6 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -48,9 +48,15 @@ const findMaturityLevel = (score: number) => {
 
 const TeaserScore = () => {
   const navigate = useNavigate();
-  const UserId = useSelector((state: any) => state.user.UserId);
-  const { clientId } = useSelector((state: any) => state.user);
+  const UserId = useAppSelector((state) => state.user.UserId);
+  const { clientId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
 
   const { data: maturitylevel } = useQuery({
     queryKey: [QUERY_KEYS.maturityLevel],
@@ -65,12 +71,12 @@ const TeaserScore = () => {
 
   const { data: allassessmant } = useQuery({
     queryKey: [QUERY_KEYS.totalAssessment],
-    queryFn: () => getAllassessment(UserId),
+    queryFn: () => getAllassessment(userID, clientId),
   });
 
-  const path = 3 + 1;
+  const path = 2 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+    mutationFn: () => enumUpadate({ path: path.toString() }, userID),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],

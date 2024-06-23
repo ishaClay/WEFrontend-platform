@@ -6,13 +6,9 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
-
-import HeaderCourse from "@/components/HeaderCourse";
-
 import { BsSearch } from "react-icons/bs";
 import { TbSelector } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 
 function CoursesAllocate() {
 	const employeeData = [
@@ -58,17 +54,9 @@ function CoursesAllocate() {
 		},
 	];
 	return (
-		<div className="flex bg-[#f5f3ff] w-[1510px] h-[760px]  overflow-hidden">
-			<div className="">
-				<EmployeeListSidebar />
-			</div>
-			<div className="flex flex-col  ">
-				<div className="">
-					<HeaderCourse />
-				</div>
-
-				<div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-[10px]">
-					<div className="  pl-[30px] w-[1250px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+		<div className="bg-[#f5f3ff]">
+				<div className="bg-[#FFFFFF] rounded-[10px]">
+					<div className="pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
 						<p className="text-[#000000] text-[Calibri] font-bold">
 							Team Member List
 						</p>
@@ -216,7 +204,6 @@ function CoursesAllocate() {
 						<p className="font-bold text-[10px] ">Showing 10/200 Records</p>
 					</div>
 				</div>
-			</div>
 		</div>
 	);
 }

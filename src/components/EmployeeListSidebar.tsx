@@ -42,7 +42,7 @@ const EmployeeListSidebar = () => {
         </div>
         <div className="mt-4 flex flex-col gap-4 relative">
           <Link
-            to="/dashbord"
+            to="/dashboard"
             className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[#606060]  text-[16px] font-[Calibri]"
           >
             <RxDashboard size={22} />
