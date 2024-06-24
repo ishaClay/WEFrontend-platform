@@ -176,14 +176,6 @@ function App() {
           }
         />
         <Route
-          path="/coursesrecommended"
-          element={
-            <ProtectedRoute>
-              <CoursesRecommended />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/courseemrolledemployeepopup"
           element={
             <ProtectedRoute>
@@ -204,14 +196,6 @@ function App() {
           element={
             <ProtectedRoute>
               <CoursesEmrolledToEmployeeInvitePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/allocatedcourses"
-          element={
-            <ProtectedRoute>
-              <CoursesAllocate />
             </ProtectedRoute>
           }
         />
@@ -325,14 +309,6 @@ function App() {
           element={
             <ProtectedRoute>
               <SmeAdminDropdonw />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/allcourses"
-          element={
-            <ProtectedRoute>
-              <CoursesAllCourse />
             </ProtectedRoute>
           }
         />

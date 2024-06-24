@@ -164,7 +164,7 @@ function Auth() {
               </label>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="relative LoginBox max-w-[418px] mx-auto h-[463px] mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
+              <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
                 <p className="text-[24px] font-[700] text-color">Login</p>
                 <InputWithLable
                   className="w-full h-[52px] mt-2 secondary-background"
@@ -194,12 +194,12 @@ function Auth() {
                   Login
                 </button>
 
-                <div className="w-full flex items-center justify-center">
+                {/* <div className="w-full flex items-center justify-center">
                   <div className="w-1/3 h-px bg-[#DCDCDC]"></div>
                   <div className="px-4 text-[#898989]">or</div>
                   <div className="w-1/3 h-px bg-[#DCDCDC]"></div>
-                </div>
-                <div className="flex items-center justify-center gap-4 mt-[24px]">
+                </div> */}
+                {/* <div className="flex items-center justify-center gap-4 mt-[24px]">
                   <button className="relative w-[173px] h-[48px] rounded-[6px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] text-color">
                     <img
                       className="absolute left-[35px] top-1/2 -translate-y-1/2"
@@ -214,7 +214,7 @@ function Auth() {
                     />
                     Facebook
                   </button>
-                </div>
+                </div> */}
               </div>
             </form>
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2">

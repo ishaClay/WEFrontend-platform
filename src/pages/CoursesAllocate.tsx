@@ -81,36 +81,35 @@ function CoursesAllocate() {
   // };
   return (
     <div className="bg-[#f5f3ff]">
-
-        <div className="p-3">
-          <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] rounded-[10px] overflow-auto">
-            <div className=" pt-[10px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
-              <div className="flex items-center justify-between ">
-                <h1 className="text-[16px] font-semibold">Course Allocation</h1>
-                <div className="flex items-center">
-                  <label htmlFor="filter" className="mr-2">
-                    Filter by:
-                  </label>
-                  <select
-                    id="filter"
-                    className="border w-[264px] h-[42px] rounded mb- mr-2 "
-                  >
-                    <option value="">Select</option>
-                    <option value="Completed">Completed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Pending">Pending</option>
-                  </select>
-                </div>
+      <div className="p-3">
+        <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] rounded-[10px] overflow-auto">
+          <div className=" pt-[10px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+            <div className="flex items-center justify-between ">
+              <h1 className="text-[16px] font-semibold">Course Allocation</h1>
+              <div className="flex items-center">
+                <label htmlFor="filter" className="mr-2">
+                  Filter by:
+                </label>
+                <select
+                  id="filter"
+                  className="border w-[264px] h-[42px] rounded mb- mr-2 "
+                >
+                  <option value="">Select</option>
+                  <option value="Completed">Completed</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
               </div>
             </div>
+          </div>
 
-            {courseallocate?.data?.data?.map(
-              (courseallocate: AllocatedCourse) => {
-                return (
-                  <>
-                    <div key={courseallocate.id} className="p-4">
-                      <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
-                        <div className="flex gap-[17px]">
+          {courseallocate?.data?.data?.map(
+            (courseallocate: AllocatedCourse) => {
+              return (
+                <>
+                  <div key={courseallocate.id} className="p-4">
+                    <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
+                      <div className="flex gap-[17px]">
                         <div className="overflow-hidden rounded">
                           <img
                             className="w-[152px] h-[133px] rounded object-cover object-center"
@@ -174,7 +173,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[129px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="public/assets/img/timer.png"
+                                src="/public/assets/img/timer.png"
                                 alt="Course"
                               />
                               <p className="text-xs">Level- Advanced</p>
@@ -183,7 +182,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[160px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px] text-black"
-                                src="public/assets/img/diploma.png"
+                                src="/public/assets/img/diploma.png"
                                 alt="Course"
                               />
                               <p className="text-xs">Post Graduate Diploma</p>
@@ -191,7 +190,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[80px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="public/assets/img/fulltime.png"
+                                src="/public/assets/img/fulltime.png"
                                 alt="Course"
                               />
                               <p className="text-xs">
@@ -204,7 +203,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[75px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="public/assets/img/online.png"
+                                src="/public/assets/img/online.png"
                                 alt="Course"
                               />
                               <p className="text-xs">
@@ -219,7 +218,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[80px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="public/assets/img/time.png"
+                                src="/public/assets/img/time.png"
                                 alt="Course"
                               />
                               <p className="text-xs">
@@ -229,7 +228,7 @@ function CoursesAllocate() {
                             <div className="h-[22px] w-[200px] flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="public/assets/img/unversity.png"
+                                src="/public/assets/img/unversity.png"
                                 alt="Course"
                               />
                               <p className="text-xs">
@@ -253,63 +252,63 @@ function CoursesAllocate() {
                             </div>
                           </div>
                         </div>
-                        </div>
+                      </div>
 
-                          <div className="flex flex-col">
-                            <button
-                              className="bg-[#64A70B] text-white p-[10px] rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
-                              onClick={openPopup}
-                            >
-                              View Allocation
-                            </button>
-                            {/* {isPopupOpen && <CoursesViewAllocatePopup />} */}
-                            {isPopupOpen && (
-                              // <CoursesViewAllocatePopup onClose={closePopup} />
-                              <CoursesViewAllocatePopup />
-                            )}
-                          </div>
+                      <div className="flex flex-col">
+                        <button
+                          className="bg-[#64A70B] text-white p-[10px] rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+                          onClick={openPopup}
+                        >
+                          View Allocation
+                        </button>
+                        {/* {isPopupOpen && <CoursesViewAllocatePopup />} */}
+                        {isPopupOpen && (
+                          // <CoursesViewAllocatePopup onClose={closePopup} />
+                          <CoursesViewAllocatePopup />
+                        )}
                       </div>
                     </div>
+                  </div>
 
-                      {totalPages > 1 && (
+                  {totalPages > 1 && (
                     <div className="ml-[1000px] mt-[20px]">
-                        <Pagination>
-                          <PaginationContent>
-                            <PaginationItem>
-                              <PaginationPrevious
+                      <Pagination>
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious
+                              onClick={() =>
+                                handlePaginationChange(currentPage - 1)
+                              }
+                            />
+                          </PaginationItem>
+                          {[...Array(totalPages)].map((_, index) => (
+                            <PaginationItem key={index}>
+                              <PaginationLink
                                 onClick={() =>
-                                  handlePaginationChange(currentPage - 1)
+                                  handlePaginationChange(index + 1)
                                 }
-                              />
+                              >
+                                {index + 1}
+                              </PaginationLink>
                             </PaginationItem>
-                            {[...Array(totalPages)].map((_, index) => (
-                              <PaginationItem key={index}>
-                                <PaginationLink
-                                  onClick={() =>
-                                    handlePaginationChange(index + 1)
-                                  }
-                                >
-                                  {index + 1}
-                                </PaginationLink>
-                              </PaginationItem>
-                            ))}
-                            <PaginationItem>
-                              <PaginationNext
-                                onClick={() =>
-                                  handlePaginationChange(currentPage + 1)
-                                }
-                              />
-                            </PaginationItem>
-                          </PaginationContent>
-                        </Pagination>
+                          ))}
+                          <PaginationItem>
+                            <PaginationNext
+                              onClick={() =>
+                                handlePaginationChange(currentPage + 1)
+                              }
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
                     </div>
-                      )}
-                  </>
-                );
-              }
-            )}
-          </div>
+                  )}
+                </>
+              );
+            }
+          )}
         </div>
+      </div>
     </div>
   );
 }
