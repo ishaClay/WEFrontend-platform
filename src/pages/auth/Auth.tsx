@@ -90,6 +90,12 @@ function Auth() {
           }
         }
 
+        if (user.role == UserRole.CompanyEmployee) {
+          if (data.data.data.status === "Active") {
+            navigate("/employee/dashboard");
+          }
+        }
+
         if (user.role == UserRole.Client) {
           toast({
             variant: "default",
@@ -108,7 +114,11 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (user.pathstatus !== "7" && user.pathstatus !== "4") {
+          if (
+            user.pathstatus !== "7" &&
+            user.pathstatus !== "4" &&
+            user.lastlogout === null
+          ) {
             navigate("/savedassesment");
           } else {
             navigate("/company/dashboard");
@@ -121,12 +131,9 @@ function Auth() {
     onError: (error: ErrorType) => {
       console.log(error);
       toast({
-        // variant: "destructive",
-        // title: error.data.message,
-
-        // variant: "error",
+        variant: "destructive",
         title: "Error",
-        description: "Something went wrong",
+        description: error.data.message,
       });
     },
   });

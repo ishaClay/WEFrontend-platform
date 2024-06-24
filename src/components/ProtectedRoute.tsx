@@ -1,5 +1,6 @@
+import { UserRole } from "@/types/UserRole";
 import { FC, ReactNode, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "./ui/use-toast";
 
 interface ProtectedRouteProps {
@@ -11,6 +12,15 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const userData = localStorage.getItem("user");
   const user = userData ? JSON.parse(userData) : null;
   const userToken = user?.accessToken || "";
+  const location = useLocation();
+  const routeUser = location?.pathname?.split("/")[1];
+  const navigate = useNavigate();
+
+  console.log(
+    "userToken",
+    UserRole[user?.query?.role].toLowerCase(),
+    routeUser.toLowerCase()
+  );
 
   useEffect(() => {
     if (!userToken) {
@@ -23,6 +33,11 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
 
   if (!userToken) {
     return <Navigate to={"/auth"} />;
+  } else if (
+    UserRole[user?.query?.role].toLowerCase() !== routeUser.toLowerCase()
+  ) {
+    navigate(-1); // Use useNavigate to go back in the history
+    return;
   }
   return <>{children}</>;
 };

@@ -98,7 +98,7 @@ function SelectLevel() {
 
   const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } =
     useQuery({
-      queryKey: [QUERY_KEYS.filterMaturityMeasures],
+      queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
       queryFn: () =>
         filterMaturityMeasures(
           clientId as string,
@@ -106,7 +106,7 @@ function SelectLevel() {
           selectmaturity as any,
           pid as string
         ),
-      enabled: !!selectmaturity && !!pid && !!clientId && !!UserId,
+      enabled: !!selectmaturity && !!pid,
     });
 
   console.log("isPending", isPending);
@@ -369,7 +369,7 @@ function SelectLevel() {
             <Loader className="w-8 h-8" />
           ) : (
             pillars?.map((item: any) => {
-              console.log("currentPiller", pillerItems[currentPiller]);
+              console.log("currentPiller", filtermesuresdata);
 
               return (
                 <div className="pb-0 flex w-full">
@@ -488,7 +488,7 @@ function SelectLevel() {
                         </div>
                         <div>
                           <ul className="list-disc ml-6 text-sm text-[#000000]">
-                            {pid
+                            {pid === item?.pillarid
                               ? filtermesuresdata?.data?.data &&
                                 filtermesuresdata?.data?.data.map(
                                   (m: any, index: number) =>

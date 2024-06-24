@@ -1,11 +1,12 @@
 import api from "./api";
 
-// export const fetchAllocatedCourse = (data: string, page: number) => {
-//   const url = `api/v1/course/course-enrollment-Accepted/11`;
-//   console.log("data", data, page);
+export const fetchAllocatedCourseById = async (trainerId: string, enrollId: number) => {
+  const url = `https://weidevapi.clay.in/api/v1/course/course-enrollment-Accepted/${trainerId}/${enrollId}`;
 
-//   return api({ url });
-// };
+  const res = await api({ url });
+  return res.data
+};
+
 export const fetchAllocatedCourse = () => {
   const url = `api/v1/course/course-enrollment-Accepted/11`;
 

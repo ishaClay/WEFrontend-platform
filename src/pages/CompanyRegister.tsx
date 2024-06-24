@@ -15,7 +15,7 @@ import {
   updateCompany,
 } from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
-import { CountryResponse } from "@/types/Company";
+import { Company, CountryResponse } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -160,7 +160,7 @@ function CompanyRegister() {
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
 
       toast({ title: "Company update Successfully" });
-      EnumUpadate(path);
+      EnumUpadate();
       navigate("/maturelevel");
     },
     onError: (error: ErrorType) => {
@@ -172,7 +172,7 @@ function CompanyRegister() {
   });
 
   const path = 3 + 1;
-  const { mutate: EnumUpadate }: any = useMutation({
+  const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -193,11 +193,12 @@ function CompanyRegister() {
   // }, [companydetails]);
 
   const onSubmit = async (data: FieldValues) => {
-    const updatedData: any = {
+    const updatedData = {
       ...data,
+      companyId: companyNumberId as number,
       soleTrader: soleTrader === "true" ? true : false,
     };
-    updatecompany(updatedData);
+    updatecompany(updatedData as Company);
   };
 
   const handleVerifyId = () => {
@@ -246,7 +247,7 @@ function CompanyRegister() {
                 <InputWithLable
                   className="w-[241px] h-[46px]"
                   placeholder="Id"
-                  label="Id"
+                  label="Company Id"
                   onChange={(e) => {
                     const { value } = e.target;
 
@@ -318,7 +319,14 @@ function CompanyRegister() {
                     placeholder="Number of employees"
                     className="w-[241px] h-[46px]"
                     label="Average Number Of Employees"
-                    {...register("averageNumberOfEmployees")}
+                    onChange={(e) => {
+                      const { value } = e.target;
+                      if (value.match(/^[0-9]*$/)) {
+                        setValue("averageNumberOfEmployees", value);
+                      }
+                      return;
+                    }}
+                    value={watch("averageNumberOfEmployees") || ""}
                   />
                   {errors.averageNumberOfEmployees && (
                     <ErrorMessage

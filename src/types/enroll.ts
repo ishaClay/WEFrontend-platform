@@ -1,3 +1,5 @@
+import { AllocatedCourse } from "./allocatedcourses";
+
 export interface enroll {
   id?: number;
   courseId: number;
@@ -10,4 +12,9 @@ export enum Enroll {
   accept = 1,
   reject = 2,
   enquiry = 3,
+}
+
+export interface AllocatedCourseById {
+  data?: (AllocatedCourse)[] | null;
+  message: string;
 }
