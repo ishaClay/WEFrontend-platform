@@ -108,7 +108,7 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (user.pathstatus !== "7") {
+          if (user.pathstatus !== "7" && user.pathstatus !== "4") {
             navigate("/savedassesment");
           } else {
             navigate("/company/dashboard");
