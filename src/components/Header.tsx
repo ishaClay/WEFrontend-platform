@@ -26,6 +26,7 @@ function Header(props: headerProps) {
         navigate(`/trainer/dashboard`);
         break;
       case "3":
+        navigate(`/company/dashboard`);
         break;
       case "4":
         break;

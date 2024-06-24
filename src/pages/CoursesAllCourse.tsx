@@ -1,3 +1,4 @@
+import Loader from "@/components/comman/Loader";
 import {
   Pagination,
   PaginationContent,
@@ -27,7 +28,6 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import Loader from "@/components/comman/Loader";
 
 function CoursesAllCourse() {
   const user = useSelector((state: RootState) => state.user);
@@ -36,14 +36,19 @@ function CoursesAllCourse() {
 
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
+    refetch();
   };
 
-  const { data: allcourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbycourse, { currentPage }],
+  const {
+    data: allcourse,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbycourse],
     queryFn: () => fetchAllCourse(currentPage),
   });
 
-  const { data: pillarcourse, isLoading: pillarsLoading } = useQuery({
+  const { data: pillarcourse } = useQuery({
     queryKey: [QUERY_KEYS.fetchbypillarcource],
     queryFn: () => fetchPillar(user?.clientId),
   });
@@ -97,28 +102,24 @@ function CoursesAllCourse() {
           </div>
 
           <div className="">
-            {pillarsLoading ? (
-              <Loader containerClassName="h-[100px] " />
-            ) : (
-              <div className="flex gap-10 items-center py-[18px] px-10 bg-[#E7E7E8]">
-                {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => (
-                  <div
-                    className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white"
-                    key={pillarcourse.id}
-                    onClick={() => {
-                      handleCourseClick(pillarcourse);
-                    }}
-                  >
-                    <img
-                      className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
-                      src="../assets/img/Tree Planting.png"
-                    />
+            <div className="flex gap-10 items-center py-[18px] px-10 bg-[#E7E7E8]">
+              {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => (
+                <div
+                  className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white"
+                  key={pillarcourse.id}
+                  onClick={() => {
+                    handleCourseClick(pillarcourse);
+                  }}
+                >
+                  <img
+                    className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
+                    src="../assets/img/Tree Planting.png"
+                  />
 
-                    <p className="text-[##3A3A3A]">{pillarcourse.pillarName}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+                  <p className="text-[##3A3A3A]">{pillarcourse.pillarName}</p>
+                </div>
+              ))}
+            </div>
 
             <>
               {isLoading ? (
@@ -148,148 +149,151 @@ function CoursesAllCourse() {
                             </span>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="flex flex-col justify-between h-[calc(100%_-_231px)]">
-                        <div className="flex flex-col justify-between pl-5 pr-3 py-4 h-full">
-                          <p className="text-[16px] font-semibold mb-3 line-clamp-3">
-                            {allcourse.title}
-                          </p>
+                        <div className="flex flex-col justify-between h-[calc(100%_-_231px)]">
+                          <div className="flex flex-col justify-between pl-5 pr-3 py-4 h-full">
+                            <p className="text-[16px] font-semibold mb-3 line-clamp-3">
+                              {allcourse.title}
+                            </p>
 
-                          <div>
-                            <div className="flex gap-2 mb-2">
-                              <p className="text-[#918A8A] w-1/2 flex">
-                                <img
-                                  className="inline-block ml-1 w-[18px] h-[24px] mr-[10px]"
-                                  src="/public/assets/img/abc.png"
-                                  alt="Image Alt Text"
-                                />
-                                Social
-                              </p>
-                              <p className="text-[#918A8A] w-1/2 flex">
-                                <img
-                                  className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
-                                  src="/public/assets/img/def.png"
-                                  alt="Image Alt Text"
-                                />
-                                {
-                                  allcourse?.courseData?.[0]?.fetchPillar
-                                    ?.pillarName
-                                }
-                              </p>
-                            </div>
-
-                            <div className="flex gap-2 mb-2">
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px]"
-                                  src="/public/assets/img/timer.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">
-                                  Level-
+                            <div>
+                              <div className="flex gap-2 mb-2">
+                                <p className="text-[#918A8A] w-1/2 flex">
+                                  <img
+                                    className="inline-block ml-1 w-[18px] h-[24px] mr-[10px]"
+                                    src="/public/assets/img/abc.png"
+                                    alt="Image Alt Text"
+                                  />
+                                  Social
+                                </p>
+                                <p className="text-[#918A8A] w-1/2 flex">
+                                  <img
+                                    className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
+                                    src="/public/assets/img/def.png"
+                                    alt="Image Alt Text"
+                                  />
                                   {
-                                    allcourse?.courseData?.[0]?.fetchMaturity
-                                      ?.maturityLevelName
+                                    allcourse?.courseData?.[0]?.fetchPillar
+                                      ?.pillarName
                                   }
                                 </p>
                               </div>
 
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px] text-black"
-                                  src="/public/assets/img/diploma.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">
-                                  {allcourse.otherInstitutionName}
-                                </p>
-                              </div>
-                            </div>
+                              <div className="flex gap-2 mb-2">
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px]"
+                                    src="/public/assets/img/timer.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    Level-
+                                    {
+                                      allcourse?.courseData?.[0]?.fetchMaturity
+                                        ?.maturityLevelName
+                                    }
+                                  </p>
+                                </div>
 
-                            <div className="flex gap-2 mb-2">
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px]"
-                                  src="/public/assets/img/fulltime.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">
-                                  {allcourse.time === CourseTime.FullTime && (
-                                    <span>Full-time</span>
-                                  )}
-                                  {allcourse.time === CourseTime.PartTime && (
-                                    <span>Part-time</span>
-                                  )}
-                                </p>
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px] text-black"
+                                    src="/public/assets/img/diploma.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    {allcourse.otherInstitutionName}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px]"
-                                  src="/public/assets/img/online.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">
-                                  {allcourse.isOnline === IsOnline.Online && (
-                                    <span>Online</span>
-                                  )}
-                                  {allcourse.isOnline === IsOnline.InPerson && (
-                                    <span>InPerson</span>
-                                  )}
-                                  {allcourse.isOnline === IsOnline.Hybrid && (
-                                    <span>Hybrid</span>
-                                  )}
-                                </p>
-                              </div>
-                            </div>
 
-                            <div className="flex gap-2">
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px]"
-                                  src="/public/assets/img/time.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">{allcourse.duration}</p>
+                              <div className="flex gap-2 mb-2">
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px]"
+                                    src="/public/assets/img/fulltime.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    {allcourse.time === CourseTime.FullTime && (
+                                      <span>Full-time</span>
+                                    )}
+                                    {allcourse.time === CourseTime.PartTime && (
+                                      <span>Part-time</span>
+                                    )}
+                                  </p>
+                                </div>
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px]"
+                                    src="/public/assets/img/online.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    {allcourse.isOnline === IsOnline.Online && (
+                                      <span>Online</span>
+                                    )}
+                                    {allcourse.isOnline ===
+                                      IsOnline.InPerson && (
+                                      <span>InPerson</span>
+                                    )}
+                                    {allcourse.isOnline === IsOnline.Hybrid && (
+                                      <span>Hybrid</span>
+                                    )}
+                                  </p>
+                                </div>
                               </div>
-                              <div className="w-1/2 flex items-center gap-1">
-                                <img
-                                  className=" h-[16] w-[18px]"
-                                  src="/public/assets/img/unversity.png"
-                                  alt="Course"
-                                />
-                                <p className="text-xs">
-                                  Atlantic Technological University
-                                </p>
+
+                              <div className="flex gap-2">
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px]"
+                                    src="/public/assets/img/time.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    {allcourse.duration}
+                                  </p>
+                                </div>
+                                <div className="w-1/2 flex items-center gap-1">
+                                  <img
+                                    className=" h-[16] w-[18px]"
+                                    src="/public/assets/img/unversity.png"
+                                    alt="Course"
+                                  />
+                                  <p className="text-xs">
+                                    Atlantic Technological University
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className=" flex border-t py-[15px] pr-[10px] pl-[6px] justify-between">
-                          <div className="">
-                            <p className="text-black mb-1 text-xs">
-                              <span className="font-medium">Cohort 2 :</span>{" "}
-                              <span>Start</span>
-                              <span className="p-[5px] rounded-full text-[10px] bg-[#D6F5AC] mx-1 inline-block">
-                                22/5/2024
-                              </span>{" "}
-                              to
-                              <span className="p-[5px] rounded-full text-[10px] bg-[#D6F5AC] mx-1 inline-block">
-                                30/5/2024
-                              </span>
-                            </p>
-                            <p className="text-[#4285F4] text-xs font-medium">
-                              Show all cohort
-                            </p>
-                          </div>
-                          <div>
-                            <button
-                              onClick={() => handleEnroll(allcourse?.id)}
-                              className=" p-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
-                            >
-                              Enroll Now
-                            </button>
+                          <div className=" flex border-t py-[15px] pr-[10px] pl-[6px] justify-between">
+                            <div className="">
+                              <p className="text-black mb-1 text-xs">
+                                <span className="font-medium">Cohort 2 :</span>{" "}
+                                <span>Start</span>
+                                <span className="p-[5px] rounded-full text-[10px] bg-[#D6F5AC] mx-1 inline-block">
+                                  22/5/2024
+                                </span>{" "}
+                                to
+                                <span className="p-[5px] rounded-full text-[10px] bg-[#D6F5AC] mx-1 inline-block">
+                                  30/5/2024
+                                </span>
+                              </p>
+                              <p className="text-[#4285F4] text-xs font-medium">
+                                Show all cohort
+                              </p>
+                            </div>
+                            <div>
+                              <button
+                                onClick={() => handleEnroll(allcourse?.id)}
+                                className=" p-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
+                              >
+                                Enroll Now
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
