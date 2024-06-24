@@ -11,7 +11,7 @@ export const fetchPillar = (id: string) => {
   return api({ url });
 };
 
-export const fetchPillarCourse = (id: string) => {
+export const fetchPillarCourse = (id: number) => {
   const url = `api/v1/course/list?page=1&limit=10&keyword=&pillarid=${id}`;
   return api({ url });
 };

@@ -27,6 +27,7 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import Loader from "@/components/comman/Loader";
 
 function CoursesAllCourse() {
   const user = useSelector((state: RootState) => state.user);
@@ -35,29 +36,30 @@ function CoursesAllCourse() {
 
   const handlePaginationChange = (page: number) => {
     setCurrentPage(page);
-    refetch();
   };
 
-  const { data: allcourse, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbycourse],
+  const { data: allcourse, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbycourse, { currentPage }],
     queryFn: () => fetchAllCourse(currentPage),
   });
 
-  const { data: pillarcourse } = useQuery({
+  const { data: pillarcourse, isLoading: pillarsLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchbypillarcource],
     queryFn: () => fetchPillar(user?.clientId),
   });
 
-  const { mutate: enrollRequest }: any = useMutation({
+  const { mutate: enrollRequest } = useMutation({
     mutationFn: (data: enroll) => fetchEnroll(data),
     // onSuccess: async () => {
 
     // },
   });
 
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [selectedCourse, setSelectedCourse] = useState<Pillarcourse | null>(
+    null
+  );
 
-  const handleCourseClick = (course: any) => {
+  const handleCourseClick = (course: Pillarcourse) => {
     setSelectedCourse(course);
     fetchPillarCourse(course.id);
   };
@@ -65,7 +67,7 @@ function CoursesAllCourse() {
   const handleEnroll = (id: number) => {
     enrollRequest({
       courseId: id,
-      userId: user.UserId,
+      userId: parseInt(user.UserId),
       trainerId: 11,
     });
   };
@@ -95,48 +97,56 @@ function CoursesAllCourse() {
           </div>
 
           <div className="">
-            <div className="flex gap-10 items-center py-[18px] px-10 bg-[#E7E7E8]">
-              {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => (
-                <div
-                  className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white"
-                  key={pillarcourse.id}
-                  onClick={() => {
-                    handleCourseClick(pillarcourse);
-                  }}
-                >
-                  <img
-                    className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
-                    src="../assets/img/Tree Planting.png"
-                  />
+            {pillarsLoading ? (
+              <Loader containerClassName="h-[100px] " />
+            ) : (
+              <div className="flex gap-10 items-center py-[18px] px-10 bg-[#E7E7E8]">
+                {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => (
+                  <div
+                    className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white"
+                    key={pillarcourse.id}
+                    onClick={() => {
+                      handleCourseClick(pillarcourse);
+                    }}
+                  >
+                    <img
+                      className="w-[26px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
+                      src="../assets/img/Tree Planting.png"
+                    />
 
-                  <p className="text-[##3A3A3A]">{pillarcourse.pillarName}</p>
-                </div>
-              ))}
-            </div>
+                    <p className="text-[##3A3A3A]">{pillarcourse.pillarName}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <>
-              <div className="grid gap-5 py-[22px] px-5 grid-cols-[repeat(4,auto)]">
-                {allcourse?.data.data?.map((allcourse: AllCourse) => (
-                  <div className="flex justify-center h-full">
-                    <div
-                      className="h-full w-full border border-solid border-[#D9D9D9] rounded"
-                      key={allcourse.id}
-                    >
-                      <div className="relative overflow-hidden h-[231px]">
-                        <img
-                          className="object-cover object-center"
-                          src="/public/assets/img/nature.png"
-                          alt="Course"
-                        />
-                        <input
-                          type="checkbox"
-                          className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
-                        />
-                        <div className="flex items-center absolute bottom-0 left-0 w-30 bg-[#FFFFFF] rounded-full py-1 px-2 mb-4 ml-2  ">
-                          <FaStar className="text-yellow-500 " />
-                          <span className="text-[#8C94A3] font-semibold text-xs  mr-2 ml-1">
-                            Advanced
-                          </span>
+              {isLoading ? (
+                <Loader className="h-10 w-10" />
+              ) : (
+                <div className="grid gap-5 py-[22px] px-5 grid-cols-[repeat(4,auto)]">
+                  {allcourse?.data.data?.map((allcourse: AllCourse) => (
+                    <div className="flex justify-center h-full">
+                      <div
+                        className="h-full w-full border border-solid border-[#D9D9D9] rounded"
+                        key={allcourse.id}
+                      >
+                        <div className="relative overflow-hidden h-[231px]">
+                          <img
+                            className="object-cover object-center"
+                            src="/public/assets/img/nature.png"
+                            alt="Course"
+                          />
+                          <input
+                            type="checkbox"
+                            className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
+                          />
+                          <div className="flex items-center absolute bottom-0 left-0 w-30 bg-[#FFFFFF] rounded-full py-1 px-2 mb-4 ml-2  ">
+                            <FaStar className="text-yellow-500 " />
+                            <span className="text-[#8C94A3] font-semibold text-xs  mr-2 ml-1">
+                              Advanced
+                            </span>
+                          </div>
                         </div>
                       </div>
 
@@ -173,7 +183,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px]"
-                                  src="public/assets/img/timer.png"
+                                  src="/public/assets/img/timer.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">
@@ -188,7 +198,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px] text-black"
-                                  src="public/assets/img/diploma.png"
+                                  src="/public/assets/img/diploma.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">
@@ -201,7 +211,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px]"
-                                  src="public/assets/img/fulltime.png"
+                                  src="/public/assets/img/fulltime.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">
@@ -216,7 +226,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px]"
-                                  src="public/assets/img/online.png"
+                                  src="/public/assets/img/online.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">
@@ -237,7 +247,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px]"
-                                  src="public/assets/img/time.png"
+                                  src="/public/assets/img/time.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">{allcourse.duration}</p>
@@ -245,7 +255,7 @@ function CoursesAllCourse() {
                               <div className="w-1/2 flex items-center gap-1">
                                 <img
                                   className=" h-[16] w-[18px]"
-                                  src="public/assets/img/unversity.png"
+                                  src="/public/assets/img/unversity.png"
                                   alt="Course"
                                 />
                                 <p className="text-xs">
@@ -284,9 +294,9 @@ function CoursesAllCourse() {
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
               <div className="ml-[1000px] mt-[20px]">
                 {totalPages > 1 && (
                   <Pagination>

@@ -1,16 +1,28 @@
+import { RecommendedCourseResponse } from "@/types/RecommendedCourses";
 import api from "./api";
 
-export const fetchRecommendedCourses = (
-  user: number,
-  client: number,
-  page: number,
-  search: string
-) => {
-  const url = `https://weidevapi.clay.in/api/v1/course/recommended?page=${page}&limit=10&search=${search}`;
-  const params = {
-    user,
-    client,
-  };
+export type CourseEnrollmentPayload = {
+  courseId: number;
+  userId: number;
+  trainerId: number;
+};
 
-  return api({ url, params });
+export const fetchRecommendedCourses = async (params: {
+  user: number;
+  client: number;
+  page: number;
+  search: string;
+}): Promise<RecommendedCourseResponse> => {
+  const url = `/api/v1/course/recommended`;
+
+  const response = await api({ url, params: { ...params, limit: 10 } });
+  return response.data;
+};
+
+export const courseEnrollmentRequest = async (
+  data: CourseEnrollmentPayload
+) => {
+  const url = `/api/v1/course/enroll`;
+
+  return await api({ url, method: "post", data });
 };
