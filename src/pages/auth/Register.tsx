@@ -86,7 +86,7 @@ function Register() {
       // dispatch(setCompanyId(data?.data?.data?.user?.clientId));
 
       setShowOtpPopup(true);
-      setTime(299);
+      setTime(179);
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
@@ -161,7 +161,7 @@ function Register() {
   const { mutate, isPending } = useMutation({
     mutationFn: ResendOtp,
     onSuccess: async () => {
-      setTime(300);
+      setTime(179);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -466,7 +466,10 @@ function Register() {
             </div>
             <Button
               variant={"ghost"}
-              onClick={() => setShowOtpPopup(false)}
+              onClick={() => {
+                setShowOtpPopup(false);
+                setTime(0);
+              }}
               className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent"
             >
               Wrong Email?

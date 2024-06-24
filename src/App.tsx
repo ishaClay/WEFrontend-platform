@@ -21,7 +21,6 @@ import CoursesAllCourse from "./pages/CoursesAllCourse";
 import CoursesAllocate from "./pages/CoursesAllocate";
 import CoursesEmrolledToEmployeeInvitePopup from "./pages/CoursesEmrolledToEmployeePopupInvite";
 import CoursesRecommended from "./pages/CoursesRecommended";
-import CoursesViewAllocatePopup from "./pages/CoursesViewAllocatePopup";
 import Dashbord from "./pages/Dashbord";
 import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
 import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
@@ -180,14 +179,6 @@ function App() {
           element={
             <ProtectedRoute>
               <CourseEmrolledToEmployeePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/courseviewallocatepopup"
-          element={
-            <ProtectedRoute>
-              <CoursesViewAllocatePopup />
             </ProtectedRoute>
           }
         />
@@ -352,30 +343,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/company"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
-          <Route path="allocatedcourses" element={<CoursesAllocate />} />
-          <Route path="coursesrecommended" element={<CoursesRecommended />} />
-          <Route path="allcourses" element={<CoursesAllCourse />} />
-          <Route path="employeelist" element={<EmployeeList />} />
-          <Route path="employeeprogress" element={<EmployeeProgress />} />
-          <Route path="faqslist" element={<FaqsList />} />
-          <Route path="trainingdocument" element={<TrainingDocument />} />
-          <Route path="supportticket" element={<SupportAddNewTicket />} />
-          <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
-        </Route>
         <Route
           path="/maturityassessmentroadmapsettarget"
           element={
@@ -650,9 +617,53 @@ function App() {
           }
         />
 
-        {/* <Route >
+        <Route
+          path="/company"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route
+            path="maturityassessmentroadmap"
+            element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route path="allocatedcourses" element={<CoursesAllocate />} />
+          <Route path="coursesrecommended" element={<CoursesRecommended />} />
+          <Route path="allcourses" element={<CoursesAllCourse />} />
+          <Route path="employeelist" element={<EmployeeList />} />
+          <Route path="employeeprogress" element={<EmployeeProgress />} />
+          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="employeepermission" element={<EmployeePermission />} />
+          <Route path="messaging" element={<Messaging />} />
+        </Route>
 
-        </Route> */}
+        <Route
+          path="/employee"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route
+            path="maturityassessmentroadmap"
+            element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="certificate" element={<EmployeeList />} />
+          <Route path="employeeprogress" element={<EmployeeProgress />} />
+          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="employeepermission" element={<EmployeePermission />} />
+          <Route path="messaging" element={<Messaging />} />
+        </Route>
 
         <Route
           path="/trainer"

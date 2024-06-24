@@ -23,15 +23,47 @@ export interface AllocatedCourse {
     price: number;
     instituteOther: string;
     otherInstitutionName: string;
+    company: Company;
   };
 }
+
+export interface Company {
+  id: number;
+  companyId?: null;
+  name: string;
+  address: string;
+  county: string;
+  soleTrader: boolean;
+  sector: string;
+  averageNumberOfEmployees: string;
+  parentCompanyName: string;
+  parentCompanyAddress: string;
+  parentCompanyCounty: string;
+  note?: null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  employee: Employee[];
+}
+
+export interface Employee {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  employeeStatus: string;
+  profileImage: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 export enum CourseTime {
   FullTime = 0,
   PartTime = 1,
 }
 export enum IsOnline {
-  Online = 0,
-  InPerson = 1,
-  Hybrid = 2,
+  Online = 0, InPerson = 1, Hybrid = 2, Major = 3
 }

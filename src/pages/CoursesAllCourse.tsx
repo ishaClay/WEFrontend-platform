@@ -1,19 +1,7 @@
 import Loader from "@/components/comman/Loader";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
-import {
-  fetchAllCourse,
-  fetchPillar,
-  fetchPillarCourse,
-} from "@/services/apiServices/allcourse";
+import { fetchAllCourse, fetchPillar } from "@/services/apiServices/allcourse";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import {
   AllCourse,
@@ -31,21 +19,14 @@ import { useSelector } from "react-redux";
 
 function CoursesAllCourse() {
   const user = useSelector((state: RootState) => state.user);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(0);
+  const [selectedCourse, setSelectedCourse] = useState<Pillarcourse | null>(
+    null
+  );
+  const [search, setSearch] = useState("");
 
-  const handlePaginationChange = (page: number) => {
-    setCurrentPage(page);
-    refetch();
-  };
-
-  const {
-    data: allcourse,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbycourse],
-    queryFn: () => fetchAllCourse(currentPage),
+  const { data: allcourse, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
+    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search),
   });
 
   const { data: pillarcourse } = useQuery({
@@ -60,13 +41,8 @@ function CoursesAllCourse() {
     // },
   });
 
-  const [selectedCourse, setSelectedCourse] = useState<Pillarcourse | null>(
-    null
-  );
-
   const handleCourseClick = (course: Pillarcourse) => {
     setSelectedCourse(course);
-    fetchPillarCourse(course.id);
   };
 
   const handleEnroll = (id: number) => {
@@ -92,6 +68,8 @@ function CoursesAllCourse() {
                 type="search"
                 placeholder="Search by Pillar, level, recommended, course name etc."
                 className="flex-1 focus:outline-none text-sm placeholder-[#D9D9D9]"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
               />
             </div>
 
@@ -105,7 +83,11 @@ function CoursesAllCourse() {
             <div className="flex gap-10 items-center py-[18px] px-10 bg-[#E7E7E8]">
               {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => (
                 <div
-                  className="flex gap-x-[10px] items-center bg-[#EDF0F4] w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white"
+                  className={`flex gap-x-[10px] items-center w-[156px] h-[57px]  rounded-[9px] pl-2 shadow-b shadow-lg hover:bg-[#64A70B] hover:text-white ${
+                    selectedCourse === pillarcourse
+                      ? "bg-[#64A70B] text-white"
+                      : "bg-[#EDF0F4]"
+                  }`}
                   key={pillarcourse.id}
                   onClick={() => {
                     handleCourseClick(pillarcourse);
@@ -301,37 +283,6 @@ function CoursesAllCourse() {
                   ))}
                 </div>
               )}
-              <div className="ml-[1000px] mt-[20px]">
-                {totalPages > 1 && (
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() =>
-                            handlePaginationChange(currentPage - 1)
-                          }
-                        />
-                      </PaginationItem>
-                      {[...Array(totalPages)].map((_, index) => (
-                        <PaginationItem key={index}>
-                          <PaginationLink
-                            onClick={() => handlePaginationChange(index + 1)}
-                          >
-                            {index + 1}
-                          </PaginationLink>
-                        </PaginationItem>
-                      ))}
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() =>
-                            handlePaginationChange(currentPage + 1)
-                          }
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                )}
-              </div>
             </>
           </div>
         </div>

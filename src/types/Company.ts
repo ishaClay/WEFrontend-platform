@@ -12,7 +12,8 @@ export interface Company {
     ProviderCountry: string,
     parentCompanyName: string,
     parentCompanyCounty: string,
-    soleTrader?: boolean,
+    soleTrader: boolean,
+    companyId: number
 }
 
 export interface CountryResponse {

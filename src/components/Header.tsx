@@ -1,5 +1,10 @@
+import { LogOut } from "@/services/apiServices/authService";
+import { ResponseError } from "@/types/Errors";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { PrimaryButton } from "./comman/Button/CustomButton";
+import Loading from "./comman/Error/Loading";
+import { toast } from "./ui/use-toast";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -11,9 +16,27 @@ function Header(props: headerProps) {
   const userData = localStorage?.getItem("user");
   const userToken = !!userData && JSON.parse(userData)?.accessToken;
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      localStorage.removeItem("user");
+      navigate("/");
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Something went wrong",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleLogout = () => {
+    const user = JSON.parse(userData as string);
+    const userId = user?.query ? user?.query?.id : user?.id;
     navigate("/");
     localStorage.clear();
+    mutate(userId);
   };
 
   const handleGotoDashboard = () => {
@@ -21,12 +44,12 @@ function Header(props: headerProps) {
 
     switch (user.role) {
       case "1":
+        navigate(`/company/dashboard`);
         break;
       case "2":
         navigate(`/trainer/dashboard`);
         break;
       case "3":
-        navigate(`/company/dashboard`);
         break;
       case "4":
         break;
@@ -78,15 +101,17 @@ function Header(props: headerProps) {
           <div className="font-bold text-lg text-color">
             {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
-                {userToken &&
+                {((userToken &&
                   !!userData &&
-                  JSON.parse(userData)?.query?.pathstatus === "8" && (
-                    <PrimaryButton
-                      onClick={handleGotoDashboard}
-                      name="Go to Dashboard"
-                      className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
-                    />
-                  )}
+                  JSON.parse(userData)?.query?.pathstatus === "7") ||
+                  (JSON.parse(userData)?.query?.pathstatus === "4" &&
+                    JSON.parse(userData)?.query?.lastlogout !== null)) && (
+                  <PrimaryButton
+                    onClick={handleGotoDashboard}
+                    name="Go to Dashboard"
+                    className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                  />
+                )}
                 <PrimaryButton
                   onClick={handleLogout}
                   name="Logout"
@@ -115,6 +140,7 @@ function Header(props: headerProps) {
           <img className="xl:ml-7 ml-2" src="../assets/img/logo2.png" />
         </div>
       </div>
+      <Loading isLoading={isPending} />
     </header>
   );
 }

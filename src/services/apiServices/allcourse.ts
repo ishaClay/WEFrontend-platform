@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const fetchAllCourse = (page: number) => {
-  const url = `api/v1/course/list?page=${page}&limit=10&keyword=`;
+export const fetchAllCourse = (pillerId: string, search: string) => {
+  const url = `api/v1/course/list?keyword=${search}&pillarid=${pillerId}`;
 
   return api({ url });
 };
