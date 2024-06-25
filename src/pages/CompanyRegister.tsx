@@ -246,7 +246,7 @@ function CompanyRegister() {
               <div>
                 <InputWithLable
                   className="w-[241px] h-[46px]"
-                  placeholder="Id"
+                  placeholder="Company Id"
                   label="Company Id"
                   onChange={(e) => {
                     const { value } = e.target;

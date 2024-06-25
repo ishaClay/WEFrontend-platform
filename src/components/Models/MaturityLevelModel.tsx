@@ -45,7 +45,7 @@ const MaturityLevelModel = ({
       open={!!isOpen}
       title="Have you identified actionable items on provided
                             measures?"
-      className="max-w-[815px] w-full"
+      className="max-w-[815px] w-full gap-0"
       onClose={() => {
         setIsOpen(null);
         setPillerName("");
@@ -104,7 +104,7 @@ const MaturityLevelModel = ({
         <Loader />
       ) : (
         <div className="flex  flex-col mt-6">
-          <div className="flex gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             {data?.data?.[pillerName as string]?.map((item, i) => {
               const color =
                 item.questionAnswers?.length === 0
@@ -113,11 +113,11 @@ const MaturityLevelModel = ({
                   ? "#64A70B"
                   : "#FFD56A";
               return (
-                <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
+                <div className="flex flex-col border p-3 rounded-lg w-[242px] h-[150px]">
                   <div className="text-xs font-bold">
                     Question : {(i + 1).toString().padStart(2, "0")}
                   </div>
-                  <div className="mt-[11px] h-[75px] w-[230px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                  <div className="mt-[11px] h-[75px] w-[220px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
                     {item.title}
                   </div>
 

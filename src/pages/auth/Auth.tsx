@@ -46,6 +46,34 @@ function Auth() {
     mode: "all",
   });
 
+  const handleRedirect = (path: number, data: any) => {
+    console.log(path, "path", data);
+    switch (path) {
+      case 1:
+        navigate("/savedassesment");
+        break;
+      case 2:
+        navigate("/teaserscore");
+        break;
+      case 3:
+        navigate("/companyregister");
+        break;
+      case 4:
+        localStorage.setItem("user", JSON?.stringify(data));
+        navigate("/company/dashboard");
+        break;
+      case 5:
+        navigate("/selectlevel");
+        break;
+      case 6:
+        navigate("/maturitylevelactionitem");
+        break;
+      default:
+        navigate("/savedassesment");
+        break;
+    }
+  };
+
   const { mutate: login_user, isPending: loginPanding } = useMutation({
     mutationFn: Login,
     onSuccess: (data) => {
@@ -110,20 +138,22 @@ function Auth() {
 
           dispatch(setUserData(user.id));
 
-          console.log("user.pathstatus", user.pathstatus);
+          console.log(
+            "user.pathstatus",
+            user.pathstatus !== "7",
+            user.pathstatus !== "3",
+            user.lastlogout === null
+          );
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (
-            user.pathstatus !== "7" &&
-            user.pathstatus !== "4" &&
-            user.lastlogout === null
-          ) {
-            navigate("/savedassesment");
+          if (user.pathstatus !== "7") {
+            handleRedirect(parseInt(user.pathstatus), data.data.data);
           } else {
             navigate("/company/dashboard");
             localStorage.setItem("user", JSON?.stringify(data.data.data));
           }
+
           // }
         }
       }
