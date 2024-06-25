@@ -1,7 +1,5 @@
 import Loader from "@/components/comman/Loader";
-import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
-import { RootState } from "@/redux/store";
 import {
   CourseEnrollmentPayload,
   courseEnrollmentRequest,
@@ -14,9 +12,15 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { Button } from "@/components/ui/button";
+import Modal from "@/components/comman/Modal";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 
 function CoursesRecommended() {
   const userData = useSelector((state: RootState) => state.user);
+  const [isRecommendedCourse, setIsRecommendedCourseShow] = useState(false);
+
   const [search, setSearch] = useState("");
 
   const { data: recommendedcourses, isPending: pending } = useQuery({
@@ -44,31 +48,48 @@ function CoursesRecommended() {
   };
 
   return (
-    <div className="bg-[#f5f3ff]">
-      <div className="h-[calc(100vh_-_120px)]">
-        <div className="bg-[#FFFFFF] rounded-[10px] h-full">
-          <div className=" pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
-            <p className="text-[#000000] text-[Calibri]">Recommended Courses</p>
-          </div>
-
-          <div className="flex p-3 bg-[#FFFFFF] justify-between items-center">
-            <div>
-              <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
-                <BsSearch className="text-[#D9D9D9] mr-2" />
-
-                <input
-                  type="text"
-                  placeholder="Search by pilier, level, recommended, course name etc."
-                  className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </div>
+    <>
+      <Modal
+        open={isRecommendedCourse}
+        onClose={() => setIsRecommendedCourseShow(false)}
+        className="max-w-[800px] max-h-[800px] h-[780px] py-[60px] px-6"
+      >
+        <RecommendedCoursesModel />
+      </Modal>
+      <div className="bg-[#f5f3ff]">
+        <div className="h-[calc(100vh_-_120px)]">
+          <div className="bg-[#FFFFFF] rounded-[10px] h-full">
+            <div className=" pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+              <p className="text-[#000000] text-[Calibri]">
+                Recommended Courses
+              </p>
             </div>
 
-            <div className="flex gap-2">
-              <AiOutlineAppstore className="text-[#A3A3A3] w-8 h-8" />
+            <div className="flex p-3 bg-[#FFFFFF] justify-between items-center">
+              <div>
+                <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
+                  <BsSearch className="text-[#D9D9D9] mr-2" />
 
-              <AiOutlineBars className="text-[#00778B] w-8 h-8" />
+                  <input
+                    type="text"
+                    placeholder="Search by pilier, level, recommended, course name etc."
+                    className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button
+                  variant={"ghost"}
+                  className="h-auto p-0 hover:bg-transparent"
+                  onClick={() => setIsRecommendedCourseShow(true)}
+                >
+                  <AiOutlineAppstore className="text-[#A3A3A3] w-8 h-8" />
+                </Button>
+
+                <AiOutlineBars className="text-[#00778B] w-8 h-8" />
+              </div>
             </div>
           </div>
 
@@ -227,7 +248,7 @@ function CoursesRecommended() {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

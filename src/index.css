@@ -168,6 +168,10 @@ code {
   color: black !important;
 }
 
+.customeCohortShadow {
+  box-shadow: 0px 0px 2px 0px #00000040;
+}
+
 .slick-dots li {
   margin: 0 3px !important;
 }
