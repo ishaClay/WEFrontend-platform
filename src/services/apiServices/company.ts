@@ -2,7 +2,7 @@ import { CompanyResponse } from "@/pages/CompanyRegister";
 import { Company } from "@/types/Company";
 import api from "./api";
 
-export const createCompany = (data: Company) => {
+export const createCompany = (data: { email: string, client: string }) => {
   const url = `api/v1/user/register-company`,
     method = "post";
 
@@ -21,7 +21,14 @@ export const getOneCompany = (id: string) => {
   return api({ url, method });
 };
 
-export const checkOTP = (data: any) => {
+export const checkOTP = (data: {
+  otp: string;
+  client: string;
+  name: string;
+  email: string;
+  password: string;
+  cpassword: string;
+}) => {
   const url = `api/v1/user/check-otp`,
     method = "post";
   return api({ url, method, data });

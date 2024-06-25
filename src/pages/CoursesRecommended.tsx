@@ -1,12 +1,5 @@
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import {
@@ -24,23 +17,14 @@ import { useSelector } from "react-redux";
 
 function CoursesRecommended() {
   const userData = useSelector((state: RootState) => state.user);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages] = useState(0);
   const [search, setSearch] = useState("");
 
-  const handlePaginationChange = (page: number) => {
-    setCurrentPage(page);
-    refetch();
-  };
-
-  const { data: recommendedcourses, refetch } = useQuery({
+  const { data: recommendedcourses, isPending: pending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
     queryFn: () =>
       fetchRecommendedCourses({
         user: parseInt(userData?.UserId),
         client: parseInt(userData?.clientId),
-        page: currentPage,
         search,
       }),
   });
@@ -59,10 +43,6 @@ function CoursesRecommended() {
     sendEnrollmentRequest(payload);
   };
 
-  console.log(
-    "🚀 ~ CoursesRecommended ~ recommendedcourses:",
-    recommendedcourses
-  );
   return (
     <div className="bg-[#f5f3ff]">
       <div className="h-[calc(100vh_-_120px)]">
@@ -92,7 +72,9 @@ function CoursesRecommended() {
             </div>
           </div>
 
-          {recommendedcourses?.data ? (
+          {pending ? (
+            <Loader />
+          ) : recommendedcourses?.data ? (
             recommendedcourses?.data?.map((recommendedcourses) => (
               <div key={recommendedcourses.id}>
                 <div className="h-[175px] bg-[#FFFFFF] flex  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
@@ -243,40 +225,6 @@ function CoursesRecommended() {
               {recommendedcourses?.message}
             </p>
           )}
-          <div className="flex justify-end mt-[20px]">
-            {recommendedcourses &&
-              recommendedcourses?.pagination?.totalPages > 1 && (
-                <div>
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() =>
-                            handlePaginationChange(currentPage - 1)
-                          }
-                        />
-                      </PaginationItem>
-                      {[...Array(totalPages)].map((_, index) => (
-                        <PaginationItem key={index}>
-                          <PaginationLink
-                            onClick={() => handlePaginationChange(index + 1)}
-                          >
-                            {index + 1}
-                          </PaginationLink>
-                        </PaginationItem>
-                      ))}
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() =>
-                            handlePaginationChange(currentPage + 1)
-                          }
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
-              )}
-          </div>
         </div>
       </div>
     </div>

@@ -42,6 +42,8 @@ const Question = () => {
     },
   });
 
+  console.log("question", question);
+
   // const { mutate: removeanswer } = useMutation({
   //   mutationFn: (question) => removeAnswer(question),
   //   onSuccess: () => {

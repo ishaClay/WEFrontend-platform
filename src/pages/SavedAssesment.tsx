@@ -58,13 +58,13 @@ function SavedAssesment() {
         navigate("/question");
         break;
       case 2:
-        navigate("/teaserscore");
+        navigate("/company/dashboard");
         break;
       case 3:
         navigate("/companyregister");
         break;
       case 4:
-        navigate("/company/dashboard");
+        navigate("/maturelevel");
         break;
       case 5:
         navigate("/selectlevel");

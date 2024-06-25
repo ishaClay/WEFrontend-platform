@@ -34,8 +34,6 @@ function Header(props: headerProps) {
   const handleLogout = () => {
     const user = JSON.parse(userData as string);
     const userId = user?.query ? user?.query?.id : user?.id;
-    navigate("/");
-    localStorage.clear();
     mutate(userId);
   };
 
@@ -104,7 +102,7 @@ function Header(props: headerProps) {
                 {((userToken &&
                   !!userData &&
                   JSON.parse(userData)?.query?.pathstatus === "7") ||
-                  (JSON.parse(userData)?.query?.pathstatus === "4" &&
+                  (JSON.parse(userData)?.query?.pathstatus === "3" &&
                     JSON.parse(userData)?.query?.lastlogout !== null)) && (
                   <PrimaryButton
                     onClick={handleGotoDashboard}

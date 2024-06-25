@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Footer from "@/components/Footer";
+import Loader from "@/components/comman/Loader";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -100,7 +101,7 @@ const QuestionPage = () => {
     }
   }, [clientwisePillarList?.data?.data, activePillar, dispatch]);
 
-  const { data: questionList } = useQuery({
+  const { data: questionList, isPending } = useQuery({
     queryKey: [QUERY_KEYS.questionList],
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
@@ -433,7 +434,7 @@ const QuestionPage = () => {
         <div className="m-[24px] flex flex-wrap gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5 xl:mt-[89px] mt-[60px]">
           <div className="max-w-[871px] w-full bg-[#EFEEEE]">
             <div className="flex gap-12 flex-col w-full max-w-[773px]">
-              <Question />
+              {isPending ? <Loader /> : <Question />}
             </div>
           </div>
           <div className="w-[271px] text-[18px] leading-[21.97px] font-normal">
@@ -507,7 +508,7 @@ const QuestionPage = () => {
               <Button
                 className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
                 onClick={handleSubmit}
-                disabled={allPillar?.length !== selectedData?.length}
+                disabled={totalAttemptedQuestions !== totalQuestions}
               >
                 Save
               </Button>

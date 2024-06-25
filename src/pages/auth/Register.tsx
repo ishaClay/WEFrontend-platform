@@ -18,7 +18,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
 import { ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
-import { Company } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -79,9 +78,8 @@ function Register() {
   }, [time]);
 
   const { mutate: createcompany, isPending: createPending } = useMutation({
-    mutationFn: (company: Company) => createCompany(company),
+    mutationFn: createCompany,
     onSuccess: async (data) => {
-      console.log(data, "data++");
       dispatch(setCompanyId(data?.data?.data?.user?.id));
       // dispatch(setCompanyId(data?.data?.data?.user?.clientId));
 
@@ -114,6 +112,7 @@ function Register() {
 
       setShowOtpPopup(false);
       dispatch(setUserData(data?.data?.data?.id));
+      dispatch(setCompanyId(data?.data?.data?.user?.id));
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
@@ -172,7 +171,7 @@ function Register() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-    createcompany({ ...data, client: clientId });
+    createcompany({ email: data.email, client: clientId });
     console.log(data, "da++++++++++");
   };
 
@@ -183,7 +182,14 @@ function Register() {
   }, [clientId]);
 
   const handleVerifyOtp = () => {
-    createotp({ otp: otp, email: getValues("email") });
+    const getData = getValues();
+    const payload = {
+      ...getData,
+      otp,
+      client: clientId,
+    };
+
+    createotp(payload);
   };
 
   const handleResendOtp = (email: string) => {
