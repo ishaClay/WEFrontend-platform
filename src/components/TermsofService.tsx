@@ -1,12 +1,24 @@
-import Header from "./Header";
+import { ArrowBigLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import Header from "./Header";
+import { Button } from "./ui/button";
 
 const TermsofService = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Header />
       <div className="bg-primary text-primary-foreground py-6 px-4 md:px-6">
         <div className="xl:max-w-[1160px] max-w-full mx-auto">
+          <Button
+            variant="ghost"
+            type="button"
+            onClick={() => navigate(-1)}
+            className="p-0 hover:bg-transparent h-auto hover:text-white"
+          >
+            <ArrowBigLeft /> Back
+          </Button>
           <h1 className="text-4xl font-bold font-calibri">Terms of Service</h1>
         </div>
       </div>
