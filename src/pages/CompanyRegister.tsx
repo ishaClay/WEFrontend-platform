@@ -66,16 +66,10 @@ function CompanyRegister() {
       .min(1, { message: "Average Number Of Employees is required" })
       .regex(/^[0-9]+$/, "Average Number Of Employees is Invalid"),
     sector: z.string().min(1, { message: "Sector is required" }),
-    parentCompanyAddress: z
-      .string()
-      .min(1, { message: "Parent Company Address is required" }),
-    parentCompanyName: z
-      .string()
-      .min(1, { message: "Parent Company Name is required" }),
+    parentCompanyAddress: z.string().nullable(),
+    parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Email is required" }),
-    parentCompanyCounty: z
-      .string()
-      .min(1, { message: "Parent Company County is required" }),
+    parentCompanyCounty: z.string().nullable(),
   });
 
   type ValidationSchema = z.infer<typeof schema>;

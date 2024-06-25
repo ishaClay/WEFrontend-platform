@@ -1,21 +1,27 @@
-import { Link } from "react-router-dom";
-import Header from "./Header";
+import { ArrowBigLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import Header from "./Header";
+import { Button } from "./ui/button";
 
 const PrivacyPolicy = () => {
+  const navigate = useNavigate();
   return (
     <div className="">
       <Header />
       <div className="bg-primary py-12">
         <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
+          <Button
+            variant="ghost"
+            type="button"
+            onClick={() => navigate(-1)}
+            className="p-0 hover:bg-transparent text-white h-auto hover:text-white"
+          >
+            <ArrowBigLeft /> Back
+          </Button>
           <h1 className="text-4xl font-bold text-white font-calibri">
             Privacy & Policy
           </h1>
-          <p className="mt-4 text-lg text-white font-calibri">
-            At our company, we are committed to protecting your personal
-            information and respecting your privacy. This policy outlines how we
-            collect, use, and safeguard your data.
-          </p>
         </div>
       </div>
       <main className="py-12 xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">

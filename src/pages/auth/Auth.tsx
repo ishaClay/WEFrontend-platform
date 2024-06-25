@@ -62,14 +62,9 @@ function Auth() {
         localStorage.setItem("user", JSON?.stringify(data));
         navigate("/company/dashboard");
         break;
-      case 5:
-        navigate("/selectlevel");
-        break;
-      case 6:
-        navigate("/maturitylevelactionitem");
-        break;
       default:
-        navigate("/savedassesment");
+        localStorage.setItem("user", JSON?.stringify(data));
+        navigate("/company/dashboard");
         break;
     }
   };

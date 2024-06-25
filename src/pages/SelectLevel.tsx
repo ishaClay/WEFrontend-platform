@@ -716,6 +716,7 @@ function SelectLevel() {
                                         <BsPencil className="text-[#B9B9B9]" />
                                       </button>
                                       <button
+                                        type="button"
                                         className="border-none bg-transparent text-lg cursor-pointer mt-2"
                                         onClick={() =>
                                           removeActionItem(index, currentPiller)
