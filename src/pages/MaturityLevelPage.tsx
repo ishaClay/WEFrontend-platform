@@ -358,7 +358,7 @@ const MaturityLevelPage = () => {
                       }}
                     >
                       <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                        <div className="border border-solid border-[#64A70B] bg-[#64A70B] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
+                        <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
                           <div className="p-2.5 bg-white rounded-full">
                             <img
                               src={getImages(item.pillarname)}
@@ -366,7 +366,7 @@ const MaturityLevelPage = () => {
                               className=""
                             />
                           </div>
-                          <h4 className="mt-3">{item.pillarName}</h4>
+                          <h4 className="mt-3">{item.pillarname}</h4>
                           <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
                             {item?.totalpoints}%
                           </span>
