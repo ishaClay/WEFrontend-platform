@@ -84,7 +84,7 @@ function Auth() {
           });
         }
 
-        if (user.role == UserRole.TrainerCompany) {
+        if (user.role == UserRole.Trainer) {
           if (data.data.data.status === "Active") {
             navigate("/trainer/dashboard");
           }
