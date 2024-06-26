@@ -21,9 +21,10 @@ import GreenTech from "../assets/images/GreenTech.svg";
 import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
+import moment from "moment";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const getImages = (name: string, active?: boolean) => {
@@ -357,5 +358,65 @@ export const sidebarLayout = {
       link: "/auth",
       children: [],
     },
-  ]
-}
+  ],
+};
+export const chatDPColor = (id: number) => {
+  const colors = [
+    "#0E9CFF",
+    "#0077A2",
+    "#64A70B",
+    "#1FA8DC",
+    "#FD9372",
+    "#A81F58",
+    "#58BA66",
+    "#FFA25E",
+    "#FF5252",
+    "#606060",
+  ];
+  const colorIndex = id % colors.length;
+
+  return colors[colorIndex];
+};
+export const TimeFormatter = (dateTime: Date | string) => {
+  const today = moment().startOf("day");
+
+  const date = moment(dateTime);
+
+  let formattedTime;
+
+  if (date.isSame(today, "day")) {
+    formattedTime = date.format("h:mmA");
+  } else if (date.isBefore(today, "day")) {
+    formattedTime = date.format("D MMM");
+  } else {
+    formattedTime = date.format("h:mmA");
+  }
+  return formattedTime;
+};
+export const handleScrollToBottom = (
+  containerRef: React.MutableRefObject<any>
+) => {
+  const element = containerRef.current;
+  const duration = 500;
+  const start = element.scrollTop;
+  const end = element.scrollHeight - element.clientHeight;
+  const startTime = performance.now();
+
+  const animateScroll = (currentTime: any) => {
+    const elapsedTime = currentTime - startTime;
+    const scrollProgress = Math.min(1, elapsedTime / duration);
+    const easedProgress = easeInOutQuad(scrollProgress);
+    const scrollTop = start + (end - start) * easedProgress;
+
+    element.scrollTop = scrollTop;
+
+    if (elapsedTime < duration) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  const easeInOutQuad = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  requestAnimationFrame(animateScroll);
+};

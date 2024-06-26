@@ -17,7 +17,8 @@ interface SidebarItem {
 
 const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
-  const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  // const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
     switch (+userRole) {

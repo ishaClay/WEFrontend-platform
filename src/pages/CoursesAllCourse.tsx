@@ -44,7 +44,7 @@ function CoursesAllCourse() {
 
   console.log(selectedCourse);
   return (
-    <div className="bg-[#f5f3ff] ">
+    <div className="bg-[#f5f3ff]">
       <div>
         <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] overflow-auto rounded-[10px]">
           <div className="flex  bg-white border-b border-[#D9D9D9] rounded-t-[10px] h-[80px]">

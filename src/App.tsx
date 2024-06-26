@@ -101,6 +101,10 @@ import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
+import AddNewTicketsPage from "./pages/support/AddNewTicketsPage";
+import MessagePage from "./pages/message/MessagePage";
+import ComposePage from "./pages/message/ComposePage";
+import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -645,24 +649,27 @@ function App() {
         <Route
           path="/employee"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardEmployeePage />} />
           <Route
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
           />
-          <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="allcourses" element={<CoursesAllCourse />} />
+          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
-          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocument />} />
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
         </Route>
 
         <Route
@@ -711,6 +718,7 @@ function App() {
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
           />
+          <Route path="add-new-tickets" element={<AddNewTicketsPage />} />
         </Route>
       </Routes>
     </div>
