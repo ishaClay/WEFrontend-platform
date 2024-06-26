@@ -19,6 +19,7 @@ export interface AllCourse {
   description: string;
   bannerImage: string;
   page: number;
+  cohortGroups: CohortData[],
   courseData: [
     {
       pillarId: number;
@@ -37,6 +38,22 @@ export interface AllCourse {
       };
     }
   ];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CohortData {
+  id: number;
+  slotEndDate: {
+    date: string;
+    month: string;
+    year: string;
+  };
+  slotStartDate: {
+    date: string;
+    month: string;
+    year: string;
+  };
 }
 
 // export enum CourseStatus {

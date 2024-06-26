@@ -4,6 +4,7 @@ import { useAppSelector } from "@/hooks/use-redux";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
 import { useMutation } from "@tanstack/react-query";
+import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
@@ -37,6 +38,73 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       trainerId: 11,
     });
   };
+
+  const getUpcommingCohort = (cohortData: AllCourse) => {
+    const currentDate = new Date();
+    const formattedCurrentDate = {
+      date: String(currentDate.getDate()).padStart(2, "0"),
+      month: String(currentDate.getMonth() + 1).padStart(2, "0"),
+      year: String(currentDate.getFullYear()),
+    };
+
+    const duration = cohortData?.duration?.split(" ");
+    const number = parseInt(duration[0]) || 0;
+    const unit = duration[1] || "days";
+    const courseEndDate = moment(currentDate).add(number, unit);
+
+    const matchingSlot =
+      cohortData?.cohortGroups?.length > 0 &&
+      cohortData?.cohortGroups?.find(
+        (slot) =>
+          parseInt(slot.slotStartDate.year) > +formattedCurrentDate.year ||
+          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
+            parseInt(slot.slotStartDate.month) > +formattedCurrentDate.month) ||
+          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
+            parseInt(slot.slotStartDate.month) ===
+              +formattedCurrentDate.month &&
+            parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
+      );
+
+    const upcomingData = matchingSlot
+      ? matchingSlot
+      : {
+          slotStartDate: {
+            date: moment(currentDate).format("DD"),
+            month: moment(currentDate).format("MM"),
+            year: moment(currentDate).format("YYYY"),
+          },
+          slotEndDate: {
+            date: moment(courseEndDate).format("DD"),
+            month: moment(courseEndDate).format("MM"),
+            year: moment(courseEndDate).format("YYYY"),
+          },
+        };
+
+    console.log("upcomingData", upcomingData);
+
+    return (
+      <div
+        className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] mr-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
+        onClick={() => setIsCohortShow(true)}
+      >
+        <div className="flex items-center justify-between pb-[6px]">
+          <p className="text-black text-xs">
+            <span className="font-medium text-xs font-inter">Cohort 2 :</span>{" "}
+          </p>
+          <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+            Show all cohort
+          </p>
+        </div>
+        <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+          <span>Start Date : </span>
+          <span>22/5/2024 </span>
+          <span>End Date : </span>
+          <span>30/5/2024</span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Modal
@@ -189,27 +257,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                 </div>
 
                 <div className="border-t py-[13px] px-[8px] grid grid-cols-7 items-center">
-                  <div
-                    className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] mr-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
-                    onClick={() => setIsCohortShow(true)}
-                  >
-                    <div className="flex items-center justify-between pb-[6px]">
-                      <p className="text-black text-xs">
-                        <span className="font-medium text-xs font-inter">
-                          Cohort 2 :
-                        </span>{" "}
-                      </p>
-                      <p className="text-[#4285F4] text-[10px] font-inter font-medium">
-                        Show all cohort
-                      </p>
-                    </div>
-                    <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
-                      <span>Start Date : </span>
-                      <span>22/5/2024 </span>
-                      <span>End Date : </span>
-                      <span>30/5/2024</span>
-                    </div>
-                  </div>
+                  {getUpcommingCohort(allcourse)}
                   <div className="col-span-2 mr-0 ml-auto">
                     <button
                       onClick={() => handleEnroll(allcourse?.id)}

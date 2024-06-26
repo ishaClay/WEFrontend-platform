@@ -27,6 +27,9 @@ const TrainerInvitation = () => {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  const url = window.location.origin;
+
+  console.log("url", url);
 
   const { mutate, isPending } = useMutation({
     mutationFn: trainerInvitation,
@@ -62,6 +65,7 @@ const TrainerInvitation = () => {
       email: [data?.email],
       invitationDetails: data?.details,
       TrainerCompanyId: "13",
+      baseUrl: url,
     };
 
     mutate(payload);

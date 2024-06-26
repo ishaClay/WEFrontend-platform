@@ -9,32 +9,32 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { TimeFormatter, chatDPColor, handleScrollToBottom } from "@/lib/utils";
 import {
   fetchChat,
   fetchChatUserList,
   sendMessage,
   updateMessage,
 } from "@/services/apiServices/chatServices";
-import eye from "/assets/icons/eye.svg";
+import { uploadFile } from "@/services/apiServices/upload";
 import { GetChat, GetChatUserList } from "@/types/Chat";
-import { chatDPColor, TimeFormatter, handleScrollToBottom } from "@/lib/utils";
+import { ErrorType } from "@/types/Errors";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, FilePenLine, Loader2 } from "lucide-react";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
+import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import search from "/assets/icons/search.svg";
-import { uploadFile } from "@/services/apiServices/upload";
-import { ErrorType } from "@/types/Errors";
-import { toast } from "@/components/ui/use-toast";
-import { IoIosDocument } from "react-icons/io";
-import { UserRole } from "@/types/UserRole";
 import Loading from "../comman/Error/Loading";
-import { useAppSelector } from "@/hooks/use-redux";
+import eye from "/assets/icons/eye.svg";
+import search from "/assets/icons/search.svg";
 
 let socket: any;
 
@@ -141,9 +141,9 @@ const Message = () => {
     (item: GetChatUserList) => item?.id === chatId
   );
 
-  const getMessage = () => {
+  useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
-    socket.on("message recieved", async (newMessageReceived: any) => {
+    socket.on("message recieved", (newMessageReceived: any) => {
       setAllMsg((prevMsgs: any) => {
         const isDuplicate = prevMsgs.some(
           (msg: any) => msg.id === newMessageReceived.id
@@ -155,18 +155,14 @@ const Message = () => {
         return prevMsgs;
       });
 
-      !!UserId && !!chatId && (await refetchChat());
-      await refetchUserList();
+      // !!UserId && !!chatId && (await refetchChat());
+      // await refetchUserList();
     });
 
     return () => {
       socket.disconnect();
     };
-  };
-
-  useEffect(() => {
-    getMessage();
-  }, [getMessage]);
+  }, [chatId, refetchChat, refetchUserList, UserId]);
 
   const { mutate: handleSend, isPending: sendPending } = useMutation({
     mutationFn: (payload: SendMessagePayload) => {
@@ -351,9 +347,9 @@ const Message = () => {
                 <div className="text-neutral-400 leading-[15.6px] text-xs">
                   {currentChat?.role === UserRole.Company
                     ? "Company"
-                    : currentChat?.role === UserRole.TrainerCompany
-                    ? "Trainer Company"
                     : currentChat?.role === UserRole.Trainer
+                    ? "Trainer Company"
+                    : currentChat?.role === UserRole.Trainee
                     ? "Trainer"
                     : currentChat?.role === UserRole.CompanyEmployee
                     ? "Company Employee"
@@ -368,7 +364,7 @@ const Message = () => {
           )}
           <Button
             className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri"
-            onClick={() => navigate("compose")}
+            onClick={() => navigate("/trainer/message/compose")}
           >
             <FilePenLine width={18} /> Compose
           </Button>

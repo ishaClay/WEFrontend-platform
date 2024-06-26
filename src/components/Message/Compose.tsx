@@ -28,9 +28,9 @@ import {
 } from "@/services/apiServices/emailTemplate";
 import { fetchTargetAudienceList } from "@/services/apiServices/targetAudience";
 import { uploadFile } from "@/services/apiServices/upload";
-import { Client } from "@/types/client";
 import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
+import { Client } from "@/types/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -71,7 +71,7 @@ const Compose = () => {
       ? UserRole.SuperAdmin
       : isActive === "company"
       ? UserRole.Company
-      : UserRole.TrainerCompany;
+      : UserRole.Trainer;
 
   useEffect(() => {
     if (role === "6") {
@@ -87,8 +87,8 @@ const Compose = () => {
 
   const { data: targetaudience } = useQuery({
     queryKey: [QUERY_KEYS.emailTemplate, targetAudienceId],
-    queryFn: () => fetchTargetAudienceList(targetAudienceId as string),
-    enabled: !!targetAudienceId,
+    queryFn: () => fetchTargetAudienceList("2" as string),
+    enabled: true,
   });
 
   const { data: emailtemplateList, isPending } = useQuery({
@@ -107,10 +107,7 @@ const Compose = () => {
   useEffect(() => {
     refetchCompanyOrTrainerCompany();
   }, [isActive]);
-  console.log(
-    "getCompanyOrTrainerCompany?.data?.data",
-    getCompanyOrTrainerCompany?.data?.data
-  );
+  console.log("getCompanyOrTrainerCompany?.data?.data", targetaudience);
 
   const companyOrTrainerCompanyList =
     getCompanyOrTrainerCompany?.data?.data &&
@@ -155,7 +152,7 @@ const Compose = () => {
       return sendMessage(payload);
     },
     onSuccess: ({ data }) => {
-      let socket = io(import.meta.env.VITE_SOCKET_URL);
+      const socket = io(import.meta.env.VITE_SOCKET_URL);
       socket.emit("new message", data?.data);
       setChatMessage("");
       navigate("/message");
@@ -282,9 +279,9 @@ const Compose = () => {
                   </div>
                   <div
                     className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
-                      isActive === "Trainer company" ? "border-[#00778B]" : ""
+                      isActive === "Trainer" ? "border-[#00778B]" : ""
                     }`}
-                    onClick={() => setIsActive("trainer company")}
+                    onClick={() => setIsActive("trainer")}
                   >
                     <Avatar className="w-[42px] h-[42px]">
                       <AvatarFallback className="text-white text-xl bg-[#0077A2]">
@@ -348,7 +345,7 @@ const Compose = () => {
                   {isActive === "admin" && (
                     <SelectItem value={"1"}>Admin</SelectItem>
                   )}
-                  {isActive === "trainer company" ||
+                  {isActive === "trainer" ||
                     ("company" &&
                       companyOrTrainerCompanyList.map((item: any) => {
                         return (
@@ -386,7 +383,7 @@ const Compose = () => {
                 <SelectContent>
                   {isActive === "admin" ||
                     isActive === "company" ||
-                    (isActive === "trainer company" &&
+                    (isActive === "trainer" &&
                       targetaudience?.data?.data?.map((item: any) => {
                         return (
                           <SelectItem value={String(item?.id)}>

@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
+import Loader from "../comman/Loader";
 import { InputWithLable } from "../ui/inputwithlable";
 import {
   Select,
@@ -25,6 +26,7 @@ const RegisterTraineeForm = () => {
   const params = new URLSearchParams(search);
   const type = params.get("type");
   const email: string | null = params.get("email");
+  const navigate = useNavigate();
 
   const schema = Zod.object({
     email: Zod.string()
@@ -57,29 +59,15 @@ const RegisterTraineeForm = () => {
     employmentStatus: Zod.enum(employmentStatusOptions, {
       message: "Please enter valid employment status",
     }),
-    memberCompany: Zod.string()
-      .regex(/^[0-9]$/, { message: "Please enter a valid member company" })
-      .min(1, { message: "Please enter valid member company" }),
-    occupationalCategory: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, {
-        message: "Please enter a valid occupational category",
-      })
-      .min(1, { message: "Please enter valid occupational category" }),
-    unemploymentTime: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, {
-        message: "Please enter a valid unemployment time",
-      })
-      .min(1, { message: "Please enter valid unemployment time" }),
+    memberCompany: Zod.string().nullable(),
+    occupationalCategory: Zod.string().nullable(),
+    unemploymentTime: Zod.string().nullable(),
     countyOfResidence: Zod.string()
       .regex(/^[A-Za-z\s]+$/, {
         message: "Please enter a valid county of residence",
       })
       .min(1, { message: "Please enter valid county of residence" }),
-    attendedEvent: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, {
-        message: "Please enter a valid attended event",
-      })
-      .min(1, { message: "Please enter valid attended event" }),
+    attendedEvent: Zod.string().nullable(),
   });
   const {
     register,
@@ -96,7 +84,7 @@ const RegisterTraineeForm = () => {
     setValue("email", email);
   }, [email]);
 
-  const { mutate: updateTrainee } = useMutation({
+  const { mutate: updateTrainee, isPending } = useMutation({
     mutationFn: trainerUpdate,
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
@@ -112,6 +100,7 @@ const RegisterTraineeForm = () => {
           variant: "success",
         });
       }
+      navigate("/auth");
       reset();
     },
     onError: (error) => {
@@ -123,7 +112,7 @@ const RegisterTraineeForm = () => {
     },
   });
 
-  const onSubmit: any = async (data: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     const payload = {
       email: email,
       ageRange: +data.ageRange,
@@ -388,7 +377,7 @@ const RegisterTraineeForm = () => {
           type="submit"
           className="xl:mt-12 mt-6 bg-primary-button rounded w-[370px] h-12 text-white border border-solid border-black shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-calibri font-bold"
         >
-          Submit
+          {isPending ? <Loader containerClassName="h-auto" /> : "Submit"}
         </button>
       </form>
       <p className="xl:mt-[39px] mt-[30px] text-[#898989] text-[12px] leading-[14.65px] w-[296px] text-center font-normal mx-auto">

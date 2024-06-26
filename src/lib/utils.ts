@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import moment from "moment";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { BsTicketPerforated } from "react-icons/bs";
 import { FaUserGroup } from "react-icons/fa6";
@@ -21,7 +22,6 @@ import GreenTech from "../assets/images/GreenTech.svg";
 import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
-import moment from "moment";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -130,7 +130,7 @@ export const sidebarLayout = {
     {
       label: "Message",
       Icon: PiEnvelopeThin,
-      link: "/trainer/messaging",
+      link: "/trainer/message",
       children: [],
     },
     {

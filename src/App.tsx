@@ -93,18 +93,18 @@ import Assecessment from "./pages/courseManagement/AddAssecessment";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import ComposePage from "./pages/message/ComposePage";
+import MessagePage from "./pages/message/MessagePage";
 import MyCoursesList from "./pages/myCourse";
 import PrivacyPolicyPage from "./pages/privacyPolicy/PrivacyPolicyPage";
+import AddNewTicketsPage from "./pages/support/AddNewTicketsPage";
 import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
-import AddNewTicketsPage from "./pages/support/AddNewTicketsPage";
-import MessagePage from "./pages/message/MessagePage";
-import ComposePage from "./pages/message/ComposePage";
-import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -673,6 +673,29 @@ function App() {
         </Route>
 
         <Route
+          path="/trainee"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route
+            path="maturityassessmentroadmap"
+            element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="certificate" element={<EmployeeList />} />
+          <Route path="employeeprogress" element={<EmployeeProgress />} />
+          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="employeepermission" element={<EmployeePermission />} />
+          <Route path="messaging" element={<Messaging />} />
+        </Route>
+
+        <Route
           path="/trainer"
           element={
             <ProtectedRoute>
@@ -719,6 +742,8 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="add-new-tickets" element={<AddNewTicketsPage />} />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
         </Route>
       </Routes>
     </div>

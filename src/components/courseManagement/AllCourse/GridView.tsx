@@ -1,5 +1,6 @@
-import { Badge } from "@/components/ui/badge";
 import StarImage from "@/assets/images/Vector.png";
+import SelectMenu from "@/components/comman/SelectMenu";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,11 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CourseEntity } from "@/types/courseManagement";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CohortModal from "./CohortModal";
-import { CourseEntity } from "@/types/courseManagement";
-import SelectMenu from "@/components/comman/SelectMenu";
 
 const selectOption = [
   {
@@ -37,6 +37,7 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
     setCohort(true);
     setCourse(id);
   };
+
   return (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
