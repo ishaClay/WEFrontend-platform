@@ -49,7 +49,7 @@ export const updatePillarCheckbox = (data: any, pillerId: string) => {
 };
 
 export const getCheckedMeasures = (userId: string, clientId: string) => {
-    const url = `api/v1/pillar/get-measures-items/${userId}&clientId=${clientId}`;
+    const url = `api/v1/pillar/get-measures-items/${userId}?clientId=${clientId}`;
     return api({ url });
 }
 

@@ -39,7 +39,7 @@ function CoursesAllocate() {
   return (
     <div className="bg-[#f5f3ff]">
       <div className="p-3">
-        <div className="bg-[#FFFFFF] h-[calc(100vh_-_144px)] rounded-[10px] overflow-auto">
+        <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
           <div className=" pt-[10px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
             <div className="flex items-center justify-between ">
               <h1 className="text-[16px] font-semibold">Course Allocation</h1>

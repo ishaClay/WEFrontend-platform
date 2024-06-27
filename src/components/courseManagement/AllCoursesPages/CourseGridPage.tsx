@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -15,7 +16,7 @@ type dataGridProps = {
 
 const CourseGridPage = ({ data }: dataGridProps) => {
   const user = useAppSelector((state) => state.user);
-  const [isCohortShow, setIsCohortShow] = useState(false);
+  const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const { mutate: enrollRequest } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
@@ -50,6 +51,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
     const duration = cohortData?.duration?.split(" ");
     const number = parseInt(duration[0]) || 0;
     const unit = duration[1] || "days";
+    // @ts-ignore
     const courseEndDate = moment(currentDate).add(number, unit);
 
     const matchingSlot =
@@ -63,6 +65,15 @@ const CourseGridPage = ({ data }: dataGridProps) => {
             parseInt(slot.slotStartDate.month) ===
               +formattedCurrentDate.month &&
             parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
+      );
+
+    const findIndex =
+      matchingSlot &&
+      cohortData?.cohortGroups?.findIndex(
+        (slot) =>
+          slot.slotStartDate.year === matchingSlot.slotStartDate.year &&
+          slot.slotStartDate.month === matchingSlot.slotStartDate.month &&
+          slot.slotStartDate.date === matchingSlot.slotStartDate.date
       );
 
     const upcomingData = matchingSlot
@@ -80,16 +91,18 @@ const CourseGridPage = ({ data }: dataGridProps) => {
           },
         };
 
-    console.log("upcomingData", upcomingData);
+    console.log("upcomingData", upcomingData, findIndex);
 
     return (
       <div
         className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] mr-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
-        onClick={() => setIsCohortShow(true)}
+        onClick={() => setIsCohortShow(cohortData)}
       >
         <div className="flex items-center justify-between pb-[6px]">
           <p className="text-black text-xs">
-            <span className="font-medium text-xs font-inter">Cohort 2 :</span>{" "}
+            <span className="font-medium text-xs font-inter">
+              Cohort {findIndex ? findIndex : 1} :
+            </span>{" "}
           </p>
           <p className="text-[#4285F4] text-[10px] font-inter font-medium">
             Show all cohort
@@ -97,9 +110,19 @@ const CourseGridPage = ({ data }: dataGridProps) => {
         </div>
         <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
           <span>Start Date : </span>
-          <span>22/5/2024 </span>
+          <span>
+            {`${upcomingData.slotStartDate.date
+              .toString()
+              .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
+              .toString()
+              .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
+          </span>
           <span>End Date : </span>
-          <span>30/5/2024</span>
+          <span>{`${upcomingData.slotEndDate.date
+            .toString()
+            .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
+            .toString()
+            .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
         </div>
       </div>
     );
@@ -108,11 +131,11 @@ const CourseGridPage = ({ data }: dataGridProps) => {
   return (
     <>
       <Modal
-        open={isCohortShow}
-        onClose={() => setIsCohortShow(false)}
+        open={!!isCohortShow}
+        onClose={() => setIsCohortShow(null)}
         className="w-[560px]"
       >
-        <CohortModel />
+        <CohortModel isCohortShow={isCohortShow} />
       </Modal>
       {data?.map((allcourse: AllCourse) => {
         return (

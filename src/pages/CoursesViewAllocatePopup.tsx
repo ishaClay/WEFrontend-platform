@@ -1,13 +1,20 @@
+import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
+import TextAreaWithLabel from "@/components/comman/TextAreaWithLabel";
+import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { fetchAllocatedCourseById } from "@/services/apiServices/allocatedcourse";
 import { CourseTime, IsOnline } from "@/types/allocatedcourses";
 import { AllocatedCourseById } from "@/types/enroll";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
+import * as zod from "zod";
 import course from "../assets/svgs/cource.svg";
 import duration from "../assets/svgs/duration.svg";
 import institute from "../assets/svgs/institute.svg";
@@ -20,11 +27,31 @@ interface CourseViewAllocatePopupProps {
   openId: number | null;
 }
 
+const schema = zod.object({
+  fname: zod.string().min(1, { message: "First Name is required" }),
+  lname: zod.string().min(1, { message: "Last Name is required" }),
+  email: zod.string().email({ message: "Invalid Email" }),
+  message: zod.string().optional(),
+});
+
 function CourseViewAllocatePopup({
   isOpen,
   onClose,
   openId,
 }: CourseViewAllocatePopupProps) {
+  const [isInvite, setIsInvite] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
+
+  console.log("errors", errors);
+
   const { data, isPending } = useQuery<AllocatedCourseById>({
     queryKey: [QUERY_KEYS.fetchbycourseallocateById, { openId }],
     queryFn: () => fetchAllocatedCourseById("11", openId as number),
@@ -32,19 +59,28 @@ function CourseViewAllocatePopup({
 
   const courseData = data?.data && data?.data?.[0];
 
-  // const handleSliderChange = (event) => {
-  //     setSliderValue(event.target.value);
-  //     // You can add logic here to handle slider value changes
-  // };
+  const showInviteForm = () => {
+    setIsInvite(true);
+  };
 
   const handleInviteEmployee = () => {
     // Logic to invite selected employees
   };
 
+  const handleAllocation = () => {
+    // Logic to invite selected employees
+  };
+
   console.log("openId", openId);
 
+  const handleClose = () => {
+    onClose();
+    setIsInvite(false);
+    reset();
+  };
+
   return (
-    <Modal open={isOpen} onClose={onClose} className="max-w-[800px] w-full">
+    <Modal open={isOpen} onClose={handleClose} className="max-w-[800px] w-full">
       {isPending ? (
         <Loader />
       ) : (
@@ -170,42 +206,120 @@ function CourseViewAllocatePopup({
               </div>
             </div>
           </div>
-          <div className="flex items-center mt-[20px]">
-            <h2 className="text-[15px] mb-2 ml-[25px] font-bold">Employees</h2>
-            <div className="flex items-center ml-[527px]">
-              <label className="font-bold mr-[10px]">Select All</label>
-              <input
-                type="checkbox"
-                className="h-[18px] w-[18px] rounded ml-[5px] mr-[5px]"
-                onChange={() => {}}
-              />
+          {isInvite ? (
+            <div className="pt-[10px]">
+              <h5 className="text-[16px] font-calibri font-bold leading-5 mb-[30px]">
+                Invite Team Member
+              </h5>
+              <form onSubmit={handleSubmit(handleInviteEmployee)}>
+                <div className="grid grid-cols-2 gap-x-[29px] gap-y-[18px]">
+                  <div className="col-span-1">
+                    <InputWithLabel
+                      type="text"
+                      label="First Name"
+                      className="font-nunito mt-[8px] text-[#000000] text-[16px]"
+                      placeholder="Enter First Name"
+                      labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                      {...register("fname")}
+                      error={errors.fname?.message as string}
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <InputWithLabel
+                      type="text"
+                      label="Last Name"
+                      placeholder="Enter Last Name"
+                      className="font-nunito mt-[8px] text-[#000000] text-[16px]"
+                      labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                      {...register("lname")}
+                      error={errors.lname?.message as string}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLabel
+                      type="text"
+                      label="Team Member Email"
+                      placeholder="Enter email id"
+                      className="font-nunito mt-[8px] text-[#000000] text-[16px]"
+                      labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                      {...register("email")}
+                      error={errors.email?.message as string}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <TextAreaWithLabel
+                      label="Invitation Details"
+                      placeholder="Enter Details"
+                      className="font-nunito text-[#000000] text-[16px]"
+                      labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                      isLength={false}
+                      {...register("message")}
+                      error={errors.message?.message as string}
+                    />
+                  </div>
+                </div>
+                <div className="w-full flex items-center justify-end mt-[20px]">
+                  <Button
+                    type="submit"
+                    className="bg-[#58BA66] text-white px-4 py-2 rounded mt-[5px]"
+                  >
+                    Send Invite
+                  </Button>
+                </div>
+              </form>
             </div>
-          </div>
-          <div className="p-4 ">
-            {courseData?.course?.company?.employee.map((employee) => (
-              <div
-                key={employee.id}
-                className="flex items-center mb-2 border-b pb-2 border-[#D9D9D9]"
-              >
-                <img
-                  src={employee.profileImage}
-                  className="w-10 h-10 rounded-full border-[#D9D9D9]  border-2 mr-2 "
-                />
-                <span>{employee.name}</span>
-                <input
-                  type="checkbox"
-                  onChange={() => {}}
-                  className="ml-[520px]  h-[18px] w-[18px] rounded"
-                />
+          ) : (
+            <>
+              <div className="flex items-center mt-[20px]">
+                <h2 className="text-[15px] mb-2 ml-[25px] font-bold">
+                  Employees
+                </h2>
+                <div className="flex items-center ml-[527px]">
+                  <label className="font-bold mr-[10px]">Select All</label>
+                  <input
+                    type="checkbox"
+                    className="h-[18px] w-[18px] rounded ml-[5px] mr-[5px]"
+                    onChange={() => {}}
+                  />
+                </div>
               </div>
-            ))}
-          </div>
-          <button
-            className="bg-[#58BA66] text-white px-4 py-2 rounded ml-[610px] mt-[5px]"
-            onClick={handleInviteEmployee}
-          >
-            Edit Allocation
-          </button>
+              <div className="p-4 ">
+                {courseData?.course?.company?.employee.map((employee) => (
+                  <div
+                    key={employee.id}
+                    className="flex items-center mb-2 border-b pb-2 border-[#D9D9D9]"
+                  >
+                    <img
+                      src={employee.profileImage}
+                      className="w-10 h-10 rounded-full border-[#D9D9D9]  border-2 mr-2 "
+                    />
+                    <span>{employee.name}</span>
+                    <input
+                      type="checkbox"
+                      onChange={() => {}}
+                      className="ml-[520px]  h-[18px] w-[18px] rounded"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="w-full flex items-center justify-between">
+                <Button
+                  type="button"
+                  className="bg-[#00778B] text-white px-4 py-2 rounded mt-[5px]"
+                  onClick={showInviteForm}
+                >
+                  Invite Member
+                </Button>
+                <Button
+                  type="button"
+                  className="bg-[#58BA66] text-white px-4 py-2 rounded mt-[5px]"
+                  onClick={handleAllocation}
+                >
+                  Edit Allocation
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </Modal>
