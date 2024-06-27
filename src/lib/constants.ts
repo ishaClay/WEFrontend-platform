@@ -39,6 +39,8 @@ export const QUERY_KEYS = {
   clientList: "clientList",
   emailTemplate: "emailTemplate",
   companyOrTrainerCompany: "companyOrTrainerCompany",
+  supportTicketList: "support_ticket_list",
+  fetchSupportTicketCompany: "fetch_support_ticket_company",
 };
 
 export const urlRegex =
