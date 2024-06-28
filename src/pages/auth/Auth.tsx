@@ -39,7 +39,6 @@ function Auth() {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -73,21 +72,24 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
-      console.log(data.data.data, "data+++++");
-      dispatch(setCompanyId(data.data.data.query.detailsid));
       // dispatch(setClientId(data.data.data.query.clientid));
 
       if (data.data.data.status === "Inactive") {
-        navigate("/resetpassword", {
-          state: {
-            oldPassword: getValues("password"),
-            email: getValues("email"),
-            status: data?.data?.data?.status || "",
-            token: data?.data?.data?.accessToken || "",
-          },
+        // navigate("/resetpassword", {
+        //   state: {
+        //     oldPassword: getValues("password"),
+        //     email: getValues("email"),
+        //     status: data?.data?.data?.status || "",
+        //     token: data?.data?.data?.accessToken || "",
+        //   },
+        // });
+        console.log("data", data?.data?.data);
+
+        toast({
+          variant: "destructive",
+          title: data?.data?.message,
         });
-        toast({});
-        dispatch(setUserData(user.id));
+        // dispatch(setUserData(user.id));
       } else {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
@@ -95,6 +97,7 @@ function Auth() {
         // navigate("/savedassesment");
         dispatch(setUserData(user.id));
         localStorage.setItem("user", JSON.stringify(data.data.data));
+        dispatch(setCompanyId(data.data.data.query?.detailsid));
 
         // toast({
         //   title: "Login Successfully",
