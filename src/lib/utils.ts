@@ -285,7 +285,7 @@ export const sidebarLayout = {
         },
         {
           label: "Support Request",
-          link: "/company/supportticket",
+          link: "/company/support-request",
         },
       ],
     },

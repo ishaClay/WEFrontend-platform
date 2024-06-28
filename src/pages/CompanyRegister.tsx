@@ -299,7 +299,7 @@ function CompanyRegister() {
                   </Label>
                   <SelectMenu
                     option={countryOption || []}
-                    placeholder="Select your country"
+                    placeholder="Select your county"
                     className="w-[241px] h-[46px] mt-2"
                     setValue={(data: string) => setValue("county", data)}
                     value={watch("county") || ""}

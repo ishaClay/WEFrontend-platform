@@ -41,6 +41,7 @@ export const QUERY_KEYS = {
   companyOrTrainerCompany: "companyOrTrainerCompany",
   supportTicketList: "support_ticket_list",
   fetchSupportTicketCompany: "fetch_support_ticket_company",
+  supportTicketCount: "support_ticket_count",
 };
 
 export const urlRegex =

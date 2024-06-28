@@ -13,7 +13,8 @@ import { SubmitPayload, SupportTicketCompanyType } from '@/types/SupportRequest'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { FiImage, FiVideo } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
@@ -22,12 +23,11 @@ import { z } from 'zod';
 function SupportAddNewTicket() {
     const { toast } = useToast();
     const queryClient = useQueryClient();
-    const userDetails = useSelector((state: any) => state.user);
+    const {clientId} = useSelector((state: any) => state.user);
     const [selectAssignTo, setSelectAssignTo] = useState("");
     const [selectTicketPriority, setSelectTicketPriority] = useState("");
     const [file, setFile] = useState("");
     const [video, setVideo] = useState<any>(undefined);
-    const userId = userDetails.isClient ? userDetails.clientId : "";
     const userData = localStorage.getItem("user");
     const user = userData ? JSON.parse(userData) : null;
 
@@ -52,17 +52,11 @@ function SupportAddNewTicket() {
         mode: "all",
     });
 
-    const { data: fetchSupportCompany } = useQuery({
+    const { data: fetchSupportCompany, isPending: supportCompanyPending } = useQuery({
         queryKey: [QUERY_KEYS.fetchSupportTicketCompany],
-        queryFn: () => fetchSupportTicketCompany(String(userId)),
+        queryFn: () => fetchSupportTicketCompany(String(clientId), String(user?.query?.role)),
         enabled: true
     });
-
-    useEffect(() => {
-        queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.fetchSupportTicketCompany],
-        });
-    }, [userId])
 
     const { mutate: createSupportRequestTicket, isPending: createPanding } =
         useMutation({
@@ -141,10 +135,11 @@ function SupportAddNewTicket() {
                                 </SelectGroup>
                                 <SelectContent>
                                     {
+                                        supportCompanyPending ? <span className='flex justify-center py-3'><Loader2 className='w-5 h-5 animate-spin' /></span> : 
                                         fetchSupportCompany?.data?.data.length > 0 ? fetchSupportCompany?.data?.data?.map((item: SupportTicketCompanyType) => {
                                             return <>
-                                                {item?.companyDetails && <SelectItem key={item.id} value={String(item?.companyDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">SME Compny</span> <span className="mr-10 text-neutral-400">--</span> {item?.companyDetails?.name}</SelectItem>}
-                                                {item?.clientDetails && <SelectItem key={item.id} value={String(item?.trainerCompanyDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Client Admin</span> <span className="mr-10 text-neutral-400">--</span> {item?.clientDetails?.name}</SelectItem>}
+                                                {item?.clientDetails && <SelectItem key={item.id} value={String(item?.clientDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Client Admin</span> <span className="mr-10 text-neutral-400">--</span> {item?.clientDetails?.name}</SelectItem>}
+                                                {item?.trainerCompanyDetails && <SelectItem key={item.id} value={String(item?.trainerCompanyDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Trainer Provider</span> <span className="mr-10 text-neutral-400">--</span> {item?.trainerCompanyDetails?.providerName}</SelectItem>}
                                             </>
                                         }) : <span>No data found</span>
                                     }
