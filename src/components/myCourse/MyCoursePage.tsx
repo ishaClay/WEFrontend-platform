@@ -45,8 +45,13 @@ const MyCoursePage = () => {
   const params = new URLSearchParams(search).get("view");
   const navigate = useNavigate();
 
+  console.log("+++++++++++++++++", window.location.pathname?.split("/")[1]);
+
   const changeView = (id: number) => {
-    navigate(`/trainer/mycourses?view=${id}`, { replace: true });
+    navigate(
+      `/${window.location.pathname?.split("/")[1]}/mycourses?view=${id}`,
+      { replace: true }
+    );
   };
 
   const myPagesList = [

@@ -330,7 +330,7 @@ export const sidebarLayout = {
     {
       label: "Certifications",
       Icon: GrCertificate,
-      link: "/employee/certificate",
+      link: "/employee/certifications",
       children: [],
     },
     {
@@ -344,13 +344,19 @@ export const sidebarLayout = {
         },
         {
           label: "User Manual",
-          link: "/employee/trainingdocument",
+          link: "/employee/usermenual",
         },
         {
           label: "Support Request",
-          link: "/employee/supportticket",
+          link: "/employee/support-request",
         },
       ],
+    },
+    {
+      label: "Message",
+      Icon: PiEnvelopeThin,
+      link: "/employee/message",
+      children: [],
     },
     {
       label: "Logout",

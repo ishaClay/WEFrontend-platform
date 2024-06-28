@@ -105,6 +105,9 @@ import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import { changeTheme } from "./services/apiServices/theme";
+import UserManualPage from "./pages/support/UserManualPage";
+import CertificationsPage from "./pages/CertificationsPage";
+import Accomplishments from "./components/certifications/Accomplishments";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -662,13 +665,25 @@ function App() {
           />
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="mycourses" element={<MyCoursesList />} />
-          <Route path="certificate" element={<EmployeeList />} />
+          {/* <Route path="certificate" element={<EmployeeList />} /> */}
+          <Route path="certifications" element={<CertificationsPage />} />
+          <Route path="my-accomplishments" element={<Accomplishments />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsListPage />} />
-          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="usermenual" element={<UserManualPage />} />
+          {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
+          <Route
+            path="support-training-documnet"
+            element={<TrainingDocumentPage />}
+          />
+          <Route
+            path="ticket-details-reply"
+            element={<TicketDetailsReplyPage />}
+          />
+
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
         </Route>

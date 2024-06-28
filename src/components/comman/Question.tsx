@@ -88,9 +88,14 @@ const Question = () => {
           key={index}
         >
           <div className="py-[17px] bg-[#EEF9FD] flex items-center px-9 mt-[72px]">
-            <h2 className="text-[#002A3A] font-bold leading-[17.77px]">
-              {index + 1}. {i.title}
-            </h2>
+            <div className="flex gap-1">
+              <span className="text-[#002A3A] font-bold leading-[17.77px]">
+                {index + 1}.
+              </span>
+              <p className="text-[#002A3A] font-bold leading-[17.77px]">
+                {i.title}
+              </p>
+            </div>
           </div>
           <div className="mt-[21px] flex flex-col gap-[17px] px-10">
             {i.options.map((option: Option, oIndex: number, arr) => {

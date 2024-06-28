@@ -8,11 +8,16 @@ const SupportRequest = () => {
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <h6 className="font-calibri text-base font-bold">Support Request</h6>
         <div>
-          <Link to="add-new-ticket" className="py-[10px] px-[20px] bg-primary-button text-color rounded-sm">ADD NEW TICKET</Link>
+          <Link
+            to="add-new-ticket"
+            className="py-[10px] px-[20px] bg-primary-button text-color rounded-sm"
+          >
+            ADD NEW TICKET
+          </Link>
         </div>
       </div>
       <div className="">
-        <div className="mb-10 p-5 pb-0">
+        <div className="lg:mb-10 sm:mb-8 mb-6 sm:p-5 p-[15px] pb-0">
           <SupportRequestDetails />
         </div>
         <SupportRequestTable />

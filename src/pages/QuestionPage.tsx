@@ -350,8 +350,8 @@ const QuestionPage = () => {
         </div>
       </div>
       <div className="bg-[#E7E7E8]">
-        <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5">
-          <div className="flex gap-[30px] items-center flex-wrap justify-center">
+        <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5">
+          <div className="flex gap-[30px] items-center justify-center">
             {allPillar.map((category: string, index: number) => {
               const pillarQuestions = question[category];
               const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
