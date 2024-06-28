@@ -297,10 +297,10 @@ const Message = () => {
                     <div className="text-xs font-calibri text-[#A3A3A3] mb-[5px] leading-[15.6px]">
                       {item?.role === UserRole.Company
                         ? "Company"
-                        : item?.role === UserRole.TrainerCompany
-                        ? "Trainer Company"
                         : item?.role === UserRole.Trainer
-                        ? "Trainer"
+                        ? "Trainer Company"
+                        : item?.role === UserRole.Trainee
+                        ? "Trainee"
                         : item?.role === UserRole.CompanyEmployee
                         ? "Company Employee"
                         : item?.role === UserRole.SuperAdmin
