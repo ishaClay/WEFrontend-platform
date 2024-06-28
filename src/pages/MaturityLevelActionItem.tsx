@@ -18,16 +18,22 @@ function MaturityLevelActionItem() {
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId
+    ? +UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
 
   const { data: getCheckedmeasures, isPending } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasures],
-    queryFn: () => getCheckedMeasures(UserId, clientId),
+    queryFn: () => getCheckedMeasures(userID, clientId),
     enabled: true,
   });
 
   const path = 6 + 1;
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
+    mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],

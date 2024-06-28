@@ -72,6 +72,12 @@ function SelectLevel() {
   // console.log("pillarspillars", pillars);
 
   const { clientId, UserId } = useAppSelector((state: any) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId
+    ? +UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
   // console.log("clientIdclientId", clientId);
 
   const { toast } = useToast();
@@ -92,7 +98,7 @@ function SelectLevel() {
 
   const { data: maturitypillar, isPending } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
-    queryFn: () => fetchMaturityPillar(clientId, UserId),
+    queryFn: () => fetchMaturityPillar(clientId, userID),
     enabled: true,
   });
 
@@ -102,7 +108,7 @@ function SelectLevel() {
       queryFn: () =>
         filterMaturityMeasures(
           clientId as string,
-          UserId as string,
+          userID as string,
           selectmaturity as any,
           pid as string
         ),
@@ -131,7 +137,7 @@ function SelectLevel() {
   }, [selectmaturity]);
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
-    mutationFn: (actionitems: any) => addMeasuresItems(actionitems),
+    mutationFn: addMeasuresItems,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.measuresItems],
@@ -155,7 +161,7 @@ function SelectLevel() {
 
   const path = 5 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, UserId),
+    mutationFn: () => enumUpadate({ path: path.toString() }, userID),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
@@ -265,7 +271,7 @@ function SelectLevel() {
     e.preventDefault();
     const measures = pillerItems[currentPiller].map((item) => ({ name: item }));
 
-    createmeasuresitem({ clientId, userId: UserId, pillerId: pid, measures });
+    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
   console.log("pillerItemspillerItemspillerItems", pillerItems);

@@ -34,6 +34,14 @@ export const QUERY_KEYS = {
   fetchAllCourse: "fetchAllCourse",
   companyDetailsId: "companyDetailsById",
   fetchbycourseallocateById: "fetchbycourseallocateById",
+  chatUserList: "chatUserList",
+  chatList: "chatList",
+  clientList: "clientList",
+  emailTemplate: "emailTemplate",
+  companyOrTrainerCompany: "companyOrTrainerCompany",
+  supportTicketList: "support_ticket_list",
+  fetchSupportTicketCompany: "fetch_support_ticket_company",
 };
 
-export const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+export const urlRegex =
+  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;

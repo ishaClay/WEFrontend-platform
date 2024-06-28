@@ -18,6 +18,7 @@ interface SidebarItem {
 const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  // const userRole = 2;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
     switch (+userRole) {
@@ -43,8 +44,10 @@ const DashboardLayout = () => {
       </div>
       <div className="w-full">
         <HeaderCourse />
-        <div className="p-4 h-[calc(100vh-135px)] overflow-auto">
-          <Outlet />
+        <div className="p-4 ">
+          <div className="h-[calc(100vh-152px)] overflow-auto">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
