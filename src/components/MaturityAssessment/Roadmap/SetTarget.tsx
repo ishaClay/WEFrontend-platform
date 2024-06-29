@@ -43,11 +43,13 @@ const SetTarget = () => {
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>("");
-  console.log("+++++", currentPiller);
-
+  
   // const [checkedStates, setCheckedStates] = useState([]);
-
+  
   const [selectmaturity, setselectMaturity] = useState("");
+  const [editId, setEditId] = useState<number | null>(null);
+  console.log("+++++", currentPiller, setEditId);
+  console.log(editId);
   const dispatch = useDispatch();
   const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);

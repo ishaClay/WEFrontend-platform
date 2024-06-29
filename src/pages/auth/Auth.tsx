@@ -116,6 +116,12 @@ function Auth() {
           }
         }
 
+        if (user.role == UserRole.Trainee) {
+          if (data.data.data.status === "Active") {
+            navigate("/trainee/dashboard");
+          }
+        }
+
         if (user.role == UserRole.CompanyEmployee) {
           if (data.data.data.status === "Active") {
             navigate("/employee/dashboard");

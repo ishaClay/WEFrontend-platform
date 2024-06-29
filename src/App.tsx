@@ -715,9 +715,14 @@ function App() {
             element={<MaturityAssessmentRoadmapAfterbuild />}
           />
           <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="allcourse" element={<AllCoursesPage />} />
+          <Route path="enrolledrequest" element={<EnrollmentRequest />} />
+          <Route path="enrolledcourses" element={<EnrolledCourse />} />
+          <Route path="create_course" element={<CourseManagement />} />
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
-          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="support-faqslist" element={<FaqsListPage />} />
+          {/* <Route path="faqslist" element={<FaqsList />} /> */}
           <Route path="trainingdocument" element={<TrainingDocument />} />
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />

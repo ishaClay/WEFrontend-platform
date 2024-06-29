@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
@@ -16,10 +16,11 @@ const AllCourses = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
+  const location = useLocation();
   console.log("params", setCourse);
 
   const changeList = (id: number) => {
-    navigate(`/trainer/allcourse?list=${id}`, { replace: true });
+    navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };
 
   const {
@@ -51,7 +52,7 @@ const AllCourses = () => {
             <div>
               <Button
                 type="button"
-                onClick={() => navigate("/trainer/create_course?tab=1")}
+                onClick={() => navigate(`/${location?.pathname?.split("/")[1]}/create_course?tab=1`)}
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
                 ADD NEW COURSE

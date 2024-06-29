@@ -167,7 +167,7 @@ export const sidebarLayout = {
         },
         {
           label: "Enrolled Courses",
-          link: "/trainee/allcourses",
+          link: "/trainee/enrolledcourses",
         },
       ],
     },
@@ -193,7 +193,7 @@ export const sidebarLayout = {
       children: [
         {
           label: "FAQ's",
-          link: "/trainee/faqslist",
+          link: "/trainee/support-faqslist",
         },
         {
           label: "User Manual",

@@ -1,33 +1,49 @@
-import Accordions from "@/components/comman/Accordions";
-import FaqsListAnswer from "./FaqsListAnswer";
-import FaqsListItems from "./FaqsListItems";
-import { AccordionOption } from "@/types";
+import { QUERY_KEYS } from "@/lib/constants";
+import { UserRole } from "@/types/UserRole";
+import { useQuery } from "@tanstack/react-query";
+import { fetchFaqs } from "@/services/apiServices/faqs";
+import Accordions from "./FaqsAccoudion";
 
 const FaqsList = () => {
-  const List = [
-    {
-      list: "How to create an FAQ page",
-    },
-    {
-      list: "How to create an FAQ page",
-    },
-    {
-      list: "How to create an FAQ page",
-    },
-    {
-      list: "How to create an FAQ page",
-    },
-    {
-      list: "How to create an FAQ page",
-    },
-  ];
+  const userData = localStorage.getItem("user");
+  const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  
+  // const List = [
+  //   {
+  //     list: "How to create an FAQ page",
+  //   },
+  //   {
+  //     list: "How to create an FAQ page",
+  //   },
+  //   {
+  //     list: "How to create an FAQ page",
+  //   },
+  //   {
+  //     list: "How to create an FAQ page",
+  //   },
+  //   {
+  //     list: "How to create an FAQ page",
+  //   },
+  // ];
 
-  const accordionItems: AccordionOption[] = List.map((item) => {
-    return {
-      title: <FaqsListItems data={item} />,
-      content: <FaqsListAnswer />,
-    };
+  // const accordionItems: AccordionOption[] = List.map((item) => {
+  //   return {
+  //     title: <FaqsListItems data={item} />,
+  //     content: <FaqsListAnswer />,
+  //   };
+  // });
+  const {
+    data: faqs_list,
+    isPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.faqsList],
+    queryFn: () =>
+      fetchFaqs(
+        +userRole !== UserRole.Trainee ? "Trainer Admin" : "Trainer"
+      ),
   });
+
+  console.log('faqs_list', faqs_list, isPending)
 
   return (
     <div className="bg-white rounded-xl">
@@ -36,7 +52,7 @@ const FaqsList = () => {
       </div>
       <div className="p-5">
         <div>
-          <Accordions items={accordionItems} rounded={false} />
+          <Accordions items={faqs_list?.data?.data} rounded={false} />
         </div>
       </div>
     </div>

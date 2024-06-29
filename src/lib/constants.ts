@@ -50,6 +50,7 @@ export const QUERY_KEYS = {
   fetchSupportTicketCompany: "fetch_support_ticket_company",
   supportTicketCount: "support_ticket_count",
   fetchAllCourseModule: "fetchAllCourseModule",
+  faqsList: "faqsList",
 };
 
 export const urlRegex =
