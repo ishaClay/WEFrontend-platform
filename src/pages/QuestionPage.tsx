@@ -431,14 +431,14 @@ const QuestionPage = () => {
       </div>
 
       <form>
-        <div className="m-[24px] flex flex-wrap gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 px-5 xl:mt-[89px] mt-[60px]">
-          <div className="max-w-[871px] w-full bg-[#EFEEEE]">
-            <div className="flex gap-12 flex-col w-full max-w-[773px]">
+        <div className="m-[24px] xl:flex block gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 sm:px-5 px-[15px] xl:mt-[89px] mt-5">
+          <div className="xl:max-w-[871px] w-full">
+            <div className="flex gap-12 flex-col w-full xl:max-w-[773px]">
               {isPending ? <Loader /> : <Question />}
             </div>
           </div>
-          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal">
-            <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex">
+          <div className="w-[271px] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto">
+            <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
               Current Progress
             </h2>
             <div className="flex items-center gap-3 mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">

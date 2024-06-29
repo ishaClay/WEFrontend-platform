@@ -645,7 +645,10 @@ function App() {
           <Route path="faqslist" element={<FaqsList />} />
           <Route path="trainingdocument" element={<TrainingDocument />} />
           <Route path="support-request" element={<SupportRequestPage />} />
-          <Route path="support-request/add-new-ticket" element={<SupportAddNewTicket />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
         </Route>
