@@ -14,6 +14,7 @@ type AccordionsProps = {
   separator?: boolean;
   padding?: boolean;
   background?: boolean;
+  border?: boolean;
 };
 
 const Accordions = ({
@@ -23,6 +24,7 @@ const Accordions = ({
   separator = false,
   padding = true,
   background = false,
+  border = true,
 }: AccordionsProps) => {
   return (
     <Accordion type={type} collapsible>
@@ -32,7 +34,9 @@ const Accordions = ({
             <AccordionItem
               className={`overflow-hidden  ${
                 rounded ? "rounded-lg" : "rounded-none"
-              } ${padding ? "p-5" : "p-0"}`}
+              } ${padding ? "p-5" : "p-0"} ${
+                border ? "border" : "border-none p-0"
+              }`}
               key={index}
               value={`item-${index + 1}`}
             >

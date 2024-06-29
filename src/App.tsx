@@ -108,6 +108,9 @@ import { changeTheme } from "./services/apiServices/theme";
 import UserManualPage from "./pages/support/UserManualPage";
 import CertificationsPage from "./pages/CertificationsPage";
 import Accomplishments from "./components/certifications/Accomplishments";
+import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
+import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
+import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -666,6 +669,10 @@ function App() {
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
           />
+          <Route
+            path="maturityAssessment"
+            element={<MaturityAssessmentPage />}
+          />
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="mycourses" element={<MyCoursesList />} />
           {/* <Route path="certificate" element={<EmployeeList />} /> */}
@@ -689,6 +696,9 @@ function App() {
 
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="employee-basic-course" element={<BasicCoursePage />} />
+          <Route path="live-session" element={<LiveSessionPage />} />
+          <Route path="selectlevel" element={<SelectLevel />} />
         </Route>
 
         <Route
