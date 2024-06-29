@@ -22,6 +22,7 @@ import GreenTech from "../assets/images/GreenTech.svg";
 import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
+import { FileType } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -425,4 +426,63 @@ export const handleScrollToBottom = (
     t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
   requestAnimationFrame(animateScroll);
+};
+
+export const getFileType = (name: number) => {
+  const fileType = Object.values(FileType).find((type) => type.enum === name);
+  return fileType;
+};
+
+export const calculateTotalReadingTime = (sections: any) => {
+  let totalHours = 0;
+  let totalMinutes = 0;
+  let totalSeconds = 0;
+
+  sections.forEach((section: any) => {
+    const time = section.isLive ? section.sectionTime : section.readingTime;
+    totalHours += time?.hour;
+    totalMinutes += time?.minute;
+    totalSeconds += time?.second;
+  });
+
+  // Convert total seconds to minutes and hours if necessary
+  totalMinutes += Math.floor(totalSeconds / 60);
+  totalSeconds = totalSeconds % 60;
+
+  totalHours += Math.floor(totalMinutes / 60);
+  totalMinutes = totalMinutes % 60;
+
+  // Format the result as a string
+  let result = "";
+  if (totalHours > 0) {
+    result += `${totalHours}hr `;
+  }
+  if (totalMinutes > 0) {
+    result += `${totalMinutes}min `;
+  }
+  if (totalSeconds > 0 || (totalHours === 0 && totalMinutes === 0)) {
+    result += `${totalSeconds}sec`;
+  }
+
+  return result.trim();
+};
+
+export const getExtension = (filename: string) => {
+  return filename && filename?.split(".")?.at(-1)?.toLowerCase();
+};
+
+export const fileValidation = (
+  filename: string,
+  allowedFileTypes: string[] | undefined
+) => {
+  const fileExtension = getExtension(filename);
+  if (
+    allowedFileTypes &&
+    fileExtension &&
+    allowedFileTypes.includes(fileExtension)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 };

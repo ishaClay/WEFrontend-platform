@@ -1,4 +1,3 @@
-import * as React from "react";
 // @ts-ignore
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -15,7 +14,7 @@ import { Label } from "./label";
 
 interface DatePickerProps {
   date: Date | undefined;
-  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+  setDate: (date: Date | undefined) => void;
   labelText?: string;
   placeHolder?: string;
   buttonClassName?: string;

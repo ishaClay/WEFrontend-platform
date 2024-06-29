@@ -1,3 +1,10 @@
+import document_Option_1 from "@/assets/images/upload_option_1.png";
+import document_Option_2 from "@/assets/images/upload_option_2.png";
+import document_Option_4 from "@/assets/images/upload_option_4.png";
+import document_Option_6 from "@/assets/images/upload_option_6.png";
+import AssesmentIcon from "@/assets/images/assesment.svg";
+import PdfIcon from "@/assets/images/pdfIcon.svg";
+import VideoICon from "@/assets/images/videoIcon.svg";
 // QUERY KEYS
 export const QUERY_KEYS = {
   pillarList: "pillar_list",
@@ -42,7 +49,50 @@ export const QUERY_KEYS = {
   supportTicketList: "support_ticket_list",
   fetchSupportTicketCompany: "fetch_support_ticket_company",
   supportTicketCount: "support_ticket_count",
+  fetchAllCourseModule: "fetchAllCourseModule",
 };
 
 export const urlRegex =
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+export const FileType = {
+  Document: {
+    name: "Document",
+    fileType: ["docx", "doc"],
+    fileTypeText: ".docx,.doc",
+    image: document_Option_1,
+    enum: 1,
+    listIcon: AssesmentIcon,
+  },
+  Excel: {
+    name: "Excel",
+    fileType: ["xlsx", "xml"],
+    fileTypeText: ".xlsx,.xml",
+    image: document_Option_2,
+    enum: 2,
+    listIcon: AssesmentIcon,
+  },
+  Pdf: {
+    name: "Pdf",
+    fileType: ["pdf"],
+    fileTypeText: ".pdf",
+    image: document_Option_4,
+    enum: 3,
+    listIcon: PdfIcon,
+  },
+  Video: {
+    name: "Video",
+    fileType: ["mp4"],
+    fileTypeText: ".mp4",
+    image: document_Option_6,
+    enum: 4,
+    listIcon: VideoICon,
+  },
+  Live: {
+    name: "Live",
+    fileType: ["live"],
+    fileTypeText: "live",
+    image: document_Option_6,
+    enum: 5,
+    listIcon: VideoICon,
+  },
+};

@@ -27,14 +27,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 interface PillerItem {
   [key: string]: string[];
 }
 
 const SetTarget = () => {
-  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   console.log("+++++++", open);
@@ -50,8 +48,6 @@ const SetTarget = () => {
   // const [checkedStates, setCheckedStates] = useState([]);
 
   const [selectmaturity, setselectMaturity] = useState("");
-  const [editId, setEditId] = useState<number | null>(null);
-  console.log(editId);
   const dispatch = useDispatch();
   const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
@@ -117,7 +113,7 @@ const SetTarget = () => {
   // console.log(getCheckedmeasures)
 
   const path = 5 + 1;
-  const {}: any = useMutation({
+  const { }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -169,15 +165,13 @@ const SetTarget = () => {
                 <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6">
                   <div className="flex justify-between h-8">
                     <div
-                      className={`${
-                        item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
-                      } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
+                      className={`${item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
+                        } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
                     >
                       <h2 className="text-sm font-inter">
                         <span
-                          className={`${
-                            item?.checked ? "text-white" : "text-[#FFD56A]"
-                          } text-[black]`}
+                          className={`${item?.checked ? "text-white" : "text-[#FFD56A]"
+                            } text-[black]`}
                         >
                           Your level -
                         </span>
@@ -189,11 +183,10 @@ const SetTarget = () => {
 
                     <div className="mt-2.5 me-3">
                       <input
-                        className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
-                          item?.checkbox
-                            ? "accent-[white]"
-                            : "accent-[#64A70B] text-[#FFF]"
-                        }`}
+                        className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${item?.checkbox
+                          ? "accent-[white]"
+                          : "accent-[#64A70B] text-[#FFF]"
+                          }`}
                         type="checkbox"
                         checked={item?.checked ? true : false}
                         onChange={() => {
@@ -269,25 +262,25 @@ const SetTarget = () => {
                         <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-calibri">
                           {pid === item?.pillarid
                             ? filtermesuresdata?.data?.data &&
-                              filtermesuresdata?.data?.data.map(
-                                (m: any, index: number) =>
-                                  m?.filteredOptions?.map(
-                                    (measures: any, subIndex: number) =>
-                                      measures?.measures && (
-                                        <li
-                                          key={`item-${index}-${subIndex}`}
-                                          className=""
-                                        >
-                                          {measures?.measures}
-                                        </li>
-                                      )
-                                  )
-                              )
+                            filtermesuresdata?.data?.data.map(
+                              (m: any, index: number) =>
+                                m?.filteredOptions?.map(
+                                  (measures: any, subIndex: number) =>
+                                    measures?.measures && (
+                                      <li
+                                        key={`item-${index}-${subIndex}`}
+                                        className=""
+                                      >
+                                        {measures?.measures}
+                                      </li>
+                                    )
+                                )
+                            )
                             : item?.filteredOptions.map((m: any) => {
-                                if (m.measures) {
-                                  return <li>{m.measures}</li>;
-                                }
-                              })}
+                              if (m.measures) {
+                                return <li>{m.measures}</li>;
+                              }
+                            })}
                         </ul>
                       </div>
                     </div>

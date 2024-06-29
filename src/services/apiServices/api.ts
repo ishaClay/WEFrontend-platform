@@ -11,16 +11,18 @@ interface AxiosParams {
   params?: { [key: string]: string | number };
   url: string;
   isFormData?: boolean;
+  progressCallback?: (val:any) => void
 }
 
 const api = ({
   baseURL = BASE_URL,
   headers = {},
   method = "get",
-  data = null,
+  data = {},
   params,
   url,
   isFormData = false,
+  progressCallback = () => {},
 }: AxiosParams) => {
   const instance = axios.create({
     baseURL,
@@ -35,6 +37,11 @@ const api = ({
       "Content-Type": "application/json",
       ...headers,
     },
+    onUploadProgress: (progressEvent: any) => {
+      const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+      console.log(`Upload progress: ${percentCompleted}%`);
+      progressCallback(percentCompleted)
+    }
   };
 
   if (isFormData) {

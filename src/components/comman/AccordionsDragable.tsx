@@ -14,17 +14,15 @@ type AccordionsProps = {
   separator?: boolean;
   padding?: boolean;
   background?: boolean;
-  border?: boolean;
 };
 
-const Accordions = ({
+const AccordionsDragable = ({
   items,
   type = "single",
   rounded = true,
   separator = false,
   padding = true,
   background = false,
-  border = true,
 }: AccordionsProps) => {
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
@@ -34,8 +32,7 @@ const Accordions = ({
           return (
             <AccordionItem
               className={`overflow-hidden  ${rounded ? "rounded-lg" : "rounded-none"
-                } ${padding ? "p-5" : "p-0"} ${border ? "border" : "border-none p-0"
-                }`}
+                } ${padding ? "p-5" : "p-0"}`}
               key={index}
               value={`item-${index + 1}`}
             >
@@ -60,4 +57,4 @@ const Accordions = ({
   );
 };
 
-export default Accordions;
+export default AccordionsDragable;

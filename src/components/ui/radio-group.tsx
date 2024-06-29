@@ -20,8 +20,10 @@ RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+    indicatorClassName?: string
+  }
+>(({ className, indicatorClassName, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Item
       ref={ref}
@@ -32,7 +34,10 @@ const RadioGroupItem = React.forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center border-none outline-none">
-        <Circle className="h-[18px] w-[18px] fill-[#00778B] text-current border-none" />
+        <Circle className={cn(
+          "h-[18px] w-[18px] fill-[#00778B] text-current border-none",
+          indicatorClassName
+        )} />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );
