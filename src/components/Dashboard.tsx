@@ -392,7 +392,7 @@ const Dashboard = () => {
               <DataTable
                 columns={column}
                 data={employeeData}
-                totalCount={employeeData?.length}
+                totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
               />

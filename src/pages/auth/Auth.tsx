@@ -39,6 +39,7 @@ function Auth() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -75,18 +76,24 @@ function Auth() {
       // dispatch(setClientId(data.data.data.query.clientid));
 
       if (data.data.data.status === "Inactive") {
-        // navigate("/resetpassword", {
-        //   state: {
-        //     oldPassword: getValues("password"),
-        //     email: getValues("email"),
-        //     status: data?.data?.data?.status || "",
-        //     token: data?.data?.data?.accessToken || "",
-        //   },
-        // });
+        toast({
+          variant: "destructive",
+          title: data?.data?.message,
+        });
+      }
+      if (data.data.data.isNew) {
+        navigate("/resetpassword", {
+          state: {
+            oldPassword: getValues("password"),
+            email: getValues("email"),
+            status: data?.data?.data?.status || "",
+            token: data?.data?.data?.accessToken || "",
+          },
+        });
         console.log("data", data?.data?.data);
 
         toast({
-          variant: "destructive",
+          variant: "default",
           title: data?.data?.message,
         });
         // dispatch(setUserData(user.id));
@@ -126,6 +133,10 @@ function Auth() {
           if (data.data.data.status === "Active") {
             navigate("/employee/dashboard");
           }
+          toast({
+            variant: "success",
+            title: data.data.message,
+          });
         }
 
         if (user.role == UserRole.Client) {
@@ -137,7 +148,7 @@ function Auth() {
 
         if (user.role == UserRole.Company) {
           toast({
-            title: "Login Successfully",
+            title: data.data.message,
           });
 
           dispatch(setUserData(user.id));

@@ -1,18 +1,3 @@
-import { useState } from "react";
-import {
-  SortingState,
-  ColumnFiltersState,
-  VisibilityState,
-  flexRender,
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  ColumnDef,
-  PaginationState,
-} from "@tanstack/react-table";
-import { Input } from "../../components/ui/input";
 import {
   Table,
   TableBody,
@@ -21,33 +6,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  PaginationState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Input } from "../../components/ui/input";
 import Paginations from "./Pagination";
 import search from "/assets/icons/search.svg";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  inputbox?: true;
+  inputbox?: boolean;
   pagenationbox?: true;
   pagination?: PaginationState;
-  totalCount?: number;
+  totalPages?: number;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
   searchFilter?: (e: string) => void;
+  isLoading?: boolean;
 }
 
 export function NewDataTable<TData, TValue>({
   data,
   columns,
-  inputbox,
+  inputbox = true,
   pagenationbox,
   pagination = { pageIndex: 1, pageSize: 10 },
-  setPagination = () => { },
-  totalCount = 2000,
+  setPagination = () => {},
+  totalPages = 0,
   setPage,
   searchFilter,
-  searchPlaceholder = "Search by company name, country, sector, etc."
+  isLoading,
+  searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -55,9 +58,7 @@ export function NewDataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
 
-
-
-  const pageCount = Math.ceil(totalCount / (pagination?.pageSize || 1));
+  // const pageCount = Math.ceil(totalCount / (pagination?.pageSize || 1));
 
   const table = useReactTable({
     data,
@@ -71,7 +72,7 @@ export function NewDataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    pageCount,
+    // pageCount,
     onPaginationChange: setPagination,
     manualPagination: true,
     state: {
@@ -88,12 +89,11 @@ export function NewDataTable<TData, TValue>({
   const handleSearchFilter = (e: string) => {
     setGlobalFilter(e);
     searchFilter && searchFilter(e);
-  }
-
+  };  
 
   return (
     <div className="w-full">
-      {inputbox ? null : (
+      {!!inputbox && (
         <div className="flex items-center py-4 relative">
           <Input
             placeholder={searchPlaceholder}
@@ -118,9 +118,9 @@ export function NewDataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -128,7 +128,15 @@ export function NewDataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={columns?.length}>
+                  <span className="flex items-center justify-center py-10">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   className=""
@@ -158,16 +166,17 @@ export function NewDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {pagenationbox ? null : (
+      {pagenationbox && totalPages > 0 ? null : (
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-black px-4">
-            Showing {pagination.pageIndex}/{pageCount} Records
+            Showing {pagination.pageIndex}/{totalPages} Records
           </div>
           <div className="pr-[24px]">
             <Paginations
-              page={pagination.pageIndex}
-              setPage={setPage}
-              totalPages={pageCount}
+              currentPage={pagination?.pageIndex}
+              totalPages={totalPages || 1}
+              itemsPerPage={10}
+              setCurrentPage={setPage}
             />
           </div>
         </div>

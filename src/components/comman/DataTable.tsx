@@ -31,7 +31,7 @@ interface DataTableProps<TData, TValue> {
   inputbox?: boolean;
   pagenationbox?: boolean;
   pagination?: PaginationState;
-  totalCount?: number;
+  totalPages?: number;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({
   pagenationbox,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
-  totalCount = 2000,
+  totalPages = 0,
   setPage,
   searchFilter,
   rounded = true,
@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
 
-  const pageCount = Math.ceil(totalCount / (pagination?.pageSize || 1));
+  // const pageCount = Math.ceil(totalCount / (pagination?.pageSize || 1));
 
   const table = useReactTable({
     data,
@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    pageCount,
+    // pageCount,
     onPaginationChange: setPagination,
     manualPagination: true,
     state: {
@@ -180,16 +180,17 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {pagenationbox ? null : (
+      {pagenationbox && totalPages > 0 ? null : (
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-black px-4 font-inter">
-            Showing {pagination.pageIndex}/{pageCount} Records
+          <div className="flex-1 text-sm text-black px-4">
+            Showing {pagination.pageIndex}/{totalPages} Records
           </div>
           <div className="pr-[24px]">
             <Paginations
-              page={pagination.pageIndex}
-              setPage={setPage}
-              totalPages={pageCount}
+              currentPage={pagination?.pageIndex}
+              totalPages={totalPages || 1}
+              itemsPerPage={10}
+              setCurrentPage={setPage}
             />
           </div>
         </div>

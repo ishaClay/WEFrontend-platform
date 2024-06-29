@@ -1,67 +1,72 @@
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
+import usePagination from "@/hooks/use-pagination";
 
 interface PaginationsProps {
   className?: string;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
   totalPages: number;
+  itemsPerPage: number;
+  useUrlParams?: boolean;
+  setCurrentPage?: (page: number) => void;
 }
 const Paginations = ({
   className,
-  page,
-  setPage,
+  currentPage,
   totalPages,
+  itemsPerPage,
+  useUrlParams,
+  setCurrentPage,
 }: PaginationsProps) => {
-  const handlePrevPage = () => {
-    setPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const searchParams = window.location.search;
+  const pathname = window.location.pathname;
+  const replace = useNavigate();
 
-  const handleNextPage = () => {
-    setPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-  const renderPageLinks = () => {
-    const range = 1;
-    let startIndex = Math.max(1, page - range);
-    let endIndex = Math.min(totalPages, page + range);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-    if (endIndex - startIndex < 2 * range) {
-      if (startIndex === 1) {
-        endIndex = Math.min(totalPages, startIndex + 2 * range);
-      } else {
-        startIndex = Math.max(1, endIndex - 2 * range);
-      }
+  const range = usePagination({
+    currentPage,
+    totalPages,
+    siblingCount: 1,
+  });
+  console.log("itemsPerPage", itemsPerPage);  
+
+  const handlePrev = () => {
+    if (currentPage <= 1) return;
+    if (useUrlParams) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", String(currentPage - 1));
+      replace(`${pathname}?${params.toString()}`);
     }
-
-    const pages = Array.from(
-      { length: endIndex - startIndex + 1 },
-      (_, index) => index + startIndex
-    );
-
-    return pages.map((pageNumber) => (
-      <PaginationItem key={pageNumber}>
-        <PaginationLink
-          href="#"
-          onClick={() => setPage(pageNumber)}
-          isActive={pageNumber === page}
-          className={clsx(
-            "h-[32px] w-[40px] rounded-[7px] text-black hover:bg-primary border hover:text-primary-foreground font-normal",
-            { "bg-primary text-white": pageNumber === page }
-          )}
-        >
-          {pageNumber}
-        </PaginationLink>
-      </PaginationItem>
-    ));
+    setCurrentPage && setCurrentPage(currentPage - 1);
+  };
+  const handleNext = () => {
+    if (currentPage >= pages.length) return;
+    if (useUrlParams) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", String(currentPage + 1));
+      replace(`${pathname}?${params.toString()}`);
+    }
+    setCurrentPage && setCurrentPage(currentPage + 1);
   };
 
+  const handleChangePage = (pageNumber: number) => {
+    if (useUrlParams) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", String(pageNumber));
+      replace(`${pathname}?${params.toString()}`, { replace: true });
+    }
+    setCurrentPage && setCurrentPage(pageNumber);
+  };
   return (
     <div className={clsx("space-x-2", className)}>
       <Pagination>
@@ -70,24 +75,37 @@ const Paginations = ({
             <Button
               variant="ghost"
               size="sm"
-              onClick={handlePrevPage}
-              disabled={page === 1}
-              className="h-[32px] w-[40px] p-0 text-black hover:bg-primary border hover:text-primary-foreground font-normal"
+              disabled={currentPage === 1}
+              onClick={handlePrev}
+              className="p-0 text-primary hover:bg-lightPrimary hover:text-primary border border-[#D9D9D9] px-[10px] py-[6px] h-[34px]"
             >
-              <ChevronLeft width={18} height={18} />
+              <ChevronLeft width={18} height={18} className="text-[#000000]" />
             </Button>
           </PaginationItem>
-
-          {renderPageLinks()}
+          {range.map((page, index) => {
+            return (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  isActive={page === currentPage}
+                  onClick={() => page && handleChangePage(page)}
+                  className={`border border-[#D9D9D9] px-[15px] py-[6px] h-[34px] text-[#000000] ${
+                    page === currentPage && "bg-[#00778B] text-[#fff]"
+                  }`}
+                >
+                  {page === 0 ? <PaginationEllipsis className="" /> : page}
+                </PaginationLink>
+              </PaginationItem>
+            );
+          })}
           <PaginationItem>
             <Button
               variant="ghost"
               size="sm"
-              onClick={handleNextPage}
-              disabled={page === totalPages}
-              className="h-[32px] w-[40px] p-0 text-black hover:bg-primary border hover:text-primary-foreground font-normal"
+              disabled={currentPage >= pages.length}
+              onClick={handleNext}
+              className="p-0 text-primary hover:bg-lightPrimary hover:text-primary border border-[#D9D9D9] px-[10px] py-[6px] h-[34px]"
             >
-              <ChevronRight width={18} height={18} />
+              <ChevronRight width={18} height={18} className="text-[#000000]" />
             </Button>
           </PaginationItem>
         </PaginationContent>

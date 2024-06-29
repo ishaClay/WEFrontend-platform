@@ -163,7 +163,7 @@ const CohortModal = ({ open, setOpen }: CohortModalProps) => {
         <DataTable
           columns={column}
           data={cohortTable}
-          totalCount={cohortTable?.length}
+          totalPages={cohortTable?.length}
           setPage={setPage}
           rounded={false}
           headerBackground={false}

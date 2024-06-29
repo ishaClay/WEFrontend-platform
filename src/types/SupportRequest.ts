@@ -7,6 +7,7 @@ export interface SupportRequest {
     country: string,
     assign: string,
     Priority: string,
+    openbyname: string,
 }
 
 export interface SubmitType {

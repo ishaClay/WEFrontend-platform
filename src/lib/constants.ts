@@ -51,6 +51,9 @@ export const QUERY_KEYS = {
   supportTicketCount: "support_ticket_count",
   fetchAllCourseModule: "fetchAllCourseModule",
   faqsList: "faqsList",
+  getSingleSupportTicket: "getSingleSupportTicket",
+  courseTopFive: "courseTopFive",
+  AssignTo: "AssignTo",
 };
 
 export const urlRegex =

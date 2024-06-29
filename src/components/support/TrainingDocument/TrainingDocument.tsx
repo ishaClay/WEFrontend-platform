@@ -116,7 +116,7 @@ const TrainingDocument = () => {
         <DataTable
           columns={column}
           data={data}
-          totalCount={data?.length}
+          totalPages={data?.length}
           setPage={setPage}
           rounded={false}
         />

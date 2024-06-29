@@ -17,8 +17,35 @@ export const fetchSupportTicketCount = (userId: string) => {
     return api({ url });
 };
 
-export const fetchSupportTicketList = (page: string, limit: string, userId?: number | null) => {
+export const fetchSupportTicketList = (page: string, limit: string, userId?: number | null, keyword?: string) => {
     const url = `api/v1/support-ticket/list`
-    let params: any = { page, limit, userId }
+    let params: any = { page, limit, userId, keyword }
     return api({ url, params });
 };
+
+export const deleteSupportTicket = (id: string) => {
+    const url = `api/v1/support-ticket/delete/${id}`,
+        method = "delete";
+    return api({ url, method, data: {} });
+}
+
+export const fetchOneSupportTicket = (id: string) => {
+    const url = `api/v1/support-ticket/get/${id}`
+    return api({ url });
+}
+
+export const fetchAssignTo = (id: string) => {
+    const url = `api/v1/support-ticket/getCompany-TrainerCompany?ClientId=${id}`
+    return api({ url });
+}
+
+export const getSingleSupportTicket = (id: string) => {
+    const url = `api/v1/support-ticket/get/${id}`
+    return api({ url });
+}
+
+export const updateSupportTicket = (data:{id: string, item: any}) => {    
+    const url = `api/v1/support-ticket/update/${data.id}`
+    const method = "put";
+    return api({ url, data: data?.item, method });
+}

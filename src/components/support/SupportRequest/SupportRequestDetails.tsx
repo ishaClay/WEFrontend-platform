@@ -8,11 +8,11 @@ import { fetchSupportTicketCount } from "@/services/apiServices/supportRequestSe
 import { useSelector } from "react-redux";
 
 const SupportRequestDetails = () => {
-  const { clientId } = useSelector((state: any) => state.user);
+  const { UserId } = useSelector((state: any) => state.user);
 
   const { data: support_request_count } = useQuery({
     queryKey: [QUERY_KEYS.supportTicketCount],
-    queryFn: () => fetchSupportTicketCount(clientId),
+    queryFn: () => fetchSupportTicketCount(UserId),
   });
   return (
     <div className="w-full grid grid-cols-[repeat(4,auto)] gap-5 mt-[28px]">

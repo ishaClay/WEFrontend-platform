@@ -252,7 +252,7 @@ const TrainerManagement = () => {
           <DataTable
             columns={colums}
             data={data?.data || []}
-            totalCount={data?.metadata?.totalItems}
+            totalPages={data?.metadata?.totalItems}
             pagination={{ pageIndex: page, pageSize: limit }}
             setPage={setPage}
             inputbox={false}

@@ -7,7 +7,7 @@ import { InputWithLable } from '@/components/ui/inputwithlable';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/lib/constants'
 import { createSupportTicket, fetchSupportTicketCompany } from '@/services/apiServices/supportRequestServices';
 import { SubmitPayload, SupportTicketCompanyType } from '@/types/SupportRequest';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,11 +17,14 @@ import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { FiImage, FiVideo } from 'react-icons/fi';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 function SupportAddNewTicket() {
     const { toast } = useToast();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const {clientId} = useSelector((state: any) => state.user);
     const [selectAssignTo, setSelectAssignTo] = useState("");
@@ -65,8 +68,10 @@ function SupportAddNewTicket() {
                 reset()
                 setFile("")
                 setVideo(undefined)
+                setSelectAssignTo("")
+                setSelectTicketPriority("")
                 toast({ title: "Ticket created Successfully", variant: "default" });
-                // redirect('/support-request')
+                navigate('/company/support-request')
                 queryClient.invalidateQueries({
                     queryKey: [QUERY_KEYS.supportTicketList],
                 });
@@ -98,19 +103,12 @@ function SupportAddNewTicket() {
         <div className="h-full bg-[white] rounded-[10px] font-nunitoSans overflow-auto">
             <div className="h-[70px] border-b-2 border-solid gray flex justify-between items-center pl-[20px] pr-[28px] ">
                 <h2 className="font-[700] text-[16px]">Add New Ticket</h2>
-                {/* <div>
-					<button
-						onClick={() =>
-							dispatch(
-								setPath([{ name: "Support Request", link: "support-request" }])
-							)
-						}
-						className="text-[16px] font-[600] flex items-center gap-[15px] "
-					>
+                <div>
+					<button onClick={() => navigate("/company/support-request")} className="text-[16px] font-[600] flex items-center gap-[15px]">
 						<HiOutlineArrowNarrowLeft />
 						Back
 					</button>
-				</div> */}
+				</div>
             </div>
             <div className="p-5">
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,8 +136,8 @@ function SupportAddNewTicket() {
                                         supportCompanyPending ? <span className='flex justify-center py-3'><Loader2 className='w-5 h-5 animate-spin' /></span> : 
                                         fetchSupportCompany?.data?.data.length > 0 ? fetchSupportCompany?.data?.data?.map((item: SupportTicketCompanyType) => {
                                             return <>
-                                                {item?.clientDetails && <SelectItem key={item.id} value={String(item?.clientDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Client Admin</span> <span className="mr-10 text-neutral-400">--</span> {item?.clientDetails?.name}</SelectItem>}
-                                                {item?.trainerCompanyDetails && <SelectItem key={item.id} value={String(item?.trainerCompanyDetails?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Trainer Provider</span> <span className="mr-10 text-neutral-400">--</span> {item?.trainerCompanyDetails?.providerName}</SelectItem>}
+                                                {item?.clientDetails && <SelectItem key={item.id} value={String(item?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Client Admin</span> <span className="mr-10 text-neutral-400">--</span> {item?.clientDetails?.name}</SelectItem>}
+                                                {item?.trainerCompanyDetails && <SelectItem key={item.id} value={String(item?.id)}><span className="w-[150px] text-neutral-400 inline-block text-left">Trainer Provider</span> <span className="mr-10 text-neutral-400">--</span> {item?.trainerCompanyDetails?.providerName}</SelectItem>}
                                             </>
                                         }) : <span>No data found</span>
                                     }
@@ -164,8 +162,8 @@ function SupportAddNewTicket() {
                                     </SelectTrigger>
                                 </SelectGroup>
                                 <SelectContent>
-                                    <SelectItem value={"Poor"}>Poor</SelectItem>
-                                    <SelectItem value={"Normal"}>Normal</SelectItem>
+                                    <SelectItem value={"Low"}>Low</SelectItem>
+                                    <SelectItem value={"Medium"}>Medium</SelectItem>
                                     <SelectItem value={"High"}>High</SelectItem>
                                 </SelectContent>
                             </Select>
