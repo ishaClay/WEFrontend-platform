@@ -45,9 +45,12 @@ const AllCourses = () => {
         <div className="bg-[#FFFFFF] rounded-[10px] w-full">
           <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
             <div className="flex  bg-white">
-              <p className="text-black text-base font-bold font-sans">
-                Course Management
-              </p>
+              <div>
+                <h3 className="text-[16px] font-[700] font-nunito mb-1">
+                  Course Management
+                </h3>
+                <p className="text-[#606060] text-[15px]">Here’s a snapshot of the inventory of your courses, in all their forms</p>
+              </div>
             </div>
             <div>
               <Button
@@ -76,11 +79,10 @@ const AllCourses = () => {
                 className="bg-transparent p-1 hover:bg-transparent"
               >
                 <AiOutlineAppstore
-                  className={`w-8 h-8 ${
-                    params === "0" || !params
+                  className={`w-8 h-8 ${params === "0" || !params
                       ? "text-[#00778B]"
                       : "text-[#A3A3A3]"
-                  }`}
+                    }`}
                 />
               </Button>
               <Button
@@ -89,9 +91,8 @@ const AllCourses = () => {
                 className="bg-transparent p-1 hover:bg-transparent"
               >
                 <AiOutlineBars
-                  className={`w-8 h-8 ml-2 ${
-                    params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
-                  }`}
+                  className={`w-8 h-8 ml-2 ${params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                    }`}
                 />
               </Button>
             </div>

@@ -145,7 +145,7 @@ const TicketsDetailsReply = () => {
                     data?.data?.data?.openBy?.role === UserRole.Company ? "SME Company" :
                       data?.data?.data?.openBy?.role === UserRole.Trainer ? "Trainer Company" :
                         data?.data?.data?.openBy?.role === UserRole.Trainee ? "Trainer" :
-                          data?.data?.data?.openBy?.role === UserRole.CompanyEmployee ? "Company Employee" :
+                          data?.data?.data?.openBy?.role === UserRole.Employee ? "Company Employee" :
                             data?.data?.data?.openBy?.role === UserRole.SuperAdmin ? "Super Admin" : "Client"
                   }
                 </p>
@@ -161,7 +161,7 @@ const TicketsDetailsReply = () => {
               </div>
               <div>
                 <span>Priority: </span>
-                <Button className={`rounded-[15px] ${data?.data?.data?.priority === "Normal" ? "bg-[#58BA66]" : data?.data?.data?.priority === "High" ? "" : "bg-[#FF5252]"}`}>
+                <Button className={`rounded-[15px] ${data?.data?.data?.priority === "Medium" ? "bg-[#58BA66]" : data?.data?.data?.priority === "High" ? "bg-[#FF5252]" : "bg-[#FFD56A]"}`}>
                   {data?.data?.data?.priority}
                 </Button>
               </div>

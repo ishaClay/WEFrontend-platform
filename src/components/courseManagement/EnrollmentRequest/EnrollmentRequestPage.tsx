@@ -16,7 +16,10 @@ const EnrollmentRequestPage = () => {
     <div className="bg-white">
       <div className="flex justify-between items-center py-2 px-4 border-b border-[#D9D9D9] mb-7">
         <div>
-          <h6 className="text-base font-bold">Enrollment Requests</h6>
+          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            Enrollment Requests
+          </h3>
+          <p className="text-[#606060] text-[15px]">Here are all the company requests to enroll in your courses</p>
         </div>
         <div className="flex items-center">
           <Select

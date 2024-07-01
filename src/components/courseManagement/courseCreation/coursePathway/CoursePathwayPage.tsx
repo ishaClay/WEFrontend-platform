@@ -74,6 +74,7 @@ const CoursePathwayPage = () => {
       <h4 className="font-calibri text-base text-black pb-4">
         <span className="font-bold">Target areas / pillars</span> (Select
         applicable pillars)
+        <p className="text-[#606060] text-[15px] ml-3 inline-block">Which sustainability pillars does your course apply to? And  for which level?</p>
       </h4>
       {isClientMaturityLevel || isPending ? (
         <Loader />
@@ -83,7 +84,7 @@ const CoursePathwayPage = () => {
             <CoursePathwayPageItems
               key={index}
               data={item}
-              lavelData={clientMaturityLevel?.data || []}
+              lavelData={clientMaturityLevel?.data || [] || null}
               handleSelected={(value) =>
                 handleSelected(item.id?.toString(), value)
               }
@@ -98,8 +99,7 @@ const CoursePathwayPage = () => {
           <div className="flex items-center">
             <img src={CloseIcon} alt="close" className="me-3" />
             <span className="text-[#842029] text-base font-calibri line-clamp-1 me-3">
-              <strong>Sorry,</strong> You can’t add more than 3 pillars, if you
-              want to add another pillars, please contact to your admin
+            Only a maximum of 3 pillars can be selected.  Does your course match more? Please contact your admin so they can sort it out
             </span>
           </div>
           <Button

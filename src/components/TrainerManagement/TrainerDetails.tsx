@@ -65,9 +65,12 @@ const TrainerDetails = () => {
     <div className="bg-white h-full rounded-[6px] overflow-auto">
       <div className="font-nunitoSans text-[16px] leading-[22px] text-black">
         <div className="px-[14px] py-[10px] flex items-center justify-between border-b mb-[36px]">
-          <h3 className="text-[16px] font-[700] font-nunito">
-            Trainer Management
-          </h3>
+          <div>
+            <h3 className="text-[16px] font-[700] font-nunito mb-1">
+              Trainer Details
+            </h3>
+            <p className="text-[#606060] text-[15px]">All the details on your trainer, in one convenient view</p>
+          </div>
           <Button
             type="button"
             onClick={() => navigate("/trainer/trainer-management/invitation")}
@@ -161,17 +164,15 @@ const TrainerDetails = () => {
                   <RadioGroupItem
                     value={"1"}
                     id="r1"
-                    className={`${
-                      TrainerStatus[+trainerStatus] !== "Active" &&
+                    className={`${TrainerStatus[+trainerStatus] !== "Active" &&
                       "border-[#A3A3A3]"
-                    }`}
+                      }`}
                   />
                   <Label
                     htmlFor="r1"
-                    className={`text-[16px] font-normal ${
-                      TrainerStatus[+trainerStatus] !== "Active" &&
+                    className={`text-[16px] font-normal ${TrainerStatus[+trainerStatus] !== "Active" &&
                       "text-[#A3A3A3]"
-                    }`}
+                      }`}
                   >
                     Active
                   </Label>
@@ -180,17 +181,15 @@ const TrainerDetails = () => {
                   <RadioGroupItem
                     value={"0"}
                     id="r2"
-                    className={`${
-                      TrainerStatus[+trainerStatus] !== "Inactive" &&
+                    className={`${TrainerStatus[+trainerStatus] !== "Inactive" &&
                       "border-[#A3A3A3]"
-                    }`}
+                      }`}
                   />
                   <Label
                     htmlFor="r2"
-                    className={`text-[16px] font-normal ${
-                      TrainerStatus[+trainerStatus] !== "Inactive" &&
+                    className={`text-[16px] font-normal ${TrainerStatus[+trainerStatus] !== "Inactive" &&
                       "text-[#A3A3A3]"
-                    }`}
+                      }`}
                   >
                     Inactive
                   </Label>

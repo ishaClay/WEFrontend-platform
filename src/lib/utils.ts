@@ -98,7 +98,7 @@ export const sidebarLayout = {
           link: "/trainer/certificate-template",
         },
         {
-          label: "Allocated Certificate",
+          label: "Issued Certificate",
           link: "/trainer/allocated-certificate",
         },
       ],
@@ -110,15 +110,15 @@ export const sidebarLayout = {
       children: [
         {
           label: "FAQ's",
-          link: "/trainer/faqslist",
+          link: "/trainer/support-faqslist",
         },
         {
           label: "Training Document",
-          link: "/trainer/trainingdocument",
+          link: "/trainer/support-training-documnet",
         },
         {
           label: "Support Request",
-          link: "/trainer/supportticket",
+          link: "/trainer/support-request",
         },
       ],
     },
@@ -491,9 +491,4 @@ export const fileValidation = (
   } else {
     return false;
   }
-};
-
-export const range = (start: number, end: number) => {
-  let length = end - start + 1;
-  return Array.from({ length }, (_, idx) => idx + start);
 };

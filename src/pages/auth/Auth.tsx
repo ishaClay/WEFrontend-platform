@@ -194,9 +194,7 @@ function Auth() {
               src="../assets/img/pngwing.png"
             />
             <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full">
-              <span className="text-[#73AF26]">Empower</span> your potential
-              through our comprehensive training programs, where knowledge meets
-              innovation
+            Quite literally: <span className="text-[#73AF26]">you’ll be the bridge</span> for companies across Ireland to upskill their teams, and <span className="text-[#73AF26]">become more sustainable</span>
             </h2>
           </div>
 
@@ -211,7 +209,7 @@ function Auth() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
-                <p className="text-[24px] font-[700] text-color">Login</p>
+                <p className="text-[24px] font-[700] text-color mb-5">You’re most welcome in...</p>
                 <InputWithLable
                   className="w-full h-[52px] mt-2 secondary-background"
                   placeholder="Enter Username"

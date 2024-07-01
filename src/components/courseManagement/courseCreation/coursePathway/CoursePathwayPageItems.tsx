@@ -5,7 +5,7 @@ import { DataEntity } from "@/types/Pillar";
 
 interface CoursePathwayPageItemsProps {
   data: DataEntity;
-  lavelData: MaturityLevelResult[];
+  lavelData?: any;
   handleSelected: (maturityId: string) => void;
   selectedData: {
     pillarId: string;
@@ -55,7 +55,7 @@ const CoursePathwayPageItems = ({
         onValueChange={(value) => handleSelected(value)}
         className="col-span-9 flex items-center gap-[50px] ml-[50px]"
       >
-        {lavelData?.map((item) => {
+        {lavelData?.map((item: MaturityLevelResult) => {
           return (
             <Label
               htmlFor={`r1_${item.id}-${data.id}`}

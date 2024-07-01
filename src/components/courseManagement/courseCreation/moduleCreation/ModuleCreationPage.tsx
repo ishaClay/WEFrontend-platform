@@ -253,7 +253,8 @@ const ModuleCreationPage = () => {
 
   return (
     <div className="p-5">
-      <div className="text-right pb-5">
+      <div className="flex justify-between items-center pb-5">
+      <p className="text-[#606060] text-[15px] inline-block">Please fill in all the learning material for this course,  as you see fit</p>
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}

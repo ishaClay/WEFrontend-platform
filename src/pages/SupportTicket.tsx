@@ -266,7 +266,7 @@ function CoursesAllocate() {
 										</td>
 
 										<td className={`border-b px-18 py-2`}>
-											<button className={`text-xs rounded ${employee.priority === 'High' ? 'bg-[#FF5252] text-white h-[32px] w-[80px]' : employee.priority === 'Normal' ? 'bg-[#58BA66] text-white h-[32px] w-[80px]' : 'bg-[#FFD56A] text-white h-[32px] w-[80px]'}`}>
+											<button className={`text-xs rounded ${employee.priority === 'High' ? 'bg-[#FF5252] text-white h-[32px] w-[80px]' : employee.priority === 'Medium' ? 'bg-[#58BA66] text-white h-[32px] w-[80px]' : 'bg-[#FFD56A] text-white h-[32px] w-[80px]'}`}>
 												{employee.priority}
 											</button>
 										</td>

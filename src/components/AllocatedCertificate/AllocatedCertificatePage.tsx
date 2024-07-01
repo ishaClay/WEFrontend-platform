@@ -54,7 +54,7 @@ const data = [
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(0);
   console.log("page", page);
-  
+
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",
@@ -194,14 +194,15 @@ const AllocatedCertificatePage = () => {
   return (
     <div className="bg-white rounded-lg">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <div className="">
-          <h6 className="font-calibri text-base font-bold">
-            Allocated Certificate
-          </h6>
+        <div>
+          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            Issued Certificates
+          </h3>
+          <p className="text-[#606060] text-[15px]">All the certificates awarded to trainees so far</p>
         </div>
         <div className="">
           <Button className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito">
-            Allocate Certificate
+            ISSUE A Certificate
           </Button>
         </div>
       </div>

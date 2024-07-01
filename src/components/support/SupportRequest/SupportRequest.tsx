@@ -6,7 +6,12 @@ const SupportRequest = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <h6 className="font-calibri text-base font-bold">Support Request</h6>
+        <div>
+          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            Support Request
+          </h3>
+          <p className="text-[#606060] text-[15px]">Here are all the support requests opened by your trainers or trainees </p>
+        </div>
         <div>
           <Link
             to="add-new-ticket"

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-import HeaderCourse from "@/components/HeaderCourse";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -9,9 +7,13 @@ import {
   BsFillHandThumbsUpFill,
 } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
+import { Textarea } from "@/components/ui/textarea";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 function AllCourses() {
   // State to track which comment is in reply mode
+  const navigate = useNavigate();
   const [replyMode, setReplyMode] = useState(null);
 
   // Handler to toggle reply mode for a comment
@@ -20,32 +22,39 @@ function AllCourses() {
   };
 
   return (
-    <div className="flex bg-[#f5f3ff] w-[1510px] h-[1608px] gap-1">
-      <div className=" w-[235px] h-[1608px]">
-        <EmployeeListSidebar />
-      </div>
-      <div className="flex flex-col">
-        <div className="w-[1204px] h-[120px] ">
-          <HeaderCourse />
+    <div className="bg-[#FFFFFF] rounded-t-[10px]">
+      <div className="px-[14px] py-[10px] flex items-center justify-between border-b">
+          <div>
+            <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity
+            </h3>
+          </div>
+          <Button
+            type="button"
+            onClick={() => navigate("")}
+            className="bg-transparent text-black font-nunito px-5 text-[16px]"
+          >
+            <IoIosArrowRoundBack size={26} className="mr-4" />
+            Back
+          </Button>
         </div>
-
-        <div className="bg-[#FFFFFF] w-[1250px] h-[1469px] m-[12px] rounded-t-[10px]">
-          <Tabs defaultValue="account" className="w-[400px]">
-            <TabsList>
-              <TabsTrigger value="Information">Information</TabsTrigger>
-              <TabsTrigger value="Module">Module</TabsTrigger>
-              <TabsTrigger value="Feedback">Feedback</TabsTrigger>
-              <TabsTrigger value="Forum">Forum</TabsTrigger>
+          <Tabs defaultValue="Information">
+            <TabsList className="border-b rounded-none p-0 w-full justify-start">
+              <TabsTrigger value="Information" className="h-full data-[state=active]:text-[#00778B] border-b-2 border-white rounded-none data-[state=active]:border-b-[#00778B]">Information</TabsTrigger>
+              <TabsTrigger value="Module" className="h-full data-[state=active]:text-[#00778B] border-b-2 border-white rounded-none data-[state=active]:border-b-[#00778B]">Module</TabsTrigger>
+              <TabsTrigger value="Feedback" className="h-full data-[state=active]:text-[#00778B] border-b-2 border-white rounded-none data-[state=active]:border-b-[#00778B]">Feedback</TabsTrigger>
+              <TabsTrigger value="Forum" className="h-full data-[state=active]:text-[#00778B] border-b-2 border-white rounded-none data-[state=active]:border-b-[#00778B]">Forum</TabsTrigger>
             </TabsList>
-            <TabsContent value="Information">
+            <TabsContent value="Information" className="p-4">
               Make changes to your account here.
             </TabsContent>
-            <TabsContent value="Module">Change your password here.</TabsContent>
-            <TabsContent value="Feedback">
+            <TabsContent value="Module" className="p-4">Change your password here.</TabsContent>
+            <TabsContent value="Feedback" className="p-4">
               Make changes to your account here.
             </TabsContent>
-            <TabsContent value="Forum">
-              <div className="m-[50px] border h-[310px] border-[#D9D9D9] rounded-[5px] p-[23px]">
+            <TabsContent value="Forum" className="p-4">
+            <p className="text-[#606060] text-[15px] mb-5">Want to get involved in a forum discussion? Post your question or reply to one below</p>
+              <div className="border border-[#D9D9D9] rounded-[5px] p-[23px] mb-5">
                 <div className=" flex gap-[10px]">
                   <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" />
@@ -61,14 +70,14 @@ function AllCourses() {
                 </div>
 
                 <div className=" mt-[18px] text-[#A3A3A3]  h-[150px] ">
-                  <textarea className="p-[20px] w-full border gray " />
+                  <Textarea rows={5} className="p-[20px] w-full border gray resize-none" />
                 </div>
                 <div className="w-full mt-[20px] flex justify-end">
                   <Button className="bg-[#42A7C3]">Post Question</Button>
                 </div>
               </div>
 
-              <div className="m-[50px] border h-[1022px] border-[#D9D9D9] rounded-[5px] p-[23px]">
+              <div className="border border-[#D9D9D9] rounded-[5px] p-[23px]">
                 <div className=" flex gap-[10px]">
                   <Avatar>
                     <AvatarImage src="https://github.com/shadcn.png" />
@@ -148,14 +157,17 @@ function AllCourses() {
                       <AvatarImage src="https://github.com/shadcn.png" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <div className="w-full relative">
-                      <textarea
-                        className="w-full h-[100px] p-[10px] bg-[#F5F7FF] rounded-[15px]"
+                    <div className="w-full flex p-3 relative items-end bg-[#F5F7FF] rounded-[15px]">
+                      <Textarea
+                        rows={4}
+                        className="w-full p-0 bg-[#F5F7FF] border-0 mb-3 mr-3 resize-none !ring-0 !ring-transparent !ring-offset-0"
                         placeholder="Reply to Comment Person Name..."
-                      ></textarea>
-                      <Button className="absolute bottom-[30px] right-8 w-[70px] h-[38px] bg-[#42A7C3]">
-                        Post
-                      </Button>
+                      />
+                      <div className="flex justify-end">
+                        <Button className=" bottom-[30px] right-8 w-[70px] h-[38px] bg-[#42A7C3]">
+                          Post
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -163,8 +175,6 @@ function AllCourses() {
             </TabsContent>
           </Tabs>
         </div>
-      </div>
-    </div>
   );
 }
 
