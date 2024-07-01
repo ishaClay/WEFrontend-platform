@@ -19,26 +19,32 @@ const BasicDetails = () => {
   useEffect(() => {
     if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
       navigate(
-        `/${location?.pathname?.split("/")[1]}/create_course?tab=${paramsTab}&step=${parseInt(
+        `/${
+          location?.pathname?.split("/")[1]
+        }/create_course?tab=${paramsTab}&step=${parseInt(
           params
-        )}&id=${paramsId}&version=${paramsversion}`,
-        {
-          replace: true,
-        }
+        )}&id=${paramsId}&version=${paramsversion}`
       );
       setStep(parseInt(params));
     } else if (!!paramsId && !!paramsversion && !!paramsTab) {
       navigate(
-        `/${location?.pathname?.split("/")[1]}/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
+        `/${
+          location?.pathname?.split("/")[1]
+        }/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
         { replace: true }
       );
     } else {
-      navigate(`/${location?.pathname?.split("/")[1]}/create_course?tab=${paramsTab}&step=${0}`, {
-        replace: true,
-      });
+      navigate(
+        `/${
+          location?.pathname?.split("/")[1]
+        }/create_course?tab=${paramsTab}&step=${0}`,
+        {
+          replace: true,
+        }
+      );
       setStep(0);
     }
-  }, [params, step, paramsId, paramsversion, paramsTab]);
+  }, [params, step, paramsId, paramsversion, paramsTab, navigate]);
 
   return (
     <div>

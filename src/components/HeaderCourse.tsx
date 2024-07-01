@@ -1,6 +1,8 @@
 import { IoMdArrowDropdown } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { VscBellDot } from "react-icons/vsc";
+import Logo1 from "../../public/assets/img/logo1.png";
+import Logo2 from "../assets/images/logo2.png";
 function HeaderCourse() {
   return (
     <header className="  bg-[#FAFAFA] h-[120px]">
@@ -15,7 +17,7 @@ function HeaderCourse() {
             <span className="cursor-pointer">Our Courses</span>
             <img
               className="w-[6px] h-[6px] mt-[11px]"
-              src="../assets/img/Vector 1.png"
+              src={Logo1}
               alt="Vector 1"
             />
           </li>
@@ -34,11 +36,7 @@ function HeaderCourse() {
             <IoMdArrowDropdown className=" w-[20px] h-[20px] mt-[2px] " />
           </div>
           <div className="ml-[10px] mt-[14px]">
-            <img
-              className="  w-[136px] h-[105px]"
-              src="../assets/img/logo2.png"
-              alt="Logo 2"
-            />
+            <img className="  w-[136px] h-[105px]" src={Logo2} alt="Logo 2" />
           </div>
         </div>
       </div>

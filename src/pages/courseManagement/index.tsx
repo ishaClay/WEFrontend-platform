@@ -1,18 +1,25 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
 import ModuleCreation from "./ModuleCreation";
 import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];
-  const search = window.location.search;
-  const paramsTab = new URLSearchParams(search).get("tab") || 1;
+  const [searchParams] = useSearchParams();
+  const paramsTab = searchParams?.get("tab") || "1";
+  const [currentTab, setCurrentTab] = useState<string>(tab[+paramsTab - 1]);
 
   console.log("paramsTab", paramsTab);
 
+  useEffect(() => {
+    setCurrentTab(tab[+paramsTab - 1]);
+  }, [paramsTab, tab]);
+
   return (
     <div className="bg-white p-4">
-      <Tabs defaultValue={tab[+paramsTab - 1]} className="">
+      <Tabs defaultValue={currentTab} className="">
         <div className="border-b">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
             <TabsTrigger

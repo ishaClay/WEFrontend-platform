@@ -1,3 +1,4 @@
+import usePagination from "@/hooks/use-pagination";
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,6 @@ import {
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
-import usePagination from "@/hooks/use-pagination";
 
 interface PaginationsProps {
   className?: string;
@@ -38,7 +38,7 @@ const Paginations = ({
     totalPages,
     siblingCount: 1,
   });
-  console.log("itemsPerPage", itemsPerPage);  
+  console.log("itemsPerPage", itemsPerPage);
 
   const handlePrev = () => {
     if (currentPage <= 1) return;

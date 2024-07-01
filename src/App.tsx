@@ -7,12 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
+import Accomplishments from "./components/certifications/Accomplishments";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import { Toaster } from "./components/ui/toaster";
 import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
+import CertificationsPage from "./pages/CertificationsPage";
 import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
@@ -95,6 +97,9 @@ import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
+import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
+import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
 import MyCoursesList from "./pages/myCourse";
@@ -104,13 +109,8 @@ import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
-import { changeTheme } from "./services/apiServices/theme";
 import UserManualPage from "./pages/support/UserManualPage";
-import CertificationsPage from "./pages/CertificationsPage";
-import Accomplishments from "./components/certifications/Accomplishments";
-import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
-import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
-import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
+import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -648,8 +648,14 @@ function App() {
           <Route path="faqslist" element={<FaqsList />} />
           <Route path="trainingdocument" element={<TrainingDocument />} />
           <Route path="support-request" element={<SupportRequestPage />} />
-          <Route path="support-request/add-new-ticket" element={<SupportAddNewTicket />} />
-          <Route path="support-request/ticket-details/:id" element={<TicketDetailsReplyPage />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
+          <Route
+            path="support-request/ticket-details/:id"
+            element={<TicketDetailsReplyPage />}
+          />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
         </Route>
@@ -657,9 +663,9 @@ function App() {
         <Route
           path="/employee"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
@@ -717,6 +723,7 @@ function App() {
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="create_course" element={<CourseManagement />} />
+          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />

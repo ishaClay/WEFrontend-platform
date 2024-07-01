@@ -29,20 +29,20 @@ const usePagination = ({
     const lastPageIndex = totalPages;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      let leftItemCount = 3 * siblingCount;
-      let leftRange = range(1, leftItemCount);
+      const leftItemCount = 3 * siblingCount;
+      const leftRange = range(1, leftItemCount);
 
       return [...leftRange, 0, totalPages];
     }
 
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      let rightItemCount = 3 * siblingCount;
-      let rightRange = range(totalPages - rightItemCount + 1, totalPages);
+      const rightItemCount = 3 * siblingCount;
+      const rightRange = range(totalPages - rightItemCount + 1, totalPages);
       return [firstPageIndex, 0, ...rightRange];
     }
 
     if (shouldShowLeftDots && shouldShowRightDots) {
-      let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      const middleRange = range(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, 0, ...middleRange, 0, lastPageIndex];
     }
 

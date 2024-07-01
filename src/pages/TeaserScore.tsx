@@ -152,7 +152,8 @@ const TeaserScore = () => {
 
   const Labels = () => (
     <div className="flex flex-col justify-center h-fulzl w-[200px]">
-      {(fetchClientmaturitylevel?.data?.data?.length > 0
+      {(fetchClientmaturitylevel?.data?.data &&
+      fetchClientmaturitylevel?.data?.data?.length > 0
         ? fetchClientmaturitylevel?.data?.data
         : maturitylevel?.data.data
       )?.map((label: any, index: number) => {

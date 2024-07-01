@@ -50,8 +50,6 @@ function CourseViewAllocatePopup({
     mode: "all",
   });
 
-  console.log("errors", errors);
-
   const { data, isPending } = useQuery<AllocatedCourseById>({
     queryKey: [QUERY_KEYS.fetchbycourseallocateById, { openId }],
     queryFn: () => fetchAllocatedCourseById("11", openId as number),
@@ -59,6 +57,7 @@ function CourseViewAllocatePopup({
 
   const courseData = data?.data && data?.data?.[0];
 
+  console.log("errors", data);
   const showInviteForm = () => {
     setIsInvite(true);
   };

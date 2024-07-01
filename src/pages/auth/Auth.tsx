@@ -80,8 +80,7 @@ function Auth() {
           variant: "destructive",
           title: data?.data?.message,
         });
-      }
-      if (data.data.data.isNew) {
+      } else if (data.data.data.isNew) {
         navigate("/resetpassword", {
           state: {
             oldPassword: getValues("password"),
@@ -90,13 +89,8 @@ function Auth() {
             token: data?.data?.data?.accessToken || "",
           },
         });
+        dispatch(setUserData(user.id));
         console.log("data", data?.data?.data);
-
-        toast({
-          variant: "default",
-          title: data?.data?.message,
-        });
-        // dispatch(setUserData(user.id));
       } else {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
@@ -129,7 +123,7 @@ function Auth() {
           }
         }
 
-        if (user.role == UserRole.CompanyEmployee) {
+        if (user.role == UserRole.Employee) {
           if (data.data.data.status === "Active") {
             navigate("/employee/dashboard");
           }

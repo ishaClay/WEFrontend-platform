@@ -75,6 +75,7 @@ const CourseInformation = () => {
       isFreeCourse: false,
     },
   });
+  const getDataLocal = JSON.parse(localStorage.getItem("user") as string);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("tab");
   const coursePrise = watch("coursePrise") || 0;
@@ -110,6 +111,7 @@ const CourseInformation = () => {
   });
 
   const onSubmit = (formdata: FieldValues) => {
+    const userId = getDataLocal?.query?.detailsid;
     const payload = {
       title: formdata?.title,
       institute: formdata?.instituteName,
@@ -121,6 +123,7 @@ const CourseInformation = () => {
       discout: provideDisc ? 1 : 0,
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
+      userId: userId,
     };
     mutate(payload);
   };

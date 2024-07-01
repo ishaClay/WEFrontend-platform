@@ -89,7 +89,7 @@ export function NewDataTable<TData, TValue>({
   const handleSearchFilter = (e: string) => {
     setGlobalFilter(e);
     searchFilter && searchFilter(e);
-  };  
+  };
 
   return (
     <div className="w-full">
