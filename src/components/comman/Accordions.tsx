@@ -6,6 +6,8 @@ import {
 } from "@/components/ui/accordion";
 import { AccordionOption } from "@/types";
 import { Separator } from "../ui/separator";
+import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 type AccordionsProps = {
   type?: "single" | "multiple";
@@ -15,6 +17,9 @@ type AccordionsProps = {
   padding?: boolean;
   background?: boolean;
   border?: boolean;
+  className?: string;
+  triggerClassName?: string;
+  isPlusIcon?: boolean;
 };
 
 const Accordions = ({
@@ -25,11 +30,14 @@ const Accordions = ({
   padding = true,
   background = false,
   border = true,
+  className,
+  triggerClassName,
+  isPlusIcon,
 }: AccordionsProps) => {
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
     <Accordion type={type} collapsible>
-      <div className="space-y-[24px]">
+      <div className={cn("space-y-[24px]", className)}>
         {items.map((item, index) => {
           return (
             <AccordionItem
@@ -40,7 +48,11 @@ const Accordions = ({
               value={`item-${index + 1}`}
             >
               <AccordionTrigger
-                className={`${background ? "p-5 bg-[#F8F8F8]" : "p-0"}`}
+                className={cn(
+                  `${background ? "p-5 bg-[#F8F8F8]" : "p-0"} items-center`,
+                  triggerClassName
+                )}
+                isPlusIcon={isPlusIcon}
               >
                 {item.title}
               </AccordionTrigger>

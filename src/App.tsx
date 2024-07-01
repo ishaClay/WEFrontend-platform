@@ -630,15 +630,19 @@ function App() {
         <Route
           path="/company"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
           <Route
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route
+            path="maturityAssessment"
+            element={<MaturityAssessmentPage />}
           />
           <Route path="allocatedcourses" element={<CoursesAllocate />} />
           <Route path="coursesrecommended" element={<CoursesRecommended />} />
@@ -669,10 +673,6 @@ function App() {
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
           <Route
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}

@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import { enumUpadate } from "@/services/apiServices/enum";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
@@ -46,6 +47,7 @@ const findMaturityLevel = (score: number) => {
 };
 
 const AssessmentResult = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   console.log("+++++", location);
   const queryClient = useQueryClient();
@@ -70,7 +72,7 @@ const AssessmentResult = () => {
   });
 
   const path = 4 + 1;
-  const {}: any = useMutation({
+  const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -78,6 +80,11 @@ const AssessmentResult = () => {
       });
     },
   });
+
+  const handleMaturity = () => {
+    EnumUpadate(path);
+    navigate("/selectlevel");
+  };
 
   const score = (
     (+allassessmant?.data?.data?.avTotalpoints /
@@ -194,25 +201,30 @@ const AssessmentResult = () => {
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
           <div className="lg:col-span-8 col-span-12 lg:mb-0 sm:mb-10 mb-5">
             <h3 className="lg:text-2xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
-              How does {userData?.company?.name} measure up?
+              Where {userData?.company?.name} <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
             </h3>
             <div className="max-w-[602.78px]">
-              <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm tetx-xs">
-                Congratulations! 🎉You've completed your sustainability
-                assessment, and now it's time to unveil your results! Below,
-                you'll find a comprehensive breakdown of your sustainability
-                score,
+              <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
+                Here’s how you did across the 6 pillars of sustainability as a
+                business! 
               </p>
-              <p className="mt-5 text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm tetx-xs">
-                Along with personalized insights and recommendations to further
-                enhance your journey towards a greener future. Dive in and
-                explore how you can make a meaningful impact on the planet while
-                embracing sustainable practices in your everyday life.
+              <div className="pb-5">
+                <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
+                  But what your score really means?{" "}
+                </h6>
+                <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
+                  This is where your journey starts. 
+                </h6>
+              </div>
+              <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs">
+                Now that you know where you are, it’s time to get an action plan
+                built from personalised insights to advance your company to its
+                next green stage.
               </p>
             </div>
           </div>
-          <div className="lg:col-span-4 sm:col-span-6 col-span-12">
+          <div className="lg:col-span-4 sm:col-span-8 col-span-12">
             <div className="flex justify-between">
               <div className="">
                 <Labels />
@@ -247,7 +259,7 @@ const AssessmentResult = () => {
             How you fare across the Maturity levels
           </h2>
         </div>
-        <div className="flex flex-col gap-[26px]">
+        <div className="flex flex-col gap-[26px]  mb-[60px]">
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
@@ -520,6 +532,19 @@ const AssessmentResult = () => {
             </div>
           </TabsContent>
         </Tabs>
+      </div>
+
+      <div className="text-center">
+        <Button
+          onClick={handleMaturity}
+          className="bg-[#64A70B] text-base w-[180px] font-bold h-12"
+        >
+          Set targets
+        </Button>
+      </div>
+
+      <div className="mb-240px">
+        <Footer />
       </div>
 
       <MaturityLevelModel
