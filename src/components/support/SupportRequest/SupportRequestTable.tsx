@@ -1,197 +1,322 @@
-import { DataTable } from "@/components/comman/DataTable";
+import delet from "@/assets/images/delet.svg";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import { NewDataTable } from "@/components/comman/NewDataTable";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  deleteSupportTicket,
+  fetchSupportTicketList,
+} from "@/services/apiServices/supportRequestServices";
+import { ErrorType } from "@/types/Errors";
+import { SupportRequest } from "@/types/SupportRequest";
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { Search } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import moment from "moment";
 import { useState } from "react";
-
-const data = [
-  {
-    id: 1,
-    lastUpdated: "22/05/2024",
-    requestor: "Danila Raffel",
-    subject: "How to customize the template?",
-    status: "Open",
-    assignTo: "Emilla",
-  },
-  {
-    id: 2,
-    lastUpdated: "22/05/2024",
-    requestor: "Emila Wastson",
-    subject: "How to customize the template?",
-    status: "Open",
-    assignTo: "Emilla",
-  },
-  {
-    id: 3,
-    lastUpdated: "22/05/2024",
-    requestor: "Joseph Richard",
-    subject: "How to set Horizontal nav",
-    status: "Open",
-    assignTo: "Emilla",
-  },
-  {
-    id: 4,
-    lastUpdated: "22/05/2024",
-    requestor: "Danila Raffel",
-    subject: "How to set Horizontal nav",
-    status: "Open",
-    assignTo: "Emilla",
-  },
-];
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const SupportRequestTable = () => {
-  const [page, setPage] = useState(0);
-  console.log("page", page);
+  const { toast } = useToast();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const { UserId } = useSelector((state: any) => state.user);
+  const queryClient = useQueryClient();
+  const [openDelete, setOpenDelete] = useState<boolean | SupportRequest>(false);
+  const { data: support_request_list, isPending: supportRequestPending } =
+    useQuery({
+      queryKey: [QUERY_KEYS.supportTicketList],
+      queryFn: () =>
+        fetchSupportTicketList(page.toString(), "10", UserId, search),
+    });
 
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",
-      header: () => {
+      header: ({ column }) => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             ID
-          </h5>
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
         );
-      },
-      cell: ({ row }) => {
-        return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black">
-            #{row.original?.id}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
       },
     },
     {
-      accessorKey: "lastUpdated",
-      header: () => {
+      accessorKey: "updatedat",
+      header: ({ column }) => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Last Updated
-          </h5>
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
         );
       },
       cell: ({ row }) => {
-        return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black">
-            {row.original?.lastUpdated}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
+        return moment(row.original.updatedat).format("DD-MM-YYYY");
       },
     },
     {
-      accessorKey: "requestor",
-      header: () => {
+      accessorKey: "openbyname",
+      header: ({ column }) => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Requestor
-          </h5>
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
         );
       },
-      cell: ({ row }) => {
+      cell: ({ row }: any) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-[#00778B] line-clamp-2 xl:leading-6 leading-4 xl:w-[70%] w-full">
-            {row.original?.requestor}
-          </h6>
+          <Link
+            to={`ticket-details/${row.original.id}`}
+            className="text-[#00778B] cursor-pointer"
+          >
+            {row.original.openbyname}
+          </Link>
         );
-      },
-      meta: {
-        className: "py-[15px]",
       },
     },
     {
       accessorKey: "subject",
-      header: () => {
+      header: ({ column }) => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Subject
-          </h5>
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
         );
-      },
-      cell: ({ row }) => {
-        return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black line-clamp-2">
-            {row.original?.subject}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
       },
     },
     {
       accessorKey: "status",
-      header: () => {
+      header: ({ column }) => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             Status
-          </h5>
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
         );
       },
       cell: ({ row }) => {
         return (
-          <div className="">
-            <Button className="xl:text-sm text-xs font-calibri text-[#FF5252] bg-transparent hover:bg-transparent font-bold p-0 me-3 xl:h-8 h-6">
-              {row.original?.status}
-            </Button>
-            <Button className="xl:text-sm text-xs font-calibri text-[#58BA66] bg-transparent hover:bg-transparent font-bold p-0 me-3 xl:h-8 h-6">
-              Answered
-            </Button>
-            <Button className="xl:text-sm text-xs font-calibri text-[#FBBC04] bg-transparent hover:bg-transparent font-bold p-0 xl:h-8 h-6">
-              In Process
+          <p
+            className={`${
+              row.original.status === "Answered"
+                ? "text-[#58BA66]"
+                : row.original.status === "InProcess"
+                ? "text-[#58BA66]"
+                : "text-[#FFD56A]"
+            } w-20 h-8 font-bold px-3 flex items-center justify-center`}
+          >
+            {row.original.status}
+          </p>
+        );
+      },
+    },
+    {
+      accessorKey: "assigntoname",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Assign to
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }: any) => {
+        return (
+          <Link to={`ticket-details/${row.original.id}`}>
+            {row.original.assigntoname}
+          </Link>
+        );
+      },
+    },
+    {
+      accessorKey: "priority",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Priority
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <Badge
+            className={`${
+              row.original.priority === "High"
+                ? "bg-[#FF5252] hover:bg-[#FF5252]/80"
+                : row.original.priority === "Medium"
+                ? "bg-[#58BA66] hover:bg-[#58BA66]/80"
+                : "bg-[#FFD56A] hover:bg-[#FFD56A]/80"
+            } rounded-[6px] w-20 h-8 px-3 flex items-center justify-center`}
+          >
+            {row.original.priority}
+          </Badge>
+        );
+      },
+    },
+    {
+      accessorKey: "action",
+      header: "Action",
+      cell: ({ row }: any) => {
+        return (
+          <div className="flex items-center gap-[12px] ">
+            <Button
+              onClick={() => {
+                setOpenDelete(row?.original);
+              }}
+              variant={"ghost"}
+              className="p-0"
+            >
+              <img src={delet} alt="" />
             </Button>
           </div>
         );
       },
-      meta: {
-        className: "py-[15px]",
-      },
-    },
-    {
-      accessorKey: "assignTo",
-      header: () => {
-        return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
-            Assign To
-          </h5>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black line-clamp-2">
-            {row.original?.assignTo}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
-      },
     },
   ];
+
+  const { mutate: delete_supportticket, isPending: deletePanding } =
+    useMutation({
+      mutationFn: (id: string) => deleteSupportTicket(id),
+      onSuccess: () => {
+        toast({ title: "Ticket delete Successfully" });
+        setOpenDelete(false);
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.supportTicketList],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.supportTicketCount],
+        });
+      },
+      onError: (error: ErrorType) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
+
+  const handleDelete = () => {
+    delete_supportticket((openDelete as SupportRequest).id as string);
+  };
+
   return (
     <div className="">
-      <div className="border border-[#D9D9D9] flex items-center xl:w-[550px] w-[450px] px-4 xl:py-3 py-2 rounded-lg mb-5 mx-5">
-        <Search className="text-[#A3A3A3]" width={18} />
-        <input
-          className="outline-none xl:text-[15px] text-sm text-[#A3A3A3] font-inter px-3 w-full"
-          placeholder="Search by name, email, subject, status etc."
-        ></input>
-      </div>
-
-      <div className="">
-        <DataTable
+      {supportRequestPending ? (
+        <span className="flex justify-center items-center py-10">
+          <Loader2 className="w-5 h-5 animate-spin" />
+        </span>
+      ) : (
+        <NewDataTable
           columns={column}
-          data={data}
-          totalCount={data?.length}
+          data={support_request_list?.data.data || []}
+          totalPages={support_request_list?.data?.metadata?.totalPages || 1}
           setPage={setPage}
-          rounded={false}
+          pagination={{ pageIndex: page, pageSize: 10 }}
+          searchPlaceholder="Search by Requestor, Subject, Assign to etc."
+          searchFilter={(e) => setSearch(e)}
         />
-      </div>
+      )}
+
+      <ConfirmModal
+        open={openDelete as boolean}
+        onClose={() => setOpenDelete(false)}
+        onDelete={handleDelete}
+        value={typeof openDelete === "boolean" ? "" : openDelete?.openbyname}
+        isLoading={deletePanding}
+      />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import MyCourseGrid from "./MyCourseGrid";
 import MyCourseList from "./MyCourseList";
+import EmployeeHeader from "../EmployeeHeader";
 
 const filterOption = [
   {
@@ -45,8 +46,13 @@ const MyCoursePage = () => {
   const params = new URLSearchParams(search).get("view");
   const navigate = useNavigate();
 
+  console.log("+++++++++++++++++", window.location.pathname?.split("/")[1]);
+
   const changeView = (id: number) => {
-    navigate(`/trainer/mycourses?view=${id}`, { replace: true });
+    navigate(
+      `/${window.location.pathname?.split("/")[1]}/mycourses?view=${id}`,
+      { replace: true }
+    );
   };
 
   const myPagesList = [
@@ -83,7 +89,10 @@ const MyCoursePage = () => {
   ];
 
   return (
-    <div className="bg-white">
+    <div className="lg:bg-white bg-transparent">
+      <div className="mb-5">
+        <EmployeeHeader title="My Courses" />
+      </div>
       <div className="flex items-center justify-between py-[18px] px-[18px] bg-[#F3F3F3]">
         <div className="flex items-center gap-8">
           <div>

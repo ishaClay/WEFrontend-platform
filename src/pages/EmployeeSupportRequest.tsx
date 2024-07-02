@@ -295,7 +295,7 @@ function EmployeeSupportRequest() {
                         className={`text-xs rounded ${
                           employee.priority === "High"
                             ? "bg-[#FF5252] text-white h-[32px] w-[80px]"
-                            : employee.priority === "Normal"
+                            : employee.priority === "Medium"
                             ? "bg-[#58BA66] text-white h-[32px] w-[80px]"
                             : "bg-[#FFD56A] text-white h-[32px] w-[80px]"
                         }`}

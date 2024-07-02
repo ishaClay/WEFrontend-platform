@@ -217,9 +217,12 @@ const TrainerManagement = () => {
   return (
     <div>
       <div className="px-[14px] py-[10px] flex items-center justify-between border-b">
-        <h3 className="text-[16px] font-[700] font-nunito">
-          Trainer Management
-        </h3>
+        <div>
+          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            Trainer Management
+          </h3>
+          <p className="text-[#606060] text-[15px]">The full list of all your enrolled trainers, with a quick-view of their details </p>
+        </div>
         <Button
           type="button"
           onClick={() => navigate("/trainer/trainer-management/invitation")}
@@ -252,7 +255,7 @@ const TrainerManagement = () => {
           <DataTable
             columns={colums}
             data={data?.data || []}
-            totalCount={data?.metadata?.totalItems}
+            totalPages={data?.metadata?.totalItems}
             pagination={{ pageIndex: page, pageSize: limit }}
             setPage={setPage}
             inputbox={false}

@@ -1,12 +1,12 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "../comman/DataTable";
-import { Button } from "../ui/button";
-import { useState } from "react";
 import employee_Image_1 from "@/assets/images/face_1.jfif";
 import employee_Image_2 from "@/assets/images/face_2.jfif";
 import employee_Image_3 from "@/assets/images/face_3.jfif";
 import employee_Image_4 from "@/assets/images/face_4.jfif";
+import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { DataTable } from "../comman/DataTable";
+import { Button } from "../ui/button";
 
 const data = [
   {
@@ -54,7 +54,7 @@ const data = [
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(0);
   console.log("page", page);
-  
+
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "id",
@@ -196,12 +196,15 @@ const AllocatedCertificatePage = () => {
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
           <h6 className="font-calibri text-base font-bold">
-            Allocated Certificate
+            Issued Certificate
           </h6>
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            All the certificates you’ve awarded to trainees so far
+          </p>
         </div>
         <div className="">
           <Button className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito">
-            Allocate Certificate
+            Issued Certificate
           </Button>
         </div>
       </div>
@@ -220,7 +223,7 @@ const AllocatedCertificatePage = () => {
         <DataTable
           columns={column}
           data={data}
-          totalCount={data?.length}
+          totalPages={data?.length}
           setPage={setPage}
           pagination={{ pageIndex: page, pageSize: 10 }}
           rounded={false}

@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
+import SideImage from "@/assets/images/AuthSide.svg";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -25,7 +28,6 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Slider from "react-slick";
 import { z } from "zod";
 
 const schema = z
@@ -141,17 +143,17 @@ function Register() {
 
   const email = watch("email");
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    cssEase: "linear",
-    arrows: false,
-  };
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   autoplay: true,
+  //   autoplaySpeed: 3000,
+  //   cssEase: "linear",
+  //   arrows: false,
+  // };
 
   const handleLaunchJourney = () => {
     setShowRegistrationForm(true);
@@ -201,162 +203,165 @@ function Register() {
       <Header />
       <div className="mainContailner">
         <div className="flex justify-center mt-[26px]">
-          <img
-            src="../assets/img/1000001825.png.png"
-            className="xl:max-w-[686px] max-w-[520px] w-full"
-          />
+          {selectedRole !== "company" ? (
+            <img src={RegisterSideImage} className="" alt="RegisterSideImage" />
+          ) : (
+            <img src={SideImage} className="" alt="SideImage" />
+          )}
 
-          <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto">
-            <div className="flex justify-end text-color">
-              <label>
-                Already have an account?{" "}
-                <Link to={"/auth"} className="font-[700] text-[#042937]">
-                  Sign In
-                </Link>
-              </label>
-            </div>
+          <div className="w-full 2xl:px-0 px-5 mt-[33px] max-w-[515px] mx-auto flex flex-col justify-between">
+            <div>
+              <div className="flex justify-end text-color">
+                <label>
+                  Already have an account?{" "}
+                  <Link to={"/auth"} className="font-[700] text-[#042937]">
+                    Sign In
+                  </Link>
+                </label>
+              </div>
 
-            {selectedRole !== "company" ? (
-              <div className="h-[524px] relative mt-[92px]">
-                <div className="">
-                  <h3 className="text-[24px] font-[700] text-color">
-                    Choose your role...
-                  </h3>
-                  <img
-                    className="absolute right-[5px] top-[15px]"
-                    src="../assets/img/pngwing 25.png"
-                  />
-                  <p className="mb-0 text-[18px] text-color">
-                    Hey there! Ready to start your adventure?
-                  </p>
-                  <img className="" src="../assets/img/Line 23.png" />
-                  <p className="xl:w-[446px] w-[400px] h-[40px] text-[16px] font-[400] text-color">
-                    Just click on your role “Company or Trainer” and let's drive
-                    into your journey!
-                  </p>
-                  <div className="flex gap-x-[40px] mt-[40px]">
-                    <PrimaryButton
-                      name="Trainer"
-                      onClick={() => {
-                        navigate("/trainer-regestration");
-                      }}
-                      className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background"
-                      symbol={<img src="../assets/img/Analyzing Skill.png" />}
+              {selectedRole !== "company" ? (
+                <div className="h-[524px] relative mt-[92px]">
+                  <div className="">
+                    <h3 className="text-[24px] font-[700] text-color mb-[40px] font-abhaya">
+                      Which best describes you?
+                    </h3>
+                    <img
+                      className="absolute right-[5px] top-[15px]"
+                      src={RunnerIcon}
+                      alt="RunnerIcon"
                     />
+                    <img className="" src="../assets/img/Line 23.png" />
+                    <p className="text-[16px] font-[400] text-color mt-3 font-abhaya">
+                      Select your role so we can get you to the right place.
+                    </p>
+                    <div className="flex gap-x-[40px] mt-[40px]">
+                      <PrimaryButton
+                        name="I’m A Trainer"
+                        onClick={() => {
+                          navigate("/trainer-regestration");
+                        }}
+                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background !font-abhaya"
+                        symbol={<img src="../assets/img/Analyzing Skill.png" />}
+                      />
 
-                    <PrimaryButton
-                      name="Company"
-                      onClick={() => {
-                        setSelectedRole("company");
-                      }}
-                      className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background"
-                      symbol={<img src="../assets/img/Company.png" />}
-                    />
+                      <PrimaryButton
+                        name="I’m A Company"
+                        onClick={() => {
+                          setSelectedRole("company");
+                        }}
+                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background !font-abhaya"
+                        symbol={<img src="../assets/img/Company.png" />}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : showRegistrationForm ? (
-              <div className="">
-                <div className=" relative mt-[60px]">
-                  <h3 className="text-[24px] font-bold">
-                    Secure your berth & set sail
-                  </h3>
-                  <img
-                    className="absolute right-0 top-[-20px]"
-                    src="../assets/img/pngwing 25.png"
-                  />
-                  <img className="" src="../assets/img/Line 23.png" />
-                  <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
-                    Enter your company name eamil and set a password to anchor
-                    your details. submit to receive an OTP, steering you towards
-                    the next leg of your sustainable journey.
-                  </p>
+              ) : showRegistrationForm ? (
+                <div className="">
+                  <div className=" relative mt-[60px]">
+                    <h3 className="text-[24px] font-bold">
+                      Secure your berth & set sail
+                    </h3>
+                    <img
+                      className="absolute right-0 top-[-20px]"
+                      src="../assets/img/pngwing 25.png"
+                    />
+                    <img className="" src="../assets/img/Line 23.png" />
+                    <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
+                      Enter your company name eamil and set a password to anchor
+                      your details. submit to receive an OTP, steering you
+                      towards the next leg of your sustainable journey.
+                    </p>
 
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mb-2">
-                      <InputWithLable
-                        label="Company Name"
-                        className="h-[46px] border solid 1.5px"
-                        placeholder="Enter Company Name"
-                        {...register("name")}
-                      />
-                      {errors.name && (
-                        <ErrorMessage message={errors.name.message as string} />
-                      )}
-                    </div>
-                    <div className="mb-2">
-                      <InputWithLable
-                        label="Email"
-                        className="h-[46px] border solid 1.5px"
-                        placeholder="Enter Email Address"
-                        {...register("email")}
-                      />
-                      {errors.email && (
-                        <ErrorMessage
-                          message={errors.email.message as string}
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className="mb-2">
+                        <InputWithLable
+                          label="Company Name"
+                          className="h-[46px] border solid 1.5px"
+                          placeholder="Enter Company Name"
+                          {...register("name")}
                         />
-                      )}
-                    </div>
-                    <div className="mb-2">
-                      <PasswordInputWithLabel
-                        label="Set a password"
-                        className="h-[46px] border solid 1.5px"
-                        placeholder="Enter Password"
-                        {...register("password")}
-                        error={errors?.password?.message as string}
-                      />
-                    </div>
-                    <div className="mb-2">
-                      <PasswordInputWithLabel
-                        label="Confirm Password"
-                        className="h-[46px] border solid 1.5px"
-                        placeholder="Enter Confirm Password"
-                        {...register("cpassword")}
-                        error={errors?.cpassword?.message as string}
-                      />
-                    </div>
+                        {errors.name && (
+                          <ErrorMessage
+                            message={errors.name.message as string}
+                          />
+                        )}
+                      </div>
+                      <div className="mb-2">
+                        <InputWithLable
+                          label="Email"
+                          className="h-[46px] border solid 1.5px"
+                          placeholder="Enter Email Address"
+                          {...register("email")}
+                        />
+                        {errors.email && (
+                          <ErrorMessage
+                            message={errors.email.message as string}
+                          />
+                        )}
+                      </div>
+                      <div className="mb-2">
+                        <PasswordInputWithLabel
+                          label="Set a password"
+                          className="h-[46px] border solid 1.5px"
+                          placeholder="Enter Password"
+                          {...register("password")}
+                          error={errors?.password?.message as string}
+                        />
+                      </div>
+                      <div className="mb-2">
+                        <PasswordInputWithLabel
+                          label="Confirm Password"
+                          className="h-[46px] border solid 1.5px"
+                          placeholder="Enter Confirm Password"
+                          {...register("cpassword")}
+                          error={errors?.cpassword?.message as string}
+                        />
+                      </div>
 
-                    <div className=" mt-[20px] flex gap-x-[40px]">
+                      <div className=" mt-[20px] flex gap-x-[40px]">
+                        <button
+                          type="submit"
+                          className="xl:w-[480px] w-[450px] h-[48px] bg-[#00778B] rounded-[4px] text-white"
+                        >
+                          Get OTP
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full mt-[92px]">
+                  <div className="h-[524px] relative ">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-[700] xl:text-[24px] text-[22px]">
+                        Setting sail on your sustainability voyage
+                      </h3>
+                      <img className="" src="../assets/img/pngwing 25.png" />
+                    </div>
+                    <img className="" src="../assets/img/Line 23.png" />
+
+                    <p className="w-[450px] xl:w-full">
+                      just a few quick details - your company's name, email, and
+                      a new password- and you'll be all set to navigate through
+                      your sustainable and continue your impactful journey
+                      anytime.
+                    </p>
+
+                    <div className="mt-[20px] flex gap-x-[40px] font-[700]">
                       <button
-                        type="submit"
-                        className="xl:w-[480px] w-[450px] h-[48px] bg-[#00778B] rounded-[4px] text-white"
+                        className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
+                        onClick={handleLaunchJourney}
                       >
-                        Get OTP
+                        Launch your journey!
                       </button>
                     </div>
-                  </form>
-                </div>
-              </div>
-            ) : (
-              <div className="w-full mt-[92px]">
-                <div className="h-[524px] relative ">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-[700] xl:text-[24px] text-[22px]">
-                      Setting sail on your sustainability voyage
-                    </h3>
-                    <img className="" src="../assets/img/pngwing 25.png" />
-                  </div>
-                  <img className="" src="../assets/img/Line 23.png" />
-
-                  <p className="w-[450px] xl:w-full">
-                    just a few quick details - your company's name, email, and a
-                    new password- and you'll be all set to navigate through your
-                    sustainable and continue your impactful journey anytime.
-                  </p>
-
-                  <div className="mt-[20px] flex gap-x-[40px] font-[700]">
-                    <button
-                      className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
-                      onClick={handleLaunchJourney}
-                    >
-                      Launch your journey!
-                    </button>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            <div
+            {/* <div
               className="mt-[29px] flex justify-center gap-x-[19px]"
               id="auth-slider"
             >
@@ -395,9 +400,9 @@ function Register() {
                   </span>
                 </div>
               </Slider>
-            </div>
+            </div> */}
 
-            <div className="max-w-[296px] mx-auto mt-[154px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
+            <div className="max-w-[296px] mx-auto mb-[37px] font-[400] text-[12px] text-center text-[#898989]">
               <label>
                 Protected by reCAPTCHA and subject to the Skillnet{" "}
                 <Link to={"/privacypolicy"} className="text-color">
@@ -419,12 +424,12 @@ function Register() {
           onClose={() => setShowOtpPopup(false)}
           className="max-w-[550px]"
         >
-          <div className="mb-[2px] mt-2 text-center">
+          <div className="mb-[2px] mt-2 text-center font-abhaya">
             <h2 className="text-xl font-semibold">
-              Please enter the one-time password to verify your account
+              If you can verify the one-time password emailed to you
             </h2>
-            <p className="text-[#848181] text-[16px]">
-              A one-time password has been sent to {email}
+            <p className="text-[#848181] text-[16px] font-abhaya">
+              A one- time password has been sent to {email}
             </p>
           </div>
           <div className="flex justify-center gap-3 mb-[7px]">
@@ -448,10 +453,10 @@ function Register() {
           </div>
           <div className="flex justify-center">
             <button
-              className="text-white w-[181px] p-[10px] rounded-[10px]  bg-[#64A70B] h-[50px]rounded-600"
+              className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
               onClick={() => handleVerifyOtp()}
             >
-              Validate
+              Submit
             </button>
           </div>
           <div className="flex flex-col gap-2 items-center">
@@ -460,7 +465,7 @@ function Register() {
                 variant={"ghost"}
                 disabled={time !== 0 || isPending}
                 onClick={() => handleResendOtp(email)}
-                className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent"
+                className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
               >
                 Resend OTP
               </Button>
@@ -476,9 +481,9 @@ function Register() {
                 setShowOtpPopup(false);
                 setTime(0);
               }}
-              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent"
+              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-abhaya"
             >
-              Wrong Email?
+              Send a different email?
             </Button>
           </div>
         </Modal>

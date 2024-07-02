@@ -1,31 +1,28 @@
-import Accordions from "@/components/comman/Accordions";
 import CourseViewCardList from "./CourseViewCardList";
-import { AccordionOption } from "@/types";
 import CourseViewCardInner from "./CourseViewCardInner";
+import { Accordion, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { AccordionContent } from "@radix-ui/react-accordion";
 
-const CourseViewPage = () => {
-  const CourseViewCard = [
-    {
-      moduleName: "Chapter 1 - Intro",
-      sectionId: 3,
-      reading: "50m Reading",
-    },
-    {
-      moduleName: "Chapter 2 - Basics",
-      sectionId: 3,
-      reading: "50m Reading",
-    },
-  ];
+const CourseViewPage = ({ data }: { data: any }) => {
 
-  const accordionItems: AccordionOption[] = CourseViewCard.map((item) => {
-    return {
-      title: <CourseViewCardList data={item} />,
-      content: <CourseViewCardInner />,
-    };
-  });
   return (
-    <div>
-      <Accordions items={accordionItems} padding={false} background />
+    <div
+      className="pb-5">
+      <Accordion type={'single'} collapsible>
+        <div className="space-y-[24px]">
+          <AccordionItem
+            className={`overflow-hidden rounded-lg p-0`}
+            value={`item-${data.id}`}
+          >
+            <AccordionTrigger
+              className={`p-5 bg-[#F8F8F8] border-b border-[#D9D9D9]`}
+            >
+              <CourseViewCardList data={data} />
+            </AccordionTrigger>
+            <AccordionContent><CourseViewCardInner CourseCardList={data.section} moduleId={data.id} /></AccordionContent>
+          </AccordionItem>
+        </div>
+      </Accordion>
     </div>
   );
 };

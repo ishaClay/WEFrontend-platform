@@ -1,221 +1,347 @@
-import employee_face_1 from "@/assets/images/face_1.jfif";
-import employee_face_2 from "@/assets/images/face_2.jfif";
-import SelectMenu from "@/components/comman/SelectMenu";
+import documentIcon from "@/assets/images/pdf.png";
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { FileText, Image, Video } from "lucide-react";
-import { useState } from "react";
-
-const selectNameOption = [
-  {
-    label: "Select Name 1",
-    value: "Select_Name_1",
-  },
-  {
-    label: "Select Name 2",
-    value: "Select_Name_2",
-  },
-  {
-    label: "Select Name 3",
-    value: "Select_Name_3",
-  },
-];
-
-const ticketStatusOption = [
-  {
-    label: "Ticket Status 1",
-    value: "Ticket_Status_1",
-  },
-  {
-    label: "Ticket Status 2",
-    value: "Ticket_Status_2",
-  },
-  {
-    label: "Ticket Status 3",
-    value: "Ticket_Status_1",
-  },
-];
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  fetchAssignTo,
+  fetchOneSupportTicket,
+  getSingleSupportTicket,
+  updateSupportTicket,
+} from "@/services/apiServices/supportRequestServices";
+import { UserRole } from "@/types/UserRole";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
 
 const TicketsDetailsReply = () => {
-  const [selectName, setSelectName] = useState("");
-  const [ticketStatus, setTicketStatus] = useState("");
-  return (
-    <div className="bg-white rounded-xl">
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <h6 className="font-calibri text-base font-bold">Ticket Details</h6>
-      </div>
-      <div className="p-5">
-        <div className="flex items-center justify-between xl:mb-10 mb-6">
-          <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full overflow-hidden me-4">
-              <img src={employee_face_1} alt="employee face" />
-            </div>
-            <div className="">
-              <h5 className="text-black text-base font-calibri">
-                Danila Raffel
-              </h5>
-              <h6 className="text-[#A3A3A3] text-sm font-calibri">
-                Provider Type: Client
-              </h6>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <div className="flex items-center me-3">
-              <h3 className="text-base text-black font-normal font-nunito">
-                Status:
-              </h3>
-              <Button className="text-xs text-[#58BA66] font-bold bg-transparent hover:bg-transparent h-6">
-                Answered
-              </Button>
-            </div>
-            <div className="flex items-center">
-              <h3 className="text-base text-black font-normal font-nunito pe-3">
-                Priority:
-              </h3>
-              <Button className="text-xs font-bold bg-[#FF5252] h-8 font-calibri rounded-full">
-                High
-              </Button>
-            </div>
-          </div>
-        </div>
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { clientId } = useSelector((state: any) => state?.user);
+  const { data, isPending } = useQuery({
+    queryKey: [QUERY_KEYS.courseTopFive, id],
+    queryFn: () => fetchOneSupportTicket(id as string),
+  });
+  console.log("id", id);
 
-        <div className="p-5 border border-[#D9D9D9] rounded-xl mb-5">
-          <div className="xl:pb-4 pb-2">
-            <h6 className="text-[#A3A3A3] text-base font-calibri pb-2">
-              Ticket Subject
-            </h6>
-            <h5 className="text-black text-base font-calibri">
-              How to customize the template?
-            </h5>
-          </div>
-          <div className="xl:pb-10 pb-6">
-            <h6 className="text-[#A3A3A3] text-base font-calibri pb-2">
-              Ticket Subject
-            </h6>
-            <p className="text-base text-black font-calibri">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-          </div>
-          <div className="flex items-center xl:gap-10 gap-5">
-            <div className="w-10 h-10 rounded-full bg-[#E3E5F5] flex items-center justify-center">
-              <FileText width={20} />
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const navegate = useNavigate();
+  const [selectAssingValue, setSelectAssingValue] = useState("");
+  const [selectTicketStatus, setSelectTicketStatus] = useState("");
+
+  const { data: fetchAssignToData, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.AssignTo],
+    queryFn: () => fetchAssignTo(clientId as string),
+  });
+
+  const { data: fetchSingleSupportTicket, refetch: refetchSingleSupport } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getSingleSupportTicket],
+      queryFn: () => getSingleSupportTicket(id as string),
+    });
+
+  const schema = z.object({
+    assignTo: z.string({ required_error: "Assign To is required" }),
+    ticketStatus: z.string({ required_error: "Ticket Status is required" }),
+    details: z
+      .string({ required_error: "Details is required" })
+      .min(1, "Details is required"),
+  });
+
+  type ValidationSchema = z.infer<typeof schema>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
+
+  useEffect(() => {
+    setValue(
+      "assignTo",
+      String(fetchSingleSupportTicket?.data.data?.assignTo.id)
+    );
+    setValue(
+      "ticketStatus",
+      String(fetchSingleSupportTicket?.data.data?.status)
+    );
+    setValue(
+      "details",
+      String(
+        fetchSingleSupportTicket?.data.data?.reply
+          ? fetchSingleSupportTicket?.data.data?.reply
+          : ""
+      )
+    );
+    setSelectAssingValue(fetchSingleSupportTicket?.data.data?.assignTo.id);
+    setSelectTicketStatus(String(fetchSingleSupportTicket?.data.data?.status));
+  }, [clientId, fetchSingleSupportTicket]);
+
+  useEffect(() => {
+    refetchSingleSupport();
+  }, [clientId]);
+
+  const { mutate: updateTicket } = useMutation({
+    mutationFn: (e: any) => updateSupportTicket(e),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleSupportTicket],
+      });
+      toast({
+        variant: "default",
+        title: "Ticket Updated Successfully",
+      });
+      navegate("/support-request");
+    },
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [clientId]);
+
+  const userName = (name: string) => {
+    const uName = name?.split(" ");
+    let newName = "";
+    for (let i = 0; i < uName?.length; i++) {
+      newName += uName[i]?.charAt(0).toUpperCase();
+    }
+    return newName;
+  };
+
+  const handleDownload = () => {
+    const pdfUrl = data?.data?.data?.documentUrl;
+    const anchor = document.createElement("a");
+    anchor.href = pdfUrl;
+    anchor.download = "document.pdf";
+    anchor.click();
+  };
+
+  const onSubmit = (data: FieldValues) => {
+    const payload: any = {
+      id: id,
+      item: {
+        assignTo: +data?.assignTo,
+        status: data?.ticketStatus,
+        reply: data?.details,
+      },
+    };
+    updateTicket(payload);
+  };
+
+  return (
+    <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">
+      <div className="h-[70px] border-b-2 border-solid gray flex justify-between items-center pl-[20px] pr-[28px] ">
+        <h2 className="font-[700] text-[16px]">Ticket Details</h2>
+        <Button
+          className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
+          onClick={() => navigate("/company/support-request")}
+        >
+          <IoIosArrowRoundBack size={26} className="mr-4" />
+          Back
+        </Button>
+      </div>
+
+      <div className="pl-[20px] pr-[28px] mt-[26px]">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex justify-between">
+            <div className="flex gap-[11px]">
+              <Avatar className="w-[32px] h-[32px]">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>
+                  {userName(data?.data?.data?.openBy?.name)}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h3 className="text-[16px]">
+                  {data?.data?.data?.openBy?.name}
+                </h3>
+                <p className="text-[#A3A3A3] text-[12px]">
+                  Provider Type: {""}
+                  {data?.data?.data?.openBy?.role === UserRole.Company
+                    ? "SME Company"
+                    : data?.data?.data?.openBy?.role === UserRole.Trainer
+                    ? "Trainer Company"
+                    : data?.data?.data?.openBy?.role === UserRole.Trainee
+                    ? "Trainer"
+                    : data?.data?.data?.openBy?.role === UserRole.Employee
+                    ? "Company Employee"
+                    : data?.data?.data?.openBy?.role === UserRole.SuperAdmin
+                    ? "Super Admin"
+                    : "Client"}
+                </p>
+              </div>
             </div>
-            <span className="text-base text-black font-calibri">
-              pdf file attachement.pdf
-            </span>
-            <Button className="text-base uppercase bg-[#00778B] font-calibri rounded-md px-6">
-              download
+
+            <div className="flex gap-[28px]">
+              <div>
+                <span>Status: </span>
+                <Button
+                  className={`rounded-[15px] ${
+                    data?.data?.data?.status === "Open"
+                      ? "bg-[#FFA25E]"
+                      : data?.data?.data?.status === "Answered"
+                      ? "bg-[#58BA66]"
+                      : "bg-[#0E9CFF]"
+                  }`}
+                >
+                  {data?.data?.data?.status}
+                </Button>
+              </div>
+              <div>
+                <span>Priority: </span>
+                <Button
+                  className={`rounded-[15px] ${
+                    data?.data?.data?.priority === "Medium"
+                      ? "bg-[#58BA66]"
+                      : data?.data?.data?.priority === "High"
+                      ? "bg-[#FF5252]"
+                      : "bg-[#FFD56A]"
+                  }`}
+                >
+                  {data?.data?.data?.priority}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-full h-[320px] border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
+            <p className="text-[#A3A3A3] text-[16px] ">Ticket Subject</p>
+            <h3 className="text-[16px] mt-[9px]">
+              How to customize the template?
+            </h3>
+            <p className="text-[#A3A3A3] text-[16px] mt-[18px]">
+              Ticket Details
+            </p>
+            <h3 className="text-[16px] mt-[12px]">
+              {data?.data.data?.description}
+            </h3>
+
+            <div className="flex items-center mt-[32px]">
+              <img src={documentIcon} />
+              <h3 className="text-[16px] ml-2">
+                {data?.data.data?.documentUrl}
+              </h3>
+              <Button
+                type="button"
+                onClick={handleDownload}
+                className="ml-[22px]"
+              >
+                DOWNLOAD
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-[36px] mt-[29px]">
+            {/* <InputWithLable label="Assign To" /> */}
+            <div>
+              <Select
+                onValueChange={(e) => {
+                  setValue("assignTo", e);
+                  setSelectAssingValue(e);
+                }}
+                value={String(selectAssingValue)}
+                {...register("assignTo")}
+              >
+                <SelectGroup>
+                  <SelectLabel className="text-[16px] font-[400]">
+                    Assign To
+                  </SelectLabel>
+
+                  <SelectTrigger className="max-w-full h-[52px]">
+                    <SelectValue placeholder="Select Name" />
+                  </SelectTrigger>
+                </SelectGroup>
+                <SelectContent>
+                  {fetchAssignToData?.data.data
+                    .filter((item: any) => item.name)
+                    .map((item: any) => {
+                      return (
+                        <SelectItem key={item._id} value={String(item.id)}>
+                          {item.name}
+                        </SelectItem>
+                      );
+                    })}
+                </SelectContent>
+              </Select>
+              {!errors?.assignTo?.ref?.value && (
+                <ErrorMessage message={errors?.assignTo?.message as string} />
+              )}
+            </div>
+
+            <div>
+              <Select
+                onValueChange={(e) => {
+                  setValue("ticketStatus", e);
+                  setSelectTicketStatus(e);
+                }}
+                value={selectTicketStatus}
+                {...register("ticketStatus")}
+              >
+                <SelectGroup>
+                  <SelectLabel className="text-[16px] font-[400]">
+                    Ticket Status
+                  </SelectLabel>
+
+                  <SelectTrigger className="max-w-full h-[52px]">
+                    <SelectValue placeholder="Select Ticket Status" />
+                  </SelectTrigger>
+                </SelectGroup>
+                <SelectContent>
+                  <SelectItem value="Open">Open</SelectItem>
+                  <SelectItem value="Answered">Answered</SelectItem>
+                  <SelectItem value="InProcess">InProcess</SelectItem>
+                </SelectContent>
+              </Select>
+              {!errors?.ticketStatus?.ref?.value && (
+                <ErrorMessage
+                  message={errors?.ticketStatus?.message as string}
+                />
+              )}
+            </div>
+          </div>
+
+          <textarea
+            placeholder="Enter Details"
+            {...register("details")}
+            className="w-full h-[200px] border solid 1px gray rounded-[10px] mt-[34px] p-[17px]"
+          />
+          {errors?.details && (
+            <ErrorMessage message={errors?.details?.message as string} />
+          )}
+
+          <div className="w-full flex justify-end mt-[50px]">
+            <Button
+              type="submit"
+              variant="secondary"
+              className="w-[120px] h-[48px]"
+            >
+              Submit
             </Button>
           </div>
-        </div>
-
-        <div className="p-5 border border-[#D9D9D9] rounded-xl mb-5">
-          <div className="flex items-center mb-5">
-            <div className="w-8 h-8 rounded-full overflow-hidden me-4">
-              <img src={employee_face_2} alt="employee face" />
-            </div>
-            <div className="">
-              <h5 className="text-black text-base font-calibri">
-                Danila Raffel
-              </h5>
-              <h6 className="text-[#A3A3A3] text-sm font-calibri">
-                Provider Type: Client
-              </h6>
-            </div>
-          </div>
-          <div className="xl:pb-10 pb-6">
-            <h6 className="text-[#A3A3A3] text-base font-calibri pb-2">
-              Ticket Subject
-            </h6>
-            <p className="text-base text-black font-calibri">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-          </div>
-        </div>
-        <div className="p-5 border border-[#D9D9D9] rounded-xl">
-          <div className="grid grid-cols-2 gap-5 mb-5">
-            <div className="col-span-1">
-              <Label className="text-base text-black font-calibri block pb-2">
-                Assign To
-              </Label>
-              <SelectMenu
-                option={selectNameOption}
-                setValue={(data: string) => setSelectName(data)}
-                value={selectName}
-                className="text-[#A3A3A3] text-base font-calibri border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
-                placeholder="Select Name"
-              />
-            </div>
-            <div className="col-span-1">
-              <Label className="text-base text-black font-calibri block pb-2">
-                Ticket Status
-              </Label>
-              <SelectMenu
-                option={ticketStatusOption}
-                setValue={(data: string) => setTicketStatus(data)}
-                value={ticketStatus}
-                className="text-[#A3A3A3] text-base font-calibri border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
-                placeholder="Closed"
-              />
-            </div>
-          </div>
-          <div className="mb-8">
-            <Label className="text-base text-black font-calibri block pb-2">
-              Ticket Reply
-            </Label>
-            <Textarea
-              className="w-full border-[#D9D9D9] text-[#A3A3A3] text-base font-calibri outline-none placeholder:text-[#A3A3A3] xl:px-5 px-3"
-              placeholder="Enter details"
-            />
-          </div>
-          <div className="flex justify-between items-center gap-8">
-            <div className="flex items-center gap-8">
-              <div className="flex items-center">
-                <div className="w-[42px] h-[42px] rounded-full bg-[#E3E5F5] flex justify-center items-center me-4">
-                  <Image />
-                </div>
-                <div className="text-base text-black font-calibri">
-                  <h5 className="tetx-base text-black font-calibri">
-                    Upload Document
-                  </h5>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <div className="w-[42px] h-[42px] rounded-full bg-[#E3E5F5] flex justify-center items-center me-4">
-                  <Video />
-                </div>
-                <div className="text-base text-black font-calibri">
-                  <h5 className="tetx-base text-black font-calibri">
-                    Upload Video
-                  </h5>
-                </div>
-              </div>
-            </div>
-            <div className="">
-              <Button className="text-base bg-[#58BA66] px-6">SUBMIT</Button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
+
+      <Loading isLoading={isPending} />
     </div>
   );
 };

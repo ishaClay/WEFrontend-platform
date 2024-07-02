@@ -1,14 +1,7 @@
-import Loading from "@/components/comman/Error/Loading";
+import Tree_Planting from "@/assets/images/Tree_Planting.png";
 import Footer from "@/components/Footer";
+import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -20,8 +13,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
-import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
+import Loader from "@/components/comman/Loader";
+import Modal from "@/components/comman/Modal";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppSelector } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
@@ -35,8 +30,9 @@ import {
 import { ErrorType } from "@/types/Errors";
 import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { BsFillPlusSquareFill, BsPencil } from "react-icons/bs";
+import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
@@ -102,18 +98,21 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } =
-    useQuery({
-      queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
-      queryFn: () =>
-        filterMaturityMeasures(
-          clientId as string,
-          userID as string,
-          selectmaturity as any,
-          pid as string
-        ),
-      enabled: !!selectmaturity && !!pid,
-    });
+  const {
+    data: filtermesuresdata,
+    refetch: refetchfiltermesuresdata,
+    isPending: measuresPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+    queryFn: () =>
+      filterMaturityMeasures(
+        clientId as string,
+        userID as string,
+        selectmaturity as any,
+        pid as string
+      ),
+    enabled: !!selectmaturity && !!pid,
+  });
 
   console.log("isPending", isPending);
 
@@ -197,22 +196,22 @@ function SelectLevel() {
 
   const paths = [
     {
-      name: "Engage",
+      name: "Start",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Assess",
+      name: "Self-assess",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Set Targets",
+      name: "Plan Action",
       img: Correct,
       status: "indeterminate",
     },
     {
-      name: "Learn",
+      name: "Develop",
       img: Learn,
       status: "pending",
     },
@@ -222,7 +221,7 @@ function SelectLevel() {
       status: "pending",
     },
     {
-      name: "Attain proficiency",
+      name: "Advance Your Green",
       img: Attainproficiency,
       status: "pending",
     },
@@ -275,11 +274,6 @@ function SelectLevel() {
   };
 
   console.log("pillerItemspillerItemspillerItems", pillerItems);
-
-  const handleClose = () => {
-    setOpen(false);
-    setActionItems(null);
-  };
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
 
@@ -359,7 +353,7 @@ function SelectLevel() {
                     </p>
                   </div>
                 ))}
-                <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+                <div className="absolute top-[47.5px] left-3 right-12 border-2 border-dashed border-[#585858] -z-10"></div>
               </div>
             </div>
           </div>
@@ -368,7 +362,7 @@ function SelectLevel() {
         <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
           <div className="my-6">
             <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
-              Select target pillars and maturity levels
+              Which sustainability pillars do you want to advance first?
             </h1>
           </div>
           {isPending ? (
@@ -494,8 +488,11 @@ function SelectLevel() {
                         </div>
                         <div>
                           <ul className="list-disc ml-6 text-sm text-[#000000]">
-                            {pid === item?.pillarid
-                              ? filtermesuresdata?.data?.data &&
+                            {pid === item?.pillarid ? (
+                              measuresPending ? (
+                                <Loader containerClassName="h-[80px]" />
+                              ) : (
+                                filtermesuresdata?.data?.data &&
                                 filtermesuresdata?.data?.data.map(
                                   (m: any, index: number) =>
                                     m?.filteredOptions?.map(
@@ -507,11 +504,14 @@ function SelectLevel() {
                                         )
                                     )
                                 )
-                              : item?.filteredOptions.map((m: any) => {
-                                  if (m.measures) {
-                                    return <li>{m.measures}</li>;
-                                  }
-                                })}
+                              )
+                            ) : (
+                              item?.filteredOptions.map((m: any) => {
+                                if (m.measures) {
+                                  return <li>{m.measures}</li>;
+                                }
+                              })
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -537,234 +537,159 @@ function SelectLevel() {
             })
           )}
 
-          <div className="flex justify-center">
+          <div className=" text-center font-abhaya  font-semibold">
+            <p>
+              <span className="text-[#F63636]"> An important note:</span>{" "}
+              nothing’s set in stone here! 
+            </p>
+
+            <p className="mt-[20px]">
+              Discuss sustainability measures over coffee with your colleagues. 
+              <br />
+              Come back anytime to edit action items.  <br />
+              And tweek-as-needed an action plan that will guide your company. 
+            </p>
+          </div>
+          <div className="flex justify-center  mt-[20px]  mb-[20px]">
             <Button
               disabled={!handleDisabledButton}
               onClick={handleSelect}
-              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
             >
-              BUILD
+              Got it. Build My Action Plan!
             </Button>
-          </div>
-
-          <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
-
-          <div className="font-abhaya font-extrabold text-base text-[#EF2626] leading-5 text-center pt-2 pb-4">
-            <p>
-              {" "}
-              Congratulations! 🌿 Your chosen maturity levels have been noted.
-              You're now on a unique{" "}
-            </p>
-            <p>
-              sustainability journey tailored just for you. Keep moving forward,
-              and watch your impact grow! 🌍✨
-            </p>
           </div>
         </div>
         <Footer />
 
-        <Dialog open={open} onOpenChange={handleClose}>
-          <DialogContent className="sm:max-w-[50rem] z-[999]">
-            <DialogHeader>
-              <DialogTitle>
-                Have you identified actionable items on provided measures?
-              </DialogTitle>
-            </DialogHeader>
-
-            <div className="sm:max-w-[45rem]">
-              <div className="flex  mb-4">
-                <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-17 h-17 p-2 mb-2">
-                  <img
-                    src="/public/assets/img/Tree Planting.png"
-                    alt="Leaf Icon"
-                  />
-                </div>
-                <div className="ml-6 mt-6 h-[22px] w-[800px]">
-                  <h2 className=" text-xm font-semibold text-[#1D2026]">
-                    Have you identified actionable items on provided measures?
-                  </h2>
-                </div>
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          className="lg:max-w-[815px] sm:max-w-xl max-w-[335px] xl:px-10 px-5 xl:py-8 py-4 rounded-xl"
+        >
+          <div className="">
+            <div className="flex items-center mb-4 gap-5">
+              <div className="bg-white rounded-full drop-shadow-md min-w-[42px] w-[42px] min-h-[42px] h-[42px] flex justify-center items-center">
+                <img src={Tree_Planting} alt="plant" />
               </div>
-              <div className="flex flex-col space-y-4">
-                <div className="text-[#1D2026] font-Calibri font-bold ml-4">
+              <div>
+                <h2 className="text-base font-calibri font-bold text-[#1D2026]">
+                  Have you identified actionable items on provided measures?
+                </h2>
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div className="md:mb-5 mb-3">
+                <h5 className="text-[#1D2026] font-Calibri text-base font-bold">
                   {actionItems?.pillarname}
-                </div>
-                <div className="flex h-full w-full mt-2">
-                  <div className="ml-4 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded overflow-auto">
-                    <div className="w-full h-74 border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
-                      <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                        <div className="ml-6  text-[#1D2026] font-calibri font-bold">
+                </h5>
+              </div>
+              <ScrollArea className="h-[300px]">
+                <div className="grid sm:grid-cols-2 grid-cols-1 xl:gap-8 md:gap-5 gap-3">
+                  <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
+                    <div className="w-full">
+                      <div className="px-5 py-2 border-b border-solid">
+                        <h5 className="text-[#1D2026] font-calibri font-bold">
                           Measures
-                        </div>
-                        <div className="p-4 ">
-                          <ul className="list-disc list-inside text-[12px]  font-calibri">
-                            {filteredOptions?.map((m: any) => {
-                              if (m.measures) {
-                                return <li>{m.measures}</li>;
-                              }
-                            })}
-                          </ul>
-                        </div>
+                        </h5>
+                      </div>
+                      <div className="p-4 ">
+                        <ul className="list-disc list-inside text-[12px]  font-calibri">
+                          {filteredOptions?.map((m: any) => {
+                            if (m.measures) {
+                              return <li>{m.measures}</li>;
+                            }
+                          })}
+                        </ul>
                       </div>
                     </div>
                   </div>
 
-                  <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
-                    <div className="ml-6 h-[297px] w-[350px] border border-solid border-[#D9D9D9] rounded">
-                      <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
-                        <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                          <div className="ml-6 text-[#1D2026] font-calibri font-bold">
+                  <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl ">
+                    <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
+                      <div className="w-full">
+                        <div className="px-5 py-2 border-b border-solid">
+                          <h5 className="text-[#1D2026] font-calibri font-bold">
                             Enter initiatives or action items
-                          </div>
+                          </h5>
+                        </div>
 
-                          <div className="h-[265px] overflow-auto">
-                            {/* {console.log(getCheckedmeasures?.data.data)} */}
-                            {/* {getCheckedmeasures?.data?.data &&
-                                          getCheckedmeasures?.data?.data.map(
-                                            (m: any) => {
-                                              if (
-                                                
-                                                m.pillarId === item.pillarid
-
-                                              ) 
-                                              {
-                                                return m?.measures?.map(
-                                                  (measure: any) => {
-                                                    return actionItems.map( 
-                                                      (
-                                                        item: any,
-                                                        index: number
-                                                      ) => (
-                                  
-                                                        <div
-                                                          key={index}
-                                                          className="pl-4"
-                                                          >
-                                          
-                                                          <div className="flex p-2 w-[322px] h-[42px] mt-2">
-                                                            <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
-                                                              <input
-                                                                type="text"
-                                                                placeholder="Action item"
-                                                                value={
-                                                                  measure.name
-                                                                }
-                                                                onChange={(e) =>
-                                                                  handleActionItemChange(
-                                                                    index,
-                                                                    e.target
-                                                                      .value
-                                                                  )
-                                                                }
-                                                                className="flex-1 border-none outline-none pl-2 pt-2"
-                                                              />
-                                                            </div>
-                                                            <div>
-                                                              <button
-                                                                type="button"
-                                                                className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
-                                                                onClick={() =>
-                                                                  setEditId(
-                                                                    index
-                                                                  )
-                                                                }
-                                                              >
-                                                                <BsPencil className="text-[#B9B9B9]" />
-                                                              </button>
-                                                              <button
-                                                                className="border-none bg-transparent text-lg cursor-pointer mt-2"
-                                                                onClick={() =>
-                                                                  removeActionItem(index)
-                                                                }
-                                                              >
-                                                                <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                                         
-                                                              </button>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      )
-                                                    );
-                                                  }
-                                                );
-                                              }
-                                            }
-                                          )}  */}
-
-                            {/* {console.log(item.pillarid ,pid)} */}
-                            {/* {console.log(pid)} */}
-
-                            {pillerItems[currentPiller]?.map(
-                              (item: any, index: number) => (
-                                <div key={index} className="pl-4">
-                                  <div className="flex p-2 w-[322px] h-[42px] mt-2">
-                                    <div className="flex-1 border border-[#EBEAEA] rounded w-[280px] h-[42px] mb-2">
-                                      <input
-                                        type="text"
-                                        placeholder="Action item"
-                                        value={item}
-                                        onChange={(e) =>
-                                          handleActionItemChange(
-                                            index,
-                                            e.target.value,
-                                            currentPiller
-                                          )
-                                        }
-                                        className="flex-1 border-none outline-none pl-2 pt-2"
-                                      />
-                                    </div>
-                                    <div>
-                                      <button
-                                        type="button"
-                                        className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2"
-                                        onClick={() => setEditId(index)}
-                                      >
-                                        <BsPencil className="text-[#B9B9B9]" />
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className="border-none bg-transparent text-lg cursor-pointer mt-2"
-                                        onClick={() =>
-                                          removeActionItem(index, currentPiller)
-                                        }
-                                      >
-                                        <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                      </button>
-                                    </div>
-                                  </div>
+                        <div className="flex flex-col gap-5 px-3.5 py-2.5">
+                          {pillerItems[currentPiller]?.map(
+                            (item: any, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between"
+                              >
+                                <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[210px] overflow-hidden">
+                                  <input
+                                    type="text"
+                                    placeholder="Action item"
+                                    value={item}
+                                    onChange={(e) =>
+                                      handleActionItemChange(
+                                        index,
+                                        e.target.value,
+                                        currentPiller
+                                      )
+                                    }
+                                    className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
+                                  />
                                 </div>
-                              )
-                            )}
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    className="border-none bg-transparent text-lg cursor-pointer"
+                                    onClick={() => setEditId(index)}
+                                  >
+                                    <BsPencil className="text-[#B9B9B9]" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="border-none bg-transparent text-lg cursor-pointer"
+                                    onClick={() =>
+                                      removeActionItem(index, currentPiller)
+                                    }
+                                  >
+                                    <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                  </button>
+                                </div>
+                              </div>
+                            )
+                          )}
 
-                            <div className="flex items-center justify-center w-4 h-4  ml-[315px] mt-8">
-                              <BsFillPlusSquareFill
-                                onClick={() => addActionItem(currentPiller)}
-                              />
-                            </div>
+                          <div className="text-right">
+                            <Button
+                              onClick={() => addActionItem(currentPiller)}
+                              className="w-3 bg-black p-0 h-3 rounded-[2px]"
+                            >
+                              <Plus className="text-white" />
+                            </Button>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="absolute bottom-6 right-[100px]"
-                    >
-                      save
-                    </Button>
-                  </form>
+                    </form>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <DialogFooter className="sm:justify-end">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
+              </ScrollArea>
+
+              <div className="text-right mt-6">
+                <Button
+                  type="submit"
+                  className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                >
+                  Save
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
+                >
                   Close
                 </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+              </div>
+            </div>
+          </div>
+        </Modal>
         <Loading isLoading={createPending} />
       </div>
     </div>

@@ -2,6 +2,8 @@ import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import Logo1 from "../../public/assets/img/logo1.png";
+import Logo2 from "../assets/images/logo2.png";
 import { PrimaryButton } from "./comman/Button/CustomButton";
 import Loading from "./comman/Error/Loading";
 import { toast } from "./ui/use-toast";
@@ -77,7 +79,7 @@ function Header(props: headerProps) {
                 navigate("/");
               }}
               className="cursor-pointer"
-              src="../assets/img/logo1.png"
+              src={Logo1}
             />
           </div>
           <div className="xl:ml-5 ml-3 text-[#1f1313]">
@@ -135,7 +137,7 @@ function Header(props: headerProps) {
               </>
             )}
           </div>
-          <img className="xl:ml-7 ml-2" src="../assets/img/logo2.png" />
+          <img className="xl:ml-7 ml-2" src={Logo2} />
         </div>
       </div>
       <Loading isLoading={isPending} />

@@ -59,6 +59,8 @@ const Message = () => {
   const [chatMessage, setChatMessage] = useState("");
   const [chatId, setChatId] = useState<number | string>("");
   const [allMsg, setAllMsg] = useState<any[]>([]);
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
 
   const {
     data: chatUserList,
@@ -301,7 +303,7 @@ const Message = () => {
                         ? "Trainer Company"
                         : item?.role === UserRole.Trainee
                         ? "Trainee"
-                        : item?.role === UserRole.CompanyEmployee
+                        : item?.role === UserRole.Employee
                         ? "Company Employee"
                         : item?.role === UserRole.SuperAdmin
                         ? "Super Admin"
@@ -351,7 +353,7 @@ const Message = () => {
                     ? "Trainer Company"
                     : currentChat?.role === UserRole.Trainee
                     ? "Trainer"
-                    : currentChat?.role === UserRole.CompanyEmployee
+                    : currentChat?.role === UserRole.Employee
                     ? "Company Employee"
                     : currentChat?.role === UserRole.SuperAdmin
                     ? "Super Admin"
@@ -364,7 +366,7 @@ const Message = () => {
           )}
           <Button
             className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri"
-            onClick={() => navigate("/trainer/message/compose")}
+            onClick={() => navigate(`/${currentUser}/message/compose`)}
           >
             <FilePenLine width={18} /> Compose
           </Button>

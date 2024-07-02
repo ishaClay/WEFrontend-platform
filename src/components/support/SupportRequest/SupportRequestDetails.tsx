@@ -1,68 +1,56 @@
-import Requests_icon from "@/assets/images/MyRequests.png";
-import Resolved_icon from "@/assets/images/Resolved.png";
-import Ticket_icon from "@/assets/images/ticket_star.png";
-import Ellipse_one from "@/assets/images/Ellipse1.png";
-import Ellipse_two from "@/assets/images/Ellipse2.png";
-import Ellipse_three from "@/assets/images/Ellipse3.png";
+import ticket from "@/assets/images/ticket.png";
+import ticketStar from "@/assets/images/ticket_star.png";
+import message from "@/assets/images/message.png";
+import resolved from "@/assets/images/Resolved.png";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchSupportTicketCount } from "@/services/apiServices/supportRequestServices";
+import { useSelector } from "react-redux";
 
 const SupportRequestDetails = () => {
-  const requestDetails = [
-    {
-      image: Requests_icon,
-      count: 375,
-      title: "My Requests",
-    },
-    {
-      image: Resolved_icon,
-      count: 100,
-      title: "Resolved",
-    },
-    {
-      image: Ticket_icon,
-      count: 375,
-      title: "Ticket",
-    },
-  ];
+  const { UserId } = useSelector((state: any) => state.user);
+
+  const { data: support_request_count } = useQuery({
+    queryKey: [QUERY_KEYS.supportTicketCount],
+    queryFn: () => fetchSupportTicketCount(UserId),
+  });
   return (
-    <div>
-      <div className="grid grid-cols-3 gap-5">
-        {requestDetails.map((data: any, index: number) => {
-          return (
-            <div
-              className="col-span-1 xl:p-5 p-3 shadow-md rounded-lg relative"
-              key={index}
-            >
-              <div className="flex items-center">
-                <div className="xl:w-20 w-14 xl:h-20 h-14 rounded-full bg-[#F5F7FF] flex justify-center items-center">
-                  <img src={data.image} alt="img" />
-                </div>
-                <div className="ps-5">
-                  <h3 className="font-nunito font-bold xl:text-[32px] text-2xl text-black">
-                    {data.count}
-                  </h3>
-                  <h5 className="font-nunito text-black xl:text-base text-sm">
-                    {data.title}
-                  </h5>
-                </div>
-              </div>
-              <img
-                src={Ellipse_one}
-                alt="ellipse"
-                className="absolute bottom-0 right-[10%]"
-              />
-              <img
-                src={Ellipse_two}
-                alt="ellipse"
-                className="absolute top-0 right-0"
-              />
-              <img
-                src={Ellipse_three}
-                alt="ellipse"
-                className="absolute top-0 right-0"
-              />
-            </div>
-          );
-        })}
+    <div className="w-full grid grid-cols-[repeat(4,auto)] gap-5 mt-[28px]">
+      <div className="h-[108px] border border-1px solid gray rounded-[6px]  flex items-center justify-between sm:p-[26px] p-[5px]">
+        <img className="w-[65px] h-[42px]" src={ticket} />
+        <div className="text-center">
+          <h2 className="font-[700] text-[32px] leading-[42px]">
+            +{support_request_count?.data.data.totalTickets || 0}
+          </h2>
+          <h3>Total Tickets</h3>
+        </div>
+      </div>
+      <div className="h-[108px] border border-1px solid gray rounded-[6px] flex items-center justify-between sm:p-[26px] p-[10px]">
+        <img className="w-[42px] h-[42px]" src={message} />
+        <div className="text-center">
+          <h2 className="font-[700] text-[32px] leading-[42px]">
+            +{support_request_count?.data.data.responded || 0}
+          </h2>
+          <h3>Responded</h3>
+        </div>
+      </div>
+      <div className="h-[108px] border border-1px solid gray rounded-[6px] flex items-center justify-between sm:p-[26px] p-[10px]">
+        <img className="w-[46px] h-[42px]" src={resolved} />
+        <div className="text-center">
+          <h2 className="font-[700] text-[32px] leading-[42px]">
+            +{support_request_count?.data.data.resolved || 0}
+          </h2>
+          <h3>Resolved</h3>
+        </div>
+      </div>
+      <div className="h-[108px] border border-1px solid gray rounded-[6px] flex items-center justify-between sm:p-[26px] p-[10px]">
+        <img className="w-[73px] h-[42px]" src={ticketStar} />
+        <div className="text-center">
+          <h2 className="font-[700] text-[32px] leading-[42px]">
+            +{support_request_count?.data.data.pending || 0}
+          </h2>
+          <h3>Pending</h3>
+        </div>
       </div>
     </div>
   );

@@ -79,130 +79,73 @@ function SavedAssesment() {
   };
 
   return (
-    <div>
-      <div>
-        <div className=" border-b-[2px]  ">
-          <Header />
+    <div className="mainContailner w-full m-auto">
+      <Header />
+      <div className="flex flex-row xl:gap-[48px] gap-5">
+        <div>
+          <img
+            className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
+            src="../assets/img/Group 1000001826.png"
+          />
         </div>
-        <div className="flex mainContailner">
-          <div>
-            <img
-              src="../assets/img/Group 1000001824.png"
-              className="xl:max-w-[800px] max-w-[400px]"
-            />
-          </div>
-
-          <div className="xl:px-0 px-2">
-            <div className="h-[400px] relative xl:mt-[142px] mt-[50px] ml-[40px]">
-              <div className="flex items-center">
-                <h3 className="text-[Calibri] italic text-[#3A3A3A] font-bold">
-                  Welcome Back to Your Sustainability Journey!
+        <div className="w-full xl:mb-[100px] mb-0">
+          <div className="mt-[100px] xl:mb-0 mb-[100px]">
+            <div className=" w-[430px] ">
+              <div className="flex items-end justify-between gap-x-[14px]">
+                <h3 className="font-abhaya text-[24px] font-[400]">
+                  Why, nice to have you back
                 </h3>
-                <img
-                  className="ml-auto mr-[300px] mb-[]"
-                  src="../assets/img/pngwing 25.png"
-                  alt="Your Image Alt Text"
-                />
+                <img className="mb-[7px]" src="../assets/img/pngwing 25.png" />
               </div>
-              <div className=" w-[430px] ">
-                <img src="../assets/img/Line 23.png" />
-              </div>
-
-              <p className="text-[Calibri]">
-                Great to see you back! You've already set sail on the journey
-                towards a sustainable future.
-              </p>
-              <p className="mt-[20px]">
-                Let's continue navigating your Green Compass. We've plotted your
-                progress so far, and now it's time to complete the remaining
-                questions under each sustainability pillar
-              </p>
-              <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[50px] text-[24px]">
-                {" "}
-                What to Expect:
-              </p>
-              <div className="w-[330px] mt-[15px]">
-                <div className="flex items-center">
-                  <img
-                    className="h-[25px] w-[25px]"
-                    src="../assets/img/saved.png"
-                  />
-                  <span className="ml-1">
-                    Complete the assessment with precision.
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <img
-                    className="h-[25px] w-[25px]"
-                    src="../assets/img/saved.png"
-                  />
-                  <span className="ml-1 mt-[25px]">
-                    Refine your green practices based on your initial responses.
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <img
-                    className="h-[25px] w-[25px]"
-                    src="../assets/img/saved.png"
-                  />
-                  <span className="ml-1 mt-[25px]">
-                    Uncover insights that will guide your company's
-                    sustainability strategy.
-                  </span>
-                </div>
-              </div>
-              <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">
-                Your Progress So Far:
-              </p>
-              <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
-                {isPending ? (
-                  <Loader />
-                ) : (
-                  data?.data &&
-                  data?.data?.length > 0 &&
-                  data?.data.map((category, index: number) => {
-                    return (
-                      <div className="">
-                        <div
-                          key={index}
-                          className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
-                        >
-                          <div>
-                            <img
-                              src={getImages(category.pillarName)}
-                              alt="img"
-                              className="w-[52px] h-[52px]"
-                            />
-                          </div>
-                          <h4 className="mt-3">{category.pillarName}</h4>
-
-                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                            {category?.progress} %
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-
-              <p className="text-[Calibri] italic text-[#3A3A3A] font-bold mt-[15px] text-[24px]">
-                Complete the Assessment and Reap the Benefits
-              </p>
-              <p>
-                {" "}
-                Every question answered propels you closer to a sustainable and
-                successful voyage. Don't miss the chance to refine your course
-                and make a positive impact. Your sustainable map awaits
-                completion!
-              </p>
-              <Button
-                onClick={handleAssesment}
-                className="bg-[#64A70B] text-[20pxpx] leading-5 w-[180px] mt-[20px]"
-              >
-                Continue Assessment
-              </Button>
+              <img src="../assets/img/Line 23.png" />
             </div>
+
+            <p className="mt-[20px] w-[430px]">
+              There's just some quenstions lefts to get your Sustainability
+              Score. but you're merrily on the way there...
+            </p>
+            <p className="text-[Calibri] font-abhaya text-[#3A3A3A mt-[50px] text-[24px]">
+              {" "}
+              What's left for you to complete:
+            </p>
+            <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
+              {isPending ? (
+                <Loader />
+              ) : (
+                data?.data &&
+                data?.data?.length > 0 &&
+                data?.data.map((category, index: number) => {
+                  return (
+                    <div className="">
+                      <div
+                        key={index}
+                        className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                      >
+                        <div>
+                          <img
+                            src={getImages(category.pillarName)}
+                            alt="img"
+                            className="w-[52px] h-[52px]"
+                          />
+                        </div>
+                        <h4 className="mt-3">{category.pillarName}</h4>
+
+                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
+                          {category?.progress} %
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            <Button
+              onClick={handleAssesment}
+              className="bg-[#64A70B] w-[266px] h-[50px]  text-[20px] mt-[20px]"
+            >
+              Continue My Assessment
+            </Button>
           </div>
         </div>
       </div>

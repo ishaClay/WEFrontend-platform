@@ -39,6 +39,7 @@ function Auth() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -75,21 +76,21 @@ function Auth() {
       // dispatch(setClientId(data.data.data.query.clientid));
 
       if (data.data.data.status === "Inactive") {
-        // navigate("/resetpassword", {
-        //   state: {
-        //     oldPassword: getValues("password"),
-        //     email: getValues("email"),
-        //     status: data?.data?.data?.status || "",
-        //     token: data?.data?.data?.accessToken || "",
-        //   },
-        // });
-        console.log("data", data?.data?.data);
-
         toast({
           variant: "destructive",
           title: data?.data?.message,
         });
-        // dispatch(setUserData(user.id));
+      } else if (data.data.data.isNew) {
+        navigate("/resetpassword", {
+          state: {
+            oldPassword: getValues("password"),
+            email: getValues("email"),
+            status: data?.data?.data?.status || "",
+            token: data?.data?.data?.accessToken || "",
+          },
+        });
+        dispatch(setUserData(user.id));
+        console.log("data", data?.data?.data);
       } else {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
@@ -111,15 +112,21 @@ function Auth() {
         }
 
         if (user.role == UserRole.Trainer) {
-          if (data.data.data.status === "Active") {
-            navigate("/trainer/dashboard");
-          }
+          navigate("/trainer/dashboard");
         }
 
-        if (user.role == UserRole.CompanyEmployee) {
+        if (+user.role === UserRole.Trainee) {
+          navigate("/trainee/dashboard");
+        }
+
+        if (user.role == UserRole.Employee) {
           if (data.data.data.status === "Active") {
             navigate("/employee/dashboard");
           }
+          toast({
+            variant: "success",
+            title: data.data.message,
+          });
         }
 
         if (user.role == UserRole.Client) {
@@ -131,7 +138,7 @@ function Auth() {
 
         if (user.role == UserRole.Company) {
           toast({
-            title: "Login Successfully",
+            title: data.data.message,
           });
 
           dispatch(setUserData(user.id));
@@ -183,9 +190,7 @@ function Auth() {
               src="../assets/img/pngwing.png"
             />
             <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full">
-              <span className="text-[#73AF26]">Empower</span> your potential
-              through our comprehensive training programs, where knowledge meets
-              innovation
+            Quite literally: <span className="text-[#73AF26]">you’ll be the bridge</span> for companies across Ireland to upskill their teams, and <span className="text-[#73AF26]">become more sustainable</span>
             </h2>
           </div>
 
@@ -200,7 +205,7 @@ function Auth() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
-                <p className="text-[24px] font-[700] text-color">Login</p>
+                <p className="text-[24px] font-[700] text-color mb-5">You’re most welcome in...</p>
                 <InputWithLable
                   className="w-full h-[52px] mt-2 secondary-background"
                   placeholder="Enter Username"

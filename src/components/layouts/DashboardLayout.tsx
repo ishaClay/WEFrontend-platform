@@ -18,7 +18,7 @@ interface SidebarItem {
 const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
-  // const userRole = 2;
+  // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
     switch (+userRole) {
@@ -39,7 +39,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex bg-[#F5F7FF] overflow-hidden">
-      <div>
+      <div >
         <Sidebar sidebarItems={data} />
       </div>
       <div className="w-full">

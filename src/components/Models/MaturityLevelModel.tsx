@@ -15,6 +15,27 @@ interface MaturityLevelModelProps {
   setPillerName: React.Dispatch<React.SetStateAction<string>>;
 }
 
+const maturityLevel = [
+  {
+    maturityLevelName: "Introductory",
+    rangeStart: 0,
+    rangeEnd: 39.9,
+    color: "#FF5252",
+  },
+  {
+    maturityLevelName: "Intermediate",
+    rangeStart: 40,
+    rangeEnd: 69.9,
+    color: "#FFD56A",
+  },
+  {
+    maturityLevelName: "Advance",
+    rangeStart: 70,
+    rangeEnd: 100,
+    color: "#D6F5AC",
+  },
+];
+
 const MaturityLevelModel = ({
   isOpen,
   setIsOpen,
@@ -39,6 +60,15 @@ const MaturityLevelModel = ({
       }),
     enabled: !!isOpen && !!userID && !!clientId,
   });
+
+  const findMaturityLevel = (score: number) => {
+    for (const level of maturityLevel) {
+      if (score >= level.rangeStart && score <= level.rangeEnd) {
+        return level;
+      }
+    }
+    return null;
+  };
 
   return (
     <Modal
@@ -93,8 +123,8 @@ const MaturityLevelModel = ({
         </div>
         <div className="h-[105px] w-[270px] ">
           <div className="ml-3 mt-2 h-[25px] w-[230px]">
-            <h2 className=" text-xm text-[#1D2026] font-calibri text-lg font-semibold">
-              Maturity level of your answers
+            <h2 className=" text-xm text-[#1D2026] font-abhaya text-lg font-semibold">
+              Where your answers put you
             </h2>
           </div>
         </div>
@@ -107,11 +137,7 @@ const MaturityLevelModel = ({
           <div className="flex items-center flex-wrap gap-2">
             {data?.data?.[pillerName as string]?.map((item, i) => {
               const color =
-                item.questionAnswers?.length === 0
-                  ? "#F63636"
-                  : item?.questionScores > 50
-                  ? "#64A70B"
-                  : "#FFD56A";
+                findMaturityLevel(item?.questionScores)?.color || "";
               return (
                 <div className="flex flex-col border p-3 rounded-lg w-[242px] h-[150px]">
                   <div className="text-xs font-bold">
@@ -123,7 +149,7 @@ const MaturityLevelModel = ({
 
                   <Progress
                     className="w-full rounded-full mt-2"
-                    value={item?.questionScores}
+                    value={item?.questionScores || 0}
                     color={color}
                   />
                 </div>

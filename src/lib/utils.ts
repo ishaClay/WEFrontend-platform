@@ -22,6 +22,7 @@ import GreenTech from "../assets/images/GreenTech.svg";
 import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
+import { FileType } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -72,7 +73,7 @@ export const sidebarLayout = {
           link: "/trainer/enrolledcourses",
         },
         {
-          label: "All Courses",
+          label: "Erolled Courses",
           link: "/trainer/allcourse",
         },
         {
@@ -97,7 +98,7 @@ export const sidebarLayout = {
           link: "/trainer/certificate-template",
         },
         {
-          label: "Allocated Certificate",
+          label: "Issued Certificate",
           link: "/trainer/allocated-certificate",
         },
       ],
@@ -109,15 +110,15 @@ export const sidebarLayout = {
       children: [
         {
           label: "FAQ's",
-          link: "/trainer/faqslist",
+          link: "/trainer/support-faqslist",
         },
         {
           label: "Training Document",
-          link: "/trainer/trainingdocument",
+          link: "/trainer/support-training-documnet",
         },
         {
           label: "Support Request",
-          link: "/trainer/supportticket",
+          link: "/trainer/support-request",
         },
       ],
     },
@@ -166,7 +167,7 @@ export const sidebarLayout = {
         },
         {
           label: "Enrolled Courses",
-          link: "/trainee/allcourses",
+          link: "/trainee/enrolledcourses",
         },
       ],
     },
@@ -192,7 +193,7 @@ export const sidebarLayout = {
       children: [
         {
           label: "FAQ's",
-          link: "/trainee/faqslist",
+          link: "/trainee/support-faqslist",
         },
         {
           label: "User Manual",
@@ -200,7 +201,7 @@ export const sidebarLayout = {
         },
         {
           label: "Support Request",
-          link: "/trainee/supportticket",
+          link: "/trainee/support-request",
         },
       ],
     },
@@ -231,7 +232,7 @@ export const sidebarLayout = {
       children: [],
     },
     {
-      label: "Our Maturity Journey",
+      label: "Our Sustainability Journey",
       Icon: LuMapPin,
       link: "/company/maturityassessmentroadmap",
       children: [],
@@ -250,7 +251,7 @@ export const sidebarLayout = {
           link: "/company/coursesrecommended",
         },
         {
-          label: "All Courses",
+          label: "Erolled Courses",
           link: "/company/allcourses",
         },
       ],
@@ -276,7 +277,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "FAQ's",
+          label: "FAQs",
           link: "/company/faqslist",
         },
         {
@@ -284,8 +285,8 @@ export const sidebarLayout = {
           link: "/company/trainingdocument",
         },
         {
-          label: "Support Request",
-          link: "/company/supportticket",
+          label: "Support Tickets",
+          link: "/company/support-request",
         },
       ],
     },
@@ -324,13 +325,13 @@ export const sidebarLayout = {
     {
       label: "Our Maturity Journey",
       Icon: LuMapPin,
-      link: "/employee/maturityassessmentroadmap",
+      link: "/employee/maturityAssessment",
       children: [],
     },
     {
       label: "Certifications",
       Icon: GrCertificate,
-      link: "/employee/certificate",
+      link: "/employee/certifications",
       children: [],
     },
     {
@@ -344,13 +345,19 @@ export const sidebarLayout = {
         },
         {
           label: "User Manual",
-          link: "/employee/trainingdocument",
+          link: "/employee/usermenual",
         },
         {
           label: "Support Request",
-          link: "/employee/supportticket",
+          link: "/employee/support-request",
         },
       ],
+    },
+    {
+      label: "Message",
+      Icon: PiEnvelopeThin,
+      link: "/employee/message",
+      children: [],
     },
     {
       label: "Logout",
@@ -393,6 +400,12 @@ export const TimeFormatter = (dateTime: Date | string) => {
   }
   return formattedTime;
 };
+
+export const range = (start: number, end: number) => {
+  const length = end - start + 1;
+  return Array.from({ length }, (_, idx) => idx + start);
+};
+
 export const handleScrollToBottom = (
   containerRef: React.MutableRefObject<any>
 ) => {
@@ -419,4 +432,63 @@ export const handleScrollToBottom = (
     t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
   requestAnimationFrame(animateScroll);
+};
+
+export const getFileType = (name: number) => {
+  const fileType = Object.values(FileType).find((type) => type.enum === name);
+  return fileType;
+};
+
+export const calculateTotalReadingTime = (sections: any) => {
+  let totalHours = 0;
+  let totalMinutes = 0;
+  let totalSeconds = 0;
+
+  sections.forEach((section: any) => {
+    const time = section.isLive ? section.sectionTime : section.readingTime;
+    totalHours += time?.hour;
+    totalMinutes += time?.minute;
+    totalSeconds += time?.second;
+  });
+
+  // Convert total seconds to minutes and hours if necessary
+  totalMinutes += Math.floor(totalSeconds / 60);
+  totalSeconds = totalSeconds % 60;
+
+  totalHours += Math.floor(totalMinutes / 60);
+  totalMinutes = totalMinutes % 60;
+
+  // Format the result as a string
+  let result = "";
+  if (totalHours > 0) {
+    result += `${totalHours}hr `;
+  }
+  if (totalMinutes > 0) {
+    result += `${totalMinutes}min `;
+  }
+  if (totalSeconds > 0 || (totalHours === 0 && totalMinutes === 0)) {
+    result += `${totalSeconds}sec`;
+  }
+
+  return result.trim();
+};
+
+export const getExtension = (filename: string) => {
+  return filename && filename?.split(".")?.at(-1)?.toLowerCase();
+};
+
+export const fileValidation = (
+  filename: string,
+  allowedFileTypes: string[] | undefined
+) => {
+  const fileExtension = getExtension(filename);
+  if (
+    allowedFileTypes &&
+    fileExtension &&
+    allowedFileTypes.includes(fileExtension)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 };

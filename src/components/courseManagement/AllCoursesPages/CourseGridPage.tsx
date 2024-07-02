@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -17,7 +18,7 @@ type dataGridProps = {
 const CourseGridPage = ({ data }: dataGridProps) => {
   const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
-  const { mutate: enrollRequest } = useMutation({
+  const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
       toast({
@@ -32,11 +33,11 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       });
     },
   });
-  const handleEnroll = (id: number) => {
+  const handleEnroll = (id: number, trainerId: number) => {
     enrollRequest({
       courseId: id,
       userId: parseInt(user.UserId),
-      trainerId: 11,
+      trainerId: trainerId,
     });
   };
 
@@ -283,10 +284,30 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                   {getUpcommingCohort(allcourse)}
                   <div className="col-span-2 mr-0 ml-auto">
                     <button
-                      onClick={() => handleEnroll(allcourse?.id)}
-                      className="2xl:px-[14px] px-[10px] py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base"
+                      disabled={
+                        allcourse?.courseAlloted.some(
+                          (item) =>
+                            item.user.id === +user.UserId &&
+                            item.course.id === allcourse?.id
+                        )
+                          ? true
+                          : false
+                      }
+                      onClick={() =>
+                        handleEnroll(
+                          allcourse?.id,
+                          allcourse?.trainerId !== null
+                            ? allcourse?.trainerId?.id
+                            : allcourse?.trainerCompanyId?.id
+                        )
+                      }
+                      className="2xl:px-[14px] px-[10px] py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
                     >
-                      Enroll Now
+                      {isPending ? (
+                        <Loader containerClassName="h-auto" />
+                      ) : (
+                        "Enroll Now"
+                      )}
                     </button>
                   </div>
                 </div>

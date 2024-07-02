@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
@@ -7,12 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
+import Accomplishments from "./components/certifications/Accomplishments";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import { Toaster } from "./components/ui/toaster";
 import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
+import CertificationsPage from "./pages/CertificationsPage";
 import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
@@ -95,6 +96,9 @@ import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
+import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
+import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
 import MyCoursesList from "./pages/myCourse";
@@ -104,7 +108,10 @@ import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
+import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
+import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -139,7 +146,8 @@ function App() {
     <div className="App mx-auto">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
@@ -624,15 +632,19 @@ function App() {
         <Route
           path="/company"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
           <Route
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route
+            path="maturityAssessment"
+            element={<MaturityAssessmentPage />}
           />
           <Route path="allocatedcourses" element={<CoursesAllocate />} />
           <Route path="coursesrecommended" element={<CoursesRecommended />} />
@@ -641,7 +653,15 @@ function App() {
           <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsList />} />
           <Route path="trainingdocument" element={<TrainingDocument />} />
-          <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
+          <Route
+            path="support-request/ticket-details/:id"
+            element={<TicketDetailsReplyPage />}
+          />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
         </Route>
@@ -649,27 +669,42 @@ function App() {
         <Route
           path="/employee"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
           <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
+            path="maturityAssessment"
+            element={<MaturityAssessmentPage />}
           />
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="mycourses" element={<MyCoursesList />} />
-          <Route path="certificate" element={<EmployeeList />} />
+          {/* <Route path="certificate" element={<EmployeeList />} /> */}
+          <Route path="certifications" element={<CertificationsPage />} />
+          <Route path="my-accomplishments" element={<Accomplishments />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsListPage />} />
-          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="usermenual" element={<UserManualPage />} />
+          {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
+          <Route
+            path="support-training-documnet"
+            element={<TrainingDocumentPage />}
+          />
+          <Route
+            path="ticket-details-reply"
+            element={<TicketDetailsReplyPage />}
+          />
+
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="employee-basic-course" element={<BasicCoursePage />} />
+          <Route path="live-session" element={<LiveSessionPage />} />
+          <Route path="selectlevel" element={<SelectLevel />} />
         </Route>
 
         <Route
@@ -686,10 +721,26 @@ function App() {
             element={<MaturityAssessmentRoadmapAfterbuild />}
           />
           <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="allcourse" element={<AllCoursesPage />} />
+          <Route path="enrolledrequest" element={<EnrollmentRequest />} />
+          <Route path="enrolledcourses" element={<EnrolledCourse />} />
+          <Route path="create_course" element={<CourseManagement />} />
+          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
-          <Route path="faqslist" element={<FaqsList />} />
+          <Route path="support-faqslist" element={<FaqsListPage />} />
+          {/* <Route path="faqslist" element={<FaqsList />} /> */}
           <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
+
+          <Route
+            path="certificate-template"
+            element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate"
+            element={<AllocatedCertificate />}
+          />
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
