@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
-    maturityLevelName: "Introductory",
+    maturityLevelName: "Beginning",
     rangeStart: 0,
     rangeEnd: 39.9,
     color: "#FF5252",
@@ -30,7 +30,7 @@ const maturityLevel = [
     color: "#FFD56A",
   },
   {
-    maturityLevelName: "Advance",
+    maturityLevelName: "Advanced",
     rangeStart: 70,
     rangeEnd: 100,
     color: "#D6F5AC",
@@ -98,7 +98,7 @@ const AssessmentResult = () => {
   console.log("setScore", setScore);
 
   const data = {
-    labels: ["Introductory", "Intermediate", "Advanced"],
+    labels: ["Beginning", "Intermediate", "Advanced"],
     datasets: [
       {
         label: "Poll",
@@ -263,7 +263,7 @@ const AssessmentResult = () => {
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
-                Introductory
+                Beginning
               </Button>
             </div>
 
@@ -541,10 +541,6 @@ const AssessmentResult = () => {
         >
           Set targets
         </Button>
-      </div>
-
-      <div className="mb-240px">
-        <Footer />
       </div>
 
       <MaturityLevelModel

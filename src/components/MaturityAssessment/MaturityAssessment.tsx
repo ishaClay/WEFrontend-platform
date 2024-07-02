@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
 import SelectMenu from "../comman/SelectMenu";
-import AccordionHome from "../homePage/AccordionHome";
 
 const assessmentDetailOptions = [
   {
@@ -81,7 +80,7 @@ const MaturityAssessment = () => {
               <Roadmap />
             </TabsContent>
             <TabsContent value="actionitems" className="lg:p-5 p-4 mt-0">
-              <AccordionHome />
+              actionitems
             </TabsContent>
           </Tabs>
         </div>

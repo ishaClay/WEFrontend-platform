@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
-    maturityLevelName: "Introductory",
+    maturityLevelName: "Beginning",
     rangeStart: 0,
     rangeEnd: 39.9,
     color: "#FF5252",
@@ -30,7 +30,7 @@ const maturityLevel = [
     color: "#FFD56A",
   },
   {
-    maturityLevelName: "Advance",
+    maturityLevelName: "Advanced",
     rangeStart: 70,
     rangeEnd: 100,
     color: "#D6F5AC",
@@ -197,24 +197,37 @@ const MaturityLevelPage = () => {
       {isShowHeader && <Header />}
       <div className="mainContailner">
         <div className="flex ml-[172px] mr-[152px] justify-between">
-          <div className="h-[369px] pt-[38px]">
+          <div className="pt-[38px]">
             <h3 className="text-2xl font-bold leading-[29.3px]">
-              How does {userData?.company?.name} <br /> measure up?
+              Where {userData?.company?.name} <br /> Green Feet are now...
             </h3>
             <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]" />
             <div className="max-w-[602.78px]">
-              <p className="">
-                Congratulations! 🎉You've completed your sustainability
-                assessment, and now it's time to unveil your results! Below,
-                you'll find a comprehensive breakdown of your sustainability
-                score,
+              <p className="text-[#3A3A3A] font-abhaya leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
+                Here’s how you did across the 6 pillars of sustainability as a
+                business!
               </p>
-              <p className="mt-5">
-                Along with personalized insights and recommendations to further
-                enhance your journey towards a greener future. Dive in and
-                explore how you can make a meaningful impact on the planet while
-                embracing sustainable practices in your everyday life.
+              <div className="pb-5">
+                <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
+                  But what your score really means?{" "}
+                </h6>
+                <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
+                  This is where your journey starts. 
+                </h6>
+              </div>
+              <p className="text-[#3A3A3A] font-abhaya leading-[20px] lg:text-base sm:text-sm text-xs">
+                Now that you know where you are, it’s time to get an action plan
+                built from personalised insights to advance your company to its
+                next green stage.
               </p>
+              <div className="flex items-center gap-5 mt-5">
+                <Button className="px-8 text-base font-abhaya bg-[#64A70B] rounded-sm h-12">
+                  Build My Action Plan
+                </Button>
+                <Button className="px-8 text-base font-abhaya bg-[#00778B] rounded-sm h-12">
+                  Build My Action Plan
+                </Button>
+              </div>
             </div>
           </div>
           <div>
@@ -232,7 +245,7 @@ const MaturityLevelPage = () => {
             </div>
             <div className="mt-[60px]">
               <p className="inline ml-[35px] ">
-                Your overall sustainability level -
+                Your overall sustainability score -
               </p>{" "}
               <span className="font-poppins font-bold text-[#000000] leading-6">
                 {score < "40" && "Introductory"}
@@ -255,7 +268,7 @@ const MaturityLevelPage = () => {
           <div className="flex flex-wrap border border-solid border-[#D9D9D9] rounded-[6px]">
             <div className="w-full flex items-center pl-[17px] border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#F63636] text-[16px] leading-5 w-[130px] font-bold">
-                Introductory
+                Beginning
               </Button>
             </div>
 
