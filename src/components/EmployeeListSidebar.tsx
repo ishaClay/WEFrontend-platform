@@ -48,13 +48,13 @@ const EmployeeListSidebar = () => {
             <RxDashboard size={22} />
             <h2>Dashboard</h2>
           </Link>
-            <Link
-              to="/maturityassessmentroadmap"
-              className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060]"
-            >
-              <LuMapPin size={22} />
-              <h2>Our Sustainability Assessment</h2>
-            </Link>
+          <Link
+            to="/maturityassessmentroadmap"
+            className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060]"
+          >
+            <LuMapPin size={22} />
+            <h2>Maturity Assessment</h2>
+          </Link>
           <Link
             to=""
             className="group flex items-center text-sm gap-3.5 font-medium py-2 px-4 hover:bg-[#00778B] hover:text-white rounded-md text-[16px] font-[Calibri] text-[#606060] "
@@ -75,7 +75,7 @@ const EmployeeListSidebar = () => {
                 <Link to="/coursesrecommended">Recommended Courses</Link>
               </li>
               <li className="ml-[20px] text-xs mt-2">
-                <Link to="/allcourses">Erolled Courses</Link>
+                <Link to="/allcourses">All courses</Link>
               </li>
             </ul>
           )}

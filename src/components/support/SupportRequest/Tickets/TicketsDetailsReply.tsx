@@ -145,7 +145,7 @@ const TicketsDetailsReply = () => {
                     data?.data?.data?.openBy?.role === UserRole.Company ? "SME Company" :
                       data?.data?.data?.openBy?.role === UserRole.Trainer ? "Trainer Company" :
                         data?.data?.data?.openBy?.role === UserRole.Trainee ? "Trainer" :
-                          data?.data?.data?.openBy?.role === UserRole.CompanyEmployee ? "Company Employee" :
+                          data?.data?.data?.openBy?.role === UserRole.Employee ? "Company Employee" :
                             data?.data?.data?.openBy?.role === UserRole.SuperAdmin ? "Super Admin" : "Client"
                   }
                 </p>

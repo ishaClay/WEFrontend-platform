@@ -232,7 +232,7 @@ export const sidebarLayout = {
       children: [],
     },
     {
-      label: "Our Maturity Journey",
+      label: "Our Sustainability Assessment",
       Icon: LuMapPin,
       link: "/company/maturityassessmentroadmap",
       children: [],
@@ -251,7 +251,7 @@ export const sidebarLayout = {
           link: "/company/coursesrecommended",
         },
         {
-          label: "All Courses",
+          label: "Erolled Courses",
           link: "/company/allcourses",
         },
       ],

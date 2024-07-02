@@ -17,6 +17,7 @@ import { Loader2 } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
 
 const SupportRequestTable = () => {
