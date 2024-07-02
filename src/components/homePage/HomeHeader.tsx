@@ -20,7 +20,7 @@ function HomeHeader(props: headerProps) {
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
-      navigate("/landingpage");
+      navigate("/");
     },
     onError: (error: ResponseError) => {
       toast({
@@ -55,7 +55,7 @@ function HomeHeader(props: headerProps) {
         break;
 
       default:
-        navigate("/landingpage");
+        navigate("/");
         break;
     }
   };
@@ -72,14 +72,14 @@ function HomeHeader(props: headerProps) {
           <div className={` ${!props.hasDiffHeader ? "xl:mr-7 mr-2" : ""}`}>
             <img
               onClick={() => {
-                navigate("/landingpage");
+                navigate("/");
               }}
               className="cursor-pointer"
               src="../assets/img/logo1.png"
             />
           </div>
           <div className="xl:ml-5 ml-3 text-[#1f1313]">
-            <ul className="flex gap-[31px] font-normal text-base leading-5 text-color font-calibri mb-3">
+            <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
               <li className="group flex items-center gap-[5px]">
                 <span className="cursor-pointer">Our Courses</span>
                 <img
@@ -100,8 +100,7 @@ function HomeHeader(props: headerProps) {
                 {((userToken &&
                   !!userData &&
                   JSON.parse(userData)?.query?.pathstatus === "7") ||
-                  (JSON.parse(userData)?.query?.pathstatus === "3" &&
-                    JSON.parse(userData)?.query?.lastlogout !== null)) && (
+                  JSON.parse(userData)?.query?.pathstatus > "3") && (
                   <PrimaryButton
                     onClick={handleGotoDashboard}
                     name="Go to Dashboard"

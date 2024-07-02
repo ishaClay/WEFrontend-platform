@@ -11,7 +11,7 @@ const Journey = () => {
       </div>
       <div className="flex items-center justify-end w-full max-w-[1160px] mr-5">
         <div className="border border-solid border-[#B9B9B9] z-10 pl-[300px] py-6 max-w-[843px]">
-          <h3 className="text-[32px] text-2xl font-extrabold leading-9 text-color font-abhaya tracking-tighter xl:pr-28 pr-20">
+          <h3 className="text-[32px] text-2xl font-semibold leading-9  font-abhaya tracking-tighter xl:pr-28 pr-20">
             Because with
             <span className="primary-text"> direction</span>,
             <br /> you can purposefully journey there

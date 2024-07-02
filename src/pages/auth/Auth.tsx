@@ -210,15 +210,15 @@ function Auth() {
                   You’re most welcome in...
                 </p>
                 <InputWithLable
-                  className="w-full h-[52px] mt-2 secondary-background"
-                  placeholder="Enter Username"
+                  className="w-full h-[52px] text-color mt-2"
+                  placeholder="Enter Email"
                   {...register("email")}
                 />
                 {errors.email && (
                   <ErrorMessage message={errors.email.message as string} />
                 )}
                 <PasswordInput
-                  className="w-full h-[52px] mt-2 secondary-background"
+                  className="w-full h-[52px] text-color mt-2"
                   placeholder="Password"
                   validationHandler={register("password")}
                 />

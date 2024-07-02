@@ -6,7 +6,7 @@ const Companies = () => {
           For Companies
         </p>
         <div className="w-[784px] m-auto text-center xl:pt-[42px] pt-9 text-[#3A3A3A]">
-          <h6 className="text-4xl font-medium font-abhaya leading-10 text-color">
+          <h6 className="text-4xl font-medium font-abhaya leading-10">
             There’s never been
             <br />
             <span className="font-extrabold">a clear road for you before</span>

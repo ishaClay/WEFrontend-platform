@@ -53,6 +53,7 @@ function CourseViewAllocatePopup({
   const { data, isPending } = useQuery<AllocatedCourseById>({
     queryKey: [QUERY_KEYS.fetchbycourseallocateById, { openId }],
     queryFn: () => fetchAllocatedCourseById("11", openId as number),
+    enabled: !!openId,
   });
 
   const courseData = data?.data && data?.data?.[0];

@@ -2,9 +2,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
-import ModuleCreation from "./ModuleCreation";
-import BasicDetails from "./BasicDetails";
 import Forum from "./Forum/Forum";
+import ModuleCreation from "./ModuleCreation";
+import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];

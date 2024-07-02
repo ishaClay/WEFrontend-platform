@@ -2,7 +2,7 @@ const TrainingProviders = () => {
   return (
     <>
       <div className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5">
-        <h6 className="text-4xl font-abhaya font-extrabold text-color text-center pb-10">
+        <h6 className="text-4xl font-abhaya font-semibold text-center pb-10">
           Get your training to those it’ll help
         </h6>
         <div className="w-[250px] h-[47px] button-color rounded-[6px] flex justify-center items-center mb-[44px]">
@@ -10,7 +10,7 @@ const TrainingProviders = () => {
             For Training Providers
           </p>
         </div>
-        <h3 className="font-extrabold text-2xl font-abhaya text-color leading-7">
+        <h3 className="font-bold text-2xl font-abhaya leading-7">
           Get your training to those it’ll help
         </h3>
         <div className="gap-10 mt-[24px] flex items-center justify-center flex-wrap gap-y-20">
@@ -19,8 +19,8 @@ const TrainingProviders = () => {
               <img className="w-9 h-9" src="../assets/img/Satellites.png" />
             </div>
 
-            <div className="text-color">
-              <h3 className="text-lg font-abhaya font-extrabold leading-5">
+            <div className="">
+              <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Reach An Ireland-Wide Audience
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
@@ -33,8 +33,8 @@ const TrainingProviders = () => {
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">
               <img className="w-9 h-9" src="../assets/img/Class (1).png" />
             </div>
-            <div className="text-color">
-              <h3 className="text-lg font-abhaya font-extrabold leading-5">
+            <div className="">
+              <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Deliver Your Courses With Ease
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
@@ -50,8 +50,8 @@ const TrainingProviders = () => {
                 src="../assets/img/People Working Together (1).png"
               />
             </div>
-            <div className="text-color">
-              <h3 className="text-lg font-abhaya font-extrabold leading-5">
+            <div className="">
+              <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
             </div>
@@ -63,8 +63,8 @@ const TrainingProviders = () => {
                 src="../assets/img/Website Analytics (1).png"
               />
             </div>
-            <div className="text-color">
-              <h3 className="text-lg font-abhaya font-extrabold leading-5">
+            <div className="">
+              <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Gain Strategic Insights Via Analytics
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">

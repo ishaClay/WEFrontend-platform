@@ -1,9 +1,9 @@
+import AssesmentIcon from "@/assets/images/assesment.svg";
+import PdfIcon from "@/assets/images/pdfIcon.svg";
 import document_Option_1 from "@/assets/images/upload_option_1.png";
 import document_Option_2 from "@/assets/images/upload_option_2.png";
 import document_Option_4 from "@/assets/images/upload_option_4.png";
 import document_Option_6 from "@/assets/images/upload_option_6.png";
-import AssesmentIcon from "@/assets/images/assesment.svg";
-import PdfIcon from "@/assets/images/pdfIcon.svg";
 import VideoICon from "@/assets/images/videoIcon.svg";
 // QUERY KEYS
 export const QUERY_KEYS = {
@@ -54,6 +54,7 @@ export const QUERY_KEYS = {
   getSingleSupportTicket: "getSingleSupportTicket",
   courseTopFive: "courseTopFive",
   AssignTo: "AssignTo",
+  fetchDocument: "fetchDocument"
 };
 
 export const urlRegex =

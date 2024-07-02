@@ -652,7 +652,7 @@ function App() {
           <Route path="employeelist" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsListPage />} />
-          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
           <Route
             path="support-request/add-new-ticket"

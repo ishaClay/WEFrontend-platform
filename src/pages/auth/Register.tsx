@@ -241,7 +241,7 @@ function Register() {
                         onClick={() => {
                           navigate("/trainer-regestration");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background !font-abhaya"
+                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
                         symbol={<img src="../assets/img/Analyzing Skill.png" />}
                       />
 
@@ -250,7 +250,7 @@ function Register() {
                         onClick={() => {
                           setSelectedRole("company");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background !font-abhaya"
+                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>

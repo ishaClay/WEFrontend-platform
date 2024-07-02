@@ -1,31 +1,22 @@
+import EmployeeHeader from "@/components/EmployeeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import Accordions from "./FaqsAccoudion";
-import EmployeeHeader from "@/components/EmployeeHeader";
 
 const FaqsList = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
 
-  // const List = [
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  // ];
+  const Role =
+    UserRole.Trainer === +userRole
+      ? 1
+      : UserRole?.Trainee === +userRole
+      ? 2
+      : UserRole?.Company === +userRole
+      ? 3
+      : 4;
 
   // const accordionItems: AccordionOption[] = List.map((item) => {
   //   return {
@@ -35,8 +26,7 @@ const FaqsList = () => {
   // });
   const { data: faqs_list, isPending } = useQuery({
     queryKey: [QUERY_KEYS.faqsList],
-    queryFn: () =>
-      fetchFaqs(+userRole !== UserRole.Trainee ? "Trainer Admin" : "Trainer"),
+    queryFn: () => fetchFaqs(Role),
   });
 
   console.log("faqs_list", faqs_list, isPending);
@@ -56,7 +46,13 @@ const FaqsList = () => {
       </div>
       <div className="p-5">
         <div>
-          <Accordions items={faqs_list?.data?.data} rounded={false} />
+          <Accordions
+            items={faqs_list?.data?.data}
+            rounded={false}
+            border={false}
+            triggerClassName="border w-full group hover:no-underline pl-[18px] pr-[6px] text-[16px] font-bold py-[20px]"
+            contentClassName="border w-full pl-[18px] pr-[25px] py-[15px] text-[16px] leading-[22px]"
+          />
         </div>
       </div>
     </div>

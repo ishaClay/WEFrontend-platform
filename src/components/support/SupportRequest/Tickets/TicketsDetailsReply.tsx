@@ -161,7 +161,7 @@ const TicketsDetailsReply = () => {
         </Button>
       </div>
 
-      <div className="pl-[20px] pr-[28px] mt-[26px]">
+      <div className="pl-[20px] p-[28px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between">
             <div className="flex gap-[11px]">
@@ -193,24 +193,26 @@ const TicketsDetailsReply = () => {
             </div>
 
             <div className="flex gap-[28px]">
-              <div>
+              <div className="flex items-center gap-[9px]">
                 <span>Status: </span>
                 <Button
-                  className={`rounded-[15px] ${
+                  type="button"
+                  className={`rounded-[15px] bg-transparent p-0 h-auto ${
                     data?.data?.data?.status === "Open"
-                      ? "bg-[#FFA25E]"
+                      ? "text-[#FFA25E]"
                       : data?.data?.data?.status === "Answered"
-                      ? "bg-[#58BA66]"
-                      : "bg-[#0E9CFF]"
+                      ? "text-[#58BA66]"
+                      : "text-[#0E9CFF]"
                   }`}
                 >
                   {data?.data?.data?.status}
                 </Button>
               </div>
-              <div>
+              <div className="flex items-center gap-[9px]">
                 <span>Priority: </span>
                 <Button
-                  className={`rounded-[15px] ${
+                  type="button"
+                  className={`rounded-[15px] px-[10px] py-[2px] h-auto ${
                     data?.data?.data?.priority === "Medium"
                       ? "bg-[#58BA66]"
                       : data?.data?.data?.priority === "High"
