@@ -9,7 +9,7 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
   const { data: fetchEnrollRequestData, isPending: fetchEnrollRequestPending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
-      queryFn: () => fetchEnrollmentRequest("11", statusparams),
+      queryFn: () => fetchEnrollmentRequest("596", statusparams),
     });
 
   return (

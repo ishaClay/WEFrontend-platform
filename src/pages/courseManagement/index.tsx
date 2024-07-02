@@ -1,17 +1,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum/Forum";
 import ModuleCreation from "./ModuleCreation";
 import BasicDetails from "./basicDetails";
+import { MoveLeft } from "lucide-react";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];
   const [searchParams] = useSearchParams();
   const paramsTab = searchParams?.get("tab") || "1";
   const [currentTab, setCurrentTab] = useState<string>(tab[+paramsTab - 1]);
-
+  const navigate = useNavigate();
   console.log("paramsTab", paramsTab);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const CourseManagement = () => {
   return (
     <div className="bg-white p-0">
       <Tabs defaultValue={currentTab} className="">
-        <div className="border-b">
+        <div className="border-b flex justify-between items-center">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
             <TabsTrigger
               value="basic-details"
@@ -48,6 +49,10 @@ const CourseManagement = () => {
               Forum
             </TabsTrigger>
           </TabsList>
+          <div className="flex pr-5 cursor-pointer" onClick={() => navigate("/trainer/allcourse")}>
+            <MoveLeft />
+            <span className="text-base font-semibold pl-4">Back</span>
+          </div>
         </div>
         <TabsContent value="basic-details" className="xl:p-[30px] p-5 mt-0">
           <BasicDetails />
