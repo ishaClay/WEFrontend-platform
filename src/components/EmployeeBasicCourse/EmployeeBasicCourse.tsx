@@ -15,7 +15,7 @@ const EmployeeBasicCourse = () => {
       <Modal
         open={isOpenReviewModal}
         onClose={() => setIsOpenReviewModal(false)}
-        className="lg:max-w-3xl sm:max-w-lg max-w-[335px] lg:p-6 p-4 rounded-xl"
+        className="lg:max-w-[610px] sm:max-w-[550px] max-w-[335px] lg:p-6 p-4 rounded-xl"
       >
         <ReviewModal />
       </Modal>
