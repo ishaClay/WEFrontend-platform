@@ -39,7 +39,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex bg-[#F5F7FF] overflow-hidden">
-      <div>
+      <div >
         <Sidebar sidebarItems={data} />
       </div>
       <div className="w-full">

@@ -251,7 +251,7 @@ export const sidebarLayout = {
           link: "/company/coursesrecommended",
         },
         {
-          label: "All Courses",
+          label: "Erolled Courses",
           link: "/company/allcourses",
         },
       ],

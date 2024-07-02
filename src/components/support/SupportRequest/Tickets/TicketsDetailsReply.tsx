@@ -1,3 +1,4 @@
+import documentIcon from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,7 +29,6 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
-import documentIcon from "@/assets/images/pdf.png";
 
 const TicketsDetailsReply = () => {
   const { id } = useParams();
@@ -120,7 +120,7 @@ const TicketsDetailsReply = () => {
   }, [clientId]);
 
   const userName = (name: string) => {
-    let uName = name?.split(" ");
+    const uName = name?.split(" ");
     let newName = "";
     for (let i = 0; i < uName?.length; i++) {
       newName += uName[i]?.charAt(0).toUpperCase();
