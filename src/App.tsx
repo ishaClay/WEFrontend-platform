@@ -111,6 +111,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
 import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -146,6 +147,7 @@ function App() {
       <Toaster />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />

@@ -50,7 +50,7 @@ const AccordionHome = () => {
               items={accordionItems.slice(0, 2)}
               rounded={false}
               padding={false}
-              triggerClassName="data-[state=open]:bg-[#002A3A] data-[state=open]:text-white p-4 text-[#002A3A] h-[60px]"
+              triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[60px]`}
               isPlusIcon
             />
           </div>
