@@ -3,12 +3,14 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getCourseSlider } from "@/services/apiServices/courseSlider";
 import { HomeCourseSlidersResponse } from "@/types/banner";
 import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Slider from "react-slick";
 import { SecondaryButton } from "../comman/Button/CustomButton";
 import Loader from "../comman/Loader";
 
 const FeaturedCourses = () => {
+  const [title, setTitle] = React.useState<string>("");
   const { clientId } = useAppSelector((state) => state.user);
   const {
     data: clientwiseCourseslider,
@@ -37,13 +39,22 @@ const FeaturedCourses = () => {
         <GrNext />
       </div>
     ),
+    beforeChange: (current: number, next: number) => {
+      console.log("+++++++++++", current, next);
+      setTitle(
+        (clientwiseCourseslider?.data &&
+          clientwiseCourseslider?.data[current]?.courseType) ||
+          ""
+      );
+    },
   };
+
   return (
     <div className="bg-[#F7F8FC]">
       <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-[30px] py-[24px] xl:pb-6 pb-16">
         <div>
           <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center">
-            Featured Courses
+            {title || "Featured Courses"}
           </h5>
         </div>
         <div className="max-w-full xl:h-[517px] flex items-center justify-between xl:flex-row flex-col xl:gap-0 gap-10">
@@ -64,6 +75,7 @@ const FeaturedCourses = () => {
             ) : (
               <Slider {...settings}>
                 {clientwiseCourseslider?.data?.map((item) => {
+                  console.log("item", item?.courseType);
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
