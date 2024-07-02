@@ -166,24 +166,28 @@ const MaturityLevelPage = () => {
         return (
           <div
             key={index}
-            className="text-sm flex flex-col items-center relative  mt-10 h-6"
+            className="text-sm flex flex-col relative  mt-10 h-6"
           >
             <div
-              className={`absolute left-0 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
+              className={`absolute -left-2 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
             ></div>
-            <div className="ml-2 pl-2 rounded-r-lg">{label}</div>
+            <div className="rounded-r-lg z-50 font-Poppins font-[500]">
+              {label}
+            </div>
           </div>
         );
       })}
       <div className="mt-[20px] mb-[100px]">
-        <p className="font-abhaya font-extrabold text-base leading-[18.88px]">
+        <p className="font-abhaya font-extrabold flex items-center gap-4 text-base leading-[18.88px]">
           Total Score-
-          <span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
-            {allassessmant?.data?.data?.avTotalpoints}
-          </span>
-          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">
-            /{allassessmant?.data?.data?.avTotalmaxpoint}
-          </span>
+          <div className="flex items-center">
+            <span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
+              {allassessmant?.data?.data?.avTotalpoints}
+            </span>
+            <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+              /{allassessmant?.data?.data?.avTotalmaxpoint}
+            </span>
+          </div>
         </p>
       </div>
     </div>
@@ -197,37 +201,31 @@ const MaturityLevelPage = () => {
       {isShowHeader && <Header />}
       <div className="mainContailner">
         <div className="flex ml-[172px] mr-[152px] justify-between">
-          <div className="pt-[38px]">
-            <h3 className="text-2xl font-bold leading-[29.3px]">
+          <div className="h-[369px] pt-[38px]">
+            <h3 className="text-2xl font-bold leading-[29.3px] font-abhaya">
               Where {userData?.company?.name} <br /> Green Feet are now...
             </h3>
             <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]" />
-            <div className="max-w-[602.78px]">
-              <p className="text-[#3A3A3A] font-abhaya leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
-                Here’s how you did across the 6 pillars of sustainability as a
-                business!
+            <div className="max-w-[602.78px] font-abhaya">
+              <p className="">
+                Nice work completing this! Your score reveals where your company
+                is now with regards to the 6 pillars of sustainability as a
+                business. 
               </p>
-              <div className="pb-5">
-                <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
-                  But what your score really means?{" "}
-                </h6>
-                <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
+              <p className="mt-5 grid grid-cols-1">
+                <span className="font-bold">But what it really means?</span>
+                <span className="font bold text-[#64A70B]">
                   This is where your journey starts. 
-                </h6>
-              </div>
-              <p className="text-[#3A3A3A] font-abhaya leading-[20px] lg:text-base sm:text-sm text-xs">
-                Now that you know where you are, it’s time to get an action plan
-                built from personalised insights to advance your company to its
+                </span>
+              </p>
+              <p className="mt-5">
+                Now that you know where you are, it’s time to get your plan of
+                action built from recommended measures to advance you to your
                 next green stage.
               </p>
-              <div className="flex items-center gap-5 mt-5">
-                <Button className="px-8 text-base font-abhaya bg-[#64A70B] rounded-sm h-12">
-                  Build My Action Plan
-                </Button>
-                <Button className="px-8 text-base font-abhaya bg-[#00778B] rounded-sm h-12">
-                  Build My Action Plan
-                </Button>
-              </div>
+              <Button className="bg-[#64A70B] w-[266px] h-[50px]  text-[20px] mt-[20px]">
+                Get Your Action Plan
+              </Button>
             </div>
           </div>
           <div>
@@ -258,7 +256,7 @@ const MaturityLevelPage = () => {
         <div className="border-2 border-solid border-[#D9D9D9] mt-[30px] mb-6" />
         <div className="mr-[100px] ml-[167px] flex justify-between">
           <h2 className="text-[24px] leading-9 font-bold">
-            How you fare across the Maturity levels
+            The Breackdown Of Your Score
           </h2>
           <Button className="w-[100px] h-10 rounded bg-teal text-[16px] leading-[18px]">
             Export
@@ -392,21 +390,21 @@ const MaturityLevelPage = () => {
             </div>
           </div>
         </div>
-
-        <div className="mt-[40px]">
-          <Button
-            onClick={handleMaturity}
-            className="bg-[#64A70B] text-[16px] leading-5 w-[180px] font-bold ml-[650px]"
-          >
-            Set targets
-          </Button>
-        </div>
-        <div className="mt-[15px] ml-[340px] text-green-500 mb-[30px]">
+        <div className="mt-[40px] text-center text-green-500">
           <p>
-            Keep up the fantastic work, and remember, every small step counts
-            towards a brighter and more sustainable world!{" "}
+            Now...time to get a personalised action plan to advance your green
+            feet!{" "}
           </p>
         </div>
+        <div className="mt-[15px] mb-[30px]">
+          <Button
+            onClick={handleMaturity}
+            className=" leading-5  font-abhaya bg-[#64A70B] w-[266px] h-[50px]  text-[20px] mt-[20px] ml-[550px]"
+          >
+            Get Your Action Plan
+          </Button>
+        </div>
+
         <div className="mb-240px">
           <Footer />
         </div>

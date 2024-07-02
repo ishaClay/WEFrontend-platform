@@ -1,7 +1,7 @@
-import Loading from "@/components/comman/Error/Loading";
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
+import Footer from "@/components/Footer";
+import Loading from "@/components/comman/Error/Loading";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,10 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
-import Loader from "@/components/comman/Loader";
 import Header from "@/components/Header";
+import Loader from "@/components/comman/Loader";
+import Modal from "@/components/comman/Modal";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppSelector } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
@@ -28,6 +30,7 @@ import {
 import { ErrorType } from "@/types/Errors";
 import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
@@ -39,9 +42,6 @@ import Assess from "/assets/img/Assess.png";
 import Attainproficiency from "/assets/img/Attainproficiency.png";
 import Correct from "/assets/img/Correct.png";
 import Learn from "/assets/img/Learn.png";
-import Modal from "@/components/comman/Modal";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus } from "lucide-react";
 
 interface PillerItem {
   [key: string]: string[];
@@ -98,18 +98,21 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } =
-    useQuery({
-      queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
-      queryFn: () =>
-        filterMaturityMeasures(
-          clientId as string,
-          userID as string,
-          selectmaturity as any,
-          pid as string
-        ),
-      enabled: !!selectmaturity && !!pid,
-    });
+  const {
+    data: filtermesuresdata,
+    refetch: refetchfiltermesuresdata,
+    isPending: measuresPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+    queryFn: () =>
+      filterMaturityMeasures(
+        clientId as string,
+        userID as string,
+        selectmaturity as any,
+        pid as string
+      ),
+    enabled: !!selectmaturity && !!pid,
+  });
 
   console.log("isPending", isPending);
 
@@ -193,22 +196,22 @@ function SelectLevel() {
 
   const paths = [
     {
-      name: "Engage",
+      name: "Start",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Assess",
+      name: "Self-assess",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Set Targets",
+      name: "Plan Action",
       img: Correct,
       status: "indeterminate",
     },
     {
-      name: "Learn",
+      name: "Develop",
       img: Learn,
       status: "pending",
     },
@@ -218,7 +221,7 @@ function SelectLevel() {
       status: "pending",
     },
     {
-      name: "Attain proficiency",
+      name: "Advance Your Green",
       img: Attainproficiency,
       status: "pending",
     },
@@ -350,7 +353,7 @@ function SelectLevel() {
                     </p>
                   </div>
                 ))}
-                <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+                <div className="absolute top-[47.5px] left-3 right-12 border-2 border-dashed border-[#585858] -z-10"></div>
               </div>
             </div>
           </div>
@@ -359,7 +362,7 @@ function SelectLevel() {
         <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
           <div className="my-6">
             <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
-              Select target pillars and maturity levels
+              Which sustainability pillars do you want to advance first?
             </h1>
           </div>
           {isPending ? (
@@ -485,8 +488,11 @@ function SelectLevel() {
                         </div>
                         <div>
                           <ul className="list-disc ml-6 text-sm text-[#000000]">
-                            {pid === item?.pillarid
-                              ? filtermesuresdata?.data?.data &&
+                            {pid === item?.pillarid ? (
+                              measuresPending ? (
+                                <Loader containerClassName="h-[80px]" />
+                              ) : (
+                                filtermesuresdata?.data?.data &&
                                 filtermesuresdata?.data?.data.map(
                                   (m: any, index: number) =>
                                     m?.filteredOptions?.map(
@@ -498,11 +504,14 @@ function SelectLevel() {
                                         )
                                     )
                                 )
-                              : item?.filteredOptions.map((m: any) => {
-                                  if (m.measures) {
-                                    return <li>{m.measures}</li>;
-                                  }
-                                })}
+                              )
+                            ) : (
+                              item?.filteredOptions.map((m: any) => {
+                                if (m.measures) {
+                                  return <li>{m.measures}</li>;
+                                }
+                              })
+                            )}
                           </ul>
                         </div>
                       </div>
@@ -528,28 +537,27 @@ function SelectLevel() {
             })
           )}
 
-          <div className="flex justify-center">
+          <div className=" text-center font-abhaya  font-semibold">
+            <p>
+              <span className="text-[#F63636]"> An important note:</span>{" "}
+              nothing’s set in stone here! 
+            </p>
+
+            <p className="mt-[20px]">
+              Discuss sustainability measures over coffee with your colleagues. 
+              <br />
+              Come back anytime to edit action items.  <br />
+              And tweek-as-needed an action plan that will guide your company. 
+            </p>
+          </div>
+          <div className="flex justify-center  mt-[20px]  mb-[20px]">
             <Button
               disabled={!handleDisabledButton}
               onClick={handleSelect}
-              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
             >
-              BUILD
+              Got it. Build My Action Plan!
             </Button>
-          </div>
-
-          <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
-
-          <div className="font-abhaya font-extrabold text-base text-[#EF2626] leading-5 text-center pt-2 pb-4">
-            <p>
-              {" "}
-              Congratulations! 🌿 Your chosen maturity levels have been noted.
-              You're now on a unique{" "}
-            </p>
-            <p>
-              sustainability journey tailored just for you. Keep moving forward,
-              and watch your impact grow! 🌍✨
-            </p>
           </div>
         </div>
         <Footer />

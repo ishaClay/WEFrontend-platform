@@ -14,6 +14,7 @@ import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
 import SideImage from "@/assets/images/AuthSide.svg";
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -227,7 +228,8 @@ function Register() {
                     </h3>
                     <img
                       className="absolute right-[5px] top-[15px]"
-                      src="../assets/img/pngwing 25.png"
+                      src={RunnerIcon}
+                      alt="RunnerIcon"
                     />
                     <img className="" src="../assets/img/Line 23.png" />
                     <p className="text-[16px] font-[400] text-color mt-3 font-abhaya">

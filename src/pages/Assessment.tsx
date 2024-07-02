@@ -34,16 +34,16 @@ function Assessment() {
     <div className="mainContailner w-full m-auto">
       <Header />
 
-      <div className="flex flex-row gap-[48px]">
+      <div className="flex flex-row gap-[48px] ">
         <div>
           <img
-            src="../assets/img/Group 1000001824.png"
-            className="xl:max-w-[800px] max-w-[400px]"
+            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
+            src="../assets/img/Group 1000001826.png"
           />
         </div>
 
-        <div className="w-full">
-          <div className="mt-[140px]">
+        <div className="w-full ">
+          <div className="mt-[100px] xl:mb-0 mb-[100px] ">
             <div className="flex items-end gap-x-[14px]">
               <h3 className="font-abhaya text-[24px] font-[400]">
                 Perfect. Now to jump right in…
@@ -128,17 +128,10 @@ function Assessment() {
               </div>
             </div>
 
-            <p className="2xl:w-[685px] xl:w-[500px] font-[400] text-[16px] mt-[24px]">
-              Embarking on this assessment voyage sets your sails towards market
-              distinction through sustainability. It's your sextant to gauge and
-              refine your green practices, ensuring your journey not only charts
-              a course for success but also for a healthier planet
-            </p>
-
             <PrimaryButton
               onClick={handleAssesment}
-              name="Take assessment"
-              className="w-[266px] h-[55px] mt-[24px] text-[20px] !font-calibri"
+              name="Start Me Now"
+              className="w-[266px] primary-background  h-[55px] mt-[24px] text-[20px] !font-calibri"
             />
           </div>
         </div>
