@@ -77,10 +77,10 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">
                   <h5 className="text-[14px] font-nunito">
-                    Module : {item.data.module?.length || 0}
+                    Module : {item?.data?.module?.length || 0}
                   </h5>
                   <p className="text-[14px] font-nunito">
-                    Duration : {item.course.duration || "-"}
+                    Duration : {item?.course?.duration || "-"}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">

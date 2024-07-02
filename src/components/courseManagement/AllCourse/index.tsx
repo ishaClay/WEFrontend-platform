@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { Loader2 } from "lucide-react";
 
 const AllCourses = () => {
   const [cohort, setCohort] = useState(false);
@@ -104,7 +105,7 @@ const AllCourses = () => {
             </div>
           </div>
           <div className="px-[18px]">
-            {params === "0" || !params ? (
+            {fetchCourseAllCoursePending ? <span className="flex justify-center items-center py-10"><Loader2 className="w-5 h-5 animate-spin" /></span> : params === "0" || !params ? (
               <GridView list={fetchCourseAllCourseData?.data || []} />
             ) : (
               <ListView list={fetchCourseAllCourseData?.data || []} />

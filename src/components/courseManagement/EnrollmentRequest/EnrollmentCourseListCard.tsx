@@ -77,7 +77,7 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: updateEnrollRequest } = useMutation({
-    mutationFn: (data: any) => UpdateEnrollmentRequest(data.id, data.enroll),
+    mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer],
@@ -104,7 +104,7 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
       <div className="flex items-center">
         <div>
           <img
-            src={data.course.bannerImage}
+            src={data?.course?.bannerImage}
             alt="img"
             className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
           />
@@ -125,33 +125,33 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
           </div>
 
           <h6 className="xl:text-base text-sm leading-7 text-[#1D2026] font-inter font-medium">
-            {data.course.title}
+            {data?.course?.title}
           </h6>
           <div className="flex flex-wrap justify-between items-center xl:pt-5 pt-2 gap-6">
             <div className="font-calibri">
               <p className="text-base font-medium">
                 Company Name :{" "}
-                <span className="font-bold">{data.course.companyName}</span>
+                <span className="font-bold">{data?.course?.companyName}</span>
               </p>
             </div>
             <div className="font-calibri">
               <p className="text-base font-medium">
                 Number Of Employee :{" "}
                 <span className="font-bold">
-                  {data.course.averageNumberOfEmployees}
+                  {data?.course?.averageNumberOfEmployees}
                 </span>
               </p>
             </div>
             <div className="flex font-bold font-calibri text-base">
               <Euro className="w-[16px] font-bold" />
-              {data.course.price}
+              {data?.course?.price}
             </div>
           </div>
         </div>
       </div>
-      {(data.enroll === Enroll.default || data.enroll === Enroll.enquiry) && (
+      {(data?.enroll === Enroll.default || data?.enroll === Enroll.enquiry) && (
         <div className="flex justify-center xl:flex-nowrap flex-wrap">
-          {data.enroll === Enroll.enquiry ? (
+          {data?.enroll === Enroll.enquiry ? (
             <Button className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1">
               Show Message
             </Button>
@@ -174,7 +174,7 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
           </Button>
         </div>
       )}
-      {data.enroll === Enroll.accept && (
+      {data?.enroll === Enroll.accept && (
         <div className="flex items-center pr-8">
           <img src={AcceptedIcon} alt="" width={18} />
           <span className="text-[#58BA66] font-calibri text-base pl-1">
@@ -182,7 +182,7 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
           </span>
         </div>
       )}
-      {data.enroll === Enroll.reject && (
+      {data?.enroll === Enroll.reject && (
         <div className="flex items-center pr-8">
           <img src={RejectedIcons} alt="" width={18} />
           <span className="text-[#FF5252] font-calibri text-base pl-1">
