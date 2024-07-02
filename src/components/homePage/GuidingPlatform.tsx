@@ -1,21 +1,23 @@
 import image from "@/assets/images/GuidingImage.svg";
+import { Button } from "../ui/button";
+import arrow from "@/assets/images/MoveRightDark.png";
 
 const GuidingPlatform = () => {
   return (
     <div>
       <div className="xl:mt-28 mt-20 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5">
         <div>
-          <h3 className="text-4xl leading-tight font-abhaya traking-[4px] text-center text-color pb-6 tracking-tighter">
+          <h3 className="text-4xl leading-tight font-abhaya traking-[4px] text-center text-color pb-6 tracking-tighter font-medium">
             One guiding platform,
             <br />
-            <span className="font-bold">that grows your green feet</span>
+            <span className="font-extrabold">that grows your green feet</span>
           </h3>
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex flex-col xl:gap-8 gap-6">
             <div className="xl:w-[322px] w-[300px] xl:h-[150px] h-[140px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-abhaya leading-[18px]">
                 Find Out Where You Stand
               </h3>
               <p className="text-sm leading-[18px] pt-4 font-abhaya">
@@ -25,7 +27,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] w-[300px] xl:h-[150px] h-[140px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-abhaya leading-[18px]">
                 {" "}
                 Get a Personalised Roadmap
               </h3>
@@ -36,7 +38,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] w-[300px] xl:h-[150px] h-[140px] button-color rounded-[6px] secondary-text  py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-abhaya leading-[18px]">
                 See Training Recommendations
               </h3>
               <p className="text-sm leading-[18px] pt-4 font-abhaya">
@@ -62,7 +64,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] w-[300px] xl:h-[150px] h-[140px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-abhaya leading-[18px]">
                 {" "}
                 Measure Your Progress
               </h3>
@@ -73,7 +75,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] w-[300px] xl:h-[150px] h-[140px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-abhaya leading-[18px]">
                 Share Reports With Stakeholders
               </h3>
               <p className="text-sm leading-[18px] pt-4 font-abhaya">
@@ -84,15 +86,11 @@ const GuidingPlatform = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-color text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px]">
-          <div>
-            Find Out Your
-            <br /> Sustainability Score
-          </div>
-          <div>
-            <img className="" src="../assets/img/Move Right Dark.png" />
-          </div>
-        </div>
+        <Button className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-color text-lg font-extrabold font-abhaya m-auto bg-transparent pl-[44px] py-[6px] h-auto leading-[22px]">
+          Find Out Your
+          <br /> Sustainability Score
+          <img className="" src={arrow} alt="" />
+        </Button>
       </div>
       <div className="border border-spacing-3 button-color w-full h-3 mt-[33px] mb-[41px]"></div>
     </div>

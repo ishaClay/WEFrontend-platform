@@ -27,26 +27,26 @@ const HomeFooter = () => {
             </div>
 
             <ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start secondary-text">
-              <a className="font-abhaya text-lg font-normal cursor-pointer">
+              <a className="font-abhaya text-lg font-bold cursor-pointer">
                 Our Courses
               </a>
-              <a className="font-abhaya text-lg font-normal cursor-pointer">
+              <a className="font-abhaya text-lg font-bold cursor-pointer">
                 Membership
               </a>
-              <a className="font-abhaya text-lg font-normal cursor-pointer">
+              <a className="font-abhaya text-lg font-bold cursor-pointer">
                 Testimonial
               </a>
-              <a className="font-abhaya text-lg font-normal cursor-pointer">
+              <a className="font-abhaya text-lg font-bold cursor-pointer">
                 News
               </a>
-              <a className="font-abhaya text-lg font-normal cursor-pointer">
+              <a className="font-abhaya text-lg font-bold cursor-pointer">
                 Contact Us
               </a>
             </ul>
           </div>
 
           <div className="secondary-text xl:mt-[50px] mt-[45px]">
-            <p className="no-underline text-sm leading-5 font-abhaya font-normal">
+            <p className="no-underline text-sm leading-5 font-abhaya font-bold">
               © County Wexford Chamber 2023. All Rights Reserved.
             </p>
 

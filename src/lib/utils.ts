@@ -323,7 +323,7 @@ export const sidebarLayout = {
       children: [],
     },
     {
-      label: "Our Maturity Journey",
+      label: "Our Sustainability Journey",
       Icon: LuMapPin,
       link: "/employee/maturityAssessment",
       children: [],

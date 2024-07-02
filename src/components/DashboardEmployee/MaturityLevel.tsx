@@ -2,7 +2,7 @@ import { Doughnut } from "react-chartjs-2";
 
 const MaturityLevel = () => {
   const data = {
-    labels: ["Introductory", "Intermediate", "Advanced"],
+    labels: ["Beginner", "Intermediate", "Advanced"],
     datasets: [
       {
         label: "Poll",
@@ -86,7 +86,7 @@ const MaturityLevel = () => {
     <div className="mb-8">
       <div className="mb-5">
         <h3 className="font-bold font-nunito xl:text-[22px] text-[18px] relative pb-1">
-          Our Maturity Level
+          Our Sustainability Level
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
@@ -99,7 +99,7 @@ const MaturityLevel = () => {
         <div className="xl:col-span-10 col-span-8 border border-[#D9D9D9] rounded-xl h-[200px] flex items-center">
           <div className="ps-10">
             <div className="mb-5">
-              <p className="inline">Your overall sustainability level -</p>{" "}
+              <p className="inline">Your overall sustainability Score -</p>{" "}
               <span className="font-poppins font-bold text-[#000000] leading-6">
                 Intermediate
               </span>

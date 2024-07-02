@@ -72,18 +72,18 @@ const FeaturedCourses = () => {
                     <div className="relative">
                       <div className="w-[697px] h-[357px] flex justify-between items-center">
                         <div className="w-full">
-                          <h2 className="w-[413px] min-h-[40px] xl:leading-9 leading-8 xl:text-[32px] text-3xl font-bold text-color font-abhaya pb-4">
+                          <h2 className="w-[413px] min-h-[40px] xl:leading-9 leading-8 xl:text-[32px] text-3xl font-extrabold text-color font-abhaya pb-4">
                             {item.courseTitle}
                           </h2>
 
-                          <p className="xl:w-[413px] mb-8 text-lg text-color leading-5 pr-4 font-abhaya line-clamp-3">
+                          <p className="xl:w-[413px] mb-8 text-lg text-color leading-5 pr-4 font-abhaya line-clamp-3 font-bold">
                             {item.content}
                           </p>
 
                           <SecondaryButton
                             name={item.buttonTitle}
                             symbol={<img src="../assets/img/Move Right.png" />}
-                            className="w-[195px] xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya text-lg"
+                            className="w-[195px] xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
                           ></SecondaryButton>
                         </div>
 
