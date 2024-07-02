@@ -177,15 +177,6 @@ const TicketsDetailsReply = () => {
                 </h3>
                 <p className="text-[#A3A3A3] text-[12px]">
                   Provider Type: {""}
-<<<<<<< Updated upstream
-                  {
-                    data?.data?.data?.openBy?.role === UserRole.Company ? "SME Company" :
-                      data?.data?.data?.openBy?.role === UserRole.Trainer ? "Trainer Company" :
-                        data?.data?.data?.openBy?.role === UserRole.Trainee ? "Trainer" :
-                          data?.data?.data?.openBy?.role === UserRole.Employee ? "Company Employee" :
-                            data?.data?.data?.openBy?.role === UserRole.SuperAdmin ? "Super Admin" : "Client"
-                  }
-=======
                   {data?.data?.data?.openBy?.role === UserRole.Company
                     ? "SME Company"
                     : data?.data?.data?.openBy?.role === UserRole.Trainer
@@ -197,7 +188,6 @@ const TicketsDetailsReply = () => {
                     : data?.data?.data?.openBy?.role === UserRole.SuperAdmin
                     ? "Super Admin"
                     : "Client"}
->>>>>>> Stashed changes
                 </p>
               </div>
             </div>
@@ -219,19 +209,15 @@ const TicketsDetailsReply = () => {
               </div>
               <div>
                 <span>Priority: </span>
-<<<<<<< Updated upstream
-                <Button className={`rounded-[15px] ${data?.data?.data?.priority === "Medium" ? "bg-[#58BA66]" : data?.data?.data?.priority === "High" ? "bg-[#FF5252]" : "bg-[#FFD56A]"}`}>
-=======
                 <Button
                   className={`rounded-[15px] ${
-                    data?.data?.data?.priority === "Normal"
+                    data?.data?.data?.priority === "Medium"
                       ? "bg-[#58BA66]"
                       : data?.data?.data?.priority === "High"
-                      ? ""
-                      : "bg-[#FF5252]"
+                      ? "bg-[#FF5252]"
+                      : "bg-[#FFD56A]"
                   }`}
                 >
->>>>>>> Stashed changes
                   {data?.data?.data?.priority}
                 </Button>
               </div>

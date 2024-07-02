@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
@@ -146,8 +145,7 @@ function App() {
     <div className="App mx-auto">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/landingpage" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />

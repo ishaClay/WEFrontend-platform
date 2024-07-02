@@ -7,10 +7,6 @@ import {
 import { cn } from "@/lib/utils";
 import { AccordionOption } from "@/types";
 import { Separator } from "../ui/separator";
-<<<<<<< Updated upstream
-=======
-import { cn } from "@/lib/utils";
->>>>>>> Stashed changes
 
 type AccordionsProps = {
   type?: "single" | "multiple";

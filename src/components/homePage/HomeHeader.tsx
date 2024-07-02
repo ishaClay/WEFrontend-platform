@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "../ui/use-toast";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
-
 interface headerProps {
   hasDiffHeader?: boolean;
 }
@@ -138,7 +137,7 @@ function HomeHeader(props: headerProps) {
           <img className="xl:ml-7 ml-2" src="../assets/img/logo2.png" />
         </div>
       </div>
-      {/* <Loading isLoading={isPending} /> */}
+      <Loading isLoading={isPending} />
     </header>
   );
 }

@@ -2,12 +2,8 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-<<<<<<< Updated upstream
-=======
-import { fetchFaqs } from "@/services/apiServices/faqs";
-import EmployeeHeader from "@/components/EmployeeHeader";
->>>>>>> Stashed changes
 import Accordions from "./FaqsAccoudion";
+import EmployeeHeader from "@/components/EmployeeHeader";
 
 const FaqsList = () => {
   const userData = localStorage.getItem("user");
@@ -46,16 +42,11 @@ const FaqsList = () => {
   console.log("faqs_list", faqs_list, isPending);
 
   return (
-<<<<<<< Updated upstream
-    <div className="bg-white rounded-xl">
-      <div className="border-b border-[#D9D9D9] p-4">
-=======
     <div className="lg:bg-white bg-transparent">
       <div>
         <EmployeeHeader title="Supports /" subtitle="FAQ’s" />
       </div>
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-5">
->>>>>>> Stashed changes
         <h6 className="font-calibri text-base font-bold">FAQ’s</h6>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
           {userRole === 2

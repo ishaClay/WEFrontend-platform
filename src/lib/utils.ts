@@ -491,8 +491,4 @@ export const fileValidation = (
   } else {
     return false;
   }
-<<<<<<< Updated upstream
 };
-=======
-};
->>>>>>> Stashed changes
