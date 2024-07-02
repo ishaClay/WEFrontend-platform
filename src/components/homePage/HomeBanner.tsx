@@ -31,7 +31,7 @@ const HomeBanner = () => {
                 />
                 <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 ">
                   <div className="absolute top-[35%] -translate-y-[35%]">
-                    <h6 className="text-[32px] font-bold secondary-text font-abhaya xl:mb-5 mb-4 w-[413px] break-all leading-8">
+                    <h6 className="text-[32px] font-bold secondary-text font-abhaya xl:mb-5 mb-4 w-[380px] break-all leading-8">
                       {item.title}
                     </h6>
                     <p className="w-[500px] font-semibold secondary-text text-lg font-abhaya line-clamp-3 leading-5 xl:mb-[66px] mb-[35px]">
