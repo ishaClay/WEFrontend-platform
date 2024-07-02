@@ -20,6 +20,7 @@ export interface AllCourse {
   bannerImage: string;
   page: number;
   cohortGroups: CohortData[],
+  courseAlloted: courseAlloted[];
   courseData: [
     {
       pillarId: number;
@@ -38,6 +39,12 @@ export interface AllCourse {
       };
     }
   ];
+  trainerCompanyId: {
+    id: number;
+  };
+  trainerId: {
+    id: number;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -55,6 +62,32 @@ export interface CohortData {
     year: string;
   };
 }
+
+export interface courseAlloted {
+  id: number;
+  request: number;
+  enroll: number;
+  createdAt: string;
+  updatedAt: string;
+  user: UserData;
+  course: {
+    id: number;
+  }
+}
+export interface UserData {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  role: number;
+  lastLogin: string;
+  lastLogout: string;
+  pathStatus: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 // export enum CourseStatus {
 //   Published = "PUBLISHED",

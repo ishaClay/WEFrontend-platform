@@ -16,10 +16,12 @@ const EnrollmentRequestPage = () => {
     <div className="bg-white">
       <div className="flex justify-between items-center py-2 px-4 border-b border-[#D9D9D9] mb-7">
         <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+          <h6 className="text-base font-bold font-nunito">
             Enrollment Requests
-          </h3>
-          <p className="text-[#606060] text-[15px]">Here are all the company requests to enroll in your courses</p>
+          </h6>
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[15px]">
+            Here are all the company requests to enroll in your courses
+          </p>
         </div>
         <div className="flex items-center">
           <Select
@@ -30,7 +32,8 @@ const EnrollmentRequestPage = () => {
               <SelectValue placeholder="Pending" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0">Pending</SelectItem>
+              <SelectItem value="0">All</SelectItem>
+              <SelectItem value="3">Pending</SelectItem>
               <SelectItem value="1">Accepted</SelectItem>
               <SelectItem value="2">Rejected</SelectItem>
             </SelectContent>

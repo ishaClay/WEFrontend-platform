@@ -201,7 +201,7 @@ export const sidebarLayout = {
         },
         {
           label: "Support Request",
-          link: "/trainee/supportticket",
+          link: "/trainee/support-request",
         },
       ],
     },
@@ -277,7 +277,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "FAQ's",
+          label: "FAQs",
           link: "/company/faqslist",
         },
         {
@@ -285,7 +285,7 @@ export const sidebarLayout = {
           link: "/company/trainingdocument",
         },
         {
-          label: "Support Request",
+          label: "Support Tickets",
           link: "/company/support-request",
         },
       ],

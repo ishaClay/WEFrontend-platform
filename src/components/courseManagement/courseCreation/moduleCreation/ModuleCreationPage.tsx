@@ -1,21 +1,21 @@
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
-import { CirclePlus } from "lucide-react";
-import CourseViewPage from "../courseView/CourseViewPage";
-import { useEffect, useRef, useState } from "react";
-import { ModuleCreation, SectionCreation } from "@/types/modulecreation";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
 import {
   changeModulePostion,
   createModule,
   createSection,
   getModuleData,
 } from "@/services/apiServices/moduleCreation";
-import { useToast } from "@/components/ui/use-toast";
-import { QUERY_KEYS } from "@/lib/constants";
-import Loader from "@/components/comman/Loader";
-import { z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { ModuleCreation, SectionCreation } from "@/types/modulecreation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { CirclePlus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { z } from "zod";
+import CourseViewPage from "../courseView/CourseViewPage";
 import ModuleCreationItems from "./ModuleCreationItems";
 
 export const intialSectionCreation: SectionCreation = {
@@ -44,7 +44,6 @@ export const intialModuleCreation: ModuleCreation = {
 };
 
 const ModuleCreationPage = () => {
-
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -58,77 +57,104 @@ const ModuleCreationPage = () => {
       z.object({
         moduleTitle: z.string().min(1, "Module Title is required"),
         section: z.array(
-          z.object({
-            isLive: z.boolean(),
-            sectionTitle: z
-              .string()
-              .min(1, "Section Title is required")
-              .max(250, "You can not write more than 250 characters"),
-            information: z
-              .string()
-              .min(1, "Information is required")
-              .max(1000, "You can not write more than 1000 characters"),
-            uploadContentType: z
-              .number()
-              // .min(1, "Upload content type is required")
-              .optional(),
-            uploadedContentUrl: z.string().optional(),
-            youtubeUrl: z.string().optional(),
-            readingTime: z.object({
-              hour: z.number().min(0).max(23),
-              minute: z.number().min(0).max(59),
-              second: z.number().min(0).max(59),
-            }).optional(),
-            uploadDocument: z.string().optional(),
-            livesessionDuration: z.object({
-              hour: z.number().min(0).max(23),
-              minute: z.number().min(0).max(59),
-              second: z.number().min(0).max(59),
-            }).optional(),
-          }).superRefine((data, ctx) => {
-            if (data.isLive) {
-              console.log("livesessionDuration", !data.livesessionDuration?.hour || !data.livesessionDuration?.minute || !data.livesessionDuration?.second);
+          z
+            .object({
+              isLive: z.boolean(),
+              sectionTitle: z
+                .string()
+                .min(1, "Section Title is required")
+                .max(250, "You can not write more than 250 characters"),
+              information: z
+                .string()
+                .min(1, "Information is required")
+                .max(1000, "You can not write more than 1000 characters"),
+              uploadContentType: z
+                .number()
+                // .min(1, "Upload content type is required")
+                .optional(),
+              uploadedContentUrl: z.string().optional(),
+              youtubeUrl: z.string().optional(),
+              readingTime: z
+                .object({
+                  hour: z.number().min(0).max(23),
+                  minute: z.number().min(0).max(59),
+                  second: z.number().min(0).max(59),
+                })
+                .optional(),
+              uploadDocument: z.string().optional(),
+              livesessionDuration: z
+                .object({
+                  hour: z.number().min(0).max(23),
+                  minute: z.number().min(0).max(59),
+                  second: z.number().min(0).max(59),
+                })
+                .optional(),
+            })
+            .superRefine((data, ctx) => {
+              if (data.isLive) {
+                console.log(
+                  "livesessionDuration",
+                  !data.livesessionDuration?.hour ||
+                    !data.livesessionDuration?.minute ||
+                    !data.livesessionDuration?.second
+                );
 
-              if (!data.livesessionDuration?.hour && !data.livesessionDuration?.minute && !data.livesessionDuration?.second) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.custom,
-                  message: "Live session duration is required when isLive is true",
-                  path: ["livesessionDuration"],
-                });
-              }
-            } else {
-              if (!data.uploadedContentUrl && !data.youtubeUrl) {
-                ctx.addIssue({
-                  code: z.ZodIssueCode.custom,
-                  message: "Either uploaded content url and File or YouTube URL is required ",
-                  path: ["uploadedContentUrl", "uploadContentType", "youtubeUrl"],
-                });
-              }
-              if (!data.youtubeUrl && data.uploadContentType) {
-                if (!data.readingTime?.hour && !data.readingTime?.minute && !data.readingTime?.second) {
+                if (
+                  !data.livesessionDuration?.hour &&
+                  !data.livesessionDuration?.minute &&
+                  !data.livesessionDuration?.second
+                ) {
                   ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "Reading time is required when isLive is false",
-                    path: ["readingTime.hour"],
+                    message:
+                      "Live session duration is required when isLive is true",
+                    path: ["livesessionDuration"],
                   });
                 }
-                if (!data.uploadContentType) {
+              } else {
+                if (!data.uploadedContentUrl && !data.youtubeUrl) {
                   ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "Upload content type is required when isLive is false",
-                    path: ["uploadContentType"],
+                    message:
+                      "Either uploaded content url and File or YouTube URL is required ",
+                    path: [
+                      "uploadedContentUrl",
+                      "uploadContentType",
+                      "youtubeUrl",
+                    ],
                   });
                 }
-                if (!data.uploadedContentUrl) {
-                  ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Upload content url is required when isLive is false",
-                    path: ["uploadedContentUrl"],
-                  });
+                if (!data.youtubeUrl && data.uploadContentType) {
+                  if (
+                    !data.readingTime?.hour &&
+                    !data.readingTime?.minute &&
+                    !data.readingTime?.second
+                  ) {
+                    ctx.addIssue({
+                      code: z.ZodIssueCode.custom,
+                      message: "Reading time is required when isLive is false",
+                      path: ["readingTime.hour"],
+                    });
+                  }
+                  if (!data.uploadContentType) {
+                    ctx.addIssue({
+                      code: z.ZodIssueCode.custom,
+                      message:
+                        "Upload content type is required when isLive is false",
+                      path: ["uploadContentType"],
+                    });
+                  }
+                  if (!data.uploadedContentUrl) {
+                    ctx.addIssue({
+                      code: z.ZodIssueCode.custom,
+                      message:
+                        "Upload content url is required when isLive is false",
+                      path: ["uploadedContentUrl"],
+                    });
+                  }
                 }
               }
-            }
-          })
+            })
           // .refine(data => data.isLive ? false : true, { message: "Section is required", path: ["uploadContentType"] })
         ),
       })
@@ -162,13 +188,16 @@ const ModuleCreationPage = () => {
     name: "modules",
     control,
   });
-  console.log("🚀 ~ ModuleCreationPage ~ moduleCreationItem:", moduleCreationItem)
+  console.log(
+    "🚀 ~ ModuleCreationPage ~ moduleCreationItem:",
+    moduleCreationItem
+  );
 
   useEffect(() => {
     if (moduleList?.length > 0) {
       latestModuleList.current = moduleList; // update ref to latest state
       handleModulePosition();
-      reset({ modules: [] })
+      reset({ modules: [] });
     }
   }, [moduleList]);
 
@@ -208,24 +237,27 @@ const ModuleCreationPage = () => {
         const response = await CreateModuleAsync.mutateAsync(module);
         const moduleId = response.data.data.id;
         if (moduleId) {
-          await createSectionAsync.mutateAsync({ moduleId, sections: module.section });
+          await createSectionAsync.mutateAsync({
+            moduleId,
+            sections: module.section,
+          });
         }
       });
       await Promise.all(promises);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      })
-      reset({ modules: [] })
+      });
+      reset({ modules: [] });
       toast({
-        variant: 'success',
-        title: 'All modules and sections saved successfully',
-      })
+        variant: "success",
+        title: "All modules and sections saved successfully",
+      });
     } catch (error) {
-      console.error('Error in saving process:', error);
+      console.error("Error in saving process:", error);
       return toast({
-        variant: 'destructive',
-        title: 'Error in saving process',
-      })
+        variant: "destructive",
+        title: "Error in saving process",
+      });
     }
   };
 
@@ -254,7 +286,10 @@ const ModuleCreationPage = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center pb-5">
-      <p className="text-[#606060] text-[15px] inline-block">Please fill in all the learning material for this course,  as you see fit</p>
+        <p className="text-[#606060] text-[15px] inline-block">
+          Please fill in all the learning material for this course, as you see
+          fit
+        </p>
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
@@ -263,6 +298,13 @@ const ModuleCreationPage = () => {
         >
           <CirclePlus width={20} className="me-2" /> Add Module
         </Button>
+      </div>
+      <div className="pb-[38px] -mt-2">
+        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          {moduleCreationItem.length > 0
+            ? "Please fill in all the learning material for this course, as you see fit"
+            : "All the modules and chapters currently included in this course"}
+        </p>
       </div>
 
       {courseLoading ? (
@@ -286,7 +328,6 @@ const ModuleCreationPage = () => {
             })}
 
           <form onSubmit={handleSubmit(handleModuleSave)}>
-
             {moduleCreationItem.map((_, index) => {
               return (
                 <ModuleCreationItems

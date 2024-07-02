@@ -1,7 +1,7 @@
 import { QUERY_KEYS } from "@/lib/constants";
+import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFaqs } from "@/services/apiServices/faqs";
 import Accordions from "./FaqsAccoudion";
 
 const FaqsList = () => {
@@ -32,28 +32,23 @@ const FaqsList = () => {
   //     content: <FaqsListAnswer />,
   //   };
   // });
-  const {
-    data: faqs_list,
-    isPending,
-  } = useQuery({
+  const { data: faqs_list, isPending } = useQuery({
     queryKey: [QUERY_KEYS.faqsList],
     queryFn: () =>
-      fetchFaqs(
-        +userRole !== UserRole.Trainee ? "Trainer Admin" : "Trainer"
-      ),
+      fetchFaqs(+userRole !== UserRole.Trainee ? "Trainer Admin" : "Trainer"),
   });
 
-  console.log('faqs_list', faqs_list, isPending)
+  console.log("faqs_list", faqs_list, isPending);
 
   return (
     <div className="bg-white rounded-xl">
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
-            FAQ’s
-          </h3>
-          <p className="text-[#606060] text-[15px]">Here’s the full list of FAQs related to all your courses</p>
-        </div>
+      <div className="border-b border-[#D9D9D9] p-4">
+        <h6 className="font-calibri text-base font-bold">FAQ’s</h6>
+        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          {userRole === 2
+            ? "Here’s the full list of FAQs related to all your courses"
+            : "Have common questions asked by trainees? Get a step ahead and answer them below"}
+        </p>
       </div>
       <div className="p-5">
         <div>

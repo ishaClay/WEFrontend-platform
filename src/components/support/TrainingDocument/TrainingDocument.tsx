@@ -101,12 +101,10 @@ const TrainingDocument = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
-            Training Document
-          </h3>
-          <p className="text-[#606060] text-[15px]">Here’s the full list of training documents  related to all your courses</p>
-        </div>
+        <h6 className="font-nunito text-base font-bold">Training Document</h6>
+        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          Here’s the full list of training documents related to all your courses
+        </p>
       </div>
       <div className="p-5">
         <div className="border border-[#D9D9D9] flex items-center xl:w-[550px] w-[450px] px-4 xl:py-3 py-2 rounded-lg">

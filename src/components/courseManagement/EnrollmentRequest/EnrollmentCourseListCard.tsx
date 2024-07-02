@@ -1,19 +1,37 @@
-import CourseList from "@/components/comman/CourseList";
 import AcceptedIcon from "@/assets/images/Accepted_icons.png";
 import RejectedIcons from "@/assets/images/Rejected_icons.png";
+import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Euro } from "lucide-react";
-import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
-import { Enroll } from "@/types/enroll";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ErrorType } from "@/types/Errors";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
+import { ErrorType } from "@/types/Errors";
+import { Enroll } from "@/types/enroll";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Euro } from "lucide-react";
 
 interface CourseDetailType {
   maturityId: number;
   pillarId: number;
+  fetchMaturity: {
+    color: string;
+    createdAt: string;
+    deletedAt: Date;
+    id: number;
+    maturityLevelName: string;
+    rangeEnd: number;
+    rangeStart: number;
+    updatedAt: Date;
+  };
+  fetchPillar: {
+    id: string;
+    pillarName: string;
+    checked: number;
+    deletedAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+  };
 }
 
 interface EnrollmentCourseListCardProps {
@@ -94,18 +112,16 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
         <div className="2xl:px-10 xl:px-8 px-4">
           <div className="flex items-center xl:pb-5 pb-3">
             <CourseList rating={0} />
-            <Badge
-              variant="outline"
-              className="bg-[#FFD56A] p-1 px-3 text-[#3A3A3A] text-xs mx-2 font-Poppins font-normal"
-            >
-              Technology & Innovation
-            </Badge>
-            <Badge
-              variant="outline"
-              className="bg-[#D6F5AC] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal"
-            >
-              Social
-            </Badge>
+            {data?.course?.courseData?.map((item) => {
+              return (
+                <Badge
+                  variant="outline"
+                  className={`bg-[${item.fetchMaturity?.color}] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                >
+                  {item.fetchPillar?.pillarName}
+                </Badge>
+              );
+            })}
           </div>
 
           <h6 className="xl:text-base text-sm leading-7 text-[#1D2026] font-inter font-medium">

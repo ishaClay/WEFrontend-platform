@@ -729,6 +729,16 @@ function App() {
           <Route path="support-faqslist" element={<FaqsListPage />} />
           {/* <Route path="faqslist" element={<FaqsList />} /> */}
           <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
+
+          <Route
+            path="certificate-template"
+            element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate"
+            element={<AllocatedCertificate />}
+          />
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />

@@ -15,13 +15,11 @@ const CertificateTemplete = () => {
   ];
   return (
     <div className="bg-white rounded-lg">
-      <div className="px-5 py-2 border-b border-[#D9D9D9]">
-        <div>
-          <h3 className="text-[16px] font-[700] font-nunito">
-            All Certificate
-          </h3>
-          <p className="text-[#606060] text-[15px]">All your created certificate templates</p>
-        </div>
+      <div className="p-5 border-b border-[#D9D9D9]">
+        <h6 className="font-nunito text-base font-bold">All Certificate</h6>
+        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          All your created certificate templates
+        </p>
       </div>
       <div className="p-4">
         <div className="grid xl:grid-cols-4 grid-cols-3">

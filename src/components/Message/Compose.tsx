@@ -119,7 +119,7 @@ const Compose = () => {
 
   const schema = z.object({
     to: z.string({ required_error: "To is required" }),
-    emailTemplate: z.string({ required_error: "Select Template" }),
+    emailTemplate: z.string().optional(),
     message: z.string().min(1, "Message is required"),
   });
   type ValidationSchema = z.infer<typeof schema>;
@@ -372,7 +372,7 @@ const Compose = () => {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] p-0 text-base font-calibri font-normal">
-                    Email Templates <span className="text-red-400">*</span>
+                    Email Templates
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base text-[#A3A3A3] font-calibri`}

@@ -7,8 +7,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { BsSearch } from "react-icons/bs";
-import { TbSelector } from "react-icons/tb";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { TbSelector } from "react-icons/tb";
 
 function CoursesAllocate() {
   const employeeData = [
@@ -57,9 +57,14 @@ function CoursesAllocate() {
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
-          <p className="text-[#000000] text-[Calibri] font-bold">
-            Team Member List
-          </p>
+          <div>
+            <p className="text-[#000000] text-[Calibri] font-bold">
+              Team Member List
+            </p>
+            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+              The full list of team members working on your green initiatives
+            </p>
+          </div>
           <button className="bg-[#00778B] text-white px-4 py-2 rounded mr-[20px]  h-[45px] w-[150px]">
             Send Invitation
           </button>
@@ -126,7 +131,7 @@ function CoursesAllocate() {
                 </th>
                 <th className=" ">
                   {" "}
-                  <span className=" ml-4">Action</span>
+                  <span className=" ml-4">Activity</span>
                 </th>
               </tr>
             </thead>

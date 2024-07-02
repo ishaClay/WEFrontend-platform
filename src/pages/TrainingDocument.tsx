@@ -40,10 +40,13 @@ function TrainingDocument() {
   ];
   return (
     <div className="bg-[#f5f3ff] ">
-      <div className="bg-[#FFFFFF] m-[12px] rounded-[10px]">
-        <div className="  pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px] flex items-center justify-between">
+      <div className="bg-[#FFFFFF] rounded-[10px]">
+        <div className="  p-[16px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
           <p className="text-[#000000] text-[Calibri] font-bold">
             Team Member List
+          </p>
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            Upload user manuals you think would be most helpful to your trainees
           </p>
         </div>
         <div className="flex pl-[10px] h-[70px] bg-[#FFFFFF] ">

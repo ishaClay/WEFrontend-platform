@@ -112,15 +112,11 @@ function Auth() {
         }
 
         if (user.role == UserRole.Trainer) {
-          if (data.data.data.status === "Active") {
-            navigate("/trainer/dashboard");
-          }
+          navigate("/trainer/dashboard");
         }
 
-        if (user.role == UserRole.Trainee) {
-          if (data.data.data.status === "Active") {
-            navigate("/trainee/dashboard");
-          }
+        if (+user.role === UserRole.Trainee) {
+          navigate("/trainee/dashboard");
         }
 
         if (user.role == UserRole.Employee) {

@@ -4,10 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import { AccordionOption } from "@/types";
 import { Separator } from "../ui/separator";
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
 
 type AccordionsProps = {
   type?: "single" | "multiple";
@@ -41,9 +40,11 @@ const Accordions = ({
         {items.map((item, index) => {
           return (
             <AccordionItem
-              className={`overflow-hidden  ${rounded ? "rounded-lg" : "rounded-none"
-                } ${padding ? "p-5" : "p-0"} ${border ? "border" : "border-none p-0"
-                }`}
+              className={`overflow-hidden  ${
+                rounded ? "rounded-lg" : "rounded-none"
+              } ${padding ? "p-5" : "p-0"} ${
+                border ? "border" : "border-none p-0"
+              }`}
               key={index}
               value={`item-${index + 1}`}
             >
