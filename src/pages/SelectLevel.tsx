@@ -98,18 +98,21 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } =
-    useQuery({
-      queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
-      queryFn: () =>
-        filterMaturityMeasures(
-          clientId as string,
-          userID as string,
-          selectmaturity as any,
-          pid as string
-        ),
-      enabled: !!selectmaturity && !!pid,
-    });
+  const {
+    data: filtermesuresdata,
+    refetch: refetchfiltermesuresdata,
+    isPending: measuresPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+    queryFn: () =>
+      filterMaturityMeasures(
+        clientId as string,
+        userID as string,
+        selectmaturity as any,
+        pid as string
+      ),
+    enabled: !!selectmaturity && !!pid,
+  });
 
   console.log("isPending", isPending);
 
@@ -193,22 +196,22 @@ function SelectLevel() {
 
   const paths = [
     {
-      name: "Engage",
+      name: "Start",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Assess",
+      name: "Self-assess",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Set Targets",
+      name: "Plan Action",
       img: Correct,
       status: "indeterminate",
     },
     {
-      name: "Learn",
+      name: "Develop",
       img: Learn,
       status: "pending",
     },
@@ -218,7 +221,7 @@ function SelectLevel() {
       status: "pending",
     },
     {
-      name: "Attain proficiency",
+      name: "Advance Your Green",
       img: Attainproficiency,
       status: "pending",
     },
@@ -350,7 +353,7 @@ function SelectLevel() {
                     </p>
                   </div>
                 ))}
-                <div className="absolute top-[47.5px] left-3 right-10 border-2 border-dashed border-[#585858] -z-10"></div>
+                <div className="absolute top-[47.5px] left-3 right-12 border-2 border-dashed border-[#585858] -z-10"></div>
               </div>
             </div>
           </div>
@@ -485,8 +488,11 @@ function SelectLevel() {
                         </div>
                         <div>
                           <ul className="list-disc ml-6 text-sm text-[#000000]">
-                            {pid === item?.pillarid
-                              ? filtermesuresdata?.data?.data &&
+                            {pid === item?.pillarid ? (
+                              measuresPending ? (
+                                <Loader containerClassName="h-[80px]" />
+                              ) : (
+                                filtermesuresdata?.data?.data &&
                                 filtermesuresdata?.data?.data.map(
                                   (m: any, index: number) =>
                                     m?.filteredOptions?.map(
@@ -498,11 +504,14 @@ function SelectLevel() {
                                         )
                                     )
                                 )
-                              : item?.filteredOptions.map((m: any) => {
-                                  if (m.measures) {
-                                    return <li>{m.measures}</li>;
-                                  }
-                                })}
+                              )
+                            ) : (
+                              item?.filteredOptions.map((m: any) => {
+                                if (m.measures) {
+                                  return <li>{m.measures}</li>;
+                                }
+                              })
+                            )}
                           </ul>
                         </div>
                       </div>

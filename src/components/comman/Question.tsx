@@ -6,11 +6,9 @@ import { Answer } from "@/types/Answer";
 import { ErrorType } from "@/types/Errors";
 import { Option, QuestionType } from "@/types/Question";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../ui/use-toast";
-import Loading from "./Error/Loading";
-import Suggestion from "/assets/img/Suggestion.png";
 import {
   Carousel,
   CarouselContent,
@@ -18,8 +16,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
+import { useToast } from "../ui/use-toast";
+import Loading from "./Error/Loading";
+import Suggestion from "/assets/img/Suggestion.png";
 
-const Question = () => {
+const Question = ({
+  setIsLoading,
+}: {
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -48,6 +53,14 @@ const Question = () => {
       });
     },
   });
+
+  useEffect(() => {
+    if (isPending) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isPending, setIsLoading]);
 
   console.log("question", question);
 
@@ -147,8 +160,6 @@ const Question = () => {
                     className="absolute top-5 right-12 w-8 h-8 cursor-auto"
                   />
                 )}
-
-                {isPending && <Loading isLoading={isPending} />}
               </div>
             );
           })}

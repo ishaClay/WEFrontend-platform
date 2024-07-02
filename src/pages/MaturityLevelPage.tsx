@@ -166,24 +166,28 @@ const MaturityLevelPage = () => {
         return (
           <div
             key={index}
-            className="text-sm flex flex-col items-center relative  mt-10 h-6"
+            className="text-sm flex flex-col relative  mt-10 h-6"
           >
             <div
-              className={`absolute left-0 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
+              className={`absolute -left-2 top-0 h-full w-2/6 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
             ></div>
-            <div className="ml-2 pl-2 rounded-r-lg">{label}</div>
+            <div className="rounded-r-lg z-50 font-Poppins font-[500]">
+              {label}
+            </div>
           </div>
         );
       })}
       <div className="mt-[20px] mb-[100px]">
-        <p className="font-abhaya font-extrabold text-base leading-[18.88px]">
+        <p className="font-abhaya font-extrabold flex items-center gap-4 text-base leading-[18.88px]">
           Total Score-
-          <span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
-            {allassessmant?.data?.data?.avTotalpoints}
-          </span>
-          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">
-            /{allassessmant?.data?.data?.avTotalmaxpoint}
-          </span>
+          <div className="flex items-center">
+            <span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
+              {allassessmant?.data?.data?.avTotalpoints}
+            </span>
+            <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+              /{allassessmant?.data?.data?.avTotalmaxpoint}
+            </span>
+          </div>
         </p>
       </div>
     </div>

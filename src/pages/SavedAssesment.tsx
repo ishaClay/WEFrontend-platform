@@ -82,7 +82,7 @@ function SavedAssesment() {
     <div className="mainContailner w-full m-auto">
       <Header />
       <div className="flex flex-row xl:gap-[48px] gap-5">
-      <div>
+        <div>
           <img
             className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
             src="../assets/img/Group 1000001826.png"
@@ -90,13 +90,13 @@ function SavedAssesment() {
         </div>
         <div className="w-full xl:mb-[100px] mb-0">
           <div className="mt-[100px] xl:mb-0 mb-[100px]">
-            <div className="flex items-end gap-x-[14px]">
-              <h3 className="font-abhaya text-[24px] font-[400]">
-                Why, nice to have you back
-              </h3>
-              <img className="mb-[7px]" src="../assets/img/pngwing 25.png" />
-            </div>
             <div className=" w-[430px] ">
+              <div className="flex items-end justify-between gap-x-[14px]">
+                <h3 className="font-abhaya text-[24px] font-[400]">
+                  Why, nice to have you back
+                </h3>
+                <img className="mb-[7px]" src="../assets/img/pngwing 25.png" />
+              </div>
               <img src="../assets/img/Line 23.png" />
             </div>
 

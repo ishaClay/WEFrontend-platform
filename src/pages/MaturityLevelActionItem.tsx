@@ -48,22 +48,22 @@ function MaturityLevelActionItem() {
 
   const paths = [
     {
-      name: "Engage",
+      name: "Start",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Assess",
+      name: "Self-assess",
       img: Correct,
       status: "checked",
     },
     {
-      name: "Set Targets",
+      name: "Plan Action",
       img: Correct,
       status: "indeterminate",
     },
     {
-      name: "Learn",
+      name: "Develop",
       img: Learn,
       status: "pending",
     },
@@ -73,7 +73,7 @@ function MaturityLevelActionItem() {
       status: "pending",
     },
     {
-      name: "Attain proficiency",
+      name: "Advance Your Green",
       img: Attainproficiency,
       status: "pending",
     },
@@ -128,7 +128,7 @@ function MaturityLevelActionItem() {
                   </p>
                 </div>
               ))}
-              <div className="absolute top-[47.5px] left-3 right-10 border-2  border-[#585858] -z-10"></div>
+              <div className="absolute top-[47.5px] left-3 right-12 border-2  border-[#585858] -z-10"></div>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@ function MaturityLevelActionItem() {
             );
           })
         )}
-     
+
         {/* <div className="flex flex-col h-full w-full mt-2">
 				<div className="ml-[180px]   h-[390px] w-[1126px]">
 					<div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
