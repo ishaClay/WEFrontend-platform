@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
