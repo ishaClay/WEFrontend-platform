@@ -325,7 +325,7 @@ export const sidebarLayout = {
     {
       label: "Our Maturity Journey",
       Icon: LuMapPin,
-      link: "/employee/maturityassessmentroadmap",
+      link: "/employee/maturityAssessment",
       children: [],
     },
     {
@@ -491,4 +491,8 @@ export const fileValidation = (
   } else {
     return false;
   }
+<<<<<<< Updated upstream
 };
+=======
+};
+>>>>>>> Stashed changes

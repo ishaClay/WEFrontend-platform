@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
 import SelectMenu from "../comman/SelectMenu";
-import AccordionHome from "./Roadmap/HomeBlock/AccordionHome";
+import AccordionHome from "../homePage/AccordionHome";
 
 const assessmentDetailOptions = [
   {
@@ -24,8 +24,11 @@ const assessmentDetailOptions = [
 const MaturityAssessment = () => {
   const [selectAssessment, setSelectAssessment] = useState("");
   return (
-    <div className="">
-      <div className="sm:flex block gap-3 justify-between items-center sm:px-5 px-4 sm:mb-5 mb-4">
+    <div className="lg:bg-white bg-transparent rounded-xl">
+      <div className="px-[20px] py-[15px] sm:mb-5 mb-4">
+        <EmployeeHeader title="Maturity Assessment" />
+      </div>
+      <div className="flex sm:px-5 px-4 sm:mb-5 mb-4">
         <div className="">
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
             Re-assessment 2

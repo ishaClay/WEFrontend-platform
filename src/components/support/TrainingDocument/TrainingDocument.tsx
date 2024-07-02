@@ -99,7 +99,7 @@ const TrainingDocument = () => {
     },
   ];
   return (
-    <div className="bg-white rounded-xl">
+    <div className="lg:bg-white bg-transparent rounded-xl">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <h6 className="font-nunito text-base font-bold">Training Document</h6>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
