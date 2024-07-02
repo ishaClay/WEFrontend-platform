@@ -153,7 +153,7 @@ function MaturityLevelActionItem() {
               See Recommended Courses
             </button>
             <button
-              onClick={() => navigate("/maturelevel")}
+              onClick={() => navigate("/company/dashboard")}
               className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center font-abhaya text-[16px] Libre ExtraBold"
             >
               Go To My Dashboard

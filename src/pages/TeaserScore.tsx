@@ -160,18 +160,18 @@ const TeaserScore = () => {
         return (
           <div
             key={index}
-            className="text-sm flex flex-col items-center relative  mt-10 h-6"
+            className="text-sm flex flex-col items-start relative  mt-10 h-6"
           >
             <div
               style={{
                 backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
               }}
-              className={`absolute left-0 h-full w-2/4 rounded-l-lg rounded-r-none`}
+              className={`absolute left-0 h-full w-1/4 rounded-l-lg rounded-r-none`}
             ></div>
-            <div className="rounded-r-lg mt-[2px]">
+            <div className="rounded-r-lg mt-[2px] pl-2 z-50">
               {label.maturityLevelName}
             </div>
-            <div className="rounded-r-lg">
+            <div className="rounded-r-lg pl-2 ">
               {label?.rangeStart} to {label?.rangeEnd}
             </div>
           </div>
@@ -246,8 +246,8 @@ const TeaserScore = () => {
                   </h2>
                   <div className="flex w-full justify-between">
                     <Labels />
-                    <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
-                      <div className="w-40 h-40 mt-0 ml-16 relative">
+                    <div className="text-center mt-8  relative">
+                      <div className="w-40 h-40 mt-0 relative">
                         <Doughnut
                           data={data}
                           options={options}
@@ -257,7 +257,7 @@ const TeaserScore = () => {
                       <div>
                         <button
                           style={{ backgroundColor: currentLavel?.color }}
-                          className=" text-white font-bold py-1 px-4 mt-3 ml-20 rounded"
+                          className=" text-white font-bold py-1 px-4 mt-3 rounded"
                         >
                           {currentLavel?.maturityLevelName}
                         </button>

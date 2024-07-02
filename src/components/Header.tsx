@@ -83,7 +83,7 @@ function Header(props: headerProps) {
             />
           </div>
           <div className="xl:ml-5 ml-3 text-[#1f1313]">
-            <ul className="flex gap-[31px] font-normal text-base leading-5 text-color font-calibri mb-3">
+            <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
               <li className="group flex items-center gap-[5px]">
                 <span className="cursor-pointer">Our Courses</span>
                 <img

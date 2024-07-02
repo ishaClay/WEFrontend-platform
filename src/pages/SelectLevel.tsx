@@ -137,11 +137,6 @@ function SelectLevel() {
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
     mutationFn: addMeasuresItems,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.measuresItems],
-      });
-    },
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
@@ -584,29 +579,29 @@ function SelectLevel() {
                   {actionItems?.pillarname}
                 </h5>
               </div>
-              <ScrollArea className="h-[300px]">
-                <div className="grid sm:grid-cols-2 grid-cols-1 xl:gap-8 md:gap-5 gap-3">
-                  <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
-                    <div className="w-full">
-                      <div className="px-5 py-2 border-b border-solid">
-                        <h5 className="text-[#1D2026] font-calibri font-bold">
-                          Measures
-                        </h5>
-                      </div>
-                      <div className="p-4 ">
-                        <ul className="list-disc list-inside text-[12px]  font-calibri">
-                          {filteredOptions?.map((m: any) => {
-                            if (m.measures) {
-                              return <li>{m.measures}</li>;
-                            }
-                          })}
-                        </ul>
+              <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
+                <ScrollArea className="h-[300px]">
+                  <div className="grid sm:grid-cols-2 grid-cols-1 xl:gap-8 md:gap-5 gap-3">
+                    <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
+                      <div className="w-full">
+                        <div className="px-5 py-2 border-b border-solid">
+                          <h5 className="text-[#1D2026] font-calibri font-bold">
+                            Measures
+                          </h5>
+                        </div>
+                        <div className="p-4 ">
+                          <ul className="list-disc list-inside text-[12px]  font-calibri">
+                            {filteredOptions?.map((m: any) => {
+                              if (m.measures) {
+                                return <li>{m.measures}</li>;
+                              }
+                            })}
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl ">
-                    <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
+                    <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl ">
                       <div className="w-full">
                         <div className="px-5 py-2 border-b border-solid">
                           <h5 className="text-[#1D2026] font-calibri font-bold">
@@ -660,6 +655,7 @@ function SelectLevel() {
 
                           <div className="text-right">
                             <Button
+                              type="button"
                               onClick={() => addActionItem(currentPiller)}
                               className="w-3 bg-black p-0 h-3 rounded-[2px]"
                             >
@@ -668,25 +664,24 @@ function SelectLevel() {
                           </div>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </div>
+                </ScrollArea>
+                <div className="text-right mt-6">
+                  <Button
+                    type="submit"
+                    className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
+                  >
+                    Close
+                  </Button>
                 </div>
-              </ScrollArea>
-
-              <div className="text-right mt-6">
-                <Button
-                  type="submit"
-                  className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
-                >
-                  Save
-                </Button>
-                <Button
-                  type="submit"
-                  className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
-                >
-                  Close
-                </Button>
-              </div>
+              </form>
             </div>
           </div>
         </Modal>
