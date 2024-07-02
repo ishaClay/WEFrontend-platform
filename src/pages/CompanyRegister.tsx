@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import CompanyRegisterSideImage from "../assets/images/RegisterCompany.png";
 
 export interface CompanyResponse {
   data?: DataEntity[] | null;
@@ -205,8 +206,8 @@ function CompanyRegister() {
       <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
         <div>
           <img
-            className="max-w-full h-full object-cover"
-            src="../assets/img/Group 1000001826.png"
+            className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
+            src={CompanyRegisterSideImage}
           />
         </div>
 
@@ -219,21 +220,20 @@ function CompanyRegister() {
               </Link>
             </label>
           </div>
-          <div className=" mt-[67px] ">
-            <div className="flex gap-x-[8px] h-180px items-end">
-              <h3 className="text-[24px]">Complete your registration</h3>
-              <img
-                className="mb-[10px]"
-                src="../assets/img/Group 1000001825.png"
-              />
-            </div>
-            <div className="flex gap-x-[8px] h-180px items-end">
-              <h3 className="text-[24px]">
-                to unlock your full{" "}
-                <span className="text-secondary-button font-semibold text-[24px]">
-                  self-assessment score
-                </span>
-              </h3>
+          <div className="mt-[20px] ">
+            <div>
+              <h2 className="text-[25px] font-abhaya">Got it! </h2>
+              <h2 className="text-[25px] font-abhaya">
+                Let’s get your
+                <span className="text-[#64A70B] ml-1">
+                  Sustainability Score
+                </span>{" "}
+                then.
+              </h2>
+
+              <p className="font-abhaya mt-[10px]">
+                Fill in your details to start your self-assessment in a jiff.
+              </p>
             </div>
 
             <div className="w-full flex items-end mb-5 mt-[45px]">
@@ -261,15 +261,9 @@ function CompanyRegister() {
                 className="px-5 h-[46px] ml-[20px]"
                 onClick={handleVerifyId}
               />
-              {/* <button
-                className="h-[46px] px-5 rounded ml-5 bg-primary-button text-white"
-                onClick={handleVerifyId}
-              >
-                {isPending ? <Loader containerClassName="h-auto" /> : "Verify"}
-              </button> */}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] gap-y-[5px]">
+              <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] gap-y-[5px] mt-[30px]">
                 <div>
                   <InputWithLable
                     className="w-[241px] h-[46px]"
@@ -420,7 +414,7 @@ function CompanyRegister() {
                 </div>
                 <PrimaryButton
                   type="submit"
-                  name="Submit"
+                  name="Start My Assessment"
                   className="w-[370px] h-[48px] mt-[107px] ml-[87px]"
                   disabled={isAble}
                 />

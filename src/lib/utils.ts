@@ -73,7 +73,7 @@ export const sidebarLayout = {
           link: "/trainer/enrolledcourses",
         },
         {
-          label: "All Courses",
+          label: "Erolled Courses",
           link: "/trainer/allcourse",
         },
         {
@@ -491,9 +491,4 @@ export const fileValidation = (
   } else {
     return false;
   }
-};
-
-export const range = (start: number, end: number) => {
-  let length = end - start + 1;
-  return Array.from({ length }, (_, idx) => idx + start);
 };

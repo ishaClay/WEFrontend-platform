@@ -93,8 +93,8 @@ const MaturityLevelModel = ({
         </div>
         <div className="h-[105px] w-[270px] ">
           <div className="ml-3 mt-2 h-[25px] w-[230px]">
-            <h2 className=" text-xm text-[#1D2026] font-calibri text-lg font-semibold">
-              Maturity level of your answers
+            <h2 className=" text-xm text-[#1D2026] font-abhaya text-lg font-semibold">
+            Where your answers put you
             </h2>
           </div>
         </div>

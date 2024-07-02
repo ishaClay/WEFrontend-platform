@@ -368,7 +368,7 @@ function SelectLevel() {
         <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
           <div className="my-6">
             <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
-              Select target pillars and maturity levels
+              Which sustainability pillars do you want to advance first?
             </h1>
           </div>
           {isPending ? (
@@ -537,39 +537,38 @@ function SelectLevel() {
             })
           )}
 
-          <div className="flex justify-center">
+          <div className=" text-center font-abhaya  font-semibold">
+            <p>
+              <span className="text-[#F63636]"> An important note:</span>{" "}
+              nothing’s set in stone here! 
+            </p>
+
+            <p className="mt-[20px]">
+              Discuss sustainability measures over coffee with your colleagues. 
+              <br />
+              Come back anytime to edit action items.  <br />
+              And tweek-as-needed an action plan that will guide your company. 
+            </p>
+          </div>
+          <div className="flex justify-center  mt-[20px]  mb-[20px]">
             <Button
               disabled={!handleDisabledButton}
               onClick={handleSelect}
-              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[200px] h-[40px]"
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
             >
-              BUILD
+              Got it. Build My Action Plan!
             </Button>
-          </div>
-
-          <div className="border-b pb-3 w-[940px] border-[#DED7D7] m-auto"></div>
-
-          <div className="font-abhaya font-extrabold text-base text-[#EF2626] leading-5 text-center pt-2 pb-4">
-            <p>
-              {" "}
-              Congratulations! 🌿 Your chosen maturity levels have been noted.
-              You're now on a unique{" "}
-            </p>
-            <p>
-              sustainability journey tailored just for you. Keep moving forward,
-              and watch your impact grow! 🌍✨
-            </p>
           </div>
         </div>
         <Footer />
 
         <Dialog open={open} onOpenChange={handleClose}>
           <DialogContent className="sm:max-w-[50rem] z-[999]">
-            <DialogHeader>
-              <DialogTitle>
-                Have you identified actionable items on provided measures?
-              </DialogTitle>
-            </DialogHeader>
+              {/* <DialogHeader>
+                <DialogTitle>
+                  Have you identified actionable items on provided measures?
+                </DialogTitle>
+              </DialogHeader> */}
 
             <div className="sm:max-w-[45rem]">
               <div className="flex  mb-4">
@@ -579,10 +578,10 @@ function SelectLevel() {
                     alt="Leaf Icon"
                   />
                 </div>
-                <div className="ml-6 mt-6 h-[22px] w-[800px]">
-                  <h2 className=" text-xm font-semibold text-[#1D2026]">
-                    Have you identified actionable items on provided measures?
-                  </h2>
+                <div className="ml-4 mt-6 h-[22px] w-[800px]">
+                    <h2 className="font-abhaya font-semibold text-sm text-[#1D2026]">
+                    Change comes from defining actions. What actions would you take to achieve the measures below?
+                    </h2>
                 </div>
               </div>
               <div className="flex flex-col space-y-4">
@@ -748,9 +747,9 @@ function SelectLevel() {
 
                     <Button
                       type="submit"
-                      className="absolute bottom-6 right-[100px]"
+                      className="absolute bottom-6 right-[120px] bg-[#64A70B] text-white w-[90px] font-bold"
                     >
-                      save
+                      Save
                     </Button>
                   </form>
                 </div>
@@ -758,7 +757,7 @@ function SelectLevel() {
             </div>
             <DialogFooter className="sm:justify-end">
               <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" variant="secondary" className="bg-[#F63639] text-white w-[90px] font-bold">
                   Close
                 </Button>
               </DialogClose>

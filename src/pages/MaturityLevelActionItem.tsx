@@ -132,14 +132,41 @@ function MaturityLevelActionItem() {
             </div>
           </div>
         </div>
+        <div className="mb-10 mt-10">
+          <div className=" text-center font-abhaya  font-medium">
+            <h3 className="font-abhaya text-[30px]">
+              Now, that’s worthy of a congrats.
+            </h3>
 
+            <p className="mt-[20px]">
+              Because it’s one thing to have the will to be green.
+              <br /> Another thing to know where you stand.
+              <br /> And a whole other to have defined actions that will advance
+              your sustainability. 
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={handlematurityAction}
+              className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] font-abhaya Libre ExtraBold"
+            >
+              See Recommended Courses
+            </button>
+            <button
+              onClick={() => navigate("/maturelevel")}
+              className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center font-abhaya text-[16px] Libre ExtraBold"
+            >
+              Go To My Dashboard
+            </button>
+          </div>
+        </div>
         {isPending ? (
           <Loader />
         ) : (
           getCheckedmeasures?.data?.data?.map((item: any) => {
             console.log(item);
             return (
-              <div className="flex flex-col h-full w-full mt-8">
+              <div className="flex flex-col h-full w-full mt-8 mb-[100px]">
                 <div className="mx-auto xl:max-w-[1126px] max-w-[970px] w-full">
                   <div className="w-full py-[9px] px-[17px] h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                     <div className="flex items-center justify-between gap-5">
@@ -181,7 +208,7 @@ function MaturityLevelActionItem() {
             );
           })
         )}
-
+     
         {/* <div className="flex flex-col h-full w-full mt-2">
 				<div className="ml-[180px]   h-[390px] w-[1126px]">
 					<div className="w-full h-[74px] border border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
@@ -225,34 +252,6 @@ function MaturityLevelActionItem() {
 				</div>
 			</div> */}
 
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={handlematurityAction}
-            className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] text-Abhaya Libre ExtraBold"
-          >
-            View Recommended Courses
-          </button>
-          <button
-            onClick={() => navigate("/maturelevel")}
-            className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-Abhaya text-[16px] Libre ExtraBold"
-          >
-            Edit Roadmap
-          </button>
-        </div>
-
-        <div className="pb-4 w-[940px]  "></div>
-
-        <div className="font-bold max-w-[1160px] w-full text-center mx-auto font-Abhaya Libre ExtraBold text-red-500 pb-2 flex flex-col justify-center mb-10">
-          <p>
-            {" "}
-            Congratulations! 🌿 Your chosen maturity levels have been noted.
-            You're now on a unique{" "}
-          </p>
-          <p>
-            sustainability journey tailored just for you. Keep moving forward,
-            and watch your impact grow! 🌍✨
-          </p>
-        </div>
         <Footer />
       </div>
     </div>
