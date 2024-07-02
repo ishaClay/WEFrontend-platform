@@ -1,42 +1,26 @@
+import EmployeeHeader from "@/components/EmployeeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import Accordions from "./FaqsAccoudion";
-import EmployeeHeader from "@/components/EmployeeHeader";
 
 const FaqsList = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
 
-  // const List = [
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  //   {
-  //     list: "How to create an FAQ page",
-  //   },
-  // ];
+  const Role =
+    UserRole.Trainer === +userRole
+      ? "Trainer"
+      : UserRole?.Trainee === +userRole
+      ? "Trainee"
+      : UserRole?.Company === +userRole
+      ? "SME Company"
+      : "Employee";
 
-  // const accordionItems: AccordionOption[] = List.map((item) => {
-  //   return {
-  //     title: <FaqsListItems data={item} />,
-  //     content: <FaqsListAnswer />,
-  //   };
-  // });
   const { data: faqs_list, isPending } = useQuery({
     queryKey: [QUERY_KEYS.faqsList],
-    queryFn: () =>
-      fetchFaqs(+userRole !== UserRole.Trainee ? "Trainer Admin" : "Trainer"),
+    queryFn: () => fetchFaqs(userRole),
   });
 
   console.log("faqs_list", faqs_list, isPending);
@@ -46,7 +30,7 @@ const FaqsList = () => {
       <div>
         <EmployeeHeader title="Supports /" subtitle="FAQ’s" />
       </div>
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-5">
+      <div className="border-b border-[#D9D9D9] p-5">
         <h6 className="font-calibri text-base font-bold">FAQ’s</h6>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
           {userRole === 2

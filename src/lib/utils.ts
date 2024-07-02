@@ -243,7 +243,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "Allocated Courses",
+          label: "Erolled Courses",
           link: "/company/allocatedcourses",
         },
         {
@@ -251,7 +251,7 @@ export const sidebarLayout = {
           link: "/company/coursesrecommended",
         },
         {
-          label: "Erolled Courses",
+          label: "All Courses",
           link: "/company/allcourses",
         },
       ],
