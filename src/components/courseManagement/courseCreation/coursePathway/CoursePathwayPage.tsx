@@ -70,7 +70,7 @@ const CoursePathwayPage = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="">
       <h4 className="text-[16px] text-black pb-4 flex items-center gap-[15px]">
         <span className="font-nunito font-bold">
           Target areas / pillars(Select applicable pillars)

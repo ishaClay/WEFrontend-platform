@@ -749,9 +749,9 @@ function App() {
         <Route
           path="/trainer"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />

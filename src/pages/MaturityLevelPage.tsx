@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
@@ -147,7 +148,7 @@ const MaturityLevelPage = () => {
   };
 
   const Labels = () => (
-    <div className="absolute left-0 top-0 flex flex-col justify-center h-full mt-[60px]">
+    <>
       {data.labels.map((label, index) => {
         let colorClass, opacityClass;
         if (index === 0) {
@@ -190,20 +191,21 @@ const MaturityLevelPage = () => {
           </div>
         </p>
       </div>
-    </div>
+    </>
   );
 
   const isShowHeader =
     location.pathname !== "/company/maturityassessmentroadmap";
 
   return (
-    <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
+    <div className="">
       {isShowHeader && <Header />}
       <div className="mainContailner">
         <div className="flex ml-[172px] mr-[152px] justify-between">
           <div className="h-[369px] pt-[38px]">
             <h3 className="text-2xl font-bold leading-[29.3px] font-abhaya">
               Where {userData?.company?.name} <br /> Green Feet are now...
+              <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
             </h3>
             <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]" />
             <div className="max-w-[602.78px] font-abhaya">
@@ -228,11 +230,13 @@ const MaturityLevelPage = () => {
               </Button>
             </div>
           </div>
-          <div>
-            <div className=" mt-0 mb-6 mr-18 ml-8   relative">
-              <Labels />
-              <div className="text-center mt-8 mb-0 mr-8 ml-20  relative">
-                <div className="w-40 h-40 mt-0 ml-16 relative">
+          <div className="lg:col-span-4 sm:col-span-8 col-span-12">
+            <div className="flex justify-between">
+              <div className="">
+                <Labels />
+              </div>
+              <div className="text-center relative">
+                <div className="w-40 h-40 relative">
                   <Doughnut
                     data={data}
                     options={options}
@@ -241,11 +245,11 @@ const MaturityLevelPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-[60px]">
-              <p className="inline ml-[35px] ">
-                Your overall sustainability score -
+            <div className="">
+              <p className="inline font-calibri text-base text-black">
+                Your overall sustainability level -
               </p>{" "}
-              <span className="font-poppins font-bold text-[#000000] leading-6">
+              <span className="font-bold text-base text-[#000000] leading-6 font-calibri">
                 {score < "40" && "Introductory"}
                 {score >= "40" && score < "70" && "Intermediate"}
                 {score >= "70" && "Advanced"}
@@ -269,125 +273,281 @@ const MaturityLevelPage = () => {
                 Beginning
               </Button>
             </div>
+            <div className="flex flex-col gap-[26px] mb-[60px]">
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-abhaya">
+                    Beginning
+                  </Button>
+                </div>
 
-            <div className="flex items-center flex-wrap gap-[20px] pt-8 pl-[30px] pb-5">
-              {assessmant?.data?.data.map((item: any) => (
-                <>
-                  {item.totalpoints < "40" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="flex gap-5">
-                        <div className="border border-solid border-[#F63636] bg-[#F63636] text-white w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                          <div className="p-2.5 bg-white rounded-full">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints < "40" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3">{item.pillarname}</h4>
-                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button className="bg-[#FFD56A] font-abhaya md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black">
+                    Intermediate
+                  </Button>
+                </div>
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints >= "40" && item.totalpoints < "70" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs pb-2 font-abhaya">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
+                          </div>
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button className="bg-[#64A70B] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-abhaya">
+                    Advanced
+                  </Button>
+                </div>
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints >= "70" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
+                          </div>
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="flex flex-wrap border border-solid border-[#D9D9D9] rounded-[6px]">
-            <div className="w-full flex items-center pl-[17px] border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="bg-[#FFD56A] text-[16px] leading-5 w-[130px] font-bold text-black hover:text-white">
-                Intermediate
-              </Button>
-            </div>
-            <div className="flex items-center flex-wrap gap-[20px] pt-8 pl-[30px] pb-5">
-              {assessmant?.data?.data.map((item: any) => (
-                <>
-                  {item.totalpoints >= "40" && item.totalpoints < "70" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="flex gap-5">
-                        <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                          <div className="p-2.5 bg-white rounded-full">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+        <div className="sm:hidden block">
+          <div className="xl:px-0 px-5">
+            <Tabs defaultValue="introductory" className="w-full">
+              <TabsList className="p-0 h-[45px]">
+                <TabsTrigger
+                  value="introductory"
+                  className="font-abhaya text-xs sm:px-6 font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
+                >
+                  Introductory
+                </TabsTrigger>
+                <TabsTrigger
+                  value="intermediate"
+                  className="text-xs sm:px-6 px-2 font-abhaya font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
+                >
+                  Intermediate
+                </TabsTrigger>
+                <TabsTrigger
+                  value="advanced"
+                  className="text-xs sm:px-6 px-2 font-abhaya font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
+                >
+                  Advanced
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="introductory" className="lg:p-5 p-0 mt-0">
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints < "40" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent font-abhaya"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3">{item.pillarname}</h4>
-                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap border border-solid border-[#D9D9D9] rounded-[6px]">
-            <div className="w-full flex items-center pl-[17px] border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="bg-[#64A70B] text-[16px] leading-5 w-[130px] font-bold">
-                Advanced
-              </Button>
-            </div>
-            <div className="flex items-center flex-wrap gap-[20px] pt-8 pl-[30px] pb-5">
-              {assessmant?.data?.data.map((item: any) => (
-                <>
-                  {item.totalpoints >= "70" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="pt-8 pl-[30px] pb-5 flex gap-5">
-                        <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col items-center p-3">
-                          <div className="p-2.5 bg-white rounded-full">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </TabsContent>
+              <TabsContent value="intermediate" className="lg:p-5 p-0 mt-0">
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints >= "40" && item.totalpoints < "70" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent font-abhaya"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3">{item.pillarname}</h4>
-                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
-            </div>
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </TabsContent>
+              <TabsContent value="advanced" className="lg:p-5 p-0 mt-0">
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => (
+                    <>
+                      {item.totalpoints >= "70" && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent font-abhaya"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
+                          </div>
+                        </Button>
+                      )}
+                    </>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
         <div className="mt-[40px] text-center text-green-500">
