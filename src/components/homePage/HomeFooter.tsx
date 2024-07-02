@@ -2,6 +2,7 @@ import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const HomeFooter = () => {
   const location = useLocation();
@@ -26,11 +27,21 @@ const HomeFooter = () => {
             </div>
 
             <ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start secondary-text">
-              <a className="font-abhaya text-lg font-normal">Our Courses</a>
-              <a className="font-abhaya text-lg font-normal">Membership</a>
-              <a className="font-abhaya text-lg font-normal">Testimonial</a>
-              <a className="font-abhaya text-lg font-normal">News</a>
-              <a className="font-abhaya text-lg font-normal">Contact Us</a>
+              <a className="font-abhaya text-lg font-normal cursor-pointer">
+                Our Courses
+              </a>
+              <a className="font-abhaya text-lg font-normal cursor-pointer">
+                Membership
+              </a>
+              <a className="font-abhaya text-lg font-normal cursor-pointer">
+                Testimonial
+              </a>
+              <a className="font-abhaya text-lg font-normal cursor-pointer">
+                News
+              </a>
+              <a className="font-abhaya text-lg font-normal cursor-pointer">
+                Contact Us
+              </a>
             </ul>
           </div>
 
@@ -40,10 +51,30 @@ const HomeFooter = () => {
             </p>
 
             <div className="flex gap-5  justify-center my-3">
-              <FaXTwitter className="w-[19px] h-[19px]" />
-              <BsInstagram className="w-[19px] h-[19px]" />
-              <FaFacebookF className="w-[19px] h-[19px]" />
-              <IoLogoYoutube className="w-[19px] h-[19px]" />
+              <Button
+                variant={"ghost"}
+                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+              >
+                <FaXTwitter className="w-[19px] h-[19px]" />
+              </Button>
+              <Button
+                variant={"ghost"}
+                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+              >
+                <BsInstagram className="w-[19px] h-[19px]" />
+              </Button>
+              <Button
+                variant={"ghost"}
+                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+              >
+                <FaFacebookF className="w-[19px] h-[19px]" />
+              </Button>
+              <Button
+                variant={"ghost"}
+                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+              >
+                <IoLogoYoutube className="w-[19px] h-[19px]" />
+              </Button>
             </div>
           </div>
         </div>

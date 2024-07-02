@@ -1,10 +1,11 @@
+import SideHeaderLogo from "@/assets/images/logo2.png";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { toast } from "../ui/use-toast";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
+import { toast } from "../ui/use-toast";
 interface headerProps {
   hasDiffHeader?: boolean;
 }
@@ -47,12 +48,10 @@ function HomeHeader(props: headerProps) {
         navigate(`/trainer/dashboard`);
         break;
       case "3":
+        navigate(`/trainee/dashboard`);
         break;
       case "4":
-        break;
-      case "5":
-        break;
-      case "6":
+        navigate(`/employee/dashboard`);
         break;
 
       default:
@@ -88,13 +87,13 @@ function HomeHeader(props: headerProps) {
                   src="../assets/img/Vector 1.png"
                 />
               </li>
-              <li>Testimonial</li>
-              <li>Blogs</li>
-              <li>Contact Us</li>
+              <li className="cursor-pointer">Testimonial</li>
+              <li className="cursor-pointer">Blogs</li>
+              <li className="cursor-pointer">Contact Us</li>
             </ul>
           </div>
         </div>
-        <div className="flex items-end">
+        <div className="flex items-end xl:gap-7 gap-2">
           <div className="font-bold text-lg text-color">
             {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
@@ -134,7 +133,7 @@ function HomeHeader(props: headerProps) {
               </>
             )}
           </div>
-          <img className="xl:ml-7 ml-2" src="../assets/img/logo2.png" />
+          <img className="" src={SideHeaderLogo} />
         </div>
       </div>
       <Loading isLoading={isPending} />

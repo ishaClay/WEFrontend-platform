@@ -1,8 +1,8 @@
 import titleCircle from "@/assets/images/title_de.svg";
 import Accordions from "@/components/comman/Accordions";
 import { AccordionOption } from "@/types";
-import AccordionQuestion from "./AccordionQuestion";
 import AccordionAnswer from "./AccordionAnswer";
+import AccordionQuestion from "./AccordionQuestion";
 
 const AccordionHome = () => {
   const questionList = [
@@ -12,6 +12,9 @@ const AccordionHome = () => {
     {
       question:
         "We’re already involved in sustainability. How would this be useful?",
+    },
+    {
+      question: "We’re beginners in sustainability. Can we join?",
     },
     {
       question: "What’s required from me to start?",
@@ -44,22 +47,22 @@ const AccordionHome = () => {
           <span className="h-[4px] bg-[#64A70B] w-full absolute bottom-0 left-0"></span>
         </h3>
 
-        <div className="flex xl:gap-[100px] gap-[50px] xl:mt-[50px] mt-[25px]">
+        <div className="flex xl:gap-[60px] gap-[40px] xl:mt-[50px] mt-[25px]">
           <div className="w-full">
             <Accordions
-              items={accordionItems.slice(0, 2)}
+              items={accordionItems.slice(0, 3)}
               rounded={false}
               padding={false}
-              triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[60px]`}
+              triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]`}
               isPlusIcon
             />
           </div>
           <div className="w-full">
             <Accordions
-              items={accordionItems.slice(2)}
+              items={accordionItems.slice(3)}
               rounded={false}
               padding={false}
-              triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[60px]"
+              triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]"
               isPlusIcon
             />
           </div>
