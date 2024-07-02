@@ -37,7 +37,7 @@ const AccordionHome = () => {
   return (
     <div className="bg-[#F7F8FC] pb-[26px] pt-[12px]">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5">
-        <h3 className="xl:text-[32px] text-2xl font-abhaya leading-9 font-bold text-color relative pb-3 inline-block pe-[50px] tracking-tighter">
+        <h3 className="xl:text-[32px] text-2xl font-abhaya leading-9 font-bold relative pb-3 inline-block pe-[50px] tracking-tighter">
           Frequently asked Questions
           <img
             src={titleCircle}

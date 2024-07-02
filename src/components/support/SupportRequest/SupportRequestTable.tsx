@@ -3,6 +3,7 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
@@ -16,9 +17,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import moment from "moment";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import searchIcon from "/assets/icons/search.svg";
 
 const SupportRequestTable = () => {
   const { toast } = useToast();
@@ -29,7 +31,7 @@ const SupportRequestTable = () => {
   const [openDelete, setOpenDelete] = useState<boolean | SupportRequest>(false);
   const { data: support_request_list, isPending: supportRequestPending } =
     useQuery({
-      queryKey: [QUERY_KEYS.supportTicketList],
+      queryKey: [QUERY_KEYS.supportTicketList, { page, search }],
       queryFn: () =>
         fetchSupportTicketList(page.toString(), "10", UserId, search),
     });
@@ -41,6 +43,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             ID
@@ -64,6 +67,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Last Updated
@@ -90,6 +94,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Requestor
@@ -123,6 +128,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Subject
@@ -146,6 +152,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -184,6 +191,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Assign to
@@ -214,6 +222,7 @@ const SupportRequestTable = () => {
         return (
           <Button
             variant="ghost"
+            className="px-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Priority
@@ -294,6 +303,17 @@ const SupportRequestTable = () => {
 
   return (
     <div className="">
+      <div className="flex items-center py-4 relative">
+        <Input
+          placeholder={"Search by Requestor, Subject, Assign to etc."}
+          value={search}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
+          className="py-[17px] pl-[39px] border w-[550px] rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+        />
+        <img src={searchIcon} alt="searchIcon" className="absolute left-10" />
+      </div>
       {supportRequestPending ? (
         <span className="flex justify-center items-center py-10">
           <Loader2 className="w-5 h-5 animate-spin" />
@@ -304,6 +324,7 @@ const SupportRequestTable = () => {
           data={support_request_list?.data.data || []}
           totalPages={support_request_list?.data?.metadata?.totalPages || 1}
           setPage={setPage}
+          inputbox={false}
           pagination={{ pageIndex: page, pageSize: 10 }}
           searchPlaceholder="Search by Requestor, Subject, Assign to etc."
           searchFilter={(e) => setSearch(e)}

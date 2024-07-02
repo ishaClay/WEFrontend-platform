@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
+import Forum from "./Forum/Forum";
 import ModuleCreation from "./ModuleCreation";
 import BasicDetails from "./basicDetails";
 
@@ -18,7 +19,7 @@ const CourseManagement = () => {
   }, [paramsTab, tab]);
 
   return (
-    <div className="bg-white p-4">
+    <div className="bg-white p-0">
       <Tabs defaultValue={currentTab} className="">
         <div className="border-b">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
@@ -48,16 +49,18 @@ const CourseManagement = () => {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="basic-details">
+        <TabsContent value="basic-details" className="xl:p-[30px] p-5 mt-0">
           <BasicDetails />
         </TabsContent>
-        <TabsContent value="course-pathway">
+        <TabsContent value="course-pathway" className="xl:p-[30px] p-5 mt-0">
           <CoursePathway />
         </TabsContent>
-        <TabsContent value="module-creation">
+        <TabsContent value="module-creation" className="xl:p-[30px] p-5 mt-0">
           <ModuleCreation />
         </TabsContent>
-        <TabsContent value="forum"></TabsContent>
+        <TabsContent value="forum" className="xl:p-[30px] p-5 mt-0">
+          <Forum />
+        </TabsContent>
       </Tabs>
     </div>
   );

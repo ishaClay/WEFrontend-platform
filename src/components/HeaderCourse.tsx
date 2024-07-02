@@ -6,7 +6,7 @@ import Logo2 from "../assets/images/logo2.png";
 function HeaderCourse() {
   return (
     <header className="  bg-[#FAFAFA] h-[120px]">
-      <div className="  text-[#3A3A3A] font-[calibri] flex justify-between ">
+      <div className=" text-[#3A3A3A] font-[calibri] flex justify-between ">
         <ul className="flex  font-[400px] text-[16px] gap-8 ">
           <li className="mt-[48px] ml-[20px]">
             <RxHamburgerMenu className="w-8 h-8" />

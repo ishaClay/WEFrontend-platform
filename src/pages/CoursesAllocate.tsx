@@ -25,11 +25,12 @@ import online from "../assets/svgs/online.svg";
 import time from "../assets/svgs/time.svg";
 
 function CoursesAllocate() {
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [openId, setOpenId] = useState<number | null>(null);
   const { data: courseallocate, isPending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbycourseallocate],
-    queryFn: () => fetchAllocatedCourse(),
+    queryFn: () => fetchAllocatedCourse(userData?.query?.id),
   });
 
   const openPopup = (id: number) => {

@@ -40,6 +40,8 @@ import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
 import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
 import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
 import FaqsList from "./pages/FaqsList";
+import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import InProgress from "./pages/InProgress";
 import IndividualEmployee from "./pages/IndividualEmployee";
 import LiveSession from "./pages/LiveSession";
@@ -110,8 +112,6 @@ import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
-import HomePage from "./pages/HomePage";
-import Home from "./pages/Home";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -651,8 +651,8 @@ function App() {
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="employeelist" element={<EmployeeList />} />
           <Route path="employeeprogress" element={<EmployeeProgress />} />
-          <Route path="faqslist" element={<FaqsList />} />
-          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="faqslist" element={<FaqsListPage />} />
+          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
           <Route
             path="support-request/add-new-ticket"
@@ -749,9 +749,9 @@ function App() {
         <Route
           path="/trainer"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />

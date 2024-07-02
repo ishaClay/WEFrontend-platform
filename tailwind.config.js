@@ -108,7 +108,7 @@ module.exports = {
         "uni-neue-trial": "'Uni Neue-Trial'",
         UniNeue: "UniNeue",
         Poppins: "Poppins",
-        abhaya: ["Abhaya Libre ExtraBold", "sans"],
+        abhaya: ["Abhaya Libre", "serif"],
         nunito: ["Nunito Sans", "sans"],
       },
       borderRadius: {

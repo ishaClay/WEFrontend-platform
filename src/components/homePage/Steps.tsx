@@ -1,9 +1,9 @@
-import stepImage1 from "@/assets/images/TreePlanting.png";
-import stepImage2 from "@/assets/images/Neighbour.png";
-import stepImage3 from "@/assets/images/WeakFinancialGrowth.png";
-import stepImage4 from "@/assets/images/Morales.png";
 import stepImage5 from "@/assets/images/LightOn.png";
+import stepImage4 from "@/assets/images/Morales.png";
+import stepImage2 from "@/assets/images/Neighbour.png";
 import stepImage6 from "@/assets/images/PathSteps.png";
+import stepImage1 from "@/assets/images/TreePlanting.png";
+import stepImage3 from "@/assets/images/WeakFinancialGrowth.png";
 
 const Steps = () => {
   const step = [
@@ -40,14 +40,14 @@ const Steps = () => {
   ];
   return (
     <div>
-      <h3 className="text-4xl leading-tight font-abhaya text-center text-color font-bold tracking-tighter xl:mb-[69px] mb-[50px]">
+      <h3 className="text-4xl leading-tight font-abhaya text-center font-bold tracking-tighter xl:mb-[69px] mb-[50px]">
         Step by Step
         <br />
-        <span className="font-normal">To better days ahead of you.</span>
+        <span className="font-medium">To better days ahead of you.</span>
       </h3>
       <div className="grid grid-cols-9">
         <div className="col-span-2 bg-[#64A70B] flex justify-center items-center h-[259px]">
-          <p className="secondary-text xl:text-[28px] text-2xl font-abhaya text-center">
+          <p className="secondary-text xl:text-[28px] text-2xl font-abhaya text-center font-bold">
             Why Go Sustainable
           </p>
         </div>
@@ -63,11 +63,11 @@ const Steps = () => {
                     <div className="h-[76px] mb-2.5">
                       <img src={steps.image} alt="" />
                     </div>
-                    <h6 className="primary-text text-lg font-abhaya font-semibold leading-5">
+                    <h6 className="primary-text text-lg font-abhaya font-extrabold leading-5">
                       {steps.title}
                     </h6>
                   </div>
-                  <p className="text-color text-[13px] font-abhaya line-clamp-5 leading-[18px]">
+                  <p className="text-[13px] font-abhaya line-clamp-5 leading-[18px]">
                     {steps.desc}
                   </p>
                 </div>
@@ -76,7 +76,7 @@ const Steps = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-color text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] mt-3">
+      <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] mt-3">
         <div>
           Take Your First
           <br /> Step Now
