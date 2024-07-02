@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 const LiveSession = () => {
   return (
-    <div className="bg-white rounded-xl min-h-[calc(100vh_-_130px)]">
+    <div className="lg:bg-white bg-transparent min-h-[calc(100vh_-_130px)]">
       <div className="md:p-5 p-4">
         <EmployeeHeader title="My Courses" />
         <div className="md:py-5 py-4">

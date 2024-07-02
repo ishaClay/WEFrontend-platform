@@ -40,7 +40,7 @@ const AddNewTickets = () => {
   const [selectName, setSelectName] = useState("");
   const [ticketPriority, setTicketPriority] = useState("");
   return (
-    <div className="bg-white rounded-xl">
+    <div className="lg:bg-white bg-transparent rounded-xl">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <h6 className="font-calibri text-base font-bold">Add New Ticket</h6>
       </div>

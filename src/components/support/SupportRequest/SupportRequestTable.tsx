@@ -11,6 +11,7 @@ import {
 } from "@/services/apiServices/supportRequestServices";
 import { ErrorType } from "@/types/Errors";
 import { SupportRequest } from "@/types/SupportRequest";
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";

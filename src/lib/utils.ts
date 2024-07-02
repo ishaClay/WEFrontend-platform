@@ -98,7 +98,7 @@ export const sidebarLayout = {
           link: "/trainer/certificate-template",
         },
         {
-          label: "Allocated Certificate",
+          label: "Issued Certificate",
           link: "/trainer/allocated-certificate",
         },
       ],
@@ -110,15 +110,15 @@ export const sidebarLayout = {
       children: [
         {
           label: "FAQ's",
-          link: "/trainer/faqslist",
+          link: "/trainer/support-faqslist",
         },
         {
           label: "Training Document",
-          link: "/trainer/trainingdocument",
+          link: "/trainer/support-training-documnet",
         },
         {
           label: "Support Request",
-          link: "/trainer/supportticket",
+          link: "/trainer/support-request",
         },
       ],
     },
@@ -201,7 +201,7 @@ export const sidebarLayout = {
         },
         {
           label: "Support Request",
-          link: "/trainee/supportticket",
+          link: "/trainee/support-request",
         },
       ],
     },
@@ -232,7 +232,7 @@ export const sidebarLayout = {
       children: [],
     },
     {
-      label: "Our Maturity Journey",
+      label: "Our Sustainability Journey",
       Icon: LuMapPin,
       link: "/company/maturityassessmentroadmap",
       children: [],
@@ -277,7 +277,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "FAQ's",
+          label: "FAQs",
           link: "/company/faqslist",
         },
         {
@@ -285,7 +285,7 @@ export const sidebarLayout = {
           link: "/company/trainingdocument",
         },
         {
-          label: "Support Request",
+          label: "Support Tickets",
           link: "/company/support-request",
         },
       ],
@@ -325,7 +325,7 @@ export const sidebarLayout = {
     {
       label: "Our Maturity Journey",
       Icon: LuMapPin,
-      link: "/employee/maturityassessmentroadmap",
+      link: "/employee/maturityAssessment",
       children: [],
     },
     {

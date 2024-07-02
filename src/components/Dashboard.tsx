@@ -310,7 +310,7 @@ const Dashboard = () => {
   };
   return (
     <div className="rounded-xl">
-      <div className="grid grid-cols-3 gap-5 mb-10">
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
           onClick={() => handleClick("companies")}
@@ -336,7 +336,7 @@ const Dashboard = () => {
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
             15
           </h2>
-          <p className="text-base text-black font-calibri">Total Employee</p>
+          <p className="text-base text-black font-calibri">Total Courses</p>
         </button>
 
         <button
@@ -353,12 +353,17 @@ const Dashboard = () => {
         </button>
       </div>
 
-      <div className="mb-10">
-        <div className="flex bg-[#FFFFFF] rounded-lg">
+      <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm">
+        <div className="flex">
           <div className=" w-full  m-4 bg-[#FFFFFF]">
-            <h5 className="text-base font-nunito font-bold">
-              Course Completion Trend
-            </h5>
+            <div className="sm:flex block justify-between items-center">
+              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
+                Course Completion Trend
+              </h5>
+              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm">
+                Export Report
+              </Button>
+            </div>
 
             <div className="">
               <Line className="!h-auto" data={data} options={config.options} />
@@ -368,18 +373,23 @@ const Dashboard = () => {
       </div>
 
       <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
-        <div className="col-span-1 bg-[#FFFFFF] rounded-xl">
+        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="pt-6 px-4 pb-4">
-            <h5 className="text-base font-nunito font-bold">
-              Course Enrollment Trends Over Time
-            </h5>
+            <div className="sm:flex block justify-between items-center">
+              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
+                Course Enrollment Trends Over Time
+              </h5>
+              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm">
+                Export Report
+              </Button>
+            </div>
 
             <div className=" mt-[20px] ">
               <Bar data={data1} options={config1.options} />
             </div>
           </div>
         </div>
-        <div className="col-span-1 bg-[#FFFFFF] rounded-xl">
+        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-nunito font-bold">Top 5 Courses</h5>
             <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">

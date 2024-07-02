@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 const AllocateCertificateModalDetails = () => {
   return (
     <div className="text-center">
-      <h3 className="text-xl font-calibri font-bold pb-5">
-        Allocate Certificate
+      <h3 className="text-xl font-abhaya font-bold pb-5">
+        Issue A Certificate
       </h3>
+      <p className="text-[#606060] text-[15px] font-abhaya leading-[15px]">
+        And share the great news of passing with the user!
+      </p>
       <div className="border border-dashed border-[#D9D9D9] p-10 mb-8 rounded-md">
         <div className="text-center">
           <img src={dropFile} className="m-auto pb-6" />
@@ -24,8 +27,8 @@ const AllocateCertificateModalDetails = () => {
         System Generated Certificate :
         <span className="text-[#4285F4] ps-2">Generate Now</span>
       </h6>
-      <Button className="outline-none text-base rounded-md font-calibri text-white bg-[#58BA66] py-7 px-3">
-        Allocate Certificate
+      <Button className="outline-none text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3">
+        Issue A Certificate
       </Button>
     </div>
   );

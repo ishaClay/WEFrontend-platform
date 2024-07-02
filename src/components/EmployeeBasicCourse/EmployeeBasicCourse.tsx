@@ -19,7 +19,7 @@ const EmployeeBasicCourse = () => {
       >
         <ReviewModal />
       </Modal>
-      <div className="bg-white rounded-xl min-h-[calc(100vh_-_130px)]">
+      <div className="lg:bg-white bg-transparent rounded-xl min-h-[calc(100vh_-_130px)]">
         <div className="px-5 py-2.5 mb-5">
           <EmployeeHeader title="My Courses" />
         </div>

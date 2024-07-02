@@ -44,15 +44,22 @@ const AllCourses = () => {
       <div>
         <div className="bg-[#FFFFFF] rounded-[10px] w-full">
           <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
-            <div className="flex  bg-white">
-              <p className="text-black text-base font-bold font-sans">
+            <div className="bg-white">
+              <h3 className="text-[16px] font-[700] font-nunito mb-1">
                 Course Management
+              </h3>
+              <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+                The full list of your courses, in snapshot view
               </p>
             </div>
             <div>
               <Button
                 type="button"
-                onClick={() => navigate(`/${location?.pathname?.split("/")[1]}/create_course?tab=1`)}
+                onClick={() =>
+                  navigate(
+                    `/${location?.pathname?.split("/")[1]}/create_course?tab=1`
+                  )
+                }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
                 ADD NEW COURSE

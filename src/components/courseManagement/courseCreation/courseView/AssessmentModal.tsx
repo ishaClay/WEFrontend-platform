@@ -21,9 +21,12 @@ const AssessmentModal = () => {
   ];
   return (
     <div>
-      <h5 className="font-bold text-black text-xl font-calibri pb-5">
-        Select Document Type
+      <h5 className="font-bold text-black text-xl font-calibri pb-[9px]">
+        Select Question Type
       </h5>
+      <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] pb-5">
+        Which format would best suit this particular assessment question?
+      </p>
       <div className="flex items-center justify-center flex-wrap">
         {selectQuestionType.map((data, index) => {
           return <AssessmentModalSelectItem key={index} data={data} />;

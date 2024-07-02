@@ -173,8 +173,8 @@ function Home() {
                           {item.content}
                         </p>
                         <SecondaryButton
-                          name={item.buttonTitle}
-                          href={item.buttonUrl}
+                          name={item.primaryButtonTitle}
+                          href={item.primaryButtonUrl}
                           symbol={<img src="../assets/img/Move Right.png" />}
                           className="w-[250px] h-[50px] mt-[20px] flex gap-[10px] justify-center items-center "
                           isLink

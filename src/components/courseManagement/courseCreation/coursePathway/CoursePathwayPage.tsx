@@ -59,7 +59,7 @@ const CoursePathwayPage = () => {
   };
 
   const handleSubmit = () => {
-    if (selectedData.length < 3) {
+    if (selectedData.length > 3) {
       setIsError(true);
       navigate(
         `/trainer/create_course?tab=${3}&id=${params}&version=${paramsversion}`
@@ -71,9 +71,14 @@ const CoursePathwayPage = () => {
 
   return (
     <div className="p-5">
-      <h4 className="font-calibri text-base text-black pb-4">
-        <span className="font-bold">Target areas / pillars</span> (Select
-        applicable pillars)
+      <h4 className="text-[16px] text-black pb-4 flex items-center gap-[15px]">
+        <span className="font-nunito font-bold">
+          Target areas / pillars(Select applicable pillars)
+        </span>
+        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          Which sustainability pillars does your course apply to? And for which
+          level?
+        </p>
       </h4>
       {isClientMaturityLevel || isPending ? (
         <Loader />
@@ -93,13 +98,13 @@ const CoursePathwayPage = () => {
         })
       )}
 
-      {isError && (
+      {!isError && (
         <div className="w-full bg-[#F8D7DA] p-4 flex rounded-lg items-center justify-between mb-5">
           <div className="flex items-center">
             <img src={CloseIcon} alt="close" className="me-3" />
-            <span className="text-[#842029] text-base font-calibri line-clamp-1 me-3">
-              <strong>Sorry,</strong> You can’t add more than 3 pillars, if you
-              want to add another pillars, please contact to your admin
+            <span className="text-[#842029] text-base font-abhaya line-clamp-1 me-3">
+              Only a maximum of 3 pillars can be selected. Does your course
+              match more? Please contact your admin so they can sort it out
             </span>
           </div>
           <Button

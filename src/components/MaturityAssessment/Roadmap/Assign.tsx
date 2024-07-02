@@ -115,9 +115,24 @@ const Assign = () => {
         return <AssignCard key={index} data={data} />;
       })}
       <div className="text-center">
-        <Button className="sm:w-[223px] w-[138px] bg-[#E5F1F3] text-[#00778B] sm:text-base text-sm font-bold font-calibri sm:h-[48px] h-[40px]">
+        {/* <Button className="sm:w-[223px] w-[138px] bg-[#E5F1F3] text-[#00778B] sm:text-base text-sm font-bold font-calibri sm:h-[48px] h-[40px]">
           Retake Assessment
-        </Button>
+        </Button> */}
+        <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">
+          <Button className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm">
+            Edit Action Plan
+          </Button>
+          <Button className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm">
+            View Recommended Courses
+          </Button>
+          <Button className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm">
+            Invite Team Members
+          </Button>
+        </div>
+        <p className="text-[#64A70B] lg:text-base text-sm font-semibold">
+          And whenever you’ve learnt, applied, and developed:  <br />
+          come back to measure your progress anytime with a re-assessment!
+        </p>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
-    maturityLevelName: "Introductory",
+    maturityLevelName: "Beginning",
     rangeStart: 0,
     rangeEnd: 39.9,
     color: "#FF5252",
@@ -30,7 +30,7 @@ const maturityLevel = [
     color: "#FFD56A",
   },
   {
-    maturityLevelName: "Advance",
+    maturityLevelName: "Advanced",
     rangeStart: 70,
     rangeEnd: 100,
     color: "#D6F5AC",
@@ -199,7 +199,7 @@ const MaturityLevelPage = () => {
         <div className="flex ml-[172px] mr-[152px] justify-between">
           <div className="h-[369px] pt-[38px]">
             <h3 className="text-2xl font-bold leading-[29.3px] font-abhaya">
-              Where “Company Name”’s  <br /> Green Feet are now…
+              Where {userData?.company?.name} <br /> Green Feet are now...
             </h3>
             <hr className="border-2 border-solid border-[#64A70B] w-[117px] mt-[15px] mb-[17px]" />
             <div className="max-w-[602.78px] font-abhaya">
@@ -262,7 +262,7 @@ const MaturityLevelPage = () => {
           <div className="flex flex-wrap border border-solid border-[#D9D9D9] rounded-[6px]">
             <div className="w-full flex items-center pl-[17px] border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#F63636] text-[16px] leading-5 w-[130px] font-bold">
-                Introductory
+                Beginning
               </Button>
             </div>
 

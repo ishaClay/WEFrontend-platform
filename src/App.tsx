@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
@@ -111,6 +110,8 @@ import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
+import HomePage from "./pages/HomePage";
+import Home from "./pages/Home";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -145,7 +146,8 @@ function App() {
     <div className="App mx-auto">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
@@ -630,15 +632,19 @@ function App() {
         <Route
           path="/company"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
           <Route
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
+          />
+          <Route
+            path="maturityAssessment"
+            element={<MaturityAssessmentPage />}
           />
           <Route path="allocatedcourses" element={<CoursesAllocate />} />
           <Route path="coursesrecommended" element={<CoursesRecommended />} />
@@ -669,10 +675,6 @@ function App() {
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
           <Route
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}
@@ -729,6 +731,16 @@ function App() {
           <Route path="support-faqslist" element={<FaqsListPage />} />
           {/* <Route path="faqslist" element={<FaqsList />} /> */}
           <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
+
+          <Route
+            path="certificate-template"
+            element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate"
+            element={<AllocatedCertificate />}
+          />
           <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />

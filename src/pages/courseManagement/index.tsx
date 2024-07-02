@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
 import ModuleCreation from "./ModuleCreation";
-import BasicDetails from "./basicDetails";
+import BasicDetails from "./BasicDetails";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];
