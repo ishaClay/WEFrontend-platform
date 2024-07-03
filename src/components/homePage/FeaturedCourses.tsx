@@ -57,7 +57,7 @@ const FeaturedCourses = () => {
             {title || "Featured Courses"}
           </h5>
         </div>
-        <div className="max-w-full xl:h-[517px] flex items-center justify-between xl:flex-row flex-col xl:gap-0 gap-10">
+        <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 gap-10">
           <div className="md:block hidden relative">
             <img
               className="w-[332px] h-[357px]"

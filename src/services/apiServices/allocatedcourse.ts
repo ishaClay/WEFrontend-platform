@@ -7,8 +7,9 @@ export const fetchAllocatedCourseById = async (trainerId: string, enrollId: numb
   return res.data
 };
 
-export const fetchAllocatedCourse = (id: number) => {
-  const url = `api/v1/course/course-enrollment-Accepted/${id}`;
+export const fetchAllocatedCourse = async (id: number) => {
+  const url = `api/v1/course/course-enrollment/${id}`;
 
-  return api({ url });
+  const res = await api({ url });
+  return res.data
 };

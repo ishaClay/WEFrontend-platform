@@ -1,7 +1,7 @@
 
 export interface MaturityLevelResponse {
     length: number;
-    data?: (MaturityLevelResult)[] | null;
+    data?: (MaturityLevelResult)[];
     message: string;
     clientData: boolean;
 }
