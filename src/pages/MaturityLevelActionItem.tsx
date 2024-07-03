@@ -132,29 +132,29 @@ function MaturityLevelActionItem() {
             </div>
           </div>
         </div>
-        <div className="mb-10 mt-10">
-          <div className=" text-center font-abhaya  font-medium">
+        <div className="xl:mb-[66px] xl:mt-[76px] my-[55px]">
+          <div className=" text-center font-abhaya font-bold">
             <h3 className="font-abhaya text-[30px]">
               Now, that’s worthy of a congrats.
             </h3>
 
-            <p className="mt-[20px]">
+            <p className="xl:mt-[31px] mt-[25px] font-abhaya font-bold">
               Because it’s one thing to have the will to be green.
               <br /> Another thing to know where you stand.
               <br /> And a whole other to have defined actions that will advance
               your sustainability. 
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center xl:mt-[42px] mt-[36px]">
             <button
               onClick={handlematurityAction}
-              className="bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center text-[16px] font-abhaya Libre ExtraBold"
+              className="bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center text-base font-abhaya"
             >
               See Recommended Courses
             </button>
             <button
               onClick={() => navigate("/company/dashboard")}
-              className="ml-4 bg-[#64A70B] text-[white] w-[224px] h-[40px] rounded mt-7 text-center font-abhaya text-[16px] Libre ExtraBold"
+              className="ml-4 bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center font-abhaya text-base"
             >
               Go To My Dashboard
             </button>
@@ -166,7 +166,7 @@ function MaturityLevelActionItem() {
           getCheckedmeasures?.data?.data?.map((item: any) => {
             console.log(item);
             return (
-              <div className="flex flex-col h-full w-full mt-8 mb-[40px]">
+              <div className="flex flex-col h-full w-full mb-[40px]">
                 <div className="mx-auto xl:max-w-[1126px] max-w-[970px] w-full">
                   <div className="w-full py-[9px] px-[17px] h-[74px] border border-solid border-[#D9D9D9] border-b-0 rounded-tl-lg rounded-tr-lg">
                     <div className="flex items-center justify-between gap-5">

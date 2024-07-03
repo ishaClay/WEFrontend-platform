@@ -1,5 +1,3 @@
-import { Star } from "lucide-react";
-import { FaStar } from "react-icons/fa6";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
@@ -16,11 +14,6 @@ const ReviewModal = () => {
           How would you rate the course?
         </span>
         <div className="flex md:gap-3 gap-2 items-center">
-          {/* <FaStar className="text-[#FFA000] sm:text-[25px] text-[18px]" />
-          <FaStar className="text-[#FFA000] sm:text-[25px] text-[18px]" />
-          <Star className="text-[#606060] sm:text-[25px] text-[18px]" />
-          <Star className="text-[#606060] sm:text-[25px] text-[18px]" />
-          <Star className="text-[#606060] sm:text-[25px] text-[18px]" /> */}
           <Rating value={2} className="gap-4" />
         </div>
       </div>
@@ -29,11 +22,6 @@ const ReviewModal = () => {
           And how would you rate the trainer?.
         </span>
         <div className="flex md:gap-3 gap-2 items-center">
-          {/* <FaStar className="text-[#FFA000] sm:text-[25px] text-[18px]" />
-          <FaStar className="text-[#FFA000] sm:text-[25px] text-[18px]" />
-          <FaStar className="text-[#FFA000] sm:text-[25px] text-[18px]" />
-          <Star className="text-[#606060] sm:text-[25px] text-[18px]" />
-          <Star className="text-[#606060] sm:text-[25px] text-[18px]" /> */}
           <Rating value={3} />
         </div>
       </div>
