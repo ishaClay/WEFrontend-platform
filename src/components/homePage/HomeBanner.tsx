@@ -51,7 +51,7 @@ const HomeBanner = () => {
                       className="xl:w-[278px] w-[240px] xl:h-[59px] h-[50px] xl:mt-[29px] mt-[20px] flex gap-[10px] justify-center items-center rounded-[4px] text-lg font-semibold font-abhaya"
                       isLink
                     />
-                    <div className="w-full secondary-text text-[18px] flex items-center gap-1 mt-10">
+                    <div className="w-full text-[#ACEBF5] text-[18px] flex items-center gap-1 mt-10">
                       <h3 className="xl:text-lg text-base font-bold font-abhaya leading-5">
                         One Platform To Advance Sustainability
                       </h3>

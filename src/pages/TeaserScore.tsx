@@ -13,29 +13,8 @@ import { useNavigate } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const maturityLevel = [
-  {
-    maturityLevelName: "Introductory",
-    rangeStart: 0,
-    rangeEnd: 39.9,
-    color: "#C92C35",
-  },
-  {
-    maturityLevelName: "Intermediate",
-    rangeStart: 40,
-    rangeEnd: 69.9,
-    color: "#FFD56A",
-  },
-  {
-    maturityLevelName: "Advance",
-    rangeStart: 70,
-    rangeEnd: 100,
-    color: "#258483",
-  },
-];
-
-const findMaturityLevel = (score: number) => {
-  for (const level of maturityLevel) {
+const findMaturityLevel = (score: number, fetchClientmaturitylevel: any) => {
+  for (const level of fetchClientmaturitylevel) {
     if (score >= level.rangeStart && score <= level.rangeEnd) {
       return level;
     }
@@ -90,7 +69,10 @@ const TeaserScore = () => {
   );
   const setScore = isNaN(score) ? 0 : score;
 
-  const currentLavel = findMaturityLevel(Number(score));
+  const currentLavel = findMaturityLevel(
+    Number(score),
+    fetchClientmaturitylevel?.data
+  );
 
   const data = {
     labels: [currentLavel?.maturityLevelName],
@@ -144,30 +126,31 @@ const TeaserScore = () => {
 
   const Labels = () => (
     <div className="flex flex-col justify-center h-fulzl w-[200px]">
-      {(
-        fetchClientmaturitylevel?.data?.data &&
-        fetchClientmaturitylevel?.data?.data
-      )?.map((label: any, index: number) => {
-        return (
-          <div
-            key={index}
-            className="text-sm flex flex-col items-start relative  mt-10 h-6"
-          >
+      {fetchClientmaturitylevel?.data &&
+        fetchClientmaturitylevel?.data?.length > 0 &&
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        fetchClientmaturitylevel?.data?.map((label: any, index: number) => {
+          return (
             <div
-              style={{
-                backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
-              }}
-              className={`absolute left-0 h-full w-1/4 rounded-l-lg rounded-r-none`}
-            ></div>
-            <div className="rounded-r-lg mt-[2px] pl-2 z-50">
-              {label.maturityLevelName}
+              key={index}
+              className="text-sm flex flex-col items-start relative  mt-10 h-6"
+            >
+              <div
+                style={{
+                  backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
+                }}
+                className={`absolute left-0 h-full w-1/4 rounded-l-lg rounded-r-none`}
+              ></div>
+              <div className="rounded-r-lg mt-[2px] pl-2 z-50">
+                {label.maturityLevelName}
+              </div>
+              <div className="rounded-r-lg pl-2 ">
+                {label?.rangeStart} to {label?.rangeEnd}
+              </div>
             </div>
-            <div className="rounded-r-lg pl-2 ">
-              {label?.rangeStart} to {label?.rangeEnd}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 
