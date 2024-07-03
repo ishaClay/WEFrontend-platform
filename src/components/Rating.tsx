@@ -22,7 +22,7 @@ interface IconProps {
   color?: string;
 }
 
-const FullStar = ({ size = 24, color = "#000000" }: IconProps) => {
+const FullStar = ({ color = "#000000" }: IconProps) => {
   return (
     <div style={{ color: color }}>
       <svg
@@ -55,7 +55,7 @@ const HalfStar = ({ size = 24, color = "#000000" }: IconProps) => {
   );
 };
 
-const EmptyStar = ({ size = 24, color = "#000000" }: IconProps) => {
+const EmptyStar = ({ color = "#000000" }: IconProps) => {
   return (
     <div style={{ color: color }}>
       <svg

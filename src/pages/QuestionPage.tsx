@@ -25,14 +25,14 @@ import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Apply from "/assets/img/Apply.png";
-import Assess from "/assets/img/Assess.png";
-import Attainproficiency from "/assets/img/Attainproficiency.png";
+import apply from "@/assets/images/apply.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
 import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
-import Learn from "/assets/img/Learn.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
-import SetTargets from "/assets/img/SetTargets.png";
 import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 
 const QuestionPage = () => {
@@ -117,33 +117,28 @@ const QuestionPage = () => {
 
   const paths = [
     {
-      name: "Start",
-      img: Correct,
-      status: "checked",
-    },
-    {
       name: "Self-assess",
-      img: Assess,
+      img: selfAssess,
       status: "indeterminate",
     },
     {
       name: "Plan Action",
-      img: SetTargets,
+      img: planAction,
       status: "pending",
     },
     {
       name: "Develop",
-      img: Learn,
+      img: develop,
       status: "pending",
     },
     {
       name: " Apply",
-      img: Apply,
+      img: apply,
       status: "pending",
     },
     {
       name: "Advance Your Green",
-      img: Attainproficiency,
+      img: advanceGreen,
       status: "pending",
     },
   ];
@@ -322,10 +317,10 @@ const QuestionPage = () => {
                   />
                 ) : path.status === "indeterminate" ? (
                   <img
-                    src={Assess}
+                    src={path.img}
                     alt="img"
-                    width={70}
-                    height={70}
+                    width={59.6}
+                    height={59.6}
                     className="mt-[7px] pb-[15px]"
                   />
                 ) : (
@@ -347,7 +342,7 @@ const QuestionPage = () => {
               </div>
             );
           })}
-          <div className="absolute top-[30px] left-3 right-12 border-2 border-dashed border-[#585858] -z-10"></div>
+          <div className="absolute top-[30px] left-[30px] right-12 border-2 border-dashed border-[#585858] -z-10"></div>
         </div>
       </div>
       <div className="bg-[#E7E7E8]">

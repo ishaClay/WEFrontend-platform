@@ -8,11 +8,12 @@ import { enumUpadate } from "@/services/apiServices/enum";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Apply from "/assets/img/Apply.png";
-import Assess from "/assets/img/Assess.png";
-import Attainproficiency from "/assets/img/Attainproficiency.png";
+import apply from "@/assets/images/apply.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
 import Correct from "/assets/img/Correct.png";
-import Learn from "/assets/img/Learn.png";
 
 function MaturityLevelActionItem() {
   const navigate = useNavigate();
@@ -48,33 +49,28 @@ function MaturityLevelActionItem() {
 
   const paths = [
     {
-      name: "Start",
-      img: Correct,
-      status: "checked",
-    },
-    {
       name: "Self-assess",
-      img: Correct,
-      status: "checked",
-    },
-    {
-      name: "Plan Action",
-      img: Correct,
+      img: selfAssess,
       status: "indeterminate",
     },
     {
-      name: "Develop",
-      img: Learn,
+      name: "Plan Action",
+      img: planAction,
       status: "pending",
     },
     {
-      name: "Apply",
-      img: Apply,
+      name: "Develop",
+      img: develop,
+      status: "pending",
+    },
+    {
+      name: " Apply",
+      img: apply,
       status: "pending",
     },
     {
       name: "Advance Your Green",
-      img: Attainproficiency,
+      img: advanceGreen,
       status: "pending",
     },
   ];
@@ -102,10 +98,10 @@ function MaturityLevelActionItem() {
                     />
                   ) : path.status === "indeterminate" ? (
                     <img
-                      src={Assess}
+                      src={path.img}
                       alt="img"
-                      width={70}
-                      height={70}
+                      width={59.6}
+                      height={59.6}
                       className="mt-[7px]"
                     />
                   ) : (
@@ -128,7 +124,7 @@ function MaturityLevelActionItem() {
                   </p>
                 </div>
               ))}
-              <div className="absolute top-[47.5px] left-3 right-12 border-2  border-[#585858] -z-10"></div>
+              <div className="absolute top-[47.5px] left-[30px] right-12 border-2 border-dashed border-[#585858] -z-10"></div>
             </div>
           </div>
         </div>
