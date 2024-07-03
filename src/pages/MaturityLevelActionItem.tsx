@@ -1,3 +1,8 @@
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import apply from "@/assets/images/apply.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/comman/Loader";
@@ -8,11 +13,6 @@ import { enumUpadate } from "@/services/apiServices/enum";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import apply from "@/assets/images/apply.svg";
-import selfAssess from "@/assets/images/selfAssess.svg";
-import advanceGreen from "@/assets/images/advanceGreen.svg";
-import develop from "@/assets/images/develop.svg";
-import planAction from "@/assets/images/planAction.svg";
 import Correct from "/assets/img/Correct.png";
 
 function MaturityLevelActionItem() {
@@ -35,10 +35,14 @@ function MaturityLevelActionItem() {
   const path = 6 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem(
+        "path",
+        JSON.stringify(data.data.data?.query?.pathStatus)
+      );
     },
   });
 

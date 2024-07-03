@@ -50,12 +50,10 @@ function Header(props: headerProps) {
         navigate(`/trainer/dashboard`);
         break;
       case "3":
+        navigate(`/trainee/dashboard`);
         break;
       case "4":
-        break;
-      case "5":
-        break;
-      case "6":
+        navigate(`/employee/dashboard`);
         break;
 
       default:
@@ -103,9 +101,8 @@ function Header(props: headerProps) {
               <div className="flex items-center xl:gap-5 gap-3">
                 {((userToken &&
                   !!userData &&
-                  JSON.parse(userData)?.query?.pathstatus === "7") ||
-                  (JSON.parse(userData)?.query?.pathstatus === "3" &&
-                    JSON.parse(userData)?.query?.lastlogout !== null)) && (
+                  JSON.parse(userData)?.query?.pathStatus === "7") ||
+                  JSON.parse(userData)?.query?.pathStatus >= "3") && (
                   <PrimaryButton
                     onClick={handleGotoDashboard}
                     name="Go to Dashboard"

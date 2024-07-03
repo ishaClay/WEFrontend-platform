@@ -5,10 +5,7 @@ import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
-import {
-  fetchClientwiseMaturityLevel,
-  fetchmaturityLevel,
-} from "@/services/apiServices/maturityLevel";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
@@ -21,7 +18,7 @@ const maturityLevel = [
     maturityLevelName: "Introductory",
     rangeStart: 0,
     rangeEnd: 39.9,
-    color: "#FF5252",
+    color: "#C92C35",
   },
   {
     maturityLevelName: "Intermediate",
@@ -33,7 +30,7 @@ const maturityLevel = [
     maturityLevelName: "Advance",
     rangeStart: 70,
     rangeEnd: 100,
-    color: "#D6F5AC",
+    color: "#258483",
   },
 ];
 
@@ -57,11 +54,6 @@ const TeaserScore = () => {
     : userData?.query
     ? userData?.query?.id
     : userData?.id;
-
-  const { data: maturitylevel } = useQuery({
-    queryKey: [QUERY_KEYS.maturityLevel],
-    queryFn: () => fetchmaturityLevel(),
-  });
 
   const { data: fetchClientmaturitylevel } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
@@ -152,10 +144,9 @@ const TeaserScore = () => {
 
   const Labels = () => (
     <div className="flex flex-col justify-center h-fulzl w-[200px]">
-      {(fetchClientmaturitylevel?.data?.data &&
-      fetchClientmaturitylevel?.data?.data?.length > 0
-        ? fetchClientmaturitylevel?.data?.data
-        : maturitylevel?.data.data
+      {(
+        fetchClientmaturitylevel?.data?.data &&
+        fetchClientmaturitylevel?.data?.data
       )?.map((label: any, index: number) => {
         return (
           <div

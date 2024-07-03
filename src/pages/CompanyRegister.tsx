@@ -1,9 +1,9 @@
+import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
-import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
@@ -70,7 +70,7 @@ function CompanyRegister() {
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Email is required" }),
-    parentCompanyCounty: z.string().nullable(),
+    parentCompanyCounty: z.string().nullable().optional(),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -153,6 +153,10 @@ function CompanyRegister() {
       });
 
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
+      localStorage.setItem(
+        "path",
+        JSON.stringify(data.data.data?.query?.pathstatus)
+      );
 
       toast({ title: "Company update Successfully" });
       EnumUpadate();
@@ -169,10 +173,14 @@ function CompanyRegister() {
   const path = 3 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem(
+        "path",
+        JSON.stringify(data.data.data?.query?.pathStatus)
+      );
     },
   });
 
@@ -251,6 +259,7 @@ function CompanyRegister() {
                     return;
                   }}
                   value={companyNumberId || ""}
+                  isMendatory={true}
                 />
               </div>
               <PrimaryButton
@@ -270,6 +279,7 @@ function CompanyRegister() {
                     placeholder="Sample Consulting Company"
                     label="Name"
                     {...register("name")}
+                    isMendatory={true}
                   />
                   {errors.name && (
                     <ErrorMessage message={errors.name.message as string} />
@@ -281,6 +291,7 @@ function CompanyRegister() {
                     className="w-[241px] h-[46px]"
                     label="Address"
                     {...register("address")}
+                    isMendatory={true}
                   />
                   {errors.address && (
                     <ErrorMessage message={errors.address.message as string} />
@@ -289,7 +300,7 @@ function CompanyRegister() {
 
                 <div>
                   <Label className="mb-[8px]  font-bold text-[16px]">
-                    County
+                    County <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
                     option={countryOption || []}
@@ -314,6 +325,7 @@ function CompanyRegister() {
                       }
                       return;
                     }}
+                    isMendatory={true}
                     value={watch("averageNumberOfEmployees") || ""}
                   />
                   {errors.averageNumberOfEmployees && (
@@ -331,6 +343,7 @@ function CompanyRegister() {
                     className="w-[241px] h-[46px]"
                     label="Sector"
                     {...register("sector")}
+                    isMendatory={true}
                   />
                   {errors.sector && (
                     <ErrorMessage message={errors.sector.message as string} />
@@ -370,6 +383,7 @@ function CompanyRegister() {
                     label="Email Address"
                     {...register("email")}
                     disabled
+                    isMendatory={true}
                   />
                   {errors.email && (
                     <ErrorMessage message={errors.email.message as string} />
@@ -377,7 +391,7 @@ function CompanyRegister() {
                 </div>
 
                 <div>
-                  <InputWithLable
+                  {/* <InputWithLable
                     placeholder="John"
                     className="w-[241px] h-[46px]"
                     label="Parent Company County"
@@ -387,12 +401,31 @@ function CompanyRegister() {
                     <ErrorMessage
                       message={errors.parentCompanyCounty.message as string}
                     />
-                  )}
+                  )} */}
+                  <div>
+                    <Label className="mb-[8px]  font-bold text-[16px]">
+                      Parent Company County
+                    </Label>
+                    <SelectMenu
+                      option={countryOption || []}
+                      placeholder="Select your Parent county"
+                      className="w-[241px] h-[46px] mt-2"
+                      setValue={(data: string) =>
+                        setValue("parentCompanyCounty", data)
+                      }
+                      value={watch("parentCompanyCounty") || ""}
+                    />
+                    {errors.parentCompanyCounty && (
+                      <ErrorMessage
+                        message={errors.parentCompanyCounty.message as string}
+                      />
+                    )}
+                  </div>
                 </div>
 
                 <div className="w-[241px] ">
                   <label className="block font-bold text-[16px] mt-[2px] pb-[5px]">
-                    Sole Trader
+                    Sole Trader <span className="text-[#FF0000]">*</span>
                   </label>
 
                   <div className="flex items-center gap-[10px] h-[52px]">
@@ -421,11 +454,11 @@ function CompanyRegister() {
                 <div className="max-w-[296px] mx-auto mt-[60px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
-                    <Link to={"/privacypolicy"} className="text-color">
+                    <Link to={"/privacypolicy"} className="text-[#042937]">
                       Privacy Policy
                     </Link>{" "}
                     and{" "}
-                    <Link to={"/termsofservices"} className="text-color">
+                    <Link to={"/termsofservices"} className="text-[#042937]">
                       Terms of Service.
                     </Link>
                   </label>

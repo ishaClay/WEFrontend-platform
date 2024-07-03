@@ -17,10 +17,14 @@ function Assessment() {
 
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: "1" }, UserId),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem(
+        "path",
+        JSON.stringify(data.data.data?.query?.pathStatus)
+      );
     },
   });
   console.log("EnumUpadate", EnumUpadate);
@@ -39,6 +43,8 @@ function Assessment() {
           <img
             className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
             src="../assets/img/Group 1000001826.png"
+            alt="img"
+            loading="lazy"
           />
         </div>
 
@@ -53,7 +59,7 @@ function Assessment() {
 
             <img className="w-[380px]" src="../assets/img/Line 23.png" />
 
-            <p className="w-[525px] text-[16px] font-[400] font-[calibri] text-[#332626] leading-[17px] mt-[22px]">
+            <p className="w-[525px] text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
               Find how you score across 6 sustainability pillars with 30
               questions.
             </p>
@@ -66,7 +72,7 @@ function Assessment() {
               <div>
                 <div className="flex 2xl:gap-x-[42px] gap-x-[24px] items-center mt-[24px]">
                   <div className="flex flex-col gap-y-[16px]">
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         src={getImages("Environment", false)}
                         className=""
@@ -75,7 +81,7 @@ function Assessment() {
                       <p>Environment</p>
                     </div>
 
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         className=""
                         src={getImages("Social", false)}
@@ -84,7 +90,7 @@ function Assessment() {
                       <p>Social</p>
                     </div>
 
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         className=""
                         src={getImages("Economic", false)}
@@ -95,27 +101,29 @@ function Assessment() {
                   </div>
 
                   <div className="flex flex-col gap-y-[16px]">
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         className=""
-                        src={getImages("Strategy", false)}
+                        src={getImages("Strategic Intergration", false)}
                         alt="Strategy"
                       />
                       <p>Strategy</p>
                     </div>
 
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
-                        className="w-[26px]"
-                        src="../assets/img/Light On.png"
+                        className=""
+                        src={getImages("Technology & Innovation", false)}
+                        alt="Technology & Innovation"
                       />
                       <p>Technology & Innovation</p>
                     </div>
 
-                    <div className="flex gap-x-[10px] items-center">
+                    <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
-                        className="w-[26px]"
-                        src="../assets/img/Morale.png"
+                        className=""
+                        src={getImages("Governance", false)}
+                        alt="Governance"
                       />
                       <p>Governance</p>
                     </div>
@@ -124,14 +132,19 @@ function Assessment() {
               </div>
 
               <div>
-                <img src="../assets/img/Group 60.png" className="w-full" />
+                <img
+                  src="../assets/img/Group 60.png"
+                  className="w-full"
+                  alt="img"
+                  loading="lazy"
+                />
               </div>
             </div>
 
             <PrimaryButton
               onClick={handleAssesment}
               name="Start Me Now"
-              className="w-[266px] primary-background  h-[55px] mt-[24px] text-[20px] !font-calibri"
+              className="w-[266px] primary-background  h-[55px] mt-[57px] text-[20px] !font-abhaya"
             />
           </div>
         </div>

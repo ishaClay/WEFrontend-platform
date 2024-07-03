@@ -99,12 +99,8 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const {
-    data: filtermesuresdata,
-    refetch: refetchfiltermesuresdata,
-    isPending: measuresPending,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+  const { data: filtermesuresdata, isPending: measuresPending } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity }],
     queryFn: () =>
       filterMaturityMeasures(
         clientId as string,
@@ -131,10 +127,6 @@ function SelectLevel() {
       });
     }
   }, [maturitypillar]);
-
-  useEffect(() => {
-    refetchfiltermesuresdata();
-  }, [selectmaturity]);
 
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
     mutationFn: addMeasuresItems,
@@ -177,11 +169,6 @@ function SelectLevel() {
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
       updatePillarCheckbox(data.checked, data.id as string),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.maturitypillar],
-      });
-    },
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",

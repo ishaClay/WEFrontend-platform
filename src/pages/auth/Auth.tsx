@@ -54,16 +54,19 @@ function Auth() {
         break;
       case 2:
         navigate("/teaserscore");
+        navigate("/companyregister");
         break;
       case 3:
         navigate("/companyregister");
         break;
       case 4:
         localStorage.setItem("user", JSON?.stringify(data));
+        localStorage.setItem("path", JSON.stringify(data?.query?.pathstatus));
         navigate("/company/dashboard");
         break;
       default:
         localStorage.setItem("user", JSON?.stringify(data));
+        localStorage.setItem("path", JSON.stringify(data?.query?.pathstatus));
         navigate("/company/dashboard");
         break;
     }
@@ -98,6 +101,10 @@ function Auth() {
         // navigate("/savedassesment");
         dispatch(setUserData(user.id));
         localStorage.setItem("user", JSON.stringify(data.data.data));
+        localStorage.setItem(
+          "path",
+          JSON.stringify(data.data.data?.query?.pathstatus)
+        );
         dispatch(setCompanyId(data.data.data.query?.detailsid));
 
         // toast({
@@ -150,11 +157,10 @@ function Auth() {
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)
-          if (user.pathstatus !== "7") {
-            handleRedirect(parseInt(user.pathstatus), data.data.data);
+          if (user.pathstatus < "4") {
+            navigate("/savedassesment");
           } else {
-            navigate("/company/dashboard");
-            localStorage.setItem("user", JSON?.stringify(data.data.data));
+            handleRedirect(parseInt(user.pathstatus), data.data.data);
           }
 
           // }
@@ -196,7 +202,7 @@ function Auth() {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end text-color">
+            <div className="flex justify-end">
               <label>
                 Already have an account?{" "}
                 <Link to={"/register"} className="font-[700] text-[#042937]">
@@ -206,11 +212,11 @@ function Auth() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
-                <p className="text-[24px] font-[700] text-color mb-5">
+                <p className="text-[24px] font-[700] mb-5">
                   You’re most welcome in...
                 </p>
                 <InputWithLable
-                  className="w-full h-[52px] text-color mt-2"
+                  className="w-full h-[52px] mt-2"
                   placeholder="Enter Email"
                   {...register("email")}
                 />
@@ -218,14 +224,14 @@ function Auth() {
                   <ErrorMessage message={errors.email.message as string} />
                 )}
                 <PasswordInput
-                  className="w-full h-[52px] text-color mt-2"
+                  className="w-full h-[52px] mt-2"
                   placeholder="Password"
                   validationHandler={register("password")}
                 />
                 {errors.password && (
                   <ErrorMessage message={errors.password.message as string} />
                 )}
-                <ul className="mt-[24px] text-color">
+                <ul className="mt-[24px]">
                   <li>
                     <Link to="/forgot-password">Forgot password?</Link>
                   </li>
@@ -262,15 +268,18 @@ function Auth() {
             </form>
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
-                <li className="text-[#898989]">
+                <li className="text-[#898989] text-center">
                   Protected by reCAPTCHA and subject to the Skillnet{" "}
-                  <Link to="/privacypolicy" className="text-color font-bold">
+                  <Link
+                    to="/privacypolicy"
+                    className="text-[#042937] font-bold"
+                  >
                     Privacy Policy{" "}
                   </Link>{" "}
                   and{" "}
                   <Link
                     to={"/termsofservices"}
-                    className="text-color font-bold"
+                    className="text-[#042937] font-bold"
                   >
                     Terms of Service.
                   </Link>

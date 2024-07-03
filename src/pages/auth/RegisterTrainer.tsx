@@ -119,11 +119,13 @@ function RegisterTrainer() {
             <img
               className="max-w-full h-full object-cover"
               src="../assets/img/Group 1000001826.png"
+              alt="img"
+              loading="lazy"
             />
           </div>
 
           <div className="2xl:px-0 px-5 max-w-[550px] w-full mx-auto">
-            <div className="flex justify-end text-color">
+            <div className="flex justify-end">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
@@ -327,11 +329,11 @@ function RegisterTrainer() {
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
-                    <Link to="/privacypolicy" className="text-color">
+                    <Link to="/privacypolicy" className="text-[#042937]">
                       Privacy Policy{" "}
                     </Link>{" "}
                     and{" "}
-                    <Link to={"/termsofservices"} className="text-color">
+                    <Link to={"/termsofservices"} className="text-[#042937]">
                       Terms of Service.
                     </Link>
                   </label>

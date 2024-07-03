@@ -22,7 +22,7 @@ const maturityLevel = [
     maturityLevelName: "Beginning",
     rangeStart: 0,
     rangeEnd: 39.9,
-    color: "#FF5252",
+    color: "#C92C35",
   },
   {
     maturityLevelName: "Intermediate",
@@ -34,7 +34,7 @@ const maturityLevel = [
     maturityLevelName: "Advanced",
     rangeStart: 70,
     rangeEnd: 100,
-    color: "#D6F5AC",
+    color: "#258483",
   },
 ];
 
@@ -153,40 +153,42 @@ const MaturityLevelPage = () => {
         let colorClass, opacityClass;
         if (index === 0) {
           colorClass =
-            "bg-gradient-to-r from-red-500 via-red-500 to-transparent";
+            "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
           opacityClass = "bg-opacity-25";
         } else if (index === 1) {
           colorClass =
-            "bg-gradient-to-r from-yellow-500 via-yellow-500 to-transparent";
+            "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
           opacityClass = "bg-opacity-50";
         } else {
           colorClass =
-            "bg-gradient-to-r from-green-500 via-green-500 to-transparent";
+            "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
           opacityClass = "bg-opacity-75";
         }
         return (
           <div
             key={index}
-            className="text-sm flex items-center relative mb-10 h-6"
+            className="text-sm flex items-center justify-start relative mb-10 h-6"
           >
             <div
               className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
             ></div>
-            <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
+            <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
               {label}
             </div>
           </div>
         );
       })}
       <div className="sm:mb-[35px] mb-5">
-        <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px]">
+        <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
           Total Score -
-          <span className="ms-5 font-calibri font-bold text-[#3A3A3A] lg:text-[42px] text-[30px] leading-[52px]">
-            {allassessmant?.data?.data?.avTotalpoints}
-          </span>
-          <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
-            /{allassessmant?.data?.data?.avTotalmaxpoint}
-          </span>
+          <div className="flex items-center">
+            <span className="font-calibri font-bold text-[#3A3A3A] lg:text-[42px] text-[30px] leading-[52px]">
+              {allassessmant?.data?.data?.avTotalpoints}
+            </span>
+            <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+              /{allassessmant?.data?.data?.avTotalmaxpoint}
+            </span>
+          </div>
         </p>
       </div>
     </>
@@ -226,7 +228,11 @@ const MaturityLevelPage = () => {
                 </p>
               </div>
               <div className="sm:flex block items-center gap-7 lg:mt-10 mt-5">
-                <Button className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya sm:mb-0 mb-5">
+                <Button
+                  type="button"
+                  onClick={handleMaturity}
+                  className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya sm:mb-0 mb-5"
+                >
                   Build My Action Plan
                 </Button>
                 <Button className="bg-[#00778B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya">
@@ -584,14 +590,19 @@ const MaturityLevelPage = () => {
         </div>
       </div>
 
-      <div className="text-center mb-[60px]">
+      {/* <div className="text-center mb-[60px] mt-[30px]">
+        <p className="text-[#64A70B] font-abhaya pb-[24px] text-base font-bold">
+          Now...time to get a personalised action plan to advance your green
+          feet!
+        </p>
         <Button
+          type="button"
           onClick={handleMaturity}
           className="bg-[#64A70B] text-base w-[180px] font-bold h-12"
         >
-          Set targets
+          Get Your Action plan
         </Button>
-      </div>
+      </div> */}
 
       <div className="">
         <Footer />

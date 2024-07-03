@@ -119,6 +119,10 @@ function Register() {
         queryKey: [QUERY_KEYS.companyList],
       });
       localStorage.setItem("user", JSON?.stringify(data.data.data));
+      localStorage.setItem(
+          "path",
+          JSON.stringify(data.data.data?.query?.pathstatus)
+        );
       navigate("/assessment");
     },
     onError: (error: ErrorType) => {
@@ -204,14 +208,19 @@ function Register() {
       <div className="mainContailner">
         <div className="flex justify-center mt-[26px]">
           {selectedRole !== "company" ? (
-            <img src={RegisterSideImage} className="" alt="RegisterSideImage" />
+            <img
+              src={RegisterSideImage}
+              className=""
+              alt="RegisterSideImage"
+              loading="lazy"
+            />
           ) : (
-            <img src={SideImage} className="" alt="SideImage" />
+            <img src={SideImage} className="" alt="SideImage" loading="lazy" />
           )}
 
           <div className="w-full 2xl:px-0 px-5 mt-[33px] max-w-[515px] mx-auto flex flex-col justify-between">
             <div>
-              <div className="flex justify-end text-color">
+              <div className="flex justify-end">
                 <label>
                   Already have an account?{" "}
                   <Link to={"/auth"} className="font-[700] text-[#042937]">
@@ -223,7 +232,7 @@ function Register() {
               {selectedRole !== "company" ? (
                 <div className="h-[524px] relative mt-[92px]">
                   <div className="">
-                    <h3 className="text-[24px] font-[700] text-color mb-[40px] font-abhaya">
+                    <h3 className="text-[24px] font-[700] mb-[40px] font-abhaya">
                       Which best describes you?
                     </h3>
                     <img
@@ -232,7 +241,7 @@ function Register() {
                       alt="RunnerIcon"
                     />
                     <img className="" src="../assets/img/Line 23.png" />
-                    <p className="text-[16px] font-[400] text-color mt-3 font-abhaya">
+                    <p className="text-[16px] font-[400] mt-3 font-abhaya">
                       Select your role so we can get you to the right place.
                     </p>
                     <div className="flex gap-x-[40px] mt-[40px]">
@@ -322,7 +331,7 @@ function Register() {
                       <div className=" mt-[20px] flex gap-x-[40px]">
                         <button
                           type="submit"
-                          className="xl:w-[480px] w-[450px] h-[48px] bg-[#00778B] rounded-[4px] text-white"
+                          className="w-full h-[48px] bg-[#00778B] rounded-[4px] text-white"
                         >
                           Get OTP
                         </button>
@@ -404,12 +413,13 @@ function Register() {
 
             <div className="max-w-[296px] mx-auto mb-[37px] font-[400] text-[12px] text-center text-[#898989]">
               <label>
-                Protected by reCAPTCHA and subject to the Skillnet{" "}
-                <Link to={"/privacypolicy"} className="text-color">
+                Protected by reCAPTCHA and subject to the Skillnet
+                <br />
+                <Link to={"/privacypolicy"} className="text-[#042937]">
                   Privacy Policy
                 </Link>{" "}
                 and{" "}
-                <Link to={"/termsofservices"} className="text-color">
+                <Link to={"/termsofservices"} className="text-[#042937]">
                   Terms of Service.
                 </Link>
               </label>
@@ -422,7 +432,7 @@ function Register() {
         <Modal
           open={showOtpPopup}
           onClose={() => setShowOtpPopup(false)}
-          className="max-w-[550px]"
+          className="max-w-[550px] left-auto right-[80px]"
         >
           <div className="mb-[2px] mt-2 text-center font-abhaya">
             <h2 className="text-xl font-semibold">

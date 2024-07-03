@@ -58,7 +58,7 @@ function SavedAssesment() {
         navigate("/question");
         break;
       case 2:
-        navigate("/company/dashboard");
+        navigate("/teaserscore");
         break;
       case 3:
         navigate("/companyregister");
@@ -131,7 +131,7 @@ function SavedAssesment() {
                         <h4 className="mt-3">{category.pillarName}</h4>
 
                         <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {category?.progress} %
+                          {category?.progress.toFixed()} %
                         </span>
                       </div>
                     </div>

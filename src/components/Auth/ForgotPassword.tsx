@@ -75,7 +75,7 @@ const ForgotPassword = () => {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end text-color">
+            <div className="flex justify-end ">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">

@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import apply from "@/assets/images/apply.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
 import Footer from "@/components/Footer";
 import Loader from "@/components/comman/Loader";
 import Question from "@/components/comman/Question";
@@ -25,11 +30,6 @@ import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import apply from "@/assets/images/apply.svg";
-import selfAssess from "@/assets/images/selfAssess.svg";
-import advanceGreen from "@/assets/images/advanceGreen.svg";
-import develop from "@/assets/images/develop.svg";
-import planAction from "@/assets/images/planAction.svg";
 import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
@@ -65,7 +65,11 @@ const QuestionPage = () => {
   const path = 1 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      localStorage.setItem(
+        "path",
+        JSON.stringify(data.data.data?.query?.pathStatus)
+      );
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
@@ -274,7 +278,7 @@ const QuestionPage = () => {
 
   return (
     <div className="font-calibri font-normal">
-      <div className="h-[44px] bg-teal text-white flex justify-between items-center lg:pl-12 xl:pr-[180px] pr-[80px] px-4 text-lg leading-[21.97px]">
+      <div className="h-[44px] sticky top-0 max-h-screen z-30 w-full bg-teal text-white flex justify-between items-center lg:pl-12 xl:pr-[180px] pr-[80px] px-4 text-lg leading-[21.97px]">
         <div className="flex gap-[9px]">
           <button
             className="flex items-center gap-2"
@@ -345,89 +349,96 @@ const QuestionPage = () => {
           <div className="absolute top-[30px] left-[30px] right-12 border-2 border-dashed border-[#585858] -z-10"></div>
         </div>
       </div>
-      <div className="bg-[#E7E7E8]">
-        <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5">
-          <div className="flex gap-[30px] items-center justify-center">
-            {allPillar.map((category: string, index: number) => {
-              const pillarQuestions = question[category];
-              const pillarTotal = pillarQuestions ? pillarQuestions.length : 0;
-              const pillarAttempted = Array.isArray(pillarQuestions)
-                ? pillarQuestions.filter((que: QuestionType) =>
-                    que.options.some((opt) => opt.checked)
-                  ).length
-                : 0;
+      <div className="sticky top-[44px] max-h-[calc(100vh-164px)] z-30">
+        <div className="bg-[#E7E7E8]">
+          <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5">
+            <div className="flex gap-[30px] items-center justify-center">
+              {allPillar.map((category: string, index: number) => {
+                const pillarQuestions = question[category];
+                const pillarTotal = pillarQuestions
+                  ? pillarQuestions.length
+                  : 0;
+                const pillarAttempted = Array.isArray(pillarQuestions)
+                  ? pillarQuestions.filter((que: QuestionType) =>
+                      que.options.some((opt) => opt.checked)
+                    ).length
+                  : 0;
 
-              return (
-                <div
-                  key={index}
-                  className={`w-[169px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
-                    activePillar === category ? "bg-[#64A70B]" : "bg-[#EDF0F4]"
-                  }`}
-                  onClick={() => {
-                    dispatch(setActivePillar(category));
-                    handleSelected(category);
-                  }}
-                >
-                  <div className="flex gap-2">
-                    <div className="flex flex-col gap-1">
-                      <div className="w-8 h-8">
-                        <img
-                          src={getImages(category, activePillar !== category)}
-                          alt="img"
-                          className="w-full h-full"
-                        />
+                return (
+                  <div
+                    key={index}
+                    className={`w-[169px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
+                      activePillar === category
+                        ? "bg-[#64A70B]"
+                        : "bg-[#EDF0F4]"
+                    }`}
+                    onClick={() => {
+                      dispatch(setActivePillar(category));
+                      handleSelected(category);
+                    }}
+                  >
+                    <div className="flex gap-2">
+                      <div className="flex flex-col gap-1">
+                        <div className="w-8 h-8">
+                          <img
+                            src={getImages(category, activePillar !== category)}
+                            alt="img"
+                            className="w-full h-full"
+                          />
+                        </div>
+                        <p
+                          className={`text-nowrap font-bold pt-1 ${
+                            activePillar === category
+                              ? "text-white"
+                              : "text-[#3A3A3A]"
+                          }`}
+                        >
+                          {Math.floor((pillarAttempted / pillarTotal) * 100) ||
+                            0}{" "}
+                          %
+                        </p>
                       </div>
-                      <p
-                        className={`text-nowrap font-bold pt-1 ${
-                          activePillar === category
-                            ? "text-white"
-                            : "text-[#3A3A3A]"
-                        }`}
-                      >
-                        {Math.floor((pillarAttempted / pillarTotal) * 100) || 0}{" "}
-                        %
-                      </p>
+                      <div>
+                        <h2
+                          className={`leading-5 ${
+                            activePillar === category
+                              ? "text-white"
+                              : "text-[#3A3A3A]"
+                          }`}
+                        >
+                          {category}
+                        </h2>
+                        <p
+                          className={`text-[12px] leading-[14.65px] ${
+                            activePillar === category
+                              ? "text-white"
+                              : "text-[#848181]"
+                          }`}
+                        >
+                          My progress {pillarAttempted}/{pillarTotal}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h2
-                        className={`leading-5 ${
-                          activePillar === category
-                            ? "text-white"
-                            : "text-[#3A3A3A]"
-                        }`}
-                      >
-                        {category}
-                      </h2>
-                      <p
-                        className={`text-[12px] leading-[14.65px] ${
-                          activePillar === category
-                            ? "text-white"
-                            : "text-[#848181]"
-                        }`}
-                      >
-                        My progress {pillarAttempted}/{pillarTotal}
-                      </p>
-                    </div>
-                  </div>
 
-                  <Progress
-                    color={activePillar === category ? "#002A3A" : "#64A70B"}
-                    className={`${
-                      !(activePillar === category) && "!bg-[white]"
-                    } h-[4px]`}
-                    value={
-                      pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
-                    }
-                  />
-                </div>
-              );
-            })}
+                    <Progress
+                      color={activePillar === category ? "#002A3A" : "#64A70B"}
+                      className={`${
+                        !(activePillar === category) && "!bg-[white]"
+                      } h-[4px]`}
+                      value={
+                        pillarTotal ? (pillarAttempted / pillarTotal) * 100 : 0
+                      }
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       <form>
-        <div className="m-[24px] relative xl:flex block gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 sm:px-5 px-[15px] xl:mt-[89px] mt-5">
+        <div className="m-[24px] relative xl:flex block gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 sm:px-5 px-[15px] xl:mt-[89px] mt-5 z-10">
           <div className="xl:max-w-[871px] w-full">
             <div className="flex gap-12 flex-col w-full xl:max-w-[773px]">
               {isPending ? (
@@ -437,7 +448,7 @@ const QuestionPage = () => {
               )}
             </div>
           </div>
-          <div className="w-[271px] h-[calc(100vh-293px)] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto sticky top-5">
+          <div className="w-[271px] h-[calc(100vh-293px)] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto sticky top-[190px]">
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
               How far you are
             </h2>
