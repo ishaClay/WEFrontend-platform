@@ -58,7 +58,8 @@ const AllCourses = () => {
                 type="button"
                 onClick={() =>
                   navigate(
-                    `/${location?.pathname?.split("/")[1]}/create_course?tab=1`
+                    `/${location?.pathname?.split("/")[1]}/create_course?tab=0&step=0`
+                    // `/${location?.pathname?.split("/")?.[1]}/create_course/tab=0&step=0&version=${item?.version}`
                   )
                 }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"

@@ -32,7 +32,7 @@ const MyAction = () => {
       <h5 className="text-base text-black font-inter pb-4 font-medium">
         My Action Items
       </h5>
-      <div className="grid xl:grid-cols-4 grid-cols-2 gap-6">
+      <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
         {actionItems.map((data, index) => {
           return <MyActionItems data={data} key={index} />;
         })}

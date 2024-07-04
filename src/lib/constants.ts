@@ -54,7 +54,8 @@ export const QUERY_KEYS = {
   getSingleSupportTicket: "getSingleSupportTicket",
   courseTopFive: "courseTopFive",
   AssignTo: "AssignTo",
-  fetchDocument: "fetchDocument"
+  fetchDocument: "fetchDocument",
+  getSingleCourse: "getSingleCourse",
 };
 
 export const urlRegex =

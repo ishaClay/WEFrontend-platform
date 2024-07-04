@@ -56,10 +56,10 @@ const CourseAffiliations = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course created successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(

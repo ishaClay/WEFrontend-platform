@@ -3,10 +3,13 @@ import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { createCourseTwoPage } from "@/services/apiServices/courseManagement";
+import { QUERY_KEYS } from "@/lib/constants";
+import { createCourseTwoPage, fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
+import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
@@ -22,7 +25,7 @@ const Time = [
   },
 ];
 
-const type = [
+const isOnlineType = [
   {
     label: "Online",
     value: "0",
@@ -37,7 +40,7 @@ const type = [
   },
   {
     label: "Major",
-    value: "2",
+    value: "3",
   },
 ];
 
@@ -62,7 +65,7 @@ const durationType = [
 
 const schema = zod.object({
   time: zod.string().min(1, "Time is required"),
-  type: zod.string().min(1, "Type is required"),
+  isOnline: zod.string().min(1, "Type is required"),
   location: zod.string().min(1, "Location is required"),
   duration: zod
     .string()
@@ -85,7 +88,7 @@ const CourseLogistic = () => {
     mode: "all",
     defaultValues: {
       time: Time[0].value,
-      type: type[0].value,
+      isOnline: isOnlineType[0].value,
       location: "",
       duration: "",
       durationType: durationType[0].value,
@@ -96,13 +99,20 @@ const CourseLogistic = () => {
   const params = new URLSearchParams(search).get("id");
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
+  const courseId: string = location?.pathname?.split("/")[3];
+
+  const {data: getSingleCourse} = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, {courseId}],
+    queryFn: () => fetchSingleCourseById(courseId),
+    enabled: !!courseId,
+  })
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course created successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
@@ -121,10 +131,22 @@ const CourseLogistic = () => {
     },
   });
 
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      const data:CourseData | any = getSingleCourse?.data?.course;
+      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
+        setValue(key, data[key]);
+        setValue("time", getSingleCourse?.data?.course?.time?.toString());
+        setValue("isOnline", getSingleCourse?.data?.course?.isOnline?.toString());
+      });
+    }
+  }, [getSingleCourse]);
+  
+
   const onSubmit = (data: FieldValues) => {
     const payload = {
       time: +data?.time,
-      isOnline: +data?.type,
+      isOnline: +data?.isOnline,
       universityAddress: data?.location,
       duration: data?.duration + " " + data?.durationType,
     };
@@ -158,9 +180,9 @@ const CourseLogistic = () => {
           </h6>
           <div className="mb-[15px]">
             <SelectMenu
-              option={type}
-              setValue={(data: string) => setValue("type", data)}
-              value={watch("type")}
+              option={isOnlineType}
+              setValue={(data: string) => setValue("isOnline", data)}
+              value={watch("isOnline")}
               className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
             />
           </div>

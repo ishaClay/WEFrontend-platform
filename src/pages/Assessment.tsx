@@ -8,6 +8,8 @@ import { UserData } from "@/types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 
 function Assessment() {
   const navigate = useNavigate();
@@ -40,10 +42,16 @@ function Assessment() {
 
       <div className="flex flex-row gap-[48px] ">
         <div>
-          <img
+          {/* <img
             className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
             src="../assets/img/Group 1000001826.png"
             alt="img"
+            loading="lazy"
+          /> */}
+          <img
+            src={RegisterSideImage}
+            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
+            alt="RegisterSideImage"
             loading="lazy"
           />
         </div>
@@ -54,7 +62,7 @@ function Assessment() {
               <h3 className="font-abhaya text-[24px] font-[400]">
                 Perfect. Now to jump right in…
               </h3>
-              <img className="mb-[7px]" src="../assets/img/pngwing 25.png" />
+              <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
             </div>
 
             <img className="w-[380px]" src="../assets/img/Line 23.png" />

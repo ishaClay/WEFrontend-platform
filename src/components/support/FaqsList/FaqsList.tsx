@@ -1,4 +1,3 @@
-import EmployeeHeader from "@/components/EmployeeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
@@ -33,9 +32,6 @@ const FaqsList = () => {
 
   return (
     <div className="lg:bg-white bg-transparent">
-      <div>
-        <EmployeeHeader title="Supports /" subtitle="FAQ’s" />
-      </div>
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-5">
         <h6 className="font-calibri text-base font-bold">FAQ’s</h6>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
