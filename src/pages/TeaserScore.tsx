@@ -15,7 +15,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const findMaturityLevel = (score: number, fetchClientmaturitylevel: any) => {
   for (const level of fetchClientmaturitylevel) {
-    if (score >= level.rangeStart && score <= level.rangeEnd) {
+    if (score >= level?.rangeStart && score <= level?.rangeEnd) {
       return level;
     }
   }
@@ -69,10 +69,9 @@ const TeaserScore = () => {
   );
   const setScore = isNaN(score) ? 0 : score;
 
-  const currentLavel = findMaturityLevel(
-    Number(score),
-    fetchClientmaturitylevel?.data
-  );
+  const currentLavel =
+    fetchClientmaturitylevel &&
+    findMaturityLevel(Number(score), fetchClientmaturitylevel?.data);
 
   const data = {
     labels: [currentLavel?.maturityLevelName],

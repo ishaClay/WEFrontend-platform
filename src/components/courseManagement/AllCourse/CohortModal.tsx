@@ -25,8 +25,6 @@ const cohortTable = [
 ];
 
 const CohortModal = ({ open, setOpen }: CohortModalProps) => {
-  const [page, setPage] = useState(0);
-  console.log("page", page);
   const [date, setDate] = useState<Date | undefined>(new Date());
   // console.log("date", date, id);
 
@@ -40,7 +38,7 @@ const CohortModal = ({ open, setOpen }: CohortModalProps) => {
           </h5>
         );
       },
-      cell: ({ }) => {
+      cell: ({}) => {
         return <Checkbox className="w-6 h-6 border border-[#A3A3A3]" />;
       },
       meta: {
@@ -123,7 +121,7 @@ const CohortModal = ({ open, setOpen }: CohortModalProps) => {
           <h5 className="text-[15px] font-inter font-bold leading-5">Action</h5>
         );
       },
-      cell: ({ }) => {
+      cell: ({}) => {
         return (
           <div className="flex items-center gap-2">
             <Button
@@ -163,8 +161,6 @@ const CohortModal = ({ open, setOpen }: CohortModalProps) => {
         <DataTable
           columns={column}
           data={cohortTable}
-          totalPages={cohortTable?.length}
-          setPage={setPage}
           rounded={false}
           headerBackground={false}
         />

@@ -111,7 +111,7 @@ const CourseInformation = () => {
   });
 
   const onSubmit = (formdata: FieldValues) => {
-    const userId = getDataLocal?.query?.detailsid;
+    const userId = getDataLocal?.query?.id;
     const payload = {
       title: formdata?.title,
       institute: formdata?.instituteName,

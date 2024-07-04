@@ -235,7 +235,11 @@ const MaturityLevelPage = () => {
                 >
                   Build My Action Plan
                 </Button>
-                <Button className="bg-[#00778B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya">
+                <Button
+                  type="button"
+                  onClick={() => navigate("/company/dashboard")}
+                  className="bg-[#00778B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya"
+                >
                   Go To My Dashboard
                 </Button>
               </div>

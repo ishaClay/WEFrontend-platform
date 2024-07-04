@@ -9,26 +9,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CourseEntity } from "@/types/courseManagement";
+import { AllCoursesResult } from "@/types/courseManagement";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CohortModal from "./CohortModal";
-const selectOption = [
-  {
-    label: "V-01",
-    value: "v-01",
-  },
-  {
-    label: "V-02",
-    value: "v-02",
-  },
-  {
-    label: "V-03",
-    value: "v-03",
-  },
-];
 
-const ListView = ({ list }: { list: CourseEntity[] }) => {
+const ListView = ({ list }: { list: AllCoursesResult[] }) => {
   const [selectFilterValue, setSelectFilterValue] = useState("");
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
@@ -109,7 +95,7 @@ const ListView = ({ list }: { list: CourseEntity[] }) => {
                       + Cohort
                     </Button>
                     <SelectMenu
-                      option={selectOption}
+                      option={[]}
                       setValue={(data: string) => setSelectFilterValue(data)}
                       value={selectFilterValue}
                       className="max-w-[62px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"

@@ -15,3 +15,9 @@ export const fetchPillarCourse = (id: number) => {
   const url = `api/v1/course/list?page=1&limit=10&keyword=&pillarid=${id}`;
   return api({ url });
 };
+
+export const courseStatusUpdate = async (id: number) => {
+  const url = `api/v1/course/status/update/${id}`;
+  const res = await api({ url, method: "post" });
+  return res.data
+}

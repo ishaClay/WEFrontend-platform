@@ -1,4 +1,4 @@
-import { AllCourseResponse } from "@/types/courseManagement";
+import { AllCoursesResponse } from "@/types/courseManagement";
 import api from "./api";
 
 export interface courseRequest {
@@ -32,8 +32,8 @@ export interface courseRequestTwoPage {
 
 export const fetchEnrollmentRequest = (trainerID: string, enroll?: string) => {
   const url = `api/v1/course/course-enrollment-requests/${trainerID}`;
-  let params:any = {};
-  if(enroll){
+  const params: any = {};
+  if (enroll) {
     params["enroll"] = enroll
   }
   return api({ url, params });
@@ -46,7 +46,7 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
   return api({ url, data, method });
 };
 
-export const fetchCourseAllCourse = async (): Promise<AllCourseResponse> => {
+export const fetchCourseAllCourse = async (): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const res = await api({ url });
   console.log("res=====>", res.data);

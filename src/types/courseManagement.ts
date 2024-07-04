@@ -149,3 +149,130 @@ export interface Course {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface AllCoursesResponse {
+  data: (AllCoursesResult)[];
+  message: string;
+}
+export interface AllCoursesResult {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits?: string | null;
+  fetCredits?: string | null;
+  time: number;
+  isOnline: number;
+  universityAddress?: string | null;
+  duration?: string | null;
+  price?: number | null;
+  instituteOther?: string | null;
+  otherInstitutionName?: string | null;
+  description?: string | null;
+  bannerImage: string;
+  keys?: string | null;
+  courseData?: (CourseDataEntity | null)[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  trainerId?: TrainerId | null;
+  trainerCompanyId?: TrainerCompanyId | null;
+  version?: (VersionEntity | null)[] | null;
+  module?: (null)[] | null;
+}
+export interface CourseDataEntity {
+  pillarId: number;
+  maturityId: number;
+}
+export interface TrainerId {
+  id: number;
+  name?: null;
+  surname?: null;
+  gender?: null;
+  ageRange?: null;
+  email: string;
+  phone?: null;
+  currentHighestNFQ?: null;
+  employmentStatus: string;
+  foreignProvider?: null;
+  providerAddress?: null;
+  providerCity?: null;
+  providerCounty?: null;
+  attendedEvent?: null;
+  providerName?: null;
+  memberCompany?: null;
+  occupationalCategory?: null;
+  unemploymentTime?: null;
+  countyOfResidence?: null;
+  approved: boolean;
+  status: number;
+  rating: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface TrainerCompanyId {
+  id: number;
+  providerName: string;
+  providerType: string;
+  providerCity: string;
+  providerCounty: string;
+  contactSurname: string;
+  contactTelephone: string;
+  foreignProvider: boolean;
+  providerAddress: string;
+  providerCountry: string;
+  contactFirstName?: string | null;
+  providerNotes: string;
+  approved: boolean;
+  pillarLimit: number;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface VersionEntity {
+  id: number;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+  course: Course1;
+}
+export interface Course1 {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits?: string | null;
+  fetCredits?: string | null;
+  time: number;
+  isOnline: number;
+  universityAddress?: string | null;
+  duration?: string | null;
+  price?: number | null;
+  instituteOther?: string | null;
+  otherInstitutionName?: string | null;
+  description?: string | null;
+  bannerImage: string;
+  keys?: string | null;
+  courseData?: (CourseDataEntity1 | null)[] | null;
+  status: string;
+  deletedAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface CourseDataEntity1 {
+  pillarId: number;
+  maturityId: number;
+}

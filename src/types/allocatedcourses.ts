@@ -99,6 +99,7 @@ export interface CourseAllotedEntity {
   createdAt: string;
   updatedAt: string;
   courseVersion: CourseVersion;
+  employee: EmployeeEntity[];
 }
 export interface CourseVersion {
   id: number;

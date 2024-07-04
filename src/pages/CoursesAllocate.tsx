@@ -9,6 +9,12 @@ import CoursesViewAllocatePopup from "./CoursesViewAllocatePopup";
 // import { RootState } from "@/redux/store";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { getImages } from "@/lib/utils";
 import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 import {
@@ -222,28 +228,53 @@ function CoursesAllocate() {
                             </div>
                           </div>
                           <div className="flex items-center space-x-[-10px] mt-[10px]">
-                            {course?.data?.employee &&
-                              course?.data?.employee?.length > 0 &&
-                              course?.data?.employee?.map(
-                                (avatar, index: number) => (
-                                  <Avatar key={index}>
-                                    <AvatarImage
-                                      src={avatar?.profileImage as string}
-                                      alt="Avatar"
-                                    />
-                                    <AvatarFallback delayMs={600}>
-                                      {avatar?.name?.charAt(0)}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                )
-                              )}
-                            {course?.data?.employee &&
-                              course?.data?.employee?.length > 3 && (
-                                <div className="w-12 h-12 rounded-full bg-[#00778B] flex justify-center items-center border-2 border-[#1FA8DC] text-[white]">
+                            {courseallocate?.employee &&
+                              courseallocate?.employee?.length > 0 &&
+                              courseallocate?.employee
+                                .slice(0, 5)
+                                ?.map((avatar, index: number) => {
+                                  const color = [
+                                    "#cbd5e1",
+                                    "#bae6fd",
+                                    "#9ca3af",
+                                    "#bae6fd",
+                                    "#9ca3af",
+                                  ];
+                                  return (
+                                    <TooltipProvider>
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <Avatar key={index}>
+                                            <AvatarImage
+                                              src={
+                                                avatar?.profileImage as string
+                                              }
+                                              alt="Avatar"
+                                            />
+                                            <AvatarFallback
+                                              delayMs={600}
+                                              style={{
+                                                backgroundColor: color[index],
+                                              }}
+                                            >
+                                              {avatar?.name?.charAt(0)}
+                                            </AvatarFallback>
+                                          </Avatar>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          <p>{avatar?.name}</p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
+                                  );
+                                })}
+                            {courseallocate?.employee &&
+                              courseallocate?.employee?.length > 3 && (
+                                <div className="w-10 h-10 rounded-full bg-[#00778B] flex justify-center items-center text-[white]">
                                   +
                                   {Math.max(
                                     0,
-                                    course?.data?.employee.length - 3
+                                    courseallocate?.employee.length - 5
                                   )}
                                 </div>
                               )}

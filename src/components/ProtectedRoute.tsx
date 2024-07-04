@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const { toast } = useToast();
-  const userData = localStorage.getItem("path");
+  const userData = localStorage.getItem("user");
   const user = userData ? JSON.parse(userData) : null;
   const userToken = user?.accessToken || "";
   const location = useLocation();

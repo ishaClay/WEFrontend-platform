@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const fetchAllocatedCourseById = async (trainerId: string, enrollId: number) => {
-  const url = `https://weidevapi.clay.in/api/v1/course/course-enrollment-Accepted/${trainerId}/${enrollId}`;
+export const fetchAllocatedCourseById = async (enrollId: number) => {
+  const url = `api/v1/course/course-enrollmentById/${enrollId}`;
 
   const res = await api({ url });
   return res.data
@@ -13,3 +13,14 @@ export const fetchAllocatedCourse = async (id: number) => {
   const res = await api({ url });
   return res.data
 };
+
+
+export const allocateCourse = async (data: {
+  companyId: number,
+  enrollId: number,
+  employeeId: number[]
+}) => {
+  const url = `api/v1/course/enroll`;
+  const res = await api({ url, method: "post", data });
+  return res.data
+}
