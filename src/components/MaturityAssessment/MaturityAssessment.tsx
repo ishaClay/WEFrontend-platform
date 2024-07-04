@@ -1,5 +1,4 @@
 import { useState } from "react";
-import EmployeeHeader from "../EmployeeHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";

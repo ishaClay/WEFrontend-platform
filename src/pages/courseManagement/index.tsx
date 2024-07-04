@@ -4,8 +4,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum/Forum";
 import ModuleCreation from "./ModuleCreation";
-import BasicDetails from "./basicDetails";
 import { MoveLeft } from "lucide-react";
+import BasicDetails from "./BasicDetails";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];
@@ -49,7 +49,10 @@ const CourseManagement = () => {
               Forum
             </TabsTrigger>
           </TabsList>
-          <div className="flex pr-5 cursor-pointer" onClick={() => navigate("/trainer/allcourse")}>
+          <div
+            className="flex pr-5 cursor-pointer"
+            onClick={() => navigate("/trainer/allcourse")}
+          >
             <MoveLeft />
             <span className="text-base font-semibold pl-4">Back</span>
           </div>

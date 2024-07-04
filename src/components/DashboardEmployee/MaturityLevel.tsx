@@ -1,4 +1,9 @@
 import { Doughnut } from "react-chartjs-2";
+import Ellipse_one from "@/assets/images/Ellipse1.png";
+import Ellipse_two from "@/assets/images/Ellipse2.png";
+import Ellipse_three from "@/assets/images/Ellipse3.png";
+import Ellipse_four from "@/assets/images/Ellipse4.png";
+import Ellipse_five from "@/assets/images/Ellipse5.png";
 
 const MaturityLevel = () => {
   const data = {
@@ -53,7 +58,7 @@ const MaturityLevel = () => {
   };
 
   const Labels = () => (
-    <div className="left-0 top-0 h-full flex items-center gap-5">
+    <div className="left-0 top-0 h-full md:flex block items-center gap-5">
       {data.labels.map((label, index) => {
         let colorClass, opacityClass;
         if (index === 0) {
@@ -70,7 +75,7 @@ const MaturityLevel = () => {
           opacityClass = "bg-opacity-75";
         }
         return (
-          <div key={index} className="flex items-center relative">
+          <div key={index} className="flex items-center relative mt-4">
             <div
               className={`w-[60px] h-[27px] ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
             ></div>
@@ -90,15 +95,15 @@ const MaturityLevel = () => {
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
-      <div className="relative grid grid-cols-12 items-center">
-        <div className="xl:col-span-2 col-span-4">
-          <div className="w-52 h-52 relative">
+      <div className="relative grid grid-cols-12 items-center sm:gap-0 gap-4">
+        <div className="xl:col-span-2 sm:col-span-4 col-span-8">
+          <div className="md:w-52 w-44 h-44 md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
           </div>
         </div>
-        <div className="xl:col-span-10 col-span-8 border border-[#D9D9D9] rounded-xl h-[200px] flex items-center">
-          <div className="ps-10">
-            <div className="mb-5">
+        <div className="xl:col-span-10 sm:col-span-8 col-span-12 border border-[#D9D9D9] rounded-xl h-[200px] flex items-center relative overflow-hidden">
+          <div className="sm:ps-10 ps-6">
+            <div className="md:mb-5 mb-0">
               <p className="inline">Your overall sustainability Score -</p>{" "}
               <span className="font-poppins font-bold text-[#000000] leading-6">
                 Intermediate
@@ -108,6 +113,36 @@ const MaturityLevel = () => {
               <Labels />
             </div>
           </div>
+          <img
+            src={Ellipse_one}
+            alt="ellipse"
+            className="absolute xl:right-[10%] right-[5%] bottom-0 m-auto"
+          />
+          <img
+            src={Ellipse_two}
+            alt="ellipse"
+            className="absolute top-0 right-0"
+          />
+          <img
+            src={Ellipse_three}
+            alt="ellipse"
+            className="absolute top-0 right-0"
+          />
+          <img
+            src={Ellipse_four}
+            alt="ellipse"
+            className="absolute top-0 right-[20%]"
+          />
+          <img
+            src={Ellipse_five}
+            alt="ellipse"
+            className="absolute bottom-0 right-[20%]"
+          />
+          <img
+            src={Ellipse_five}
+            alt="ellipse"
+            className="absolute bottom-[-10px] right-[21%]"
+          />
         </div>
       </div>
     </div>

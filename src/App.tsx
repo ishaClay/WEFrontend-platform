@@ -112,6 +112,8 @@ import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
+import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
+import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -699,7 +701,6 @@ function App() {
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
           />
-
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
@@ -793,6 +794,11 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="add-new-tickets" element={<AddNewTicketsPage />} />
+          <Route
+            path="schedule-live-session"
+            element={<ScheduleLiveSession />}
+          />
+          <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
         </Route>

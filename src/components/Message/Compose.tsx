@@ -507,6 +507,7 @@ const Compose = () => {
           </CardFooter>
         </form>
       </Card>
+
       <Loading isLoading={isPending} />
     </>
   );

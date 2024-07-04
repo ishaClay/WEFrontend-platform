@@ -1,4 +1,3 @@
-import EmployeeHeader from "@/components/EmployeeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
