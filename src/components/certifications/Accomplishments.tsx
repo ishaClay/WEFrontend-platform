@@ -1,14 +1,10 @@
 import image from "@/assets/images/EmillaAnderson.png";
 import frameImage from "@/assets/images/Frame.png";
 import { Button } from "../ui/button";
-import EmployeeHeader from "../EmployeeHeader";
 const Accomplishments = () => {
   return (
     <>
       <div className="lg:bg-white bg-transparent rounded-xl">
-        <div>
-          <EmployeeHeader title="My accomplishments" />
-        </div>
         <div className="grid grid-cols-9 bg-white sm:p-5 p-[15px] rounded-lg sm:gap-5 gap-[15px]">
           <div className="xl:col-span-4 col-span-9">
             <div className="flex shadow rounded-lg border border-[#dddddd33] sm:p-5 p-[15px]">

@@ -1,14 +1,12 @@
 import { CalendarDays, Clock } from "lucide-react";
-import EmployeeHeader from "../EmployeeHeader";
 import Zoom_Video from "@/assets/images/zoom-video.png";
 import { Button } from "../ui/button";
 
 const LiveSession = () => {
   return (
     <div className="lg:bg-white bg-transparent min-h-[calc(100vh_-_130px)]">
-      <div className="md:p-5 p-4">
-        <EmployeeHeader title="My Courses" />
-        <div className="md:py-5 py-4">
+      <div className="md:p-5 p-4 md:pt-0 pt-0">
+        <div className="md:pb-5 pb-4">
           <h4 className="xl:text-[28px] md:text-[22px] text-[18px] font-bold font-nunito text-black">
             Wind energy basic course
           </h4>

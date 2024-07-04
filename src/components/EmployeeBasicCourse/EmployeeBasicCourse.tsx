@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Information from "./Information";
 import Module from "./Module";
-import EmployeeHeader from "../EmployeeHeader";
 import { Button } from "../ui/button";
 import { PencilLine } from "lucide-react";
 import { useState } from "react";
@@ -19,10 +18,7 @@ const EmployeeBasicCourse = () => {
       >
         <ReviewModal />
       </Modal>
-      <div className="lg:bg-white bg-transparent rounded-xl min-h-[calc(100vh_-_130px)]">
-        <div className="px-5 py-2.5 mb-5">
-          <EmployeeHeader title="My Courses" />
-        </div>
+      <div className="lg:bg-white bg-transparent rounded-b-xl min-h-[calc(100vh_-_130px)]">
         <div className="">
           <div className="sm:flex block justify-between items-center px-5">
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] font-bold font-nunito text-black sm:pb-0 pb-3">

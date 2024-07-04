@@ -340,7 +340,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "FAQ's",
+          label: "FAQs",
           link: "/employee/faqslist",
         },
         {

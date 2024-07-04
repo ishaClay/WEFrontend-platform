@@ -24,9 +24,6 @@ const MaturityAssessment = () => {
   const [selectAssessment, setSelectAssessment] = useState("");
   return (
     <div className="lg:bg-white bg-transparent rounded-xl">
-      <div className="px-[20px] py-[15px] sm:mb-5 mb-4">
-        <EmployeeHeader title="Maturity Assessment" />
-      </div>
       <div className="flex sm:px-5 px-4 sm:mb-5 mb-4">
         <div className="">
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
@@ -48,9 +45,6 @@ const MaturityAssessment = () => {
         </div>
       </div>
       <div className="bg-white rounded-xl">
-        <div className="px-5 py-2.5 sm:mb-5 mb-4">
-          <EmployeeHeader title="Maturity Assessment" />
-        </div>
         <div className="">
           <Tabs defaultValue="assessmentresult" className="w-full">
             <TabsList className="p-0">

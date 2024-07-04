@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import EmployeeHeader from "@/components/EmployeeHeader";
 import SupportRequestDetails from "./SupportRequestDetails";
 import SupportRequestTable from "./SupportRequestTable";
 
@@ -7,9 +6,6 @@ const SupportRequest = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   return (
     <div className="bg-white rounded-xl">
-      <div>
-        <EmployeeHeader title="Supports /" subtitle="Support request" />
-      </div>
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <div>
           <h6 className="font-calibri text-base font-bold">Support Request</h6>
