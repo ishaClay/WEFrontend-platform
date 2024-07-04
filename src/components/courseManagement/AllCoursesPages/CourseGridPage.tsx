@@ -285,7 +285,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                   <div className="col-span-2 mr-0 ml-auto">
                     <button
                       disabled={
-                        allcourse?.courseAlloted.some(
+                        allcourse?.courseAlloted?.some(
                           (item) =>
                             item.user.id === +user.UserId &&
                             item.course.id === allcourse?.id

@@ -32,17 +32,14 @@ const CourseBanner = () => {
 
   const { mutate: create, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course created successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${2}&id=${params}&version=${paramsversion}`,
-        {
-          replace: true,
-        }
+        `/trainer/create_course?tab=${1}`,
       );
     },
     onError: (error: ResponseError) => {

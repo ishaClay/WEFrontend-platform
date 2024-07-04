@@ -3,43 +3,42 @@ import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
 // import { urlRegex } from "@/lib/constants";
 import { fetchClientById } from "@/services/apiServices/client";
-import { createCourse } from "@/services/apiServices/courseManagement";
+import { createCourse, fetchSingleCourseById, updateCourse } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { ClientResponse } from "@/types/client";
+import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod
   .object({
     title: zod.string().min(1, "Title is required"),
-    instituteName: zod.string().min(1, "Institute name is required"),
+    institute: zod.string().min(1, "Institute name is required"),
     instituteWebsite: zod.string().url("Invalid website url"),
-    isFreeCourse: zod.boolean().optional(),
-    courseMaterialLink: zod
+    freeCourse: zod.boolean().optional(),
+    instituteWebsite2: zod
       .string()
-      .optional()
-      .refine((val) => {
-        return val === undefined || val === "";
-      }, "Invalid URL"),
-    coursePrise: zod
-      .string()
+      .optional(),
+    price: zod
+      .string({ errorMap: () => ({ message: "Invalid course price" }) })
       .refine(
-        (val) => val === undefined || !isNaN(parseFloat(val)),
+        (val: string | any) => val === undefined || !isNaN(+val),
         "Invalid course price"
       ),
-    discountProvideBy: zod.number().optional(),
+    discountApplicable: zod.number().optional(),
   })
   .refine(
     (data) => {
       // If isFreeCourse is true, coursePrise should be undefined or empty
-      if (data.isFreeCourse === true && data.coursePrise !== undefined) {
+      if (data.freeCourse && !data.price) {
         return false;
       }
       return true;
@@ -47,7 +46,7 @@ const schema = zod
     {
       message:
         "Course Price should be undefined or empty when the course is free",
-      path: ["coursePrise"], // The path to the field that caused the error
+      path: ["price"], // The path to the field that caused the error
     }
   );
 
@@ -59,8 +58,9 @@ const CourseInformation = () => {
   const [discount, setDiscount] = React.useState("");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const { clientId } = useSelector((state) => state.user);
+  const { clientId, UserId } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -72,15 +72,16 @@ const CourseInformation = () => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      isFreeCourse: false,
+      freeCourse: false,
     },
   });
-  const getDataLocal = JSON.parse(localStorage.getItem("user") as string);
   const search = window.location.search;
-  const params = new URLSearchParams(search).get("tab");
-  const coursePrise = watch("coursePrise") || 0;
+  const paramsTab = new URLSearchParams(search).get("tab");
+  const paramsVersion = new URLSearchParams(search).get("version");
+  const coursePrise = watch("price") || 0;
+  const courseId: string = location?.pathname?.split("/")[3];
   const { data } = useQuery<ClientResponse>({
-    queryKey: ["coursePrise", { clientId }],
+    queryKey: ["price", { clientId }],
     queryFn: () => fetchClientById(clientId),
   });
 
@@ -89,11 +90,11 @@ const CourseInformation = () => {
     onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course created successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${params}&step=${1}&id=${
+        `/trainer/create_course?tab=${paramsTab}&step=${1}&id=${
           data?.data?.data?.course?.id
         }&version=${data?.data?.data?.version}`,
         {
@@ -109,28 +110,80 @@ const CourseInformation = () => {
       });
     },
   });
+  
+
+  const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
+    mutationFn: (e:any) => updateCourse(e),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Course updated successfully",
+        variant: "success",
+      });
+      navigate(`/${
+          location?.pathname?.split("/")[1]
+        }/create_course/${location?.pathname?.split("/")[3]}?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
+        {
+          replace: true,
+        }
+      );
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error.data?.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const {data: getSingleCourse} = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, {courseId}],
+    queryFn: () => fetchSingleCourseById(courseId),
+    enabled: !!courseId,
+  })
+
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      const data:CourseData | any = getSingleCourse?.data?.course;
+      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
+        setValue(key, data[key]);
+        setValue("freeCourse", data.freeCourse === 1 ? true : false);
+      });
+      setIsFreeCourse(data.freeCourse === 1 ? true : false)
+      setProvideDisc(data.discout === 1 ? true : false);
+    }
+  }, [getSingleCourse]);
+  
 
   const onSubmit = (formdata: FieldValues) => {
-    const userId = getDataLocal?.query?.detailsid;
     const payload = {
       title: formdata?.title,
-      institute: formdata?.instituteName,
+      institute: formdata?.institute,
       instituteWebsite: formdata?.instituteWebsite,
-      instituteWebsite2: formdata?.courseMaterialLink,
+      instituteWebsite2: formdata?.instituteWebsite2,
       freeCourse: isFreeCourse ? 1 : 0,
-      price: +formdata?.coursePrise,
+      price: +formdata?.price,
       discountApplicable: +discount,
       discout: provideDisc ? 1 : 0,
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
-      userId: userId,
+      userId: UserId,
     };
-    mutate(payload);
+
+    if(courseId){
+      updateCourseFun({
+        payload,
+        id: courseId
+      })
+    }else{
+      mutate(payload);
+    }
   };
 
   useEffect(() => {
     if (isFreeCourse) {
-      clearErrors("coursePrise");
+      clearErrors("price");
     }
   }, [isFreeCourse, clearErrors]);
 
@@ -153,8 +206,8 @@ const CourseInformation = () => {
             labelClassName="font-calibri text-[16px] text-[#515151]"
             placeholder="Atlantic Technological University"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("instituteName")}
-            error={errors.instituteName?.message as string}
+            {...register("institute")}
+            error={errors.institute?.message as string}
           />
         </div>
         <div className="mb-[18px]">
@@ -173,8 +226,8 @@ const CourseInformation = () => {
             labelClassName="font-calibri text-[16px] text-[#515151]"
             placeholder="www.atlanticTechnologicalUniversity.com"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("courseMaterialLink")}
-            error={errors.courseMaterialLink?.message as string}
+            {...register("instituteWebsite2")}
+            error={errors.instituteWebsite2?.message as string}
           />
         </div>
         <div className="flex pb-7">
@@ -186,7 +239,7 @@ const CourseInformation = () => {
               checked={isFreeCourse}
               onCheckedChange={() => {
                 setIsFreeCourse(!isFreeCourse);
-                setValue("isFreeCourse", !isFreeCourse);
+                setValue("freeCourse", !isFreeCourse);
               }}
             />
           </div>
@@ -198,8 +251,8 @@ const CourseInformation = () => {
               placeholder="€50.00"
               className="w-[190px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
               disabled={isFreeCourse}
-              {...register("coursePrise")}
-              error={errors.coursePrise?.message as string}
+              {...register("price")}
+              error={!errors?.price?.ref?.value ? errors.price?.message as string : ""}
             />
           </div>
         </div>
@@ -226,7 +279,7 @@ const CourseInformation = () => {
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
               error={
-                discount > coursePrise
+                +discount > +coursePrise
                   ? "Discount is greater than course price"
                   : ""
               }
@@ -250,7 +303,7 @@ const CourseInformation = () => {
             type="submit"
             className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
           >
-            {isPending ? <Loader containerClassName="max-h-auto" /> : "Next"}
+            {isPending || isUpdatePending ? <Loader containerClassName="max-h-auto" /> : "Next"}
           </Button>
         </div>
       </form>

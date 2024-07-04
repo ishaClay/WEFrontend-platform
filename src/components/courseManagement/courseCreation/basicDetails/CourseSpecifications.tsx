@@ -4,25 +4,29 @@ import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
 import { getCertificate } from "@/services/apiServices/certificate";
 import {
   createCourseTwoPage,
   fetchNfqlLevel,
+  fetchSingleCourseById,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CertificateResponse } from "@/types/certificate";
+import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLevel: zod.string().min(1, "NQF level is required"),
+  nfqLeval: zod.string().min(1, "NQF level is required"),
   participants: zod.string().min(1, "Participants is required"),
-  ectsCredit: zod.string().min(1, "ECTS credit is required"),
-  fetCredit: zod.string().min(1, "FET credit is required"),
+  ectsCredits: zod.string().min(1, "ECTS credit is required"),
+  fetCredits: zod.string().min(1, "FET credit is required"),
 });
 
 const CourseSpecifications = () => {
@@ -41,6 +45,7 @@ const CourseSpecifications = () => {
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
+  const courseId: string = location?.pathname?.split("/")[3];
 
   const { data } = useQuery<CertificateResponse>({
     queryKey: ["certificate"],
@@ -52,12 +57,18 @@ const CourseSpecifications = () => {
     queryFn: fetchNfqlLevel,
   });
 
+  const {data: getSingleCourse} = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, {courseId}],
+    queryFn: () => fetchSingleCourseById(courseId),
+    enabled: !!courseId,
+  })
+
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course created successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
@@ -94,11 +105,22 @@ const CourseSpecifications = () => {
       };
     });
 
+
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      const data:CourseData | any = getSingleCourse?.data?.course;
+      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
+        setValue(key, data[key]);
+        setValue("nfqLeval", getSingleCourse?.data?.course?.nfqLeval?.id.toString());
+      });
+    }
+  }, [getSingleCourse]);
+
   const onSubmit = (data: FieldValues) => {
     const payload = {
-      nfqLeval: data?.nfqLevel,
-      ectsCredits: data?.ectsCredit,
-      fetCredits: data?.fetCredit,
+      nfqLeval: data?.nfqLeval,
+      ectsCredits: data?.ectsCredits,
+      fetCredits: data?.fetCredits,
       certificate: data?.participants,
     };
     mutate({
@@ -116,10 +138,11 @@ const CourseSpecifications = () => {
             Specify the NFQ level for this course (if applicable).
           </Label>
           <SelectMenu
+            {...register("nfqLeval")}
             option={nfqlLevelOption || []}
-            setValue={(e: string) => setValue("nfqLevel", e)}
-            value={watch("nfqLevel")}
-            placeholder="NQF Level 4"
+            setValue={(e: string) => setValue("nfqLeval", e)}
+            value={watch("nfqLeval")}
+            placeholder="Select NQF Level"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
           />
         </div>
@@ -129,8 +152,8 @@ const CourseSpecifications = () => {
             labelClassName="font-calibri md:text-[16px] text-[#515151]"
             placeholder="60 Credits"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("ectsCredit")}
-            error={errors.ectsCredit?.message as string}
+            {...register("ectsCredits")}
+            error={errors.ectsCredits?.message as string}
           />
         </div>
         <div className="mb-[18px]">
@@ -139,8 +162,8 @@ const CourseSpecifications = () => {
             labelClassName="font-calibri md:text-[16px] text-[#515151]"
             placeholder="60 Credits"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("fetCredit")}
-            error={errors.fetCredit?.message as string}
+            {...register("fetCredits")}
+            error={errors.fetCredits?.message as string}
           />
         </div>
         <div className="mb-[18px]">

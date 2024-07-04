@@ -33,7 +33,7 @@ const SelectMenu: FC<IProps> = ({
   containClassName,
 }) => {
   return (
-    <Select onValueChange={(e) => setValue(e)} value={value}>
+    <Select onValueChange={(e) => setValue(e)} value={value} defaultValue={value}>
       <SelectTrigger className={`bg-white outline-none ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

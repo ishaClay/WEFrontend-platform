@@ -13,6 +13,7 @@ import { CourseEntity } from "@/types/courseManagement";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CohortModal from "./CohortModal";
+import { useNavigate } from "react-router-dom";
 
 const selectOption = [
   {
@@ -30,6 +31,7 @@ const selectOption = [
 ];
 
 const GridView = ({ list }: { list: CourseEntity[] }) => {
+  const navigate = useNavigate();
   const [selectFilterValue, setSelectFilterValue] = useState("");
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
@@ -42,7 +44,7 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div className="grid xl:grid-cols-4 grid-cols-3 gap-5">
-        {list?.map((item, i) => {
+        {list?.map((item, i) => {          
           return (
             <div
               key={i}
@@ -50,8 +52,8 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
             >
               <div className="relative h-[190px] overflow-hidden">
                 <img
-                  src={item.course.bannerImage}
-                  alt={item.course.title}
+                  src={item?.course?.bannerImage}
+                  alt={item?.course?.title}
                   className="w-full"
                 />
                 <div className="absolute right-2 bottom-2">
@@ -62,17 +64,17 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
               </div>
               <div className="p-2">
                 <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] line-clamp-2">
-                  {item.course.title}
+                  {item?.course?.title}
                 </h5>
                 <div className="flex items-center justify-between mb-[11px]">
                   <div>
                     <h6 className="text-sm leading-5 font-normal font-nunito">
-                      Created By : {item.subtitle}
+                      Created By : {item?.subtitle}
                     </h6>
                   </div>
                   <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
                     <img src={StarImage} alt="" />
-                    {item.rating || 0}/5
+                    {item?.rating || 0}/5
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">
@@ -97,7 +99,7 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
                   PUBLISH
                 </Button>
                 <Button
-                  onClick={() => handleCohort(item.course.id)}
+                  onClick={() => handleCohort(item?.course.id)}
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
                   + Cohort
@@ -116,7 +118,8 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem className="flex items-center gap-2 font-nunito">
+                      <DropdownMenuItem className="flex items-center gap-2 font-nunito" 
+                      onClick={() => navigate(`/${location?.pathname?.split("/")?.[1]}/create_course/${item?.id}?tab=${0}&step=${0}&version=${item?.version}`) }>
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>

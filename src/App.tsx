@@ -758,6 +758,7 @@ function App() {
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="create_course" element={<CourseManagement />} />
+          <Route path="create_course/:courseId" element={<CourseManagement />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}
