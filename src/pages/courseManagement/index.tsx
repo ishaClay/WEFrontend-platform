@@ -5,7 +5,7 @@ import CoursePathway from "./CoursePathway";
 import Forum from "./Forum/Forum";
 import ModuleCreation from "./ModuleCreation";
 import { MoveLeft } from "lucide-react";
-import BasicDetails from "./BasicDetails";
+import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
   const tab = ["basic-details", "course-pathway", "module-creation", "forum"];

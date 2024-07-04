@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
-import SideImage from "@/assets/images/AuthSide.svg";
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { useToast } from "@/components/ui/use-toast";
@@ -120,9 +119,9 @@ function Register() {
       });
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       localStorage.setItem(
-          "path",
-          JSON.stringify(data.data.data?.query?.pathstatus)
-        );
+        "path",
+        JSON.stringify(data.data.data?.query?.pathstatus)
+      );
       navigate("/assessment");
     },
     onError: (error: ErrorType) => {
@@ -207,16 +206,12 @@ function Register() {
       <Header />
       <div className="mainContailner">
         <div className="flex justify-center mt-[26px]">
-          {selectedRole !== "company" ? (
-            <img
-              src={RegisterSideImage}
-              className=""
-              alt="RegisterSideImage"
-              loading="lazy"
-            />
-          ) : (
-            <img src={SideImage} className="" alt="SideImage" loading="lazy" />
-          )}
+          <img
+            src={RegisterSideImage}
+            className="xl:w-auto min-w-[530px] w-[530px] h-full"
+            alt="RegisterSideImage"
+            loading="lazy"
+          />
 
           <div className="w-full 2xl:px-0 px-5 mt-[33px] max-w-[515px] mx-auto flex flex-col justify-between">
             <div>
@@ -273,7 +268,8 @@ function Register() {
                     </h3>
                     <img
                       className="absolute right-0 top-[-20px]"
-                      src="../assets/img/pngwing 25.png"
+                      src={RunnerIcon}
+                      alt="RunnerIcon"
                     />
                     <img className="" src="../assets/img/Line 23.png" />
                     <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
@@ -346,7 +342,7 @@ function Register() {
                       <h3 className="font-[700] xl:text-[24px] text-[22px]">
                         Setting sail on your sustainability voyage
                       </h3>
-                      <img className="" src="../assets/img/pngwing 25.png" />
+                      <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
 

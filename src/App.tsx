@@ -14,7 +14,6 @@ import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
 import CertificationsPage from "./pages/CertificationsPage";
-import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
 import CourseEmrolledToEmployeePopup from "./pages/CourseEmrolledToEmployeePopup";
@@ -157,7 +156,6 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
-        <Route path="/company" element={<Company />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
