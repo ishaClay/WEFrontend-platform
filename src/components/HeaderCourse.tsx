@@ -1,46 +1,101 @@
-import { IoMdArrowDropdown } from "react-icons/io";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { VscBellDot } from "react-icons/vsc";
-import Logo1 from "../../public/assets/img/logo1.png";
-import Logo2 from "../assets/images/logo2.png";
+import { useMemo } from "react";
+import EmployeeHeader from "./EmployeeHeader";
+import MainHeader from "./MainHeader";
+import { useLocation } from "react-router-dom";
 function HeaderCourse() {
+  const location = useLocation();
+  const Role = location.pathname.split("/")[1];
+
+  console.log("Role", location);
+
+  const headerData = useMemo(() => {
+    const pathName = location.pathname.split("/")[2];
+    console.log("pathName", pathName);
+    let title = "";
+    let subtitle = "";
+    switch (pathName) {
+      case "dashboard":
+        title = "Dashboard";
+        subtitle = "";
+        break;
+
+      case "mycourses":
+        title = "My Courses";
+        subtitle = "";
+        break;
+
+      case "employee-basic-course":
+        title = "My Courses";
+        subtitle = "";
+        break;
+
+      case "live-session":
+        title = "My Courses /";
+        subtitle = "Social";
+        break;
+
+      case "maturityAssessment":
+        title = "Maturity Assessment / ";
+        subtitle = "Assessment Result";
+        break;
+
+      case "certifications":
+        title = "Certifications";
+        subtitle = "";
+        break;
+
+      case "my-accomplishments":
+        title = "My Accomplishments";
+        subtitle = "";
+        break;
+
+      case "faqslist":
+        title = "Supports / ";
+        subtitle = "FAQs";
+        break;
+
+      case "usermenual":
+        title = "Supports / ";
+        subtitle = "User Manual";
+        break;
+
+      case "support-training-documnet":
+        title = "Supports / ";
+        subtitle = "User Manual";
+        break;
+
+      case "support-request":
+        title = "Supports / ";
+        subtitle = "Support request";
+        break;
+
+      case "ticket-details-reply":
+        title = "Supports / ";
+        subtitle = "Support request";
+        break;
+
+      case "message":
+        title = "Message";
+        subtitle = "";
+        break;
+
+      default:
+        break;
+    }
+    return { title, subtitle };
+  }, [location]);
   return (
-    <header className="  bg-[#FAFAFA] h-[120px]">
-      <div className=" text-[#3A3A3A] font-[calibri] flex justify-between ">
-        <ul className="flex  font-[400px] text-[16px] gap-8 ">
-          <li className="mt-[48px] ml-[20px]">
-            <RxHamburgerMenu className="w-8 h-8" />
-          </li>
-
-          <li className="text-[#00778B] mt-[50px]">MyDashboard</li>
-          <li className="group flex  gap-[5px] mt-[50px]">
-            <span className="cursor-pointer">Our Courses</span>
-            <img
-              className="w-[6px] h-[6px] mt-[11px]"
-              src={Logo1}
-              alt="Vector 1"
-            />
-          </li>
-          <li className="mt-[50px] cursor-pointer">Testimonial</li>
-          <li className="mt-[50px] cursor-pointer">Blogs</li>
-          <li className="mt-[50px] cursor-pointer">Contact Us</li>
-        </ul>
-
-        <div className="flex ">
-          <div className="  text-[14px]  flex items-center space-x-2 relative">
-            {/* <img src={icon} alt="bell" /> */}
-            <VscBellDot className=" h-[50px] w-[20px] mr-[15px] " />
-
-            <span>Hi, Evergrow</span>
-            {/* <img className="  w-[11px] h-[15px] text-[#3A3A3A]" src="../assets/img/Dropdown.png" alt="Dropdown" /> */}
-            <IoMdArrowDropdown className=" w-[20px] h-[20px] mt-[2px] " />
-          </div>
-          <div className="ml-[10px] mt-[14px]">
-            <img className="  w-[136px] h-[105px]" src={Logo2} alt="Logo 2" />
-          </div>
-        </div>
+    <>
+      <div className={`${Role === "employee" ? "hidden" : "block"}`}>
+        <MainHeader />
       </div>
-    </header>
+      <div className={`${Role === "employee" ? "block" : "hidden"}`}>
+        <EmployeeHeader
+          title={headerData?.title}
+          subtitle={headerData?.subtitle}
+        />
+      </div>
+    </>
   );
 }
 

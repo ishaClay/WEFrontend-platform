@@ -13,7 +13,7 @@ type liveSessionItemsProps = {
 
 const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
   return (
-    <div className="col-span-1 p-5 shadow rounded-md">
+    <div className="col-span-1 md:p-5 p-4 shadow rounded-md">
       <div className="flex items-center">
         <div className="">
           <div className="rounded-md overflow-hidden min-w-20 min-h-20 w-20 h-20">
@@ -23,11 +23,11 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
             JOIN <ArrowRight width={18} />
           </Button>
         </div>
-        <div className="ps-5">
-          <h5 className="text-base font-medium font-inter text-[#1D2026] pb-2">
+        <div className="md:ps-5 ps-3">
+          <h5 className="md:text-base text-sm font-medium font-inter text-[#1D2026] pb-2">
             {data.title}
           </h5>
-          <h6 className="text-[#1D2026] text-sm font-normal font-inter pb-2">
+          <h6 className="text-[#1D2026] md:text-sm text-xs font-normal font-inter pb-2">
             {data.subTitle}
           </h6>
           <h6 className="flex items-center text-xs text-[#666666] pb-1">

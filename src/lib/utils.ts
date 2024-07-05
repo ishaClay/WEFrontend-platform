@@ -73,7 +73,7 @@ export const sidebarLayout = {
           link: "/trainer/enrolledcourses",
         },
         {
-          label: "Erolled Courses",
+          label: "All Courses",
           link: "/trainer/allcourse",
         },
         {
@@ -340,7 +340,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "FAQ's",
+          label: "FAQs",
           link: "/employee/faqslist",
         },
         {
@@ -492,3 +492,12 @@ export const fileValidation = (
     return false;
   }
 };
+
+export const getRandomHexColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}

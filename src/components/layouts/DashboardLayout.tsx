@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
 
-interface SidebarItem {
+export interface SidebarItem {
   label: string;
   Icon: IconType;
   link: string;
@@ -18,6 +18,8 @@ interface SidebarItem {
 const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  const location = window.location.pathname;
+  const Role = location.split("/")[1];
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
@@ -39,13 +41,19 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex bg-[#F5F7FF] overflow-hidden">
-      <div >
+      <div className="lg:block hidden">
         <Sidebar sidebarItems={data} />
       </div>
-      <div className="w-full">
+      <div className="w-full m-5">
         <HeaderCourse />
-        <div className="p-4 ">
-          <div className="h-[calc(100vh-152px)] overflow-auto">
+        <div>
+          <div
+            className={`${
+              Role === "employee"
+                ? "h-[calc(100vh-110px)]"
+                : "h-[calc(100vh-152px)]"
+            } overflow-auto`}
+          >
             <Outlet />
           </div>
         </div>

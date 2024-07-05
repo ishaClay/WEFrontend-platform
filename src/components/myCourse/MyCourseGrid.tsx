@@ -19,16 +19,20 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
     <div>
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden rounded-t-lg">
-          <img src={grid.image} alt="" className="h-[231px] w-full" />
+          <img
+            src={grid.image}
+            alt=""
+            className="sm:h-[231px] h-[180px] w-full"
+          />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
-            <Button className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]">
+            <Button className="bg-[#00778B] text-white font-bold font-calibri sm:text-base text-sm rounded-lg shadow sm:py-[12px] py-[8px] sm:px-[22px] px-[18px] h-auto">
               Continue
             </Button>
           </div>
         </div>
-        <div className="xl:p-5 p-4 pt-4">
+        <div className="xl:p-5 sm:p-4 p-[12px] pt-[15px]">
           <div>
-            <p className="text-base font-medium font-inter leading-6 mb-2 line-clamp-1">
+            <p className="sm:text-base text-sm font-medium font-inter sm:leading-6 leading-[22px] mb-2 line-clamp-1">
               {grid.title}
             </p>
           </div>

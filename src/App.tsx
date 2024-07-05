@@ -14,7 +14,6 @@ import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
 import AssessmentResult from "./pages/AssessmentResult";
 import CertificationsPage from "./pages/CertificationsPage";
-import Company from "./pages/Company";
 import CompanyRegister from "./pages/CompanyRegister";
 import Compose from "./pages/Compose";
 import CourseEmrolledToEmployeePopup from "./pages/CourseEmrolledToEmployeePopup";
@@ -112,6 +111,8 @@ import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
+import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
+import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -155,7 +156,6 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
-        <Route path="/company" element={<Company />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
@@ -699,7 +699,6 @@ function App() {
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
           />
-
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
@@ -759,6 +758,7 @@ function App() {
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="create_course" element={<CourseManagement />} />
+          <Route path="create_course/:courseId" element={<CourseManagement />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}
@@ -793,6 +793,11 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="add-new-tickets" element={<AddNewTicketsPage />} />
+          <Route
+            path="schedule-live-session"
+            element={<ScheduleLiveSession />}
+          />
+          <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
         </Route>

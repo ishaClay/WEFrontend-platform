@@ -13,6 +13,11 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import apply from "@/assets/images/apply.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
 import Header from "@/components/Header";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
@@ -37,11 +42,6 @@ import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import apply from "@/assets/images/apply.svg";
-import selfAssess from "@/assets/images/selfAssess.svg";
-import advanceGreen from "@/assets/images/advanceGreen.svg";
-import develop from "@/assets/images/develop.svg";
-import planAction from "@/assets/images/planAction.svg";
 import Correct from "/assets/img/Correct.png";
 
 interface PillerItem {
@@ -99,8 +99,8 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const { data: filtermesuresdata, isPending: measuresPending } = useQuery({
-    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity }],
+  const { data: filtermesuresdata, isLoading: measuresPending } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
     queryFn: () =>
       filterMaturityMeasures(
         clientId as string,
@@ -111,7 +111,7 @@ function SelectLevel() {
     enabled: !!selectmaturity && !!pid,
   });
 
-  console.log("isPending", isPending);
+  console.log("isPending", measuresPending);
 
   useEffect(() => {
     if (maturitypillar?.data?.data?.length > 0) {
@@ -658,7 +658,7 @@ function SelectLevel() {
                     Save
                   </Button>
                   <Button
-                    type="submit"
+                    type="button"
                     className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
                   >
                     Close

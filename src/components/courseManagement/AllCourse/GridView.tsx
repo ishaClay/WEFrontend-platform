@@ -9,34 +9,57 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CourseEntity } from "@/types/courseManagement";
-import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { AllCoursesResult } from "@/types/courseManagement";
+import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CohortModal from "./CohortModal";
 
-const selectOption = [
-  {
-    label: "V-01",
-    value: "v-01",
-  },
-  {
-    label: "V-02",
-    value: "v-02",
-  },
-  {
-    label: "V-03",
-    value: "v-03",
-  },
-];
+// const selectOption = [
+//   {
+//     label: "V-01",
+//     value: "v-01",
+//   },
+//   {
+//     label: "V-02",
+//     value: "v-02",
+//   },
+//   {
+//     label: "V-03",
+//     value: "v-03",
+//   },
+// ];
 
-const GridView = ({ list }: { list: CourseEntity[] }) => {
+const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const [selectFilterValue, setSelectFilterValue] = useState("");
+  // const [version, setVersion] = useState<{id: number | version: number}>([]);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
+  // const queryClient = useQueryClient();
   const handleCohort = (id: any) => {
     setCohort(true);
     setCourse(id);
   };
+
+  console.log("list", list);
+
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: courseStatusUpdate,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+  //     toast({
+  //       title: "Success",
+  //       description: "Course Published successfully",
+  //       variant: "success",
+  //     });
+  //   },
+  //   onError: (error) => {
+  //     toast({
+  //       title: "Error",
+  //       description: error.message,
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
   return (
     <>
@@ -50,37 +73,40 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
             >
               <div className="relative h-[190px] overflow-hidden">
                 <img
-                  src={item.course.bannerImage}
-                  alt={item.course.title}
+                  src={item.bannerImage}
+                  alt={item.title}
                   className="w-full"
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    Published
+                    {item.status}
                   </Badge>
                 </div>
               </div>
               <div className="p-2">
                 <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] line-clamp-2">
-                  {item.course.title}
+                  {item.title}
                 </h5>
                 <div className="flex items-center justify-between mb-[11px]">
                   <div>
                     <h6 className="text-sm leading-5 font-normal font-nunito">
-                      Created By : {item.subtitle}
+                      Created By :{" "}
+                      {item.trainerId
+                        ? item.trainerId?.name
+                        : item.trainerCompanyId?.providerName || "-"}
                     </h6>
                   </div>
                   <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
-                    <img src={StarImage} alt="" />
-                    {item.rating || 0}/5
+                    <img src={StarImage} alt="" className="pb-1" />
+                    0/5
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">
                   <h5 className="text-[14px] font-nunito">
-                    Module : {item?.data?.module?.length || 0}
+                    Module : {item?.module?.length || 0}
                   </h5>
-                  <p className="text-[14px] font-nunito">
-                    Duration : {item?.course?.duration || "-"}
+                  <p className="text-[14px] font-nunito min-w-[108px]">
+                    Duration : {item?.duration || "--"}
                   </p>
                 </div>
                 <div className="flex items-center justify-between">
@@ -93,17 +119,20 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
                 </div>
               </div>
               <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] py-[9px] xl:px-[13px] px-1 border-t">
-                <Button className="max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full">
+                <Button
+                  disabled={item.status === "PUBLISHED"}
+                  className="max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
+                >
                   PUBLISH
                 </Button>
                 <Button
-                  onClick={() => handleCohort(item.course.id)}
+                  onClick={() => handleCohort(item.id)}
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
                   + Cohort
                 </Button>
                 <SelectMenu
-                  option={selectOption}
+                  option={[]}
                   setValue={(data: string) => setSelectFilterValue(data)}
                   value={selectFilterValue}
                   containClassName="max-w-[62px]"
@@ -116,6 +145,10 @@ const GridView = ({ list }: { list: CourseEntity[] }) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
+                      <DropdownMenuItem className="flex items-center gap-2 font-nunito">
+                        <Copy className="w-4 h-4" />
+                        <span>Copy</span>
+                      </DropdownMenuItem>
                       <DropdownMenuItem className="flex items-center gap-2 font-nunito">
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>

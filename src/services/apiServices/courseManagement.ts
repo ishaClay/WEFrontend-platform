@@ -1,5 +1,6 @@
-import { AllCourseResponse } from "@/types/courseManagement";
+import { AllCoursesResponse } from "@/types/courseManagement";
 import api from "./api";
+import { GetSingleCourseByIdType } from "@/types/course";
 
 export interface courseRequest {
   title: string;
@@ -32,8 +33,8 @@ export interface courseRequestTwoPage {
 
 export const fetchEnrollmentRequest = (trainerID: string, enroll?: string) => {
   const url = `api/v1/course/course-enrollment-requests/${trainerID}`;
-  let params:any = {};
-  if(enroll){
+  const params: any = {};
+  if (enroll) {
     params["enroll"] = enroll
   }
   return api({ url, params });
@@ -46,7 +47,7 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
   return api({ url, data, method });
 };
 
-export const fetchCourseAllCourse = async (): Promise<AllCourseResponse> => {
+export const fetchCourseAllCourse = async (): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const res = await api({ url });
   console.log("res=====>", res.data);
@@ -55,7 +56,7 @@ export const fetchCourseAllCourse = async (): Promise<AllCourseResponse> => {
 };
 
 export const createCourse = (data: courseRequest) => {
-  const url = `api/v1/course/create-course/`;
+  const url = `api/v1/course/create-course`;
   const method = "post";
   return api({ url, data, method });
 }
@@ -71,4 +72,17 @@ export const fetchNfqlLevel = async () => {
   const method = "get";
   const res = await api({ url, method });
   return res.data
+}
+
+export const fetchSingleCourseById = async (id?: string): Promise<GetSingleCourseByIdType> => {
+  const url = `api/v1/course/get/${id}`
+  const res = await api({ url });
+  return res.data
+}
+
+
+export const updateCourse = (data: { payload: courseRequest, id: string }) => {
+  const url = `api/v1/course/update-course/${data?.id}`;
+  const method = "put";
+  return api({ url, data: data?.payload, method });
 }

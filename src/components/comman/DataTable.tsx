@@ -33,7 +33,7 @@ interface DataTableProps<TData, TValue> {
   pagination?: PaginationState;
   totalPages?: number;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setPage?: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
   searchFilter?: (e: string) => void;
   rounded?: boolean;

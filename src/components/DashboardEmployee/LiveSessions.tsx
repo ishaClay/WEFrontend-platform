@@ -37,7 +37,7 @@ const LiveSessions = () => {
           View all
         </Button>
       </div>
-      <div className="grid xl:grid-cols-3 grid-cols-2 gap-6">
+      <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
         {liveSessionItems.map((data, index) => {
           return <LiveSessionsItems data={data} key={index} />;
         })}

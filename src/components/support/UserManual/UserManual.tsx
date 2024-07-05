@@ -1,4 +1,3 @@
-import EmployeeHeader from "@/components/EmployeeHeader";
 import UserManualList from "./UserManualList";
 
 const UserManual = () => {
@@ -51,9 +50,6 @@ const UserManual = () => {
   ];
   return (
     <div className="bg-white rounded-md">
-      <div>
-        <EmployeeHeader title="Supports /" subtitle="User Manual" />
-      </div>
       <h6 className="text-base font-calibri font-bold leading-5 py-5 px-7 border-b border-[#D9D9D9]">
         User Manual
       </h6>

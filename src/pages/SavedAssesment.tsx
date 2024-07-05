@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { enumApi } from "@/services/apiServices/enum";
@@ -10,6 +11,7 @@ import { getPillerWiseProgress } from "@/services/apiServices/pillar";
 import { PillerWiseProgressResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 
 function SavedAssesment() {
   const navigate = useNavigate();
@@ -83,19 +85,25 @@ function SavedAssesment() {
       <Header />
       <div className="flex flex-row xl:gap-[48px] gap-5">
         <div>
-          <img
+          {/* <img
             className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
             src="../assets/img/Group 1000001826.png"
+          /> */}
+          <img
+            src={RegisterSideImage}
+            className="xl:min-w-[590px] min-w-[490px] w-full h-full"
+            alt="RegisterSideImage"
+            loading="lazy"
           />
         </div>
         <div className="w-full xl:mb-[100px] mb-0">
-          <div className="mt-[100px] xl:mb-0 mb-[100px]">
+          <div className="xl:mt-[100px] xl:mb-0 mb-[30px]">
             <div className=" w-[430px] ">
               <div className="flex items-end justify-between gap-x-[14px]">
                 <h3 className="font-abhaya text-[24px] font-[400]">
                   Why, nice to have you back
                 </h3>
-                <img className="mb-[7px]" src="../assets/img/pngwing 25.png" />
+                <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
               </div>
               <img src="../assets/img/Line 23.png" />
             </div>
@@ -104,11 +112,11 @@ function SavedAssesment() {
               There's just some quenstions lefts to get your Sustainability
               Score. but you're merrily on the way there...
             </p>
-            <p className="text-[Calibri] font-abhaya text-[#3A3A3A mt-[50px] text-[24px]">
+            <p className="text-[Calibri] font-abhaya text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
               {" "}
               What's left for you to complete:
             </p>
-            <div className="pt-8 pl-[px] pb-5 flex flex-wrap gap-5">
+            <div className="xl:pt-8 pt-4 pl-[px] pb-5 flex flex-wrap gap-5">
               {isPending ? (
                 <Loader />
               ) : (
@@ -119,16 +127,18 @@ function SavedAssesment() {
                     <div className="">
                       <div
                         key={index}
-                        className="border border-solid border-[#D9D9D9] w-[223.4px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                        className="border border-solid border-[#D9D9D9] xl:w-[223.4px] w-[150px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
                       >
                         <div>
                           <img
                             src={getImages(category.pillarName)}
                             alt="img"
-                            className="w-[52px] h-[52px]"
+                            className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
                           />
                         </div>
-                        <h4 className="mt-3">{category.pillarName}</h4>
+                        <h4 className="xl:text-[16px] text-[14px] mt-3 text-center min-h-[42px]">
+                          {category.pillarName}
+                        </h4>
 
                         <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
                           {category?.progress.toFixed()} %
