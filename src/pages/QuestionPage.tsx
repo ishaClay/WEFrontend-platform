@@ -530,7 +530,9 @@ const QuestionPage = () => {
               <Button
                 className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
                 onClick={handleSubmit}
-                disabled={totalAttemptedQuestions !== totalQuestions}
+                disabled={
+                  totalAttemptedQuestions !== totalQuestions || isLoading
+                }
               >
                 Submit
               </Button>
