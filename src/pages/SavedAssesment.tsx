@@ -1,9 +1,10 @@
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
-import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { enumApi } from "@/services/apiServices/enum";
@@ -11,7 +12,6 @@ import { getPillerWiseProgress } from "@/services/apiServices/pillar";
 import { PillerWiseProgressResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 
 function SavedAssesment() {
   const navigate = useNavigate();
@@ -136,7 +136,7 @@ function SavedAssesment() {
                             className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
                           />
                         </div>
-                        <h4 className="xl:text-[16px] text-[14px] mt-3 text-center min-h-[42px]">
+                        <h4 className="xl:text-[16px] text-[14px] mt-3 text-center xl:min-h-[auto] min-h-[42px]">
                           {category.pillarName}
                         </h4>
 

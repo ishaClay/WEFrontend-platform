@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CohortModal from "./CohortModal";
 
 // const selectOption = [
@@ -29,18 +29,39 @@ import CohortModal from "./CohortModal";
 //   },
 // ];
 
+interface VersionProps {
+  id: number;
+  versionId: number;
+  status: string;
+}
+
 const GridView = ({ list }: { list: AllCoursesResult[] }) => {
-  const [selectFilterValue, setSelectFilterValue] = useState("");
-  // const [version, setVersion] = useState<{id: number | version: number}>([]);
+  const [versionData, setVersionData] = useState<VersionProps[]>([]);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
   // const queryClient = useQueryClient();
-  const handleCohort = (id: any) => {
+  const handleCohort = (id: number) => {
     setCohort(true);
     setCourse(id);
   };
 
   console.log("list", list);
+
+  useEffect(() => {
+    if (list?.length > 0) {
+      const data = list.map((item) => {
+        const version = item?.version?.find(
+          (itm) => itm?.course?.status === "Published" || itm?.version === 1
+        );
+        return {
+          id: item?.id,
+          versionId: version?.id as number,
+          status: version?.course?.status as string,
+        };
+      });
+      setVersionData(data);
+    }
+  }, [list]);
 
   // const { mutate, isPending } = useMutation({
   //   mutationFn: courseStatusUpdate,
@@ -61,11 +82,39 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   //   },
   // });
 
+  const handleChangeVersion = (versionId: string, id: number) => {
+    setVersionData((prev) => {
+      return prev.map((item) => {
+        if (item?.id === id) {
+          return {
+            ...item,
+            versionId: +versionId,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  console.log("versionData", versionData);
+
   return (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div className="grid xl:grid-cols-4 grid-cols-3 gap-5">
         {list?.map((item, i) => {
+          const currentRecord = versionData?.find(
+            (itm) => itm?.id === item?.id
+          );
+
+          const versionOption =
+            item?.version &&
+            item?.version.map((itm) => {
+              return {
+                label: `V-${itm?.version}`,
+                value: itm?.id.toString() || "",
+              };
+            });
           return (
             <div
               key={i}
@@ -79,12 +128,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item.status}
+                    {currentRecord?.status || ""}
                   </Badge>
                 </div>
               </div>
               <div className="p-2">
-                <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] line-clamp-2">
+                <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] min-h-[48px] line-clamp-2">
                   {item.title}
                 </h5>
                 <div className="flex items-center justify-between mb-[11px]">
@@ -132,9 +181,11 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   + Cohort
                 </Button>
                 <SelectMenu
-                  option={[]}
-                  setValue={(data: string) => setSelectFilterValue(data)}
-                  value={selectFilterValue}
+                  option={versionOption || []}
+                  setValue={(data: string) =>
+                    handleChangeVersion(data, item?.id)
+                  }
+                  value={currentRecord?.versionId?.toString() || ""}
                   containClassName="max-w-[62px]"
                   className="max-w-[62px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
                   placeholder="V-01"
