@@ -234,7 +234,7 @@ export const sidebarLayout = {
     {
       label: "Our Sustainability Journey",
       Icon: LuMapPin,
-      link: "/company/maturityassessmentroadmap",
+      link: "/company/maturityAssessment",
       children: [],
     },
     {

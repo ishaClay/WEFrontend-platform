@@ -16,6 +16,7 @@ interface DatePickerProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   labelText?: string;
+  labelClassName?: string;
   placeHolder?: string;
   buttonClassName?: string;
 }
@@ -26,12 +27,15 @@ export const DatePicker = ({
   labelText = "Date",
   placeHolder = "Pick a date",
   buttonClassName,
+  labelClassName,
 }: DatePickerProps) => {
   // const [date, setDate] = React.useState<Date>();
 
   return (
     <div className="flex flex-col">
-      <Label className="text-md font-normal font-calibri">{labelText}</Label>
+      <Label className={cn("text-md font-normal font-calibri", labelClassName)}>
+        {labelText}
+      </Label>
       <Popover>
         <PopoverTrigger asChild>
           <Button

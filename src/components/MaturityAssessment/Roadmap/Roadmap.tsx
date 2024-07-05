@@ -1,4 +1,4 @@
-import SetTarget from "./SetTarget";
+import Assign from "./Assign";
 
 const Roadmap = () => {
   return (
@@ -34,8 +34,8 @@ const Roadmap = () => {
         </div>
         <div className="w-full h-[1px] bg-[#D9D9D9] absolute top-0 bottom-0 left-0 right-0 m-auto z-0"></div>
       </div>
-      {/* <Assign /> */}
-      <SetTarget />
+      <Assign />
+      {/* <SetTarget /> */}
     </div>
   );
 };
