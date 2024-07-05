@@ -264,9 +264,7 @@ const MaturityLevelPage = () => {
                   Your overall sustainability level -
                 </p>{" "}
                 <span className="font-bold text-base text-[#000000] leading-6 font-calibri">
-                  {score < "40" && "Introductory"}
-                  {score >= "40" && score < "70" && "Intermediate"}
-                  {score >= "70" && "Advanced"}
+                  {currentLavel?.maturityLevelName}
                 </span>
               </div>
             </div>
