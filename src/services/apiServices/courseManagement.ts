@@ -81,8 +81,8 @@ export const fetchSingleCourseById = async (id?: string): Promise<GetSingleCours
 }
 
 
-export const updateCourse = (data: { payload: courseRequest, id: string }) => {
-  const url = `api/v1/course/update-course/${data?.id}`;
+export const updateCourse = (data: { payload: courseRequest, id: string, version: string }) => {
+  const url = `api/v1/course/update-course/${data?.id}/${data?.version}`;
   const method = "put";
   return api({ url, data: data?.payload, method });
 }

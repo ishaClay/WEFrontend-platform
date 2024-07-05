@@ -13,6 +13,7 @@ import { AllCoursesResult } from "@/types/courseManagement";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import CohortModal from "./CohortModal";
+import { useNavigate } from "react-router-dom";
 
 // const selectOption = [
 //   {
@@ -39,13 +40,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const [versionData, setVersionData] = useState<VersionProps[]>([]);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
+  const navigate = useNavigate();
   // const queryClient = useQueryClient();
   const handleCohort = (id: number) => {
     setCohort(true);
     setCourse(id);
   };
-
-  console.log("list", list);
 
   useEffect(() => {
     if (list?.length > 0) {
@@ -96,8 +96,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     });
   };
 
-  console.log("versionData", versionData);
-
+  
   return (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
@@ -106,15 +105,15 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === item?.id
           );
-
+          
           const versionOption =
-            item?.version &&
-            item?.version.map((itm) => {
-              return {
-                label: `V-${itm?.version}`,
-                value: itm?.id.toString() || "",
-              };
-            });
+          item?.version &&
+          item?.version.map((itm) => {
+            return {
+              label: `V-${itm?.version}`,
+              value: itm?.id.toString() || "",
+            };
+          });
           return (
             <div
               key={i}
@@ -200,7 +199,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 font-nunito">
+                      <DropdownMenuItem className="flex items-center gap-2 font-nunito"
+                        onClick={() => navigate(`/${location?.pathname?.split("/")?.[1]}/create_course/${item?.id}?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`) }>
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>

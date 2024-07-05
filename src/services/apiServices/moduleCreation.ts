@@ -110,7 +110,7 @@ const transformSectionPayload = (inputArray: SectionCreation[], moduleId: number
       });
 }
 
-export const getModuleData = async(courseId: number) => {
+export const getModuleData = async(courseId?: number) => {
   const url = `api/v1/course/module/get-module-course/${courseId}`
 
   const res = await api({ url })

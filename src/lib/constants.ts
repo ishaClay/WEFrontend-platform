@@ -56,6 +56,8 @@ export const QUERY_KEYS = {
   AssignTo: "AssignTo",
   fetchDocument: "fetchDocument",
   getSingleCourse: "getSingleCourse",
+  selectTargetPillarLimit: "selectTargetPillarLimit",
+  pillarMaturity: "pillarMaturity",
 };
 
 export const urlRegex =

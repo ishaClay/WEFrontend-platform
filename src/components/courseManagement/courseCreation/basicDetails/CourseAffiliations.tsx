@@ -3,10 +3,13 @@ import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { createCourseTwoPage } from "@/services/apiServices/courseManagement";
+import { QUERY_KEYS } from "@/lib/constants";
+import { createCourseTwoPage, fetchSingleCourseById, updateCourse } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
+import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
@@ -34,8 +37,8 @@ const organisationNameOption = [
 ];
 
 const schema = zod.object({
-  affiliation: zod.string().min(1, "Affiliation is required"),
-  affiliationName: zod.string().min(1, "Affiliation Name is required"),
+  instituteOther: zod.string().min(1, "Affiliation is required"),
+  otherInstitutionName: zod.string().min(1, "Affiliation Name is required"),
 });
 
 const CourseAffiliations = () => {
@@ -53,6 +56,8 @@ const CourseAffiliations = () => {
   const params = new URLSearchParams(search).get("id");
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
+  const pathName: string = location?.pathname?.split("/")[1];
+  const courseId: string = location?.pathname?.split("/")[3];
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -63,7 +68,46 @@ const CourseAffiliations = () => {
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${paramsTab}&step=${4}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${paramsTab}&step=${4}&id=${params}&version=${paramsversion}`,
+        {
+          replace: true,
+        }
+      );
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error.data?.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const {data: getSingleCourse} = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: !!paramsversion,
+  })
+
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      const data:CourseData | any = getSingleCourse?.data?.course;
+      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
+        setValue(key, data[key]);
+      });
+    }
+  }, [getSingleCourse]);
+
+  const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
+    mutationFn: (e: any) => updateCourse(e),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Course updated successfully",
+        variant: "success",
+      });
+      navigate(
+        `/${pathName}/create_course/${location?.pathname?.split("/")[3]}?tab=${paramsTab}&step=${4}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -80,15 +124,23 @@ const CourseAffiliations = () => {
 
   const onSubmit = (data: FieldValues) => {
     const payload = {
-      instituteOther: data?.affiliation,
-      otherInstitutionName: data?.affiliationName,
+      instituteOther: data?.instituteOther,
+      otherInstitutionName: data?.otherInstitutionName,
     };
 
-    mutate({
-      data: payload,
-      id: params || "",
-      paramsversion: paramsversion || "",
-    });
+    if (courseId) {
+      updateCourseFun({
+        payload,
+        id: courseId,
+        version: getSingleCourse?.data?.version
+      });
+    } else {
+      mutate({
+        data: payload,
+        id: params || "",
+        paramsversion: paramsversion || "",
+      });
+    }
   };
 
   return (
@@ -101,13 +153,13 @@ const CourseAffiliations = () => {
           <div className="mb-[15px]">
             <SelectMenu
               option={organisationOption}
-              setValue={(data: string) => setValue("affiliation", data)}
-              value={watch("affiliation")}
+              setValue={(data: string) => setValue("instituteOther", data)}
+              value={watch("instituteOther")}
               placeholder="Other"
               className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
             />
-            {errors.affiliation && (
-              <FormError message={errors.affiliation?.message as string} />
+            {errors.instituteOther && (
+              <FormError message={errors.instituteOther?.message as string} />
             )}
           </div>
         </div>
@@ -118,13 +170,13 @@ const CourseAffiliations = () => {
           <div className="mb-[15px]">
             <SelectMenu
               option={organisationNameOption}
-              setValue={(data: string) => setValue("affiliationName", data)}
-              value={watch("affiliationName")}
+              setValue={(data: string) => setValue("otherInstitutionName", data)}
+              value={watch("otherInstitutionName")}
               placeholder="Enter Name"
               className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
             />
-            {errors.affiliationName && (
-              <FormError message={errors.affiliationName?.message as string} />
+            {errors.otherInstitutionName && (
+              <FormError message={errors.otherInstitutionName?.message as string} />
             )}
           </div>
         </div>
@@ -133,7 +185,7 @@ const CourseAffiliations = () => {
             type="submit"
             className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
           >
-            {isPending ? <Loader containerClassName="h-auto" /> : "Next"}
+            {isPending || isUpdatePending ? <Loader containerClassName="h-auto" /> : "Next"}
           </Button>
         </div>
       </form>

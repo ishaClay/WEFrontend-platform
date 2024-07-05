@@ -1,9 +1,10 @@
-import AssecessmentPage from "@/components/courseManagement/AddAssecessment/AssecessmentPage";
+import ModuleCreationPage from "@/components/courseManagement/courseCreation/moduleCreation/ModuleCreationPage";
 
 const Assecessment = () => {
   return (
     <div>
-      <AssecessmentPage />
+      <ModuleCreationPage />
+      {/* <AssecessmentPage /> */}
     </div>
   );
 };

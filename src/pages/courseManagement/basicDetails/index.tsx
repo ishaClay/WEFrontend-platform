@@ -16,38 +16,31 @@ const BasicDetails = () => {
   const paramsversion = new URLSearchParams(search).get("version");
   const location = useLocation();
   const navigate = useNavigate();
+  const pathName = location?.pathname?.split("/")[1];
   const courseId = location?.pathname?.split("/")[3];
   
   useEffect(() => {
     if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
-      navigate(
-        `/${
-          location?.pathname?.split("/")[1]
-        }/create_course?tab=${paramsTab}&step=${parseInt(
-          params
-        )}&id=${paramsId}&version=${paramsversion}`
-      );
-      setStep(parseInt(params));
+      navigate(`/${pathName}/create_course?tab=${paramsTab}&step=${params}&id=${paramsId}&version=${paramsversion}`);
+      setStep(+params);
     } else if (!!paramsId && !!paramsversion && !!paramsTab) {
-      navigate(
-        `/${
-          location?.pathname?.split("/")[1]
-        }/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
+      navigate(`/${pathName}/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
         { replace: true }
       );
-      setStep(parseInt(params));
+      setStep(+params);
     }else if(courseId){
-      navigate(
-        `/${
-          location?.pathname?.split("/")[1]
-        }/create_course/${courseId}?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
+      navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
       );
-      setStep(parseInt(params));
+      setStep(+params);
+    } else if(paramsTab === "1" && paramsversion && paramsId) {
+      navigate(`/${pathName}/create_course?tab=${paramsTab}&id=${paramsId}&version=${paramsversion}`,
+        {
+          replace: true,
+        }
+      );
+      setStep(+params);
     } else {
-      navigate(
-        `/${
-          location?.pathname?.split("/")[1]
-        }/create_course?tab=${paramsTab}&step=${params}`,
+      navigate(`/${pathName}/create_course?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -55,47 +48,6 @@ const BasicDetails = () => {
       setStep(+params);
     }
   }, [params, step, paramsId, paramsversion, paramsTab, navigate]);
-
-
-  // useEffect(() => {
-  //   if(params && paramsId && paramsversion && paramsTab){
-  //     console.log("++++++111111", `/${
-  //       location?.pathname?.split("/")[1]
-  //     }/create_course?tab=${paramsTab}&step=${parseInt(
-  //       params
-  //     )}&id=${paramsId}&version=${paramsversion}`);
-  //     navigate(
-  //       `/${
-  //         location?.pathname?.split("/")[1]
-  //       }/create_course?tab=${paramsTab}&step=${parseInt(
-  //         params
-  //       )}&id=${paramsId}&version=${paramsversion}`
-  //     );
-  //   } else if(paramsId && paramsversion && paramsTab){
-  //     console.log("++++++22222", `/${
-  //       location?.pathname?.split("/")[1]
-  //     }/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`);
-  //     navigate(
-  //       `/${
-  //         location?.pathname?.split("/")[1]
-  //       }/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
-  //       { replace: true }
-  //     );
-  //   } else if(!paramsId && !paramsversion){
-  //     console.log("++++++33333", `/${
-  //       location?.pathname?.split("/")[1]
-  //     }/create_course?tab=${paramsTab}&step=${params}`);
-  //     navigate(
-  //       `/${
-  //         location?.pathname?.split("/")[1]
-  //       }/create_course?tab=${paramsTab}&step=${params}`,
-  //       {
-  //         replace: true,
-  //       }
-  //     );
-  //   }
-  // }, [params, paramsId, paramsversion, paramsTab])
-
 
   return (
     <div>

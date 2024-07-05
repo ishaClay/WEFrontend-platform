@@ -13,12 +13,10 @@ import { Loader2 } from "lucide-react";
 
 const AllCourses = () => {
   const [cohort, setCohort] = useState(false);
-  const [course, setCourse] = useState<string | number>("");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("params", setCourse);
 
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
@@ -32,16 +30,9 @@ const AllCourses = () => {
     queryFn: () => fetchCourseAllCourse(),
   });
 
-  // const handleCohort = (id: number) => {
-  //   setCohort(true);
-  //   setCourse(id);
-  // };
-
-  console.log("data", fetchCourseAllCourseData, fetchCourseAllCoursePending);
-
   return (
     <div>
-      <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
+      <CohortModal open={cohort} setOpen={setCohort} id={0} />
       <div>
         <div className="bg-[#FFFFFF] rounded-[10px] w-full">
           <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
@@ -58,8 +49,7 @@ const AllCourses = () => {
                 type="button"
                 onClick={() =>
                   navigate(
-                    `/${location?.pathname?.split("/")[1]}/create_course?tab=0&step=0`
-                    // `/${location?.pathname?.split("/")?.[1]}/create_course/tab=0&step=0&version=${item?.version}`
+                    `/${location?.pathname?.split("/")?.[1]}/create_course/tab=0&step=0&version=1`
                   )
                 }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"

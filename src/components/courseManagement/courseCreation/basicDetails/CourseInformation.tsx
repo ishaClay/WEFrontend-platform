@@ -81,6 +81,7 @@ const CourseInformation = () => {
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsVersion = new URLSearchParams(search).get("version");
   const coursePrise = watch("price") || 0;
+  const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   const { data } = useQuery<ClientResponse>({
     queryKey: ["price", { clientId }],
@@ -96,7 +97,7 @@ const CourseInformation = () => {
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${paramsTab}&step=${1}&id=${
+        `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
           data?.data?.data?.course?.id
         }&version=${data?.data?.data?.version}`,
         {
@@ -140,9 +141,9 @@ const CourseInformation = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { courseId }],
-    queryFn: () => fetchSingleCourseById(courseId),
-    enabled: !!courseId,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion }],
+    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
+    enabled: !!paramsVersion,
   });
 
   useEffect(() => {
@@ -176,6 +177,7 @@ const CourseInformation = () => {
       updateCourseFun({
         payload,
         id: courseId,
+        version: getSingleCourse?.data?.version
       });
     } else {
       mutate(payload);
