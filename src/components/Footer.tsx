@@ -1,5 +1,5 @@
-import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { BsInstagram } from "react-icons/bs";
+import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function Footer() {
     return location.pathname === "/";
   };
   return (
-    <div className="relative">
+    <div className="relative z-10">
       <footer className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 flex justify-center items-end footerAfter">
         {isHomePage() && (
           <div className="h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
