@@ -33,7 +33,7 @@ import Modal from "@/components/comman/Modal";
 import { BsPencil } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Loading from "@/components/comman/Error/Loading";
-import { Plus } from "lucide-react";
+import { Dot, Plus } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
 
@@ -264,7 +264,7 @@ const SetTarget = () => {
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        className="lg:max-w-[815px] sm:max-w-xl max-w-[335px] xl:px-10 px-5 xl:py-8 py-4 rounded-xl"
+        className="lg:max-w-[815px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
       >
         <div className="">
           <div className="flex items-center mb-6 gap-5">
@@ -282,124 +282,135 @@ const SetTarget = () => {
               i
             </div>
             <div className="sm:mt-0 mt-3">
-              <h6 className="text-[#606060] font-semibold text-base">
+              <h6 className="text-[#606060] font-extrabold text-base pb-1">
                 Nothing’s set in stone here!
               </h6>
-              <p className="text-[#606060] text-base">
+              <p className="text-[#606060] text-base lg:w-[65%] md:w-[80%] w-full font-abhaya font-semibold">
                 Discuss sustainability initiatives or action items with your
                 colleagues. And come back to edit them anytime.
               </p>
             </div>
           </div>
           <div className="flex flex-col">
-            <div className="md:mb-5 mb-3">
-              <h5 className="text-[#1D2026] font-Calibri text-base font-bold">
-                {actionItems?.pillarname}
-              </h5>
-            </div>
-            <ScrollArea className="sm:h-[300px] h-[250px]">
+            <h5 className="text-[#1D2026] font-Calibri text-base font-bold md:pb-4 pb-3">
+              {actionItems?.pillarname}
+            </h5>
+            <ScrollArea className="sm:h-auto h-[300px]">
               <div className="grid sm:grid-cols-2 grid-cols-1 xl:gap-8 md:gap-5 gap-3">
-                <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
+                <div className="col-span-1 sm:h-[333px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
                   <div className="w-full">
-                    <div className="px-5 py-2 border-b border-solid">
+                    <div className="px-5 py-2 border-b border-solid h-[42px]">
                       <h5 className="text-[#1D2026] font-calibri font-bold">
                         Measures
                       </h5>
                     </div>
-                    <div className="p-4 ">
-                      <ul className="list-disc list-inside text-[12px]  font-calibri">
-                        {filteredOptions?.map((m: any) => {
-                          if (m.measures) {
-                            return <li>{m.measures}</li>;
-                          }
-                        })}
-                      </ul>
-                    </div>
+                    <ScrollArea className="h-[250px]">
+                      <div className="md::p-4 p-3">
+                        <ul className="list-inside">
+                          {filteredOptions?.map((m: any) => {
+                            if (m.measures) {
+                              return (
+                                <li className="mb-2 grid grid-cols-12">
+                                  <Dot className=" block me-2 col-span-1" />
+                                  <span className="sm:text-base text-sm font-abhaya font-semibold col-span-11">
+                                    {m.measures}
+                                  </span>
+                                </li>
+                              );
+                            }
+                          })}
+                        </ul>
+                      </div>
+                    </ScrollArea>
                   </div>
                 </div>
 
-                <div className="col-span-1 sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl ">
-                  <form onSubmit={(e) => handleSubmit(e, currentPiller)}>
-                    <div className="w-full">
-                      <div className="px-5 py-2 border-b border-solid">
-                        <h5 className="text-[#1D2026] font-calibri font-bold">
-                          Enter initiatives or action items
-                        </h5>
-                      </div>
-
-                      <div className="flex flex-col gap-5 px-3.5 py-2.5">
-                        {pillerItems[currentPiller]?.map(
-                          (item: any, index: number) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between"
-                            >
-                              <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[210px] overflow-hidden">
-                                <input
-                                  type="text"
-                                  placeholder="Action item"
-                                  value={item}
-                                  onChange={(e) =>
-                                    handleActionItemChange(
-                                      index,
-                                      e.target.value,
-                                      currentPiller
-                                    )
-                                  }
-                                  className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
-                                />
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <button
-                                  type="button"
-                                  className="border-none bg-transparent text-lg cursor-pointer"
-                                  onClick={() => setEditId(index)}
-                                >
-                                  <BsPencil className="text-[#B9B9B9]" />
-                                </button>
-                                <button
-                                  type="button"
-                                  className="border-none bg-transparent text-lg cursor-pointer"
-                                  onClick={() =>
-                                    removeActionItem(index, currentPiller)
-                                  }
-                                >
-                                  <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                </button>
-                              </div>
-                            </div>
-                          )
-                        )}
-
-                        <div className="text-right">
-                          <Button
-                            onClick={() => addActionItem(currentPiller)}
-                            className="w-3 bg-black p-0 h-3 rounded-[2px]"
-                          >
-                            <Plus className="text-white" />
-                          </Button>
-                        </div>
-                      </div>
+                <div className="col-span-1">
+                  <div className="sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
+                    <div className="px-5 py-2 border-b border-solid h-[42px] relative">
+                      <h5 className="text-[#1D2026] font-calibri font-bold">
+                        Enter initiatives or action items
+                      </h5>
                     </div>
-                  </form>
+                    <form
+                      onSubmit={(e) => handleSubmit(e, currentPiller)}
+                      className=""
+                    >
+                      <div className="w-full">
+                        <ScrollArea className="h-[225px]">
+                          <div className="flex flex-col gap-5 px-3.5 py-2.5">
+                            {pillerItems[currentPiller]?.map(
+                              (item: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between"
+                                >
+                                  <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[190px] overflow-hidden">
+                                    <input
+                                      type="text"
+                                      placeholder="Action item"
+                                      value={item}
+                                      onChange={(e) =>
+                                        handleActionItemChange(
+                                          index,
+                                          e.target.value,
+                                          currentPiller
+                                        )
+                                      }
+                                      className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
+                                    />
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      onClick={() => setEditId(index)}
+                                    >
+                                      <BsPencil className="text-[#B9B9B9]" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      onClick={() =>
+                                        removeActionItem(index, currentPiller)
+                                      }
+                                    >
+                                      <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                    </button>
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </div>
+                          <div className="text-right py-2.5 px-3.5">
+                            <Button
+                              onClick={() => addActionItem(currentPiller)}
+                              className="w-3 bg-black p-0 h-3 rounded-[2px]"
+                            >
+                              <Plus className="text-white" />
+                            </Button>
+                          </div>
+                        </ScrollArea>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="text-right mt-6">
+                    <Button
+                      type="submit"
+                      className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
+                    >
+                      Close
+                    </Button>
+                  </div>
                 </div>
               </div>
             </ScrollArea>
-
-            <div className="text-right mt-6">
-              <Button
-                type="submit"
-                className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
-              >
-                Save
-              </Button>
-              <Button
-                type="submit"
-                className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
-              >
-                Close
-              </Button>
-            </div>
           </div>
         </div>
       </Modal>
@@ -411,7 +422,7 @@ const SetTarget = () => {
           pillars?.map((item: any) => {
             return (
               <div className="pb-0 flex w-full">
-                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6">
+                <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">
                   <div className="flex justify-between h-8">
                     <div
                       className={`${
@@ -426,7 +437,7 @@ const SetTarget = () => {
                         >
                           Your level -
                         </span>
-                        <span className="text-[#FFD56A]">
+                        <span className="text-[#FFD56A] ms-1">
                           {item.maturityLevelName}
                         </span>
                       </h2>

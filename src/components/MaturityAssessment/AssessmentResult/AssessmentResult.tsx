@@ -10,10 +10,11 @@ import {
   getAllassessment,
 } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
+import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const maturityLevel = [
   {
@@ -45,14 +46,18 @@ const findMaturityLevel = (score: number) => {
   return null;
 };
 
-const AssessmentResult = () => {
-  const navigate = useNavigate();
+type AssessmentResultProps = {
+  chnageTab: (val: MaturityAssessmentTabs) => void;
+};
+
+const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
   const location = useLocation();
   console.log("+++++", location);
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
   const [pillerName, setPillerName] = React.useState<string>("");
+
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId
     ? +UserId
@@ -82,7 +87,8 @@ const AssessmentResult = () => {
 
   const handleMaturity = () => {
     EnumUpadate(path);
-    navigate("/selectlevel");
+    // navigate("/company/my-action-plans");
+    chnageTab("maturityAssessment");
   };
 
   const score = (
@@ -198,8 +204,8 @@ const AssessmentResult = () => {
           Self Assessment Details
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
-          <div className="lg:col-span-8 col-span-12 lg:mb-0 sm:mb-10 mb-5">
-            <h3 className="lg:text-2xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
+          <div className="xl:col-span-8 lg:col-span-7 col-span-12 lg:mb-0 sm:mb-10 mb-5">
+            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
               Where {userData?.company?.name} <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
             </h3>
@@ -223,7 +229,7 @@ const AssessmentResult = () => {
               </p>
             </div>
           </div>
-          <div className="lg:col-span-4 sm:col-span-8 col-span-12">
+          <div className="xl:col-span-4 lg:col-span-5 sm:col-span-8 col-span-12">
             <div className="flex justify-between">
               <div className="">
                 <Labels />

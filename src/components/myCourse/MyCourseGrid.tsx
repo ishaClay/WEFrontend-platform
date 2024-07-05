@@ -6,6 +6,9 @@ import ClockImage from "@/assets/images/Clock.png";
 import InternetImage from "@/assets/images/Internet.png";
 import TimesheetImage from "@/assets/images/Timesheet.png";
 import UniversityImage from "@/assets/images/University.png";
+import { useState } from "react";
+import Modal from "../comman/Modal";
+import ModalTabs from "./ModalTab/ModalTabs";
 
 type myPagesListProps = {
   grid: {
@@ -15,8 +18,18 @@ type myPagesListProps = {
 };
 
 const MyCourseGrid = ({ grid }: myPagesListProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="max-w-3xl "
+        header="Settings"
+        titleClassName="font-nunito text-xl text-black font-bold"
+      >
+        <ModalTabs />
+      </Modal>
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden rounded-t-lg">
           <img
@@ -25,7 +38,10 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
             className="sm:h-[231px] h-[180px] w-full"
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
-            <Button className="bg-[#00778B] text-white font-bold font-calibri sm:text-base text-sm rounded-lg shadow sm:py-[12px] py-[8px] sm:px-[22px] px-[18px] h-auto">
+            <Button
+              className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]"
+              onClick={() => setIsOpen(true)}
+            >
               Continue
             </Button>
           </div>

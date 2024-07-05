@@ -139,8 +139,8 @@ function SupportAddNewTicket() {
       </div>
       <div className="p-5">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex gap-[36px] mb-5">
-            <div className="w-full">
+          <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-[36px] gap-0 mb-5">
+            <div className="col-span-1 w-full">
               <Select
                 onValueChange={(e) => {
                   setValue("assignTo", e);
@@ -210,7 +210,7 @@ function SupportAddNewTicket() {
                 <ErrorMessage message={errors?.assignTo?.message as string} />
               )}
             </div>
-            <div className="w-full">
+            <div className="col-span-1 w-full">
               <Select
                 onValueChange={(e) => {
                   setValue("ticketPriority", e);
@@ -267,8 +267,8 @@ function SupportAddNewTicket() {
               <ErrorMessage message={errors?.description?.message as string} />
             )}
           </div>
-          <div className="flex justify-between mt-[34px]">
-            <div className="flex gap-[32px]">
+          <div className="sm:flex block justify-between mt-[34px]">
+            <div className="sm:flex block gap-[32px]">
               <FileUpload
                 handleDrop={(e) => {
                   setValue("uploadDocument", e);
@@ -277,7 +277,7 @@ function SupportAddNewTicket() {
                 className="border-none cursor-pointer !p-0 w-[200px]"
                 acceptType=".pdf"
               >
-                <div className="flex justify-center items-center gap-[17px]">
+                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
                   <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                     <FiImage className="w-6 h-6" />
                   </div>
@@ -302,7 +302,7 @@ function SupportAddNewTicket() {
                 className="border-none cursor-pointer !p-0 w-[200px]"
                 acceptType=".mp4"
               >
-                <div className="flex justify-center items-center gap-[17px]">
+                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
                   <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                     <FiVideo className="w-6 h-6" />
                   </div>

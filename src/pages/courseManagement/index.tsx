@@ -5,7 +5,7 @@ import CoursePathway from "./CoursePathway";
 import Forum from "./Forum/Forum";
 import ModuleCreation from "./ModuleCreation";
 import { MoveLeft } from "lucide-react";
-import BasicDetails from "./basicDetails";
+import BasicDetails from "./BasicDetails";
 
 const CourseManagement = () => {
   const [currentTab, setCurrentTab] = useState<number>(0);
@@ -16,33 +16,56 @@ const CourseManagement = () => {
   const step = new URLSearchParams(search).get("step") || "";
   // const paramsId = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
-  const courseId = location?.pathname?.split("/")[3];  
+  const courseId = location?.pathname?.split("/")[3];
 
   // useEffect(() => {
   //   setCurrentTab("0");
   // }, [paramsTab, tab]);
-  
+
   useEffect(() => {
-    if(courseId){
-      navigate(`/${location?.pathname?.split("/")[1]}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`)
-      if(courseId && currentTab === 0){
-        navigate(`/${location?.pathname?.split("/")[1]}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`)
-      }else{
-        navigate(`/${location?.pathname?.split("/")[1]}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`)
+    if (courseId) {
+      navigate(
+        `/${
+          location?.pathname?.split("/")[1]
+        }/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
+      );
+      if (courseId && currentTab === 0) {
+        navigate(
+          `/${
+            location?.pathname?.split("/")[1]
+          }/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
+        );
+      } else {
+        navigate(
+          `/${
+            location?.pathname?.split("/")[1]
+          }/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`
+        );
       }
-    } else{
-      if(currentTab === 0){
-        navigate(`/${location?.pathname?.split("/")[1]}/create_course?tab=${currentTab}&step=${step}`)
-      }else{
-        navigate(`/${location?.pathname?.split("/")[1]}/create_course?tab=${currentTab}`)
+    } else {
+      if (currentTab === 0) {
+        navigate(
+          `/${
+            location?.pathname?.split("/")[1]
+          }/create_course?tab=${currentTab}&step=${step}`
+        );
+      } else {
+        navigate(
+          `/${
+            location?.pathname?.split("/")[1]
+          }/create_course?tab=${currentTab}`
+        );
       }
     }
   }, [currentTab]);
-  
 
   return (
     <div className="bg-white p-0">
-      <Tabs defaultValue={String(currentTab)} className="" onValueChange={(e) => setCurrentTab(+e)}>
+      <Tabs
+        defaultValue={String(currentTab)}
+        className=""
+        onValueChange={(e) => setCurrentTab(+e)}
+      >
         <div className="border-b flex justify-between items-center">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
             <TabsTrigger

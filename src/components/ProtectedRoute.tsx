@@ -16,12 +16,6 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const routeUser = location?.pathname?.split("/")[1];
   const navigate = useNavigate();
 
-  console.log(
-    "userToken",
-    UserRole[user?.query?.role].toLowerCase(),
-    routeUser.toLowerCase()
-  );
-
   useEffect(() => {
     if (!userToken) {
       toast({
