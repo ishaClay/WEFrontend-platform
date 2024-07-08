@@ -1,6 +1,5 @@
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
 import Footer from "@/components/Footer";
-import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -235,12 +234,14 @@ function SelectLevel() {
     currentPiller: string
   ) => {
     setOpen(!open);
-    e.preventDefault();
-    const measures = pillerItems[currentPiller].map((item) => ({
-      measure: item,
-    }));
+    console.log("pillerItems", currentPiller);
 
-    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
+    e.preventDefault();
+    // const measures = pillerItems[currentPiller].map((item) => ({
+    //   measure: item,
+    // }));
+
+    // createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
   console.log("pillerItemspillerItemspillerItems", pillerItems);
@@ -660,7 +661,7 @@ function SelectLevel() {
             </div>
           </div>
         </Modal>
-        <Loading isLoading={createPending} />
+        {/* <Loading isLoading={createPending} /> */}
       </div>
     </div>
   );

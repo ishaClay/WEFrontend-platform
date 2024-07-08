@@ -1,17 +1,12 @@
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
-import { addMeasuresItems } from "@/services/apiServices/pillar";
-import { ErrorType } from "@/types/Errors";
-import { SinglePillar } from "@/types/Pillar";
-import { useMutation } from "@tanstack/react-query";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
-import { toast } from "../ui/use-toast";
 
-interface PillerItem {
-  [key: string]: string[];
-}
+// interface PillerItem {
+//   [key: string]: string[];
+// }
 
 const DefineActionModel = ({
   open,
@@ -20,17 +15,17 @@ const DefineActionModel = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
-  const [pillerItems, setPillerItems] = useState<PillerItem>({});
-  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
-    mutationFn: addMeasuresItems,
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  // const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
+  // const [pillerItems, setPillerItems] = useState<PillerItem>({});
+  // const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
+  //   mutationFn: addMeasuresItems,
+  //   onError: (error: ErrorType) => {
+  //     toast({
+  //       variant: "destructive",
+  //       title: error.data.message,
+  //     });
+  //   },
+  // });
 
   // const handleSubmit = async (
   //   e: React.FormEvent<HTMLFormElement>,
@@ -64,7 +59,8 @@ const DefineActionModel = ({
         <div className="flex flex-col">
           <div className="md:mb-5 mb-3">
             <h5 className="text-[#1D2026] font-Calibri text-base font-bold">
-              {actionItems?.pillarname}
+              {/* {actionItems?.pillarname} */}
+              {""}
             </h5>
           </div>
           <form
