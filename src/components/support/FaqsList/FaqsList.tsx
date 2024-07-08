@@ -31,9 +31,9 @@ const FaqsList = () => {
   console.log("faqs_list", faqs_list, isPending);
 
   return (
-    <div className="lg:bg-white bg-transparent">
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-5">
-        <h6 className="font-calibri text-base font-bold">FAQ’s</h6>
+    <div className="bg-white">
+      <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-5">
+        <h6 className="font-calibri text-base font-bold sm:pb-0 pb-2">FAQ’s</h6>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
           {userRole === 2
             ? "Here’s the full list of FAQs related to all your courses"
@@ -46,7 +46,7 @@ const FaqsList = () => {
             items={faqs_list?.data?.data}
             rounded={false}
             border={false}
-            triggerClassName="border w-full group hover:no-underline pl-[18px] pr-[6px] text-[16px] font-bold py-[20px]"
+            triggerClassName="border w-full group hover:no-underline pl-[18px] pr-[6px] text-left sm:text-base text-sm font-bold md:py-[20px] sm:py-4 py-2"
             contentClassName="border w-full pl-[18px] pr-[25px] py-[15px] text-[16px] leading-[22px]"
           />
         </div>

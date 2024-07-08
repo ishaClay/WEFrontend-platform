@@ -46,11 +46,13 @@ export const intialModuleCreation: ModuleCreation = {
 const ModuleCreationPage = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const search = window.location.search;
+  const courseID = new URLSearchParams(search).get("id") || "";
   const [moduleList, setModuleList] = useState<any>([]);
   const dragPerson = useRef<number>(0);
   const draggedOverPerson = useRef<number>(0);
   const latestModuleList = useRef(moduleList);
+  const courseEditId: string = location?.pathname?.split("/")[3];
 
   const schema = z.object({
     modules: z.array(
@@ -201,8 +203,6 @@ const ModuleCreationPage = () => {
     }
   }, [moduleList]);
 
-  const courseID = 6;
-
   const CreateModuleAsync = useMutation({
     mutationFn: async (data: ModuleCreation) => createModule(data, courseID),
   });
@@ -219,8 +219,9 @@ const ModuleCreationPage = () => {
   });
 
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourseModule],
-    queryFn: () => getModuleData(courseID),
+    queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
+    queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
+    enabled: !!courseID || !!courseEditId,
   });
 
   useEffect(() => {
@@ -347,7 +348,8 @@ const ModuleCreationPage = () => {
             {moduleCreationItem.length !== 0 && (
               <div className="text-right">
                 <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-                  Save
+                {/* {isPending ? <Loader containerClassName="h-auto" /> : "Save"} */}
+                Save
                 </Button>
               </div>
             )}

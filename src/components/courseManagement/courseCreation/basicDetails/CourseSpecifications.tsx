@@ -10,6 +10,7 @@ import {
   createCourseTwoPage,
   fetchNfqlLevel,
   fetchSingleCourseById,
+  updateCourse,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CertificateResponse } from "@/types/certificate";
@@ -24,7 +25,7 @@ import * as zod from "zod";
 
 const schema = zod.object({
   nfqLeval: zod.string().min(1, "NQF level is required"),
-  participants: zod.string().min(1, "Participants is required"),
+  certificate: zod.string().min(1, "Participants is required"),
   ectsCredits: zod.string().min(1, "ECTS credit is required"),
   fetCredits: zod.string().min(1, "FET credit is required"),
 });
@@ -45,6 +46,7 @@ const CourseSpecifications = () => {
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
+  const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
 
   const { data } = useQuery<CertificateResponse>({
@@ -58,9 +60,9 @@ const CourseSpecifications = () => {
   });
 
   const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {courseId}],
-    queryFn: () => fetchSingleCourseById(courseId),
-    enabled: !!courseId,
+    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: !!paramsversion,
   })
 
   const { mutate, isPending } = useMutation({
@@ -72,7 +74,7 @@ const CourseSpecifications = () => {
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -116,18 +118,52 @@ const CourseSpecifications = () => {
     }
   }, [getSingleCourse]);
 
+  const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
+    mutationFn: (e: any) => updateCourse(e),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Course updated successfully",
+        variant: "success",
+      });
+      navigate(
+        `/${location?.pathname?.split("/")[1]}/create_course/${
+          location?.pathname?.split("/")[3]
+        }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
+        {
+          replace: true,
+        }
+      );
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error.data?.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: FieldValues) => {
     const payload = {
       nfqLeval: data?.nfqLeval,
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
-      certificate: data?.participants,
+      certificate: data?.certificate,
     };
-    mutate({
-      data: payload,
-      id: params || "",
-      paramsversion: paramsversion || "",
-    });
+    if (courseId) {
+      updateCourseFun({
+        payload,
+        id: courseId,
+        version: getSingleCourse?.data?.version
+      });
+    } else {
+      mutate({
+        data: payload,
+        id: params || "",
+        paramsversion: paramsversion || "",
+      });
+    }
   };
 
   return (
@@ -168,13 +204,13 @@ const CourseSpecifications = () => {
         </div>
         <div className="mb-[18px]">
           <Label className="font-primary font-[400] leading-normal font-calibri text-[16px] text-[#515151]">
-            What type of certificate or award will participants receive upon
+            What type of certificate or award will certificate receive upon
             completion?
           </Label>
           <SelectMenu
             option={certificateOption || []}
-            setValue={(e: string) => setValue("participants", e)}
-            value={watch("participants")}
+            setValue={(e: string) => setValue("certificate", e)}
+            value={watch("certificate")}
             placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
           />
@@ -184,7 +220,7 @@ const CourseSpecifications = () => {
             type="submit"
             className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
           >
-            {isPending ? <Loader containerClassName="max-h-auto" /> : "Next"}
+            {isPending || isUpdatePending ? <Loader containerClassName="max-h-auto" /> : "Next"}
           </Button>
         </div>
       </form>

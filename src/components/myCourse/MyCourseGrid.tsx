@@ -6,6 +6,9 @@ import ClockImage from "@/assets/images/Clock.png";
 import InternetImage from "@/assets/images/Internet.png";
 import TimesheetImage from "@/assets/images/Timesheet.png";
 import UniversityImage from "@/assets/images/University.png";
+import { useState } from "react";
+import Modal from "../comman/Modal";
+import ModalTabs from "./ModalTab/ModalTabs";
 
 type myPagesListProps = {
   grid: {
@@ -15,22 +18,35 @@ type myPagesListProps = {
 };
 
 const MyCourseGrid = ({ grid }: myPagesListProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="max-w-3xl "
+        header="Settings"
+        titleClassName="font-nunito text-xl text-black font-bold"
+      >
+        <ModalTabs />
+      </Modal>
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
-        <div className="relative overflow-hidden rounded-t-lg">
+        <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
           <img
             src={grid.image}
             alt=""
-            className="sm:h-[231px] h-[180px] w-full"
+            className="sm:h-[231px] h-[180px] object-cover w-full"
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
-            <Button className="bg-[#00778B] text-white font-bold font-calibri sm:text-base text-sm rounded-lg shadow sm:py-[12px] py-[8px] sm:px-[22px] px-[18px] h-auto">
+            <Button
+              className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]"
+              onClick={() => setIsOpen(true)}
+            >
               Continue
             </Button>
           </div>
         </div>
-        <div className="xl:p-5 sm:p-4 p-[12px] pt-[15px]">
+        <div className="xl:p-5 sm:p-4 px-[12px] py-[15px]">
           <div>
             <p className="sm:text-base text-sm font-medium font-inter sm:leading-6 leading-[22px] mb-2 line-clamp-1">
               {grid.title}
@@ -65,19 +81,19 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
             <div>
               <div className="flex items-center">
                 <img src={SpeedImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Level- Advanced
                 </p>
               </div>
               <div className="flex items-center">
                 <img src={ClockImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Full Time
                 </p>
               </div>
               <div className="flex items-center">
                 <img src={TimesheetImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   2 Years
                 </p>
               </div>
@@ -85,20 +101,20 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
             <div>
               <div className="flex items-center">
                 <img src={GraduationCapImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Post Graduate Diploma
                 </p>
               </div>
               <div className="flex items-center">
                 <img src={InternetImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Online
                 </p>
               </div>
 
               <div className="flex items-center">
                 <img src={UniversityImage} alt="" />
-                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
+                <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Atlantic Technological University
                 </p>
               </div>

@@ -2,7 +2,6 @@
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -10,14 +9,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Label } from "./label";
 
 interface DatePickerProps {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   labelText?: string;
+  labelClassName?: string;
   placeHolder?: string;
   buttonClassName?: string;
+  fromDate?: Date | undefined;
+  disabled?: boolean;
 }
 
 export const DatePicker = ({
@@ -26,16 +29,24 @@ export const DatePicker = ({
   labelText = "Date",
   placeHolder = "Pick a date",
   buttonClassName,
+  labelClassName,
+  fromDate = undefined,
+  disabled = false,
 }: DatePickerProps) => {
   // const [date, setDate] = React.useState<Date>();
 
+  console.log("date", date);
+
   return (
     <div className="flex flex-col">
-      <Label className="text-md font-normal font-calibri">{labelText}</Label>
+      <Label className={cn("text-md font-normal font-calibri", labelClassName)}>
+        {labelText}
+      </Label>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
+            disabled={disabled}
             className={cn(
               "w-[280px] justify-between text-left font-normal font-calibri",
               !date && "text-muted-foreground",
@@ -51,6 +62,7 @@ export const DatePicker = ({
             mode="single"
             selected={date}
             onSelect={setDate}
+            fromDate={fromDate}
             initialFocus
             className="font-calibri"
           />

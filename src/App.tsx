@@ -632,16 +632,12 @@ function App() {
         <Route
           path="/company"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
           <Route
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}
@@ -669,9 +665,9 @@ function App() {
         <Route
           path="/employee"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <DashboardLayout />
+            // </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
@@ -689,8 +685,16 @@ function App() {
           <Route path="usermenual" element={<UserManualPage />} />
           {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
           <Route path="supportticket" element={<SupportAddNewTicket />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
+          <Route
+            path="ticket-details-reply"
+            element={<TicketDetailsReplyPage />}
+          />
           <Route
             path="support-training-documnet"
             element={<TrainingDocumentPage />}
@@ -758,7 +762,10 @@ function App() {
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="create_course" element={<CourseManagement />} />
-          <Route path="create_course/:courseId" element={<CourseManagement />} />
+          <Route
+            path="create_course/:courseId"
+            element={<CourseManagement />}
+          />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}

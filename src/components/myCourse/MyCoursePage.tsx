@@ -89,7 +89,7 @@ const MyCoursePage = () => {
 
   return (
     <div className="lg:bg-white bg-transparent rounded-b-xl">
-      <div className="flex items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3]">
+      <div className="flex items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3] rounded-lg">
         <div className="flex items-center sm:gap-8 gap-[10px]">
           <div>
             <Label className="text-xs font-normal font-Poppins mt-0">
@@ -142,7 +142,7 @@ const MyCoursePage = () => {
         </div>
       </div>
       {params === "0" || !params ? (
-        <div className="grid gap-5 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:p-5 p-[15px] bg-white">
+        <div className="grid sm:gap-5 gap-[15px] 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:p-5 p-[15px] bg-white">
           {myPagesList.map((grid, index) => {
             return <MyCourseGrid key={index} grid={grid} />;
           })}

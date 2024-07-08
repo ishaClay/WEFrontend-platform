@@ -181,8 +181,8 @@ export interface AllCoursesResult {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  trainerId?: TrainerId | null;
-  trainerCompanyId?: TrainerCompanyId | null;
+  trainerId: TrainerId;
+  trainerCompanyId: TrainerCompanyId;
   version?: (VersionEntity | null)[] | null;
   module?: (null)[] | null;
 }
@@ -242,7 +242,7 @@ export interface VersionEntity {
   version: number;
   createdAt: string;
   updatedAt: string;
-  course: Course1;
+  data: Course1;
 }
 export interface Course1 {
   id: number;
@@ -267,6 +267,8 @@ export interface Course1 {
   bannerImage: string;
   keys?: string | null;
   courseData?: (CourseDataEntity1 | null)[] | null;
+  trainerId: TrainerId;
+  trainerCompanyId: TrainerCompanyId;
   status: string;
   deletedAt?: string | null;
   createdAt: string;

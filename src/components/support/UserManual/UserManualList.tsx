@@ -12,10 +12,10 @@ const UserManualList = ({ list }: supportListProps) => {
   return (
     <div className="shadow sm:p-4 p-3 border border-[#dddddd33] rounded-[10px] relative overflow-hidden">
       <div>
-        <h6 className="sm:text-[15px] text-sm font-normal font-calibri leading-5 text-black">
+        <h6 className="sm:text-[15px] text-sm font-normal font-calibri leading-5 text-black sm:pb-3 pb-2.5">
           ID: {list.id}
         </h6>
-        <p className="text-[#00778B] sm:text-[15px] text-sm font-calibri leading-5 sm:py-3 py-[10px]">
+        <p className="text-[#00778B] sm:text-[15px] text-sm font-calibri leading-5 sm:pb-3 pb-2.5">
           <span className="text-[#000000]">Document Title:</span> {list.title}
         </p>
         <p className="sm:text-[15px] text-sm font-calibri leading-5">

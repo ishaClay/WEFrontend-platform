@@ -1,6 +1,5 @@
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
 import Footer from "@/components/Footer";
-import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -27,7 +26,6 @@ import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
-  addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
   updatePillarCheckbox,
@@ -128,16 +126,6 @@ function SelectLevel() {
     }
   }, [maturitypillar]);
 
-  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
-    mutationFn: addMeasuresItems,
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
-
   // const { data: getCheckedmeasures } = useQuery({
   //   queryKey: [QUERY_KEYS.checkedMeasures],
   //   queryFn: () => getCheckedMeasures(UserId, clientId),
@@ -149,10 +137,11 @@ function SelectLevel() {
   const path = 5 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
 
@@ -245,10 +234,14 @@ function SelectLevel() {
     currentPiller: string
   ) => {
     setOpen(!open);
-    e.preventDefault();
-    const measures = pillerItems[currentPiller].map((item) => ({ name: item }));
+    console.log("pillerItems", currentPiller);
 
-    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
+    e.preventDefault();
+    // const measures = pillerItems[currentPiller].map((item) => ({
+    //   measure: item,
+    // }));
+
+    // createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
   console.log("pillerItemspillerItemspillerItems", pillerItems);
@@ -668,7 +661,7 @@ function SelectLevel() {
             </div>
           </div>
         </Modal>
-        <Loading isLoading={createPending} />
+        {/* <Loading isLoading={createPending} /> */}
       </div>
     </div>
   );

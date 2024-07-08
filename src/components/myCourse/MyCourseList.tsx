@@ -17,8 +17,8 @@ type myPagesListProps = {
 const MyCourseList = ({ list }: myPagesListProps) => {
   return (
     <div>
-      <div className="border border-solid gap-1 border-[#D9D9D9] rounded-lg group flex items-end justify-between xl:p-5 p-4 pt-4 mb-5 xl:flex-nowrap flex-wrap">
-        <div className="flex items-center xl:gap-5 gap-3">
+      <div className="border border-solid gap-1 border-[#D9D9D9] rounded-lg group flex items-end sm:justify-between justify-center xl:p-5 p-4 pt-4 mb-5 xl:flex-nowrap flex-wrap">
+        <div className="flex sm:flex-nowrap flex-wrap sm:justify-start justify-center items-center xl:gap-5 gap-3">
           <div className="overflow-hidden rounded-lg min-h-[152px] min-w-[152px] w-[152px] h-[152px]">
             <img src={list.image} alt="" className="w-full h-full" />
           </div>

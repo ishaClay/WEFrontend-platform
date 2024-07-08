@@ -4,7 +4,7 @@ import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { createCourseTwoPage, fetchSingleCourseById } from "@/services/apiServices/courseManagement";
+import { createCourseTwoPage, fetchSingleCourseById, updateCourse } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,7 +66,7 @@ const durationType = [
 const schema = zod.object({
   time: zod.string().min(1, "Time is required"),
   isOnline: zod.string().min(1, "Type is required"),
-  location: zod.string().min(1, "Location is required"),
+  universityAddress: zod.string().min(1, "Location is required"),
   duration: zod
     .string()
     .min(1, "Duration is required")
@@ -89,7 +89,7 @@ const CourseLogistic = () => {
     defaultValues: {
       time: Time[0].value,
       isOnline: isOnlineType[0].value,
-      location: "",
+      universityAddress: "",
       duration: "",
       durationType: durationType[0].value,
     },
@@ -99,12 +99,13 @@ const CourseLogistic = () => {
   const params = new URLSearchParams(search).get("id");
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
+  const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
 
   const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {courseId}],
-    queryFn: () => fetchSingleCourseById(courseId),
-    enabled: !!courseId,
+    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: !!paramsversion,
   })
 
   const { mutate, isPending } = useMutation({
@@ -116,7 +117,7 @@ const CourseLogistic = () => {
         variant: "success",
       });
       navigate(
-        `/trainer/create_course?tab=${paramsTab}&step=${3}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${paramsTab}&step=${3}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -142,20 +143,53 @@ const CourseLogistic = () => {
     }
   }, [getSingleCourse]);
   
+  const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
+    mutationFn: (e: any) => updateCourse(e),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Course updated successfully",
+        variant: "success",
+      });
+      navigate(
+        `/${location?.pathname?.split("/")[1]}/create_course/${
+          location?.pathname?.split("/")[3]
+        }?tab=${paramsTab}&step=${3}&version=${paramsversion}`,
+        {
+          replace: true,
+        }
+      );
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error.data?.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   const onSubmit = (data: FieldValues) => {
     const payload = {
       time: +data?.time,
       isOnline: +data?.isOnline,
-      universityAddress: data?.location,
+      universityAddress: data?.universityAddress,
       duration: data?.duration + " " + data?.durationType,
     };
 
-    mutate({
-      data: payload,
-      id: params || "",
-      paramsversion: paramsversion || "",
-    });
+    if (courseId) {
+      updateCourseFun({
+        payload,
+        id: courseId,
+        version: getSingleCourse?.data?.version
+      });
+    } else {
+      mutate({
+        data: payload,
+        id: params || "",
+        paramsversion: paramsversion || "",
+      });
+    }
   };
 
   return (
@@ -196,8 +230,9 @@ const CourseLogistic = () => {
               type="text"
               placeholder="University Address"
               className="p-4 py-[14px] !text-[#000] placeholder:text-black rounded-md text-base font-calibri"
-              {...register("location")}
-              error={errors.location?.message as string}
+              {...register("universityAddress")}
+              value={watch("universityAddress")}
+              error={errors.universityAddress?.message as string}
             />
           </div>
         </div>
@@ -212,6 +247,7 @@ const CourseLogistic = () => {
                 placeholder="Days / Weeks / Months / Year"
                 className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri text-base px-3 py-[14px]"
                 {...register("duration")}
+                value={watch("duration").split(" ")[0]}
                 error={errors.duration?.message as string}
               />
             </div>
@@ -231,7 +267,7 @@ const CourseLogistic = () => {
             type="submit"
             className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
           >
-            {isPending ? <Loader containerClassName="max-h-auto" /> : "Next"}
+            {isPending || isUpdatePending ? <Loader containerClassName="max-h-auto" /> : "Next"}
           </Button>
         </div>
       </form>

@@ -57,6 +57,11 @@ function CompanyRegister() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [soleTrader, setSoleTrader] = useState("");
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
 
   const schema = z.object({
     name: z.string().min(1, { message: "Name is required" }),
@@ -172,15 +177,12 @@ function CompanyRegister() {
 
   const path = 3 + 1;
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: path.toString() }, +UserId),
+    mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
-      localStorage.setItem(
-        "path",
-        JSON.stringify(data.data.data?.query?.pathStatus)
-      );
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
 

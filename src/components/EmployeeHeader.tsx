@@ -78,10 +78,10 @@ const EmployeeHeader = ({ title, subtitle }: headerTitleProps) => {
                 <img src={profile_img} alt="" />
               </div>
               <div className="lg:block hidden">
-                <h5 className="text-base font-nunito text-black font-semibold">
+                <h5 className="xl:text-base text-sm font-nunito text-black font-semibold">
                   Emilla Anderson
                 </h5>
-                <h6 className="text-base font-nunito text-black">
+                <h6 className="xl:text-base text-sm font-nunito text-black">
                   Team Member
                 </h6>
               </div>
