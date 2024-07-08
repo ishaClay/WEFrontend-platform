@@ -23,6 +23,11 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType } from "./constants";
+import ResolvedIcon from "@/assets/images/Resolved.png";
+import TotalTicketIcon from "@/assets/images/ticket.png";
+import PendingTicketIcon from "@/assets/images/ticket_star.png";
+import ResponseTicketIcon from "@/assets/images/message.png";
+import RequestTicketIcon from "@/assets/images/Request.png";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -48,6 +53,23 @@ export const getImages = (name: string, active?: boolean) => {
       return active ? GreenStrategicIntegrationGray : StrategicIntegrationGray;
     default:
       return active ? GreenEnvironmental : Environmental;
+  }
+};
+
+export const supportTicketIcon = (name: string) => {
+  switch (name) {
+    case "myrequests":
+      return RequestTicketIcon;
+    case "resolved":
+      return ResolvedIcon;
+    case "pending":
+      return PendingTicketIcon;
+    case "totalTickets":
+      return TotalTicketIcon;
+    case "responded":
+      return ResponseTicketIcon;
+    default:
+      return TotalTicketIcon;
   }
 };
 
@@ -494,10 +516,10 @@ export const fileValidation = (
 };
 
 export const getRandomHexColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
+  const letters = "0123456789ABCDEF";
+  let color = "#";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
-}
+};
