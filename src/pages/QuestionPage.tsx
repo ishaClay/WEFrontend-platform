@@ -66,10 +66,7 @@ const QuestionPage = () => {
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async (data) => {
-      localStorage.setItem(
-        "path",
-        JSON.stringify(data.data.data?.query?.pathStatus)
-      );
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });

@@ -71,8 +71,8 @@ export const pillarLimit = async (compnyId?: string) => {
     return res.data
 }
 
-export const pillarMaturity = async (data: {courseData: any, id: string, version: string}) => {
+export const pillarMaturity = async (data: { courseData: any, id: string, version: string }) => {
     const url = `api/v1/course/update-pillar-maturity/${data?.id}/${data?.version}`;
-    const res = await api({ url, data: {courseData: data?.courseData}, method: "put" });
+    const res = await api({ url, data: { courseData: data?.courseData }, method: "put" });
     return res.data
 }

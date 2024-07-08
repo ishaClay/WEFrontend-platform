@@ -1,6 +1,8 @@
-import { PrimaryButton } from "@/components/comman/Button/CustomButton";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { enumUpadate } from "@/services/apiServices/enum";
@@ -8,25 +10,23 @@ import { UserData } from "@/types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import RunnerIcon from "@/assets/images/RunnerIcon.svg";
-import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 
 function Assessment() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const UserId = useSelector((state: UserData) => state.user.UserId);
 
+  const userId = UserId ? UserId : userData?.query?.id;
+
   const { mutate: EnumUpadate } = useMutation({
-    mutationFn: () => enumUpadate({ path: "1" }, UserId),
+    mutationFn: () => enumUpadate({ path: "1" }, userId),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
-      localStorage.setItem(
-        "path",
-        JSON.stringify(data.data.data?.query?.pathStatus)
-      );
+
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
   console.log("EnumUpadate", EnumUpadate);

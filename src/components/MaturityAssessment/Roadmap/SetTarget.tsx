@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import Menu_Icon from "@/assets/images/menu_icon.png";
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
+import Menu_Icon from "@/assets/images/menu_icon.png";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -12,29 +12,30 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import DefineActionModel from "@/components/Models/DefineActionModel";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
+import Modal from "@/components/comman/Modal";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppSelector } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
+  addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
   updatePillarCheckbox,
-  addMeasuresItems,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
 import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
-import { FaStar } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import Modal from "@/components/comman/Modal";
-import { BsPencil } from "react-icons/bs";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import Loading from "@/components/comman/Error/Loading";
 import { Dot, Plus } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useMemo, useState } from "react";
+import { BsPencil } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 interface PillerItem {
@@ -580,6 +581,7 @@ const SetTarget = () => {
         </div>
       </div>
       <Loading isLoading={createPending} />
+      <DefineActionModel open={open} setOpen={setOpen} />
     </div>
   );
 };

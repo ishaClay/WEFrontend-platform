@@ -1,11 +1,11 @@
+import { MaturityAssessmentTabs } from "@/types/common";
 import { useState } from "react";
+import SelectMenu from "../comman/SelectMenu";
+import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
-import SelectMenu from "../comman/SelectMenu";
-import ActionItems from "./ActionItems/ActionItems";
-import { MaturityAssessmentTabs } from "@/types/common";
-import { Button } from "../ui/button";
 
 const assessmentDetailOptions = [
   {

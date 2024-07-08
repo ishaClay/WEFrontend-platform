@@ -48,10 +48,11 @@ const TeaserScore = () => {
   const path = 2 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
 

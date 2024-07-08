@@ -1,9 +1,13 @@
+import Stepper from "@/components/comman/Stepper";
+import React from "react";
 import Assign from "./Assign";
+import SetTarget from "./SetTarget";
 
 const Roadmap = () => {
+  const [step, setStep] = React.useState(0);
   return (
     <div className="">
-      <div className="mt-4 flex justify-between items-center mb-12 relative">
+      {/* <div className="mt-4 flex justify-between items-center mb-12 relative">
         <div className="flex items-center text-white relative">
           <div className="rounded-full sm:h-[32px] sm:w-[32px] h-[30px] w-[30px] flex items-center justify-center bg-[#D9D9D9] z-10">
             <div className="text-base text-[#606060] font-calibri">1</div>
@@ -33,9 +37,27 @@ const Roadmap = () => {
           </div>
         </div>
         <div className="w-full h-[1px] bg-[#D9D9D9] absolute top-0 bottom-0 left-0 right-0 m-auto z-0"></div>
+      </div> */}
+      <div className="w-full my-[40px]">
+        <Stepper
+          steps={[
+            "Select Pillars (that you want to advance on first)",
+            "Define Action Item",
+            "Assign",
+          ]}
+          currentStep={step}
+          onChangeStep={setStep}
+        />
       </div>
-      <Assign />
-      {/* <SetTarget /> */}
+      {step === 0 ? (
+        <SetTarget />
+      ) : (
+        step === 2 && (
+          <div className="w-full">
+            <Assign />
+          </div>
+        )
+      )}
     </div>
   );
 };

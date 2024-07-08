@@ -14,7 +14,7 @@ function HomeHeader(props: headerProps) {
   const navigate = useNavigate();
 
   const userData = localStorage?.getItem("user");
-  const userToken = !!userData && JSON.parse(userData)?.accessToken;
+  const path = JSON.parse(localStorage?.getItem("path") as string);
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
@@ -40,17 +40,17 @@ function HomeHeader(props: headerProps) {
   const handleGotoDashboard = () => {
     const user = !!userData && JSON.parse(userData)?.query;
 
-    switch (user.role) {
-      case "1":
+    switch (+user.role) {
+      case 1:
         navigate(`/company/dashboard`);
         break;
-      case "2":
+      case 2:
         navigate(`/trainer/dashboard`);
         break;
-      case "3":
+      case 3:
         navigate(`/trainee/dashboard`);
         break;
-      case "4":
+      case 4:
         navigate(`/employee/dashboard`);
         break;
 
@@ -97,10 +97,7 @@ function HomeHeader(props: headerProps) {
           <div className="font-bold text-lg text-color">
             {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
-                {((userToken &&
-                  !!userData &&
-                  JSON.parse(userData)?.query?.pathstatus === "7") ||
-                  JSON.parse(userData)?.query?.pathstatus > "3") && (
+                {!!path && (+path === 7 || +path > 3) && (
                   <PrimaryButton
                     onClick={handleGotoDashboard}
                     name="Go to Dashboard"

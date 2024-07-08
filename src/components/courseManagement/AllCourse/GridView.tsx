@@ -12,8 +12,8 @@ import {
 import { AllCoursesResult } from "@/types/courseManagement";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import CohortModal from "./CohortModal";
 import { useNavigate } from "react-router-dom";
+import CohortModal from "./CohortModal";
 
 // const selectOption = [
 //   {
@@ -51,12 +51,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     if (list?.length > 0) {
       const data = list.map((item) => {
         const version = item?.version?.find(
-          (itm) => itm?.course?.status === "Published" || itm?.version === 1
+          (itm) => itm?.data?.status === "Published" || itm?.version === 1
         );
         return {
           id: item?.id,
           versionId: version?.id as number,
-          status: version?.course?.status as string,
+          status: version?.data?.status as string,
         };
       });
       setVersionData(data);
@@ -96,7 +96,6 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     });
   };
 
-  
   return (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
@@ -105,15 +104,20 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === item?.id
           );
-          
+
+          const currentData = item?.version?.find(
+            (itm) => itm?.id === currentRecord?.versionId
+          );
+          console.log("item+++++++", currentData, currentRecord?.versionId);
+
           const versionOption =
-          item?.version &&
-          item?.version.map((itm) => {
-            return {
-              label: `V-${itm?.version}`,
-              value: itm?.id.toString() || "",
-            };
-          });
+            item?.version &&
+            item?.version.map((itm) => {
+              return {
+                label: `V-${itm?.version}`,
+                value: itm?.id.toString() || "",
+              };
+            });
           return (
             <div
               key={i}
@@ -121,8 +125,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
             >
               <div className="relative h-[190px] overflow-hidden">
                 <img
-                  src={item.bannerImage}
-                  alt={item.title}
+                  src={currentData?.data?.bannerImage}
+                  alt={currentData?.data?.title}
                   className="w-full"
                 />
                 <div className="absolute right-2 bottom-2">
@@ -133,15 +137,16 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
               </div>
               <div className="p-2">
                 <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] min-h-[48px] line-clamp-2">
-                  {item.title}
+                  {currentData?.data?.title}
                 </h5>
                 <div className="flex items-center justify-between mb-[11px]">
                   <div>
                     <h6 className="text-sm leading-5 font-normal font-nunito">
                       Created By :{" "}
-                      {item.trainerId
-                        ? item.trainerId?.name
-                        : item.trainerCompanyId?.providerName || "-"}
+                      {currentData?.data?.trainerId
+                        ? currentData?.data?.trainerId?.name
+                        : currentData?.data?.trainerCompanyId?.providerName ||
+                          "-"}
                     </h6>
                   </div>
                   <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
@@ -168,13 +173,15 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
               </div>
               <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] py-[9px] xl:px-[13px] px-1 border-t">
                 <Button
-                  disabled={item.status === "PUBLISHED"}
+                  disabled={currentData?.data?.status === "PUBLISHED"}
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
                 >
                   PUBLISH
                 </Button>
                 <Button
-                  onClick={() => handleCohort(item.id)}
+                  onClick={() =>
+                    handleCohort(currentRecord?.versionId as number)
+                  }
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
                   + Cohort
@@ -199,8 +206,18 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 font-nunito"
-                        onClick={() => navigate(`/${location?.pathname?.split("/")?.[1]}/create_course/${item?.id}?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`) }>
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 font-nunito"
+                        onClick={() =>
+                          navigate(
+                            `/${
+                              location?.pathname?.split("/")?.[1]
+                            }/create_course/${
+                              item?.id
+                            }?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`
+                          )
+                        }
+                      >
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>

@@ -58,6 +58,7 @@ export const QUERY_KEYS = {
   getSingleCourse: "getSingleCourse",
   selectTargetPillarLimit: "selectTargetPillarLimit",
   pillarMaturity: "pillarMaturity",
+  getCohortsByCourse: "getCohortsByCourse"
 };
 
 export const urlRegex =
