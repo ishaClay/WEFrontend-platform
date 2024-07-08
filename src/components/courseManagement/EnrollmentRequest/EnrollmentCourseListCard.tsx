@@ -7,73 +7,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { ErrorType } from "@/types/Errors";
-import { Enroll } from "@/types/enroll";
+import { Enroll, FetchEnrollRequestDataType } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Euro } from "lucide-react";
 
-interface CourseDetailType {
-  maturityId: number;
-  pillarId: number;
-  fetchMaturity: {
-    color: string;
-    createdAt: string;
-    deletedAt: Date;
-    id: number;
-    maturityLevelName: string;
-    rangeEnd: number;
-    rangeStart: number;
-    updatedAt: Date;
-  };
-  fetchPillar: {
-    id: string;
-    pillarName: string;
-    checked: number;
-    deletedAt: Date;
-    createdAt: Date;
-    updatedAt: Date;
-  };
-}
 
-interface EnrollmentCourseListCardProps {
-  data: {
-    course: {
-      bannerImage: string;
-      averageNumberOfEmployees: string;
-      companyName: string;
-      courseData: CourseDetailType[];
-      createdAt: string;
-      deletedAt: any;
-      description: string;
-      discountApplicable: number;
-      discout: number;
-      duration: string;
-      ectsCredits: string;
-      fetCredits: string;
-      freeCourse: number;
-      id: number;
-      institute: string;
-      instituteOther: string;
-      instituteWebsite: string;
-      instituteWebsite2: string;
-      isOnline: number;
-      keys: {
-        key: string;
-      }[];
-      otherInstitutionName: string;
-      price: number;
-      provider: number;
-      status: string;
-      time: number;
-      title: string;
-    };
-    createdAt: string;
-    enroll: number;
-    id: number;
-    request: number;
-  };
-}
-
-const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
+const EnrollmentCourseListCard = ({ data }: {data: FetchEnrollRequestDataType}) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: updateEnrollRequest } = useMutation({
@@ -104,7 +43,7 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
       <div className="flex items-center">
         <div>
           <img
-            src={data?.course?.bannerImage}
+            src={data?.courseVersion?.course?.bannerImage}
             alt="img"
             className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
           />
@@ -112,39 +51,51 @@ const EnrollmentCourseListCard = ({ data }: EnrollmentCourseListCardProps) => {
         <div className="2xl:px-10 xl:px-8 px-4">
           <div className="flex items-center xl:pb-5 pb-3">
             <CourseList rating={0} />
-            {data?.course?.courseData?.map((item) => {
-              return (
-                <Badge
-                  variant="outline"
-                  className={`bg-[${item.fetchMaturity?.color}] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                >
-                  {item.fetchPillar?.pillarName}
-                </Badge>
-              );
-            })}
+            <div className="ml-3 flex gap-2">
+              {data?.courseVersion?.course?.courseData?.map((item) => {
+                return (
+                  <Badge
+                    variant="outline"
+                    className={`p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                  >
+                    {item.fetchPillar?.pillarName}
+                  </Badge>
+                );
+              })}
+              {data?.courseVersion?.course?.courseData?.map((item) => {
+                return (
+                  <Badge
+                    variant="outline"
+                    className={`bg-[${item.fetchMaturity?.color}] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                  >
+                    {item?.fetchMaturity?.maturityLevelName}
+                  </Badge>
+                );
+              })}
+            </div>
           </div>
 
           <h6 className="xl:text-base text-sm leading-7 text-[#1D2026] font-inter font-medium">
-            {data?.course?.title}
+            {data?.courseVersion?.course?.title}
           </h6>
           <div className="flex flex-wrap justify-between items-center xl:pt-5 pt-2 gap-6">
             <div className="font-calibri">
               <p className="text-base font-medium">
                 Company Name :{" "}
-                <span className="font-bold">{data?.course?.companyName}</span>
+                <span className="font-bold">{data?.company?.name}</span>
               </p>
             </div>
             <div className="font-calibri">
               <p className="text-base font-medium">
                 Number Of Employee :{" "}
                 <span className="font-bold">
-                  {data?.course?.averageNumberOfEmployees}
+                  {data?.employee?.length || 0}
                 </span>
               </p>
             </div>
             <div className="flex font-bold font-calibri text-base">
               <Euro className="w-[16px] font-bold" />
-              {data?.course?.price}
+              {data?.courseVersion?.course?.price}
             </div>
           </div>
         </div>

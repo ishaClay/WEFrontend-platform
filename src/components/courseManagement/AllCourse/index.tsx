@@ -3,7 +3,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ const AllCourses = () => {
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
@@ -25,10 +26,16 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
+    refetch: fetchCourseAllCourseRefetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse],
-    queryFn: () => fetchCourseAllCourse(),
+    queryFn: () => fetchCourseAllCourse(searchKeyword),
   });
+
+  useEffect(() => {
+    fetchCourseAllCourseRefetch()
+  }, [searchKeyword])
+  
 
   return (
     <div>
@@ -65,8 +72,9 @@ const AllCourses = () => {
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"
-              placeholder="Search by Pillar, level, recommended, course name etc."
+              placeholder="Search by course name, category, maturity level, course by..."
               className="flex-1 focus:outline-none text-sm placeholder-[#D9D9D9]"
+              onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
           <div className="flex ml-6">

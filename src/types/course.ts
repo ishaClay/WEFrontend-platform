@@ -32,6 +32,7 @@ export interface CourseData {
   bannerImage: string;
   keys?: null;
   courseData?: (CourseDataEntity)[] | null;
+  certificate?: CertificateType | null;
   status: string;
   deletedAt?: null;
   createdAt: string;
@@ -42,6 +43,23 @@ export interface CourseDataEntity {
   pillarId: number;
   maturityId: number;
 }
+export interface CertificateType {
+  id: number;
+  templateName: string;
+  backgroundImage: string;
+  logoImage: string;
+  title: string;
+  employeeName: string;
+  bodyText: string;
+  administratorTitle: string;
+  administratorSignature: string;
+  instructorTitle: string;
+  instructorSignature: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface NfqLeval {
   id: number;
   leval: string;
@@ -59,4 +77,9 @@ export interface SlotStartDateOrSlotEndDate {
   date: string;
   month: string;
   year: string;
+}
+
+export interface PublishCourseType {
+  id: number;
+  status: string;
 }

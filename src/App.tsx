@@ -788,6 +788,7 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="employee-basic-course" element={<BasicCoursePage />} />
         </Route>
       </Routes>
     </div>

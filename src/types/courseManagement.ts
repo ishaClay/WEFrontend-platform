@@ -157,82 +157,42 @@ export interface AllCoursesResponse {
 export interface AllCoursesResult {
   id: number;
   title: string;
-  institute: string;
-  instituteWebsite: string;
-  instituteWebsite2: string;
   freeCourse: number;
   discout: number;
-  discountApplicable: number;
-  provider: number;
-  ectsCredits?: string | null;
-  fetCredits?: string | null;
-  time: number;
-  isOnline: number;
-  universityAddress?: string | null;
-  duration?: string | null;
-  price?: number | null;
-  instituteOther?: string | null;
-  otherInstitutionName?: string | null;
-  description?: string | null;
+  duration: string;
+  price: number;
+  description: string;
   bannerImage: string;
-  keys?: string | null;
-  courseData?: (CourseDataEntity | null)[] | null;
+  courseData?: (CourseDataEntity)[] | null;
   status: string;
-  deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  trainerId: TrainerId;
-  trainerCompanyId: TrainerCompanyId;
-  version?: (VersionEntity | null)[] | null;
-  module?: (null)[] | null;
+  version?: (VersionEntity)[] | null;
+  currentVersion: CurrentVersion;
+  module?: (ModuleEntity)[] | null;
+  trainerCompanyId: TrainerCompanyId | null;
+  trainerId?: TrainerId | null;
 }
 export interface CourseDataEntity {
   pillarId: number;
   maturityId: number;
+  fetchMaturity: FetchMaturity;
+  fetchPillar: FetchPillar;
 }
-export interface TrainerId {
+export interface FetchMaturity {
   id: number;
-  name?: null;
-  surname?: null;
-  gender?: null;
-  ageRange?: null;
-  email: string;
-  phone?: null;
-  currentHighestNFQ?: null;
-  employmentStatus: string;
-  foreignProvider?: null;
-  providerAddress?: null;
-  providerCity?: null;
-  providerCounty?: null;
-  attendedEvent?: null;
-  providerName?: null;
-  memberCompany?: null;
-  occupationalCategory?: null;
-  unemploymentTime?: null;
-  countyOfResidence?: null;
-  approved: boolean;
-  status: number;
-  rating: number;
+  maturityLevelName: string;
+  rangeStart: number;
+  rangeEnd: number;
+  color: string;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
 }
-export interface TrainerCompanyId {
+export interface FetchPillar {
   id: number;
-  providerName: string;
-  providerType: string;
-  providerCity: string;
-  providerCounty: string;
-  contactSurname: string;
-  contactTelephone: string;
-  foreignProvider: boolean;
-  providerAddress: string;
-  providerCountry: string;
-  contactFirstName?: string | null;
-  providerNotes: string;
-  approved: boolean;
-  pillarLimit: number;
-  status: string;
+  pillarName: string;
+  checked: number;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
@@ -241,40 +201,39 @@ export interface VersionEntity {
   id: number;
   version: number;
   createdAt: string;
-  updatedAt: string;
-  data: Course1;
 }
-export interface Course1 {
+export interface CurrentVersion {
   id: number;
-  title: string;
-  institute: string;
-  instituteWebsite: string;
-  instituteWebsite2: string;
-  freeCourse: number;
-  discout: number;
-  discountApplicable: number;
-  provider: number;
-  ectsCredits?: string | null;
-  fetCredits?: string | null;
-  time: number;
-  isOnline: number;
-  universityAddress?: string | null;
-  duration?: string | null;
-  price?: number | null;
-  instituteOther?: string | null;
-  otherInstitutionName?: string | null;
-  description?: string | null;
-  bannerImage: string;
-  keys?: string | null;
-  courseData?: (CourseDataEntity1 | null)[] | null;
-  trainerId: TrainerId;
-  trainerCompanyId: TrainerCompanyId;
-  status: string;
-  deletedAt?: string | null;
+  version: number;
   createdAt: string;
   updatedAt: string;
 }
-export interface CourseDataEntity1 {
-  pillarId: number;
-  maturityId: number;
+export interface ModuleEntity {
+  id: number;
+  title: string;
+  position: number;
+  moduleSection?: (ModuleSectionEntity)[] | null;
+}
+export interface ModuleSectionEntity {
+  id: number;
+  title: string;
+  duration?: null;
+  position: number;
+  readingTime: ReadingTime;
+  isLive: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ReadingTime {
+  hour: number;
+  minute: number;
+  second: number;
+}
+export interface TrainerCompanyId {
+  id: number;
+  providerName: string;
+}
+export interface TrainerId {
+  id: number;
+  name: string;
 }

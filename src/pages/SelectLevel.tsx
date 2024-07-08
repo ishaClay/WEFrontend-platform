@@ -234,12 +234,12 @@ function SelectLevel() {
     currentPiller: string
   ) => {
     setOpen(!open);
-    console.log("pillerItems", currentPiller);
-
     e.preventDefault();
-    // const measures = pillerItems[currentPiller].map((item) => ({
-    //   measure: item,
-    // }));
+    const measures = pillerItems[currentPiller].map((item) => ({
+      measure: item,
+    }));
+    console.log("measures", measures);
+    
 
     // createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };

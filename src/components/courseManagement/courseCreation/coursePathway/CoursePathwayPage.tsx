@@ -52,14 +52,20 @@ const CoursePathwayPage = () => {
 
   const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } = useMutation({
     mutationFn: (e:any) => pillarMaturity(e),
-    onSuccess: (data) => {
+    onSuccess: () => {
       setIsError(false);
-      navigate(
-        `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
-      );
+      if(+courseId){
+        navigate(
+          `/${pathName}/create_course/${courseId}?tab=${2}&version=${paramsversion}`
+        );
+      }else{
+        navigate(
+          `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
+        );
+      }
       toast({
         title: "Success",
-        description: data?.data?.message,
+        description: `Course Pathway ${+courseId ? "updated" : "created"} successfully`,
         variant: "success",
       });
     }
@@ -91,7 +97,7 @@ const CoursePathwayPage = () => {
   const {data: getSingleCourse} = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    enabled: +courseId ? !!paramsversion : false,
   })
   
   useEffect(() => {
@@ -105,8 +111,8 @@ const CoursePathwayPage = () => {
     if (selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit) {
       const payload = {
         courseData: selectedData, 
-        id: courseId? courseId :paramsId,
-        version: courseId ? getSingleCourse?.data?.version : paramsversion
+        id: +courseId? +courseId : paramsId,
+        version: +courseId ? getSingleCourse?.data?.version : paramsversion
       }
       pillarMaturityFun(payload);
     } else {      
