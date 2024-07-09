@@ -6,35 +6,35 @@ import AccountSetting from "./AccountSetting";
 const ModalTabs = () => {
   return (
     <Tabs defaultValue="profile" className="w-full grid grid-cols-12">
-      <div className="col-span-3">
-        <TabsList className="p-0 flex flex-col justify-start gap-3 w-full h-full">
+      <div className="sm:col-span-3 col-span-12 sm:mb-0 mb-4">
+        <TabsList className="p-0 flex sm:flex-col justify-start gap-3 w-full h-full">
           <TabsTrigger
             value="profile"
-            className="text-[13px] font-Poppins w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
+            className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
           >
-            Profile Setting
+            Profile
           </TabsTrigger>
           <TabsTrigger
             value="account"
-            className="text-[13px] font-Poppins w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
+            className="sm:text-[13px] text-xs font-Poppins w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
           >
-            Account Setting
+            Account
           </TabsTrigger>
           {/* <TabsTrigger
             value="logout"
-            className="text-[13px] font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
+            className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B]"
           >
             Log Out
           </TabsTrigger> */}
           <Button
             variant={"ghost"}
-            className="text-[13px] font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block hover:bg-[#00778B] hover:text-white"
+            className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block hover:bg-[#00778B] hover:text-white"
           >
             Logout
           </Button>
         </TabsList>
       </div>
-      <div className="col-span-9 ps-5 border-l border-[#3E4E4E4] ms-5">
+      <div className="sm:col-span-9 col-span-12 sm:ps-5 ps-0 sm:border-l border-l-none border-[#3E4E4E4] sm:ms-5 ms-0">
         <TabsContent value="profile" className="m-0">
           <ProfileSetting />
         </TabsContent>

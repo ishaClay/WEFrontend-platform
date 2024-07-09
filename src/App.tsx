@@ -679,7 +679,6 @@ function App() {
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
           />
-          <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
           <Route
             path="ticket-details-reply"
