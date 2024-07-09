@@ -66,6 +66,8 @@ const Compose = () => {
   const [isActive, setIsActive] = useState("client");
   const [images, setImages] = useState<string[]>([]);
   const [emailTemplateMessage, setEmailTemplateMessage] = useState("");
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
   const userRole =
     isActive === "admin"
       ? UserRole.SuperAdmin
@@ -279,7 +281,7 @@ const Compose = () => {
                   </div>
                   <div
                     className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
-                      isActive === "Trainer" ? "border-[#00778B]" : ""
+                      isActive === "trainer" ? "border-[#00778B]" : ""
                     }`}
                     onClick={() => setIsActive("trainer")}
                   >
@@ -303,7 +305,7 @@ const Compose = () => {
             <Button
               variant={"ghost"}
               className="text-black font-semibold gap-2 text-[16px] m-0"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate(`/${currentUser}/message`)}
             >
               <IoIosArrowRoundBack size={26} />
               Back
@@ -436,11 +438,11 @@ const Compose = () => {
                         >
                           <MdClose className="h-4 w-4" />
                         </Button>
-                        {image.endsWith(".pdf") ? (
+                        {image?.endsWith(".pdf") ? (
                           <div className="flex items-center">
                             <IoIosDocument />
                             <span className="mx-3 text-[12px] text-medium">
-                              {image.split("upload/")[1]}
+                              {image?.split("upload/")[1]}
                             </span>
                           </div>
                         ) : (

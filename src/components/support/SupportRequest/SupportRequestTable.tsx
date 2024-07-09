@@ -87,6 +87,9 @@ const SupportRequestTable = () => {
       cell: ({ row }) => {
         return moment(row.original.updatedat).format("DD-MM-YYYY");
       },
+      meta: {
+        className: "sm:table-cell hidden",
+      },
     },
     {
       accessorKey: "openbyname",
@@ -120,6 +123,9 @@ const SupportRequestTable = () => {
             {row.original.openbyname}
           </Link>
         );
+      },
+      meta: {
+        className: "sm:table-cell hidden",
       },
     },
     {
@@ -215,6 +221,9 @@ const SupportRequestTable = () => {
           </Link>
         );
       },
+      meta: {
+        className: "sm:table-cell hidden",
+      },
     },
     {
       accessorKey: "priority",
@@ -254,6 +263,9 @@ const SupportRequestTable = () => {
           </Badge>
         );
       },
+      meta: {
+        className: "sm:table-cell hidden",
+      },
     },
     {
       accessorKey: "action",
@@ -272,6 +284,9 @@ const SupportRequestTable = () => {
             </Button>
           </div>
         );
+      },
+      meta: {
+        className: "sm:table-cell hidden",
       },
     },
   ];
@@ -303,16 +318,20 @@ const SupportRequestTable = () => {
 
   return (
     <div className="">
-      <div className="flex items-center py-4 relative">
+      <div className="flex items-center pb-5 relative">
         <Input
           placeholder={"Search by Requestor, Subject, Assign to etc."}
           value={search}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setSearch(e.target.value)
           }
-          className="py-[17px] pl-[39px] border w-[550px] rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+          className="py-[17px] pl-[39px] border sm:w-[550px] w-full rounded-[6px] sm:mx-[23px] mx-[15px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
         />
-        <img src={searchIcon} alt="searchIcon" className="absolute left-10" />
+        <img
+          src={searchIcon}
+          alt="searchIcon"
+          className="absolute sm:left-10 left-7"
+        />
       </div>
       {supportRequestPending ? (
         <span className="flex justify-center items-center py-10">
@@ -325,6 +344,7 @@ const SupportRequestTable = () => {
           totalPages={support_request_list?.data?.metadata?.totalPages || 1}
           setPage={setPage}
           inputbox={false}
+          border={false}
           pagination={{ pageIndex: page, pageSize: 10 }}
           searchPlaceholder="Search by Requestor, Subject, Assign to etc."
           searchFilter={(e) => setSearch(e)}

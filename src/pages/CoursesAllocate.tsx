@@ -73,7 +73,7 @@ function CoursesAllocate() {
           {isPending ? (
             <Loader />
           ) : (
-            course?.data?.courseAlloted?.map((courseallocate) => {
+            course?.data?.courseAlloted && course?.data?.courseAlloted?.length > 0 ? course?.data?.courseAlloted?.map((courseallocate) => {
               return (
                 <>
                   <div key={courseallocate.id} className="p-4">
@@ -328,7 +328,7 @@ function CoursesAllocate() {
                     )} */}
                 </>
               );
-            })
+            }) : <span className="text-center h-[calc(100vh-250px)] flex items-center justify-center text-xl text-neutral-400">No data found</span>
           )}
         </div>
       </div>

@@ -24,6 +24,7 @@ import { useState } from "react";
 import { Input } from "../../components/ui/input";
 import Paginations from "./Pagination";
 import search from "/assets/icons/search.svg";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +33,7 @@ interface DataTableProps<TData, TValue> {
   pagenationbox?: true;
   pagination?: PaginationState;
   totalPages?: number;
+  border?: boolean;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
@@ -43,6 +45,7 @@ export function NewDataTable<TData, TValue>({
   data,
   columns,
   inputbox = true,
+  border = true,
   pagenationbox,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
@@ -92,19 +95,21 @@ export function NewDataTable<TData, TValue>({
   };
 
   return (
-    <div className="w-full">
+    <div className="lg:w-auto w-[calc(100vw-40px)]">
       {!!inputbox && (
         <div className="flex items-center py-4 relative">
           <Input
             placeholder={searchPlaceholder}
             value={globalFilter}
             onChange={(e) => handleSearchFilter(e.target.value)}
-            className="py-[17px] pl-[39px] border w-[550px] rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+            className="py-[17px] pl-[39px] border lg:w-[550px] w-auto rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
           />
           <img src={search} alt="" className="absolute left-10" />
         </div>
       )}
-      <div className="rounded-md border">
+      <div
+        className={`rounded-md ${border ? "rounded-md border" : "border-none"}`}
+      >
         <Table>
           <TableHeader className="bg-[#F1F1F1] text-[15px] font-semibold">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -113,7 +118,12 @@ export function NewDataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-black font-medium"
+                      className={cn(
+                        "text-black font-medium",
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        header?.column?.columnDef?.meta?.className
+                      )}
                     >
                       {header.isPlaceholder
                         ? null
@@ -144,7 +154,14 @@ export function NewDataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        cell?.column?.columnDef?.meta?.className
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

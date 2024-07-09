@@ -48,7 +48,7 @@ const CourseBanner = () => {
   const {data: getSingleCourse} = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    enabled: +courseId ? !!paramsversion : false,
   })
 
   useEffect(() => {
@@ -65,14 +65,14 @@ const CourseBanner = () => {
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course updated successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${location?.pathname?.split("/")[3]}?tab=${1}&version=${paramsversion}`,
+        `/${pathName}/create_course/${courseId}?tab=${1}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -134,10 +134,10 @@ const CourseBanner = () => {
       bannerImage: image,
       keys: keyData,
     };
-    if (courseId) {
+    if (+courseId) {
       updateCourseFun({
         payload,
-        id: courseId,
+        id: +courseId,
         version: getSingleCourse?.data?.version
       });
     } else {

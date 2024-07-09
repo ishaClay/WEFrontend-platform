@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CoursePathway from "./CoursePathway";
-import Forum from "./Forum/Forum";
+import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
 import { MoveLeft } from "lucide-react";
 import BasicDetails from "./basicDetails";

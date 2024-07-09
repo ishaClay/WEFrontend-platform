@@ -1,25 +1,24 @@
+import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/datepicker";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  assignItemForEmployee,
+  EmployeeList,
+} from "@/services/apiServices/employee";
+import { MeasuresItemsResponse } from "@/types/employee";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Dispatch, useState } from "react";
 
-const asignModel = [
-  {
-    label: "Team Member1",
-    value: "team member1",
-  },
-  {
-    label: "Team Member2",
-    value: "team member2",
-  },
-  {
-    label: "Team Member3",
-    value: "team member3",
-  },
-];
-
-const AssignModel = () => {
+const AssignModel = ({
+  id,
+  setIsOpenAssignModel,
+}: {
+  id: number | null;
+  setIsOpenAssignModel: Dispatch<React.SetStateAction<number | null>>;
+}) => {
   const [selectAsignModel, setSelectAsignModel] = useState("");
   const [date, setDate] = useState<{
     startDate: Date | undefined;
@@ -28,8 +27,53 @@ const AssignModel = () => {
     startDate: undefined,
     endDate: undefined,
   });
+  const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string).query
+    .detailsid;
+  const { data } = useQuery<MeasuresItemsResponse>({
+    queryKey: [QUERY_KEYS.getEmployeeList, { userData }],
+    queryFn: () => EmployeeList(userData, "Active"),
+  });
 
-  console.log("datedatedatedatedate", date);
+  const empOption = data?.data?.map((item) => {
+    return {
+      label: item?.name || "-",
+      value: item?.id.toString(),
+    };
+  });
+
+  console.log("data", data);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: assignItemForEmployee,
+    onSuccess: async (data) => {
+      console.log("data", data);
+      setIsOpenAssignModel(null);
+      setDate({
+        startDate: undefined,
+        endDate: undefined,
+      });
+      setSelectAsignModel("");
+
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.checkedMeasures],
+      });
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+
+  const handleSubmit = () => {
+    const payload = {
+      employeeId: selectAsignModel,
+      startDate: date?.startDate,
+      endDate: date?.endDate,
+    };
+    if (id) {
+      mutate({ data: payload, masureId: +id });
+    }
+  };
 
   return (
     <div className="">
@@ -46,7 +90,7 @@ const AssignModel = () => {
       </div>
 
       <SelectMenu
-        option={asignModel}
+        option={empOption || []}
         setValue={(data: string) => setSelectAsignModel(data)}
         value={selectAsignModel}
         placeholder="Select Team Member"
@@ -69,8 +113,17 @@ const AssignModel = () => {
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />
       <div className="flex justify-end pt-[30px]">
-        <Button className="text-base font-nunito xl:w-[137px] w-[130px] xl:h-[52px] h-[48px] bg-[#58BA66]">
-          Assign
+        <Button
+          disabled={
+            selectAsignModel === "" ||
+            date.startDate === undefined ||
+            date.endDate === undefined
+          }
+          type="button"
+          onClick={handleSubmit}
+          className="!disabled:cursor-not-allowed text-base font-nunito xl:w-[137px] w-[130px] xl:h-[52px] h-[48px] bg-[#58BA66]"
+        >
+          {isPending ? <Loader /> : "Assign"}
         </Button>
       </div>
     </div>

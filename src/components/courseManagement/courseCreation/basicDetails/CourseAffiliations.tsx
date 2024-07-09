@@ -86,7 +86,7 @@ const CourseAffiliations = () => {
   const {data: getSingleCourse} = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    enabled: +courseId ? !!paramsversion : false,
   })
 
   useEffect(() => {
@@ -100,10 +100,10 @@ const CourseAffiliations = () => {
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course updated successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
@@ -128,10 +128,10 @@ const CourseAffiliations = () => {
       otherInstitutionName: data?.otherInstitutionName,
     };
 
-    if (courseId) {
+    if (+courseId) {
       updateCourseFun({
         payload,
-        id: courseId,
+        id: +courseId,
         version: getSingleCourse?.data?.version
       });
     } else {

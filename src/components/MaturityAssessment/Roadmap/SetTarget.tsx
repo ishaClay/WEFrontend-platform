@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
 import Menu_Icon from "@/assets/images/menu_icon.png";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 
-import DefineActionModel from "@/components/Models/DefineActionModel";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
@@ -25,31 +25,37 @@ import {
   addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
+  getActionItembyPiller,
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
-import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
+import {
+  FilteredOptionsEntity,
+  MeasuresItemsResponse,
+  SinglePillar,
+} from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dot, Plus } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 interface PillerItem {
   [key: string]: string[];
 }
 
-const SetTarget = () => {
-  const navigate = useNavigate();
+const SetTarget = ({
+  setStep,
+}: {
+  setStep: Dispatch<React.SetStateAction<number>>;
+}) => {
   const [open, setOpen] = useState(false);
-  console.log("+++++++", open);
-
   const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
-  console.log("actionItems", actionItems);
+  const [view, setView] = useState<{ id: number; view: number }[] | null>(null);
+  console.log("actionItems", pillerItems);
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>("");
@@ -58,13 +64,12 @@ const SetTarget = () => {
 
   const [selectmaturity, setselectMaturity] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
-  console.log("+++++", currentPiller, setEditId);
   console.log(editId);
   const dispatch = useDispatch();
   const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
 
-  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const { clientId, UserId } = useAppSelector((state: any) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId
     ? +UserId
@@ -72,10 +77,42 @@ const SetTarget = () => {
     ? userData?.query?.id
     : userData?.id;
   // console.log("clientIdclientId", clientId);
-  console.log("clientIdclientId", UserId);
+
+  useEffect(() => {
+    if (pillars) {
+      const viewData = pillars.map((item: any) => {
+        return {
+          id: item?.pillarid,
+          view: 2,
+        };
+      });
+      setView(viewData);
+    }
+  }, [pillars]);
+
+  const handleChangesView = (piller: number) => {
+    setView((prev: any) => {
+      return prev.map((item: any) => {
+        if (item.id === piller) {
+          return {
+            ...item,
+            view: item.view === 2 ? 0 : 2,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  // console.log(actionItems)
+  const addActionItem = (currentPiller: string) => {
+    setPillerItems({
+      [currentPiller]: [...pillerItems[currentPiller], ""],
+    } as PillerItem);
+  };
 
   // const addActionItem1 = () => {
   //   setActionItems1([...actionItems1, ""]);
@@ -83,45 +120,46 @@ const SetTarget = () => {
 
   const { data: maturitypillar, isPending } = useQuery({
     queryKey: [QUERY_KEYS.maturitypillar],
-    queryFn: () => fetchMaturityPillar(+clientId, +UserId),
+    queryFn: () => fetchMaturityPillar(clientId, userID),
     enabled: true,
   });
 
-  console.log("maturitypillarmaturitypillar", maturitypillar);
-
-  const { data: filtermesuresdata, refetch: refetchfiltermesuresdata } =
-    useQuery({
-      queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
-      queryFn: () =>
-        filterMaturityMeasures(
-          clientId as string,
-          UserId as string,
-          selectmaturity as any,
-          pid as string
-        ),
-      enabled: !!selectmaturity && !!pid,
-    });
-
-  console.log("isPending", isPending);
+  const { data: getActionItems, isLoading } = useQuery<MeasuresItemsResponse>({
+    queryKey: [QUERY_KEYS.getActionItems, { pid, userID }],
+    queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
+    enabled: open && !!pid && !!userID,
+  });
 
   useEffect(() => {
-    if (maturitypillar?.data?.data?.length > 0) {
-      maturitypillar?.data?.data?.map((item: any) => {
-        const oldData = Object.keys(pillerItems);
-        if (!oldData.includes(item?.pillarname)) {
-          return setPillerItems((prev) => ({
-            ...prev,
-            [item.pillarname]: [""],
-          }));
-        }
-        return;
-      });
+    if (getActionItems && currentPiller) {
+      console.log("getActionItems", getActionItems, currentPiller);
+
+      setPillerItems({
+        [currentPiller]: (getActionItems?.data &&
+          getActionItems?.data?.length > 0 &&
+          getActionItems?.data?.map((item) => ({
+            id: item?.id,
+            name: item?.measure,
+          }))) || [""],
+      } as any);
     }
-  }, [maturitypillar]);
+  }, [getActionItems, currentPiller]);
 
-  useEffect(() => {
-    refetchfiltermesuresdata();
-  }, [selectmaturity]);
+  console.log("getActionItemsgetActionItemsgetActionItems", pillerItems);
+
+  const { data: filtermesuresdata, isLoading: measuresPending } = useQuery({
+    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+    queryFn: () =>
+      filterMaturityMeasures(
+        clientId as string,
+        userID as string,
+        selectmaturity as any,
+        pid as string
+      ),
+    enabled: !!selectmaturity && !!pid,
+  });
+
+  console.log("isPending", measuresPending);
 
   // const { data: getCheckedmeasures } = useQuery({
   //   queryKey: [QUERY_KEYS.checkedMeasures],
@@ -134,16 +172,17 @@ const SetTarget = () => {
   const path = 5 + 1;
   const { mutate: EnumUpadate }: any = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
 
   const handleSelect = () => {
     EnumUpadate(path);
-    navigate("/maturitylevelactionitem");
+    setStep(2);
   };
 
   useEffect(() => {
@@ -154,11 +193,6 @@ const SetTarget = () => {
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
       updatePillarCheckbox(data.checked, data.id as string),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.maturitypillar],
-      });
-    },
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
@@ -166,63 +200,6 @@ const SetTarget = () => {
       });
     },
   });
-
-  // const { mutate: updateNextMaturity } = useMutation({
-  //   mutationFn: updateNextMaturityLevel,
-  // });
-
-  const handleChange = (e: any, p_id: string) => {
-    // console.log("p_idp_id", p_id);
-
-    setselectMaturity(e);
-    if (p_id !== null) {
-      setPId(p_id);
-    }
-  };
-
-  const removeActionItem = (index: number, currentPiller: string) => {
-    setPillerItems((prev) => ({
-      ...prev,
-      [currentPiller]: prev[currentPiller].filter((item: string, i: number) => {
-        console.log(item);
-        return i !== index;
-      }),
-    }));
-  };
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    currentPiller: string
-  ) => {
-    setOpen(!open);
-    e.preventDefault();
-    const measures = pillerItems[currentPiller].map((item) => ({ name: item }));
-
-    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
-  };
-
-  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
-    mutationFn: addMeasuresItems,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.measuresItems],
-      });
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
-
-  const addActionItem = (currentPiller: string) => {
-    // setActionItems([...actionItems, ""]);
-    setPillerItems((prev) => ({
-      ...prev,
-      [currentPiller]: [...pillerItems[currentPiller], ""],
-    }));
-  };
 
   const handleActionItemChange = (
     index: number,
@@ -240,35 +217,80 @@ const SetTarget = () => {
     }));
   };
 
+  const handleChange = (e: any, p_id: string) => {
+    // console.log("p_idp_id", p_id);
+
+    setselectMaturity(e);
+    if (p_id !== null) {
+      setPId(p_id);
+    }
+  };
+
+  const handleClose = async () => {
+    setPillerItems({});
+    setOpen(false);
+    setPId(null);
+  };
+
+  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
+    mutationFn: addMeasuresItems,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.measuresItems],
+      });
+      handleClose();
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const removeActionItem = (index: number, currentPiller: string) => {
+    setPillerItems(
+      (prev) =>
+        ({
+          [currentPiller]: prev[currentPiller].filter((item, i) => {
+            console.log(item);
+            return i !== index;
+          }),
+        } as PillerItem)
+    );
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    currentPiller: string
+  ) => {
+    setOpen(!open);
+    e.preventDefault();
+    const measures = pillerItems[currentPiller].map((item) => {
+      // @ts-ignore
+      if (!!item?.id && !!item?.name) {
+        // @ts-ignore
+        return { name: item?.name, id: item?.id };
+      } else {
+        return { name: item };
+      }
+    });
+
+    console.log("measures", measures);
+
+    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
+  };
+
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
-
-  const handleDisabledButton = useMemo(() => {
-    if (pillerItems && pillars) {
-      const fetchData = pillars?.map((item: any) => {
-        if (item?.checked === 1) {
-          return pillerItems[item?.pillarname]?.filter(
-            (item: string) => item !== ""
-          )?.length > 0
-            ? false
-            : true;
-        }
-        return false;
-      });
-
-      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
-      return !checkPiller
-        ? fetchData?.filter((item: boolean) => item === true).length === 0
-        : !checkPiller;
-    }
-  }, [pillars, pillerItems]);
-
-  console.log("pillerItemspillerItemspillerItems", pillerItems);
   return (
     <div>
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          setOpen(false);
+          setPId(null);
+        }}
         className="lg:max-w-[815px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
       >
         <div className="">
@@ -331,64 +353,73 @@ const SetTarget = () => {
                 </div>
 
                 <div className="col-span-1">
-                  <div className="sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
-                    <div className="px-5 py-2 border-b border-solid h-[42px] relative">
-                      <h5 className="text-[#1D2026] font-calibri font-bold">
-                        Enter initiatives or action items
-                      </h5>
-                    </div>
-                    <form
-                      onSubmit={(e) => handleSubmit(e, currentPiller)}
-                      className=""
-                    >
+                  <form
+                    onSubmit={(e) => handleSubmit(e, currentPiller)}
+                    className=""
+                  >
+                    <div className="sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
+                      <div className="px-5 py-2 border-b border-solid h-[42px] relative">
+                        <h5 className="text-[#1D2026] font-calibri font-bold">
+                          Enter initiatives or action items
+                        </h5>
+                      </div>
                       <div className="w-full">
                         <ScrollArea className="h-[225px]">
                           <div className="flex flex-col gap-5 px-3.5 py-2.5">
-                            {pillerItems[currentPiller]?.map(
-                              (item: any, index: number) => (
-                                <div
-                                  key={index}
-                                  className="flex items-center justify-between"
-                                >
-                                  <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[190px] overflow-hidden">
-                                    <input
-                                      type="text"
-                                      placeholder="Action item"
-                                      value={item}
-                                      onChange={(e) =>
-                                        handleActionItemChange(
-                                          index,
-                                          e.target.value,
-                                          currentPiller
-                                        )
-                                      }
-                                      className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
-                                    />
+                            {isLoading ? (
+                              <Loader />
+                            ) : (
+                              pillerItems[currentPiller]?.map(
+                                (item: any, index: number) => (
+                                  <div
+                                    key={index}
+                                    className="flex items-center justify-between"
+                                  >
+                                    <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[190px] overflow-hidden">
+                                      <input
+                                        type="text"
+                                        placeholder="Action item"
+                                        value={
+                                          typeof item === "string"
+                                            ? item
+                                            : item.name
+                                        }
+                                        onChange={(e) =>
+                                          handleActionItemChange(
+                                            index,
+                                            e.target.value,
+                                            currentPiller
+                                          )
+                                        }
+                                        className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
+                                      />
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                      <button
+                                        type="button"
+                                        className="border-none bg-transparent text-lg cursor-pointer"
+                                        onClick={() => setEditId(index)}
+                                      >
+                                        <BsPencil className="text-[#B9B9B9]" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="border-none bg-transparent text-lg cursor-pointer"
+                                        onClick={() =>
+                                          removeActionItem(index, currentPiller)
+                                        }
+                                      >
+                                        <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                      </button>
+                                    </div>
                                   </div>
-                                  <div className="flex items-center gap-1">
-                                    <button
-                                      type="button"
-                                      className="border-none bg-transparent text-lg cursor-pointer"
-                                      onClick={() => setEditId(index)}
-                                    >
-                                      <BsPencil className="text-[#B9B9B9]" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="border-none bg-transparent text-lg cursor-pointer"
-                                      onClick={() =>
-                                        removeActionItem(index, currentPiller)
-                                      }
-                                    >
-                                      <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                    </button>
-                                  </div>
-                                </div>
+                                )
                               )
                             )}
                           </div>
                           <div className="text-right py-2.5 px-3.5">
                             <Button
+                              type="button"
                               onClick={() => addActionItem(currentPiller)}
                               className="w-3 bg-black p-0 h-3 rounded-[2px]"
                             >
@@ -397,22 +428,23 @@ const SetTarget = () => {
                           </div>
                         </ScrollArea>
                       </div>
-                    </form>
-                  </div>
-                  <div className="text-right mt-6">
-                    <Button
-                      type="submit"
-                      className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
-                    >
-                      Close
-                    </Button>
-                  </div>
+                    </div>
+                    <div className="text-right mt-6">
+                      <Button
+                        type="submit"
+                        className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={handleClose}
+                        className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </ScrollArea>
@@ -530,8 +562,16 @@ const SetTarget = () => {
                         <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-calibri">
                           {pid === item?.pillarid
                             ? filtermesuresdata?.data?.data &&
-                              filtermesuresdata?.data?.data.map(
-                                (m: any, index: number) =>
+                              filtermesuresdata?.data?.data
+                                ?.slice(
+                                  0,
+                                  view &&
+                                    view.find((it) => it.id === item.pillarid)
+                                      ?.view !== 0
+                                    ? 2
+                                    : filtermesuresdata?.data?.data?.length
+                                )
+                                .map((m: any, index: number) =>
                                   m?.filteredOptions?.map(
                                     (measures: any, subIndex: number) =>
                                       measures?.measures && (
@@ -543,12 +583,35 @@ const SetTarget = () => {
                                         </li>
                                       )
                                   )
-                              )
-                            : item?.filteredOptions.map((m: any) => {
-                                if (m.measures) {
-                                  return <li>{m.measures}</li>;
-                                }
-                              })}
+                                )
+                            : item?.filteredOptions
+                                ?.slice(
+                                  0,
+                                  view &&
+                                    view.find((it) => it.id === item.pillarid)
+                                      ?.view !== 0
+                                    ? 2
+                                    : item?.filteredOptions?.length
+                                )
+                                .map((m: any) => {
+                                  if (m.measures) {
+                                    return <li>{m.measures}</li>;
+                                  }
+                                })}
+                          {item?.filteredOptions?.length > 1 && (
+                            <Button
+                              variant={"link"}
+                              type="button"
+                              onClick={() => handleChangesView(item.pillarid)}
+                              className="text-[#64A70B] font-calibri text-sm font-bold"
+                            >
+                              {view?.length &&
+                              view?.find((it) => it.id === item.pillarid)
+                                ?.view === 0
+                                ? "View less"
+                                : "View more"}
+                            </Button>
+                          )}
                         </ul>
                       </div>
                     </div>
@@ -576,7 +639,6 @@ const SetTarget = () => {
 
         <div className="text-center">
           <Button
-            disabled={!handleDisabledButton}
             onClick={handleSelect}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[200px] h-12"
           >
@@ -585,7 +647,6 @@ const SetTarget = () => {
         </div>
       </div>
       <Loading isLoading={createPending} />
-      <DefineActionModel open={open} setOpen={setOpen} />
     </div>
   );
 };

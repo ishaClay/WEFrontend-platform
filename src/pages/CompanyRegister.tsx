@@ -114,9 +114,11 @@ function CompanyRegister() {
 
   const countryOption =
     country?.data &&
-    country?.data?.map((item) => {
-      return { value: item?.name, label: item?.name };
-    });
+    country?.data
+      ?.map((item) => {
+        return { value: item?.name, label: item?.name };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
 
   const { mutate, isPending } = useMutation({
     mutationFn: getCompanyDetailsById,
@@ -207,7 +209,12 @@ function CompanyRegister() {
   };
 
   const handleVerifyId = () => {
-    mutate(companyNumberId || 0);
+    const companyName = watch("name");
+    if (companyName) {
+      mutate({ company_num: companyNumberId || 0, companyName: companyName });
+    } else {
+      toast({ variant: "destructive", title: "Please Enter Company Name" });
+    }
   };
 
   return (
@@ -245,41 +252,13 @@ function CompanyRegister() {
                 Fill in your details to start your self-assessment in a jiff.
               </p>
             </div>
-
-            <div className="w-full flex items-end mb-5 mt-[45px]">
-              <div>
-                <InputWithLable
-                  className="w-[241px] h-[46px]"
-                  placeholder="Company Id"
-                  label="Company Id"
-                  onChange={(e) => {
-                    const { value } = e.target;
-
-                    if (value.match(/^[0-9]*$/)) {
-                      setCompanyNumberId(+e?.target?.value as number);
-                    }
-                    return;
-                  }}
-                  value={companyNumberId || ""}
-                  isMendatory={true}
-                />
-              </div>
-              <PrimaryButton
-                type="button"
-                name={
-                  isPending ? <Loader containerClassName="h-auto" /> : "Verify"
-                }
-                className="px-5 h-[46px] ml-[20px]"
-                onClick={handleVerifyId}
-              />
-            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] gap-y-[5px] mt-[30px]">
-                <div>
+                <div className="w-full">
                   <InputWithLable
-                    className="w-[241px] h-[46px]"
-                    placeholder="Sample Consulting Company"
-                    label="Name"
+                    className="w-full h-[46px]"
+                    placeholder="Company Name"
+                    label="Company Name"
                     {...register("name")}
                     isMendatory={true}
                   />
@@ -287,10 +266,42 @@ function CompanyRegister() {
                     <ErrorMessage message={errors.name.message as string} />
                   )}
                 </div>
-                <div>
+                <div className="w-full flex items-end">
+                  <div className="w-full">
+                    <InputWithLable
+                      className="w-full h-[46px]"
+                      placeholder="Company Number"
+                      label="Company Number"
+                      onChange={(e) => {
+                        const { value } = e.target;
+
+                        if (value.match(/^[0-9]*$/)) {
+                          setCompanyNumberId(+e?.target?.value as number);
+                        }
+                        return;
+                      }}
+                      value={companyNumberId || ""}
+                      isMendatory={true}
+                    />
+                  </div>
+                  <PrimaryButton
+                    type="button"
+                    name={
+                      isPending ? (
+                        <Loader containerClassName="h-auto" />
+                      ) : (
+                        "Verify"
+                      )
+                    }
+                    disabled={watch("name")?.length === 0}
+                    className="px-5 h-[46px] ml-[20px]"
+                    onClick={handleVerifyId}
+                  />
+                </div>
+                <div className="w-full">
                   <InputWithLable
-                    placeholder="IT or University"
-                    className="w-[241px] h-[46px]"
+                    placeholder="Address"
+                    className="w-full h-[46px]"
                     label="Address"
                     {...register("address")}
                     isMendatory={true}
@@ -306,7 +317,7 @@ function CompanyRegister() {
                   </Label>
                   <SelectMenu
                     option={countryOption || []}
-                    placeholder="Select your county"
+                    placeholder="Select county"
                     className="w-[241px] h-[46px] mt-2"
                     setValue={(data: string) => setValue("county", data)}
                     value={watch("county") || ""}
@@ -341,7 +352,7 @@ function CompanyRegister() {
 
                 <div>
                   <InputWithLable
-                    placeholder="Select sector"
+                    placeholder="Sector"
                     className="w-[241px] h-[46px]"
                     label="Sector"
                     {...register("sector")}
@@ -353,7 +364,7 @@ function CompanyRegister() {
                 </div>
                 <div>
                   <InputWithLable
-                    placeholder=""
+                    placeholder="Parent Company Address."
                     className="w-[241px] h-[46px]"
                     label="Parent Company Address."
                     {...register("parentCompanyAddress")}
@@ -410,7 +421,7 @@ function CompanyRegister() {
                     </Label>
                     <SelectMenu
                       option={countryOption || []}
-                      placeholder="Select your Parent county"
+                      placeholder="Select county"
                       className="w-[241px] h-[46px] mt-2"
                       setValue={(data: string) =>
                         setValue("parentCompanyCounty", data)

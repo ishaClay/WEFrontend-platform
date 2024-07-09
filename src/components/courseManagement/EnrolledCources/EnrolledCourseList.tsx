@@ -1,41 +1,20 @@
-import course_img from "@/assets/images/Course_image.png";
 import EnrolledCourseListItem from "./EnrolledCourseListItem";
 import { AccordionOption } from "@/types";
 import Accordions from "@/components/comman/Accordions";
 import EnrolledCourseDetailsList from "./EnrolledCourseDetailsList";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchEnrollmentAccepted } from "@/services/apiServices/enroll";
+import { useSelector } from "react-redux";
+import { Data } from "@/types/enroll";
 
 const EnrolledCourseList = () => {
-  const courseListItems = [
-    {
-      image: course_img,
-      rating: 4.5,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      trainer: " Trainer Name, Trainer Name",
-      enrolledComany: 5,
-      enrolledEmployees: 25,
-    },
-    {
-      image: course_img,
-      rating: 4.5,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      trainer: " Trainer Name, Trainer Name",
-      enrolledComany: 5,
-      enrolledEmployees: 25,
-    },
-    {
-      image: course_img,
-      rating: 4.5,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      trainer: " Trainer Name, Trainer Name",
-      enrolledComany: 5,
-      enrolledEmployees: 25,
-    },
-  ];
-
-  const accordionItems: AccordionOption[] = courseListItems.map((item) => {
+  const { UserId } = useSelector((state: any) => state.user);
+  const {data: enrolledCoursesData } = useQuery({
+    queryKey: [QUERY_KEYS.enrolledCourses],
+    queryFn: () => fetchEnrollmentAccepted(UserId),
+  })
+  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item:Data) => {
     return {
       title: <EnrolledCourseListItem data={item} />,
       content: <EnrolledCourseDetailsList />,

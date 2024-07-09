@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -26,15 +27,21 @@ import { getImages } from "@/lib/utils";
 import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
+  addMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
+  getActionItembyPiller,
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
-import { FilteredOptionsEntity, SinglePillar } from "@/types/Pillar";
+import {
+  FilteredOptionsEntity,
+  MeasuresItemsResponse,
+  SinglePillar,
+} from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -43,7 +50,12 @@ import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 
 interface PillerItem {
-  [key: string]: string[];
+  [key: string]:
+    | string[]
+    | {
+        name: string;
+        id: number;
+      }[];
 }
 
 function SelectLevel() {
@@ -52,7 +64,8 @@ function SelectLevel() {
   const [open, setOpen] = useState(false);
   const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
-  console.log("actionItems", actionItems);
+  const [view, setView] = useState<{ id: number; view: number }[] | null>(null);
+  console.log("actionItems", pillerItems);
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>("");
@@ -75,16 +88,43 @@ function SelectLevel() {
     : userData?.id;
   // console.log("clientIdclientId", clientId);
 
+  useEffect(() => {
+    if (pillars) {
+      const viewData = pillars.map((item: any) => {
+        return {
+          id: item?.pillarid,
+          view: 2,
+        };
+      });
+      setView(viewData);
+    }
+  }, [pillars]);
+
+  const handleChangesView = (piller: any) => {
+    setView((prev: any) => {
+      return (
+        prev?.length &&
+        prev.map((item: any) => {
+          if (item.id === piller) {
+            return {
+              ...item,
+              view: item.view === 2 ? 0 : 2,
+            };
+          }
+          return item;
+        })
+      );
+    });
+  };
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   // console.log(actionItems)
   const addActionItem = (currentPiller: string) => {
-    // setActionItems([...actionItems, ""]);
-    setPillerItems((prev) => ({
-      ...prev,
+    setPillerItems({
       [currentPiller]: [...pillerItems[currentPiller], ""],
-    }));
+    } as PillerItem);
   };
 
   // const addActionItem1 = () => {
@@ -96,6 +136,29 @@ function SelectLevel() {
     queryFn: () => fetchMaturityPillar(clientId, userID),
     enabled: true,
   });
+
+  const { data: getActionItems } = useQuery<MeasuresItemsResponse>({
+    queryKey: [QUERY_KEYS.getActionItems],
+    queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
+    enabled: open && !!pid && !!userID,
+  });
+
+  useEffect(() => {
+    if (getActionItems && currentPiller) {
+      console.log("getActionItems", getActionItems, currentPiller);
+
+      setPillerItems({
+        [currentPiller]: (getActionItems?.data &&
+          getActionItems?.data?.length > 0 &&
+          getActionItems?.data?.map((item) => ({
+            id: item?.id,
+            name: item?.measure,
+          }))) || [""],
+      } as any);
+    }
+  }, [getActionItems, currentPiller]);
+
+  console.log("getActionItemsgetActionItemsgetActionItems", pillerItems);
 
   const { data: filtermesuresdata, isLoading: measuresPending } = useQuery({
     queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
@@ -110,21 +173,6 @@ function SelectLevel() {
   });
 
   console.log("isPending", measuresPending);
-
-  useEffect(() => {
-    if (maturitypillar?.data?.data?.length > 0) {
-      maturitypillar?.data?.data?.map((item: any) => {
-        const oldData = Object.keys(pillerItems);
-        if (!oldData.includes(item?.pillarname)) {
-          return setPillerItems((prev) => ({
-            ...prev,
-            [item.pillarname]: [""],
-          }));
-        }
-        return;
-      });
-    }
-  }, [maturitypillar]);
 
   // const { data: getCheckedmeasures } = useQuery({
   //   queryKey: [QUERY_KEYS.checkedMeasures],
@@ -201,7 +249,7 @@ function SelectLevel() {
   ) => {
     setPillerItems((prev) => ({
       ...prev,
-      [currentPiller]: prev[currentPiller].map((item: string, i: number) => {
+      [currentPiller]: prev[currentPiller].map((item: any, i: number) => {
         if (i === index) {
           return value;
         }
@@ -219,14 +267,38 @@ function SelectLevel() {
     }
   };
 
+  const handleClose = async () => {
+    setPillerItems({});
+    setOpen(false);
+    setPId(null);
+  };
+
+  const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
+    mutationFn: addMeasuresItems,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.measuresItems],
+      });
+      handleClose();
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
   const removeActionItem = (index: number, currentPiller: string) => {
-    setPillerItems((prev) => ({
-      ...prev,
-      [currentPiller]: prev[currentPiller].filter((item: string, i: number) => {
-        console.log(item);
-        return i !== index;
-      }),
-    }));
+    setPillerItems(
+      (prev) =>
+        ({
+          [currentPiller]: prev[currentPiller].filter((item, i) => {
+            console.log(item);
+            return i !== index;
+          }),
+        } as PillerItem)
+    );
   };
 
   const handleSubmit = async (
@@ -234,39 +306,24 @@ function SelectLevel() {
     currentPiller: string
   ) => {
     setOpen(!open);
-    console.log("pillerItems", currentPiller);
-
     e.preventDefault();
-    // const measures = pillerItems[currentPiller].map((item) => ({
-    //   measure: item,
-    // }));
+    const measures = pillerItems[currentPiller].map((item) => {
+      // @ts-ignore
+      if (!!item?.id && !!item?.name) {
+        // @ts-ignore
+        return { name: item?.name, id: item?.id };
+      } else {
+        return { name: item };
+      }
+    });
 
-    // createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
+    console.log("measures", measures);
+
+    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
-  console.log("pillerItemspillerItemspillerItems", pillerItems);
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
-
-  const handleDisabledButton = useMemo(() => {
-    if (pillerItems && pillars) {
-      const fetchData = pillars?.map((item: any) => {
-        if (item?.checked === 1) {
-          return pillerItems[item?.pillarname]?.filter(
-            (item: string) => item !== ""
-          )?.length > 0
-            ? false
-            : true;
-        }
-        return false;
-      });
-
-      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
-      return !checkPiller
-        ? fetchData?.filter((item: boolean) => item === true).length === 0
-        : !checkPiller;
-    }
-  }, [pillars, pillerItems]);
 
   return (
     <div>
@@ -333,7 +390,8 @@ function SelectLevel() {
         <div className="h-full w-full xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5">
           <div className="my-6">
             <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
-              Which sustainability pillars do you want to advance first?
+              Which sustainability pillars do you want to advance first? <br />{" "}
+              (We'll suggest recommended courses after you build first.)
             </h1>
           </div>
           {isPending ? (
@@ -464,8 +522,16 @@ function SelectLevel() {
                                 <Loader containerClassName="h-[80px]" />
                               ) : (
                                 filtermesuresdata?.data?.data &&
-                                filtermesuresdata?.data?.data.map(
-                                  (m: any, index: number) =>
+                                filtermesuresdata?.data?.data
+                                  ?.slice(
+                                    0,
+                                    view &&
+                                      view.find((it) => it.id === item.pillarid)
+                                        ?.view !== 0
+                                      ? 2
+                                      : filtermesuresdata?.data?.data?.length
+                                  )
+                                  .map((m: any, index: number) =>
                                     m?.filteredOptions?.map(
                                       (measures: any, subIndex: number) =>
                                         measures?.measures && (
@@ -474,14 +540,37 @@ function SelectLevel() {
                                           </li>
                                         )
                                     )
-                                )
+                                  )
                               )
                             ) : (
-                              item?.filteredOptions.map((m: any) => {
-                                if (m.measures) {
-                                  return <li>{m.measures}</li>;
-                                }
-                              })
+                              item?.filteredOptions
+                                ?.slice(
+                                  0,
+                                  view &&
+                                    view.find((it) => it.id === item.pillarid)
+                                      ?.view !== 0
+                                    ? 2
+                                    : item?.filteredOptions?.length
+                                )
+                                .map((m: any) => {
+                                  if (m.measures) {
+                                    return <li>{m.measures}</li>;
+                                  }
+                                })
+                            )}
+                            {item?.filteredOptions?.length > 1 && (
+                              <Button
+                                variant={"link"}
+                                type="button"
+                                onClick={() => handleChangesView(item.pillarid)}
+                                className="text-[#64A70B] font-calibri text-sm font-bold"
+                              >
+                                {view?.length &&
+                                view?.find((it) => it.id === item.pillarid)
+                                  ?.view === 0
+                                  ? "View less"
+                                  : "View more"}
+                              </Button>
                             )}
                           </ul>
                         </div>
@@ -521,13 +610,18 @@ function SelectLevel() {
               And tweek-as-needed an action plan that will guide your company. 
             </p>
           </div>
-          <div className="flex justify-center  mt-[20px]  mb-[20px]">
+          <div className="flex justify-center gap-4 mt-[20px]  mb-[20px]">
             <Button
-              disabled={!handleDisabledButton}
               onClick={handleSelect}
               className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
             >
               Got it. Build My Action Plan!
+            </Button>
+            <Button
+              onClick={() => navigate("/company/allcourses")}
+              className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
+            >
+              Go to All Course
             </Button>
           </div>
         </div>
@@ -535,7 +629,7 @@ function SelectLevel() {
 
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={handleClose}
           className="lg:max-w-[815px] sm:max-w-xl max-w-[335px] xl:px-10 px-5 xl:py-8 py-4 rounded-xl"
         >
           <div className="">
@@ -586,48 +680,53 @@ function SelectLevel() {
                         </div>
 
                         <div className="flex flex-col gap-5 px-3.5 py-2.5">
-                          {pillerItems[currentPiller]?.map(
-                            (item: any, index: number) => (
-                              <div
-                                key={index}
-                                className="flex items-center justify-between"
-                              >
-                                <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[210px] overflow-hidden">
-                                  <input
-                                    type="text"
-                                    placeholder="Action item"
-                                    value={item}
-                                    onChange={(e) =>
-                                      handleActionItemChange(
-                                        index,
-                                        e.target.value,
-                                        currentPiller
-                                      )
-                                    }
-                                    className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
-                                  />
+                          {pillerItems &&
+                            pillerItems[currentPiller]?.map(
+                              (item: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between"
+                                >
+                                  <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[210px] overflow-hidden">
+                                    <input
+                                      type="text"
+                                      placeholder="Action item"
+                                      value={
+                                        typeof item === "string"
+                                          ? item
+                                          : item.name
+                                      }
+                                      onChange={(e) =>
+                                        handleActionItemChange(
+                                          index,
+                                          e.target.value,
+                                          currentPiller
+                                        )
+                                      }
+                                      className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
+                                    />
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      onClick={() => setEditId(index)}
+                                    >
+                                      <BsPencil className="text-[#B9B9B9]" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      onClick={() =>
+                                        removeActionItem(index, currentPiller)
+                                      }
+                                    >
+                                      <RiDeleteBin6Line className="text-[#B9B9B9]" />
+                                    </button>
+                                  </div>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    className="border-none bg-transparent text-lg cursor-pointer"
-                                    onClick={() => setEditId(index)}
-                                  >
-                                    <BsPencil className="text-[#B9B9B9]" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="border-none bg-transparent text-lg cursor-pointer"
-                                    onClick={() =>
-                                      removeActionItem(index, currentPiller)
-                                    }
-                                  >
-                                    <RiDeleteBin6Line className="text-[#B9B9B9]" />
-                                  </button>
-                                </div>
-                              </div>
-                            )
-                          )}
+                              )
+                            )}
 
                           <div className="text-right">
                             <Button
@@ -648,10 +747,15 @@ function SelectLevel() {
                     type="submit"
                     className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
                   >
-                    Save
+                    {createPending ? (
+                      <Loader containerClassName="h-auto" />
+                    ) : (
+                      "Save"
+                    )}
                   </Button>
                   <Button
                     type="button"
+                    onClick={handleClose}
                     className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
                   >
                     Close

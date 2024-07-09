@@ -16,12 +16,12 @@ import * as zod from "zod";
 
 const Time = [
   {
-    label: "Part time",
-    value: "1",
-  },
-  {
     label: "Full time",
     value: "0",
+  },
+  {
+    label: "Part time",
+    value: "1",
   },
 ];
 
@@ -105,7 +105,7 @@ const CourseLogistic = () => {
   const {data: getSingleCourse} = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    enabled: +courseId ? !!paramsversion : false,
   })
 
   const { mutate, isPending } = useMutation({
@@ -145,14 +145,14 @@ const CourseLogistic = () => {
   
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course updated successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/${location?.pathname?.split("/")[1]}/create_course/${
+        `/${pathName}/create_course/${
           location?.pathname?.split("/")[3]
         }?tab=${paramsTab}&step=${3}&version=${paramsversion}`,
         {
@@ -177,10 +177,10 @@ const CourseLogistic = () => {
       duration: data?.duration + " " + data?.durationType,
     };
 
-    if (courseId) {
+    if (+courseId) {
       updateCourseFun({
         payload,
-        id: courseId,
+        id: +courseId,
         version: getSingleCourse?.data?.version
       });
     } else {

@@ -40,16 +40,28 @@ const HomeBanner = () => {
                     <SecondaryButton
                       name={item.primaryButtonTitle}
                       href={item.primaryButtonUrl}
+                      onClick={() => {
+                        const element = document.getElementById("company");
+                        element?.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }}
                       symbol={<img src="../assets/img/Move Right.png" />}
                       className="xl:w-[278px] w-[240px] xl:h-[59px] h-[50px] flex gap-[10px] justify-center items-center rounded-[4px] text-lg font-semibold font-abhaya"
-                      isLink
+                      isLink={!!item?.primaryButtonUrl}
                     />
                     <SecondaryButton
                       name={item.secondaryButtonTitle}
                       href={item.secondaryButtonUrl}
+                      onClick={() => {
+                        const element = document.getElementById("trainer");
+                        element?.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                      }}
                       symbol={<img src="../assets/img/Move Right.png" />}
                       className="xl:w-[278px] w-[240px] xl:h-[59px] h-[50px] xl:mt-[29px] mt-[20px] flex gap-[10px] justify-center items-center rounded-[4px] text-lg font-semibold font-abhaya"
-                      isLink
+                      isLink={!!item?.secondaryButtonUrl}
                     />
                     <div className="w-full text-[#ACEBF5] text-[18px] flex items-center gap-1 mt-10">
                       <h3 className="xl:text-lg text-base font-bold font-abhaya leading-5">

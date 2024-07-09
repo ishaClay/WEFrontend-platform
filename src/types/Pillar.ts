@@ -70,7 +70,7 @@ export interface Transitional {
   forcedJSONParsing: boolean;
   clarifyTimeoutError: boolean;
 }
-export interface EnvOrRequest {}
+export interface EnvOrRequest { }
 export interface Headers1 {
   Accept: string;
   "Content-Type": string;
@@ -118,4 +118,26 @@ export interface PillerWiseProgressResponse {
 export interface DataEntity {
   pillarName: string;
   progress: number;
+}
+
+
+export interface MeasuresItemsResponse {
+  data?: (MeasuresItemsResult)[] | null;
+  message: string;
+}
+export interface MeasuresItemsResult {
+  id: number;
+  measure: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt?: null;
+  pillerId: PillerDataResult;
+}
+export interface PillerDataResult {
+  id: number;
+  pillarName: string;
+  checked: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
 }

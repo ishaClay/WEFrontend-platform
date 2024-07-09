@@ -47,9 +47,13 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
   return api({ url, data, method });
 };
 
-export const fetchCourseAllCourse = async (): Promise<AllCoursesResponse> => {
+export const fetchCourseAllCourse = async (searchKeyword: string): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
-  const res = await api({ url });
+  const params:any = {}
+  if(searchKeyword){
+    params["keyword"] = searchKeyword
+  }
+  const res = await api({ url, params });
   console.log("res=====>", res.data);
 
   return res.data;
@@ -85,4 +89,18 @@ export const updateCourse = (data: { payload: courseRequest, id: string, version
   const url = `api/v1/course/update-course/${data?.id}/${data?.version}`;
   const method = "put";
   return api({ url, data: data?.payload, method });
+}
+
+export const publishCourse = (data: {status: string, id: number}) => {
+  const url = `api/v1/course/status/update/${data?.id}`;
+  const method = "post";
+  return api({ url, data: {status: data?.status}, method });
+}
+
+export const copyCourse = (id: number) => {
+  console.log("id++++++", id);
+  
+  const url = `api/v1/course/copy-course/${id}`;
+  const method = "put";
+  return api({ url, method });
 }

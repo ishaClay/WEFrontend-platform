@@ -40,7 +40,7 @@ function Assessment() {
     <div className="mainContailner w-full m-auto">
       <Header />
 
-      <div className="flex flex-row gap-[48px] ">
+      <div className="flex flex-row gap-[48px] pb-[60px]">
         <div>
           {/* <img
             className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
@@ -139,14 +139,14 @@ function Assessment() {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <img
                   src="../assets/img/Group 60.png"
                   className="w-full"
                   alt="img"
                   loading="lazy"
                 />
-              </div>
+              </div> */}
             </div>
 
             <PrimaryButton

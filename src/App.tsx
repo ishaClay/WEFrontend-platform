@@ -32,7 +32,6 @@ import EmployeeFqs from "./pages/EmployeeFaq";
 import EmployeeList from "./pages/EmployeeList";
 import EmployeeMsg from "./pages/EmployeeMsg";
 import EmployeePermission from "./pages/EmployeePermission";
-import EmployeeProgress from "./pages/EmployeeProgress";
 import EmployeeRodemap from "./pages/EmployeeRodemap";
 import EmployeeSendInvitation from "./pages/EmployeeSendInvitation";
 import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
@@ -113,6 +112,8 @@ import UserManualPage from "./pages/support/UserManualPage";
 import { changeTheme } from "./services/apiServices/theme";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
+import SupportRequest from "./components/support/SupportRequest/SupportRequest";
+import EmployeeInvitation from "./pages/EmployeeInvitation";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -207,14 +208,6 @@ function App() {
           element={
             <ProtectedRoute>
               <EmployeeList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeeprogress"
-          element={
-            <ProtectedRoute>
-              <EmployeeProgress />
             </ProtectedRoute>
           }
         />
@@ -646,7 +639,6 @@ function App() {
           <Route path="coursesrecommended" element={<CoursesRecommended />} />
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="employeelist" element={<EmployeeList />} />
-          <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
@@ -659,7 +651,12 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
+          <Route
+            path="employeelist/employeeinvition"
+            element={<EmployeeInvitation />}
+          />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
         </Route>
 
         <Route
@@ -680,7 +677,6 @@ function App() {
           {/* <Route path="certificate" element={<EmployeeList />} /> */}
           <Route path="certifications" element={<CertificationsPage />} />
           <Route path="my-accomplishments" element={<Accomplishments />} />
-          <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="usermenual" element={<UserManualPage />} />
           {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
@@ -689,16 +685,7 @@ function App() {
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
           />
-          <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
-          <Route
-            path="ticket-details-reply"
-            element={<TicketDetailsReplyPage />}
-          />
-          <Route
-            path="support-training-documnet"
-            element={<TrainingDocumentPage />}
-          />
           <Route
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
@@ -707,7 +694,6 @@ function App() {
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
           <Route path="live-session" element={<LiveSessionPage />} />
-          <Route path="selectlevel" element={<SelectLevel />} />
         </Route>
 
         <Route
@@ -730,7 +716,6 @@ function App() {
           <Route path="create_course" element={<CourseManagement />} />
           <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certificate" element={<EmployeeList />} />
-          <Route path="employeeprogress" element={<EmployeeProgress />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
           {/* <Route path="faqslist" element={<FaqsList />} /> */}
           <Route path="trainingdocument" element={<TrainingDocument />} />
@@ -790,7 +775,8 @@ function App() {
           />
           <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
-          <Route path="support-request" element={<SupportRequestPage />} />
+          {/* <Route path="support-request" element={<SupportRequestPage />} /> */}
+          <Route path="support-request" element={<SupportRequest />} />
           <Route
             path="support-training-documnet"
             element={<TrainingDocumentPage />}
@@ -807,6 +793,7 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="employee-basic-course/:courseId" element={<BasicCoursePage />} />
         </Route>
       </Routes>
     </div>

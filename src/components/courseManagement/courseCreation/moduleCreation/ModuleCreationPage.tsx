@@ -198,7 +198,9 @@ const ModuleCreationPage = () => {
   useEffect(() => {
     if (moduleList?.length > 0) {
       latestModuleList.current = moduleList; // update ref to latest state
-      handleModulePosition();
+      if(+courseEditId){
+        handleModulePosition();
+      }
       reset({ modules: [] });
     }
   }, [moduleList]);
@@ -215,13 +217,13 @@ const ModuleCreationPage = () => {
   });
 
   const { mutate: ChangeModulePosition } = useMutation({
-    mutationFn: (data: any) => changeModulePostion(data, courseID),
+    mutationFn: (data: any) => changeModulePostion(data, courseEditId),
   });
 
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
     queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
-    enabled: !!courseID || !!courseEditId,
+    enabled: +courseEditId ? !!courseEditId : false,
   });
 
   useEffect(() => {

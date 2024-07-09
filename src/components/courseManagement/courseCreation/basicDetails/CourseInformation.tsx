@@ -32,7 +32,7 @@ const schema = zod
     price: zod
       .string({ errorMap: () => ({ message: "Invalid course price" }) })
       .refine(
-        (val: string | any) => val === undefined || !isNaN(+val),
+        (val: string | any) => val === undefined || !isNaN(val),
         "Invalid course price"
       ),
     discountApplicable: zod.number().optional(),
@@ -40,7 +40,7 @@ const schema = zod
   .refine(
     (data) => {
       // If isFreeCourse is true, coursePrise should be undefined or empty
-      if (data.freeCourse && !data.price) {
+      if (data.freeCourse && +!data.price) {
         return false;
       }
       return true;
@@ -80,7 +80,7 @@ const CourseInformation = () => {
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab");
   const paramsVersion = new URLSearchParams(search).get("version");
-  const coursePrise = watch("price") || 0;
+  const coursePrise = watch("price") || "0";
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   const { data } = useQuery<ClientResponse>({
@@ -116,14 +116,14 @@ const CourseInformation = () => {
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course updated successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/${location?.pathname?.split("/")[1]}/create_course/${
+        `/${pathName}/create_course/${
           location?.pathname?.split("/")[3]
         }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
         {
@@ -143,7 +143,7 @@ const CourseInformation = () => {
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion }],
     queryFn: () => fetchSingleCourseById(String(paramsVersion)),
-    enabled: !!paramsVersion,
+    enabled: +courseId ? !!paramsVersion : false,
   });
 
   useEffect(() => {
@@ -152,6 +152,7 @@ const CourseInformation = () => {
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
         setValue("freeCourse", data.freeCourse === 1 ? true : false);
+        setValue("price", String(data?.price));
       });
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
@@ -173,10 +174,10 @@ const CourseInformation = () => {
       userId: UserId,
     };
 
-    if (courseId) {
+    if (+courseId) {
       updateCourseFun({
         payload,
-        id: courseId,
+        id: +courseId,
         version: getSingleCourse?.data?.version
       });
     } else {

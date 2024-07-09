@@ -137,7 +137,7 @@ function SupportAddNewTicket() {
           </button>
         </div>
       </div>
-      <div className="p-5">
+      <div className="sm:p-5 p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-[36px] gap-0 mb-5">
             <div className="col-span-1 w-full">

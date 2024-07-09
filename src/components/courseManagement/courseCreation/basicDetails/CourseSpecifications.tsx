@@ -62,7 +62,7 @@ const CourseSpecifications = () => {
   const {data: getSingleCourse} = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    enabled: +courseId ? !!paramsversion : false,
   })
 
   const { mutate, isPending } = useMutation({
@@ -114,20 +114,21 @@ const CourseSpecifications = () => {
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
         setValue("nfqLeval", getSingleCourse?.data?.course?.nfqLeval?.id.toString());
+        setValue("certificate", getSingleCourse?.data?.course?.certificate?.id?.toString());
       });
     }
   }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         title: "Success",
-        description: "Course updated successfully",
+        description: data?.data?.message,
         variant: "success",
       });
       navigate(
-        `/${location?.pathname?.split("/")[1]}/create_course/${
+        `/${pathName}/create_course/${
           location?.pathname?.split("/")[3]
         }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
         {
@@ -151,10 +152,10 @@ const CourseSpecifications = () => {
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
     };
-    if (courseId) {
+    if (+courseId) {
       updateCourseFun({
         payload,
-        id: courseId,
+        id: +courseId,
         version: getSingleCourse?.data?.version
       });
     } else {

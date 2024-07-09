@@ -3,7 +3,7 @@ import image from "@/assets/images/GuidingImage.svg";
 const GuidingPlatform = () => {
   return (
     <div>
-      <div className="xl:mt-28 mt-20 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5">
+      <div className="xl:mt-28 mt-20 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 xl:mb-[86px] mb-[70px]">
         <div>
           <h3 className="text-4xl leading-tight font-abhaya traking-[4px] text-center pb-6 tracking-tighter">
             One guiding platform,
@@ -94,7 +94,6 @@ const GuidingPlatform = () => {
           </div>
         </div>
       </div>
-      <div className="border border-spacing-3 button-color w-full h-3 mt-[33px] mb-[41px]"></div>
     </div>
   );
 };

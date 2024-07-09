@@ -76,3 +76,21 @@ export const pillarMaturity = async (data: { courseData: any, id: string, versio
     const res = await api({ url, data: { courseData: data?.courseData }, method: "put" });
     return res.data
 }
+
+export const getActionItembyPiller = async (pillerId: number | null, userID: number) => {
+    const url = `api/v1/pillar/get-measures-itemsByPiller/${pillerId}?userId=${userID}`;
+    const res = await api({ url });
+    return res.data
+}
+
+export const getItemHistory = async (id: number) => {
+    const url = `api/v1/pillar/action-item/history/${id}`;
+    const res = await api({ url });
+    return res.data
+}
+
+export const markComplate = async ({ id, data }: { id: number, data: any }) => {
+    const url = `api/v1/pillar//action-item/mark-complete/${id}`;
+    const res = await api({ url, method: "put", data });
+    return res.data
+}

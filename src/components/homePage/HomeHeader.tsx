@@ -87,7 +87,6 @@ function HomeHeader(props: headerProps) {
                   src="../assets/img/Vector 1.png"
                 />
               </li>
-              <li className="cursor-pointer">Testimonial</li>
               <li className="cursor-pointer">Blogs</li>
               <li className="cursor-pointer">Contact Us</li>
             </ul>

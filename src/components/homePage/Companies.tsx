@@ -1,10 +1,10 @@
 const Companies = () => {
   return (
-    <div>
+    <div id="company">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 mt-[67px]">
-        <p className="button-color text-color inline-block xl:text-2xl text-xl rounded-[6px] font-bold font-abhaya h-[47px] !leading-7 p-[10px]">
+        {/* <p className="button-color text-color inline-block xl:text-2xl text-xl rounded-[6px] font-bold font-abhaya h-[47px] !leading-7 p-[10px]">
           For Companies
-        </p>
+        </p> */}
         <div className="w-[784px] m-auto text-center xl:pt-[42px] pt-9 text-[#3A3A3A]">
           <h6 className="text-4xl font-medium font-abhaya leading-10">
             There’s never been

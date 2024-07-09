@@ -47,10 +47,14 @@ const EmployeeHeader = ({ title, subtitle }: headerTitleProps) => {
             >
               <ChevronLeft />
             </Button>
-            <h4 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize">
+            <h4
+              className={`${
+                subtitle ? `sm:block hidden` : `block`
+              } xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize`}
+            >
               {title}
             </h4>
-            <h4 className="xl:text-2xl md:text-lg text-[18px] font-medium font-nunito text-[#00778B]">
+            <h4 className="xl:text-2xl md:text-lg text-[18px] font-medium font-nunito sm:text-[#00778B] text-black">
               {subtitle}
             </h4>
           </div>

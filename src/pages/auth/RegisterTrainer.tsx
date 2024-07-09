@@ -21,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
 import { z } from "zod";
 
 function RegisterTrainer() {
@@ -116,10 +117,16 @@ function RegisterTrainer() {
       <div className="mainContailner">
         <div className="flex relative mt-[40px]">
           <div>
-            <img
+            {/* <img
               className="max-w-full h-full object-cover"
               src="../assets/img/Group 1000001826.png"
               alt="img"
+              loading="lazy"
+            /> */}
+            <img
+              src={LandingPageBuildImage}
+              className="xl:w-auto min-w-[530px] w-[530px] h-full"
+              alt="LandingPageBuildImage"
               loading="lazy"
             />
           </div>

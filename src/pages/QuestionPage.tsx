@@ -33,7 +33,6 @@ import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
-import TreePlantingWhite from "/assets/img/TreePlantingWhite.png";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -275,33 +274,35 @@ const QuestionPage = () => {
 
   return (
     <div className="font-calibri font-normal">
-      <div className="h-[44px] sticky top-0 max-h-screen z-30 w-full bg-teal text-white flex justify-between items-center lg:pl-12 xl:pr-[180px] pr-[80px] px-4 text-lg leading-[21.97px]">
-        <div className="flex gap-[9px]">
-          <button
-            className="flex items-center gap-2"
-            onClick={() => {
-              history.back();
-            }}
-          >
-            <img src={LeftArrow} alt="arrow" width={22} height={22} />
-            <span>back</span>
-          </button>
-          <img
-            src={Home}
-            alt="home"
-            width={23}
-            height={23}
-            className="cursor-pointer"
-            onClick={() => {
-              navigate("/");
-            }}
-          />
-        </div>
+      <div className="bg-teal">
+        <div className="h-[44px] sticky top-0 max-h-screen z-30 w-full text-white flex justify-between items-center px-4 text-lg leading-[21.97px xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5]">
+          <div className="flex gap-[9px]">
+            <button
+              className="flex items-center gap-2"
+              onClick={() => {
+                history.back();
+              }}
+            >
+              <img src={LeftArrow} alt="arrow" width={22} height={22} />
+              <span>back</span>
+            </button>
+            <img
+              src={Home}
+              alt="home"
+              width={23}
+              height={23}
+              className="cursor-pointer"
+              onClick={() => {
+                navigate("/");
+              }}
+            />
+          </div>
 
-        <button className="flex items-center gap-3 border border-solid border-white w-[166px] justify-center">
+          {/* <button className="flex items-center gap-3 border border-solid border-white w-[166px] justify-center">
           <img src={TreePlantingWhite} alt="tree" width={24} height={30} />
           Environmental
-        </button>
+        </button> */}
+        </div>
       </div>
       <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
         <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
