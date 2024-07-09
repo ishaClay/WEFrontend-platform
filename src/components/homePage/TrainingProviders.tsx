@@ -1,15 +1,18 @@
 const TrainingProviders = () => {
   return (
     <>
-      <div className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5">
+      <div
+        id="trainer"
+        className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5 xl:mb-[50px] mb-[45px]"
+      >
         <h6 className="text-4xl font-abhaya font-semibold text-center pb-10">
           Get your training to those it’ll help
         </h6>
-        <div className="w-[250px] h-[47px] button-color rounded-[6px] flex justify-center items-center mb-[44px]">
+        {/* <div className="w-[250px] h-[47px] button-color rounded-[6px] flex justify-center items-center mb-[44px]">
           <p className="font-extrabold xl:text-2xl text-xl leading-5 traking-[-4%] text-color font-abhaya">
             For Training Providers
           </p>
-        </div>
+        </div> */}
         <h3 className="font-bold text-2xl font-abhaya leading-7">
           Get your training to those it’ll help
         </h3>
@@ -81,7 +84,6 @@ const TrainingProviders = () => {
           </div>
         </div>
       </div>
-      <div className="border border-spacing-3 button-color w-full h-3 mt-[49px]"></div>
     </>
   );
 };

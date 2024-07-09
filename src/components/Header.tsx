@@ -89,7 +89,6 @@ function Header(props: headerProps) {
                   src="../assets/img/Vector 1.png"
                 />
               </li>
-              <li>Testimonial</li>
               <li>Blogs</li>
               <li>Contact Us</li>
             </ul>

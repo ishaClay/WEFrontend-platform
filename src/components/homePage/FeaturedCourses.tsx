@@ -51,7 +51,7 @@ const FeaturedCourses = () => {
 
   return (
     <div className="bg-[#F7F8FC]">
-      <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-[30px] py-[24px] xl:pb-6 pb-16">
+      <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-[30px] py-[24px] 2xl:pb-[100px] xl:pb-[100px] pb-[90px]">
         <div>
           <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center">
             {title || "Featured Courses"}
@@ -114,7 +114,6 @@ const FeaturedCourses = () => {
           </div>
         </div>
       </div>
-      <div className="border border-spacing-3 button-color w-full h-3 mt-[34px]"></div>
     </div>
   );
 };

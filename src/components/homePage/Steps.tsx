@@ -39,7 +39,7 @@ const Steps = () => {
     },
   ];
   return (
-    <div>
+    <div className="xl:mb-[60px] mb-[50px]">
       <h3 className="text-4xl leading-tight font-abhaya text-center font-bold tracking-tighter xl:mb-[69px] mb-[50px]">
         Step by Step
         <br />
@@ -85,7 +85,6 @@ const Steps = () => {
           <img className="" src="../assets/img/Move Right Dark.png" />
         </div>
       </div>
-      <div className="border border-spacing-3 button-color w-full h-3 mt-[12px] mb-[36px]"></div>
     </div>
   );
 };

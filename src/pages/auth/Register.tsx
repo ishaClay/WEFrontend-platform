@@ -13,6 +13,7 @@ import {
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -54,7 +55,6 @@ const schema = z
 
 function Register() {
   const { clientId } = useAppSelector((state) => state.user);
-  const [selectedRole, setSelectedRole] = useState<null | string>(null);
   const [time, setTime] = useState<number>(0);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [otp, setOtp] = useState("");
@@ -206,12 +206,25 @@ function Register() {
       <Header />
       <div className="mainContailner">
         <div className="flex justify-center mt-[26px]">
-          <img
-            src={RegisterSideImage}
-            className="xl:w-auto min-w-[530px] w-[530px] h-full"
-            alt="RegisterSideImage"
-            loading="lazy"
-          />
+          {showRegistrationForm ? (
+            <>
+              <img
+                src={RegisterSideImage}
+                className="xl:w-auto min-w-[530px] w-[530px] h-full"
+                alt="LandingPageBuildImage"
+                loading="lazy"
+              />
+            </>
+          ) : (
+            <>
+              <img
+                src={LandingPageBuildImage}
+                className="xl:w-auto min-w-[530px] w-[530px] h-full"
+                alt="LandingPageBuildImage"
+                loading="lazy"
+              />
+            </>
+          )}
 
           <div className="w-full 2xl:px-0 px-5 mt-[33px] max-w-[515px] mx-auto flex flex-col justify-between">
             <div>
@@ -224,7 +237,7 @@ function Register() {
                 </label>
               </div>
 
-              {selectedRole !== "company" ? (
+              {!showRegistrationForm ? (
                 <div className="h-[524px] relative mt-[92px]">
                   <div className="">
                     <h3 className="text-[24px] font-[700] mb-[40px] font-abhaya">
@@ -251,16 +264,14 @@ function Register() {
 
                       <PrimaryButton
                         name="I’m A Company"
-                        onClick={() => {
-                          setSelectedRole("company");
-                        }}
+                        onClick={handleLaunchJourney}
                         className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>
                   </div>
                 </div>
-              ) : showRegistrationForm ? (
+              ) : (
                 <div className="">
                   <div className=" relative mt-[60px]">
                     <h3 className="text-[24px] font-bold">
@@ -333,34 +344,6 @@ function Register() {
                         </button>
                       </div>
                     </form>
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full mt-[92px]">
-                  <div className="h-[524px] relative ">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-[700] xl:text-[24px] text-[22px]">
-                        Setting sail on your sustainability voyage
-                      </h3>
-                      <img className="" src={RunnerIcon} alt="RunnerIcon" />
-                    </div>
-                    <img className="" src="../assets/img/Line 23.png" />
-
-                    <p className="w-[450px] xl:w-full">
-                      just a few quick details - your company's name, email, and
-                      a new password- and you'll be all set to navigate through
-                      your sustainable and continue your impactful journey
-                      anytime.
-                    </p>
-
-                    <div className="mt-[20px] flex gap-x-[40px] font-[700]">
-                      <button
-                        className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
-                        onClick={handleLaunchJourney}
-                      >
-                        Launch your journey!
-                      </button>
-                    </div>
                   </div>
                 </div>
               )}

@@ -231,7 +231,7 @@ const TeaserScore = () => {
                       <div>
                         <button
                           style={{ backgroundColor: currentLavel?.color }}
-                          className=" text-white font-bold py-1 px-4 mt-3 rounded"
+                          className="text-black font-bold py-1 px-4 mt-3 rounded"
                         >
                           {currentLavel?.maturityLevelName}
                         </button>
