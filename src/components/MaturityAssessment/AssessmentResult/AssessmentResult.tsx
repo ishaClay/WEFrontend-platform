@@ -18,7 +18,7 @@ import { useLocation } from "react-router-dom";
 
 const maturityLevel = [
   {
-    maturityLevelName: "Beginning",
+    maturityLevelName: "Introductory",
     rangeStart: 0,
     rangeEnd: 39.9,
     color: "#C92C35",
@@ -58,6 +58,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
   const [pillerName, setPillerName] = React.useState<string>("");
 
+  const pathStatus = JSON.parse(localStorage.getItem("path") as string);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId
     ? +UserId
@@ -103,7 +104,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
   console.log("setScore", setScore);
 
   const data = {
-    labels: ["Beginning", "Intermediate", "Advanced"],
+    labels: ["Introductory", "Intermediate", "Advanced"],
     datasets: [
       {
         label: "Poll",
@@ -268,7 +269,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
-                Beginning
+                Introductory
               </Button>
             </div>
 
@@ -572,14 +573,16 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
         </Tabs>
       </div>
 
-      <div className="text-center">
-        <Button
-          onClick={handleMaturity}
-          className="bg-[#64A70B] text-base w-[180px] font-bold h-12"
-        >
-          Set targets
-        </Button>
-      </div>
+      {pathStatus <= "5" && (
+        <div className="text-center">
+          <Button
+            onClick={handleMaturity}
+            className="bg-[#64A70B] text-base w-[180px] font-bold h-12"
+          >
+            Set targets
+          </Button>
+        </div>
+      )}
 
       <MaturityLevelModel
         isOpen={isOpen}

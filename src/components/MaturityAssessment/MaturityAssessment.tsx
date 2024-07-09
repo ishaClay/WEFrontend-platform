@@ -31,7 +31,7 @@ const MaturityAssessment = () => {
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 my-4">
         <div className="">
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
-            Re-assessment 2
+            Baseline Self Assessment
           </h5>
           <h6 className="text-xs text-[#606060] font-bold font-calibri">
             Completed Date : 12/03/ 2024

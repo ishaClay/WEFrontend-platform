@@ -15,6 +15,7 @@ interface headerProps {
 function Header(props: headerProps) {
   const navigate = useNavigate();
 
+  const path = localStorage?.getItem("path");
   const userData = localStorage?.getItem("user");
   const userToken = !!userData && JSON.parse(userData)?.accessToken;
 
@@ -98,16 +99,15 @@ function Header(props: headerProps) {
           <div className="font-bold text-lg text-color">
             {userData ? (
               <div className="flex items-center xl:gap-5 gap-3">
-                {((userToken &&
-                  !!userData &&
-                  JSON.parse(userData)?.query?.pathStatus === "7") ||
-                  JSON.parse(userData)?.query?.pathStatus >= "3") && (
-                  <PrimaryButton
-                    onClick={handleGotoDashboard}
-                    name="Go to Dashboard"
-                    className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
-                  />
-                )}
+                {userToken &&
+                  !!path &&
+                  (JSON.parse(path) === "7" || JSON.parse(path) >= "4") && (
+                    <PrimaryButton
+                      onClick={handleGotoDashboard}
+                      name="Go to Dashboard"
+                      className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                    />
+                  )}
                 <PrimaryButton
                   onClick={handleLogout}
                   name="Logout"

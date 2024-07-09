@@ -14,9 +14,14 @@ export const fetchClientwiseMaturityLevel = async (id: string): Promise<Maturity
     return res?.data;
 };
 
-export const updateNextMaturityLevel = async (userId: number, pillerId: number) => {
+export const updateNextMaturityLevel = async ({ userId, pillerId, payload }: {
+    userId: number, pillerId: number, payload: {
+        level: string,
+        nextLevel: string,
+    }
+}) => {
     const url = `api/v1/maturity-level/usermaturitylevel/update/${userId}/${pillerId}`;
     const method = "put"
-    const res = await api({ url, method });
+    const res = await api({ url, method, data: payload });
     return res?.data;
 }

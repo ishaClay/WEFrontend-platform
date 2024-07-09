@@ -1,6 +1,9 @@
 import personImage from "@/assets/images/person.png";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getItemHistory } from "@/services/apiServices/pillar";
+import { useQuery } from "@tanstack/react-query";
 
-const HistoryModel = () => {
+const HistoryModel = ({ id }: { id: number | null }) => {
   const itemHistory = [
     {
       image: personImage,
@@ -33,6 +36,16 @@ const HistoryModel = () => {
       desc: "Action Item Created",
     },
   ];
+
+  console.log("id", id);
+
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.itemHistory],
+    queryFn: () => getItemHistory(id as number),
+  });
+
+  console.log("data", data);
+
   return (
     <>
       <div>

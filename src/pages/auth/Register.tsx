@@ -405,13 +405,10 @@ function Register() {
             </div>
           </div>
         </div>
-      </div>
-
-      {showOtpPopup && (
         <Modal
           open={showOtpPopup}
           onClose={() => setShowOtpPopup(false)}
-          className="max-w-[550px] left-auto right-[80px]"
+          className="max-w-[550px] xl:left-auto xl:right-[80px]"
         >
           <div className="mb-[2px] mt-2 text-center font-abhaya">
             <h2 className="text-xl font-semibold">
@@ -476,7 +473,7 @@ function Register() {
             </Button>
           </div>
         </Modal>
-      )}
+      </div>
 
       <Loading isLoading={createPending || createOtp} />
     </div>

@@ -61,6 +61,9 @@ export const QUERY_KEYS = {
   getCohortsByCourse: "getCohortsByCourse",
   MemberList: "MemberList",
   enrolledCourses: "enrolled_courses",
+  getActionItems: "getActionItems",
+  itemHistory: "itemHistory",
+  getEmployeeList: "getEmployeeList"
 };
 
 export const urlRegex =

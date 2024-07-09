@@ -19,7 +19,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const maturityLevel = [
   {
-    maturityLevelName: "Beginning",
+    maturityLevelName: "Introductory",
     rangeStart: 0,
     rangeEnd: 39.9,
     color: "#C92C35",
@@ -282,7 +282,7 @@ const MaturityLevelPage = () => {
               <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
                   <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
-                    Beginning
+                    Introductory
                   </Button>
                 </div>
 
