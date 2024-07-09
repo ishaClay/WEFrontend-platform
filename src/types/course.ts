@@ -83,3 +83,138 @@ export interface PublishCourseType {
   id: number;
   status: string;
 }
+
+
+export interface getSingleCourseType {
+  id: number;
+  version: number;
+  data: CourseEntityData;
+  createdAt: string;
+  updatedAt: string;
+  course: Course;
+  cohortGroups?: (null)[] | null;
+}
+export interface CourseEntityData {
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits?: null;
+  fetCredits?: null;
+  time: number;
+  isOnline: number;
+  universityAddress?: null;
+  duration?: null;
+  price?: null;
+  instituteOther?: null;
+  otherInstitutionName?: null;
+  description?: null;
+  bannerImage: string;
+  keys: string;
+  courseData?: (CourseDataEntity)[] | null;
+  status: string;
+  providerName: ProviderNameOrClientId;
+  nfqLeval: NfqLeval;
+  moduleLiveSection?: (null)[] | null;
+  currentVersion: CurrentVersion;
+  certificate?: null;
+  cohortGroup?: null;
+  clientId: ProviderNameOrClientId;
+  trainerCompanyId: TrainerCompanyId;
+  trainerId?: null;
+  deletedAt?: null;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface CourseDataEntity {
+  pillarId: number;
+  maturityId: number;
+}
+export interface ProviderNameOrClientId {
+  id: number;
+  name: string;
+  lastName?: null;
+  sector: string;
+  region: string;
+  promoter: string;
+  email: string;
+  number: string;
+  address: string;
+  type: string;
+  image?: null;
+  url: string;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface NfqLeval {
+  id: number;
+  leval: string;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface CurrentVersion {
+  id: number;
+  version: number;
+  data?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface TrainerCompanyId {
+  id: number;
+  providerName: string;
+  providerType: string;
+  providerCity: string;
+  providerCounty: string;
+  contactSurname: string;
+  contactTelephone: string;
+  foreignProvider: boolean;
+  providerAddress: string;
+  providerCountry: string;
+  contactFirstName: string;
+  providerNotes: string;
+  approved: boolean;
+  pillarLimit: number;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Course {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits?: null;
+  fetCredits?: null;
+  time: number;
+  isOnline: number;
+  universityAddress?: null;
+  duration?: null;
+  price?: null;
+  instituteOther?: null;
+  otherInstitutionName?: null;
+  description?: null;
+  bannerImage: string;
+  keys: string;
+  courseData?: (CourseDataEntity)[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  nfqLeval: NfqLeval;
+  certificate?: null;
+}

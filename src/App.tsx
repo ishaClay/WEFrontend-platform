@@ -651,11 +651,12 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
           <Route
             path="employeelist/employeeinvition"
             element={<EmployeeInvitation />}
           />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
         </Route>
 
         <Route

@@ -1,35 +1,16 @@
+import { getSingleCourseType } from "@/types/course";
 import { Star, Users } from "lucide-react";
 
-const Information = () => {
+const Information = ({data} : getSingleCourseType | any) => {
+  console.log("datadata+++", data);
+  
   return (
     <div>
       <div className="mb-5">
         <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
-          The standard Lorem Ipsum passage, used since the 1500s
+          {data?.course?.institute}
         </h5>
-        <p className="xl:text-base md:text-sm text-xs text-black font-nunito">
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-      </div>
-      <div className="mb-10">
-        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
-          The standard Lorem Ipsum passage, used since the 1500s
-        </h5>
-        <p className="xl:text-base md:text-sm text-xs text-black font-nunito">
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum."
-        </p>
+        <span className="xl:text-base md:text-sm text-xs text-black font-nunito" dangerouslySetInnerHTML={{ __html: data?.course?.description }}></span>
       </div>
       <div className="md:flex block items-center md:gap-8 gap-0">
         <div className="flex items-center md:mb-0 mb-4 gap-5">

@@ -10,6 +10,7 @@ import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
+import { getImages } from "@/lib/utils";
 
 type dataGridProps = {
   data: AllCourse[];
@@ -50,8 +51,8 @@ const CourseGridPage = ({ data }: dataGridProps) => {
     };
 
     const duration = cohortData?.duration?.split(" ");
-    const number = parseInt(duration[0]) || 0;
-    const unit = duration[1] || "days";
+    const number = parseInt(duration?.[0]) || 0;
+    const unit = duration?.[1] || "days";
     // @ts-ignore
     const courseEndDate = moment(currentDate).add(number, unit);
 
@@ -138,7 +139,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
-      {data?.map((allcourse: AllCourse) => {
+      {data?.map((allcourse: AllCourse) => {        
         return (
           <>
             <div
@@ -163,33 +164,29 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                 </div>
               </div>
 
-              <div>
-                <div className="px-3 py-[14px]">
-                  <p className="text-base font-medium leading-[22px] font-inter mb-3 line-clamp-3 text-[#1D2026]">
+              <div className="h-[calc(100%-231px)]">
+                <div className="px-3 py-[14px] h-[calc(100%-78px)] flex flex-col justify-between">
+                  <p className="text-base font-medium font-inter mb-3 line-clamp-3 text-[#1D2026]">
                     {allcourse.title}
                   </p>
 
                   <div>
-                    <div className="grid grid-cols-5 mb-3">
-                      <div className="col-span-2 flex items-center gap-1 leading-[22px]">
-                        <img
+                    <div className="mb-3">
+                      <div className="flex items-center gap-y-2 flex-wrap leading-[22px]">
+                      {
+                        allcourse?.courseData?.map((item) => {
+                          return <div className="flex gap-2 items-center w-1/2">
+                          <img
                           className="inline-block w-[18px] h-[24px]"
-                          src="/public/assets/img/abc.png"
+                          src={getImages(item?.fetchPillar?.pillarName, true)}
                           alt="Image Alt Text"
                         />
                         <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
-                          Social
+                          {item?.fetchPillar?.pillarName}
                         </p>
-                      </div>
-                      <div className="col-span-3 flex items-center gap-1 leading-[22px]">
-                        <img
-                          className="inline-block w-[20px] h-[23px]"
-                          src="/public/assets/img/def.png"
-                          alt="Image Alt Text"
-                        />
-                        <p className="text-[#918A8A] text-base font-normal font-calibri">
-                          {allcourse?.courseData?.[0]?.fetchPillar?.pillarName}
-                        </p>
+                          </div>
+                        })
+                      }                        
                       </div>
                     </div>
 
@@ -205,7 +202,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                             Level-
                             {
                               allcourse?.courseData?.[0]?.fetchMaturity
-                                ?.maturityLevelName
+                                ?.maturityLevelName || "--"
                             }
                           </p>
                         </div>
@@ -231,7 +228,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                             alt="Course"
                           />
                           <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            {allcourse.duration}
+                            {allcourse.duration || "--"}
                           </p>
                         </div>
                       </div>
@@ -244,7 +241,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                             alt="Course"
                           />
                           <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            {allcourse.otherInstitutionName}
+                            {allcourse.otherInstitutionName || "--"}
                           </p>
                         </div>
                         <div className="flex items-center gap-1 mb-[2px]">
@@ -301,10 +298,10 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                             : allcourse?.trainerCompanyId?.id
                         )
                       }
-                      className="2xl:px-[14px] px-[10px] py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
+                      className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
                     >
                       {isPending ? (
-                        <Loader containerClassName="h-auto" />
+                        <Loader containerClassName="h-auto" className="group-hover:text-white" />
                       ) : (
                         "Enroll Now"
                       )}

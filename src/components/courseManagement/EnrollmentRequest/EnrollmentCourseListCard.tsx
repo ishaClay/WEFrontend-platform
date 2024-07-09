@@ -53,22 +53,17 @@ const EnrollmentCourseListCard = ({ data }: {data: FetchEnrollRequestDataType}) 
             <CourseList rating={0} />
             <div className="ml-3 flex gap-2">
               {data?.courseVersion?.course?.courseData?.map((item) => {
+                const pillarName = item.fetchPillar?.pillarName;
                 return (
                   <Badge
                     variant="outline"
-                    className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                    className={`bg-[${pillarName === "Environmental" || pillarName === "Governance"
+                      ? "#FFD56A"
+                      : pillarName === "Technology & Innovation" || pillarName === "Strategic Integration" || pillarName === "Economics"
+                      ? "#F63636"
+                      : "#64A70B"}] border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
                   >
-                    {item.fetchPillar?.pillarName}
-                  </Badge>
-                );
-              })}
-              {data?.courseVersion?.course?.courseData?.map((item) => {
-                return (
-                  <Badge
-                    variant="outline"
-                    className={`bg-[${item.fetchMaturity?.color}] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                  >
-                    {item?.fetchMaturity?.maturityLevelName}
+                    {pillarName}
                   </Badge>
                 );
               })}

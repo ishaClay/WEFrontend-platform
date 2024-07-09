@@ -37,7 +37,7 @@ const Accordions = ({
     // <DragDropContext onDragEnd={onDragEnd}>
     <Accordion type={type} collapsible>
       <div className={cn("space-y-[24px]", className)}>
-        {items.map((item, index) => {
+        {items?.map((item, index) => {
           return (
             <AccordionItem
               className={`overflow-hidden  ${

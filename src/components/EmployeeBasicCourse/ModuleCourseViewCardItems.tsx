@@ -1,5 +1,8 @@
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import modulePdfFile from "@/assets/images/pdf-file.png";
+import { useState } from "react";
+import { CircleX } from "lucide-react";
 
 type moduleCourseCardListProps = {
   list: {
@@ -13,31 +16,56 @@ type moduleCourseCardListProps = {
   };
 };
 
-const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps) => {
+const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) => {
   const navigate = useNavigate();
+  const [viewDocument, setViewDocument] = useState(false);
+  const [documentFile, setDocumentFile] = useState("");
+  const documentIcon = (type: string) => {
+    if(type?.split("/")?.[3].includes("pdf")){
+      return <img src={modulePdfFile} alt="" />
+    } 
+  }
+
+  const documentType = (type: string) => {
+    if(type?.split("/")?.[3].includes("pdf")){
+      return "pdf"
+    }
+  }
+  
   return (
+    !viewDocument ?
     <div className="border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          <img src={list.image} alt="" />
+          {documentIcon(list?.uploadContent)}
         </div>
         <div className="">
-          <h5 className="sm:text-base text-sm text-black font-nunito pb-2">
-            {list.moduleName}
+          <h5 className="sm:text-base text-sm text-black font-nunito pb-2" 
+          onClick={() => {setViewDocument(true); setDocumentFile(list?.uploadContent)}}>
+            {list?.information}
           </h5>
-          <div className="pb-1">
+          {/* <div className="pb-1">
             <h6 className="text-[#747474] text-xs font-nunito">
-              {list.durationType} {list.duration}
+              {list.durationType} 
+              {list.duration}
+            </h6>
+          </div> */}
+          <div className="sm:flex block items-center">
+            <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+              {documentType(list?.uploadContent)}
+            </h6>
+            <h6 className="text-[#747474] text-xs font-nunito">
+              Duration : {list.time}
             </h6>
           </div>
-          <div className="sm:flex block items-center">
+          {/* <div className="sm:flex block items-center">
             <h6 className="text-[#747474] text-xs font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
               Date : {list.date}
             </h6>
             <h6 className="text-[#747474] text-xs font-nunito">
               Time : {list.time}
             </h6>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="">
@@ -65,6 +93,10 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps) => {
           </Button>
         )}
       </div>
+    </div> : 
+    <div className="relative pt-7">
+      <CircleX className="absolute -top-2 right-0 cursor-pointer" onClick={() => {setViewDocument(false); setDocumentFile("")}} />
+      <iframe src={documentFile} width="100%" height="600px" />
     </div>
   );
 };

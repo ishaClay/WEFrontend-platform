@@ -321,7 +321,7 @@ export const sidebarLayout = {
     {
       label: "Message",
       Icon: PiEnvelopeThin,
-      link: "/company/messaging",
+      link: "/company/message",
       children: [],
     },
     {

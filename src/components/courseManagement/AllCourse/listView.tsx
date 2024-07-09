@@ -44,8 +44,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
 
   useEffect(() => {
     if (list?.length > 0) {
-      let courseList = list.filter((item:any) => item?.version?.length > 0)
-      const data = courseList?.map((item) => {
+      const data = list?.map((item) => {
         const version = item?.version?.find(
           (itm) => itm?.version === 1
         );
@@ -240,7 +239,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     </Button>
                     <Button
                       onClick={(e:any) =>
-                        handleCohort(e, currentRecord?.versionId as number)
+                        handleCohort(e, data?.currentVersion?.id as number)
                       }
                       className="xl:max-w-[90px] w-[45%] xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
                     >

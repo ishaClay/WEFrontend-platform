@@ -1,23 +1,14 @@
 import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
+import { Data } from "@/types/enroll";
 
-type courseListItemsProps = {
-  data: {
-    image: string;
-    rating: number;
-    title: string;
-    trainer: string;
-    enrolledComany: number;
-    enrolledEmployees: number;
-  };
-};
-const EnrolledCourseListItem = ({ data }: courseListItemsProps) => {
+const EnrolledCourseListItem = ({ data }: Data | any) => {  
   return (
     <div className="">
       <div className="flex">
         <div className="">
           <img
-            src={data.image}
+            src={data?.courseVersion?.course?.bannerImage}
             alt=""
             className="w-[152px] xl:h-[152px] h-[100px] rounded-md overflow-hidden"
           ></img>
@@ -25,25 +16,30 @@ const EnrolledCourseListItem = ({ data }: courseListItemsProps) => {
         <div className="text-left ps-6">
           <div className="flex items-cent+er xl:pb-5 pb-3">
             <CourseList rating={data.rating} />
-            <Badge
-              variant="outline"
-              className="bg-[#FFD56A] p-1 px-3 text-[#3A3A3A] text-xs mx-2 font-Poppins font-normal"
-            >
-              Technology & Innovation
-            </Badge>
-            <Badge
-              variant="outline"
-              className="bg-[#D6F5AC] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal"
-            >
-              Social
-            </Badge>
+            <div className="flex gap-3 ml-3">
+            {data?.courseVersion?.course?.courseData?.map((item:any) => {
+                const pillarName = item.fetchPillar?.pillarName;
+                return (
+                  <Badge
+                    variant="outline"
+                    className={`bg-[${pillarName === "Environmental" || pillarName === "Governance"
+                      ? "#FFD56A"
+                      : pillarName === "Technology & Innovation" || pillarName === "Strategic Integration" || pillarName === "Economics"
+                      ? "#F63636"
+                      : "#64A70B"}] border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
+                  >
+                    {pillarName}
+                  </Badge>
+                );
+              })}
+              </div>
           </div>
           <h5 className="text-[#1D2026] font-bold mb-3 text-base">
-            {data.title}
+            {data?.courseVersion?.course.title}
           </h5>
           <h6 className="pb-2 flex font-calibri text-base text-[#1D2026]">
             <span>Trainer :</span>
-            {data.trainer}
+            {data?.courseVersion?.course.trainerCompanyId?.providerName}
           </h6>
           <div className="flex items-center">
             <div className="pe-5 flex">
@@ -51,7 +47,7 @@ const EnrolledCourseListItem = ({ data }: courseListItemsProps) => {
                 Enrolled Companies :
               </span>
               <span className="text-base text-[#1D2026] font-calibri font-bold">
-                {data.enrolledComany}
+                {data.company?.name}
               </span>
             </div>
             <div className="flex">
@@ -59,7 +55,7 @@ const EnrolledCourseListItem = ({ data }: courseListItemsProps) => {
                 Enrolled Employees :
               </span>
               <span className="text-base text-[#1D2026] font-calibri font-bold">
-                {data.enrolledEmployees}
+                0
               </span>
             </div>
           </div>

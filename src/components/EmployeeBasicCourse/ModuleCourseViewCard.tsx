@@ -3,7 +3,9 @@ import ModuleVideoPlay from "@/assets/images/video-play.png";
 import modulePdfFile from "@/assets/images/pdf-file.png";
 import moduleZoomVideo from "@/assets/images/zoom-video.png";
 
-const ModuleCourseViewCard = () => {
+const ModuleCourseViewCard = ({data} : any) => {
+  console.log("data+++data", data);
+  
   const moduleCourseCardList = [
     {
       image: ModuleVideoPlay,
@@ -42,9 +44,11 @@ const ModuleCourseViewCard = () => {
       status: "live",
     },
   ];
+  console.log("moduleCourseCardList", moduleCourseCardList);
+  
   return (
     <div>
-      {moduleCourseCardList.map((data, index) => {
+      {data?.moduleSections?.map((data:any, index:number) => {
         return <ModuleCourseViewCardItems key={index} list={data} />;
       })}
     </div>

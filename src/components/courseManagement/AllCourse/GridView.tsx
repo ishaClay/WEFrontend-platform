@@ -59,8 +59,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
 
   useEffect(() => {
     if (list?.length > 0) {
-      let courseList = list.filter((item:any) => item?.version?.length > 0)
-      const data = courseList?.map((item) => {        
+      const data = list?.map((item) => {        
         const version = item?.version?.find(
           (itm) => itm?.version === 1
         );        
@@ -134,7 +133,9 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     publishCourseFun(payload);
   }
 
-  const copyPublish = (e:Event, id: number) => {
+  const handleCopy = (e:Event, id: number) => {
+    console.log("id++++++1212", e, id);
+    
     e.preventDefault();
     copyCourseFun(id);
   }
@@ -147,6 +148,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === item?.id
           );
+          console.log("item+++", item);
+          console.log("currentRecord", currentRecord, currentRecord?.versionId);
+          
+          
 
           const versionOption =
             item?.version &&
@@ -157,7 +162,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
               };
             });
           return (
-            <Link to={`/${pathName}/employee-basic-course/${item.id}`}
+            <Link to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
               key={i}
               className="border border-[#ddd] rounded-[5px] overflow-hidden"
             >
@@ -169,7 +174,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {currentRecord?.status === "COPY"  ? "PUBLISHED" : currentRecord?.status || ""}
+                    {item?.status === "COPY"  ? "PUBLISHED" : item?.status || ""}
                   </Badge>
                 </div>
               </div>
@@ -231,7 +236,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                 </Button>
                 <Button
                   onClick={(e:any) =>
-                    handleCohort(e, currentRecord?.versionId as number)
+                    handleCohort(e, item?.currentVersion?.id as number)
                   }
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
@@ -254,7 +259,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
                       <DropdownMenuItem className="flex items-center gap-2 font-nunito" 
-                      onClick={(e:any) => copyPublish(e, currentRecord?.versionId as number)}>
+                      onClick={(e:any) => handleCopy(e, currentRecord?.versionId as number)}>
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
                       </DropdownMenuItem>

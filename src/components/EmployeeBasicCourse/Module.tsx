@@ -2,25 +2,13 @@ import { AccordionOption } from "@/types";
 import Accordions from "../comman/Accordions";
 import ModuleCardList from "./ModuleCardList";
 import ModuleCourseViewCard from "./ModuleCourseViewCard";
+import { getSingleCourseType } from "@/types/course";
 
-const Module = () => {
-  const moduleCourseCard = [
-    {
-      moduleName: "Chapter 1 - Intro",
-      sectionId: 1,
-      duration: "00:30:00",
-    },
-    {
-      moduleName: "Chapter 2 - Basics",
-      sectionId: 3,
-      duration: "00:04:42",
-    },
-  ];
-
-  const accordionItems: AccordionOption[] = moduleCourseCard.map((item) => {
+const Module = ({data} : getSingleCourseType | any) => {
+  const accordionItems: AccordionOption[] = data?.course?.module.map((item:any) => {
     return {
       title: <ModuleCardList data={item} />,
-      content: <ModuleCourseViewCard />,
+      content: <ModuleCourseViewCard data={item} />,
     };
   });
 

@@ -21,4 +21,10 @@ export const getCourseSlider = async (id: string, type: string) => {
     return res.data;
 };
 
+export const fetchSingleCourse = async (id: string) => {
+    const url = `api/v1/course/get/${id}`;
+    const res = await api({ url });
+    return res.data;
+};
+
 clientwiseCourseSlider

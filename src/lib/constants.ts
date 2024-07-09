@@ -60,6 +60,7 @@ export const QUERY_KEYS = {
   pillarMaturity: "pillarMaturity",
   getCohortsByCourse: "getCohortsByCourse",
   MemberList: "MemberList"
+  enrolledCourses: "enrolled_courses",
 };
 
 export const urlRegex =
