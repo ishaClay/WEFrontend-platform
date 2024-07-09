@@ -56,7 +56,7 @@ const EnrollmentCourseListCard = ({ data }: {data: FetchEnrollRequestDataType}) 
                 return (
                   <Badge
                     variant="outline"
-                    className={`p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                    className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
                   >
                     {item.fetchPillar?.pillarName}
                   </Badge>

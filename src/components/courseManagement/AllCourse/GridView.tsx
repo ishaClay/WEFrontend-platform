@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import { copyCourse, publishCourse } from "@/services/apiServices/courseManagement";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -49,29 +49,30 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const handleCohort = (id: number) => {
+  const pathName = location?.pathname?.split("/")?.[1];
+  const handleCohort = (e:Event, id: number) => {
+    e.preventDefault();
     setCohort(true);
     setCourse(id);
   };
 
 
-  // useEffect(() => {
-  //   if (list?.length > 0) {
-  //     const data = list.map((item) => {
-  //       console.log("itemitem", item?.version);
-        
-  //       const version = item?.version?.find(
-  //         (itm) => itm?.version === 1
-  //       );        
-  //       return {
-  //         id: item?.id,
-  //         versionId: version?.id as number,
-  //         status: item?.status === "COPY" ? "PUBLISHED" : item?.status as string,
-  //       };
-  //     });
-  //     setVersionData(data);
-  //   }
-  // }, [list]);
+  useEffect(() => {
+    if (list?.length > 0) {
+      let courseList = list.filter((item:any) => item?.version?.length > 0)
+      const data = courseList?.map((item) => {        
+        const version = item?.version?.find(
+          (itm) => itm?.version === 1
+        );        
+        return {
+          id: item?.id,
+          versionId: version?.id as number,
+          status: item?.status === "COPY" ? "PUBLISHED" : item?.status as string,
+        };
+      });
+      setVersionData(data);
+    }
+  }, [list]);
 
   const { mutate: publishCourseFun, isPending: publishCoursePending } = useMutation({
     mutationFn: (data:PublishCourseType) => publishCourse(data),
@@ -124,7 +125,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     });
   };
 
-  const handlePublish = (id: number) => {
+  const handlePublish = (e:Event, id: number) => {
+    e.preventDefault();
     const payload = {
       status: "PUBLISHED",
       id
@@ -132,7 +134,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     publishCourseFun(payload);
   }
 
-  const copyPublish = (id: number) => {
+  const copyPublish = (e:Event, id: number) => {
+    e.preventDefault();
     copyCourseFun(id);
   }
 
@@ -154,7 +157,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
               };
             });
           return (
-            <div
+            <Link to={`/${pathName}/employee-basic-course/${item.id}`}
               key={i}
               className="border border-[#ddd] rounded-[5px] overflow-hidden"
             >
@@ -203,7 +206,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         <div className="flex items-center justify-between mb-2">
                           <Badge
                             variant="outline"
-                            className={`p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                            className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
                           >
                             {item?.fetchPillar?.pillarName}
                           </Badge>
@@ -216,25 +219,19 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         </div>
                       );
                     })}
-                  {/* <Badge className="bg-[#EDF0F4] text-black py-1 hover:bg-[#EDF0F4]">
-                    Environment
-                  </Badge>
-                  <Badge className="bg-[#FF5252] py-1 hover:bg-[#FF5252]">
-                    Introductory
-                  </Badge> */}
                 </div>
               </div>
               <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] py-[9px] xl:px-[13px] px-1 border-t">
                 <Button
                   disabled={item?.status === "PUBLISHED"}
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
-                  onClick={() => handlePublish(item?.currentVersion?.id as number)}
+                  onClick={(e:any) => handlePublish(e, item?.currentVersion?.id as number)}
                 >
                   PUBLISH
                 </Button>
                 <Button
-                  onClick={() =>
-                    handleCohort(currentRecord?.versionId as number)
+                  onClick={(e:any) =>
+                    handleCohort(e, currentRecord?.versionId as number)
                   }
                   className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
@@ -257,20 +254,17 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
                       <DropdownMenuItem className="flex items-center gap-2 font-nunito" 
-                      onClick={() => copyPublish(currentRecord?.versionId as number)}>
+                      onClick={(e:any) => copyPublish(e, currentRecord?.versionId as number)}>
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
-                        onClick={() =>
-                          navigate(
-                            `/${
-                              location?.pathname?.split("/")?.[1]
-                            }/create_course/${
-                              item?.id
-                            }?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`
-                          )
+                        onClick={(e) =>
+                          {e.preventDefault(); 
+                            navigate(
+                            `/${pathName}/create_course/${item?.id}?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`
+                          );}
                         }
                       >
                         <Pencil className="w-4 h-4" />
@@ -284,7 +278,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>
