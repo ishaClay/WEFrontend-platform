@@ -59,7 +59,7 @@ export const QUERY_KEYS = {
   selectTargetPillarLimit: "selectTargetPillarLimit",
   pillarMaturity: "pillarMaturity",
   getCohortsByCourse: "getCohortsByCourse",
-  MemberList: "MemberList"
+  MemberList: "MemberList",
   enrolledCourses: "enrolled_courses",
 };
 
