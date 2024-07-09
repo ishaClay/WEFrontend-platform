@@ -24,7 +24,7 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="max-w-3xl "
+        className="lg:max-w-[610px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
         header="Settings"
         titleClassName="font-nunito text-xl text-black font-bold"
       >

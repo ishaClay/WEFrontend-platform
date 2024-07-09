@@ -33,6 +33,7 @@ interface DataTableProps<TData, TValue> {
   pagenationbox?: true;
   pagination?: PaginationState;
   totalPages?: number;
+  border?: boolean;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
@@ -44,6 +45,7 @@ export function NewDataTable<TData, TValue>({
   data,
   columns,
   inputbox = true,
+  border = true,
   pagenationbox,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
@@ -105,7 +107,9 @@ export function NewDataTable<TData, TValue>({
           <img src={search} alt="" className="absolute left-10" />
         </div>
       )}
-      <div className="rounded-md border">
+      <div
+        className={`rounded-md ${border ? "rounded-md border" : "border-none"}`}
+      >
         <Table>
           <TableHeader className="bg-[#F1F1F1] text-[15px] font-semibold">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -116,7 +120,8 @@ export function NewDataTable<TData, TValue>({
                       key={header.id}
                       className={cn(
                         "text-black font-medium",
-                        // @ts-ignore
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
                         header?.column?.columnDef?.meta?.className
                       )}
                     >
@@ -151,8 +156,11 @@ export function NewDataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      // @ts-ignore
-                      className={cell?.column?.columnDef?.meta?.className}
+                      className={
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-expect-error
+                        cell?.column?.columnDef?.meta?.className
+                      }
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

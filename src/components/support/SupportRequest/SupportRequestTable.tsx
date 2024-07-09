@@ -344,6 +344,7 @@ const SupportRequestTable = () => {
           totalPages={support_request_list?.data?.metadata?.totalPages || 1}
           setPage={setPage}
           inputbox={false}
+          border={false}
           pagination={{ pageIndex: page, pageSize: 10 }}
           searchPlaceholder="Search by Requestor, Subject, Assign to etc."
           searchFilter={(e) => setSearch(e)}
