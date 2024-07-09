@@ -113,6 +113,7 @@ import { changeTheme } from "./services/apiServices/theme";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
+import EmployeeInvitation from "./pages/EmployeeInvitation";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -651,6 +652,10 @@ function App() {
           />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
+          <Route
+            path="employeelist/employeeinvition"
+            element={<EmployeeInvitation />}
+          />
         </Route>
 
         <Route

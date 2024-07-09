@@ -1,58 +1,258 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { BsSearch } from "react-icons/bs";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { TbSelector } from "react-icons/tb";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getMemberlist } from "@/services/apiServices/member";
+import { useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
+import { Input } from "@/components/ui/input";
+import { NewDataTable } from "@/components/comman/NewDataTable";
+import { useState, ChangeEvent } from "react";
+import searchIcon from "/assets/icons/search.svg";
+import { Loader2 } from "lucide-react";
+import delet from "@/assets/images/delet.svg";
+import { Link } from "react-router-dom";
+import { EmployeeEntity } from "@/types/Invition";
+
+// import { useSelector } from "react-redux";
 
 function CoursesAllocate() {
-  const employeeData = [
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  // const { UserId } = useSelector((state: any) => state.user);
+
+  const column: ColumnDef<EmployeeEntity>[] = [
     {
-      id: "#01",
-      name: "Ankites Risher",
-      email: "ankitesrisher@example.com",
-      mobile: "+91 8459293138",
-      status: "Registered",
-      action: "Active",
+      accessorKey: "id",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            ID
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
     },
     {
-      id: "#02",
-      name: "Liam Risher",
-      email: "liamrisher@example.com",
-      mobile: "+91 8459293138",
-      status: "Registered",
-      action: "Active",
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Team Member
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className=" w-20 font-bold px-3 flex items-center justify-center">
+            <div className=" p-1 rounded-full">
+              <img
+                src={row.original.profileImage}
+                alt=""
+                className="object-cover"
+              />
+            </div>
+            <p
+              className={` w-20 h-8 font-bold px-3 flex items-center justify-center`}
+            >
+              {row.original.name}
+            </p>
+          </div>
+        );
+      },
     },
     {
-      id: "#03",
-      name: "Liam Risher",
-      email: "liamrisher@example.com",
-      mobile: "+91 8459293138",
-      status: "Invited",
-      action: "Dactive",
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email ID
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+
+      cell: ({ row }) => {
+        return (
+          <p
+            className={` w-20 h-8 font-bold px-3 flex items-center justify-center `}
+          >
+            {row.original.email}
+          </p>
+        );
+      },
     },
     {
-      id: "#04",
-      name: "Liam Risher",
-      email: "liamrisher@example.com",
-      mobile: "+91 8459293138",
-      status: "Invited",
-      action: "Dactive",
+      accessorKey: "mnumber",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Mobile Number
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+
+      cell: () => {
+        return (
+          <p
+            className={` w-20 h-8 font-bold px-3 flex items-center justify-center `}
+          >
+            {/* {row.original.mnumber} */}
+          </p>
+        );
+      },
+    },
+
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0 ml-[20px]"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Status
+            <div className="flex flex-col ">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <p
+            className={`${
+              row.original.status === "Registered"
+                ? "bg-[#00778B] text-white h-[32px] w-[80px]"
+                : "bg-[#0E9CFF] text-white h-[32px] w-[80px]"
+            } w-20 h-8 font-bold px-3  flex items-center justify-center`}
+          >
+            {row.original.status}
+          </p>
+        );
+      },
     },
     {
-      id: "#05",
-      name: "Liam Risher",
-      email: "liamrisher@example.com",
-      mobile: "+91 8459293138",
-      status: "Invited",
-      action: "Active",
+      accessorKey: "activity",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="px-0 "
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Activity
+            <div className="flex flex-col">
+              <TriangleUpIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,0,15,5"
+              />
+              <TriangleDownIcon
+                className="ml-1 h-[14px] w-[14px] text-[#A3A3A3]"
+                viewBox="0,5,15,15"
+              />
+            </div>
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <p
+            className={`${
+              row.original.employeeStatus === "Active"
+                ? "text-[#58BA66]"
+                : row.original.employeeStatus === "Inactive"
+                ? "bg-[#FF5252] text-white"
+                : "text-white"
+            } w-20 h-8 font-bold px-3 flex items-center justify-center`}
+          >
+            {row.original.employeeStatus}
+          </p>
+        );
+      },
+    },
+
+    {
+      accessorKey: "action",
+      header: "",
+      cell: () => {
+        return (
+          <div className="flex items-center gap-[12px] ">
+            <Button variant={"ghost"} className="p-0">
+              <img src={delet} alt="" />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
+  const { data, isPending: employeDataPending } = useQuery({
+    queryKey: [QUERY_KEYS.MemberList, { page, search }],
+    queryFn: () => getMemberlist(page.toString(), "10", 435, search),
+  });
+  console.log(data, "column===");
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
@@ -65,151 +265,50 @@ function CoursesAllocate() {
               The full list of team members working on your green initiatives
             </p>
           </div>
-          <button className="bg-[#00778B] text-white px-4 py-2 rounded mr-[20px]  h-[45px] w-[150px]">
-            Send Invitation
-          </button>
+          <div>
+            <Link
+              to="employeeinvition"
+              className="py-[10px] px-[20px] bg-primary-button text-color rounded-sm"
+            >
+              Send Invitation
+            </Link>
+          </div>
         </div>
 
         <div className="flex pl-[10px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
-          <div>
-            <div className="flex mt-[9px]  items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
-              <BsSearch className="text-[#D9D9D9] mr-2" />
-
-              <input
-                type="text"
-                placeholder="Search by pilier, level, recommended, course name etc."
-                className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
-              />
-            </div>
+          <div className="flex items-center py-4 relative">
+            <Input
+              placeholder={
+                "Search by pilier, level, recommended, course name etc."
+              }
+              value={search}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+              className="py-[17px] pl-[39px] border w-[550px] rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+            />
+            <img
+              src={searchIcon}
+              alt="searchIcon"
+              className="absolute left-10"
+            />
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full   ">
-            <thead>
-              <tr className="bg-[#F1F1F1] h-[50px]">
-                <th className=" ">
-                  {" "}
-                  <span className="flex pl-4 ">
-                    ID{" "}
-                    <span className="mt-1">
-                      <TbSelector />
-                    </span>
-                  </span>
-                </th>
-                <th className=" ">
-                  <span className="flex ml-4">
-                    Team Member Name
-                    <span className="mt-1">
-                      <TbSelector />
-                    </span>
-                  </span>
-                </th>
-                <th className=" ">
-                  <span className="flex ml-4">
-                    Email Id
-                    <span className="mt-1">
-                      <TbSelector />
-                    </span>
-                  </span>
-                </th>
-                <th className=" ">
-                  <span className="flex ml-4">
-                    Mobile Number
-                    <span className="mt-1">
-                      <TbSelector />
-                    </span>
-                  </span>
-                </th>
-                <th className=" ">
-                  <span className="flex ml-4">
-                    Status
-                    <span className="mt-1">
-                      <TbSelector />
-                    </span>
-                  </span>
-                </th>
-                <th className=" ">
-                  {" "}
-                  <span className=" ml-4">Activity</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {employeeData.map((employee) => (
-                <tr key={employee.id}>
-                  <td className=" border-b px-18 pl-4 py-2">
-                    <span className="w-[110px]">{employee.id}</span>
-                  </td>
-                  <td className=" border-b px-18 py-4 ">
-                    <span className="flex">
-                      {" "}
-                      <img
-                        src="public/assets/img/face1.jpg"
-                        alt="Employee"
-                        className="w-8 h-8 rounded-full mr-2"
-                      />
-                      {employee.name}
-                    </span>
-                  </td>
-                  <td className=" border-b px-18 py-2">{employee.email}</td>
-                  <td className="border-b px-18 pl-4 py-2">
-                    {employee.mobile}
-                  </td>
-                  <td className={`border-b px-18  py-2`}>
-                    <button
-                      className={`text-xs rounded-full ${
-                        employee.status === "Registered"
-                          ? "bg-[#00778B] text-white h-[32px] w-[80px]"
-                          : "bg-[#0E9CFF] text-white h-[32px] w-[80px]"
-                      }`}
-                    >
-                      {employee.status}
-                    </button>
-                  </td>
-                  <td className={` border-b px-18 py-2  `}>
-                    <span className="flex">
-                      <button
-                        className={`${
-                          employee.action === "Active"
-                            ? "bg-green-500 text-white h-[32px] w-[80px] rounded-md"
-                            : "bg-red-500 text-white h-[32px] w-[80px] rounded-md"
-                        }`}
-                      >
-                        {employee.action}
-                      </button>
-                      <span className="mt-1 ml-4 text-[#A3A3A3] ">
-                        <RiDeleteBinLine />
-                      </span>
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="ml-[1000px] mt-[20px]">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                  <PaginationLink href="#">2</PaginationLink>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        </div>
-
-        <div className="ml-[20px]">
-          <p className="font-bold text-[10px] ">Showing 10/200 Records</p>
-        </div>
+        {employeDataPending ? (
+          <span className="flex justify-center items-center py-10">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </span>
+        ) : (
+          <NewDataTable
+            columns={column}
+            data={data?.data || []}
+            totalPages={data?.metadata?.totalPages || 1}
+            setPage={setPage}
+            inputbox={false}
+            pagination={{ pageIndex: page, pageSize: 10 }}
+          />
+        )}
       </div>
     </div>
   );
