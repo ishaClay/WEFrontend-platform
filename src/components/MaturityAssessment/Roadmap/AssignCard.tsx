@@ -60,6 +60,27 @@ interface UserMaturityLevelEntity {
   updatedAt: string;
 }
 
+const maturityLevel = [
+  {
+    maturityLevelName: "Introductory",
+    rangeStart: 0,
+    rangeEnd: 39.9,
+    color: "#C92C35",
+  },
+  {
+    maturityLevelName: "Intermediate",
+    rangeStart: 40,
+    rangeEnd: 69.9,
+    color: "#FFD56A",
+  },
+  {
+    maturityLevelName: "Advance",
+    rangeStart: 70,
+    rangeEnd: 100,
+    color: "#258483",
+  },
+];
+
 const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
   console.log("data", data);
 
@@ -121,14 +142,22 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
             </div>
             <div className="bg-[#E3E5F5] h-[20px] xl:w-[511px] w-[290px] rounded-full">
               <Progress
-                value={data.progressPR}
+                value={data.progressPR.toFixed(0).toString()}
                 color="#FFD56A"
                 className="w-full rounded-full h-[20px]"
                 isShow={true}
               />
             </div>
             <div className="flex items-center relative lg:mt-0 mt-3">
-              <Button className="text-black sm:text-base text-xs font-Calibri rounded-full bg-[#FFD56A] h-[30px]">
+              <Button
+                className={`${
+                  data?.userMaturityLevel?.[0]?.level === "Advance"
+                    ? "bg-[#258483]"
+                    : data?.userMaturityLevel?.[0]?.level === "Introductory"
+                    ? "bg-[#C92C35]"
+                    : "bg-[#FFD56A]"
+                } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px]`}
+              >
                 {data?.userMaturityLevel?.[0]?.level}
               </Button>
               <div className="relative border border-dashed border-[#A6A6A6] w-40">
@@ -138,7 +167,15 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                   className="absolute bottom-0 top-0 left-0 right-0 m-auto"
                 />
               </div>
-              <Button className="text-white sm:text-base text-xs rounded-full bg-[#2C9367] h-[30px]">
+              <Button
+                className={`text-black sm:text-base text-xs rounded-full ${
+                  data?.userMaturityLevel?.[0]?.nextLevel === "Advance"
+                    ? "bg-[#258483]"
+                    : data?.userMaturityLevel?.[0]?.nextLevel === "Introductory"
+                    ? "bg-[#C92C35]"
+                    : "bg-[#FFD56A]"
+                } h-[30px]`}
+              >
                 {data?.userMaturityLevel?.[0]?.nextLevel}
               </Button>
             </div>
