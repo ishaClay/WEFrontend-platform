@@ -523,3 +523,11 @@ export const getRandomHexColor = () => {
   }
   return color;
 };
+
+
+export const getTotalDuration = (data:any) => {
+  return data.reduce((totalSeconds:any, readingTime:any) => {
+    const { hour, minute, second } = readingTime;
+    return totalSeconds + (hour * 3600) + (minute * 60) + second;
+  }, 0);
+};

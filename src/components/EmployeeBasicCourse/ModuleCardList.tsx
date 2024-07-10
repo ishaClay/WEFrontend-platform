@@ -1,4 +1,4 @@
-import { CircleAlert } from "lucide-react";
+import { getTotalDuration } from "@/lib/utils";
 
 type moduleCourseCardProps = {
   data: {
@@ -9,12 +9,19 @@ type moduleCourseCardProps = {
 };
 
 const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
-  console.log("datadatadatadatadatadata", data);
+  const getTotalSectionsTime = data?.moduleSections?.map((it:any) => it?.readingTime)
+  const totalTimeInSeconds = getTotalDuration(getTotalSectionsTime);
+
+// Convert total seconds back to hours, minutes, seconds
+  const hours = Math.floor(totalTimeInSeconds / 3600)?.toString()?.padStart(2, '0');
+  const minutes = Math.floor((totalTimeInSeconds % 3600) / 60)?.toString()?.padStart(2, '0');
+  const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, '0');
   
   return (
+    data ? 
     <div className="">
       <h3 className="sm:text-base text-sm font-bold font-calibri pb-2 text-left flex items-center">
-        <CircleAlert className="me-2 text-[#747474]" />
+        {/* <CircleAlert className="me-2 text-[#747474]" /> */}
         {data?.title}
       </h3>
       <div className="flex items-center">
@@ -22,10 +29,10 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
           Section: {data.moduleSections?.length}
         </h6>
         <h6 className="text-xs text-[#747474] font-inter">
-          Duration {data.duration}
+          Duration {hours}: {minutes}: {seconds}
         </h6>
       </div>
-    </div>
+    </div> : <div className="text-center w-full py-10">No data found</div>
   );
 };
 

@@ -206,7 +206,7 @@ const ModuleCreationPage = () => {
   }, [moduleList]);
 
   const CreateModuleAsync = useMutation({
-    mutationFn: async (data: ModuleCreation) => createModule(data, courseID),
+    mutationFn: async (data: ModuleCreation) => createModule(data, (courseID || courseEditId)),
   });
 
   const createSectionAsync = useMutation({

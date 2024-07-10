@@ -1,6 +1,10 @@
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import modulePdfFile from "@/assets/images/pdf-file.png";
+import ModuleVideoPlay from "@/assets/images/video-play.png";
+// import moduleZoomVideo from "@/assets/images/zoom-video.png";
+import xlsxFileIcon from "@/assets/images/upload_option_2.png";
+import wordFile from "@/assets/images/word_file.png";
 import { useState } from "react";
 import { CircleX } from "lucide-react";
 
@@ -21,28 +25,40 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
   const [viewDocument, setViewDocument] = useState(false);
   const [documentFile, setDocumentFile] = useState("");
   const documentIcon = (type: string) => {
-    if(type?.split("/")?.[3].includes("pdf")){
-      return <img src={modulePdfFile} alt="" />
-    } 
+    if(type?.split("/")?.[3]?.includes("pdf")){
+      return <img src={modulePdfFile} alt="modulePdfFile" />
+    } else if(type?.split("/")?.[3]?.includes("mp4") || type === "url") {
+      return <img src={ModuleVideoPlay} alt="ModuleVideoPlay" />
+    }else if(type?.split("/")?.[3]?.includes("xlsx")) {
+      return <img src={xlsxFileIcon} alt="xlsxFileIcon" className="h-[32px] grayscale-[1]" />
+    }else if(type?.split("/")?.[3]?.includes("doc")) {
+      return <img src={wordFile} alt="wordFile" className="h-[32px]" />
+    }
   }
 
   const documentType = (type: string) => {
-    if(type?.split("/")?.[3].includes("pdf")){
+    if(type?.split("/")?.[3]?.includes("pdf")){
       return "pdf"
+    } else if(type?.split("/")?.[3]?.includes("mp4") || type === "url") {
+      return "mp4"
+    } else if(type?.split("/")?.[3]?.includes("xlsx")) {
+      return "xlsx"
+    } else if(type?.split("/")?.[3]?.includes("doc")) {
+      return "doc"
     }
   }
   
   return (
     !viewDocument ?
-    <div className="border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
+    <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          {documentIcon(list?.uploadContent)}
+          {documentIcon(list?.url ? "url" : list?.uploadContent)}
         </div>
         <div className="">
-          <h5 className="sm:text-base text-sm text-black font-nunito pb-2" 
-          onClick={() => {setViewDocument(true); setDocumentFile(list?.uploadContent)}}>
-            {list?.information}
+          <h5 className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block" 
+          onClick={() => {setViewDocument(true); setDocumentFile(list?.url ? list?.url : list?.uploadContent)}}>
+            {list?.title}
           </h5>
           {/* <div className="pb-1">
             <h6 className="text-[#747474] text-xs font-nunito">
@@ -52,10 +68,10 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
           </div> */}
           <div className="sm:flex block items-center">
             <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
-              {documentType(list?.uploadContent)}
+              {documentType(list?.url ? "url" : list?.uploadContent)}
             </h6>
             <h6 className="text-[#747474] text-xs font-nunito">
-              Duration : {list.time}
+              Duration : {list?.readingTime?.hour?.toString()?.padStart(2, '0')}: {list?.readingTime?.minute?.toString()?.padStart(2, '0')}: {list?.readingTime?.second?.toString()?.padStart(2, '0')}
             </h6>
           </div>
           {/* <div className="sm:flex block items-center">
@@ -94,9 +110,9 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
         )}
       </div>
     </div> : 
-    <div className="relative pt-7">
-      <CircleX className="absolute -top-2 right-0 cursor-pointer" onClick={() => {setViewDocument(false); setDocumentFile("")}} />
-      <iframe src={documentFile} width="100%" height="600px" />
+    <div className="absolute top-0 left-0 w-full bg-white z-50">
+      <CircleX className="absolute -top-[25px] right-0 cursor-pointer" onClick={() => {setViewDocument(false); setDocumentFile("")}} />
+      <iframe src={documentFile} width="100%" height="600px" ></iframe>
     </div>
   );
 };
