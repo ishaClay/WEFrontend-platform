@@ -39,16 +39,13 @@ function MaturityLevelActionItem() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
-      localStorage.setItem(
-        "path",
-        JSON.stringify(data.data.data?.query?.pathStatus)
-      );
+      localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
+      navigate("/company/coursesrecommended");
     },
   });
 
   const handlematurityAction = () => {
     EnumUpadate();
-    navigate("/company/coursesrecommended");
   };
 
   const paths = [

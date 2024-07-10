@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
-import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -120,7 +120,7 @@ function Register() {
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       localStorage.setItem(
         "path",
-        JSON.stringify(data.data.data?.query?.pathstatus)
+        JSON.stringify(data.data.data?.query?.pathStatus)
       );
       navigate("/assessment");
     },
