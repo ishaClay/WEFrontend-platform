@@ -98,9 +98,13 @@ export const publishCourse = (data: {status: string, id: number}) => {
 }
 
 export const copyCourse = (id: number) => {
-  console.log("id++++++", id);
-  
   const url = `api/v1/course/copy-course/${id}`;
   const method = "put";
+  return api({ url, method });
+}
+
+export const deleteCourse = (id: number) => {
+  const url = `api/v1/course/delete/${id}`;
+  const method = "delete";
   return api({ url, method });
 }

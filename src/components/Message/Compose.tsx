@@ -60,6 +60,9 @@ const Compose = () => {
   );
 
   const { role } = useSelector((state: any) => state.user);
+  const asdas = useSelector((state: any) => state);
+  console.log("asdas", asdas.user);
+  
   const { toast } = useToast();
   const [client, setClient] = useState("");
   const [chatMessage, setChatMessage] = useState("");
@@ -76,7 +79,7 @@ const Compose = () => {
       : UserRole.Trainer;
 
   useEffect(() => {
-    if (role === "6") {
+    if (role === UserRole.Client || role === UserRole.Trainer) {
       setIsActive("admin");
     }
   }, [role]);
@@ -93,11 +96,14 @@ const Compose = () => {
     enabled: true,
   });
 
+  
+  
   const { data: emailtemplateList, isPending } = useQuery({
     queryKey: [QUERY_KEYS.emailTemplate],
     queryFn: () => fetchEmails(),
   });
-
+  
+  console.log("targetaudience", targetaudience, emailtemplateList?.data?.data);
   const {
     data: getCompanyOrTrainerCompany,
     refetch: refetchCompanyOrTrainerCompany,
@@ -385,18 +391,21 @@ const Compose = () => {
                 <SelectContent>
                   {isActive === "admin" ||
                     isActive === "company" ||
-                    (isActive === "trainer" &&
+                    isActive === "trainer" &&
                       targetaudience?.data?.data?.map((item: any) => {
+                        console.log("itemitem+++", item);
+                        
                         return (
                           <SelectItem value={String(item?.id)}>
                             {item?.name}
                           </SelectItem>
                         );
-                      }))}
+                      })}
 
                   {isActive === "client" &&
                     role == UserRole.SuperAdmin &&
                     emailtemplateList?.data.data.map((item: any) => {
+                      console.log("itemitem+++", item);
                       return (
                         <SelectItem value={String(item?.id)}>
                           {item?.name}

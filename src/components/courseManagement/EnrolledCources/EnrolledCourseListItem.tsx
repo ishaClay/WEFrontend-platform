@@ -3,8 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Data } from "@/types/enroll";
 
 const EnrolledCourseListItem = ({ data }: Data | any) => {  
-  return (
-    <div className="">
+  return (<div className="">
       <div className="flex">
         <div className="">
           <img

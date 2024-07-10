@@ -14,12 +14,13 @@ import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
-import { copyCourse, publishCourse } from "@/services/apiServices/courseManagement";
+import { copyCourse, deleteCourse, publishCourse } from "@/services/apiServices/courseManagement";
 import { QUERY_KEYS } from "@/lib/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { PublishCourseType } from "@/types/course";
 import Loader from "@/components/comman/Loader";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 
 // const selectOption = [
 //   {
@@ -46,6 +47,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const { toast } = useToast();
   const [versionData, setVersionData] = useState<VersionProps[]>([]);
   const [cohort, setCohort] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(null)
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -110,6 +113,25 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     },
   });
 
+  const { mutate: deleteCourseFun, isPending: deleteCoursePending } = useMutation({
+    mutationFn: (id:number) => deleteCourse(id),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+      toast({
+        title: "Success",
+        description: data?.data?.message,
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleChangeVersion = (versionId: string, id: number) => {
     setVersionData((prev) => {
       return prev.map((item) => {
@@ -133,11 +155,13 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     publishCourseFun(payload);
   }
 
-  const handleCopy = (e:Event, id: number) => {
-    console.log("id++++++1212", e, id);
-    
+  const handleCopy = (e:Event, id: number) => {    
     e.preventDefault();
     copyCourseFun(id);
+  }
+
+  const handleDeleteCourse = () => {
+    deleteCourseFun(singleCourse ? singleCourse?.id : 0)
   }
 
   return (
@@ -275,7 +299,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 font-nunito">
+                      <DropdownMenuItem className="flex items-center gap-2 font-nunito" onClick={(e:any) => {e.preventDefault(); setIsDelete(true); setSingleCourse(item)}}>
                         <Trash2 className="w-4 h-4" />
                         <span>Delete</span>
                       </DropdownMenuItem>
@@ -287,6 +311,13 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           );
         })}
       </div>
+      <ConfirmModal 
+        open={isDelete}
+        onClose={() => setIsDelete(false)}
+        onDelete={handleDeleteCourse}
+        value={singleCourse?.title || ""}
+        isLoading={deleteCoursePending}
+      />
       {publishCoursePending || copyCoursePending && <div className="fixed w-full top-0 left-0 h-full z-50 flex justify-center items-center bg-[#00000050]">
         <Loader className="w-10 h-10 text-primary" />
       </div>}

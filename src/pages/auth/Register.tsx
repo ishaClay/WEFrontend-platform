@@ -18,7 +18,7 @@ import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
+import { setClientRole, setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
 import { ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { ErrorType } from "@/types/Errors";
@@ -114,6 +114,7 @@ function Register() {
 
       setShowOtpPopup(false);
       dispatch(setUserData(data?.data?.data?.id));
+      dispatch(setClientRole(+data?.data?.data.role));
       dispatch(setCompanyId(data?.data?.data?.user?.id));
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
