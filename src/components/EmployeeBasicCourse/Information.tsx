@@ -19,7 +19,7 @@ const Information = ({data} : getSingleCourseType | any) => {
           </div>
           <div className="">
             <h5 className="text-base font-nunito font-bold text-black pb-1">
-              1000+
+              0
             </h5>
             <h6 className="text-xs text-black font-nunito">
               Delegates Enrolled
@@ -32,8 +32,8 @@ const Information = ({data} : getSingleCourseType | any) => {
           </div>
           <div className="">
             <h5 className="text-base font-nunito font-bold text-black pb-1">
-              1000+{" "}
-              <span className="font-normal text-xs">(950 People like)</span>
+              0{" "}
+              <span className="font-normal text-xs">(0 People like)</span>
             </h5>
             <h6 className="text-xs text-black font-nunito">
               Delegates Enrolled

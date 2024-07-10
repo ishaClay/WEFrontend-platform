@@ -40,8 +40,14 @@ export const createSection = async(data: any, moduleId: any) => {
     const url = `api/v1/course/module/section/create`,
     method = "post";
     console.log('data.sections', data);
+    const payloadData = data.map((it:any) => {
+      return {
+        ...it,
+        uploadContentType: it.youtubeUrl ? 4 : it.uploadContentType
+      }
+    })
     
-    const payload = await transformSectionPayload(data, moduleId)
+    const payload = await transformSectionPayload(payloadData, moduleId)
     console.log('payload', payload);
     
 
@@ -50,7 +56,7 @@ export const createSection = async(data: any, moduleId: any) => {
 }
 
 export const updateSection = async(data: any, moduleId: any, sectionId: any) => {
-    const url = `api/v1//course/module/section/update/${sectionId}`,
+    const url = `api/v1/course/module/section/update/${sectionId}`,
     method = "put";
 
     const payload = await {
@@ -71,7 +77,7 @@ export const updateSection = async(data: any, moduleId: any, sectionId: any) => 
 }
 
 export const updateLiveSection = async(data: any, moduleId: any, sectionId: any) => {
-    const url = `api/v1//course/module/section/update-live-section/${sectionId}`,
+    const url = `api/v1/course/module/section/update-live-section/${sectionId}`,
     method = "put";
     const payload = await {
             isLive: true,
