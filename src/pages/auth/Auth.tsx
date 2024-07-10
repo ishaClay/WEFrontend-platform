@@ -76,6 +76,8 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
+      console.log("++++++++", user, data);
+
       // dispatch(setClientId(data.data.data.query.clientid));
 
       if (data.data.data.status === "Inactive") {
@@ -83,7 +85,7 @@ function Auth() {
           variant: "destructive",
           title: data?.data?.message,
         });
-      } else if (data.data.data.status.toLowerCase() === "Pending") {
+      } else if (data.data.data.status === "Pending") {
         toast({
           variant: "destructive",
           title: data?.data?.message,
