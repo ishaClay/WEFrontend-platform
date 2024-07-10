@@ -1,23 +1,23 @@
-import { useState } from "react";
+import CustomTabInput from "@/components/comman/CustomTabInput";
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import FileUpload from "@/components/comman/FileUpload";
+import InputWithLabel from "@/components/comman/InputWithLabel";
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
+import { createEmployeeInvition } from "@/services/apiServices/member";
+import { EmployeePayload } from "@/types/Invition";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import InputWithLabel from "@/components/comman/InputWithLabel";
-import CustomTabInput from "@/components/comman/CustomTabInput";
-import ErrorMessage from "@/components/comman/Error/ErrorMessage";
-import { EmployeePayload } from "@/types/Invition";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
-import FileUpload from "@/components/comman/FileUpload";
-import { useAppSelector } from "@/hooks/use-redux";
-import Loader from "@/components/comman/Loader";
-import { createEmployeeInvition } from "@/services/apiServices/member";
 
 const schema = z.object({
-  file: z.string().min(1, { message: "Email Address is required" }),
+  file: z.string().optional(),
   invitiondetail: z.string().min(1, { message: "Email Address is required" }),
 });
 
@@ -129,7 +129,7 @@ const EmployeeInvitation = () => {
             </p>
           </div>
           <div className="mt-[24px] flex items-center gap-6">
-            <div className="flex">
+            <div className="flex items-center gap-3">
               <FileUpload
                 handleDrop={(e) => {
                   setValue("file", e);
@@ -150,7 +150,6 @@ const EmployeeInvitation = () => {
                 </label>
               )}
             </div>
-            <div className="text-base font-abhaya font-bold">invites.csv</div>
           </div>
 
           {errors.file?.message && (

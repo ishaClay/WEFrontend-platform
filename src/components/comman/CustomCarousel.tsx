@@ -5,8 +5,6 @@ import {
   CarouselContent,
   CarouselDots,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "../ui/carousel";
 
 interface CustomCarouselProps {
@@ -17,7 +15,7 @@ interface CustomCarouselProps {
 }
 
 const CustomCarousel = ({
-  showArrow = true,
+  // showArrow = true,
   children,
   className,
   containerClassName,

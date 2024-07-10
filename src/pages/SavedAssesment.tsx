@@ -1,8 +1,8 @@
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Loader from "@/components/comman/Loader";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -82,7 +82,7 @@ function SavedAssesment() {
 
   return (
     <div className="mainContailner w-full m-auto">
-      <Header />
+      <HomeHeader />
       <div className="flex flex-row xl:gap-[48px] gap-5">
         <div>
           {/* <img

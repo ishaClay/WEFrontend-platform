@@ -1,8 +1,8 @@
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { enumUpadate } from "@/services/apiServices/enum";
@@ -38,7 +38,7 @@ function Assessment() {
 
   return (
     <div className="mainContailner w-full m-auto">
-      <Header />
+      <HomeHeader />
 
       <div className="flex flex-row gap-[48px] pb-[60px]">
         <div>

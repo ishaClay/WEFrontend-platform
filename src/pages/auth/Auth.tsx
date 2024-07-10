@@ -90,12 +90,15 @@ function Auth() {
           variant: "destructive",
           title: data?.data?.message,
         });
-      } else if (data.data.data.isNew) {
+      } else if (data.data.data.status === "IsNew") {
         navigate("/resetpassword", {
           state: {
             oldPassword: getValues("password"),
             email: getValues("email"),
-            status: data?.data?.data?.status || "",
+            status:
+              data?.data?.data?.status === "IsNew"
+                ? "Pending"
+                : data?.data?.data?.status || "",
             token: data?.data?.data?.accessToken || "",
           },
         });
