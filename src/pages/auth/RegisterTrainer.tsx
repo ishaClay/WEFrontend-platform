@@ -1,9 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import Modal from "@/components/comman/Modal";
+import SelectMenu from "@/components/comman/SelectMenu";
 import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -15,19 +25,24 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { registerTrainer } from "@/services/apiServices/trainer";
-import { ResponseError } from "@/types/Errors";
+import { ResendOtp } from "@/services/apiServices/authService";
+import { getCountry } from "@/services/apiServices/company";
+import { registerTrainer, sendOtp } from "@/services/apiServices/trainer";
+import { CountryResponse } from "@/types/Company";
+import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
 import { z } from "zod";
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
+  const [showOtpPopup, setShowOtpPopup] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const schema = z.object({
     providerName: z.string().min(1, { message: "Provider Name is required" }),
@@ -35,33 +50,29 @@ function RegisterTrainer() {
     providerCity: z.string().min(1, { message: "Provider City is required" }),
     providerCountry: z
       .string()
-      .min(1, { message: "Provider Country is required" }),
-    contactSurname: z
-      .string()
-      .min(1, { message: "Contact Surname is required" }),
+      .min(1, { message: "Provider County is required" }),
+    contactSurname: z.string().optional(),
     contactTelephone: z
       .string()
-      .regex(/^\d{1,10}$/, {
+      .regex(/^[0-9]*$/, {
         message: "Please enter a valid phone number (1-9 digits).",
       })
-      .min(1, { message: "Please enter a valid phone number" })
-      .max(10, { message: "Please enter a valid phone number" }),
+      .max(10, { message: "Please enter a valid phone number (1-9 digits)." })
+      .optional(),
     providerAddress: z
       .string()
       .min(1, { message: "Provider Address is required" }),
     providerCounty: z
       .string()
       .min(1, { message: "Provider Country is required" }),
-    name: z.string().min(1, { message: "Contact First Name is required" }),
+    name: z.string().optional(),
     email: z
       .string()
       .min(1, { message: "Email Address is required" })
       .email("Invalid email address"),
-    providerNotes: z.string().min(1, { message: "Provider Notes is required" }),
+    providerNotes: z.string().optional(),
     foreignProvider: z
       .enum(["Yes", "No"])
-      .optional()
-      .default("Yes")
       .refine(
         (value) => value !== undefined && (value === "Yes" || value === "No"),
         {
@@ -71,17 +82,65 @@ function RegisterTrainer() {
       ),
   });
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [time]);
+
   type ValidationSchema = z.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
+    getValues,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
   console.log("errorserrors", errors);
+  const email = watch("email");
+
+  const { data: country } = useQuery<CountryResponse>({
+    queryKey: ["CountryData"],
+    queryFn: getCountry,
+  });
+
+  const countryOption =
+    country?.data &&
+    country?.data
+      ?.map((item) => {
+        return { value: item?.name, label: item?.name };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: sendOtp,
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        title: "OTP sent successfully",
+      });
+      setShowOtpPopup(true);
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
 
   const { mutate: createtrainer, isPending: createPending } = useMutation({
     mutationFn: (question) => registerTrainer(question),
@@ -104,12 +163,47 @@ function RegisterTrainer() {
     },
   });
 
-  const onSubmit = async (data: FieldValues) => {
-    // @ts-ignore
-    createtrainer(data);
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
-  console.log("errors", errors);
+  const { mutate: ReSendOTP } = useMutation({
+    mutationFn: ResendOtp,
+    onSuccess: async () => {
+      setTime(179);
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const handleSendOtp = async (data: FieldValues) => {
+    console.log(data?.email);
+
+    // @ts-ignore
+    mutate({ email: data?.email });
+  };
+
+  const handleVerifyOtp = () => {
+    const getData = getValues();
+    const payload = {
+      ...getData,
+      otp,
+    };
+    // @ts-ignore
+    createtrainer(payload);
+  };
+
+  const handleResendOtp = (email: string) => {
+    ReSendOTP({ email: email });
+  };
 
   return (
     <div className="">
@@ -150,7 +244,7 @@ function RegisterTrainer() {
                 />
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(handleSendOtp)}>
                 <div className="grid grid-cols-4 gap-x-[30px] gap-y-[22px] xl:mt-[32px] mt-4 justify-start">
                   <div className="col-span-2">
                     <InputWithLable
@@ -195,12 +289,17 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="London"
-                      className="h-[46px]"
-                      label="Provider County"
-                      isMendatory={true}
-                      {...register("providerCountry")}
+                    <Label className="mb-[8px]  font-bold text-[16px]">
+                      Provider County <span className="text-red-500">*</span>
+                    </Label>
+                    <SelectMenu
+                      option={countryOption || []}
+                      placeholder="Select county"
+                      className="w-[241px] h-[46px] mt-2"
+                      setValue={(data: string) =>
+                        setValue("providerCountry", data)
+                      }
+                      value={watch("providerCountry") || ""}
                     />
                     {errors.providerCountry && (
                       <ErrorMessage
@@ -213,7 +312,6 @@ function RegisterTrainer() {
                       placeholder="Sample"
                       className="h-[46px]"
                       label="Contact Surname"
-                      isMendatory={true}
                       {...register("contactSurname")}
                     />
                     {errors.contactSurname && (
@@ -227,7 +325,6 @@ function RegisterTrainer() {
                       placeholder="0044 1234 1234567"
                       className="h-[46px]"
                       label="Contact Telephone No."
-                      isMendatory={true}
                       {...register("contactTelephone")}
                     />
                     {errors.contactTelephone && (
@@ -237,7 +334,13 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <Select {...register("foreignProvider")}>
+                    <Select
+                      onValueChange={(data: any) =>
+                        // @ts-ignore
+                        setValue("foreignProvider", data)
+                      }
+                      value={watch("foreignProvider") || ""}
+                    >
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
                           Foregin Provider
@@ -274,12 +377,17 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="United Kingdom"
-                      className="h-[46px]"
-                      label="Provider Country"
-                      isMendatory={true}
-                      {...register("providerCounty")}
+                    <Label className="mb-[8px]  font-bold text-[16px]">
+                      Provider County <span className="text-red-500">*</span>
+                    </Label>
+                    <SelectMenu
+                      option={countryOption || []}
+                      placeholder="Select county"
+                      className="w-[241px] h-[46px] mt-2"
+                      setValue={(data: string) =>
+                        setValue("providerCounty", data)
+                      }
+                      value={watch("providerCounty") || ""}
                     />
                     {errors.providerCounty && (
                       <ErrorMessage
@@ -292,7 +400,6 @@ function RegisterTrainer() {
                       placeholder="John"
                       className="h-[46px]"
                       label="Contact First Name"
-                      isMendatory={true}
                       {...register("name")}
                     />
                     {errors.name && (
@@ -316,7 +423,6 @@ function RegisterTrainer() {
                       placeholder="Notes 1"
                       className="h-[46px]"
                       label="Provider Notes"
-                      isMendatory={true}
                       {...register("providerNotes")}
                     />
                     {errors.providerNotes && (
@@ -351,6 +457,74 @@ function RegisterTrainer() {
           <Loading isLoading={createPending} />
         </div>
       </div>
+      <Modal
+        open={showOtpPopup}
+        onClose={() => setShowOtpPopup(false)}
+        className="max-w-[550px] xl:left-auto xl:right-[80px]"
+      >
+        <div className="mb-[2px] mt-2 text-center font-abhaya">
+          <h2 className="text-xl font-semibold">
+            If you can verify the one-time password emailed to you
+          </h2>
+          <p className="text-[#848181] text-[16px] font-abhaya">
+            A one- time password has been sent to {email}
+          </p>
+        </div>
+        <div className="flex justify-center gap-3 mb-[7px]">
+          <InputOTP
+            maxLength={6}
+            onChange={(e) => {
+              setOtp(e);
+            }}
+          >
+            <InputOTPGroup>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTPGroup>
+          </InputOTP>
+        </div>
+        <div className="flex justify-center">
+          <button
+            className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
+            onClick={() => handleVerifyOtp()}
+          >
+            Submit
+          </button>
+        </div>
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex justify-center gap-2">
+            <Button
+              variant={"ghost"}
+              disabled={time !== 0 || isPending}
+              onClick={() => handleResendOtp(email)}
+              className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
+            >
+              Resend OTP
+            </Button>
+            {time !== 0 && (
+              <p className="text-[#848181] text-[16px] font-[700]">
+                {formatTime(time)}
+              </p>
+            )}
+          </div>
+          <Button
+            variant={"ghost"}
+            onClick={() => {
+              setShowOtpPopup(false);
+              setTime(0);
+            }}
+            className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-abhaya"
+          >
+            Send a different email?
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
