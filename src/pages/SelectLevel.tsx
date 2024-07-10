@@ -47,6 +47,7 @@ import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import MasurIcon from "../assets/images/menu_icon.png";
 import Correct from "/assets/img/Correct.png";
 
 interface PillerItem {
@@ -506,11 +507,10 @@ function SelectLevel() {
                         </div>
                       </div>
                       <div className="col-span-6 px-4">
-                        <div className="bg-white rounded-full flex items-center drop-shadow-md w-6 h-6 mb-2">
-                          <img
-                            src="public/assets/img/manu.png"
-                            alt="Leaf Icon"
-                          />
+                        <div className="flex items-center  mb-2">
+                          <div className="bg-white rounded-full flex items-center justify-center drop-shadow-md w-6 h-6">
+                            <img src={MasurIcon} alt="Leaf Icon" />
+                          </div>
                           <div className="text-[#8C94A3] ml-2 font-bold text-sm leading-[22px]">
                             MEASURES
                           </div>

@@ -124,6 +124,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                 value={data.progressPR}
                 color="#FFD56A"
                 className="w-full rounded-full h-[20px]"
+                isShow={true}
               />
             </div>
             <div className="flex items-center relative lg:mt-0 mt-3">

@@ -101,7 +101,7 @@ function Header(props: headerProps) {
               <div className="flex items-center xl:gap-5 gap-3">
                 {userToken &&
                   !!path &&
-                  (JSON.parse(path) === "7" || JSON.parse(path) >= "4") && (
+                  (JSON.parse(path) === "7" || JSON.parse(path) > "4") && (
                     <PrimaryButton
                       onClick={handleGotoDashboard}
                       name="Go to Dashboard"

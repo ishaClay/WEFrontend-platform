@@ -164,11 +164,6 @@ const QuestionPage = () => {
     setTotalAttemptedQuestions(totalAttemptedQuestions);
   }, [allPillar?.length, question]);
 
-  const currentAttemptedTotal = Array.isArray(question?.[activePillar])
-    ? question[activePillar].filter((que: QuestionType) =>
-        que.options.some((opt) => opt.checked)
-      ).length
-    : 0;
   const handleSubmit = (event: any) => {
     event.preventDefault();
     EnumUpadate();
@@ -450,7 +445,7 @@ const QuestionPage = () => {
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
               How far you are
             </h2>
-            <div className="flex items-center mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+            {/* <div className="flex items-center mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
               <div className="flex items-center gap-[69px]">
                 <span className=" text-teal">Completed</span>
                 <p className="text-teal">
@@ -466,14 +461,7 @@ const QuestionPage = () => {
                   />
                 )}
               </div>
-              {/* <img
-								src={ProgressIndicator}
-								alt="progressbar"
-								width={24}
-								height={24}
-								className="mr-[34px]"
-							/> */}
-            </div>
+            </div> */}
             <div className="mt-[17px] w-[267px]">
               <div className="flex items-center justify-between font-bold	text-base">
                 <span>Completed</span>

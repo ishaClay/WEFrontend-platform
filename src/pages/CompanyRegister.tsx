@@ -134,7 +134,6 @@ function CompanyRegister() {
           ", " +
           getData?.company_addr_4;
         setIsAble(false);
-        setValue("name", data?.data?.[0]?.company_name);
         setValue("address", add);
       } else {
         setIsAble(true);
@@ -167,7 +166,6 @@ function CompanyRegister() {
 
       toast({ title: "Company update Successfully" });
       EnumUpadate();
-      navigate("/maturelevel");
     },
     onError: (error: ErrorType) => {
       toast({
@@ -185,6 +183,7 @@ function CompanyRegister() {
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
       localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
+      navigate("/maturelevel");
     },
   });
 

@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { CardDescription, CardTitle } from "@/components/ui/card";
+import { CardTitle } from "@/components/ui/card";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
@@ -173,7 +173,9 @@ const TeaserScore = () => {
               <div className="mr-0">
                 <div className="flex flex-col pl-8 pt-4">
                   <div className="flex items-center">
-                    <CardTitle className="text-xl font-bold">Hooray!</CardTitle>
+                    <CardTitle className="text-xl font-bold font">
+                      Fascinating!
+                    </CardTitle>
                     <img
                       className="w-[32px] h-[32px] ml-3 mb-0"
                       src="../assets/img/Green.png"
@@ -185,23 +187,17 @@ const TeaserScore = () => {
                 <div></div>
                 <div className=" pr-0 flex">
                   <div className="pl-8 flex-1">
-                    <CardDescription className="text-sm font-[calibri] text-[#002A3A]">
+                    {/* <CardDescription className="text-sm font-[calibri] text-[#002A3A]">
                       You've taken the first stride on your sustainability
                       journey!🌿
-                    </CardDescription>
-                    <p className="font-bold font-[calibri] text-[#002A3A] my-[12px]">
-                      Curious about your progress?
+                    </CardDescription> */}
+                    <p className="font-bold font-abhaya text-[#002A3A] mt-[28px] mb-[12px]">
+                      Nice work completing this.
                     </p>
-                    <p className="text-sm font-[calibri] text-[#002A3A]">
-                      To view the full results and embark on the complete
-                      learning
-                      <br />
-                      experience, hop over to our registration page. Your
-                      adventure
-                      <br />
-                      towards sustainability is about to get even more exciting!
-                      🚀
-                      <br />
+                    <p className="text-sm font-abhaya text-[#002A3A]">
+                      To see the full breakdown of your score and start building
+                      your sustainability action plan (based on personalised
+                      recommendations!), register to get inside.
                     </p>
                     <button
                       className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
@@ -215,8 +211,8 @@ const TeaserScore = () => {
 
               <div className="flex justify-between max-w-[calc(100%_-_382px)] mb-10">
                 <div className="p-4 relative w-full">
-                  <h2 className="text-lg font-semibold">
-                    Here's a sneak peek at your score!
+                  <h2 className="text-lg font-semibold font-abhaya">
+                    A glimpse of your Sustainability Score
                   </h2>
                   <div className="flex w-full justify-between">
                     <Labels />

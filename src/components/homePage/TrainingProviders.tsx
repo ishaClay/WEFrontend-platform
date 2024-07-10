@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+
 const TrainingProviders = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div
@@ -77,12 +81,16 @@ const TrainingProviders = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] h-[59px] secondary-text xl:mt-[113px] mt-[80px]">
+        <Button
+          type="button"
+          onClick={() => navigate("/trainer-regestration")}
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] h-[59px] secondary-text xl:mt-[113px] mt-[80px]"
+        >
           <div>Register As A Trainer Now</div>
           <div>
             <img className="" src="../assets/img/Move Right.png" />
           </div>
-        </div>
+        </Button>
       </div>
     </>
   );

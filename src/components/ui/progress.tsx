@@ -7,8 +7,9 @@ const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
     color: string;
+    isShow?: boolean;
   }
->(({ className, value, color, ...props }, ref) => (
+>(({ className, value, color, isShow = false, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
@@ -24,9 +25,11 @@ const Progress = React.forwardRef<
         backgroundColor: color,
       }}
     />
-    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">
-      {value}%
-    </span>
+    {isShow && (
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">
+        {value}%
+      </span>
+    )}
   </ProgressPrimitive.Root>
 ));
 Progress.displayName = ProgressPrimitive.Root.displayName;
