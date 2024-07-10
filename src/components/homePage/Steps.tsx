@@ -39,25 +39,25 @@ const Steps = () => {
     },
   ];
   return (
-    <div className="xl:mb-[60px] mb-[50px]">
-      <h3 className="text-4xl leading-tight font-abhaya text-center font-bold tracking-tighter xl:mb-[69px] mb-[50px]">
+    <div className="xl:mb-[60px] sm:mb-[50px] mb-[30px]">
+      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-abhaya text-center font-bold tracking-tighter xl:mb-[69px] md:mb-[50px] mb-[30px]">
         Step by Step
         <br />
         <span className="font-medium">To better days ahead of you.</span>
       </h3>
       <div className="grid grid-cols-9">
-        <div className="col-span-2 bg-[#64A70B] flex justify-center items-center h-[259px]">
+        <div className="sm:col-span-2 col-span-9 bg-[#64A70B] flex justify-center items-center sm:h-[259px] h-[148px]">
           <p className="secondary-text xl:text-[28px] text-2xl font-abhaya text-center font-bold">
             Why Go Sustainable
           </p>
         </div>
-        <div className="col-span-7">
+        <div className="sm:col-span-7 col-span-9">
           <div className="grid grid-cols-12">
             {step.map((steps, index: number) => {
               return (
                 <div
                   key={index}
-                  className="xl:col-span-2 col-span-4 px-[15px] h-[268px] py-5 bg-gradient-to-l from-[#ebeaea] from-44% via-transparent via-30% to-white"
+                  className="xl:col-span-2 sm:col-span-4 col-span-6 px-[15px] h-[268px] py-5 bg-gradient-to-l from-[#ebeaea] from-44% via-transparent via-30% to-white"
                 >
                   <div className="h-[135px]">
                     <div className="h-[76px] mb-2.5">
