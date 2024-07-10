@@ -37,31 +37,30 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
   };
 
   return (
-      <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] ">
-        {emails.map((email, index) => (
-          <div
-            key={index}
-            className="flex items-center bg-stone-300 px-3 py-1 rounded-sm"
+    <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] ">
+      {emails.map((email, index) => (
+        <div
+          key={index}
+          className="flex items-center bg-stone-300 px-3 py-1 rounded-sm"
+        >
+          {email}
+          <button
+            className="ml-2 bg-none border-none cursor-pointer"
+            onClick={() => removeEmail(email)}
           >
-            {email}
-            <button
-              className="ml-2 bg-none border-none cursor-pointer"
-              onClick={() => removeEmail(email)}
-            >
-              x
-            </button>
-          </div>
-        ))}
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
-          placeholder="Enter email and press Enter"
-          className="flex-grow border-none outline-none"
-        />
-      </div>
-      
+            x
+          </button>
+        </div>
+      ))}
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleInputKeyDown}
+        placeholder="Enter email id"
+        className="flex-grow border-none outline-none"
+      />
+    </div>
   );
 };
 

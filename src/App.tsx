@@ -114,6 +114,7 @@ import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import EmployeeInvitation from "./pages/EmployeeInvitation";
+import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -639,9 +640,11 @@ function App() {
           <Route path="coursesrecommended" element={<CoursesRecommended />} />
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="employeelist" element={<EmployeeList />} />
+          <Route path="employeelist/:id" element={<EmployeeDetailsPage />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
+
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
@@ -672,7 +675,7 @@ function App() {
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}
           />
-          <Route path="allcourses" element={<CoursesAllCourse />} />
+          {/* <Route path="allcourses" element={<CoursesAllCourse />} /> */}
           <Route path="mycourses" element={<MyCoursesList />} />
           {/* <Route path="certificate" element={<EmployeeList />} /> */}
           <Route path="certifications" element={<CertificationsPage />} />
@@ -793,7 +796,10 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
-          <Route path="employee-basic-course/:courseId" element={<BasicCoursePage />} />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
         </Route>
       </Routes>
     </div>

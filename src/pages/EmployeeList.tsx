@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { useState, ChangeEvent } from "react";
 import searchIcon from "/assets/icons/search.svg";
-import { Loader2 } from "lucide-react";
 import delet from "@/assets/images/delet.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EmployeeEntity } from "@/types/Invition";
+import Loader from "@/components/comman/Loader";
 
 // import { useSelector } from "react-redux";
 
@@ -19,6 +19,7 @@ function CoursesAllocate() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   // const { UserId } = useSelector((state: any) => state.user);
+  const navigate = useNavigate();
 
   const column: ColumnDef<EmployeeEntity>[] = [
     {
@@ -27,7 +28,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             ID
@@ -44,6 +45,18 @@ function CoursesAllocate() {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        return (
+          <div
+            className="font-normal font-inter text-[15px] cursor-pointer"
+            onClick={() => {
+              navigate(`/company/employeelist/${row.original.id}`);
+            }}
+          >
+            #{row.original.id}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "name",
@@ -51,7 +64,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Team Member
@@ -70,19 +83,15 @@ function CoursesAllocate() {
       },
       cell: ({ row }) => {
         return (
-          <div className=" w-20 font-bold px-3 flex items-center justify-center">
-            <div className=" p-1 rounded-full">
+          <div className="font-bold px-3">
+            <div className="p-1 rounded-full">
               <img
                 src={row.original.profileImage}
                 alt=""
                 className="object-cover"
               />
             </div>
-            <p
-              className={` w-20 h-8 font-bold px-3 flex items-center justify-center`}
-            >
-              {row.original.name}
-            </p>
+            <p className={`font-bold px-3`}>{row.original.name}</p>
           </div>
         );
       },
@@ -93,7 +102,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Email ID
@@ -113,21 +122,19 @@ function CoursesAllocate() {
 
       cell: ({ row }) => {
         return (
-          <p
-            className={` w-20 h-8 font-bold px-3 flex items-center justify-center `}
-          >
+          <p className={`font-normal font-inter text-[15px] px-3`}>
             {row.original.email}
           </p>
         );
       },
     },
     {
-      accessorKey: "mnumber",
+      accessorKey: "number",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            className="px-0"
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Mobile Number
@@ -147,10 +154,8 @@ function CoursesAllocate() {
 
       cell: () => {
         return (
-          <p
-            className={` w-20 h-8 font-bold px-3 flex items-center justify-center `}
-          >
-            {/* {row.original.mnumber} */}
+          <p className={`font-normal font-inter text-[15px] px-3`}>
+            {/* {row.original.number} */}
           </p>
         );
       },
@@ -162,7 +167,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0 ml-[20px]"
+            className="px-0 font-inter text-[15px] font-semibold"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -184,9 +189,9 @@ function CoursesAllocate() {
           <p
             className={`${
               row.original.status === "Registered"
-                ? "bg-[#00778B] text-white h-[32px] w-[80px]"
-                : "bg-[#0E9CFF] text-white h-[32px] w-[80px]"
-            } w-20 h-8 font-bold px-3  flex items-center justify-center`}
+                ? "bg-[#00778B] text-white h-[26px] w-[82px]"
+                : "bg-[#0E9CFF] text-white h-[26px] w-[82px]"
+            } font-normal px-3 rounded-full text-center leading-[26px] text-xs font-inter`}
           >
             {row.original.status}
           </p>
@@ -199,7 +204,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0 "
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Activity
@@ -221,11 +226,11 @@ function CoursesAllocate() {
           <p
             className={`${
               row.original.employeeStatus === "Active"
-                ? "text-[#58BA66]"
+                ? "bg-[#58BA66]"
                 : row.original.employeeStatus === "Inactive"
-                ? "bg-[#FF5252] text-white"
+                ? "bg-[#FF5252]"
                 : "text-white"
-            } w-20 h-8 font-bold px-3 flex items-center justify-center`}
+            }  font-normal w-[80px] h-[32px] text-sm font-inter leading-8 rounded-md text-center text-white`}
           >
             {row.original.employeeStatus}
           </p>
@@ -238,7 +243,7 @@ function CoursesAllocate() {
       header: "",
       cell: () => {
         return (
-          <div className="flex items-center gap-[12px] ">
+          <div className="gap-[12px] ">
             <Button variant={"ghost"} className="p-0">
               <img src={delet} alt="" />
             </Button>
@@ -256,27 +261,27 @@ function CoursesAllocate() {
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
-        <div className="pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+        <div className="p-4 bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
           <div>
-            <p className="text-[#000000] text-[Calibri] font-bold">
-              Team Member List
+            <p className="text-[#000000] font-abhaya font-bold text-base pb-2.5">
+              Team List
             </p>
-            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] font-bold">
               The full list of team members working on your green initiatives
             </p>
           </div>
           <div>
             <Link
               to="employeeinvition"
-              className="py-[10px] px-[20px] bg-primary-button text-color rounded-sm"
+              className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
             >
               Send Invitation
             </Link>
           </div>
         </div>
 
-        <div className="flex pl-[10px] w-[1230px] h-[70px] bg-[#FFFFFF] ">
-          <div className="flex items-center py-4 relative">
+        <div className="flex bg-[#FFFFFF] ">
+          <div className="m-4 relative">
             <Input
               placeholder={
                 "Search by pilier, level, recommended, course name etc."
@@ -285,20 +290,18 @@ function CoursesAllocate() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
               }
-              className="py-[17px] pl-[39px] border w-[550px] rounded-[6px] ml-[23px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+              className="pl-[45px] border w-[550px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
             />
             <img
               src={searchIcon}
               alt="searchIcon"
-              className="absolute left-10"
+              className="absolute left-[18px] top-[18px]"
             />
           </div>
         </div>
 
         {employeDataPending ? (
-          <span className="flex justify-center items-center py-10">
-            <Loader2 className="w-5 h-5 animate-spin" />
-          </span>
+          <Loader />
         ) : (
           <NewDataTable
             columns={column}
