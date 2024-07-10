@@ -19,6 +19,7 @@ import develop from "@/assets/images/develop.svg";
 import planAction from "@/assets/images/planAction.svg";
 import selfAssess from "@/assets/images/selfAssess.svg";
 import Header from "@/components/Header";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -138,11 +139,12 @@ function SelectLevel() {
     enabled: true,
   });
 
-  const { data: getActionItems } = useQuery<MeasuresItemsResponse>({
-    queryKey: [QUERY_KEYS.getActionItems],
-    queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
-    enabled: open && !!pid && !!userID,
-  });
+  const { data: getActionItems, isPending: actionPending } =
+    useQuery<MeasuresItemsResponse>({
+      queryKey: [QUERY_KEYS.getActionItems, { pid, userID }],
+      queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
+      enabled: open && !!pid && !!userID,
+    });
 
   useEffect(() => {
     if (getActionItems && currentPiller) {
@@ -306,7 +308,6 @@ function SelectLevel() {
     e: React.FormEvent<HTMLFormElement>,
     currentPiller: string
   ) => {
-    setOpen(!open);
     e.preventDefault();
     const measures = pillerItems[currentPiller].map((item) => {
       // @ts-ignore
@@ -680,7 +681,10 @@ function SelectLevel() {
                         </div>
 
                         <div className="flex flex-col gap-5 px-3.5 py-2.5">
-                          {pillerItems &&
+                          {actionPending ? (
+                            <Loader />
+                          ) : (
+                            pillerItems &&
                             pillerItems[currentPiller]?.map(
                               (item: any, index: number) => (
                                 <div
@@ -726,7 +730,8 @@ function SelectLevel() {
                                   </div>
                                 </div>
                               )
-                            )}
+                            )
+                          )}
 
                           <div className="text-right">
                             <Button
@@ -765,7 +770,7 @@ function SelectLevel() {
             </div>
           </div>
         </Modal>
-        {/* <Loading isLoading={createPending} /> */}
+        <Loading isLoading={createPending} />
       </div>
     </div>
   );

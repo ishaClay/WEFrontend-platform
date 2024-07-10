@@ -159,10 +159,6 @@ function CompanyRegister() {
       });
 
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
-      localStorage.setItem(
-        "path",
-        JSON.stringify(data.data.data?.query?.pathstatus)
-      );
 
       toast({ title: "Company update Successfully" });
       EnumUpadate();
