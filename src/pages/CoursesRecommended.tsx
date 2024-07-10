@@ -19,6 +19,12 @@ import { useSelector } from "react-redux";
 
 function CoursesRecommended() {
   const userData = useSelector((state: RootState) => state.user);
+  const usersData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = userData?.UserId
+    ? +userData?.UserId
+    : usersData?.query
+    ? usersData?.query?.id
+    : usersData?.id;
   const [isRecommendedCourse, setIsRecommendedCourseShow] = useState(false);
 
   const [search, setSearch] = useState("");
@@ -27,7 +33,7 @@ function CoursesRecommended() {
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
     queryFn: () =>
       fetchRecommendedCourses({
-        user: parseInt(userData?.UserId),
+        user: parseInt(userID),
         client: parseInt(userData?.clientId),
         search,
       }),
@@ -42,7 +48,7 @@ function CoursesRecommended() {
     const payload: CourseEnrollmentPayload = {
       courseId: id,
       trainerId: 1,
-      userId: parseInt(userData?.UserId),
+      userId: parseInt(userID),
     };
     sendEnrollmentRequest(payload);
   };
