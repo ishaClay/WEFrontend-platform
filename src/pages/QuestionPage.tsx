@@ -269,8 +269,8 @@ const QuestionPage = () => {
 
   return (
     <div className="font-calibri font-normal">
-      <div className="bg-teal">
-        <div className="h-[44px] sticky top-0 max-h-screen z-30 w-full text-white flex justify-between items-center px-4 text-lg leading-[21.97px xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5]">
+      <div className="bg-teal h-[44px] flex justify-between items-center sticky top-0 max-h-screen z-30 ">
+        <div className="w-full text-white px-4 text-lg leading-[21.97px xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5]">
           <div className="flex gap-[9px]">
             <button
               className="flex items-center gap-2"
