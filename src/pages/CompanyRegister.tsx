@@ -1,3 +1,4 @@
+import CompanyRegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
@@ -23,7 +24,6 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import CompanyRegisterSideImage from "../assets/images/RegisterCompany.png";
 
 export interface CompanyResponse {
   data?: DataEntity[] | null;
@@ -143,10 +143,12 @@ function CompanyRegister() {
         });
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.log("error", error);
+
       toast({
         variant: "destructive",
-        title: "Invalid Company Id",
+        title: error?.data?.message,
       });
     },
   });
@@ -218,7 +220,7 @@ function CompanyRegister() {
       <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
         <div>
           <img
-            className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
+            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
             src={CompanyRegisterSideImage}
           />
         </div>
@@ -455,7 +457,7 @@ function CompanyRegister() {
                 </div>
                 <PrimaryButton
                   type="submit"
-                  name="Start My Assessment"
+                  name="Submit"
                   className="w-[370px] h-[48px] mt-[107px] ml-[87px]"
                   disabled={isAble}
                 />

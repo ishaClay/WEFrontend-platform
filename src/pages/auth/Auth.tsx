@@ -83,6 +83,11 @@ function Auth() {
           variant: "destructive",
           title: data?.data?.message,
         });
+      } else if (data.data.data.status.toLowerCase() === "Pending") {
+        toast({
+          variant: "destructive",
+          title: data?.data?.message,
+        });
       } else if (data.data.data.isNew) {
         navigate("/resetpassword", {
           state: {

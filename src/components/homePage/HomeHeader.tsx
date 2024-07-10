@@ -62,77 +62,79 @@ function HomeHeader(props: headerProps) {
 
   return (
     // Note : This below code is for backup
-    <header
-      className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
-        props.hasDiffHeader ? "mx-7" : ""
-      }`}
-    >
-      <div className="flex justify-between gap-4">
-        <div className="flex items-end">
-          <div className={` ${!props.hasDiffHeader ? "xl:mr-7 mr-2" : ""}`}>
-            <img
-              onClick={() => {
-                navigate("/");
-              }}
-              className="cursor-pointer"
-              src="../assets/img/logo1.png"
-            />
-          </div>
-          <div className="xl:ml-5 ml-3 text-[#1f1313]">
-            <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
-              <li className="group flex items-center gap-[5px]">
-                <span className="cursor-pointer">Our Courses</span>
-                <img
-                  className="w-[6px] h-[6px]"
-                  src="../assets/img/Vector 1.png"
-                />
-              </li>
-              <li className="cursor-pointer">Blogs</li>
-              <li className="cursor-pointer">Contact Us</li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex items-end xl:gap-7 gap-2">
-          <div className="font-bold text-lg text-color">
-            {userData ? (
-              <div className="flex items-center xl:gap-5 gap-3">
-                {!!path && (+path === 7 || +path > 3) && (
-                  <PrimaryButton
-                    onClick={handleGotoDashboard}
-                    name="Go to Dashboard"
-                    className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+    <div className=" sticky top-0 h-full z-[999] bg-white">
+      <header
+        className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
+          props.hasDiffHeader ? "mx-7" : ""
+        }`}
+      >
+        <div className="flex justify-between gap-4">
+          <div className="flex items-end">
+            <div className={` ${!props.hasDiffHeader ? "xl:mr-7 mr-2" : ""}`}>
+              <img
+                onClick={() => {
+                  navigate("/");
+                }}
+                className="cursor-pointer"
+                src="../assets/img/logo1.png"
+              />
+            </div>
+            <div className="xl:ml-5 ml-3 text-[#1f1313]">
+              <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
+                <li className="group flex items-center gap-[5px]">
+                  <span className="cursor-pointer">Our Courses</span>
+                  <img
+                    className="w-[6px] h-[6px]"
+                    src="../assets/img/Vector 1.png"
                   />
-                )}
-                <PrimaryButton
-                  onClick={handleLogout}
-                  name="Logout"
-                  className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold"
-                />
-              </div>
-            ) : (
-              <>
-                <PrimaryButton
-                  onClick={() => {
-                    navigate("/register");
-                  }}
-                  name="Register"
-                  className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
-                />
-                <PrimaryButton
-                  onClick={() => {
-                    navigate("/auth");
-                  }}
-                  name="Login"
-                  className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
-                />
-              </>
-            )}
+                </li>
+                <li className="cursor-pointer">Blogs</li>
+                <li className="cursor-pointer">Contact Us</li>
+              </ul>
+            </div>
           </div>
-          <img className="" src={SideHeaderLogo} />
+          <div className="flex items-end xl:gap-7 gap-2">
+            <div className="font-bold text-lg text-color">
+              {userData ? (
+                <div className="flex items-center xl:gap-5 gap-3">
+                  {!!path && (+path === 7 || +path > 3) && (
+                    <PrimaryButton
+                      onClick={handleGotoDashboard}
+                      name="Go to Dashboard"
+                      className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                    />
+                  )}
+                  <PrimaryButton
+                    onClick={handleLogout}
+                    name="Logout"
+                    className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold"
+                  />
+                </div>
+              ) : (
+                <>
+                  <PrimaryButton
+                    onClick={() => {
+                      navigate("/register");
+                    }}
+                    name="Register"
+                    className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
+                  />
+                  <PrimaryButton
+                    onClick={() => {
+                      navigate("/auth");
+                    }}
+                    name="Login"
+                    className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
+                  />
+                </>
+              )}
+            </div>
+            <img className="" src={SideHeaderLogo} />
+          </div>
         </div>
-      </div>
-      <Loading isLoading={isPending} />
-    </header>
+        <Loading isLoading={isPending} />
+      </header>
+    </div>
   );
 }
 
