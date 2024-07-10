@@ -113,6 +113,7 @@ import { changeTheme } from "./services/apiServices/theme";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
+import TeamProgress from "./pages/teamProgress/TeamProgress";
 import EmployeeInvitation from "./pages/EmployeeInvitation";
 
 function App() {
@@ -650,6 +651,7 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
+          <Route path="teamProgress" element={<TeamProgress />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route
             path="employeelist/employeeinvition"
@@ -657,6 +659,7 @@ function App() {
           />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="messaging" element={<Messaging />} />
         </Route>
 
         <Route
@@ -685,6 +688,7 @@ function App() {
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
           />
+          <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="support-request" element={<SupportRequestPage />} />
           <Route
             path="ticket-details-reply"
@@ -793,7 +797,10 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
-          <Route path="employee-basic-course/:courseId" element={<BasicCoursePage />} />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
         </Route>
       </Routes>
     </div>

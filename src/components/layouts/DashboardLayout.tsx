@@ -4,6 +4,7 @@ import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
+import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 
 export interface SidebarItem {
   label: string;
@@ -44,7 +45,7 @@ const DashboardLayout = () => {
       <div className="lg:block hidden">
         <Sidebar sidebarItems={data} />
       </div>
-      <div className="w-full m-5">
+      <div className="w-full m-5 relative">
         <HeaderCourse />
         <div>
           <div
@@ -57,6 +58,11 @@ const DashboardLayout = () => {
             <Outlet />
           </div>
         </div>
+        {Role === "employee" && (
+          <div className="absolute bottom-0 right-0 bg-white">
+            <EmployeeMessaging />
+          </div>
+        )}
       </div>
     </div>
   );
