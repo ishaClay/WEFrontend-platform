@@ -7,6 +7,7 @@ import xlsxFileIcon from "@/assets/images/upload_option_2.png";
 import wordFile from "@/assets/images/word_file.png";
 import { useState } from "react";
 import { CircleX } from "lucide-react";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
 type moduleCourseCardListProps = {
   list: {
@@ -45,8 +46,17 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
       return "xlsx"
     } else if(type?.split("/")?.[3]?.includes("doc")) {
       return "doc"
+    } else if(type.includes("www.youtube.com")) {
+      return "video"
     }
   }
+
+  const docs = [
+    { uri: documentFile, fileType: documentType(documentFile) },
+  ]
+  const youtubeVideo = documentFile
+  console.log("documentFile", docs, documentFile.includes("www.youtube.com"), documentFile, youtubeVideo);
+  
   
   return (
     !viewDocument ?
@@ -112,7 +122,12 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
     </div> : 
     <div className="absolute top-0 left-0 w-full bg-white z-50">
       <CircleX className="absolute -top-[25px] right-0 cursor-pointer" onClick={() => {setViewDocument(false); setDocumentFile("")}} />
-      <iframe src={documentFile} width="100%" height="600px" ></iframe>
+      {
+        (documentType(documentFile) === "pdf") ? 
+        <iframe src={documentFile} style={{height: "600px", width: "100%"}} /> 
+        :
+        <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} style={{height: "600px"}} />
+      }
     </div>
   );
 };

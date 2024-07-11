@@ -117,6 +117,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import "@cyntler/react-doc-viewer/dist/index.css";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);

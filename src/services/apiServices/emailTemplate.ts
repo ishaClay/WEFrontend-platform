@@ -1,8 +1,12 @@
 import api from "./api";
 
-export const fetchEmails = () => {
+export const fetchEmails = (targetid:number) => {
   const url = `api/v1/email-template/list`;
-  return api({ url });
+  let params: any = {}
+  if(targetid){
+    params["targetid"] = targetid
+  }
+  return api({ url, params });
 };
 
 export const getOneEmailTemplate = (id: string) => {
