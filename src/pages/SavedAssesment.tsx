@@ -1,7 +1,7 @@
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
-import Footer from "@/components/Footer";
 import Loader from "@/components/comman/Loader";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -160,7 +160,7 @@ function SavedAssesment() {
         </div>
       </div>
 
-      <Footer />
+      <HomeFooter />
     </div>
   );
 }

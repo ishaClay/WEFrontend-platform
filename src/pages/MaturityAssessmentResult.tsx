@@ -10,7 +10,7 @@ import TechInnovationGray from "../../public/assets/img/Tech&InnovationGray.png"
 import EconomicsGray from "../../public/assets/img/EconomicsGray.png";
 import EnvironmentalGray from "../../public/assets/img/EnvironmentalGray.png";
 import SocialGray from "../../public/assets/img/SocialGray.png";
-import Footer from "@/components/Footer";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 function MaturityAssessmentResult() {
   const [isOpen, setIsOpen] = useState(false);
@@ -367,7 +367,7 @@ function MaturityAssessmentResult() {
                     </p>
                   </div>
                   <div className="mb-240px">
-                    <Footer />
+                    <HomeFooter />
                   </div>
                 </div>
               )}

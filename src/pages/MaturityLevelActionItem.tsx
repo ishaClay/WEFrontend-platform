@@ -3,7 +3,6 @@ import apply from "@/assets/images/apply.svg";
 import develop from "@/assets/images/develop.svg";
 import planAction from "@/assets/images/planAction.svg";
 import selfAssess from "@/assets/images/selfAssess.svg";
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import AssignCard from "@/components/MaturityAssessment/Roadmap/AssignCard";
 import Loader from "@/components/comman/Loader";
@@ -14,6 +13,7 @@ import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 function MaturityLevelActionItem() {
   const navigate = useNavigate();
@@ -249,7 +249,7 @@ function MaturityLevelActionItem() {
 				</div>
 			</div> */}
 
-        <Footer />
+        <HomeFooter />
       </div>
     </div>
   );

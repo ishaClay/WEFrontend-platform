@@ -15,6 +15,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   copyCourse,
+  deleteCourse,
   publishCourse,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";

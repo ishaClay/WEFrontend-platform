@@ -68,9 +68,9 @@ function HomeHeader(props: headerProps) {
 
   return (
     // Note : This below code is for backup
-    <div className=" sticky top-0 h-full z-[999] bg-white">
+    <div className=" sticky top-0 h-full z-[999] lg:shadow-none shadow-md bg-white">
       <header
-        className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 lg:py-7 py-10 ${
+        className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
           props.hasDiffHeader ? "mx-7" : ""
         }`}
       >
@@ -163,7 +163,7 @@ function HomeHeader(props: headerProps) {
                 <Menu />
               </Button>
               {open && (
-                <div className="z-50 absolute bg-white w-full bottom-[-260px] right-0 rounded-xl">
+                <div className="z-50 absolute bg-white w-full sm:bottom-[-260px] bottom-[-320px]  right-0 rounded-xl">
                   <div className="px-7 py-5">
                     <ul className="flex flex-col gap-2 mb-[14px]">
                       <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
@@ -172,47 +172,47 @@ function HomeHeader(props: headerProps) {
                       </li>
                       <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
                         <span className="cursor-pointer">Blogs</span>
-                        <img src={vector} alt="icon" />
+                        {/* <img src={vector} alt="icon" /> */}
                       </li>
                       <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
                         <span className="cursor-pointer">Contact Us</span>
-                        <img src={vector} alt="icon" />
+                        {/* <img src={vector} alt="icon" /> */}
                       </li>
                     </ul>
                     <div className="flex flex-col gap-3">
                       <div className="font-bold text-lg text-color">
                         {userData ? (
-                          <div className="flex items-center xl:gap-5 gap-3">
+                          <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
                             {!!path && (+path === 7 || +path > 3) && (
                               <PrimaryButton
                                 onClick={handleGotoDashboard}
                                 name="Go to Dashboard"
-                                className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold w-full"
+                                className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                               />
                             )}
                             <PrimaryButton
                               onClick={handleLogout}
                               name="Logout"
-                              className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold w-full"
+                              className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                             />
                           </div>
                         ) : (
-                          <>
+                          <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
                             <PrimaryButton
                               onClick={() => {
                                 navigate("/register");
                               }}
                               name="Register"
-                              className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold w-full"
+                              className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                             />
                             <PrimaryButton
                               onClick={() => {
                                 navigate("/auth");
                               }}
                               name="Login"
-                              className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold w-full"
+                              className="xl:px-[39px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                             />
-                          </>
+                          </div>
                         )}
                       </div>
                     </div>

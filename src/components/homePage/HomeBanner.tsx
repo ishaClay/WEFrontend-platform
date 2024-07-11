@@ -76,7 +76,7 @@ const HomeBanner = () => {
                           isLink={!!item?.secondaryButtonUrl}
                         />
                       </div>
-                      <div className="md:mx-0 mx-5 md:bg-transparent bg-[#1a5762] md:shadow-none rounded-lg shadow-md text-[#ACEBF5] text-[18px] flex md:flex-row flex-col md:items-center items-start md:gap-1 gap-3 md:py-0 md:px-0 py-5 px-4">
+                      <div className="md:bg-transparent bg-[#1a5762] md:shadow-none shadow-md text-[#ACEBF5] text-[18px] flex md:flex-row flex-col md:items-center items-start md:gap-1 sm:gap-3 gap-6 md:py-0 md:px-0 py-5 px-4">
                         <h3 className="xl:text-lg sm:text-base text-sm font-bold font-abhaya leading-5">
                           One Platform To Advance Sustainability
                         </h3>

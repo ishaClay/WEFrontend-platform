@@ -2,8 +2,8 @@ import { useState } from "react";
 import { BsPencilFill } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BiCheckCircle, BiShow } from "react-icons/bi";
-import Footer from "@/components/Footer";
 import MaturityLevelPage from "./MaturityLevelPage";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 function MaturityAssessmentRoadmapAfterbuild() {
   const [activeTab, setActiveTab] = useState("Assessment Result");
@@ -561,7 +561,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                     </p>
                   </div>
                   <div className="mt-[10px]">
-                    <Footer />
+                    <HomeFooter />
                   </div>
                 </div>
               </div>

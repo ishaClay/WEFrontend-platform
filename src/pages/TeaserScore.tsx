@@ -1,4 +1,4 @@
-import Footer from "@/components/Footer";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { CardTitle } from "@/components/ui/card";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -239,7 +239,7 @@ const TeaserScore = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <HomeFooter />
       </div>
     </div>
   );

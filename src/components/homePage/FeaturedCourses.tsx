@@ -111,7 +111,7 @@ const FeaturedCourses = () => {
 
                         <div className="sm:order-2 order-1">
                           <img
-                            className="min-w-[274px] w-[274px] h-[357px] object-cover"
+                            className="sm:min-w-[274px] sm:w-[274px] w-full h-[357px] object-cover"
                             src={item.courseImage}
                           />
                         </div>

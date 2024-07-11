@@ -1,7 +1,7 @@
 import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
-import Footer from "@/components/Footer";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
@@ -158,7 +158,7 @@ function Assessment() {
         </div>
       </div>
 
-      <Footer />
+      <HomeFooter />
     </div>
   );
 }

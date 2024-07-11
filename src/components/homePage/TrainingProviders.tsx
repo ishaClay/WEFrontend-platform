@@ -61,6 +61,10 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+                Hone your training based on easy-to-glimpse analytics on how
+                your course takers are learning and where the market demand is
+              </p>
             </div>
           </div>
           <div className="flex sm:gap-[20px] gap-2 relative  text-start w-[360px]">
