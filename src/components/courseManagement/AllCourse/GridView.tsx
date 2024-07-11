@@ -1,4 +1,5 @@
 import StarImage from "@/assets/images/Vector.png";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -49,6 +50,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const { toast } = useToast();
   const [versionData, setVersionData] = useState<VersionProps[]>([]);
   const [cohort, setCohort] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
+    null
+  );
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -114,6 +119,28 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     },
   });
 
+  const { mutate: deleteCourseFun, isPending: deleteCoursePending } =
+    useMutation({
+      mutationFn: (id: number) => deleteCourse(id),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourse],
+        });
+        toast({
+          title: "Success",
+          description: data?.data?.message,
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+
   const handleChangeVersion = (versionId: string, id: number) => {
     setVersionData((prev) => {
       return prev.map((item) => {
@@ -169,6 +196,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
         });
       }
     }
+  };
+
+  const handleDeleteCourse = () => {
+    deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
   return (
@@ -318,7 +349,14 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                         <Pencil className="w-4 h-4" />
                         <span>Edit</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="flex items-center gap-2 font-nunito">
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 font-nunito"
+                        onClick={(e: any) => {
+                          e.preventDefault();
+                          setIsDelete(true);
+                          setSingleCourse(item);
+                        }}
+                      >
                         <Trash2 className="w-4 h-4" />
                         <span>Delete</span>
                       </DropdownMenuItem>
@@ -330,6 +368,13 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           );
         })}
       </div>
+      <ConfirmModal
+        open={isDelete}
+        onClose={() => setIsDelete(false)}
+        onDelete={handleDeleteCourse}
+        value={singleCourse?.title || ""}
+        isLoading={deleteCoursePending}
+      />
       {publishCoursePending ||
         (copyCoursePending && (
           <div className="fixed w-full top-0 left-0 h-full z-50 flex justify-center items-center bg-[#00000050]">

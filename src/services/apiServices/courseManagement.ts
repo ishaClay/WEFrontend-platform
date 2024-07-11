@@ -98,8 +98,6 @@ export const publishCourse = (data: { status: string, id: number }) => {
 }
 
 export const copyCourse = (id: number) => {
-  console.log("id++++++", id);
-
   const url = `api/v1/course/copy-course/${id}`;
   const method = "put";
   return api({ url, method });
@@ -110,4 +108,10 @@ export const getCourseByTrainee = async (id: number): Promise<AllCoursesResponse
   const method = "get";
   const res = await api({ url, method });
   return res.data
+}
+
+export const deleteCourse = (id: number) => {
+  const url = `api/v1/course/delete/${id}`;
+  const method = "delete";
+  return api({ url, method });
 }
