@@ -273,7 +273,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
               </Button>
             </div>
 
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
@@ -328,7 +328,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
                 Intermediate
               </Button>
             </div>
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
@@ -383,7 +383,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
                 Advanced
               </Button>
             </div>
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
@@ -457,7 +457,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="introductory" className="lg:p-5 p-0 mt-0">
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => (
                 <>
                   {item.totalpoints < "40" && (
@@ -495,7 +495,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
             </div>
           </TabsContent>
           <TabsContent value="intermediate" className="lg:p-5 p-0 mt-0">
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => (
                 <>
                   {item.totalpoints >= "40" && item.totalpoints < "70" && (
@@ -533,7 +533,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
             </div>
           </TabsContent>
           <TabsContent value="advanced" className="lg:p-5 p-0 mt-0">
-            <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
               {assessmant?.data?.data.map((item: any) => (
                 <>
                   {item.totalpoints >= "70" && (

@@ -58,7 +58,7 @@ const RegisterTraineeForm = () => {
       .min(1, { message: "Please enter valid NFQ" }),
     employmentStatus: Zod.enum(employmentStatusOptions, {
       message: "Please enter valid employment status",
-    }),
+    }).optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string().nullable(),
     unemploymentTime: Zod.string().nullable(),

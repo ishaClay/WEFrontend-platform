@@ -36,7 +36,9 @@ const Accordions = ({
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
     <Accordion type={type} collapsible>
-      <div className={cn("space-y-[24px] relative", className)}>
+      <div
+        className={cn("space-y-[24px] relative md:mt-0 mt-[25px]", className)}
+      >
         {items?.map((item, index) => {
           return (
             <AccordionItem

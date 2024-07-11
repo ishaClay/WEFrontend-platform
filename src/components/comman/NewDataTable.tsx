@@ -95,7 +95,7 @@ export function NewDataTable<TData, TValue>({
   };
 
   return (
-    <div className="lg:w-auto w-[calc(100vw-40px)]">
+    <div className="lg:w-[calc(100vw-300px)] w-[calc(100vw-40px)]">
       {!!inputbox && (
         <div className="flex items-center py-4 relative">
           <Input

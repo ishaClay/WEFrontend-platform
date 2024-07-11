@@ -1,10 +1,10 @@
 import CompanyRegisterSideImage from "@/assets/images/RegisterSideImage.svg";
-import Header from "@/components/Header";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
@@ -216,7 +216,7 @@ function CompanyRegister() {
 
   return (
     <>
-      <Header />
+      <HomeHeader />
       <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
         <div>
           <img
@@ -250,7 +250,7 @@ function CompanyRegister() {
               </p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] gap-y-[5px] mt-[30px]">
+              <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
                 <div className="w-full">
                   <InputWithLable
                     className="w-full h-[46px]"
@@ -458,7 +458,7 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] mt-[107px] ml-[87px]"
+                  className="w-[370px] h-[48px] mt-[107px] ml-[87px] !primary-background"
                   disabled={isAble}
                 />
                 <div className="max-w-[296px] mx-auto mt-[60px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">

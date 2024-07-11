@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -50,6 +49,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MasurIcon from "../assets/images/menu_icon.png";
 import Correct from "/assets/img/Correct.png";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 interface PillerItem {
   [key: string]:
@@ -626,7 +626,7 @@ function SelectLevel() {
             </Button>
           </div>
         </div>
-        <Footer />
+        <HomeFooter />
 
         <Modal
           open={open}

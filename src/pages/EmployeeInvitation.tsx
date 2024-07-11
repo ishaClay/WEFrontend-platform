@@ -1,23 +1,23 @@
-import { useState } from "react";
+import CustomTabInput from "@/components/comman/CustomTabInput";
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import FileUpload from "@/components/comman/FileUpload";
+import InputWithLabel from "@/components/comman/InputWithLabel";
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
+import { createEmployeeInvition } from "@/services/apiServices/member";
+import { EmployeePayload } from "@/types/Invition";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import InputWithLabel from "@/components/comman/InputWithLabel";
-import CustomTabInput from "@/components/comman/CustomTabInput";
-import ErrorMessage from "@/components/comman/Error/ErrorMessage";
-import { EmployeePayload } from "@/types/Invition";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
-import FileUpload from "@/components/comman/FileUpload";
-import { useAppSelector } from "@/hooks/use-redux";
-import Loader from "@/components/comman/Loader";
-import { createEmployeeInvition } from "@/services/apiServices/member";
 
 const schema = z.object({
-  file: z.string().min(1, { message: "Email Address is required" }),
+  file: z.string().optional(),
   invitiondetail: z.string().min(1, { message: "Email Address is required" }),
 });
 
@@ -75,15 +75,19 @@ const EmployeeInvitation = () => {
   return (
     <div>
       <div className="bg-[#FFFFFF] rounded-xl p-5">
-        <div className="ml-[10px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between ">
-          <div className="flex gap-2 ">
-            <p className="text-[#000000] text-[Calibri] font-abhaya font-semibold ml-[5px] ">
+        <div className="bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between pb-[15px]">
+          <div className="flex items-center gap-3">
+            <p className="text-[#000000] font-abhaya text-base font-semibold">
               Send Invitation
+            </p>
+            <p className="text-[15px] font-abhaya text-[#606060] font-semibold">
+              Drop them an invite so they can join you here with their sleeves
+              rolled
             </p>
           </div>
           <div>
             <Button
-              className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
+              className="bg-transparent hover:bg-transparent text-black font-nunito font-semibold text-base p-0 h-auto"
               onClick={handleBackClick}
             >
               <IoIosArrowRoundBack size={26} />
@@ -93,15 +97,15 @@ const EmployeeInvitation = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mt-[10px] h-[82px] w-[1120px]">
-            <h3 className="text-[18px] font-abhaya font-semibold">
+          <div>
+            <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2">
               Enter Team Member Email ID
-              <span className="font-abhaya font-normal text-stone-400 ml-2">
+              <span className="font-nunito font-normal text-[#A3A3A3] text-base ml-2">
                 (comma separated email id)
               </span>
             </h3>
             <div className="mt-[10px]">
-              <div className="col-span-2">
+              <div className="w-full">
                 <CustomTabInput setValue={setEmails} />
                 {/* {errors.email && (
                   <ErrorMessage message={errors.email.message as string} />
@@ -110,33 +114,33 @@ const EmployeeInvitation = () => {
             </div>
           </div>
 
-          <p className="font-semibold font-abhaya mt-[20px] w-[200px]">
+          <p className="font-bold font-abhaya mt-[32px] text-base">
             OR
-            <a href="#" className="text-[#849dff] ml-2">
+            <a href="#" className="text-[#0E9CFF] ml-2 underline">
               Download Sample File
             </a>
           </p>
-          <div className="w-[977px] mt-[20px] ">
-            <p className=" font-abhaya">
+          <div className="mt-[18px] ">
+            <p className="text-base font-abhaya text-[#000000] font-bold">
               Want to invite a list of team members?
               <br />
               Simply prepare their details on a CSV file, keeping at least one
               row per email user, and we’ll send an invitation to each person.
             </p>
           </div>
-          <div className=" mt-[34px] ">
-            <div className="flex ml-[-22px]">
+          <div className="mt-[24px] flex items-center gap-6">
+            <div className="flex items-center gap-3">
               <FileUpload
                 handleDrop={(e) => {
                   setValue("file", e);
                   setFile(e);
                 }}
-                className="border-none cursor-pointer !p-0 w-[200px] justify-center"
+                className="border-none cursor-pointer !p-0 justify-center"
                 acceptType=".csv"
               >
-                <div className="flex justify-center ">
-                  <span className="bg-[#00778B] w-[134px] h-[35px] rounded text-white cursor-pointer !p-0">
-                    Upload Document
+                <div className="flex">
+                  <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-abhaya">
+                    Upload CSV File
                   </span>
                 </div>
               </FileUpload>
@@ -152,11 +156,11 @@ const EmployeeInvitation = () => {
             <ErrorMessage message={errors.file.message as string} />
           )}
 
-          <div className="mt-[20px] w-[1120px]">
+          <div className="mt-[33px]">
             <InputWithLabel
-              className="text-stone-400 border h-[102px] mt-[10px]"
+              className="text-stone-400 border h-[102px] mt-[10px] text-base font-nunito"
               label="Invitation Details"
-              labelClassName="font-abhaya font-semibold "
+              labelClassName="font-nunito font-semibold !text-base"
               {...register("invitiondetail")}
               placeholder="Enter Details"
             />
@@ -165,10 +169,10 @@ const EmployeeInvitation = () => {
             )}
           </div>
 
-          <div className=" text-end mt-[10px] ">
+          <div className="text-end mt-[30px] ">
             <Button
               type="submit"
-              className="bg-[#64A70B] text-[16px] leading-5 w-[100px] font-semibold font-abhaya "
+              className="bg-[#64A70B] text-base leading-5 w-[100px] h-[52px] font-semibold font-nunito"
             >
               {isPending ? (
                 <Loader containerClassName="h-auto" />

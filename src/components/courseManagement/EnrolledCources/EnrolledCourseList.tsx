@@ -19,7 +19,7 @@ const EnrolledCourseList = () => {
       title: <EnrolledCourseListItem data={item} />,
       content: <EnrolledCourseDetailsList />,
     };
-  });
+  })
 
   return (
     <div className="px-5 pb-4">

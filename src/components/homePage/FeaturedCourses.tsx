@@ -47,13 +47,23 @@ const FeaturedCourses = () => {
           ""
       );
     },
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          arrows: false,
+          prevArrow: <></>,
+          nextArrow: <></>,
+        },
+      },
+    ],
   };
 
   return (
     <div className="bg-[#F7F8FC]">
       <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 2xl:py-[30px] py-[24px] 2xl:pb-[100px] xl:pb-[100px] pb-[90px]">
         <div>
-          <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center">
+          <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
             {title || "Featured Courses"}
           </h5>
         </div>
@@ -69,7 +79,7 @@ const FeaturedCourses = () => {
             />
           </div>
 
-          <div className="max-w-[697px] w-full">
+          <div className="md:max-w-[697px] w-full">
             {clientwiseCoursesliderPending ? (
               <Loader />
             ) : (
@@ -82,26 +92,26 @@ const FeaturedCourses = () => {
                     // </div>
 
                     <div className="relative">
-                      <div className="w-[697px] h-[357px] flex justify-between items-center">
-                        <div className="w-full">
-                          <h2 className="w-[413px] min-h-[40px] xl:leading-9 leading-8 xl:text-[32px] text-3xl font-bold font-abhaya pb-4">
+                      <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
+                        <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
+                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-abhaya pb-4">
                             {item.courseTitle}
                           </h2>
 
-                          <p className="xl:w-[413px] mb-8 text-lg leading-5 pr-4 font-abhaya line-clamp-3">
+                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-abhaya line-clamp-3">
                             {item.content}
                           </p>
 
                           <SecondaryButton
                             name={item.buttonTitle}
                             symbol={<img src="../assets/img/Move Right.png" />}
-                            className="w-[195px] xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
+                            className="sm:w-[195px] w-full xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
                           ></SecondaryButton>
                         </div>
 
-                        <div>
+                        <div className="sm:order-2 order-1">
                           <img
-                            className="min-w-[274px] w-[274px] h-[357px] object-cover"
+                            className="sm:min-w-[274px] sm:w-[274px] w-full h-[357px] object-cover"
                             src={item.courseImage}
                           />
                         </div>

@@ -223,7 +223,7 @@ const ModuleCreationPage = () => {
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
     queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
-    enabled: +courseEditId ? !!courseEditId : false,
+    enabled: !!courseID ||!!courseEditId,
   });
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -16,13 +17,13 @@ const assessmentDetailOptions = [
     label: "Re-assessment 1",
     value: "re-assessment 1",
   },
-  {
-    label: "Re-assessment 2",
-    value: "re-assessment 2",
-  },
 ];
 
 const MaturityAssessment = () => {
+  const location = useLocation();
+  const Role = location?.pathname?.split("/")[1];
+  console.log("++++++++++", Role);
+
   const [selectAssessment, setSelectAssessment] = useState("");
   const [activeTab, setActiveTab] =
     useState<MaturityAssessmentTabs>("assessmentresult");
@@ -70,12 +71,14 @@ const MaturityAssessment = () => {
                 >
                   My Action Plan
                 </TabsTrigger>
-                <TabsTrigger
-                  value="actionitems"
-                  className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
-                >
-                  My Action Items
-                </TabsTrigger>
+                {Role !== "company" && (
+                  <TabsTrigger
+                    value="actionitems"
+                    className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                  >
+                    My Action Items
+                  </TabsTrigger>
+                )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
                 <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">

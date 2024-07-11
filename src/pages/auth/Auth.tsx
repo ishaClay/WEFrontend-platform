@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import {
+  setClientRole,
   // setClientId,
   setCompanyId,
   setUserData,
@@ -90,12 +91,15 @@ function Auth() {
           variant: "destructive",
           title: data?.data?.message,
         });
-      } else if (data.data.data.isNew) {
+      } else if (data.data.data.status === "IsNew") {
         navigate("/resetpassword", {
           state: {
             oldPassword: getValues("password"),
             email: getValues("email"),
-            status: data?.data?.data?.status || "",
+            status:
+              data?.data?.data?.status === "IsNew"
+                ? "Pending"
+                : data?.data?.data?.status || "",
             token: data?.data?.data?.accessToken || "",
           },
         });
@@ -105,8 +109,9 @@ function Auth() {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
 
-        // navigate("/savedassesment");
+        // navigate("/savedassesment");        
         dispatch(setUserData(user.id));
+        dispatch(setClientRole(+user.role));
         localStorage.setItem("user", JSON.stringify(data.data.data));
         localStorage.setItem(
           "path",

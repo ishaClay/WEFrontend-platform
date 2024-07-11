@@ -295,7 +295,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={countryOption || []}
                       placeholder="Select county"
-                      className="w-[241px] h-[46px] mt-2"
+                      className="h-[46px] mt-2"
                       setValue={(data: string) =>
                         setValue("providerCountry", data)
                       }
@@ -383,7 +383,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={countryOption || []}
                       placeholder="Select county"
-                      className="w-[241px] h-[46px] mt-2"
+                      className=" h-[46px] mt-2"
                       setValue={(data: string) =>
                         setValue("providerCounty", data)
                       }
@@ -436,7 +436,7 @@ function RegisterTrainer() {
                   <PrimaryButton
                     type="submit"
                     name="Submit"
-                    className="w-full h-[48px]"
+                    className="w-full h-[48px] primary-background"
                   />
                 </div>
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">

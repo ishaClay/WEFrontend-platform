@@ -1,5 +1,5 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import HomeFooter from "@/components/homePage/HomeFooter";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { CardTitle } from "@/components/ui/card";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -165,7 +165,7 @@ const TeaserScore = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header />
+      <HomeHeader />
       <div className="bg-[url('../assets/img/backgroundscore.png')]">
         <div className="w-full max-w-[800px] mx-auto mt-20 mb-32 flex justify-center">
           <div className="border-t-8 border-solid border-[#00778B] flex justify-between bg-white rounded-lg w-full">
@@ -239,7 +239,7 @@ const TeaserScore = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        <HomeFooter />
       </div>
     </div>
   );

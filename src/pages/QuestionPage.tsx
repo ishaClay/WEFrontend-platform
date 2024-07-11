@@ -4,7 +4,6 @@ import apply from "@/assets/images/apply.svg";
 import develop from "@/assets/images/develop.svg";
 import planAction from "@/assets/images/planAction.svg";
 import selfAssess from "@/assets/images/selfAssess.svg";
-import Footer from "@/components/Footer";
 import Loader from "@/components/comman/Loader";
 import Question from "@/components/comman/Question";
 import { Button } from "@/components/ui/button";
@@ -33,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -547,7 +547,7 @@ const QuestionPage = () => {
       </form>
 
       <div className="xl:mt-[238px] mt-[150px]">
-        <Footer />
+        <HomeFooter />
       </div>
     </div>
   );

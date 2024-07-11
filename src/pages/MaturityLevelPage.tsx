@@ -1,7 +1,7 @@
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -607,7 +607,7 @@ const MaturityLevelPage = () => {
       </div> */}
 
       <div className="mt-4">
-        <Footer />
+        <HomeFooter />
       </div>
 
       <MaturityLevelModel

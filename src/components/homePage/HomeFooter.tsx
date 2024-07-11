@@ -3,6 +3,11 @@ import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
+import footerLogoImage from "@/assets/images/FooterLogo.png";
+import footerLogoImage1 from "@/assets/images/FooterLogo1.png";
+import homeFooterLogo from "@/assets/images/HomeFooterLogo.png";
+import homeFooterLogo1 from "@/assets/images/HomeFooterLogo1.png";
+import RoundLogoImage from "@/assets/images/RoundLogo.png";
 
 const HomeFooter = () => {
   const location = useLocation();
@@ -12,69 +17,151 @@ const HomeFooter = () => {
   };
   return (
     <div className="relative">
-      <footer className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5 flex justify-center items-end footerAfter">
+      <footer className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 lg:px-5 px-0 flex justify-center items-end footerAfter">
         {isHomePage() && (
           <div className="h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
         )}
         <div className="w-[1162px] bg-[#002A3A] z-[999] rounded-tl-[20px] rounded-tr-[20px] text-center">
-          <div className="flex items-center sm:gap-x-[33px] xl:ml-8 ml-0 xl:mt-[44px] mt-6 xl:justify-normal justify-center">
-            <div className="relative">
-              <img
-                className="xl:w-[951px] w-[810px] h-[84px] md:block hidden"
+          <div className="lg:flex block xl:gap-x-[33px] gap-x-[15px] xl:ml-8 ml-0 xl:mt-[44px] mt-6 xl:justify-normal justify-center lg:pb-0 pb-5">
+            <div className="relative lg:p-0 px-5">
+              {/* <img
+                className="xl:w-[951px] w-[810px] h-[84px] lg:block hidden"
                 src="../assets/img/network-group.png"
-              />
-              <div className="absolute bottom-0 left-0 xl:w-[970px] w-[810px] h-0.5 top-[120px] secondary-background"></div>
+              /> */}
+              <div className="flex lg:flex-row flex-col lg:justify-center justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent xl:gap-3 gap-2 xl:w-[951px] lg:w-[850px] w-auto lg:h-[84px] h-auto lg:p-0 lg:px-5 px-0">
+                <div className="lg:order-1 order-4">
+                  <p className="lg:w-[300px] w-full leading-4 text-justify text-sm lg:text-[#002A3A] text-white text-semibold line-clamp-4">
+                    Skillnet Ireland is funded from the National Training Fund
+                    through the Department of Further and Higher Education,
+                    Research, Innovation and Science.
+                  </p>
+                </div>
+                <div className="lg:order-2 order-2">
+                  <img
+                    src={footerLogoImage}
+                    alt="footer logo"
+                    className="lg:block hidden"
+                  />
+                  <img
+                    src={footerLogoImage1}
+                    alt="footer logo"
+                    className="lg:hidden block"
+                  />
+                </div>
+                <div className="secondary-text sm:flex block justify-between items-center py-3 lg:hidden lg:order-3 order-3">
+                  <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
+                    © County Wexford Chamber 2023. All Rights Reserved.
+                  </p>
+
+                  <div className="flex gap-5  justify-center my-3">
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <FaXTwitter className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <BsInstagram className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <FaFacebookF className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <IoLogoYoutube className="w-[19px] h-[19px]" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="lg:order-3 order-1">
+                  <img
+                    src={homeFooterLogo}
+                    alt=""
+                    className="lg:block hidden"
+                  />
+                  <img
+                    src={homeFooterLogo1}
+                    alt=""
+                    className="lg:hidden block w-[300px]"
+                  />
+                </div>
+                <div className="flex items-center lg:order-4 order-4">
+                  <div>
+                    <img src={RoundLogoImage} alt="round logo" />
+                  </div>
+                  <div>
+                    <h6 className="xl:text-base text-sm font-bold lg:text-[#002A3A] text-white text-left leading-4">
+                      Co-funded by
+                      <br />
+                      the European Union
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div className="lg:block hidden">
+                <div className="secondary-text sm:flex block justify-between items-center py-3">
+                  <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
+                    © County Wexford Chamber 2023. All Rights Reserved.
+                  </p>
+
+                  <div className="flex gap-5  justify-center my-3">
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <FaXTwitter className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <BsInstagram className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <FaFacebookF className="w-[19px] h-[19px]" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
+                    >
+                      <IoLogoYoutube className="w-[19px] h-[19px]" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start secondary-text">
-              <a className="font-abhaya text-lg font-bold cursor-pointer">
-                Our Courses
-              </a>
-              <a className="font-abhaya text-lg font-bold cursor-pointer">
-                Membership
-              </a>
-              <a className="font-abhaya text-lg font-bold cursor-pointer">
-                Testimonial
-              </a>
-              <a className="font-abhaya text-lg font-bold cursor-pointer">
-                News
-              </a>
-              <a className="font-abhaya text-lg font-bold cursor-pointer">
-                Contact Us
-              </a>
-            </ul>
-          </div>
-
-          <div className="secondary-text xl:mt-[50px] mt-[45px]">
-            <p className="no-underline text-sm leading-5 font-abhaya font-bold">
-              © County Wexford Chamber 2023. All Rights Reserved.
-            </p>
-
-            <div className="flex gap-5  justify-center my-3">
-              <Button
-                variant={"ghost"}
-                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
-              >
-                <FaXTwitter className="w-[19px] h-[19px]" />
-              </Button>
-              <Button
-                variant={"ghost"}
-                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
-              >
-                <BsInstagram className="w-[19px] h-[19px]" />
-              </Button>
-              <Button
-                variant={"ghost"}
-                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
-              >
-                <FaFacebookF className="w-[19px] h-[19px]" />
-              </Button>
-              <Button
-                variant={"ghost"}
-                className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
-              >
-                <IoLogoYoutube className="w-[19px] h-[19px]" />
-              </Button>
+            <div className="flex items-start">
+              <ul className=" text-white flex flex-col  gap-y-[3px] text-start secondary-text lg:p-0 px-5">
+                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                  Our Courses
+                </a>
+                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                  Membership
+                </a>
+                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                  Testimonial
+                </a>
+                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                  News
+                </a>
+                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                  Contact Us
+                </a>
+              </ul>
+              <p className="lg:hidden block no-underline text-sm text-white leading-5 font-abhaya font-bold min-w-[165px] text-left">
+                © County Wexford Chamber 2023. All Rights Reserved.
+              </p>
             </div>
           </div>
         </div>

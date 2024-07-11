@@ -1,3 +1,8 @@
+import ResponseTicketIcon from "@/assets/images/message.png";
+import RequestTicketIcon from "@/assets/images/Request.png";
+import ResolvedIcon from "@/assets/images/Resolved.png";
+import TotalTicketIcon from "@/assets/images/ticket.png";
+import PendingTicketIcon from "@/assets/images/ticket_star.png";
 import { clsx, type ClassValue } from "clsx";
 import moment from "moment";
 import { AiOutlinePoweroff } from "react-icons/ai";
@@ -23,11 +28,6 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType } from "./constants";
-import ResolvedIcon from "@/assets/images/Resolved.png";
-import TotalTicketIcon from "@/assets/images/ticket.png";
-import PendingTicketIcon from "@/assets/images/ticket_star.png";
-import ResponseTicketIcon from "@/assets/images/message.png";
-import RequestTicketIcon from "@/assets/images/Request.png";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -185,7 +185,7 @@ export const sidebarLayout = {
         },
         {
           label: "My Courses",
-          link: "/trainee/enrolledcourses",
+          link: "/trainee/mycourses",
         },
         {
           label: "Enrolled Courses",
@@ -525,9 +525,38 @@ export const getRandomHexColor = () => {
 };
 
 
-export const getTotalDuration = (data:any) => {
-  return data.reduce((totalSeconds:any, readingTime:any) => {
+export const getTotalDuration = (data: any) => {
+  return data.reduce((totalSeconds: any, readingTime: any) => {
     const { hour, minute, second } = readingTime;
     return totalSeconds + (hour * 3600) + (minute * 60) + second;
   }, 0);
 };
+
+export function getTimeAgo(time: Date | string) {
+  const currentTime = new Date();
+  const givenTime = time instanceof Date ? time : new Date(time);
+
+  const timeDiff: number = Math.abs(
+    currentTime.valueOf() - givenTime.valueOf()
+  );
+
+  const minutesAgo = Math.floor(timeDiff / (1000 * 60));
+  const hoursAgo = Math.floor(timeDiff / (1000 * 60 * 60));
+  const daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  const weeksAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
+
+  console.log("weeksAgo", weeksAgo, daysAgo, hoursAgo, minutesAgo);
+
+
+  if (minutesAgo < 1) {
+    return "Just now";
+  } else if (minutesAgo < 60) {
+    return `${minutesAgo} min${minutesAgo === 1 ? "" : "s"} ago`;
+  } else if (hoursAgo < 24) {
+    return `${hoursAgo} hr${hoursAgo === 1 ? "" : "s"} ago`;
+  } else if (daysAgo < 7) {
+    return `${daysAgo} day${daysAgo === 1 ? "" : "s"} ago`;
+  } else {
+    return `${weeksAgo} week${weeksAgo === 1 ? "" : "s"} ago`;
+  }
+}

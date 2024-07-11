@@ -1,10 +1,12 @@
 import Loader from "@/components/comman/Loader";
+import InviteMember from "@/components/Models/InviteMember";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useQuery } from "@tanstack/react-query";
-import { Dispatch } from "react";
+import React, { Dispatch } from "react";
+import { useNavigate } from "react-router-dom";
 import AssignCard from "./AssignCard";
 
 const Assign = ({
@@ -12,8 +14,10 @@ const Assign = ({
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
 }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
   const userID = UserId
     ? +UserId
     : userData?.query
@@ -46,10 +50,18 @@ const Assign = ({
           >
             Edit Action Plan
           </Button>
-          <Button className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm">
+          <Button
+            type="button"
+            onClick={() => navigate(`/company/coursesrecommended`)}
+            className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+          >
             View Recommended Courses
           </Button>
-          <Button className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm">
+          <Button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+          >
             Invite Team Members
           </Button>
         </div>
@@ -58,6 +70,7 @@ const Assign = ({
           come back to measure your progress anytime with a re-assessment!
         </p>
       </div>
+      <InviteMember isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

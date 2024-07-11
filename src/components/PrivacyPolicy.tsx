@@ -1,8 +1,8 @@
 import { ArrowBigLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "./Footer";
 import Header from "./Header";
 import { Button } from "./ui/button";
+import HomeFooter from "./homePage/HomeFooter";
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
@@ -139,7 +139,7 @@ const PrivacyPolicy = () => {
         <p>&copy; 2024 Example Company. All rights reserved.</p>
       </footer> */}
       <section>
-        <Footer />
+        <HomeFooter />
       </section>
     </div>
   );

@@ -63,11 +63,12 @@ export const QUERY_KEYS = {
   enrolledCourses: "enrolled_courses",
   getActionItems: "getActionItems",
   itemHistory: "itemHistory",
-  getEmployeeList: "getEmployeeList"
+  getEmployeeList: "getEmployeeList",
+  employeeDetails: "employeeDetails",
 };
 
 export const urlRegex =
-  "/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/";
+  "/((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,w]+@)[A-Za-z0-9.-]+)((?:/[+~%/.w-_]*)???(?:[-+=&;%@.w_]*)#?(?:[w]*))?)/";
 export const FileType = {
   Document: {
     name: "Document",

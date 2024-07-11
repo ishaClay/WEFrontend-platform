@@ -51,10 +51,7 @@ const PasswordInputWithLabel = forwardRef<
       <div className={cn(``, mainClassName)}>
         {label && (
           <Label
-            className={cn(
-              "font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]",
-              labelClassName
-            )}
+            className={cn(" font-bold text-[16px]", labelClassName)}
             htmlFor={id}
           >
             {label}
@@ -63,7 +60,7 @@ const PasswordInputWithLabel = forwardRef<
         )}
         <div
           className={cn(
-            "relative items-center gap-1 overflow-hidden",
+            "relative items-center gap-1 overflow-hidden mt-[8px]",
             icon ? "flex" : ""
           )}
         >

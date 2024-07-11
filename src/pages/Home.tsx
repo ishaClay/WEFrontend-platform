@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { SecondaryButton } from "@/components/comman/Button/CustomButton";
 import Loading from "@/components/comman/Error/Loading";
@@ -24,6 +23,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Minus from "../../public/assets/img/Minus.png";
 import Plus from "../../public/assets/img/Plus.png";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 function Home() {
   const dispatch = useDispatch();
@@ -692,7 +692,7 @@ function Home() {
       </section>
 
       <section>
-        <Footer />
+        <HomeFooter />
       </section>
 
       <Loading

@@ -1,18 +1,18 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
 import { InputWithLable } from "@/components/ui/inputwithlable";
-import rePasswordBanner from "../../../public/assets/img/LoginImage.svg";
 import { useToast } from "@/components/ui/use-toast";
+import { ResetPasswordApi } from "@/services/apiServices/authService";
+import { ResetPasswordType } from "@/types/auth";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useEffect } from "react";
-import { ResetPasswordApi } from "@/services/apiServices/authService";
-import { ResetPasswordType } from "@/types/auth";
-import Loading from "@/components/comman/Error/Loading";
+import rePasswordBanner from "../../../public/assets/img/LoginImage.svg";
 
 const ResetPassword = () => {
   const navigate = useNavigate();

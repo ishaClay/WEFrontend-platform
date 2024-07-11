@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ const AllCourses = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
@@ -33,9 +35,8 @@ const AllCourses = () => {
   });
 
   useEffect(() => {
-    fetchCourseAllCourseRefetch()
-  }, [searchKeyword])
-  
+    fetchCourseAllCourseRefetch();
+  }, [searchKeyword]);
 
   return (
     <div>
@@ -50,21 +51,25 @@ const AllCourses = () => {
               The full list of your courses, in snapshot view
             </p>
           </div>
-          <div>
-            <Button
-              type="button"
-              onClick={() =>
-                navigate(
-                  `/${
-                    location?.pathname?.split("/")?.[1]
-                  }/create_course/tab=0&step=0&version=1`
-                )
-              }
-              className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
-            >
-              ADD NEW COURSE
-            </Button>
-          </div>
+          {(userData?.query?.role === UserRole.Trainee
+            ? userData?.user?.approved
+            : true) && (
+            <div>
+              <Button
+                type="button"
+                onClick={() =>
+                  navigate(
+                    `/${
+                      location?.pathname?.split("/")?.[1]
+                    }/create_course/tab=0&step=0&version=1`
+                  )
+                }
+                className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
+              >
+                ADD NEW COURSE
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center justify-between py-5 px-[18px]">

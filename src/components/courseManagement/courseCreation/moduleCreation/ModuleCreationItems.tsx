@@ -1,16 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { CirclePlus, CircleX, Link } from "lucide-react";
-import UploadContent from "./UploadContent";
-import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { SectionCreation } from "@/types/modulecreation";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { uploadFile } from "@/services/apiServices/moduleCreation";
-import { Label } from "@/components/ui/label";
-import { UseFieldArrayRemove, useFieldArray } from "react-hook-form";
 import FormError from "@/components/comman/FormError";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import { uploadFile } from "@/services/apiServices/moduleCreation";
+import { SectionCreation } from "@/types/modulecreation";
+import { useMutation } from "@tanstack/react-query";
+import { CirclePlus, CircleX, Link } from "lucide-react";
+import { useState } from "react";
+import { UseFieldArrayRemove, useFieldArray } from "react-hook-form";
+import UploadContent from "./UploadContent";
 
 interface ModuleCreationItemsProps {
   index: number;
@@ -83,7 +83,6 @@ const ModuleCreationItems = ({
     uploadAttechment(file);
   };
 
-
   return (
     <div className="">
       <div className="border border-[#D9D9D9] rounded-lg mb-5">
@@ -122,7 +121,11 @@ const ModuleCreationItems = ({
         </div>
         {sections.map((_: any, sectionindex: number) => {
           const sectionItem = watch(`modules.${index}.section.${sectionindex}`);
-          console.log('sectionItem', sectionItem, `modules.${index}.section.${sectionIndex}`);
+          console.log(
+            "sectionItem",
+            sectionItem,
+            `modules.${index}.section.${sectionIndex}`
+          );
 
           return (
             <div key={index} className="p-5 border-t border-[#D9D9D9]">
@@ -143,12 +146,12 @@ const ModuleCreationItems = ({
                     )}
                     <h6 className="text-base flex items-center font-calibri text-[#515151]">
                       <Switch
-                        checked={sectionItem.isLive}
+                        checked={sectionItem?.isLive}
                         onCheckedChange={(val) => {
                           setValue(
                             `modules.${index}.section.${sectionindex}.isLive`,
                             val
-                          )
+                          );
                         }}
                         className="me-3"
                       />
@@ -164,14 +167,14 @@ const ModuleCreationItems = ({
                 />
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.sectionTitle && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors.modules[index].section[sectionindex].sectionTitle
-                          ?.message
-                      }
-                    />
-                  )}
+                  <FormError
+                    className="font-calibri not-italic"
+                    message={
+                      errors.modules[index].section[sectionindex].sectionTitle
+                        ?.message
+                    }
+                  />
+                )}
               </div>
               <div className="pb-5">
                 <h6 className="text-base font-calibri text-[#515151] pb-2">
@@ -186,14 +189,14 @@ const ModuleCreationItems = ({
                 />
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.information && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors.modules[index].section[sectionindex].information
-                          ?.message
-                      }
-                    />
-                  )}
+                  <FormError
+                    className="font-calibri not-italic"
+                    message={
+                      errors.modules[index].section[sectionindex].information
+                        ?.message
+                    }
+                  />
+                )}
               </div>
               {!sectionItem.isLive ? (
                 <>
@@ -206,12 +209,15 @@ const ModuleCreationItems = ({
                     sectionIndex={sectionindex}
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.uploadedContentUrl?.uploadContentType?.youtubeUrl && !sectionItem.youtubeUrl && !sectionItem.uploadedContentUrl && (
+                    ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
+                    !sectionItem.youtubeUrl &&
+                    !sectionItem.uploadedContentUrl && (
                       <FormError
                         className="font-calibri not-italic"
                         message={
                           errors.modules?.[index]?.section?.[sectionindex]
-                            ?.uploadedContentUrl?.uploadContentType?.youtubeUrl?.message
+                            ?.uploadedContentUrl?.uploadContentType?.youtubeUrl
+                            ?.message
                         }
                       />
                     )}
@@ -227,14 +233,14 @@ const ModuleCreationItems = ({
                     />
                     {errors.modules?.[index]?.section?.[sectionindex]
                       ?.youtubeUrl && (
-                        <FormError
-                          className="font-calibri not-italic"
-                          message={
-                            errors.modules[index].section[sectionindex].youtubeUrl
-                              ?.message
-                          }
-                        />
-                      )}
+                      <FormError
+                        className="font-calibri not-italic"
+                        message={
+                          errors.modules[index].section[sectionindex].youtubeUrl
+                            ?.message
+                        }
+                      />
+                    )}
                   </div>
                   <div className="pb-5">
                     <h6 className="text-base font-calibri text-[#515151] pb-2">
@@ -245,7 +251,9 @@ const ModuleCreationItems = ({
                     </h6>
                     <div className="border border-[#D9D9D9] rounded-md px-4 py-2 w-full flex justify-between items-center">
                       <input
-                        placeholder={sectionItem.uploadDocument?.split("/").at(-1)}
+                        placeholder={sectionItem.uploadDocument
+                          ?.split("/")
+                          .at(-1)}
                         className="border-bone w-full outline-none text-base text-[#606060] font-calibri"
                         disabled
                       />
@@ -266,14 +274,14 @@ const ModuleCreationItems = ({
                   </div>
                   {errors.modules?.[index]?.section?.[sectionindex]
                     ?.uploadDocument && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={
-                          errors.modules[index].section[sectionindex].uploadDocument
-                            ?.message
-                        }
-                      />
-                    )}
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors.modules[index].section[sectionindex]
+                          .uploadDocument?.message
+                      }
+                    />
+                  )}
                 </>
               ) : (
                 <div className="">
@@ -287,7 +295,11 @@ const ModuleCreationItems = ({
                         <Input
                           type="number"
                           {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.hour`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) }
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
                           )}
                           className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
                         />
@@ -298,14 +310,14 @@ const ModuleCreationItems = ({
                     </div>
                     {errors.modules?.[index]?.section?.[sectionindex]
                       ?.livesessionDuration?.hour && (
-                        <FormError
-                          className="font-calibri not-italic"
-                          message={
-                            errors.modules?.[index]?.section?.[sectionindex]
-                              ?.livesessionDuration?.hour?.message
-                          }
-                        />
-                      )}
+                      <FormError
+                        className="font-calibri not-italic"
+                        message={
+                          errors.modules?.[index]?.section?.[sectionindex]
+                            ?.livesessionDuration?.hour?.message
+                        }
+                      />
+                    )}
                     <div className="">
                       <h6 className="text-base text-[#515151] font-calibri pb-3">
                         Section Minute (MM)
@@ -314,7 +326,11 @@ const ModuleCreationItems = ({
                         <Input
                           value={sectionItem.livesessionDuration?.minute}
                           {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.minute`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) }
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
                           )}
                           type="number"
                           className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
@@ -325,14 +341,14 @@ const ModuleCreationItems = ({
                       </div>
                       {errors.modules?.[index]?.section?.[sectionindex]
                         ?.livesessionDuration?.minute && (
-                          <FormError
-                            className="font-calibri not-italic"
-                            message={
-                              errors.modules?.[index]?.section?.[sectionindex]
-                                ?.livesessionDuration?.minute?.message
-                            }
-                          />
-                        )}
+                        <FormError
+                          className="font-calibri not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              ?.livesessionDuration?.minute?.message
+                          }
+                        />
+                      )}
                     </div>
                     <div className="">
                       <h6 className="text-base text-[#515151] font-calibri pb-3">
@@ -341,7 +357,11 @@ const ModuleCreationItems = ({
                       <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                         <Input
                           {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.second`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) }
+                            `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
+                            {
+                              setValueAs: (value: string) =>
+                                value === "" ? undefined : Number(value),
+                            }
                           )}
                           type="number"
                           className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
@@ -352,20 +372,20 @@ const ModuleCreationItems = ({
                       </div>
                       {errors.modules?.[index]?.section?.[sectionindex]
                         ?.livesessionDuration?.second && (
-                          <FormError
-                            className="font-calibri not-italic"
-                            message={
-                              errors.modules?.[index]?.section?.[sectionindex]
-                                ?.livesessionDuration.second?.message
-                            }
-                          />
-                        )}
+                        <FormError
+                          className="font-calibri not-italic"
+                          message={
+                            errors.modules?.[index]?.section?.[sectionindex]
+                              ?.livesessionDuration.second?.message
+                          }
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
               )}
             </div>
-          )
+          );
         })}
         <div className="text-right px-5 pb-5">
           <Button

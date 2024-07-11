@@ -5,7 +5,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 
 import { useState } from "react";
-import Footer from "@/components/Footer";
+import HomeFooter from "@/components/homePage/HomeFooter";
 
 function MaturityAssessmentRoadmapSetTarget() {
   const [activeTab, setActiveTab] = useState("Assessment Result");
@@ -730,7 +730,7 @@ function MaturityAssessmentRoadmapSetTarget() {
                     </p>
                   </div>
                   <div className="mt-3 h-[264px]">
-                    <Footer />
+                    <HomeFooter />
                   </div>
                 </div>
               )}

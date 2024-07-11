@@ -3,6 +3,7 @@ import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 // import { urlRegex } from "@/lib/constants";
 import { fetchClientById } from "@/services/apiServices/client";
@@ -18,7 +19,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
@@ -58,9 +58,9 @@ const CourseInformation = () => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const { clientId, UserId } = useSelector((state) => state.user);
+  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -154,10 +154,11 @@ const CourseInformation = () => {
         setValue("freeCourse", data.freeCourse === 1 ? true : false);
         setValue("price", String(data?.price));
       });
+      setValue("discountApplicable", data?.discountApplicable);
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
     }
-  }, [getSingleCourse]);
+  }, [getSingleCourse, setValue]);
 
   const onSubmit = (formdata: FieldValues) => {
     const payload = {
@@ -171,14 +172,14 @@ const CourseInformation = () => {
       discout: provideDisc ? 1 : 0,
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
-      userId: UserId,
+      userId: userID,
     };
 
     if (+courseId) {
       updateCourseFun({
         payload,
         id: +courseId,
-        version: getSingleCourse?.data?.version
+        version: getSingleCourse?.data?.version,
       });
     } else {
       mutate(payload);

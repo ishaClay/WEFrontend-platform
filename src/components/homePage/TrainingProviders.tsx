@@ -9,7 +9,7 @@ const TrainingProviders = () => {
         id="trainer"
         className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5 xl:mb-[50px] mb-[45px]"
       >
-        <h6 className="text-4xl font-abhaya font-semibold text-center pb-10">
+        <h6 className="md:text-4xl sm:text-3xl text-2xl font-abhaya font-semibold text-center sm:pb-10 pb-[30px]">
           Get your training to those it’ll help
         </h6>
         {/* <div className="w-[250px] h-[47px] button-color rounded-[6px] flex justify-center items-center mb-[44px]">
@@ -17,11 +17,11 @@ const TrainingProviders = () => {
             For Training Providers
           </p>
         </div> */}
-        <h3 className="font-bold text-2xl font-abhaya leading-7">
+        <h3 className="font-bold md:text-2xl sm:text-xl text-lg font-abhaya sm:leading-7 leading-5">
           Get your training to those it’ll help
         </h3>
-        <div className="gap-10 mt-[24px] flex items-center justify-center flex-wrap gap-y-20">
-          <div className="flex gap-[20px] relative text-start w-[360px]">
+        <div className="gap-10 mt-[24px] flex items-center justify-center flex-wrap xl:gap-y-20 md:gap-y-10 sm:gap-y-5 gap-y-3">
+          <div className="flex sm:gap-[20px] gap-2 relative text-start w-[360px]">
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">
               <img className="w-9 h-9" src="../assets/img/Satellites.png" />
             </div>
@@ -36,7 +36,7 @@ const TrainingProviders = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-[20px] relative  text-start w-[360px]">
+          <div className="flex sm:gap-[20px] gap-2 relative  text-start w-[360px]">
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">
               <img className="w-9 h-9" src="../assets/img/Class (1).png" />
             </div>
@@ -50,7 +50,7 @@ const TrainingProviders = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-[20px] relative  text-start w-[360px]">
+          <div className="flex sm:gap-[20px] gap-2 relative  text-start w-[360px]">
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">
               <img
                 className="w-9 h-9"
@@ -61,9 +61,13 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+                Hone your training based on easy-to-glimpse analytics on how
+                your course takers are learning and where the market demand is
+              </p>
             </div>
           </div>
-          <div className="flex gap-[20px] relative  text-start w-[360px]">
+          <div className="flex sm:gap-[20px] gap-2 relative  text-start w-[360px]">
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">
               <img
                 className="w-9 h-9"
@@ -84,7 +88,7 @@ const TrainingProviders = () => {
         <Button
           type="button"
           onClick={() => navigate("/trainer-regestration")}
-          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] h-[59px] secondary-text xl:mt-[113px] mt-[80px]"
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] sm:h-[59px] h-[44px] secondary-text xl:mt-[113px] md:mt-[80px] mt-[30px]"
         >
           <div>Register As A Trainer Now</div>
           <div>
