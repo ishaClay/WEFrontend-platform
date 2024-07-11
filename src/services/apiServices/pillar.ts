@@ -84,7 +84,7 @@ export const getActionItembyPiller = async (pillerId: number | null, userID: num
 }
 
 export const getItemHistory = async (id: number) => {
-    const url = `api/v1/pillar/action-item/history/${id}`;
+    const url = `api/v1/measurehistory/get-item-measureswise/${id}`;
     const res = await api({ url });
     return res.data
 }

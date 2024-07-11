@@ -1,6 +1,6 @@
+import { GetSingleCourseByIdType } from "@/types/course";
 import { AllCoursesResponse } from "@/types/courseManagement";
 import api from "./api";
-import { GetSingleCourseByIdType } from "@/types/course";
 
 export interface courseRequest {
   title: string;
@@ -49,8 +49,8 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
 
 export const fetchCourseAllCourse = async (searchKeyword: string): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
-  const params:any = {}
-  if(searchKeyword){
+  const params: any = {}
+  if (searchKeyword) {
     params["keyword"] = searchKeyword
   }
   const res = await api({ url, params });
@@ -91,16 +91,23 @@ export const updateCourse = (data: { payload: courseRequest, id: string, version
   return api({ url, data: data?.payload, method });
 }
 
-export const publishCourse = (data: {status: string, id: number}) => {
+export const publishCourse = (data: { status: string, id: number }) => {
   const url = `api/v1/course/status/update/${data?.id}`;
   const method = "post";
-  return api({ url, data: {status: data?.status}, method });
+  return api({ url, data: { status: data?.status }, method });
 }
 
 export const copyCourse = (id: number) => {
   console.log("id++++++", id);
-  
+
   const url = `api/v1/course/copy-course/${id}`;
   const method = "put";
   return api({ url, method });
+}
+
+export const getCourseByTrainee = async (id: number): Promise<AllCoursesResponse> => {
+  const url = `api/v1/course/getOnlyTrainyCourse/${id}`
+  const method = "get";
+  const res = await api({ url, method });
+  return res.data
 }

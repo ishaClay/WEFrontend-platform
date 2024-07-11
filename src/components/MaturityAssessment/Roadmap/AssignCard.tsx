@@ -71,6 +71,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
   );
   const [isOpenDelayModel, setIsOpenDelayModel] = useState(false);
   const [uploadData, setUploadData] = useState<any>(null);
+  const [historyMasure, setHistoryMasure] = useState<string>("");
 
   console.log("isOpenHistoryModel", isOpenHistoryModel);
 
@@ -88,10 +89,13 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
       </Modal>
       <Modal
         open={!!isOpenHistoryModel}
-        onClose={() => setIsOpenHistoryModel(null)}
+        onClose={() => {
+          setIsOpenHistoryModel(null);
+          setHistoryMasure("");
+        }}
         className="min-w-[514px] py-5 px-6"
       >
-        <HistoryModel id={isOpenHistoryModel} />
+        <HistoryModel id={isOpenHistoryModel} historyMasure={historyMasure} />
       </Modal>
       <Modal
         open={isOpenDelayModel}
@@ -236,7 +240,10 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                       <div className="flex items-center gap-4">
                         <Button
                           className="text-base text-[#4285F4] underline bg-transparent font-abhaya font-semibold p-0"
-                          onClick={() => setIsOpenHistoryModel(item.id)}
+                          onClick={() => {
+                            setIsOpenHistoryModel(item.id);
+                            setHistoryMasure(item.measure);
+                          }}
                         >
                           History
                         </Button>

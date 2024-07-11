@@ -1,4 +1,5 @@
 import starImage from "@/assets/images/Vector.png";
+import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,17 +10,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  copyCourse,
+  publishCourse,
+} from "@/services/apiServices/courseManagement";
+import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
-import { copyCourse, publishCourse } from "@/services/apiServices/courseManagement";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/constants";
-import { PublishCourseType } from "@/types/course";
-import { useToast } from "@/components/ui/use-toast";
-import Loader from "@/components/comman/Loader";
 
 interface VersionProps {
   id: number;
@@ -34,9 +37,9 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const pathName = location?.pathname?.split("/")?.[1];  
+  const pathName = location?.pathname?.split("/")?.[1];
   // const queryClient = useQueryClient();
-  const handleCohort = (e:Event, id: number) => {
+  const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
     setCourse(id);
@@ -45,13 +48,12 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
   useEffect(() => {
     if (list?.length > 0) {
       const data = list?.map((item) => {
-        const version = item?.version?.find(
-          (itm) => itm?.version === 1
-        );
+        const version = item?.version?.find((itm) => itm?.version === 1);
         return {
           id: item?.id,
           versionId: version?.id as number,
-          status: item?.status === "COPY" ? "PUBLISHED" : item?.status as string,
+          status:
+            item?.status === "COPY" ? "PUBLISHED" : (item?.status as string),
         };
       });
       setVersionData(data);
@@ -91,27 +93,30 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     });
   };
 
-  const { mutate: publishCourseFun, isPending: publishCoursePending } = useMutation({
-    mutationFn: (data:PublishCourseType) => publishCourse(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-      toast({
-        title: "Success",
-        description: "Course Published Successfully",
-        variant: "success",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+  const { mutate: publishCourseFun, isPending: publishCoursePending } =
+    useMutation({
+      mutationFn: (data: PublishCourseType) => publishCourse(data),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourse],
+        });
+        toast({
+          title: "Success",
+          description: "Course Published Successfully",
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
 
   const { mutate: copyCourseFun, isPending: copyCoursePending } = useMutation({
-    mutationFn: (id:number) => copyCourse(id),
+    mutationFn: (id: number) => copyCourse(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
@@ -129,19 +134,46 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     },
   });
 
-  const handlePublish = (e:Event, id: number) => {
+  const handlePublish = (e: Event, id: number) => {
     e.preventDefault();
     const payload = {
       status: "PUBLISHED",
-      id
-    }
+      id,
+    };
     publishCourseFun(payload);
-  }
+  };
 
-  const copyPublish = (e:Event, id: number) => {
+  const copyPublish = (e: Event, id: number) => {
     e.preventDefault();
     copyCourseFun(id);
-  }
+  };
+
+  const handleEdit = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    id: string | undefined,
+    item: AllCoursesResult
+  ) => {
+    e.stopPropagation();
+    if (item?.status !== "HOLD") {
+      navigate(
+        `/${pathName}/create_course/${
+          item?.id
+        }?tab=${0}&step=${0}&version=${id}`
+      );
+    } else {
+      if (item?.trainerId?.id) {
+        toast({
+          title: "First Course make Hold Status then You Can Edit",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Please Course make Duplicate then You Can Edit",
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   return (
     <div>
@@ -151,7 +183,6 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === data?.id
           );
-
 
           const versionOption =
             data?.version &&
@@ -163,7 +194,8 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
             });
           return (
             <>
-              <Link to={`/${pathName}/employee-basic-course/${data.id}`}
+              <Link
+                to={`/${pathName}/employee-basic-course/${data.id}`}
                 key={index}
                 className="border rounded overflow-hidden grid grid-cols-6 mb-5"
               >
@@ -184,8 +216,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                         Created By :{" "}
                         {data?.trainerId
                           ? data?.trainerId?.name
-                          : data?.trainerCompanyId?.providerName ||
-                            "--"}
+                          : data?.trainerCompanyId?.providerName || "--"}
                       </p>
                       <div className="flex items-center">
                         <img
@@ -207,24 +238,31 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                       </div>
                     </div>
                     <div className="">
-                    {data?.courseData?.map((item) => {
-                      return (
-                        <div className="flex items-center justify-between mb-2">
-                          <Badge
-                            variant="outline"
-                            className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                          >
-                            {item?.fetchPillar?.pillarName}
-                          </Badge>
-                          <Badge
-                            variant="outline"
-                            className={`bg-[${item?.fetchMaturity?.color}] p-1 px-3 text-[${item?.fetchMaturity?.maturityLevelName === "Beginning" ? "white" : "#3A3A3A"}] text-xs font-Poppins font-normal`}
-                          >
-                            {item?.fetchMaturity?.maturityLevelName}
-                          </Badge>
-                        </div>
-                      );
-                    })}
+                      {data?.courseData?.map((item) => {
+                        return (
+                          <div className="flex items-center justify-between mb-2">
+                            <Badge
+                              variant="outline"
+                              className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                            >
+                              {item?.fetchPillar?.pillarName}
+                            </Badge>
+                            <Badge
+                              variant="outline"
+                              className={`bg-[${
+                                item?.fetchMaturity?.color
+                              }] p-1 px-3 text-[${
+                                item?.fetchMaturity?.maturityLevelName ===
+                                "Beginning"
+                                  ? "white"
+                                  : "#3A3A3A"
+                              }] text-xs font-Poppins font-normal`}
+                            >
+                              {item?.fetchMaturity?.maturityLevelName}
+                            </Badge>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -233,12 +271,14 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     <Button
                       disabled={data?.status === "PUBLISHED"}
                       className="xl:max-w-[90px] w-[45%] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                      onClick={(e:any) => handlePublish(e, data?.currentVersion?.id as number)}
+                      onClick={(e: any) =>
+                        handlePublish(e, data?.currentVersion?.id as number)
+                      }
                     >
                       PUBLISHED
                     </Button>
                     <Button
-                      onClick={(e:any) =>
+                      onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
                       className="xl:max-w-[90px] w-[45%] xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
@@ -259,17 +299,22 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-30">
                         <DropdownMenuGroup>
-                          <DropdownMenuItem className="flex items-center gap-2 font-nunito" 
-                          onClick={(e:any) => copyPublish(e, currentRecord?.versionId as number)}>
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e: any) =>
+                              copyPublish(e, currentRecord?.versionId as number)
+                            }
+                          >
                             <Copy className="w-4 h-4" />
                             <span>Copy</span>
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={(e:any) =>
-                              {e.preventDefault();
-                                navigate(
-                                `/${pathName}/create_course/${data?.id}?tab=${0}&step=${0}&version=${currentRecord?.versionId?.toString()}`
-                              );}
+                            onClick={(e) =>
+                              handleEdit(
+                                e,
+                                currentRecord?.versionId?.toString(),
+                                data
+                              )
                             }
                             className="flex items-center gap-2 font-nunito"
                           >
@@ -291,9 +336,12 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           );
         })}
       </div>
-      {publishCoursePending || copyCoursePending && <div className="fixed w-full top-0 left-0 h-full z-50 flex justify-center items-center bg-[#00000050]">
-        <Loader className="w-10 h-10 text-primary" />
-      </div>}
+      {publishCoursePending ||
+        (copyCoursePending && (
+          <div className="fixed w-full top-0 left-0 h-full z-50 flex justify-center items-center bg-[#00000050]">
+            <Loader className="w-10 h-10 text-primary" />
+          </div>
+        ))}
     </div>
   );
 };

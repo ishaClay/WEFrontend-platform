@@ -1,10 +1,10 @@
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { getCourseByTrainee } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
 
-const AllCourses = () => {
+const MyCourse = () => {
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
@@ -28,15 +28,12 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
-    refetch: fetchCourseAllCourseRefetch,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse],
-    queryFn: () => fetchCourseAllCourse(searchKeyword),
+    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword }],
+    queryFn: () => getCourseByTrainee(userData?.query?.detailsid),
   });
 
-  useEffect(() => {
-    fetchCourseAllCourseRefetch();
-  }, [searchKeyword]);
+  console.log("fetchCourseAllCourseData", fetchCourseAllCourseData);
 
   return (
     <div>
@@ -45,11 +42,11 @@ const AllCourses = () => {
         <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
           <div className="bg-white">
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
-              Course Management
+              My Course
             </h3>
-            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            {/* <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
               The full list of your courses, in snapshot view
-            </p>
+            </p> */}
           </div>
           {(userData?.query?.role === UserRole.Trainee
             ? userData?.user?.approved
@@ -66,7 +63,7 @@ const AllCourses = () => {
                 }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
-                ADD NEW COURSE
+                Create Course
               </Button>
             </div>
           )}
@@ -111,9 +108,11 @@ const AllCourses = () => {
         </div>
         <div className="px-[18px] pb-[18px]">
           {fetchCourseAllCoursePending ? (
-            <span className="flex justify-center items-center py-10">
-              <Loader2 className="w-5 h-5 animate-spin" />
-            </span>
+            <Loader />
+          ) : fetchCourseAllCourseData?.data?.length === 0 ? (
+            <p className="flex justify-center items-center py-10 text-[18px]">
+              No course
+            </p>
           ) : params === "0" || !params ? (
             <GridView list={fetchCourseAllCourseData?.data || []} />
           ) : (
@@ -125,4 +124,4 @@ const AllCourses = () => {
   );
 };
 
-export default AllCourses;
+export default MyCourse;

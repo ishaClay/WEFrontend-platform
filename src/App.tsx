@@ -7,7 +7,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
+import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
+import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
 import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
@@ -28,7 +30,9 @@ import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup
 import EmployeeCompleted from "./pages/EmployeeCompleted";
 import EmployeeCompletedSecond from "./pages/EmployeeCompletedSecond";
 import EmployeeDashbord from "./pages/EmployeeDashbord";
+import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
 import EmployeeFqs from "./pages/EmployeeFaq";
+import EmployeeInvitation from "./pages/EmployeeInvitation";
 import EmployeeList from "./pages/EmployeeList";
 import EmployeeMsg from "./pages/EmployeeMsg";
 import EmployeePermission from "./pages/EmployeePermission";
@@ -94,6 +98,8 @@ import Assecessment from "./pages/courseManagement/AddAssecessment";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
+import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
@@ -109,13 +115,8 @@ import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
-import { changeTheme } from "./services/apiServices/theme";
-import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
-import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
-import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
-import EmployeeInvitation from "./pages/EmployeeInvitation";
-import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
+import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -716,12 +717,16 @@ function App() {
             path="maturityassessmentroadmap"
             element={<MaturityAssessmentRoadmapAfterbuild />}
           />
-          <Route path="mycourses" element={<CoursesAllCourse />} />
+          <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
+          <Route path="create_course" element={<CourseManagement />} />
+          <Route
+            path="create_course/:courseId"
+            element={<CourseManagement />}
+          />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route path="create_course" element={<CourseManagement />} />
-          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
           {/* <Route path="faqslist" element={<FaqsList />} /> */}

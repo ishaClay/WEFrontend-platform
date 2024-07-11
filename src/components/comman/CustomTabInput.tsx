@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { InputProps } from "../ui/input";
 
 type InputWithLabelProps = InputProps & {
@@ -57,7 +57,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
-        placeholder="Enter email id"
+        placeholder="Enter email and Press Enter"
         className="flex-grow border-none outline-none"
       />
     </div>
