@@ -198,7 +198,7 @@ const ModuleCreationPage = () => {
   useEffect(() => {
     if (moduleList?.length > 0) {
       latestModuleList.current = moduleList; // update ref to latest state
-      if(+courseEditId){
+      if (+courseEditId) {
         handleModulePosition();
       }
       reset({ modules: [] });
@@ -206,7 +206,8 @@ const ModuleCreationPage = () => {
   }, [moduleList]);
 
   const CreateModuleAsync = useMutation({
-    mutationFn: async (data: ModuleCreation) => createModule(data, (courseID || courseEditId)),
+    mutationFn: async (data: ModuleCreation) =>
+      createModule(data, courseID || courseEditId),
   });
 
   const createSectionAsync = useMutation({
@@ -223,7 +224,7 @@ const ModuleCreationPage = () => {
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
     queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
-    enabled: !!courseID ||!!courseEditId,
+    enabled: !!courseID || !!courseEditId,
   });
 
   useEffect(() => {
@@ -350,8 +351,11 @@ const ModuleCreationPage = () => {
             {moduleCreationItem.length !== 0 && (
               <div className="text-right">
                 <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-                {/* {isPending ? <Loader containerClassName="h-auto" /> : "Save"} */}
-                Save
+                  {CreateModuleAsync?.isPending ? (
+                    <Loader containerClassName="h-auto" />
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </div>
             )}

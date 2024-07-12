@@ -120,7 +120,8 @@ const SupportRequestTable = () => {
             to={`ticket-details/${row.original.id}`}
             className="text-[#00778B] cursor-pointer"
           >
-            {row.original.openbyname}
+            {row?.original?.openBy?.name ||
+              row?.original?.openBy?.email?.split("@")[0]}
           </Link>
         );
       },
@@ -216,9 +217,10 @@ const SupportRequestTable = () => {
       },
       cell: ({ row }: any) => {
         return (
-          <Link to={`ticket-details/${row.original.id}`}>
-            {row.original.assigntoname}
-          </Link>
+          <div>
+            {row.original?.assignTo?.name ||
+              row.original.assignTo?.email?.split("@")[0]}
+          </div>
         );
       },
       meta: {

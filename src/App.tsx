@@ -731,7 +731,7 @@ function App() {
           <Route path="certificate" element={<EmployeeList />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
           {/* <Route path="faqslist" element={<FaqsList />} /> */}
-          <Route path="trainingdocument" element={<TrainingDocument />} />
+          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
 
           <Route
@@ -742,9 +742,20 @@ function App() {
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
-          <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
           <Route path="messaging" element={<Messaging />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
+          <Route
+            path="support-request/ticket-details/:id"
+            element={<TicketDetailsReplyPage />}
+          />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
         </Route>
 
         <Route

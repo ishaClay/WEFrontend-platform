@@ -129,7 +129,7 @@ function SupportAddNewTicket() {
         </div>
         <div>
           <button
-            onClick={() => navigate("/company/support-request")}
+            onClick={() => navigate(-1)}
             className="text-[16px] font-[600] flex items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />
@@ -195,6 +195,20 @@ function SupportAddNewTicket() {
                                   --
                                 </span>{" "}
                                 {item?.trainerCompanyDetails?.providerName}
+                              </SelectItem>
+                            )}
+                            {item?.companyDetails && (
+                              <SelectItem
+                                key={item.id}
+                                value={String(item?.id)}
+                              >
+                                <span className="w-[150px] text-neutral-400 inline-block text-left">
+                                  Sme Company
+                                </span>{" "}
+                                <span className="mr-10 text-neutral-400">
+                                  --
+                                </span>{" "}
+                                {item?.companyDetails?.name}
                               </SelectItem>
                             )}
                           </>

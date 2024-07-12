@@ -1,11 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
-import { MoveLeft } from "lucide-react";
-import BasicDetails from "./basicDetails";
 
 const CourseManagement = () => {
   const [currentTab, setCurrentTab] = useState<string>("0");
@@ -20,31 +20,46 @@ const CourseManagement = () => {
   const courseId = +location?.pathname?.split("/")[3];
 
   useEffect(() => {
-    if(paramsTab){
+    if (paramsTab) {
       setCurrentTab(paramsTab);
     }
   }, [paramsTab]);
-  
+
   useEffect(() => {
-    if(+courseId){
-      navigate(`/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`)
-      if(courseId && currentTab === "0"){
-        navigate(`/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`)
-      }else{
-        navigate(`/${pathName}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`)
+    if (+courseId) {
+      navigate(
+        `/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
+      );
+      if (courseId && currentTab === "0") {
+        navigate(
+          `/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
+        );
+      } else {
+        navigate(
+          `/${pathName}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`
+        );
       }
-    } else{
-      if(currentTab === "0"){
-        navigate(`/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`)
-      }else{
-        navigate(`/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`)
+    } else {
+      if (currentTab === "0") {
+        navigate(
+          `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
+        );
+      } else {
+        navigate(
+          `/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`
+        );
       }
     }
   }, [currentTab]);
 
   return (
     <div className="bg-white p-0">
-      <Tabs defaultValue={currentTab} value={currentTab} className="" onValueChange={(e) => setCurrentTab(e)}>
+      <Tabs
+        defaultValue={currentTab}
+        value={currentTab}
+        className=""
+        onValueChange={(e) => setCurrentTab(e)}
+      >
         <div className="border-b flex justify-between items-center">
           <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
             <TabsTrigger
@@ -74,7 +89,7 @@ const CourseManagement = () => {
           </TabsList>
           <div
             className="flex pr-5 cursor-pointer"
-            onClick={() => navigate("/trainer/allcourse")}
+            onClick={() => navigate(-1)}
           >
             <MoveLeft />
             <span className="text-base font-semibold pl-4">Back</span>
