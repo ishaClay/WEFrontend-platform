@@ -29,7 +29,7 @@ import {
 import { fetchTargetAudienceList } from "@/services/apiServices/targetAudience";
 import { uploadFile } from "@/services/apiServices/upload";
 import { ErrorType } from "@/types/Errors";
-import { UserRole } from "@/types/UserRole";
+import { MessageUserRole, UserRole } from "@/types/UserRole";
 import { Client } from "@/types/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -66,24 +66,45 @@ const Compose = () => {
   const { toast } = useToast();
   const [client, setClient] = useState("");
   const [chatMessage, setChatMessage] = useState("");
-  const [isActive, setIsActive] = useState("client");
+  const [selectTab, setSelectTab] = useState<number>(role === UserRole?.Trainer ? 1 : 5);
+  const [isActive, setIsActive] = useState("");
+  const [userRole, setUserRole] = useState<number>(role === UserRole?.Trainer ? 2 : 6);
   const [images, setImages] = useState<string[]>([]);
   const [emailTemplateMessage, setEmailTemplateMessage] = useState("");
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-  const userRole =
-    isActive === "admin"
-      ? UserRole.SuperAdmin
-      : isActive === "company"
-      ? UserRole.Company
-      : UserRole.Trainer;
+  // const userRole =
+  //   isActive === "admin"
+  //     ? UserRole.SuperAdmin
+  //     : isActive === "company"
+  //     ? UserRole.Company ? 
+  //     isActive === "employee" ? 
+  //     UserRole.Employee
+  //     : UserRole.Trainer;
+  // const userRole = 
+  //   role === UserRole.Trainer ? isActive === "admin" : MessageUserRole.Trainer ? role === UserRole.Company ? isActive === "admin"
+  //     ? MessageUserRole.Client : isActive === "company" ? UserRole.Trainee : UserRole.Employee;
+  
+    // useEffect(() => {
+    //   if (role === UserRole?.Trainer) {
+    //     setUserRole(isActive === "admin" ? UserRole?.Client : isActive === "company" ? UserRole?.Company : UserRole?.Employee)
+    //   } else if (role === UserRole?.Company) {
+    //     setUserRole(isActive === "admin" ? UserRole?.Client : isActive === "company" ? UserRole?.Company : UserRole.Employee)
+    //   }
+    // }, [isActive])
 
-  useEffect(() => {
-    if (role === UserRole.Client || role === UserRole.Trainer) {
-      setIsActive("admin");
-    }
-  }, [role]);
+    useEffect(() => {
+      if (role === UserRole?.Trainer) {
+        setSelectTab(isActive === "admin" ? MessageUserRole?.Trainer : isActive === "company" ? MessageUserRole?.Company : MessageUserRole?.Employee)
+        setUserRole(isActive === "admin" ? UserRole?.Client : isActive === "company" ? UserRole?.Company : UserRole?.Employee)
+      } else if (role === UserRole?.Company) {
+        setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "company" ? MessageUserRole?.Company : MessageUserRole.Employee)
+        setUserRole(isActive === "admin" ? UserRole?.Client : isActive === "company" ? UserRole?.Company : UserRole.Employee)
+      }
+    }, [isActive])
 
+    console.log("selectTab", selectTab, isActive);
+  
   const { data: client_list } = useQuery({
     queryKey: [QUERY_KEYS.clientList],
     queryFn: () => fetchClient("1", "100"),
@@ -92,16 +113,21 @@ const Compose = () => {
 
   const { data: targetaudience } = useQuery({
     queryKey: [QUERY_KEYS.emailTemplate, targetAudienceId],
-    queryFn: () => fetchTargetAudienceList("2" as string),
+    queryFn: () => fetchTargetAudienceList("5" as string),
     enabled: true,
   });
 
   
   
-  const { data: emailtemplateList, isPending } = useQuery({
+  const { data: emailtemplateList, isPending, refetch: refetchEmailtemplateList } = useQuery({
     queryKey: [QUERY_KEYS.emailTemplate],
-    queryFn: () => fetchEmails(),
+    queryFn: () => fetchEmails(selectTab),
   });
+
+  useEffect(() => {
+    refetchEmailtemplateList()
+  }, [selectTab])
+  
   
   console.log("targetaudience", targetaudience, emailtemplateList?.data?.data);
   const {
@@ -121,7 +147,7 @@ const Compose = () => {
     getCompanyOrTrainerCompany?.data?.data &&
     Object.keys(getCompanyOrTrainerCompany?.data?.data).length
       ? getCompanyOrTrainerCompany?.data?.data?.filter(
-          (item: any) => +item.role === +userRole
+          (item: any) => +item.role === +selectTab
         )
       : [];
 
@@ -215,18 +241,42 @@ const Compose = () => {
     }
   };
 
+  console.log("rolerole", role);
+  
+
   return (
     <>
       <Card className="border-0 shadow-none rounded-lg bg-white">
         <CardHeader className="px-[20px] py-3 border-b-[#d9d9d9] border-b border-solid">
           <div className="flex items-center justify-between">
             <div>
-              {role === "5" && (
+              {role === 2 && (
+                <>
                 <div
                   className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
-                    isActive === "client" ? "border-[#00778B]" : ""
+                    isActive === "admin" ? "border-[#00778B]" : ""
                   }`}
-                  onClick={() => setIsActive("client")}
+                  onClick={() => setIsActive("admin")}
+                >
+                  <Avatar className="w-[42px] h-[42px]">
+                    <AvatarFallback className="text-white text-xl bg-[#0077A2]">
+                      A
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="ml-3">
+                    <div className="leading-[19.53px] mb-px text-[black]">
+                      Admin
+                    </div>
+                    <div className="text-neutral-400 leading-[15.6px] text-xs">
+                      Admin Name
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
+                    isActive === "company" ? "border-[#00778B]" : ""
+                  }`}
+                  onClick={() => setIsActive("company")}
                 >
                   <Avatar className="w-[42px] h-[42px]">
                     <AvatarFallback className="text-white text-xl bg-[#0077A2]">
@@ -235,15 +285,36 @@ const Compose = () => {
                   </Avatar>
                   <div className="ml-3">
                     <div className="leading-[19.53px] mb-px text-[black]">
-                      Client
+                      SME Company
                     </div>
                     <div className="text-neutral-400 leading-[15.6px] text-xs">
-                      Client Name
+                      SME Company Name
                     </div>
                   </div>
                 </div>
+                <div
+                  className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
+                    isActive === "employee" ? "border-[#00778B]" : ""
+                  }`}
+                  onClick={() => setIsActive("employee")}
+                >
+                  <Avatar className="w-[42px] h-[42px]">
+                    <AvatarFallback className="text-white text-xl bg-[#0077A2]">
+                      E
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="ml-3">
+                    <div className="leading-[19.53px] mb-px text-[black]">
+                      Employee
+                    </div>
+                    <div className="text-neutral-400 leading-[15.6px] text-xs">
+                      Employee Name
+                    </div>
+                  </div>
+                </div>
+                </>
               )}
-              {role !== "6" && (
+              {role === 1 && (
                 <div>
                   <div
                     className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
@@ -287,21 +358,21 @@ const Compose = () => {
                   </div>
                   <div
                     className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
-                      isActive === "trainer" ? "border-[#00778B]" : ""
+                      isActive === "employee" ? "border-[#00778B]" : ""
                     }`}
-                    onClick={() => setIsActive("trainer")}
+                    onClick={() => setIsActive("employee")}
                   >
                     <Avatar className="w-[42px] h-[42px]">
                       <AvatarFallback className="text-white text-xl bg-[#0077A2]">
-                        TC
+                        E
                       </AvatarFallback>
                     </Avatar>
                     <div className="ml-3">
                       <div className="leading-[19.53px] mb-px text-[black]">
-                        Trainer company
+                        Employee
                       </div>
                       <div className="text-neutral-400 leading-[15.6px] text-xs">
-                        Trainer company Name
+                        Employee Name
                       </div>
                     </div>
                   </div>
@@ -389,7 +460,7 @@ const Compose = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {isActive === "admin" ||
+                  {/* {isActive === "admin" ||
                     isActive === "company" ||
                     isActive === "trainer" &&
                       targetaudience?.data?.data?.map((item: any) => {
@@ -400,10 +471,9 @@ const Compose = () => {
                             {item?.name}
                           </SelectItem>
                         );
-                      })}
+                      })} */}
 
-                  {isActive === "client" &&
-                    role == UserRole.SuperAdmin &&
+                  {
                     emailtemplateList?.data.data.map((item: any) => {
                       console.log("itemitem+++", item);
                       return (
@@ -430,7 +500,7 @@ const Compose = () => {
                   placeholder="Enter message"
                   {...register("message")}
                   // onChange={(e) => setChatMessage(e.target.value)}
-                  value={emailTemplateMessage}
+                  defaultValue={emailTemplateMessage}
                 />
                 {!errors?.message?.ref?.value && (
                   <ErrorMessage message={errors.message?.message as string} />

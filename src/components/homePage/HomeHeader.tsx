@@ -11,6 +11,8 @@ import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
 import main_logo from "@/assets/images/logo.png";
 import vector from "@/assets/images/Vector_menu.png";
+import ClickAwayListener from "react-click-away-listener";
+
 interface headerProps {
   hasDiffHeader?: boolean;
 }
@@ -68,7 +70,7 @@ function HomeHeader(props: headerProps) {
 
   return (
     // Note : This below code is for backup
-    <div className=" sticky top-0 h-full z-[999] lg:shadow-none shadow-md bg-white">
+    <div className=" sticky top-0 h-full z-[9999] lg:shadow-none shadow-md bg-white">
       <header
         className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
           props.hasDiffHeader ? "mx-7" : ""
@@ -154,18 +156,24 @@ function HomeHeader(props: headerProps) {
                 src={main_logo}
               />
             </div>
-            <div className="">
-              <Button
-                onClick={() => setOpen(!open)}
-                type="button"
-                className="bg-transparent text-black p-0"
-              >
-                <Menu />
-              </Button>
-              {open && (
-                <div className="z-50 absolute bg-white w-full sm:bottom-[-260px] bottom-[-320px]  right-0 rounded-xl">
-                  <div className="px-7 py-5">
-                    <ul className="flex flex-col gap-2 mb-[14px]">
+            <ClickAwayListener onClickAway={() => setOpen(false)}>
+              <div className="">
+                <Button
+                  onClick={() => setOpen(!open)}
+                  type="button"
+                  className="bg-transparent text-black p-0"
+                >
+                  <Menu />
+                </Button>
+                <div
+                  className={`z-50 absolute bg-white w-full min-h-[269px] h-full ${
+                    open
+                      ? "bottom-[-310px] visible opacity-100"
+                      : "bottom-[-350px] invisible opacity-0"
+                  }  duration-500 ease-in-out right-0 rounded-xl`}
+                >
+                  <div className="px-7 py-5 flex items-center justify-between flex-col w-full h-full">
+                    <ul className="flex flex-col gap-2 mb-[14px] w-full">
                       <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
                         <span className="cursor-pointer">Our Courses</span>
                         <img src={vector} alt="icon" />
@@ -179,7 +187,7 @@ function HomeHeader(props: headerProps) {
                         {/* <img src={vector} alt="icon" /> */}
                       </li>
                     </ul>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 w-full">
                       <div className="font-bold text-lg text-color">
                         {userData ? (
                           <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
@@ -218,8 +226,8 @@ function HomeHeader(props: headerProps) {
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            </ClickAwayListener>
           </div>
         </div>
         <Loading isLoading={isPending} />

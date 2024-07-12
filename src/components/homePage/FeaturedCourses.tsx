@@ -67,8 +67,8 @@ const FeaturedCourses = () => {
             {title || "Featured Courses"}
           </h5>
         </div>
-        <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 gap-10">
-          <div className="md:block hidden relative">
+        <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
+          <div className="relative">
             <img
               className="w-[332px] h-[357px]"
               src="../assets/img/Group 1000001820.png"

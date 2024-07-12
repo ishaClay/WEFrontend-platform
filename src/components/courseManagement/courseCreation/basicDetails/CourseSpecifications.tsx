@@ -59,11 +59,11 @@ const CourseSpecifications = () => {
     queryFn: fetchNfqlLevel,
   });
 
-  const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+  const { data: getSingleCourse } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
-  })
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -107,14 +107,19 @@ const CourseSpecifications = () => {
       };
     });
 
-
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
-      const data:CourseData | any = getSingleCourse?.data?.course;
+      const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
-        setValue("nfqLeval", getSingleCourse?.data?.course?.nfqLeval?.id.toString());
-        setValue("certificate", getSingleCourse?.data?.course?.certificate?.id?.toString());
+        setValue(
+          "nfqLeval",
+          getSingleCourse?.data?.course?.nfqLeval?.id.toString()
+        );
+        setValue(
+          "certificate",
+          getSingleCourse?.data?.course?.certificate?.id?.toString()
+        );
       });
     }
   }, [getSingleCourse]);
@@ -156,7 +161,7 @@ const CourseSpecifications = () => {
       updateCourseFun({
         payload,
         id: +courseId,
-        version: getSingleCourse?.data?.version
+        version: getSingleCourse?.data?.version,
       });
     } else {
       mutate({
@@ -221,7 +226,11 @@ const CourseSpecifications = () => {
             type="submit"
             className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
           >
-            {isPending || isUpdatePending ? <Loader containerClassName="max-h-auto" /> : "Next"}
+            {isPending || isUpdatePending ? (
+              <Loader containerClassName="max-h-auto" />
+            ) : (
+              "Next"
+            )}
           </Button>
         </div>
       </form>

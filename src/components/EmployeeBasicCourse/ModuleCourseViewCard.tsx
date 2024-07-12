@@ -1,11 +1,11 @@
-import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
-import ModuleVideoPlay from "@/assets/images/video-play.png";
 import modulePdfFile from "@/assets/images/pdf-file.png";
+import ModuleVideoPlay from "@/assets/images/video-play.png";
 import moduleZoomVideo from "@/assets/images/zoom-video.png";
+import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
 
-const ModuleCourseViewCard = ({data} : any) => {
-  console.log("data+++data", data);
-  
+const ModuleCourseViewCard = ({ data }: any) => {
+  console.log("data+++data", data?.moduleSections);
+
   const moduleCourseCardList = [
     {
       image: ModuleVideoPlay,
@@ -45,12 +45,14 @@ const ModuleCourseViewCard = ({data} : any) => {
     },
   ];
   console.log("moduleCourseCardList", moduleCourseCardList);
-  
+
   return (
     <div>
-      {data?.moduleSections?.map((data:any, index:number) => {
-        return <ModuleCourseViewCardItems key={index} list={data} />;
-      })}
+      {data?.moduleSections
+        .sort((a: any, b: any) => a.position - b.position)
+        ?.map((data: any, index: number) => {
+          return <ModuleCourseViewCardItems key={index} list={data} />;
+        })}
     </div>
   );
 };

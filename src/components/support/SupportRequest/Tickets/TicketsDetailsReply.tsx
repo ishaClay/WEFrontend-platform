@@ -16,7 +16,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   fetchAssignTo,
-  fetchOneSupportTicket,
   getSingleSupportTicket,
   updateSupportTicket,
 } from "@/services/apiServices/supportRequestServices";
@@ -36,7 +35,7 @@ const TicketsDetailsReply = () => {
   const { clientId } = useSelector((state: any) => state?.user);
   const { data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.courseTopFive, id],
-    queryFn: () => fetchOneSupportTicket(id as string),
+    queryFn: () => getSingleSupportTicket(id as string),
   });
   console.log("id", id);
 
@@ -51,11 +50,12 @@ const TicketsDetailsReply = () => {
     queryFn: () => fetchAssignTo(clientId as string),
   });
 
-  const { data: fetchSingleSupportTicket, refetch: refetchSingleSupport } =
-    useQuery({
-      queryKey: [QUERY_KEYS.getSingleSupportTicket],
-      queryFn: () => getSingleSupportTicket(id as string),
-    });
+  const { data: fetchSingleSupportTicket } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleSupportTicket, { id }],
+    queryFn: () => getSingleSupportTicket(id as string),
+  });
+
+  console.log("fetchSingleSupportTicket", fetchSingleSupportTicket);
 
   const schema = z.object({
     assignTo: z.string({ required_error: "Assign To is required" }),
@@ -71,6 +71,7 @@ const TicketsDetailsReply = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -85,23 +86,11 @@ const TicketsDetailsReply = () => {
       "ticketStatus",
       String(fetchSingleSupportTicket?.data.data?.status)
     );
-    setValue(
-      "details",
-      String(
-        fetchSingleSupportTicket?.data.data?.reply
-          ? fetchSingleSupportTicket?.data.data?.reply
-          : ""
-      )
-    );
     setSelectAssingValue(fetchSingleSupportTicket?.data.data?.assignTo.id);
     setSelectTicketStatus(String(fetchSingleSupportTicket?.data.data?.status));
-  }, [clientId, fetchSingleSupportTicket]);
+  }, [clientId, fetchSingleSupportTicket, setValue]);
 
-  useEffect(() => {
-    refetchSingleSupport();
-  }, [clientId]);
-
-  const { mutate: updateTicket } = useMutation({
+  const { mutate: updateTicket, isPending: updatePanding } = useMutation({
     mutationFn: (e: any) => updateSupportTicket(e),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -111,7 +100,8 @@ const TicketsDetailsReply = () => {
         variant: "default",
         title: "Ticket Updated Successfully",
       });
-      navegate("/support-request");
+      navegate(-1);
+      reset();
     },
   });
 
@@ -164,7 +154,7 @@ const TicketsDetailsReply = () => {
       <div className="pl-[20px] p-[28px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between">
-            <div className="flex gap-[11px]">
+            <div className="flex items-center gap-[11px]">
               <Avatar className="w-[32px] h-[32px]">
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>
@@ -173,7 +163,8 @@ const TicketsDetailsReply = () => {
               </Avatar>
               <div>
                 <h3 className="text-[16px]">
-                  {data?.data?.data?.openBy?.name}
+                  {data?.data?.data?.openBy?.name ||
+                    data?.data?.data?.email?.split("@")[0]}
                 </h3>
                 <p className="text-[#A3A3A3] text-[12px]">
                   Provider Type: {""}
@@ -226,11 +217,15 @@ const TicketsDetailsReply = () => {
             </div>
           </div>
 
-          <div className="max-w-full h-[320px] border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
-            <p className="text-[#A3A3A3] text-[16px] ">Ticket Subject</p>
-            <h3 className="text-[16px] mt-[9px]">
-              How to customize the template?
-            </h3>
+          <div className="max-w-full border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
+            {data?.data.data?.subject && (
+              <>
+                <p className="text-[#A3A3A3] text-[16px] ">Ticket Subject</p>
+                <h3 className="text-[16px] mt-[9px]">
+                  {data?.data.data?.subject}
+                </h3>
+              </>
+            )}
             <p className="text-[#A3A3A3] text-[16px] mt-[18px]">
               Ticket Details
             </p>
@@ -238,19 +233,21 @@ const TicketsDetailsReply = () => {
               {data?.data.data?.description}
             </h3>
 
-            <div className="flex items-center mt-[32px]">
-              <img src={documentIcon} />
-              <h3 className="text-[16px] ml-2">
-                {data?.data.data?.documentUrl}
-              </h3>
-              <Button
-                type="button"
-                onClick={handleDownload}
-                className="ml-[22px]"
-              >
-                DOWNLOAD
-              </Button>
-            </div>
+            {data?.data.data?.documentUrl && data?.data.data?.videoUrl && (
+              <div className="flex items-center mt-[32px]">
+                <img src={documentIcon} />
+                <h3 className="text-[16px] ml-2">
+                  {data?.data.data?.documentUrl}
+                </h3>
+                <Button
+                  type="button"
+                  onClick={handleDownload}
+                  className="ml-[22px]"
+                >
+                  DOWNLOAD
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-[36px] mt-[29px]">
@@ -336,6 +333,7 @@ const TicketsDetailsReply = () => {
               type="submit"
               variant="secondary"
               className="w-[120px] h-[48px]"
+              isLoading={updatePanding}
             >
               Submit
             </Button>

@@ -6,3 +6,13 @@ export enum UserRole {
   SuperAdmin = 5,
   Client = 6,
 }
+
+
+export enum MessageUserRole {
+  Trainer = 1,
+  Trainee = 2,
+  Company = 3,
+  Employee = 4,
+  Client = 5,
+  All = 6,
+}
