@@ -65,6 +65,7 @@ export const QUERY_KEYS = {
   itemHistory: "itemHistory",
   getEmployeeList: "getEmployeeList",
   employeeDetails: "employeeDetails",
+  userDetails: "userDetails"
 };
 
 export const urlRegex =

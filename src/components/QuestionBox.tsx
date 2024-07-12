@@ -77,7 +77,7 @@ const QuestionBox = ({
   return (
     <div
       className={cn(
-        `relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] xl:w-[773px] max-w-full mb-12 overflow-hidden`
+        `relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] xl:w-[773px] max-w-full sm:mb-12 overflow-hidden`
       )}
       key={index}
     >

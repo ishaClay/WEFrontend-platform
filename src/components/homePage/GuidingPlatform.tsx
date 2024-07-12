@@ -89,10 +89,10 @@ const GuidingPlatform = () => {
           </div>
         </div>
         <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px]  text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] lg:mt-0 mt-6">
-          <div>
+          <p className="leading-[normal]">
             Find Out Your
             <br /> Sustainability Score
-          </div>
+          </p>
           <div>
             <img className="" src="../assets/img/Move Right Dark.png" />
           </div>

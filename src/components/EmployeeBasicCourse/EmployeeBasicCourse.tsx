@@ -79,7 +79,7 @@ const EmployeeBasicCourse = () => {
                   </TabsTrigger>
                 </div>
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
-                  {pathName !== "trainer" && (
+                  {pathName !== "trainer" && pathName !== "trainee" && (
                     <Popover>
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
                         Modules Completed - 1/5 <ChevronDown width={18} />

@@ -29,14 +29,10 @@ import {
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
-import {
-  FilteredOptionsEntity,
-  MeasuresItemsResponse,
-  SinglePillar,
-} from "@/types/Pillar";
+import { MeasuresItemsResponse, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dot, Plus } from "lucide-react";
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect, useMemo, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -54,6 +50,7 @@ const SetTarget = ({
   const [open, setOpen] = useState(false);
   const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
+  const [pillerItemsBackup, setPillerItemsBackup] = useState<PillerItem>({});
   const [view, setView] = useState<{ id: number; view: number }[] | null>(null);
   console.log("actionItems", pillerItems);
 
@@ -143,12 +140,27 @@ const SetTarget = ({
           }))) || [""],
       } as any);
     }
+    if (maturitypillar?.data?.data?.length > 0) {
+      maturitypillar?.data?.data?.map((item: any) => {
+        const oldData = Object.keys(pillerItems);
+        if (!oldData.includes(item?.pillarname)) {
+          return setPillerItemsBackup((prev) => ({
+            ...prev,
+            [item.pillarname]: [""],
+          }));
+        }
+        return;
+      });
+    }
   }, [getActionItems, currentPiller]);
 
-  console.log("getActionItemsgetActionItemsgetActionItems", pillerItems);
+  console.log("getActionItemsgetActionItemsgetActionItems", view);
 
   const { data: filtermesuresdata, isLoading: measuresPending } = useQuery({
-    queryKey: [QUERY_KEYS.filterMaturityMeasures, { selectmaturity, pid }],
+    queryKey: [
+      QUERY_KEYS.filterMaturityMeasures,
+      { selectmaturity, pid, userID, clientId },
+    ],
     queryFn: () =>
       filterMaturityMeasures(
         clientId as string,
@@ -156,7 +168,7 @@ const SetTarget = ({
         selectmaturity as any,
         pid as string
       ),
-    enabled: !!selectmaturity && !!pid,
+    enabled: !!selectmaturity || !!pid,
   });
 
   console.log("isPending", measuresPending);
@@ -192,7 +204,7 @@ const SetTarget = ({
 
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
-      updatePillarCheckbox(data.checked, data.id as string),
+      updatePillarCheckbox(data.checked, data.id as string, userID),
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
@@ -207,6 +219,15 @@ const SetTarget = ({
     currentPiller: string
   ) => {
     setPillerItems((prev) => ({
+      ...prev,
+      [currentPiller]: prev[currentPiller].map((item: string, i: number) => {
+        if (i === index) {
+          return value;
+        }
+        return item;
+      }),
+    }));
+    setPillerItemsBackup((prev) => ({
       ...prev,
       [currentPiller]: prev[currentPiller].map((item: string, i: number) => {
         if (i === index) {
@@ -238,6 +259,7 @@ const SetTarget = ({
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.measuresItems],
       });
+
       handleClose();
     },
     onError: (error: ErrorType) => {
@@ -258,6 +280,13 @@ const SetTarget = ({
           }),
         } as PillerItem)
     );
+    setPillerItemsBackup((prev) => ({
+      ...prev,
+      [currentPiller]: prev[currentPiller].filter((item, i) => {
+        console.log(item);
+        return i !== index;
+      }),
+    }));
   };
 
   const handleSubmit = async (
@@ -276,13 +305,31 @@ const SetTarget = ({
       }
     });
 
-    console.log("measures", measures);
-
     createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
-  const filteredOptions: FilteredOptionsEntity[] | any =
-    actionItems?.filteredOptions;
+  const handleDisabledButton = useMemo(() => {
+    if (pillerItemsBackup && pillars) {
+      const fetchData = pillars?.map((item: any) => {
+        if (item?.checked === 1) {
+          return pillerItemsBackup[item?.pillarname]?.filter(
+            (item: string) => item !== ""
+          )?.length > 0
+            ? false
+            : true;
+        }
+        return false;
+      });
+
+      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
+      return !checkPiller
+        ? fetchData?.filter((item: boolean) => item === true).length === 0
+        : !checkPiller;
+    }
+  }, [pillars, pillerItemsBackup]);
+
+  console.log("measures", pillerItemsBackup);
+
   return (
     <div>
       <Modal
@@ -334,18 +381,22 @@ const SetTarget = ({
                     <ScrollArea className="h-[250px]">
                       <div className="md::p-4 p-3">
                         <ul className="list-inside">
-                          {filteredOptions?.map((m: any) => {
-                            if (m.measures) {
-                              return (
-                                <li className="mb-2 grid grid-cols-12">
-                                  <Dot className=" block me-2 col-span-1" />
-                                  <span className="sm:text-base text-sm font-abhaya font-semibold col-span-11">
-                                    {m.measures}
-                                  </span>
-                                </li>
-                              );
-                            }
-                          })}
+                          {filtermesuresdata?.data?.data &&
+                            filtermesuresdata?.data?.data.map(
+                              (m: any, index: number) =>
+                                m?.filteredOptions?.map(
+                                  (measures: any, subIndex: number) =>
+                                    measures?.measures && (
+                                      <li
+                                        key={`item-${index}-${subIndex}`}
+                                        className=""
+                                      >
+                                        <Dot className=" block me-2 col-span-1" />
+                                        {measures?.measures}
+                                      </li>
+                                    )
+                                )
+                            )}
                         </ul>
                       </div>
                     </ScrollArea>
@@ -534,10 +585,10 @@ const SetTarget = ({
                           <SelectItem value="Introductory">
                             Introductory
                           </SelectItem>
-                          <SelectItem value="Intermediate">
-                            Intermediate
+                          <SelectItem value="Intermedieate">
+                            Intermedieate
                           </SelectItem>
-                          <SelectItem value="Advance">Advance</SelectItem>
+                          <SelectItem value="Advanced">Advanced</SelectItem>
                         </SelectContent>
                       </Select>
                       {/* <SelectMenu
@@ -562,28 +613,29 @@ const SetTarget = ({
                         <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-calibri">
                           {pid === item?.pillarid
                             ? filtermesuresdata?.data?.data &&
-                              filtermesuresdata?.data?.data
-                                ?.slice(
-                                  0,
-                                  view &&
-                                    view.find((it) => it.id === item.pillarid)
-                                      ?.view !== 0
-                                    ? 2
-                                    : filtermesuresdata?.data?.data?.length
-                                )
-                                .map((m: any, index: number) =>
-                                  m?.filteredOptions?.map(
-                                    (measures: any, subIndex: number) =>
-                                      measures?.measures && (
-                                        <li
-                                          key={`item-${index}-${subIndex}`}
-                                          className=""
-                                        >
-                                          {measures?.measures}
-                                        </li>
-                                      )
-                                  )
-                                )
+                              filtermesuresdata?.data?.data.map(
+                                (m: any, index: number) =>
+                                  m?.filteredOptions
+                                    ?.slice(
+                                      0,
+                                      view &&
+                                        view.find((it) => it.id === m.pillarid)
+                                          ?.view !== 0
+                                        ? 2
+                                        : m?.filteredOptions?.length
+                                    )
+                                    ?.map(
+                                      (measures: any, subIndex: number) =>
+                                        measures?.measures && (
+                                          <li
+                                            key={`item-${index}-${subIndex}`}
+                                            className=""
+                                          >
+                                            {measures?.measures}
+                                          </li>
+                                        )
+                                    )
+                              )
                             : item?.filteredOptions
                                 ?.slice(
                                   0,
@@ -639,6 +691,7 @@ const SetTarget = ({
 
         <div className="text-center">
           <Button
+            disabled={handleDisabledButton}
             onClick={handleSelect}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[200px] h-12"
           >

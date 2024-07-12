@@ -1,14 +1,11 @@
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import SpeedImage from "@/assets/images/Speed.png";
-import GraduationCapImage from "@/assets/images/Graduationcap.png";
 import ClockImage from "@/assets/images/Clock.png";
+import GraduationCapImage from "@/assets/images/Graduationcap.png";
 import InternetImage from "@/assets/images/Internet.png";
+import SpeedImage from "@/assets/images/Speed.png";
 import TimesheetImage from "@/assets/images/Timesheet.png";
 import UniversityImage from "@/assets/images/University.png";
-import { useState } from "react";
-import Modal from "../comman/Modal";
-import ModalTabs from "./ModalTab/ModalTabs";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 type myPagesListProps = {
   grid: {
@@ -18,18 +15,8 @@ type myPagesListProps = {
 };
 
 const MyCourseGrid = ({ grid }: myPagesListProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="lg:max-w-[610px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
-        header="Settings"
-        titleClassName="font-nunito text-xl text-black font-bold"
-      >
-        <ModalTabs />
-      </Modal>
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
           <img
@@ -38,10 +25,7 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
             className="sm:h-[231px] h-[180px] object-cover w-full"
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
-            <Button
-              className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]"
-              onClick={() => setIsOpen(true)}
-            >
+            <Button className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]">
               Continue
             </Button>
           </div>

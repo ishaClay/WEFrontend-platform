@@ -21,6 +21,7 @@ import Header from "@/components/Header";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppSelector } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
@@ -49,7 +50,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import MasurIcon from "../assets/images/menu_icon.png";
 import Correct from "/assets/img/Correct.png";
-import HomeFooter from "@/components/homePage/HomeFooter";
 
 interface PillerItem {
   [key: string]:
@@ -208,7 +208,7 @@ function SelectLevel() {
 
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
-      updatePillarCheckbox(data.checked, data.id as string),
+      updatePillarCheckbox(data.checked, data.id as string, userID),
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",

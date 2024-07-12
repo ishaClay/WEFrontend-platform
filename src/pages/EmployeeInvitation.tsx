@@ -50,7 +50,7 @@ const EmployeeInvitation = () => {
       setEmails([]);
       setFile("");
       navigate("/company/employeelist");
-      toast({ title: "Invition Send Successfully", variant: "success" });
+      toast({ title: "Invitation sent successfully", variant: "success" });
     },
     onError: (error) => {
       toast({

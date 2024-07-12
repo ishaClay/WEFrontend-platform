@@ -1,24 +1,30 @@
+import delet from "@/assets/images/delet.svg";
+import Loader from "@/components/comman/Loader";
+import { NewDataTable } from "@/components/comman/NewDataTable";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getMemberlist } from "@/services/apiServices/member";
+import { EmployeeEntity } from "@/types/Invition";
+import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
-import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
-import { Input } from "@/components/ui/input";
-import { NewDataTable } from "@/components/comman/NewDataTable";
-import { useState, ChangeEvent } from "react";
-import searchIcon from "/assets/icons/search.svg";
-import delet from "@/assets/images/delet.svg";
+import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { EmployeeEntity } from "@/types/Invition";
-import Loader from "@/components/comman/Loader";
+import searchIcon from "/assets/icons/search.svg";
 
 // import { useSelector } from "react-redux";
 
 function CoursesAllocate() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  // const { UserId } = useSelector((state: any) => state.user);
+  const { CompanyId } = useAppSelector((state: any) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const companyId = CompanyId
+    ? CompanyId
+    : userData?.query && userData?.query?.id;
   const navigate = useNavigate();
 
   const column: ColumnDef<EmployeeEntity>[] = [
@@ -83,14 +89,16 @@ function CoursesAllocate() {
       },
       cell: ({ row }) => {
         return (
-          <div className="font-bold px-3">
-            <div className="p-1 rounded-full">
-              <img
-                src={row.original.profileImage}
-                alt=""
-                className="object-cover"
-              />
-            </div>
+          <div className="flex items-center font-bold px-3">
+            <Avatar>
+              <AvatarImage src={row.original.profileImage} alt="Img" />
+              <AvatarFallback>
+                {row?.original?.name
+                  ? // @ts-ignore
+                    row?.original?.name?.charAt(0)
+                  : row.original.email?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
             <p className={`font-bold px-3`}>{row.original.name}</p>
           </div>
         );
@@ -229,10 +237,12 @@ function CoursesAllocate() {
                 ? "bg-[#58BA66]"
                 : row.original.employeeStatus === "Inactive"
                 ? "bg-[#FF5252]"
-                : "text-white"
+                : "bg-[#FFD56A] text-white"
             }  font-normal w-[80px] h-[32px] text-sm font-inter leading-8 rounded-md text-center text-white`}
           >
-            {row.original.employeeStatus}
+            {row.original.employeeStatus === "IsNew"
+              ? "Pending"
+              : row.original.employeeStatus}
           </p>
         );
       },
@@ -254,9 +264,8 @@ function CoursesAllocate() {
   ];
   const { data, isPending: employeDataPending } = useQuery({
     queryKey: [QUERY_KEYS.MemberList, { page, search }],
-    queryFn: () => getMemberlist(page.toString(), "10", 435, search),
+    queryFn: () => getMemberlist(page.toString(), "10", companyId, search),
   });
-  console.log(data, "column===");
 
   return (
     <div className="bg-[#f5f3ff]">

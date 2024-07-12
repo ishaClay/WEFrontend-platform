@@ -1,40 +1,40 @@
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { setActivePillar } from "@/redux/reducer/QuestionReducer";
 import { QuestionType } from "@/types/Question";
 import { Dispatch, SetStateAction } from "react";
 import QuestionBox from "../QuestionBox";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../ui/carousel";
+import { Button } from "../ui/button";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 
 const Question = ({
   setIsLoading,
+  handleSelected,
 }: {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  handleSelected: (value: string) => void;
 }) => {
   const question = useAppSelector((state) => state.question);
-
-  const { activePillar } = useAppSelector((state) => state.question);
+  const dispatch = useAppDispatch();
+  const { activePillar, allPillar } = useAppSelector((state) => state.question);
 
   console.log("question", question);
 
-  // const { mutate: removeanswer } = useMutation({
-  //   mutationFn: (question) => removeAnswer(question),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: [QUERY_KEYS.getQuestionAnswer],
-  //     });
-  //   },
-  //   onError: (error: ErrorType) => {
-  //     toast({
-  //       variant: "destructive",
-  //       title: error.data.message,
-  //     });
-  //   },
-  // });
+  const handlePrev = () => {
+    const currentIndex = allPillar.indexOf(activePillar);
+    if (currentIndex > 0) {
+      const prevPillar = allPillar[currentIndex - 1];
+      handleSelected(prevPillar);
+      dispatch(setActivePillar(prevPillar));
+    }
+  };
+  const handleNext = () => {
+    const currentIndex = allPillar.indexOf(activePillar);
+    if (currentIndex < allPillar.length - 1) {
+      const nextPillar = allPillar[currentIndex + 1];
+      handleSelected(nextPillar);
+      dispatch(setActivePillar(nextPillar));
+    }
+  };
 
   return (
     <>
@@ -62,9 +62,27 @@ const Question = ({
                 );
               })}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          {/* <CarouselPrevious />
+          <CarouselNext /> */}
         </Carousel>
+      </div>
+      <div className="w-full mb-[18px] gap-2 flex justify-center">
+        <Button
+          // variant={"outline"}
+          type="button"
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+          onClick={handlePrev}
+        >
+          Prev
+        </Button>
+        <Button
+          type="button"
+          // variant={"outline"}
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
       </div>
     </>
   );

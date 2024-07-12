@@ -12,6 +12,7 @@ import {
   getAllassessment,
 } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
@@ -81,6 +82,13 @@ const MaturityLevelPage = () => {
       localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
+
+  const { data: fetchClientmaturitylevel } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+    queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+  });
+
+  console.log("fetchClientmaturitylevel", fetchClientmaturitylevel);
 
   const handleMaturity = () => {
     EnumUpadate(path);
@@ -300,36 +308,40 @@ const MaturityLevelPage = () => {
                         : 0;
                     return (
                       <>
-                        {+persantage < 40 && (
-                          <Button
-                            type="button"
-                            variant={"ghost"}
-                            className="h-auto p-0 bg-white hover:bg-transparent"
-                            key={item.pillarid}
-                            onClick={() => {
-                              setIsOpen(item.pillarid);
-                              setPillerName(item.pillarname);
-                            }}
-                          >
-                            <div className="flex flex-wrap lg:gap-5 gap-4">
-                              <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                                <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                                  <img
-                                    src={getImages(item.pillarname)}
-                                    alt="img"
-                                    className=""
-                                  />
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            fetchClientmaturitylevel?.data[0]?.rangeStart &&
+                          +persantage <=
+                            fetchClientmaturitylevel?.data[0]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
+                                  </div>
+                                  <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                    {persantage}%
+                                  </span>
                                 </div>
-                                <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
-                                  {item.pillarname}
-                                </h4>
-                                <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                  {persantage}%
-                                </span>
                               </div>
-                            </div>
-                          </Button>
-                        )}
+                            </Button>
+                          )}
                       </>
                     );
                   })}
@@ -356,36 +368,40 @@ const MaturityLevelPage = () => {
                         : 0;
                     return (
                       <>
-                        {+persantage >= 40 && +persantage < 70 && (
-                          <Button
-                            type="button"
-                            variant={"ghost"}
-                            className="h-auto p-0 bg-white hover:bg-transparent"
-                            key={item.pillarid}
-                            onClick={() => {
-                              setIsOpen(item.pillarid);
-                              setPillerName(item.pillarname);
-                            }}
-                          >
-                            <div className="flex flex-wrap lg:gap-5 gap-4">
-                              <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                                <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
-                                  <img
-                                    src={getImages(item.pillarname)}
-                                    alt="img"
-                                    className=""
-                                  />
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            fetchClientmaturitylevel?.data[1]?.rangeStart &&
+                          +persantage <=
+                            fetchClientmaturitylevel?.data[1]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
+                                  </div>
+                                  <h4 className="mt-3 md:text-base text-xs pb-2 font-abhaya">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                    {persantage}%
+                                  </span>
                                 </div>
-                                <h4 className="mt-3 md:text-base text-xs pb-2 font-abhaya">
-                                  {item.pillarname}
-                                </h4>
-                                <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
-                                  {persantage}%
-                                </span>
                               </div>
-                            </div>
-                          </Button>
-                        )}
+                            </Button>
+                          )}
                       </>
                     );
                   })}
@@ -411,36 +427,40 @@ const MaturityLevelPage = () => {
                         : 0;
                     return (
                       <>
-                        {+persantage >= 70 && (
-                          <Button
-                            type="button"
-                            variant={"ghost"}
-                            className="h-auto p-0 bg-white hover:bg-transparent"
-                            key={item.pillarid}
-                            onClick={() => {
-                              setIsOpen(item.pillarid);
-                              setPillerName(item.pillarname);
-                            }}
-                          >
-                            <div className="flex flex-wrap lg:gap-5 gap-4">
-                              <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                                <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                                  <img
-                                    src={getImages(item.pillarname)}
-                                    alt="img"
-                                    className=""
-                                  />
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            fetchClientmaturitylevel?.data[2]?.rangeStart &&
+                          +persantage <=
+                            fetchClientmaturitylevel?.data[2]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
+                                  </div>
+                                  <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                    {persantage}%
+                                  </span>
                                 </div>
-                                <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
-                                  {item.pillarname}
-                                </h4>
-                                <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
-                                  {persantage}%
-                                </span>
                               </div>
-                            </div>
-                          </Button>
-                        )}
+                            </Button>
+                          )}
                       </>
                     );
                   })}
