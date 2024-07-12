@@ -29,9 +29,9 @@ import {
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
-import { MeasuresItemsResponse, SinglePillar } from "@/types/Pillar";
+import { FilteredOptionsEntity, MeasuresItemsResponse, SinglePillar } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Dot, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Dispatch, useEffect, useMemo, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
@@ -52,7 +52,8 @@ const SetTarget = ({
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
   const [pillerItemsBackup, setPillerItemsBackup] = useState<PillerItem>({});
   const [view, setView] = useState<{ id: number; view: number }[] | null>(null);
-  console.log("actionItems", pillerItems);
+  const [measuresList, setMeasuresList] = useState<FilteredOptionsEntity[]>([])
+  console.log("actionItems", pillerItems, measuresList);
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>("");
@@ -204,7 +205,7 @@ const SetTarget = ({
 
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
-      updatePillarCheckbox(data.checked, data.id as string, userID),
+      updatePillarCheckbox(data.checked, data.id as string, UserId as string),
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
@@ -244,7 +245,7 @@ const SetTarget = ({
     setselectMaturity(e);
     if (p_id !== null) {
       setPId(p_id);
-    }
+    }    
   };
 
   const handleClose = async () => {
@@ -329,6 +330,9 @@ const SetTarget = ({
   }, [pillars, pillerItemsBackup]);
 
   console.log("measures", pillerItemsBackup);
+  console.log("filtermesuresdata?.data?.data", pillars?.filter((item:any) => item?.checked === 1)?.length > 0);
+  console.log("setMeasuresList", pid);
+  
 
   return (
     <div>
@@ -380,23 +384,20 @@ const SetTarget = ({
                     </div>
                     <ScrollArea className="h-[250px]">
                       <div className="md::p-4 p-3">
-                        <ul className="list-inside">
-                          {filtermesuresdata?.data?.data &&
-                            filtermesuresdata?.data?.data.map(
-                              (m: any, index: number) =>
-                                m?.filteredOptions?.map(
-                                  (measures: any, subIndex: number) =>
-                                    measures?.measures && (
-                                      <li
-                                        key={`item-${index}-${subIndex}`}
-                                        className=""
-                                      >
-                                        <Dot className=" block me-2 col-span-1" />
-                                        {measures?.measures}
-                                      </li>
-                                    )
-                                )
-                            )}
+                        <ul className="pl-5 list-disc">
+                          {
+                            pillars?.map((item:any,) => {
+                              console.log("item?.pillarid", item?.pillarid, pid);                              
+                              return item?.pillarid === pid && item?.filteredOptions?.map((it:any, i:number) => {
+                                return <li
+                                key={i}
+                              >
+                                {/* <Dot className=" block me-2 col-span-1" /> */}
+                                {it?.measures}
+                              </li>
+                              })
+                            })
+                          }
                         </ul>
                       </div>
                     </ScrollArea>
@@ -571,7 +572,8 @@ const SetTarget = ({
                       </h5>
 
                       <Select
-                        onValueChange={(e) => handleChange(e, item?.pillarid)}
+                        onValueChange={(e) => {handleChange(e, item?.pillarid); 
+                          setMeasuresList(filtermesuresdata?.data?.data || [])}}
                       >
                         <SelectGroup>
                           <SelectTrigger className="max-w-[176px] rounded-none">
@@ -631,7 +633,7 @@ const SetTarget = ({
                                             key={`item-${index}-${subIndex}`}
                                             className=""
                                           >
-                                            {measures?.measures}
+                                            12{measures?.measures}
                                           </li>
                                         )
                                     )
@@ -691,7 +693,7 @@ const SetTarget = ({
 
         <div className="text-center">
           <Button
-            disabled={handleDisabledButton}
+            disabled={handleDisabledButton || !pillars?.filter((item:any) => item?.checked === 1)?.length}
             onClick={handleSelect}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[200px] h-12"
           >

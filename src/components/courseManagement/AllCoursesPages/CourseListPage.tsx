@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
 import { useMutation } from "@tanstack/react-query";
@@ -15,7 +14,6 @@ type dataGridProps = {
 };
 
 const CourseListPage = ({ data }: dataGridProps) => {
-  const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const { mutate: enrollRequest } = useMutation({
     mutationFn: fetchEnroll,
@@ -35,9 +33,8 @@ const CourseListPage = ({ data }: dataGridProps) => {
 
   const handleEnroll = (id: number) => {
     enrollRequest({
-      courseId: id,
-      userId: parseInt(user.UserId),
-      trainerId: 11,
+      versionId: id,
+      companyId: 1,
     });
   };
 

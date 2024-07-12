@@ -46,3 +46,8 @@ export const deleteClient = (clientId: string) => {
 
   return api({ url, method, data: {} });
 };
+
+export const getTargetUserby = (userId: string) => {
+  const url = `api/v1/message/getTargetUserby/${userId}`;
+  return api({ url });
+};

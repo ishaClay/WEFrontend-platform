@@ -212,7 +212,6 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
             (itm) => itm?.id === item?.id
           );
           console.log("item+++", item);
-          console.log("currentRecord", currentRecord, currentRecord?.versionId);
 
           const versionOption =
             item?.version &&
