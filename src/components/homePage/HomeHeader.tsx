@@ -1,17 +1,17 @@
+import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
+import vector from "@/assets/images/Vector_menu.png";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import ClickAwayListener from "react-click-away-listener";
 import { useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
-import { toast } from "../ui/use-toast";
-import { useState } from "react";
 import { Button } from "../ui/button";
-import { Menu } from "lucide-react";
-import main_logo from "@/assets/images/logo.png";
-import vector from "@/assets/images/Vector_menu.png";
-import ClickAwayListener from "react-click-away-listener";
+import { toast } from "../ui/use-toast";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -70,7 +70,7 @@ function HomeHeader(props: headerProps) {
 
   return (
     // Note : This below code is for backup
-    <div className=" sticky top-0 h-full z-[9999] lg:shadow-none shadow-md bg-white">
+    <div className=" sticky top-0 h-full z-[9] lg:shadow-none shadow-md bg-white">
       <header
         className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
           props.hasDiffHeader ? "mx-7" : ""

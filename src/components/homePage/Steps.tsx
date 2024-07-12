@@ -77,10 +77,10 @@ const Steps = () => {
         </div>
       </div>
       <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] mt-3">
-        <div>
+        <p className="leading-[normal]">
           Take Your First
           <br /> Step Now
-        </div>
+        </p>
         <div>
           <img className="" src="../assets/img/Move Right Dark.png" />
         </div>

@@ -36,9 +36,8 @@ const CourseGridPage = ({ data }: dataGridProps) => {
   });
   const handleEnroll = (id: number, trainerId: number) => {
     enrollRequest({
-      courseId: id,
-      userId: parseInt(user.UserId),
-      trainerId: trainerId,
+      versionId: id,
+      companyId: trainerId,
     });
   };
 
@@ -139,7 +138,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
-      {data?.map((allcourse: AllCourse) => {        
+      {data?.map((allcourse: AllCourse) => {               
         return (
           <>
             <div
@@ -292,7 +291,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                       }
                       onClick={() =>
                         handleEnroll(
-                          allcourse?.id,
+                          allcourse?.currentVersion?.id,
                           allcourse?.trainerId !== null
                             ? allcourse?.trainerId?.id
                             : allcourse?.trainerCompanyId?.id

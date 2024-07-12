@@ -29,6 +29,7 @@ export interface FilteredOptionsEntity {
   point?: number;
   measures?: string;
   optionId?: string;
+  percentage?: number;
 }
 
 export interface PillerResponse {

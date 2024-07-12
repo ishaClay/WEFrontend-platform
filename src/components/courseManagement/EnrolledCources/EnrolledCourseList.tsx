@@ -14,6 +14,8 @@ const EnrolledCourseList = () => {
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   })
+  console.log("enrolledCoursesData", enrolledCoursesData);
+  
   const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item:Data) => {
     return {
       title: <EnrolledCourseListItem data={item} />,

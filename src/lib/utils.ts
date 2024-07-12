@@ -28,6 +28,7 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType } from "./constants";
+import { UserRole } from "@/types/UserRole";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -526,7 +527,7 @@ export const getRandomHexColor = () => {
 
 
 export const getTotalDuration = (data: any) => {
-  return data.reduce((totalSeconds: any, readingTime: any) => {
+  return data?.reduce((totalSeconds: any, readingTime: any) => {
     const { hour, minute, second } = readingTime;
     return totalSeconds + (hour * 3600) + (minute * 60) + second;
   }, 0);
@@ -559,4 +560,19 @@ export function getTimeAgo(time: Date | string) {
   } else {
     return `${weeksAgo} week${weeksAgo === 1 ? "" : "s"} ago`;
   }
+}
+
+
+export const fetchMessageRoles = (role:number) => {
+  let MessageRoles:any = [];
+
+  if(role === UserRole.Trainer){
+    MessageRoles = ['admin', 'employee', 'company'];
+  } else if(role === UserRole.Company){
+    MessageRoles = ['admin', 'employee', "trainee", "trainer Company"];
+  } else if(role === UserRole.Trainee){
+    MessageRoles = ['admin', 'employee', "company", "trainee"];
+  }
+
+  return MessageRoles
 }

@@ -138,7 +138,7 @@ function CoursesRecommended() {
                             textAlign: "left",
                           }}
                         >
-                          <p>{recommendedcourses.description}</p>
+                          <span dangerouslySetInnerHTML={{ __html: recommendedcourses.description }} className="line-clamp-2"></span>
                         </div>
 
                         <div className="ml-[200px]">

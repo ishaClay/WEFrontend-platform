@@ -1,32 +1,45 @@
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { useAppSelector } from "@/hooks/use-redux";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import moment from "moment";
 
-const assessmentDetailOptions = [
-  {
-    label: "Baseline Self Assessment",
-    value: "baseline self assessment",
-  },
-  {
-    label: "Re-assessment 1",
-    value: "re-assessment 1",
-  },
-];
+// const assessmentDetailOptions = [
+//   {
+//     label: "Baseline Self Assessment",
+//     value: "baseline self assessment",
+//   },
+//   {
+//     label: "Re-assessment 1",
+//     value: "re-assessment 1",
+//   },
+// ];
 
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
   console.log("++++++++++", Role);
-
-  const [selectAssessment, setSelectAssessment] = useState("");
+  const { clientId } = useAppSelector((state: any) => state.user);
+  // const [selectAssessment, setSelectAssessment] = useState("");
   const [activeTab, setActiveTab] =
     useState<MaturityAssessmentTabs>("assessmentresult");
+
+    const { data: fetchClientmaturitylevel } = useQuery({
+      queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+      queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+    });
+
+    console.log("getActionItems", );
+    
+
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 my-4">
@@ -35,10 +48,10 @@ const MaturityAssessment = () => {
             Baseline Self Assessment
           </h5>
           <h6 className="text-xs text-[#606060] font-bold font-calibri">
-            Completed Date : 12/03/ 2024
+            Completed Date : {moment(new Date(fetchClientmaturitylevel?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY")}
           </h6>
         </div>
-        <div className="">
+        {/* <div className="">
           <SelectMenu
             option={assessmentDetailOptions}
             setValue={(data: string) => setSelectAssessment(data)}
@@ -47,7 +60,7 @@ const MaturityAssessment = () => {
             itemClassName="text-base font-medium font-abhaya bg-transparent"
             placeholder="Previous Assessment Details"
           />
-        </div>
+        </div> */}
       </div>
       <div className="bg-white rounded-xl">
         <div className="">

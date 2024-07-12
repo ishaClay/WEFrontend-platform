@@ -227,7 +227,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           return (
             <>
               <Link
-                to={`/${pathName}/employee-basic-course/${data.id}`}
+                to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
                 key={index}
                 className="border rounded overflow-hidden grid grid-cols-6 mb-5"
               >

@@ -1,9 +1,7 @@
 
 export interface enroll {
-  id?: number;
-  courseId: number;
-  userId: number;
-  trainerId: number;
+  versionId?: number;
+  companyId: number;
 }
 
 export enum Enroll {

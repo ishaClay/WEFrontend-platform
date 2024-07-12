@@ -33,7 +33,7 @@ const HomeBanner = () => {
                   <div className="absolute top-[35%] -translate-y-[35%] md:left-auto md:right-auto md:m-0 left-0 right-0 m-auto">
                     <div className="flex flex-col md:gap-y-10 gap-y-80">
                       <div className="md:bg-transparent bg-[#1a5762] md:shadow-none rounded-lg shadow-md md:py-0 md:px-0 py-5 px-4 md:m-0 m-5">
-                        <h6 className="text-[36px] font-bold secondary-text font-abhaya xl:mb-5 sm:mb-4 mb-2.5 sm:w-[380px] w-[260px] break-all leading-8">
+                        <h6 className="text-[36px] font-bold secondary-text font-abhaya xl:mb-5 sm:mb-4 mb-2.5 sm:w-[428px] w-[260px] break-all leading-8">
                           {item.title}
                         </h6>
                         <p className="sm:w-[500px] w-[260px] font-semibold secondary-text md:text-lg text-base font-abhaya line-clamp-3 leading-5 xl:mb-[66px] sm:mb-[35px] mb-2.5">

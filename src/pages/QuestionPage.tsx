@@ -6,6 +6,7 @@ import planAction from "@/assets/images/planAction.svg";
 import selfAssess from "@/assets/images/selfAssess.svg";
 import Loader from "@/components/comman/Loader";
 import Question from "@/components/comman/Question";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -32,7 +33,6 @@ import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import Home from "/assets/img/Home.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
-import HomeFooter from "@/components/homePage/HomeFooter";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -248,23 +248,6 @@ const QuestionPage = () => {
     });
   };
 
-  const handlePrev = () => {
-    const currentIndex = allPillar.indexOf(activePillar);
-    if (currentIndex > 0) {
-      const prevPillar = allPillar[currentIndex - 1];
-      handleSelected(prevPillar);
-      dispatch(setActivePillar(prevPillar));
-    }
-  };
-  const handleNext = () => {
-    const currentIndex = allPillar.indexOf(activePillar);
-    if (currentIndex < allPillar.length - 1) {
-      const nextPillar = allPillar[currentIndex + 1];
-      handleSelected(nextPillar);
-      dispatch(setActivePillar(nextPillar));
-    }
-  };
-
   console.log("allPillar", allPillar);
 
   return (
@@ -437,11 +420,14 @@ const QuestionPage = () => {
               {isPending ? (
                 <Loader />
               ) : (
-                <Question setIsLoading={setIsLoading} />
+                <Question
+                  setIsLoading={setIsLoading}
+                  handleSelected={handleSelected}
+                />
               )}
             </div>
           </div>
-          <div className="w-[271px] h-[calc(100vh-293px)] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto sticky top-[190px]">
+          <div className="sm:w-[271px] w-full sm:h-[calc(100vh-293px)] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto sticky top-[190px]">
             <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
               How far you are
             </h2>
@@ -462,7 +448,7 @@ const QuestionPage = () => {
                 )}
               </div>
             </div> */}
-            <div className="mt-[17px] w-[267px]">
+            <div className="mt-[17px] sm:w-[267px] w-full">
               <div className="flex items-center justify-between font-bold	text-base">
                 <span>Completed</span>
                 <p>
@@ -522,25 +508,6 @@ const QuestionPage = () => {
               >
                 Submit
               </Button>
-
-              <div className="w-full mt-[18px] gap-2 flex justify-center">
-                <Button
-                  // variant={"outline"}
-                  type="button"
-                  className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
-                  onClick={handlePrev}
-                >
-                  Prev
-                </Button>
-                <Button
-                  type="button"
-                  // variant={"outline"}
-                  className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
-                  onClick={handleNext}
-                >
-                  Next
-                </Button>
-              </div>
             </div>
           </div>
         </div>

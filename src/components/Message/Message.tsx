@@ -228,7 +228,7 @@ const Message = () => {
   }, [chatId]);
 
   return (
-    <div className="grid grid-cols-12 min-h-[calc(100vh_-_130px)] gap-3">
+    <div className="grid grid-cols-12 min-h-[calc(100vh_-_162px)] gap-3">
       <Card className="xl:col-span-3 col-span-5 shadow-none rounded-lg border-0">
         <CardHeader className="px-[11px] py-2.5 border-b-[#D9D9D9] border-b border-solid">
           <div className="relative">
@@ -274,7 +274,7 @@ const Message = () => {
                 >
                   <div className="relative h-[42px] w-[42px]">
                     <Avatar className="w-full h-full static">
-                      <AvatarImage src={item?.images[0]} />
+                      <AvatarImage src={item?.images?.[0]} />
                       <AvatarFallback
                         className="text-white text-xl"
                         style={{ backgroundColor: chatDPColor(item?.id) }}
@@ -287,10 +287,10 @@ const Message = () => {
                       )}
                     </Avatar>
                   </div>
-                  <div className="ml-[15px] w-[226px]">
+                  <div className="ml-[15px] w-[calc(100%-57px)]">
                     <div className="flex justify-between mb-0.5">
                       <div className="leading-[19.53px] text-[black] text-base font-calibri">
-                        {item?.name || item?.email?.split("@")[0]}
+                        {item?.name || item?.email?.split("@")?.[0]}
                       </div>
                       <div className="text-xs font-inter leading-[15.6px] text-[black]">
                         {TimeFormatter(item?.last_msg_time)}

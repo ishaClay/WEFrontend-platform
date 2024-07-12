@@ -42,8 +42,8 @@ export const getMeasuresItems = (userId: string, pillerId: string) => {
     return api({ url });
 };
 
-export const updatePillarCheckbox = (data: any, pillerId: string) => {
-    const url = `api/v1/pillar/update-piller-checkbox/${pillerId}`;
+export const updatePillarCheckbox = (data: any, pillerId: string, user: string) => {
+    const url = `api/v1/pillar/update-piller-checkbox/${pillerId}/${user}`;
 
     return api({ url, data: { checked: data }, method: "put" });
 };

@@ -21,6 +21,7 @@ export interface AllCourse {
   page: number;
   cohortGroups: CohortData[],
   courseAlloted: courseAlloted[];
+  currentVersion: CurrentVersionType;
   courseData: [
     {
       pillarId: number;
@@ -61,6 +62,44 @@ export interface CohortData {
     month: string;
     year: string;
   };
+}
+
+export interface CurrentVersionType {
+  id: number;
+  version: number;
+  data: Data;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Data {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  universityAddress: string;
+  duration: string;
+  price: number;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys: string;
+  courseData?: (null)[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  nfqLeval: string;
+  certificate: string;
 }
 
 export interface courseAlloted {
