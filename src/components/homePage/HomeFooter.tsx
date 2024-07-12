@@ -30,7 +30,7 @@ const HomeFooter = () => {
               /> */}
               <div className="flex lg:flex-row flex-col lg:justify-center justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent xl:gap-3 sm:gap-2 gap-0 xl:w-[951px] lg:w-[850px] w-auto lg:h-[84px] h-auto lg:p-0 lg:px-5 px-0">
                 <div className="lg:order-1 order-4">
-                  <p className="lg:w-[300px] w-full text-justify xs:text-sm text-lg sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[52px] sm:border-b-0 border-b border-white">
+                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[52px] sm:border-b-0 border-b border-white">
                     Skillnet Ireland is funded from the National Training Fund
                     through the Department of Further and Higher Education,
                     Research, Innovation and Science.

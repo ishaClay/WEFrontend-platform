@@ -1,5 +1,4 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import Logo1 from "../../public/assets/img/logo1.png";
 import Logo2 from "../assets/images/logo2.png";
 import { VscBellDot } from "react-icons/vsc";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -14,17 +13,6 @@ const MainHeader = () => {
           </li>
 
           <li className="text-[#00778B] mt-[50px]">MyDashboard</li>
-          <li className="group flex  gap-[5px] mt-[50px]">
-            <span className="cursor-pointer">Our Courses</span>
-            <img
-              className="w-[6px] h-[6px] mt-[11px]"
-              src={Logo1}
-              alt="Vector 1"
-            />
-          </li>
-          <li className="mt-[50px] cursor-pointer">Testimonial</li>
-          <li className="mt-[50px] cursor-pointer">Blogs</li>
-          <li className="mt-[50px] cursor-pointer">Contact Us</li>
         </ul>
 
         <div className="flex ">
