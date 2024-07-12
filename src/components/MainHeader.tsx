@@ -71,7 +71,7 @@ const MainHeader = () => {
         header="Settings"
         titleClassName="font-nunito text-xl text-black font-bold"
       >
-        <ModalTabs tab={openType} />
+        <ModalTabs tab={openType} handleClose={() => setIsOpen(false)} />
       </Modal>
     </header>
   );

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 
 const AccountSetting = () => {
   return (
@@ -46,12 +45,12 @@ const AccountSetting = () => {
           Cancel
         </Button>
       </div>
-      <div className="flex justify-between items-center sm:pt-5 pt-16 border-t border-[#E4E4E4]">
+      {/* <div className="flex justify-between items-center sm:pt-5 pt-16 border-t border-[#E4E4E4]">
         <Label className="sm:text-lg text-base font-nunito text-black font-semibold">
           Notifications
         </Label>
         <Switch />
-      </div>
+      </div> */}
     </div>
   );
 };

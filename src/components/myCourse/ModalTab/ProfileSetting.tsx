@@ -3,6 +3,7 @@ import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getUserDetails, updateUserDetails } from "@/services/apiServices/user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,7 +88,7 @@ const schema = zod.object({
   gender: zod.string(),
 });
 
-const ProfileSetting = () => {
+const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   // const [selectBirthYear, setSelectBirthYear] = useState("");
@@ -98,6 +99,7 @@ const ProfileSetting = () => {
     setValue,
     watch,
     handleSubmit,
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
     mode: "all",
@@ -110,6 +112,11 @@ const ProfileSetting = () => {
 
   const { mutate, isPending: isPendingMutation } = useMutation({
     mutationFn: updateUserDetails,
+    onSuccess: () => {
+      reset();
+      handleClose();
+      toast({ title: "Profile updated successfully", variant: "success" });
+    },
   });
 
   console.log("data", data);
