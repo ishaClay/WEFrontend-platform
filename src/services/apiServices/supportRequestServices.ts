@@ -40,7 +40,7 @@ export const getSingleSupportTicket = (id: string) => {
 }
 
 export const updateSupportTicket = (data: { id: string, item: any }) => {
-    const url = `api/v1/support-ticket/update/${data.id}`
-    const method = "put";
+    const url = `api/v1/support-ticket/create-response`
+    const method = "post";
     return api({ url, data: data?.item, method });
 }

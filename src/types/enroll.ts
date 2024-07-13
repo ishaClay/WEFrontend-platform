@@ -1,7 +1,7 @@
 
 export interface enroll {
   versionId?: number;
-  companyId: number;
+  companyId?: number;
 }
 
 export enum Enroll {

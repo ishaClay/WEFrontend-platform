@@ -8,12 +8,14 @@ import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
+import { useAppSelector } from "@/hooks/use-redux";
 
 type dataGridProps = {
   data: AllCourse[];
 };
 
 const CourseListPage = ({ data }: dataGridProps) => {
+  const  { CompanyId }  = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const { mutate: enrollRequest } = useMutation({
     mutationFn: fetchEnroll,
@@ -34,7 +36,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
   const handleEnroll = (id: number) => {
     enrollRequest({
       versionId: id,
-      companyId: 1,
+      companyId: +CompanyId,
     });
   };
 
@@ -47,8 +49,8 @@ const CourseListPage = ({ data }: dataGridProps) => {
     };
 
     const duration = cohortData?.duration?.split(" ");
-    const number = parseInt(duration[0]) || 0;
-    const unit = duration[1] || "days";
+    const number = parseInt(duration?.[0]) || 0;
+    const unit = duration?.[1] || "days";
     // @ts-ignore
     const courseEndDate = moment(currentDate).add(number, unit);
 
@@ -279,7 +281,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                   {getUpcommingCohort(allcourse)}
                   <div className="xl:text-right text-center mt-3">
                     <button
-                      onClick={() => handleEnroll(allcourse?.id)}
+                      onClick={() => handleEnroll(allcourse?.currentVersion?.id)}
                       className="2xl:px-[14px] xl:p-[10px] py-1 px-2 bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base"
                     >
                       Enroll Now

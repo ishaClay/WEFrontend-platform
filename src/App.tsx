@@ -806,10 +806,10 @@ function App() {
             element={<TrainingDocumentPage />}
           />
           <Route
-            path="ticket-details-reply"
+            path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route path="add-new-tickets" element={<AddNewTicketsPage />} />
+          <Route path="support-request/add-new-ticket" element={<AddNewTicketsPage />} />
           <Route
             path="schedule-live-session"
             element={<ScheduleLiveSession />}

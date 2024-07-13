@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Image, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const selectNameOption = [
   {
@@ -37,12 +39,24 @@ const ticketPriorityOption = [
 ];
 
 const AddNewTickets = () => {
+  const navigate = useNavigate();
   const [selectName, setSelectName] = useState("");
   const [ticketPriority, setTicketPriority] = useState("");
   return (
     <div className="lg:bg-white bg-transparent rounded-xl">
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
-        <h6 className="font-calibri text-base font-bold">Add New Ticket</h6>
+      <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px] ">
+        <div>
+          <h2 className="font-[700] text-[16px]">Add New Ticket</h2>
+        </div>
+        <div>
+          <button
+            onClick={() => navigate(-1)}
+            className="text-[16px] font-[600] flex items-center gap-[15px]"
+          >
+            <HiOutlineArrowNarrowLeft />
+            Back
+          </button>
+        </div>
       </div>
       <div className="p-5">
         <div className="p-5 border border-[#D9D9D9] rounded-xl">
