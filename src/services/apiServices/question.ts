@@ -35,3 +35,8 @@ export const removeAnswer = (data: any) => {
 
     return api({ url, data, method: "delete" });
 }
+
+export const assessmentQuestionScore = (data: {UserId:number, clientId:number}) => {
+    const url = `api/v1/assessmentquestionscore/create`;
+    return api({ url, data, method: "post" });
+}

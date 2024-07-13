@@ -23,6 +23,7 @@ import { setMaturitypillar, setPillars } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import {
   addMeasuresItems,
+  deleteMeasuresItems,
   fetchMaturityPillar,
   filterMaturityMeasures,
   getActionItembyPiller,
@@ -66,7 +67,7 @@ const SetTarget = ({
   const dispatch = useDispatch();
   const pillars = useAppSelector((state: any) => state.pillar?.maturitypillar);
   // console.log("pillarspillars", pillars);
-
+  const [actionItemsList, setActionItemsList] = useState<boolean>(false);
   const { clientId, UserId } = useAppSelector((state: any) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId
@@ -125,7 +126,8 @@ const SetTarget = ({
   const { data: getActionItems, isLoading } = useQuery<MeasuresItemsResponse>({
     queryKey: [QUERY_KEYS.getActionItems, { pid, userID }],
     queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
-    enabled: open && !!pid && !!userID,
+    enabled: !!pid && !!userID,
+    // enabled: open && !!pid && !!userID,
   });
 
   useEffect(() => {
@@ -271,7 +273,22 @@ const SetTarget = ({
     },
   });
 
-  const removeActionItem = (index: number, currentPiller: string) => {
+  const { mutate: deleteMeasuresItemsFun } = useMutation({
+    mutationFn: (id:number) => deleteMeasuresItems(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.deleteMeasuresItems],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const removeActionItem = (index: number, currentPiller: string, measuresItemsId: number) => {
     setPillerItems(
       (prev) =>
         ({
@@ -288,6 +305,7 @@ const SetTarget = ({
         return i !== index;
       }),
     }));
+    deleteMeasuresItemsFun(measuresItemsId)
   };
 
   const handleSubmit = async (
@@ -329,9 +347,11 @@ const SetTarget = ({
     }
   }, [pillars, pillerItemsBackup]);
 
-  console.log("measures", pillerItemsBackup);
-  console.log("filtermesuresdata?.data?.data", pillars?.filter((item:any) => item?.checked === 1)?.length > 0);
-  console.log("setMeasuresList", pid);
+  const pillarChecked = pillars?.filter((item:any) => item.checked === 1);
+  useEffect(() => {
+    const fetchMeasuresItems = pillarChecked?.filter((item:any) => item.actionItem?.length >= 0);    
+    setActionItemsList(fetchMeasuresItems?.length > 0 ? true : false);
+  }, [pillars, getActionItems])
   
 
   return (
@@ -458,7 +478,7 @@ const SetTarget = ({
                                         type="button"
                                         className="border-none bg-transparent text-lg cursor-pointer"
                                         onClick={() =>
-                                          removeActionItem(index, currentPiller)
+                                          removeActionItem(index, currentPiller, item?.id)
                                         }
                                       >
                                         <RiDeleteBin6Line className="text-[#B9B9B9]" />
@@ -542,6 +562,7 @@ const SetTarget = ({
                         type="checkbox"
                         checked={item?.checked ? true : false}
                         onChange={() => {
+                          setPId(item?.pillarid)
                           dispatch(
                             setPillars({
                               id: item?.pillarid,
@@ -693,7 +714,7 @@ const SetTarget = ({
 
         <div className="text-center">
           <Button
-            disabled={handleDisabledButton || !pillars?.filter((item:any) => item?.checked === 1)?.length}
+            disabled={handleDisabledButton || pillarChecked?.length > 0 ? false : true || actionItemsList}
             onClick={handleSelect}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[200px] h-12"
           >
