@@ -62,7 +62,7 @@ const MaturityAssessment = () => {
             Baseline Self Assessment
           </h5>
           <h6 className="text-xs text-[#606060] font-bold font-calibri">
-            Completed Date : {getCheckedmeasures?.data?.data ? moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY") : ""}
+            Completed Date : {getCheckedmeasures?.data?.data?.length > 0 ? moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY") : ""}
           </h6>
         </div>
         {pillarCompleted && <div className="">
