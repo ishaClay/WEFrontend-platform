@@ -29,6 +29,7 @@ import duration from "../assets/svgs/duration.svg";
 import institute from "../assets/svgs/institute.svg";
 import online from "../assets/svgs/online.svg";
 import time from "../assets/svgs/time.svg";
+import { Button } from "@/components/ui/button";
 
 function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -38,11 +39,6 @@ function CoursesAllocate() {
     queryKey: [QUERY_KEYS.fetchbycourseallocate],
     queryFn: () => fetchAllocatedCourse(userData?.query?.id),
   });
-
-  const openPopup = (id: number) => {
-    setPopupOpen(true);
-    setOpenId(id);
-  };
 
   console.log("courseallocate", course?.data);
 
@@ -80,16 +76,14 @@ function CoursesAllocate() {
                     <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
                       <div className="flex gap-[17px]">
                         <div className="overflow-hidden rounded">
-                          <img
-                            className="w-[152px] h-[133px] rounded object-cover object-center"
-                            src={
-                              courseallocate?.courseVersion?.course?.bannerImage
-                            }
-                            alt="Course"
-                          />
+                        <img
+                          src={courseallocate?.courseVersion?.course?.bannerImage}
+                          alt="img"
+                          className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
+                        />
                         </div>
 
-                        <div className="flex flex-col">
+                        <div className="flex flex-col w-[calc(100%-300px)]">
                           <div>
                             <div className="flex items-center mt-[10px] ml-[2px] gap-4">
                               <div className="flex items-center gap-4">
@@ -142,12 +136,7 @@ function CoursesAllocate() {
                               textAlign: "left",
                             }}
                           >
-                            <p className="font-bold text-[16px]">
-                              {
-                                courseallocate?.courseVersion?.course
-                                  ?.description
-                              }
-                            </p>
+                            <span dangerouslySetInnerHTML={{ __html: courseallocate?.courseVersion?.course?.description || "" }} className="line-clamp-2"></span>
                           </div>
 
                           <div className="flex items-center gap-4 mt-[17px]">
@@ -281,15 +270,11 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-
-                      <div className="flex flex-col">
-                        <button
-                          className="bg-[#64A70B] text-white p-[10px] rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400"
-                          onClick={() => openPopup(courseallocate?.id)}
-                        >
-                          View Allocation
-                        </button>
-                      </div>
+                      <Button
+                        className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+                      >
+                        View Allocation
+                      </Button>
                     </div>
                   </div>
 

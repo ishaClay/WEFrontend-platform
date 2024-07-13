@@ -1,6 +1,6 @@
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActionItems from "./ActionItems/ActionItems";
@@ -9,37 +9,51 @@ import Roadmap from "./Roadmap/Roadmap";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
 import { useAppSelector } from "@/hooks/use-redux";
-import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import moment from "moment";
+import { assessmentQuestionScore, getCheckedMeasures } from "@/services/apiServices/pillar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-// const assessmentDetailOptions = [
-//   {
-//     label: "Baseline Self Assessment",
-//     value: "baseline self assessment",
-//   },
-//   {
-//     label: "Re-assessment 1",
-//     value: "re-assessment 1",
-//   },
-// ];
 
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
   console.log("++++++++++", Role);
-  const { clientId } = useAppSelector((state: any) => state.user);
-  // const [selectAssessment, setSelectAssessment] = useState("");
+  const navigate = useNavigate();
+  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const [selectAssessment, setSelectAssessment] = useState<string>();
   const [activeTab, setActiveTab] =
-    useState<MaturityAssessmentTabs>("assessmentresult");
+  useState<MaturityAssessmentTabs>("assessmentresult");
+  
+  const { data: getCheckedmeasures } = useQuery({
+    queryKey: [QUERY_KEYS.checkedMeasures],
+    queryFn: () => getCheckedMeasures(UserId, clientId),
+    enabled: true,
+  });
 
-    const { data: fetchClientmaturitylevel } = useQuery({
-      queryKey: [QUERY_KEYS.fetchbyclientMaturity],
-      queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
-    });
+  const { data: assessmentQuestionScoreLIST } = useQuery({
+    queryKey: [QUERY_KEYS.assessmentQuestionScore],
+    queryFn: () => assessmentQuestionScore(+UserId)
+  });
 
-    console.log("getActionItems", );
-    
+  const pillarCompleted = getCheckedmeasures?.data?.data?.find((item:any) => item?.progressPR === 100)
+  const newData = assessmentQuestionScoreLIST?.data || {}
+  let date1 = Object?.keys(newData)?.map((key:any) => [newData[key]])?.filter((item:any) => item)
+  console.log("123", date1?.map((it:any) => it)?.map((t:any) => t));
+  
+  const assessmentDetailOptions = assessmentQuestionScoreLIST?.data?.map((item:any, i:number) => {
+    return {
+      label: `Re-assessment ${i + 1}`,
+      date:   moment(new Date(item?.[0]?.createdAt || "")).format("DD/MM/YYYY"),
+      value:  String(i + 1),
+    }
+  })
+  const assessmentData = selectAssessment && assessmentQuestionScoreLIST?.data?.filter((_:any, i:number) => i + 1 == +selectAssessment)?.[0] || []; 
 
+
+  console.log("assessmentQuestionScoreLIST?.data", );
+  
+  
+  
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 my-4">
@@ -48,19 +62,33 @@ const MaturityAssessment = () => {
             Baseline Self Assessment
           </h5>
           <h6 className="text-xs text-[#606060] font-bold font-calibri">
-            Completed Date : {moment(new Date(fetchClientmaturitylevel?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY")}
+            Completed Date : {getCheckedmeasures?.data?.data ? moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY") : ""}
           </h6>
         </div>
-        {/* <div className="">
-          <SelectMenu
-            option={assessmentDetailOptions}
-            setValue={(data: string) => setSelectAssessment(data)}
-            value={selectAssessment}
-            className="w-[250px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0"
-            itemClassName="text-base font-medium font-abhaya bg-transparent"
-            placeholder="Previous Assessment Details"
-          />
-        </div> */}
+        {pillarCompleted && <div className="">
+          <Select onValueChange={(e) => {setSelectAssessment(e); e === "baseline self assessment" ? navigate(`/question`) : ""}} value={selectAssessment} defaultValue={selectAssessment}>
+            <SelectTrigger className={`bg-white outline-none w-[250px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0`}>
+              <SelectValue placeholder={"Previous Assessment Details"} />
+            </SelectTrigger>
+            <SelectContent
+              className={"bg-white max-h-[250px] overflow-auto"}
+            >
+              <SelectItem value="baseline self assessment">Baseline Self Assessment
+                <p>{moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY")}</p>
+              </SelectItem>
+              {assessmentDetailOptions?.map((item:any, index: number) => (
+                <SelectItem
+                  key={index}
+                  value={item.value}
+                  className={`text-base font-medium font-abhaya bg-transparent`}
+                >
+                  {item.label}
+                  {item.date &&<p>{item.date}</p>}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>}
       </div>
       <div className="bg-white rounded-xl">
         <div className="">
@@ -103,7 +131,7 @@ const MaturityAssessment = () => {
               value="assessmentresult"
               className="lg:p-5 p-[15px] mt-0"
             >
-              <AssessmentResult chnageTab={setActiveTab} />
+              <AssessmentResult assessmentData={assessmentData} chnageTab={setActiveTab} />
             </TabsContent>
             <TabsContent
               value="maturityAssessment"

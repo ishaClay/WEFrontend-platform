@@ -130,9 +130,10 @@ const TicketsDetailsReply = () => {
     const payload: any = {
       id: id,
       item: {
-        assignTo: +data?.assignTo,
-        status: data?.ticketStatus,
-        reply: data?.details,
+        id: id,
+				openBy: +data?.assignTo,
+				// status: data?.ticketStatus,
+				response: data?.details
       },
     };
     updateTicket(payload);
@@ -144,7 +145,7 @@ const TicketsDetailsReply = () => {
         <h2 className="font-[700] text-[16px]">Ticket Details</h2>
         <Button
           className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
-          onClick={() => navigate("/company/support-request")}
+          onClick={() => navigate(-1)}
         >
           <IoIosArrowRoundBack size={26} className="mr-4" />
           Back

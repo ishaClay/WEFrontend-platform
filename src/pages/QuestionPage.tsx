@@ -21,6 +21,7 @@ import {
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import {
+  assessmentQuestionScore,
   fetchQuestionAnswerList,
   fetchQuestionList,
 } from "@/services/apiServices/question";
@@ -107,6 +108,10 @@ const QuestionPage = () => {
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
 
+  const { mutate: assessmentQuestionScoreFun } = useMutation({
+    mutationFn: (data: {UserId:number, clientId:number}) => assessmentQuestionScore(data),
+  });
+
   useEffect(() => {
     allPillar?.forEach((i: string) => {
       if (questionList?.data?.data) {
@@ -172,6 +177,7 @@ const QuestionPage = () => {
       allQueAns[pillar] = question[pillar];
     });
     navigate("/teaserscore");
+    assessmentQuestionScoreFun({ UserId: userID, clientId: +clientId });
   };
 
   const { data: fetchQuestionAnswer } = useQuery({

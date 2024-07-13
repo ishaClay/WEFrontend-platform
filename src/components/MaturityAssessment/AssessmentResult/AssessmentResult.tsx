@@ -49,9 +49,10 @@ const findMaturityLevel = (score: number) => {
 
 type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
+  assessmentData: any
 };
 
-const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
+const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) => {
   const location = useLocation();
   console.log("+++++", location);
   const queryClient = useQueryClient();
@@ -203,6 +204,9 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
     </>
   );
 
+  console.log("assessmant?.data?.data", assessmentData, assessmant?.data?.data);
+  
+
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
       <div className="">
@@ -284,7 +288,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
             </div>
 
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => {
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -339,11 +343,11 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#FFD56A] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black">
-                Intermediate
+                Intermediate 12
               </Button>
             </div>
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => {
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -402,7 +406,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
               </Button>
             </div>
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => {
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -480,7 +484,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
           </TabsList>
           <TabsContent value="introductory" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => (
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
                 <>
                   {item.totalpoints < "40" && (
                     <Button
@@ -518,7 +522,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
           </TabsContent>
           <TabsContent value="intermediate" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => (
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
                 <>
                   {item.totalpoints >= "40" && item.totalpoints < "70" && (
                     <Button
@@ -556,7 +560,7 @@ const AssessmentResult = ({ chnageTab }: AssessmentResultProps) => {
           </TabsContent>
           <TabsContent value="advanced" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {assessmant?.data?.data.map((item: any) => (
+              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
                 <>
                   {item.totalpoints >= "70" && (
                     <Button

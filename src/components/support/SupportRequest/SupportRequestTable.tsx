@@ -29,7 +29,7 @@ const SupportRequestTable = () => {
   const { UserId } = useSelector((state: any) => state.user);
   const queryClient = useQueryClient();
   const [openDelete, setOpenDelete] = useState<boolean | SupportRequest>(false);
-  const { data: support_request_list, isPending: supportRequestPending } =
+  const { data: support_request_list, isPending: supportRequestPending, isFetching: supportRequestFetching } =
     useQuery({
       queryKey: [QUERY_KEYS.supportTicketList, { page, search }],
       queryFn: () =>
@@ -335,7 +335,7 @@ const SupportRequestTable = () => {
           className="absolute sm:left-10 left-7"
         />
       </div>
-      {supportRequestPending ? (
+      {supportRequestPending || supportRequestFetching ? (
         <span className="flex justify-center items-center py-10">
           <Loader2 className="w-5 h-5 animate-spin" />
         </span>

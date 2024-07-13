@@ -94,3 +94,17 @@ export const markComplate = async ({ id, data }: { id: number, data: any }) => {
     const res = await api({ url, method: "put", data });
     return res.data
 }
+
+export const deleteMeasuresItems = async (id: number) => {
+    const url = `api/v1/pillar/delete-measures-items/${id}`;
+    const res = await api({ url, method: "delete" });
+    return res.data
+}
+
+export const assessmentQuestionScore = async (id: number) => {
+    console.log("ididid", id);
+    
+    const url = `api/v1/assessmentquestionscore/list/${id}`;
+    const res = await api({ url });
+    return res.data
+}

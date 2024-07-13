@@ -34,10 +34,10 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       });
     },
   });
-  const handleEnroll = (id: number, trainerId: number) => {
+  const handleEnroll = (id: number) => {
     enrollRequest({
       versionId: id,
-      companyId: trainerId,
+      companyId: +user?.CompanyId,
     });
   };
 
@@ -290,12 +290,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                           : false
                       }
                       onClick={() =>
-                        handleEnroll(
-                          allcourse?.currentVersion?.id,
-                          allcourse?.trainerId !== null
-                            ? allcourse?.trainerId?.id
-                            : allcourse?.trainerCompanyId?.id
-                        )
+                        handleEnroll(allcourse?.currentVersion?.id)
                       }
                       className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
                     >
