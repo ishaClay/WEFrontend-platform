@@ -591,8 +591,8 @@ const SetTarget = ({
                           <SelectItem value="Introductory">
                             Introductory
                           </SelectItem>
-                          <SelectItem value="Intermedieate">
-                            Intermedieate
+                          <SelectItem value="Intermediate">
+                            Intermediate
                           </SelectItem>
                           <SelectItem value="Advanced">Advanced</SelectItem>
                         </SelectContent>
