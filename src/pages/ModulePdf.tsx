@@ -14,6 +14,7 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdOutlineStar } from "react-icons/md";
 import { VscFilePdf } from "react-icons/vsc";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
 
 function ModulePdf() {
 
@@ -86,7 +87,7 @@ function ModulePdf() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -195,7 +196,7 @@ function ModulePdf() {
                                 <div className="flex flex-col md:flex-row justify-between items-center mt-4 bg-white">
                                     <div className="flex items-center space-x-4">
                                         <img
-                                            src="/public/assets/img/face1.jpg"
+                                            src={person}
                                             alt="Emilia Anderson"
                                             className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                         />
@@ -244,7 +245,7 @@ function ModulePdf() {
                                 </div>
 
                                 <div className="fixed  mt-2 right-4 md:absolute md:right-0 md:top-[690px] md:bottom-0 md:left-[1157px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
-                                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                     </div>

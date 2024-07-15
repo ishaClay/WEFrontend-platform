@@ -4,12 +4,12 @@ import { useState } from "react";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import { Doughnut } from "react-chartjs-2";
-import GovernanceGray from "../../public/assets/img/GovernanceGray.png";
-import StrategicIntegrationGray from "../../public/assets/img/StrategicIntegrationGray.png";
-import TechInnovationGray from "../../public/assets/img/Tech&InnovationGray.png";
-import EconomicsGray from "../../public/assets/img/EconomicsGray.png";
-import EnvironmentalGray from "../../public/assets/img/EnvironmentalGray.png";
-import SocialGray from "../../public/assets/img/SocialGray.png";
+import GovernanceGray from "@/assets/images/GovernanceGray.png";
+import StrategicIntegrationGray from "@/assets/images/StrategicIntegrationGray.png";
+import TechInnovationGray from "@/assets/images/Tech&InnovationGray.png";
+import EconomicsGray from "@/assets/images/EconomicsGray.png";
+import EnvironmentalGray from "@/assets/images/Environmental.svg";
+import SocialGray from "@/assets/images/SocialGray.png";
 import HomeFooter from "@/components/homePage/HomeFooter";
 
 function MaturityAssessmentResult() {

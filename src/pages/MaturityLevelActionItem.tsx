@@ -213,7 +213,7 @@ function MaturityLevelActionItem() {
 
 							<div className="flex ">
 								<div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
-									<img src="/public/assets/img/Morale.png" alt="Leaf Icon" />
+									<img src={moralesIcon} alt="moralesIcon" />
 								</div>
 
 								<div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">Governance</div>

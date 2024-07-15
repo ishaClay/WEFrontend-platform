@@ -12,6 +12,7 @@ import { MdPlayCircleOutline } from "react-icons/md";
 import { CiCircleAlert } from "react-icons/ci";
 import { VscDeviceCameraVideo } from "react-icons/vsc";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
 
 function Module() {
 
@@ -83,7 +84,7 @@ function Module() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -261,7 +262,7 @@ function Module() {
                                     </button>
                                 </div>
                                 <div className="absolute mr-2 right-0 bottom-6 lg:left-[1160px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px]  md:w-[332px]">
-                                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                     </div>

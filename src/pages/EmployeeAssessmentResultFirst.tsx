@@ -9,6 +9,9 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BiCheckCircle, BiShow } from "react-icons/bi";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png"
+import treePlantingIcon from "@/assets/images/TreePlanting.png"
+import moralesIcon from "@/assets/images/Morales.png"
 
 function EmployeeAssessmentResultFirst() {
 
@@ -72,7 +75,7 @@ function EmployeeAssessmentResultFirst() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -170,7 +173,7 @@ function EmployeeAssessmentResultFirst() {
                                             <div className="pb-2 pt-2 flex flex-col md:flex-row gap-5  md:h-[74px] md:w-[1200px]">
                                                 <div className="flex flex-col md:flex-row ">
                                                     <div className="ml-4 flex bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
-                                                        <img src="/public/assets/img/Tree Planting.png" alt="Leaf Icon" />
+                                                        <img src={treePlantingIcon} alt="Leaf Icon" />
                                                         <div className="ml-8 text-[#1D2026] font-Calibri font-bold">Environmental</div>
                                                     </div>
 
@@ -212,7 +215,7 @@ function EmployeeAssessmentResultFirst() {
                                                     </div>
                                                     <div className="flex gap-2 pl-3 mt-2">
                                                         <div>
-                                                            <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2" />
+                                                            <img src={person} className="w-[24px] h-[24px] rounded-full mr-2" />
                                                         </div>
                                                         <div>
                                                             <p className="text-gray-800 font-semibold pt-1">Employee Name</p>
@@ -247,7 +250,7 @@ function EmployeeAssessmentResultFirst() {
                                                     </div>
                                                     <div className="flex gap-2 pl-3 mt-2">
                                                         <div>
-                                                            <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
+                                                            <img src={person} className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
                                                         </div>
                                                         <div>
                                                             <p className="text-gray-800 font-semibold pt-2">Employee Name</p>
@@ -283,7 +286,7 @@ function EmployeeAssessmentResultFirst() {
                                                         </div>
                                                         <div className="flex gap-2 pl-3 mt-2 md:mt-0">
                                                             <div>
-                                                                <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
+                                                                <img src={person} className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
                                                             </div>
                                                             <div>
                                                                 <p className="text-gray-800 font-semibold pt-2">Employee Name</p>
@@ -322,7 +325,7 @@ function EmployeeAssessmentResultFirst() {
                                                 <div className="pb-2 pt-2 flex flex-col md:flex-row gap-5  md:h-[74px] md:w-[1200px]">
                                                     <div className="flex flex-col md:flex-row ">
                                                         <div className="ml-4 flex bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
-                                                            <img src="/public/assets/img/Morale.png" alt="Leaf Icon" />
+                                                            <img src={moralesIcon} alt="Leaf Icon" />
                                                             <div className="ml-8 text-[#1D2026] font-Calibri font-bold">Governance</div>
                                                         </div>
 
@@ -364,7 +367,7 @@ function EmployeeAssessmentResultFirst() {
                                                         </div>
                                                         <div className="flex gap-2 pl-3 mt-2">
                                                             <div>
-                                                                <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2" />
+                                                                <img src={person} className="w-[24px] h-[24px] rounded-full mr-2" />
                                                             </div>
                                                             <div>
                                                                 <p className="text-gray-800 font-semibold pt-1">Employee Name</p>
@@ -399,7 +402,7 @@ function EmployeeAssessmentResultFirst() {
                                                         </div>
                                                         <div className="flex gap-2 pl-3 mt-2">
                                                             <div>
-                                                                <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
+                                                                <img src={person} className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
                                                             </div>
                                                             <div>
                                                                 <p className="text-gray-800 font-semibold pt-2">Employee Name</p>
@@ -435,7 +438,7 @@ function EmployeeAssessmentResultFirst() {
                                                             </div>
                                                             <div className="flex gap-2 pl-3 mt-2 md:mt-0">
                                                                 <div>
-                                                                    <img src="/public/assets/img/face1.jpg" className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
+                                                                    <img src={person} className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]" />
                                                                 </div>
                                                                 <div>
                                                                     <p className="text-gray-800 font-semibold pt-2">Employee Name</p>
@@ -475,7 +478,7 @@ function EmployeeAssessmentResultFirst() {
                                                     </button>
                                                 </div>
                                                 <div className=" md:ml-auto bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] md:w-[332px]">
-                                                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                                     </div>

@@ -4,6 +4,8 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import lightIcon from "@/assets/images/light.png";
 
 function EmployeeRodemap() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -104,7 +106,7 @@ function EmployeeRodemap() {
               </div>
               <div className="flex items-center">
                 <img
-                  src="/public/assets/img/face1.jpg"
+                  src={person}
                   alt="Emilia Anderson"
                   className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                 />
@@ -170,7 +172,8 @@ function EmployeeRodemap() {
                 </div>
                 <div>
                   <img
-                    src="/public/assets/img/light.png"
+                    src={lightIcon}
+                    alt="lightIcon"
                     className="w-[24px] h-[24px] mt-[10px] ml-[530px]"
                   />
                 </div>

@@ -7,6 +7,12 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import weakFinancialGrowthIcon from "@/assets/images/WeakFinancialGrowth.png";
+import lightOnIcon from "@/assets/images/LightOn.png";
+import neighbourIcon from "@/assets/images/Neighbour.png";
+import moraleIcon from "@/assets/images/Morales.png";
+import pathStepsIcon from "@/assets/images/PathSteps.png";
 
 function EmployeeAssessmentResult() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -119,7 +125,7 @@ function EmployeeAssessmentResult() {
               </div>
               <div className="flex items-center">
                 <img
-                  src="/public/assets/img/face1.jpg"
+                  src={person}
                   alt="Emilia Anderson"
                   className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                 />
@@ -354,7 +360,7 @@ function EmployeeAssessmentResult() {
                           <div className="flex flex-col items-center md:items-start">
                             <div className="bg-white rounded-full drop-shadow-md w-16 h-16 p-4 mt-4 ml-0 md:ml-11">
                               <img
-                                src="/public/assets/img/Weak Financial Growth.png"
+                                src={weakFinancialGrowthIcon}
                                 alt="Leaf Icon"
                               />
                             </div>
@@ -452,7 +458,7 @@ function EmployeeAssessmentResult() {
                           <div className="flex flex-col items-center md:items-start">
                             <div className="bg-white rounded-full drop-shadow-md w-16 h-16 p-4 mt-4 ml-0 md:ml-11">
                               <img
-                                src="/public/assets/img/Light On.png"
+                                src={lightOnIcon}
                                 alt="Leaf Icon"
                               />
                             </div>
@@ -549,7 +555,7 @@ function EmployeeAssessmentResult() {
                           <div className="flex flex-col items-center md:items-start">
                             <div className="bg-white rounded-full drop-shadow-md w-16 h-16 p-4 mt-4 ml-0 md:ml-11">
                               <img
-                                src="/public/assets/img/Neighbour.png"
+                                src={neighbourIcon}
                                 alt="Leaf Icon"
                               />
                             </div>
@@ -643,7 +649,7 @@ function EmployeeAssessmentResult() {
                           <div className="flex flex-col items-center md:items-start">
                             <div className="bg-white rounded-full drop-shadow-md w-16 h-16 p-4 mt-4 ml-0 md:ml-11">
                               <img
-                                src="/public/assets/img/Morale.png"
+                                src={moraleIcon}
                                 alt="Leaf Icon"
                               />
                             </div>
@@ -739,7 +745,7 @@ function EmployeeAssessmentResult() {
                           <div className="flex flex-col items-center md:items-start">
                             <div className="bg-white rounded-full drop-shadow-md w-16 h-16 p-4 mt-4 ml-0 md:ml-11">
                               <img
-                                src="/public/assets/img/Path Steps.png"
+                                src={pathStepsIcon}
                                 alt="Leaf Icon"
                               />
                             </div>
@@ -796,7 +802,7 @@ function EmployeeAssessmentResult() {
 
                   <div className="md:ml-[895px] mt-2 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
                     <img
-                      src="/public/assets/img/face1.jpg"
+                      src={person}
                       alt="Profile"
                       className="h-8 w-8 rounded-full"
                     />

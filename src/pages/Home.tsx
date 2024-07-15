@@ -21,8 +21,8 @@ import { useDispatch } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import Minus from "../../public/assets/img/Minus.png";
-import Plus from "../../public/assets/img/Plus.png";
+import Minus from "@/assets/images/Minus.png";
+import Plus from "@/assets/images/Plus.png";
 import HomeFooter from "@/components/homePage/HomeFooter";
 
 function Home() {

@@ -22,6 +22,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import nature from "@/assets/images/nature.png"
 
 
 
@@ -81,7 +82,7 @@ function EnrolledCourses() {
                                 <AccordionTrigger>
                                     <div className="flex gap-[50px]">
                                         <div className="   overflow-hidden rounded">
-                                            <img className=" w-[152px] h-[133px] rounded object-cover object-center " src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className=" w-[152px] h-[133px] rounded object-cover object-center " src={nature} alt="nature" />
                                         </div>
 
 

@@ -6,6 +6,15 @@ import { BsSearch } from "react-icons/bs";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiArrowDownSLine, RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import nature from "@/assets/images/nature.png";
+import speedIcon from "@/assets/images/Speed.png";
+import timeIcon from "@/assets/images/time.png";
+import onlineIcon from "@/assets/images/online.png";
+import diplomaIcon from "@/assets/images/diploma.png";
+import unversityIcon from "@/assets/images/unversity.png";
+import fulltimeIcon from "@/assets/images/fulltime.png";
+
 function EmployeeCompleted() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false); 
@@ -58,7 +67,7 @@ function EmployeeCompleted() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -98,7 +107,7 @@ function EmployeeCompleted() {
                             <select
                                 id="status"
                                 name="status"
-                                className="mt-1 block md:w-auto  pl-3 pr-10 py-2 text-base border border-[#A3A3A3] rounded shadow-sm bg-[#F3F3F3]  md:w-[176px]"
+                                className="mt-1 block pl-3 pr-10 py-2 text-base border border-[#A3A3A3] rounded shadow-sm bg-[#F3F3F3]  md:w-[176px]"
                                 defaultValue="In Progress"
                             >
                                 <option>In Progress</option>
@@ -120,7 +129,7 @@ function EmployeeCompleted() {
                             <div className="relative overflow-hidden rounded">
                                 <img
                                     className="w-full h-[231px] rounded object-cover object-center"
-                                    src="/public/assets/img/nature.png"
+                                    src={nature}
                                     alt="Course"
                                 />
                                 <div className="flex items-center absolute bottom-0 left-[220px] w-30  rounded-full py-1 px-2 mb-4    ">
@@ -166,31 +175,31 @@ function EmployeeCompleted() {
                             </div>
                             <div className="flex flex-wrap gap-2 p-2">
                                 <div className="flex items-center gap-1">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/timer.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={speedIcon} alt="speedIcon" />
                                     <p className="text-xs">Level- Advanced</p>
                                 </div>
                                 <div className="flex items-center gap-1 ml-2">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/diploma.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={diplomaIcon} alt="diplomaIcon" />
                                     <p className="text-xs">Post Graduate Diploma</p>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-2 p-2">
                                 <div className="flex items-center gap-1">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/fulltime.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={fulltimeIcon} alt="fulltimeIcon" />
                                     <p className="text-xs">Full Time</p>
                                 </div>
                                 <div className="flex items-center gap-1 ml-2">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/online.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={onlineIcon} alt="onlineIcon" />
                                     <p className="text-xs">Online</p>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-2 p-2">
                                 <div className="flex items-center gap-1">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/time.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={timeIcon} alt="timeIcon" />
                                     <p className="text-xs">2 Years</p>
                                 </div>
                                 <div className="flex items-center gap-1 ml-2">
-                                    <img className="h-[16px] w-[18px]" src="/public/assets/img/unversity.png" alt="Course" />
+                                    <img className="h-[16px] w-[18px]" src={unversityIcon} alt="unversityIcon" />
                                     <p className="text-xs">Atlantic Technological University</p>
                                 </div>
                             </div>
@@ -199,7 +208,7 @@ function EmployeeCompleted() {
                 </div>
 
                 <div className="absolute mr-4 right-0 lg:top-[1177px] bottom-0 lg:left-[1150px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-full lg:w-[332px] max-w-[332px]">
-                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                         <span className="text-gray-900 font-semibold text-sm md:text-base lg:text-lg">Messaging</span>
                     </div>

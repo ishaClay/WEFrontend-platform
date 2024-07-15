@@ -4,6 +4,10 @@ import HeaderCourse from "@/components/HeaderCourse"
 
 import { LuMoveLeft } from "react-icons/lu";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
+import person from "@/assets/images/person.png";
+import nature from "@/assets/images/nature.png";
+import neighbourIcon from "@/assets/images/Neighbour.png";
+import lightOnIcon from "@/assets/images/LightOn.png";
 
 
 function IndividualEmployee() {
@@ -24,7 +28,7 @@ function IndividualEmployee() {
 
                         <div className='h-[38px] w-[143px] bg-[#FFFFFF] ml-6'>
                             <div className="flex h-[38px] w-[143px]  mt-1">
-                                <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px]" />
+                                <img src={person} alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px]" />
                                 <div className="flex flex-col h-[38px] w-[143px]">
                                     <div className="text-[12px]  text-[#A3A3A3]">
                                         Team Member
@@ -82,7 +86,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -92,11 +96,11 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>
@@ -120,7 +124,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -130,11 +134,11 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>
@@ -158,7 +162,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -168,128 +172,11 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Technology & Innovation</span>
-
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
-
-                                        <div
-                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
-                                            style={{ width: `${30}%` }}
-                                        >
-                                            {30}%
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className='flex ml-2'>
-                            <div>
-                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
-                                    <div className="flex items-center">
-                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
-                                        </div>
-                                        <div className="flex flex-col ">
-                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
-                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
-                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
-                                            </div>
-                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
-                                            <div className="flex space-x-2 ml-[10px]   ">
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Social</span>
-                                                </p>
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Technology & Innovation</span>
-
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
-
-                                        <div
-                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
-                                            style={{ width: `${30}%` }}
-                                        >
-                                            {30}%
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div>
-                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
-                                    <div className="flex items-center">
-                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
-                                        </div>
-                                        <div className="flex flex-col ">
-                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
-                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
-                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
-                                            </div>
-                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
-                                            <div className="flex space-x-2 ml-[10px]   ">
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Social</span>
-                                                </p>
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Technology & Innovation</span>
-
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
-
-                                        <div
-                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
-                                            style={{ width: `${30}%` }}
-                                        >
-                                            {30}%
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div>
-                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
-                                    <div className="flex items-center">
-                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
-                                        </div>
-                                        <div className="flex flex-col ">
-                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
-                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
-                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
-                                            </div>
-                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
-                                            <div className="flex space-x-2 ml-[10px]   ">
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
-                                                    <span className='text-[12px]'> Social</span>
-                                                </p>
-                                                <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>
@@ -316,7 +203,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -326,11 +213,128 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
+                                                    <span className='text-[12px]'> Technology & Innovation</span>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
+
+                                        <div
+                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
+                                            style={{ width: `${30}%` }}
+                                        >
+                                            {30}%
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div>
+                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
+                                    <div className="flex items-center">
+                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
+                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
+                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
+                                            </div>
+                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
+                                            <div className="flex space-x-2 ml-[10px]   ">
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
+                                                    <span className='text-[12px]'> Social</span>
+                                                </p>
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
+                                                    <span className='text-[12px]'> Technology & Innovation</span>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
+
+                                        <div
+                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
+                                            style={{ width: `${30}%` }}
+                                        >
+                                            {30}%
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div>
+                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
+                                    <div className="flex items-center">
+                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
+                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
+                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
+                                            </div>
+                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
+                                            <div className="flex space-x-2 ml-[10px]   ">
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
+                                                    <span className='text-[12px]'> Social</span>
+                                                </p>
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
+                                                    <span className='text-[12px]'> Technology & Innovation</span>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-[319px] h-[16px] bg-[#E8E8E8] rounded-lg mt-[15px] ml-[15px]">
+
+                                        <div
+                                            className="h-4  bg-green-500 text-white rounded-lg text-[10px] text-center"
+                                            style={{ width: `${30}%` }}
+                                        >
+                                            {30}%
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className='flex ml-2'>
+                            <div>
+                                <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
+                                    <div className="flex items-center">
+                                        <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
+                                        </div>
+                                        <div className="flex flex-col ">
+                                            <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
+                                                <FaStar className="text-[#FD8E1F] h-[14px] w-[13.5px]" />
+                                                <span className="text-[#8C94A3] font-semibold text-[12px]">RECOMMENDED</span>
+                                            </div>
+                                            <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
+                                            <div className="flex space-x-2 ml-[10px]   ">
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
+                                                    <span className='text-[12px]'> Social</span>
+                                                </p>
+                                                <p className=''>
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>
@@ -353,7 +357,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -363,11 +367,11 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>
@@ -392,7 +396,7 @@ function IndividualEmployee() {
                                 <div className="w-[380px] h-[160px] border rounded-[10px]  border-[#D9D9D9] m-4 mt-4 shadow-sm">
                                     <div className="flex items-center">
                                         <div className=" pl-4 overflow-hidden rounded mt-[10px]  ">
-                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                            <img className="w-[210px] h-[94px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                         </div>
                                         <div className="flex flex-col ">
                                             <div className="flex items-center space-x-1 ml-[10px] pt-[10px]">
@@ -402,11 +406,11 @@ function IndividualEmployee() {
                                             <h2 className="text-[12px] font-semibold ml-[10px]">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
                                             <div className="flex space-x-2 ml-[10px]   ">
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[15px]" src="/public/assets/img/abc.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[15px]" src={neighbourIcon} alt="neighbourIcon" />
                                                     <span className='text-[12px]'> Social</span>
                                                 </p>
                                                 <p className=''>
-                                                    <img className="inline-block  w-[14px] h-[16px] " src="/public/assets/img/def.png" alt="Image Alt Text" />
+                                                    <img className="inline-block  w-[14px] h-[16px] " src={lightOnIcon} alt="lightOnIcon" />
                                                     <span className='text-[12px]'> Technology & Innovation</span>
 
                                                 </p>

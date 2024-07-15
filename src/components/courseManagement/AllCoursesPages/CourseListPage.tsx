@@ -3,7 +3,7 @@ import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
@@ -15,26 +15,35 @@ import diploma from "@/assets/images/diploma.png";
 import unversity from "@/assets/images/unversity.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
+import nature from "@/assets/images/nature.png";
+import lightOn from "@/assets/images/LightOn.png";
+import neighbour from "@/assets/images/Neighbour.png";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import { QUERY_KEYS } from "@/lib/constants";
+import { ErrorType } from "@/types/Errors";
 
 type dataGridProps = {
   data: AllCourse[];
+  reCommendedCourses : RecommendedCourses[];
 };
 
-const CourseListPage = ({ data }: dataGridProps) => {
+const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
   const  { CompanyId }  = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
+  const queryClient = useQueryClient();
   const { mutate: enrollRequest } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
       toast({
         variant: "success",
         title: data?.data?.message,
       });
     },
-    onError: (data) => {
+    onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
-        title: data?.message,
+        title: error?.data?.message,
       });
     },
   });
@@ -155,7 +164,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                   <div className="relative overflow-hidden max-w-[356px]">
                     <img
                       className="object-cover object-center w-full"
-                      src="/public/assets/img/nature.png"
+                      src={nature}
                       alt="Course"
                     />
                     <input
@@ -183,7 +192,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 leading-[22px]">
                         <img
                           className="inline-block w-[20px] h-[23px]"
-                          src="/public/assets/img/def.png"
+                          src={lightOn}
                           alt="Image Alt Text"
                         />
                         <p className="text-[#918A8A] text-base font-normal font-calibri">
@@ -234,7 +243,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 leading-[22px]">
                         <img
                           className="inline-block w-[18px] h-[24px]"
-                          src="/public/assets/img/abc.png"
+                          src={neighbour}
                           alt="Image Alt Text"
                         />
                         <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
@@ -288,6 +297,14 @@ const CourseListPage = ({ data }: dataGridProps) => {
                   <div className="xl:text-right text-center mt-3">
                     <button
                       onClick={() => handleEnroll(allcourse?.currentVersion?.id)}
+                      disabled={
+                        reCommendedCourses?.some(
+                          (item) =>
+                            item?.id === allcourse?.id
+                        )
+                          ? true
+                          : false
+                      }
                       className="2xl:px-[14px] xl:p-[10px] py-1 px-2 bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base"
                     >
                       Enroll Now

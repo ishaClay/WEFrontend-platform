@@ -5,7 +5,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
@@ -17,26 +17,33 @@ import diploma from "@/assets/images/diploma.png";
 import unversity from "@/assets/images/unversity.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
+import nature from "@/assets/images/nature.png";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import { QUERY_KEYS } from "@/lib/constants";
+import { ErrorType } from "@/types/Errors";
 
 type dataGridProps = {
   data: AllCourse[];
+  reCommendedCourses : RecommendedCourses[];
 };
 
-const CourseGridPage = ({ data }: dataGridProps) => {
+const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
   const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
+  const queryClient = useQueryClient();
   const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
       toast({
         variant: "success",
         title: data?.data?.message,
       });
     },
-    onError: (data) => {
+    onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
-        title: data?.message,
+        title: error?.data?.message,
       });
     },
   });
@@ -154,7 +161,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
               <div className="relative overflow-hidden h-[231px]">
                 <img
                   className="object-cover object-center"
-                  src="/public/assets/img/nature.png"
+                  src={nature}
                   alt="Course"
                 />
                 <input
@@ -288,10 +295,9 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                   <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
                     <button
                       disabled={
-                        allcourse?.courseAlloted?.some(
+                        reCommendedCourses?.some(
                           (item) =>
-                            item.user.id === +user.UserId &&
-                            item.course.id === allcourse?.id
+                            item?.id === allcourse?.id
                         )
                           ? true
                           : false

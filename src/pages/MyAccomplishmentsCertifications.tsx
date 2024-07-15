@@ -6,6 +6,9 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import nature from "@/assets/images/nature.png";
+
 function MyAccomplishmentsCertifications() {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -63,7 +66,7 @@ function MyAccomplishmentsCertifications() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -82,7 +85,7 @@ function MyAccomplishmentsCertifications() {
                         <div className="flex">
                             <div className="overflow-hidden rounded m-5 w-[100px]">
                                 <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
+                                    src={nature} alt="nature"
                                 />
                             </div>
                             <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
@@ -99,43 +102,7 @@ function MyAccomplishmentsCertifications() {
                         <div className="flex">
                             <div className="overflow-hidden rounded m-5 w-[100px]">
                                 <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
-                                <div className="text-[16px]">
-                                    Social | 5 modules
-                                </div>
-                                <h2 className="text-[14px] font-semibold">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
-                            </div>
-                        </div>
-                        <button className="m-5 px-4 py-2 bg-[#00778B] text-white rounded-[5px] w-[80px] h-[40px]">View</button>
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-6 m-6 md:flex-row ">
-                    <div className="w-full md:w-[580px] md:h-[140px] border rounded-[10px] border-[#D9D9D9] shadow-sm flex flex-col md:flex-row justify-between items-center">
-                        <div className="flex">
-                            <div className="overflow-hidden rounded m-5 w-[100px]">
-                                <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
-                                />
-                            </div>
-                            <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
-                                <div className="text-[16px]">
-                                    Social | 5 modules
-                                </div>
-                                <h2 className="text-[14px] font-semibold">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
-                            </div>
-                        </div>
-                        <button className="m-5 px-4 py-2 bg-[#00778B] text-white rounded-[5px] w-[80px] h-[40px]">View</button>
-                    </div>
-
-                    <div className="w-full md:w-[580px] md:h-[140px] border rounded-[10px] border-[#D9D9D9] shadow-sm flex flex-col md:flex-row justify-between items-center">
-                        <div className="flex">
-                            <div className="overflow-hidden rounded m-5 w-[100px]">
-                                <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
+                                    src={nature} alt="nature"
                                 />
                             </div>
                             <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
@@ -154,7 +121,7 @@ function MyAccomplishmentsCertifications() {
                         <div className="flex">
                             <div className="overflow-hidden rounded m-5 w-[100px]">
                                 <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
+                                    src={nature} alt="nature"
                                 />
                             </div>
                             <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
@@ -171,7 +138,43 @@ function MyAccomplishmentsCertifications() {
                         <div className="flex">
                             <div className="overflow-hidden rounded m-5 w-[100px]">
                                 <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
-                                    src="/public/assets/img/nature.png" alt="Course"
+                                    src={nature} alt="nature"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
+                                <div className="text-[16px]">
+                                    Social | 5 modules
+                                </div>
+                                <h2 className="text-[14px] font-semibold">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
+                            </div>
+                        </div>
+                        <button className="m-5 px-4 py-2 bg-[#00778B] text-white rounded-[5px] w-[80px] h-[40px]">View</button>
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-6 m-6 md:flex-row ">
+                    <div className="w-full md:w-[580px] md:h-[140px] border rounded-[10px] border-[#D9D9D9] shadow-sm flex flex-col md:flex-row justify-between items-center">
+                        <div className="flex">
+                            <div className="overflow-hidden rounded m-5 w-[100px]">
+                                <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
+                                    src={nature} alt="nature"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
+                                <div className="text-[16px]">
+                                    Social | 5 modules
+                                </div>
+                                <h2 className="text-[14px] font-semibold">Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity</h2>
+                            </div>
+                        </div>
+                        <button className="m-5 px-4 py-2 bg-[#00778B] text-white rounded-[5px] w-[80px] h-[40px]">View</button>
+                    </div>
+
+                    <div className="w-full md:w-[580px] md:h-[140px] border rounded-[10px] border-[#D9D9D9] shadow-sm flex flex-col md:flex-row justify-between items-center">
+                        <div className="flex">
+                            <div className="overflow-hidden rounded m-5 w-[100px]">
+                                <img className="w-[100px] h-[100px] rounded-[10px] object-cover object-center"
+                                    src={nature} alt="nature"
                                 />
                             </div>
                             <div className="flex flex-col w-full md:w-[240px] gap-2 mt-6">
@@ -186,7 +189,7 @@ function MyAccomplishmentsCertifications() {
                 </div>
 
                 <div className=" md:ml-[895px] mt-16 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] md:w-[332px]">
-                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                         <span className="text-gray-900 font-semibold">Messaging</span>
                     </div>

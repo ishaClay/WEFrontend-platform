@@ -4,6 +4,9 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BiCheckCircle, BiShow } from "react-icons/bi";
 import MaturityLevelPage from "./MaturityLevelPage";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import treePlantingIcon from "@/assets/images/TreePlanting.png";
+import moralesIcon from "@/assets/images/Morales.png";
+import person from "@/assets/images/person.png";
 
 function MaturityAssessmentRoadmapAfterbuild() {
   const [activeTab, setActiveTab] = useState("Assessment Result");
@@ -92,8 +95,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       <div className="flex w-full">
                         <div className="ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
                           <img
-                            src="/public/assets/img/Tree Planting.png"
-                            alt="Leaf Icon"
+                            src={treePlantingIcon}
+                            alt="treePlantingIcon"
                           />
                         </div>
                         <div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">
@@ -161,7 +164,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                         <div className="flex gap-2 pl-3">
                           <div>
                             <img
-                              src="/public/assets/img/face1.jpg"
+                              src={person}
+                              alt="person"
                               className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]"
                             />
                           </div>
@@ -210,7 +214,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                         <div className="flex gap-2 pl-3">
                           <div>
                             <img
-                              src="/public/assets/img/face1.jpg"
+                              src={person}
+                              alt="person"
                               className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]"
                             />
                           </div>
@@ -260,7 +265,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                           <div className="flex gap-2 pl-3">
                             <div>
                               <img
-                                src="/public/assets/img/face1.jpg"
+                                src={person}
+                                alt="person"
                                 className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]"
                               />
                             </div>
@@ -313,8 +319,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       <div className="flex w-full ">
                         <div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2 ">
                           <img
-                            src="/public/assets/img/Morale.png"
-                            alt="Leaf Icon"
+                            src={moralesIcon}
+                            alt="moralesIcon"
                           />
                         </div>
 
@@ -387,7 +393,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                         <div className="flex gap-2 pl-3">
                           <div>
                             <img
-                              src="/public/assets/img/face1.jpg"
+                              src={person}
+                              alt="person"
                               className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]"
                             />
                           </div>
@@ -439,7 +446,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                         <div className="flex gap-2 pl-3">
                           <div>
                             <img
-                              src="/public/assets/img/face1.jpg"
+                              src={person}
+                              alt="person"
                               className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px]"
                             />
                           </div>
@@ -492,7 +500,8 @@ function MaturityAssessmentRoadmapAfterbuild() {
                           <div className="flex gap-2 pl-3">
                             <div>
                               <img
-                                src="/public/assets/img/face1.jpg"
+                                src={person}
+                                alt="person"
                                 className="w-[24px] h-[24px] rounded-full mr-2 mt-[10px] "
                               />
                             </div>

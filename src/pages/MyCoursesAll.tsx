@@ -6,6 +6,8 @@ import { BsSearch } from "react-icons/bs";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import nature from "@/assets/images/nature.png";
 
 function MyCoursesAll() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,7 +60,7 @@ function MyCoursesAll() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -119,8 +121,8 @@ function MyCoursesAll() {
                         <div key={index} className="ml-[20px] mt-[20px] h-[460px] w-[90%] md:w-[382px] border border-solid border-[#D9D9D9] rounded">
                             <div className="relative overflow-hidden rounded">
                                 <img className="w-full h-[231px] rounded object-cover object-center"
-                                    src="/public/assets/img/nature.png"
-                                    alt="Course"
+                                    src={nature}
+                                    alt="nature"
                                 />
                                 <div className="flex items-center absolute bottom-0 left-[75%] transform -translate-x-1/2 rounded-full py-1 px-2 mb-4">
                                     <button className="bg-[#00778B] text-white font-medium py-2 px-4 rounded-lg shadow h-[50px] w-[150px]">
@@ -188,8 +190,8 @@ function MyCoursesAll() {
                     ))}
                 </div>
 
-                <div className="ml-auto mt-1 mr-4 ml-8 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] md:w-[332px]">
-                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                <div className="mt-1 mr-4 ml-8 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] md:w-[332px]">
+                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                         <span className="text-gray-900 font-semibold">Messaging</span>
                     </div>

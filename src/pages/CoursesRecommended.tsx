@@ -5,17 +5,27 @@ import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import {
-  CourseEnrollmentPayload,
-  courseEnrollmentRequest,
   fetchRecommendedCourses,
 } from "@/services/apiServices/recommendedcourses";
 import { CourseTime, IsOnline } from "@/types/RecommendedCourses";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import speed from "@/assets/images/Speed.png";
+import diploma from "@/assets/images/diploma.png";
+import fulltime from "@/assets/images/fulltime.png";
+import online from "@/assets/images/online.png";
+import time from "@/assets/images/time.png";
+import unversity from "@/assets/images/unversity.png";
+import atu from "@/assets/images/atu.png";
+import { useToast } from "@/components/ui/use-toast";
+import { fetchEnroll } from "@/services/apiServices/enroll";
+import { ErrorType } from "@/types/Errors";
+import { EnrollmentRequestsResponse } from "@/types/allocatedcourses";
+import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 
 function CoursesRecommended() {
   const userData = useSelector((state: RootState) => state.user);
@@ -26,9 +36,9 @@ function CoursesRecommended() {
     ? usersData?.query?.id
     : usersData?.id;
   const [isRecommendedCourse, setIsRecommendedCourseShow] = useState(false);
-
+  const { toast } = useToast();
   const [search, setSearch] = useState("");
-
+  const queryClient = useQueryClient();
   const { data: recommendedcourses, isPending: pending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
     queryFn: () =>
@@ -39,18 +49,35 @@ function CoursesRecommended() {
       }),
   });
 
-  const { mutate: sendEnrollmentRequest, isPending } = useMutation({
-    mutationFn: (payload: CourseEnrollmentPayload) =>
-      courseEnrollmentRequest(payload),
+  const { mutate: enrollRequest, isPending } = useMutation({
+    mutationFn: fetchEnroll,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
+      toast({
+        variant: "success",
+        title: data?.data?.message,
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error?.data?.message,
+      });
+    },
   });
 
+  const { data: course } = useQuery<EnrollmentRequestsResponse>({
+    queryKey: [QUERY_KEYS.fetchbycourseallocate],
+    queryFn: () => fetchAllocatedCourse(usersData?.query?.id),
+  });
+  console.log('course++', course);
+  
+
   const handleEnrollementRequest = (id: number) => {
-    const payload: CourseEnrollmentPayload = {
-      courseId: id,
-      trainerId: 1,
-      userId: parseInt(userID),
-    };
-    sendEnrollmentRequest(payload);
+    enrollRequest({
+      versionId: id,
+      companyId: +userData?.CompanyId,
+    });
   };
 
   return (
@@ -100,136 +127,129 @@ function CoursesRecommended() {
             ) : recommendedcourses?.data ? (
               recommendedcourses?.data?.map((recommendedcourses) => (
                 <div key={recommendedcourses.id}>
-                  <div className="h-[175px] bg-[#FFFFFF] pr-4 flex justify-between  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
-                    <div className="flex">
-                      <div className=" pt-[22px] pl-[22px]  overflow-hidden rounded">
-                        <img
-                          className=" w-[152px] h-[133px] rounded object-cover object-center "
-                          src={recommendedcourses.bannerImage}
-                          alt="Course"
-                        />
+                  <div className="h-[175px] bg-[#FFFFFF] flex  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
+                    <div className=" pt-[22px] pl-[22px]  overflow-hidden rounded">
+                      <img
+                        className=" w-[152px] h-[133px] rounded object-cover object-center "
+                        src={recommendedcourses.bannerImage}
+                        alt="Course"
+                      />
+                    </div>
+
+                    <div className="flex flex-col mt-[22px] ml-[22px] ">
+                      <div>
+                        <div className="flex items-center  ">
+                          <FaStar className="text-yellow-500" />
+                          <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
+                            RECOMMENDED
+                          </span>
+                          <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
+                            Technology & Innovation
+                          </span>
+                          <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
+                            Social
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex flex-col mt-[22px] ml-[22px] ">
-                        <div>
-                          <div className="flex items-center  ">
-                            <FaStar className="text-yellow-500" />
-                            <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
-                              RECOMMENDED
-                            </span>
-                            <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
-                              Technology & Innovation
-                            </span>
-                            <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
-                              Social
-                            </span>
-                          </div>
+                      <div className="flex ">
+                        <div
+                          className="h-[44px] w-[378.08px] mt-[16px]"
+                          style={{
+                            fontFamily: "Inter",
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            lineHeight: "22px",
+                            textAlign: "left",
+                          }}
+                        >
+                          <span dangerouslySetInnerHTML={{ __html: recommendedcourses?.description }} className="line-clamp-2"></span>
                         </div>
 
-                        <div className="flex ">
-                          <div
-                            className="h-[44px] w-[378.08px] mt-[16px]"
-                            style={{
-                              fontFamily: "Inter",
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              lineHeight: "22px",
-                              textAlign: "left",
-                            }}
-                          >
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: recommendedcourses.description,
-                              }}
-                              className="line-clamp-2"
-                            ></span>
-                          </div>
+                        <div className="ml-[200px]">
+                          <img
+                            className=" h-[48px] w-[162.74px] object-cover object-center"
+                            src={atu}
+                            alt="atu"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex mt-[25px]">
+                        <div className="h-[22px] w-[129px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={speed}
+                            alt="speed"
+                          />
+                          <p className="text-xs">Level- Advanced</p>
                         </div>
 
-                        <div className="flex mt-[25px]">
-                          <div className="h-[22px] w-[129px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px]"
-                              src="/public/assets/img/timer.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">Level- Advanced</p>
-                          </div>
-
-                          <div className="h-[22px] w-[160px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px] text-black"
-                              src="/public/assets/img/diploma.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">Post Graduate Diploma</p>
-                          </div>
-                          <div className="h-[22px] w-[80px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px]"
-                              src="/public/assets/img/fulltime.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">
-                              {recommendedcourses.time ===
-                                CourseTime.FullTime && <span>Full-time</span>}
-                              {recommendedcourses.time ===
-                                CourseTime.PartTime && <span>Part-time</span>}
-                            </p>
-                          </div>
-                          <div className="h-[22px] w-[75px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px]"
-                              src="/public/assets/img/online.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">
-                              {recommendedcourses.isOnline ===
-                                IsOnline.Online && <span>Online</span>}
-                              {recommendedcourses.isOnline ===
-                                IsOnline.InPerson && <span>InPerson</span>}
-                              {recommendedcourses.isOnline ===
-                                IsOnline.Hybrid && <span>Hybrid</span>}
-                            </p>
-                          </div>
-                          <div className="h-[22px] w-[80px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px]"
-                              src="/public/assets/img/time.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">
-                              {recommendedcourses.duration}
-                            </p>
-                          </div>
-                          <div className="h-[22px] w-[200px] flex items-center gap-1">
-                            <img
-                              className=" h-[16] w-[18px]"
-                              src="/public/assets/img/unversity.png"
-                              alt="Course"
-                            />
-                            <p className="text-xs">
-                              Atlantic Technological University
-                            </p>
-                          </div>
+                        <div className="h-[22px] w-[160px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px] text-black"
+                            src={diploma}
+                            alt="diploma"
+                          />
+                          <p className="text-xs">Post Graduate Diploma</p>
+                        </div>
+                        <div className="h-[22px] w-[80px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={fulltime}
+                            alt="fulltime"
+                          />
+                          <p className="text-xs">
+                            {recommendedcourses.time ===
+                              CourseTime.FullTime && <span>Full-time</span>}
+                            {recommendedcourses.time ===
+                              CourseTime.PartTime && <span>Part-time</span>}
+                          </p>
+                        </div>
+                        <div className="h-[22px] w-[75px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={online}
+                            alt="online"
+                          />
+                          <p className="text-xs">
+                            {recommendedcourses.isOnline ===
+                              IsOnline.Online && <span>Online</span>}
+                            {recommendedcourses.isOnline ===
+                              IsOnline.InPerson && <span>InPerson</span>}
+                            {recommendedcourses.isOnline ===
+                              IsOnline.Hybrid && <span>Hybrid</span>}
+                          </p>
+                        </div>
+                        <div className="h-[22px] w-[80px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={time}
+                            alt="time"
+                          />
+                          <p className="text-xs">
+                            {recommendedcourses.duration}
+                          </p>
+                        </div>
+                        <div className="h-[22px] w-[200px] flex items-center gap-1">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={unversity}
+                            alt="unversity"
+                          />
+                          <p className="text-xs">
+                            Atlantic Technological University
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <div className="ml-[200px]">
-                        <img
-                          className=" h-[48px] w-[162.74px] object-cover object-center"
-                          src="/public/assets/img/atu.png"
-                          alt="Course"
-                        />
-                      </div>
+                    <div>
                       <div className="flex flex-col ">
                         <div>
-                          <h3 className="text-[#000000] text-[font-calibri-bold] ml-[97px]">
+                          <h3 className="text-[#000000] text-[font-calibri-bold] ml-[97px] mt-[20px]">
                             €{recommendedcourses.price}
                           </h3>
                         </div>
-
                         <Button
                           onClick={() =>
                             handleEnrollementRequest(recommendedcourses.id)

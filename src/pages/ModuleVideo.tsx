@@ -11,6 +11,8 @@ import { PiShareFat } from "react-icons/pi";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdOutlineStar } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import wind from "@/assets/images/wind.png";
 
 function ModuleVideo() {
 
@@ -83,7 +85,7 @@ function ModuleVideo() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -181,7 +183,7 @@ function ModuleVideo() {
 
                                 <div className="m-4">
                                     <img
-                                        src="/public/assets/img/wind.png"
+                                        src={wind}
                                         alt="Wind Turbines"
                                         className="w-[1215px] h-[730px]"
                                     />
@@ -201,7 +203,7 @@ function ModuleVideo() {
                                 <div className="flex flex-wrap justify-between items-center m-4 bg-white">
                                     <div className="flex items-center space-x-4 mb-4 md:mb-0">
                                         <img
-                                            src="/public/assets/img/face1.jpg"
+                                            src={person}
                                             alt="Emilia Anderson"
                                             className="h-8 w-8 rounded-full border-[#D9D9D9]  border-2"
                                         />
@@ -251,7 +253,7 @@ function ModuleVideo() {
                                 </div>
 
                                 <div className=" lg:ml-[895px] mt-2 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px]  lg:w-[332px]">
-                                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                     </div>

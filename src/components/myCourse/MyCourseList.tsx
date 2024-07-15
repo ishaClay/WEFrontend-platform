@@ -55,7 +55,7 @@ const MyCourseList = ({ list }: myPagesListProps) => {
             </div>
             <div className="flex flex-wrap items-center 2xl:gap-6 sm:gap-3 gap-2 pt-[10px]">
               <div className="flex items-center">
-                <img src={SpeedImage} alt="" />
+                <img src={SpeedImage} alt=""  className="h-[16] w-[18px]" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
                   Level- Advanced
                 </p>
