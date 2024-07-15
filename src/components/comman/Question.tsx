@@ -70,7 +70,7 @@ const Question = ({
         <Button
           // variant={"outline"}
           type="button"
-          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
           onClick={handlePrev}
         >
           Prev
@@ -78,7 +78,7 @@ const Question = ({
         <Button
           type="button"
           // variant={"outline"}
-          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
           onClick={handleNext}
         >
           Next

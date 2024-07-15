@@ -26,6 +26,12 @@ const InviteMember = ({
   const { CompanyId } = useAppSelector((state) => state.user);
   const { toast } = useToast();
   const [emails, setEmails] = useState<string[]>([]);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const CompanyID = CompanyId
+    ? CompanyId
+    : userData?.query
+    ? userData?.query?.companyDetails?.id
+    : userData?.companyDetails?.id;
 
   type ValidationSchema = z.infer<typeof schema>;
   const {
@@ -44,7 +50,7 @@ const InviteMember = ({
       reset();
       setEmails([]);
       setIsOpen(false);
-      toast({ title: "Invition Send Successfully", variant: "success" });
+      toast({ title: "Invitation Sent Successfully", variant: "success" });
     },
     onError: (error) => {
       toast({
@@ -61,7 +67,7 @@ const InviteMember = ({
       email: emails,
       csvUrl: "",
       invitationDetails: data?.invitiondetail,
-      companyId: CompanyId,
+      companyId: CompanyID,
     };
     createEmployeeInvitionlist(payload);
   };

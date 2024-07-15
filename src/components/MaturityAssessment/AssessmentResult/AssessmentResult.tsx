@@ -49,10 +49,13 @@ const findMaturityLevel = (score: number) => {
 
 type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
-  assessmentData: any
+  assessmentData: any;
 };
 
-const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) => {
+const AssessmentResult = ({
+  chnageTab,
+  assessmentData,
+}: AssessmentResultProps) => {
   const location = useLocation();
   console.log("+++++", location);
   const queryClient = useQueryClient();
@@ -161,35 +164,37 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
 
   const Labels = () => (
     <>
-      {data.labels.map((label, index) => {
-        let colorClass, opacityClass;
-        if (index === 0) {
-          colorClass =
-            "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-25";
-        } else if (index === 1) {
-          colorClass =
-            "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-50";
-        } else {
-          colorClass =
-            "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-75";
-        }
-        return (
-          <div
-            key={index}
-            className="text-sm flex items-center relative mb-10 h-6"
-          >
+      {fetchClientmaturitylevel &&
+        fetchClientmaturitylevel?.data?.map((label, index) => {
+          let colorClass, opacityClass;
+          if (index === 0) {
+            colorClass =
+              "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-25";
+          } else if (index === 1) {
+            colorClass =
+              "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-50";
+          } else {
+            colorClass =
+              "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-75";
+          }
+          return (
             <div
-              className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
-            ></div>
-            <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
-              {label}
+              key={index}
+              className="text-sm flex items-center relative mb-10 h-6"
+            >
+              <div
+                className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
+              ></div>
+              <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
+                {label?.maturityLevelName}
+                <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       <div className="sm:mb-[35px] mb-5">
         <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px]">
           Total Score -
@@ -205,7 +210,6 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
   );
 
   console.log("assessmant?.data?.data", assessmentData, assessmant?.data?.data);
-  
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
@@ -288,7 +292,10 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
             </div>
 
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -343,11 +350,14 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button className="bg-[#FFD56A] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black">
-                Intermediate 12
+                Intermediate
               </Button>
             </div>
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -406,7 +416,10 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
               </Button>
             </div>
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => {
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => {
                 const persantage =
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
@@ -484,7 +497,10 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
           </TabsList>
           <TabsContent value="introductory" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => (
                 <>
                   {item.totalpoints < "40" && (
                     <Button
@@ -522,7 +538,10 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
           </TabsContent>
           <TabsContent value="intermediate" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => (
                 <>
                   {item.totalpoints >= "40" && item.totalpoints < "70" && (
                     <Button
@@ -560,7 +579,10 @@ const AssessmentResult = ({ chnageTab, assessmentData }: AssessmentResultProps) 
           </TabsContent>
           <TabsContent value="advanced" className="lg:p-5 p-0 mt-0">
             <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-              {(assessmentData?.length > 0 ? assessmentData : assessmant?.data?.data)?.map((item: any) => (
+              {(assessmentData?.length > 0
+                ? assessmentData
+                : assessmant?.data?.data
+              )?.map((item: any) => (
                 <>
                   {item.totalpoints >= "70" && (
                     <Button

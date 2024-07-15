@@ -30,6 +30,12 @@ const EmployeeInvitation = () => {
   const handleBackClick = () => {
     navigate("/company/employeelist");
   };
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const CompanyID = CompanyId
+    ? CompanyId
+    : userData?.query
+    ? userData?.query?.companyDetails?.id
+    : userData?.companyDetails?.id;
 
   type ValidationSchema = z.infer<typeof schema>;
   const {
@@ -67,7 +73,7 @@ const EmployeeInvitation = () => {
       email: emails,
       csvUrl: data?.file,
       invitationDetails: data?.invitiondetail,
-      companyId: CompanyId,
+      companyId: CompanyID,
     };
     createEmployeeInvitionlist(payload);
   };

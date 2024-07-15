@@ -139,7 +139,7 @@ function CompanyRegister() {
         setIsAble(true);
         toast({
           variant: "destructive",
-          title: "Invalid Company Id",
+          title: data?.message,
         });
       }
     },
@@ -162,7 +162,7 @@ function CompanyRegister() {
 
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
 
-      toast({ title: "Company update Successfully" });
+      toast({ title: "Company updated Successfully" });
       EnumUpadate();
     },
     onError: (error: ErrorType) => {
