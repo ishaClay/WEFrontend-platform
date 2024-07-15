@@ -39,6 +39,7 @@ const QuestionPage = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const [selectedData, setSelectedData] = useState<string[]>([]);
+  const [isShow, setIsShow] = useState<boolean>(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -231,9 +232,11 @@ const QuestionPage = () => {
     }
   };
 
+  console.log("selectedData", selectedData);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [selectedData]);
+  }, [selectedData, isShow]);
 
   useEffect(() => {
     pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
@@ -249,6 +252,7 @@ const QuestionPage = () => {
   const handleSelected = (e: string) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    setIsShow(!isShow);
     setSelectedData((prev) => {
       if (prev?.includes(e)) {
         return prev;
