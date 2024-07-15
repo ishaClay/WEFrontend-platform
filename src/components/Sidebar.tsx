@@ -83,7 +83,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                       onClick={() => toggleDropdown(item.children, index)}
                       className={`group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
                         item.children.find(
-                          (child) => child.link === location.pathname
+                          (child) =>
+                            child.link === location.pathname ||
+                            isOpen?.[`bar${index + 1}`]
                         )
                           ? "bg-[#00778B] text-white"
                           : "bg-[#fff]"

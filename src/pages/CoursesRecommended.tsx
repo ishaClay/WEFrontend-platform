@@ -14,6 +14,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 function CoursesRecommended() {
@@ -88,7 +89,7 @@ function CoursesRecommended() {
                 <Button
                   variant={"ghost"}
                   className="h-auto p-0 hover:bg-transparent"
-                  // onClick={() => setIsRecommendedCourseShow(true)}
+                  onClick={() => setIsRecommendedCourseShow(true)}
                 >
                   <AiOutlineAppstore className="text-[#A3A3A3] w-8 h-8" />
                 </Button>
@@ -111,23 +112,20 @@ function CoursesRecommended() {
                         />
                       </div>
 
-                      <div className="flex ">
-                        <div
-                          className="h-[44px] w-[378.08px] mt-[16px]"
-                          style={{
-                            fontFamily: "Inter",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            lineHeight: "22px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: recommendedcourses.description,
-                            }}
-                            className="line-clamp-2"
-                          ></span>
+                      <div className="flex flex-col mt-[22px] ml-[22px] ">
+                        <div>
+                          <div className="flex items-center  ">
+                            <FaStar className="text-yellow-500" />
+                            <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
+                              RECOMMENDED
+                            </span>
+                            <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
+                              Technology & Innovation
+                            </span>
+                            <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
+                              Social
+                            </span>
+                          </div>
                         </div>
 
                         <div className="flex ">

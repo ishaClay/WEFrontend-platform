@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
+import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
@@ -117,7 +118,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import "@cyntler/react-doc-viewer/dist/index.css";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -160,6 +160,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/employee_register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
@@ -809,7 +810,10 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route path="support-request/add-new-ticket" element={<AddNewTicketsPage />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<AddNewTicketsPage />}
+          />
           <Route
             path="schedule-live-session"
             element={<ScheduleLiveSession />}

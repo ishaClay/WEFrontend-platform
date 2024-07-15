@@ -31,7 +31,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 const schema = z
@@ -68,6 +68,31 @@ function Register() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  type ValidationSchema = z.infer<typeof schema>;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    setValue,
+    watch,
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
+
+  const email = watch("email");
+
+  console.log("params", showRegistrationForm);
+
+  useEffect(() => {
+    if (searchParams.get("email") || searchParams.get("type")) {
+      handleLaunchJourney();
+      setSelectedRole("company");
+      setValue("email", searchParams.get("email") || "");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -137,20 +162,6 @@ function Register() {
       });
     },
   });
-
-  type ValidationSchema = z.infer<typeof schema>;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-    watch,
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(schema),
-    mode: "all",
-  });
-
-  const email = watch("email");
 
   // const settings = {
   //   dots: true,
@@ -243,116 +254,6 @@ function Register() {
                 </label>
               </div>
 
-              {/* {!showRegistrationForm ? (
-                <div className="h-[524px] relative mt-[92px]">
-                  <div className="">
-                    <h3 className="text-[24px] font-[700] mb-[40px] font-abhaya">
-                      Which best describes you?
-                    </h3>
-                    <img
-                      className="absolute right-[5px] top-[15px]"
-                      src={RunnerIcon}
-                      alt="RunnerIcon"
-                    />
-                    <img className="" src="../assets/img/Line 23.png" />
-                    <p className="text-[16px] font-[400] mt-3 font-abhaya">
-                      Select your role so we can get you to the right place.
-                    </p>
-                    <div className="flex gap-x-[40px] mt-[40px]">
-                      <PrimaryButton
-                        name="I’m A Trainer"
-                        onClick={() => {
-                          navigate("/trainer-regestration");
-                        }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
-                        symbol={<img src="../assets/img/Analyzing Skill.png" />}
-                      />
-
-                      <PrimaryButton
-                        name="I’m A Company"
-                        onClick={handleLaunchJourney}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
-                        symbol={<img src="../assets/img/Company.png" />}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="">
-                  <div className=" relative mt-[60px]">
-                    <h3 className="text-[24px] font-bold">
-                      Secure your berth & set sail
-                    </h3>
-                    <img
-                      className="absolute right-0 top-[-20px]"
-                      src={RunnerIcon}
-                      alt="RunnerIcon"
-                    />
-                    <img className="" src="../assets/img/Line 23.png" />
-                    <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
-                      Enter your company name eamil and set a password to anchor
-                      your details. submit to receive an OTP, steering you
-                      towards the next leg of your sustainable journey.
-                    </p>
-
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="mb-2">
-                        <InputWithLable
-                          label="Company Name"
-                          className="h-[46px] border solid 1.5px"
-                          placeholder="Enter Company Name"
-                          {...register("name")}
-                        />
-                        {errors.name && (
-                          <ErrorMessage
-                            message={errors.name.message as string}
-                          />
-                        )}
-                      </div>
-                      <div className="mb-2">
-                        <InputWithLable
-                          label="Email"
-                          className="h-[46px] border solid 1.5px"
-                          placeholder="Enter Email Address"
-                          {...register("email")}
-                        />
-                        {errors.email && (
-                          <ErrorMessage
-                            message={errors.email.message as string}
-                          />
-                        )}
-                      </div>
-                      <div className="mb-2">
-                        <PasswordInputWithLabel
-                          label="Set a password"
-                          className="h-[46px] border solid 1.5px"
-                          placeholder="Enter Password"
-                          {...register("password")}
-                          error={errors?.password?.message as string}
-                        />
-                      </div>
-                      <div className="mb-2">
-                        <PasswordInputWithLabel
-                          label="Confirm Password"
-                          className="h-[46px] border solid 1.5px"
-                          placeholder="Enter Confirm Password"
-                          {...register("cpassword")}
-                          error={errors?.cpassword?.message as string}
-                        />
-                      </div>
-
-                      <div className=" mt-[20px] flex gap-x-[40px]">
-                        <button
-                          type="submit"
-                          className="w-full h-[48px] bg-[#00778B] rounded-[4px] text-white"
-                        >
-                          Get OTP
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              )} */}
               {selectedRole !== "company" ? (
                 <div className="h-[524px] relative mt-[92px]">
                   <div className="">
@@ -424,6 +325,7 @@ function Register() {
                           label="Email"
                           className="h-[46px] border solid 1.5px"
                           placeholder="Enter Email Address"
+                          disabled={!!searchParams.get("email")}
                           {...register("email")}
                         />
                         {errors.email && (
