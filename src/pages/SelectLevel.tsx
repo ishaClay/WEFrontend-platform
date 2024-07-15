@@ -412,7 +412,7 @@ function SelectLevel() {
           {isPending ? (
             <Loader className="w-8 h-8" />
           ) : (
-            maturitypillar?.data?.data?.map((item: any) => {
+            pillars?.map((item: any) => {
               console.log("currentPiller", filtermesuresdata);
 
               return (
