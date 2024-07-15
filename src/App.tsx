@@ -613,9 +613,9 @@ function App() {
         <Route
           path="/employeerodemap"
           element={
-            <ProtectedRoute>
-              <EmployeeRodemap />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <EmployeeRodemap />
+            // </ProtectedRoute>
           }
         />
         <Route
@@ -700,6 +700,7 @@ function App() {
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
           />
+          <Route path="retakeAssessment" element={<QuestionPage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />

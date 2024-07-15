@@ -59,7 +59,7 @@ const DashboardLayout = () => {
           </div>
         </div>
         {Role === "employee" && (
-          <div className="absolute bottom-0 right-0 bg-white">
+          <div className="absolute bottom-0 right-0 bg-white z-[9999]">
             <EmployeeMessaging />
           </div>
         )}

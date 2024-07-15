@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { QUERY_KEYS } from "@/lib/constants";
 import { markComplate } from "@/services/apiServices/pillar";
 import { uploadFile } from "@/services/apiServices/uploadServices";
@@ -94,93 +95,101 @@ const DelayModel = ({
       <h6 className="text-base font-bold font-nunito text-[#000]">
         Assigned Action Item Details
       </h6>
-      <div className="pt-7 grid grid-cols-9">
-        <div className="col-span-5">
-          <Badge
-            className={`${
-              status() === "Delay"
-                ? "bg-[#F63636] text-white"
-                : "bg-[#FFD56A] text-black"
-            } min-w-[53px] h-[28px] text-sm font-abhaya font-semibold`}
-          >
-            {status()}
-          </Badge>
-          <h6 className="font-abhaya text-xl font-bold leading-6 text-[#000] pt-6">
-            {uploadData?.measure}
-          </h6>
-          <div className="pt-7">
-            <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-4">
-              <h6 className="text-[#777]">Start date :</h6>
-              <span className="text-[#000]">
-                {moment(new Date(uploadData?.startDate)).format("Do MMMM YYYY")}
-              </span>
+      <ScrollArea className="lg:h-auto h-[400px]">
+        <div className="sm:pt-7 pt-5 grid grid-cols-9">
+          <div className="lg:col-span-5 col-span-12">
+            <Badge
+              className={`${
+                status() === "Delay"
+                  ? "bg-[#F63636] text-white"
+                  : "bg-[#FFD56A] text-black"
+              } min-w-[53px] h-[28px] text-sm font-abhaya font-semibold`}
+            >
+              {status()}
+            </Badge>
+            <h6 className="font-abhaya text-xl font-bold leading-6 text-[#000] sm:pt-6 pt-4">
+              {uploadData?.measure}
+            </h6>
+            <div className="sm:pt-7 pt-5">
+              <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-4">
+                <h6 className="text-[#777]">Start date :</h6>
+                <span className="text-[#000]">
+                  {moment(new Date(uploadData?.startDate)).format(
+                    "Do MMMM YYYY"
+                  )}
+                </span>
+              </div>
+              <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-5">
+                <h6 className="text-[#777]">End date :</h6>
+                <span className="text-[#000]">
+                  {moment(new Date(uploadData?.endDate)).format("Do MMMM YYYY")}
+                </span>
+              </div>
+              <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-4">
+                <h6 className="text-[#777]">Last updated by :</h6>
+                <span className="text-[#000]">{userData?.name}</span>
+              </div>
+              <div className="flex items-center text-base font-abhaya font-semibold gap-1">
+                <h6 className="text-[#777]">Last updated date :</h6>
+                <span className="text-[#000]">
+                  {moment(new Date(uploadData?.updatedAt)).format(
+                    "Do MMMM YYYY"
+                  )}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-5">
-              <h6 className="text-[#777]">End date :</h6>
-              <span className="text-[#000]">
-                {moment(new Date(uploadData?.endDate)).format("Do MMMM YYYY")}
-              </span>
-            </div>
-            <div className="flex items-center text-base font-abhaya font-semibold gap-1 pb-4">
-              <h6 className="text-[#777]">Last updated by :</h6>
-              <span className="text-[#000]">{userData?.name}</span>
-            </div>
-            <div className="flex items-center text-base font-abhaya font-semibold gap-1">
-              <h6 className="text-[#777]">Last updated date :</h6>
-              <span className="text-[#000]">
-                {moment(new Date(uploadData?.updatedAt)).format("Do MMMM YYYY")}
-              </span>
+          </div>
+          <div className="lg:col-span-4 col-span-12 flex lg:justify-end justify-start pt-6">
+            <div>
+              <div className="sm:w-[317px] w-[250px] sm:h-[228px] h-[200px] border border-dashed border-[#D9D9D9] rounded-sm text-center flex flex-col justify-center">
+                {isPending ? (
+                  <Loader />
+                ) : file ? (
+                  <>
+                    <FileCheck className="w-[50px] h-[50px] mx-auto" />
+                    <p className="text-lg font-abhaya font-semibold pt-[18px]">
+                      Evidence
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <img src={fileImage} alt="" className="mx-auto" />
+                    <p className="text-xs font-abhaya text-[#9E9E9E] font-medium pt-[18px]">
+                      Drag and drop evidence here
+                    </p>
+                    <p className="text-xs font-inter text-[#9E9E9E] pt-2">
+                      -OR-
+                    </p>
+                    <Label
+                      htmlFor="upload"
+                      className="w-[120px] h-[34px] flex items-center justify-center bg-[#42A7C3] rounded-[5px] text-[12px] text-white font-abhaya mx-auto mt-[13px] cursor-pointer"
+                    >
+                      Upload Evidence
+                    </Label>
+                    <Input
+                      type="file"
+                      id="upload"
+                      className="hidden"
+                      onChange={handleChanges}
+                      placeholder="Upload Evidence"
+                    />
+                  </>
+                )}
+              </div>
+              <div className="flex ld:justify-end justify-start pt-[22px]">
+                <Button
+                  type="button"
+                  isLoading={markPending}
+                  onClick={handleSubmit}
+                  className="xl:w-[200px] xl:h-[52px] sm:w-[180px] w-[150px] h-[45px] rounded-[6px] bg-[#58BA66] xl:text-base text-[15px] font-nunito font-semibold"
+                >
+                  Mark As Completed
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-span-4 flex justify-end pt-6">
-          <div>
-            <div className="w-[317px] h-[228px] border border-dashed border-[#D9D9D9] rounded-sm text-center flex flex-col justify-center">
-              {isPending ? (
-                <Loader />
-              ) : file ? (
-                <>
-                  <FileCheck className="w-[50px] h-[50px] mx-auto" />
-                  <p className="text-lg font-abhaya font-semibold pt-[18px]">
-                    Evidence
-                  </p>
-                </>
-              ) : (
-                <>
-                  <img src={fileImage} alt="" className="mx-auto" />
-                  <p className="text-xs font-abhaya text-[#9E9E9E] font-medium pt-[18px]">
-                    Drag and drop evidence here
-                  </p>
-                  <p className="text-xs font-inter text-[#9E9E9E] pt-2">-OR-</p>
-                  <Label
-                    htmlFor="upload"
-                    className="w-[120px] h-[34px] flex items-center justify-center bg-[#42A7C3] rounded-[5px] text-[12px] text-white font-abhaya mx-auto mt-[13px] cursor-pointer"
-                  >
-                    Upload Evidence
-                  </Label>
-                  <Input
-                    type="file"
-                    id="upload"
-                    className="hidden"
-                    onChange={handleChanges}
-                    placeholder="Upload Evidence"
-                  />
-                </>
-              )}
-            </div>
-            <div className="flex justify-end pt-[22px]">
-              <Button
-                type="button"
-                isLoading={markPending}
-                onClick={handleSubmit}
-                className="xl:w-[201px] xl:h-[52px] w-[180px] h-[45px] rounded-[6px] bg-[#58BA66] xl:text-base text-[15px] font-nunito font-semibold"
-              >
-                Mark As Completed
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 };

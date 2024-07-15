@@ -77,24 +77,24 @@ const QuestionBox = ({
   return (
     <div
       className={cn(
-        `relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] xl:w-[773px] max-w-full sm:mb-12 overflow-hidden`
+        `relative bg-white min-h-[321px] pb-3 rounded-[15.34px] shadow-[0px_4px_4px_0px_#00000040] sm:mb-12 overflow-hidden`
       )}
       key={index}
     >
-      <div className="flex items-center justify-center top-0 left-0 bg-teal text-white w-[207.83px] h-[52.15px] rounded-br-[62.27px] font-bold text-lg leading-[21.97px] p-2">
+      <div className="flex items-center justify-center top-0 left-0 bg-teal text-white sm:w-[208px] w-[157px] h-[37px] sm:h-[52px] rounded-br-[62.27px] font-bold sm:text-lg text-sm p-2">
         {activePillar} {index + 1}/{question[activePillar]?.length}
       </div>
-      <div className="py-[17px] bg-[#EEF9FD] px-9 mt-5">
+      <div className="sm:py-4 bg-[#EEF9FD] sm:px-9 px-4 py-2.5 mt-5">
         <div className="flex gap-1">
-          <span className="text-[#002A3A] font-bold leading-[17.77px] text-base">
+          <span className="text-[#002A3A] font-bold sm:text-base text-sm">
             {index + 1}.
           </span>
-          <p className="text-[#002A3A] font-bold leading-[17.77px] text-base">
+          <p className="text-[#002A3A] font-bold sm:text-base text-sm">
             {i.title}
           </p>
         </div>
       </div>
-      <div className="mt-[21px] flex flex-col gap-[17px] px-10">
+      <div className="mt-[21px] flex flex-col gap-[17px] sm:px-10 px-4">
         {i.options.map((option: Option, oIndex: number, arr) => {
           return (
             <div key={oIndex}>
@@ -113,7 +113,7 @@ const QuestionBox = ({
               >
                 <input
                   type="radio"
-                  className=" cursor-pointer"
+                  className="cursor-pointer w-[15px] h-[15px]"
                   checked={option?.checked ? true : false}
                 />
                 <span className="ml-[9px] text-sm">{option.name}</span>

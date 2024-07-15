@@ -62,27 +62,25 @@ function CoursesRecommended() {
       >
         <RecommendedCoursesModel />
       </Modal>
-      <div className="bg-[#f5f3ff]">
+      <div className="bg-[#f5f3ff] mt-4">
         <div className="h-full">
-          <div className="bg-[#FFFFFF] rounded-[10px] h-full">
-            <div className=" pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+          <div className="bg-[#FFFFFF] rounded-xl h-full">
+            <div className="border-b border-[#D9D9D9] p-5">
               <p className="text-[#000000] text-[Calibri]">
                 Recommended Courses
               </p>
             </div>
 
-            <div className="flex p-3 bg-[#FFFFFF] justify-between items-center">
-              <div>
-                <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 w-[550px] h-[52px] text-[#A3A3A3]">
-                  <BsSearch className="text-[#D9D9D9] mr-2" />
+            <div className="flex sm:flex-row flex-col p-3 bg-[#FFFFFF] justify-between sm:items-center items-start sm:gap-0 gap-3">
+              <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 md:w-[550px] sm:w-[450px] w-[300px] h-[52px] text-[#A3A3A3]">
+                <BsSearch className="text-[#D9D9D9] mr-2" />
 
-                  <input
-                    type="text"
-                    placeholder="Search by pilier, level, recommended, course name etc."
-                    className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Search by pilier, level, recommended, course name etc."
+                  className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
+                  onChange={(e) => setSearch(e.target.value)}
+                />
               </div>
 
               <div className="flex gap-2">
@@ -237,11 +235,11 @@ function CoursesRecommended() {
                             handleEnrollementRequest(recommendedcourses.id)
                           }
                           isLoading={isPending}
-                          className="  bg-[#64A70B] hover:bg-[#64A70B] text-white ml-[100px] mt-[20px] px-4 py-2 rounded"
+                          className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                         >
                           Enroll Now
                         </Button>
-                        <button className=" h-[42px] w-[110px] bg-[#00778B] text-white ml-[100px] mt-[7px] font-semibold px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
+                        <button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
                           Inquire
                         </button>
                       </div>

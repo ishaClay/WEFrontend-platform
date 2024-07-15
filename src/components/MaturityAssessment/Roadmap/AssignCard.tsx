@@ -100,7 +100,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
       <Modal
         open={isOpenDelayModel}
         onClose={() => setIsOpenDelayModel(false)}
-        className="min-w-[800px] py-5 px-6"
+        className="sm:py-5 p-4 sm:px-6 lg:max-w-[800px] sm:max-w-xl max-w-[335px] rounded-xl"
       >
         <DelayModel
           uploadData={uploadData}

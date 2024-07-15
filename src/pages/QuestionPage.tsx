@@ -30,7 +30,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 
@@ -43,6 +43,8 @@ const QuestionPage = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const location = useLocation();
+  const isHide = location.pathname?.split("/")?.length === 2 ? false : true;
 
   const userID = UserId
     ? UserId
@@ -265,8 +267,16 @@ const QuestionPage = () => {
   console.log("allPillar", allPillar);
 
   return (
-    <div className="font-calibri font-normal">
-      <div className="bg-teal h-[44px] flex justify-between items-center sticky top-0 max-h-screen z-30 ">
+    <div
+      className={`font-calibri font-normal ${
+        isHide ? "bg-white" : "bg-transparent"
+      }`}
+    >
+      <div
+        className={`${
+          isHide ? "hidden" : "flex"
+        } bg-teal h-[44px] justify-between items-center sticky top-0 max-h-screen z-30`}
+      >
         <div className="w-full text-white px-4 text-lg leading-[21.97px xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5]">
           <div className="flex gap-[9px]">
             <button
@@ -286,35 +296,24 @@ const QuestionPage = () => {
         </button> */}
         </div>
       </div>
-      <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
-        <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
+      <div
+        className={`${
+          isHide ? "hidden" : "flex"
+        } h-[120px] flex justify-center pb-3 pt-[13px] overflow-x-auto overflow-y-hidden`}
+      >
+        <div className="relative sm:gap-[80px] gap-[50px] justify-between overflow-auto flex items-center mx-5">
           {paths.map((path, index: number) => {
             return (
-              <div className="flex flex-col self-end items-center" key={index}>
+              <div
+                className="flex flex-col self-end items-center min-w-[150px] w-[150px]"
+                key={index}
+              >
                 {path.status === "checked" ? (
-                  <img
-                    src={Correct}
-                    alt="img"
-                    width={59.6}
-                    height={59.6}
-                    className="mt-[13.4] pb-[15px]"
-                  />
+                  <img src={Correct} alt="img" width={59.6} height={59.6} />
                 ) : path.status === "indeterminate" ? (
-                  <img
-                    src={path.img}
-                    alt="img"
-                    width={59.6}
-                    height={59.6}
-                    className="mt-[7px] pb-[15px]"
-                  />
+                  <img src={path.img} alt="img" width={59.6} height={59.6} />
                 ) : (
-                  <img
-                    src={path.img}
-                    alt="img"
-                    width={59.6}
-                    height={59.6}
-                    className="mt-[15.4px] pb-[15px]"
-                  />
+                  <img src={path.img} alt="img" width={59.6} height={59.6} />
                 )}
                 <p
                   className={`text-[13px] font-medium font-Poppins px-2 py-[2px] ${
@@ -326,12 +325,22 @@ const QuestionPage = () => {
               </div>
             );
           })}
-          <div className="absolute top-[30px] left-[30px] right-12 border-2 border-dashed border-[#585858] -z-10"></div>
+          <div className="absolute top-[35px] left-0 w-[900px] right-0 mx-auto border-2 border-dashed border-[#585858] -z-10"></div>
         </div>
       </div>
-      <div className="sticky top-[44px] max-h-[calc(100vh-164px)] z-30">
+      <div
+        className={`sticky ${isHide ? "top-[0px]" : "top-[44px]"} ${
+          isHide ? "max-h-[calc(100vh-120px)]" : "max-h-[calc(100vh-164px)]"
+        } z-30`}
+      >
         <div className="bg-[#E7E7E8]">
-          <div className="min-h-[129px] flex xl:max-w-[1170px] max-w-full overflow-auto mx-auto xl:px-0 px-5">
+          <div
+            className={`flex min-h-[129px] mx-auto overflow-auto ${
+              isHide
+                ? "px-5 lg:max-w-[calc(100vw-300px)] max-w-full"
+                : "xl:max-w-[1170px] max-w-full xl:px-0 px-5"
+            }`}
+          >
             <div className="flex gap-[30px] items-center justify-center">
               {allPillar.map((category: string, index: number) => {
                 const pillarQuestions = question[category];
@@ -347,7 +356,7 @@ const QuestionPage = () => {
                 return (
                   <div
                     key={index}
-                    className={`w-[169px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
+                    className={`min-w-[169px] w-[169px] min-h-[88px] h-[88px] py-[5px] px-[13px] rounded-[9px] shadow-[0px_6px_5.300000190734863px_0px_#00000040] items-center cursor-pointer ${
                       activePillar === category
                         ? "bg-[#64A70B]"
                         : "bg-[#EDF0F4]"
@@ -418,9 +427,23 @@ const QuestionPage = () => {
       </div>
 
       <form>
-        <div className="m-[24px] relative xl:flex block gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 sm:px-5 px-[15px] xl:mt-[89px] mt-5 z-10">
-          <div className="xl:max-w-[871px] w-full">
-            <div className="flex gap-4 flex-col w-full xl:max-w-[773px]">
+        <div
+          className={`${
+            isHide
+              ? "p-5"
+              : "xl:max-w-[1170px] m-[24px] xl:mt-[89px] mt-5 xl:px-0 sm:px-5 px-[15px]"
+          } relative mx-auto z-10`}
+        >
+          <div
+            className={`${
+              isHide ? "grid-cols-8" : "grid-cols-7"
+            } grid xl:gap-[70px] lg:gap-[50px] sm:gap-[30px] gap-5`}
+          >
+            <div
+              className={`w-full ${
+                isHide ? "xl:col-span-6 col-span-8" : "lg:col-span-5 col-span-7"
+              }`}
+            >
               {isPending ? (
                 <Loader />
               ) : (
@@ -430,12 +453,19 @@ const QuestionPage = () => {
                 />
               )}
             </div>
-          </div>
-          <div className="sm:w-[271px] w-full sm:h-[calc(100vh-293px)] text-[18px] leading-[21.97px] font-normal sm:m-0 m-auto sticky top-[190px]">
-            <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
-              How far you are
-            </h2>
-            {/* <div className="flex items-center mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
+            <div
+              className={`w-full bg-white ${
+                isHide ? "sm:h-[calc(100vh-249px)]" : "sm:h-[calc(100vh-293px)]"
+              } text-[18px] font-normal sm:m-0 m-auto sticky ${
+                isHide
+                  ? "top-[146px] xl:col-span-2 sm:col-span-5 col-span-8"
+                  : "top-[190px] md:col-span-2 sm:col-span-4 col-span-7"
+              }`}
+            >
+              <h2 className="h-[42px] bg-teal text-white font-bold rounded-bl-[22.9px] pl-[17px] text-[18px] leading-[21.97px] items-center flex sm:capitalize uppercase">
+                How far you are
+              </h2>
+              {/* <div className="flex items-center mt-[9px] justify-between h-[31px] font-bold text-[16px] leading-5">
               <div className="flex items-center gap-[69px]">
                 <span className=" text-teal">Completed</span>
                 <p className="text-teal">
@@ -452,72 +482,77 @@ const QuestionPage = () => {
                 )}
               </div>
             </div> */}
-            <div className="mt-[17px] sm:w-[267px] w-full">
-              <div className="flex items-center justify-between font-bold	text-base">
-                <span>Completed</span>
-                <p>
-                  {totalAttemptedQuestions}/{totalQuestions}
-                </p>
-                <span className="mr-2">
-                  <IoIosArrowDown className="w-[14px] h-[14px]" />
-                </span>
-              </div>
-              <div className="font-normal text-[#3a3a3a]">
-                {allPillar.map((category: string, index: number) => {
-                  return (
-                    <div className="flex mt-3" key={index}>
-                      <div
-                        className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
-                          index !== allPillar.length - 1 &&
-                          "border-b border--solid border-[#EAEAEA]"
-                        }`}
-                      >
-                        <p>{category}</p>
-                        <div className="flex gap-[10px]">
-                          {Array.isArray(question[category]) &&
-                            question[category]?.length > 0 && (
-                              <div className="flex gap-1">
-                                {question[category].map(
-                                  (i: QuestionType, index: number) => (
-                                    <p
-                                      key={index}
-                                      className={`w-3 h-3 ${
-                                        i.options.some(
-                                          (o) => o?.checked === true
-                                        )
-                                          ? "bg-[#64A70B]"
-                                          : "bg-[#D8D0D0]"
-                                      }`}
-                                    ></p>
-                                  )
-                                )}
-                              </div>
-                            )}
+              <div className="mt-5 w-full">
+                <div className="flex items-center justify-between font-bold	text-base">
+                  <span>Completed</span>
+                  <p>
+                    {totalAttemptedQuestions}/{totalQuestions}
+                  </p>
+                  <span className="mr-2">
+                    <IoIosArrowDown className="w-[14px] h-[14px]" />
+                  </span>
+                </div>
+                <div className="font-normal text-[#3a3a3a]">
+                  {allPillar.map((category: string, index: number) => {
+                    return (
+                      <div className="flex mt-3" key={index}>
+                        <div
+                          className={`w-full flex justify-between font-normal pb-2 pt-[10px] ${
+                            index !== allPillar.length - 1 &&
+                            "border-b border--solid border-[#EAEAEA]"
+                          }`}
+                        >
+                          <p>{category}</p>
+                          <div className="flex gap-[10px]">
+                            {Array.isArray(question[category]) &&
+                              question[category]?.length > 0 && (
+                                <div className="flex gap-1">
+                                  {question[category].map(
+                                    (i: QuestionType, index: number) => (
+                                      <p
+                                        key={index}
+                                        className={`w-3 h-3 ${
+                                          i.options.some(
+                                            (o) => o?.checked === true
+                                          )
+                                            ? "bg-[#64A70B]"
+                                            : "bg-[#D8D0D0]"
+                                        }`}
+                                      ></p>
+                                    )
+                                  )}
+                                </div>
+                              )}
+                          </div>
                         </div>
+                        <span className="mr-2 ml-[11px] mt-[10px]">
+                          <IoIosArrowDown className="w-[14px] h-[14px]" />
+                        </span>
                       </div>
-                      <span className="mr-2 ml-[11px] mt-[10px]">
-                        <IoIosArrowDown className="w-[14px] h-[14px]" />
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
 
-              <Button
-                className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
-                onClick={handleSubmit}
-                disabled={
-                  totalAttemptedQuestions !== totalQuestions || isLoading
-                }
-              >
-                Submit
-              </Button>
+                <Button
+                  className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+                  onClick={handleSubmit}
+                  disabled={
+                    totalAttemptedQuestions !== totalQuestions || isLoading
+                  }
+                >
+                  Submit
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </form>
 
-      <div className="xl:mt-[238px] mt-[150px]">
+      <div
+        className={`${
+          isHide ? "hidden" : "block"
+        } lg:mt-[200px] sm:mt-[250px] mt-0 `}
+      >
         <HomeFooter />
       </div>
     </div>
