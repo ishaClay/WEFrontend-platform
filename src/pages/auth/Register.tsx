@@ -18,7 +18,11 @@ import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { setClientRole, setCompanyId, setUserData } from "@/redux/reducer/CompanyReducer";
+import {
+  setClientRole,
+  setCompanyId,
+  setUserData,
+} from "@/redux/reducer/CompanyReducer";
 import { ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { ErrorType } from "@/types/Errors";
@@ -470,7 +474,7 @@ function Register() {
                     <img className="" src="../assets/img/Line 23.png" />
 
                     <p className="w-[450px] xl:w-full">
-                      just a few quick details - your company's name, email, and
+                      Just a few quick details - your company's name, email, and
                       a new password- and you'll be all set to navigate through
                       your sustainable and continue your impactful journey
                       anytime.
