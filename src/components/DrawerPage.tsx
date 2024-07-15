@@ -124,7 +124,7 @@ const DrawerPage = ({
                               {item.children.map(
                                 (child, childIndex: number) => (
                                   <li
-                                    className={`ml-[20px] text-[16px] leading-5 mt-2 text-[#606060] font-calibri ${
+                                    className={`ml-[20px] text-[16px] leading-5 mt-0 text-[#606060] font-calibri ${
                                       location.pathname.includes(child.link)
                                         ? "font-[700]"
                                         : "font-[400]"

@@ -9,7 +9,7 @@ type templetDetailsProps = {
 };
 const CertificateTempleteItems = ({ data }: templetDetailsProps) => {
   return (
-    <div className="col-span-1 border border-[#D9D9D9] rounded-md mx-3 mb-5">
+    <div className="col-span-1 border border-[#D9D9D9] rounded-md md:mx-3 sm:mx-2 mx-0 mb-5">
       <div className="p-2">
         <img src={data.image} alt="" className="w-full" />
       </div>

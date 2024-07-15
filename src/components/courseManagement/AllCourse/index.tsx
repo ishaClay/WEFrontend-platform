@@ -42,8 +42,8 @@ const AllCourses = () => {
     <div>
       <CohortModal open={cohort} setOpen={setCohort} id={0} />
       <div className="bg-[#FFFFFF] rounded-[10px] w-full">
-        <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
-          <div className="bg-white">
+        <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] sm:px-5 sm:py-3 p-[15px]">
+          <div className="bg-white sm:pb-0 pb-3">
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               Course Management
             </h3>
@@ -64,7 +64,7 @@ const AllCourses = () => {
                     }/create_course/tab=0&step=0&version=1`
                   )
                 }
-                className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
+                className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
               >
                 ADD NEW COURSE
               </Button>
@@ -72,8 +72,8 @@ const AllCourses = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between py-5 px-[18px]">
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 w-[550px] h-[52px]">
+        <div className="flex items-center justify-between sm:py-5 sm:px-[18px] p-[15px]">
+          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 md:w-[550px] sm:w-[450px] min-w-[305px] sm:h-[52px] h-[36px]">
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"
@@ -82,7 +82,7 @@ const AllCourses = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="flex ml-6">
+          <div className="sm:flex hidden ml-6">
             <Button
               type="button"
               onClick={() => changeList(0)}
@@ -109,7 +109,7 @@ const AllCourses = () => {
             </Button>
           </div>
         </div>
-        <div className="px-[18px] pb-[18px]">
+        <div className="sm:px-[18px] sm:pb-[18px] px-[15px] pb-[15px]">
           {fetchCourseAllCoursePending ? (
             <span className="flex justify-center items-center py-10">
               <Loader2 className="w-5 h-5 animate-spin" />

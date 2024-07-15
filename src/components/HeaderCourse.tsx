@@ -84,10 +84,72 @@ function HeaderCourse() {
     }
     return { title, subtitle };
   }, [location]);
+  const maiHeaderData = useMemo(() => {
+    const pathName = location.pathname.split("/")[2];
+    console.log("pathName", pathName);
+    let title = "";
+    switch (pathName) {
+      case "dashboard":
+        title = "Dashboard";
+        break;
+
+      case "enrolledrequest":
+        title = "Course Management";
+        break;
+
+      case "enrolledcourses":
+        title = "Course Management";
+        break;
+
+      case "allcourse":
+        title = "Course Management";
+        break;
+
+      case "create_course":
+        title = "Course Management";
+        break;
+
+      case "employee-basic-course":
+        title = "Course Management";
+        break;
+
+      case "trainer-management":
+        title = "Trainer Management";
+        break;
+
+      case "certificate-template":
+        title = "Certificate Management";
+        break;
+
+      case "allocated-certificate":
+        title = "Certificate Management";
+        break;
+
+      case "support-faqslist":
+        title = "Support";
+        break;
+
+      case "support-training-documnet":
+        title = "Support";
+        break;
+
+      case "support-request":
+        title = "Support";
+        break;
+
+      case "message":
+        title = "Message";
+        break;
+
+      default:
+        break;
+    }
+    return { title };
+  }, [location]);
   return (
     <>
       <div className={`${Role === "employee" ? "hidden" : "block"}`}>
-        <MainHeader />
+        <MainHeader title={maiHeaderData?.title} />
       </div>
       <div className={`${Role === "employee" ? "block" : "hidden"}`}>
         <EmployeeHeader

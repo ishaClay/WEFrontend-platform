@@ -207,7 +207,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   return (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
-      <div className="grid xl:grid-cols-4 grid-cols-3 gap-5">
+      <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item, i) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === item?.id
@@ -226,13 +226,13 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
             <Link
               to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
               key={i}
-              className="border border-[#ddd] rounded-[5px] overflow-hidden"
+              className="border border-[#ddd] rounded-[10px] overflow-hidden"
             >
-              <div className="relative h-[190px] overflow-hidden">
+              <div className="relative min-h-[170px] h-[170px] overflow-hidden">
                 <img
                   src={item?.bannerImage}
                   alt={"bannerImage"}
-                  className="w-full"
+                  className="w-full h-full"
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
@@ -240,11 +240,11 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   </Badge>
                 </div>
               </div>
-              <div className="p-2 h-[calc(100%-241px)]">
-                <h5 className="text-base font-bold font-inter text-[#1D2026] mb-[19px] min-h-[48px] line-clamp-2">
+              <div className="p-2 h-[calc(100%-220px)]">
+                <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
                   {item?.title}
                 </h5>
-                <div className="flex items-center justify-between mb-[11px]">
+                <div className="flex items-center justify-between sm:mb-[11px] mb-5">
                   <div>
                     <h6 className="text-sm leading-5 font-normal font-nunito">
                       Created By :{" "}
@@ -294,10 +294,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   })}
                 </div>
               </div>
-              <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] py-[9px] xl:px-[13px] px-1 border-t">
+              <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={item?.status === "PUBLISHED"}
-                  className="max-w-[90px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
+                  className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
                   onClick={(e: any) =>
                     handlePublish(e, item?.currentVersion?.id as number)
                   }
@@ -308,7 +308,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   onClick={(e: any) =>
                     handleCohort(e, item?.currentVersion?.id as number)
                   }
-                  className="max-w-[90px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
+                  className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
                   + Cohort
                 </Button>
@@ -319,12 +319,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   }
                   value={currentRecord?.versionId?.toString() || ""}
                   containClassName="max-w-[62px]"
-                  className="max-w-[62px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                  className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
                   placeholder="V-01"
                 />
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <EllipsisVertical />
+                    <EllipsisVertical className="w-8" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
