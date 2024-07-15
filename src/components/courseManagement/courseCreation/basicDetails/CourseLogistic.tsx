@@ -247,7 +247,7 @@ const CourseLogistic = () => {
                 placeholder="Days / Weeks / Months / Year"
                 className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri text-base px-3 py-[14px]"
                 {...register("duration")}
-                value={watch("duration").split(" ")[0]}
+                value={watch("duration")?.split(" ")[0]}
                 error={errors.duration?.message as string}
               />
             </div>
