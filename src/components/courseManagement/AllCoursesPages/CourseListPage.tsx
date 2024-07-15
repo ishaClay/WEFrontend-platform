@@ -9,6 +9,12 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
 import { useAppSelector } from "@/hooks/use-redux";
+import speed from "@/assets/images/Speed.png";
+import fulltime from "@/assets/images/fulltime.png";
+import diploma from "@/assets/images/diploma.png";
+import unversity from "@/assets/images/unversity.png";
+import online from "@/assets/images/online.png";
+import time from "@/assets/images/time.png";
 
 type dataGridProps = {
   data: AllCourse[];
@@ -187,7 +193,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className=" h-[16] w-[18px] text-black"
-                          src="/public/assets/img/diploma.png"
+                          src={diploma}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
@@ -197,7 +203,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className=" h-[16] w-[18px]"
-                          src="/public/assets/img/online.png"
+                          src={online}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
@@ -215,7 +221,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className=" h-[16] w-[18px]"
-                          src="/public/assets/img/unversity.png"
+                          src={unversity}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
@@ -238,7 +244,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className="h-[16] w-[18px]"
-                          src="/public/assets/img/timer.png"
+                          src={speed}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
@@ -252,7 +258,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className=" h-[16] w-[18px]"
-                          src="/public/assets/img/fulltime.png"
+                          src={fulltime}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
@@ -267,7 +273,7 @@ const CourseListPage = ({ data }: dataGridProps) => {
                       <div className="flex items-center gap-1 mb-[2px]">
                         <img
                           className=" h-[16] w-[18px]"
-                          src="/public/assets/img/time.png"
+                          src={time}
                           alt="Course"
                         />
                         <p className="text-xs leading-[22px] text-[#3A3A3A]">
