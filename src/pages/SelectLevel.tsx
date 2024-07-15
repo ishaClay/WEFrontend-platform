@@ -328,17 +328,17 @@ function SelectLevel() {
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
 
-  const pillarChecked = maturitypillar?.data?.data?.filter(
-    (item: any) => item.checked === 1
-  );
+  const pillarChecked = useMemo(() => {
+    return pillars?.filter((item: any) => item.checked === 1);
+  }, [pillars]);
 
+  console.log("pillarChecked", pillarChecked);
   useEffect(() => {
     const fetchMeasuresItems = pillarChecked?.filter(
       (item: any) => item.actionItem?.length === 0
     );
-    console.log("pillarChecked", fetchMeasuresItems?.length > 0);
     setActionItemsList(fetchMeasuresItems?.length > 0);
-  }, [maturitypillar?.data?.data, getActionItems, pillarChecked]);
+  }, [pillars, pillarChecked]);
 
   return (
     <div>

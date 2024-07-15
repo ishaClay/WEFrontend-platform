@@ -37,7 +37,7 @@ import {
 } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect, useMemo, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -314,17 +314,17 @@ const SetTarget = ({
 
   console.log("pillerItemsBackup", pillars);
 
-  const pillarChecked = maturitypillar?.data?.data?.filter(
-    (item: any) => item.checked === 1
-  );
+  const pillarChecked = useMemo(() => {
+    return pillars?.filter((item: any) => item.checked === 1);
+  }, [pillars]);
 
+  console.log("pillarChecked", pillarChecked);
   useEffect(() => {
     const fetchMeasuresItems = pillarChecked?.filter(
       (item: any) => item.actionItem?.length === 0
     );
-    console.log("pillarChecked", fetchMeasuresItems?.length > 0);
     setActionItemsList(fetchMeasuresItems?.length > 0);
-  }, [maturitypillar?.data?.data, getActionItems, pillarChecked]);
+  }, [pillars, pillarChecked]);
 
   return (
     <div>
