@@ -347,12 +347,11 @@ const SetTarget = ({
     }
   }, [pillars, pillerItemsBackup]);
 
-  const pillarChecked = pillars?.filter((item:any) => item.checked === 1);
+  const pillarChecked = pillars?.filter((item:any) => item?.checked === 1);
   useEffect(() => {
-    const fetchMeasuresItems = pillarChecked?.filter((item:any) => item.actionItem?.length >= 0);    
+    const fetchMeasuresItems = pillarChecked?.filter((item:any) => item?.actionItem?.length >= 0);  
     setActionItemsList(fetchMeasuresItems?.length > 0 ? true : false);
   }, [pillars, getActionItems])
-  
 
   return (
     <div>

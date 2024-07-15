@@ -102,126 +102,127 @@ function CoursesRecommended() {
             ) : recommendedcourses?.data ? (
               recommendedcourses?.data?.map((recommendedcourses) => (
                 <div key={recommendedcourses.id}>
-                  <div className="h-[175px] bg-[#FFFFFF] flex  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
-                    <div className=" pt-[22px] pl-[22px]  overflow-hidden rounded">
-                      <img
-                        className=" w-[152px] h-[133px] rounded object-cover object-center "
-                        src={recommendedcourses.bannerImage}
-                        alt="Course"
-                      />
-                    </div>
-
-                    <div className="flex flex-col mt-[22px] ml-[22px] ">
-                      <div>
-                        <div className="flex items-center  ">
-                          <FaStar className="text-yellow-500" />
-                          <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
-                            RECOMMENDED
-                          </span>
-                          <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
-                            Technology & Innovation
-                          </span>
-                          <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
-                            Social
-                          </span>
-                        </div>
+                  <div className="h-[175px] bg-[#FFFFFF] pr-4 flex justify-between  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
+                    <div className="flex">
+                      <div className=" pt-[22px] pl-[22px]  overflow-hidden rounded">
+                        <img
+                          className=" w-[152px] h-[133px] rounded object-cover object-center "
+                          src={recommendedcourses.bannerImage}
+                          alt="Course"
+                        />
                       </div>
 
-                      <div className="flex ">
-                        <div
-                          className="h-[44px] w-[378.08px] mt-[16px]"
-                          style={{
-                            fontFamily: "Inter",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            lineHeight: "22px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span dangerouslySetInnerHTML={{ __html: recommendedcourses.description }} className="line-clamp-2"></span>
+                      <div className="flex flex-col mt-[22px] ml-[22px] ">
+                        <div>
+                          <div className="flex items-center  ">
+                            <FaStar className="text-yellow-500" />
+                            <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
+                              RECOMMENDED
+                            </span>
+                            <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
+                              Technology & Innovation
+                            </span>
+                            <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
+                              Social
+                            </span>
+                          </div>
                         </div>
 
-                        <div className="ml-[200px]">
-                          <img
-                            className=" h-[48px] w-[162.74px] object-cover object-center"
-                            src="/public/assets/img/atu.png"
-                            alt="Course"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex mt-[25px]">
-                        <div className="h-[22px] w-[129px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src="/public/assets/img/timer.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">Level- Advanced</p>
+                        <div className="flex ">
+                          <div
+                            className="h-[44px] w-[378.08px] mt-[16px]"
+                            style={{
+                              fontFamily: "Inter",
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              lineHeight: "22px",
+                              textAlign: "left",
+                            }}
+                          >
+                            <span dangerouslySetInnerHTML={{ __html: recommendedcourses.description }} className="line-clamp-2"></span>
+                          </div>
                         </div>
 
-                        <div className="h-[22px] w-[160px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px] text-black"
-                            src="/public/assets/img/diploma.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">Post Graduate Diploma</p>
-                        </div>
-                        <div className="h-[22px] w-[80px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src="/public/assets/img/fulltime.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.time ===
-                              CourseTime.FullTime && <span>Full-time</span>}
-                            {recommendedcourses.time ===
-                              CourseTime.PartTime && <span>Part-time</span>}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[75px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src="/public/assets/img/online.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.isOnline ===
-                              IsOnline.Online && <span>Online</span>}
-                            {recommendedcourses.isOnline ===
-                              IsOnline.InPerson && <span>InPerson</span>}
-                            {recommendedcourses.isOnline ===
-                              IsOnline.Hybrid && <span>Hybrid</span>}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[80px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src="/public/assets/img/time.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.duration}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[200px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src="/public/assets/img/unversity.png"
-                            alt="Course"
-                          />
-                          <p className="text-xs">
-                            Atlantic Technological University
-                          </p>
+                        <div className="flex mt-[25px]">
+                          <div className="h-[22px] w-[129px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src="/public/assets/img/timer.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">Level- Advanced</p>
+                          </div>
+
+                          <div className="h-[22px] w-[160px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px] text-black"
+                              src="/public/assets/img/diploma.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">Post Graduate Diploma</p>
+                          </div>
+                          <div className="h-[22px] w-[80px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src="/public/assets/img/fulltime.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">
+                              {recommendedcourses.time ===
+                                CourseTime.FullTime && <span>Full-time</span>}
+                              {recommendedcourses.time ===
+                                CourseTime.PartTime && <span>Part-time</span>}
+                            </p>
+                          </div>
+                          <div className="h-[22px] w-[75px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src="/public/assets/img/online.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">
+                              {recommendedcourses.isOnline ===
+                                IsOnline.Online && <span>Online</span>}
+                              {recommendedcourses.isOnline ===
+                                IsOnline.InPerson && <span>InPerson</span>}
+                              {recommendedcourses.isOnline ===
+                                IsOnline.Hybrid && <span>Hybrid</span>}
+                            </p>
+                          </div>
+                          <div className="h-[22px] w-[80px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src="/public/assets/img/time.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">
+                              {recommendedcourses.duration}
+                            </p>
+                          </div>
+                          <div className="h-[22px] w-[200px] flex items-center gap-1">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src="/public/assets/img/unversity.png"
+                              alt="Course"
+                            />
+                            <p className="text-xs">
+                              Atlantic Technological University
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex items-center">
+                    <div className="ml-[200px]">
+                            <img
+                              className=" h-[48px] w-[162.74px] object-cover object-center"
+                              src="/public/assets/img/atu.png"
+                              alt="Course"
+                            />
+                          </div>
                       <div className="flex flex-col ">
                         <div>
-                          <h3 className="text-[#000000] text-[font-calibri-bold] ml-[97px] mt-[20px]">
+                          <h3 className="text-[#000000] text-[font-calibri-bold] ml-[97px]">
                             €{recommendedcourses.price}
                           </h3>
                         </div>

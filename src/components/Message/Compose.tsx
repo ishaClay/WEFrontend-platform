@@ -76,11 +76,11 @@ const Compose = () => {
 
     useEffect(() => {
       if (role === UserRole?.Trainer) {
-        setSelectTab(isActive === "admin" ? MessageUserRole?.Trainer : isActive === "company" ? MessageUserRole?.Company : MessageUserRole?.Employee)
+        setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "employee" ? MessageUserRole.Employee : isActive === "trainee" ? MessageUserRole.Trainee : MessageUserRole.Company)
       } else if (role === UserRole?.Company) {
         setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "employee" ? MessageUserRole.Employee : isActive === "trainee" ? MessageUserRole.Trainee : MessageUserRole.Trainer)
       } else if (role === UserRole?.Trainee) {
-        setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "employee" ? MessageUserRole.Employee : isActive === "trainee" ? MessageUserRole.Trainee : MessageUserRole.Company)
+        setSelectTab(isActive === "admin" ? MessageUserRole?.Trainer : isActive === "company" ? MessageUserRole?.Company : MessageUserRole?.Employee)
       }
     }, [isActive]);
 
@@ -102,12 +102,14 @@ const Compose = () => {
       setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[selectType])
     } else if(role === UserRole?.Company){
       setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectType])
+    } else if(role === UserRole?.Trainee){
+      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectType])
     }
   }
 
   useEffect(() => {
     fetchAssignToList(isActive);
-  }, [isActive])
+  }, [isActive, fetchTargetUserbyList])
   
 console.log("Company", fetchTargetUserbyList?.data?.data?.[0]?.companyDetails);
 
@@ -229,6 +231,7 @@ console.log("emailTemplateMessage", emailTemplateMessage?.message);
 console.log("errors", errors, client);
 console.log("selectToValue", selectToValue);
 
+console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
 
   return (
     <>
