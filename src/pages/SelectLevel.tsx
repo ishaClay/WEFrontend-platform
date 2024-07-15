@@ -71,6 +71,7 @@ function SelectLevel() {
 
   const [pid, setPId] = useState<string | null>("");
   const [currentPiller, setCurrentPiller] = useState<string>("");
+  const [actionItemsList, setActionItemsList] = useState<boolean>(true);
 
   // const [checkedStates, setCheckedStates] = useState([]);
 
@@ -327,6 +328,18 @@ function SelectLevel() {
   const filteredOptions: FilteredOptionsEntity[] | any =
     actionItems?.filteredOptions;
 
+  const pillarChecked = maturitypillar?.data?.data?.filter(
+    (item: any) => item.checked === 1
+  );
+
+  useEffect(() => {
+    const fetchMeasuresItems = pillarChecked?.filter(
+      (item: any) => item.actionItem?.length === 0
+    );
+    console.log("pillarChecked", fetchMeasuresItems?.length > 0);
+    setActionItemsList(fetchMeasuresItems?.length > 0);
+  }, [maturitypillar?.data?.data, getActionItems, pillarChecked]);
+
   return (
     <div>
       <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">
@@ -399,7 +412,7 @@ function SelectLevel() {
           {isPending ? (
             <Loader className="w-8 h-8" />
           ) : (
-            pillars?.map((item: any) => {
+            maturitypillar?.data?.data?.map((item: any) => {
               console.log("currentPiller", filtermesuresdata);
 
               return (
@@ -613,6 +626,8 @@ function SelectLevel() {
           </div>
           <div className="flex justify-center gap-4 mt-[20px]  mb-[20px]">
             <Button
+              type="button"
+              disabled={actionItemsList}
               onClick={handleSelect}
               className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
             >
