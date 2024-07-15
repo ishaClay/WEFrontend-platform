@@ -24,7 +24,7 @@ const MainHeader = () => {
             <RxHamburgerMenu className="w-8 h-8" />
           </li>
 
-          <li className="text-[#00778B] mt-[50px]">MyDashboard</li>
+          <li className="text-[#00778B] mt-[50px] text-[18px]">My Dashboard</li>
         </ul>
 
         <div className="flex ">
@@ -33,7 +33,7 @@ const MainHeader = () => {
             <VscBellDot className=" h-[50px] w-[20px] mr-[15px] " />
 
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="text-[18px]">
                 Hi, {userData?.query?.email?.split("@")[0]}
               </DropdownMenuTrigger>
               <DropdownMenuContent>

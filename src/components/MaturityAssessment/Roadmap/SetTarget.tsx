@@ -30,10 +30,14 @@ import {
   updatePillarCheckbox,
 } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
-import { FilteredOptionsEntity, MeasuresItemsResponse, SinglePillar } from "@/types/Pillar";
+import {
+  FilteredOptionsEntity,
+  MeasuresItemsResponse,
+  SinglePillar,
+} from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { Dispatch, useEffect, useMemo, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { BsPencil } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -51,9 +55,8 @@ const SetTarget = ({
   const [open, setOpen] = useState(false);
   const [actionItems, setActionItems] = useState<SinglePillar | null>(null);
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
-  const [pillerItemsBackup, setPillerItemsBackup] = useState<PillerItem>({});
   const [view, setView] = useState<{ id: number; view: number }[] | null>(null);
-  const [measuresList, setMeasuresList] = useState<FilteredOptionsEntity[]>([])
+  const [measuresList, setMeasuresList] = useState<FilteredOptionsEntity[]>([]);
   console.log("actionItems", pillerItems, measuresList);
 
   const [pid, setPId] = useState<string | null>("");
@@ -130,10 +133,9 @@ const SetTarget = ({
     // enabled: open && !!pid && !!userID,
   });
 
+  console.log("maturitypillar", maturitypillar);
   useEffect(() => {
     if (getActionItems && currentPiller) {
-      console.log("getActionItems", getActionItems, currentPiller);
-
       setPillerItems({
         [currentPiller]: (getActionItems?.data &&
           getActionItems?.data?.length > 0 &&
@@ -142,18 +144,6 @@ const SetTarget = ({
             name: item?.measure,
           }))) || [""],
       } as any);
-    }
-    if (maturitypillar?.data?.data?.length > 0) {
-      maturitypillar?.data?.data?.map((item: any) => {
-        const oldData = Object.keys(pillerItems);
-        if (!oldData.includes(item?.pillarname)) {
-          return setPillerItemsBackup((prev) => ({
-            ...prev,
-            [item.pillarname]: [""],
-          }));
-        }
-        return;
-      });
     }
   }, [getActionItems, currentPiller]);
 
@@ -203,11 +193,15 @@ const SetTarget = ({
   useEffect(() => {
     maturitypillar?.data?.data?.length > 0 &&
       dispatch(setMaturitypillar(maturitypillar?.data?.data));
-  }, [maturitypillar?.data?.data?.length]);
+  }, [
+    dispatch,
+    maturitypillar?.data?.data,
+    maturitypillar?.data?.data?.length,
+  ]);
 
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
-      updatePillarCheckbox(data.checked, data.id as string, UserId as string),
+      updatePillarCheckbox(data.checked, data.id as string, userID as string),
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
@@ -230,15 +224,6 @@ const SetTarget = ({
         return item;
       }),
     }));
-    setPillerItemsBackup((prev) => ({
-      ...prev,
-      [currentPiller]: prev[currentPiller].map((item: string, i: number) => {
-        if (i === index) {
-          return value;
-        }
-        return item;
-      }),
-    }));
   };
 
   const handleChange = (e: any, p_id: string) => {
@@ -247,7 +232,7 @@ const SetTarget = ({
     setselectMaturity(e);
     if (p_id !== null) {
       setPId(p_id);
-    }    
+    }
   };
 
   const handleClose = async () => {
@@ -260,7 +245,7 @@ const SetTarget = ({
     mutationFn: addMeasuresItems,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.measuresItems],
+        queryKey: [QUERY_KEYS.maturitypillar],
       });
 
       handleClose();
@@ -273,22 +258,29 @@ const SetTarget = ({
     },
   });
 
-  const { mutate: deleteMeasuresItemsFun } = useMutation({
-    mutationFn: (id:number) => deleteMeasuresItems(id),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.deleteMeasuresItems],
-      });
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  const { mutate: deleteMeasuresItemsFun, isPending: deletePending } =
+    useMutation({
+      mutationFn: (id: number) => deleteMeasuresItems(id),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.maturitypillar],
+        });
 
-  const removeActionItem = (index: number, currentPiller: string, measuresItemsId: number) => {
+        handleClose();
+      },
+      onError: (error: ErrorType) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
+
+  const removeActionItem = (
+    index: number,
+    currentPiller: string,
+    measuresItemsId: number
+  ) => {
     setPillerItems(
       (prev) =>
         ({
@@ -298,14 +290,7 @@ const SetTarget = ({
           }),
         } as PillerItem)
     );
-    setPillerItemsBackup((prev) => ({
-      ...prev,
-      [currentPiller]: prev[currentPiller].filter((item, i) => {
-        console.log(item);
-        return i !== index;
-      }),
-    }));
-    deleteMeasuresItemsFun(measuresItemsId)
+    deleteMeasuresItemsFun(measuresItemsId);
   };
 
   const handleSubmit = async (
@@ -327,32 +312,19 @@ const SetTarget = ({
     createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
   };
 
-  const handleDisabledButton = useMemo(() => {
-    if (pillerItemsBackup && pillars) {
-      const fetchData = pillars?.map((item: any) => {
-        if (item?.checked === 1) {
-          return pillerItemsBackup[item?.pillarname]?.filter(
-            (item: string) => item !== ""
-          )?.length > 0
-            ? false
-            : true;
-        }
-        return false;
-      });
+  console.log("pillerItemsBackup", pillars);
 
-      const checkPiller = pillars?.every((item: any) => item?.checked === 0);
-      return !checkPiller
-        ? fetchData?.filter((item: boolean) => item === true).length === 0
-        : !checkPiller;
-    }
-  }, [pillars, pillerItemsBackup]);
+  const pillarChecked = maturitypillar?.data?.data?.filter(
+    (item: any) => item.checked === 1
+  );
 
-  const pillarChecked = pillars?.filter((item:any) => item.checked === 1);
   useEffect(() => {
-    const fetchMeasuresItems = pillarChecked?.filter((item:any) => item.actionItem?.length >= 0);    
-    setActionItemsList(fetchMeasuresItems?.length > 0 ? true : false);
-  }, [pillars, getActionItems])
-  
+    const fetchMeasuresItems = pillarChecked?.filter(
+      (item: any) => item.actionItem?.length === 0
+    );
+    console.log("pillarChecked", fetchMeasuresItems?.length > 0);
+    setActionItemsList(fetchMeasuresItems?.length > 0);
+  }, [maturitypillar?.data?.data, getActionItems, pillarChecked]);
 
   return (
     <div>
@@ -405,19 +377,22 @@ const SetTarget = ({
                     <ScrollArea className="h-[250px]">
                       <div className="md::p-4 p-3">
                         <ul className="pl-5 list-disc">
-                          {
-                            pillars?.map((item:any,) => {
-                              console.log("item?.pillarid", item?.pillarid, pid);                              
-                              return item?.pillarid === pid && item?.filteredOptions?.map((it:any, i:number) => {
-                                return <li
-                                key={i}
-                              >
-                                {/* <Dot className=" block me-2 col-span-1" /> */}
-                                {it?.measures}
-                              </li>
-                              })
-                            })
-                          }
+                          {pillars?.map((item: any) => {
+                            console.log("item?.pillarid", item?.pillarid, pid);
+                            return (
+                              item?.pillarid === pid &&
+                              item?.filteredOptions?.map(
+                                (it: any, i: number) => {
+                                  return (
+                                    <li key={i}>
+                                      {/* <Dot className=" block me-2 col-span-1" /> */}
+                                      {it?.measures}
+                                    </li>
+                                  );
+                                }
+                              )
+                            );
+                          })}
                         </ul>
                       </div>
                     </ScrollArea>
@@ -478,7 +453,11 @@ const SetTarget = ({
                                         type="button"
                                         className="border-none bg-transparent text-lg cursor-pointer"
                                         onClick={() =>
-                                          removeActionItem(index, currentPiller, item?.id)
+                                          removeActionItem(
+                                            index,
+                                            currentPiller,
+                                            item?.id
+                                          )
                                         }
                                       >
                                         <RiDeleteBin6Line className="text-[#B9B9B9]" />
@@ -535,14 +514,16 @@ const SetTarget = ({
                   <div className="flex justify-between h-8">
                     <div
                       className={`${
-                        item?.checked ? "bg-[#414648]" : "bg-[#edf0f4]"
+                        item?.checked
+                          ? "bg-[#414648]"
+                          : "bg-[#838383] text-white"
                       } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
                     >
                       <h2 className="text-sm font-inter">
                         <span
                           className={`${
                             item?.checked ? "text-white" : "text-[#FFD56A]"
-                          } text-[black]`}
+                          } text-white`}
                         >
                           Your level -
                         </span>
@@ -562,7 +543,7 @@ const SetTarget = ({
                         type="checkbox"
                         checked={item?.checked ? true : false}
                         onChange={() => {
-                          setPId(item?.pillarid)
+                          setPId(item?.pillarid);
                           dispatch(
                             setPillars({
                               id: item?.pillarid,
@@ -593,8 +574,10 @@ const SetTarget = ({
                       </h5>
 
                       <Select
-                        onValueChange={(e) => {handleChange(e, item?.pillarid); 
-                          setMeasuresList(filtermesuresdata?.data?.data || [])}}
+                        onValueChange={(e) => {
+                          handleChange(e, item?.pillarid);
+                          setMeasuresList(filtermesuresdata?.data?.data || []);
+                        }}
                       >
                         <SelectGroup>
                           <SelectTrigger className="max-w-[176px] rounded-none">
@@ -634,8 +617,11 @@ const SetTarget = ({
                       </div>
                       <div>
                         <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-calibri">
-                          {pid === item?.pillarid
-                            ? filtermesuresdata?.data?.data &&
+                          {pid === item?.pillarid ? (
+                            measuresPending ? (
+                              <Loader containerClassName="h-auto" />
+                            ) : (
+                              filtermesuresdata?.data?.data &&
                               filtermesuresdata?.data?.data.map(
                                 (m: any, index: number) =>
                                   m?.filteredOptions
@@ -659,20 +645,23 @@ const SetTarget = ({
                                         )
                                     )
                               )
-                            : item?.filteredOptions
-                                ?.slice(
-                                  0,
-                                  view &&
-                                    view.find((it) => it.id === item.pillarid)
-                                      ?.view !== 0
-                                    ? 2
-                                    : item?.filteredOptions?.length
-                                )
-                                .map((m: any) => {
-                                  if (m.measures) {
-                                    return <li>{m.measures}</li>;
-                                  }
-                                })}
+                            )
+                          ) : (
+                            item?.filteredOptions
+                              ?.slice(
+                                0,
+                                view &&
+                                  view.find((it) => it.id === item.pillarid)
+                                    ?.view !== 0
+                                  ? 2
+                                  : item?.filteredOptions?.length
+                              )
+                              .map((m: any) => {
+                                if (m.measures) {
+                                  return <li>{m.measures}</li>;
+                                }
+                              })
+                          )}
                           {item?.filteredOptions?.length > 1 && (
                             <Button
                               variant={"link"}
@@ -714,7 +703,7 @@ const SetTarget = ({
 
         <div className="text-center">
           <Button
-            disabled={handleDisabledButton || pillarChecked?.length > 0 ? false : true || actionItemsList}
+            disabled={actionItemsList}
             onClick={handleSelect}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[200px] h-12"
           >
@@ -722,7 +711,7 @@ const SetTarget = ({
           </Button>
         </div>
       </div>
-      <Loading isLoading={createPending} />
+      <Loading isLoading={createPending || deletePending} />
     </div>
   );
 };

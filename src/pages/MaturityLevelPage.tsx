@@ -158,35 +158,37 @@ const MaturityLevelPage = () => {
 
   const Labels = () => (
     <>
-      {data.labels.map((label, index) => {
-        let colorClass, opacityClass;
-        if (index === 0) {
-          colorClass =
-            "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-25";
-        } else if (index === 1) {
-          colorClass =
-            "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-50";
-        } else {
-          colorClass =
-            "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
-          opacityClass = "bg-opacity-75";
-        }
-        return (
-          <div
-            key={index}
-            className="text-sm flex items-center justify-start relative mb-10 h-6"
-          >
+      {fetchClientmaturitylevel &&
+        fetchClientmaturitylevel?.data?.map((label, index) => {
+          let colorClass, opacityClass;
+          if (index === 0) {
+            colorClass =
+              "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-25";
+          } else if (index === 1) {
+            colorClass =
+              "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-50";
+          } else {
+            colorClass =
+              "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
+            opacityClass = "bg-opacity-75";
+          }
+          return (
             <div
-              className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
-            ></div>
-            <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
-              {label}
+              key={index}
+              className="text-sm flex items-center justify-start relative mb-10 h-6"
+            >
+              <div
+                className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
+              ></div>
+              <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
+                {label?.maturityLevelName}
+                <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       <div className="sm:mb-[35px] mb-5">
         <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
           Total Score -

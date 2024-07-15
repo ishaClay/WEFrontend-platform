@@ -24,7 +24,10 @@ function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const companyId = CompanyId
     ? CompanyId
-    : userData?.query && userData?.query?.id;
+    : userData?.query
+    ? userData?.query?.companyDetails?.id
+    : userData?.companyDetails?.id;
+
   const navigate = useNavigate();
 
   const column: ColumnDef<EmployeeEntity>[] = [

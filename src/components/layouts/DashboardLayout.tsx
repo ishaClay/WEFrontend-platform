@@ -2,9 +2,9 @@ import { sidebarLayout } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
+import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
-import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 
 export interface SidebarItem {
   label: string;
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
       <div className="lg:block hidden">
         <Sidebar sidebarItems={data} />
       </div>
-      <div className="w-full m-5 relative">
+      <div className="w-full relative">
         <HeaderCourse />
         <div>
           <div
@@ -53,7 +53,7 @@ const DashboardLayout = () => {
               Role === "employee"
                 ? "h-[calc(100vh-110px)]"
                 : "h-[calc(100vh-162px)]"
-            } overflow-auto`}
+            } overflow-auto p-5`}
           >
             <Outlet />
           </div>

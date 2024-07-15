@@ -202,11 +202,15 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                           <Avatar className="w-6 h-6">
                             <AvatarImage src={item?.employeeId?.profileImg} />
                             <AvatarFallback className="text-xs">
-                              {item?.employeeId?.name?.charAt(0)}
+                              {item?.employeeId?.name?.charAt(0) ||
+                                item?.employeeId?.email
+                                  ?.split("@")[0]
+                                  ?.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
                           <h6 className="text-black font-calibri text-base">
-                            {item?.employeeId?.name || "N/A"}
+                            {item?.employeeId?.name ||
+                              item?.employeeId?.email?.split("@")[0]}
                           </h6>
                         </div>
                         <div className="sm:pb-0 pb-2.5">

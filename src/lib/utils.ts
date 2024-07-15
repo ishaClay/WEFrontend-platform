@@ -567,11 +567,11 @@ export const fetchMessageRoles = (role:number) => {
   let MessageRoles:any = [];
 
   if(role === UserRole.Trainer){
-    MessageRoles = ['admin', 'employee', 'company'];
+    MessageRoles = ['admin', 'employee', "company", "trainee"];
   } else if(role === UserRole.Company){
     MessageRoles = ['admin', 'employee', "trainee", "trainer Company"];
   } else if(role === UserRole.Trainee){
-    MessageRoles = ['admin', 'employee', "company", "trainee"];
+    MessageRoles = ['admin', 'employee', 'company'];
   }
 
   return MessageRoles

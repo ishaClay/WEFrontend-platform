@@ -53,7 +53,7 @@ const EnrolledCourseListItem = ({ data }: Data | any) => {
               <span className="text-base text-[#1D2026] font-calibri">
                 Enrolled Employees :
               </span>
-              <span className="text-base text-[#1D2026] font-calibri font-bold">
+              <span className="text-base text-[#1D2026] font-calibri font-bold ml-1">
                 0
               </span>
             </div>

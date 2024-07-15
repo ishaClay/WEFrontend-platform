@@ -32,7 +32,6 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
-import Home from "/assets/img/Home.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 
 const QuestionPage = () => {
@@ -109,7 +108,8 @@ const QuestionPage = () => {
   });
 
   const { mutate: assessmentQuestionScoreFun } = useMutation({
-    mutationFn: (data: {UserId:number, clientId:number}) => assessmentQuestionScore(data),
+    mutationFn: (data: { UserId: number; clientId: number }) =>
+      assessmentQuestionScore(data),
   });
 
   useEffect(() => {
@@ -232,6 +232,10 @@ const QuestionPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [selectedData]);
+
+  useEffect(() => {
     pillarwiseQuestions.forEach((pillarwiseQuestion: any) => {
       updateAnswers(pillarwiseQuestion, fetchQuestionAnswer);
     });
@@ -270,16 +274,6 @@ const QuestionPage = () => {
               <img src={LeftArrow} alt="arrow" width={22} height={22} />
               <span>back</span>
             </button>
-            <img
-              src={Home}
-              alt="home"
-              width={23}
-              height={23}
-              className="cursor-pointer"
-              onClick={() => {
-                navigate("/");
-              }}
-            />
           </div>
 
           {/* <button className="flex items-center gap-3 border border-solid border-white w-[166px] justify-center">
@@ -422,7 +416,7 @@ const QuestionPage = () => {
       <form>
         <div className="m-[24px] relative xl:flex block gap-5 justify-between xl:max-w-[1170px] max-w-full mx-auto xl:px-0 sm:px-5 px-[15px] xl:mt-[89px] mt-5 z-10">
           <div className="xl:max-w-[871px] w-full">
-            <div className="flex gap-12 flex-col w-full xl:max-w-[773px]">
+            <div className="flex gap-4 flex-col w-full xl:max-w-[773px]">
               {isPending ? (
                 <Loader />
               ) : (
