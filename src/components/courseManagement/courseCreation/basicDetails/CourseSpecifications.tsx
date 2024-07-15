@@ -25,7 +25,7 @@ import * as zod from "zod";
 
 const schema = zod.object({
   nfqLeval: zod.string().min(1, "NQF level is required"),
-  certificate: zod.string().min(1, "Participants is required"),
+  certificate: zod.string().min(1, "Participants is required").optional(),
   ectsCredits: zod.string().min(1, "ECTS credit is required"),
   fetCredits: zod.string().min(1, "FET credit is required"),
 });

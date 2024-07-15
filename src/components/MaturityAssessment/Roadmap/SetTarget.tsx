@@ -377,7 +377,7 @@ const SetTarget = ({
                     <ScrollArea className="h-[250px]">
                       <div className="md::p-4 p-3">
                         <ul className="pl-5 list-disc">
-                          {pillars?.map((item: any) => {
+                          {maturitypillar?.data?.data?.map((item: any) => {
                             console.log("item?.pillarid", item?.pillarid, pid);
                             return (
                               item?.pillarid === pid &&
@@ -507,7 +507,7 @@ const SetTarget = ({
         {isPending ? (
           <Loader className="w-8 h-8" />
         ) : (
-          pillars?.map((item: any) => {
+          maturitypillar?.data?.data?.map((item: any) => {
             return (
               <div className="pb-0 flex w-full">
                 <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">
