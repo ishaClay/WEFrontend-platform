@@ -56,8 +56,8 @@ const CourseBanner = () => {
       const data:CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
-        setEditorData(data?.description);
-        setKeyData(data?.keys);
+        setEditorData(data?.description || "");
+        setKeyData(data?.keys || "");
         setImage(data?.bannerImage);
       });
     }

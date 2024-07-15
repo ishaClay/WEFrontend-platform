@@ -127,6 +127,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
+        setIsDelete(false);
         toast({
           title: "Success",
           description: data?.data?.message,
