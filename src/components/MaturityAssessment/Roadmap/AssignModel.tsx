@@ -30,9 +30,9 @@ const AssignModel = ({
   const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string).query;
 
-  const companyId = userData?.companyDetails
-    ? userData?.companyDetails?.id
-    : userData?.detailsid;
+  const companyId = userData?.detailsid
+    ? userData?.detailsid
+    : userData?.companyDetails?.id;
   const { data } = useQuery<MeasuresItemsResponse>({
     queryKey: [QUERY_KEYS.getEmployeeList, { companyId }],
     queryFn: () => EmployeeList(companyId, ""),
