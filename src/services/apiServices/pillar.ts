@@ -15,9 +15,10 @@ export const fetchClientwisePillarList = async (
     return res;
 };
 
-export const fetchMaturityPillar = (clientId: number, userId: number) => {
+export const fetchMaturityPillar = async (clientId: number, userId: number) => {
     const url = `api/v1/pillar/get-maturity-pillar?clientId=${clientId}&userId=${userId}`;
-    return api({ url });
+    const res = await api({ url });
+    return res.data;
 };
 
 export const addMeasuresItems = (data: any) => {
@@ -25,15 +26,16 @@ export const addMeasuresItems = (data: any) => {
     return api({ url, data, method: "post" });
 };
 
-export const filterMaturityMeasures = (
-    clientId: any,
+export const filterMaturityMeasures = async (
+    clientId: string,
     userId: string,
-    maturity: any,
+    maturity: string,
     pillerId: string
 ) => {
     const url = `api/v1/pillar/filter-maturity?clientId=${clientId}&userId=${userId}&maturity=${maturity}&pillerId=${pillerId}`;
 
-    return api({ url });
+    const res = await api({ url });
+    return res.data
 };
 
 export const getMeasuresItems = (userId: string, pillerId: string) => {
@@ -42,10 +44,16 @@ export const getMeasuresItems = (userId: string, pillerId: string) => {
     return api({ url });
 };
 
-export const updatePillarCheckbox = ({ data, pillerId, user }: { data: number, pillerId: number, user: number }) => {
-    const url = `api/v1/pillar/update-piller-checkbox/${pillerId}/${user}`;
+export const updatePillarCheckbox = ({ data, pillerId }: {
+    data: {
+        checked: number,
+        clientId: number,
+        userId: number,
+    }, pillerId: number
+}) => {
+    const url = `api/v1/pillar/update-piller-checkbox/${pillerId}`;
 
-    return api({ url, data: { checked: data }, method: "put" });
+    return api({ url, data, method: "put" });
 };
 
 export const getCheckedMeasures = (userId: string, clientId: string) => {

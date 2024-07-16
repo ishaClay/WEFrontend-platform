@@ -2,10 +2,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setActivePillar } from "@/redux/reducer/QuestionReducer";
 import { QuestionType } from "@/types/Question";
 import { Dispatch, SetStateAction } from "react";
+import { useLocation } from "react-router-dom";
 import QuestionBox from "../QuestionBox";
 import { Button } from "../ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import { useLocation } from "react-router-dom";
 
 const Question = ({
   setIsLoading,
@@ -70,30 +70,26 @@ const Question = ({
         </Carousel>
       </div>
       <div
-        className={`w-full sm:mt-0 mt-5 gap-2 grid-cols-2 justify-center ${
-          isHide ? "hidden" : "grid"
+        className={`w-full sm:mt-0 mt-5 gap-2 items-center justify-center ${
+          isHide ? "hidden" : "flex"
         }`}
       >
-        <div className="col-span-1">
-          <Button
-            // variant={"outline"}
-            type="button"
-            className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
-            onClick={handlePrev}
-          >
-            Prev
-          </Button>
-        </div>
-        <div className="col-span-1">
-          <Button
-            type="button"
-            // variant={"outline"}
-            className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B]"
-            onClick={handleNext}
-          >
-            Next
-          </Button>
-        </div>
+        <Button
+          // variant={"outline"}
+          type="button"
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
+          onClick={handlePrev}
+        >
+          Prev
+        </Button>
+        <Button
+          type="button"
+          // variant={"outline"}
+          className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
+          onClick={handleNext}
+        >
+          Next
+        </Button>
       </div>
     </>
   );

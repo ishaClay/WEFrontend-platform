@@ -38,13 +38,6 @@ import search from "/assets/icons/search.svg";
 
 let socket: any;
 
-interface SendMessagePayload {
-  senderId: any;
-  receiverId: any;
-  message: string;
-  images: string[];
-}
-
 const Message = () => {
   const navigate = useNavigate();
   const chatContainerRef = useRef<any>(null);
@@ -167,9 +160,7 @@ const Message = () => {
   }, [chatId, refetchChat, refetchUserList, UserId]);
 
   const { mutate: handleSend, isPending: sendPending } = useMutation({
-    mutationFn: (payload: SendMessagePayload) => {
-      return sendMessage(payload);
-    },
+    mutationFn: sendMessage,
     onSuccess: ({ data }) => {
       setChatMessage("");
       setImages([]);
@@ -209,13 +200,8 @@ const Message = () => {
   const handleSendMessage = () => {
     if (chatId && (chatMessage || images.length > 0)) {
       handleSend({
-        senderId: { UserId, name },
-        receiverId: {
-          id: chatId,
-          name: chatUserList?.data?.data?.find(
-            (item: GetChatUserList) => item?.id === chatId
-          )?.name,
-        },
+        senderId: UserId,
+        receiverId: chatId,
         message: chatMessage,
         images,
       });
