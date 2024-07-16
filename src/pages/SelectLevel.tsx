@@ -209,7 +209,11 @@ function SelectLevel() {
 
   const { mutate: updatepillarcheckbox } = useMutation({
     mutationFn: (data: any) =>
-      updatePillarCheckbox(data.checked, data.id as string, userID),
+      updatePillarCheckbox({
+        data: data.checked,
+        pillerId: +data.id,
+        user: userID,
+      }),
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",

@@ -39,6 +39,7 @@ export interface RecommendedCourseResponse {
   message: string;
 }
 export interface RecommendedCourses {
+  data: any;
   id: number;
   title: string;
   institute: string;

@@ -1,12 +1,11 @@
 import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
-import {
-  fetchRecommendedCourses,
-} from "@/services/apiServices/recommendedcourses";
+import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
 import { CourseTime, IsOnline } from "@/types/RecommendedCourses";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,13 +13,6 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import speed from "@/assets/images/Speed.png";
-import diploma from "@/assets/images/diploma.png";
-import fulltime from "@/assets/images/fulltime.png";
-import online from "@/assets/images/online.png";
-import time from "@/assets/images/time.png";
-import unversity from "@/assets/images/unversity.png";
-import atu from "@/assets/images/atu.png";
 import { useToast } from "@/components/ui/use-toast";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { ErrorType } from "@/types/Errors";
@@ -52,7 +44,9 @@ function CoursesRecommended() {
   const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+      });
       toast({
         variant: "success",
         title: data?.data?.message,
@@ -70,8 +64,7 @@ function CoursesRecommended() {
     queryKey: [QUERY_KEYS.fetchbycourseallocate],
     queryFn: () => fetchAllocatedCourse(usersData?.query?.id),
   });
-  console.log('course++', course);
-  
+  console.log("course++", course);
 
   const handleEnrollementRequest = (id: number) => {
     enrollRequest({
@@ -89,9 +82,9 @@ function CoursesRecommended() {
       >
         <RecommendedCoursesModel />
       </Modal>
-      <div className="bg-[#f5f3ff] mt-4">
+      <div className="bg-[#f5f3ff] h-[calc(100vh-160px)]">
         <div className="h-full">
-          <div className="bg-[#FFFFFF] rounded-xl h-full">
+          <div className="bg-[#FFFFFF] rounded-xl">
             <div className="border-b border-[#D9D9D9] p-5">
               <p className="text-[#000000] text-[Calibri]">
                 Recommended Courses
@@ -122,156 +115,170 @@ function CoursesRecommended() {
                 <AiOutlineBars className="text-[#00778B] w-8 h-8" />
               </div>
             </div>
-            {pending ? (
-              <Loader />
-            ) : recommendedcourses?.data ? (
-              recommendedcourses?.data?.map((recommendedcourses) => (
-                <div key={recommendedcourses.id}>
-                  <div className="h-[175px] bg-[#FFFFFF] flex  border border-[#D9D9D9] m-[12px] rounded-md shadow-sm">
-                    <div className=" pt-[22px] pl-[22px]  overflow-hidden rounded">
-                      <img
-                        className=" w-[152px] h-[133px] rounded object-cover object-center "
-                        src={recommendedcourses.bannerImage}
-                        alt="Course"
-                      />
-                    </div>
+            <div className="p-4 h-[calc(100vh-301px)] overflow-auto">
+              {pending ? (
+                <Loader />
+              ) : recommendedcourses?.data ? (
+                recommendedcourses?.data?.map((recommendeddata, i) => (
+                  <div key={recommendeddata.id}>
+                    <div
+                      className={`bg-[#FFFFFF] pr-4 border border-[#D9D9D9] lg:p-5 p-4 rounded-md shadow-sm ${
+                        recommendedcourses?.data &&
+                        recommendedcourses?.data?.length - 1 === i
+                          ? "mb-0"
+                          : "mb-5"
+                      }`}
+                    >
+                      <div className="grid grid-cols-12 gap-4">
+                        <div className="sm:col-span-10 col-span-12 flex sm:flex-row flex-col xl:gap-5 gap-3">
+                          <div className="overflow-hidden rounded sm:min-w-[152px] w-full sm:w-[152px] sm:min-h-[133px] sm:h-[133px]">
+                            <img
+                              className="rounded object-cover object-center w-full h-full"
+                              src={recommendeddata.bannerImage}
+                              alt="Course"
+                            />
+                          </div>
 
-                    <div className="flex flex-col mt-[22px] ml-[22px] ">
-                      <div>
-                        <div className="flex items-center  ">
-                          <FaStar className="text-yellow-500" />
-                          <span className="text-[#8C94A3] font-semibold text-sm mr-2 ml-1">
-                            RECOMMENDED
-                          </span>
-                          <span className="bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
-                            Technology & Innovation
-                          </span>
-                          <span className="bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full ml-2">
-                            Social
-                          </span>
-                        </div>
-                      </div>
+                          <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-1 flex-wrap">
+                              <div className="flex gap-1">
+                                <FaStar className="text-yellow-500" />
+                                <span className="text-[#8C94A3] font-semibold text-sm">
+                                  RECOMMENDED
+                                </span>
+                              </div>
+                              <div className="flex gap-1">
+                                <Badge className="bg-[#FFD56A] hover:bg-[#FFD56A] text-[#3A3A3A] font-semibold text-xs py-1 px-2 rounded-full">
+                                  Technology & Innovation
+                                </Badge>
+                                <Badge className="bg-[#D6F5AC] hover:bg-[#D6F5AC] text-[#000000] font-semibold text-xs py-1 px-2 rounded-full">
+                                  Social
+                                </Badge>
+                              </div>
+                            </div>
 
-                      <div className="flex ">
-                        <div
-                          className="h-[44px] w-[378.08px] mt-[16px]"
-                          style={{
-                            fontFamily: "Inter",
-                            fontSize: "16px",
-                            fontWeight: 500,
-                            lineHeight: "22px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span dangerouslySetInnerHTML={{ __html: recommendedcourses?.description }} className="line-clamp-2"></span>
-                        </div>
+                            <div className="grid grid-cols-12 justify-between xl:gap-[50px] gap-4 items-center">
+                              <div className="xl:col-span-10 col-span-12">
+                                {" "}
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: recommendeddata.description,
+                                  }}
+                                  className="font-inter lg:text-base text-sm line-clamp-2"
+                                ></span>
+                              </div>
+                              <div className="xl:col-span-2 col-span-4">
+                                <img
+                                  className="object-cover object-center"
+                                  src="/public/assets/img/Recommended.png"
+                                  alt="Course"
+                                />
+                              </div>
+                            </div>
 
-                        <div className="ml-[200px]">
-                          <img
-                            className=" h-[48px] w-[162.74px] object-cover object-center"
-                            src={atu}
-                            alt="atu"
-                          />
-                        </div>
-                      </div>
+                            <div className="flex flex-wrap gap-4">
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px]"
+                                  src="/public/assets/img/timer.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">Level- Advanced</p>
+                              </div>
 
-                      <div className="flex mt-[25px]">
-                        <div className="h-[22px] w-[129px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={speed}
-                            alt="speed"
-                          />
-                          <p className="text-xs">Level- Advanced</p>
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px] text-black"
+                                  src="/public/assets/img/diploma.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">Post Graduate Diploma</p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px]"
+                                  src="/public/assets/img/fulltime.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">
+                                  {recommendeddata.time ===
+                                    CourseTime.FullTime && (
+                                    <span>Full-time</span>
+                                  )}
+                                  {recommendeddata.time ===
+                                    CourseTime.PartTime && (
+                                    <span>Part-time</span>
+                                  )}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px]"
+                                  src="/public/assets/img/online.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">
+                                  {recommendeddata.isOnline ===
+                                    IsOnline.Online && <span>Online</span>}
+                                  {recommendeddata.isOnline ===
+                                    IsOnline.InPerson && <span>InPerson</span>}
+                                  {recommendeddata.isOnline ===
+                                    IsOnline.Hybrid && <span>Hybrid</span>}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px]"
+                                  src="/public/assets/img/time.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">
+                                  {recommendeddata.duration}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <img
+                                  className=" h-[16] w-[18px]"
+                                  src="/public/assets/img/unversity.png"
+                                  alt="Course"
+                                />
+                                <p className="text-xs">
+                                  Atlantic Technological University
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                        <div className="sm:col-span-2 col-span-12">
+                          <div className="flex sm:flex-col flex-row gap-2 sm:items-end items-center">
+                            <h3 className="text-[#000000] text-[font-calibri-bold] sm:w-[100px] w-[80px]">
+                              €{recommendeddata.price}
+                            </h3>
 
-                        <div className="h-[22px] w-[160px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px] text-black"
-                            src={diploma}
-                            alt="diploma"
-                          />
-                          <p className="text-xs">Post Graduate Diploma</p>
+                            <Button
+                              onClick={() =>
+                                handleEnrollementRequest(recommendeddata.id)
+                              }
+                              isLoading={isPending}
+                              className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                            >
+                              Enroll Now
+                            </Button>
+                            <button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
+                              Inquire
+                            </button>
+                          </div>
                         </div>
-                        <div className="h-[22px] w-[80px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={fulltime}
-                            alt="fulltime"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.time ===
-                              CourseTime.FullTime && <span>Full-time</span>}
-                            {recommendedcourses.time ===
-                              CourseTime.PartTime && <span>Part-time</span>}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[75px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={online}
-                            alt="online"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.isOnline ===
-                              IsOnline.Online && <span>Online</span>}
-                            {recommendedcourses.isOnline ===
-                              IsOnline.InPerson && <span>InPerson</span>}
-                            {recommendedcourses.isOnline ===
-                              IsOnline.Hybrid && <span>Hybrid</span>}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[80px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={time}
-                            alt="time"
-                          />
-                          <p className="text-xs">
-                            {recommendedcourses.duration}
-                          </p>
-                        </div>
-                        <div className="h-[22px] w-[200px] flex items-center gap-1">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={unversity}
-                            alt="unversity"
-                          />
-                          <p className="text-xs">
-                            Atlantic Technological University
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex flex-col ">
-                        <div>
-                          <h3 className="text-[#000000] text-[font-calibri-bold] ml-[97px] mt-[20px]">
-                            €{recommendedcourses.price}
-                          </h3>
-                        </div>
-                        <Button
-                          onClick={() =>
-                            handleEnrollementRequest(recommendedcourses.id)
-                          }
-                          isLoading={isPending}
-                          className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                        >
-                          Enroll Now
-                        </Button>
-                        <button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
-                          Inquire
-                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center">
-                {recommendedcourses?.message}
-              </p>
-            )}
+                ))
+              ) : (
+                <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center">
+                  {recommendedcourses?.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
