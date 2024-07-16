@@ -12,6 +12,8 @@ import { IoPersonOutline } from "react-icons/io5";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdPower } from "react-icons/io";
+import person from "@/assets/images/person.png";
+
 function SmeAdminDropdonw() {
     return (
         <div className='ml-[800px] mt-[20px]'>
@@ -20,7 +22,7 @@ function SmeAdminDropdonw() {
                 <DropdownMenuContent  className="h-[258px]">
                     <DropdownMenuLabel className='w-[250px] h-[62px] bg-[#00778B] rounded-sm'> 
                     <div className="flex">
-                        <img src="/public/assets/img/face1.jpg" alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px] border-[2px]" />
+                        <img src={person} alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px] border-[2px]" />
                         <div className="flex flex-col">
                             <span className="text-[16px]  text-[#FFFFFF]">Evergrow Green</span>
                             <span className="text-[12px] text-[#FFFFFF]  ">SME Admin</span>

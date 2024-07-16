@@ -1,3 +1,4 @@
+import Loading from "@/components/comman/Error/Loading";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { CardTitle } from "@/components/ui/card";
@@ -34,7 +35,7 @@ const TeaserScore = () => {
     ? userData?.query?.id
     : userData?.id;
 
-  const { data: fetchClientmaturitylevel } = useQuery({
+  const { data: fetchClientmaturitylevel, isPending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
@@ -241,6 +242,7 @@ const TeaserScore = () => {
         </div>
         <HomeFooter />
       </div>
+      <Loading isLoading={isPending} />
     </div>
   );
 };

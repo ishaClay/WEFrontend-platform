@@ -6,6 +6,7 @@ import { FiFile, FiVideo } from "react-icons/fi";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
 import { VscFilePdf } from "react-icons/vsc";
 import HeaderCourse from "@/components/HeaderCourse";
+import person from "@/assets/images/person.png";
 
 function SupportDetails() {
 	const [assignedTo, setAssignedTo] = useState<string>("");
@@ -53,7 +54,7 @@ function SupportDetails() {
 					<div className="flex justify-between">
 						<div className="flex p-6">
 							<img
-								src="/public/assets/img/face1.jpg"
+								src={person}
 								alt="Employee Name"
 								className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px]"
 							/>

@@ -2,6 +2,7 @@ import { RxCross2 } from "react-icons/rx";
 import { BsInfoLg } from "react-icons/bs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from '@/components/ui/card';
+import treePlantingIcon from "@/assets/images/TreePlanting.png"
 
 function EmployeeAssessmentResultPopup() {
     return (
@@ -9,7 +10,7 @@ function EmployeeAssessmentResultPopup() {
             <Card className="bg-white rounded-lg p-4 h-full md:[814px] md:h-[465px]">
                 <div className="flex mb-4">
                     <div className="bg-white border-2 rounded-full w-9 h-9 p-2 mb-2">
-                        <img src="/public/assets/img/Tree Planting.png" alt="Leaf Icon" className="w-full h-full object-contain" />
+                        <img src={treePlantingIcon} alt="Leaf Icon" className="w-full h-full object-contain" />
                     </div>
                     <div className="ml-3 mt-1 flex-grow">
                         <h2 className="text-sm md:text-xm font-semibold text-[#1D2026]">Have you identified actionable items on provided measures?</h2>

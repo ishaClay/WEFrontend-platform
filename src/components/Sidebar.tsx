@@ -64,8 +64,8 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   };
 
   return (
-    <div className="top-0 left-0 lg:flex flex-col justify-between w-[260px] duration-500 bg-[#FFFFFF] overflow-hidden">
-      <div className="w-[250px] h-screen">
+    <div className="top-0 left-0 lg:flex flex-col justify-between 2xl:w-[260px] w-[235px] duration-500 bg-[#FFFFFF] overflow-hidden">
+      <div className="2xl:w-[250px] w-[230px] h-screen">
         <div className="ml-[40px] mt-[20px]">
           <Link to={"/"}>
             <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
@@ -83,7 +83,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                       onClick={() => toggleDropdown(item.children, index)}
                       className={`group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
                         item.children.find(
-                          (child) => child.link === location.pathname
+                          (child) =>
+                            child.link === location.pathname ||
+                            isOpen?.[`bar${index + 1}`]
                         )
                           ? "bg-[#00778B] text-white"
                           : "bg-[#fff]"

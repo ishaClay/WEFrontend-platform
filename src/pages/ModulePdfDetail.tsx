@@ -15,6 +15,8 @@ import { MdZoomIn } from "react-icons/md";
 import { MdZoomOut } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import feedback from "@/assets/images/feedback.png";
 
 function ModulePdfDetail() {
 
@@ -88,7 +90,7 @@ function ModulePdfDetail() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -273,80 +275,80 @@ function ModulePdfDetail() {
                                             <div className="mt-6 ml-auto md:ml-12">
                                                 <div>
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#000000] mx-auto"
                                                     />
                                                     <p className="text-center">1</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">2</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center ">3</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center ">4</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">5</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">6</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">7</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">8</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">9</p>
                                                 </div>
                                                 <div className="mt-4">
                                                     <img
-                                                        src="/public/assets/img/feedback.png"
-                                                        alt="Emilia Anderson"
+                                                        src={feedback}
+                                                        alt="feedback"
                                                         className="h-[201px] w-[156px] border-2 border-[#A6A6A6] mx-auto"
                                                     />
                                                     <p className="text-center">10</p>
@@ -492,7 +494,7 @@ function ModulePdfDetail() {
                                     </button>
                                 </div>
                                 <div className="fixed bottom-14 right-4 md:absolute md:right-0 md:top-[2960px] md:bottom-0 md:left-[1155px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
-                                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                         <span className="text-gray-900 font-semibold">Messaging</span>
                                     </div>

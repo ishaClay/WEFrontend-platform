@@ -5,8 +5,8 @@ import employee_Image_4 from "@/assets/images/face_4.jfif";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { DataTable } from "../comman/DataTable";
 import { Button } from "../ui/button";
+import { NewDataTable } from "../comman/NewDataTable";
 
 const data = [
   {
@@ -193,9 +193,9 @@ const AllocatedCertificatePage = () => {
 
   return (
     <div className="bg-white rounded-lg">
-      <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
+      <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
-          <h6 className="font-calibri text-base font-bold">
+          <h6 className="font-calibri text-base font-bold pb-3">
             Issued Certificate
           </h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
@@ -203,14 +203,14 @@ const AllocatedCertificatePage = () => {
           </p>
         </div>
         <div className="">
-          <Button className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito">
+          <Button className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3">
             Issued Certificate
           </Button>
         </div>
       </div>
 
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] w-[450px] px-4 2xl:py-3 py-2 rounded-lg">
+        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] h-[52px] px-4 2xl:py-3 py-2 rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
@@ -220,13 +220,14 @@ const AllocatedCertificatePage = () => {
       </div>
 
       <div className="">
-        <DataTable
+        <NewDataTable
           columns={column}
           data={data}
           totalPages={data?.length}
           setPage={setPage}
           pagination={{ pageIndex: page, pageSize: 10 }}
-          rounded={false}
+          inputbox={false}
+          itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
         />
       </div>
     </div>

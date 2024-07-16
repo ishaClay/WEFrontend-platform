@@ -1,11 +1,14 @@
 import HeaderCourse from "@/components/HeaderCourse";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { FaStar } from "react-icons/fa";
-
 import { useState } from "react";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import weakFinancialGrowthIcon from "@/assets/images/WeakFinancialGrowth.png"
+import lightOnIcon from "@/assets/images/LightOn.png"
+import neighbourIcon from "@/assets/images/Neighbour.png"
+import moralesIcon from "@/assets/images/Morales.png"
+import pathStepsIcon from "@/assets/images/PathSteps.png"
 
 function MaturityAssessmentRoadmapSetTarget() {
   const [activeTab, setActiveTab] = useState("Assessment Result");
@@ -269,8 +272,8 @@ function MaturityAssessmentRoadmapSetTarget() {
                           <div>
                             <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-11">
                               <img
-                                src="/public/assets/img/Weak Financial Growth.png"
-                                alt="Leaf Icon"
+                                src={weakFinancialGrowthIcon}
+                                alt="weakFinancialGrowthIcon"
                               />
                             </div>
 
@@ -370,8 +373,8 @@ function MaturityAssessmentRoadmapSetTarget() {
                           <div>
                             <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-11">
                               <img
-                                src="/public/assets/img/Light On.png"
-                                alt="Leaf Icon"
+                                src={lightOnIcon}
+                                alt="lightOnIcon"
                               />
                             </div>
 
@@ -469,8 +472,8 @@ function MaturityAssessmentRoadmapSetTarget() {
                           <div>
                             <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-11">
                               <img
-                                src="/public/assets/img/Neighbour.png"
-                                alt="Leaf Icon"
+                                src={neighbourIcon}
+                                alt="neighbourIcon"
                               />
                             </div>
                             <div className="ml-8 mt-4 text-[#1D2026] font-Calibri">
@@ -565,8 +568,8 @@ function MaturityAssessmentRoadmapSetTarget() {
                           <div>
                             <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-11">
                               <img
-                                src="/public/assets/img/Morale.png"
-                                alt="Leaf Icon"
+                                src={moralesIcon}
+                                alt="moralesIcon"
                               />
                             </div>
 
@@ -664,8 +667,8 @@ function MaturityAssessmentRoadmapSetTarget() {
                           <div>
                             <div className="bg-white rounded-full  drop-shadow-md w-16 h-16 p-4 mt-4 ml-11">
                               <img
-                                src="/public/assets/img/Path Steps.png"
-                                alt="Leaf Icon"
+                                src={pathStepsIcon}
+                                alt="pathStepsIcon"
                               />
                             </div>
 

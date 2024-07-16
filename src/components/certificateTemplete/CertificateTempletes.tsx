@@ -22,7 +22,7 @@ const CertificateTemplete = () => {
         </p>
       </div>
       <div className="p-4">
-        <div className="grid xl:grid-cols-4 grid-cols-3">
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
           {templetDetails.map((data, index) => {
             return <CertificateTempleteItems data={data} key={index} />;
           })}

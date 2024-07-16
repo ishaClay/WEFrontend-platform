@@ -1,7 +1,7 @@
 import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import EmployeeHeader from "./EmployeeHeader";
 import MainHeader from "./MainHeader";
-import { useLocation } from "react-router-dom";
 function HeaderCourse() {
   const location = useLocation();
   const Role = location.pathname.split("/")[1];
@@ -84,10 +84,108 @@ function HeaderCourse() {
     }
     return { title, subtitle };
   }, [location]);
+  const maiHeaderData = useMemo(() => {
+    const pathName = location.pathname.split("/")[2];
+    console.log("pathName", pathName);
+    let title = "";
+    switch (pathName) {
+      case "dashboard":
+        title = "Dashboard";
+        break;
+
+      case "enrolledrequest":
+        title = "Course Management";
+        break;
+
+      case "coursesrecommended":
+        title = "Recommended Course";
+        break;
+
+      case "enrolledcourses":
+        title = "Course Management";
+        break;
+
+      case "allocatedcourses":
+        title = "Course Allocation";
+        break;
+
+      case "employeelist":
+        title = "Team List";
+        break;
+
+      case "teamProgress":
+        title = "Team Progress";
+        break;
+
+      case "maturityAssessment":
+        title = "Maturity Assessment";
+        break;
+
+      case "allcourse":
+        title = "Course Management";
+        break;
+
+      case "allcourses":
+        title = "Course Management";
+        break;
+
+      case "create_course":
+        title = "Course Management";
+        break;
+
+      case "employee-basic-course":
+        title = "Course Management";
+        break;
+
+      case "trainer-management":
+        title = "Trainer Management";
+        break;
+
+      case "certificate-template":
+        title = "Certificate Management";
+        break;
+
+      case "allocated-certificate":
+        title = "Certificate Management";
+        break;
+
+      case "support-faqslist":
+        title = "Support";
+        break;
+
+      case "faqslist":
+        title = "FAQ’s";
+        break;
+
+      case "support-training-documnet":
+        title = "Support";
+        break;
+
+      case "trainingdocument":
+        title = "Training Document";
+        break;
+
+      case "support-request":
+        title = "Support Ticket";
+        break;
+
+      case "employeepermission":
+        title = "Team Permission";
+        break;
+
+      case "message":
+        title = "Message";
+        break;
+
+      default:
+        break;
+    }
+    return { title };
+  }, [location]);
   return (
     <>
       <div className={`${Role === "employee" ? "hidden" : "block"}`}>
-        <MainHeader />
+        <MainHeader title={maiHeaderData?.title} />
       </div>
       <div className={`${Role === "employee" ? "block" : "hidden"}`}>
         <EmployeeHeader

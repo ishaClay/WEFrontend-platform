@@ -8,6 +8,7 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import { TbPhoto } from "react-icons/tb";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
 
 function EmployeeMsg() {
 
@@ -52,8 +53,8 @@ function EmployeeMsg() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
-                                    alt="Emilia Anderson"
+                                    src={person}
+                                    alt="person"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
                                 <div className="ml-2 ">

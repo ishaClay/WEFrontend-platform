@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import rePasswordBanner from "../../../public/assets/img/LoginImage.svg";
+import rePasswordBanner from "@/assets/images/LoginImage.svg";
 
 const ResetPassword = () => {
   const navigate = useNavigate();

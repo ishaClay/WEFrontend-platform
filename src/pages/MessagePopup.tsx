@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/popover"
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { BsSearch } from "react-icons/bs";
+import person from "@/assets/images/person.png";
 
 
 interface Message {
@@ -17,12 +18,12 @@ interface Message {
 }
 
 const messages: Message[] = [
-    { id: 1, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: true, avatar: '/public/assets/img/face1.jpg' },
-    { id: 2, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: '/public/assets/img/face1.jpg' },
-    { id: 3, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: '/public/assets/img/face1.jpg' },
-    { id: 4, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: '/public/assets/img/face1.jpg' },
-    { id: 5, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: '/public/assets/img/face1.jpg' },
-    { id: 6, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: '/public/assets/img/face1.jpg' },
+    { id: 1, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: true, avatar: person },
+    { id: 2, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: person },
+    { id: 3, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: person },
+    { id: 4, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: person },
+    { id: 5, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: person },
+    { id: 6, name: 'Theresa Webb', message: 'Lorem ipsum dolor sit amet...', date: 'Apr 10', unread: false, avatar: person },
 ];
 
 function MessagePopup() {
@@ -35,7 +36,7 @@ function MessagePopup() {
                 <PopoverContent className="md:h-[550px]  md:w-[335px]">
                     <div className="border-b">
                         <div className="flex items-center ml-4 h-[70px]">
-                            <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-[40px] w-[40px] rounded-full" />
+                            <img src={person} alt="Profile" className="h-[40px] w-[40px] rounded-full" />
                             <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                 <span className="text-gray-900 font-semibold">Messaging</span>
                             </div>

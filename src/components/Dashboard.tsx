@@ -354,7 +354,7 @@ const Dashboard = () => {
       </div>
 
       <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm">
-        <div className="flex">
+        <div className="flex w-full">
           <div className=" w-full  m-4 bg-[#FFFFFF]">
             <div className="sm:flex block justify-between items-center">
               <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">

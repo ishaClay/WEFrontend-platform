@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Auth from "./pages/auth/Auth";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 
+import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
@@ -109,7 +110,6 @@ import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
 import MyCoursesList from "./pages/myCourse";
 import PrivacyPolicyPage from "./pages/privacyPolicy/PrivacyPolicyPage";
-import AddNewTicketsPage from "./pages/support/AddNewTicketsPage";
 import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
@@ -117,7 +117,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import "@cyntler/react-doc-viewer/dist/index.css";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -160,6 +159,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/employee_register" element={<Register />} />
         <Route path="/inviteRegister" element={<RegisterTrainee />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
@@ -612,9 +612,9 @@ function App() {
         <Route
           path="/employeerodemap"
           element={
-            <ProtectedRoute>
-              <EmployeeRodemap />
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            <EmployeeRodemap />
+            // </ProtectedRoute>
           }
         />
         <Route
@@ -699,6 +699,7 @@ function App() {
             path="ticket-details-reply"
             element={<TicketDetailsReplyPage />}
           />
+          <Route path="retakeAssessment" element={<QuestionPage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
@@ -809,7 +810,7 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route path="support-request/add-new-ticket" element={<AddNewTicketsPage />} />
+          <Route path="support-request/add-new-ticket" element={<SupportAddNewTicket />} />
           <Route
             path="schedule-live-session"
             element={<ScheduleLiveSession />}

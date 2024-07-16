@@ -47,3 +47,53 @@ export interface Headers1 {
     Accept: string;
     "Content - Type": string;
 }
+
+
+export interface AllActionDataPillerWise {
+    data?: (AllActionDataPillerWiseResult)[];
+    message: string;
+}
+export interface AllActionDataPillerWiseResult {
+    pillarid: number;
+    checked: number;
+    pillarname: string;
+    totalquestionsattempted: number;
+    totalquestionsavailable: string;
+    totalmaxpoint: number;
+    totalpoints: number;
+    questiontitle: string;
+    value: number;
+    maturityLevelName: string;
+    rangeStart: number;
+    rangeEnd: number;
+    maturityNameRecommended: string;
+    filteredOptions: (FilteredOptionsEntity)[];
+    actionItem?: (ActionItemEntity)[];
+}
+export interface FilteredOptionsEntity {
+    name: string;
+    point: number;
+    measures: string;
+    optionId: string;
+    percentage: number;
+}
+export interface ActionItemEntity {
+    id: number;
+    measure: string;
+    startDate?: string | null;
+    endDate?: string | null;
+    evidence?: string | null;
+    iscompleted: number;
+    empAssignDate?: string | null;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt?: null;
+    pillerId: PillerId;
+}
+export interface PillerId {
+    id: number;
+    pillarName: string;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+}

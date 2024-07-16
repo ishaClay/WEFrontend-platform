@@ -24,11 +24,11 @@ const MyCourseList = ({ list }: myPagesListProps) => {
           </div>
           <div className="w-full">
             <div>
-              <p className="text-base font-medium font-inter leading-6 mb-[10px] line-clamp-1">
+              <p className="sm:text-base text-sm font-medium font-inter leading-6 mb-[10px] line-clamp-1">
                 {list.title}
               </p>
             </div>
-            <div className="flex flex-wrap gap-5 pb-[10px]">
+            <div className="flex flex-wrap md:gap-5 gap-2 pb-[10px]">
               <Badge className="bg-[#FFD56A] text-[#3A3A3A] font-normal font-Poppins text-xs leading-4 px-[10px] my-1 mx-[2px] hover:text-white">
                 Environmental
               </Badge>
@@ -53,9 +53,9 @@ const MyCourseList = ({ list }: myPagesListProps) => {
                 style={{ width: "25%" }}
               />
             </div>
-            <div className="flex flex-wrap items-center 2xl:gap-6 gap-3 pt-[10px]">
+            <div className="flex flex-wrap items-center 2xl:gap-6 sm:gap-3 gap-2 pt-[10px]">
               <div className="flex items-center">
-                <img src={SpeedImage} alt="" />
+                <img src={SpeedImage} alt=""  className="h-[16] w-[18px]" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
                   Level- Advanced
                 </p>

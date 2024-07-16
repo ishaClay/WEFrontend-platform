@@ -7,6 +7,8 @@ import { BsSearch } from "react-icons/bs";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiArrowDownSLine, RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import nature from "@/assets/images/nature.png";
 
 function EmployeeCompletedSecond() {
 
@@ -61,7 +63,7 @@ function EmployeeCompletedSecond() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -102,7 +104,7 @@ function EmployeeCompletedSecond() {
                             <select
                                 id="status"
                                 name="status"
-                                className="mt-1 block md:w-auto  pl-3 pr-10 py-2 text-base border border-[#A3A3A3] rounded shadow-sm bg-[#F3F3F3]  md:w-[176px]"
+                                className="mt-1 block pl-3 pr-10 py-2 text-base border border-[#A3A3A3] rounded shadow-sm bg-[#F3F3F3]  md:w-[176px]"
                                 defaultValue="In Progress"
                             >
                                 <option>In Progress</option>
@@ -130,7 +132,7 @@ function EmployeeCompletedSecond() {
                             <div className="relative overflow-hidden rounded w-full md:w-auto">
                                 <img
                                     className="w-full md:w-[152px] h-[152px] rounded object-cover object-center"
-                                    src="/public/assets/img/nature.png"
+                                    src={nature}
                                     alt="Course"
                                 />
                             </div>
@@ -146,7 +148,7 @@ function EmployeeCompletedSecond() {
                                     </div>
                                     <div className="flex items-center mt-2">
                                         <div className="text-[20px] text-[#00778B] font-bold">{100}%</div>
-                                        <div className="text-[12px] ml-auto ml-[505px]">1 of 5 Completed</div>
+                                        <div className="text-[12px] ml-[505px]">1 of 5 Completed</div>
                                     </div>
                                     <div className="w-full md:w-[670px] h-[8px] bg-[#E8E8E8] rounded-lg mt-2">
                                         <div
@@ -192,7 +194,7 @@ function EmployeeCompletedSecond() {
                 </div>
 
                 <div className="absolute mr-4 right-0 lg:top-[1630px] bottom-0 lg:left-[1147px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-full lg:w-[332px] max-w-[332px]">
-                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                         <span className="text-gray-900 font-semibold text-sm md:text-base lg:text-lg">Messaging</span>
                     </div>

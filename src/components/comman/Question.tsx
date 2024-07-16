@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setActivePillar } from "@/redux/reducer/QuestionReducer";
 import { QuestionType } from "@/types/Question";
 import { Dispatch, SetStateAction } from "react";
+import { useLocation } from "react-router-dom";
 import QuestionBox from "../QuestionBox";
 import { Button } from "../ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
@@ -16,6 +17,8 @@ const Question = ({
   const question = useAppSelector((state) => state.question);
   const dispatch = useAppDispatch();
   const { activePillar, allPillar } = useAppSelector((state) => state.question);
+  const location = useLocation();
+  const isHide = location.pathname?.split("/")?.length === 2 ? false : true;
 
   console.log("question", question);
 
@@ -66,7 +69,11 @@ const Question = ({
           <CarouselNext /> */}
         </Carousel>
       </div>
-      <div className="w-full mb-[18px] gap-2 flex justify-center">
+      <div
+        className={`w-full sm:mt-0 mt-5 gap-2 items-center justify-center ${
+          isHide ? "hidden" : "flex"
+        }`}
+      >
         <Button
           // variant={"outline"}
           type="button"

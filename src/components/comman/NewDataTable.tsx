@@ -34,6 +34,7 @@ interface DataTableProps<TData, TValue> {
   pagination?: PaginationState;
   totalPages?: number;
   border?: boolean;
+  itemClassName?: string;
   setPagination?: React.Dispatch<React.SetStateAction<PaginationState>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   searchPlaceholder?: string;
@@ -46,6 +47,7 @@ export function NewDataTable<TData, TValue>({
   columns,
   inputbox = true,
   border = true,
+  itemClassName,
   pagenationbox,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
@@ -184,7 +186,12 @@ export function NewDataTable<TData, TValue>({
         </Table>
       </div>
       {pagenationbox && totalPages > 0 ? null : (
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div
+          className={cn(
+            `flex items-center justify-end space-x-2 py-4`,
+            itemClassName
+          )}
+        >
           <div className="flex-1 text-sm text-black px-4">
             Showing {pagination.pageIndex}/{totalPages} Records
           </div>

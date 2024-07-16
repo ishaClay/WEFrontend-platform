@@ -100,7 +100,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
       <Modal
         open={isOpenDelayModel}
         onClose={() => setIsOpenDelayModel(false)}
-        className="min-w-[800px] py-5 px-6"
+        className="sm:py-5 p-4 sm:px-6 lg:max-w-[800px] sm:max-w-xl max-w-[335px] rounded-xl"
       >
         <DelayModel
           uploadData={uploadData}
@@ -134,7 +134,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
             <div className="flex items-center relative lg:mt-0 mt-3">
               <Button
                 className={`${
-                  data?.userMaturityLevel?.[0]?.level === "Advance"
+                  data?.userMaturityLevel?.[0]?.level === "Advanced"
                     ? "bg-[#258483]"
                     : data?.userMaturityLevel?.[0]?.level === "Introductory"
                     ? "bg-[#C92C35]"
@@ -152,7 +152,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
               </div>
               <Button
                 className={`text-black sm:text-base text-xs rounded-full ${
-                  data?.userMaturityLevel?.[0]?.nextLevel === "Advance"
+                  data?.userMaturityLevel?.[0]?.nextLevel === "Advanced"
                     ? "bg-[#258483]"
                     : data?.userMaturityLevel?.[0]?.nextLevel === "Introductory"
                     ? "bg-[#C92C35]"

@@ -1,5 +1,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
+import pathStepsIcon from "@/assets/images/PathSteps.png"
+
 function MaturityLevelAnswersPopup() {
   const [progress, setProgress] = React.useState(0);
   const [progress1, setProgress1] = React.useState(0);
@@ -38,7 +40,7 @@ function MaturityLevelAnswersPopup() {
           <div className="h-[105px] w-[270px] flex flex-col">
             <div className="flex ">
               <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
-                <img src="/public/assets/img/Path Steps.png" alt="Leaf Icon" />
+                <img src={pathStepsIcon} alt="pathStepsIcon" />
               </div>
 
               <div className="ml-2 mt-2 h-[25px] w-[203px]">

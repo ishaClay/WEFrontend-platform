@@ -5,7 +5,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { fetchEnroll } from "@/services/apiServices/enroll";
 import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
@@ -17,26 +17,33 @@ import diploma from "@/assets/images/diploma.png";
 import unversity from "@/assets/images/unversity.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
+import nature from "@/assets/images/nature.png";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import { QUERY_KEYS } from "@/lib/constants";
+import { ErrorType } from "@/types/Errors";
 
 type dataGridProps = {
   data: AllCourse[];
+  reCommendedCourses : RecommendedCourses[];
 };
 
-const CourseGridPage = ({ data }: dataGridProps) => {
+const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
   const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
+  const queryClient = useQueryClient();
   const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
       toast({
         variant: "success",
         title: data?.data?.message,
       });
     },
-    onError: (data) => {
+    onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
-        title: data?.message,
+        title: error?.data?.message,
       });
     },
   });
@@ -102,7 +109,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
 
     return (
       <div
-        className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] mr-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
+        className="xl:col-span-5 col-span-7 customeCohortShadow rounded-[6px] p-[7px] xl:mr-[7px] mr-0 border border-[#B6D8DF] bg-[#E4FBFF]"
         onClick={() => setIsCohortShow(cohortData)}
       >
         <div className="flex items-center justify-between pb-[6px]">
@@ -144,7 +151,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
-      {data?.map((allcourse: AllCourse) => {               
+      {data?.map((allcourse: AllCourse) => {
         return (
           <>
             <div
@@ -154,7 +161,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
               <div className="relative overflow-hidden h-[231px]">
                 <img
                   className="object-cover object-center"
-                  src="/public/assets/img/nature.png"
+                  src={nature}
                   alt="Course"
                 />
                 <input
@@ -169,7 +176,7 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                 </div>
               </div>
 
-              <div className="h-[calc(100%-231px)]">
+              <div className="">
                 <div className="px-3 py-[14px] h-[calc(100%-78px)] flex flex-col justify-between">
                   <p className="text-base font-medium font-inter mb-3 line-clamp-3 text-[#1D2026]">
                     {allcourse.title}
@@ -178,20 +185,23 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                   <div>
                     <div className="mb-3">
                       <div className="flex items-center gap-y-2 flex-wrap leading-[22px]">
-                      {
-                        allcourse?.courseData?.map((item) => {
-                          return <div className="flex gap-2 items-center w-1/2">
-                          <img
-                          className="inline-block w-[18px] h-[24px]"
-                          src={getImages(item?.fetchPillar?.pillarName, true)}
-                          alt="Image Alt Text"
-                        />
-                        <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
-                          {item?.fetchPillar?.pillarName}
-                        </p>
-                          </div>
-                        })
-                      }                        
+                        {allcourse?.courseData?.map((item) => {
+                          return (
+                            <div className="flex gap-2 items-center w-1/2">
+                              <img
+                                className="inline-block w-[18px] h-[24px]"
+                                src={getImages(
+                                  item?.fetchPillar?.pillarName,
+                                  true
+                                )}
+                                alt="Image Alt Text"
+                              />
+                              <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
+                                {item?.fetchPillar?.pillarName}
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -205,10 +215,8 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                           />
                           <p className="text-xs leading-[22px] text-[#3A3A3A]">
                             Level-
-                            {
-                              allcourse?.courseData?.[0]?.fetchMaturity
-                                ?.maturityLevelName || "--"
-                            }
+                            {allcourse?.courseData?.[0]?.fetchMaturity
+                              ?.maturityLevelName || "--"}
                           </p>
                         </div>
                         <div className="flex items-center gap-1 mb-[2px]">
@@ -282,15 +290,14 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                   </div>
                 </div>
 
-                <div className="border-t py-[13px] px-[8px] grid grid-cols-7 items-center">
+                <div className="border-t py-[13px] px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
                   {getUpcommingCohort(allcourse)}
-                  <div className="col-span-2 mr-0 ml-auto">
+                  <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
                     <button
                       disabled={
-                        allcourse?.courseAlloted?.some(
+                        reCommendedCourses?.some(
                           (item) =>
-                            item.user.id === +user.UserId &&
-                            item.course.id === allcourse?.id
+                            item?.id === allcourse?.id
                         )
                           ? true
                           : false
@@ -301,7 +308,10 @@ const CourseGridPage = ({ data }: dataGridProps) => {
                       className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
                     >
                       {isPending ? (
-                        <Loader containerClassName="h-auto" className="group-hover:text-white" />
+                        <Loader
+                          containerClassName="h-auto"
+                          className="group-hover:text-white"
+                        />
                       ) : (
                         "Enroll Now"
                       )}
