@@ -20,13 +20,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { fetchMessageRoles } from "@/lib/utils";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { getTargetUserby } from "@/services/apiServices/clientServices";
-import {
-  fetchEmails,
-} from "@/services/apiServices/emailTemplate";
+import { fetchEmails } from "@/services/apiServices/emailTemplate";
 import { uploadFile } from "@/services/apiServices/upload";
 import { ErrorType } from "@/types/Errors";
+import { EmailTemplateType } from "@/types/message";
 import { MessageUserRole, UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -41,8 +41,6 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
-import { fetchMessageRoles } from "@/lib/utils";
-import { EmailTemplateType } from "@/types/message";
 
 interface SendMessagePayload {
   senderId: string;
@@ -54,76 +52,114 @@ interface SendMessagePayload {
 const Compose = () => {
   const navigate = useNavigate();
 
-  const { targetAudienceId } = useSelector(
-    (state: any) => state.user
-  );
+  const { targetAudienceId } = useSelector((state: any) => state.user);
 
   const { role, UserId } = useSelector((state: any) => state.user);
   const asdas = useSelector((state: any) => state);
   console.log("asdas", asdas.user);
-  
+
   const { toast } = useToast();
   const [client, setClient] = useState("");
   const [chatMessage, setChatMessage] = useState("");
-  const [selectTab, setSelectTab] = useState<number>(role === UserRole?.Trainer ? 1 : 5);
+  const [selectTab, setSelectTab] = useState<number>(
+    role === UserRole?.Trainer ? 1 : 5
+  );
   const [isActive, setIsActive] = useState("admin");
   // const [userRole, setUserRole] = useState<number>(role === UserRole?.Trainer ? 2 : 6);
   const [images, setImages] = useState<string[]>([]);
   const [selectToValue, setSelectToValue] = useState<any>();
-  const [emailTemplateMessage, setEmailTemplateMessage] = useState<EmailTemplateType>({} as EmailTemplateType);
+  const [emailTemplateMessage, setEmailTemplateMessage] =
+    useState<EmailTemplateType>({} as EmailTemplateType);
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
 
-    useEffect(() => {
-      if (role === UserRole?.Trainer) {
-        setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "employee" ? MessageUserRole.Employee : isActive === "trainee" ? MessageUserRole.Trainee : MessageUserRole.Company)
-      } else if (role === UserRole?.Company) {
-        setSelectTab(isActive === "admin" ? MessageUserRole?.Client : isActive === "employee" ? MessageUserRole.Employee : isActive === "trainee" ? MessageUserRole.Trainee : MessageUserRole.Trainer)
-      } else if (role === UserRole?.Trainee) {
-        setSelectTab(isActive === "admin" ? MessageUserRole?.Trainer : isActive === "company" ? MessageUserRole?.Company : MessageUserRole?.Employee)
-      }
-    }, [isActive]);
+  useEffect(() => {
+    if (role === UserRole?.Trainer) {
+      setSelectTab(
+        isActive === "admin"
+          ? MessageUserRole?.Client
+          : isActive === "employee"
+          ? MessageUserRole.Employee
+          : isActive === "trainee"
+          ? MessageUserRole.Trainee
+          : MessageUserRole.Company
+      );
+    } else if (role === UserRole?.Company) {
+      setSelectTab(
+        isActive === "admin"
+          ? MessageUserRole?.Client
+          : isActive === "employee"
+          ? MessageUserRole.Employee
+          : isActive === "trainee"
+          ? MessageUserRole.Trainee
+          : MessageUserRole.Trainer
+      );
+    } else if (role === UserRole?.Trainee) {
+      setSelectTab(
+        isActive === "admin"
+          ? MessageUserRole?.Trainer
+          : isActive === "company"
+          ? MessageUserRole?.Company
+          : MessageUserRole?.Employee
+      );
+    }
+  }, [isActive]);
 
-    console.log("images", images);  
-    
-  const { data: fetchTargetUserbyList, refetch: refetchTargetUserby } = useQuery({
-    queryKey: [QUERY_KEYS.getTargetUserby, targetAudienceId],
-    queryFn: () => getTargetUserby(UserId as string)
-  });
+  console.log("images", images);
+
+  const { data: fetchTargetUserbyList, refetch: refetchTargetUserby } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getTargetUserby, targetAudienceId],
+      queryFn: () => getTargetUserby(userID as string),
+    });
 
   useEffect(() => {
     refetchTargetUserby();
-  }, [selectTab])
-  
+  }, [selectTab]);
+
   console.log("fetchTargetUserbyList", fetchTargetUserbyList?.data?.data);
 
   const fetchAssignToList = (selectType: string) => {
     if (role === UserRole?.Trainer) {
-      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[selectType])
-    } else if(role === UserRole?.Company){
-      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectType])
-    } else if(role === UserRole?.Trainee){
-      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectType])
+      setSelectToValue(
+        fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
+          selectType
+        ]
+      );
+    } else if (role === UserRole?.Company) {
+      setSelectToValue(
+        fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectType]
+      );
+    } else if (role === UserRole?.Trainee) {
+      setSelectToValue(
+        fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectType]
+      );
     }
-  }
+  };
 
   useEffect(() => {
     fetchAssignToList(isActive);
-  }, [isActive, fetchTargetUserbyList])
-  
-console.log("Company", fetchTargetUserbyList?.data?.data?.[0]?.companyDetails);
+  }, [isActive, fetchTargetUserbyList]);
 
-  
-  
-  const { data: emailtemplateList, isPending, refetch: refetchEmailtemplateList } = useQuery({
+  console.log(
+    "Company",
+    fetchTargetUserbyList?.data?.data?.[0]?.companyDetails
+  );
+
+  const {
+    data: emailtemplateList,
+    isPending,
+    refetch: refetchEmailtemplateList,
+  } = useQuery({
     queryKey: [QUERY_KEYS.emailTemplate],
     queryFn: () => fetchEmails(selectTab),
   });
 
   useEffect(() => {
-    refetchEmailtemplateList()
-  }, [selectTab])
-
+    refetchEmailtemplateList();
+  }, [selectTab]);
 
   const schema = z.object({
     to: z.string({ required_error: "To is required" }).min(1, "To is required"),
@@ -141,16 +177,28 @@ console.log("Company", fetchTargetUserbyList?.data?.data?.[0]?.companyDetails);
     mode: "all",
   });
 
-  console.log("emailtemplateList?.data?.data", emailtemplateList?.data?.data?.find((item: any) => item?.id === +chatMessage)?.message);
-  
+  console.log(
+    "emailtemplateList?.data?.data",
+    emailtemplateList?.data?.data?.find(
+      (item: any) => item?.id === +chatMessage
+    )?.message
+  );
+
   useEffect(() => {
-    setValue("message", emailtemplateList?.data?.data?.find((item: any) => item?.id === +chatMessage)?.message);
+    setValue(
+      "message",
+      emailtemplateList?.data?.data?.find(
+        (item: any) => item?.id === +chatMessage
+      )?.message
+    );
     setEmailTemplateMessage(
-      emailtemplateList?.data?.data?.find((item: any) => item?.id === +chatMessage)
+      emailtemplateList?.data?.data?.find(
+        (item: any) => item?.id === +chatMessage
+      )
     );
   }, [chatMessage]);
 
-console.log("emailTemplateMessage", emailTemplateMessage?.message);
+  console.log("emailTemplateMessage", emailTemplateMessage?.message);
 
   useEffect(() => {
     setValue("to", "");
@@ -174,13 +222,13 @@ console.log("emailTemplateMessage", emailTemplateMessage?.message);
         variant: "success",
         title: data?.data?.message,
       });
-    }, 
+    },
     onError: (error: ErrorType) => {
       toast({
         variant: "destructive",
         title: error.data.message,
       });
-    }
+    },
   });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -227,11 +275,14 @@ console.log("emailTemplateMessage", emailTemplateMessage?.message);
   };
 
   console.log("rolerole", role);
-  
-console.log("errors", errors, client);
-console.log("selectToValue", selectToValue);
 
-console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
+  console.log("errors", errors, client);
+  console.log("selectToValue", selectToValue);
+
+  console.log(
+    "selectToValue?.clientDetails?.name",
+    selectToValue?.clientDetails
+  );
 
   return (
     <>
@@ -239,30 +290,30 @@ console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
         <CardHeader className="px-[20px] py-3 border-b-[#d9d9d9] border-b border-solid">
           <div className="flex items-center justify-between">
             <div>
-              {
-                fetchMessageRoles(role)?.map((item: string) => {
-                  return <div
-                  className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
-                    isActive === item ? "border-[#00778B]" : ""
-                  }`}
-                  onClick={() => setIsActive(item)}
-                >
-                  <Avatar className="w-[42px] h-[42px]">
-                    <AvatarFallback className="text-white text-xl bg-[#0077A2]">
-                      {item?.[0]?.toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="ml-3">
-                    <div className="leading-[19.53px] mb-px text-[black] capitalize">
-                      {item}
-                    </div>
-                    <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
-                      {item} Name
+              {fetchMessageRoles(role)?.map((item: string) => {
+                return (
+                  <div
+                    className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
+                      isActive === item ? "border-[#00778B]" : ""
+                    }`}
+                    onClick={() => setIsActive(item)}
+                  >
+                    <Avatar className="w-[42px] h-[42px]">
+                      <AvatarFallback className="text-white text-xl bg-[#0077A2]">
+                        {item?.[0]?.toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="ml-3">
+                      <div className="leading-[19.53px] mb-px text-[black] capitalize">
+                        {item}
+                      </div>
+                      <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
+                        {item} Name
+                      </div>
                     </div>
                   </div>
-                </div>
-                })
-              }
+                );
+              })}
             </div>
             <Button
               variant={"ghost"}
@@ -297,17 +348,31 @@ console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
                     <SelectValue placeholder={`Select ${isActive}`} />
                   </SelectTrigger>
                 </SelectGroup>
-                <SelectContent noData={(selectToValue || selectToValue?.length > 0) ? false : true}>
-                  {
-                    isActive === "admin" ? <SelectItem value={String(selectToValue?.clientDetails?.id)}>
-                          {selectToValue?.clientDetails?.name || selectToValue?.clientDetails?.email?.split("@")[0]}
-                        </SelectItem> :
-                        selectToValue?.length > 0 ? selectToValue?.map((item:any) => {
-                          return <SelectItem value={String(item?.userDetails?.id)}>
+                <SelectContent
+                  noData={
+                    selectToValue || selectToValue?.length > 0 ? false : true
+                  }
+                >
+                  {isActive === "admin" ? (
+                    <SelectItem
+                      value={String(selectToValue?.clientDetails?.id)}
+                    >
+                      {selectToValue?.clientDetails?.name ||
+                        selectToValue?.clientDetails?.email?.split("@")[0]}
+                    </SelectItem>
+                  ) : selectToValue?.length > 0 ? (
+                    selectToValue?.map((item: any) => {
+                      return (
+                        <SelectItem value={String(item?.userDetails?.id)}>
                           {item?.name || item?.email?.split("@")[0]}
                         </SelectItem>
-                        }): <span className="py-3 h-full block text-center text-lg text-neutral-400">No data found</span>
-                  }
+                      );
+                    })
+                  ) : (
+                    <span className="py-3 h-full block text-center text-lg text-neutral-400">
+                      No data found
+                    </span>
+                  )}
                 </SelectContent>
               </Select>
               {!errors?.to?.ref?.value && (
@@ -335,15 +400,14 @@ console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {
-                    emailtemplateList?.data.data.map((item: any) => {
-                      console.log("itemitem+++", item);
-                      return (
-                        <SelectItem value={String(item?.id)}>
-                          {item?.name}
-                        </SelectItem>
-                      );
-                    })}
+                  {emailtemplateList?.data.data.map((item: any) => {
+                    console.log("itemitem+++", item);
+                    return (
+                      <SelectItem value={String(item?.id)}>
+                        {item?.name}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
               {!errors?.emailTemplate?.ref?.value && (
@@ -369,40 +433,44 @@ console.log("selectToValue?.clientDetails?.name", selectToValue?.clientDetails);
                 )}
                 {images?.length > 0 ? (
                   <div className="p-3 py-4 flex gap-5 overflow-x-auto bg-[#F5F5F5] mt-5">
-                    {images.map((image, index: number) => {                      
-                      return <div key={index} className="relative">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="icon"
-                          className="absolute -right-2 -top-2 h-4 w-4"
-                          onClick={() => removeImage(index)}
-                        >
-                          <MdClose className="h-4 w-4" />
-                        </Button>
-                        {image?.endsWith(".pdf") ? (
-                          <div className="flex items-center">
-                            <IoIosDocument />
-                            <span className="mx-3 text-medium">
-                              {image?.split("/")?.[3]}
-                            </span>
-                          </div>
-                        ) : (
-                          <img
-                            src={image}
-                            alt={`Preview-${index}`}
-                            className="h-[50px]"
-                          />
-                        )}
-                      </div>
-                    }
-                    )}
-                    {
-                      FileUploadPending && <p>Loading...</p>
-                    }
-
+                    {images.map((image, index: number) => {
+                      return (
+                        <div key={index} className="relative">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className="absolute -right-2 -top-2 h-4 w-4"
+                            onClick={() => removeImage(index)}
+                          >
+                            <MdClose className="h-4 w-4" />
+                          </Button>
+                          {image?.endsWith(".pdf") ? (
+                            <div className="flex items-center">
+                              <IoIosDocument />
+                              <span className="mx-3 text-medium">
+                                {image?.split("/")?.[3]}
+                              </span>
+                            </div>
+                          ) : (
+                            <img
+                              src={image}
+                              alt={`Preview-${index}`}
+                              className="h-[50px]"
+                            />
+                          )}
+                        </div>
+                      );
+                    })}
+                    {FileUploadPending && <p>Loading...</p>}
                   </div>
-                ) : FileUploadPending && <p className="p-3 py-4 overflow-x-auto bg-[#F5F5F5] mt-5">Loading...</p>}
+                ) : (
+                  FileUploadPending && (
+                    <p className="p-3 py-4 overflow-x-auto bg-[#F5F5F5] mt-5">
+                      Loading...
+                    </p>
+                  )
+                )}
               </div>
             </div>
           </CardContent>

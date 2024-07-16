@@ -42,7 +42,7 @@ export const getMeasuresItems = (userId: string, pillerId: string) => {
     return api({ url });
 };
 
-export const updatePillarCheckbox = (data: any, pillerId: string, user: string) => {
+export const updatePillarCheckbox = ({ data, pillerId, user }: { data: number, pillerId: number, user: number }) => {
     const url = `api/v1/pillar/update-piller-checkbox/${pillerId}/${user}`;
 
     return api({ url, data: { checked: data }, method: "put" });
@@ -103,7 +103,7 @@ export const deleteMeasuresItems = async (id: number) => {
 
 export const assessmentQuestionScore = async (id: number) => {
     console.log("ididid", id);
-    
+
     const url = `api/v1/assessmentquestionscore/list/${id}`;
     const res = await api({ url });
     return res.data

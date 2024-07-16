@@ -1,7 +1,7 @@
 import { useMemo } from "react";
+import { useLocation } from "react-router-dom";
 import EmployeeHeader from "./EmployeeHeader";
 import MainHeader from "./MainHeader";
-import { useLocation } from "react-router-dom";
 function HeaderCourse() {
   const location = useLocation();
   const Role = location.pathname.split("/")[1];
@@ -97,11 +97,35 @@ function HeaderCourse() {
         title = "Course Management";
         break;
 
+      case "coursesrecommended":
+        title = "Recommended Course";
+        break;
+
       case "enrolledcourses":
         title = "Course Management";
         break;
 
+      case "allocatedcourses":
+        title = "Course Allocation";
+        break;
+
+      case "employeelist":
+        title = "Team List";
+        break;
+
+      case "teamProgress":
+        title = "Team Progress";
+        break;
+
+      case "maturityAssessment":
+        title = "Maturity Assessment";
+        break;
+
       case "allcourse":
+        title = "Course Management";
+        break;
+
+      case "allcourses":
         title = "Course Management";
         break;
 
@@ -129,12 +153,24 @@ function HeaderCourse() {
         title = "Support";
         break;
 
+      case "faqslist":
+        title = "FAQ’s";
+        break;
+
       case "support-training-documnet":
         title = "Support";
         break;
 
+      case "trainingdocument":
+        title = "Training Document";
+        break;
+
       case "support-request":
-        title = "Support";
+        title = "Support Ticket";
+        break;
+
+      case "employeepermission":
+        title = "Team Permission";
         break;
 
       case "message":
