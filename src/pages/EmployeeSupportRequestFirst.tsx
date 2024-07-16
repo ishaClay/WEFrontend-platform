@@ -8,6 +8,7 @@ import { BsSearch } from "react-icons/bs";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import React, { useState } from 'react';
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
 
 function EmployeeSupportRequestFirst() {
 
@@ -73,7 +74,7 @@ function EmployeeSupportRequestFirst() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -91,7 +92,7 @@ function EmployeeSupportRequestFirst() {
                     <div className="flex flex-col md:flex-row justify-between">
                         <div className="flex p-4">
                             <img
-                                src="/public/assets/img/face1.jpg"
+                                src={person}
                                 alt="Employee Name"
                                 className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px]"
                             />
@@ -196,7 +197,7 @@ function EmployeeSupportRequestFirst() {
                         </div>
 
                         <div className="mt-4 md:mt-0 md:ml-[895px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-full md:w-[332px]">
-                            <img src="/public/assets/img/face1.jpg"
+                            <img src={person}
                                 alt="Profile"
                                 className="h-8 w-8 rounded-full"
                             />

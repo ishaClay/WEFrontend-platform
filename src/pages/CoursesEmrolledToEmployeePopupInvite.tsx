@@ -3,6 +3,9 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 import { useState } from "react";
 import { Card } from '@/components/ui/card';
+import nature from "@/assets/images/nature.png"
+import neighbour from "@/assets/images/Neighbour.png"
+import lightOn from "@/assets/images/LightOn.png"
 
 function CoursesEmrolledToEmployeeInvitePopup() {
 	const [formData, setFormData] = useState({
@@ -37,7 +40,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 					<div className="flex overflow-hidden rounded">
 						<img
 							className="w-[204px] h-[189px] rounded object-cover object-center"
-							src="/public/assets/img/nature.png"
+							src={nature}
 							alt="Course"
 						/>
 
@@ -58,7 +61,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 								<p className="ml-[10px]">
 									<img
 										className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
-										src="/public/assets/img/abc.png"
+										src={neighbour}
 										alt="Image Alt Text"
 									/>
 									Social
@@ -66,7 +69,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
 								<p className="ml-[10px]">
 									<img
 										className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
-										src="/public/assets/img/def.png"
+										src={lightOn}
 										alt="Image Alt Text"
 									/>
 									Technology & Innovation

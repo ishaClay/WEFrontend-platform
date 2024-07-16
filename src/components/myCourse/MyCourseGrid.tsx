@@ -64,7 +64,7 @@ const MyCourseGrid = ({ grid }: myPagesListProps) => {
           <div className="flex items-center xl:gap-5 gap-8 pt-3">
             <div>
               <div className="flex items-center">
-                <img src={SpeedImage} alt="" />
+                <img src={SpeedImage} alt="" className="h-[16] w-[18px]" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Level- Advanced
                 </p>

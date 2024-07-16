@@ -15,6 +15,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { TbSelector } from "react-icons/tb";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
 
 function EmployeeSupportRequest() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -115,7 +116,7 @@ function EmployeeSupportRequest() {
               </div>
               <div className="flex items-center">
                 <img
-                  src="/public/assets/img/face1.jpg"
+                  src={person}
                   alt="Emilia Anderson"
                   className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                 />
@@ -336,7 +337,7 @@ function EmployeeSupportRequest() {
 
             <div className="bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-full max-w-[332px]">
               <img
-                src="/public/assets/img/face1.jpg"
+                src={person}
                 alt="Profile"
                 className="h-8 w-8 rounded-full"
               />

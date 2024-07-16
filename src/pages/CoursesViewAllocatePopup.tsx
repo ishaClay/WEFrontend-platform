@@ -21,11 +21,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
 import * as zod from "zod";
-import course from "../assets/svgs/cource.svg";
-import duration from "../assets/svgs/duration.svg";
-import institute from "../assets/svgs/institute.svg";
-import online from "../assets/svgs/online.svg";
-import time from "../assets/svgs/time.svg";
+import course from "@/assets/svgs/cource.svg";
+import duration from "@/assets/svgs/duration.svg";
+import institute from "@/assets/svgs/institute.svg";
+import online from "@/assets/svgs/online.svg";
+import time from "@/assets/svgs/time.svg";
+import speed from "@/assets/images/Speed.png";
 
 interface CourseViewAllocatePopupProps {
   isOpen: boolean;
@@ -267,7 +268,7 @@ function CourseViewAllocatePopup({
                   <div className="flex items-center gap-1">
                     <img
                       className=" h-[16] w-[18px]"
-                      src="/public/assets/img/timer.png"
+                      src={speed}
                       alt="Course"
                     />
                     <p className="text-xs">Level- Advanced</p>

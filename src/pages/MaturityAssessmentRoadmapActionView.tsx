@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { IoCloseCircleOutline } from "react-icons/io5";
+import dragDropIcon from "@/assets/images/drag-drop.png"
 
 function MaturityAssessmentRoadmapActionView() {
     return (
@@ -51,7 +52,7 @@ function MaturityAssessmentRoadmapActionView() {
                                 />
                                 <label htmlFor="file" className="cursor-pointer">
                                     <div className="mb-4">
-                                        <img src="/public/assets/img/drag-drop.png" className="h-12 w-12 mx-auto text-gray-400" />
+                                        <img src={dragDropIcon} className="h-12 w-12 mx-auto text-gray-400" />
                                     </div>
                                     <p className="text-[16px] text-[#9E9E9E]">Drag and drop evidence here</p>
                                 </label>

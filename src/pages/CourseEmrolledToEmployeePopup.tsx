@@ -4,37 +4,43 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdOutlineGroup } from "react-icons/md";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from '@/components/ui/card';
+import person from "@/assets/images/person.png";
+import face2 from "@/assets/images/face2.jpg";
+import face3 from "@/assets/images/face3.jpg";
+import nature from "@/assets/images/nature.png";
+import neighbour from "@/assets/images/Neighbour.png";
+import lightOn from "@/assets/images/LightOn.png";
 function CourseEmrolledToEmployeePopup() {
 	const [employees, setEmployees] = useState([
 		{
 			id: 1,
 			name: "Employee Name1",
 			selected: false,
-			imageUrl: "/public/assets/img/face1.jpg",
+			imageUrl: person,
 		},
 		{
 			id: 2,
 			name: "Employee Name2",
 			selected: false,
-			imageUrl: "/public/assets/img/face2.jpg",
+			imageUrl: face2,
 		},
 		{
 			id: 3,
 			name: "Employee Name3",
 			selected: false,
-			imageUrl: "/public/assets/img/face3.jpg",
+			imageUrl: face3,
 		},
 		{
 			id: 4,
 			name: "Employee Name4",
 			selected: false,
-			imageUrl: "/public/assets/img/face1.jpg",
+			imageUrl: person,
 		},
 		{
 			id: 5,
 			name: "Employee Name5",
 			selected: false,
-			imageUrl: "/public/assets/img/face2.jpg",
+			imageUrl: face2,
 		},
 	]);
 
@@ -70,7 +76,7 @@ function CourseEmrolledToEmployeePopup() {
 					<div className="flex overflow-hidden rounded">
 						<img
 							className="w-[204px] h-[189px] rounded object-cover object-center"
-							src="/public/assets/img/nature.png"
+							src={nature}
 							alt="Course"
 						/>
 
@@ -91,7 +97,7 @@ function CourseEmrolledToEmployeePopup() {
 								<p className="ml-[10px]">
 									<img
 										className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
-										src="/public/assets/img/abc.png"
+										src={neighbour}
 										alt="Image Alt Text"
 									/>
 									Social
@@ -99,7 +105,7 @@ function CourseEmrolledToEmployeePopup() {
 								<p className="ml-[10px]">
 									<img
 										className="inline-block ml-1 w-[18px] h-[23px] mr-[10px]"
-										src="/public/assets/img/def.png"
+										src={lightOn}
 										alt="Image Alt Text"
 									/>
 									Technology & Innovation

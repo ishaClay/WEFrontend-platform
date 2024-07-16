@@ -6,6 +6,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { fetchAllCourse, fetchPillar } from "@/services/apiServices/allcourse";
+import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
 import { Pillarcourse } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -28,6 +29,12 @@ function CoursesAllCourse() {
   const searchUrl = window.location.search;
   const params = new URLSearchParams(searchUrl).get("view");
   const navigate = useNavigate();
+  const usersData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = user?.UserId
+    ? +user?.UserId
+    : usersData?.query
+    ? usersData?.query?.id
+    : usersData?.id;
 
   const changeCourseView = (id: number) => {
     navigate(`/company/allcourses?view=${id}`, { replace: true });
@@ -38,6 +45,16 @@ function CoursesAllCourse() {
     queryFn: () => fetchPillar(user?.clientId),
   });
 
+  const { data: recommendedcourses} = useQuery({
+    queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
+    queryFn: () =>
+      fetchRecommendedCourses({
+        user: parseInt(userID),
+        client: parseInt(user?.clientId),
+        search,
+      }),
+  });
+  
   const handleCourseClick = (course: Pillarcourse) => {
     setSelectedCourse(course);
   };
@@ -123,17 +140,17 @@ function CoursesAllCourse() {
           {isLoading ? (
             <Loader className="h-10 w-10" />
           ) : (
-            <>
-              {params === "0" || !params ? (
-                <div className="grid gap-5 py-[22px] md:px-5 px-3 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1">
-                  <CourseGridPage data={allcourse?.data?.data} />
-                </div>
-              ) : (
-                <div className="py-[22px] px-5">
-                  <CourseListPage data={allcourse?.data?.data} />
-                </div>
-              )}
-            </>
+              <>
+                {params === "0" || !params ? (
+                  <div className="grid gap-5 py-[22px] px-5 xl:grid-cols-3 grid-cols-2">
+                    <CourseGridPage data={allcourse?.data?.data} reCommendedCourses={recommendedcourses?.data || []} />
+                  </div>
+                ) : (
+                  <div className="py-[22px] px-5">
+                    <CourseListPage data={allcourse?.data?.data} reCommendedCourses={recommendedcourses?.data || []} />
+                  </div>
+                )}
+              </>
           )}
         </>
       </div>

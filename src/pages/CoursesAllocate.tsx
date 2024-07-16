@@ -24,11 +24,12 @@ import {
 } from "@/types/allocatedcourses";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useState } from "react";
-import courseIcon from "../assets/svgs/cource.svg";
-import duration from "../assets/svgs/duration.svg";
-import institute from "../assets/svgs/institute.svg";
-import online from "../assets/svgs/online.svg";
-import time from "../assets/svgs/time.svg";
+import courseIcon from "@/assets/svgs/cource.svg";
+import duration from "@/assets/svgs/duration.svg";
+import institute from "@/assets/svgs/institute.svg";
+import online from "@/assets/svgs/online.svg";
+import time from "@/assets/svgs/time.svg";
+import speed from "@/assets/images/Speed.png";
 import { Button } from "@/components/ui/button";
 
 function CoursesAllocate() {
@@ -143,7 +144,7 @@ function CoursesAllocate() {
                             <div className="flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
-                                src="/public/assets/img/timer.png"
+                                src={speed}
                                 alt="Course"
                               />
                               <p className="text-xs">Level- Advanced</p>

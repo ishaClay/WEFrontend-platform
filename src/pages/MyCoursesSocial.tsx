@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { IoChevronDownSharp } from "react-icons/io5";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
+import person from "@/assets/images/person.png";
+import doupleUserIcon from "@/assets/images/douple-user-icon.png";
+import starIcon from "@/assets/images/star-icon.png";
 
 function MyCoursesSocial() {
 
@@ -79,7 +82,7 @@ function MyCoursesSocial() {
               </div>
               <div className="flex items-center">
                 <img
-                  src="/public/assets/img/face1.jpg"
+                  src={person}
                   alt="Emilia Anderson"
                   className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                 />
@@ -178,8 +181,8 @@ function MyCoursesSocial() {
                   <div className="w-full md:w-[268px] h-[140px] rounded-[5.06px] flex items-center mb-4 md:mb-0">
                     <div className="w-[42px] h-[42px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
                       <img
-                        src="/public/assets/img/douple-user-icon.png"
-                        alt="img"
+                        src={doupleUserIcon}
+                        alt="doupleUserIcon"
                         className="w-[30px] h-[22px]"
                       />
                     </div>
@@ -192,8 +195,8 @@ function MyCoursesSocial() {
                   <div className="w-full md:w-[268px] h-[140px] rounded-[5.06px] flex items-center mb-4 md:mb-0">
                     <div className="w-[42px] h-[42px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
                       <img
-                        src="/public/assets/img/star-icon.png"
-                        alt="img"
+                        src={starIcon}
+                        alt="starIcon"
                         className="w-[22px] h-[22px]"
                       />
                     </div>
@@ -205,7 +208,7 @@ function MyCoursesSocial() {
                   </div>
                 </div>
                 <div className="mt-16 mr-8 lg:ml-[875px] bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px]  md:w-[332px]">
-                  <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                  <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                   <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                     <span className="text-gray-900 font-semibold">Messaging</span>
                   </div>

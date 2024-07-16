@@ -8,6 +8,7 @@ import {
 import { IoPersonOutline } from "react-icons/io5";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { IoMdArrowDropdown, IoMdPower, IoMdNotificationsOutline } from "react-icons/io";
+import emillaAnderson from "@/assets/images/EmillaAnderson.png";
 
 function TeamMemberDropdown() {
     return (
@@ -19,7 +20,7 @@ function TeamMemberDropdown() {
                 <DropdownMenuContent className="h-[283px] w-[250px] lg:w-[200px] md:w-[180px] sm:w-[160px] xs:w-[140px]">
                     <DropdownMenuLabel className="h-[62px] bg-[#00778B] rounded-sm">
                         <div className="flex">
-                            <img src="/public/assets/img/face4.jpg" alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px] border-[2px]" />
+                            <img src={emillaAnderson} alt="Employee Name" className="w-[32px] h-[32px] rounded-full mr-4 mt-[5px] border-[2px]" />
                             <div className="flex flex-col">
                                 <span className="text-[16px] text-[#FFFFFF]">Evergrow Green</span>
                                 <span className="text-[12px] font-sans text-[#FFFFFF]">Team Member</span>

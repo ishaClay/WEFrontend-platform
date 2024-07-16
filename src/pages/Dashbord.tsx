@@ -27,6 +27,8 @@ Chart.register(
 );
 
 import { useState } from "react";
+import usersIcon from "@/assets/images/users-icon.png";
+import couse_total from "@/assets/images/couse_total.png";
 
 function Dashbord() {
   const employeeData = [
@@ -205,7 +207,7 @@ function Dashbord() {
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
               <img
-                src="/public/assets/img/users-icon.png"
+                src={usersIcon}
                 alt=""
                 className="px-[18px] pt-[15px] pb-[18px]"
               />
@@ -220,7 +222,7 @@ function Dashbord() {
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
               <img
-                src="/public/assets/img/book-icon.png"
+                src={couse_total}
                 alt=""
                 className="px-[18px] pt-[15px] pb-[18px]"
               />
@@ -235,7 +237,7 @@ function Dashbord() {
           >
             <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
               <img
-                src="/public/assets/img/book-icon.png"
+                src={couse_total}
                 alt=""
                 className="px-[18px] pt-[15px] pb-[18px]"
               />

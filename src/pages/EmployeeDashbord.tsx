@@ -8,6 +8,15 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { MdKeyboardArrowUp } from "react-icons/md";
+import person from "@/assets/images/person.png";
+import action_assignedIcon from "@/assets/images/action_assigned.png";
+import action_openIcon from "@/assets/images/action_open.png";
+import action_displayIcon from "@/assets/images/action_display.png";
+import action_completedIcon from "@/assets/images/action_completed.png";
+import couse_totalIcon from "@/assets/images/couse_total.png";
+import course_progressIcon from "@/assets/images/course_progress.png";
+import course_completedIcon from "@/assets/images/course_completed.png";
+import nature from "@/assets/images/nature.png";
 
 function EmployeeDashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -115,8 +124,8 @@ function EmployeeDashboard() {
                         </div>
                         <div className="flex items-center ml-4">
                             <img
-                                src="/public/assets/img/face1.jpg"
-                                alt="Emilia Anderson"
+                                src={person}
+                                alt="person"
                                 className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                             />
                             <div className="ml-2">
@@ -159,7 +168,7 @@ function EmployeeDashboard() {
                 <div className="pt-2 flex flex-col lg:flex-row gap-12">
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[268px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/assigned.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={action_assignedIcon} alt="action_assignedIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">09</span>
@@ -169,7 +178,7 @@ function EmployeeDashboard() {
 
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[268px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/open.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={action_openIcon} alt="action_openIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">04</span>
@@ -179,7 +188,7 @@ function EmployeeDashboard() {
 
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[268px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/delayed.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={action_displayIcon} alt="action_displayIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">03</span>
@@ -189,7 +198,7 @@ function EmployeeDashboard() {
 
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[268px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/completed.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={action_completedIcon} alt="action_completedIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">02</span>
@@ -204,7 +213,7 @@ function EmployeeDashboard() {
                 <div className="pt-2 flex flex-col lg:flex-row gap-12">
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[370px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/total.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={couse_totalIcon} alt="couse_totalIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">09</span>
@@ -214,7 +223,7 @@ function EmployeeDashboard() {
 
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[370px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/in-progress.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={course_progressIcon} alt="course_progressIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">04</span>
@@ -224,7 +233,7 @@ function EmployeeDashboard() {
 
                     <div className="border border-solid border-[#D9D9D9] w-full lg:w-[370px] h-[140px] rounded-[5.06px] flex items-center p-3 mt-[5px] shadow-sm">
                         <div className="w-[80px] h-[80px] mr-3 bg-[#F5F7FF] flex justify-center items-center rounded-full">
-                            <img src="/public/assets/img/copleted-course.png" alt="img" className="w-[23px] h-[25px]" />
+                            <img src={course_completedIcon} alt="course_completedIcon" className="w-[23px] h-[25px]" />
                         </div>
                         <div className="pl-[20px]">
                             <span className="text-[32px] leading-[39.06px] font-bold">03</span>
@@ -247,7 +256,7 @@ function EmployeeDashboard() {
                     <div className="w-full lg:w-[590px] h-auto lg:h-[240px] border rounded-[10px] border-[#D9D9D9] mt-4 shadow-sm">
                         <div className="flex flex-col lg:flex-row">
                             <div className="overflow-hidden rounded m-5 w-full lg:w-[240px]">
-                                <img className="lg:w-[240px] h-[200px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                <img className="lg:w-[240px] h-[200px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                             </div>
                             <div className="flex flex-col w-full lg:w-[280px] gap-2 mt-4">
                                 <div className="text-[16px]">Social | 5 modules</div>
@@ -264,7 +273,7 @@ function EmployeeDashboard() {
                     <div className="w-full lg:w-[590px] h-auto lg:h-[240px] border rounded-[10px] border-[#D9D9D9] mt-4 shadow-sm">
                         <div className="flex flex-col lg:flex-row">
                             <div className="overflow-hidden rounded m-5 w-full lg:w-[240px]">
-                                <img className="lg:w-[240px] h-[200px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                <img className="lg:w-[240px] h-[200px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                             </div>
                             <div className="flex flex-col w-full lg:w-[280px] gap-2 mt-4">
                                 <div className="text-[16px]">Social | 5 modules</div>
@@ -293,7 +302,7 @@ function EmployeeDashboard() {
                     <div className="w-full lg:w-[385px] h-auto lg:h-[150px] border rounded-[10px] border-[#D9D9D9] mt-4 shadow-sm">
                         <div className="flex flex-col lg:flex-row">
                             <div className="overflow-hidden rounded m-5 w-full lg:w-[90px]">
-                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                 <div>
                                     <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2">
                                         <span>JOIN</span>
@@ -321,7 +330,7 @@ function EmployeeDashboard() {
                     <div className="w-full lg:w-[385px] h-auto lg:h-[150px] border rounded-[10px] border-[#D9D9D9] mt-4 shadow-sm">
                         <div className="flex flex-col lg:flex-row">
                             <div className="overflow-hidden rounded m-5 w-full lg:w-[90px]">
-                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                 <div>
                                     <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2">
                                         <span>JOIN</span>
@@ -348,7 +357,7 @@ function EmployeeDashboard() {
                     <div className="w-full lg:w-[385px] h-auto lg:h-[150px] border rounded-[10px] border-[#D9D9D9] mt-4 shadow-sm">
                         <div className="flex flex-col lg:flex-row">
                             <div className="overflow-hidden rounded m-5 w-full lg:w-[90px]">
-                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src="/public/assets/img/nature.png" alt="Course" />
+                                <img className="lg:w-[80px] h-[80px] rounded-[10px] object-cover object-center" src={nature} alt="nature" />
                                 <div>
                                     <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2">
                                         <span>JOIN</span>
@@ -375,7 +384,7 @@ function EmployeeDashboard() {
                 </div>
 
                 <div className="ml-auto md:ml-[865px] mt-2 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-full md:w-[332px]">
-                    <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                    <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                     <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                         <span className="text-gray-900 font-semibold">Messaging</span>
                     </div>

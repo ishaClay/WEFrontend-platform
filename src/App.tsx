@@ -110,7 +110,6 @@ import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
 import MyCoursesList from "./pages/myCourse";
 import PrivacyPolicyPage from "./pages/privacyPolicy/PrivacyPolicyPage";
-import AddNewTicketsPage from "./pages/support/AddNewTicketsPage";
 import FaqsListPage from "./pages/support/FaqsListPage";
 import SupportRequestPage from "./pages/support/SupportRequestPage";
 import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
@@ -811,10 +810,7 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route
-            path="support-request/add-new-ticket"
-            element={<AddNewTicketsPage />}
-          />
+          <Route path="support-request/add-new-ticket" element={<SupportAddNewTicket />} />
           <Route
             path="schedule-live-session"
             element={<ScheduleLiveSession />}

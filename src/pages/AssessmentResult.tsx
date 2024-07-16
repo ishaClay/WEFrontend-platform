@@ -8,12 +8,13 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import { Doughnut } from 'react-chartjs-2';
-import GovernanceGray from "../../public/assets/img/GovernanceGray.png";
-import StrategicIntegrationGray from "../../public/assets/img/StrategicIntegrationGray.png";
-import TechInnovationGray from "../../public/assets/img/Tech&InnovationGray.png";
-import EconomicsGray from "../../public/assets/img/EconomicsGray.png";
-import EnvironmentalGray from "../../public/assets/img/EnvironmentalGray.png";
-import SocialGray from "../../public/assets/img/SocialGray.png";
+import GovernanceGray from "@/assets/images/GovernanceGray.png";
+import StrategicIntegrationGray from "@/assets/images/StrategicIntegrationGray.png";
+import TechInnovationGray from "@/assets/images/Tech&InnovationGray.png";
+import EconomicsGray from "@/assets/images/EconomicsGray.png";
+import EnvironmentalGray from "@/assets/images/Environmental.svg";
+import SocialGray from "@/assets/images/SocialGray.png";
+import person from "@/assets/images/person.png";
 import { RiMenuLine, RiCloseLine } from "react-icons/ri";
 
 function AssessmentResult() {
@@ -166,7 +167,7 @@ function AssessmentResult() {
                             </div>
                             <div className="flex items-center">
                                 <img
-                                    src="/public/assets/img/face1.jpg"
+                                    src={person}
                                     alt="Emilia Anderson"
                                     className="h-8 w-8 rounded-full border-[#D9D9D9] border-2"
                                 />
@@ -383,7 +384,7 @@ function AssessmentResult() {
                                     </div>
 
                                     <div className="md:ml-[895px] mt-2 bg-white shadow-md rounded-lg p-2 flex items-center border border-[#D9D9D9] h-[70px] w-[332px]">
-                                        <img src="/public/assets/img/face1.jpg" alt="Profile" className="h-8 w-8 rounded-full" />
+                                        <img src={person} alt="Profile" className="h-8 w-8 rounded-full" />
                                         <div className="flex-grow ml-2 flex flex-col items-start justify-center">
                                             <span className="text-gray-900 font-semibold">Messaging</span>
                                         </div>
