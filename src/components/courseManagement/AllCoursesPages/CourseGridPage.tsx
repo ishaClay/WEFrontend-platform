@@ -8,7 +8,6 @@ import unversity from "@/assets/images/unversity.png";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { fetchEnroll } from "@/services/apiServices/enroll";
@@ -37,7 +36,6 @@ const CourseGridPage = ({
   reCommendedCourses,
   selectedCourse,
 }: dataGridProps) => {
-  const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const queryClient = useQueryClient();
   const { mutate: enrollRequest, isPending } = useMutation({
@@ -59,10 +57,18 @@ const CourseGridPage = ({
     },
   });
   const handleEnroll = (id: number) => {
+    console.log("id",id);
     enrollRequest({
-      versionId: id,
-      companyId: +user?.CompanyId,
-    });
+      versionId: +id
+    })
+    // enrollRequest({
+    //   versionId: data[+selectCourse]?.currentVersion?.id,
+    //   companyId: +user?.CompanyId,
+    //   cohortGroupId: +selectFilterByCategory,
+    //   isdiscounted: +selectCourse,
+    //   numberOfEmployee: itemList[+selectCourse],
+    //   price: data[+selectCourse]?.price * itemList[+selectCourse],
+    // });
   };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {

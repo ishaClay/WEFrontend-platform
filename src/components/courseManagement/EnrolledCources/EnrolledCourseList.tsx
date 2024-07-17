@@ -15,15 +15,13 @@ const EnrolledCourseList = () => {
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
   console.log("enrolledCoursesData", enrolledCoursesData);
-
-  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map(
-    (item: Data) => {
-      return {
-        title: <EnrolledCourseListItem data={item} />,
-        content: <EnrolledCourseDetailsList />,
-      };
-    }
-  );
+  
+  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item:Data) => {
+    return {
+      title: <EnrolledCourseListItem data={item} />,
+      content: <EnrolledCourseDetailsList data={item} />,
+    };
+  })
 
   return (
     <div className="sm:px-5 px-4 pb-4">

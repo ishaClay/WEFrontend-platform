@@ -69,6 +69,7 @@ export const QUERY_KEYS = {
   getTargetUserby: "getTargetUserby",
   deleteMeasuresItems: "deleteMeasuresItems",
   assessmentQuestionScore: "assessmentQuestionScore",
+  fetchCourseDiscountEnroll: "fetchCourseDiscountEnroll",
 };
 
 export const urlRegex =

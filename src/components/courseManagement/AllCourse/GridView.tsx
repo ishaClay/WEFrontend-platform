@@ -64,6 +64,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     setCohort(true);
     setCourse(id);
   };
+  useEffect(() => {
+    if(!cohort){
+      setCourse("");
+    }
+  }, [cohort])
+  
 
   useEffect(() => {
     if (list?.length > 0) {
@@ -178,8 +184,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     id: string | undefined,
     item: AllCoursesResult
   ) => {
+    console.log("item?.trainerId?.id", item);
+    
     e.stopPropagation();
-    if (item?.status === "HOLD") {
+    if (item?.status === "HOLD" || item?.status === "PUBLISHED") {
       navigate(
         `/${pathName}/create_course/${
           item?.id
