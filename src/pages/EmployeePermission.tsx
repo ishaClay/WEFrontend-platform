@@ -1,20 +1,20 @@
+import Loading from "@/components/comman/Error/Loading";
+import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { ColumnDef } from "@tanstack/react-table";
-import { useState, ChangeEvent } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   employeeList,
   updateEmployeeList,
 } from "@/services/apiServices/employee";
-import { toast } from "@/components/ui/use-toast";
-import { ErrorType } from "@/types/Errors";
-import Loading from "@/components/comman/Error/Loading";
-import { Input } from "@/components/ui/input";
-import searchIcon from "/assets/icons/search.svg";
 import { EmployeeResponse, EmployeeResult } from "@/types/employeeDetails";
-import Loader from "@/components/comman/Loader";
+import { ErrorType } from "@/types/Errors";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import { ChangeEvent, useState } from "react";
+import searchIcon from "/assets/icons/search.svg";
 
 function EmployeePermission() {
   const [page, setPage] = useState(0);
@@ -23,8 +23,12 @@ function EmployeePermission() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data, isPending: employeeListPending } = useQuery<EmployeeResult>({
-    queryKey: [QUERY_KEYS.getEmployeeList, { page, search }],
-    queryFn: () => employeeList(page.toString(), "10", 441, search),
+    queryKey: [
+      QUERY_KEYS.getEmployeeList,
+      { page, search, id: userData?.query?.id },
+    ],
+    queryFn: () =>
+      employeeList(page.toString(), "10", userData?.query?.id, search),
   });
 
   console.log("data", data);
@@ -215,7 +219,7 @@ function EmployeePermission() {
               <NewDataTable
                 columns={column}
                 data={data?.data || []}
-                // totalPages={data?.metaData?.totalPages ||1}
+                totalPages={1}
                 setPage={setPage}
                 border={false}
                 inputbox={false}

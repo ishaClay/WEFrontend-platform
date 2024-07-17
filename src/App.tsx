@@ -1,8 +1,6 @@
-import { Route, Routes } from "react-router-dom";
-import Auth from "./pages/auth/Auth";
-import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
@@ -87,10 +85,12 @@ import TrainerManagementPage from "./pages/TrainerManagement";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+import Auth from "./pages/auth/Auth";
 import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import Register from "./pages/auth/Register";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
+import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CertificateTempletePage from "./pages/certificateManagement";
 import CourseManagement from "./pages/courseManagement";
@@ -116,7 +116,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import Addcertificate from "./components/certificateTemplete/Addcertificate";
+// import Addcertificate from "./components/certificateTemplete/Addcertificate";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -794,9 +794,12 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
-            
-            <Route path="certificate-template/Addcertificate" element={<Addcertificate />} />
-        
+
+          {/* <Route
+            path="certificate-template/Addcertificate"
+            element={<Addcertificate />}
+          /> */}
+
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}

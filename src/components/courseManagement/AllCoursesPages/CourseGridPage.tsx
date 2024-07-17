@@ -1,40 +1,51 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import speed from "@/assets/images/Speed.png";
+import diploma from "@/assets/images/diploma.png";
+import fulltime from "@/assets/images/fulltime.png";
+import online from "@/assets/images/online.png";
+import time from "@/assets/images/time.png";
+import unversity from "@/assets/images/unversity.png";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getImages } from "@/lib/utils";
 import { fetchEnroll } from "@/services/apiServices/enroll";
-import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
+import { ErrorType } from "@/types/Errors";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import {
+  AllCourse,
+  CourseTime,
+  IsOnline,
+  Pillarcourse,
+} from "@/types/allcourses";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
-import { getImages } from "@/lib/utils";
-import speed from "@/assets/images/Speed.png";
-import fulltime from "@/assets/images/fulltime.png";
-import diploma from "@/assets/images/diploma.png";
-import unversity from "@/assets/images/unversity.png";
-import online from "@/assets/images/online.png";
-import time from "@/assets/images/time.png";
-import nature from "@/assets/images/nature.png";
-import { RecommendedCourses } from "@/types/RecommendedCourses";
-import { QUERY_KEYS } from "@/lib/constants";
-import { ErrorType } from "@/types/Errors";
 
 type dataGridProps = {
   data: AllCourse[];
-  reCommendedCourses : RecommendedCourses[];
+  reCommendedCourses: RecommendedCourses[];
+  selectedCourse: Pillarcourse | null;
 };
 
-const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
+const CourseGridPage = ({
+  data,
+  reCommendedCourses,
+  selectedCourse,
+}: dataGridProps) => {
   const user = useAppSelector((state) => state.user);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const queryClient = useQueryClient();
   const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+      });
       toast({
         variant: "success",
         title: data?.data?.message,
@@ -105,7 +116,7 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
           },
         };
 
-    console.log("upcomingData", upcomingData, findIndex);
+    console.log("upcomingData", data);
 
     return (
       <div
@@ -152,6 +163,13 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
       {data?.map((allcourse: AllCourse) => {
+        const maturityLevel =
+          selectedCourse &&
+          allcourse?.courseData?.find(
+            (item) =>
+              item.fetchPillar?.pillarName === selectedCourse?.pillarName
+          );
+
         return (
           <>
             <div
@@ -160,8 +178,8 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
             >
               <div className="relative overflow-hidden h-[231px]">
                 <img
-                  className="object-cover object-center"
-                  src={nature}
+                  className="w-full object-cover object-center"
+                  src={allcourse?.bannerImage}
                   alt="Course"
                 />
                 <input
@@ -171,7 +189,7 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
                 <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                   <FaStar className="text-[#FD8E1F]" />
                   <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                    Advanced
+                    {maturityLevel?.fetchMaturity?.maturityLevelName}
                   </span>
                 </div>
               </div>
@@ -296,8 +314,7 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
                     <button
                       disabled={
                         reCommendedCourses?.some(
-                          (item) =>
-                            item?.id === allcourse?.id
+                          (item) => item?.id === allcourse?.id
                         )
                           ? true
                           : false

@@ -132,7 +132,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               </div>
 
               <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
-                {title[title.length - 1].label}
+                {title[title?.length - 1]?.label}
               </p>
             </div>
             <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">
