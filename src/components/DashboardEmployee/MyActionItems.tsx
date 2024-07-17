@@ -11,23 +11,32 @@ type myActionProps = {
 
 const MyActionItems = ({ data }: myActionProps) => {
   return (
-    <div className="col-span-1 px-5 py-6 shadow-md rounded-lg relative">
+    <div className="col-span-1 sm:px-5 p-4 sm:py-6 shadow-md rounded-lg relative">
       <div className="flex items-center">
-        <div className="w-20 h-20 rounded-full bg-[#F5F7FF] flex justify-center items-center">
-          <img src={data.image} alt="" />
+        <div className="md:w-20 w-10 md:h-20 h-10 rounded-full bg-[#F5F7FF] flex justify-center items-center">
+          <img src={data.image} alt="" className="md:w-9 w-7 h-7 md:h-9" />
         </div>
         <div className="ps-5">
-          <span className="font-bold font-nunito text-[32px] text-black">
+          <span className="font-bold font-nunito lg:text-[32px] text-lg text-black">
             {data.title}
           </span>
-          <h5 className="text-base font-nunito text-black">{data.subTitle}</h5>
+          <h5 className="sm:text-base text-sm font-nunito text-black sm:block hidden">
+            {data.subTitle}
+          </h5>
         </div>
       </div>
-      <img src={Ellipse_two} alt="ellipse" className="absolute top-0 right-0" />
+      <h5 className="sm:text-base text-sm font-nunito text-black sm:hidden block pt-2">
+        {data.subTitle}
+      </h5>
+      <img
+        src={Ellipse_two}
+        alt="ellipse"
+        className="absolute top-0 right-0 sm:block hidden"
+      />
       <img
         src={Ellipse_three}
         alt="ellipse"
-        className="absolute top-0 right-0"
+        className="absolute top-0 right-0 sm:block hidden"
       />
     </div>
   );

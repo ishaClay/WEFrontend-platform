@@ -13,7 +13,7 @@ type liveSessionItemsProps = {
 
 const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
   return (
-    <div className="col-span-1 md:p-5 p-4 shadow rounded-md">
+    <div className="col-span-1 md:p-5 p-4 shadow rounded-md sm:m-0 m-1">
       <div className="flex items-center">
         <div className="">
           <div className="rounded-md overflow-hidden min-w-20 min-h-20 w-20 h-20">

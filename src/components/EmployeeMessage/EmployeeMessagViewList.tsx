@@ -61,7 +61,7 @@ const EmployeeMessagViewList = () => {
     },
   ];
   return (
-    <div className="border-t border-[#E5E5E5] pt-4 flex flex-col gap-4">
+    <div className="border-t border-[#E5E5E5] p-4 flex flex-col gap-4">
       <div className="relative">
         <Input
           placeholder="Search..."

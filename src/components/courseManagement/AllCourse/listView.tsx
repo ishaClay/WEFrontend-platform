@@ -229,10 +229,10 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
               <Link
                 to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
                 key={index}
-                className="border rounded overflow-hidden grid grid-cols-6 mb-5"
+                className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
-                <div className="col-span-4 flex items-center">
-                  <div className="xl:w-[267px] w-[200px] h-[170px] col-span-1">
+                <div className="xl:col-span-7 col-span-9 sm:flex block items-center">
+                  <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
                     <img
                       src={data?.bannerImage}
                       alt=""
@@ -269,10 +269,10 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                         Duration : {data?.duration || "--"}
                       </div>
                     </div>
-                    <div className="">
+                    <div className="flex flex-wrap justify-between items-center gap-3">
                       {data?.courseData?.map((item) => {
                         return (
-                          <div className="flex items-center justify-between mb-2">
+                          <div className="xl:w-[45%] w-full flex items-center justify-between mb-2">
                             <Badge
                               variant="outline"
                               className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
@@ -298,11 +298,11 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-2 flex items-center justify-end relative">
-                  <div className="flex items-center xl:justify-end justify-center xl:flex-nowrap flex-wrap xl:gap-[7px] gap-[5px] py-[9px] xl:px-[13px] px-1">
+                <div className="xl:col-span-2 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
+                  <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
                       disabled={data?.status === "PUBLISHED"}
-                      className="xl:max-w-[90px] w-[45%] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                      className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                       onClick={(e: any) =>
                         handlePublish(e, data?.currentVersion?.id as number)
                       }
@@ -313,7 +313,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                       onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
-                      className="xl:max-w-[90px] w-[45%] xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
+                      className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
                     >
                       + Cohort
                     </Button>

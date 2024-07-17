@@ -38,8 +38,13 @@ const EnrolledCourseDetailsList = () => {
     };
   });
   return (
-    <div>
-      <Accordions items={accordionItems} rounded={false} />
+    <div className="">
+      <Accordions
+        items={accordionItems}
+        rounded={false}
+        className="sm:mt-[25px] mt-0"
+        itemsClass="md:p-5 p-3 sm:mx-0 mx-3"
+      />
     </div>
   );
 };

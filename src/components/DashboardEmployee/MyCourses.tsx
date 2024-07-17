@@ -23,10 +23,10 @@ const MyCourses = () => {
   ];
   return (
     <div className="mb-8">
-      <h5 className="text-base text-black font-inter pb-4 font-medium">
+      <h5 className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold">
         My Courses
       </h5>
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
+      <div className="grid grid-cols-3 lg:gap-6 gap-4">
         {coursesItems.map((data, index) => {
           return <MyCoursesItems data={data} key={index} />;
         })}

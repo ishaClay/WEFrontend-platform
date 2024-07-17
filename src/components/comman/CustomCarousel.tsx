@@ -5,6 +5,8 @@ import {
   CarouselContent,
   CarouselDots,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "../ui/carousel";
 
 interface CustomCarouselProps {
@@ -12,10 +14,12 @@ interface CustomCarouselProps {
   className?: string;
   containerClassName?: string;
   showArrow?: boolean;
+  dots?: boolean;
 }
 
 const CustomCarousel = ({
-  // showArrow = true,
+  showArrow = false,
+  dots = true,
   children,
   className,
   containerClassName,
@@ -58,13 +62,13 @@ const CustomCarousel = ({
           <CarouselItem>{children}</CarouselItem>
         )}
       </CarouselContent>
-      {/* {showArrow && (
+      {showArrow && (
         <>
           <CarouselPrevious />
           <CarouselNext />
         </>
-      )} */}
-      <CarouselDots count={count} current={current} />
+      )}
+      {dots && <CarouselDots count={count} current={current} />}
     </Carousel>
   );
 };

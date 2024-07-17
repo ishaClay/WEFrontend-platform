@@ -12,7 +12,7 @@ const EmployeeMessaging = () => {
   ];
   return (
     <div className="w-[335px] shadow">
-      <Accordions items={accData} rounded={false} />
+      <Accordions items={accData} rounded={false} padding={false} />
     </div>
   );
 };

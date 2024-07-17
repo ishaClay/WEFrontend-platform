@@ -46,7 +46,7 @@ const EnrollCourseEmployeeDetailsList = () => {
           );
         })}
       </div>
-      <div className="mt-5">
+      <div className="flex flex-row gap-3 mt-5">
         <Button
           variant={"outlinePrimary"}
           className="text-base font-calibri"
@@ -57,7 +57,7 @@ const EnrollCourseEmployeeDetailsList = () => {
         </Button>
         <Button
           variant={"outlinePrimary"}
-          className="mx-3 text-base font-calibri"
+          className="text-base font-calibri"
           onClick={() => setIsOpen(true)}
         >
           <Video className="me-2" /> Live Session 2
