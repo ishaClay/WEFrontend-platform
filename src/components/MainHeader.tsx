@@ -1,26 +1,33 @@
-import Logo2 from "../assets/images/logo2.png";
-import { VscBellDot } from "react-icons/vsc";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { useEffect, useState } from "react";
-import DrawerPage from "./DrawerPage";
+import { SidebarContext } from "@/context/Sidebarcontext";
 import { sidebarLayout } from "@/lib/utils";
-import { SidebarItem } from "./layouts/DashboardLayout";
 import { AlignLeft } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { VscBellDot } from "react-icons/vsc";
+import Logo2 from "../assets/images/logo2.png";
+import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
+import Modal from "./comman/Modal";
+import DrawerPage from "./DrawerPage";
+import { SidebarItem } from "./layouts/DashboardLayout";
+import ModalTabs from "./myCourse/ModalTab/ModalTabs";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import Modal from "./comman/Modal";
-import ModalTabs from "./myCourse/ModalTab/ModalTabs";
 
 type mainHeraderProps = {
-  title: string;
+  title: {
+    link?: string;
+    label: string;
+  }[];
 };
 
 const MainHeader = ({ title }: mainHeraderProps) => {
   const [open, setOpen] = useState(false);
+  const { setSidebarOpen, sidebarOpen } = useContext(SidebarContext);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -48,14 +55,28 @@ const MainHeader = ({ title }: mainHeraderProps) => {
         <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3">
             <li className="">
-              <AlignLeft
-                className="sm:w-8 sm:h-8 h-6 w-6"
+              <Button
+                type="button"
+                variant={"ghost"}
                 onClick={() => setOpen(true)}
-              />
+                className="lg:hidden block h-auto hover:bg-transparent"
+              >
+                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+              </Button>
+              <Button
+                variant={"ghost"}
+                type="button"
+                className="lg:block hidden h-auto hover:bg-transparent"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+              </Button>
             </li>
 
             <li className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize">
-              {title}
+              {/* {title} */}
+              Welcome {userData?.query?.email?.split("@")[0]}
+              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
             </li>
           </ul>
 
@@ -111,7 +132,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               </div>
 
               <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
-                {title}
+                {title[title.length - 1].label}
               </p>
             </div>
             <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">

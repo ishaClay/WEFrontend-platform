@@ -87,94 +87,142 @@ function HeaderCourse() {
   const maiHeaderData = useMemo(() => {
     const pathName = location.pathname.split("/")[2];
     console.log("pathName", pathName);
-    let title = "";
+    let title: { label: string; link?: string }[] = [];
     switch (pathName) {
       case "dashboard":
-        title = "Dashboard";
+        title = [{ label: "Dashboard" }];
         break;
 
       case "enrolledrequest":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Enrolled Request" },
+        ];
         break;
 
       case "coursesrecommended":
-        title = "Recommended Course";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Recommended Course" },
+        ];
         break;
 
       case "enrolledcourses":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Enrolled Course" },
+        ];
         break;
 
       case "allocatedcourses":
-        title = "Course Allocation";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Course Allocation" },
+        ];
         break;
 
       case "employeelist":
-        title = "Team List";
+        title = [
+          { label: "Team Management", link: "js:" },
+          { label: "Team List" },
+        ];
         break;
 
       case "teamProgress":
-        title = "Team Progress";
+        title = [
+          { label: "Team Management", link: "js:" },
+          { label: "Team Progress" },
+        ];
         break;
 
       case "maturityAssessment":
-        title = "Maturity Assessment";
+        title = [{ label: "Maturity Assessment" }];
         break;
 
       case "allcourse":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "All Course" },
+        ];
         break;
 
       case "allcourses":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "All Course" },
+        ];
         break;
 
       case "create_course":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Create Course" },
+        ];
         break;
 
       case "employee-basic-course":
-        title = "Course Management";
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Employee Basic Course" },
+        ];
         break;
 
       case "trainer-management":
-        title = "Trainer Management";
+        title = [{ label: "Trainer Management" }];
         break;
 
       case "certificate-template":
-        title = "Certificate Management";
+        title = [
+          { label: "Certificate Management", link: "js:" },
+          { label: "Certificate List" },
+        ];
         break;
 
       case "allocated-certificate":
-        title = "Certificate Management";
+        title = [
+          { label: "Certificate Management", link: "js:" },
+          { label: "Certificate Allocation" },
+        ];
         break;
 
       case "support-faqslist":
-        title = "Support";
+        title = [{ label: "Support", link: "js:" }, { label: "FAQ’s" }];
         break;
 
       case "faqslist":
-        title = "FAQ’s";
+        title = [{ label: "Support", link: "js:" }, { label: "FAQ’s" }];
         break;
 
       case "support-training-documnet":
-        title = "Support";
+        title = [
+          { label: "Support", link: "js:" },
+          { label: "Training Document" },
+        ];
         break;
 
       case "trainingdocument":
-        title = "Training Document";
+        title = [
+          { label: "Support", link: "js:" },
+          { label: "Training Document" },
+        ];
         break;
 
       case "support-request":
-        title = "Support Ticket";
+        title = [
+          { label: "Support", link: "js:" },
+          { label: "Support Ticket" },
+        ];
         break;
 
       case "employeepermission":
-        title = "Team Permission";
+        title = [
+          { label: "Setting", link: "js:" },
+          { label: "Team Permission" },
+        ];
         break;
 
       case "message":
-        title = "Message";
+        title = [{ label: "Message" }];
         break;
 
       default:
