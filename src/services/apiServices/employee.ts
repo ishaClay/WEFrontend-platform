@@ -1,4 +1,4 @@
-import { EmployeeDetailsResponse } from "@/types/employeeDetails";
+import { EmployeeDetailsResponse, EmployeeResponse } from "@/types/employeeDetails";
 import api from "./api";
 
 export const InviteSingleEmployee = async (data: any) => {
@@ -35,4 +35,17 @@ export const inviteSingleEmployeeDetail = async (
   const url = `api/v1/employee/get/${id}`;
   const res = await api({ url });
   return res.data.data;
+};
+
+export const employeeList = async (page:string,limit:string,id: number, keyword: string) => {
+  const url = `api/v1/company/get/${id}/employee`;
+  const params = {page,limit, keyword };
+  const res = await api({ url, params });
+  return res.data;
+};
+
+export const updateEmployeeList = async (data: { id: number; item: Partial<EmployeeResponse> }) => {
+  const url = `/api/v1/employee/update/${data.id}/permission`;
+  const method = "patch";
+  return api({ url, data: data?.item, method });
 };

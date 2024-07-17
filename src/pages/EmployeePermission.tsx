@@ -1,51 +1,74 @@
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Switch } from "@/components/ui/switch";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
-import profile_img from "@/assets/images/face_1.jfif";
-
-const employeePermissionData = [
-  {
-    id: 1,
-    memberName: "Ankites Risher",
-    editAction: "",
-    selfAssessment: "",
-    feedback: "",
-  },
-  {
-    id: 2,
-    memberName: "Liam Risher",
-    editAction: "",
-    selfAssessment: "",
-    feedback: "",
-  },
-  {
-    id: 3,
-    memberName: "Ankites Risher",
-    editAction: "",
-    selfAssessment: "",
-    feedback: "",
-  },
-  {
-    id: 4,
-    memberName: "Ankites Risher",
-    editAction: "",
-    selfAssessment: "",
-    feedback: "",
-  },
-  {
-    id: 5,
-    memberName: "Ankites Risher",
-    editAction: "",
-    selfAssessment: "",
-    feedback: "",
-  },
-];
+import { useState, ChangeEvent } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  employeeList,
+  updateEmployeeList,
+} from "@/services/apiServices/employee";
+import { toast } from "@/components/ui/use-toast";
+import { ErrorType } from "@/types/Errors";
+import Loading from "@/components/comman/Error/Loading";
+import { Input } from "@/components/ui/input";
+import searchIcon from "/assets/icons/search.svg";
+import { EmployeeResponse, EmployeeResult } from "@/types/employeeDetails";
+import Loader from "@/components/comman/Loader";
 
 function EmployeePermission() {
   const [page, setPage] = useState(0);
-  console.log("++++", page);
-  const column: ColumnDef<any>[] = [
+  const [search, setSearch] = useState("");
+  const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+
+  const { data, isPending: employeeListPending } = useQuery<EmployeeResult>({
+    queryKey: [QUERY_KEYS.getEmployeeList, { page, search }],
+    queryFn: () => employeeList(page.toString(), "10", 441, search),
+  });
+
+  console.log("data", data);
+  console.log(userData?.query?.id);
+  const { mutate: update_employee, isPending: updatePending } = useMutation({
+    mutationFn: updateEmployeeList,
+    onSuccess: () => {
+      toast({ title: "Permission Updated Successfully" });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getEmployeeList],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const handleChange = (
+    updateData: EmployeeResponse,
+    name: "editActionItem" | "retakeSelfAssessment" | "shareFeedback",
+    value: boolean
+  ): void => {
+    const payload: Partial<EmployeeResponse> = {};
+    updateData[name] = value;
+    if (updateData.editActionItem !== undefined) {
+      payload.editActionItem = updateData.editActionItem;
+    }
+    if (updateData.retakeSelfAssessment !== undefined) {
+      payload.retakeSelfAssessment = updateData.retakeSelfAssessment;
+    }
+    if (updateData.shareFeedback !== undefined) {
+      payload.shareFeedback = updateData.shareFeedback;
+    }
+    const bodyData = {
+      id: +updateData.id,
+      item: payload,
+    };
+    update_employee(bodyData);
+  };
+
+  const column: ColumnDef<EmployeeResponse>[] = [
     {
       accessorKey: "id",
       header: () => {
@@ -64,7 +87,7 @@ function EmployeePermission() {
       },
     },
     {
-      accessorKey: "memberName",
+      accessorKey: "name",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
@@ -76,10 +99,10 @@ function EmployeePermission() {
         return (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full overflow-hidden">
-              <img src={profile_img} alt="profile img" />
+              <img src={row.original?.profileImage} alt="profile img" />
             </div>
             <h6 className="xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.memberName}
+              {row.original?.name}
             </h6>
           </div>
         );
@@ -94,8 +117,16 @@ function EmployeePermission() {
           </h5>
         );
       },
-      cell: () => {
-        return <Switch />;
+      cell: ({ row }) => {
+        return (
+          <Switch
+            className="data-[state=checked]:bg-[#00778B]"
+            onCheckedChange={(value) =>
+              handleChange(row.original, "editActionItem", value)
+            }
+            checked={row.original.editActionItem}
+          />
+        );
       },
       meta: {
         className: "text-center",
@@ -110,8 +141,16 @@ function EmployeePermission() {
           </h5>
         );
       },
-      cell: () => {
-        return <Switch />;
+      cell: ({ row }) => {
+        return (
+          <Switch
+            className="data-[state=checked]:bg-[#00778B]"
+            onCheckedChange={(value) =>
+              handleChange(row.original, "retakeSelfAssessment", value)
+            }
+            checked={row.original.retakeSelfAssessment}
+          />
+        );
       },
       meta: {
         className: "text-center",
@@ -126,14 +165,23 @@ function EmployeePermission() {
           </h5>
         );
       },
-      cell: () => {
-        return <Switch />;
+      cell: ({ row }) => {
+        return (
+          <Switch
+            className="data-[state=checked]:bg-[#00778B]"
+            onCheckedChange={(value) =>
+              handleChange(row.original, "shareFeedback", value)
+            }
+            checked={row.original.shareFeedback}
+          />
+        );
       },
       meta: {
         className: "text-center",
       },
     },
   ];
+
   return (
     <div className="bg-[#FFFFFF] rounded-xl mt-5">
       <div className="rounded-[10px]">
@@ -141,16 +189,43 @@ function EmployeePermission() {
           <p className="text-[#000000] font-abhaya font-bold">Team Settings</p>
         </div>
 
-        <div className="overflow-x-auto">
-          <NewDataTable
-            columns={column}
-            data={employeePermissionData}
-            totalPages={employeePermissionData?.length}
-            setPage={setPage}
-            border={false}
-          />
+        <div className="flex bg-[#FFFFFF] ">
+          <div className="m-4 relative">
+            <Input
+              placeholder="Search by pilier, level, recommended, course name etc."
+              value={search}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
+              className="pl-[45px] border w-[550px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+            />
+            <img
+              src={searchIcon}
+              alt="searchIcon"
+              className="absolute left-[18px] top-[18px]"
+            />
+          </div>
+        </div>
+
+        <div>
+          {employeeListPending ? (
+            <Loader />
+          ) : (
+            <div className="overflow-x-auto">
+              <NewDataTable
+                columns={column}
+                data={data?.data || []}
+                // totalPages={data?.metaData?.totalPages ||1}
+                setPage={setPage}
+                border={false}
+                inputbox={false}
+                pagination={{ pageIndex: page, pageSize: 10 }}
+              />
+            </div>
+          )}
         </div>
       </div>
+      <Loading isLoading={updatePending} />
     </div>
   );
 }
