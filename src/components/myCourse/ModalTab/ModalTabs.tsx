@@ -80,7 +80,7 @@ const ModalTabs = ({
           <ProfileSetting handleClose={handleClose} />
         </TabsContent>
         <TabsContent value="account" className="m-0">
-          <AccountSetting />
+          <AccountSetting handleClose={handleClose} />
         </TabsContent>
         {/* <TabsContent value="logout" className="m-0">
           Log Out

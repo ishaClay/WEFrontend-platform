@@ -14,7 +14,7 @@ const EnrollmentRequestPage = () => {
 
   return (
     <div className="bg-white">
-      <div className="flex justify-between items-center py-2 px-4 border-b border-[#D9D9D9] mb-7">
+      <div className="flex justify-between items-center py-3 px-5 border-b border-[#D9D9D9] mb-7">
         <div>
           <h6 className="text-base font-bold font-nunito">
             Enrollment Requests

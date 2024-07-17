@@ -73,9 +73,11 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               </Button>
             </li>
 
-            <li className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize">
+            <li className="">
               {/* {title} */}
-              Welcome {userData?.query?.email?.split("@")[0]}
+              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
+                Welcome {userData?.query?.email?.split("@")[0]}
+              </h3>
               <BreadcrumbWithCustomSeparator breadcrumbData={title} />
             </li>
           </ul>
@@ -112,7 +114,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
                 </DropdownMenu>
               </div>
             </div>
-            <div className="">
+            <div className="lg:block hidden">
               <img
                 className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
                 src={Logo2}
@@ -121,7 +123,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
             </div>
           </div>
         </div>
-        <div className="p-5 text-[#3A3A3A] font-[calibri] items-center justify-between w-full sm:hidden block">
+        <div className="sm:p-5 px-5 pt-5 pb-0 text-[#3A3A3A] font-[calibri] items-center justify-between w-full sm:hidden block">
           <div className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 justify-between">
             <div className="flex items-center gap-2.5">
               <div className="">
