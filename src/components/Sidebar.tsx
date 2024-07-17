@@ -1,6 +1,6 @@
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { HiChevronDown, HiChevronRight } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
@@ -9,6 +9,11 @@ import Loading from "./comman/Error/Loading";
 import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchChatUserList } from "@/services/apiServices/chatServices";
+import { useSelector } from "react-redux";
+import { MessageDataEntity } from "@/types/message";
+import { GoDotFill } from "react-icons/go";
 
 interface SidebarItem {
   label: string;
@@ -22,6 +27,7 @@ interface SidebarItem {
 
 const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const location = useLocation();
+  const { UserId } = useSelector((state:any) => state?.user);
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const mavigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -63,6 +69,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     mutate(userId);
   };
 
+  const {data: chatUserList} = useQuery({
+    queryKey: [QUERY_KEYS.chatUserList],
+    queryFn: () => fetchChatUserList(UserId as string),
+  });
+  const newMessage = chatUserList?.data?.data?.some((item: MessageDataEntity) => item?.count > 0)  
+
   return (
     <div className="top-0 left-0 lg:flex flex-col justify-between 2xl:w-[260px] w-[235px] duration-500 bg-[#FFFFFF] overflow-hidden">
       <div className="2xl:w-[250px] w-[230px] h-screen">
@@ -74,6 +86,8 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         <div className="mt-4 flex flex-col gap-4 relative">
           {sidebarItems.map((item, index) => {
             const Icon = item.Icon;
+            console.log("item++++", item);
+            
             return (
               <div key={index}>
                 {item.label !== "Logout" ? (
@@ -91,7 +105,13 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           : "bg-[#fff]"
                       } `}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 relative">
+                        {
+                          item?.label === "Message" && newMessage && <GoDotFill
+                          className="absolute -top-[10px] left-[15px]"
+                          fill={"#008000"}
+                        />
+                        }
                         <Icon size={22} />
                         <h2>{item.label}</h2>
                       </div>

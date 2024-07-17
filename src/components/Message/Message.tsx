@@ -72,7 +72,7 @@ const Message = () => {
 
   useEffect(() => {
     setAllMsg(chatList?.data?.data || []);
-  }, [chatList?.data?.data?.length]);
+  }, [chatList?.data?.data]);
 
   const filterByName = (item: { name: string }) => {
     return (item?.name || "")
@@ -236,6 +236,8 @@ const Message = () => {
           {chatUserList?.data?.data
             ?.filter(filterByName)
             ?.map((item: GetChatUserList | any) => {
+              console.log("item?.email", item);
+              
               return (
                 <div
                   key={item.id}
@@ -260,7 +262,7 @@ const Message = () => {
                 >
                   <div className="relative h-[42px] w-[42px]">
                     <Avatar className="w-full h-full static">
-                      <AvatarImage src={item?.images?.[0]} />
+                      <AvatarImage src={item?.image} />
                       <AvatarFallback
                         className="text-white text-xl"
                         style={{ backgroundColor: chatDPColor(item?.id) }}
@@ -268,9 +270,7 @@ const Message = () => {
                         {item?.name?.[0]?.toUpperCase() ||
                           item?.email?.[0]?.toUpperCase()}
                       </AvatarFallback>
-                      {item?.isOnline && (
-                        <div className="w-3 h-3 bg-[green] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white"></div>
-                      )}
+                      <div className={`w-3 h-3 bg-[${item?.isOnline ? "green" : "#D9D9D9"}] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}></div>
                     </Avatar>
                   </div>
                   <div className="ml-[15px] w-[calc(100%-57px)]">
@@ -316,6 +316,7 @@ const Message = () => {
           {chatId && UserId ? (
             <div className="flex items-center">
               <Avatar className="w-[42px] h-[42px]">
+              <AvatarImage src={currentChat?.image} />
                 <AvatarFallback
                   className="text-white text-xl"
                   style={{ background: chatDPColor(+chatId) }}
@@ -380,6 +381,9 @@ const Message = () => {
                     index === 0 ||
                     new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                       createdAtDate.toDateString();
+
+                      console.log("item?.senderId", item);
+                      
                   return (
                     <div key={item.id}>
                       {showDate && (
@@ -399,12 +403,12 @@ const Message = () => {
                               backgroundColor: chatDPColor(+item?.senderId?.id),
                             }}
                           >
-                            {item?.senderId?.name?.[0].toUpperCase()}
+                            {item?.senderId?.name?.[0].toUpperCase() || item?.senderId?.email?.[0].toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <div className="ml-4">
                           <div className="leading-[19.53px] text-[black] font-medium">
-                            {item?.senderId?.name}
+                            {item?.senderId?.name || item?.senderId?.email?.split('@')?.[0]}
                           </div>
                           <div className="text-[#606060] leading-[14.65px] text-xs mb-4">
                             {moment(item?.createdAt).format("h:mmA")}

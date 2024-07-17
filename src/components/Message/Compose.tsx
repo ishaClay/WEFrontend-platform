@@ -269,7 +269,7 @@ const Compose = () => {
     handleSend({
       senderId: data.to,
       receiverId: UserId,
-      message: emailTemplateMessage?.message,
+      message: data?.message,
       images: images,
     });
   };

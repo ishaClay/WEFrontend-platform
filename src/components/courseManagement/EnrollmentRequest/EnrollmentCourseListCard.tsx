@@ -10,11 +10,14 @@ import { ErrorType } from "@/types/Errors";
 import { Enroll, FetchEnrollRequestDataType } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Euro } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 const EnrollmentCourseListCard = ({ data }: {data: FetchEnrollRequestDataType}) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const pathName: string = location?.pathname?.split("/")[1];
   const { mutate: updateEnrollRequest } = useMutation({
     mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
     onSuccess: () => {
@@ -98,11 +101,15 @@ const EnrollmentCourseListCard = ({ data }: {data: FetchEnrollRequestDataType}) 
       {(data?.enroll === Enroll.default || data?.enroll === Enroll.enquiry) && (
         <div className="flex justify-center xl:flex-nowrap flex-wrap">
           {data?.enroll === Enroll.enquiry ? (
-            <Button className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1">
+            <Button className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+              onClick={() => navigate(`/${pathName}/message`)}
+            >
               Show Message
             </Button>
           ) : (
-            <Button className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1">
+            <Button className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+              onClick={() => navigate(`/${pathName}/message`)}
+            >
               Enquire
             </Button>
           )}

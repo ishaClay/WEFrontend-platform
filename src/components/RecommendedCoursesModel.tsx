@@ -18,8 +18,11 @@ const filterOption = [
     value: "cohort 3 : start 20/05/2024 end 30/05/2024",
   },
 ];
+interface RecommendedCoursesModelProps {
+  handleSubmit: () => void;
+}
 
-const RecommendedCoursesModel = () => {
+const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) => {
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
   const [itemList, setItemList] = useState(0);
   const handleIncrement = () => {
@@ -139,7 +142,8 @@ const RecommendedCoursesModel = () => {
           />
         </div>
         <div>
-          <Button className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] h-[52px]">
+          <Button className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] h-[52px]"
+          onClick={handleSubmit}>
             Select
           </Button>
         </div>
