@@ -9,7 +9,7 @@ import {
   RecommendedCourses,
 } from "@/types/RecommendedCourses";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
@@ -36,7 +36,7 @@ function CourseListView({
   currentIndex: number;
 }) {
   const userData = useSelector((state: RootState) => state.user);
-  const [isRecommendedCourse, setIsRecommendedCourseShow] = useState(false);
+  const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -65,6 +65,17 @@ function CourseListView({
   //     </Badge>
   //   })
   // }
+
+  useEffect(() => {
+    if(!isRecommendedCourseShow){
+    setRecommendedCoursesById(null);
+    }
+  }, [isRecommendedCourseShow])
+
+  const handleClose = () => {
+    setIsRecommendedCourseShow(false); 
+    setRecommendedCoursesById(null);
+  }
 
 
   const { mutate: handleSend } = useMutation({
@@ -108,9 +119,9 @@ function CourseListView({
   return (
     <>
       <Modal
-        open={isRecommendedCourse}
-        onClose={() => setIsRecommendedCourseShow(false)}
-        className={`py-[60px] px-6 ${isPendingCourseDEnroll || fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "h-[200px]" : "max-w-[800px] max-h-[800px] h-[780px]"}`}
+        open={isRecommendedCourseShow}
+        onClose={handleClose}
+        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
       >
         <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
       </Modal>
@@ -244,14 +255,15 @@ function CourseListView({
                 <Button
                   onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(recommendeddata?.id)}}
                   className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                  disabled={!recommendeddata?.enrolled}
                 >
                   Enroll Now
                 </Button>
                 <Button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
                   onClick={() => {handleInquire(recommendeddata || []); setRecommendedCoursesById(recommendeddata?.id);}}
-                  disabled={recommendedCoursesById === recommendeddata?.id}
+                  disabled={!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id}
                 >
-                  {recommendedCoursesById === recommendeddata?.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Inquire
+                  {!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Inquire
                 </Button>
               </div>
             </div>

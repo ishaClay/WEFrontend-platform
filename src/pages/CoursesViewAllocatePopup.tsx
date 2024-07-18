@@ -127,10 +127,10 @@ function CourseViewAllocatePopup({
     arr2: EmployeeEntity[]
   ) {
     const combinedObj: Record<number, EmployeeEntity> = {
-      ...arr1.reduce((obj, item) => ({ ...obj, [item.id]: item }), {}),
+      ...arr1?.reduce((obj, item) => ({ ...obj, [item.id]: item }), {}),
     };
 
-    arr2.forEach((item) => {
+    arr2?.forEach((item) => {
       combinedObj[item.id] = item;
     });
     return Object.values(combinedObj);
@@ -138,7 +138,7 @@ function CourseViewAllocatePopup({
 
   useEffect(() => {
     if (courseData) {
-      courseData?.employee.forEach((item) => {
+      courseData?.employee?.forEach((item) => {
         setSelectedEmployee((prev) => {
           if (!prev.includes(item.id)) {
             return [...prev, item.id];
@@ -200,6 +200,23 @@ function CourseViewAllocatePopup({
     reset();
   };
 
+  const selectInviteEmployee = (employeeId: any) => {
+    if (employeeId === 'all') {
+      if (selectedEmployee.length === mergedArray?.length) {
+        setSelectedEmployee([]);
+      } else {
+        const allEmployeeIds = mergedArray?.map((employee:any) => employee.id);
+        setSelectedEmployee(allEmployeeIds || []);
+      }
+    } else {
+      if (selectedEmployee?.includes(employeeId)) {
+        setSelectedEmployee(selectedEmployee?.filter(id => id !== employeeId));
+      } else {
+        setSelectedEmployee([...selectedEmployee, employeeId]);
+      }
+    }
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -233,6 +250,17 @@ function CourseViewAllocatePopup({
                         RECOMMENDED
                       </span>
                     </div>
+                    {/* {courseData?.courseVersion?.course?.courseData?.map((item) => {
+                      return (
+                        <div className="flex gap-2 items-center">
+                          <p
+                            className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full text-base font-normal font-calibri leading-[22px]`}
+                          >
+                            {item?.fetchPillar?.pillarName}
+                          </p>
+                        </div>
+                      );
+                    })} */}
                     <p className="flex items-center gap-4">
                       <img
                         className="w-[18px]"
@@ -285,23 +313,23 @@ function CourseViewAllocatePopup({
                   <div className="flex items-center gap-1">
                     <img className=" h-[16] w-[18px]" src={time} alt="time" />
                     <p className="text-xs">
+                      {courseData?.courseVersion?.course?.time ===
+                        CourseTime?.FullTime && <span>Full-time</span>}
                       {courseData?.courseVersion?.course.time ===
-                        CourseTime.FullTime && <span>Full-time</span>}
-                      {courseData?.courseVersion?.course.time ===
-                        CourseTime.PartTime && <span>Part-time</span>}
+                        CourseTime?.PartTime && <span>Part-time</span>}
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
                     <img className=" h-[16] w-[18px]" src={online} alt="type" />
                     <p className="text-xs">
-                      {courseData?.courseVersion?.course.isOnline ===
-                        IsOnline.Online && <span>Online</span>}
-                      {courseData?.courseVersion?.course.isOnline ===
-                        IsOnline.InPerson && <span>InPerson</span>}
-                      {courseData?.courseVersion?.course.isOnline ===
-                        IsOnline.Hybrid && <span>Hybrid</span>}
-                      {courseData?.courseVersion?.course.isOnline ===
-                        IsOnline.Major && <span>Major</span>}
+                      {courseData?.courseVersion?.course?.isOnline ===
+                        IsOnline?.Online && <span>Online</span>}
+                      {courseData?.courseVersion?.course?.isOnline ===
+                        IsOnline?.InPerson && <span>InPerson</span>}
+                      {courseData?.courseVersion?.course?.isOnline ===
+                        IsOnline?.Hybrid && <span>Hybrid</span>}
+                      {courseData?.courseVersion?.course?.isOnline ===
+                        IsOnline?.Major && <span>Major</span>}
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
@@ -311,7 +339,7 @@ function CourseViewAllocatePopup({
                       alt="Duration"
                     />
                     <p className="text-xs">
-                      {courseData?.courseVersion?.course.duration}
+                      {courseData?.courseVersion?.course?.duration}
                     </p>
                   </div>
                   <div className="flex items-center gap-1">
@@ -321,7 +349,7 @@ function CourseViewAllocatePopup({
                       alt="institute"
                     />
                     <p className="text-xs">
-                      {courseData?.courseVersion?.course.institute}
+                      {courseData?.courseVersion?.course?.institute}
                     </p>
                   </div>
                 </div>
@@ -344,7 +372,7 @@ function CourseViewAllocatePopup({
                         placeholder="Enter First Name"
                         labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
                         {...register("fname")}
-                        error={errors.fname?.message as string}
+                        error={errors?.fname?.message as string}
                       />
                     </div>
                     <div className="col-span-1">
@@ -355,7 +383,7 @@ function CourseViewAllocatePopup({
                         className="font-nunito mt-[8px] text-[#000000] text-[16px]"
                         labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
                         {...register("lname")}
-                        error={errors.lname?.message as string}
+                        error={errors?.lname?.message as string}
                       />
                     </div>
                     <div className="col-span-2">
@@ -366,7 +394,7 @@ function CourseViewAllocatePopup({
                         className="font-nunito mt-[8px] text-[#000000] text-[16px]"
                         labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
                         {...register("email")}
-                        error={errors.email?.message as string}
+                        error={errors?.email?.message as string}
                       />
                     </div>
                     <div className="col-span-2">
@@ -377,7 +405,7 @@ function CourseViewAllocatePopup({
                         labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
                         isLength={false}
                         {...register("message")}
-                        error={errors.message?.message as string}
+                        error={errors?.message?.message as string}
                       />
                     </div>
                   </div>
@@ -403,15 +431,17 @@ function CourseViewAllocatePopup({
                     <label className="font-bold mr-[10px]">Select All</label>
                     <input
                       type="checkbox"
+                      name="all"
                       className="h-[18px] w-[18px] rounded"
-                      onChange={() => {}}
+                      checked={selectedEmployee.length === mergedArray?.length}
+                      onChange={() => selectInviteEmployee('all')}
                     />
                   </div>
                 </div>
                 <div className="p-4 max-h-[350px] overflow-auto">
                   {mergedArray &&
-                    mergedArray?.length > 0 &&
-                    mergedArray.map((employee) => (
+                    mergedArray?.length > 0 ?
+                    mergedArray?.map((employee) => (
                       <div
                         key={employee.id}
                         className="flex items-center justify-between mb-2 border-b pb-2 border-[#D9D9D9]"
@@ -420,23 +450,20 @@ function CourseViewAllocatePopup({
                           <Avatar>
                             <AvatarImage src={employee.profileImage} />
                             <AvatarFallback>
-                              {employee.name?.charAt(0)}
+                              {employee.name?.charAt(0) || employee.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span>{employee.name}</span>
+                          <span>{employee.name || employee.email.split("@")?.[0]}</span>
                         </div>
                         <input
                           type="checkbox"
-                          defaultChecked={
-                            selectedEmployee?.length > 0
-                              ? selectedEmployee.includes(employee.id)
-                              : courseData?.employee?.includes(employee)
-                          }
-                          onChange={() => handleChange(employee.id)}
+                          name="employee"
+                          checked={selectedEmployee?.includes(employee?.id)}
+                          onChange={() => selectInviteEmployee(employee?.id)}
                           className="h-[18px] w-[18px] rounded"
                         />
                       </div>
-                    ))}
+                    )) : <span className="text-center block">No data found</span> }
                 </div>
                 <div className="w-full flex items-center justify-between mt-2">
                   <Button

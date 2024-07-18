@@ -90,7 +90,7 @@ const CourseManagement = () => {
           </TabsList>
           <Button
             className="flex cursor-pointer md:order-2 order-1 bg-transparent text-black"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/${pathName}/allcourse`)}
           >
             <MoveLeft />
             <span className="text-base font-semibold pl-4">Back</span>

@@ -1,6 +1,6 @@
 import { Loader2, Minus, Plus } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectMenu from "./comman/SelectMenu";
 import { CourseDiscountDataEntity } from "@/types/course";
 import { fetchEnroll } from "@/services/apiServices/enroll";
@@ -25,12 +25,12 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
   const [selectCourseByIndex, setSelectCourseByIndex] = useState<number | string>("");
   const [selectCourse, setSelectCourse] = useState("");
 
-  useState(() => {
+  useEffect(() => {
     if(data){
-      const initialItemList = data.map(() => 0);
+      const initialItemList = data?.map(() => 1);
       setItemList(initialItemList);
     }
-  });
+  }, [data]);
 
   const handleIncrement = (index: number) => {    
     if (index === selectCourseByIndex) {
@@ -107,7 +107,7 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
                     className="w-6 h-6 mr-2"
                     onChange={() => setSelectCourse(index?.toString())}
                   />
-                  {courseList?.isDiscounted ? "Without Discount" : "With Discount"}
+                  {courseList?.isDiscounted ? "With Discount" : "Without Discount"}
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-base font-calibri leading-5">
@@ -200,7 +200,7 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
           </Button>
         </div>
       </div>
-    </div> : <span>No data found</span>
+    </div> : <span className="flex items-center justify-center text-xl">No data found</span>
   );
 };
 

@@ -124,7 +124,7 @@ function CoursesRecommended() {
               </div>
             </div>
             {params === "0" || !params ? (
-              <div className="p-4 h-[calc(100vh-301px)] overflow-auto grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+              <div className={`p-4 h-[calc(100vh-301px)] overflow-auto ${recommendedcourses?.data && recommendedcourses?.data?.length > 0 ? "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1" : "grid-cols-1"} grid gap-4`}>
                 {pending ? (
                   <Loader />
                 ) : recommendedcourses?.data ? (

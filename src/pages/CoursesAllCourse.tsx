@@ -24,7 +24,7 @@ function CoursesAllCourse() {
 
   const { data: allcourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
-    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search),
+    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search, user?.clientId, user?.UserId, user?.CompanyId),
   });
   const searchUrl = window.location.search;
   const params = new URLSearchParams(searchUrl).get("view");

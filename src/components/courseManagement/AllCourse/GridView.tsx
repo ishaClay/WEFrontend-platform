@@ -213,7 +213,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   };
 
   return (
-    <>
+    list ? <>    
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item, i) => {
@@ -390,7 +390,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
             <Loader className="w-10 h-10 text-primary" />
           </div>
         ))}
-    </>
+    </> : <span>No data found</span>
   );
 };
 

@@ -11,7 +11,7 @@ import Modal from "@/components/comman/Modal";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchEnroll } from "@/services/apiServices/enroll";
+import { fetchCourseDiscountEnroll, fetchEnroll } from "@/services/apiServices/enroll";
 import { ErrorType } from "@/types/Errors";
 import { RecommendedCourses } from "@/types/RecommendedCourses";
 import {
@@ -20,11 +20,13 @@ import {
   IsOnline,
   Pillarcourse,
 } from "@/types/allcourses";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
+import { Button } from "@/components/ui/button";
 
 type dataGridProps = {
   data: AllCourse[];
@@ -38,8 +40,28 @@ const CourseListPage = ({
   selectedCourse,
 }: dataGridProps) => {
   const { CompanyId } = useAppSelector((state) => state.user);
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if(!isRecommendedCourseShow){
+    setRecommendedCoursesById(null);
+    }
+  }, [isRecommendedCourseShow])
+
+  const handleClose = () => {
+    setIsRecommendedCourseShow(false); 
+    setRecommendedCoursesById(null);
+  }
+
+  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
+    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+    queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
+    enabled: !!recommendedCoursesById
+  });
+
   const { mutate: enrollRequest } = useMutation({
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
@@ -163,6 +185,16 @@ const CourseListPage = ({
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
+
+      <Modal
+        open={isRecommendedCourseShow}
+        onClose={handleClose}
+        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+      >
+        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+      </Modal>
+
+
       {data?.map((allcourse: AllCourse) => {
         const maturityLevel =
           selectedCourse &&
@@ -312,21 +344,13 @@ const CourseListPage = ({
                 <div className="xl:py-[13px] pb-0 pt-[13px]  xl:px-9 px-0 items-center xl:border-l xl:border-[#DDD]">
                   {getUpcommingCohort(allcourse)}
                   <div className="xl:text-right text-center mt-3">
-                    <button
-                      onClick={() =>
-                        handleEnroll(allcourse?.currentVersion?.id)
-                      }
-                      disabled={
-                        reCommendedCourses?.some(
-                          (item) => item?.id === allcourse?.id
-                        )
-                          ? true
-                          : false
-                      }
-                      className="2xl:px-[14px] xl:p-[10px] py-1 px-2 bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base"
+                    <Button
+                      onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(allcourse?.id)}}
+                      className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                      disabled={!allcourse?.enrolled}
                     >
                       Enroll Now
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

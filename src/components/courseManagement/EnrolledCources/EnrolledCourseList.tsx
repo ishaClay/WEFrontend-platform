@@ -25,12 +25,12 @@ const EnrolledCourseList = () => {
 
   return (
     <div className="sm:px-5 px-4 pb-4">
-      <Accordions
+      {accordionItems ? <Accordions
         items={accordionItems}
         triggerClassName="sm:flex block"
         itemsClass="sm:p-5 p-0"
         customIconClassName="sm:static absolute right-4 bottom-4"
-      />
+      /> : <span className="text-center block text-xl">No data found</span> }
     </div>
   );
 };
