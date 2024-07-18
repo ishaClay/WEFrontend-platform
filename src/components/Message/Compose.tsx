@@ -20,6 +20,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { fetchMessageRoles } from "@/lib/utils";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { getTargetUserby } from "@/services/apiServices/clientServices";
 import { fetchEmails } from "@/services/apiServices/emailTemplate";
@@ -40,7 +41,6 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
-import { fetchMessageRoles } from "@/lib/utils";
 
 interface SendMessagePayload {
   senderId: string;
@@ -349,7 +349,7 @@ const Compose = () => {
                         selectToValue?.clientDetails?.email?.split("@")[0]}
                     </SelectItem>
                   ) : selectToValue?.length > 0 ? (
-                    selectToValue?.map((item: any) => {
+                    selectToValue.map((item: any) => {
                       return (
                         <SelectItem
                           key={item?.userDetails?.id}
