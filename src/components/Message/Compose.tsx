@@ -265,8 +265,8 @@ const Compose = () => {
     data: FieldValues
   ) => {
     handleSend({
-      senderId: data.to,
-      receiverId: UserId,
+      senderId: UserId,
+      receiverId: data.to,
       message: data?.message,
       images: images,
     });

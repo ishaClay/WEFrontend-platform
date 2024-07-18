@@ -235,9 +235,7 @@ const Message = () => {
         <CardContent className="p-0">
           {chatUserList?.data?.data
             ?.filter(filterByName)
-            ?.map((item: GetChatUserList | any) => {
-              console.log("item?.email", item);
-              
+            ?.map((item: GetChatUserList | any) => {              
               return (
                 <div
                   key={item.id}
@@ -270,7 +268,7 @@ const Message = () => {
                         {item?.name?.[0]?.toUpperCase() ||
                           item?.email?.[0]?.toUpperCase()}
                       </AvatarFallback>
-                      <div className={`w-3 h-3 bg-[${item?.isOnline ? "green" : "#D9D9D9"}] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}></div>
+                      <div className={`w-3 h-3 ${item?.isOnline ? "bg-[#008000]" : "bg-[#D9D9D9]"} absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}></div>
                     </Avatar>
                   </div>
                   <div className="ml-[15px] w-[calc(100%-57px)]">
@@ -381,8 +379,6 @@ const Message = () => {
                     index === 0 ||
                     new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                       createdAtDate.toDateString();
-
-                      console.log("item?.senderId", item);
                       
                   return (
                     <div key={item.id}>
