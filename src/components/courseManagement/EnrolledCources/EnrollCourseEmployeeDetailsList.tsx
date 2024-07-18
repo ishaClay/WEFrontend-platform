@@ -46,28 +46,28 @@ const EnrollCourseEmployeeDetailsList = () => {
           );
         })}
       </div>
-      <div className="flex flex-row gap-3 mt-5">
+      <div className="flex sm:flex-row flex-col sm:items-start items-center gap-3 mt-5">
         <Button
           variant={"outlinePrimary"}
-          className="text-base font-calibri"
+          className="text-base font-calibri w-[142px] px-2.5"
           onClick={() => setIsOpen(true)}
         >
-          <Video className="me-2" />
+          <Video />
           Live Session 1
         </Button>
         <Button
           variant={"outlinePrimary"}
-          className="text-base font-calibri"
+          className="text-base font-calibri w-[142px] px-2.5"
           onClick={() => setIsOpen(true)}
         >
-          <Video className="me-2" /> Live Session 2
+          <Video /> Live Session 2
         </Button>
         <Button
           variant={"outlinePrimary"}
-          className="text-base font-calibri"
+          className="text-base font-calibri w-[142px] px-2.5"
           onClick={() => setIsOpen(true)}
         >
-          <Video className="me-2" /> Live Session 3
+          <Video /> Live Session 3
         </Button>
       </div>
 

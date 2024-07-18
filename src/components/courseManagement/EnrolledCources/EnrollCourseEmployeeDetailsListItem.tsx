@@ -28,7 +28,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="max-w-3xl px-0"
+        className="lg:max-w-[800px] md:max-w-[650px] sm:max-w-[550px] max-w-[335px] px-0"
       >
         <EvaluateModalDetails />
       </Modal>
@@ -40,8 +40,8 @@ const EnrollCourseEmployeeDetailsListItem = ({
       >
         <AllocateCertificateModalDetails />
       </Modal>
-      <div className="grid grid-cols-12 border border-solid sm:py-4 sm:px-6 p-2.5 gap-2">
-        <div className="flex items-center 2xl:col-span-2 sm:col-span-4 col-span-12">
+      <div className="grid grid-cols-12 border border-solid md:py-4 md:px-6 sm:p-3 p-2.5 gap-2">
+        <div className="flex items-center 2xl:col-span-2 sm:col-span-6 col-span-12">
           <div className="w-[40px] h-[40px] rounded-full overflow-hidden me-4">
             <img src={data.image} />
           </div>
@@ -75,7 +75,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
             <div className="sm:me-4 me-2">
               <Button
                 variant={"outlinePrimary"}
-                className="text-[#00778b] border-[#00778b] sm:px-5 px-3 rounded-none sm:w-[164px] w-[146px] sm:h-10 h-9"
+                className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:w-[164px] sm:text-base text-xs w-[146px] sm:h-10 h-9"
                 onClick={() => setIsOpenAllocate(true)}
               >
                 <ShieldCheck width={18} />

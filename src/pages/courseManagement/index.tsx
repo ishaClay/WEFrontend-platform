@@ -6,6 +6,7 @@ import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
+import { Button } from "@/components/ui/button";
 
 const CourseManagement = () => {
   const [currentTab, setCurrentTab] = useState<string>("0");
@@ -60,51 +61,51 @@ const CourseManagement = () => {
         className=""
         onValueChange={(e) => setCurrentTab(e)}
       >
-        <div className="border-b flex justify-between items-center">
-          <TabsList className="grid w-full h-auto p-0 grid-cols-4 max-w-[600px]">
+        <div className="border-b flex md:flex-row flex-col justify-between md:items-center items-start">
+          <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">
             <TabsTrigger
               value="0"
-              className=" data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold py-5 font-calibri"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold sm:py-5 py-2 sm:px-5 px-2 font-calibri"
             >
               Basic Details
             </TabsTrigger>
             <TabsTrigger
               value="1"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
             >
               Course Pathway
             </TabsTrigger>
             <TabsTrigger
               value="2"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
             >
               Module Creation
             </TabsTrigger>
             <TabsTrigger
               value="3"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent text-base font-bold font-calibri text-[#000] py-5"
+              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
             >
               Forum
             </TabsTrigger>
           </TabsList>
-          <div
-            className="flex pr-5 cursor-pointer"
+          <Button
+            className="flex cursor-pointer md:order-2 order-1 bg-transparent text-black"
             onClick={() => navigate(-1)}
           >
             <MoveLeft />
             <span className="text-base font-semibold pl-4">Back</span>
-          </div>
+          </Button>
         </div>
-        <TabsContent value="0" className="xl:p-[30px] p-5 mt-0">
+        <TabsContent value="0" className="xl:p-[30px] sm:p-5 p-4 mt-0">
           <BasicDetails />
         </TabsContent>
-        <TabsContent value="1" className="xl:p-[30px] p-5 mt-0">
+        <TabsContent value="1" className="xl:p-[30px] sm:p-5 p-4 mt-0">
           <CoursePathway />
         </TabsContent>
-        <TabsContent value="2" className="xl:p-[30px] p-5 mt-0">
+        <TabsContent value="2" className="xl:p-[30px] sm:p-5 p-4 mt-0">
           <ModuleCreation />
         </TabsContent>
-        <TabsContent value="3" className="xl:p-[30px] p-5 mt-0">
+        <TabsContent value="3" className="xl:p-[30px] sm:p-5 p-4 mt-0">
           <Forum />
         </TabsContent>
       </Tabs>

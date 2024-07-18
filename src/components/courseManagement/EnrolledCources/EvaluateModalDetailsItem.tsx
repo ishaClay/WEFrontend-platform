@@ -19,17 +19,17 @@ type evaluteModalProps = {
 };
 const EvaluateModalDetailsItem = ({ data }: evaluteModalProps) => {
   return (
-    <div className="p-5 border-b border-[#D9D9D9]">
+    <div className="sm:p-5 p-4 border-b border-[#D9D9D9]">
       <div className="">
         <div className="flex items-center pb-3">
-          <h5 className="text-base font-calibri font-bold pe-5">
+          <h5 className="sm:text-base text-sm font-calibri font-bold pe-5">
             Module :<span>{data.modalId}</span>
           </h5>
-          <h5 className="text-base font-calibri font-bold">
+          <h5 className="sm:text-base text-sm font-calibri font-bold">
             Session :<span>{data.sessionId}</span>
           </h5>
         </div>
-        <h5 className="text-base font-calibri font-bold pb-3">
+        <h5 className="sm:text-base text-sm font-calibri font-bold pb-3">
           Assessment :<span>{data.assessmentId}</span>
         </h5>
 
@@ -39,17 +39,17 @@ const EvaluateModalDetailsItem = ({ data }: evaluteModalProps) => {
           })}
         </div>
       </div>
-      <div className="mt-5 flex justify-between">
+      <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
         <div className="flex items-center">
-          <span className="px-3 py-2 border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri text-4xl cursor-pointer">
+          <span className="px-3 py-2 border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px] cursor-pointer">
             {data.page1}
           </span>
-          <span className="px-3 py-2 text-[#1D2026] font-bold font-calibri text-4xl cursor-pointer">
+          <span className="px-3 py-2 text-[#1D2026] font-bold font-calibri sm:text-4xl text-[26px] cursor-pointer">
             /{data.page2}
           </span>
         </div>
         <div className="">
-          <Button className="outline-none text-base font-calibri text-white bg-[#58BA66] py-6 px-8">
+          <Button className="outline-none sm:text-base text-sm font-calibri text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]">
             Submit
           </Button>
         </div>

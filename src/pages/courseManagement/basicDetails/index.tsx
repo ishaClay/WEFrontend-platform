@@ -1,4 +1,4 @@
-import Stepper from "@/components/comman/Stepper";
+import CourseStepper from "@/components/comman/CourseStepper";
 import CourseAffiliations from "@/components/courseManagement/courseCreation/basicDetails/CourseAffiliations";
 import CourseBanner from "@/components/courseManagement/courseCreation/basicDetails/CourseBanner";
 import CourseInformation from "@/components/courseManagement/courseCreation/basicDetails/CourseInformation";
@@ -18,29 +18,35 @@ const BasicDetails = () => {
   const navigate = useNavigate();
   const pathName = location?.pathname?.split("/")[1];
   const courseId = location?.pathname?.split("/")[3];
-  
+
   useEffect(() => {
     if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
-      navigate(`/${pathName}/create_course?tab=${paramsTab}&step=${params}&id=${paramsId}&version=${paramsversion}`);
+      navigate(
+        `/${pathName}/create_course?tab=${paramsTab}&step=${params}&id=${paramsId}&version=${paramsversion}`
+      );
       setStep(+params);
     } else if (!!paramsId && !!paramsversion && !!paramsTab) {
-      navigate(`/${pathName}/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
+      navigate(
+        `/${pathName}/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
         { replace: true }
       );
       setStep(+params);
-    }else if(courseId){
-      navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
+    } else if (courseId) {
+      navigate(
+        `/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${params}&version=${paramsversion}`
       );
       setStep(+params);
-    } else if(paramsTab === "1" && paramsversion && paramsId) {
-      navigate(`/${pathName}/create_course?tab=${paramsTab}&id=${paramsId}&version=${paramsversion}`,
+    } else if (paramsTab === "1" && paramsversion && paramsId) {
+      navigate(
+        `/${pathName}/create_course?tab=${paramsTab}&id=${paramsId}&version=${paramsversion}`,
         {
           replace: true,
         }
       );
       setStep(+params);
     } else {
-      navigate(`/${pathName}/create_course?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
+      navigate(
+        `/${pathName}/create_course?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -51,8 +57,8 @@ const BasicDetails = () => {
 
   return (
     <div>
-      <div className="w-full my-[40px]">
-        <Stepper
+      <div className="w-full sm:my-10 my-5">
+        <CourseStepper
           steps={[
             "Course Information",
             "Course Details & Specifications",
