@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
@@ -779,6 +780,10 @@ function App() {
           <Route
             path="trainer-management/details/:id"
             element={<TrainerDetails />}
+          />
+          <Route
+            path="trainer-management/edit/:id"
+            element={<TrainerDetailsEdit />}
           />
           <Route
             path="trainer-management/invitation"
