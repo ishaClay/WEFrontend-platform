@@ -46,7 +46,7 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
       return "xlsx"
     } else if(type?.split("/")?.[3]?.includes("doc")) {
       return "doc"
-    } else if(type.includes("www.youtube.com")) {
+    } else if(type?.includes("www.youtube.com")) {
       return "video"
     }
   }

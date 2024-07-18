@@ -65,6 +65,7 @@ export interface RecommendedCourses {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  enrolled: boolean;
 }
 export interface CourseDataEntity {
   pillarId: number;

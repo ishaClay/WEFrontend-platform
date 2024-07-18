@@ -1,58 +1,60 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import Loader from "@/components/comman/Loader";
-import Modal from "@/components/comman/Modal";
-import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
-import { fetchEnroll } from "@/services/apiServices/enroll";
-import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import moment from "moment";
-import { useState } from "react";
-import { FaStar } from "react-icons/fa6";
-import CohortModel from "./CohortModel";
-import { getImages } from "@/lib/utils";
 import speed from "@/assets/images/Speed.png";
-import fulltime from "@/assets/images/fulltime.png";
 import diploma from "@/assets/images/diploma.png";
-import unversity from "@/assets/images/unversity.png";
+import fulltime from "@/assets/images/fulltime.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
-import nature from "@/assets/images/nature.png";
-import { RecommendedCourses } from "@/types/RecommendedCourses";
+import unversity from "@/assets/images/unversity.png";
+import Modal from "@/components/comman/Modal";
 import { QUERY_KEYS } from "@/lib/constants";
-import { ErrorType } from "@/types/Errors";
+import { getImages } from "@/lib/utils";
+import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import {
+  AllCourse,
+  CourseTime,
+  IsOnline,
+  Pillarcourse,
+} from "@/types/allcourses";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa6";
+import CohortModel from "./CohortModel";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
+import { Button } from "@/components/ui/button";
 
 type dataGridProps = {
   data: AllCourse[];
-  reCommendedCourses : RecommendedCourses[];
+  reCommendedCourses: RecommendedCourses[];
+  selectedCourse: Pillarcourse | null;
 };
 
-const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
-  const user = useAppSelector((state) => state.user);
+const CourseGridPage = ({
+  data,
+  selectedCourse,
+}: dataGridProps) => {
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
-  const queryClient = useQueryClient();
-  const { mutate: enrollRequest, isPending } = useMutation({
-    mutationFn: fetchEnroll,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
-      toast({
-        variant: "success",
-        title: data?.data?.message,
-      });
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error?.data?.message,
-      });
-    },
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
+
+  useEffect(() => {
+    if(!isRecommendedCourseShow){
+    setRecommendedCoursesById(null);
+    }
+  }, [isRecommendedCourseShow])
+  
+
+  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
+    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+    queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
+    enabled: !!recommendedCoursesById
   });
-  const handleEnroll = (id: number) => {
-    enrollRequest({
-      versionId: id,
-      companyId: +user?.CompanyId,
-    });
-  };
+
+  const handleClose = () => {
+    setIsRecommendedCourseShow(false); 
+    setRecommendedCoursesById(null);
+  }
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
     const currentDate = new Date();
@@ -105,7 +107,7 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
           },
         };
 
-    console.log("upcomingData", upcomingData, findIndex);
+    console.log("upcomingData", data);
 
     return (
       <div
@@ -151,7 +153,26 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
+
+      <Modal
+        open={isRecommendedCourseShow}
+        onClose={handleClose}
+        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+      >
+        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+      </Modal>
+
+
       {data?.map((allcourse: AllCourse) => {
+        const maturityLevel =
+          selectedCourse &&
+          allcourse?.courseData?.find(
+            (item) =>
+              item.fetchPillar?.pillarName === selectedCourse?.pillarName
+          );
+          console.log("allcourse", allcourse?.cohortGroups);
+          
+
         return (
           <>
             <div
@@ -160,8 +181,8 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
             >
               <div className="relative overflow-hidden h-[231px]">
                 <img
-                  className="object-cover object-center"
-                  src={nature}
+                  className="w-full object-cover object-center"
+                  src={allcourse?.bannerImage}
                   alt="Course"
                 />
                 <input
@@ -171,7 +192,7 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
                 <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                   <FaStar className="text-[#FD8E1F]" />
                   <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                    Advanced
+                    {maturityLevel?.fetchMaturity?.maturityLevelName}
                   </span>
                 </div>
               </div>
@@ -293,29 +314,13 @@ const CourseGridPage = ({ data, reCommendedCourses }: dataGridProps) => {
                 <div className="border-t py-[13px] px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
                   {getUpcommingCohort(allcourse)}
                   <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
-                    <button
-                      disabled={
-                        reCommendedCourses?.some(
-                          (item) =>
-                            item?.id === allcourse?.id
-                        )
-                          ? true
-                          : false
-                      }
-                      onClick={() =>
-                        handleEnroll(allcourse?.currentVersion?.id)
-                      }
-                      className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
+                    <Button
+                      onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(allcourse?.id)}}
+                      className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                      disabled={!allcourse?.enrolled}
                     >
-                      {isPending ? (
-                        <Loader
-                          containerClassName="h-auto"
-                          className="group-hover:text-white"
-                        />
-                      ) : (
-                        "Enroll Now"
-                      )}
-                    </button>
+                      Enroll Now
+                    </Button>
                   </div>
                 </div>
               </div>

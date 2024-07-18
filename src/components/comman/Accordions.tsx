@@ -18,7 +18,9 @@ type AccordionsProps = {
   border?: boolean;
   className?: string;
   triggerClassName?: string;
+  itemsClass?: string;
   isPlusIcon?: boolean;
+  customIconClassName?: string;
 };
 
 const Accordions = ({
@@ -30,8 +32,10 @@ const Accordions = ({
   background = false,
   border = true,
   className,
+  itemsClass,
   triggerClassName,
   isPlusIcon,
+  customIconClassName,
 }: AccordionsProps) => {
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
@@ -42,11 +46,16 @@ const Accordions = ({
         {items?.map((item, index) => {
           return (
             <AccordionItem
-              className={`overflow-hidden  ${
-                rounded ? "rounded-lg" : "rounded-none"
-              } ${padding ? "p-5" : "p-0"} ${
-                border ? "border" : "border-none p-0"
-              }`}
+              className={
+                (cn(
+                  `overflow-hidden  ${
+                    rounded ? "rounded-lg" : "rounded-none"
+                  } ${padding ? "p-5" : "p-0"} ${
+                    border ? "border" : "border-none p-0"
+                  }`
+                ),
+                itemsClass)
+              }
               key={index}
               value={`item-${index + 1}`}
             >
@@ -55,6 +64,7 @@ const Accordions = ({
                   `${background ? "p-5 bg-[#F8F8F8]" : "p-0"} items-center`,
                   triggerClassName
                 )}
+                customIconClassName={customIconClassName}
                 isPlusIcon={isPlusIcon}
               >
                 {item.title}

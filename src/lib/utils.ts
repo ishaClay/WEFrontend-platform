@@ -101,7 +101,7 @@ export const sidebarLayout = {
         },
         {
           label: "Live Sessions",
-          link: "/trainer/allcourses",
+          link: "/trainer/create_course",
         },
       ],
     },
@@ -237,7 +237,7 @@ export const sidebarLayout = {
     {
       label: "Message",
       Icon: PiEnvelopeThin,
-      link: "/trainee/messaging",
+      link: "/trainee/message",
       children: [],
     },
     {
@@ -525,11 +525,14 @@ export const getRandomHexColor = () => {
   return color;
 };
 
-
 export const getTotalDuration = (data: any) => {
   return data?.reduce((totalSeconds: any, readingTime: any) => {
-    const { hour, minute, second } = readingTime;
-    return totalSeconds + (hour * 3600) + (minute * 60) + second;
+    return (
+      totalSeconds +
+      readingTime?.hour * 3600 +
+      readingTime?.minute * 60 +
+      readingTime?.second
+    );
   }, 0);
 };
 
@@ -546,9 +549,6 @@ export function getTimeAgo(time: Date | string) {
   const daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   const weeksAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
 
-  console.log("weeksAgo", weeksAgo, daysAgo, hoursAgo, minutesAgo);
-
-
   if (minutesAgo < 1) {
     return "Just now";
   } else if (minutesAgo < 60) {
@@ -562,10 +562,8 @@ export function getTimeAgo(time: Date | string) {
   }
 }
 
-
 export const fetchMessageRoles = (role: number) => {
   let MessageRoles: any = [];
-
   if (role === UserRole.Trainer) {
     MessageRoles = ['client', 'employee', "company", "trainee"];
   } else if (role === UserRole.Company) {
@@ -575,6 +573,5 @@ export const fetchMessageRoles = (role: number) => {
   } else if (role === UserRole.Employee) {
     MessageRoles = ['company', "trainee", "trainer Company"];
   }
-
-  return MessageRoles
-}
+  return MessageRoles;
+};

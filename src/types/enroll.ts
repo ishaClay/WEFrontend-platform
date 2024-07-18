@@ -2,6 +2,10 @@
 export interface enroll {
   versionId?: number;
   companyId?: number;
+  numberOfEmployee?: number;
+  price?: number;
+  cohortGroupId?: number;
+  isdiscounted?: number;
 }
 
 export enum Enroll {
@@ -31,7 +35,24 @@ export interface CourseVersion {
   createdAt: string;
   updatedAt: string;
   course: Course;
+  cohortGroup: CohortGroupType[];
 }
+export interface CohortGroupType {
+  id: number;
+  name: string;
+  publish: number;
+  slotStartDate: SlotStartDateOrSlotEndDate;
+  slotEndDate: SlotStartDateOrSlotEndDate;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface SlotStartDateOrSlotEndDate {
+  date: string;
+  month: string;
+  year: string;
+}
+
 export interface Company {
   id: number;
   companyId: string;

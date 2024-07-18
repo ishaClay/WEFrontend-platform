@@ -6,6 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SidebarContext } from "@/context/Sidebarcontext";
+import { cn } from "@/lib/utils";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,11 +22,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Input } from "../../components/ui/input";
 import Paginations from "./Pagination";
 import search from "/assets/icons/search.svg";
-import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,6 +58,7 @@ export function NewDataTable<TData, TValue>({
   isLoading,
   searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
+  const { sidebarOpen } = useContext(SidebarContext);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -97,7 +99,13 @@ export function NewDataTable<TData, TValue>({
   };
 
   return (
-    <div className="lg:w-[calc(100vw-300px)] w-[calc(100vw-40px)]">
+    <div
+      className={`${
+        sidebarOpen
+          ? "lg:w-[calc(100vw-300px)] w-[calc(100vw-40px)]"
+          : "lg:w-[calc(100vw-100px)] w-[calc(100vw-40px)]"
+      }`}
+    >
       {!!inputbox && (
         <div className="flex items-center py-4 relative">
           <Input

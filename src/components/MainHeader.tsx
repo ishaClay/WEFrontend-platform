@@ -1,31 +1,51 @@
-import Logo2 from "../assets/images/logo2.png";
-import { VscBellDot } from "react-icons/vsc";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { useEffect, useState } from "react";
-import DrawerPage from "./DrawerPage";
+import { SidebarContext } from "@/context/Sidebarcontext";
+import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
-import { SidebarItem } from "./layouts/DashboardLayout";
+import { fetchNotificationCount } from "@/services/apiServices/notificationServices";
+import { useQuery } from "@tanstack/react-query";
 import { AlignLeft } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
+import { VscBellDot } from "react-icons/vsc";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Logo2 from "../assets/images/logo2.png";
+import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
+import Modal from "./comman/Modal";
+import DrawerPage from "./DrawerPage";
+import { SidebarItem } from "./layouts/DashboardLayout";
+import ModalTabs from "./myCourse/ModalTab/ModalTabs";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import Modal from "./comman/Modal";
-import ModalTabs from "./myCourse/ModalTab/ModalTabs";
 
 type mainHeraderProps = {
-  title: string;
+  title: {
+    link?: string;
+    label: string;
+  }[];
 };
 
 const MainHeader = ({ title }: mainHeraderProps) => {
+  const navigate = useNavigate();
+
+  const { UserId } = useSelector((state: any) => state.user);
+
   const [open, setOpen] = useState(false);
+  const { setSidebarOpen, sidebarOpen } = useContext(SidebarContext);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
   const [data, setData] = useState<SidebarItem[]>([]);
+
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
+
   useEffect(() => {
     switch (+userRole) {
       case 1:
@@ -42,27 +62,61 @@ const MainHeader = ({ title }: mainHeraderProps) => {
         break;
     }
   }, [userRole]);
+
+  const { data: notification_count } = useQuery({
+    queryKey: [QUERY_KEYS.notificationCount],
+    queryFn: () => fetchNotificationCount(UserId),
+  });
+
   return (
     <>
       <header className="sm:bg-[#FAFAFA] bg-transparent">
         <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3">
             <li className="">
-              <AlignLeft
-                className="sm:w-8 sm:h-8 h-6 w-6"
+              <Button
+                type="button"
+                variant={"ghost"}
                 onClick={() => setOpen(true)}
-              />
+                className="lg:hidden block h-auto hover:bg-transparent"
+              >
+                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+              </Button>
+              <Button
+                variant={"ghost"}
+                type="button"
+                className="lg:block hidden h-auto hover:bg-transparent"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+              </Button>
             </li>
 
-            <li className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize">
-              {title}
+            <li className="">
+              {/* {title} */}
+              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
+                Welcome {userData?.query?.email?.split("@")[0]}
+              </h3>
+              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
             </li>
           </ul>
 
           <div className="flex xl:gap-4 sm:gap-3 gap-1">
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
-              <VscBellDot className="w-[24px] h-[24px] " />
-
+              <button
+                type="button"
+                className="relative inline-flex items-center justify-center w-[45px] h-[45px] text-sm  text-center bg-[#F5F5F5] rounded-[50%] focus:ring-4"
+              >
+                <IoIosNotificationsOutline
+                  className="text-[30px]"
+                  onClick={() => navigate(`/${currentUser}/notification-list`)}
+                />
+                {notification_count?.data?.count > 0 && (
+                  <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
+                    {notification_count?.data?.count}
+                  </div>
+                )}
+              </button>
               <div className="flex items-center gap-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="text-[18px] flex items-center gap-1">
@@ -91,7 +145,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
                 </DropdownMenu>
               </div>
             </div>
-            <div className="">
+            <div className="lg:block hidden">
               <img
                 className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
                 src={Logo2}
@@ -100,7 +154,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
             </div>
           </div>
         </div>
-        <div className="p-5 text-[#3A3A3A] font-[calibri] items-center justify-between w-full sm:hidden block">
+        <div className="sm:p-5 px-5 pt-5 pb-0 text-[#3A3A3A] font-[calibri] items-center justify-between w-full sm:hidden block">
           <div className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 justify-between">
             <div className="flex items-center gap-2.5">
               <div className="">
@@ -111,7 +165,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               </div>
 
               <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
-                {title}
+                {title[title?.length - 1]?.label}
               </p>
             </div>
             <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">

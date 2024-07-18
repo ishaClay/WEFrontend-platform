@@ -9,7 +9,7 @@ import { fetchAllCourse, fetchPillar } from "@/services/apiServices/allcourse";
 import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
 import { Pillarcourse } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -24,7 +24,7 @@ function CoursesAllCourse() {
 
   const { data: allcourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
-    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search),
+    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search, user?.clientId, user?.UserId, user?.CompanyId),
   });
   const searchUrl = window.location.search;
   const params = new URLSearchParams(searchUrl).get("view");
@@ -45,7 +45,7 @@ function CoursesAllCourse() {
     queryFn: () => fetchPillar(user?.clientId),
   });
 
-  const { data: recommendedcourses} = useQuery({
+  const { data: recommendedcourses } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
     queryFn: () =>
       fetchRecommendedCourses({
@@ -54,10 +54,16 @@ function CoursesAllCourse() {
         search,
       }),
   });
-  
+
   const handleCourseClick = (course: Pillarcourse) => {
     setSelectedCourse(course);
   };
+
+  useEffect(() => {
+    if (pillarcourse?.data.data) {
+      setSelectedCourse(pillarcourse?.data.data[0]);
+    }
+  }, [pillarcourse?.data.data]);
 
   console.log(selectedCourse);
   return (
@@ -140,17 +146,25 @@ function CoursesAllCourse() {
           {isLoading ? (
             <Loader className="h-10 w-10" />
           ) : (
-              <>
-                {params === "0" || !params ? (
-                  <div className="grid gap-5 py-[22px] px-5 xl:grid-cols-3 grid-cols-2">
-                    <CourseGridPage data={allcourse?.data?.data} reCommendedCourses={recommendedcourses?.data || []} />
-                  </div>
-                ) : (
-                  <div className="py-[22px] px-5">
-                    <CourseListPage data={allcourse?.data?.data} reCommendedCourses={recommendedcourses?.data || []} />
-                  </div>
-                )}
-              </>
+            <>
+              {params === "0" || !params ? (
+                <div className="grid gap-5 py-[22px] px-5 xl:grid-cols-3 grid-cols-2">
+                  <CourseGridPage
+                    data={allcourse?.data?.data}
+                    reCommendedCourses={recommendedcourses?.data || []}
+                    selectedCourse={selectedCourse}
+                  />
+                </div>
+              ) : (
+                <div className="py-[22px] px-5">
+                  <CourseListPage
+                    data={allcourse?.data?.data}
+                    reCommendedCourses={recommendedcourses?.data || []}
+                    selectedCourse={selectedCourse}
+                  />
+                </div>
+              )}
+            </>
           )}
         </>
       </div>

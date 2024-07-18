@@ -26,7 +26,7 @@ export function BreadcrumbWithCustomSeparator({
               <>
                 <BreadcrumbItem>
                   <BreadcrumbLink
-                    className="font-calibri text-[16px]"
+                    className="font-calibri text-[16px] capitalize"
                     href={item.link}
                   >
                     {item.label}
@@ -37,7 +37,7 @@ export function BreadcrumbWithCustomSeparator({
                 </BreadcrumbSeparator>
               </>
             ) : (
-              <BreadcrumbPage className="font-calibri text-[16px]">
+              <BreadcrumbPage className="font-calibri text-[16px] capitalize">
                 {item.label}
               </BreadcrumbPage>
             )}

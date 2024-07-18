@@ -184,19 +184,24 @@ const TrainerManagement = () => {
                   `/trainer/trainer-management/details/${row?.original?.id}`
                 )
               }
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Eye className="text-[#A3A3A3] w-5" />
             </Button>
             <Button
               variant={"ghost"}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              onClick={() =>
+                navigate(
+                  `/trainer/trainer-management/edit/${row?.original?.id}`
+                )
+              }
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Pencil className="text-[#A3A3A3] w-4 h-4" />
             </Button>
             <Button
               variant={"ghost"}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Trash2 className="text-[#A3A3A3] w-4 h-4" />
             </Button>
@@ -221,7 +226,10 @@ const TrainerManagement = () => {
           <h3 className="text-[16px] font-[700] font-nunito mb-1">
             Trainer Management
           </h3>
-          <p className="text-[#606060] text-[15px]">The full list of all your enrolled trainers, with a quick-view of their details </p>
+          <p className="text-[#606060] text-[15px]">
+            The full list of all your enrolled trainers, with a quick-view of
+            their details{" "}
+          </p>
         </div>
         <Button
           type="button"

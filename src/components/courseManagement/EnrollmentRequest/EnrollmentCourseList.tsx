@@ -12,22 +12,28 @@ const EnrollmentCourseList = ({ status }: { status: string }) => {
     useQuery({
       queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
       queryFn: () => fetchEnrollmentRequest(UserId, statusparams),
-    });    
+    });
 
   return (
     <>
       <div>
-        <div className="pb-4">
+        <div className="sm:pb-4 pb-0">
           {fetchEnrollRequestPending ? (
             <Loader />
           ) : (
             <>
               {fetchEnrollRequestData &&
-                fetchEnrollRequestData.data.data?.length > 0 ? fetchEnrollRequestData.data.data.map(
+              fetchEnrollRequestData.data.data?.length > 0 ? (
+                fetchEnrollRequestData.data.data.map(
                   (data: any, index: number) => {
                     return <EnrollmentCourseListCard key={index} data={data} />;
                   }
-                ) : <span className="text-center block py-10 text-xl">No data found</span>}
+                )
+              ) : (
+                <span className="text-center block py-10 text-xl">
+                  No data found
+                </span>
+              )}
             </>
           )}
         </div>

@@ -1,11 +1,9 @@
-import { Route, Routes } from "react-router-dom";
-import Auth from "./pages/auth/Auth";
-import RegisterTrainer from "./pages/auth/RegisterTrainer";
-
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
@@ -72,6 +70,8 @@ import MyCoursesAll from "./pages/MyCoursesAll";
 import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
 import MyCoursesInformaction from "./pages/MyCoursesInformaction";
 import MyCoursesSocial from "./pages/MyCoursesSocial";
+import Notification from "./pages/Notification";
+import NotificationListPage from "./pages/NotificationListPage";
 import ProfileSetting from "./pages/ProfileSetting";
 import QuestionPage from "./pages/QuestionPage";
 import RatingPopup from "./pages/RatingPopup";
@@ -88,14 +88,15 @@ import TrainerManagementPage from "./pages/TrainerManagement";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+import Auth from "./pages/auth/Auth";
 import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 import Register from "./pages/auth/Register";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
+import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CertificateTempletePage from "./pages/certificateManagement";
 import CourseManagement from "./pages/courseManagement";
-import Assecessment from "./pages/courseManagement/AddAssecessment";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
@@ -117,6 +118,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+// import Addcertificate from "./components/certificateTemplete/Addcertificate";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -612,9 +614,9 @@ function App() {
         <Route
           path="/employeerodemap"
           element={
-            // <ProtectedRoute>
-            <EmployeeRodemap />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <EmployeeRodemap />
+            </ProtectedRoute>
           }
         />
         <Route
@@ -664,15 +666,20 @@ function App() {
           />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route path="messaging" element={<Messaging />} />
         </Route>
 
         <Route
           path="/employee"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
@@ -680,15 +687,11 @@ function App() {
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}
           />
-          {/* <Route path="allcourses" element={<CoursesAllCourse />} /> */}
           <Route path="mycourses" element={<MyCoursesList />} />
-          {/* <Route path="certificate" element={<EmployeeList />} /> */}
           <Route path="certifications" element={<CertificationsPage />} />
           <Route path="my-accomplishments" element={<Accomplishments />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="usermenual" element={<UserManualPage />} />
-          {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
-          <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
@@ -702,6 +705,11 @@ function App() {
           <Route path="retakeAssessment" element={<QuestionPage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
           <Route path="live-session" element={<LiveSessionPage />} />
         </Route>
@@ -715,10 +723,6 @@ function App() {
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="create_course" element={<CourseManagement />} />
@@ -728,13 +732,6 @@ function App() {
           />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
-          <Route path="create_course" element={<CourseManagement />} />
-          <Route path="certificate" element={<EmployeeList />} />
-          <Route path="support-faqslist" element={<FaqsListPage />} />
-          {/* <Route path="faqslist" element={<FaqsList />} /> */}
-          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
-          <Route path="support-request" element={<SupportRequestPage />} />
-
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
@@ -743,8 +740,12 @@ function App() {
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
+          <Route path="support-faqslist" element={<FaqsListPage />} />
+          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
@@ -753,18 +754,14 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route
-            path="employee-basic-course/:courseId"
-            element={<BasicCoursePage />}
-          />
         </Route>
 
         <Route
           path="/trainer"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
@@ -785,22 +782,23 @@ function App() {
             element={<TrainerDetails />}
           />
           <Route
+            path="trainer-management/edit/:id"
+            element={<TrainerDetailsEdit />}
+          />
+          <Route
             path="trainer-management/invitation"
             element={<TrainerInvitation />}
           />
-          <Route path="coursemanagement" element={<CourseManagement />} />
-          <Route path="addassecessment" element={<Assecessment />} />
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
+
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
-          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
-          {/* <Route path="support-request" element={<SupportRequestPage />} /> */}
           <Route path="support-request" element={<SupportRequest />} />
           <Route
             path="support-training-documnet"
@@ -810,7 +808,10 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route path="support-request/add-new-ticket" element={<SupportAddNewTicket />} />
+          <Route
+            path="support-request/add-new-ticket"
+            element={<SupportAddNewTicket />}
+          />
           <Route
             path="schedule-live-session"
             element={<ScheduleLiveSession />}
@@ -818,6 +819,11 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}

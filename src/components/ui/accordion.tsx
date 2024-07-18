@@ -22,29 +22,37 @@ const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
     isPlusIcon?: boolean;
+    customIconClassName?: string;
   }
->(({ className, children, isPlusIcon = false, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "flex flex-1 items-center justify-between py-0 md:!p-5 !p-4 font-medium transition-all group [&[data-state=open]>svg]:rotate-180",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      {isPlusIcon ? (
-        <>
-          <Plus className="xl:w-8 xl:h-8 h-6 w-6 shrink-0 transition-transform duration-200 group-data-[state=open]:hidden" />
-          <Minus className="xl:w-8 xl:h-8 h-6 w-6 hidden shrink-0 transition-transform duration-200 group-data-[state=open]:block" />
-        </>
-      ) : (
-        <ChevronDown className="2xl:h-7 2xl:w-7 sm:w-6 sm:h-6 w-5 h-5 shrink-0 transition-transform duration-200" />
-      )}
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
+>(
+  (
+    { className, children, isPlusIcon = false, customIconClassName, ...props },
+    ref
+  ) => (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        ref={ref}
+        className={cn(
+          "flex flex-1 items-center justify-between py-0 font-medium transition-all group [&[data-state=open]>svg]:rotate-180",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        {isPlusIcon ? (
+          <>
+            <Plus className="xl:w-8 xl:h-8 h-6 w-6 shrink-0 transition-transform duration-200 group-data-[state=open]:hidden" />
+            <Minus className="xl:w-8 xl:h-8 h-6 w-6 hidden shrink-0 transition-transform duration-200 group-data-[state=open]:block" />
+          </>
+        ) : (
+          <ChevronDown
+            className={`2xl:h-7 2xl:w-7 sm:w-6 sm:h-6 w-5 h-5 shrink-0 transition-transform duration-200 ${customIconClassName}`}
+          />
+        )}
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+);
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionContent = React.forwardRef<

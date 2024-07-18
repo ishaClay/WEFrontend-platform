@@ -265,8 +265,8 @@ const Compose = () => {
     data: FieldValues
   ) => {
     handleSend({
-      senderId: data.to,
-      receiverId: UserId,
+      senderId: UserId,
+      receiverId: data.to,
       message: data?.message,
       images: images,
     });
@@ -395,7 +395,7 @@ const Compose = () => {
                 <SelectContent>
                   {emailtemplateList?.data.data.map((item: any) => {
                     return (
-                      <SelectItem value={String(item?.id)}>
+                      <SelectItem key={item?.id} value={String(item?.id)}>
                         {item?.name}
                       </SelectItem>
                     );

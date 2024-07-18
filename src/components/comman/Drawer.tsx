@@ -3,6 +3,7 @@ import { Sheet, SheetContent, SheetHeader } from "../ui/sheet";
 
 interface DrawerProps {
   open?: boolean;
+  hideClose?: boolean;
   onClose: () => void;
   label?: React.ReactNode;
   children: React.ReactNode;
@@ -18,11 +19,12 @@ const Drawer = ({
   children,
   className,
   side = "left",
+  hideClose = false,
 }: DrawerProps) => {
   return (
     <Sheet open={open} onOpenChange={onClose}>
       {label}
-      <SheetContent side={side} className={className}>
+      <SheetContent hideClose={hideClose} side={side} className={className}>
         <SheetHeader>{headerConent}</SheetHeader>
         {children}
       </SheetContent>

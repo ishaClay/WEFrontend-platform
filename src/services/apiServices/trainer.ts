@@ -22,6 +22,12 @@ export const getTrainer = async ({
   return response.data;
 };
 
+export const trainerDetailsUpdate = async ({ data, id }: { data: any, id: string }) => {
+  const url = `api/v1/trainer/update/${id}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+};
+
 export const sendOtp = async ({ email }: { email: string }) => {
   const url = `api/v1/user/send-otp`;
   const response = await api({ url, data: { email }, method: "post" });

@@ -95,15 +95,15 @@ const MaturityLevel = () => {
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
-      <div className="relative grid grid-cols-12 items-center sm:gap-0 gap-4">
-        <div className="xl:col-span-2 sm:col-span-4 col-span-8">
-          <div className="md:w-52 w-44 h-44 md:h-52 relative">
+      <div className="relative grid grid-cols-12 items-center">
+        <div className="xl:col-span-2 sm:col-span-4 col-span-6 sm:order-1 order-2">
+          <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
           </div>
         </div>
-        <div className="xl:col-span-10 sm:col-span-8 col-span-12 border border-[#D9D9D9] rounded-xl h-[200px] flex items-center relative overflow-hidden">
-          <div className="sm:ps-10 ps-6">
-            <div className="md:mb-5 mb-0">
+        <div className="xl:col-span-10 sm:col-span-8 col-span-6 sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
+          <div className="sm:ps-10 ps-0">
+            <div className="md:mb-5 mb-0 sm:block hidden">
               <p className="inline">Your overall sustainability Score -</p>{" "}
               <span className="font-poppins font-bold text-[#000000] leading-6">
                 Intermediate
@@ -116,33 +116,39 @@ const MaturityLevel = () => {
           <img
             src={Ellipse_one}
             alt="ellipse"
-            className="absolute xl:right-[10%] right-[5%] bottom-0 m-auto"
+            className="absolute xl:right-[10%] right-[5%] bottom-0 m-auto sm:block hidden"
           />
           <img
             src={Ellipse_two}
             alt="ellipse"
-            className="absolute top-0 right-0"
+            className="absolute top-0 right-0 sm:block hidden"
           />
           <img
             src={Ellipse_three}
             alt="ellipse"
-            className="absolute top-0 right-0"
+            className="absolute top-0 right-0 sm:block hidden"
           />
           <img
             src={Ellipse_four}
             alt="ellipse"
-            className="absolute top-0 right-[20%]"
+            className="absolute top-0 right-[20%] sm:block hidden"
           />
           <img
             src={Ellipse_five}
             alt="ellipse"
-            className="absolute bottom-0 right-[20%]"
+            className="absolute bottom-0 right-[20%] sm:block hidden"
           />
           <img
             src={Ellipse_five}
             alt="ellipse"
-            className="absolute bottom-[-10px] right-[21%]"
+            className="absolute bottom-[-10px] right-[21%] sm:block hidden"
           />
+        </div>
+        <div className="md:mb-5 mb-0 sm:hidden block col-span-12 order-3">
+          <p className="inline">Your overall sustainability Score -</p>{" "}
+          <span className="font-poppins font-bold text-[#000000] leading-6">
+            Intermediate
+          </span>
         </div>
       </div>
     </div>

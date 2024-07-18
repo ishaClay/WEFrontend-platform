@@ -6,16 +6,21 @@ import DrawerPage from "./DrawerPage";
 import { sidebarLayout } from "@/lib/utils";
 import { SidebarItem } from "./layouts/DashboardLayout";
 import { Button } from "./ui/button";
+import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 
 type headerTitleProps = {
-  title: string;
-  subtitle?: string;
+  title: {
+    label: string;
+    link?: string;
+  }[];
 };
 
-const EmployeeHeader = ({ title, subtitle }: headerTitleProps) => {
+const EmployeeHeader = ({ title }: headerTitleProps) => {
   const [open, setOpen] = useState(false);
-  const userData = localStorage.getItem("user");
-  const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  // const userData = localStorage.getItem("user");
+  // const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userRole = userData?.query?.role;
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
@@ -48,14 +53,13 @@ const EmployeeHeader = ({ title, subtitle }: headerTitleProps) => {
               <ChevronLeft />
             </Button>
             <h4
-              className={`${
-                subtitle ? `sm:block hidden` : `block`
-              } xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize`}
+              className={`xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize`}
             >
-              {title}
-            </h4>
-            <h4 className="xl:text-2xl md:text-lg text-[18px] font-medium font-nunito sm:text-[#00778B] text-black">
-              {subtitle}
+              {/* {title} */}
+              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
+                Welcome {userData?.query?.email?.split("@")[0]}
+              </h3>
+              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
             </h4>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">

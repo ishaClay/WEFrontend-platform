@@ -1,59 +1,65 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import Modal from "@/components/comman/Modal";
-import { toast } from "@/components/ui/use-toast";
-import { fetchEnroll } from "@/services/apiServices/enroll";
-import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import moment from "moment";
-import { useState } from "react";
-import { FaStar } from "react-icons/fa6";
-import CohortModel from "./CohortModel";
-import { useAppSelector } from "@/hooks/use-redux";
-import speed from "@/assets/images/Speed.png";
-import fulltime from "@/assets/images/fulltime.png";
-import diploma from "@/assets/images/diploma.png";
-import unversity from "@/assets/images/unversity.png";
-import online from "@/assets/images/online.png";
-import time from "@/assets/images/time.png";
-import nature from "@/assets/images/nature.png";
 import lightOn from "@/assets/images/LightOn.png";
 import neighbour from "@/assets/images/Neighbour.png";
-import { RecommendedCourses } from "@/types/RecommendedCourses";
+import speed from "@/assets/images/Speed.png";
+import diploma from "@/assets/images/diploma.png";
+import fulltime from "@/assets/images/fulltime.png";
+import online from "@/assets/images/online.png";
+import time from "@/assets/images/time.png";
+import unversity from "@/assets/images/unversity.png";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
+import Modal from "@/components/comman/Modal";
+import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
-import { ErrorType } from "@/types/Errors";
+import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
+import { RecommendedCourses } from "@/types/RecommendedCourses";
+import {
+  AllCourse,
+  CourseTime,
+  IsOnline,
+  Pillarcourse,
+} from "@/types/allcourses";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa6";
+import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  reCommendedCourses : RecommendedCourses[];
+  reCommendedCourses: RecommendedCourses[];
+  selectedCourse: Pillarcourse | null;
 };
 
-const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
-  const  { CompanyId }  = useAppSelector((state) => state.user);
+const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<
+    number | null
+  >();
+  const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
-  const queryClient = useQueryClient();
-  const { mutate: enrollRequest } = useMutation({
-    mutationFn: fetchEnroll,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchbyrecommendedcourse] });
-      toast({
-        variant: "success",
-        title: data?.data?.message,
-      });
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error?.data?.message,
-      });
-    },
-  });
 
-  const handleEnroll = (id: number) => {
-    enrollRequest({
-      versionId: id,
-      companyId: +CompanyId,
-    });
+  useEffect(() => {
+    if (!isRecommendedCourseShow) {
+      setRecommendedCoursesById(null);
+    }
+  }, [isRecommendedCourseShow]);
+
+  const handleClose = () => {
+    setIsRecommendedCourseShow(false);
+    setRecommendedCoursesById(null);
   };
+
+  const {
+    data: fetchCourseDiscountEnrollFun,
+    isPending: isPendingCourseDEnroll,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchCourseDiscountEnroll,
+      { recommendedCoursesById },
+    ],
+    queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
+    enabled: !!recommendedCoursesById,
+  });
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
     const currentDate = new Date();
@@ -152,7 +158,33 @@ const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
       >
         <CohortModel isCohortShow={isCohortShow} />
       </Modal>
+
+      <Modal
+        open={isRecommendedCourseShow}
+        onClose={handleClose}
+        className={`py-[60px] px-6 ${
+          isPendingCourseDEnroll
+            ? "h-[200px]"
+            : fetchCourseDiscountEnrollFun?.data &&
+              fetchCourseDiscountEnrollFun?.data?.length > 0
+            ? "max-w-[800px] max-h-[800px] h-auto"
+            : "h-[200px]"
+        }`}
+      >
+        <RecommendedCoursesModel
+          data={fetchCourseDiscountEnrollFun?.data || []}
+          isLoading={isPendingCourseDEnroll}
+          setOpen={setIsRecommendedCourseShow}
+        />
+      </Modal>
+
       {data?.map((allcourse: AllCourse) => {
+        const maturityLevel =
+          selectedCourse &&
+          allcourse?.courseData?.find(
+            (item) =>
+              item.fetchPillar?.pillarName === selectedCourse?.pillarName
+          );
         return (
           <>
             <div
@@ -161,10 +193,10 @@ const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
             >
               <div className="xl:col-span-2 col-span-3">
                 <div className="flex items-center">
-                  <div className="relative overflow-hidden max-w-[356px]">
+                  <div className="relative overflow-hidden w-full max-h-[221px] max-w-[356px]">
                     <img
-                      className="object-cover object-center w-full"
-                      src={nature}
+                      className="object-cover object-center w-full h-full"
+                      src={allcourse?.bannerImage}
                       alt="Course"
                     />
                     <input
@@ -174,7 +206,7 @@ const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
                     <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                       <FaStar className="text-[#FD8E1F]" />
                       <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                        Advanced
+                        {maturityLevel?.fetchMaturity?.maturityLevelName}
                       </span>
                     </div>
                   </div>
@@ -295,20 +327,16 @@ const CourseListPage = ({ data, reCommendedCourses }: dataGridProps) => {
                 <div className="xl:py-[13px] pb-0 pt-[13px]  xl:px-9 px-0 items-center xl:border-l xl:border-[#DDD]">
                   {getUpcommingCohort(allcourse)}
                   <div className="xl:text-right text-center mt-3">
-                    <button
-                      onClick={() => handleEnroll(allcourse?.currentVersion?.id)}
-                      disabled={
-                        reCommendedCourses?.some(
-                          (item) =>
-                            item?.id === allcourse?.id
-                        )
-                          ? true
-                          : false
-                      }
-                      className="2xl:px-[14px] xl:p-[10px] py-1 px-2 bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base"
+                    <Button
+                      onClick={() => {
+                        setIsRecommendedCourseShow(true);
+                        setRecommendedCoursesById(allcourse?.id);
+                      }}
+                      className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                      disabled={!allcourse?.enrolled}
                     >
                       Enroll Now
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

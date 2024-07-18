@@ -22,6 +22,7 @@ export interface AllCourse {
   cohortGroups: CohortData[],
   courseAlloted: courseAlloted[];
   currentVersion: CurrentVersionType;
+  enrolled: boolean;
   courseData: [
     {
       pillarId: number;

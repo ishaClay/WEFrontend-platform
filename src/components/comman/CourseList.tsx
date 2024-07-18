@@ -9,7 +9,7 @@ const CourseList = ({ rating }: CoursListProps) => {
     <div>
       <div className="flex items-center">
         <img src={star} alt="" />
-        <span className="pl-1 text-base font-bold">{rating}</span>
+        <span className="pl-1 text-base font-bold">{rating || 0}/5</span>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const SelectMenu: FC<IProps> = ({
       <SelectContent
         className={cn(`bg-white max-h-[250px] overflow-auto`, containClassName)}
       >
-        {option.map((item, index: number) => (
+        {option?.length > 0 ? option.map((item, index: number) => (
           <SelectItem
             key={index}
             value={item.value}
@@ -48,7 +48,7 @@ const SelectMenu: FC<IProps> = ({
           >
             {item.label}
           </SelectItem>
-        ))}
+        )) : <span className="text-center block py-1">No data found</span> }
       </SelectContent>
     </Select>
   );

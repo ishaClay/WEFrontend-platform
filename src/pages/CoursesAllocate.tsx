@@ -41,8 +41,6 @@ function CoursesAllocate() {
     queryFn: () => fetchAllocatedCourse(userData?.query?.id),
   });
 
-  console.log("courseallocate", course?.data);
-
   return (
     <div className="bg-[#f5f3ff]">
       <div className="p-3">
@@ -75,7 +73,7 @@ function CoursesAllocate() {
                 <>
                   <div key={courseallocate.id} className="p-4">
                     <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
-                      <div className="flex gap-[17px]">
+                      <div className="flex gap-[17px] w-[calc(100%-150px)]">
                         <div className="overflow-hidden rounded">
                         <img
                           src={courseallocate?.courseVersion?.course?.bannerImage}
@@ -220,9 +218,7 @@ function CoursesAllocate() {
                           <div className="flex items-center space-x-[-10px] mt-[10px]">
                             {courseallocate?.employee &&
                               courseallocate?.employee?.length > 0 &&
-                              courseallocate?.employee
-                                .slice(0, 5)
-                                ?.map((avatar, index: number) => {
+                              courseallocate?.employee?.slice(0, 5)?.map((avatar, index: number) => {
                                   const color = [
                                     "#cbd5e1",
                                     "#bae6fd",
@@ -247,7 +243,7 @@ function CoursesAllocate() {
                                                 backgroundColor: color[index],
                                               }}
                                             >
-                                              {avatar?.name?.charAt(0)}
+                                              12{avatar?.name?.charAt(0)}
                                             </AvatarFallback>
                                           </Avatar>
                                         </TooltipTrigger>
@@ -273,6 +269,7 @@ function CoursesAllocate() {
                       </div>
                       <Button
                         className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+                        onClick={() => {setPopupOpen(true); setOpenId(courseallocate?.id)}}
                       >
                         View Allocation
                       </Button>

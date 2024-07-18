@@ -52,14 +52,14 @@ const DashboardLayout = () => {
             className={`${
               Role === "employee"
                 ? "h-[calc(100vh-110px)]"
-                : "h-[calc(100vh-120px)]"
+                : "sm:h-[calc(100vh-120px)] h-[calc(100vh-164px)]"
             } overflow-auto p-5`}
           >
             <Outlet />
           </div>
         </div>
         {Role === "employee" && (
-          <div className="absolute bottom-0 right-0 bg-white z-[9999]">
+          <div className="absolute lg:bottom-0 lg:right-0 bottom-[20px] right-[20px] lg:bg-white bg-transparent z-[9999]">
             <EmployeeMessaging />
           </div>
         )}

@@ -1,9 +1,27 @@
 import api from "./api";
 
-export const fetchAllCourse = (pillerId: string, search: string) => {
-  const url = `api/v1/course/list?keyword=${search}&pillarid=${pillerId}`;
+export const fetchAllCourse = (pillerId: string, search: string, client: string, userId: string, companyId: string) => {
+  // const url = `api/v1/course/list?keyword=${search}&pillarid=${pillerId}`;
+  const url = `api/v1/course/list?keyword`;
+  let params: any = {};
 
-  return api({ url });
+  if(search){
+    params["keyword"] = search;
+  }
+  if(pillerId){
+    params["pillarid"] = pillerId;
+  }
+  if(client){
+    params["client"] = client;
+  }
+  if(userId){
+    params["userId"] = userId;
+  }
+  if(companyId){
+    params["companyId"] = companyId;
+  }
+
+  return api({ url, params });
 };
 
 export const fetchPillar = (id: string) => {

@@ -11,8 +11,6 @@ export interface TargetAudience {
   id: number;
   name: string;
 }
-
-
 export interface MaturityLevelOneResponse {
   data?: (MaturityLevelOneResult)[] | null;
   message: string;
@@ -57,3 +55,19 @@ export interface PillerId {
   createdAt: string;
   updatedAt: string;
 }
+export interface FetchAllMessageType {
+  data?: (MessageDataEntity)[] | null;
+}
+export interface MessageDataEntity {
+  id: number;
+  name: string;
+  email: string;
+  count: number;
+  last_msg: string;
+  last_msg_time: string;
+  image: string;
+  role: number;
+  isOnline: boolean;
+}
+
+

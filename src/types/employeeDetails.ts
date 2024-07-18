@@ -24,3 +24,22 @@ export interface EmployeeDetails {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface EmployeeResult {
+  data?: (EmployeeResponse)[];
+}
+
+export interface EmployeeResponse {
+  id: number;
+  name?: string;
+  email: string;
+  status: string;
+  employeeStatus: string;
+  profileImage?: string;
+  deletedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
+  editActionItem: boolean;
+  retakeSelfAssessment: boolean;
+  shareFeedback: boolean;
+}

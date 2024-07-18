@@ -51,25 +51,54 @@ const AllCourses = () => {
               The full list of your courses, in snapshot view
             </p>
           </div>
-          {(userData?.query?.role === UserRole.Trainee
-            ? userData?.user?.approved
-            : true) && (
-            <div>
+          <div className="flex justify-between items-center">
+            {(userData?.query?.role === UserRole.Trainee
+              ? userData?.user?.approved
+              : true) && (
+              <div>
+                <Button
+                  type="button"
+                  onClick={() =>
+                    navigate(
+                      `/${
+                        location?.pathname?.split("/")?.[1]
+                      }/create_course/tab=0&step=0&version=1`
+                    )
+                  }
+                  className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
+                >
+                  ADD NEW COURSE
+                </Button>
+              </div>
+            )}
+
+            <div className="sm:hidden flex">
               <Button
                 type="button"
-                onClick={() =>
-                  navigate(
-                    `/${
-                      location?.pathname?.split("/")?.[1]
-                    }/create_course/tab=0&step=0&version=1`
-                  )
-                }
-                className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
+                onClick={() => changeList(0)}
+                className="bg-transparent p-1 hover:bg-transparent"
               >
-                ADD NEW COURSE
+                <AiOutlineAppstore
+                  className={`w-8 h-8 ${
+                    params === "0" || !params
+                      ? "text-[#00778B]"
+                      : "text-[#A3A3A3]"
+                  }`}
+                />
+              </Button>
+              <Button
+                type="button"
+                onClick={() => changeList(1)}
+                className="bg-transparent p-1 hover:bg-transparent"
+              >
+                <AiOutlineBars
+                  className={`w-8 h-8 ml-2 ${
+                    params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                  }`}
+                />
               </Button>
             </div>
-          )}
+          </div>
         </div>
 
         <div className="flex items-center justify-between sm:py-5 sm:px-[18px] p-[15px]">
@@ -82,7 +111,7 @@ const AllCourses = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="sm:flex hidden ml-6">
+          <div className="sm:flex hidden">
             <Button
               type="button"
               onClick={() => changeList(0)}

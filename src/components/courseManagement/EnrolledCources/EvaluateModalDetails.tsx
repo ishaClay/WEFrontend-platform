@@ -68,19 +68,21 @@ const EvaluateModalDetails = () => {
     },
   ];
   return (
-    <div>
-      <div className="">
-        <h3 className="text-2xl font-calibri font-bold px-5">Evaluate</h3>
+    <div className="">
+      <div className="sm:px-5 px-4">
+        <h3 className="sm:text-2xl text-base font-calibri font-bold pb-2">
+          Evaluate
+        </h3>
         <p className="text-[#606060] text-[15px] font-abhaya leading-[15px]">
           See how many keywords have been correctly matched, and submit them to
           approve
         </p>
-        <ScrollArea className="h-[600px]">
-          {evaluteModal.map((data, index) => {
-            return <EvaluateModalDetailsItem key={index} data={data} />;
-          })}
-        </ScrollArea>
       </div>
+      <ScrollArea className="xl:h-[600px] sm:h-[500px] h-[400px]">
+        {evaluteModal.map((data, index) => {
+          return <EvaluateModalDetailsItem key={index} data={data} />;
+        })}
+      </ScrollArea>
     </div>
   );
 };
