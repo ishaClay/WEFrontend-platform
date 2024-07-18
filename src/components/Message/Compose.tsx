@@ -55,8 +55,6 @@ const Compose = () => {
   const { targetAudienceId } = useSelector((state: any) => state.user);
 
   const { role, UserId } = useSelector((state: any) => state.user);
-  const asdas = useSelector((state: any) => state);
-  console.log("asdas", asdas.user);
 
   const { toast } = useToast();
   const [client, setClient] = useState("");
@@ -64,7 +62,10 @@ const Compose = () => {
   const [selectTab, setSelectTab] = useState<number>(
     role === UserRole?.Trainer ? 1 : 5
   );
-  const [isActive, setIsActive] = useState("admin");
+  const [isActive, setIsActive] = useState(
+    role === UserRole?.Employee ? "company" : "client"
+  );
+
   // const [userRole, setUserRole] = useState<number>(role === UserRole?.Trainer ? 2 : 6);
   const [images, setImages] = useState<string[]>([]);
   const [selectToValue, setSelectToValue] = useState<any>();
@@ -78,7 +79,7 @@ const Compose = () => {
   useEffect(() => {
     if (role === UserRole?.Trainer) {
       setSelectTab(
-        isActive === "admin"
+        isActive === "client"
           ? MessageUserRole?.Client
           : isActive === "employee"
           ? MessageUserRole.Employee
@@ -88,7 +89,7 @@ const Compose = () => {
       );
     } else if (role === UserRole?.Company) {
       setSelectTab(
-        isActive === "admin"
+        isActive === "client"
           ? MessageUserRole?.Client
           : isActive === "employee"
           ? MessageUserRole.Employee
@@ -98,16 +99,22 @@ const Compose = () => {
       );
     } else if (role === UserRole?.Trainee) {
       setSelectTab(
-        isActive === "admin"
+        isActive === "client"
           ? MessageUserRole?.Trainer
           : isActive === "company"
           ? MessageUserRole?.Company
           : MessageUserRole?.Employee
       );
+    } else if (role === UserRole?.Employee) {
+      setSelectTab(
+        isActive === "company"
+          ? MessageUserRole?.Company
+          : isActive === "trainee"
+          ? MessageUserRole?.Trainee
+          : MessageUserRole?.Trainer
+      );
     }
   }, [isActive]);
-
-  console.log("images", images);
 
   const { data: fetchTargetUserbyList, refetch: refetchTargetUserby } =
     useQuery({
@@ -119,22 +126,27 @@ const Compose = () => {
     refetchTargetUserby();
   }, [selectTab]);
 
-  console.log("fetchTargetUserbyList", fetchTargetUserbyList?.data?.data);
-
   const fetchAssignToList = (selectType: string) => {
+    const selectedType =
+      selectType === "client" ? "admin" : selectType.replace(/ /g, "");
+
     if (role === UserRole?.Trainer) {
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
-          selectType
+          selectedType
         ]
       );
     } else if (role === UserRole?.Company) {
       setSelectToValue(
-        fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectType]
+        fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectedType]
       );
     } else if (role === UserRole?.Trainee) {
       setSelectToValue(
-        fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectType]
+        fetchTargetUserbyList?.data?.data?.[0]?.trainerDetails?.[selectedType]
+      );
+    } else if (role === UserRole?.Employee) {
+      setSelectToValue(
+        fetchTargetUserbyList?.data?.data?.[0]?.employeeDetails?.[selectedType]
       );
     }
   };
@@ -142,11 +154,6 @@ const Compose = () => {
   useEffect(() => {
     fetchAssignToList(isActive);
   }, [isActive, fetchTargetUserbyList]);
-
-  console.log(
-    "Company",
-    fetchTargetUserbyList?.data?.data?.[0]?.companyDetails
-  );
 
   const {
     data: emailtemplateList,
@@ -177,13 +184,6 @@ const Compose = () => {
     mode: "all",
   });
 
-  console.log(
-    "emailtemplateList?.data?.data",
-    emailtemplateList?.data?.data?.find(
-      (item: any) => item?.id === +chatMessage
-    )?.message
-  );
-
   useEffect(() => {
     setValue(
       "message",
@@ -197,8 +197,6 @@ const Compose = () => {
       )
     );
   }, [chatMessage]);
-
-  console.log("emailTemplateMessage", emailTemplateMessage?.message);
 
   useEffect(() => {
     setValue("to", "");
@@ -274,16 +272,6 @@ const Compose = () => {
     });
   };
 
-  console.log("rolerole", role);
-
-  console.log("errors", errors, client);
-  console.log("selectToValue", selectToValue);
-
-  console.log(
-    "selectToValue?.clientDetails?.name",
-    selectToValue?.clientDetails
-  );
-
   return (
     <>
       <Card className="border-0 shadow-none rounded-lg bg-white">
@@ -353,7 +341,7 @@ const Compose = () => {
                     selectToValue || selectToValue?.length > 0 ? false : true
                   }
                 >
-                  {isActive === "admin" ? (
+                  {isActive === "client" ? (
                     <SelectItem
                       value={String(selectToValue?.clientDetails?.id)}
                     >
@@ -363,8 +351,13 @@ const Compose = () => {
                   ) : selectToValue?.length > 0 ? (
                     selectToValue?.map((item: any) => {
                       return (
-                        <SelectItem value={String(item?.userDetails?.id)}>
-                          {item?.name || item?.email?.split("@")[0]}
+                        <SelectItem
+                          key={item?.userDetails?.id}
+                          value={String(item?.userDetails?.id)}
+                        >
+                          {isActive === "trainer Company"
+                            ? `${item?.contactFirstName} ${item?.contactSurname}`
+                            : item?.name || item?.email?.split("@")[0]}
                         </SelectItem>
                       );
                     })
@@ -401,9 +394,8 @@ const Compose = () => {
                 </SelectGroup>
                 <SelectContent>
                   {emailtemplateList?.data.data.map((item: any) => {
-                    console.log("itemitem+++", item);
                     return (
-                      <SelectItem value={String(item?.id)}>
+                      <SelectItem key={item?.id} value={String(item?.id)}>
                         {item?.name}
                       </SelectItem>
                     );

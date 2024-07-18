@@ -8,12 +8,12 @@ import {
   IsOnline,
   RecommendedCourses,
 } from "@/types/RecommendedCourses";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
-import { fetchEnroll } from "@/services/apiServices/enroll";
+import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { ErrorType } from "@/types/Errors";
 import speed from "@/assets/images/Speed.png";
 import diploma from "@/assets/images/diploma.png";
@@ -22,6 +22,9 @@ import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
 import unversity from "@/assets/images/unversity.png";
 import atu from "@/assets/images/atu.png";
+import { sendMessage } from "@/services/apiServices/chatServices";
+import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 function CourseListView({
   recommendeddata,
@@ -35,44 +38,81 @@ function CourseListView({
   const userData = useSelector((state: RootState) => state.user);
   const [isRecommendedCourse, setIsRecommendedCourseShow] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  // const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const pathName = location?.pathname?.split("/")[1];
+  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
+    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+    queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
+    enabled: !!recommendedCoursesById
+  });
 
-  const { mutate: enrollRequest, isPending } = useMutation({
-    mutationFn: fetchEnroll,
-    onSuccess: (data) => {
+  // const getPillerName = (pillerData: CourseDataEntity[]) => {
+  //   if (!pillerData) return null;
+  //   return pillerData?.map((item) => {
+  //     const pillarName = item?.fetchPillar?.pillarName;
+  //     const pillerColor = item?.fetchMaturity?.rangeStart >= 1 && item?.fetchMaturity?.rangeEnd <= 40 ? "bg-[#F63636] text-white" :
+  //       item?.fetchMaturity?.rangeStart >= 40.1 && item?.fetchMaturity?.rangeEnd <= 80 ? "bg-[#FFD56A] text-black" :
+  //         "bg-[#64A70B] text-white";
+
+  //     return <Badge
+  //       variant="outline"
+  //       className={`${pillerColor} border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
+  //     >
+  //       {pillarName}
+  //     </Badge>
+  //   })
+  // }
+
+
+  const { mutate: handleSend } = useMutation({
+    mutationFn: sendMessage,
+    onSuccess: ({ data }) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+        queryKey: [QUERY_KEYS.chatList],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatUserList],
       });
       toast({
         variant: "success",
         title: data?.data?.message,
       });
+      navigate(`/${pathName}/message`)
+      // socket.emit("new message", data?.data);
+      console.log("data+++++", data);
+      
     },
-    onError: (error: ErrorType) => {
+    onError:(error: ErrorType) => {
+      console.log("data+++++error", error);
+      setRecommendedCoursesById(null);
       toast({
         variant: "destructive",
         title: error?.data?.message,
       });
-    },
+    }
   });
 
-  const handleEnrollementRequest = (id: number) => {
-    enrollRequest({
-      versionId: id,
-      companyId: +userData?.CompanyId,
-    });
-  };
+  const handleInquire = (data: RecommendedCourses[] | any) => {
+    const payload = {
+      senderId: userData?.UserId,
+      receiverId: data?.trainerCompanyId ? data?.trainerCompanyId?.id : data?.trainerId?.id,
+      message: data?.title,
+      images: [data?.bannerImage]
+    }
+    handleSend(payload)
+  }
 
   return (
     <>
       <Modal
         open={isRecommendedCourse}
         onClose={() => setIsRecommendedCourseShow(false)}
-        className="max-w-[800px] max-h-[800px] h-[780px] py-[60px] px-6"
+        className={`py-[60px] px-6 ${isPendingCourseDEnroll || fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "h-[200px]" : "max-w-[800px] max-h-[800px] h-[780px]"}`}
       >
-        <RecommendedCoursesModel
-          handleSubmit={() => handleEnrollementRequest(1)}
-        />
+        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
       </Modal>
 
       <div>
@@ -202,15 +242,17 @@ function CourseListView({
                 </h3>
 
                 <Button
-                  onClick={() => handleEnrollementRequest(recommendeddata.id)}
-                  isLoading={isPending}
+                  onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(recommendeddata?.id)}}
                   className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                 >
                   Enroll Now
                 </Button>
-                <button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400">
-                  Inquire
-                </button>
+                <Button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                  onClick={() => {handleInquire(recommendeddata || []); setRecommendedCoursesById(recommendeddata?.id);}}
+                  disabled={recommendedCoursesById === recommendeddata?.id}
+                >
+                  {recommendedCoursesById === recommendeddata?.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Inquire
+                </Button>
               </div>
             </div>
           </div>

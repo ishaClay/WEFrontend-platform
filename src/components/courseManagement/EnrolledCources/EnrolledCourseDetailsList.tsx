@@ -2,36 +2,10 @@ import { AccordionOption } from "@/types";
 import EnrolledCourseDetailsItems from "./EnrolledCourseDetailsItems";
 import Accordions from "@/components/comman/Accordions";
 import EnrollCourseEmployeeDetailsList from "./EnrollCourseEmployeeDetailsList";
+import { CohortGroupType, Data } from "@/types/enroll";
 
-const EnrolledCourseDetailsList = () => {
-  const detailsList = [
-    {
-      cohortGroup: 1,
-      enrolledCompanies: 2,
-      enrolledEmployees: 10,
-      buttonAction: "onging",
-      startDate: "20-05-2024",
-      endDate: "30-05-2024",
-    },
-    {
-      cohortGroup: 1,
-      enrolledCompanies: 2,
-      enrolledEmployees: 10,
-      buttonAction: "upging",
-      startDate: "20-05-2024",
-      endDate: "30-05-2024",
-    },
-    {
-      cohortGroup: 1,
-      enrolledCompanies: 2,
-      enrolledEmployees: 10,
-      buttonAction: "Completed",
-      startDate: "20-05-2024",
-      endDate: "30-05-2024",
-    },
-  ];
-
-  const accordionItems: AccordionOption[] = detailsList.map((item) => {
+const EnrolledCourseDetailsList = ({ data }: Data | any) => {
+  const accordionItems: AccordionOption[] = data?.courseVersion?.cohortGroup?.map((item:CohortGroupType) => {
     return {
       title: <EnrolledCourseDetailsItems data={item} />,
       content: <EnrollCourseEmployeeDetailsList />,

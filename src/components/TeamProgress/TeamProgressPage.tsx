@@ -13,10 +13,12 @@ import TeamProgresslistInner from "./TeamProgresslistInner";
 
 const TeamProgressPage = () => {
   const [search, setSearch] = useState("");
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const companyId = userData?.query?.detailsid;
   const { data, isPending } = useQuery<EmployeeProgreeResponse>({
     queryKey: [QUERY_KEYS.getEmployeeProgress, { search }],
     queryFn: () =>
-      getEmployeeProgress({ id: 434, keyword: search, status: "" }),
+      getEmployeeProgress({ id: companyId, keyword: search, status: "" }),
   });
 
   console.log("data", data);

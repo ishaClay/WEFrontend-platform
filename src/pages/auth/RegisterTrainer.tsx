@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { ResendOtp } from "@/services/apiServices/authService";
 import { getCountry } from "@/services/apiServices/company";
@@ -41,6 +42,7 @@ function RegisterTrainer() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [showOtpPopup, setShowOtpPopup] = useState(false);
+  const { clientId } = useAppSelector((state) => state.user);
   const [otp, setOtp] = useState("");
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
@@ -195,6 +197,7 @@ function RegisterTrainer() {
     const getData = getValues();
     const payload = {
       ...getData,
+      clientId: clientId,
       otp,
     };
     // @ts-ignore

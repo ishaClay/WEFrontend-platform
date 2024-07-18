@@ -69,6 +69,8 @@ import MyCoursesAll from "./pages/MyCoursesAll";
 import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
 import MyCoursesInformaction from "./pages/MyCoursesInformaction";
 import MyCoursesSocial from "./pages/MyCoursesSocial";
+import Notification from "./pages/Notification";
+import NotificationListPage from "./pages/NotificationListPage";
 import ProfileSetting from "./pages/ProfileSetting";
 import QuestionPage from "./pages/QuestionPage";
 import RatingPopup from "./pages/RatingPopup";
@@ -664,6 +666,11 @@ function App() {
           />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route path="messaging" element={<Messaging />} />
         </Route>
 
@@ -702,6 +709,11 @@ function App() {
           <Route path="retakeAssessment" element={<QuestionPage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route path="employee-basic-course" element={<BasicCoursePage />} />
           <Route path="live-session" element={<LiveSessionPage />} />
         </Route>
@@ -828,6 +840,11 @@ function App() {
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
+          />
           <Route
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}

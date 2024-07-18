@@ -104,8 +104,6 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         <div className="mt-4 flex flex-col gap-4 relative">
           {sidebarItems.map((item, index) => {
             const Icon = item.Icon;
-            console.log("item++++", item);
-
             return (
               <div key={index}>
                 {item.label !== "Logout" ? (
@@ -121,12 +119,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                             (child) =>
                               child.link === location.pathname ||
                               isOpen?.[`bar${index + 1}`]
-                          )
+                          ) || location.pathname.includes(item.link)
                             ? "bg-[#00778B] text-white"
                             : "bg-[#fff]"
                         } `}
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="relative flex items-center gap-2">
                           {item?.label === "Message" && newMessage && (
                             <GoDotFill
                               className="absolute -top-[10px] left-[15px]"
@@ -161,7 +159,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                               : "bg-[#fff]"
                           } `}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="relative flex items-center gap-2">
                             {item?.label === "Message" && newMessage && (
                               <GoDotFill
                                 className="absolute -top-[10px] left-[15px]"

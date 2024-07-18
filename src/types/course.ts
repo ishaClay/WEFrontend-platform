@@ -218,3 +218,65 @@ export interface Course {
   nfqLeval: NfqLeval;
   certificate?: null;
 }
+
+
+export interface CourseDiscountType {
+  data?: (CourseDiscountDataEntity)[] | null;
+  message: string;
+}
+export interface CourseDiscountDataEntity {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  universityAddress: string;
+  duration: string;
+  price: number;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys: string;
+  courseData?: (CourseDataEntity)[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  currentVersion: CurrentVersion;
+  isDiscounted?: boolean;
+}
+export interface CourseDataEntity {
+  pillarId: number;
+  maturityId: number;
+}
+export interface CurrentVersion {
+  id: number;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+  cohortGroup?: (CohortGroupEntity)[] | null;
+}
+export interface CohortGroupEntity {
+  id: number;
+  name: string;
+  publish: number;
+  slotStartDate: SlotStartDateOrSlotEndDate;
+  slotEndDate: SlotStartDateOrSlotEndDate;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface SlotStartDateOrSlotEndDate {
+  date: string;
+  month: string;
+  year: string;
+}

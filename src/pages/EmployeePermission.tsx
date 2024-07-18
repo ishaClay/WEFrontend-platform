@@ -1,6 +1,7 @@
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
@@ -17,7 +18,7 @@ import { ChangeEvent, useState } from "react";
 import searchIcon from "/assets/icons/search.svg";
 
 function EmployeePermission() {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -25,10 +26,10 @@ function EmployeePermission() {
   const { data, isPending: employeeListPending } = useQuery<EmployeeResult>({
     queryKey: [
       QUERY_KEYS.getEmployeeList,
-      { page, search, id: userData?.query?.id },
+      { page, search, id: userData?.query?.detailsid },
     ],
     queryFn: () =>
-      employeeList(page.toString(), "10", userData?.query?.id, search),
+      employeeList(page.toString(), "10", userData?.query?.detailsid, search),
   });
 
   console.log("data", data);
@@ -102,8 +103,14 @@ function EmployeePermission() {
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden">
-              <img src={row.original?.profileImage} alt="profile img" />
+            <div className="overflow-hidden">
+              <Avatar className="w-8 h-8 rounded-full ">
+                <AvatarImage src={row.original?.profileImage} />
+                <AvatarFallback className="uppercase">
+                  {row.original?.name?.charAt(0) ||
+                    row.original?.email?.split("@")[0].charAt(0)}
+                </AvatarFallback>
+              </Avatar>
             </div>
             <h6 className="xl:text-[15px] text-xs font-inter text-black">
               {row.original?.name}

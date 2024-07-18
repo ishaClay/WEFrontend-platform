@@ -1,57 +1,100 @@
-import courseImage from "@/assets/images/Course_image.png";
-import { Minus, Plus } from "lucide-react";
+import { Loader2, Minus, Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import SelectMenu from "./comman/SelectMenu";
+import { CourseDiscountDataEntity } from "@/types/course";
+import { fetchEnroll } from "@/services/apiServices/enroll";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { useToast } from "./ui/use-toast";
+import { ErrorType } from "@/types/Errors";
+import { useSelector } from "react-redux";
 
-const filterOption = [
-  {
-    label: "Cohort 1 : Start 20/05/2024 End 30/05/2024",
-    value: "cohort 1 : start 20/05/2024 end 30/05/2024",
-  },
-  {
-    label: "Cohort 2 : Start 20/05/2024 End 30/05/2024",
-    value: "cohort 2 : start 20/05/2024 end 30/05/2024",
-  },
-  {
-    label: "Cohort 3 : Start 20/05/2024 End 30/05/2024",
-    value: "cohort 3 : start 20/05/2024 end 30/05/2024",
-  },
-];
 interface RecommendedCoursesModelProps {
-  handleSubmit: () => void;
+  isLoading: boolean;
+  data: CourseDiscountDataEntity[];
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) => {
+const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesModelProps) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { CompanyId } = useSelector((state: any) => state.user);
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
-  const [itemList, setItemList] = useState(0);
-  const handleIncrement = () => {
-    setItemList((prevValue) => prevValue + 1);
-  };
-  const handleDecrement = () => {
-    if (itemList > 0) {
-      setItemList((prevValue) => prevValue - 1);
+  const [itemList, setItemList] = useState<number[]>([]);
+  const [selectCourseByIndex, setSelectCourseByIndex] = useState<number | string>("");
+  const [selectCourse, setSelectCourse] = useState("");
+
+  useState(() => {
+    if(data){
+      const initialItemList = data.map(() => 0);
+      setItemList(initialItemList);
+    }
+  });
+
+  const handleIncrement = (index: number) => {    
+    if (index === selectCourseByIndex) {
+      setItemList((prev) =>
+        prev.map((item, idx) => (idx === index ? item + 1 : item))
+      );
+    } else {
+      setSelectCourseByIndex(index);
+      setItemList((prev) =>
+        prev.map((item, idx) => (idx === index ? item + 1 : item))
+      );
+    }
+  };  
+
+  const handleDecrement = (index: number) => {
+    if (index === selectCourseByIndex && itemList[index] > 0) {
+      setItemList((prevItemList) =>
+        prevItemList.map((item, idx) => (idx === index ? item - 1 : item))
+      );
     }
   };
-  const courseModel = [
-    {
-      image: courseImage,
-      price: "50.00",
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      totalPrice: 250.0,
+
+  const filterOption = data?.[0]?.currentVersion?.cohortGroup?.map((item, index) => {
+    return {
+      label: `Cohort ${index + 1} : Start ${item?.slotStartDate?.date}/${item?.slotStartDate?.month}/${item?.slotStartDate?.year} End ${item?.slotEndDate?.date}/${item?.slotEndDate?.month}/${item?.slotEndDate?.year}`,
+      value: String(item?.id),
+    }
+  }) || [];
+
+  const { mutate: enrollRequest, isPending } = useMutation({
+    mutationFn: fetchEnroll,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+      });
+      toast({
+        variant: "success",
+        title: data?.data?.message,
+      });
+      setOpen(false);
     },
-    {
-      image: courseImage,
-      price: "25.00",
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      totalPrice: 250.0,
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error?.data?.message,
+      });
     },
-  ];
+  });
+
+  const handleEnrollementRequest = () => {
+    enrollRequest({
+      versionId: data[+selectCourse]?.currentVersion?.id,
+      companyId: +CompanyId,
+      cohortGroupId: +selectFilterByCategory,
+      isdiscounted: +selectCourse,
+      numberOfEmployee: itemList[+selectCourse],
+      price: data[+selectCourse]?.price * itemList[+selectCourse],
+    });
+  };
+
   return (
-    <div>
-      {courseModel.map((courseList, index: number) => {
+    isLoading ? <span className="h-full flex items-center justify-center"><Loader2 className="w-7 h-7 animate-spin" /></span> : 
+    data?.length > 0 ? <div>
+      {data.map((courseList, index: number) => {
         return (
           <div key={index}>
             <div className="border border-[#D9D9D9] p-5 mb-6 rounded-md">
@@ -62,29 +105,30 @@ const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) =
                     value="button"
                     name="course"
                     className="w-6 h-6 mr-2"
+                    onChange={() => setSelectCourse(index?.toString())}
                   />
-                  Without Discount
+                  {courseList?.isDiscounted ? "Without Discount" : "With Discount"}
                 </div>
                 <div className="flex items-center gap-1">
                   <p className="text-base font-calibri leading-5">
                     Course Price :{" "}
                   </p>
                   <span className="font-calibri font-bold text-base leading-5 text-[#000]">
-                    € {courseList.price}
+                    € {courseList?.price}
                   </span>
                 </div>
               </div>
               <div className="flex items-center gap-7">
                 <div>
                   <img
-                    src={courseList.image}
+                    src={courseList?.bannerImage}
                     alt=""
                     className="min-w-[143px] min-h-[143px] w-[143px] h-[143px] rounded-md object-cover"
                   />
                 </div>
                 <div>
                   <h6 className="font-bold text-2xl font-calibri leading-7">
-                    {courseList.title}
+                    {courseList?.title}
                   </h6>
                   <div className="flex items-center gap-6 mt-3">
                     <div>
@@ -94,22 +138,28 @@ const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) =
                       <div className="inline-flex items-center border border-[#D9D9D9]">
                         <Button
                           className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r border-[#D9D9D9]"
-                          onClick={handleIncrement}
+                          onClick={() => handleIncrement(index)}
                         >
                           <Plus />
                         </Button>
                         <input
                           type="number"
-                          value={itemList}
+                          value={itemList[index]}
                           min={0}
                           onChange={(e) =>
-                            setItemList(parseInt(e.target.value) || 0)
+                            setItemList((prevItemList) =>
+                              prevItemList?.map((item:any, idx:number) =>
+                                idx === index
+                                  ? parseInt(e.target.value) || 0
+                                  : item
+                              )
+                            )
                           }
                           className="w-[88px] h-[42px] text-center"
                         />
                         <Button
                           className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"
-                          onClick={handleDecrement}
+                          onClick={() => handleDecrement(index)}
                         >
                           <Minus />
                         </Button>
@@ -120,7 +170,7 @@ const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) =
                         Total Price :{" "}
                       </p>
                       <span className="text-base font-calibri font-bold leading-5">
-                        € 250.00
+                        € {courseList?.price * itemList[index]}
                       </span>
                     </div>
                   </div>
@@ -143,12 +193,14 @@ const RecommendedCoursesModel = ({handleSubmit}: RecommendedCoursesModelProps) =
         </div>
         <div>
           <Button className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] h-[52px]"
-          onClick={handleSubmit}>
-            Select
+            onClick={handleEnrollementRequest}
+            disabled={isPending}
+            >
+            {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
           </Button>
         </div>
       </div>
-    </div>
+    </div> : <span>No data found</span>
   );
 };
 
