@@ -526,9 +526,13 @@ export const getRandomHexColor = () => {
 };
 
 export const getTotalDuration = (data: any) => {
-  return data.reduce((totalSeconds: any, readingTime: any) => {
-    const { hour, minute, second } = readingTime;
-    return totalSeconds + hour * 3600 + minute * 60 + second;
+  return data?.reduce((totalSeconds: any, readingTime: any) => {
+    return (
+      totalSeconds +
+      readingTime?.hour * 3600 +
+      readingTime?.minute * 60 +
+      readingTime?.second
+    );
   }, 0);
 };
 
