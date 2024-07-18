@@ -1,24 +1,30 @@
+import { EmployeeEntityResult } from "@/types/Invition";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+
 type ProgressList = {
-  data: {
-    image: string;
-    employeeName: string;
-    subTitle: string;
-  };
+  data: EmployeeEntityResult;
 };
 
 const TeamProgresslist = ({ data }: ProgressList) => {
   return (
     <div className="sm:flex block items-center 2xl:gap-[60px] gap-[30px]">
       <div className="flex items-center gap-2 sm:mb-0 mb-3">
-        <div className="min-w-8 w-8 min-h-8 h-8 rounded-full overflow-hidden">
-          <img src={data.image} alt="profile img" />
+        <div className="rounded-full overflow-hidden">
+          <Avatar className="min-w-8 w-8 min-h-8 h-8">
+            <AvatarImage src={data?.profileImage || ""} />
+            <AvatarFallback className="uppercase">
+              {data?.name
+                ? data?.name[0]
+                : data?.email?.split("@")[0].charAt(0)}
+            </AvatarFallback>
+          </Avatar>
         </div>
         <div className="">
           <h5 className="text-xs text-[#A3A3A3] font-abhaya text-left">
-            {data.subTitle}
+            Team Member
           </h5>
           <h6 className="font-inter 2xl:text-[15px] text-sm text-black text-left">
-            {data.employeeName}
+            {data?.name || data?.email?.split("@")[0]}
           </h6>
         </div>
       </div>
@@ -29,16 +35,19 @@ const TeamProgresslist = ({ data }: ProgressList) => {
           </h6>
           <ul className="flex sm:gap-4 gap-2">
             <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-black">
-              Assigned<span className="block">1</span>
+              Assigned
+              <span className="block">{data?.measureStatus?.assigned}</span>
             </li>
             <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold">
-              Delayed<span className="block">3</span>
+              Delayed
+              <span className="block">{data?.measureStatus?.delayed}</span>
             </li>
             <li className="bg-[#FFD56A] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-black">
-              Ontime<span className="block">2</span>
+              Ontime<span className="block">{data?.measureStatus?.ontime}</span>
             </li>
             <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-white">
-              Completed<span className="block">1</span>
+              Completed
+              <span className="block">{data?.measureStatus?.completed}</span>
             </li>
           </ul>
         </div>

@@ -1,56 +1,14 @@
-import ActionItemsList from "./ActionItemsList";
-import course_image from "@/assets/images/courselist.png";
-import EnrolledCourses from "./EnrolledCourses";
+/* eslint-disable no-unsafe-optional-chaining */
+import { EmployeeEntityResult } from "@/types/Invition";
 import CustomCarousel from "../comman/CustomCarousel";
+import ActionItemsList from "./ActionItemsList";
+import EnrolledCourses from "./EnrolledCourses";
 
-const TeamProgresslistInner = () => {
-  const actionItems = [
-    {
-      title:
-        "Lead in energy efficiency through continuous optimization and strategic energy management.",
-      updateBy: "First Name Last Name",
-      updateDate: "15/03/2024",
-      targetDate: "15/03/2024",
-      ActualDate: "15/03/2024",
-    },
-    {
-      title:
-        "Lead in energy efficiency through continuous optimization and strategic energy management.",
-      updateBy: "First Name Last Name",
-      updateDate: "15/03/2024",
-      targetDate: "15/03/2024",
-      ActualDate: "15/03/2024",
-    },
-    {
-      title:
-        "Lead in energy efficiency through continuous optimization and strategic energy management.",
-      updateBy: "First Name Last Name",
-      updateDate: "15/03/2024",
-      targetDate: "15/03/2024",
-      ActualDate: "15/03/2024",
-    },
-  ];
+type ProgressList = {
+  data: EmployeeEntityResult;
+};
 
-  const enrolledCourses = [
-    {
-      image: course_image,
-      review: "recommended",
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-    },
-    {
-      image: course_image,
-      review: "recommended",
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-    },
-    {
-      image: course_image,
-      review: "recommended",
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-    },
-  ];
+const TeamProgresslistInner = ({ data }: ProgressList) => {
   return (
     <div className="grid xl:grid-cols-2 grid-cols-1 gap-[30px] pt-5 border-t border-[#D9D9D9]">
       <div className="col-span-1 rounded-xl border border-[#D9D9D9]">
@@ -59,10 +17,11 @@ const TeamProgresslistInner = () => {
             Action Items
           </h5>
         </div>
-        <div className="">
-          {actionItems.map((data, index) => {
-            return <ActionItemsList key={index} data={data} />;
-          })}
+        <div id="scrollStyle" className="max-h-[344px] overflow-auto">
+          {data?.measure &&
+            data?.measure.map((itm, index) => {
+              return <ActionItemsList key={index} data={itm} />;
+            })}
         </div>
       </div>
       <div className="col-span-1 rounded-xl border border-[#D9D9D9]">
@@ -73,9 +32,11 @@ const TeamProgresslistInner = () => {
         </div>
         <div className="px-5 py-20">
           <CustomCarousel containerClassName="">
-            {enrolledCourses.map((data, index) => {
-              return <EnrolledCourses key={index} data={data} />;
-            })}
+            {(data?.courseAlloted ? data?.courseAlloted : []).map(
+              (data, index) => {
+                return <EnrolledCourses key={index} data={data} />;
+              }
+            )}
           </CustomCarousel>
         </div>
       </div>

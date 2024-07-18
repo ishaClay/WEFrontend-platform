@@ -1,6 +1,14 @@
 import { EmployeeDetailsResponse, EmployeeResponse } from "@/types/employeeDetails";
 import api from "./api";
 
+interface RegisterEmployee {
+  "name": string,
+  "email": string,
+  "password": string,
+  "cpassword": string,
+  "otp": number
+}
+
 export const InviteSingleEmployee = async (data: any) => {
   const url = `api/v1/employee/invitation-employee-course`;
   const res = await api({ url, method: "post", data });
@@ -37,9 +45,9 @@ export const inviteSingleEmployeeDetail = async (
   return res.data.data;
 };
 
-export const employeeList = async (page:string,limit:string,id: number, keyword: string) => {
+export const employeeList = async (page: string, limit: string, id: number, keyword: string) => {
   const url = `api/v1/company/get/${id}/employee`;
-  const params = {page,limit, keyword };
+  const params = { page, limit, keyword };
   const res = await api({ url, params });
   return res.data;
 };
@@ -49,3 +57,9 @@ export const updateEmployeeList = async (data: { id: number; item: Partial<Emplo
   const method = "patch";
   return api({ url, data: data?.item, method });
 };
+
+export const RegisterEmployee = async (data: RegisterEmployee) => {
+  const url = `api/v1/user/register-employee`;
+  const res = await api({ url, method: "post", data });
+  return res.data;
+}

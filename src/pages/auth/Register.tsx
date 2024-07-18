@@ -23,13 +23,14 @@ import {
   setCompanyId,
   setUserData,
 } from "@/redux/reducer/CompanyReducer";
-import { ResendOtp } from "@/services/apiServices/authService";
+import { LogOut, ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
-import { ErrorType } from "@/types/Errors";
+import { RegisterEmployee } from "@/services/apiServices/employee";
+import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
@@ -86,13 +87,37 @@ function Register() {
 
   console.log("params", showRegistrationForm);
 
+  const { mutate: logout, isPending: logoutPending } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      localStorage.removeItem("user");
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Something went wrong",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleLogout = () => {
+    const userData = localStorage?.getItem("user");
+    if (userData) {
+      const user = JSON.parse(userData as string);
+      const userId = user?.query ? user?.query?.id : user?.id;
+      logout(userId);
+    }
+  };
+
   useEffect(() => {
     if (searchParams.get("email") || searchParams.get("type")) {
       handleLaunchJourney();
       setSelectedRole("company");
       setValue("email", searchParams.get("email") || "");
+      handleLogout();
     }
-  }, [searchParams]);
+  }, [searchParams, setValue]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -107,6 +132,28 @@ function Register() {
 
     return () => clearInterval(interval);
   }, [time]);
+
+  const { mutate: registerEmployee, isPending: registerPending } = useMutation({
+    mutationFn: RegisterEmployee,
+    onSuccess: async (data) => {
+      setTime(179);
+      console.log("6+++++", data);
+
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.companyList],
+      });
+      setShowOtpPopup(false);
+      dispatch(setCompanyId(data?.data?.data?.user?.id));
+      localStorage.setItem("user", JSON.stringify(data?.data));
+      navigate("/employee/dashboard");
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
 
   const { mutate: createcompany, isPending: createPending } = useMutation({
     mutationFn: createCompany,
@@ -183,6 +230,7 @@ function Register() {
     mutationFn: ResendOtp,
     onSuccess: async () => {
       setTime(179);
+      setShowOtpPopup(true);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -192,9 +240,14 @@ function Register() {
     },
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data: any) => {
-    createcompany({ email: data.email, client: clientId });
-    console.log(data, "da++++++++++");
+  const onSubmit: SubmitHandler<ValidationSchema> = async (
+    data: FieldValues
+  ) => {
+    if (searchParams.get("email") || searchParams.get("type")) {
+      mutate({ email: searchParams.get("email") || email });
+    } else {
+      createcompany({ email: data.email, client: clientId });
+    }
   };
 
   useEffect(() => {
@@ -205,13 +258,25 @@ function Register() {
 
   const handleVerifyOtp = () => {
     const getData = getValues();
-    const payload = {
-      ...getData,
-      otp,
-      client: clientId,
-    };
 
-    createotp(payload);
+    if (searchParams.get("email") || searchParams.get("type")) {
+      const payload = {
+        name: getData?.name,
+        email:
+          (searchParams.get("email") as string) || (getData?.email as string),
+        password: getData?.password,
+        cpassword: getData?.cpassword,
+        otp: +otp,
+      };
+      registerEmployee(payload);
+    } else {
+      const payload = {
+        ...getData,
+        otp,
+        client: clientId,
+      };
+      createotp(payload);
+    }
   };
 
   const handleResendOtp = (email: string) => {
@@ -484,12 +549,13 @@ function Register() {
             </InputOTP>
           </div>
           <div className="flex justify-center">
-            <button
+            <Button
+              isLoading={registerPending}
               className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
               onClick={() => handleVerifyOtp()}
             >
               Submit
-            </button>
+            </Button>
           </div>
           <div className="flex flex-col gap-2 items-center">
             <div className="flex justify-center gap-2">
@@ -521,7 +587,7 @@ function Register() {
         </Modal>
       </div>
 
-      <Loading isLoading={createPending || createOtp} />
+      <Loading isLoading={createPending || createOtp || logoutPending} />
     </div>
   );
 }

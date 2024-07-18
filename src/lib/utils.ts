@@ -3,6 +3,7 @@ import RequestTicketIcon from "@/assets/images/Request.png";
 import ResolvedIcon from "@/assets/images/Resolved.png";
 import TotalTicketIcon from "@/assets/images/ticket.png";
 import PendingTicketIcon from "@/assets/images/ticket_star.png";
+import { UserRole } from "@/types/UserRole";
 import { clsx, type ClassValue } from "clsx";
 import moment from "moment";
 import { AiOutlinePoweroff } from "react-icons/ai";
@@ -28,7 +29,6 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType } from "./constants";
-import { UserRole } from "@/types/UserRole";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -290,7 +290,7 @@ export const sidebarLayout = {
         },
         {
           label: "Team Progress",
-          link: "/company/employeeprogress",
+          link: "/company/teamProgress",
         },
       ],
     },

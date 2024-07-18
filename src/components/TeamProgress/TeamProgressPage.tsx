@@ -1,35 +1,35 @@
+import { QUERY_KEYS } from "@/lib/constants";
+import { getEmployeeProgress } from "@/services/apiServices/member";
 import { AccordionOption } from "@/types";
-import profile_img from "@/assets/images/face_1.jfif";
+import { EmployeeProgreeResponse } from "@/types/Invition";
+import { useQuery } from "@tanstack/react-query";
+import { Search } from "lucide-react";
+import { useState } from "react";
 import Accordions from "../comman/Accordions";
+import Loader from "../comman/Loader";
+import { Input } from "../ui/input";
 import TeamProgresslist from "./TeamProgresslist";
 import TeamProgresslistInner from "./TeamProgresslistInner";
-import { Search } from "lucide-react";
-import { Input } from "../ui/input";
 
 const TeamProgressPage = () => {
-  const progressList = [
-    {
-      image: profile_img,
-      employeeName: "Action Items",
-      subTitle: "Team Member",
-    },
-    {
-      image: profile_img,
-      employeeName: "Action Items",
-      subTitle: "Team Member",
-    },
-    {
-      image: profile_img,
-      employeeName: "Action Items",
-      subTitle: "Team Member",
-    },
-  ];
-  const accordionItems: AccordionOption[] = progressList.map((item) => {
-    return {
-      title: <TeamProgresslist data={item} />,
-      content: <TeamProgresslistInner />,
-    };
+  const [search, setSearch] = useState("");
+  const { data, isPending } = useQuery<EmployeeProgreeResponse>({
+    queryKey: [QUERY_KEYS.getEmployeeProgress, { search }],
+    queryFn: () =>
+      getEmployeeProgress({ id: 434, keyword: search, status: "" }),
   });
+
+  console.log("data", data);
+
+  const accordionItems: AccordionOption[] =
+    (data?.data?.employee &&
+      data?.data?.employee.map((item) => {
+        return {
+          title: <TeamProgresslist data={item} />,
+          content: <TeamProgresslistInner data={item} />,
+        };
+      })) ||
+    [];
   return (
     <div className="bg-white rounded-xl mt-5">
       <div className="p-4 border-b border-[#D9D9D9]">
@@ -41,9 +41,14 @@ const TeamProgressPage = () => {
           <Input
             className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-abhaya font-semibold border-none"
             placeholder="Search by name, level, recommended, course name etc."
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <Accordions items={accordionItems} rounded={false} />
+        {isPending ? (
+          <Loader />
+        ) : (
+          <Accordions items={accordionItems} rounded={false} />
+        )}
       </div>
     </div>
   );
