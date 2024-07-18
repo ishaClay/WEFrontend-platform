@@ -9,84 +9,108 @@ function HeaderCourse() {
   console.log("Role", location);
 
   const headerData = useMemo(() => {
-    const pathName = location.pathname.split("/")[2];
+    const pathName = location.pathname.split("/").pop();
     console.log("pathName", pathName);
-    let title = "";
-    let subtitle = "";
+    let title: { label: string; link?: string }[] = [];
     switch (pathName) {
       case "dashboard":
-        title = "Dashboard";
-        subtitle = "";
+        title = [{ label: "Dashboard" }];
         break;
 
       case "mycourses":
-        title = "My Courses";
-        subtitle = "";
+        title = [{ label: "My Courses" }];
         break;
 
       case "employee-basic-course":
-        title = "My Courses";
-        subtitle = "";
+        title = [{ label: "My Courses" }];
         break;
 
       case "live-session":
-        title = "My Courses /";
-        subtitle = "Social";
+        title = [{ label: "My Courses ", link: "js:" }, { label: "Social" }];
         break;
 
       case "maturityAssessment":
-        title = "Maturity Assessment / ";
-        subtitle = "Assessment Result";
+        title = [
+          { label: "Maturity Assessment", link: "js:" },
+          { label: "Assessment Result" },
+        ];
         break;
 
       case "certifications":
-        title = "Certifications";
-        subtitle = "";
+        title = [{ label: "Certifications" }];
         break;
 
       case "my-accomplishments":
-        title = "My Accomplishments";
-        subtitle = "";
+        title = [
+          { label: "Certifications", link: "js:" },
+          { label: "My Accomplishments" },
+        ];
+        break;
+
+      case "retakeAssessment":
+        title = [{ label: "Assessment" }];
+        break;
+
+      case "my-accomplishments":
+        title = [{ label: "My Accomplishments" }];
         break;
 
       case "faqslist":
-        title = "Supports / ";
-        subtitle = "FAQs";
+        title = [{ label: "Supports", link: "js:" }, { label: "FAQs" }];
         break;
 
       case "usermenual":
-        title = "Supports / ";
-        subtitle = "User Manual";
-        break;
-
-      case "support-training-documnet":
-        title = "Supports / ";
-        subtitle = "User Manual";
+        title = [{ label: "Supports", link: "js:" }, { label: "User Manual" }];
         break;
 
       case "support-request":
-        title = "Supports / ";
-        subtitle = "Support request";
+        title = [
+          { label: "Supports", link: "js:" },
+          { label: "Support Request" },
+        ];
+        break;
+
+      case "add-new-ticket":
+        title = [
+          { label: "Support", link: "js:" },
+          { label: "Support Ticket", link: "js:" },
+          { label: "Add New Ticket" },
+        ];
         break;
 
       case "ticket-details-reply":
-        title = "Supports / ";
-        subtitle = "Support request";
+        title = [
+          { label: "Supports", link: "js:" },
+          { label: "Support Request", link: "js:" },
+          { label: "ticket details reply" },
+        ];
         break;
 
       case "message":
-        title = "Message";
-        subtitle = "";
+        title = [{ label: "Message" }];
+        break;
+
+      case "compose":
+        title = [{ label: "Message", link: "js:" }, { label: "Compose" }];
         break;
 
       default:
+        title = [
+          {
+            label:
+              location.pathname.split("/")[
+                location.pathname.split("/")?.length - 2
+              ],
+            link: "js:",
+          },
+          { label: "Details" },
+        ];
         break;
     }
-    return { title, subtitle };
+    return { title };
   }, [location]);
   const maiHeaderData = useMemo(() => {
-    const pathName = location.pathname.split("/")[2];
-    console.log("pathName", pathName);
+    const pathName = location.pathname.split("/").pop();
     let title: { label: string; link?: string }[] = [];
     switch (pathName) {
       case "dashboard":
@@ -128,6 +152,28 @@ function HeaderCourse() {
         ];
         break;
 
+      case "employeeinvition":
+        title = [
+          { label: "Team Management", link: "js:" },
+          { label: "Team List", link: "js:" },
+          { label: "Team Invition" },
+        ];
+        break;
+
+      case "schedule-live-session":
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Create Course" },
+        ];
+        break;
+
+      case "total-live-sessions":
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "Create Course" },
+        ];
+        break;
+
       case "teamProgress":
         title = [
           { label: "Team Management", link: "js:" },
@@ -144,6 +190,21 @@ function HeaderCourse() {
           { label: "Course Management", link: "js:" },
           { label: "All Course" },
         ];
+        break;
+
+      case "mycourses":
+        title = [
+          { label: "Course Management", link: "js:" },
+          { label: "My Courses" },
+        ];
+        break;
+
+      case "message":
+        title = [{ label: "Message", link: "js:" }, { label: "Messaging" }];
+        break;
+
+      case "compose":
+        title = [{ label: "Message", link: "js:" }, { label: "Compose" }];
         break;
 
       case "allcourses":
@@ -169,6 +230,13 @@ function HeaderCourse() {
 
       case "trainer-management":
         title = [{ label: "Trainer Management" }];
+        break;
+
+      case "invitation":
+        title = [
+          { label: "Trainer Management", link: "js:" },
+          { label: "Invitation" },
+        ];
         break;
 
       case "certificate-template":
@@ -214,11 +282,16 @@ function HeaderCourse() {
         ];
         break;
 
-      case "employeepermission":
+      case "add-new-ticket":
         title = [
-          { label: "Setting", link: "js:" },
-          { label: "Team Permission" },
+          { label: "Support", link: "js:" },
+          { label: "Support Ticket", link: "js:" },
+          { label: "Add New Ticket" },
         ];
+        break;
+
+      case "employeepermission":
+        title = [{ label: "Setting" }];
         break;
 
       case "message":
@@ -226,6 +299,16 @@ function HeaderCourse() {
         break;
 
       default:
+        title = [
+          {
+            label:
+              location.pathname.split("/")[
+                location.pathname.split("/")?.length - 2
+              ],
+            link: "js:",
+          },
+          { label: "Details" },
+        ];
         break;
     }
     return { title };
@@ -236,10 +319,7 @@ function HeaderCourse() {
         <MainHeader title={maiHeaderData?.title} />
       </div>
       <div className={`${Role === "employee" ? "block" : "hidden"}`}>
-        <EmployeeHeader
-          title={headerData?.title}
-          subtitle={headerData?.subtitle}
-        />
+        <EmployeeHeader title={headerData?.title} />
       </div>
     </>
   );

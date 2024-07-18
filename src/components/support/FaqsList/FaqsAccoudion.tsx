@@ -32,7 +32,7 @@ const Accordions = ({
 }: AccordionsProps) => {
   return (
     <Accordion type={type} collapsible>
-      <div className="space-y-[24px]">
+      <div className="flex flex-col sm:gap-[19px] gap-[15px]">
         {items?.map((item, index) => {
           return (
             <AccordionItem

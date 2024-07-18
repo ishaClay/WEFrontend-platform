@@ -96,7 +96,6 @@ import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import ResetPassword from "./pages/auth/ResetPassword";
 import CertificateTempletePage from "./pages/certificateManagement";
 import CourseManagement from "./pages/courseManagement";
-import Assecessment from "./pages/courseManagement/AddAssecessment";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
@@ -614,9 +613,9 @@ function App() {
         <Route
           path="/employeerodemap"
           element={
-            // <ProtectedRoute>
-            <EmployeeRodemap />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <EmployeeRodemap />
+            </ProtectedRoute>
           }
         />
         <Route
@@ -677,9 +676,9 @@ function App() {
         <Route
           path="/employee"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardEmployeePage />} />
@@ -687,15 +686,11 @@ function App() {
             path="maturityAssessment"
             element={<MaturityAssessmentPage />}
           />
-          {/* <Route path="allcourses" element={<CoursesAllCourse />} /> */}
           <Route path="mycourses" element={<MyCoursesList />} />
-          {/* <Route path="certificate" element={<EmployeeList />} /> */}
           <Route path="certifications" element={<CertificationsPage />} />
           <Route path="my-accomplishments" element={<Accomplishments />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="usermenual" element={<UserManualPage />} />
-          {/* <Route path="trainingdocument" element={<TrainingDocument />} /> */}
-          <Route path="supportticket" element={<SupportAddNewTicket />} />
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
@@ -727,10 +722,6 @@ function App() {
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route
-            path="maturityassessmentroadmap"
-            element={<MaturityAssessmentRoadmapAfterbuild />}
-          />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="create_course" element={<CourseManagement />} />
@@ -740,13 +731,6 @@ function App() {
           />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
-          <Route path="create_course" element={<CourseManagement />} />
-          <Route path="certificate" element={<EmployeeList />} />
-          <Route path="support-faqslist" element={<FaqsListPage />} />
-          {/* <Route path="faqslist" element={<FaqsList />} /> */}
-          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
-          <Route path="support-request" element={<SupportRequestPage />} />
-
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
@@ -755,8 +739,12 @@ function App() {
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
+          <Route path="support-faqslist" element={<FaqsListPage />} />
+          <Route path="trainingdocument" element={<TrainingDocumentPage />} />
+          <Route path="support-request" element={<SupportRequestPage />} />
           <Route path="employeepermission" element={<EmployeePermission />} />
-          <Route path="messaging" element={<Messaging />} />
+          <Route path="message" element={<MessagePage />} />
+          <Route path="message/compose" element={<ComposePage />} />
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
@@ -765,18 +753,14 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          <Route
-            path="employee-basic-course/:courseId"
-            element={<BasicCoursePage />}
-          />
         </Route>
 
         <Route
           path="/trainer"
           element={
-            // <ProtectedRoute>
-            <DashboardLayout />
-            // </ProtectedRoute>
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
           }
         >
           <Route path="dashboard" element={<DashboardPage />} />
@@ -800,26 +784,16 @@ function App() {
             path="trainer-management/invitation"
             element={<TrainerInvitation />}
           />
-          <Route path="coursemanagement" element={<CourseManagement />} />
-          <Route path="addassecessment" element={<Assecessment />} />
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
 
-          {/* <Route
-            path="certificate-template/Addcertificate"
-            element={<Addcertificate />}
-          /> */}
-
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
-
-          <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="support-faqslist" element={<FaqsListPage />} />
-          {/* <Route path="support-request" element={<SupportRequestPage />} /> */}
           <Route path="support-request" element={<SupportRequest />} />
           <Route
             path="support-training-documnet"

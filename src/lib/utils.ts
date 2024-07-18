@@ -101,7 +101,7 @@ export const sidebarLayout = {
         },
         {
           label: "Live Sessions",
-          link: "/trainer/allcourses",
+          link: "/trainer/create_course",
         },
       ],
     },
@@ -237,7 +237,7 @@ export const sidebarLayout = {
     {
       label: "Message",
       Icon: PiEnvelopeThin,
-      link: "/trainee/messaging",
+      link: "/trainee/message",
       children: [],
     },
     {

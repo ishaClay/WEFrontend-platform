@@ -55,9 +55,9 @@ const EnrollmentCourseListCard = ({
           />
         </div>
         <div className="sm:pl-[23px] px-3 pt-3">
-          <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-5 pb-3 sm:gap-0 gap-2">
+          <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-5 pb-3 gap-3">
             <CourseList rating={0} />
-            <div className="sm:ml-3 ml-0 flex xl:flex-nowrap flex-wrap gap-2">
+            <div className="flex xl:flex-nowrap flex-wrap gap-2">
               {data?.courseVersion?.course?.courseData?.map((item) => {
                 const pillarName = item.fetchPillar?.pillarName;
                 return (
@@ -105,17 +105,17 @@ const EnrollmentCourseListCard = ({
         </div>
       </div>
       {(data?.enroll === Enroll.default || data?.enroll === Enroll.enquiry) && (
-        <div className="flex xl:justify-center sm:justify-end justify-start sm:p-0 p-3 xl:flex-nowrap flex-wrap gap-3 md:mt-0 sm:mt-4 mt-0">
+        <div className="flex xl:justify-center sm:justify-end justify-start sm:p-0 p-3 xl:flex-nowrap flex-wrap gap-2 lg:mt-0 md:mt-2 sm:mt-4 mt-0">
           {data?.enroll === Enroll.enquiry ? (
             <Button
-              className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+              className="bg-[#00778B] sm:w-[125px] sm:h-[42px] w-[87px] h-[31px]"
               onClick={() => navigate(`/${pathName}/message`)}
             >
               Show Message
             </Button>
           ) : (
             <Button
-              className="bg-[#00778B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+              className="bg-[#00778B] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px]"
               onClick={() => navigate(`/${pathName}/message`)}
             >
               Enquire
@@ -123,13 +123,13 @@ const EnrollmentCourseListCard = ({
           )}
           <Button
             onClick={() => EditCourse(Enroll.accept)}
-            className="bg-[#58BA66] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] xl:my-0 sm:my-1 sm:text-base text-sm"
+            className="bg-[#58BA66] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
           >
             Accept
           </Button>
           <Button
             onClick={() => EditCourse(Enroll.reject)}
-            className="bg-[#FF5252] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] xl:my-0 sm:my-1 sm:text-base text-sm"
+            className="bg-[#FF5252] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
           >
             Reject
           </Button>

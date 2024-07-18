@@ -112,7 +112,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                       <Link
                         to={item.link}
                         onClick={() => toggleDropdown(item.children, index)}
-                        className={`group flex items-center ${
+                        className={`relative group flex items-center ${
                           sidebarOpen ? "justify-between" : "justify-center"
                         } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
                           item.children.find(
@@ -127,7 +127,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         <div className="relative flex items-center gap-2">
                           {item?.label === "Message" && newMessage && (
                             <GoDotFill
-                              className="absolute -top-[10px] left-[15px]"
+                              className="absolute top-1.5 left-[22px]"
                               fill={"#008000"}
                             />
                           )}
@@ -147,7 +147,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         <Link
                           to={item.link}
                           onClick={() => toggleDropdown(item.children, index)}
-                          className={`group flex items-center ${
+                          className={`relative group flex items-center ${
                             sidebarOpen ? "justify-between" : "justify-center"
                           } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
                             item.children.find(
@@ -162,7 +162,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           <div className="relative flex items-center gap-2">
                             {item?.label === "Message" && newMessage && (
                               <GoDotFill
-                                className="absolute -top-[10px] left-[15px]"
+                                className="absolute top-1.5 left-[22px]"
                                 fill={"#008000"}
                               />
                             )}

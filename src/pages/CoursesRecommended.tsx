@@ -52,10 +52,36 @@ function CoursesRecommended() {
       <div className="bg-[#f5f3ff] h-[calc(100vh-160px)]">
         <div className="h-full">
           <div className="bg-[#FFFFFF] rounded-xl">
-            <div className="border-b border-[#D9D9D9] p-5">
+            <div className="border-b border-[#D9D9D9] p-5 flex justify-between items-center">
               <p className="text-[#000000] text-[Calibri]">
                 Recommended Courses
               </p>
+              <div className="flex gap-2 sm:hidden">
+                <Button
+                  type="button"
+                  onClick={() => changeRecommendedCourseView(0)}
+                  className="bg-transparent p-1 hover:bg-transparent"
+                >
+                  <AiOutlineAppstore
+                    className={`w-8 h-8 ${
+                      params === "0" || !params
+                        ? "text-[#00778B]"
+                        : "text-[#A3A3A3]"
+                    }`}
+                  />
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => changeRecommendedCourseView(1)}
+                  className="bg-transparent p-1 hover:bg-transparent"
+                >
+                  <AiOutlineBars
+                    className={`w-8 h-8 ${
+                      params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                    }`}
+                  />
+                </Button>
+              </div>
             </div>
 
             <div className="flex sm:flex-row flex-col p-3 bg-[#FFFFFF] justify-between sm:items-center items-start sm:gap-0 gap-3">
@@ -70,7 +96,7 @@ function CoursesRecommended() {
                 />
               </div>
 
-              <div className="flex gap-2">
+              <div className="gap-2 sm:flex hidden">
                 <Button
                   type="button"
                   onClick={() => changeRecommendedCourseView(0)}
