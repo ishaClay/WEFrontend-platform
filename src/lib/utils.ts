@@ -545,8 +545,6 @@ export function getTimeAgo(time: Date | string) {
   const daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
   const weeksAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
 
-  console.log("weeksAgo", weeksAgo, daysAgo, hoursAgo, minutesAgo);
-
   if (minutesAgo < 1) {
     return "Just now";
   } else if (minutesAgo < 60) {
@@ -563,11 +561,13 @@ export function getTimeAgo(time: Date | string) {
 export const fetchMessageRoles = (role: number) => {
   let MessageRoles: any = [];
   if (role === UserRole.Trainer) {
-    MessageRoles = ["admin", "employee", "company", "trainee"];
+    MessageRoles = ["client", "employee", "company", "trainee"];
   } else if (role === UserRole.Company) {
-    MessageRoles = ["admin", "employee", "trainee", "trainer Company"];
+    MessageRoles = ["client", "employee", "trainee", "trainer Company"];
   } else if (role === UserRole.Trainee) {
-    MessageRoles = ["admin", "employee", "company"];
+    MessageRoles = ["client", "employee", "company"];
+  } else if (role === UserRole.Employee) {
+    MessageRoles = ["company", "trainee", "trainer Company"];
   }
   return MessageRoles;
 };
