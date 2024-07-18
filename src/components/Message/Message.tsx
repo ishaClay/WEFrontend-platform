@@ -221,6 +221,12 @@ const Message = () => {
 
   console.log("OpenDrawer", openDrawer);
 
+  useEffect(() => {
+    if (["mobile", "sm"].includes(viewType)) {
+      setOpenDrawer(false);
+    }
+  }, [viewType]);
+
   return (
     <>
       <Drawer
@@ -229,7 +235,7 @@ const Message = () => {
         className="sm:max-w-full w-full p-0"
         hideClose={true}
       >
-        <Card className="xl:col-span-9 md:col-span-7 col-span-12 border-0 rounded-lg shadow-none relative">
+        <Card className="xl:col-span-9 md:col-span-7 col-span-12 border-0 rounded-lg shadow-none relative flex flex-col h-full justify-between">
           <CardHeader className="flex-row gap-5 items-center border-b-[#D9D9D9] border-b border-solid p-4">
             <div
               className=""
@@ -281,7 +287,7 @@ const Message = () => {
           {UserId && chatId && (
             <>
               <CardContent
-                className={`chatcontent overflow-y-auto h-[700px] p-4`}
+                className={`chatcontent h-full overflow-auto p-4`}
                 ref={chatContainerRef}
               >
                 <div className="mb-[30px]">
@@ -333,7 +339,7 @@ const Message = () => {
                             <div className="text-[#606060] leading-[14.65px] text-xs mb-4">
                               {moment(item?.createdAt).format("h:mmA")}
                             </div>
-                            <p className="text-black leading-[19.53px]">
+                            <p className="text-black leading-[19.53px] break-all">
                               {item?.message}
                             </p>
                             {Array.isArray(item?.images) &&
@@ -381,7 +387,7 @@ const Message = () => {
                   })}
                 </div>
               </CardContent>
-              <CardFooter className="absolute left-0 right-0 bottom-0 pl-[20px] pr-5 pt-0 pb-[21px] block bg-white">
+              <CardFooter className="p-5 block bg-white">
                 <div className="">
                   {images?.length > 0 && (
                     <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
@@ -688,7 +694,7 @@ const Message = () => {
                             <div className="text-[#606060] leading-[14.65px] text-xs mb-4">
                               {moment(item?.createdAt).format("h:mmA")}
                             </div>
-                            <p className="text-black leading-[19.53px]">
+                            <p className="text-black leading-[19.53px] break-all	">
                               {item?.message}
                             </p>
                             {Array.isArray(item?.images) &&
