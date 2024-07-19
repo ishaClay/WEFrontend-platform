@@ -6,6 +6,7 @@ import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
+import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
@@ -100,6 +101,7 @@ import CourseManagement from "./pages/courseManagement";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import LiveSessionsCalendar from "./pages/courseManagement/LiveSessionsCalendar";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
@@ -730,6 +732,10 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
+          <Route
+            path="add_assessment/:assessmentType"
+            element={<AssecessmentPage />}
+          />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route
@@ -772,6 +778,10 @@ function App() {
           <Route
             path="create_course/:courseId"
             element={<CourseManagement />}
+          />
+          <Route
+            path="add_assessment/:assessmentType"
+            element={<AssecessmentPage />}
           />
           <Route
             path="trainer-management"
@@ -817,6 +827,7 @@ function App() {
             element={<ScheduleLiveSession />}
           />
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
+          <Route path="live-sessions-calendar" element={<LiveSessionsCalendar />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />

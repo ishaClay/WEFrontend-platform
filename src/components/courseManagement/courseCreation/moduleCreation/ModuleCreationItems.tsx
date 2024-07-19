@@ -1,4 +1,5 @@
 import FormError from "@/components/comman/FormError";
+import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { CirclePlus, CircleX, Link } from "lucide-react";
 import { useState } from "react";
 import { UseFieldArrayRemove, useFieldArray } from "react-hook-form";
+import AssessmentModal from "../courseView/AssessmentModal";
 import UploadContent from "./UploadContent";
 
 interface ModuleCreationItemsProps {
@@ -54,7 +56,7 @@ const ModuleCreationItems = ({
   moduleListlength,
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
-
+  const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
   const {
     fields: sections,
     append: appendSection,
@@ -391,6 +393,7 @@ const ModuleCreationItems = ({
           <Button
             type="button"
             className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
+            onClick={() => setIsOpenAssessmentModal(true)}
           >
             <CirclePlus width={20} className="me-2" /> Add Assessment
           </Button>
@@ -403,6 +406,13 @@ const ModuleCreationItems = ({
           </Button>
         </div>
       </div>
+      <Modal
+        open={isOpenAssessmentModal}
+        onClose={() => setIsOpenAssessmentModal(false)}
+        className="max-w-3xl"
+      >
+        <AssessmentModal />
+      </Modal>
     </div>
   );
 };

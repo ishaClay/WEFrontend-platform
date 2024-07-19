@@ -74,6 +74,7 @@ export const QUERY_KEYS = {
   notificationList: "notificationList",
   notificationCount: "notificationCount",
   notification: "notification",
+  assessmentOptions: "assessmentOptions",
 };
 
 export const urlRegex =

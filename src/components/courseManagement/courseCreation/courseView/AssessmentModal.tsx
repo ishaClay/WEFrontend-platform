@@ -1,24 +1,16 @@
+import { QUERY_KEYS } from "@/lib/constants";
+import { getAssessmentOptions } from "@/services/apiServices/assessment";
+import { useQuery } from "@tanstack/react-query";
 import AssessmentModalSelectItem from "./AssessmentModalSelectItem";
 
 const AssessmentModal = () => {
-  const selectQuestionType = [
-    {
-      selectOption: "MCQ",
-      optionSubTitle: "Multi Choice Question",
-    },
-    {
-      selectOption: "Drag & Drop",
-      optionSubTitle: "Multi Choice Question",
-    },
-    {
-      selectOption: "True & False",
-      optionSubTitle: "Multi Choice Question",
-    },
-    {
-      selectOption: "Drag & Drop",
-      optionSubTitle: "Multi Choice Question",
-    },
-  ];
+
+  const { data: assessmentOptions } = useQuery({
+    queryKey: [QUERY_KEYS.assessmentOptions],
+    queryFn: () => getAssessmentOptions(),
+  });
+  
+
   return (
     <div>
       <h5 className="font-bold text-black text-xl font-calibri pb-[9px]">
@@ -28,7 +20,7 @@ const AssessmentModal = () => {
         Which format would best suit this particular assessment question?
       </p>
       <div className="flex items-center justify-center flex-wrap">
-        {selectQuestionType.map((data, index) => {
+        {Object.entries(assessmentOptions?.data?.data).map((data, index) => {
           return <AssessmentModalSelectItem key={index} data={data} />;
         })}
       </div>
