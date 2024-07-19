@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
-import { fetchClientwisePillarList, pillarLimit, pillarMaturity } from "@/services/apiServices/pillar";
+import {
+  fetchClientwisePillarList,
+  pillarLimit,
+  pillarMaturity,
+} from "@/services/apiServices/pillar";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -22,7 +26,7 @@ const CoursePathwayPage = () => {
   const { clientId, CompanyId } = useAppSelector((state) => state.user);
   const [selectedData, setSelectedData] = useState<SelectedData[]>([]);
   const [isError, setIsError] = useState(false);
-  const {toast} = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const search = window.location.search;
@@ -44,48 +48,55 @@ const CoursePathwayPage = () => {
     enabled: !!clientId,
   });
 
-  const { data:selectTargetPillarLimit } = useQuery({
+  const { data: selectTargetPillarLimit } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, CompanyId],
     queryFn: () => pillarLimit(CompanyId as string),
     enabled: !!CompanyId,
   });
 
-  const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } = useMutation({
-    mutationFn: (e:any) => pillarMaturity(e),
-    onSuccess: () => {
-      setIsError(false);
-      if(+courseId){
-        navigate(
-          `/${pathName}/create_course/${courseId}?tab=${2}&version=${paramsversion}`
-        );
-      }else{
-        navigate(
-          `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
-        );
-      }
-      toast({
-        title: "Success",
-        description: `Course Pathway ${+courseId ? "updated" : "created"} successfully`,
-        variant: "success",
-      });
-    }
-  });
-  
+  const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } =
+    useMutation({
+      mutationFn: (e: any) => pillarMaturity(e),
+      onSuccess: () => {
+        setIsError(false);
+        if (+courseId) {
+          navigate(
+            `/${pathName}/create_course/${courseId}?tab=${2}&version=${paramsversion}`
+          );
+        } else {
+          navigate(
+            `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
+          );
+        }
+        toast({
+          title: "Success",
+          description: `Course Pathway ${
+            +courseId ? "updated" : "created"
+          } successfully`,
+          variant: "success",
+        });
+      },
+    });
 
   const handleSelected = (pillarId: number, levelId: number) => {
     setIsError(false);
-    setSelectedData((prevSelected:any) => {
-      const index:any = prevSelected.findIndex((item:any) => item.pillarId === pillarId);
+    setSelectedData((prevSelected: any) => {
+      const index: any = prevSelected.findIndex(
+        (item: any) => item.pillarId === pillarId
+      );
       if (index !== -1) {
         if (prevSelected[index].maturityId === levelId) {
-          return prevSelected.filter((item:any) => item.pillarId !== pillarId);
+          return prevSelected.filter((item: any) => item.pillarId !== pillarId);
         } else {
           const updatedLevels = [...prevSelected];
           updatedLevels[index] = { maturityId: levelId, pillarId };
           return updatedLevels;
         }
       } else {
-        if (Object.keys(prevSelected).length >= selectTargetPillarLimit?.data?.pillarLimit) {
+        if (
+          Object.keys(prevSelected).length >=
+          selectTargetPillarLimit?.data?.pillarLimit
+        ) {
           setIsError(true);
           return prevSelected;
         }
@@ -94,15 +105,15 @@ const CoursePathwayPage = () => {
     });
   };
 
-  const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+  const { data: getSingleCourse } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
-  })
-  
+  });
+
   useEffect(() => {
     if (getSingleCourse) {
-      const data:any = getSingleCourse?.data?.course?.courseData;
+      const data: any = getSingleCourse?.data?.course?.courseData;
       setSelectedData(data);
     }
   }, [getSingleCourse]);
@@ -110,18 +121,18 @@ const CoursePathwayPage = () => {
   const handleSubmit = () => {
     if (selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit) {
       const payload = {
-        courseData: selectedData, 
-        id: +courseId? +courseId : paramsId,
-        version: +courseId ? getSingleCourse?.data?.version : paramsversion
-      }
+        courseData: selectedData,
+        id: +courseId ? +courseId : paramsId,
+        version: +courseId ? getSingleCourse?.data?.version : paramsversion,
+      };
       pillarMaturityFun(payload);
-    } else {      
+    } else {
       setIsError(true);
     }
   };
   return (
     <div className="">
-      <h4 className="text-[16px] text-black pb-4 flex items-center gap-[15px]">
+      <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
         <span className="font-nunito font-bold">
           Target areas / pillars(Select applicable pillars)
         </span>
@@ -149,12 +160,14 @@ const CoursePathwayPage = () => {
       )}
 
       {isError && (
-        <div className="w-full bg-[#F8D7DA] p-4 flex rounded-lg items-center justify-between mb-5">
-          <div className="flex items-center">
-            <img src={CloseIcon} alt="close" className="me-3" />
-            <span className="text-[#842029] text-base font-abhaya line-clamp-1 me-3">
-              Only a maximum of {selectTargetPillarLimit?.data?.pillarLimit || 0} pillars can be selected. Does your course
-              match more? Please contact your admin so they can sort it out
+        <div className="w-full bg-[#F8D7DA] sm:p-4 p-3 flex rounded-md gap-3 xl:items-center items-start justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <img src={CloseIcon} alt="close" />
+            <span className="text-[#842029] text-base font-calibri">
+              Only a maximum of{" "}
+              {selectTargetPillarLimit?.data?.pillarLimit || 0} pillars can be
+              selected. Does your course match more? Please contact your admin
+              so they can sort it out
             </span>
           </div>
           <Button
@@ -168,13 +181,17 @@ const CoursePathwayPage = () => {
         </div>
       )}
 
-      <div className="text-right">
+      <div className="sm:text-right text-center">
         <Button
           type="button"
           onClick={handleSubmit}
-          className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
         >
-          {pillarMaturityLoading ? <Loader containerClassName="max-h-auto" /> : "Next"}
+          {pillarMaturityLoading ? (
+            <Loader containerClassName="max-h-auto" />
+          ) : (
+            "Next"
+          )}
         </Button>
       </div>
     </div>

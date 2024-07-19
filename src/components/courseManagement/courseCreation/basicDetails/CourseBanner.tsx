@@ -4,7 +4,11 @@ import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { createCourseTwoPage, fetchSingleCourseById, updateCourse } from "@/services/apiServices/courseManagement";
+import {
+  createCourseTwoPage,
+  fetchSingleCourseById,
+  updateCourse,
+} from "@/services/apiServices/courseManagement";
 import { uploadImage } from "@/services/apiServices/upload";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
@@ -28,11 +32,17 @@ const CourseBanner = () => {
   const pathName = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   console.log("paramsTab", paramsTab);
-  
+
   const schema = zod.object({
-    description: zod.string({required_error: "Description is required"}).min(1, "Information is required"),
-    bannerImage: zod.string({required_error: "Banner Image is required"}).min(1, "Banner Image is required"),
-    keys: zod.string({required_error: "Key Outcomes is required"}).min(1, "Key Outcomes is required"),
+    description: zod
+      .string({ required_error: "Description is required" })
+      .min(1, "Information is required"),
+    bannerImage: zod
+      .string({ required_error: "Banner Image is required" })
+      .min(1, "Banner Image is required"),
+    keys: zod
+      .string({ required_error: "Key Outcomes is required" })
+      .min(1, "Key Outcomes is required"),
   });
 
   const {
@@ -45,15 +55,15 @@ const CourseBanner = () => {
     mode: "all",
   });
 
-  const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+  const { data: getSingleCourse } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
-  })
+  });
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
-      const data:CourseData | any = getSingleCourse?.data?.course;
+      const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
         setEditorData(data?.description || "");
@@ -98,7 +108,6 @@ const CourseBanner = () => {
     },
   });
 
-
   const { mutate: create, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {
@@ -108,7 +117,7 @@ const CourseBanner = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course?tab=${1}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${1}&id=${params}&version=${paramsversion}`
       );
     },
     onError: (error: ResponseError) => {
@@ -138,7 +147,7 @@ const CourseBanner = () => {
       updateCourseFun({
         payload,
         id: +courseId,
-        version: getSingleCourse?.data?.version
+        version: getSingleCourse?.data?.version,
       });
     } else {
       create({
@@ -149,104 +158,117 @@ const CourseBanner = () => {
     }
   };
 
-
   return (
-    <div className="border border-[#D9D9D9] rounded-md p-7">
-      <div className="">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="pb-5">
-            <h6 className="text-[#515151] font-calibri text-base pb-4">
-              Information
-            </h6>
-            <CKEditorComponent
-              value={editorData}
-              {...register("description")}
-              onChange={(e, data) => {
-                console.log(e);
-                setEditorData(data.getData());
-                setValue("description", data.getData());
-              }}
-            />
-            {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
-            {!editorData && errors?.description && (
-                <ErrorMessage message={errors?.description?.message as string} />
-              )}
-          </div>
-          <div className="pb-5">
-            <h6 className="text-[#515151] font-calibri text-base pb-4">
-              Banner Image
-            </h6>
-            <div className="border flex items-center border-[#D9D9D9] p-4 rounded-md">
-              <div className="">
-                <div className="w-[270px] h-[190px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer">
-                  {isUploading ? (
-                    <Loader />
-                  ) : image ? (
-                    <img src={image} alt="banner" className="w-full h-full" />
-                  ) : (
-                    <span className="flex items-center text-[#9E9E9E] ">
-                      <Image /> Upload Image
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="xl:w-[40%] text-center ps-4 xl:ps-0">
-                <h6 className="text-base font-calibri pb-3">
-                  Size: 1024x768 pixels Max size 500KB
-                </h6>
-                <h6 className="text-base font-calibri pb-3">
-                  File Support: jpg, .jpeg
-                </h6>
-                <input
-                  type="file"
-                  className="hidden"
-                  id="file"
-                  accept=".jpeg, .jpg"
-                  {...register("bannerImage")}
-                  onChange={handleUpload}
+    <>
+      <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
+        Course Banner
+      </div>
+      <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
+        <div className="">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="pb-5">
+              <h6 className="text-[#515151] font-calibri text-base pb-3">
+                Information
+              </h6>
+              <CKEditorComponent
+                value={editorData}
+                {...register("description")}
+                onChange={(e, data) => {
+                  console.log(e);
+                  setEditorData(data.getData());
+                  setValue("description", data.getData());
+                }}
+              />
+              {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
+              {!editorData && errors?.description && (
+                <ErrorMessage
+                  message={errors?.description?.message as string}
                 />
-                <div>
-                  <label htmlFor="file" className="cursor-pointer inline-block">
-                    <div className="flex items-center justify-center max-w-[160px] mx-auto rounded-[5px] text-white bg-[#42A7C3] px-4 py-3">
-                      <Image className="me-2" />
-                      Upload Photo
-                    </div>
-                  </label>
+              )}
+            </div>
+            <div className="pb-5">
+              <h6 className="text-[#515151] font-calibri text-base pb-3">
+                Banner Image
+              </h6>
+              <div className="border flex items-center border-[#D9D9D9] p-4 rounded-md">
+                <div className="">
+                  <div className="md:w-[270px] md:h-[190px] sm:w-[200px] sm:h-[150px] w-[110px] h-[110px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer">
+                    {isUploading ? (
+                      <Loader />
+                    ) : image ? (
+                      <img src={image} alt="banner" className="w-full h-full" />
+                    ) : (
+                      <span className="flex items-center text-[#9E9E9E] gap-2">
+                        <Image /> Upload Image
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="xl:w-[40%] text-center ps-4 xl:ps-0">
+                  <h6 className="text-base font-calibri pb-3">
+                    Size: 1024x768 pixels Max size 500KB
+                  </h6>
+                  <h6 className="text-base font-calibri pb-3">
+                    File Support: jpg, .jpeg
+                  </h6>
+                  <input
+                    type="file"
+                    className="hidden"
+                    id="file"
+                    accept=".jpeg, .jpg"
+                    {...register("bannerImage")}
+                    onChange={handleUpload}
+                  />
+                  <div>
+                    <label
+                      htmlFor="file"
+                      className="cursor-pointer inline-block"
+                    >
+                      <div className="flex items-center justify-center max-w-[160px] mx-auto rounded-[5px] text-white bg-[#42A7C3] px-4 py-3">
+                        <Image className="me-2" />
+                        Upload Photo
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            {image === "" && errors?.bannerImage && (
+              {image === "" && errors?.bannerImage && (
                 <ErrorMessage message={"Banner image is required"} />
               )}
-          </div>
-          <div className="pb-5">
-            <h6 className="text-[#515151] font-calibri text-base pb-4">
-              Key Outcomes
-            </h6>
-            <CKEditorComponent
-              value={keyData}
-              {...register("keys")}
-              onChange={(e, data) => {
-                console.log("e", e);
-                setKeyData(data.getData());
-                setValue("keys", data.getData());
-              }}
-            />
-            {!keyData && errors?.keys && (
+            </div>
+            <div className="pb-5">
+              <h6 className="text-[#515151] font-calibri text-base pb-3">
+                Key Outcomes
+              </h6>
+              <CKEditorComponent
+                value={keyData}
+                {...register("keys")}
+                onChange={(e, data) => {
+                  console.log("e", e);
+                  setKeyData(data.getData());
+                  setValue("keys", data.getData());
+                }}
+              />
+              {!keyData && errors?.keys && (
                 <ErrorMessage message={errors?.keys?.message as string} />
               )}
-          </div>
-          <div className="text-right">
-            <Button
-              type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-            >
-              {isPending || isUpdatePending ? <Loader containerClassName="h-auto" /> : "Next"}
-            </Button>
-          </div>
-        </form>
+            </div>
+            <div className="text-right">
+              <Button
+                type="submit"
+                className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              >
+                {isPending || isUpdatePending ? (
+                  <Loader containerClassName="h-auto" />
+                ) : (
+                  "Next"
+                )}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

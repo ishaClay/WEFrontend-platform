@@ -30,9 +30,9 @@ const schema = zod
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) })
+      .string({ errorMap: () => ({ message: "Invalid course price" }) }).min(1, "Course price is required")
       .refine(
-        (val: string | any) => val === undefined || !isNaN(val),
+        (val: string | any) => (val === undefined || val === "") || !isNaN(val),
         "Invalid course price"
       ),
     discountApplicable: zod.number().optional(),
@@ -193,138 +193,149 @@ const CourseInformation = () => {
   }, [isFreeCourse, clearErrors]);
 
   return (
-    <div className="border border-[#D9D9D9] rounded-md p-7">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-[18px]">
-            <InputWithLabel
-              label="What is the title of the course you're offering?"
-              labelClassName="font-calibri text-[16px] text-[#515151]"
-              placeholder="Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-              {...register("title")}
-              error={errors.title?.message as string}
-            />
-          </div>
-          <div className="mb-[18px]">
-            <InputWithLabel
-              label="Please enter the name of the institute providing this course."
-              labelClassName="font-calibri text-[16px] text-[#515151]"
-              placeholder="Atlantic Technological University"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-              {...register("institute")}
-              error={errors.institute?.message as string}
-            />
-          </div>
-          <div className="mb-[18px]">
-            <InputWithLabel
-              label="Provide a direct link to the course details on your institute's website."
-              labelClassName="font-calibri text-[16px] text-[#515151]"
-              placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]  mt-[9px]"
-              {...register("instituteWebsite")}
-              error={errors.instituteWebsite?.message as string}
-            />
-          </div>
-          <div className="mb-[18px]">
-            <InputWithLabel
-              label="Do you have any additional links for course materials or resources? (Optional)"
-              labelClassName="font-calibri text-[16px] text-[#515151]"
-              placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-              {...register("instituteWebsite2")}
-              error={errors.instituteWebsite2?.message as string}
-            />
-          </div>
-          <div className="flex pb-7">
-            <div className="flex items-center pe-5 xl:w-[220px]">
-              <span className="pe-3 font-calibri text-base text-black">
-                Free Course?
-              </span>
-              <Switch
-                checked={isFreeCourse}
-                onCheckedChange={() => {
-                  setIsFreeCourse(!isFreeCourse);
-                  setValue("freeCourse", !isFreeCourse);
-                }}
-              />
-            </div>
-            <div className="flex items-center">
-              <span className="pe-3 font-calibri text-base text-[#515151] xl:w-[130px]">
-                Course Price
-              </span>
+    <>
+      <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
+        Course Information
+      </div>
+      <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="sm:mb-[18px] mb-[15px]">
               <InputWithLabel
-                placeholder="€50.00"
-                className="w-[190px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
-                disabled={isFreeCourse}
-                {...register("price")}
-                error={
-                  !errors?.price?.ref?.value
-                    ? (errors.price?.message as string)
-                    : ""
-                }
+                label="What is the title of the course you're offering?"
+                labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+                placeholder="Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity"
+                className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+                {...register("title")}
+                error={errors.title?.message as string}
               />
             </div>
-          </div>
-
-          <div className="flex pb-7">
-            <div className="flex items-center pe-5 xl:w-[220px]">
-              <span className="pe-3 font-calibri text-base text-black">
-                Discount provided?
-              </span>
-              <Switch
-                disabled={isFreeCourse}
-                checked={provideDisc}
-                onCheckedChange={() => setProvideDisc(!provideDisc)}
-              />
-            </div>
-            <div className="flex items-center">
-              <span className="pe-3 font-calibri text-base text-[#515151] xl:w-[130px]">
-                Discounted Price
-              </span>
+            <div className="sm:mb-[18px] mb-[15px]">
               <InputWithLabel
-                placeholder="€255"
-                className="w-[190px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
-                disabled={!provideDisc}
-                value={discount}
-                onChange={(e) => setDiscount(e.target.value)}
-                error={
-                  +discount > +coursePrise
-                    ? "Discount is greater than course price"
-                    : ""
-                }
+                label="Please enter the name of the institute providing this course."
+                labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+                placeholder="Atlantic Technological University"
+                className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+                {...register("institute")}
+                error={errors.institute?.message as string}
               />
             </div>
-          </div>
+            <div className="sm:mb-[18px] mb-[15px]">
+              <InputWithLabel
+                label="Provide a direct link to the course details on your institute's website."
+                labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+                placeholder="www.atlanticTechnologicalUniversity.com"
+                className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+                {...register("instituteWebsite")}
+                error={errors.instituteWebsite?.message as string}
+              />
+            </div>
+            <div className="sm:mb-[13px] mb-[15px]">
+              <InputWithLabel
+                label="Do you have any additional links for course materials or resources? (Optional)"
+                labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+                placeholder="www.atlanticTechnologicalUniversity.com"
+                className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+                {...register("instituteWebsite2")}
+                error={errors.instituteWebsite2?.message as string}
+              />
+            </div>
+            <div className="md:flex block items-center gap-10 sm:pb-6 pb-[15px]">
+              <div className="flex md:flex-col flex-row md:gap-[50px] gap-[10px] md:pb-0 pb-[21px]">
+                <div className="flex items-center">
+                  <span className="pe-3 font-calibri md:text-base sm:text-sm text-xs text-black">
+                    Free Course?
+                  </span>
+                  <Switch
+                    checked={isFreeCourse}
+                    onCheckedChange={() => {
+                      setIsFreeCourse(!isFreeCourse);
+                      setValue("freeCourse", !isFreeCourse);
+                    }}
+                    className="w-8 h-5"
+                    switchClassName="w-4 h-4"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <span className="pe-3 font-calibri md:text-base sm:text-sm text-xs text-black">
+                    Discount provided?
+                  </span>
+                  <Switch
+                    disabled={isFreeCourse}
+                    checked={provideDisc}
+                    onCheckedChange={() => setProvideDisc(!provideDisc)}
+                    className="w-8 h-5"
+                    switchClassName="w-4 h-4"
+                  />
+                </div>
+              </div>
 
-          <div className="pb-8">
-            <InputWithLabel
-              label="Discount provided by"
-              labelClassName="font-calibri text-[16px] text-[#515151]"
-              placeholder="Select Skillnet"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-              disabled
-              value={data?.data?.name}
-            />
-          </div>
+              <div className="flex flex-col md:gap-[25px] gap-[15px]">
+                <div className="flex items-center">
+                  <span className="pe-3 font-calibri sm:text-base text-sm text-[#515151] xl:w-[130px]">
+                    Course Price
+                  </span>
+                  <InputWithLabel
+                    placeholder="€50.00"
+                    className="sm:w-[190px] w-[170px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
+                    disabled={isFreeCourse}
+                    {...register("price")}
+                    error={
+                      !errors?.price?.ref?.value
+                        ? (errors.price?.message as string)
+                        : ""
+                    }
+                  />
+                </div>
+                <div className="flex items-center">
+                  <span className="pe-3 font-calibri sm:text-base text-sm text-[#515151] xl:w-[130px]">
+                    Discounted Price
+                  </span>
+                  <InputWithLabel
+                    placeholder="€255"
+                    className="sm:w-[190px] w-[150px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
+                    disabled={!provideDisc}
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                    error={
+                      +discount > +coursePrise
+                        ? "Discount is greater than course price"
+                        : ""
+                    }
+                  />
+                </div>
+              </div>
+            </div>
 
-          <div className="text-right">
-            <Button
-              type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-            >
-              {isPending || isUpdatePending ? (
-                <Loader containerClassName="max-h-auto" />
-              ) : (
-                "Next"
-              )}
-            </Button>
-          </div>
-        </form>
-      )}
-    </div>
+            <div className="md:pb-8 sm:pb-6 pb-[15px]">
+              <InputWithLabel
+                label="Discount provided by"
+                labelClassName="font-calibri !text-base text-[#000000]"
+                placeholder="Select Skillnet"
+                className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
+                disabled
+                value={data?.data?.name}
+              />
+            </div>
+
+            <div className="sm:text-right text-center">
+              <Button
+                type="submit"
+                className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              >
+                {isPending || isUpdatePending ? (
+                  <Loader containerClassName="max-h-auto" />
+                ) : (
+                  "Next"
+                )}
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>
+    </>
   );
 };
 

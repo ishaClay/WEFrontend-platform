@@ -5,28 +5,35 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
+import { sendMessage } from "@/services/apiServices/chatServices";
 import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { ErrorType } from "@/types/Errors";
-import { Enroll, FetchEnrollRequestDataType } from "@/types/enroll";
+import { Data, Enroll } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Euro } from "lucide-react";
+import { Euro, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const EnrollmentCourseListCard = ({
   data,
 }: {
-  data: FetchEnrollRequestDataType;
+  data: Data;
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { UserId } = useSelector((state: RootState) => state.user);
   const pathName: string = location?.pathname?.split("/")[1];
+  const [selectEnrollType, setSelectEnrollType] = useState<number | null>();
   const { mutate: updateEnrollRequest } = useMutation({
     mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer],
       });
+      setSelectEnrollType(null);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -43,6 +50,44 @@ const EnrollmentCourseListCard = ({
       },
     });
   };
+
+  const { mutate: handleSend } = useMutation({
+    mutationFn: sendMessage,
+    onSuccess: ({ data }) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatList],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatUserList],
+      });
+      toast({
+        variant: "success",
+        title: data?.data?.message,
+      });
+      navigate(`/${pathName}/message`)
+      // socket.emit("new message", data?.data);
+      console.log("data+++++", data);
+      
+    },
+    onError:(error: ErrorType) => {
+      console.log("data+++++error", error);
+      toast({
+        variant: "destructive",
+        title: error?.data?.message,
+      });
+    }
+  });
+
+  const handleInquire = (data: Data | any) => {
+    const trainerCompany = data?.courseVersion?.course;
+    const payload = {
+      senderId: UserId,
+      receiverId: trainerCompany?.trainerCompanyId ? data?.trainerCompanyId?.userDetails?.id : data?.trainerId?.userDetails?.id,
+      message: data?.title,
+      images: [data?.bannerImage]
+    }
+    handleSend(payload)
+  }
 
   return (
     <div className="xl:flex block items-center justify-between border border-[#D9D9D9] 2xl:p-5 sm:p-3 p-0 rounded-md sm:mb-4 sm:mx-4 m-[15px] gap-4">
@@ -109,29 +154,31 @@ const EnrollmentCourseListCard = ({
           {data?.enroll === Enroll.enquiry ? (
             <Button
               className="bg-[#00778B] sm:w-[125px] sm:h-[42px] w-[87px] h-[31px]"
-              onClick={() => navigate(`/${pathName}/message`)}
+              onClick={() => handleInquire(data)}
             >
               Show Message
             </Button>
           ) : (
             <Button
               className="bg-[#00778B] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px]"
-              onClick={() => navigate(`/${pathName}/message`)}
+              onClick={() => handleInquire(data)}
             >
               Enquire
             </Button>
           )}
           <Button
-            onClick={() => EditCourse(Enroll.accept)}
+            onClick={() => {EditCourse(Enroll.accept); setSelectEnrollType(Enroll.accept)}}
             className="bg-[#58BA66] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
+            disabled={selectEnrollType === Enroll.accept}
           >
-            Accept
+            {selectEnrollType === Enroll.accept && <Loader2 className="w-5 h-5 animate-spin" />} Accept
           </Button>
           <Button
-            onClick={() => EditCourse(Enroll.reject)}
+            onClick={() => {EditCourse(Enroll.reject); setSelectEnrollType(Enroll.reject)}}
             className="bg-[#FF5252] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
+            disabled={selectEnrollType === Enroll.reject}
           >
-            Reject
+            {selectEnrollType === Enroll.reject && <Loader2 className="w-5 h-5 animate-spin" />} Reject
           </Button>
         </div>
       )}

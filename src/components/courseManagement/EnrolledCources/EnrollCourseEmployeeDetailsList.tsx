@@ -1,50 +1,25 @@
-import empoyee_1 from "@/assets/images/face_1.jfif";
 import EnrollCourseEmployeeDetailsListItem from "./EnrollCourseEmployeeDetailsListItem";
 import { Button } from "@/components/ui/button";
 import { Video } from "lucide-react";
 import Modal from "@/components/comman/Modal";
 import { useState } from "react";
 import SessionModalDetails from "./SessionModalDetails";
+import { CohortGroupType } from "@/types/enroll";
 
-const EnrollCourseEmployeeDetailsList = () => {
+
+interface EnrollCourseEmployeeDetailsListProps {
+  data: CohortGroupType
+}
+const EnrollCourseEmployeeDetailsList = ({ data }: EnrollCourseEmployeeDetailsListProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const employeeCourseDetails = [
-    {
-      image: empoyee_1,
-      name: "Ankites Risher",
-      subtitle: "SME Company",
-      complete: "Complete",
-      score: "10/15",
-      certificate: "Certificate",
-      evauate: "Evauate",
-    },
-    {
-      image: empoyee_1,
-      name: "Ankites Risher",
-      subtitle: "SME Company",
-      complete: "Complete",
-      score: "10/15",
-      certificate: "Certificate",
-      evauate: "Evauate",
-    },
-    {
-      image: empoyee_1,
-      name: "Ankites Risher",
-      subtitle: "SME Company",
-      complete: "Complete",
-      score: "10/15",
-      certificate: "Certificate",
-      evauate: "Evauate",
-    },
-  ];
   return (
     <div>
       <div className="">
-        {employeeCourseDetails.map((data, index) => {
+        {data?.employee && data?.employee?.length > 0 ? data?.employee?.map((item, index) => {
           return (
-            <EnrollCourseEmployeeDetailsListItem data={data} key={index} />
+            <EnrollCourseEmployeeDetailsListItem data={item} key={index} />
           );
-        })}
+        }) : <span className="text-center block text-xl text-neutral-400">No data found</span> }
       </div>
       <div className="flex sm:flex-row flex-col sm:items-start items-center gap-3 mt-5">
         <Button

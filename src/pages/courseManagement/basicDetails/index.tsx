@@ -57,7 +57,7 @@ const BasicDetails = () => {
 
   return (
     <div>
-      <div className="w-full sm:my-10 my-5">
+      <div className="w-full sm:my-10 mt-5 mb-[15px]">
         <CourseStepper
           steps={[
             "Course Information",

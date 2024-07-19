@@ -328,8 +328,19 @@ const Message = () => {
                                 ),
                               }}
                             >
-                              {item?.senderId?.name?.[0].toUpperCase() ||
-                                item?.senderId?.email?.[0].toUpperCase()}
+                              {/* {item?.senderId?.name?.[0].toUpperCase() ||
+                                item?.senderId?.email?.[0].toUpperCase()} */}
+                              {chatUserList?.data?.data
+                                ?.find(
+                                  (item: GetChatUserList) => item?.id === chatId
+                                )
+                                ?.name?.[0]?.toUpperCase() ||
+                                chatUserList?.data?.data
+                                  ?.find(
+                                    (item: GetChatUserList) =>
+                                      item?.id === chatId
+                                  )
+                                  ?.email?.[0]?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
                           <div>

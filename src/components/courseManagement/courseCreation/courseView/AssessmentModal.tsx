@@ -13,13 +13,13 @@ const AssessmentModal = () => {
 
   return (
     <div>
-      <h5 className="font-bold text-black text-xl font-calibri pb-[9px]">
+      <h5 className="font-bold text-black sm:text-xl text-base font-calibri pb-2.5">
         Select Question Type
       </h5>
-      <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] pb-5">
+      <p className="text-[#606060] sm:text-[15px] text-sm font-abhaya leading-[16px] pb-5">
         Which format would best suit this particular assessment question?
       </p>
-      <div className="flex items-center justify-center flex-wrap">
+      <div className="flex items-center md:justify-evenly justify-center flex-wrap">
         {Object.entries(assessmentOptions?.data?.data).map((data, index) => {
           return <AssessmentModalSelectItem key={index} data={data} />;
         })}

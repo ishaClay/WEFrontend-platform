@@ -45,7 +45,7 @@ const AssecessmentPage = () => {
       <Modal
         open={isOpenAssessmentModal}
         onClose={() => setIsOpenAssessmentModal(false)}
-        className="max-w-3xl"
+        className="max-w-3xl p-0"
       >
         <AssessmentModal />
       </Modal>

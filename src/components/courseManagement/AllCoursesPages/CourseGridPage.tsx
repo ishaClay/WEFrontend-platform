@@ -317,7 +317,7 @@ const CourseGridPage = ({
                     <Button
                       onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(allcourse?.id)}}
                       className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                      disabled={!allcourse?.enrolled}
+                      disabled={allcourse?.enrolled}
                     >
                       Enroll Now
                     </Button>
