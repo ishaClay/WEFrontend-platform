@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -25,7 +24,9 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod.string({ required_error: "NQF level is required"}).min(1, "NQF level is required"),
+  nfqLeval: zod
+    .string({ required_error: "NQF level is required" })
+    .min(1, "NQF level is required"),
   certificate: zod.string().min(1, "Participants is required").optional(),
   ectsCredits: zod.string().min(1, "ECTS credit is required"),
   fetCredits: zod.string().min(1, "FET credit is required"),
@@ -175,71 +176,73 @@ const CourseSpecifications = () => {
   };
 
   return (
-    <div className="border border-[#D9D9D9] rounded-md p-7">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-[18px]">
-          <Label className="font-primary font-[400] leading-normal font-calibri text-[16px] text-[#515151]">
-            Specify the NFQ level for this course (if applicable).
-          </Label>
-          <SelectMenu
-            {...register("nfqLeval")}
-            option={nfqlLevelOption || []}
-            setValue={(e: string) => setValue("nfqLeval", e)}
-            value={watch("nfqLeval")}
-            placeholder="Select NQF Level"
-            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-          />
-          {!errors?.nfqLeval?.ref?.value && (
-            <ErrorMessage message={errors?.nfqLeval?.message as string}></ErrorMessage>
-          )}
-        </div>
-        <div className="mb-[18px]">
-          <InputWithLabel
-            label="How many ECTS credits does this course offer?"
-            labelClassName="font-calibri md:text-[16px] text-[#515151]"
-            placeholder="60 Credits"
-            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("ectsCredits")}
-            error={errors.ectsCredits?.message as string}
-          />
-        </div>
-        <div className="mb-[18px]">
-          <InputWithLabel
-            label="How many FET credits does this course offer?"
-            labelClassName="font-calibri md:text-[16px] text-[#515151]"
-            placeholder="60 Credits"
-            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-            {...register("fetCredits")}
-            error={errors.fetCredits?.message as string}
-          />
-        </div>
-        <div className="mb-[18px]">
-          <Label className="font-primary font-[400] leading-normal font-calibri text-[16px] text-[#515151]">
-            What type of certificate or award will certificate receive upon
-            completion?
-          </Label>
-          <SelectMenu
-            option={certificateOption || []}
-            setValue={(e: string) => setValue("certificate", e)}
-            value={watch("certificate") || ""}
-            placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
-            className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
-          />
-        </div>
-        <div className="text-right">
-          <Button
-            type="submit"
-            className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-          >
-            {isPending || isUpdatePending ? (
-              <Loader containerClassName="max-h-auto" />
-            ) : (
-              "Next"
-            )}
-          </Button>
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
+        Course Details & Specifications
+      </div>
+      <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="sm:mb-[18px] mb-[15px]">
+            <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
+              Specify the NFQ level for this course (if applicable).
+            </Label>
+            <SelectMenu
+              {...register("nfqLeval")}
+              option={nfqlLevelOption || []}
+              setValue={(e: string) => setValue("nfqLeval", e)}
+              value={watch("nfqLeval")}
+              placeholder="Select NQF Level"
+              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
+            />
+          </div>
+          <div className="sm:mb-[18px] mb-[15px]">
+            <InputWithLabel
+              label="How many ECTS credits does this course offer?"
+              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              placeholder="60 Credits"
+              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              {...register("ectsCredits")}
+              error={errors.ectsCredits?.message as string}
+            />
+          </div>
+          <div className="sm:mb-[18px] mb-[15px]">
+            <InputWithLabel
+              label="How many FET credits does this course offer?"
+              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              placeholder="60 Credits"
+              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              {...register("fetCredits")}
+              error={errors.fetCredits?.message as string}
+            />
+          </div>
+          <div className="sm:mb-[20px] mb-[15px]">
+            <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
+              What type of certificate or award will certificate receive upon
+              completion?
+            </Label>
+            <SelectMenu
+              option={certificateOption || []}
+              setValue={(e: string) => setValue("certificate", e)}
+              value={watch("certificate") || ""}
+              placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
+              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+            />
+          </div>
+          <div className="sm:text-right text-center">
+            <Button
+              type="submit"
+              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+            >
+              {isPending || isUpdatePending ? (
+                <Loader containerClassName="max-h-auto" />
+              ) : (
+                "Next"
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

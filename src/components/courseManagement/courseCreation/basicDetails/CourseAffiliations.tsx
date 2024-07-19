@@ -4,7 +4,11 @@ import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { createCourseTwoPage, fetchSingleCourseById, updateCourse } from "@/services/apiServices/courseManagement";
+import {
+  createCourseTwoPage,
+  fetchSingleCourseById,
+  updateCourse,
+} from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +48,6 @@ const schema = zod.object({
 const CourseAffiliations = () => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
-    register,
     handleSubmit,
     setValue,
     watch,
@@ -85,15 +88,15 @@ const CourseAffiliations = () => {
     },
   });
 
-  const {data: getSingleCourse} = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, {paramsversion}],
+  const { data: getSingleCourse } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
-  })
+  });
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
-      const data:CourseData | any = getSingleCourse?.data?.course;
+      const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
       });
@@ -109,7 +112,9 @@ const CourseAffiliations = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${location?.pathname?.split("/")[3]}?tab=${paramsTab}&step=${4}&version=${paramsversion}`,
+        `/${pathName}/create_course/${
+          location?.pathname?.split("/")[3]
+        }?tab=${paramsTab}&step=${4}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -134,7 +139,7 @@ const CourseAffiliations = () => {
       updateCourseFun({
         payload,
         id: +courseId,
-        version: getSingleCourse?.data?.version
+        version: getSingleCourse?.data?.version,
       });
     } else {
       mutate({
@@ -146,54 +151,66 @@ const CourseAffiliations = () => {
   };
 
   return (
-    <div className="border border-[#D9D9D9] rounded-md p-7">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="">
-          <h6 className="text-base text-[#515151] font-calibri pb-3">
-            Is this course affiliated with any other institutes or organisation?
-          </h6>
-          <div className="mb-[15px]">
-            <SelectMenu
-              {...register("instituteOther")}
-              option={organisationOption}
-              setValue={(data: string) => setValue("instituteOther", data)}
-              value={watch("instituteOther")}
-              placeholder="Other"
-              className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
-            />
-            {!errors.instituteOther?.ref?.value && (
-              <FormError message={errors.instituteOther?.message as string} />
-            )}
+    <>
+      <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
+        Course Affiliations
+      </div>
+      <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="">
+            <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+              Is this course affiliated with any other institutes or
+              organisation?
+            </h6>
+            <div className="md:mb-[28px] sm:mb-5 mb-[15px]">
+              <SelectMenu
+                option={organisationOption}
+                setValue={(data: string) => setValue("instituteOther", data)}
+                value={watch("instituteOther")}
+                placeholder="Other"
+                className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
+              />
+              {errors.instituteOther && (
+                <FormError message={errors.instituteOther?.message as string} />
+              )}
+            </div>
           </div>
-        </div>
-        <div className="">
-          <h6 className="text-base text-[#515151] font-calibri pb-3">
-            Provide Institution / organisation Name
-          </h6>
-          <div className="mb-[15px]">
-            <SelectMenu
-              {...register("otherInstitutionName")}
-              option={organisationNameOption}
-              setValue={(data: string) => setValue("otherInstitutionName", data)}
-              value={watch("otherInstitutionName")}
-              placeholder="Enter Name"
-              className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
-            />
-            {!errors.otherInstitutionName?.ref?.value && (
-              <FormError message={errors.otherInstitutionName?.message as string} />
-            )}
+          <div className="">
+            <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+              Provide Institution / organisation Name
+            </h6>
+            <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
+              <SelectMenu
+                option={organisationNameOption}
+                setValue={(data: string) =>
+                  setValue("otherInstitutionName", data)
+                }
+                value={watch("otherInstitutionName")}
+                placeholder="Enter Name"
+                className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
+              />
+              {errors.otherInstitutionName && (
+                <FormError
+                  message={errors.otherInstitutionName?.message as string}
+                />
+              )}
+            </div>
           </div>
-        </div>
-        <div className="text-right">
-          <Button
-            type="submit"
-            className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-          >
-            {isPending || isUpdatePending ? <Loader containerClassName="h-auto" /> : "Next"}
-          </Button>
-        </div>
-      </form>
-    </div>
+          <div className="sm:text-right text-center">
+            <Button
+              type="submit"
+              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+            >
+              {isPending || isUpdatePending ? (
+                <Loader containerClassName="h-auto" />
+              ) : (
+                "Next"
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
