@@ -10,7 +10,6 @@ const AssessmentModal = () => {
     queryFn: () => getAssessmentOptions(),
   });
   
-
   return (
     <div>
       <h5 className="font-bold text-black sm:text-xl text-base font-calibri pb-2.5">
@@ -20,7 +19,7 @@ const AssessmentModal = () => {
         Which format would best suit this particular assessment question?
       </p>
       <div className="flex items-center md:justify-evenly justify-center flex-wrap">
-        {Object.entries(assessmentOptions?.data?.data).map((data, index) => {
+        {assessmentOptions?.data?.data?.length && Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
           return <AssessmentModalSelectItem key={index} data={data} />;
         })}
       </div>
