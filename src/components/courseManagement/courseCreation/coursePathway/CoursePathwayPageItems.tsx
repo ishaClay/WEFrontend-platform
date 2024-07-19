@@ -20,9 +20,9 @@ const CoursePathwayPageItems = ({
   console.log("🚀 ~ CoursePathwayPageItems ~ data:", lavelData);
 
   return (
-    <div className="h-[100px] border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
-      <div className="h-full flex items-center col-span-3 p-4 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">
-        <h4 className="align-middle text-base font-calibri font-bold">
+    <div className="md:h-[100px] h-auto border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
+      <div className="h-full flex items-center md:col-span-3 col-span-12 sm:p-4 p-2.5 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">
+        <h4 className="align-middle sm:text-base text-sm font-calibri font-bold">
           {data?.pillarName}
         </h4>
       </div>
@@ -67,26 +67,45 @@ const CoursePathwayPageItems = ({
             </Label>
           );
         })} */}
-      <div className="col-span-9 flex gap-[50px] ml-[50px]">
+      <div className="md:col-span-9 col-span-12 flex sm:flex-row flex-col xl:gap-[50px] sm:gap-6 gap-4 xl:ml-[50px] md:ml-6 ml-2.5 md:mt-0 mt-4 md:mx-0 mx-2.5 md:mb-0 mb-4">
         {lavelData?.map((item: MaturityLevelResult) => {
-          return <div key={item.id} className="flex items-center gap-[50px] col-span-9">
-            <div className={`checkbox space-x-2 py-[10px] px-3 rounded-full outline-none bg-[${item.color
-              }] ${item?.color === "#FF5252" ? "text-white" : "text-black"
-              } text-base font-calibri`}>
-              <label className="flex items-center cursor-pointer">
-                <div className="w-[24px] h-[24px] flex justify-center items-center bg-white rounded-full border-bone me-3">
-                  {selectedData.some((selectLabel: any) => selectLabel?.maturityId === item?.id && selectLabel?.pillarId === data?.id) && <span className="w-3 h-3 rounded-full bg-[#58BA66] inline-block"></span>}
-                </div>
-                <input
-                  type="checkbox"
-                  className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3 hidden"
-                  checked={selectedData.some((selectLabel: any) => selectLabel?.maturityId === item?.id && selectLabel?.pillarId === data?.id)}
-                  onChange={() => handleSelected(data?.id, item?.id)}
-                />
-                {item?.maturityLevelName}
-              </label>
+          return (
+            <div
+              key={item.id}
+              className="flex items-center gap-[50px] col-span-9"
+            >
+              <div
+                className={`checkbox space-x-2 rounded-full flex items-center px-2.5 w-[140px] sm:h-[44px] h-[36px] outline-none bg-[${
+                  item.color
+                }] ${
+                  item?.color === "#FF5252" ? "text-white" : "text-black"
+                } text-base font-calibri`}
+              >
+                <label className="flex sm:gap-4 gap-3 items-center cursor-pointer">
+                  <div className="w-[24px] h-[24px] flex justify-center items-center bg-white rounded-full border-bone">
+                    {selectedData.some(
+                      (selectLabel: any) =>
+                        selectLabel?.maturityId === item?.id &&
+                        selectLabel?.pillarId === data?.id
+                    ) && (
+                      <span className="w-3 h-3 rounded-full bg-[#58BA66] inline-block"></span>
+                    )}
+                  </div>
+                  <input
+                    type="checkbox"
+                    className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3 hidden md:text-base text-sm"
+                    checked={selectedData.some(
+                      (selectLabel: any) =>
+                        selectLabel?.maturityId === item?.id &&
+                        selectLabel?.pillarId === data?.id
+                    )}
+                    onChange={() => handleSelected(data?.id, item?.id)}
+                  />
+                  {item?.maturityLevelName}
+                </label>
+              </div>
             </div>
-          </div>
+          );
         })}
       </div>
 

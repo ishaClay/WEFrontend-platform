@@ -4,7 +4,10 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { calculateTotalReadingTime } from "@/lib/utils";
-import { deleteModule, updateModule } from "@/services/apiServices/moduleCreation";
+import {
+  deleteModule,
+  updateModule,
+} from "@/services/apiServices/moduleCreation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dot, FilePenLine, Trash2 } from "lucide-react";
@@ -26,8 +29,8 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const schema = z.object({
-    moduleTitle: z.string().min(1, "Module Title is required")
-  })
+    moduleTitle: z.string().min(1, "Module Title is required"),
+  });
 
   type ValidationSchema = z.infer<typeof schema>;
   const {
@@ -42,7 +45,6 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
     mode: "all",
   });
 
-
   const reading = calculateTotalReadingTime(data.section);
   // const reading = 0;
 
@@ -53,106 +55,122 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      })
+      });
       toast({
-        variant: 'success',
-        title: 'Module deleted successfully',
-      })
+        variant: "success",
+        title: "Module deleted successfully",
+      });
     },
     onError: () => {
       toast({
-        variant: 'destructive',
-        title: 'Error in deleting module',
-      })
-    }
-  })
+        variant: "destructive",
+        title: "Error in deleting module",
+      });
+    },
+  });
 
   const { mutate: UpdateModule } = useMutation({
     mutationFn: (module: any) => updateModule(module, data.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      })
+      });
       toast({
-        variant: 'success',
-        title: 'Module updated successfully',
-      })
+        variant: "success",
+        title: "Module updated successfully",
+      });
     },
     onError: () => {
       toast({
-        variant: 'destructive',
-        title: 'Error in updating module',
-      })
-    }
-  })
+        variant: "destructive",
+        title: "Error in updating module",
+      });
+    },
+  });
 
   const onEditModule = () => {
-    setIsEdit(true)
-    setValue("moduleTitle", data.title)
-  }
+    setIsEdit(true);
+    setValue("moduleTitle", data.title);
+  };
 
   const onSubmit = (data: FieldValues) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
-    const title = watch("moduleTitle")
+    console.log("🚀 ~ onSubmit ~ data:", data);
+    const title = watch("moduleTitle");
 
-    UpdateModule(title)
-    setIsEdit(false)
-  }
+    UpdateModule(title);
+    setIsEdit(false);
+  };
 
-  console.log('data=====>', data);
-
+  console.log("data=====>", data);
 
   return (
     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
       <div className="w-full flex items-center justify-between gap-4">
-        {!isEdit ? <div>
-          <h3 className="text-base font-bold font-calibri pb-2 text-left">
-            Module: {data.title}
-          </h3>
-          <div className="flex items-center">
-            <h6 className="text-xs text-[#313131] font-inter pe-4">
-              Section: {data.section?.length}
-            </h6>
-            <h6 className="text-xs text-[#313131] font-inter flex items-center">
-              <Dot />
-              {reading}
-            </h6>
+        {!isEdit ? (
+          <div>
+            <h3 className="text-base font-bold font-calibri sm:pb-2 pb-1 text-left">
+              Module: {data.title}
+            </h3>
+            <div className="flex items-center">
+              <h6 className="text-xs text-[#313131] font-inter pe-4">
+                Section: {data.section?.length}
+              </h6>
+              <h6 className="text-xs text-[#313131] font-inter flex items-center">
+                <Dot />
+                {reading}
+              </h6>
+            </div>
           </div>
-        </div> :
+        ) : (
           <div>
             <Input {...register("moduleTitle")} />
             {errors?.moduleTitle && (
               <FormError
                 className="font-calibri not-italic"
-                message={
-                  errors.moduleTitle?.message
-                }
+                message={errors.moduleTitle?.message}
               />
             )}
           </div>
-        }
-        {!isEdit ? <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
-          <FilePenLine
-            width={18}
-            className="me-3 text-[#575757] cursor-pointer"
-            onClick={() => onEditModule()}
-          />
-          <Trash2 width={18}
-            className="me-3 text-[#575757] cursor-pointer"
-            onClick={() => DeleteModule(data.id)}
-          />
-        </div>
-          :
-          <div className="flex items-center gap-2 mr-2" onClick={(e) => e.stopPropagation()}>
+        )}
+        {!isEdit ? (
+          <div
+            className="flex items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <FilePenLine
+              width={18}
+              className="me-3 text-[#575757] cursor-pointer"
+              onClick={() => onEditModule()}
+            />
+            <Trash2
+              width={18}
+              className="me-3 text-[#575757] cursor-pointer"
+              onClick={() => DeleteModule(data.id)}
+            />
+          </div>
+        ) : (
+          <div
+            className="flex items-center gap-2 mr-2"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Button type="submit" className="text-sm font-nunito">
               Save
             </Button>
-            <Button type="button" onClick={() => { setIsEdit(false); reset(); }} className="text-sm font-nunito" variant="outline">
+            <Button
+              type="button"
+              onClick={() => {
+                setIsEdit(false);
+                reset();
+              }}
+              className="text-sm font-nunito"
+              variant="outline"
+            >
               Cancel
             </Button>
-          </div>}
-      </div >
-    </form >
+          </div>
+        )}
+      </div>
+    </form>
   );
 };
 

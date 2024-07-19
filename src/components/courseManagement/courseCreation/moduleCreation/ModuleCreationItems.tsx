@@ -84,324 +84,319 @@ const ModuleCreationItems = ({
   };
 
   return (
-    <div className="">
-      <div className="border border-[#D9D9D9] rounded-lg mb-5">
-        <div className="p-5">
-          <div className="flex justify-between items-center">
-            <h4 className="font-bold font-calibri text-xl pb-4">
-              Module {moduleListlength ? moduleListlength + 1 : index + 1}
-            </h4>
-            {(index !== 0 || moduleListlength > 0) && (
-              <Button
-                type="button"
-                onClick={() => removeModule(index)}
-                className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-calibri"
-              >
-                <CircleX className="me-1" width={18} />
-                Add Remove
-              </Button>
-            )}
-          </div>
-          <div className="">
-            <h6 className="text-base font-calibri text-[#515151] pb-2">
-              Module Title
-            </h6>
-            <Input
-              {...register(`modules.${index}.moduleTitle`)}
-              className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
-            />
-            {errors.modules?.[index]?.moduleTitle && (
-              // <span className="font-primary text-xs font-calibri text-red-500">{errors.modules[index].moduleTitle?.message}</span>
-              <FormError
-                className="font-calibri not-italic"
-                message={errors.modules?.[index]?.moduleTitle?.message}
-              />
-            )}
-          </div>
+    <div className="border border-[#D9D9D9] rounded-lg mb-5">
+      <div className="sm:p-5 p-4">
+        <div className="flex justify-between items-center pb-4">
+          <h4 className="font-bold font-calibri sm:text-xl text-base">
+            Module {moduleListlength ? moduleListlength + 1 : index + 1}
+          </h4>
+          {(index !== 0 || moduleListlength > 0) && (
+            <Button
+              type="button"
+              onClick={() => removeModule(index)}
+              className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-calibri p-0 gap-1 h-auto"
+            >
+              <CircleX width={16} />
+              Remove
+            </Button>
+          )}
         </div>
-        {sections.map((_: any, sectionindex: number) => {
-          const sectionItem = watch(`modules.${index}.section.${sectionindex}`);
-          console.log(
-            "sectionItem",
-            sectionItem,
-            `modules.${index}.section.${sectionIndex}`
-          );
+        <div className="">
+          <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+            Module Title
+          </h6>
+          <Input
+            {...register(`modules.${index}.moduleTitle`)}
+            className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+          />
+          {errors.modules?.[index]?.moduleTitle && (
+            // <span className="font-primary text-xs font-calibri text-red-500">{errors.modules[index].moduleTitle?.message}</span>
+            <FormError
+              className="font-calibri not-italic"
+              message={errors.modules?.[index]?.moduleTitle?.message}
+            />
+          )}
+        </div>
+      </div>
+      {sections.map((_: any, sectionindex: number) => {
+        const sectionItem = watch(`modules.${index}.section.${sectionindex}`);
+        console.log(
+          "sectionItem",
+          sectionItem,
+          `modules.${index}.section.${sectionIndex}`
+        );
 
-          return (
-            <div key={index} className="p-5 border-t border-[#D9D9D9]">
-              <div className="pb-5">
-                <div className="pb-2 flex justify-between items-center">
-                  <h6 className="text-base font-calibri text-[#515151]">
-                    Section Title
-                  </h6>
-                  <div className="flex items-center">
-                    {sectionindex !== 0 && (
-                      <Button
-                        onClick={() => removeSection(sectionindex)}
-                        className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
-                      >
-                        <CircleX className="me-1" width={18} />
-                        Add Remove
-                      </Button>
-                    )}
-                    <h6 className="text-base flex items-center font-calibri text-[#515151]">
-                      <Switch
-                        checked={sectionItem?.isLive}
-                        onCheckedChange={(val) => {
-                          setValue(
-                            `modules.${index}.section.${sectionindex}.isLive`,
-                            val
-                          );
-                        }}
-                        className="me-3"
-                      />
-                      Live Session
-                    </h6>
-                  </div>
-                </div>
-                <Input
-                  {...register(
-                    `modules.${index}.section.${sectionindex}.sectionTitle`
-                  )}
-                  className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
-                />
-                {errors.modules?.[index]?.section?.[sectionindex]
-                  ?.sectionTitle && (
-                  <FormError
-                    className="font-calibri not-italic"
-                    message={
-                      errors.modules[index].section[sectionindex].sectionTitle
-                        ?.message
-                    }
-                  />
-                )}
-              </div>
-              <div className="pb-5">
-                <h6 className="text-base font-calibri text-[#515151] pb-2">
-                  Information{" "}
-                  <span className="text-xs">(Max 1000words only)</span>
+        return (
+          <div key={index} className="sm:p-5 p-4 border-t border-[#D9D9D9]">
+            <div className="pb-5">
+              <div className="pb-2 flex flex-wrap justify-between items-center ">
+                <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+                  Section Title
                 </h6>
-                <Textarea
-                  {...register(
-                    `modules.${index}.section.${sectionindex}.information`
+                <div className="flex items-center">
+                  {sectionindex !== 0 && (
+                    <Button
+                      onClick={() => removeSection(sectionindex)}
+                      className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
+                    >
+                      <CircleX className="me-1" width={18} />
+                      Add Remove
+                    </Button>
                   )}
-                  className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md text-base font-calibri text-black outline-none"
+                  <h6 className="sm:text-base text-sm flex gap-2 items-center font-calibri text-[#515151]">
+                    <Switch
+                      checked={sectionItem?.isLive}
+                      onCheckedChange={(val) => {
+                        setValue(
+                          `modules.${index}.section.${sectionindex}.isLive`,
+                          val
+                        );
+                      }}
+                    />
+                    Live Session
+                  </h6>
+                </div>
+              </div>
+              <Input
+                {...register(
+                  `modules.${index}.section.${sectionindex}.sectionTitle`
+                )}
+                className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+              />
+              {errors.modules?.[index]?.section?.[sectionindex]
+                ?.sectionTitle && (
+                <FormError
+                  className="font-calibri not-italic"
+                  message={
+                    errors.modules[index].section[sectionindex].sectionTitle
+                      ?.message
+                  }
+                />
+              )}
+            </div>
+            <div className="pb-5">
+              <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+                Information{" "}
+                <span className="text-xs">(Max 1000words only)</span>
+              </h6>
+              <Textarea
+                {...register(
+                  `modules.${index}.section.${sectionindex}.information`
+                )}
+                className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md sm:text-base text-sm font-calibri text-black outline-none"
+              />
+              {errors.modules?.[index]?.section?.[sectionindex]
+                ?.information && (
+                <FormError
+                  className="font-calibri not-italic"
+                  message={
+                    errors.modules[index].section[sectionindex].information
+                      ?.message
+                  }
+                />
+              )}
+            </div>
+            {!sectionItem.isLive ? (
+              <>
+                <UploadContent
+                  errors={errors}
+                  register={register}
+                  setValue={setValue}
+                  data={sectionItem}
+                  moduleIndex={index}
+                  sectionIndex={sectionindex}
                 />
                 {errors.modules?.[index]?.section?.[sectionindex]
-                  ?.information && (
-                  <FormError
-                    className="font-calibri not-italic"
-                    message={
-                      errors.modules[index].section[sectionindex].information
-                        ?.message
-                    }
-                  />
-                )}
-              </div>
-              {!sectionItem.isLive ? (
-                <>
-                  <UploadContent
-                    errors={errors}
-                    register={register}
-                    setValue={setValue}
-                    data={sectionItem}
-                    moduleIndex={index}
-                    sectionIndex={sectionindex}
-                  />
-                  {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
-                    !sectionItem.youtubeUrl &&
-                    !sectionItem.uploadedContentUrl && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={
-                          errors.modules?.[index]?.section?.[sectionindex]
-                            ?.uploadedContentUrl?.uploadContentType?.youtubeUrl
-                            ?.message
-                        }
-                      />
-                    )}
-                  <div className="pb-5">
-                    <h6 className="text-base font-calibri text-[#515151] pb-2">
-                      OR Enter Youtube Video URL
-                    </h6>
-                    <Input
-                      {...register(
-                        `modules.${index}.section.${sectionindex}.youtubeUrl`
-                      )}
-                      className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
-                    />
-                    {errors.modules?.[index]?.section?.[sectionindex]
-                      ?.youtubeUrl && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={
-                          errors.modules[index].section[sectionindex].youtubeUrl
-                            ?.message
-                        }
-                      />
-                    )}
-                  </div>
-                  <div className="pb-5">
-                    <h6 className="text-base font-calibri text-[#515151] pb-2">
-                      Upload Related Document to Download
-                      <span className="text-xs">
-                        (Supported File:- .Pdf, .Ppt, docx)
-                      </span>
-                    </h6>
-                    <div className="border border-[#D9D9D9] rounded-md px-4 py-2 w-full flex justify-between items-center">
-                      <input
-                        placeholder={sectionItem.uploadDocument
-                          ?.split("/")
-                          .at(-1)}
-                        className="border-bone w-full outline-none text-base text-[#606060] font-calibri"
-                        disabled
-                      />
-                      <Label
-                        htmlFor="AttechmentUpload"
-                        className="bg-[#42A7C3] flex items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 py-3 rounded-lg"
-                      >
-                        <Link width={20} className="me-2" />
-                        Upload Attachment
-                        <input
-                          type="file"
-                          className="hidden"
-                          id="AttechmentUpload"
-                          onChange={(e) => handleFileSelect(e, sectionindex)}
-                        />
-                      </Label>
-                    </div>
-                  </div>
-                  {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.uploadDocument && (
+                  ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
+                  !sectionItem.youtubeUrl &&
+                  !sectionItem.uploadedContentUrl && (
                     <FormError
                       className="font-calibri not-italic"
                       message={
-                        errors.modules[index].section[sectionindex]
-                          .uploadDocument?.message
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          ?.uploadedContentUrl?.uploadContentType?.youtubeUrl
+                          ?.message
                       }
                     />
                   )}
-                </>
-              ) : (
-                <div className="">
-                  <div className="flex">
-                    <div className="">
-                      <h6 className="text-base text-[#515151] font-calibri pb-3">
-                        Section Duration (HH)
-                      </h6>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
-                        {/* <Textarea className="border-none w-full outline-none text-sm text-black" /> */}
-                        <Input
-                          type="number"
-                          {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
-                            {
-                              setValueAs: (value: string) =>
-                                value === "" ? undefined : Number(value),
-                            }
-                          )}
-                          className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Hours
-                        </h6>
-                      </div>
-                    </div>
-                    {errors.modules?.[index]?.section?.[sectionindex]
-                      ?.livesessionDuration?.hour && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={
-                          errors.modules?.[index]?.section?.[sectionindex]
-                            ?.livesessionDuration?.hour?.message
-                        }
-                      />
+                <div className="pb-5">
+                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+                    OR Enter Youtube Video URL
+                  </h6>
+                  <Input
+                    {...register(
+                      `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
-                    <div className="">
-                      <h6 className="text-base text-[#515151] font-calibri pb-3">
-                        Section Minute (MM)
-                      </h6>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
-                        <Input
-                          value={sectionItem.livesessionDuration?.minute}
-                          {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
-                            {
-                              setValueAs: (value: string) =>
-                                value === "" ? undefined : Number(value),
-                            }
-                          )}
-                          type="number"
-                          className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Minute
-                        </h6>
-                      </div>
-                      {errors.modules?.[index]?.section?.[sectionindex]
-                        ?.livesessionDuration?.minute && (
-                        <FormError
-                          className="font-calibri not-italic"
-                          message={
-                            errors.modules?.[index]?.section?.[sectionindex]
-                              ?.livesessionDuration?.minute?.message
-                          }
-                        />
-                      )}
-                    </div>
-                    <div className="">
-                      <h6 className="text-base text-[#515151] font-calibri pb-3">
-                        Section Seconds (SS)
-                      </h6>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
-                        <Input
-                          {...register(
-                            `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
-                            {
-                              setValueAs: (value: string) =>
-                                value === "" ? undefined : Number(value),
-                            }
-                          )}
-                          type="number"
-                          className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Second
-                        </h6>
-                      </div>
-                      {errors.modules?.[index]?.section?.[sectionindex]
-                        ?.livesessionDuration?.second && (
-                        <FormError
-                          className="font-calibri not-italic"
-                          message={
-                            errors.modules?.[index]?.section?.[sectionindex]
-                              ?.livesessionDuration.second?.message
-                          }
-                        />
-                      )}
-                    </div>
+                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+                  />
+                  {errors.modules?.[index]?.section?.[sectionindex]
+                    ?.youtubeUrl && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors.modules[index].section[sectionindex].youtubeUrl
+                          ?.message
+                      }
+                    />
+                  )}
+                </div>
+                <div className="">
+                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+                    Upload Related Document to Download
+                    <span className="text-xs">
+                      (Supported File:- .Pdf, .Ppt, docx)
+                    </span>
+                  </h6>
+                  <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full flex justify-between items-center">
+                    <input
+                      placeholder={sectionItem.uploadDocument
+                        ?.split("/")
+                        .at(-1)}
+                      className="border-bone w-full outline-none sm:text-base text-sm bg-transparent text-[#606060] font-calibri"
+                      disabled
+                    />
+                    <Label
+                      htmlFor="AttechmentUpload"
+                      className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
+                    >
+                      <Link width={18} className="me-2" />
+                      Upload Attachment
+                      <input
+                        type="file"
+                        className="hidden"
+                        id="AttechmentUpload"
+                        onChange={(e) => handleFileSelect(e, sectionindex)}
+                      />
+                    </Label>
                   </div>
                 </div>
-              )}
-            </div>
-          );
-        })}
-        <div className="text-right px-5 pb-5">
-          <Button
-            type="button"
-            className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
-          >
-            <CirclePlus width={20} className="me-2" /> Add Assessment
-          </Button>
-          <Button
-            type="button"
-            onClick={() => appendSection({ ...intialSectionCreation })}
-            className="bg-[#42A7C3] px-4 py-2 font-inter text-xs"
-          >
-            <CirclePlus width={20} className="me-2" /> Add More Section
-          </Button>
-        </div>
+                {errors.modules?.[index]?.section?.[sectionindex]
+                  ?.uploadDocument && (
+                  <FormError
+                    className="font-calibri not-italic"
+                    message={
+                      errors.modules[index].section[sectionindex].uploadDocument
+                        ?.message
+                    }
+                  />
+                )}
+              </>
+            ) : (
+              <div className="flex sm:flex-row flex-col gap-5">
+                <div className="">
+                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    Section Duration (HH)
+                  </h6>
+                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[53px] h-9 w-full flex justify-between items-center">
+                    {/* <Textarea className="border-none w-full outline-none text-sm text-black" /> */}
+                    <Input
+                      type="number"
+                      {...register(
+                        `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
+                        {
+                          setValueAs: (value: string) =>
+                            value === "" ? undefined : Number(value),
+                        }
+                      )}
+                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                    />
+                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                      Hours
+                    </h6>
+                  </div>
+                </div>
+                {errors.modules?.[index]?.section?.[sectionindex]
+                  ?.livesessionDuration?.hour && (
+                  <FormError
+                    className="font-calibri not-italic"
+                    message={
+                      errors.modules?.[index]?.section?.[sectionindex]
+                        ?.livesessionDuration?.hour?.message
+                    }
+                  />
+                )}
+                <div className="">
+                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    Section Minute (MM)
+                  </h6>
+                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                    <Input
+                      value={sectionItem.livesessionDuration?.minute}
+                      {...register(
+                        `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
+                        {
+                          setValueAs: (value: string) =>
+                            value === "" ? undefined : Number(value),
+                        }
+                      )}
+                      type="number"
+                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                    />
+                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                      Minute
+                    </h6>
+                  </div>
+                  {errors.modules?.[index]?.section?.[sectionindex]
+                    ?.livesessionDuration?.minute && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          ?.livesessionDuration?.minute?.message
+                      }
+                    />
+                  )}
+                </div>
+                <div className="">
+                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    Section Seconds (SS)
+                  </h6>
+                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                    <Input
+                      {...register(
+                        `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
+                        {
+                          setValueAs: (value: string) =>
+                            value === "" ? undefined : Number(value),
+                        }
+                      )}
+                      type="number"
+                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                    />
+                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                      Second
+                    </h6>
+                  </div>
+                  {errors.modules?.[index]?.section?.[sectionindex]
+                    ?.livesessionDuration?.second && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          ?.livesessionDuration.second?.message
+                      }
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <div className="flex sm:justify-end justify-center sm:gap-4 gap-2.5 sm:px-5 px-4 sm:pb-5 pb-4">
+        <Button
+          type="button"
+          className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[141px] w-[131px] h-9"
+        >
+          <CirclePlus width={18} /> Add Assessment
+        </Button>
+        <Button
+          type="button"
+          onClick={() => appendSection({ ...intialSectionCreation })}
+          className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[147px] w-[133px] h-9"
+        >
+          <CirclePlus width={18} /> Add More Section
+        </Button>
       </div>
     </div>
   );

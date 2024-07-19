@@ -100,15 +100,18 @@ const CourseViewCardInnerList = ({
           </div>
         </div>
       </div>
-      <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="flex gap-3 items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
         <FilePenLine
           width={18}
-          className="me-3 text-[#575757] cursor-pointer"
+          className="text-[#575757] cursor-pointer"
           onClick={() => handelEditSection(data)}
         />
         <Trash2
           width={18}
-          className="me-3 text-[#575757] cursor-pointer"
+          className="text-[#575757] cursor-pointer"
           onClick={() => handleDeleteSection(data.id)}
         />
       </div>

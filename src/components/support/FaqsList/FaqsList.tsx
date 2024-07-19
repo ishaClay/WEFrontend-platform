@@ -46,8 +46,8 @@ const FaqsList = () => {
             items={faqs_list?.data?.data}
             rounded={false}
             border={false}
-            triggerClassName="border w-full group hover:no-underline pl-[18px] pr-[6px] text-left sm:text-base text-sm font-semibold md:py-[20px] sm:py-4 py-2"
-            contentClassName="border w-full pl-[18px] pr-[25px] py-[15px] text-[16px] leading-[22px]"
+            triggerClassName="border w-full group hover:no-underline text-left sm:text-base text-sm font-semibold sm:p-5 p-3"
+            contentClassName="border w-full sm:p-5 p-3 text-[16px] leading-[22px]"
           />
         </div>
       </div>

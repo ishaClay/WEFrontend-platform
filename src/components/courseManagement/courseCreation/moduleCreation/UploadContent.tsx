@@ -39,7 +39,6 @@ const UploadContent = ({
   //@ts-ignore
   const FileType = getFileType(data.uploadContentType);
 
-
   useEffect(() => {
     if (data.uploadedContentUrl) {
       const filename = data.uploadedContentUrl.split("/").at(-1);
@@ -56,10 +55,7 @@ const UploadContent = ({
         type
       );
     } else {
-      setValue(
-        `uploadContentType`,
-        type
-      );
+      setValue(`uploadContentType`, type);
     }
   };
 
@@ -76,10 +72,7 @@ const UploadContent = ({
           data.data.data.file
         );
       } else {
-        setValue(
-          `uploadedContentUrl`,
-          data.data.data.file
-        );
+        setValue(`uploadedContentUrl`, data.data.data.file);
       }
     },
     onError: (error: any) => {
@@ -109,10 +102,7 @@ const UploadContent = ({
         ""
       );
     } else {
-      setValue(
-        `uploadedContentUrl`,
-        ""
-      );
+      setValue(`uploadedContentUrl`, "");
     }
     setFileName("");
     setUploadProgress(0);
@@ -123,16 +113,16 @@ const UploadContent = ({
     setDragging(false);
     const file = event.dataTransfer.files[0];
     if (file) {
-      const validate = fileValidation(file.name, FileType?.fileType)
+      const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
         setFileName(file.name);
         setUploadProgress(0);
         FileUpload(file);
       } else {
         toast({
-          variant: 'destructive',
-          title: `Only ${FileType?.fileType.join(', ')} files are allowed.`,
-        })
+          variant: "destructive",
+          title: `Only ${FileType?.fileType.join(", ")} files are allowed.`,
+        });
       }
     }
   };
@@ -140,22 +130,21 @@ const UploadContent = ({
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      const validate = fileValidation(file.name, FileType?.fileType)
+      const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
         setFileName(file.name);
         setUploadProgress(0);
         FileUpload(file);
       } else {
         toast({
-          variant: 'destructive',
-          title: `Only ${FileType?.fileType.join(', ')} files are allowed.`,
-        })
+          variant: "destructive",
+          title: `Only ${FileType?.fileType.join(", ")} files are allowed.`,
+        });
       }
     }
   };
 
-  console.log("🚀 ~ FileType:", FileType)
-
+  console.log("🚀 ~ FileType:", FileType);
 
   let registerkey;
   let errorkey;
@@ -167,18 +156,17 @@ const UploadContent = ({
     errorkey = errors;
   }
 
-
   return (
     <div className="">
       {!data.uploadContentType ? (
         <div className="pb-5">
-          <h6 className="text-base font-calibri text-[#515151] pb-2">
+          <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
             Upload Content
           </h6>
-          <div className="border border-[#D9D9D9] rounded-md px-4 py-2 w-full">
+          <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full">
             <Button
               type="button"
-              className="bg-[#42A7C3] font-bold text-xs font-calibri"
+              className="bg-[#42A7C3] font-bold text-xs font-calibri px-2 sm:py-3 py-1 sm:h-10 h-8"
               onClick={() => setIsOpenUploadDocumnet(true)}
             >
               Select Upload Document Type
@@ -196,10 +184,10 @@ const UploadContent = ({
           <h6 className="text-base font-calibri text-[#515151] pb-2">
             Upload Content
           </h6>
-          <div className="p-4 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
-            <div className="flex items-center">
-              <div className="w-2/5">
-                <div className="text-sm font-calibri font-normal text-[#515151] flex items-center mb-[18px]">
+          <div className="md:p-4 p-2.5 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
+            <div className="flex md:flex-row flex-col items-center lg:gap-10 gap-5">
+              <div className="md:w-2/5 w-full">
+                <div className="text-sm font-calibri font-normal text-[#515151] flex items-center lg:mb-5 mb-3">
                   Selected Document Type :{" "}
                   <img
                     src={FileType && FileType.image}
@@ -213,11 +201,16 @@ const UploadContent = ({
                   onDragLeave={handleDragLeave}
                   onDrop={handleDropEvent}
                   // htmlFor="fileUpload"
-                  className={` bg-white p-5 border border-[#D9D9D9] border-dashed inline-block w-full rounded-lg ${dragging ? "border-blue-500" : ""
-                    }`}
+                  className={` bg-white p-5 border border-[#D9D9D9] border-dashed inline-block w-full rounded-lg ${
+                    dragging ? "border-blue-500" : ""
+                  }`}
                 >
                   <div className="text-center">
-                    <img src={uploadImg} alt="" className="mx-auto mb-5" />
+                    <img
+                      src={uploadImg}
+                      alt=""
+                      className="mx-auto mb-5 sm:w-[75px] w-[55px] sm:h-[70px] h-[50px]"
+                    />
                     <h6 className="text-[#9E9E9E] text-xs font-calibri pb-4">
                       Drag and drop files here
                     </h6>
@@ -242,8 +235,8 @@ const UploadContent = ({
                   </div>
                 </Label>
               </div>
-              <div className="w-3/5 p-5">
-                <div className="2xl:ps-10 ps-0">
+              <div className="md:w-3/5 w-full">
+                <div className="">
                   <div className="flex justify-between items-center pb-3">
                     <h5 className="text-black text-sm font-calibri">
                       Upload Document
@@ -298,33 +291,42 @@ const UploadContent = ({
                     <h5 className="text-[#515151] text-sm font-calibri pb-3">
                       Reading Time
                     </h5>
-                    <div className="flex">
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
+                    <div className="flex sm:flex-row flex-col gap-5">
+                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
                         <Input
                           type="number"
-                          {...register(`${registerkey}readingTime.hour`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) })}
-                          className="border-none w-full outline-none text-sm text-black h-[20px]"
+                          {...register(`${registerkey}readingTime.hour`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          })}
+                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Hour
                         </h6>
                       </div>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
+                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
                         <Input
                           type="number"
-                          {...register(`${registerkey}readingTime.minute`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) })}
+                          {...register(`${registerkey}readingTime.minute`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          })}
                           value={data.readingTime.minute}
-                          className="border-none w-full outline-none text-sm text-black h-[20px]"
+                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Minute
                         </h6>
                       </div>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
+                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
                         <Input
                           type="number"
-                          {...register(`${registerkey}readingTime.second`, { setValueAs: (value: string) => value === '' ? undefined : Number(value) })}
-                          className="border-none w-full outline-none text-sm text-black h-[20px]"
+                          {...register(`${registerkey}readingTime.second`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          })}
+                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Second
@@ -360,7 +362,7 @@ const UploadContent = ({
       <Modal
         open={isOpenUploadDocumnet}
         onClose={() => setIsOpenUploadDocumnet(false)}
-        className="max-w-3xl"
+        className="xl:max-w-[737px] lg:max-w-[650px] sm:max-w-[550px] max-w-[335px] sm:p-5 p-4 rounded-xl"
       >
         <SelectDoumentType
           onSelectedDocumentType={(e) => onSelectedDocumentType(e)}
