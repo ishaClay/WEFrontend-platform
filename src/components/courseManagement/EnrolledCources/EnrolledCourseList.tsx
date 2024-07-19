@@ -6,17 +6,17 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchEnrollmentAccepted } from "@/services/apiServices/enroll";
 import { useSelector } from "react-redux";
-import { Data } from "@/types/enroll";
+import { EnrolledCoursesType } from "@/types/enroll";
+import { Loader2 } from "lucide-react";
 
 const EnrolledCourseList = () => {
   const { UserId } = useSelector((state: any) => state.user);
-  const { data: enrolledCoursesData } = useQuery({
+  const { data: enrolledCoursesData, isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
-  console.log("enrolledCoursesData", enrolledCoursesData);
   
-  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item:Data) => {
+  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item: EnrolledCoursesType) => {
     return {
       title: <EnrolledCourseListItem data={item} />,
       content: <EnrolledCourseDetailsList data={item} />,
@@ -25,7 +25,7 @@ const EnrolledCourseList = () => {
 
   return (
     <div className="sm:px-5 px-4 pb-4">
-      {accordionItems ? <Accordions
+      {isPending ? <span className="py-10 flex justify-center items-center"><Loader2 className="w-5 h-5 animate-spin" /></span> : accordionItems?.length > 0 ? <Accordions
         items={accordionItems}
         triggerClassName="sm:flex block"
         itemsClass="sm:p-5 p-0"

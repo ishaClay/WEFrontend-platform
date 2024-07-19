@@ -9,7 +9,7 @@ import { RootState } from "@/redux/store";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { ErrorType } from "@/types/Errors";
-import { Enroll, FetchEnrollRequestDataType } from "@/types/enroll";
+import { Data, Enroll } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Euro, Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 const EnrollmentCourseListCard = ({
   data,
 }: {
-  data: FetchEnrollRequestDataType;
+  data: Data;
 }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ const EnrollmentCourseListCard = ({
     }
   });
 
-  const handleInquire = (data: FetchEnrollRequestDataType[] | any) => {
+  const handleInquire = (data: Data | any) => {
     const trainerCompany = data?.courseVersion?.course;
     const payload = {
       senderId: UserId,
