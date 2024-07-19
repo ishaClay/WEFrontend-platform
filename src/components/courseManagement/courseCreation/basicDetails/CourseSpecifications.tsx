@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -24,20 +25,21 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod.string().min(1, "NQF level is required"),
+  nfqLeval: zod.string({ required_error: "NQF level is required"}).min(1, "NQF level is required"),
   certificate: zod.string().min(1, "Participants is required").optional(),
   ectsCredits: zod.string().min(1, "ECTS credit is required"),
   fetCredits: zod.string().min(1, "FET credit is required"),
 });
 
 const CourseSpecifications = () => {
+  type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
@@ -187,6 +189,9 @@ const CourseSpecifications = () => {
             placeholder="Select NQF Level"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
           />
+          {!errors?.nfqLeval?.ref?.value && (
+            <ErrorMessage message={errors?.nfqLeval?.message as string}></ErrorMessage>
+          )}
         </div>
         <div className="mb-[18px]">
           <InputWithLabel
@@ -216,7 +221,7 @@ const CourseSpecifications = () => {
           <SelectMenu
             option={certificateOption || []}
             setValue={(e: string) => setValue("certificate", e)}
-            value={watch("certificate")}
+            value={watch("certificate") || ""}
             placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
             className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
           />

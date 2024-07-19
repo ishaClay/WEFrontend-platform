@@ -77,13 +77,14 @@ const schema = zod.object({
 });
 
 const CourseLogistic = () => {
+  type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {

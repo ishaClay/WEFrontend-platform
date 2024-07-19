@@ -124,3 +124,57 @@ export interface SelfAssessmentType {
     updatedAt: string;
   }
   
+
+  export interface SupportTicketListType {
+    data: SupportTicketListData
+  }
+  export interface SupportTicketListData {
+    data?: (DataEntity)[] | null;
+    dataAnalytics: DataAnalytics;
+    metadata: Metadata;
+    message: string;
+  }
+  export interface DataEntity {
+    id: number;
+    email: string;
+    subject: string;
+    description: string;
+    status: string;
+    priority: string;
+    reply: string;
+    documentUrl: string;
+    videoUrl: string;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+    openBy: OpenByOrAssignTo;
+    assignTo: OpenByOrAssignTo;
+  }
+  export interface OpenByOrAssignTo {
+    id: number;
+    name: string;
+    fname?: null;
+    lname?: null;
+    gender?: null;
+    email: string;
+    password: string;
+    role: number;
+    lastLogin: string;
+    isVerify: number;
+    lastLogout: string;
+    pathStatus: number;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+  }
+  export interface DataAnalytics {
+    totalTickets: number;
+    responded: number;
+    resolved: number;
+    pending: number;
+  }
+  export interface Metadata {
+    totalItems: number;
+    currentPage: number;
+    totalPages: number;
+  }

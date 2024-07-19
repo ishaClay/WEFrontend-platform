@@ -42,12 +42,14 @@ const schema = zod.object({
 });
 
 const CourseAffiliations = () => {
+  type ValidationSchema = zod.infer<typeof schema>;
   const {
+    register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
@@ -152,13 +154,14 @@ const CourseAffiliations = () => {
           </h6>
           <div className="mb-[15px]">
             <SelectMenu
+              {...register("instituteOther")}
               option={organisationOption}
               setValue={(data: string) => setValue("instituteOther", data)}
               value={watch("instituteOther")}
               placeholder="Other"
               className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
             />
-            {errors.instituteOther && (
+            {!errors.instituteOther?.ref?.value && (
               <FormError message={errors.instituteOther?.message as string} />
             )}
           </div>
@@ -169,13 +172,14 @@ const CourseAffiliations = () => {
           </h6>
           <div className="mb-[15px]">
             <SelectMenu
+              {...register("otherInstitutionName")}
               option={organisationNameOption}
               setValue={(data: string) => setValue("otherInstitutionName", data)}
               value={watch("otherInstitutionName")}
               placeholder="Enter Name"
               className="bg-[#FFF] text-foreground font-calibri font-normal text-base p-4 py-[14px] h-auto"
             />
-            {errors.otherInstitutionName && (
+            {!errors.otherInstitutionName?.ref?.value && (
               <FormError message={errors.otherInstitutionName?.message as string} />
             )}
           </div>

@@ -30,9 +30,9 @@ const schema = zod
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) })
+      .string({ errorMap: () => ({ message: "Invalid course price" }) }).min(1, "Course price is required")
       .refine(
-        (val: string | any) => val === undefined || !isNaN(val),
+        (val: string | any) => (val === undefined || val === "") || !isNaN(val),
         "Invalid course price"
       ),
     discountApplicable: zod.number().optional(),

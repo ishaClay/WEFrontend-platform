@@ -1,9 +1,27 @@
 import { Link } from "react-router-dom";
 import SupportRequestDetails from "./SupportRequestDetails";
 import SupportRequestTable from "./SupportRequestTable";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchSupportTicketList } from "@/services/apiServices/supportRequestServices";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const SupportRequest = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [page, setPage] = useState(1);
+  const { UserId } = useSelector((state: RootState) => state.user);
+  const [search, setSearch] = useState("");
+  const {
+    data: support_request_list,
+    isPending: supportRequestPending
+  } = useQuery({
+    queryKey: [QUERY_KEYS.supportTicketList, { page, search }],
+    queryFn: () =>
+      fetchSupportTicketList(page.toString(), "10", search, +UserId),
+  });
+
   return (
     <div className="bg-white">
       <div className="md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
@@ -28,9 +46,9 @@ const SupportRequest = () => {
       </div>
       <div className="">
         <div className="sm:p-5 p-3">
-          <SupportRequestDetails />
+          <SupportRequestDetails data={support_request_list?.data?.dataAnalytics} />
         </div>
-        <SupportRequestTable />
+        <SupportRequestTable data={support_request_list} page={page} setPage={setPage} search={search} setSearch={setSearch} isLoading={supportRequestPending} />
       </div>
     </div>
   );
