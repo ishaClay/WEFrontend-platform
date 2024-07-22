@@ -31,9 +31,9 @@ const AssecessmentPage = () => {
       </div>
       <div className="p-5">
         <AssecessmentModuleSection />
-        {assessmentType === "mcq" && <AssecessmentTypeTwo />}
-        {assessmentType === "true_false" && <AssecessmentTypeOne />}
-        <AssecessmentTypeThree />
+        {assessmentType === "multiplechoicequestion" && <AssecessmentTypeTwo />}
+        {assessmentType === "singlechoicequestion" && <AssecessmentTypeOne />}
+        {assessmentType === "hotspoting" && <AssecessmentTypeThree />}
 
         <div className="text-right">
           <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">

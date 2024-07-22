@@ -15,3 +15,8 @@ export const getAssessmentOptions = () => {
   const url = `api/v1/assessment/get-options`;
   return api({ url });
 };
+
+export const getModuleSection = (id: string) => {
+  const url = `api/v1/course/module/get/${id}`;
+  return api({ url });
+};

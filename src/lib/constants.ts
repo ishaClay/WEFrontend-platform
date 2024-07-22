@@ -77,7 +77,10 @@ export const QUERY_KEYS = {
   assessmentOptions: "assessmentOptions",
   getcertificate: "certificate",
   certificateDetail: "certificateDetail",
-  getEmployeeWiseAcion: "getEmployeeWiseAcion"
+  getEmployeeWiseAcion: "getEmployeeWiseAcion",
+  fetchModuleSection: "fetchModuleSection",
+  fetchTraineeCompany: "fetchTraineeCompany",
+  fetchTrainee: "fetchTrainee",
 };
 
 export const urlRegex =

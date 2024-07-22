@@ -24,7 +24,7 @@ const CourseViewCardInner = ({
   moduleId,
 }: {
   CourseCardList: any;
-  moduleId: number;
+  moduleId: string;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -182,8 +182,6 @@ const CourseViewCardInner = ({
   const { mutate: CreateSection } = useMutation({
     mutationFn: (data: any) => createSection(data, moduleId),
     onSuccess: (data: any) => {
-      console.log("🚀 ~ CourseViewCardInner ~ data:", data);
-
       const newData = getCourseCardList.concat(data.data.data);
       setGetCourseCardList(newData);
       setAddSectionList(false);
@@ -420,7 +418,7 @@ const CourseViewCardInner = ({
         onClose={() => setIsOpenAssessmentModal(false)}
         className="xl:max-w-[737px] lg:max-w-[650px] sm:max-w-[550px] max-w-[335px] sm:p-5 p-4 rounded-xl"
       >
-        <AssessmentModal />
+        <AssessmentModal moduleId={moduleId} />
       </Modal>
     </div>
   );
