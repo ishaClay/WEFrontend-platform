@@ -25,6 +25,7 @@ export interface Data {
   enroll: number;
   createdAt: string;
   updatedAt: string;
+  numberOfEmployee: string;
   courseVersion: CourseVersion;
   company: Company;
   employee: (EmployeeEntity)[];

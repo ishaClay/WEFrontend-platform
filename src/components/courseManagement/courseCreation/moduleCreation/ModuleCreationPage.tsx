@@ -221,7 +221,7 @@ const ModuleCreationPage = () => {
     mutationFn: (data: any) => changeModulePostion(data, courseEditId),
   });
 
-  const { data: CourseModule, isFetching: courseLoading } = useQuery({
+  const { data: CourseModule, isLoading: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
     queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
     enabled: !!courseID || !!courseEditId,
@@ -232,6 +232,8 @@ const ModuleCreationPage = () => {
       setModuleList(CourseModule?.data.data);
     }
   }, [CourseModule]);
+
+  console.log("CourseModule", CourseModule);
 
   const handleModuleSave = async (data: any) => {
     console.log("moduleCreationItems===>", data.modules);

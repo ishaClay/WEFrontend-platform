@@ -113,9 +113,8 @@ function CourseViewAllocatePopup({
     },
   });
 
-  console.log("data", data);
-
   const courseData = data?.data && data?.data;
+  console.log("data+++", courseData);
 
   console.log("errors", data);
   const showInviteForm = () => {
@@ -275,7 +274,7 @@ function CourseViewAllocatePopup({
                     <div className="flex items-center gap-4">
                       <MdOutlineGroup />
                       <p className="text-[#A3A3A3] text-[13px]">
-                        {courseData?.company?.employee?.length || 0} Employee
+                        {courseData?.numberOfEmployee || 0} Employee
                       </p>
                     </div>
                   </div>

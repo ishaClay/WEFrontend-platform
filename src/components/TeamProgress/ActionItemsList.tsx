@@ -25,6 +25,7 @@ const ActionItemsList = ({ data }: ActionItems) => {
     ) {
       return "bg-[#F1B89C]";
     }
+    return "bg-[#dadada]";
   };
   return (
     <div className="border-b border-[#D9D9D9] last:border-none md:py-4 py-3 md:px-5 px-4">

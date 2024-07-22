@@ -16,11 +16,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const EnrollmentCourseListCard = ({
-  data,
-}: {
-  data: Data;
-}) => {
+const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -64,30 +60,29 @@ const EnrollmentCourseListCard = ({
         variant: "success",
         title: data?.data?.message,
       });
-      navigate(`/${pathName}/message`)
+      navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
       console.log("data+++++", data);
-      
     },
-    onError:(error: ErrorType) => {
+    onError: (error: ErrorType) => {
       console.log("data+++++error", error);
       toast({
         variant: "destructive",
         title: error?.data?.message,
       });
-    }
+    },
   });
 
-  const handleInquire = (data: Data | any) => {
-    const trainerCompany = data?.courseVersion?.course;
+  const handleInquire = (data: Data[] | any) => {
+    const company = data?.company?.id;
     const payload = {
       senderId: UserId,
-      receiverId: trainerCompany?.trainerCompanyId ? data?.trainerCompanyId?.userDetails?.id : data?.trainerId?.userDetails?.id,
+      receiverId: company,
       message: data?.title,
-      images: [data?.bannerImage]
-    }
-    handleSend(payload)
-  }
+      images: [data?.courseVersion?.course?.bannerImage],
+    };
+    handleSend(payload);
+  };
 
   return (
     <div className="xl:flex block items-center justify-between border border-[#D9D9D9] 2xl:p-5 sm:p-3 p-0 rounded-md sm:mb-4 sm:mx-4 m-[15px] gap-4">
@@ -104,17 +99,14 @@ const EnrollmentCourseListCard = ({
             <CourseList rating={0} />
             <div className="flex xl:flex-nowrap flex-wrap gap-2">
               {data?.courseVersion?.course?.courseData?.map((item) => {
-                const pillarName = item.fetchPillar?.pillarName;
+                const pillarName = item.fetchMaturity?.maturityLevelName;
                 return (
                   <Badge
                     variant="outline"
                     className={`bg-[${
-                      pillarName === "Environmental" ||
-                      pillarName === "Governance"
+                      pillarName === "Intermediate"
                         ? "#FFD56A"
-                        : pillarName === "Technology & Innovation" ||
-                          pillarName === "Strategic Integration" ||
-                          pillarName === "Economics"
+                        : pillarName === "Introductory"
                         ? "#F63636"
                         : "#64A70B"
                     }] border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
@@ -139,7 +131,9 @@ const EnrollmentCourseListCard = ({
             <div className="font-calibri">
               <p className="sm:text-base text-sm font-medium">
                 Number Of Employee :{" "}
-                <span className="font-bold">{data?.employee?.length || 0}</span>
+                <span className="font-bold">
+                  {data?.employee?.length || data?.numberOfEmployee}
+                </span>
               </p>
             </div>
             <div className="flex font-bold font-calibri text-base">
@@ -167,18 +161,30 @@ const EnrollmentCourseListCard = ({
             </Button>
           )}
           <Button
-            onClick={() => {EditCourse(Enroll.accept); setSelectEnrollType(Enroll.accept)}}
+            onClick={() => {
+              EditCourse(Enroll.accept);
+              setSelectEnrollType(Enroll.accept);
+            }}
             className="bg-[#58BA66] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
             disabled={selectEnrollType === Enroll.accept}
           >
-            {selectEnrollType === Enroll.accept && <Loader2 className="w-5 h-5 animate-spin" />} Accept
+            {selectEnrollType === Enroll.accept && (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}{" "}
+            Accept
           </Button>
           <Button
-            onClick={() => {EditCourse(Enroll.reject); setSelectEnrollType(Enroll.reject)}}
+            onClick={() => {
+              EditCourse(Enroll.reject);
+              setSelectEnrollType(Enroll.reject);
+            }}
             className="bg-[#FF5252] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
             disabled={selectEnrollType === Enroll.reject}
           >
-            {selectEnrollType === Enroll.reject && <Loader2 className="w-5 h-5 animate-spin" />} Reject
+            {selectEnrollType === Enroll.reject && (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}{" "}
+            Reject
           </Button>
         </div>
       )}

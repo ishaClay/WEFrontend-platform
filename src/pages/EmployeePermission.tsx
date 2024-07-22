@@ -203,7 +203,7 @@ function EmployeePermission() {
         <div className="flex bg-[#FFFFFF] ">
           <div className="m-4 relative">
             <Input
-              placeholder="Search by pilier, level, recommended, course name etc."
+              placeholder="Search by Name, Email etc."
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)

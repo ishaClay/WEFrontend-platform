@@ -13,6 +13,7 @@ export interface DataEntity {
   secondaryButtonTitle: string;
   secondaryButtonUrl: string;
   status: string;
+  mobileBanner: "string"
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;

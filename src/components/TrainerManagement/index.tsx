@@ -8,9 +8,9 @@ import { ChevronsUpDown, Eye, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import search from "../../assets/images/search.svg";
-import { DataTable } from "../comman/DataTable";
 import Input from "../comman/Input/Input";
 import Loader from "../comman/Loader";
+import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -18,7 +18,8 @@ const TrainerManagement = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [searchValue, setSearchValue] = useState("");
-  const id = "13";
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const id = userData?.query?.detailsid;
   const navigate = useNavigate();
   const colums: ColumnDef<DataEntity>[] = [
     {
@@ -65,7 +66,7 @@ const TrainerManagement = () => {
         return (
           <div className="flex items-center gap-1">
             <Avatar className="w-8 h-8">
-              <AvatarImage src={row.original?.imageUrl} />
+              <AvatarImage src={row.original?.profileImage} />
               <AvatarFallback className="uppercase shadow-lg text-[12px]">
                 {row?.original?.name?.[0]}
                 {row?.original?.name?.[1]}
@@ -252,10 +253,10 @@ const TrainerManagement = () => {
         {isPending ? (
           <Loader />
         ) : (
-          <DataTable
+          <NewDataTable
             columns={colums}
             data={data?.data || []}
-            totalPages={data?.metadata?.totalItems}
+            totalPages={data?.metadata?.totalPages}
             pagination={{ pageIndex: page, pageSize: limit }}
             setPage={setPage}
             inputbox={false}

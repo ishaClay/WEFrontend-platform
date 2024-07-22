@@ -48,8 +48,8 @@ const MyCourse = () => {
               The full list of your courses, in snapshot view
             </p> */}
           </div>
-          {(userData?.query?.role === UserRole.Trainee
-            ? userData?.user?.approved
+          {(+userData?.query?.role === UserRole.Trainee
+            ? userData?.approved
             : true) && (
             <div>
               <Button

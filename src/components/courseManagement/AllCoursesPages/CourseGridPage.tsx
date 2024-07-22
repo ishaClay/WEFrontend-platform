@@ -5,11 +5,12 @@ import fulltime from "@/assets/images/fulltime.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
 import unversity from "@/assets/images/unversity.png";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Modal from "@/components/comman/Modal";
+import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
-import { RecommendedCourses } from "@/types/RecommendedCourses";
 import {
   AllCourse,
   CourseTime,
@@ -21,40 +22,41 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
-import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
-import { Button } from "@/components/ui/button";
 
 type dataGridProps = {
   data: AllCourse[];
-  reCommendedCourses: RecommendedCourses[];
   selectedCourse: Pillarcourse | null;
 };
 
-const CourseGridPage = ({
-  data,
-  selectedCourse,
-}: dataGridProps) => {
+const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
-  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<
+    number | null
+  >();
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
 
   useEffect(() => {
-    if(!isRecommendedCourseShow){
-    setRecommendedCoursesById(null);
+    if (!isRecommendedCourseShow) {
+      setRecommendedCoursesById(null);
     }
-  }, [isRecommendedCourseShow])
-  
+  }, [isRecommendedCourseShow]);
 
-  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
-    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+  const {
+    data: fetchCourseDiscountEnrollFun,
+    isPending: isPendingCourseDEnroll,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchCourseDiscountEnroll,
+      { recommendedCoursesById },
+    ],
     queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
-    enabled: !!recommendedCoursesById
+    enabled: !!recommendedCoursesById,
   });
 
   const handleClose = () => {
-    setIsRecommendedCourseShow(false); 
+    setIsRecommendedCourseShow(false);
     setRecommendedCoursesById(null);
-  }
+  };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
     const currentDate = new Date();
@@ -157,11 +159,21 @@ const CourseGridPage = ({
       <Modal
         open={isRecommendedCourseShow}
         onClose={handleClose}
-        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+        className={`py-[60px] px-6 ${
+          isPendingCourseDEnroll
+            ? "h-[200px]"
+            : fetchCourseDiscountEnrollFun?.data &&
+              fetchCourseDiscountEnrollFun?.data?.length > 0
+            ? "max-w-[800px] max-h-[800px] h-auto"
+            : "h-[200px]"
+        }`}
       >
-        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+        <RecommendedCoursesModel
+          data={fetchCourseDiscountEnrollFun?.data || []}
+          isLoading={isPendingCourseDEnroll}
+          setOpen={setIsRecommendedCourseShow}
+        />
       </Modal>
-
 
       {data?.map((allcourse: AllCourse) => {
         const maturityLevel =
@@ -170,8 +182,7 @@ const CourseGridPage = ({
             (item) =>
               item.fetchPillar?.pillarName === selectedCourse?.pillarName
           );
-          console.log("allcourse", allcourse?.cohortGroups);
-          
+        console.log("allcourse", allcourse?.cohortGroups);
 
         return (
           <>
@@ -315,7 +326,10 @@ const CourseGridPage = ({
                   {getUpcommingCohort(allcourse)}
                   <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
                     <Button
-                      onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(allcourse?.id)}}
+                      onClick={() => {
+                        setIsRecommendedCourseShow(true);
+                        setRecommendedCoursesById(allcourse?.id);
+                      }}
                       className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                       disabled={allcourse?.enrolled}
                     >

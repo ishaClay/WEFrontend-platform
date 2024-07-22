@@ -108,6 +108,7 @@ const TrainerDetailsEdit = () => {
       queryClient.invalidateQueries({
         queryKey: ["trainerDetails", params.id],
       });
+      onSubmit();
       toast({
         variant: "success",
         description: "Trainer details updated successfully",
@@ -123,15 +124,6 @@ const TrainerDetailsEdit = () => {
 
   const { mutate, isPending: isPendingUpdate } = useMutation({
     mutationFn: updateTrainerStatusById,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["trainerDetails", params.id],
-      });
-      // toast({
-      //   variant: "success",
-      //   description: "Trainer status updated successfully",
-      // });
-    },
     onError: (error: AxiosError) => {
       toast({
         variant: "destructive",
@@ -145,7 +137,7 @@ const TrainerDetailsEdit = () => {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
       setValue("name", clientDetails?.data?.name);
-      setValue("number", clientDetails?.data?.number);
+      setValue("number", clientDetails?.data?.phone);
       setValue("email", clientDetails?.data?.email);
       setValue("providerName", clientDetails?.data?.providerName);
       setValue("providerType", clientDetails?.data?.providerType);
@@ -187,8 +179,10 @@ const TrainerDetailsEdit = () => {
       foreignProvider: data?.foreignProvider,
       profileImage: profile_image,
     };
+
+    console.log("payload+++++++++++++++++", payload);
+
     update({ data: payload, id: params.id || "" });
-    onSubmit();
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -484,9 +478,8 @@ const TrainerDetailsEdit = () => {
               </div>
               <div className="text-right">
                 <Button
-                  type="button"
+                  type="submit"
                   isLoading={isUpdate || isPendingUpdate}
-                  onClick={handleUpdate}
                   className="text-[16px] font-semibold font-nunito uppercase py-[15px] px-[30px] h-auto bg-[#58BA66]"
                 >
                   Update

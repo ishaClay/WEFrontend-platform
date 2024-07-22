@@ -2,7 +2,7 @@ import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 import { EnrolledCoursesType } from "@/types/enroll";
 
-const EnrolledCourseListItem = ({ data }: EnrolledCoursesType | any) => {  
+const EnrolledCourseListItem = ({ data }: EnrolledCoursesType | any) => {
   return (
     <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-4">
       <div className="sm:min-w-[140px] sm:w-[140px] sm:min-h-[148px] sm:h-[148px] w-full rounded-md overflow-hidden">

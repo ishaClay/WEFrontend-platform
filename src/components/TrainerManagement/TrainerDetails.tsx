@@ -1,3 +1,4 @@
+import starImage from "@/assets/images/Vector.png";
 import {
   getTrainerById,
   updateTrainerStatusById,
@@ -89,7 +90,7 @@ const TrainerDetails = () => {
               </h2>
               <div className="col-span-1 w-full flex justify-start mb-2 md:mb-0">
                 <Avatar className="w-28 h-28">
-                  <AvatarImage src={clientDetails?.data?.imageUrl} />
+                  <AvatarImage src={clientDetails?.data?.profileImage} />
                   <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
                     {clientDetails?.data?.name?.[0]}
                     {clientDetails?.data?.name?.[1]}
@@ -108,7 +109,7 @@ const TrainerDetails = () => {
                 <div>
                   <h3 className="text-[#A3A3A3]">Contact number</h3>
                   <p className="text-[#000]">
-                    {clientDetails?.data?.number || "--"}
+                    {clientDetails?.data?.phone || "--"}
                   </p>
                 </div>
               </div>
@@ -233,6 +234,71 @@ const TrainerDetails = () => {
                   "Update"
                 )}
               </Button>
+            </div>
+            <div>
+              <h4 className="text-[16px] font-abhaya font-semibold mb-[14px]">
+                Created Courses
+              </h4>
+              <div className="grid grid-cols-4 gap-4">
+                {clientDetails?.data?.course &&
+                clientDetails?.data?.course?.length > 0 ? (
+                  clientDetails?.data?.course?.map((course: any) => (
+                    <div
+                      key={course?.id}
+                      className="border border-[#D9D9D9] rounded-[6px] col-span-2 py-[14px] px-[19px]"
+                    >
+                      <div className="flex items-start gap-[22px]">
+                        <div className="max-w-[164px] w-full h-[180px] rounded-[5px] bg-slate-400">
+                          <img
+                            src={course?.bannerImage}
+                            alt="bannerImage"
+                            className="w-full h-full object-cover rounded-[5px]"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-[7px] mb-[22px]">
+                            <div className="flex items-center">
+                              <img
+                                src={starImage}
+                                alt=""
+                                className="w-[16px] h-[16px]"
+                              />
+                              <p className="pl-1 font-semibold font-nunito text-sm mt-1">
+                                0/5
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-[11px]">
+                              {course?.courseData?.map((itm: any) => {
+                                const color = itm?.fetchMaturity?.color;
+                                return (
+                                  <span
+                                    className={`bg-[${color}] px-[10px] py-[3px] rounded-full`}
+                                  >
+                                    {itm?.fetchPillar?.pillarName}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                          <h3 className="text-[16px] font-inter font-[500] mb-[12px]">
+                            {course?.title}
+                          </h3>
+                          <h5 className="text-[16px] font-abhaya font-semibold mb-[13px]">
+                            Company Name : {course?.trainerId?.name}
+                          </h5>
+                          <h5 className="text-[16px] font-abhaya font-semibold">
+                            Number Of Employee : 15
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="flex items-center justify-center h-[100px] col-span-full text-[16px] font-nunito font-semibold text-[#A3A3A3]">
+                    No Course Available
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         )}

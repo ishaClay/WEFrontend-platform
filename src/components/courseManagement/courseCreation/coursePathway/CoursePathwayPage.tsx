@@ -1,8 +1,10 @@
 import CloseIcon from "@/assets/images/close_img.png";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import {
   fetchClientwisePillarList,
@@ -14,8 +16,6 @@ import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
-import { useToast } from "@/components/ui/use-toast";
-import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 
 interface SelectedData {
   pillarId: string;

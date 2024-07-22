@@ -1,6 +1,7 @@
-import documentIcon from "@/assets/images/pdf.png";
+import DocImage from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,10 @@ import { z } from "zod";
 const TicketsDetailsReply = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [playVideo, setPlayVideo] = useState(false);
   const { clientId } = useSelector((state: any) => state?.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = userData?.query?.id;
   const { data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.courseTopFive, id],
     queryFn: () => getSingleSupportTicket(id as string),
@@ -131,9 +135,10 @@ const TicketsDetailsReply = () => {
       id: id,
       item: {
         id: id,
-				openBy: +data?.assignTo,
-				// status: data?.ticketStatus,
-				response: data?.details
+        openBy: +userID,
+        assignTo: +data?.assignTo,
+        status: data?.ticketStatus,
+        response: data?.details,
       },
     };
     updateTicket(payload);
@@ -222,7 +227,7 @@ const TicketsDetailsReply = () => {
             {data?.data.data?.subject && (
               <>
                 <p className="text-[#A3A3A3] text-[16px] ">Ticket Subject</p>
-                <h3 className="text-[16px] mt-[9px]">
+                <h3 className="text-[16px] mt-[2px]">
                   {data?.data.data?.subject}
                 </h3>
               </>
@@ -230,26 +235,97 @@ const TicketsDetailsReply = () => {
             <p className="text-[#A3A3A3] text-[16px] mt-[18px]">
               Ticket Details
             </p>
-            <h3 className="text-[16px] mt-[12px]">
+            <h3 className="text-[16px] mt-[2px]">
               {data?.data.data?.description}
             </h3>
 
-            {data?.data.data?.documentUrl && data?.data.data?.videoUrl && (
-              <div className="flex items-center mt-[32px]">
-                <img src={documentIcon} />
-                <h3 className="text-[16px] ml-2">
-                  {data?.data.data?.documentUrl}
-                </h3>
-                <Button
-                  type="button"
-                  onClick={handleDownload}
-                  className="ml-[22px]"
-                >
-                  DOWNLOAD
-                </Button>
-              </div>
+            {(data?.data.data?.documentUrl || data?.data.data?.videoUrl) && (
+              <>
+                <div className="flex items-center mt-[32px]">
+                  <img src={DocImage} alt="DocImage" />
+                  <h3 className="text-[16px] ml-2">
+                    {data?.data.data?.documentUrl.split("/").pop()}
+                  </h3>
+                  <Button onClick={handleDownload} className="ml-[22px]">
+                    DOWNLOAD
+                  </Button>
+                </div>
+                {data?.data.data.videoUrl && (
+                  <div
+                    className="w-[100px] h-[100px]"
+                    onClick={() => setPlayVideo(true)}
+                  >
+                    <video
+                      src={data?.data.data.videoUrl}
+                      className="w-full h-[100px] rounded-sm object-cover"
+                    ></video>
+                  </div>
+                )}
+              </>
             )}
           </div>
+
+          {data?.data?.data?.response?.length > 0 &&
+            data?.data?.data?.response?.map((itm: any) => {
+              return (
+                <div className="max-w-full border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
+                  <div className="flex items-center gap-[11px]">
+                    <Avatar className="w-[32px] h-[32px]">
+                      <AvatarImage src={itm?.createdBy?.profileImage} />
+                      <AvatarFallback>
+                        {userName(itm?.createdBy?.name)
+                          .charAt(0)
+                          .toUpperCase() ||
+                          itm?.createdBy?.fname?.charAt(0).toUpperCase() ||
+                          itm?.createdBy?.email
+                            ?.split("@")[0]
+                            ?.charAt(0)
+                            .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h3 className="text-[16px]">
+                        {itm?.createdBy?.name ||
+                          itm?.createdBy?.fname ||
+                          itm?.createdBy?.email?.split("@")[0]}
+                      </h3>
+                      <p className="text-[#A3A3A3] text-[12px]">
+                        Reply By: {itm?.status}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-[#A3A3A3] text-[16px] mt-[18px]">
+                    Ticket Details
+                  </p>
+                  <h3 className="text-[16px] mt-[2px]">{itm?.response}</h3>
+
+                  {(itm?.documentUrl || itm?.videoUrl) && (
+                    <>
+                      <div className="flex items-center mt-[32px]">
+                        <img src={DocImage} alt="DocImage" />
+                        <h3 className="text-[16px] ml-2">
+                          {itm?.documentUrl.split("/").pop()}
+                        </h3>
+                        <Button onClick={handleDownload} className="ml-[22px]">
+                          DOWNLOAD
+                        </Button>
+                      </div>
+                      {itm.videoUrl && (
+                        <div
+                          className="w-[100px] h-[100px]"
+                          onClick={() => setPlayVideo(true)}
+                        >
+                          <video
+                            src={itm.videoUrl}
+                            className="w-full h-[100px] rounded-sm object-cover"
+                          ></video>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              );
+            })}
 
           <div className="grid grid-cols-2 gap-[36px] mt-[29px]">
             {/* <InputWithLable label="Assign To" /> */}
@@ -341,7 +417,17 @@ const TicketsDetailsReply = () => {
           </div>
         </form>
       </div>
-
+      <Modal
+        open={playVideo}
+        onClose={() => setPlayVideo(false)}
+        className="max-w-[1000px]"
+      >
+        <video
+          src={data?.data.data.videoUrl}
+          controls
+          className="w-full h-full rounded-sm object-cover"
+        ></video>
+      </Modal>
       <Loading isLoading={isPending} />
     </div>
   );

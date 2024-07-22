@@ -10,7 +10,6 @@ import unversity from "@/assets/images/unversity.png";
 import Modal from "@/components/comman/Modal";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
-import { RecommendedCourses } from "@/types/RecommendedCourses";
 import {
   AllCourse,
   CourseTime,
@@ -27,7 +26,6 @@ import { Button } from "@/components/ui/button";
 
 type dataGridProps = {
   data: AllCourse[];
-  reCommendedCourses: RecommendedCourses[];
   selectedCourse: Pillarcourse | null;
 };
 

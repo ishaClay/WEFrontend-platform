@@ -51,10 +51,6 @@ function HeaderCourse() {
         title = [{ label: "Assessment" }];
         break;
 
-      case "my-accomplishments":
-        title = [{ label: "My Accomplishments" }];
-        break;
-
       case "faqslist":
         title = [{ label: "Supports", link: "js:" }, { label: "FAQs" }];
         break;
@@ -292,10 +288,6 @@ function HeaderCourse() {
 
       case "employeepermission":
         title = [{ label: "Setting" }];
-        break;
-
-      case "message":
-        title = [{ label: "Message" }];
         break;
 
       default:

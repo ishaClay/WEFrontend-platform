@@ -18,6 +18,8 @@ const schema = Zod.object({
 });
 const TrainerInvitation = () => {
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const id = userData?.query?.detailsid;
   const {
     register,
     handleSubmit,
@@ -64,7 +66,7 @@ const TrainerInvitation = () => {
     const payload = {
       email: [data?.email],
       invitationDetails: data?.details,
-      TrainerCompanyId: "13",
+      TrainerCompanyId: id,
       baseUrl: url,
     };
 
@@ -76,9 +78,11 @@ const TrainerInvitation = () => {
       <div className="px-[14px] py-[10px] flex items-center justify-between border-b">
         <div>
           <h3 className="text-[16px] font-[700] font-nunito mb-1">
-          Trainer Management
+            Trainer Management
           </h3>
-          <p className="text-[#606060] text-[15px]">Choose a trainer to invite onto this platform!</p>
+          <p className="text-[#606060] text-[15px]">
+            Choose a trainer to invite onto this platform!
+          </p>
         </div>
         <Button
           type="button"
@@ -105,7 +109,7 @@ const TrainerInvitation = () => {
           </div>
           <div className="w-full mb-[30px]">
             <Label className="text-[16px] font-nunito font-[400]">
-            Invitation Message
+              Invitation Message
             </Label>
             <Textarea
               className="!w-full mt-2 font-nunito"

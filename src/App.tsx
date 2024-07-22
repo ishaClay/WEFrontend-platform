@@ -841,6 +841,7 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
+          <Route path="setting" element={<FaqsListPage />} />
         </Route>
       </Routes>
     </div>

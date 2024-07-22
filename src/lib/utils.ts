@@ -148,7 +148,7 @@ export const sidebarLayout = {
     {
       label: "Settings",
       Icon: FiSettings,
-      link: "/trainer/employeepermission",
+      link: "/trainer/setting",
       children: [],
     },
     {

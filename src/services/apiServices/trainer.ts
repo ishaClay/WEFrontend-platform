@@ -66,3 +66,9 @@ export const trainerUpdate = async (data: any) => {
   const response = await api({ url, data, method: "put" });
   return response.data;
 };
+
+export const trainerDetailsUpdate = async ({ data, id }: { data: any, id: string }) => {
+  const url = `api/v1/trainer/update/${id}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+};

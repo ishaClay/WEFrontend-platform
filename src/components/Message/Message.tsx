@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
+import useBreakpoints from "@/hooks/use-breakpoints";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { TimeFormatter, chatDPColor, handleScrollToBottom } from "@/lib/utils";
@@ -32,12 +33,10 @@ import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import Drawer from "../comman/Drawer";
 import Loading from "../comman/Error/Loading";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
-import Drawer from "../comman/Drawer";
-import useBreakpoints from "@/hooks/use-breakpoints";
-import { ScrollArea } from "../ui/scroll-area";
 
 let socket: any;
 
@@ -515,7 +514,7 @@ const Message = () => {
             </div>
           </CardHeader>
           <CardContent className="h-[700px] p-0 overflow-y-auto">
-          <ScrollArea className="h-full message-scroll" ref={chatContainerRef}>
+            {/* <ScrollArea className="h-full message-scroll" ref={chatContainerRef}> */}
             {chatUserList?.data?.data
               ?.filter(filterByName)
               ?.map((item: GetChatUserList | any) => {
@@ -599,7 +598,7 @@ const Message = () => {
                   </div>
                 );
               })}
-              </ScrollArea>
+            {/* </ScrollArea> */}
           </CardContent>
         </Card>
         <Card className="xl:col-span-9 md:col-span-7 col-span-12 border-0 rounded-lg shadow-none relative hidden md:block">

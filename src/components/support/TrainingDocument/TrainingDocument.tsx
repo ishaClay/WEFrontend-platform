@@ -1,4 +1,5 @@
-import { DataTable } from "@/components/comman/DataTable";
+import Loader from "@/components/comman/Loader";
+import { NewDataTable } from "@/components/comman/NewDataTable";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchDocument } from "@/services/apiServices/Document";
 import {
@@ -9,10 +10,11 @@ import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 const TrainingDocument = () => {
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
   console.log("page", page);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData ? userData?.query?.role : null;
@@ -25,9 +27,17 @@ const TrainingDocument = () => {
       ? 3
       : 4;
 
-  const { data: document } = useQuery<TrainingDocumentResponse>({
-    queryKey: [QUERY_KEYS.fetchDocument],
-    queryFn: () => fetchDocument({ page, userId: "", role: Role }),
+  console.log("userData?.query?.id", userData?.query?.id);
+
+  const { data: document, isLoading } = useQuery<TrainingDocumentResponse>({
+    queryKey: [QUERY_KEYS.fetchDocument, { page, search, Role }],
+    queryFn: () =>
+      fetchDocument({
+        page,
+        userId: userData?.query?.id,
+        role: Role,
+        keyword: search,
+      }),
   });
 
   console.log("data", document);
@@ -113,18 +123,25 @@ const TrainingDocument = () => {
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             className="outline-none xl:text-[15px] text-sm text-[#A3A3A3] font-inter px-3 w-full"
-            placeholder="Search by name, course name, certificate name, etc."
+            placeholder="Search by name, type, target audience etc."
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setSearch(e.target.value)
+            }
           ></input>
         </div>
       </div>
       <div className="">
-        <DataTable
-          columns={column}
-          data={document?.data || []}
-          totalPages={document?.metadata?.totalPages}
-          setPage={setPage}
-          rounded={false}
-        />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <NewDataTable
+            columns={column}
+            data={document?.data || []}
+            totalPages={document?.metadata?.totalPages}
+            setPage={setPage}
+            inputbox={false}
+          />
+        )}
       </div>
     </div>
   );

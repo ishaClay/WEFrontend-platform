@@ -52,8 +52,8 @@ const AllCourses = () => {
             </p>
           </div>
           <div className="flex justify-between items-center">
-            {(userData?.query?.role === UserRole.Trainee
-              ? userData?.user?.approved
+            {(+userData?.query?.role === UserRole.Trainee
+              ? userData?.approved
               : true) && (
               <div>
                 <Button
