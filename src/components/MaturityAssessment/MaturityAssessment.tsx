@@ -32,11 +32,14 @@ const MaturityAssessment = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [activeTab, setActiveTab] =
     useState<MaturityAssessmentTabs>("assessmentresult");
-  const userID = UserId
-    ? +UserId
-    : userData?.query
-    ? userData?.query?.id
-    : userData?.id;
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
 
   const { data: getCheckedmeasures } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasures],
@@ -77,7 +80,12 @@ const MaturityAssessment = () => {
       )?.[0]) ||
     [];
 
-  console.log("assessmentQuestionScoreLIST?.data");
+  const showButton =
+    getCheckedmeasures?.data?.data?.length > 0 &&
+    getCheckedmeasures?.data?.data.reduce((acc: number, item: any) => {
+      return acc + item?.total;
+    }, 0);
+  console.log("assessmentQuestionScoreLIST?.data", showButton);
 
   return (
     <div className="">
@@ -180,13 +188,14 @@ const MaturityAssessment = () => {
               <AssessmentResult
                 assessmentData={assessmentData}
                 chnageTab={setActiveTab}
+                showButton={showButton}
               />
             </TabsContent>
             <TabsContent
               value="maturityAssessment"
               className="lg:p-5 p-[15px] mt-0"
             >
-              <Roadmap />
+              <Roadmap showButton={showButton} />
             </TabsContent>
             <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0">
               <ActionItems />

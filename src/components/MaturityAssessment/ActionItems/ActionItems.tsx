@@ -1,32 +1,18 @@
+import { QUERY_KEYS } from "@/lib/constants";
+import { getEmployeeWiseAction } from "@/services/apiServices/employee";
+import { EmployeeActionResponse } from "@/types/employee";
+import { useQuery } from "@tanstack/react-query";
 import ActionItemsList from "./ActionItemsList";
 
 const ActionItems = () => {
-  const actionItems = [
-    {
-      taskName: "Task 1(Task name)",
-      date: "2nd March, 2024 - 24th March",
-      status: "ontime",
-      action: "edit",
-    },
-    {
-      taskName: "Task 2(Task name)",
-      date: "2nd March, 2024 - 24th March",
-      status: "delay",
-      action: "edit",
-    },
-    {
-      taskName: "Task 3(Task name)",
-      date: "2nd March, 2024 - 24th March",
-      status: "delay",
-      action: "edit",
-    },
-    {
-      taskName: "Task 4(Task name)",
-      date: "2nd March, 2024 - 24th March",
-      status: "delay",
-      action: "view",
-    },
-  ];
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = userData?.query.detailsid;
+
+  const { data } = useQuery<EmployeeActionResponse>({
+    queryKey: [QUERY_KEYS.getEmployeeWiseAcion],
+    queryFn: () => getEmployeeWiseAction(userID),
+  });
+
   return (
     <div>
       <div className="xl:flex block items-center gap-6 mb-5">
@@ -35,21 +21,27 @@ const ActionItems = () => {
         </p>
         <ul className="flex overflow-x-auto overflow-y-hidden items-center sm:gap-4 gap-2.5">
           <li className="text-center sm:min-w-[90px] min-w-[70px] py-2 text-xs font-abhaya bg-[#ddd] rounded-full font-semibold">
-            Assigned<span className="block">5</span>
+            Assigned
+            <span className="block">{data?.data?.myActionItems?.assigned}</span>
           </li>
           <li className="text-center sm:min-w-[90px] min-w-[70px] py-2 text-xs text-white font-abhaya bg-[#F63636] rounded-full font-semibold">
-            Delayed<span className="block">3</span>
+            Delayed
+            <span className="block">{data?.data?.myActionItems?.delayed}</span>
           </li>
           <li className="text-center sm:min-w-[90px] min-w-[70px] py-2 text-xs font-abhaya bg-[#FFD56A] rounded-full font-semibold">
-            Ontime<span className="block">2</span>
+            Ontime
+            <span className="block">{data?.data?.myActionItems?.ontime}</span>
           </li>
           <li className="text-center sm:min-w-[90px] min-w-[70px] py-2 text-xs font-abhaya bg-[#64A70B] rounded-full font-semibold">
-            Completed<span className="block">1</span>
+            Completed
+            <span className="block">
+              {data?.data?.myActionItems?.completed}
+            </span>
           </li>
         </ul>
       </div>
       <div className="border border-[#D9D9D9] rounded-xl">
-        {actionItems.map((data, index) => {
+        {data?.data?.measure?.map((data, index) => {
           return <ActionItemsList data={data} key={index} />;
         })}
       </div>

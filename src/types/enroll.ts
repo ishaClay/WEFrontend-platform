@@ -25,6 +25,7 @@ export interface Data {
   enroll: number;
   createdAt: string;
   updatedAt: string;
+  numberOfEmployee: string;
   courseVersion: CourseVersion;
   company: Company;
   employee: (EmployeeEntity)[];
@@ -46,6 +47,9 @@ export interface CohortGroupType {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  company: EnrollRequestCompany[] | null;
+  employee?: EmployeeType[] | null;
+  cohortStatus: string;
 }
 export interface SlotStartDateOrSlotEndDate {
   date: string;
@@ -106,74 +110,24 @@ export interface Course {
   description?: null;
   bannerImage: string;
   keys?: null;
-  courseData?: (null)[] | null;
-  status: string;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-
-export interface FetchEnrollRequestDataType {
-  id: number;
-  request: number;
-  enroll: number;
-  createdAt: string;
-  updatedAt: string;
-  courseVersion: EnrollRequestCourseVersion;
-  company: EnrollRequestCompany;
-  employee?: EmployeeType[] | null;
-}
-export interface EmployeeType {
-  id: number;
-  name?: null;
-  email: string;
-  status: string;
-  employeeStatus: string;
-  profileImage?: null;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface EnrollRequestCourseVersion {
-  id: number;
-  version: number;
-  data?: null;
-  createdAt: string;
-  updatedAt: string;
-  course: EnrollRequestCourse;
-}
-export interface EnrollRequestCourse {
-  id: number;
-  title: string;
-  institute: string;
-  instituteWebsite: string;
-  instituteWebsite2: string;
-  freeCourse: number;
-  discout: number;
-  discountApplicable: number;
-  provider: number;
-  ectsCredits?: string;
-  fetCredits: string;
-  time: number;
-  isOnline: number;
-  universityAddress: string;
-  duration: string;
-  price: number;
-  instituteOther: string;
-  otherInstitutionName: string;
-  description: string;
-  bannerImage: string;
-  keys: string;
   courseData?: (CourseDataEntity)[] | null;
   status: string;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  trainerCompanyId: TrainerCompanyId;
-  trainerId?: null;
 }
+
+export interface EnrolledCoursesType {
+  id: number;
+  version: number;
+  course: Course;
+  cohortGroup: CohortGroupType[];
+  createdAt: string;
+  updatedAt: string;
+  numberOfEmployee: number;
+  numberOfCompany: number;
+}
+
 export interface CourseDataEntity {
   pillarId: number;
   maturityId: number;
@@ -198,26 +152,22 @@ export interface FetchPillar {
   createdAt: string;
   updatedAt: string;
 }
-export interface TrainerCompanyId {
+export interface EmployeeType {
   id: number;
-  providerName: string;
-  providerType: string;
-  providerCity: string;
-  providerCounty: string;
-  contactSurname: string;
-  contactTelephone: string;
-  foreignProvider: boolean;
-  providerAddress: string;
-  providerCountry: string;
-  contactFirstName?: null;
-  providerNotes: string;
-  approved: boolean;
-  pillarLimit: number;
+  name?: string | null;
+  email: string;
   status: string;
-  deletedAt?: null;
+  employeeStatus: string;
+  profileImage?: null;
+  deletedAt?: string | null;
   createdAt: string;
   updatedAt: string;
+  editActionItem: boolean;
+  retakeSelfAssessment: boolean;
+  shareFeedback: boolean;
+  progress: number;
 }
+
 export interface EnrollRequestCompany {
   id: number;
   companyId?: null;

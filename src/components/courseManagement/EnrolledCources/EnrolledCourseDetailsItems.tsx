@@ -31,11 +31,11 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
       </div>
       <div className="col-span-1 text-left font-bold text-base font-calibri">
         <h5>Enrolled Companies:</h5>
-        {/* <h6>{data.enrolledCompanies}</h6> */}
+        <h6>{data.company?.length}</h6>
       </div>
       <div className="col-span-1 text-left font-bold text-base font-calibri">
         <h5>Enrolled Companies:</h5>
-        {/* <h6>{data.enrolledEmployees}</h6> */}
+        <h6>{data.employee?.length}</h6>
       </div>
       <div className="col-span-1 text-left font-bold text-base font-calibri">
         {

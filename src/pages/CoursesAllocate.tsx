@@ -7,8 +7,22 @@ import { useQuery } from "@tanstack/react-query";
 
 import CoursesViewAllocatePopup from "./CoursesViewAllocatePopup";
 // import { RootState } from "@/redux/store";
+import speed from "@/assets/images/Speed.png";
+import courseIcon from "@/assets/svgs/cource.svg";
+import duration from "@/assets/svgs/duration.svg";
+import institute from "@/assets/svgs/institute.svg";
+import online from "@/assets/svgs/online.svg";
+import time from "@/assets/svgs/time.svg";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
@@ -24,62 +38,63 @@ import {
 } from "@/types/allocatedcourses";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useState } from "react";
-import courseIcon from "@/assets/svgs/cource.svg";
-import duration from "@/assets/svgs/duration.svg";
-import institute from "@/assets/svgs/institute.svg";
-import online from "@/assets/svgs/online.svg";
-import time from "@/assets/svgs/time.svg";
-import speed from "@/assets/images/Speed.png";
-import { Button } from "@/components/ui/button";
 
 function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("1");
   const [openId, setOpenId] = useState<number | null>(null);
   const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
-    queryKey: [QUERY_KEYS.fetchbycourseallocate],
-    queryFn: () => fetchAllocatedCourse(userData?.query?.id),
+    queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
+    queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
   });
 
   return (
     <div className="bg-[#f5f3ff]">
       <div className="p-3">
         <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
-          <div className=" pt-[10px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+          <div className=" pt-[10px] pl-[30px] pr-[20px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
             <div className="flex items-center justify-between ">
               <h1 className="text-[16px] font-semibold">Course Allocation</h1>
               <div className="flex items-center">
                 <label htmlFor="filter" className="mr-2">
                   Filter by:
                 </label>
-                <select
-                  id="filter"
-                  className="border w-[264px] h-[42px] rounded mb- mr-2 "
+                <Select
+                  value={statusFilter}
+                  onValueChange={(e) => setStatusFilter(e)}
                 >
-                  <option value="">Select</option>
-                  <option value="Completed">Completed</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Pending">Pending</option>
-                </select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Pending" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Completed</SelectItem>
+                    <SelectItem value="3">In Progress</SelectItem>
+                    <SelectItem value="0">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
 
           {isPending ? (
             <Loader />
-          ) : (
-            course?.data?.courseAlloted && course?.data?.courseAlloted?.length > 0 ? course?.data?.courseAlloted?.map((courseallocate) => {
+          ) : course?.data?.courseAlloted &&
+            course?.data?.courseAlloted?.length > 0 ? (
+            course?.data?.courseAlloted?.map((courseallocate) => {
               return (
                 <>
                   <div key={courseallocate.id} className="p-4">
                     <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
                       <div className="flex gap-[17px] w-[calc(100%-150px)]">
                         <div className="overflow-hidden rounded">
-                        <img
-                          src={courseallocate?.courseVersion?.course?.bannerImage}
-                          alt="img"
-                          className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
-                        />
+                          <img
+                            src={
+                              courseallocate?.courseVersion?.course?.bannerImage
+                            }
+                            alt="img"
+                            className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
+                          />
                         </div>
 
                         <div className="flex flex-col w-[calc(100%-300px)]">
@@ -119,7 +134,8 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-4">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {course?.data?.employee?.length || 0} Employee
+                                  {courseallocate?.numberOfEmployee || 0}{" "}
+                                  Employee
                                 </p>
                               </div>
                             </div>
@@ -135,7 +151,14 @@ function CoursesAllocate() {
                               textAlign: "left",
                             }}
                           >
-                            <span dangerouslySetInnerHTML={{ __html: courseallocate?.courseVersion?.course?.description || "" }} className="line-clamp-2"></span>
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  courseallocate?.courseVersion?.course
+                                    ?.description || "",
+                              }}
+                              className="line-clamp-2"
+                            ></span>
                           </div>
 
                           <div className="flex items-center gap-4 mt-[17px]">
@@ -210,7 +233,7 @@ function CoursesAllocate() {
                                 src={institute}
                                 alt="institute"
                               />
-                              <p className="text-xs">
+                              <p className="text-xs max-w-[400px] w-full break-all">
                                 {courseallocate?.courseVersion.course.institute}
                               </p>
                             </div>
@@ -218,7 +241,9 @@ function CoursesAllocate() {
                           <div className="flex items-center space-x-[-10px] mt-[10px]">
                             {courseallocate?.employee &&
                               courseallocate?.employee?.length > 0 &&
-                              courseallocate?.employee?.slice(0, 5)?.map((avatar, index: number) => {
+                              courseallocate?.employee
+                                ?.slice(0, 5)
+                                ?.map((avatar, index: number) => {
                                   const color = [
                                     "#cbd5e1",
                                     "#bae6fd",
@@ -267,12 +292,17 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      <Button
-                        className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
-                        onClick={() => {setPopupOpen(true); setOpenId(courseallocate?.id)}}
-                      >
-                        View Allocation
-                      </Button>
+                      {statusFilter === "1" && (
+                        <Button
+                          className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+                          onClick={() => {
+                            setPopupOpen(true);
+                            setOpenId(courseallocate?.id);
+                          }}
+                        >
+                          View Allocation
+                        </Button>
+                      )}
                     </div>
                   </div>
 
@@ -311,7 +341,11 @@ function CoursesAllocate() {
                     )} */}
                 </>
               );
-            }) : <span className="text-center h-[calc(100vh-250px)] flex items-center justify-center text-xl text-neutral-400">No data found</span>
+            })
+          ) : (
+            <span className="text-center h-[calc(100vh-250px)] flex items-center justify-center text-xl text-neutral-400">
+              No data found
+            </span>
           )}
         </div>
       </div>

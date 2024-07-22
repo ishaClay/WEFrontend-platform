@@ -40,6 +40,11 @@ export interface EmployeeEntityResult {
     status: string;
     employeeStatus: string;
     profileImage?: null;
+    courseStatus: {
+        completed: number,
+        inprogress: number,
+        totalAssigned: number,
+    };
     deletedAt?: null;
     createdAt: string;
     updatedAt: string;
@@ -60,6 +65,7 @@ export interface CourseAllotedEntity {
     createdAt: string;
     deletedAt?: null;
     updatedAt: string;
+    courseProgress: number;
     courseVersion: CourseVersion;
 }
 export interface CourseVersion {

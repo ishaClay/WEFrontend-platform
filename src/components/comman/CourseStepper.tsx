@@ -18,7 +18,7 @@ const CourseStepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
         {steps.map((step, index) => (
           <Fragment key={step}>
             <div
-              className={`relative flex cursor-pointer items-center justify-center rounded-full bg-muted ${activeColor(
+              className={`relative flex cursor-pointer items-center justify-center rounded-full flex-col bg-transparent ${activeColor(
                 index
               )}`}
               onClick={() => {
@@ -34,16 +34,31 @@ const CourseStepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
               >
                 {index + 1}
               </div>
+              <h3
+                className={`w-full font-calibri mt-[6px] text-sm sm:block hidden ${
+                  currentStep === index ? "text-[#00778B]" : "text-grey"
+                } ${
+                  index === 0
+                    ? "text-left"
+                    : index === 3
+                    ? "text-right"
+                    : index === 4
+                    ? "text-right"
+                    : "text-center"
+                } ${activeTextColor(index)}`}
+              >
+                {step}
+              </h3>
             </div>
           </Fragment>
         ))}
-        <div className="h-[2px] w-full bg-muted absolute top-0 bottom-0 m-auto left-0 right-0 z-10"></div>
+        <div className="h-[2px] 2xl:w-[95%] xl:w-[90%] sm:w-[88%] bg-muted absolute top-[18px] m-auto left-0 right-0 z-10"></div>
       </div>
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         {steps.map((step, index) => (
           <Fragment key={index}>
             <h3
-              className={`w-full font-calibri mt-[6px] text-sm ${
+              className={`w-full font-calibri mt-[6px] text-sm sm:block hidden ${
                 currentStep === index ? "text-[#00778B]" : "text-grey"
               } ${
                 index === 0
@@ -59,7 +74,7 @@ const CourseStepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
             </h3>
           </Fragment>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

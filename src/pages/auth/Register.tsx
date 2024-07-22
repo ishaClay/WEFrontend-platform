@@ -16,6 +16,7 @@ import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
+import { RegisterContext } from "@/context/RegisterContext";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
@@ -29,7 +30,7 @@ import { RegisterEmployee } from "@/services/apiServices/employee";
 import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -63,8 +64,12 @@ function Register() {
   const [time, setTime] = useState<number>(0);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [otp, setOtp] = useState("");
-  const [selectedRole, setSelectedRole] = useState<null | string>(null);
-  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const {
+    selectedRole,
+    setSelectedRole,
+    setShowRegistrationForm,
+    showRegistrationForm,
+  } = useContext(RegisterContext);
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const navigate = useNavigate();

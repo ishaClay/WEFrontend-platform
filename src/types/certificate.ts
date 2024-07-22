@@ -15,9 +15,6 @@ export interface DataEntity {
     administratorSignature: string;
     instructorTitle: string;
     instructorSignature: string;
-    deletedAt?: null;
-    createdAt: string;
-    updatedAt: string;
 }
 export interface Pagination {
     totalItems: number;
@@ -26,3 +23,23 @@ export interface Pagination {
     nextPage?: null;
     previousPage?: null;
 }
+export interface GetCertificate {
+    data?: (DataEntity)[] | null;
+    message: string;
+  }
+  export interface DataEntity {
+    id: number;
+    templateName: string;
+    backgroundImage: string;
+    logoImage: string;
+    title: string;
+    bodyText: string;
+    administratorTitle: string;
+    administratorSignature: string;
+    instructorTitle: string;
+    instructorSignature: string;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+  }
+  

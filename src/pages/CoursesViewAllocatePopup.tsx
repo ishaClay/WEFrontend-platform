@@ -1,9 +1,3 @@
-import speed from "@/assets/images/Speed.png";
-import course from "@/assets/svgs/cource.svg";
-import duration from "@/assets/svgs/duration.svg";
-import institute from "@/assets/svgs/institute.svg";
-import online from "@/assets/svgs/online.svg";
-import time from "@/assets/svgs/time.svg";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
@@ -27,6 +21,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
 import * as zod from "zod";
+import course from "@/assets/svgs/cource.svg";
+import duration from "@/assets/svgs/duration.svg";
+import institute from "@/assets/svgs/institute.svg";
+import online from "@/assets/svgs/online.svg";
+import time from "@/assets/svgs/time.svg";
+import speed from "@/assets/images/Speed.png";
 
 interface CourseViewAllocatePopupProps {
   isOpen: boolean;
@@ -113,9 +113,8 @@ function CourseViewAllocatePopup({
     },
   });
 
-  console.log("data", data);
-
   const courseData = data?.data && data?.data;
+  console.log("data+++", courseData);
 
   console.log("errors", data);
   const showInviteForm = () => {
@@ -190,18 +189,16 @@ function CourseViewAllocatePopup({
   };
 
   const selectInviteEmployee = (employeeId: any) => {
-    if (employeeId === "all") {
+    if (employeeId === 'all') {
       if (selectedEmployee.length === mergedArray?.length) {
         setSelectedEmployee([]);
       } else {
-        const allEmployeeIds = mergedArray?.map((employee: any) => employee.id);
+        const allEmployeeIds = mergedArray?.map((employee:any) => employee.id);
         setSelectedEmployee(allEmployeeIds || []);
       }
     } else {
       if (selectedEmployee?.includes(employeeId)) {
-        setSelectedEmployee(
-          selectedEmployee?.filter((id) => id !== employeeId)
-        );
+        setSelectedEmployee(selectedEmployee?.filter(id => id !== employeeId));
       } else {
         setSelectedEmployee([...selectedEmployee, employeeId]);
       }
@@ -277,7 +274,7 @@ function CourseViewAllocatePopup({
                     <div className="flex items-center gap-4">
                       <MdOutlineGroup />
                       <p className="text-[#A3A3A3] text-[13px]">
-                        {courseData?.company?.employee?.length || 0} Employee
+                        {courseData?.numberOfEmployee || 0} Employee
                       </p>
                     </div>
                   </div>
@@ -425,12 +422,13 @@ function CourseViewAllocatePopup({
                       name="all"
                       className="h-[18px] w-[18px] rounded"
                       checked={selectedEmployee.length === mergedArray?.length}
-                      onChange={() => selectInviteEmployee("all")}
+                      onChange={() => selectInviteEmployee('all')}
                     />
                   </div>
                 </div>
                 <div className="p-4 max-h-[350px] overflow-auto">
-                  {mergedArray && mergedArray?.length > 0 ? (
+                  {mergedArray &&
+                    mergedArray?.length > 0 ?
                     mergedArray?.map((employee) => (
                       <div
                         key={employee.id}
@@ -440,13 +438,10 @@ function CourseViewAllocatePopup({
                           <Avatar>
                             <AvatarImage src={employee.profileImage} />
                             <AvatarFallback>
-                              {employee.name?.charAt(0) ||
-                                employee.email?.charAt(0)?.toUpperCase()}
+                              {employee.name?.charAt(0) || employee.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span>
-                            {employee.name || employee.email.split("@")?.[0]}
-                          </span>
+                          <span>{employee.name || employee.email.split("@")?.[0]}</span>
                         </div>
                         <input
                           type="checkbox"
@@ -456,10 +451,7 @@ function CourseViewAllocatePopup({
                           className="h-[18px] w-[18px] rounded"
                         />
                       </div>
-                    ))
-                  ) : (
-                    <span className="text-center block">No data found</span>
-                  )}
+                    )) : <span className="text-center block">No data found</span> }
                 </div>
                 <div className="w-full flex items-center justify-between mt-2">
                   <Button

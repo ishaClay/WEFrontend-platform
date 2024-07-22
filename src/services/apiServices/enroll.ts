@@ -1,4 +1,4 @@
-import { enroll, FetchEnrollRequestDataType } from "@/types/enroll";
+import { enroll, EnrolledCoursesType } from "@/types/enroll";
 import api from "./api";
 import { CourseDiscountType } from "@/types/course";
 
@@ -8,7 +8,7 @@ export const fetchEnroll = (data:enroll) => {
   return api({ url, method, data });
 };
 
-export const fetchEnrollmentAccepted = async (id: string) : Promise<FetchEnrollRequestDataType | any> => {
+export const fetchEnrollmentAccepted = async (id: string) : Promise<EnrolledCoursesType | any> => {
   const url = `api/v1/course/course-enrollment-Accepted/${id}`;
   const res = await api({ url });
   return res?.data

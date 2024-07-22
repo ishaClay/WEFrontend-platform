@@ -1,25 +1,25 @@
+import atu from "@/assets/images/atu.png";
+import diploma from "@/assets/images/diploma.png";
+import fulltime from "@/assets/images/fulltime.png";
+import online from "@/assets/images/online.png";
+import speed from "@/assets/images/Speed.png";
+import time from "@/assets/images/time.png";
+import unversity from "@/assets/images/unversity.png";
+import Modal from "@/components/comman/Modal";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
+import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { sendMessage } from "@/services/apiServices/chatServices";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { ErrorType } from "@/types/Errors";
 import { RecommendedCourses } from "@/types/RecommendedCourses";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import speed from "@/assets/images/Speed.png";
-import diploma from "@/assets/images/diploma.png";
-import fulltime from "@/assets/images/fulltime.png";
-import online from "@/assets/images/online.png";
-import time from "@/assets/images/time.png";
-import unversity from "@/assets/images/unversity.png";
-import atu from "@/assets/images/atu.png";
-import Modal from "@/components/comman/Modal";
-import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { sendMessage } from "@/services/apiServices/chatServices";
-import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CourseGridView = ({
   recommendeddata,
@@ -29,26 +29,34 @@ const CourseGridView = ({
   const { UserId } = useAppSelector((state: any) => state?.user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<
+    number | null
+  >();
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const pathName = location?.pathname?.split("/")[1];
 
-  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
-    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+  const {
+    data: fetchCourseDiscountEnrollFun,
+    isPending: isPendingCourseDEnroll,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchCourseDiscountEnroll,
+      { recommendedCoursesById },
+    ],
     queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
-    enabled: !!recommendedCoursesById
+    enabled: !!recommendedCoursesById,
   });
 
   useEffect(() => {
-    if(!isRecommendedCourseShow){
-    setRecommendedCoursesById(null);
+    if (!isRecommendedCourseShow) {
+      setRecommendedCoursesById(null);
     }
-  }, [isRecommendedCourseShow])
+  }, [isRecommendedCourseShow]);
 
   const handleClose = () => {
-    setIsRecommendedCourseShow(false); 
+    setIsRecommendedCourseShow(false);
     setRecommendedCoursesById(null);
-  }
+  };
 
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
@@ -63,37 +71,49 @@ const CourseGridView = ({
         variant: "success",
         title: data?.data?.message,
       });
-      navigate(`/${pathName}/message`)
+      navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
-      
     },
-    onError:(error: ErrorType) => {
+    onError: (error: ErrorType) => {
       setRecommendedCoursesById(null);
       toast({
         variant: "destructive",
         title: error?.data?.message,
       });
-    }
+    },
   });
 
   const handleInquire = (data: RecommendedCourses[] | any) => {
     const payload = {
       senderId: UserId,
-      receiverId: data?.trainerCompanyId ? data?.trainerCompanyId?.userDetails?.id : data?.trainerId?.userDetails?.id,
+      receiverId: data?.trainerCompanyId
+        ? data?.trainerCompanyId?.userDetails?.id
+        : data?.trainerId?.userDetails?.id,
       message: data?.title,
-      images: [data?.bannerImage]
-    }
-    handleSend(payload)
-  }
+      images: [data?.bannerImage],
+    };
+    handleSend(payload);
+  };
 
   return (
     <>
       <Modal
         open={isRecommendedCourseShow}
         onClose={handleClose}
-        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+        className={`py-[60px] px-6 ${
+          isPendingCourseDEnroll
+            ? "h-[200px]"
+            : fetchCourseDiscountEnrollFun?.data &&
+              fetchCourseDiscountEnrollFun?.data?.length > 0
+            ? "max-w-[800px] max-h-[800px] h-auto"
+            : "h-[200px]"
+        }`}
       >
-        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+        <RecommendedCoursesModel
+          data={fetchCourseDiscountEnrollFun?.data || []}
+          isLoading={isPendingCourseDEnroll}
+          setOpen={setIsRecommendedCourseShow}
+        />
       </Modal>
       <div
         className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
@@ -223,16 +243,30 @@ const CourseGridView = ({
               />
             </div>
             <div className="2xl:col-span-5 col-span-4 xl:mr-0 ml-auto m-0 flex items-center 2xl:flex-row flex-col 2xl:gap-4 gap-2">
-              <Button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
-                onClick={() => {handleInquire(recommendeddata || []); setRecommendedCoursesById(recommendeddata?.id);}}
-                disabled={!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id}
+              <Button
+                className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                onClick={() => {
+                  handleInquire(recommendeddata || []);
+                  setRecommendedCoursesById(recommendeddata?.id);
+                }}
+                disabled={
+                  !isRecommendedCourseShow &&
+                  recommendedCoursesById === recommendeddata?.id
+                }
               >
-                {!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Inquire
+                {!isRecommendedCourseShow &&
+                  recommendedCoursesById === recommendeddata?.id && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}{" "}
+                Inquire
               </Button>
               <Button
-                onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(recommendeddata?.id)}}
+                onClick={() => {
+                  setIsRecommendedCourseShow(true);
+                  setRecommendedCoursesById(recommendeddata?.id);
+                }}
                 className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                disabled={!recommendeddata?.enrolled}
+                disabled={recommendeddata?.enrolled}
               >
                 Enroll Now
               </Button>

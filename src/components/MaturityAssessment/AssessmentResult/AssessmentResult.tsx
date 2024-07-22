@@ -11,6 +11,7 @@ import {
 } from "@/services/apiServices/assessment";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import { UserRole } from "@/types/UserRole";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
@@ -50,11 +51,13 @@ const findMaturityLevel = (score: number) => {
 type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
   assessmentData: any;
+  showButton: number;
 };
 
 const AssessmentResult = ({
   chnageTab,
   assessmentData,
+  showButton,
 }: AssessmentResultProps) => {
   const location = useLocation();
   console.log("+++++", location);
@@ -65,11 +68,14 @@ const AssessmentResult = ({
 
   const pathStatus = JSON.parse(localStorage.getItem("path") as string);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const userID = UserId
-    ? +UserId
-    : userData?.query
-    ? userData?.query?.id
-    : userData?.id;
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
 
   const { data: assessmant, isPending } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -621,7 +627,8 @@ const AssessmentResult = ({
         </Tabs>
       </div>
 
-      {pathStatus <= "5" && (
+      {((userData?.query?.role === UserRole.Company && pathStatus <= "5") ||
+        showButton === 0) && (
         <div className="text-center">
           <Button
             onClick={handleMaturity}

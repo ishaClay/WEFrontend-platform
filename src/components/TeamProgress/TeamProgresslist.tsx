@@ -57,13 +57,16 @@ const TeamProgresslist = ({ data }: ProgressList) => {
           </h6>
           <ul className="flex sm:gap-4 gap-2">
             <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-black">
-              Assigned<span className="block">1</span>
+              Assigned
+              <span className="block">{data?.courseStatus?.totalAssigned}</span>
             </li>
             <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold">
-              InProgress<span className="block">3</span>
+              InProgress
+              <span className="block">{data?.courseStatus?.inprogress}</span>
             </li>
             <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-white">
-              Completed<span className="block">1</span>
+              Completed
+              <span className="block">{data?.courseStatus?.completed}</span>
             </li>
           </ul>
         </div>

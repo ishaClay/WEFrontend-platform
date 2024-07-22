@@ -164,9 +164,9 @@ const EmployeeDetailsPage = () => {
                       </Label>
                     </div>
                   </RadioGroup>
-                  <Button className="xl:text-base text-sm font-nunito font-semibold xl:w-[121px] xl:h-[52px] w-[100px] h-[40px] bg-[#58BA66]">
+                  {/* <Button className="xl:text-base text-sm font-nunito font-semibold xl:w-[121px] xl:h-[52px] w-[100px] h-[40px] bg-[#58BA66]">
                     SUBMIT
-                  </Button>
+                  </Button> */}
                 </div>
               </fieldset>
             </div>

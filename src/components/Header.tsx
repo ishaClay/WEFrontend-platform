@@ -43,17 +43,17 @@ function Header(props: headerProps) {
   const handleGotoDashboard = () => {
     const user = !!userData && JSON.parse(userData)?.query;
 
-    switch (+user.role) {
-      case 1:
+    switch (user.role) {
+      case "1":
         navigate(`/company/dashboard`);
         break;
-      case 2:
+      case "2":
         navigate(`/trainer/dashboard`);
         break;
-      case 3:
+      case "3":
         navigate(`/trainee/dashboard`);
         break;
-      case 4:
+      case "4":
         navigate(`/employee/dashboard`);
         break;
 

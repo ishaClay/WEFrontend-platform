@@ -36,7 +36,11 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
           </div>
         </div>
       </div>
-      <Progress value={90} color="#58BA66" className="w-full rounded-full" />
+      <Progress
+        value={data?.courseProgress}
+        color="#58BA66"
+        className="w-full rounded-full"
+      />
     </div>
   );
 };

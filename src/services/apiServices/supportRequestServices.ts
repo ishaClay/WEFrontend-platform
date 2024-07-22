@@ -1,4 +1,4 @@
-import { SubmitPayload } from "@/types/SupportRequest";
+import { SubmitPayload, SupportTicketListType } from "@/types/SupportRequest";
 import api from "./api";
 
 export const fetchSupportTicketCompany = (id: string, role: string) => {
@@ -17,10 +17,11 @@ export const fetchSupportTicketCount = (userId: string) => {
     return api({ url });
 };
 
-export const fetchSupportTicketList = (page: string, limit: string, userId?: number | null, keyword?: string) => {
-    const url = `api/v1/support-ticket/list`
-    const params: any = { page, limit, userId, keyword }
-    return api({ url, params });
+export const fetchSupportTicketList = async (page: string, limit: string, keyword?: string,userId?: number | null): Promise<SupportTicketListType> => {
+    const url = `/api/v1/support-ticket/list`
+    const params: any = { page, limit,keyword, userId }
+    const res = await api({ url, params });
+    return res
 };
 
 export const deleteSupportTicket = (id: string) => {

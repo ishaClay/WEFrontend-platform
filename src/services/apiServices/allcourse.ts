@@ -2,22 +2,22 @@ import api from "./api";
 
 export const fetchAllCourse = (pillerId: string, search: string, client: string, userId: string, companyId: string) => {
   // const url = `api/v1/course/list?keyword=${search}&pillarid=${pillerId}`;
-  const url = `api/v1/course/list?keyword`;
-  let params: any = {};
+  const url = `api/v1/course/list`;
+  const params: any = {};
 
-  if(search){
+  if (search) {
     params["keyword"] = search;
   }
-  if(pillerId){
+  if (pillerId) {
     params["pillarid"] = pillerId;
   }
-  if(client){
+  if (client) {
     params["client"] = client;
   }
-  if(userId){
+  if (userId) {
     params["userId"] = userId;
   }
-  if(companyId){
+  if (companyId) {
     params["companyId"] = companyId;
   }
 

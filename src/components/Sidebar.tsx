@@ -124,7 +124,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                             : "bg-[#fff]"
                         } `}
                       >
-                        <div className="relative flex items-center gap-2">
+                        <div className="flex items-center gap-2">
                           {item?.label === "Message" && newMessage && (
                             <GoDotFill
                               className="absolute top-1.5 left-[22px]"
@@ -159,7 +159,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                               : "bg-[#fff]"
                           } `}
                         >
-                          <div className="relative flex items-center gap-2">
+                          <div className="flex items-center gap-2">
                             {item?.label === "Message" && newMessage && (
                               <GoDotFill
                                 className="absolute top-1.5 left-[22px]"

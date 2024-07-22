@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
-import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
+import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
@@ -100,6 +100,7 @@ import CourseManagement from "./pages/courseManagement";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
+import LiveSessionsCalendar from "./pages/courseManagement/LiveSessionsCalendar";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
@@ -118,7 +119,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-// import Addcertificate from "./components/certificateTemplete/Addcertificate";
+import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -730,12 +731,20 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
+          <Route
+            path="add_assessment/:assessmentType"
+            element={<AssecessmentPage />}
+          />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
+          {/* <Route
+            path="certificate-template/updatecertificate/:id"
+            element={<Updatecertificate />}
+          /> */}
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
@@ -774,16 +783,16 @@ function App() {
             element={<CourseManagement />}
           />
           <Route
+            path="add_assessment/:assessmentType"
+            element={<AssecessmentPage />}
+          />
+          <Route
             path="trainer-management"
             element={<TrainerManagementPage />}
           />
           <Route
             path="trainer-management/details/:id"
             element={<TrainerDetails />}
-          />
-          <Route
-            path="trainer-management/edit/:id"
-            element={<TrainerDetailsEdit />}
           />
           <Route
             path="trainer-management/invitation"
@@ -793,7 +802,10 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
-
+          <Route
+            path="certificate-template/updatecertificate/:id"
+            element={<Updatecertificate />}
+          />
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
@@ -817,6 +829,7 @@ function App() {
             element={<ScheduleLiveSession />}
           />
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
+          <Route path="live-sessions-calendar" element={<LiveSessionsCalendar />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />
@@ -828,6 +841,7 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
+          <Route path="setting" element={<FaqsListPage />} />
         </Route>
       </Routes>
     </div>

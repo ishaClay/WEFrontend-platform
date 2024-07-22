@@ -1,18 +1,18 @@
 import Loader from "@/components/comman/Loader";
+import CourseGridView from "@/components/courseManagement/Recommended Courses/CourseGridView";
+import CourseListView from "@/components/courseManagement/Recommended Courses/CourseListView";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
+import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
+import { EnrollmentRequestsResponse } from "@/types/allocatedcourses";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { EnrollmentRequestsResponse } from "@/types/allocatedcourses";
-import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 import { useNavigate } from "react-router-dom";
-import CourseListView from "@/components/courseManagement/Recommended Courses/CourseListView";
-import CourseGridView from "@/components/courseManagement/Recommended Courses/CourseGridView";
 
 function CoursesRecommended() {
   const searchUrl = window.location.search;
@@ -124,7 +124,14 @@ function CoursesRecommended() {
               </div>
             </div>
             {params === "0" || !params ? (
-              <div className={`p-4 h-[calc(100vh-301px)] overflow-auto ${recommendedcourses?.data && recommendedcourses?.data?.length > 0 ? "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1" : "grid-cols-1"} grid gap-4`}>
+              <div
+                className={`p-4 h-[calc(100vh-301px)] overflow-auto ${
+                  recommendedcourses?.data &&
+                  recommendedcourses?.data?.length > 0
+                    ? "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1"
+                    : "grid-cols-1"
+                } grid gap-4`}
+              >
                 {pending ? (
                   <Loader />
                 ) : recommendedcourses?.data ? (

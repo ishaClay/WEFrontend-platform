@@ -26,11 +26,14 @@ const SetTarget = ({
   const pillars = useAppSelector((state) => state.pillar?.maturitypillar);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const userID = UserId
-    ? +UserId
-    : userData?.query
-    ? userData?.query?.id
-    : userData?.id;
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
 
   const [checkedStates, setCheckedStates] = useState<
     AllActionDataPillerWiseResult[]

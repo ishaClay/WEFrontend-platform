@@ -27,6 +27,12 @@ export interface EmployeeDetails {
 
 export interface EmployeeResult {
   data?: (EmployeeResponse)[];
+  metadata: {
+    currentPage: number
+    totalCount: number
+    totalItems: number
+    totalPages: number
+  }
 }
 
 export interface EmployeeResponse {

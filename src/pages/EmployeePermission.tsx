@@ -203,7 +203,7 @@ function EmployeePermission() {
         <div className="flex bg-[#FFFFFF] ">
           <div className="m-4 relative">
             <Input
-              placeholder="Search by pilier, level, recommended, course name etc."
+              placeholder="Search by Name, Email etc."
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
@@ -226,7 +226,7 @@ function EmployeePermission() {
               <NewDataTable
                 columns={column}
                 data={data?.data || []}
-                totalPages={1}
+                totalPages={data?.metadata?.totalPages || 1}
                 setPage={setPage}
                 border={false}
                 inputbox={false}

@@ -6,7 +6,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { fetchAllCourse, fetchPillar } from "@/services/apiServices/allcourse";
-import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
 import { Pillarcourse } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -21,20 +20,27 @@ function CoursesAllCourse() {
     null
   );
   const [search, setSearch] = useState("");
-
-  const { data: allcourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
-    queryFn: () => fetchAllCourse(selectedCourse?.id?.toString() || "", search, user?.clientId, user?.UserId, user?.CompanyId),
-  });
-  const searchUrl = window.location.search;
-  const params = new URLSearchParams(searchUrl).get("view");
-  const navigate = useNavigate();
   const usersData = JSON.parse(localStorage.getItem("user") as string);
   const userID = user?.UserId
     ? +user?.UserId
     : usersData?.query
     ? usersData?.query?.id
     : usersData?.id;
+
+  const { data: allcourse, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
+    queryFn: () =>
+      fetchAllCourse(
+        selectedCourse?.id?.toString() || "",
+        search,
+        user?.clientId,
+        userID,
+        user?.CompanyId
+      ),
+  });
+  const searchUrl = window.location.search;
+  const params = new URLSearchParams(searchUrl).get("view");
+  const navigate = useNavigate();
 
   const changeCourseView = (id: number) => {
     navigate(`/company/allcourses?view=${id}`, { replace: true });
@@ -43,16 +49,6 @@ function CoursesAllCourse() {
   const { data: pillarcourse } = useQuery({
     queryKey: [QUERY_KEYS.fetchbypillarcource],
     queryFn: () => fetchPillar(user?.clientId),
-  });
-
-  const { data: recommendedcourses } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
-    queryFn: () =>
-      fetchRecommendedCourses({
-        user: parseInt(userID),
-        client: parseInt(user?.clientId),
-        search,
-      }),
   });
 
   const handleCourseClick = (course: Pillarcourse) => {
@@ -151,7 +147,6 @@ function CoursesAllCourse() {
                 <div className="grid gap-5 py-[22px] px-5 xl:grid-cols-3 grid-cols-2">
                   <CourseGridPage
                     data={allcourse?.data?.data}
-                    reCommendedCourses={recommendedcourses?.data || []}
                     selectedCourse={selectedCourse}
                   />
                 </div>
@@ -159,7 +154,6 @@ function CoursesAllCourse() {
                 <div className="py-[22px] px-5">
                   <CourseListPage
                     data={allcourse?.data?.data}
-                    reCommendedCourses={recommendedcourses?.data || []}
                     selectedCourse={selectedCourse}
                   />
                 </div>

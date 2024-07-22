@@ -18,11 +18,14 @@ const Assign = ({
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
-  const userID = UserId
-    ? +UserId
-    : userData?.query
-    ? userData?.query?.id
-    : userData?.id;
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
 
   const { data: getCheckedmeasures, isPending } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasures],

@@ -65,11 +65,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     setCourse(id);
   };
   useEffect(() => {
-    if(!cohort){
+    if (!cohort) {
       setCourse("");
     }
-  }, [cohort])
-  
+  }, [cohort]);
 
   useEffect(() => {
     if (list?.length > 0) {
@@ -185,7 +184,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     item: AllCoursesResult
   ) => {
     console.log("item?.trainerId?.id", item);
-    
+
     e.stopPropagation();
     if (item?.status === "HOLD" || item?.status === "PUBLISHED") {
       navigate(
@@ -212,8 +211,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  return (
-    list ? <>    
+  return list ? (
+    <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item, i) => {
@@ -274,28 +273,15 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                     Duration : {item?.duration || "--"}
                   </p>
                 </div>
-                <div>
+                <div className="flex items-center gap-2 flex-wrap">
                   {item?.courseData?.map((item) => {
                     return (
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="">
                         <Badge
                           variant="outline"
-                          className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                          className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
                         >
                           {item?.fetchPillar?.pillarName}
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className={`bg-[${
-                            item?.fetchMaturity?.color
-                          }] p-1 px-3 text-[${
-                            item?.fetchMaturity?.maturityLevelName ===
-                            "Beginning"
-                              ? "white"
-                              : "#3A3A3A"
-                          }] text-xs font-Poppins font-normal`}
-                        >
-                          {item?.fetchMaturity?.maturityLevelName}
                         </Badge>
                       </div>
                     );
@@ -309,6 +295,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   onClick={(e: any) =>
                     handlePublish(e, item?.currentVersion?.id as number)
                   }
+                  isLoading={publishCoursePending}
                 >
                   PUBLISH
                 </Button>
@@ -390,7 +377,9 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
             <Loader className="w-10 h-10 text-primary" />
           </div>
         ))}
-    </> : <span>No data found</span>
+    </>
+  ) : (
+    <span>No data found</span>
   );
 };
 

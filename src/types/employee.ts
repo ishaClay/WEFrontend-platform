@@ -20,3 +20,31 @@ export interface Metadata {
     currentPage: number;
     totalPages: number;
 }
+
+
+export interface EmployeeActionResponse {
+    data: Data;
+    message: string;
+}
+export interface Data {
+    myActionItems: MyActionItems;
+    measure?: (MeasureEntity)[] | null;
+}
+export interface MyActionItems {
+    delayed: number;
+    ontime: number;
+    completed: number;
+    assigned: number;
+}
+export interface MeasureEntity {
+    id: number;
+    measure: string;
+    startDate: string;
+    endDate: string;
+    evidence?: null;
+    iscompleted: number;
+    empAssignDate?: null;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt?: null;
+}

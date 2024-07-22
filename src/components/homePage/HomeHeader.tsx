@@ -1,11 +1,12 @@
 import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
 import vector from "@/assets/images/Vector_menu.png";
+import { RegisterContext } from "@/context/RegisterContext";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import { useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../comman/Button/CustomButton";
@@ -20,6 +21,8 @@ interface headerProps {
 function HomeHeader(props: headerProps) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { setSelectedRole, setShowRegistrationForm } =
+    useContext(RegisterContext);
 
   const userData = localStorage?.getItem("user");
   const path = JSON.parse(localStorage?.getItem("path") as string);
@@ -66,6 +69,12 @@ function HomeHeader(props: headerProps) {
         navigate("/");
         break;
     }
+  };
+
+  const handleClickRegister = () => {
+    navigate("/register");
+    setShowRegistrationForm(false);
+    setSelectedRole(null);
   };
 
   return (
@@ -123,9 +132,7 @@ function HomeHeader(props: headerProps) {
                 ) : (
                   <>
                     <PrimaryButton
-                      onClick={() => {
-                        navigate("/register");
-                      }}
+                      onClick={handleClickRegister}
                       name="Register"
                       className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
                     />
@@ -207,9 +214,7 @@ function HomeHeader(props: headerProps) {
                         ) : (
                           <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
                             <PrimaryButton
-                              onClick={() => {
-                                navigate("/register");
-                              }}
+                              onClick={handleClickRegister}
                               name="Register"
                               className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                             />

@@ -1,13 +1,13 @@
-import { BsInstagram } from "react-icons/bs";
-import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
-import { IoLogoYoutube } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
-import { Button } from "../ui/button";
 import footerLogoImage from "@/assets/images/FooterLogo.png";
 import footerLogoImage1 from "@/assets/images/FooterLogo1.png";
 import homeFooterLogo from "@/assets/images/HomeFooterLogo.png";
 import homeFooterLogo1 from "@/assets/images/HomeFooterLogo1.png";
 import RoundLogoImage from "@/assets/images/RoundLogo.png";
+import { BsInstagram } from "react-icons/bs";
+import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
+import { IoLogoYoutube } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const HomeFooter = () => {
   const location = useLocation();
@@ -21,7 +21,7 @@ const HomeFooter = () => {
         {isHomePage() && (
           <div className="h-[230px] absolute bottom-0 bg-[#71B2C9] lg:block hidden"></div>
         )}
-        <div className="w-[1162px] bg-[#002A3A] z-[999] sm:rounded-tl-[20px] sm:rounded-tr-[20px] rounded-0 text-center">
+        <div className="w-[1162px] bg-[#002A3A] z-[9] sm:rounded-tl-[20px] sm:rounded-tr-[20px] rounded-0 text-center">
           <div className="lg:flex block xl:gap-x-[33px] gap-x-[15px] xl:ml-8 ml-0 xl:mt-[44px] mt-6 xl:justify-normal justify-center lg:pb-0 pb-5">
             <div className="relative lg:p-0 px-5">
               {/* <img

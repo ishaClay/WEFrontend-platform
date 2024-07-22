@@ -7,36 +7,35 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
-  deleteSupportTicket,
-  fetchSupportTicketList,
+  deleteSupportTicket
 } from "@/services/apiServices/supportRequestServices";
 import { ErrorType } from "@/types/Errors";
-import { SupportRequest } from "@/types/SupportRequest";
+import { DataEntity, SupportTicketListType } from "@/types/SupportRequest";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
 
-const SupportRequestTable = () => {
-  const { toast } = useToast();
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const { UserId } = useSelector((state: any) => state.user);
-  const queryClient = useQueryClient();
-  const [openDelete, setOpenDelete] = useState<boolean | SupportRequest>(false);
-  const { data: support_request_list, isPending: supportRequestPending, isFetching: supportRequestFetching } =
-    useQuery({
-      queryKey: [QUERY_KEYS.supportTicketList, { page, search }],
-      queryFn: () =>
-        fetchSupportTicketList(page.toString(), "10", UserId, search),
-    });
+interface SupportRequestTableProps {
+  data?: SupportTicketListType;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
+  page: number;
+}
 
-  const column: ColumnDef<any>[] = [
+const SupportRequestTable = ({data, page, setPage, search, setSearch, isLoading}: SupportRequestTableProps) => {
+  const { toast } = useToast();
+  
+  const queryClient = useQueryClient();
+  const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
+
+  const column: ColumnDef<DataEntity>[] = [
     {
       accessorKey: "id",
       header: ({ column }) => {
@@ -85,7 +84,7 @@ const SupportRequestTable = () => {
         );
       },
       cell: ({ row }) => {
-        return moment(row.original.updatedat).format("DD-MM-YYYY");
+        return moment(row?.original?.updatedAt || "").format("DD-MM-YYYY");
       },
       meta: {
         className: "sm:table-cell hidden",
@@ -114,7 +113,7 @@ const SupportRequestTable = () => {
           </Button>
         );
       },
-      cell: ({ row }: any) => {
+      cell: ({ row }) => {
         return (
           <Link
             to={`ticket-details/${row.original.id}`}
@@ -215,7 +214,7 @@ const SupportRequestTable = () => {
           </Button>
         );
       },
-      cell: ({ row }: any) => {
+      cell: ({ row }) => {
         return (
           <div>
             {row.original?.assignTo?.name ||
@@ -272,7 +271,7 @@ const SupportRequestTable = () => {
     {
       accessorKey: "action",
       header: "Action",
-      cell: ({ row }: any) => {
+      cell: ({ row }) => {
         return (
           <div className="flex items-center gap-[12px] ">
             <Button
@@ -298,7 +297,7 @@ const SupportRequestTable = () => {
       mutationFn: (id: string) => deleteSupportTicket(id),
       onSuccess: () => {
         toast({ title: "Ticket delete Successfully" });
-        setOpenDelete(false);
+        setOpenDelete(null);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.supportTicketList],
         });
@@ -315,7 +314,7 @@ const SupportRequestTable = () => {
     });
 
   const handleDelete = () => {
-    delete_supportticket((openDelete as SupportRequest).id as string);
+    delete_supportticket(String(openDelete?.id));
   };
 
   return (
@@ -335,15 +334,15 @@ const SupportRequestTable = () => {
           className="absolute sm:left-10 left-7"
         />
       </div>
-      {supportRequestPending || supportRequestFetching ? (
+      {isLoading ? (
         <span className="flex justify-center items-center py-10">
           <Loader2 className="w-5 h-5 animate-spin" />
         </span>
       ) : (
         <NewDataTable
           columns={column}
-          data={support_request_list?.data.data || []}
-          totalPages={support_request_list?.data?.metadata?.totalPages || 1}
+          data={data?.data?.data || []}
+          totalPages={data?.data?.metadata?.totalPages || 1}
           setPage={setPage}
           inputbox={false}
           border={false}
@@ -354,10 +353,10 @@ const SupportRequestTable = () => {
       )}
 
       <ConfirmModal
-        open={openDelete as boolean}
-        onClose={() => setOpenDelete(false)}
+        open={!!openDelete}
+        onClose={() => setOpenDelete(null)}
         onDelete={handleDelete}
-        value={typeof openDelete === "boolean" ? "" : openDelete?.openbyname}
+        value={openDelete?.openBy?.name || ""}
         isLoading={deletePanding}
       />
     </div>

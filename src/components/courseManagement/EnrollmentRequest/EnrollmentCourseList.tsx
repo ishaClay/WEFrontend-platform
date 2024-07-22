@@ -1,13 +1,13 @@
 import Loader from "@/components/comman/Loader";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { useQuery } from "@tanstack/react-query";
 import EnrollmentCourseListCard from "./EnrollmentCourseListCard";
-import { useSelector } from "react-redux";
 
 const EnrollmentCourseList = ({ status }: { status: string }) => {
-  const statusparams = status === "0" ? "" : status;
-  const { UserId } = useSelector((state: any) => state?.user);
+  const statusparams = status === "0" ? "" : status === "3" ? "0" : status;
+  const { UserId } = useAppSelector((state) => state?.user);
   const { data: fetchEnrollRequestData, isPending: fetchEnrollRequestPending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],

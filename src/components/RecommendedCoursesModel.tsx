@@ -64,7 +64,7 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
     mutationFn: fetchEnroll,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+        queryKey: [QUERY_KEYS.fetchbycourse],
       });
       toast({
         variant: "success",

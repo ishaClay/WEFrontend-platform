@@ -74,6 +74,10 @@ export const QUERY_KEYS = {
   notificationList: "notificationList",
   notificationCount: "notificationCount",
   notification: "notification",
+  assessmentOptions: "assessmentOptions",
+  getcertificate: "certificate",
+  certificateDetail: "certificateDetail",
+  getEmployeeWiseAcion: "getEmployeeWiseAcion"
 };
 
 export const urlRegex =
@@ -120,3 +124,133 @@ export const FileType = {
     listIcon: VideoICon,
   },
 };
+
+export const sectorOption = [
+  {
+    label: "Agriculture",
+    value: "Agriculture",
+  },
+  {
+    label: "Business",
+    value: "Business",
+  },
+  {
+    label: "Construction",
+    value: "Construction",
+  },
+  {
+    label: "Engineering",
+    value: "Engineering",
+  },
+  {
+    label: "Environmental Goods & Services",
+    value: "Environmental Goods & Services",
+  },
+  {
+    label: "Food & Drink",
+    value: "Food & Drink",
+  },
+  {
+    label: "Green Technology",
+    value: "Green Technology",
+  },
+  {
+    label: "Health",
+    value: "Health",
+  },
+  {
+    label: "ICT Manufacturing & Services",
+    value: "ICT Manufacturing & Services",
+  },
+  {
+    label: "Financial Services",
+    value: "Financial Services",
+  },
+  {
+    label: "Life Sciences",
+    value: "Life Sciences",
+  },
+  {
+    label: "Manufacturing",
+    value: "Manufacturing",
+  },
+  {
+    label: "Media/Audiovisual",
+    value: "Media/Audiovisual",
+  },
+  {
+    label: "Mixed",
+    value: "Mixed",
+  },
+  {
+    label: "Pharmaceutical",
+    value: "Pharmaceutical",
+  },
+  {
+    label: "Retail",
+    value: "Retail",
+  },
+  {
+    label: "Services",
+    value: "Services",
+  },
+  {
+    label: "Technology",
+    value: "Technology",
+  },
+  {
+    label: "Tourism & Travel",
+    value: "Tourism & Travel",
+  },
+  {
+    label: "Transportation",
+    value: "Transportation",
+  },
+  {
+    label: "Visual Arts",
+    value: "Visual Arts",
+  },
+  {
+    label: "Wholesale Trade",
+    value: "Wholesale Trade",
+  },
+  {
+    label: "Aviation",
+    value: "Aviation",
+  },
+  {
+    label: "Homemaker",
+    value: "Homemaker",
+  },
+  {
+    label: "Legal",
+    value: "Legal",
+  },
+  {
+    label: "Other",
+    value: "Other",
+  },
+  {
+    label: "Health",
+    value: "Health",
+  },
+];
+
+export const employeeOption = [
+  {
+    label: "0 - 9",
+    value: "0 - 9",
+  },
+  {
+    label: "10 - 49",
+    value: "10 - 49",
+  },
+  {
+    label: "50 - 250",
+    value: "50 - 250",
+  },
+  {
+    label: "250+",
+    value: "250+",
+  },
+];

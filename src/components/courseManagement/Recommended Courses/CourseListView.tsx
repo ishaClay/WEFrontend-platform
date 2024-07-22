@@ -109,7 +109,7 @@ function CourseListView({
   const handleInquire = (data: RecommendedCourses[] | any) => {
     const payload = {
       senderId: userData?.UserId,
-      receiverId: data?.trainerCompanyId ? data?.trainerCompanyId?.id : data?.trainerId?.id,
+      receiverId: data?.trainerCompanyId ? data?.trainerCompanyId?.userDetails?.id : data?.trainerId?.userDetails?.id,
       message: data?.title,
       images: [data?.bannerImage]
     }
@@ -255,7 +255,7 @@ function CourseListView({
                 <Button
                   onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(recommendeddata?.id)}}
                   className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                  disabled={!recommendeddata?.enrolled}
+                  disabled={recommendeddata?.enrolled}
                 >
                   Enroll Now
                 </Button>

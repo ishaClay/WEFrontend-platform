@@ -1,4 +1,5 @@
 import delet from "@/assets/images/delet.svg";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
+import { deleteEmployee } from "@/services/apiServices/employee";
 import { getMemberlist } from "@/services/apiServices/member";
 import { EmployeeEntity } from "@/types/Invition";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,8 +23,9 @@ import searchIcon from "/assets/icons/search.svg";
 function CoursesAllocate() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const { CompanyId } = useAppSelector((state: any) => state.user);
+  const { CompanyId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const queryClient = useQueryClient();
   const companyId = CompanyId
     ? CompanyId
     : userData?.query
@@ -254,10 +258,14 @@ function CoursesAllocate() {
     {
       accessorKey: "action",
       header: "",
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <div className="gap-[12px] ">
-            <Button variant={"ghost"} className="p-0">
+            <Button
+              onClick={() => handleDelete(+row.original.id)}
+              variant={"ghost"}
+              className="p-0"
+            >
               <img src={delet} alt="" />
             </Button>
           </div>
@@ -269,6 +277,19 @@ function CoursesAllocate() {
     queryKey: [QUERY_KEYS.MemberList, { page, search }],
     queryFn: () => getMemberlist(page.toString(), "10", companyId, search),
   });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteEmployee,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.MemberList],
+      });
+    },
+  });
+
+  const handleDelete = (id: number) => {
+    mutate(+id);
+  };
 
   return (
     <div className="bg-[#f5f3ff]">
@@ -295,9 +316,7 @@ function CoursesAllocate() {
         <div className="flex bg-[#FFFFFF] ">
           <div className="m-4 relative">
             <Input
-              placeholder={
-                "Search by pilier, level, recommended, course name etc."
-              }
+              placeholder={"Search by name, email etc."}
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
@@ -325,6 +344,8 @@ function CoursesAllocate() {
           />
         )}
       </div>
+
+      <Loading isLoading={isPending} />
     </div>
   );
 }

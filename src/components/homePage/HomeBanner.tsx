@@ -26,8 +26,12 @@ const HomeBanner = () => {
             return (
               <div className="relative">
                 <img
-                  className="w-full xl:h-[610px] md:h-[480px] h-[810px]"
+                  className="sm:block hidden w-full xl:h-[610px] md:h-[480px] h-[810px]"
                   src={item.banner}
+                />
+                <img
+                  className="sm:hidden block w-full xl:h-[610px] md:h-[480px] h-[810px]"
+                  src={item.mobileBanner}
                 />
                 <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 ">
                   <div className="absolute top-[35%] -translate-y-[35%] md:left-auto md:right-auto md:m-0 left-0 right-0 m-auto">

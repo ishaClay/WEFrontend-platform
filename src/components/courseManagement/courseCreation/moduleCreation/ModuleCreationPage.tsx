@@ -221,7 +221,7 @@ const ModuleCreationPage = () => {
     mutationFn: (data: any) => changeModulePostion(data, courseEditId),
   });
 
-  const { data: CourseModule, isFetching: courseLoading } = useQuery({
+  const { data: CourseModule, isLoading: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
     queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
     enabled: !!courseID || !!courseEditId,
@@ -232,6 +232,8 @@ const ModuleCreationPage = () => {
       setModuleList(CourseModule?.data.data);
     }
   }, [CourseModule]);
+
+  console.log("CourseModule", CourseModule);
 
   const handleModuleSave = async (data: any) => {
     console.log("moduleCreationItems===>", data.modules);
@@ -289,26 +291,26 @@ const ModuleCreationPage = () => {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center pb-5">
-        <p className="text-[#606060] text-[15px] inline-block">
+      <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
+        {/* <p className="text-[#606060] text-[15px] inline-block">
           Please fill in all the learning material for this course, as you see
           fit
-        </p>
+        </p> */}
+        <div className="">
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] sm:text-left text-center">
+            {moduleCreationItem.length > 0
+              ? "Please fill in all the learning material for this course, as you see fit"
+              : "All the modules and chapters currently included in this course"}
+          </p>
+        </div>
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
           disabled={moduleList?.length > 0 && moduleCreationItem.length > 0}
-          className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
+          className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
-          <CirclePlus width={20} className="me-2" /> Add Module
+          <CirclePlus width={18} /> Add Module
         </Button>
-      </div>
-      <div className="pb-[38px] -mt-2">
-        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
-          {moduleCreationItem.length > 0
-            ? "Please fill in all the learning material for this course, as you see fit"
-            : "All the modules and chapters currently included in this course"}
-        </p>
       </div>
 
       {courseLoading ? (

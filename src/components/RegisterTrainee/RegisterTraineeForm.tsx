@@ -127,6 +127,7 @@ const RegisterTraineeForm = () => {
       unemploymentTime: data.unemploymentTime,
       countyOfResidence: data.countyOfResidence,
       attendedEvent: data.attendedEvent,
+      status: true,
     };
     console.log(payload); // Add this log to inspect the payload
     updateTrainee(payload);
