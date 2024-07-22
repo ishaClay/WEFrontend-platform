@@ -37,7 +37,7 @@ const TicketsDetailsReply = () => {
     queryKey: [QUERY_KEYS.courseTopFive, id],
     queryFn: () => getSingleSupportTicket(id as string),
   });
-  console.log("id", id);
+  console.log("id======", id);
 
   const { toast } = useToast();
   const queryClient = useQueryClient();

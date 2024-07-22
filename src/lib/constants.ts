@@ -75,6 +75,8 @@ export const QUERY_KEYS = {
   notificationCount: "notificationCount",
   notification: "notification",
   assessmentOptions: "assessmentOptions",
+  getcertificate:"certificate",
+  certificateDetail:"certificateDetail",
 };
 
 export const urlRegex =

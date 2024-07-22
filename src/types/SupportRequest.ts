@@ -178,3 +178,4 @@ export interface SelfAssessmentType {
     currentPage: number;
     totalPages: number;
   }
+  

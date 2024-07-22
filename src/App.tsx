@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
-import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Accomplishments from "./components/certifications/Accomplishments";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
@@ -120,7 +119,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-// import Addcertificate from "./components/certificateTemplete/Addcertificate";
+import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -742,6 +741,10 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
+          {/* <Route
+            path="certificate-template/updatecertificate/:id"
+            element={<Updatecertificate />}
+          /> */}
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
@@ -792,10 +795,6 @@ function App() {
             element={<TrainerDetails />}
           />
           <Route
-            path="trainer-management/edit/:id"
-            element={<TrainerDetailsEdit />}
-          />
-          <Route
             path="trainer-management/invitation"
             element={<TrainerInvitation />}
           />
@@ -803,7 +802,10 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
-
+          <Route
+            path="certificate-template/updatecertificate/:id"
+            element={<Updatecertificate />}
+          />
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}

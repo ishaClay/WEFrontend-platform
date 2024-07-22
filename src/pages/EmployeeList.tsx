@@ -14,13 +14,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
+import { RootState } from "@/redux/store";
 
 // import { useSelector } from "react-redux";
 
 function CoursesAllocate() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const { CompanyId } = useAppSelector((state: any) => state.user);
+  const { CompanyId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const companyId = CompanyId
     ? CompanyId
