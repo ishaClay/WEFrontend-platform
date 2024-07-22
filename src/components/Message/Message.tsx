@@ -557,7 +557,7 @@ const Message = () => {
                         </AvatarFallback>
                         <div
                           className={`w-3 h-3 bg-[${
-                            item?.isOnline ? "green" : "#D9D9D9"
+                            item?.isOnline ? "#72CC79" : "#D9D9D9"
                           }] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}
                         ></div>
                       </Avatar>

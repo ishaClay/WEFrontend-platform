@@ -42,7 +42,7 @@ const TeamProgressPage = () => {
           <Search className="text-[#A3A3A3]" />
           <Input
             className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-abhaya font-semibold border-none"
-            placeholder="Search by name, level, recommended, course name etc."
+            placeholder="Search by name, email etc."
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>

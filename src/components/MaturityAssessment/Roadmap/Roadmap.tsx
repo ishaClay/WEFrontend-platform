@@ -1,19 +1,24 @@
 import Stepper from "@/components/comman/Stepper";
+import { UserRole } from "@/types/UserRole";
 import React, { useEffect } from "react";
 import Assign from "./Assign";
 import SetTarget from "./SetTarget";
 
-const Roadmap = () => {
+const Roadmap = ({ showButton }: { showButton: number }) => {
   const pathStatus = JSON.parse(localStorage.getItem("path") as string);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [step, setStep] = React.useState(0);
 
   useEffect(() => {
-    if (pathStatus > 5) {
+    if (
+      (userData?.query?.role === UserRole.Company && pathStatus > 5) ||
+      showButton !== 0
+    ) {
       setStep(2);
     } else {
       setStep(0);
     }
-  }, [pathStatus]);
+  }, [pathStatus, showButton, userData]);
   return (
     <div className="">
       <div className="w-full my-[40px]">

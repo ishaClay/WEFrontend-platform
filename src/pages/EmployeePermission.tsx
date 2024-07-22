@@ -226,7 +226,7 @@ function EmployeePermission() {
               <NewDataTable
                 columns={column}
                 data={data?.data || []}
-                totalPages={1}
+                totalPages={data?.metadata?.totalPages || 1}
                 setPage={setPage}
                 border={false}
                 inputbox={false}

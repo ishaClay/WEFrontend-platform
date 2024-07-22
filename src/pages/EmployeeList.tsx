@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import { deleteEmployee } from "@/services/apiServices/employee";
 import { getMemberlist } from "@/services/apiServices/member";
 import { EmployeeEntity } from "@/types/Invition";
@@ -16,7 +17,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
-import { RootState } from "@/redux/store";
 
 // import { useSelector } from "react-redux";
 
@@ -316,9 +316,7 @@ function CoursesAllocate() {
         <div className="flex bg-[#FFFFFF] ">
           <div className="m-4 relative">
             <Input
-              placeholder={
-                "Search by pilier, level, recommended, course name etc."
-              }
+              placeholder={"Search by name, email etc."}
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)

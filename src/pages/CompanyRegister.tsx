@@ -9,7 +9,7 @@ import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
-import { QUERY_KEYS } from "@/lib/constants";
+import { employeeOption, QUERY_KEYS, sectorOption } from "@/lib/constants";
 import {
   getCompanyDetailsById,
   getCountry,
@@ -324,18 +324,17 @@ function CompanyRegister() {
                   )}
                 </div>
                 <div>
-                  <InputWithLable
+                  <Label className="mb-[8px]  font-bold text-[16px]">
+                    Average Number Of Employees{" "}
+                    <span className="text-[#FF0000]">*</span>
+                  </Label>
+                  <SelectMenu
+                    option={employeeOption || []}
                     placeholder="Number of employees"
-                    className="w-[241px] h-[46px]"
-                    label="Average Number Of Employees"
-                    onChange={(e) => {
-                      const { value } = e.target;
-                      if (value.match(/^[0-9]*$/)) {
-                        setValue("averageNumberOfEmployees", value);
-                      }
-                      return;
-                    }}
-                    isMendatory={true}
+                    className="w-[241px] h-[46px] mt-2"
+                    setValue={(data: string) =>
+                      setValue("averageNumberOfEmployees", data)
+                    }
                     value={watch("averageNumberOfEmployees") || ""}
                   />
                   {errors.averageNumberOfEmployees && (
@@ -348,12 +347,15 @@ function CompanyRegister() {
                 </div>
 
                 <div>
-                  <InputWithLable
-                    placeholder="Sector"
-                    className="w-[241px] h-[46px]"
-                    label="Sector"
-                    {...register("sector")}
-                    isMendatory={true}
+                  <Label className="mb-[8px]  font-bold text-[16px]">
+                    Sector <span className="text-[#FF0000]">*</span>
+                  </Label>
+                  <SelectMenu
+                    option={sectorOption || []}
+                    placeholder="Select Sector"
+                    className="w-[241px] h-[46px] mt-2"
+                    setValue={(data: string) => setValue("sector", data)}
+                    value={watch("sector") || ""}
                   />
                   {errors.sector && (
                     <ErrorMessage message={errors.sector.message as string} />

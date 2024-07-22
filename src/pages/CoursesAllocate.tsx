@@ -17,6 +17,13 @@ import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -35,32 +42,37 @@ import { useState } from "react";
 function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("1");
   const [openId, setOpenId] = useState<number | null>(null);
   const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
-    queryKey: [QUERY_KEYS.fetchbycourseallocate],
-    queryFn: () => fetchAllocatedCourse(userData?.query?.id),
+    queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
+    queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
   });
 
   return (
     <div className="bg-[#f5f3ff]">
       <div className="p-3">
         <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
-          <div className=" pt-[10px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+          <div className=" pt-[10px] pl-[30px] pr-[20px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
             <div className="flex items-center justify-between ">
               <h1 className="text-[16px] font-semibold">Course Allocation</h1>
               <div className="flex items-center">
                 <label htmlFor="filter" className="mr-2">
                   Filter by:
                 </label>
-                <select
-                  id="filter"
-                  className="border w-[264px] h-[42px] rounded mb- mr-2 "
+                <Select
+                  value={statusFilter}
+                  onValueChange={(e) => setStatusFilter(e)}
                 >
-                  <option value="">Select</option>
-                  <option value="Completed">Completed</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Pending">Pending</option>
-                </select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Pending" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Completed</SelectItem>
+                    <SelectItem value="3">In Progress</SelectItem>
+                    <SelectItem value="0">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
@@ -122,7 +134,8 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-4">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {course?.data?.employee?.length || 0} Employee
+                                  {courseallocate?.numberOfEmployee || 0}{" "}
+                                  Employee
                                 </p>
                               </div>
                             </div>
@@ -279,15 +292,17 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      <Button
-                        className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
-                        onClick={() => {
-                          setPopupOpen(true);
-                          setOpenId(courseallocate?.id);
-                        }}
-                      >
-                        View Allocation
-                      </Button>
+                      {statusFilter === "1" && (
+                        <Button
+                          className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+                          onClick={() => {
+                            setPopupOpen(true);
+                            setOpenId(courseallocate?.id);
+                          }}
+                        >
+                          View Allocation
+                        </Button>
+                      )}
                     </div>
                   </div>
 

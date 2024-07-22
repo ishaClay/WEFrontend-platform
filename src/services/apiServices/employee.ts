@@ -69,3 +69,9 @@ export const deleteEmployee = async (id: number) => {
   const res = await api({ url, method: "delete" });
   return res.data;
 }
+
+export const getEmployeeWiseAction = async (id: number) => {
+  const url = `api/v1/employee/getActions/${id}`;
+  const res = await api({ url })
+  return res.data
+}
