@@ -8,7 +8,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   changeSectionPostion,
   createSection,
-  updateLiveSection,
   updateSection,
 } from "@/services/apiServices/moduleCreation";
 import { toast } from "@/components/ui/use-toast";
@@ -18,6 +17,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
+import { createLiveSection } from "@/services/apiServices/liveSession";
 
 const CourseViewCardInner = ({
   CourseCardList,
@@ -221,7 +221,7 @@ const CourseViewCardInner = ({
   });
 
   const { mutate: EditLiveSection } = useMutation({
-    mutationFn: (data: any) => updateLiveSection(data, moduleId, isEditSection),
+    mutationFn: (data: any) => createLiveSection(data),
     onSuccess: () => {
       setIsEditSection(null);
       reset({ ...intialSectionCreation });
@@ -306,9 +306,21 @@ const CourseViewCardInner = ({
   };
 
   const onUpdate = (data: FieldValues) => {
-    console.log("🚀 ~ onUpdate ~ data:", data);
+    
+    const a = {
+      isLive: true,
+      liveSecTitle: data.sectionTitle,
+      liveSecinformation: data.information,
+      sectionTime: {
+        hour: data.livesessionDuration.hour,
+        minute: data.livesessionDuration.minute,
+        second: data.livesessionDuration.second,
+      },
+      module: moduleId
+
+    };
     if (data.isLive) {
-      EditLiveSection(data);
+      EditLiveSection(a);
     } else {
       EditSection(data);
     }
@@ -418,7 +430,10 @@ const CourseViewCardInner = ({
         onClose={() => setIsOpenAssessmentModal(false)}
         className="xl:max-w-[737px] lg:max-w-[650px] sm:max-w-[550px] max-w-[335px] sm:p-5 p-4 rounded-xl"
       >
-        <AssessmentModal moduleId={moduleId} />
+        <AssessmentModal
+          setIsOpenAssessmentModal={setIsOpenAssessmentModal}
+          moduleId={moduleId}
+        />
       </Modal>
     </div>
   );

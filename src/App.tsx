@@ -732,7 +732,7 @@ function App() {
             element={<CourseManagement />}
           />
           <Route
-            path="add_assessment/:assessmentType"
+            path="add_assessment"
             element={<AssecessmentPage />}
           />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
@@ -783,7 +783,7 @@ function App() {
             element={<CourseManagement />}
           />
           <Route
-            path="add_assessment/:assessmentType"
+            path="add_assessment"
             element={<AssecessmentPage />}
           />
           <Route

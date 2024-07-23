@@ -83,6 +83,8 @@ export const QUERY_KEYS = {
   fetchTrainee: "fetchTrainee",
   courseByVersionList: "courseByVersionList",
   getcertifications: "getcertifications",
+  createLiveSessions: "createLiveSessions",
+  fetchLiveSession: "fetchLiveSession",
 };
 
 export const urlRegex =

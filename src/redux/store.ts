@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import CompanyReducer from './reducer/CompanyReducer';
 import QuestionReducer from './reducer/QuestionReducer';
 import PillarReducer from './reducer/PillarReducer';
+import AssessmentReducer from './reducer/AssessmentReducer';
 
 const persistConfig = {
     key: 'root',
@@ -22,7 +23,8 @@ export const store = configureStore({
     reducer: {
         user: persistedCompanyReducer,
         question: QuestionReducer,
-        pillar: PillarReducer
+        pillar: PillarReducer,
+        assessment: AssessmentReducer,
     },
 })
 
