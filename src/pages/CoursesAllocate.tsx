@@ -51,7 +51,7 @@ function CoursesAllocate() {
 
   return (
     <div className="bg-[#f5f3ff]">
-      <div className="p-3">
+      <div className="">
         <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
           <div className="pt-[10px] sm:pl-[30px] pl-[15px] sm:h-[60px] h-auto bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
             <div className="sm:flex block items-center justify-between ">
@@ -254,11 +254,15 @@ function CoursesAllocate() {
                                             />
                                             <AvatarFallback
                                               delayMs={600}
+                                              className="uppercase"
                                               style={{
                                                 backgroundColor: color[index],
                                               }}
                                             >
-                                              {avatar?.name?.charAt(0)}
+                                              {avatar?.name?.charAt(0) ||
+                                                avatar?.email
+                                                  ?.split("@")[0]
+                                                  ?.charAt(0)}
                                             </AvatarFallback>
                                           </Avatar>
                                         </TooltipTrigger>

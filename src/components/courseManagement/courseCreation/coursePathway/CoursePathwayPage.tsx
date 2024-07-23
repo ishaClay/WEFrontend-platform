@@ -186,6 +186,7 @@ const CoursePathwayPage = () => {
           type="button"
           onClick={handleSubmit}
           className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
+          disabled={pillarMaturityLoading || isError}
         >
           {pillarMaturityLoading ? (
             <Loader containerClassName="max-h-auto" />

@@ -1,4 +1,4 @@
-import { GetSingleCourseByIdType } from "@/types/course";
+import { CourseByVersionType, GetSingleCourseByIdType } from "@/types/course";
 import { AllCoursesResponse } from "@/types/courseManagement";
 import api from "./api";
 
@@ -139,3 +139,8 @@ export const getAllEmployeeCourseList = async ({ id, status, categories }: { id:
   const res = await api({ url, method });
   return res.data;
 }
+export const courseByVersion = async (id: number): Promise<CourseByVersionType> => {
+  const url = `api/v1/course/get_course/${id}`;
+  const res = await api({ url });
+  return res?.data;
+};

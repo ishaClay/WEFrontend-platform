@@ -276,12 +276,12 @@ const Compose = () => {
     <>
       <Card className="border-0 shadow-none rounded-lg bg-white">
         <CardHeader className="px-[20px] py-3 border-b-[#d9d9d9] border-b border-solid">
-          <div className="flex items-center justify-between">
+          <div className="lg:flex block items-center justify-between">
             <div>
               {fetchMessageRoles(role)?.map((item: string) => {
                 return (
                   <div
-                    className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer ${
+                    className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer xl:my-0 my-2 ${
                       isActive === item ? "border-[#00778B]" : ""
                     }`}
                     onClick={() => setIsActive(item)}
@@ -305,7 +305,7 @@ const Compose = () => {
             </div>
             <Button
               variant={"ghost"}
-              className="text-black font-semibold gap-2 text-[16px] m-0"
+              className="text-black font-semibold gap-2 text-[16px] m-0 p-0"
               onClick={() => navigate(`/${currentUser}/message`)}
             >
               <IoIosArrowRoundBack size={26} />
@@ -315,7 +315,7 @@ const Compose = () => {
         </CardHeader>
         <form onSubmit={handleSubmit(handleSendMessage)}>
           <CardContent className="pt-6 pb-4 px-5">
-            <div className="mb-[29px]">
+            <div className="sm:mb-[29px] mb-[20px]">
               <Select
                 onValueChange={(e) => {
                   setValue("to", e);
@@ -373,7 +373,7 @@ const Compose = () => {
               )}
             </div>
 
-            <div className="mb-[29px]">
+            <div className="sm:mb-[29px] mb-[20px]">
               <Select
                 onValueChange={(e) => {
                   setValue("emailTemplate", e);

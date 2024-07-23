@@ -65,19 +65,19 @@ const EmployeeDetailsPage = () => {
                       </AvatarFallback>
                     </Avatar>
                   </div>
-                  <div className="text-base xl:col-span-2 col-span-5">
+                  <div className="text-base xl:col-span-2 col-span-5 sm:ps-0 ps-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Trainer name
                     </h6>
                     <p className="text-base font-nunito">{data?.name || "-"}</p>
                   </div>
-                  <div className="text-base xl:col-span-2 col-span-4 xl:pt-0 pt-3">
+                  <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Contact number
                     </h6>
                     <p className="text-base font-nunito">{"-"}</p>
                   </div>
-                  <div className="text-base xl:col-span-3 col-span-5 xl:pt-0 pt-3">
+                  <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Email address
                     </h6>

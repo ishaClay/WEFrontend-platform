@@ -23,7 +23,7 @@ const AssecessmentTypeTwo = () => {
           Assessment Type
         </h6>
         <input
-          placeholder="Single Choice Question"
+          placeholder="Multiple Choice Question"
           className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
         />
       </div>

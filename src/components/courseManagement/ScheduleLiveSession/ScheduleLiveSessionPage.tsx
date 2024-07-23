@@ -6,68 +6,55 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { createLiveSession } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
+import { ErrorType } from "@/types/Errors";
 import { TraineeCompanyDetails } from "@/types/Trainer";
 import { AllCoursesResult } from "@/types/courseManagement";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus, MoveLeft, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import AddTraineeModal from "./AddTraineeModal";
 import { z } from "zod";
-
-const selectLiveSessionOption = [
-  {
-    label: "Select Live Session 1",
-    value: "select live session 1",
-  },
-  {
-    label: "Select Live Session 2",
-    value: "select live session 2",
-  },
-  {
-    label: "Select Live Session 3",
-    value: "select live session 3",
-  },
-];
+import AddTraineeModal from "./AddTraineeModal";
 
 const timePeriodsOptions = [
   {
     label: "AM",
-    value: "am",
+    value: "AM",
   },
   {
     label: "PM",
-    value: "pm",
+    value: "PM",
   },
 ];
 
 const durationInHours = [
   {
     label: "01",
-    value: "one",
+    value: "01",
   },
   {
-    label: "01",
-    value: "two",
+    label: "02",
+    value: "02",
   },
   {
-    label: "01",
-    value: "three",
+    label: "03",
+    value: "03",
   },
 ];
 
 const durationInMinute = [
   {
     label: "30",
-    value: "one",
+    value: "30",
   },
   {
     label: "40",
-    value: "two",
+    value: "40",
   },
   {
     label: "50",
-    value: "three",
+    value: "50",
   },
 ];
 
@@ -136,6 +123,26 @@ const ScheduleLiveSessionPage = () => {
     queryFn: () => getTraineeCompany(),
   });
 
+  // const { data: fetchLiveSession } = useQuery({
+  //   queryKey: [QUERY_KEYS.fetchLiveSession],
+  //   queryFn: () => getLiveSession(),
+  // });
+
+  const selectLiveSessionOption = [
+    {
+      label: "Select Live Session 1",
+      value: "select live session 1",
+    },
+    {
+      label: "Select Live Session 2",
+      value: "select live session 2",
+    },
+    {
+      label: "Select Live Session 3",
+      value: "select live session 3",
+    },
+  ];
+
   const selectCourseOption = fetchCourseAllCourseData?.data?.length
     ? fetchCourseAllCourseData?.data?.map((i: AllCoursesResult) => {
         return {
@@ -161,6 +168,37 @@ const ScheduleLiveSessionPage = () => {
       traineeList: [],
     }));
   }, [formData.selectCompany]);
+
+  const { mutate: addLiveSession } = useMutation({
+    mutationFn: createLiveSession,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.createLiveSessions],
+      });
+    },
+    onError: (error: ErrorType) => {
+      console.error(error);
+    },
+  });
+
+  const handleSubmit = () => {
+    const transformedData = {
+      course: parseInt(formData.selectCourse),
+      subtitle: formData.sessionSubtitle,
+      description: formData.sessionDescription,
+      date: formData.sessionDate,
+      startTime: formData.sessionTime,
+      startAmPm: formData.selectTimePeriods,
+      sectionTime: {
+        hour: formData.selectDurationInHours,
+        minute: formData.selectDurationInMinute,
+      },
+      companyId: [formData.selectCompany],
+      trainerId: formData.traineeList.map((trainee) => trainee.id),
+      liveSecTitle: formData.selectLiveSession,
+    };
+    addLiveSession(transformedData);
+  };
 
   return (
     <>
@@ -390,15 +428,24 @@ const ScheduleLiveSessionPage = () => {
               ))}
             </ul>
             <div className="text-right">
-              <Button className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10" onClick={() => {
-                  const validationResult = ScheduleLiveSessionSchema.safeParse(formData);
+              <Button
+                className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10"
+                onClick={() => {
+                  const validationResult =
+                    ScheduleLiveSessionSchema.safeParse(formData);
                   if (!validationResult.success) {
-                    console.log("validationResult.error.errors", validationResult.error.formErrors);
+                    const errors: Record<string, string> = {};
+                    validationResult.error.issues.forEach((issue) => {
+                      const fieldName = issue.path[0];
+                      if (!errors[fieldName]) {
+                        errors[fieldName] = issue.message;
+                      }
+                    });
                     return;
                   }
-                  console.log("formData", formData);
-                  
-              }}>
+                  handleSubmit();
+                }}
+              >
                 Save Session
               </Button>
             </div>

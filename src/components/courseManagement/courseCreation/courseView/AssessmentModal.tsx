@@ -5,15 +5,16 @@ import AssessmentModalSelectItem from "./AssessmentModalSelectItem";
 
 interface AssessmentModalProps {
   moduleId?: string
+  setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AssessmentModal = ({moduleId}: AssessmentModalProps) => {
+const AssessmentModal = ({moduleId, setIsOpenAssessmentModal}: AssessmentModalProps) => {
 
   const { data: assessmentOptions } = useQuery({
     queryKey: [QUERY_KEYS.assessmentOptions],
     queryFn: () => getAssessmentOptions(),
   });
-  
+
   return (
     <div>
       <h5 className="font-bold text-black sm:text-xl text-base font-calibri pb-2.5">
@@ -24,7 +25,7 @@ const AssessmentModal = ({moduleId}: AssessmentModalProps) => {
       </p>
       <div className="flex items-center md:justify-evenly justify-center flex-wrap">
         {assessmentOptions?.data?.data && Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
-          return <AssessmentModalSelectItem key={index} data={data} moduleId={moduleId} />;
+          return <AssessmentModalSelectItem setIsOpenAssessmentModal={setIsOpenAssessmentModal} key={index} data={data} moduleId={moduleId} />;
         })}
       </div>
     </div>

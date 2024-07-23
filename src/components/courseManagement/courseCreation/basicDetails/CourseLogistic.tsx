@@ -182,7 +182,7 @@ const CourseLogistic = () => {
       time: +data?.time,
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
-      duration: data?.duration + " " + data?.durationType,
+      duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
     };
 
     if (+courseId) {
@@ -199,6 +199,8 @@ const CourseLogistic = () => {
       });
     }
   };
+  console.log("watch(", watch("durationType"));
+  
 
   return (
     <>
@@ -256,7 +258,7 @@ const CourseLogistic = () => {
               <div>
                 <InputWithLabel
                   type="number"
-                  placeholder="Days / Weeks / Months / Year"
+                  placeholder={`Please enter ${watch("durationType")}`}
                   className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
                   {...register("duration")}
                   value={watch("duration")?.split(" ")[0]}
@@ -278,6 +280,7 @@ const CourseLogistic = () => {
             <Button
               type="submit"
               className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (
                 <Loader containerClassName="max-h-auto" />

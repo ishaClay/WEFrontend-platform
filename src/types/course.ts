@@ -280,3 +280,9 @@ export interface SlotStartDateOrSlotEndDate {
   month: string;
   year: string;
 }
+
+
+export interface CourseByVersionType {
+  data: GetSingleCourseEntity;
+  message: string;
+}

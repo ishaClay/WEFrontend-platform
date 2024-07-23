@@ -21,6 +21,7 @@ interface IProps {
   value: string;
   itemClassName?: string;
   containClassName?: string;
+  defaultValue?: string;
 }
 
 const SelectMenu: FC<IProps> = ({
@@ -31,9 +32,10 @@ const SelectMenu: FC<IProps> = ({
   value,
   itemClassName,
   containClassName,
+  defaultValue
 }) => {
   return (
-    <Select onValueChange={(e) => setValue(e)} value={value} defaultValue={value}>
+    <Select onValueChange={(e) => setValue(e)} value={value} defaultValue={defaultValue}>
       <SelectTrigger className={`bg-white outline-none ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
