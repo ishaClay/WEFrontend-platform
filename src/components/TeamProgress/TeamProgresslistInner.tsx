@@ -30,7 +30,7 @@ const TeamProgresslistInner = ({ data }: ProgressList) => {
             Enrolled Courses
           </h5>
         </div>
-        <div className="px-5 py-20">
+        <div className="sm:px-5 sm:py-20 p-[15px]">
           <CustomCarousel containerClassName="">
             {(data?.courseAlloted ? data?.courseAlloted : []).map(
               (data, index) => {

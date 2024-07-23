@@ -294,7 +294,7 @@ function CoursesAllocate() {
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
-        <div className="p-4 bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
+        <div className="p-4 bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] sm:flex block items-center justify-between">
           <div>
             <p className="text-[#000000] font-abhaya font-bold text-base pb-2.5">
               Team List
@@ -303,7 +303,7 @@ function CoursesAllocate() {
               The full list of team members working on your green initiatives
             </p>
           </div>
-          <div>
+          <div className="block sm:mt-0 mt-4">
             <Link
               to="employeeinvition"
               className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
@@ -321,7 +321,7 @@ function CoursesAllocate() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
               }
-              className="pl-[45px] border w-[550px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+              className="pl-[45px] border sm:w-[550px] w-[290px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
             />
             <img
               src={searchIcon}
