@@ -25,23 +25,25 @@ export interface TrainersByIdResponse {
 export interface DataEntity {
     id: number;
     name: string;
+    surname: string;
+    gender: string;
+    profileImage?: string | null;
+    ageRange: string;
     email: string;
     phone: string;
     imageUrl: string;
     providerName: string;
     providerType: string;
-    surname?: null;
     course: CourseDataResponse[];
     foreignProvider?: null;
     providerAddress?: string | null;
     providerCity: string;
-    profileImage: string;
     providerCounty: string;
     providerNotes: string;
     approved: boolean;
     status: number;
-    deletedAt?: null;
     rating: number;
+    deletedAt?: string | null;
     createdAt: string;
     updatedAt: string;
 }
@@ -109,4 +111,55 @@ export interface FetchPillar {
     deletedAt?: null;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface TraineeCompanyDetails {
+  id: number;
+  companyId: any;
+  name: string;
+  address: any;
+  county: any;
+  soleTrader: any;
+  sector: any;
+  averageNumberOfEmployees: any;
+  parentCompanyName: string;
+  parentCompanyAddress: any;
+  parentCompanyCounty: any;
+  note: any;
+  status: string;
+  deletedAt: any;
+  createdAt: string;
+  updatedAt: string;
+  trainer: Trainee[];
+}
+
+export interface Trainee {
+  id: number;
+  name: string;
+  surname: any;
+  gender: any;
+  profileImage: any;
+  ageRange: any;
+  email: string;
+  phone: any;
+  currentHighestNFQ: any;
+  employmentStatus: string;
+  foreignProvider: any;
+  providerAddress?: string;
+  providerCity: string;
+  providerCounty: string;
+  attendedEvent: any;
+  providerName: string;
+  providerType: any;
+  providerNotes: any;
+  memberCompany: any;
+  occupationalCategory: any;
+  unemploymentTime: any;
+  countyOfResidence: any;
+  approved: boolean;
+  status: number;
+  rating: number;
+  deletedAt: any;
+  createdAt: string;
+  updatedAt: string;
 }

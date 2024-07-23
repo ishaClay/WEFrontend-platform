@@ -3,7 +3,11 @@ import { getAssessmentOptions } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import AssessmentModalSelectItem from "./AssessmentModalSelectItem";
 
-const AssessmentModal = () => {
+interface AssessmentModalProps {
+  moduleId?: string
+}
+
+const AssessmentModal = ({moduleId}: AssessmentModalProps) => {
 
   const { data: assessmentOptions } = useQuery({
     queryKey: [QUERY_KEYS.assessmentOptions],
@@ -19,8 +23,8 @@ const AssessmentModal = () => {
         Which format would best suit this particular assessment question?
       </p>
       <div className="flex items-center md:justify-evenly justify-center flex-wrap">
-        {assessmentOptions?.data?.data?.length && Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
-          return <AssessmentModalSelectItem key={index} data={data} />;
+        {assessmentOptions?.data?.data && Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
+          return <AssessmentModalSelectItem key={index} data={data} moduleId={moduleId} />;
         })}
       </div>
     </div>

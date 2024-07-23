@@ -1,72 +1,62 @@
+import Loader from "@/components/comman/Loader";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getTrainee } from "@/services/apiServices/trainer";
+import { useQuery } from "@tanstack/react-query";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { Input } from "../../ui/input";
 import SelectMenu from "../../comman/SelectMenu";
-import { useState } from "react";
-import { Checkbox } from "../../ui/checkbox";
-import profile_img from "@/assets/images/face_1.jfif";
-import TraineeItems from "./TraineeItems";
 import { Button } from "../../ui/button";
+import { Checkbox } from "../../ui/checkbox";
+import { Input } from "../../ui/input";
 import { ScrollArea } from "../../ui/scroll-area";
+import TraineeItems from "./TraineeItems";
 
-const companyOptions = [
-  {
-    label: "Company 1",
-    value: "company 1",
-  },
-  {
-    label: "Company 2",
-    value: "company 2",
-  },
-  {
-    label: "Company 3",
-    value: "company 3",
-  },
-];
+interface TraineeModalProps {
+  formData: any;
+  selectCompanyOptions: any[];
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+}
 
-const AddTraineeModal = () => {
-  const traineeEmployee = [
-    {
-      image: profile_img,
-      name: "Ankites Risher",
-      companyName: "Prime Infotech",
-    },
-    {
-      image: profile_img,
-      name: "Liam Risher",
-      companyName: "Prime Infotech",
-    },
-    {
-      image: profile_img,
-      name: "Honey Risher",
-      companyName: "ABCD Company Name",
-    },
-    {
-      image: profile_img,
-      name: "Oliver Noah",
-      companyName: "ABCD Company Name",
-    },
-    {
-      image: profile_img,
-      name: "Elijah James",
-      companyName: "XYZ Company Name",
-    },
-    {
-      image: profile_img,
-      name: "Elijah James",
-      companyName: "XYZ Company Name",
-    },
-    {
-      image: profile_img,
-      name: "Elijah James",
-      companyName: "XYZ Company Name",
-    },
-    {
-      image: profile_img,
-      name: "Elijah James",
-      companyName: "XYZ Company Name",
-    },
-  ];
-  const [selectCompany, setSelectCompany] = useState("");
+interface TraineeEmployee {
+  name: string;
+  companyName: string;
+  id: number;
+}
+
+const AddTraineeModal = ({
+  formData,
+  setFormData,
+  selectCompanyOptions,
+  setIsOpen,
+}: TraineeModalProps) => {
+  const { data: fetchTrainee, isPending } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTrainee],
+    queryFn: () => getTrainee(formData.selectCompany?.toString() || ""),
+  });
+
+
+  const traineeEmployee = fetchTrainee?.data?.trainer?.map(
+    (i: TraineeEmployee) => ({
+      name: i?.name,
+      companyName: fetchTrainee?.data?.name,
+      id: i?.id,
+    })
+  );
+
+  const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
+    if (e) {
+      setFormData((prev: any) => ({
+        ...prev,
+        traineeList: data?.map((item) => ({ name: item.name, id: item.id })),
+      }))
+    } else {
+      setFormData((prev: any) => ({
+        ...prev,
+        traineeList: [],
+      }))
+    }
+  };
+
   return (
     <div className="">
       <h5 className="text-[20px] text-black font-abhaya font-semibold">
@@ -87,9 +77,14 @@ const AddTraineeModal = () => {
         </div>
         <div className="relative">
           <SelectMenu
-            option={companyOptions}
-            setValue={(data: string) => setSelectCompany(data)}
-            value={selectCompany}
+            option={selectCompanyOptions}
+            setValue={(data: string) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                selectCompany: data,
+              }))
+            }
+            value={formData.selectCompany}
             className="text-black bg-transparent text-base font-abhaya font-bold border border-[#D9D9D9] w-[170px] sm:h-[52px] h-[48px] p-4 ps-8"
             itemClassName="text-base font-medium font-abhaya bg-transparent"
             placeholder="Company"
@@ -106,22 +101,39 @@ const AddTraineeModal = () => {
             Trainees
           </h5>
           <span className="text-base text-black font-abhaya flex items-center font-semibold">
-            Select All <Checkbox className="ms-3 border-[#D9D9D9] w-6 h-6" />
+            Select All{" "}
+            <Checkbox
+              className="ms-3 border-[#D9D9D9] w-6 h-6"
+              onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
+            />
           </span>
         </div>
         <div className="">
           <ScrollArea className="h-[300px]">
-            {traineeEmployee.map((data, index) => {
-              return <TraineeItems key={index} data={data} />;
+            {traineeEmployee?.map((data: any, index: number) => {
+              return (
+                <TraineeItems
+                  key={index}
+                  data={data}
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              );
             })}
           </ScrollArea>
         </div>
       </div>
       <div className="text-right mt-5">
-        <Button className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5">
+        <Button
+          className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
+          onClick={() => {
+            formData.traineeList?.length > 0 && setIsOpen(false);
+          }}
+        >
           Add Trainee
         </Button>
       </div>
+      {isPending && <Loader />}
     </div>
   );
 };

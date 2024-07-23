@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-const AssessmentModalSelectItem = ({ data }: any) => {
+const AssessmentModalSelectItem = ({ data, moduleId }: any) => {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
@@ -16,6 +16,10 @@ const AssessmentModalSelectItem = ({ data }: any) => {
 
     if (courseId) {
       queryParams['courseId'] = courseId;
+    }
+    
+    if (moduleId) {
+      queryParams['moduleId'] = moduleId;
     }
 
     navigate(

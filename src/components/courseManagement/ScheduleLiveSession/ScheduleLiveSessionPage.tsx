@@ -4,24 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { getTraineeCompany } from "@/services/apiServices/trainer";
+import { TraineeCompanyDetails } from "@/types/Trainer";
+import { AllCoursesResult } from "@/types/courseManagement";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus, MoveLeft, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTraineeModal from "./AddTraineeModal";
-
-const selectCourseOption = [
-  {
-    label: "Course 1",
-    value: "course 1",
-  },
-  {
-    label: "Course 2",
-    value: "course 2",
-  },
-  {
-    label: "Course 3",
-    value: "course 3",
-  },
-];
+import { z } from "zod";
 
 const selectLiveSessionOption = [
   {
@@ -78,29 +70,98 @@ const durationInMinute = [
     value: "three",
   },
 ];
-const selectCompanyOptions = [
-  {
-    label: "Prime Infotech",
-    value: "company 1",
-  },
-  {
-    label: "ADBC Company",
-    value: "company 1",
-  },
-  {
-    label: "XUZ Comapny",
-    value: "company 1",
-  },
-];
+
+interface TraineeListProps {
+  name: string;
+  id: number;
+}
+
+interface FormData {
+  selectCourse: string;
+  selectLiveSession: string;
+  sessionSubtitle: string;
+  sessionDescription: string;
+  sessionDate: string;
+  sessionTime: string;
+  selectTimePeriods: string;
+  selectDurationInHours: string;
+  selectDurationInMinute: string;
+  selectCompany: string;
+  traineeList: TraineeListProps[];
+}
 
 const ScheduleLiveSessionPage = () => {
+  const queryClient = useQueryClient();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [selectCourse, setSelectCourse] = useState("");
-  const [selectLiveSession, setSelectLiveSession] = useState("");
-  const [selectTimePeriods, setSelectTimePeriods] = useState("");
-  const [selectDurationInHours, setSelectDurationInHours] = useState("");
-  const [selectDurationInMinute, setSelectDurationInMinute] = useState("");
-  const [selectCompany, setSelectCompany] = useState("");
+
+  const ScheduleLiveSessionSchema = z.object({
+    selectCourse: z.string().nonempty("Please select a course"),
+    selectLiveSession: z.string(),
+    sessionSubtitle: z.string().nonempty("Please enter session title"),
+    sessionDescription: z.string().nonempty("Please enter session description"),
+    sessionDate: z.string().nonempty("Please enter session date"),
+    sessionTime: z.string().nonempty("Please enter session time"),
+    selectTimePeriods: z.string().nonempty("Please select AM/PM"),
+    selectDurationInHours: z
+      .string()
+      .nonempty("Please select duration in hours"),
+    selectDurationInMinute: z
+      .string()
+      .nonempty("Please select duration in minutes"),
+    selectCompany: z.string().nonempty("Please select a company"),
+  });
+
+  const [formData, setFormData] = useState<FormData>({
+    selectCourse: "",
+    selectLiveSession: "",
+    sessionSubtitle: "",
+    sessionDescription: "",
+    sessionDate: "",
+    sessionTime: "",
+    selectTimePeriods: "",
+    selectDurationInHours: "",
+    selectDurationInMinute: "",
+    selectCompany: "",
+    traineeList: [],
+  });
+
+  const { data: fetchCourseAllCourseData } = useQuery({
+    queryKey: [QUERY_KEYS.fetchAllCourse],
+    queryFn: () => fetchCourseAllCourse(""),
+  });
+
+  const { data: fetchTraineeCompany } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTraineeCompany],
+    queryFn: () => getTraineeCompany(),
+  });
+
+  const selectCourseOption = fetchCourseAllCourseData?.data?.length
+    ? fetchCourseAllCourseData?.data?.map((i: AllCoursesResult) => {
+        return {
+          label: i?.title,
+          value: i?.id?.toString(),
+        };
+      })
+    : [];
+
+  const selectCompanyOptions = fetchTraineeCompany?.data?.length
+    ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => ({
+        label: i?.name,
+        value: i?.id?.toString(),
+      }))
+    : [];
+
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.fetchTrainee],
+    });
+    setFormData((prev) => ({
+      ...prev,
+      traineeList: [],
+    }));
+  }, [formData.selectCompany]);
+
   return (
     <>
       <Modal
@@ -108,7 +169,12 @@ const ScheduleLiveSessionPage = () => {
         onClose={() => setIsOpen(false)}
         className="lg:max-w-3xl sm:max-w-xl max-w-[335px] xl:p-[30px] p-5 rounded-xl"
       >
-        <AddTraineeModal />
+        <AddTraineeModal
+          formData={formData}
+          setFormData={setFormData}
+          selectCompanyOptions={selectCompanyOptions}
+          setIsOpen={setIsOpen}
+        />
       </Modal>
 
       <div className="bg-white rounded-xl">
@@ -127,8 +193,13 @@ const ScheduleLiveSessionPage = () => {
             </Label>
             <SelectMenu
               option={selectCourseOption}
-              setValue={(data: string) => setSelectCourse(data)}
-              value={selectCourse}
+              setValue={(data: string) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  selectCourse: data,
+                }))
+              }
+              value={formData.selectCourse}
               itemClassName="text-[#A3A3A3] text-base"
               className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
               placeholder="Select course name"
@@ -140,8 +211,13 @@ const ScheduleLiveSessionPage = () => {
             </Label>
             <SelectMenu
               option={selectLiveSessionOption}
-              setValue={(data: string) => setSelectLiveSession(data)}
-              value={selectLiveSession}
+              setValue={(data: string) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  selectLiveSession: data,
+                }))
+              }
+              value={formData.selectLiveSession}
               itemClassName="text-[#A3A3A3] text-base"
               className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
               placeholder="Select live session name"
@@ -154,6 +230,13 @@ const ScheduleLiveSessionPage = () => {
             <Input
               placeholder="Enter session title"
               className="text-[#A3A3A3] placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+              value={formData.sessionSubtitle}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  sessionSubtitle: e.target.value,
+                }));
+              }}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -164,6 +247,13 @@ const ScheduleLiveSessionPage = () => {
               placeholder="Enter Description"
               rows={4}
               className="text-[#A3A3A3] placeholder:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4"
+              value={formData.sessionDescription}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  sessionDescription: e.target.value,
+                }));
+              }}
             />
           </div>
           <div className="grid grid-cols-12 md:gap-7 sm:gap-4 gap-3">
@@ -174,6 +264,13 @@ const ScheduleLiveSessionPage = () => {
               <Input
                 placeholder="Enter Date"
                 className="text-[#A3A3A3] placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                value={formData.sessionDate}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    sessionDate: e.target.value,
+                  }));
+                }}
               />
             </div>
             <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
@@ -183,6 +280,13 @@ const ScheduleLiveSessionPage = () => {
               <Input
                 placeholder="Enter Time"
                 className="text-[#A3A3A3] placeholder:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setFormData((prev) => ({
+                    ...prev,
+                    sessionTime: e.target.value,
+                  }));
+                }}
+                value={formData.sessionTime}
               />
             </div>
             <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
@@ -191,8 +295,13 @@ const ScheduleLiveSessionPage = () => {
               </Label>
               <SelectMenu
                 option={timePeriodsOptions}
-                setValue={(data: string) => setSelectTimePeriods(data)}
-                value={selectTimePeriods}
+                setValue={(data: string) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    selectTimePeriods: data,
+                  }))
+                }
+                value={formData.selectTimePeriods}
                 itemClassName="text-[#A3A3A3] text-base"
                 className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="AM"
@@ -204,8 +313,13 @@ const ScheduleLiveSessionPage = () => {
               </Label>
               <SelectMenu
                 option={durationInHours}
-                setValue={(data: string) => setSelectDurationInHours(data)}
-                value={selectDurationInHours}
+                setValue={(data: string) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    selectDurationInHours: data,
+                  }))
+                }
+                value={formData.selectDurationInHours}
                 itemClassName="text-[#A3A3A3] text-base"
                 className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="01"
@@ -217,8 +331,13 @@ const ScheduleLiveSessionPage = () => {
               </Label>
               <SelectMenu
                 option={durationInMinute}
-                setValue={(data: string) => setSelectDurationInMinute(data)}
-                value={selectDurationInMinute}
+                setValue={(data: string) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    selectDurationInMinute: data,
+                  }))
+                }
+                value={formData.selectDurationInMinute}
                 itemClassName="text-[#A3A3A3] text-base"
                 className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="AM"
@@ -227,12 +346,17 @@ const ScheduleLiveSessionPage = () => {
           </div>
           <div className="flex flex-col gap-1">
             <Label className="text-base text-black font-semibold font-abhaya">
-              Select Course
+              Select Company
             </Label>
             <SelectMenu
               option={selectCompanyOptions}
-              setValue={(data: string) => setSelectCompany(data)}
-              value={selectCompany}
+              setValue={(data: string) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  selectCompany: data,
+                }))
+              }
+              value={formData.selectCompany}
               itemClassName="text-[#A3A3A3] text-base"
               className="text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
               placeholder="Select course name"
@@ -242,26 +366,39 @@ const ScheduleLiveSessionPage = () => {
             <Button
               className="bg-transparent text-[#4285F4] text-base font-abhaya flex gap-2 items-center justify-start p-0 h-auto"
               onClick={() => setIsOpen(true)}
+              disabled={!formData.selectCompany}
             >
               <CirclePlus width={18} />
               Add Trainee
             </Button>
             <ul className="flex items-center gap-2 overflow-x-auto overflow-y-hidden md:pb-0 pb-2">
-              <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
-                Ankites Risher <X width={16} />
-              </li>
-              <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
-                Liam Risher <X width={16} />
-              </li>
-              <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
-                Honey Risher <X width={16} />
-              </li>
-              <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
-                Oliver Noah <X width={16} />
-              </li>
+              {formData.traineeList?.map((i: TraineeListProps) => (
+                <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
+                  {i?.name}
+                  <X
+                    width={16}
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        traineeList: prev.traineeList.filter(
+                          (item) => item.name !== i.name
+                        ),
+                      }))
+                    }
+                  />
+                </li>
+              ))}
             </ul>
             <div className="text-right">
-              <Button className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10">
+              <Button className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10" onClick={() => {
+                  const validationResult = ScheduleLiveSessionSchema.safeParse(formData);
+                  if (!validationResult.success) {
+                    console.log("validationResult.error.errors", validationResult.error.formErrors);
+                    return;
+                  }
+                  console.log("formData", formData);
+                  
+              }}>
                 Save Session
               </Button>
             </div>

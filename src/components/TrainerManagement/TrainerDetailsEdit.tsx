@@ -11,7 +11,7 @@ import { TrainerStatus, TrainersByIdResponse } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { ImageUp, MoveLeft } from "lucide-react";
+import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import * as zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loader from "../comman/Loader";
 import SelectMenu from "../comman/SelectMenu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { InputWithLable } from "../ui/inputwithlable";
 import { Label } from "../ui/label";
@@ -71,6 +72,7 @@ const TrainerDetailsEdit = () => {
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -109,6 +111,8 @@ const TrainerDetailsEdit = () => {
         queryKey: ["trainerDetails", params.id],
       });
       onSubmit();
+      reset();
+      navigate("/trainer/trainer-management");
       toast({
         variant: "success",
         description: "Trainer details updated successfully",
@@ -139,11 +143,11 @@ const TrainerDetailsEdit = () => {
       setValue("name", clientDetails?.data?.name);
       setValue("number", clientDetails?.data?.phone);
       setValue("email", clientDetails?.data?.email);
-      setValue("providerName", clientDetails?.data?.providerName);
-      setValue("providerType", clientDetails?.data?.providerType);
-      setValue("providerCity", clientDetails?.data?.providerCity);
-      setValue("providerCounty", clientDetails?.data?.providerCounty);
-      setValue("providerNotes", clientDetails?.data?.providerNotes);
+      setValue("providerName", clientDetails?.data?.providerName || "");
+      setValue("providerType", clientDetails?.data?.providerType || "");
+      setValue("providerCity", clientDetails?.data?.providerCity || "");
+      setValue("providerCounty", clientDetails?.data?.providerCounty || "");
+      setValue("providerNotes", clientDetails?.data?.providerNotes || "");
       setValue("foreignProvider", clientDetails?.data?.foreignProvider || "No");
     }
   }, [clientDetails, setValue]);
@@ -160,24 +164,15 @@ const TrainerDetailsEdit = () => {
   const handleUpdate = (data: FieldValues) => {
     const payload = {
       name: data?.name,
-      surname: clientDetails?.data?.surname || null,
-      gender: null,
-      ageRange: null,
+      number: data?.number,
       email: data?.email,
-      phone: data?.number,
-      currentHighestNFQ: null,
-      memberCompany: null,
-      occupationalCategory: null,
-      unemploymentTime: null,
-      countyOfResidence: null,
-      attendedEvent: null,
       providerName: data?.providerName,
       providerType: data?.providerType,
       providerCity: data?.providerCity,
       providerCounty: data?.providerCounty,
       providerNotes: data?.providerNotes,
       foreignProvider: data?.foreignProvider,
-      profileImage: profile_image,
+      profileImage: profile_image ? profile_image : null,
     };
 
     console.log("payload+++++++++++++++++", payload);
@@ -234,22 +229,8 @@ const TrainerDetailsEdit = () => {
                   Trainer personal information
                 </h2>
                 <div className="col-span-1 w-full flex justify-start mb-2 md:mb-0">
-                  {profile_image ? (
-                    <img
-                      src={profile_image}
-                      alt="img"
-                      className="w-28 h-28 rounded-full"
-                    />
-                  ) : isUploading ? (
-                    <Loader containerClassName="h-auto" />
-                  ) : (
-                    <>
-                      <label
-                        htmlFor="upload"
-                        className="w-28 h-28 bg-slate-300 rounded-full flex items-center justify-center"
-                      >
-                        <ImageUp className="text-slate-700" />
-                      </label>
+                  <label htmlFor="upload">
+                    <Avatar className="w-28 h-28">
                       <input
                         type="file"
                         id="upload"
@@ -257,8 +238,27 @@ const TrainerDetailsEdit = () => {
                         className="hidden"
                         onChange={handleUpload}
                       />
-                    </>
-                  )}
+                      {isUploading ? (
+                        <p className="bg-white text-center flex justify-center items-center w-full h-full">
+                          Loading...
+                        </p>
+                      ) : (
+                        <>
+                          <AvatarImage
+                            src={
+                              profile_image
+                                ? profile_image
+                                : clientDetails?.data?.profileImage || ""
+                            }
+                          />
+                          <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
+                            {clientDetails?.data?.name?.[0] ||
+                              clientDetails?.data?.email?.[0]}
+                          </AvatarFallback>
+                        </>
+                      )}
+                    </Avatar>
+                  </label>
                   {/* <Avatar className="w-28 h-28">
                     <AvatarImage src={clientDetails?.data?.imageUrl} />
                     <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">

@@ -6,9 +6,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getModuleSection } from "@/services/apiServices/assessment";
+import { useQuery } from "@tanstack/react-query";
 import { Dot } from "lucide-react";
+import { useState } from "react";
 
 const AssecessmentModuleSection = () => {
+  const moduleId = new URLSearchParams(window.location.search).get("moduleId");
+
+  const [timeBound, setTimeBound] = useState("false");
+
+  const { data: moduleSection } = useQuery({
+    queryKey: [QUERY_KEYS.fetchModuleSection],
+    queryFn: () => getModuleSection(moduleId as string),
+  });
+
+  const sectionOption = [
+    ...(moduleSection?.data?.data?.moduleLiveSection ?? []),
+    ...(moduleSection?.data?.data?.moduleSection ?? []),
+  ];
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <h3 className="text-base font-bold font-calibri pb-2">
@@ -31,18 +49,14 @@ const AssecessmentModuleSection = () => {
             <SelectValue placeholder="How to manage financial management?" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem
-              value="item_1"
-              className="font-base font-calibri text-[#1D2026]"
-            >
-              How to manage financial management?
-            </SelectItem>
-            <SelectItem
-              value="item_2"
-              className="font-base font-calibri text-[#1D2026]"
-            >
-              How to manage financial management? 1
-            </SelectItem>
+            {sectionOption?.map((item) => (
+              <SelectItem
+                value={item?.id}
+                className="font-base font-calibri text-[#1D2026]"
+              >
+                {item?.liveSecTitle || item?.title}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -90,10 +104,14 @@ const AssecessmentModuleSection = () => {
               Time Bound
             </h6>
             <div className="rounded-md p-3 me-5 flex justify-between items-center">
-              <RadioGroup defaultValue="option-one" className="flex">
+              <RadioGroup
+                defaultValue={"false"}
+                className="flex"
+                onValueChange={(value: any) => setTimeBound(value)}
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value="option-one"
+                    value={"false"}
                     id="option-one"
                     className="w-[24px] h-[24px]"
                   />
@@ -101,7 +119,7 @@ const AssecessmentModuleSection = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value="option-two"
+                    value={"true"}
                     id="option-two"
                     className="w-[24px] h-[24px]"
                   />
@@ -118,6 +136,7 @@ const AssecessmentModuleSection = () => {
               <input
                 className="border-none w-full outline-none text-sm text-black"
                 placeholder="01"
+                disabled={timeBound === "false"}
               />
               <h6 className="text-sm text-[#A3A3A3] font-calibri">Hours</h6>
             </div>

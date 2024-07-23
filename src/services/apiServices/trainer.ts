@@ -72,3 +72,17 @@ export const trainerDetailsUpdate = async ({ data, id }: { data: any, id: string
   const response = await api({ url, data, method: "put" });
   return response.data;
 };
+
+export const getTraineeCompany = async () => {
+  const url = `api/v1/livesessions/list-traineeofcompany`,
+    method = "get";
+  const res = await api({ url, method });
+  return res.data
+};
+
+export const getTrainee = async (id: string) => {
+  const url = `api/v1/company/get-company-trainee/${id}`,
+    method = "get";
+  const res = await api({ url, method });
+  return res.data
+};

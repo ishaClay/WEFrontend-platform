@@ -49,7 +49,8 @@ const TeamProgressPage = () => {
         {isPending ? (
           <Loader />
         ) : (
-          <Accordions items={accordionItems} rounded={false} />
+          accordionItems?.length > 0 ? <Accordions items={accordionItems} rounded={false} /> : 
+          <span className="block py-10 text-center">No data found</span>
         )}
       </div>
     </div>
