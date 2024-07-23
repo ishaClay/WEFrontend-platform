@@ -4,8 +4,7 @@ const AssessmentModalSelectItem = ({ data, moduleId }: any) => {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-  const { courseId } = useParams()
-  
+  const { courseId } = useParams();
 
   const handleButtonClick = () => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -15,7 +14,7 @@ const AssessmentModalSelectItem = ({ data, moduleId }: any) => {
     }
 
     if (courseId) {
-      queryParams['courseId'] = courseId;
+      queryParams["courseId"] = courseId;
     }
     
     if (moduleId) {

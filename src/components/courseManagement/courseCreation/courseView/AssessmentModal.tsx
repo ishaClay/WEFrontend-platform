@@ -4,16 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import AssessmentModalSelectItem from "./AssessmentModalSelectItem";
 
 interface AssessmentModalProps {
-  moduleId?: string
+  moduleId?: string;
 }
 
-const AssessmentModal = ({moduleId}: AssessmentModalProps) => {
-
+const AssessmentModal = ({ moduleId }: AssessmentModalProps) => {
   const { data: assessmentOptions } = useQuery({
     queryKey: [QUERY_KEYS.assessmentOptions],
     queryFn: () => getAssessmentOptions(),
   });
-  
+
   return (
     <div>
       <h5 className="font-bold text-black sm:text-xl text-base font-calibri pb-2.5">
@@ -23,9 +22,16 @@ const AssessmentModal = ({moduleId}: AssessmentModalProps) => {
         Which format would best suit this particular assessment question?
       </p>
       <div className="flex items-center md:justify-evenly justify-center flex-wrap">
-        {assessmentOptions?.data?.data && Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
-          return <AssessmentModalSelectItem key={index} data={data} moduleId={moduleId} />;
-        })}
+        {assessmentOptions?.data?.data &&
+          Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
+            return (
+              <AssessmentModalSelectItem
+                key={index}
+                data={data}
+                moduleId={moduleId}
+              />
+            );
+          })}
       </div>
     </div>
   );

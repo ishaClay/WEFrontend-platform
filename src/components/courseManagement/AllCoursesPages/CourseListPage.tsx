@@ -29,29 +29,34 @@ type dataGridProps = {
   selectedCourse: Pillarcourse | null;
 };
 
-const CourseListPage = ({
-  data,
-  selectedCourse,
-}: dataGridProps) => {
-  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<
+    number | null
+  >();
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
 
   useEffect(() => {
-    if(!isRecommendedCourseShow){
-    setRecommendedCoursesById(null);
+    if (!isRecommendedCourseShow) {
+      setRecommendedCoursesById(null);
     }
-  }, [isRecommendedCourseShow])
+  }, [isRecommendedCourseShow]);
 
   const handleClose = () => {
-    setIsRecommendedCourseShow(false); 
+    setIsRecommendedCourseShow(false);
     setRecommendedCoursesById(null);
-  }
+  };
 
-  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
-    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+  const {
+    data: fetchCourseDiscountEnrollFun,
+    isPending: isPendingCourseDEnroll,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchCourseDiscountEnroll,
+      { recommendedCoursesById },
+    ],
     queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
-    enabled: !!recommendedCoursesById
+    enabled: !!recommendedCoursesById,
   });
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
@@ -109,7 +114,7 @@ const CourseListPage = ({
 
     return (
       <div
-        className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] mr-[7px] border border-[#B6D8DF] bg-[#E4FBFF] w-[300px]"
+        className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF] sm:w-[300px] w-[270px]"
         onClick={() => setIsCohortShow(cohortData)}
       >
         <div className="flex items-center justify-between pb-[6px]">
@@ -155,11 +160,21 @@ const CourseListPage = ({
       <Modal
         open={isRecommendedCourseShow}
         onClose={handleClose}
-        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+        className={`md:py-[60px] sm:py-[40px] py-6 md:px-6 px-4 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[580px] max-w-[335px] rounded-xl ${
+          isPendingCourseDEnroll
+            ? "h-[200px]"
+            : fetchCourseDiscountEnrollFun?.data &&
+              fetchCourseDiscountEnrollFun?.data?.length > 0
+            ? " h-auto"
+            : "h-[200px]"
+        }`}
       >
-        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+        <RecommendedCoursesModel
+          data={fetchCourseDiscountEnrollFun?.data || []}
+          isLoading={isPendingCourseDEnroll}
+          setOpen={setIsRecommendedCourseShow}
+        />
       </Modal>
-
 
       {data?.map((allcourse: AllCourse) => {
         const maturityLevel =
@@ -171,40 +186,38 @@ const CourseListPage = ({
         return (
           <>
             <div
-              className="h-full w-full border border-solid border-[#D9D9D9] rounded grid grid-cols-8 items-center mb-6 xl:gap-8 gap-0"
+              className="border border-[#D9D9D9] rounded-lg overflow-hidden grid grid-cols-8 items-center xl:gap-5 gap-4"
               key={allcourse.id}
             >
-              <div className="xl:col-span-2 col-span-3">
-                <div className="flex items-center">
-                  <div className="relative overflow-hidden w-full max-h-[221px] max-w-[356px]">
-                    <img
-                      className="object-cover object-center w-full h-full"
-                      src={allcourse?.bannerImage}
-                      alt="Course"
-                    />
-                    <input
-                      type="checkbox"
-                      className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
-                    />
-                    <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
-                      <FaStar className="text-[#FD8E1F]" />
-                      <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                        {maturityLevel?.fetchMaturity?.maturityLevelName}
-                      </span>
-                    </div>
+              <div className="xl:col-span-2 sm:col-span-3 col-span-8">
+                <div className="relative overflow-hidden sm:max-h-[221px] sm:max-w-[356px] w-full">
+                  <img
+                    className="object-cover object-center w-full h-full"
+                    src={allcourse?.bannerImage}
+                    alt="Course"
+                  />
+                  <input
+                    type="checkbox"
+                    className="absolute top-[10px] right-[10px] h-[24px] w-[24px]"
+                  />
+                  <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
+                    <FaStar className="text-[#FD8E1F]" />
+                    <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
+                      {maturityLevel?.fetchMaturity?.maturityLevelName}
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="xl:col-span-6 col-span-5 xl:flex items-center xl:justify-between justify-center">
-                <div className="xl:text-left text-center">
-                  <p className="text-base font-medium leading-[22px] font-inter xl:mb-3 line-clamp-3 text-[#1D2026]">
+              <div className="xl:col-span-6 sm:col-span-5 col-span-8 xl:flex xl:flex-row flex-col items-center xl:justify-between justify-center sm:py-3 pb-3 pt-0 sm:px-0 px-3">
+                <div className="">
+                  <h4 className="sm:text-base text-sm font-medium font-inter xl:mb-3 line-clamp-3 text-[#1D2026] pb-3">
                     {allcourse.title}
-                  </p>
+                  </h4>
 
-                  <div>
-                    <div className="flex items-center xl:justify-start justify-center gap-5 xl:mb-3">
-                      <div className="flex items-center gap-1 leading-[22px]">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center flex-wrap gap-3">
+                      <div className="flex items-center gap-1">
                         <img
                           className="inline-block w-[20px] h-[23px]"
                           src={lightOn}
@@ -214,7 +227,7 @@ const CourseListPage = ({
                           {allcourse?.courseData?.[0]?.fetchPillar?.pillarName}
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className=" h-[16] w-[18px] text-black"
                           src={diploma}
@@ -224,7 +237,7 @@ const CourseListPage = ({
                           {allcourse.otherInstitutionName}
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className=" h-[16] w-[18px]"
                           src={online}
@@ -242,30 +255,30 @@ const CourseListPage = ({
                           )}
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className=" h-[16] w-[18px]"
                           src={unversity}
                           alt="Course"
                         />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                        <p className="text-xs text-[#3A3A3A]">
                           Atlantic Technological University
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center xl:justify-start justify-center gap-5">
-                      <div className="flex items-center gap-1 leading-[22px]">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="flex items-center gap-1">
                         <img
                           className="inline-block w-[18px] h-[24px]"
                           src={neighbour}
                           alt="Image Alt Text"
                         />
-                        <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
+                        <p className="text-[#918A8A] text-base font-normal font-calibri">
                           Social
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className="h-[16] w-[18px]"
                           src={speed}
@@ -279,7 +292,7 @@ const CourseListPage = ({
                           }
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className=" h-[16] w-[18px]"
                           src={fulltime}
@@ -294,7 +307,7 @@ const CourseListPage = ({
                           )}
                         </p>
                       </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
+                      <div className="flex items-center gap-1">
                         <img
                           className=" h-[16] w-[18px]"
                           src={time}
@@ -307,11 +320,14 @@ const CourseListPage = ({
                     </div>
                   </div>
                 </div>
-                <div className="xl:py-[13px] pb-0 pt-[13px]  xl:px-9 px-0 items-center xl:border-l xl:border-[#DDD]">
+                <div className="xl:py-[13px] pb-0 pt-[13px] xl:px-9 flex flex-col gap-3 px-0 xl:border-l xl:border-[#DDD]">
                   {getUpcommingCohort(allcourse)}
-                  <div className="xl:text-right text-center mt-3">
+                  <div className="xl:text-right text-left">
                     <Button
-                      onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(allcourse?.id)}}
+                      onClick={() => {
+                        setIsRecommendedCourseShow(true);
+                        setRecommendedCoursesById(allcourse?.id);
+                      }}
                       className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                       disabled={allcourse?.enrolled}
                     >
