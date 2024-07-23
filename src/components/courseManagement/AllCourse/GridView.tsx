@@ -15,13 +15,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   copyCourse,
+  courseByVersion,
   deleteCourse,
   publishCourse,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Copy, EllipsisVertical, Loader2, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
@@ -58,6 +59,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [selectVersionId, setSelectVersionId] = useState<number | string>("");
+  const [selectCourseId, setSelectCourseId] = useState<number | null>(null);
   const pathName = location?.pathname?.split("/")?.[1];
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
@@ -70,18 +73,26 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     }
   }, [cohort]);
 
+  const {data: courseByVersionList, isPending: courseByVersionPending} = useQuery({
+    queryKey: [QUERY_KEYS.courseByVersionList, selectVersionId],
+    queryFn: () => courseByVersion(+selectVersionId),
+    enabled: !!selectVersionId
+  })
+
   useEffect(() => {
     if (list?.length > 0) {
-      const data = list?.map((item) => {
-        const version = item?.version?.find((itm) => itm?.version === 1);
-        return {
-          id: item?.id,
-          versionId: version?.id as number,
-          status:
-            item?.status === "COPY" ? "PUBLISHED" : (item?.status as string),
-        };
+      let versionData:VersionProps[] = [];
+      list?.map((item) => {
+        return item?.version?.find((itm) => {
+          versionData.push({
+            id: item?.id,
+            versionId: itm?.id as number,
+            status:
+              item?.status === "COPY" ? "PUBLISHED" : (item?.status as string),
+          });
+        });
       });
-      setVersionData(data);
+      setVersionData(versionData);
     }
   }, [list]);
 
@@ -92,6 +103,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
+        setCourse("");
         toast({
           title: "Success",
           description: "Course Published Successfully",
@@ -133,6 +145,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
         setIsDelete(false);
+        setSingleCourse(null);
         toast({
           title: "Success",
           description: data?.data?.message,
@@ -149,6 +162,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     });
 
   const handleChangeVersion = (versionId: string, id: number) => {
+    setSelectVersionId(versionId);
     setVersionData((prev) => {
       return prev.map((item) => {
         if (item?.id === id) {
@@ -211,6 +225,10 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
+  console.log("setVersionData", versionData);
+  console.log("courseByVersionList", courseByVersionPending, courseByVersionList?.data);
+  
+
   return list ? (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
@@ -219,7 +237,11 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
           const currentRecord = versionData?.find(
             (itm) => itm?.id === item?.id
           );
+
+          // const currentVersion = 
           console.log("item+++", item);
+          console.log("currentRecord", currentRecord, versionData);
+          
 
           const versionOption =
             item?.version &&
@@ -229,6 +251,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                 value: itm?.id.toString() || "",
               };
             });
+            console.log("item?.currentVersion?.id?.toString()", item?.currentVersion?.id?.toString());
+            
           return (
             <Link
               to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
@@ -291,11 +315,12 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
               <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={item?.status === "PUBLISHED"}
-                  className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto w-full"
+                  className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                   onClick={(e: any) =>
-                    handlePublish(e, item?.currentVersion?.id as number)
+                    {handlePublish(e, item?.currentVersion?.id as number); setCourse(item?.id);}
                   }
-                  isLoading={publishCoursePending}
+                  isLoading={course === item.id}
+                  // isLoading={publishCoursePending}
                 >
                   PUBLISH
                 </Button>
@@ -307,16 +332,26 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                 >
                   + Cohort
                 </Button>
-                <SelectMenu
-                  option={versionOption || []}
-                  setValue={(data: string) =>
-                    handleChangeVersion(data, item?.id)
+                <div className="">
+                  {
+                    (selectCourseId === item?.id && courseByVersionPending) ? <span className="h-auto py-[5px] px-3 w-full block bg-[#00778B] text-white rounded-[6px]">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    </span> :
+                    <SelectMenu
+                      option={versionOption || []}
+                      setValue={(data: string) =>
+                        {handleChangeVersion(data, item?.id)
+                          setSelectCourseId(item?.id)
+                        }
+                      }
+                      value={currentRecord?.versionId?.toString() || ""}
+                      defaultValue={item?.currentVersion?.id?.toString() || ""}
+                      containClassName="max-w-[62px]"
+                      className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                      placeholder="V-01"
+                    />
                   }
-                  value={currentRecord?.versionId?.toString() || ""}
-                  containClassName="max-w-[62px]"
-                  className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                  placeholder="V-01"
-                />
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <EllipsisVertical className="w-8" />

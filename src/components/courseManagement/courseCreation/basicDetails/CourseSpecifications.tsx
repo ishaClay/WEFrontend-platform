@@ -232,6 +232,7 @@ const CourseSpecifications = () => {
             <Button
               type="submit"
               className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (
                 <Loader containerClassName="max-h-auto" />
