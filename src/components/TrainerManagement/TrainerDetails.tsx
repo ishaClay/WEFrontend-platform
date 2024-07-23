@@ -33,6 +33,7 @@ const TrainerDetails = () => {
       queryClient.invalidateQueries({
         queryKey: ["trainerDetails", params.id],
       });
+      navigate("/trainer/trainer-management")
       toast({
         variant: "success",
         description: "Trainer status updated successfully",
@@ -60,7 +61,7 @@ const TrainerDetails = () => {
     };
 
     mutate({ id: params.id || "", data });
-  };
+  };  
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
@@ -90,10 +91,10 @@ const TrainerDetails = () => {
               </h2>
               <div className="col-span-1 w-full flex justify-start mb-2 md:mb-0">
                 <Avatar className="w-28 h-28">
-                  <AvatarImage src={clientDetails?.data?.profileImage} />
+                  <AvatarImage src={clientDetails?.data?.profileImage || ""} />
                   <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
-                    {clientDetails?.data?.name?.[0]}
-                    {clientDetails?.data?.name?.[1]}
+                    {clientDetails?.data?.name?.[0] || 
+                    clientDetails?.data?.email?.[0]}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -101,7 +102,7 @@ const TrainerDetails = () => {
                 <div>
                   <h3 className="text-[#A3A3A3]">Trainer name</h3>
                   <p className="text-[#000]">
-                    {clientDetails?.data?.name || "--"}
+                    {clientDetails?.data?.name || clientDetails?.data?.email?.split("@")?.[0] || "--"}
                   </p>
                 </div>
               </div>

@@ -18,6 +18,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAllocate, setIsOpenAllocate] = useState(false);
+  const progress = String(data?.progress)?.split(".");
   
   return (
     <>
@@ -61,7 +62,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
         </div>
 
         <div className="text-center flex items-center 2xl:col-span-5 sm:col-span-6 col-span-12">
-          <Progress color="#58BA66" value={data?.progress || 0} className="w-full" isShow />
+          <Progress color="#58BA66" value={+progress?.[0] || 0} className="w-full" isShow />
         </div>
 
         <div className="flex sm:flex-row flex-col gap-2 2xl:justify-end justify-center items-center 2xl:col-span-5 col-span-12">

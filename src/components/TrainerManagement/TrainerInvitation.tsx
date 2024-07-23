@@ -5,33 +5,47 @@ import { MoveLeft } from "lucide-react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as Zod from "zod";
-import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
+import CustomTabInput from "../comman/CustomTabInput";
+import { useEffect, useState } from "react";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 
 const schema = Zod.object({
-  email: Zod.string().email("This is not a valid email."),
-  details: Zod.string(),
+  email: Zod.string({ message: "Email is required" }).min(1, { message: "Email is required" }),
+  details: Zod.string({ message: "Invitation detail is required" }).min(1, { message: "Invitation detail is required" }),
 });
 const TrainerInvitation = () => {
+  const [emails, setEmails] = useState<string[]>([]);
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const id = userData?.query?.detailsid;
+
+  type ValidationSchema = Zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
   const url = window.location.origin;
 
   console.log("url", url);
+
+  useEffect(() => {
+    if (emails.length > 0) {
+      setValue("email", emails.join(","));
+    } else{
+      setValue("email", "");
+    }
+  }, [emails]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: trainerInvitation,
@@ -49,6 +63,8 @@ const TrainerInvitation = () => {
           variant: "success",
         });
       }
+      navigate("/trainer/trainer-management");
+      setEmails([]);
       reset();
     },
     onError: (error) => {
@@ -64,7 +80,7 @@ const TrainerInvitation = () => {
 
   const onSubmit = (data: FieldValues) => {
     const payload = {
-      email: [data?.email],
+      email: emails,
       invitationDetails: data?.details,
       TrainerCompanyId: id,
       baseUrl: url,
@@ -100,12 +116,8 @@ const TrainerInvitation = () => {
               Enter Trainer Email ID{" "}
               <span className="text-[#A3A3A3]">(comma separated email id)</span>
             </Label>
-            <InputWithLabel
-              className="!w-full mt-2 font-nunito"
-              {...register("email")}
-              placeholder="Enter email id"
-              error={errors?.email?.message as string}
-            />
+            <CustomTabInput setValue={setEmails} {...register("email")} />
+            {!errors?.email?.ref?.value && <ErrorMessage message={errors?.email?.message as string} />}
           </div>
           <div className="w-full mb-[30px]">
             <Label className="text-[16px] font-nunito font-[400]">
@@ -116,6 +128,7 @@ const TrainerInvitation = () => {
               {...register("details")}
               placeholder="Enter Details"
             />
+            {errors?.details && <ErrorMessage message={errors?.details?.message as string} />}
           </div>
           <div className="text-right">
             <Button
