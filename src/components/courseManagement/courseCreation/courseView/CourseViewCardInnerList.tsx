@@ -19,6 +19,9 @@ const CourseViewCardInnerList = ({
   const queryClient = useQueryClient();
 
   function formatReadingTime(readingTime: any) {
+    if (!readingTime) {
+      return "0sec";
+    }
     const { hour, minute, second } = readingTime;
     let formattedTime = "";
 
