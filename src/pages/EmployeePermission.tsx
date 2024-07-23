@@ -208,7 +208,7 @@ function EmployeePermission() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)
               }
-              className="pl-[45px] border w-[550px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal"
+              className="pl-[45px] border sm:w-[550px] w-[290px] rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[44px] placeholder:font-normal"
             />
             <img
               src={searchIcon}
