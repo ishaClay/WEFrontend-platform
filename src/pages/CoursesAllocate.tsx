@@ -254,11 +254,15 @@ function CoursesAllocate() {
                                             />
                                             <AvatarFallback
                                               delayMs={600}
+                                              className="uppercase"
                                               style={{
                                                 backgroundColor: color[index],
                                               }}
                                             >
-                                              12{avatar?.name?.charAt(0)}
+                                              {avatar?.name?.charAt(0) ||
+                                                avatar?.email
+                                                  ?.split("@")[0]
+                                                  ?.charAt(0)}
                                             </AvatarFallback>
                                           </Avatar>
                                         </TooltipTrigger>
