@@ -66,7 +66,7 @@ const TrainerManagement = () => {
         return (
           <div className="flex items-center gap-1">
             <Avatar className="w-8 h-8">
-              <AvatarImage src={row.original?.profileImage} />
+              <AvatarImage src={row.original?.profileImage || ""} />
               <AvatarFallback className="uppercase shadow-lg text-[12px]">
                 {row?.original?.name?.[0]}
                 {row?.original?.name?.[1]}
@@ -222,7 +222,10 @@ const TrainerManagement = () => {
           <h3 className="text-[16px] font-[700] font-nunito mb-1">
             Trainer Management
           </h3>
-          <p className="text-[#606060] text-[15px]">The full list of all your enrolled trainers, with a quick-view of their details </p>
+          <p className="text-[#606060] text-[15px]">
+            The full list of all your enrolled trainers, with a quick-view of
+            their details{" "}
+          </p>
         </div>
         <Button
           type="button"

@@ -11,7 +11,7 @@ import { TrainerStatus, TrainersByIdResponse } from "@/types/Trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { ImageUp, MoveLeft } from "lucide-react";
+import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,6 +19,7 @@ import * as zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loader from "../comman/Loader";
 import SelectMenu from "../comman/SelectMenu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { InputWithLable } from "../ui/inputwithlable";
 import { Label } from "../ui/label";
@@ -34,7 +35,6 @@ import {
 } from "../ui/select";
 import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const schema = zod.object({
   name: zod.string().min(1, { message: "Trainer name is required" }),
@@ -97,7 +97,7 @@ const TrainerDetailsEdit = () => {
   const { mutate: upload, isPending: isUploading } = useMutation({
     mutationFn: uploadImage,
     onSuccess: (data) => {
-      setProfileImage(data.data?.data?.image);      
+      setProfileImage(data.data?.data?.image);
     },
     onError: (error) => {
       console.log(error);
@@ -112,7 +112,7 @@ const TrainerDetailsEdit = () => {
       });
       onSubmit();
       reset();
-      navigate("/trainer/trainer-management")
+      navigate("/trainer/trainer-management");
       toast({
         variant: "success",
         description: "Trainer details updated successfully",
@@ -232,22 +232,31 @@ const TrainerDetailsEdit = () => {
                   <label htmlFor="upload">
                     <Avatar className="w-28 h-28">
                       <input
-                          type="file"
-                          id="upload"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={handleUpload}
-                        />
-                        {
-                          isUploading ? <p className="bg-white text-center flex justify-center items-center w-full h-full">Loading...</p> :
-                          <>
-                          <AvatarImage src={profile_image ? profile_image :clientDetails?.data?.profileImage || ""} />
+                        type="file"
+                        id="upload"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleUpload}
+                      />
+                      {isUploading ? (
+                        <p className="bg-white text-center flex justify-center items-center w-full h-full">
+                          Loading...
+                        </p>
+                      ) : (
+                        <>
+                          <AvatarImage
+                            src={
+                              profile_image
+                                ? profile_image
+                                : clientDetails?.data?.profileImage || ""
+                            }
+                          />
                           <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
-                            {clientDetails?.data?.name?.[0] || 
-                            clientDetails?.data?.email?.[0]}
+                            {clientDetails?.data?.name?.[0] ||
+                              clientDetails?.data?.email?.[0]}
                           </AvatarFallback>
-                          </>
-                        }
+                        </>
+                      )}
                     </Avatar>
                   </label>
                   {/* <Avatar className="w-28 h-28">
