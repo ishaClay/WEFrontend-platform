@@ -1,12 +1,26 @@
-import { Bell, ChevronLeft, Search } from "lucide-react";
-import profile_img from "@/assets/images/face_1.jfif";
-import { Input } from "./ui/input";
-import { useEffect, useState } from "react";
-import DrawerPage from "./DrawerPage";
 import { sidebarLayout } from "@/lib/utils";
-import { SidebarItem } from "./layouts/DashboardLayout";
-import { Button } from "./ui/button";
+import { LogOut } from "@/services/apiServices/authService";
+import { ResponseError } from "@/types/Errors";
+import { useMutation } from "@tanstack/react-query";
+import { Bell, ChevronLeft, Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
+import Loading from "./comman/Error/Loading";
+import Modal from "./comman/Modal";
+import DrawerPage from "./DrawerPage";
+import { SidebarItem } from "./layouts/DashboardLayout";
+import ModalTabs from "./myCourse/ModalTab/ModalTabs";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Input } from "./ui/input";
+import { toast } from "./ui/use-toast";
 
 type headerTitleProps = {
   title: {
@@ -17,12 +31,28 @@ type headerTitleProps = {
 
 const EmployeeHeader = ({ title }: headerTitleProps) => {
   const [open, setOpen] = useState(false);
-  // const userData = localStorage.getItem("user");
-  // const userRole = userData ? JSON.parse(userData)?.query?.role : null;
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
-  // const userRole = 4;
+  const [isOpen, setIsOpen] = useState(false);
+  const [openType, setOpenType] = useState("");
+  const navigate = useNavigate();
   const [data, setData] = useState<SidebarItem[]>([]);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      localStorage.removeItem("user");
+      navigate("/");
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
   useEffect(() => {
     switch (+userRole) {
       case 1:
@@ -39,6 +69,19 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
         break;
     }
   }, [userRole]);
+
+  const userName =
+    userData &&
+    (userData?.query?.fname && userData?.query?.lname
+      ? userData?.query?.fname + "" + userData?.query?.lname
+      : userData?.query?.name
+      ? userData?.query?.name
+      : userData?.query?.email?.split("@")[0]);
+
+  const handleLogout = () => {
+    mutate(userData?.query?.id);
+  };
+
   return (
     <>
       <div className="lg:px-5 px-0 pt-[15px] lg:bg-white bg-transparent rounded-t-xl sm:pb-5 pb-2.5">
@@ -75,31 +118,74 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
                 <Search />
               </div>
             </div>
-            <div className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] lg:bg-[#F5F5F5] bg-white rounded-full flex justify-center items-center relative cursor-pointer">
+            <Link
+              to={"/employee/notification-list"}
+              className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] lg:bg-[#F5F5F5] bg-white rounded-full flex justify-center items-center relative cursor-pointer"
+            >
               <Bell />
-              <div className="w-[22px] h-[22px] rounded-full bg-[#FF5252] text-white absolute top-[-10px] right-[-5px] text-center">
+              {/* <div className="w-[22px] h-[22px] rounded-full bg-[#FF5252] text-white absolute top-[-10px] right-[-5px] text-center">
                 5
-              </div>
-            </div>
-            <div className="flex gap-3 cursor-pointer">
-              <div className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full overflow-hidden">
-                <img src={profile_img} alt="" />
-              </div>
-              <div className="lg:block hidden">
-                <h5 className="xl:text-base text-sm font-nunito text-black font-semibold">
-                  Emilla Anderson
-                </h5>
-                <h6 className="xl:text-base text-sm font-nunito text-black">
-                  Team Member
-                </h6>
-              </div>
-            </div>
+              </div> */}
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <div className="flex items-center gap-3 cursor-pointer">
+                  <div className="overflow-hidden">
+                    <Avatar className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full ">
+                      <AvatarImage src="" />
+                      <AvatarFallback className="bg-slate-300 uppercase">
+                        {userName?.charAt(0) + "" + userName?.charAt(1)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div className="lg:block hidden text-left">
+                    <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
+                      {userName}
+                    </h5>
+                    <h6 className="xl:text-base text-sm font-nunito text-black">
+                      {userRole === "4" && "Employee"}
+                    </h6>
+                  </div>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setIsOpen(true);
+                    setOpenType("profile");
+                  }}
+                >
+                  Profile Setting
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setIsOpen(true);
+                    setOpenType("account");
+                  }}
+                >
+                  Account Setting
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
+      <Modal
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="lg:max-w-[610px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
+        header="Settings"
+        titleClassName="font-nunito text-xl text-black font-bold"
+      >
+        <ModalTabs tab={openType} handleClose={() => setIsOpen(false)} />
+      </Modal>
       <div className="lg:invisible visible">
         <DrawerPage sidebarItems={data} open={open} setOpen={setOpen} />
       </div>
+      {isPending && <Loading isLoading={isPending} />}
     </>
   );
 };

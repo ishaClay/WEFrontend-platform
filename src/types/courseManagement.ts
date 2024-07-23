@@ -237,3 +237,46 @@ export interface TrainerId {
   id: number;
   name: string;
 }
+
+
+export interface MyCourseResponse {
+  data: MyCourseResult;
+  message: string;
+}
+export interface MyCourseResult {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  employeeStatus: string;
+  profileImage?: null;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  editActionItem: boolean;
+  retakeSelfAssessment: boolean;
+  shareFeedback: boolean;
+  courseAlloted?: (CourseAllotedEntity)[] | null;
+}
+export interface CourseAllotedEntity {
+  id: number;
+  numberOfEmployee: string;
+  price: number;
+  request: number;
+  isdiscounted: number;
+  enroll: number;
+  createdAt: string;
+  deletedAt?: null;
+  updatedAt: string;
+  courseVersion: CourseVersion;
+  courseProgress: string;
+  courseStatus: string;
+}
+export interface CourseVersion {
+  id: number;
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+  course: Course;
+}
+

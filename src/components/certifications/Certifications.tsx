@@ -39,6 +39,7 @@ const Certifications = () => {
         "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
     },
   ];
+
   return (
     <>
       <div className="lg:bg-white bg-transparent rounded-xl">

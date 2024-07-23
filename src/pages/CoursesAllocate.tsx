@@ -258,7 +258,7 @@ function CoursesAllocate() {
                                                 backgroundColor: color[index],
                                               }}
                                             >
-                                              12{avatar?.name?.charAt(0)}
+                                              {avatar?.name?.charAt(0)}
                                             </AvatarFallback>
                                           </Avatar>
                                         </TooltipTrigger>

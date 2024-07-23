@@ -90,6 +90,19 @@ function HeaderCourse() {
         title = [{ label: "Message", link: "js:" }, { label: "Compose" }];
         break;
 
+      case "notification-list":
+        title = [
+          {
+            label:
+              location.pathname.split("/")[
+                location.pathname.split("/")?.length - 2
+              ],
+            link: "js:",
+          },
+          { label: "Notification" },
+        ];
+        break;
+
       default:
         title = [
           {
@@ -288,6 +301,19 @@ function HeaderCourse() {
 
       case "employeepermission":
         title = [{ label: "Setting" }];
+        break;
+
+      case "notification-list":
+        title = [
+          {
+            label:
+              location.pathname.split("/")[
+                location.pathname.split("/")?.length - 2
+              ],
+            link: "js:",
+          },
+          { label: "Notification" },
+        ];
         break;
 
       default:

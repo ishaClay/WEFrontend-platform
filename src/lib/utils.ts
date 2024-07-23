@@ -376,12 +376,12 @@ export const sidebarLayout = {
         },
       ],
     },
-    {
-      label: "Message",
-      Icon: PiEnvelopeThin,
-      link: "/employee/message",
-      children: [],
-    },
+    // {
+    //   label: "Message",
+    //   Icon: PiEnvelopeThin,
+    //   link: "/employee/message",
+    //   children: [],
+    // },
     {
       label: "Logout",
       Icon: AiOutlinePoweroff,
@@ -421,6 +421,14 @@ export const TimeFormatter = (dateTime: Date | string) => {
   } else {
     formattedTime = date.format("h:mmA");
   }
+  return formattedTime;
+};
+
+export const TimesFormatter = (dateTime: Date | string) => {
+
+  const date = moment(dateTime);
+
+  const formattedTime = date.format("h:mm A");
   return formattedTime;
 };
 

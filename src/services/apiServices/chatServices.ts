@@ -1,6 +1,8 @@
+import { ChatDataList, ChatDetailsListResponse } from "@/types/Chat";
+import { AxiosResponse } from "axios";
 import api from "./api";
 
-export const fetchChatUserList = (id: string) => {
+export const fetchChatUserList = (id: string): Promise<AxiosResponse<ChatDataList>> => {
   const url = `api/v1/message/list/${id}`;
   return api({ url });
 };
@@ -8,7 +10,7 @@ export const fetchChatUserList = (id: string) => {
 export const fetchChat = (
   userId1: string | number,
   userId2: string | number
-) => {
+): Promise<AxiosResponse<ChatDetailsListResponse>> => {
   const url = `api/v1/message/get?userId1=${userId1}&userId2=${userId2}`;
   return api({ url });
 };

@@ -4,7 +4,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut } from "@/services/apiServices/authService";
 import { fetchChatUserList } from "@/services/apiServices/chatServices";
 import { ResponseError } from "@/types/Errors";
-import { MessageDataEntity } from "@/types/message";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
@@ -77,9 +76,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     queryKey: [QUERY_KEYS.chatUserList],
     queryFn: () => fetchChatUserList(UserId as string),
   });
-  const newMessage = chatUserList?.data?.data?.some(
-    (item: MessageDataEntity) => item?.count > 0
-  );
+  const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
 
   return (
     <div

@@ -132,3 +132,10 @@ export const deleteCourse = (id: number) => {
   const method = "delete";
   return api({ url, method });
 };
+
+export const getAllEmployeeCourseList = async ({ id, status, categories }: { id: number, status: string, categories: string }) => {
+  const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}?status=${status}&categories=${categories}`;
+  const method = "get";
+  const res = await api({ url, method });
+  return res.data;
+}
