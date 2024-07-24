@@ -36,9 +36,13 @@ const AssecessmentPage = () => {
 
         {selectedQuestionType?.map((type: string, index: number) => (
           <Fragment key={index}>
-            {type === "MultipleChoiceQuestion" && <AssecessmentTypeTwo />}
-            {type === "SingleChoiceQuestion" && <AssecessmentTypeOne i={index} type={type} />}
-            {type === "HotSpoting" && <AssecessmentTypeThree />}
+            {type === "MultipleChoiceQuestion" && (
+              <AssecessmentTypeTwo i={index} type={type} />
+            )}
+            {type === "SingleChoiceQuestion" && (
+              <AssecessmentTypeOne i={index} type={type} />
+            )}
+            {type === "HotSpoting" && <AssecessmentTypeThree i={index} type={type} />}
           </Fragment>
         ))}
 

@@ -79,8 +79,13 @@ const AssecessmentTypeOne = ({ i, type }: AssecessmentTypeProps) => {
           {options.map((data, index) => {
             return (
               <Fragment key={index}>
-                <AssecessmentTypeOneOptions data={data} i={i} iIndex={index} options={options}
-              setOptions={setOptions} />
+                <AssecessmentTypeOneOptions
+                  data={data}
+                  i={i}
+                  iIndex={index}
+                  options={options}
+                  setOptions={setOptions}
+                />
               </Fragment>
             );
           })}

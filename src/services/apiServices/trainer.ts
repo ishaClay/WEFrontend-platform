@@ -80,9 +80,9 @@ export const getTraineeCompany = async () => {
   return res.data
 };
 
-export const getTrainee = async (id: string) => {
-  const url = `api/v1/company/get-company-trainee/${id}`,
-    method = "get";
-  const res = await api({ url, method });
+export const getTrainee = async (companyIds: any) => {
+  const url = `api/v1/company/get-company-trainee`,
+    method = "post";
+  const res = await api({ url, data: companyIds, method });
   return res.data
 };
