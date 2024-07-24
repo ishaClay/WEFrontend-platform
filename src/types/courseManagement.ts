@@ -207,6 +207,37 @@ export interface CurrentVersion {
   version: number;
   createdAt: string;
   updatedAt: string;
+  mainCourse: MainCourseType;
+}
+export interface MainCourseType {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  duration: string;
+  price: number;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys: string;
+  courseData?: (CourseDataEntity)[] | null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  currentVersion: CurrentVersion;
+  module?: (ModuleEntity)[] | null;
+  version?: (VersionEntity)[] | null;
 }
 export interface ModuleEntity {
   id: number;

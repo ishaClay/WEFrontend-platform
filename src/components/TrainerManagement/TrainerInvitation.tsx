@@ -85,7 +85,9 @@ const TrainerInvitation = () => {
       TrainerCompanyId: id,
       baseUrl: url,
     };
+console.log("payload", payload);
 
+    return 
     mutate(payload);
   };
 

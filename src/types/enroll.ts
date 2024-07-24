@@ -50,7 +50,33 @@ export interface CohortGroupType {
   company: EnrollRequestCompany[] | null;
   employee?: EmployeeType[] | null;
   cohortStatus: string;
+  moduleLiveSection: ModuleLiveSectionType[] | null;
 }
+export interface ModuleLiveSectionType {
+  id: number;
+  liveSecTitle: string;
+  subtitle: string;
+  liveSecinformation: string;
+  numberOfEmployees: string;
+  date: string;
+  description: string;
+  zoomApiBaseUrl?: string | null;
+  startTime?: string | null;
+  startAmPm?: string | null;
+  sessionDuration?: null;
+  sectionTime: SectionTime;
+  position: number;
+  isLive: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface SectionTime {
+  hour: number;
+  minute: number;
+  second?: number | null;
+}
+
 export interface SlotStartDateOrSlotEndDate {
   date: string;
   month: string;
@@ -165,6 +191,7 @@ export interface EmployeeType {
   editActionItem: boolean;
   retakeSelfAssessment: boolean;
   shareFeedback: boolean;
+  certificate: boolean;
   progress: number;
 }
 
