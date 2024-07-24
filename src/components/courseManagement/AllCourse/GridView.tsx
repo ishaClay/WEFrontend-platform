@@ -312,7 +312,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   })}
                 </div>
               </div>
-              <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
+              <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={item?.status === "PUBLISHED"}
                   className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"

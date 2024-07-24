@@ -17,7 +17,7 @@ type SessionDetailsProps = {
 const LiveSessionList = ({ data }: SessionDetailsProps) => {
   return (
     <div className="border border-[#D9D9D9] rounded-xl">
-      <div className="flex flex-col gap-3 p-5 border-b border-[#D9D9D9]">
+      <div className="flex flex-col sm:gap-3 gap-2 sm:p-5 p-4 border-b border-[#D9D9D9]">
         <h6 className="text-base text-black font-abhaya font-semibold">
           {data.title}
         </h6>
