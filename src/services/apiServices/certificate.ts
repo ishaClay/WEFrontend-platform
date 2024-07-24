@@ -19,15 +19,20 @@ export const getCertifications = async (id: string) => {
   return res.data;
 };
 
-export const fetchcertificate = async (id: string) => {
-  const url = `api/v1/certificate/get/${id}`;
-  const res = await api({ url });
-  return res.data;
+export const fetchcertificate=async(id:string)=>{
+    const url=`api/v1/certificate/get/${id}`
+    const res=await api({url});
+    return res.data;
+}
+
+export const Updatecertificate = ({data, id}: {data: GetCertificate, id: string}) => {
+    const url = `api/v1/certificate/update/${id}`,
+    method = "put";
+    return api({ url, method, data });
 };
 
-// export const Updatecertificate=async(data: { id: GetCertificate, item: any })=>{
-//     const url=`api/v1/certificate/update/${data?.id}`
-//     const method="patch";
-//     const res=await api({url,method,data})
-//     return res?.data;
-// }
+export const IssuedCertificateList=async(id:number)=>{
+    const url=`api/v1/certificate/get-employee/${id}`
+    const res=await api({url});
+    return res.data;
+}

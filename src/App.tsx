@@ -119,6 +119,7 @@ import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
 import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
+import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -762,6 +763,10 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
+          {/* <Route
+            path="allocated-certificate/allocateEmploye/:id"
+            element={<AllocatedCertificateEmployee />}
+          /> */}
         </Route>
 
         <Route
@@ -819,6 +824,10 @@ function App() {
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
+          />
+            <Route
+            path="allocated-certificate/allocateEmploye/:id"
+            element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="schedule-live-session"

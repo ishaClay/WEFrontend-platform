@@ -1,61 +1,27 @@
-import employee_Image_1 from "@/assets/images/face_1.jfif";
-import employee_Image_2 from "@/assets/images/face_2.jfif";
-import employee_Image_3 from "@/assets/images/face_3.jfif";
-import employee_Image_4 from "@/assets/images/face_4.jfif";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { NewDataTable } from "../comman/NewDataTable";
-
-const data = [
-  {
-    id: 1,
-    employeeName: "Ankites Risher",
-    employeeImage: employee_Image_1,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 01",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 2,
-    employeeName: "Liam Risher",
-    employeeImage: employee_Image_2,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 02",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 3,
-    employeeName: "Honey Risher",
-    employeeImage: employee_Image_3,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 01",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 4,
-    employeeName: "Oliver Noah",
-    employeeImage: employee_Image_4,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 02",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { IssuedCertificateList } from "@/services/apiServices/certificate";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Loader from "../comman/Loader";
+import { certificateDataEntity } from "@/types/certificate";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(0);
-  console.log("page", page);
-
-  const column: ColumnDef<any>[] = [
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const { data: Issued_Certificate, isPending } = useQuery({
+    queryKey: [QUERY_KEYS.issuedCertificate],
+    queryFn: () => IssuedCertificateList(464),
+  });
+  console.log(Issued_Certificate?.data, "issued certificate========");
+  const column: ColumnDef<certificateDataEntity>[] = [
     {
       accessorKey: "id",
       header: () => {
@@ -84,15 +50,23 @@ const AllocatedCertificatePage = () => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-2">
-            <img
-              src={row.original?.employeeImage}
-              alt="employeeImage"
-              className="w-8 h-8 rounded-full"
-            />
-            <h6 className="2xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.employeeName}
-            </h6>
+          <div className="flex items-center font-bold px-3">
+            <Avatar>
+              <AvatarImage
+                src={row?.original?.employee?.profileImage || undefined}
+                alt="Img"
+              />
+              <AvatarFallback>
+                {row?.original?.employee?.name
+                  ? row?.original?.employee?.name?.charAt(0)
+                  : row?.original?.employee?.email?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+
+            <p className={`font-bold px-3`}>
+              {row?.original?.employee?.name ||
+                row?.original?.employee?.email?.split("@")[0]}
+            </p>
           </div>
         );
       },
@@ -109,7 +83,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2 2xl:leading-6 leading-4 2xl:w-[70%] w-full">
-            {row.original?.courseName}
+            {row?.original?.course?.title}
           </h6>
         );
       },
@@ -126,7 +100,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.certificateTitle}
+            {row.original?.certificatePdf}
           </h6>
         );
       },
@@ -143,7 +117,9 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.date}
+            {moment(new Date(row?.original?.employee?.createdAt || "")).format(
+              "DD/MM/YYYY"
+            )}
           </h6>
         );
       },
@@ -160,12 +136,16 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <div className="">
-            <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 2xl:text-sm text-xs">
-              {row.original?.status}
-            </Button>
-            <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 2xl:text-sm text-xs hidden">
-              Pending
-            </Button>
+            {row?.original?.certificatePdf &&
+            row?.original?.employee?.createdAt ? (
+              <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 2xl:text-sm text-xs">
+                {row.original?.employee?.status}
+              </Button>
+            ) : (
+              <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 2xl:text-sm text-xs ">
+                Pending
+              </Button>
+            )}
           </div>
         );
       },
@@ -179,17 +159,47 @@ const AllocatedCertificatePage = () => {
           </h5>
         );
       },
-      cell: () => {
+      cell: ({ row }) => {
         return (
-          <div className="flex items-center">
+          <div className="flex gap-2 items-center">
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
-            <Eye className="mx-2 cursor-pointer text-[#A3A3A3]" width={18} />
-            <FileSliders className="cursor-pointer text-[#A3A3A3]" width={18} />
+            {row?.original?.certificatePdf && row?.original?.createdAt ? (
+              <Link to={`allocateEmploye/${row?.original?.employee?.id}`}>
+                <Eye
+                  className="mx-2 cursor-pointer text-[#A3A3A3]"
+                  width={18}
+                />
+              </Link>
+            ) : (
+              <FileSliders
+                className="cursor-pointer text-[#A3A3A3]"
+                width={18}
+              />
+            )}
           </div>
         );
       },
     },
   ];
+  useEffect(() => {
+    if (Issued_Certificate?.data && Array.isArray(Issued_Certificate.data)) {
+      const filteredData = Issued_Certificate.data.filter(
+        (item: certificateDataEntity) => {
+          return (
+            item.employee?.name
+              ?.toLowerCase()
+              ?.includes(search?.toLowerCase()) ||
+            item.employee?.email
+              ?.toLowerCase()
+              ?.includes(search?.toLowerCase()) ||
+            item.course?.title?.toLowerCase()?.includes(search?.toLowerCase())
+          );
+        }
+      );
+      setFilteredData(filteredData);
+      console.log(filteredData, "filtered data ========");
+    }
+  }, [search, Issued_Certificate?.data]);
 
   return (
     <div className="bg-white rounded-lg">
@@ -213,23 +223,31 @@ const AllocatedCertificatePage = () => {
         <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] h-[52px] px-4 2xl:py-3 py-2 rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
+            value={search}
             className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
             placeholder="Search by name, course name, certificate name, etc."
+            onChange={(e) => setSearch(e.target.value)}
           ></input>
         </div>
       </div>
-
-      <div className="">
-        <NewDataTable
-          columns={column}
-          data={data}
-          totalPages={data?.length}
-          setPage={setPage}
-          pagination={{ pageIndex: page, pageSize: 10 }}
-          inputbox={false}
-          itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
-        />
-      </div>
+      {isPending ? (
+        <span className="flex justify-center items-center py-10">
+          <Loader className="w-5 h-5 animate-spin" />
+        </span>
+      ) : (
+        <>
+          <div className="">
+            <NewDataTable
+              columns={column}
+              data={filteredData || []}
+              setPage={setPage}
+              inputbox={false}
+              pagination={{ pageIndex: page, pageSize: 10 }}
+              itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

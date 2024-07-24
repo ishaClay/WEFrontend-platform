@@ -4,6 +4,8 @@ import EmployeeCertificate from "@/assets/images/EmployeeCertificate.png";
 import SelectMenu from "../comman/SelectMenu";
 import { useState } from "react";
 import { Label } from "../ui/label";
+import { useNavigate } from "react-router-dom";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 const selectCourseOption = [
   {
     label: "Select Course 1",
@@ -34,6 +36,7 @@ const selectTraineeOption = [
   },
 ];
 const AllocatedCertificateEmployeePage = () => {
+  const navigate = useNavigate();
   const [selectCourse, setSelectCourse] = useState("");
   const [selectTrainee, setSelectTrainee] = useState("");
   return (
@@ -45,15 +48,19 @@ const AllocatedCertificateEmployeePage = () => {
           </h6>
         </div>
         <div className="">
-          <Button className="px-5 py-2 font-medium bg-transparent xl:text-base text-sm text-black font-nunito hover:bg-transparent">
-            <MoveLeft className="me-3" /> Back
-          </Button>
+          <button
+            onClick={() => navigate(-1)}
+            className="text-[16px] flex font-semibold items-center gap-[15px]"
+          >
+            <HiOutlineArrowNarrowLeft />
+            Back
+          </button>
         </div>
       </div>
       <div className="p-5">
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-8 ">
-            <img src={EmployeeCertificate} alt="" className="w-full" />
+            <img src={EmployeeCertificate} alt="logo" className="w-full" />
           </div>
           <div className="col-span-4">
             <div className="border border-[#D9D9D9] rounded-lg mb-5">
