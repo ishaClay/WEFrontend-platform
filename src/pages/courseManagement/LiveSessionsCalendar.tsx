@@ -124,7 +124,7 @@ const LiveSessionsCalendar = () => {
         <div className="flex items-center gap-[20px]">
           <Select value={view} onValueChange={handleViewChange}>
             <SelectTrigger className="w-[100px]">
-              <SelectValue />
+              <SelectValue className="w-[100px]" />
             </SelectTrigger>
             <SelectContent className="w-[100px]">
               <SelectGroup>
@@ -145,9 +145,9 @@ const LiveSessionsCalendar = () => {
 
   return (
     <div className="p-3 bg-white min-h-full">
-      <div className="text-[#606060] text-[15px] mb-2">
+      {/* <div className="text-[#606060] text-[15px] mb-2">
         All the Live Sessions across your courses, in one calender view
-      </div>
+      </div> */}
       <Calendar
         localizer={localizer}
         events={initialEvents}

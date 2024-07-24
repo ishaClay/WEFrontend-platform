@@ -58,7 +58,6 @@ import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionable
 import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
 import MaturityLevelPage from "./pages/MaturityLevelPage";
 import MessagePopup from "./pages/MessagePopup";
-import Messaging from "./pages/Messaging";
 import Module from "./pages/Module";
 import ModuleFrist from "./pages/ModuleFrist";
 import ModulePdf from "./pages/ModulePdf";
@@ -287,14 +286,6 @@ function App() {
           element={
             <ProtectedRoute>
               <IndividualEmployee />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/messaging"
-          element={
-            <ProtectedRoute>
-              <Messaging />
             </ProtectedRoute>
           }
         />
@@ -671,7 +662,6 @@ function App() {
             path="notification/:notificationId"
             element={<Notification />}
           />
-          <Route path="messaging" element={<Messaging />} />
         </Route>
 
         <Route

@@ -11,11 +11,11 @@ const CertificateTemplete = () => {
     queryKey: [QUERY_KEYS.getcertificate],
     queryFn: () => certificateList(UserId),
   });
-  console.log(certificate_data?.data,"data============")
+  console.log(certificate_data?.data, "data============");
   return (
     <div className="bg-white rounded-lg">
       <div className=" md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
-        <div className="p-5 border-b border-[#D9D9D9]">
+        <div className="border-b border-[#D9D9D9]">
           <h6 className="font-nunito text-base font-bold">All Certificate</h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
             All your created certificate templates
@@ -25,7 +25,7 @@ const CertificateTemplete = () => {
       <div className="p-4">
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
           {certificate_data?.data?.map((item, index: number) => {
-            return <CertificateTempleteItems data={item} key={index} />
+            return <CertificateTempleteItems data={item} key={index} />;
           })}
         </div>
       </div>

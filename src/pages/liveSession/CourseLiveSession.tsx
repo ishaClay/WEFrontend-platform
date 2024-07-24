@@ -21,7 +21,13 @@ const CourseLiveSession = () => {
         </h5>
 
         <div className="flex items-center gap-7">
-          <Button className="bg-[#00778B] uppercase text-base">Add New</Button>
+          <Button
+            className={`bg-[#00778B] uppercase text-base ${
+              params === "0" ? "hidden" : "block"
+            }`}
+          >
+            Add New
+          </Button>
           <div className="flex rounded-md bg-white border border-[#D9D9D9] overflow-hidden">
             <Button
               className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] border-e border-[#D9D9D9] hover:bg-[#00778B] hover:text-white ${
