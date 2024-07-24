@@ -1,13 +1,14 @@
-import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import modulePdfFile from "@/assets/images/pdf-file.png";
-import ModuleVideoPlay from "@/assets/images/video-play.png";
+import { Button } from "../ui/button";
 // import moduleZoomVideo from "@/assets/images/zoom-video.png";
-import xlsxFileIcon from "@/assets/images/upload_option_2.png";
-import wordFile from "@/assets/images/word_file.png";
-import { useState } from "react";
-import { CircleX } from "lucide-react";
+
+import { documentIcon, documentType } from "@/lib/utils";
+import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import { useMutation } from "@tanstack/react-query";
+import { CircleX } from "lucide-react";
+import { useState } from "react";
+import ViewSession from "./ViewSession";
 
 type moduleCourseCardListProps = {
   list: {
@@ -21,53 +22,53 @@ type moduleCourseCardListProps = {
   };
 };
 
-const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) => {
+const ModuleCourseViewCardItems = ({
+  list,
+}: moduleCourseCardListProps | any) => {
   const navigate = useNavigate();
+
   const [viewDocument, setViewDocument] = useState(false);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [documentFile, setDocumentFile] = useState("");
-  const documentIcon = (type: string) => {
-    if(type?.split("/")?.[3]?.includes("pdf")){
-      return <img src={modulePdfFile} alt="modulePdfFile" />
-    } else if(type?.split("/")?.[3]?.includes("mp4") || type === "url") {
-      return <img src={ModuleVideoPlay} alt="ModuleVideoPlay" />
-    }else if(type?.split("/")?.[3]?.includes("xlsx")) {
-      return <img src={xlsxFileIcon} alt="xlsxFileIcon" className="h-[32px] grayscale-[1]" />
-    }else if(type?.split("/")?.[3]?.includes("doc")) {
-      return <img src={wordFile} alt="wordFile" className="h-[32px]" />
-    }
-  }
+  const docs = [{ uri: documentFile, fileType: documentType(documentFile) }];
 
-  const documentType = (type: string) => {
-    if(type?.split("/")?.[3]?.includes("pdf")){
-      return "pdf"
-    } else if(type?.split("/")?.[3]?.includes("mp4") || type === "url") {
-      return "mp4"
-    } else if(type?.split("/")?.[3]?.includes("xlsx")) {
-      return "xlsx"
-    } else if(type?.split("/")?.[3]?.includes("doc")) {
-      return "doc"
-    } else if(type?.includes("www.youtube.com")) {
-      return "video"
-    }
-  }
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateEmployeeWiseCourseStatus,
+    onSuccess: (data) => {
+      console.log("data", data);
+      setViewDocument(true);
+      setDocumentFile(list?.url ? list?.url : list?.uploadContent);
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
 
-  const docs = [
-    { uri: documentFile, fileType: documentType(documentFile) },
-  ]
-  const youtubeVideo = documentFile
-  console.log("documentFile", docs, documentFile.includes("www.youtube.com"), documentFile, youtubeVideo);
-  
-  
-  return (
-    !viewDocument ?
+  const handleStatusChanges = (status: number, id: number) => {
+    const payload = {
+      employeeid: userData?.query?.detailsid,
+      status: status,
+    };
+    mutate({ data: payload, courseId: id });
+  };
+
+  return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          {documentIcon(list?.url ? "url" : list?.uploadContent)}
+          <img
+            src={documentIcon(list?.url ? "url" : list?.uploadContent)}
+            alt="documentIcon"
+          />
         </div>
         <div className="">
-          <h5 className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block" 
-          onClick={() => {setViewDocument(true); setDocumentFile(list?.url ? list?.url : list?.uploadContent)}}>
+          <h5
+            className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block"
+            onClick={() => {
+              setViewDocument(true);
+              setDocumentFile(list?.url ? list?.url : list?.uploadContent);
+            }}
+          >
             {list?.title}
           </h5>
           {/* <div className="pb-1">
@@ -81,7 +82,9 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
               {documentType(list?.url ? "url" : list?.uploadContent)}
             </h6>
             <h6 className="text-[#747474] text-xs font-nunito">
-              Duration : {list?.readingTime?.hour?.toString()?.padStart(2, '0')}: {list?.readingTime?.minute?.toString()?.padStart(2, '0')}: {list?.readingTime?.second?.toString()?.padStart(2, '0')}
+              Duration : {list?.readingTime?.hour?.toString()?.padStart(2, "0")}
+              : {list?.readingTime?.minute?.toString()?.padStart(2, "0")}:{" "}
+              {list?.readingTime?.second?.toString()?.padStart(2, "0")}
             </h6>
           </div>
           {/* <div className="sm:flex block items-center">
@@ -103,31 +106,64 @@ const ModuleCourseViewCardItems = ({ list }: moduleCourseCardListProps | any) =>
             Join
           </Button>
         )}
-        {list.status === "completed" && (
+        {list?.isStatus === "Completed" && (
           <Button className="bg-[#64A70B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
             Completed
           </Button>
         )}
-        {list.status === "inprogress" && (
-          <Button className="bg-[#FFD56A] text-black xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
+        {list?.isStatus === "Progress" && (
+          <Button
+            type="button"
+            className="bg-[#FFD56A] text-black xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+          >
             In Progress
           </Button>
         )}
-        {list.status === "start" && (
-          <Button className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
+        {list?.isStatus === "Started" && (
+          <Button
+            type="button"
+            onClick={() => handleStatusChanges(1, list?.id)}
+            isLoading={isPending}
+            className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+          >
             Start
           </Button>
         )}
       </div>
-    </div> : 
+    </div>
+  ) : (
     <div className="absolute top-0 left-0 w-full bg-white z-50">
-      <CircleX className="absolute -top-[25px] right-0 cursor-pointer" onClick={() => {setViewDocument(false); setDocumentFile("")}} />
-      {
-        (documentType(documentFile) === "pdf") ? 
-        <iframe src={documentFile} style={{height: "600px", width: "100%"}} /> 
-        :
-        <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} style={{height: "600px"}} />
-      }
+      {userData?.query?.role !== "4" ? (
+        <>
+          <CircleX
+            className="absolute -top-[25px] right-0 cursor-pointer"
+            onClick={() => {
+              setViewDocument(false);
+              setDocumentFile("");
+            }}
+          />
+          <>
+            {documentType(documentFile) === "pdf" ? (
+              <iframe
+                src={documentFile}
+                style={{ height: "600px", width: "100%" }}
+              />
+            ) : (
+              <DocViewer
+                documents={docs}
+                pluginRenderers={DocViewerRenderers}
+                style={{ height: "600px" }}
+              />
+            )}
+          </>
+        </>
+      ) : (
+        <ViewSession
+          documentFile={documentFile}
+          setDocumentFile={setDocumentFile}
+          setViewDocument={setViewDocument}
+        />
+      )}
     </div>
   );
 };

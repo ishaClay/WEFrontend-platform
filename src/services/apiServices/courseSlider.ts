@@ -27,4 +27,14 @@ export const fetchSingleCourse = async (id: string) => {
     return res.data;
 };
 
-clientwiseCourseSlider
+export const getEmployeeSingeCourse = async ({ courseId, userId }: { courseId: string, userId: string }) => {
+    const url = `api/v1/course/get-by-employee/${courseId}/${userId}`;
+    const res = await api({ url });
+    return res.data;
+}
+
+export const updateEmployeeWiseCourseStatus = async ({ courseId, data }: { courseId: number, data: { employeeid: number, status: number } }) => {
+    const url = `api/v1/course/module/section/status/${courseId}`;
+    const method = "put";
+    return api({ url, method, data });
+}

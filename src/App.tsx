@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
+import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 import Accomplishments from "./components/certifications/Accomplishments";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
@@ -119,7 +120,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -711,7 +711,10 @@ function App() {
             path="notification/:notificationId"
             element={<Notification />}
           />
-          <Route path="employee-basic-course" element={<BasicCoursePage />} />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
           <Route path="live-session" element={<LiveSessionPage />} />
         </Route>
 
@@ -731,10 +734,7 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
-          <Route
-            path="add_assessment"
-            element={<AssecessmentPage />}
-          />
+          <Route path="add_assessment" element={<AssecessmentPage />} />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route
@@ -782,10 +782,7 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
-          <Route
-            path="add_assessment"
-            element={<AssecessmentPage />}
-          />
+          <Route path="add_assessment" element={<AssecessmentPage />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}
@@ -829,7 +826,10 @@ function App() {
             element={<ScheduleLiveSession />}
           />
           <Route path="total-live-sessions" element={<TotalLiveSessions />} />
-          <Route path="live-sessions-calendar" element={<LiveSessionsCalendar />} />
+          <Route
+            path="live-sessions-calendar"
+            element={<LiveSessionsCalendar />}
+          />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />

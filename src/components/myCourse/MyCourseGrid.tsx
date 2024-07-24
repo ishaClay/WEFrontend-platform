@@ -6,6 +6,7 @@ import TimesheetImage from "@/assets/images/Timesheet.png";
 import UniversityImage from "@/assets/images/University.png";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { CourseAllotedEntity } from "@/types/courseManagement";
+import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
@@ -17,7 +18,7 @@ type myPagesListProps = {
 
 const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
   return (
-    <div>
+    <Link to={`/employee/employee-basic-course/${grid.courseVersion?.id}`}>
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
           <img
@@ -129,7 +130,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

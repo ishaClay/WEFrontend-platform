@@ -1,5 +1,9 @@
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchSingleCourse } from "@/services/apiServices/courseSlider";
+import {
+  fetchSingleCourse,
+  getEmployeeSingeCourse,
+} from "@/services/apiServices/courseSlider";
+import { SingleCourseEmployeeResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useState } from "react";
@@ -17,6 +21,7 @@ const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
   console.log("location", courseById);
@@ -24,11 +29,25 @@ const EmployeeBasicCourse = () => {
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () => fetchSingleCourse(courseById),
-    enabled: !!courseById,
+    enabled: !!courseById && userData?.query?.role !== "4",
   });
-  const course = getSingleCourse?.data;
 
-  console.log("getSingleCourse", getSingleCourse?.data);
+  const { data: fetchEmployeeSingeCourse } =
+    useQuery<SingleCourseEmployeeResponse>({
+      queryKey: [QUERY_KEYS.getSingleCourse],
+      queryFn: () =>
+        getEmployeeSingeCourse({
+          courseId: courseById,
+          userId: userData?.query?.id,
+        }),
+      enabled: userData?.query?.role === "4",
+    });
+
+  const course =
+    userData?.query?.role !== "4"
+      ? getSingleCourse?.data
+      : fetchEmployeeSingeCourse?.data;
+  console.log("getSingleCourse", fetchEmployeeSingeCourse, getSingleCourse);
 
   return (
     <>
