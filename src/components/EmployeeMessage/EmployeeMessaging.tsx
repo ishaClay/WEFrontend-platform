@@ -31,7 +31,7 @@ const EmployeeMessaging = () => {
           </PopoverTrigger>
           <PopoverContent
             align="end"
-            className="px-4 pb-4 w-[335px] min-h-[350px]"
+            className="w-[335px] sm:min-h-[350px] min-h-[200px]"
           >
             <EmployeeMessagViewList />
           </PopoverContent>

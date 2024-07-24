@@ -171,9 +171,11 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
                             backgroundColor: chatDPColor(data?.senderId?.id),
                           }}
                         >
-                          {data?.senderId?.name?.charAt(0) +
-                            "" +
-                            data?.senderId?.name?.charAt(1)}
+                          {data?.senderId?.name
+                            ? data?.senderId?.name?.charAt(0) +
+                              "" +
+                              data?.senderId?.name?.charAt(1)
+                            : data?.senderId?.email.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                     </div>
@@ -187,15 +189,17 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
                             backgroundColor: chatDPColor(data?.senderId?.id),
                           }}
                         >
-                          {data?.senderId?.name?.charAt(0) +
-                            "" +
-                            data?.senderId?.name?.charAt(1)}
+                          {data?.senderId?.name
+                            ? data?.senderId?.name?.charAt(0) +
+                              "" +
+                              data?.senderId?.name?.charAt(1)
+                            : data?.senderId?.email.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="max-w-[70%] min-w-[100px] rounded-2xl bg-muted px-3 py-2 text-sm shadow">
                         <p>{data.message}</p>
                         <div className="mt-1 text-xs text-muted-foreground">
-                          2:34 PM
+                          {TimesFormatter(data?.createdAt)}
                         </div>
                       </div>
                     </div>
