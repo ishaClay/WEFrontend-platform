@@ -166,7 +166,7 @@ const CourseBanner = () => {
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <div className="">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="pb-5">
+            <div className="sm:pb-5 pb-[15px]">
               <h6 className="text-[#515151] font-calibri text-base pb-3">
                 Information
               </h6>
@@ -186,29 +186,29 @@ const CourseBanner = () => {
                 />
               )}
             </div>
-            <div className="pb-5">
+            <div className="sm:pb-5 pb-[15px]">
               <h6 className="text-[#515151] font-calibri text-base pb-3">
                 Banner Image
               </h6>
-              <div className="border flex items-center border-[#D9D9D9] p-4 rounded-md">
+              <div className="border flex items-center border-[#D9D9D9] sm:p-4 p-[10px] rounded-md">
                 <div className="">
-                  <div className="md:w-[270px] md:h-[190px] sm:w-[200px] sm:h-[150px] w-[110px] h-[110px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer">
+                  <div className="md:w-[270px] md:h-[190px] sm:w-[200px] sm:h-[150px] w-[100px] h-[100px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer">
                     {isUploading ? (
                       <Loader />
                     ) : image ? (
                       <img src={image} alt="banner" className="w-full h-full" />
                     ) : (
-                      <span className="flex items-center text-[#9E9E9E] gap-2">
+                      <span className="flex sm:flex-row flex-col items-center text-[#9E9E9E] gap-2 sm:text-base text-sm">
                         <Image /> Upload Image
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="xl:w-[40%] text-center ps-4 xl:ps-0">
-                  <h6 className="text-base font-calibri pb-3">
+                <div className="xl:w-[40%] sm:text-center text-left sm:ps-4 ps-[10px] xl:ps-0">
+                  <h6 className="sm:text-base text-sm font-calibri sm:pb-3 pb-2">
                     Size: 1024x768 pixels Max size 500KB
                   </h6>
-                  <h6 className="text-base font-calibri pb-3">
+                  <h6 className="sm:text-base text-sm font-calibri pb-3">
                     File Support: jpg, .jpeg
                   </h6>
                   <input
@@ -224,8 +224,8 @@ const CourseBanner = () => {
                       htmlFor="file"
                       className="cursor-pointer inline-block"
                     >
-                      <div className="flex items-center justify-center max-w-[160px] mx-auto rounded-[5px] text-white bg-[#42A7C3] px-4 py-3">
-                        <Image className="me-2" />
+                      <div className="flex items-center justify-center sm:w-[140px] w-[130px] sm:h-[42px] h-[38px] mx-auto rounded-[5px] text-white bg-[#42A7C3] sm:text-base text-sm">
+                        <Image className="sm:me-1 me-[6px] sm:w-auto w-[14px]" />
                         Upload Photo
                       </div>
                     </label>
@@ -236,7 +236,7 @@ const CourseBanner = () => {
                 <ErrorMessage message={"Banner image is required"} />
               )}
             </div>
-            <div className="pb-5">
+            <div className="">
               <h6 className="text-[#515151] font-calibri text-base pb-3">
                 Key Outcomes
               </h6>
@@ -257,6 +257,7 @@ const CourseBanner = () => {
               <Button
                 type="submit"
                 className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+                disabled={isPending || isUpdatePending}
               >
                 {isPending || isUpdatePending ? (
                   <Loader containerClassName="h-auto" />
@@ -267,6 +268,18 @@ const CourseBanner = () => {
             </div>
           </form>
         </div>
+      </div>
+      <div className="sm:text-right text-center sm:mt-5 mt-[15px]">
+        <Button
+          type="submit"
+          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+        >
+          {isPending || isUpdatePending ? (
+            <Loader containerClassName="h-auto" />
+          ) : (
+            "Next"
+          )}
+        </Button>
       </div>
     </>
   );

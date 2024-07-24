@@ -33,7 +33,7 @@ const TeamProgresslist = ({ data }: ProgressList) => {
           <h6 className="text-left text-base text-black font-abhaya font-semibold">
             Action Items
           </h6>
-          <ul className="flex sm:gap-4 gap-2">
+          <ul className="flex md:flex-nowrap flex-wrap sm:gap-4 gap-2">
             <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-black">
               Assigned
               <span className="block">{data?.measureStatus?.assigned}</span>

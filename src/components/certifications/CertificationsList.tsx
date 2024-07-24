@@ -1,12 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { EmployeeCertificationResult } from "@/types/certificate";
 
 type certificationListProps = {
-  data: {
-    image: string;
-    module: string;
-    title: string;
-  };
+  data: EmployeeCertificationResult;
 };
 
 const CertificationsList = ({ data }: certificationListProps) => {
@@ -17,17 +14,21 @@ const CertificationsList = ({ data }: certificationListProps) => {
         <div className="flex items-center sm:col-span-6 col-span-7">
           <div className="sm:min-w-[100px] sm:w-[100px] min-w-[50px] w-[50px] sm:min-h-[100px] sm:h-[100px] min-h-[50px] h-[50px] sm:mr-5 mr-[10px]">
             <img
-              src={data.image}
+              src={data?.course?.bannerImage}
               alt=""
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
           <div>
             <h6 className="sm:text-sm text-xs font-normal font-nunito leading-5 text-[#000000] sm:pb-2 pb-[6px]">
-              {data.module}
+              {data?.course?.courseData?.map(
+                (item) => item?.fetchPillar?.pillarName + " | "
+              )}{" "}
+              <br />
+              {data?.course?.module} modules
             </h6>
             <p className="sm:text-sm text-xs font-medium font-inter leading-4 sm:line-clamp-3 line-clamp-2 text-[#1D2026]">
-              {data.title}
+              {data.course.title}
             </p>
           </div>
         </div>

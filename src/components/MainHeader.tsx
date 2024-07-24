@@ -1,7 +1,10 @@
 import { SidebarContext } from "@/context/Sidebarcontext";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
+import { LogOut } from "@/services/apiServices/authService";
 import { fetchNotificationCount } from "@/services/apiServices/notificationServices";
+import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AlignLeft } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
@@ -10,6 +13,7 @@ import { VscBellDot } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import Logo2 from "../assets/images/logo2.png";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
+import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
 import DrawerPage from "./DrawerPage";
 import { SidebarItem } from "./layouts/DashboardLayout";
@@ -21,11 +25,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { LogOut } from "@/services/apiServices/authService";
 import { toast } from "./ui/use-toast";
-import Loading from "./comman/Error/Loading";
-import { ResponseError } from "@/types/Errors";
-import { useAppSelector } from "@/hooks/use-redux";
 type mainHeraderProps = {
   title: {
     link?: string;
@@ -219,7 +219,9 @@ const MainHeader = ({ title }: mainHeraderProps) => {
                     >
                       Account Setting
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Log Out</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      Log Out
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

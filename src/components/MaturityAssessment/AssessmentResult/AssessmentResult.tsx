@@ -194,7 +194,7 @@ const AssessmentResult = ({
               <div
                 className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
               ></div>
-              <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
+              <div className="sm:text-base text-sm text-black font-nunito rounded-r-lg ms-[-30px]">
                 {label?.maturityLevelName}
                 <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span>
               </div>

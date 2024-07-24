@@ -189,16 +189,18 @@ function CourseViewAllocatePopup({
   };
 
   const selectInviteEmployee = (employeeId: any) => {
-    if (employeeId === 'all') {
+    if (employeeId === "all") {
       if (selectedEmployee.length === mergedArray?.length) {
         setSelectedEmployee([]);
       } else {
-        const allEmployeeIds = mergedArray?.map((employee:any) => employee.id);
+        const allEmployeeIds = mergedArray?.map((employee: any) => employee.id);
         setSelectedEmployee(allEmployeeIds || []);
       }
     } else {
       if (selectedEmployee?.includes(employeeId)) {
-        setSelectedEmployee(selectedEmployee?.filter(id => id !== employeeId));
+        setSelectedEmployee(
+          selectedEmployee?.filter((id) => id !== employeeId)
+        );
       } else {
         setSelectedEmployee([...selectedEmployee, employeeId]);
       }
@@ -209,32 +211,32 @@ function CourseViewAllocatePopup({
     <Modal
       open={isOpen}
       onClose={handleClose}
-      className="max-w-[800px] w-full overflow-y-auto max-h-full"
+      className="lg:max-w-[800px] md:max-w-[700px] sm:max-w-[580px] max-w-[350px] w-full overflow-y-auto max-h-full rounded-lg sm:p-[22px] p-[15px]"
     >
       {isPending ? (
         <Loader />
       ) : (
         <div className="bg-white rounded-lg">
-          <div className=" border-b-2 pb-[10px]">
-            <div className="flex overflow-hidden rounded">
+          <div className="border-b-2 pb-[10px]">
+            <div className="sm:flex block overflow-hidden rounded">
               <img
-                className="w-[204px] h-[189px] rounded object-cover object-center"
+                className="md:w-[204px] md:h-[192px] sm:w-[190px] sm:h-[170px] w-full h-[250px] rounded object-cover object-center"
                 src={courseData?.courseVersion?.course?.bannerImage}
                 alt="Course"
               />
 
-              <div className="flex flex-col ml-[15px]">
+              <div className="flex flex-col sm:ml-[15px] sm:mt-0 mt-3">
                 <div className="flex items-start justify-between">
-                  <span className="text-[#1D2026] text-xl font-bold">
+                  <span className="text-[#1D2026] md:text-2xl text-lg font-bold">
                     {courseData?.courseVersion?.course?.title}
                   </span>
                 </div>
 
                 <div>
-                  <div className="flex items-center flex-wrap mt-[10px] ml-[2px] gap-4">
-                    <div className="flex items-center gap-4">
+                  <div className="flex items-center flex-wrap sm:mt-[10px] mt-[6px] ml-[2px] md:gap-4 gap-2">
+                    <div className="flex items-center gap-2">
                       <FaStar className="text-[#FD8E1F]" />
-                      <span className="text-[#8C94A3] font-semibold leading-[22px] text-sm mt-0.5 ml-1">
+                      <span className="text-[#8C94A3] leading-[22px] text-sm">
                         RECOMMENDED
                       </span>
                     </div>
@@ -249,7 +251,7 @@ function CourseViewAllocatePopup({
                         </div>
                       );
                     })} */}
-                    <p className="flex items-center gap-4">
+                    <p className="flex items-center gap-2">
                       <img
                         className="w-[18px]"
                         src={getImages("Social", false)}
@@ -257,7 +259,7 @@ function CourseViewAllocatePopup({
                       />
                       Social
                     </p>
-                    <p className="flex items-center gap-4">
+                    <p className="flex items-center gap-2">
                       <img
                         className="w-[20px]"
                         src={getImages("Technology & Innovation", false)}
@@ -265,22 +267,22 @@ function CourseViewAllocatePopup({
                       />
                       Technology & Innovation
                     </p>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
                       <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
-                      <span className="text-[black] font-bold text-sm mt-0.5">
+                      <span className="text-[black] font-bold text-base mt-0.5">
                         4.5
                       </span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
                       <MdOutlineGroup />
-                      <p className="text-[#A3A3A3] text-[13px]">
+                      <p className="text-[#A3A3A3] text-base">
                         {courseData?.numberOfEmployee || 0} Employee
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center flex-wrap gap-4 mt-[17px]">
+                <div className="flex items-center flex-wrap md:gap-4 gap-2 mt-[17px]">
                   <div className="flex items-center gap-1">
                     <img
                       className=" h-[16] w-[18px]"
@@ -347,29 +349,35 @@ function CourseViewAllocatePopup({
           <div>
             {isInvite ? (
               <div className="pt-[10px]">
-                <h5 className="text-[16px] font-calibri font-bold leading-5 mb-[30px]">
-                  Invite Team Member
-                </h5>
+                <div className="mb-3">
+                  <h5 className="text-[16px] font-calibri font-bold leading-5 pb-[6px]">
+                    Invite Team Member
+                  </h5>
+                  <p className="text-[15px] text-[#606060] font-semibold">
+                    Drop them an invite so they can join with their sleeves
+                    rolled
+                  </p>
+                </div>
                 <form onSubmit={handleSubmit(handleInviteEmployee)}>
                   <div className="grid grid-cols-2 gap-x-[29px] gap-y-[18px]">
-                    <div className="col-span-1">
+                    <div className="sm:col-span-1 col-span-2">
                       <InputWithLabel
                         type="text"
                         label="First Name"
-                        className="font-nunito mt-[8px] text-[#000000] text-[16px]"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
                         placeholder="Enter First Name"
-                        labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
                         {...register("fname")}
                         error={errors?.fname?.message as string}
                       />
                     </div>
-                    <div className="col-span-1">
+                    <div className="sm:col-span-1 col-span-2">
                       <InputWithLabel
                         type="text"
                         label="Last Name"
                         placeholder="Enter Last Name"
-                        className="font-nunito mt-[8px] text-[#000000] text-[16px]"
-                        labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
                         {...register("lname")}
                         error={errors?.lname?.message as string}
                       />
@@ -379,8 +387,8 @@ function CourseViewAllocatePopup({
                         type="text"
                         label="Team Member Email"
                         placeholder="Enter email id"
-                        className="font-nunito mt-[8px] text-[#000000] text-[16px]"
-                        labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
                         {...register("email")}
                         error={errors?.email?.message as string}
                       />
@@ -389,8 +397,8 @@ function CourseViewAllocatePopup({
                       <TextAreaWithLabel
                         label="Invitation Details"
                         placeholder="Enter Details"
-                        className="font-nunito text-[#000000] text-[16px]"
-                        labelClassName="text-[#000000] text-[16px] font-nunito leading-[22px]"
+                        className="font-nunito text-[#000000] sm:text-[16px] text-[14px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
                         isLength={false}
                         {...register("message")}
                         error={errors?.message?.message as string}
@@ -400,7 +408,7 @@ function CourseViewAllocatePopup({
                   <div className="w-full flex items-center justify-end mt-[20px]">
                     <Button
                       type="submit"
-                      className="bg-[#58BA66] text-white px-4 py-2 rounded mt-[5px]"
+                      className="bg-[#58BA66] text-white w-[100px] sm:h-[52px] h-[45px] rounded mt-[5px] text-base"
                     >
                       {isInvitePending ? (
                         <Loader containerClassName="h-auto" />
@@ -414,7 +422,7 @@ function CourseViewAllocatePopup({
             ) : (
               <>
                 <div className="flex items-center justify-between p-4 pb-0">
-                  <h2 className="text-[15px] font-bold">Employees</h2>
+                  <h2 className="text-base font-bold">Employees</h2>
                   <div className="flex items-center">
                     <label className="font-bold mr-[10px]">Select All</label>
                     <input
@@ -422,13 +430,12 @@ function CourseViewAllocatePopup({
                       name="all"
                       className="h-[18px] w-[18px] rounded"
                       checked={selectedEmployee.length === mergedArray?.length}
-                      onChange={() => selectInviteEmployee('all')}
+                      onChange={() => selectInviteEmployee("all")}
                     />
                   </div>
                 </div>
                 <div className="p-4 max-h-[350px] overflow-auto">
-                  {mergedArray &&
-                    mergedArray?.length > 0 ?
+                  {mergedArray && mergedArray?.length > 0 ? (
                     mergedArray?.map((employee) => (
                       <div
                         key={employee.id}
@@ -438,10 +445,13 @@ function CourseViewAllocatePopup({
                           <Avatar>
                             <AvatarImage src={employee.profileImage} />
                             <AvatarFallback>
-                              {employee.name?.charAt(0) || employee.email?.charAt(0)?.toUpperCase()}
+                              {employee.name?.charAt(0) ||
+                                employee.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span>{employee.name || employee.email.split("@")?.[0]}</span>
+                          <span>
+                            {employee.name || employee.email.split("@")?.[0]}
+                          </span>
                         </div>
                         <input
                           type="checkbox"
@@ -451,19 +461,22 @@ function CourseViewAllocatePopup({
                           className="h-[18px] w-[18px] rounded"
                         />
                       </div>
-                    )) : <span className="text-center block">No data found</span> }
+                    ))
+                  ) : (
+                    <span className="text-center block">No data found</span>
+                  )}
                 </div>
                 <div className="w-full flex items-center justify-between mt-2">
                   <Button
                     type="button"
-                    className="bg-[#00778B] text-white px-4 py-2 rounded mt-[5px]"
+                    className="bg-[#00778B] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                     onClick={showInviteForm}
                   >
                     Invite Member
                   </Button>
                   <Button
                     type="button"
-                    className="bg-[#58BA66] text-white px-4 py-2 rounded mt-[5px]"
+                    className="bg-[#58BA66] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                     onClick={handleAllocation}
                   >
                     {isAllocatePending ? (

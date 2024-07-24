@@ -4,14 +4,16 @@ import AssecessmentModuleSection from "./AssecessmentModuleSection";
 import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
 import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
 import AssecessmentTypeThree from "./AssecessmentType/AssecessmentTypeThree/AssecessmentTypeThree";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Modal from "@/components/comman/Modal";
 import AssessmentModal from "../courseCreation/courseView/AssessmentModal";
-import { useParams } from "react-router-dom";
+import { useAppSelector } from "@/hooks/use-redux";
+import { RootState } from "@/redux/store";
 
 const AssecessmentPage = () => {
-  const { assessmentType } = useParams();
-
+  const { selectedQuestionType } = useAppSelector(
+    (state: RootState) => state.assessment
+  );
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
   return (
     <div className="bg-white rounded-lg">
@@ -31,9 +33,14 @@ const AssecessmentPage = () => {
       </div>
       <div className="p-5">
         <AssecessmentModuleSection />
-        {assessmentType === "multiplechoicequestion" && <AssecessmentTypeTwo />}
-        {assessmentType === "singlechoicequestion" && <AssecessmentTypeOne />}
-        {assessmentType === "hotspoting" && <AssecessmentTypeThree />}
+
+        {selectedQuestionType?.map((type: string, index: number) => (
+          <Fragment key={index}>
+            {type === "MultipleChoiceQuestion" && <AssecessmentTypeTwo />}
+            {type === "SingleChoiceQuestion" && <AssecessmentTypeOne i={index} type={type} />}
+            {type === "HotSpoting" && <AssecessmentTypeThree />}
+          </Fragment>
+        ))}
 
         <div className="text-right">
           <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
@@ -47,7 +54,7 @@ const AssecessmentPage = () => {
         onClose={() => setIsOpenAssessmentModal(false)}
         className="max-w-3xl p-0"
       >
-        <AssessmentModal />
+        <AssessmentModal setIsOpenAssessmentModal={setIsOpenAssessmentModal} />
       </Modal>
     </div>
   );

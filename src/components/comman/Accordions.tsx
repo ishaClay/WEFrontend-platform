@@ -21,6 +21,7 @@ type AccordionsProps = {
   itemsClass?: string;
   isPlusIcon?: boolean;
   customIconClassName?: string;
+  contentClassName?: string;
 };
 
 const Accordions = ({
@@ -36,6 +37,7 @@ const Accordions = ({
   triggerClassName,
   isPlusIcon,
   customIconClassName,
+  contentClassName,
 }: AccordionsProps) => {
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
@@ -75,7 +77,9 @@ const Accordions = ({
                   orientation="horizontal"
                 />
               )}
-              <AccordionContent>{item.content}</AccordionContent>
+              <AccordionContent className={contentClassName}>
+                {item.content}
+              </AccordionContent>
             </AccordionItem>
           );
         })}

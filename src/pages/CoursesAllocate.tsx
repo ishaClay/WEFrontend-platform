@@ -51,10 +51,10 @@ function CoursesAllocate() {
 
   return (
     <div className="bg-[#f5f3ff]">
-      <div className="p-3">
+      <div className="">
         <div className="bg-[#FFFFFF] h-full rounded-[10px] overflow-auto">
-          <div className=" pt-[10px] pl-[30px] pr-[20px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
-            <div className="flex items-center justify-between ">
+          <div className="pt-[10px] sm:pl-[30px] pl-[15px] sm:h-[60px] h-auto bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[50px]">
+            <div className="sm:flex block items-center justify-between ">
               <h1 className="text-[16px] font-semibold">Course Allocation</h1>
               <div className="flex items-center">
                 <label htmlFor="filter" className="mr-2">
@@ -64,7 +64,7 @@ function CoursesAllocate() {
                   value={statusFilter}
                   onValueChange={(e) => setStatusFilter(e)}
                 >
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="border sm:w-[264px] w-[200px] h-[42px] rounded mr-4 sm:my-0 my-3">
                     <SelectValue placeholder="Pending" />
                   </SelectTrigger>
                   <SelectContent>
@@ -85,28 +85,28 @@ function CoursesAllocate() {
               return (
                 <>
                   <div key={courseallocate.id} className="p-4">
-                    <div className="p-5 bg-[#FFFFFF] flex justify-between items-center border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm">
-                      <div className="flex gap-[17px] w-[calc(100%-150px)]">
-                        <div className="overflow-hidden rounded">
+                    <div className="sm:p-5 p-[15px] bg-[#FFFFFF] border [&:not(:last-child)]:mb-5 border-[#D9D9D9] rounded-md shadow-sm grid grid-cols-12 items-center">
+                      <div className="sm:flex block gap-[17px] xl:col-span-10 col-span-12">
+                        <div className="overflow-hidden rounded sm:min-w-[152px] sm:w-[152px] sm:min-h-[152px] sm:h-[152px] w-full">
                           <img
                             src={
                               courseallocate?.courseVersion?.course?.bannerImage
                             }
                             alt="img"
-                            className="w-[152px] xl:h-[152px] h-[100px] rounded-md"
+                            className="w-full h-full rounded-md"
                           />
                         </div>
 
-                        <div className="flex flex-col w-[calc(100%-300px)]">
+                        <div className="flex flex-col">
                           <div>
-                            <div className="flex items-center mt-[10px] ml-[2px] gap-4">
-                              <div className="flex items-center gap-4">
+                            <div className="flex 2xl:flex-nowrap flex-wrap items-center mt-[10px] ml-[2px] 2xl:gap-7 xl:gap-4 gap-2">
+                              <div className="flex items-center gap-2">
                                 <FaStar className="text-[#FD8E1F]" />
                                 <span className="text-[#8C94A3] font-semibold leading-[22px] text-sm mt-0.5 ml-1">
                                   RECOMMENDED
                                 </span>
                               </div>
-                              <p className="flex items-center gap-4">
+                              <p className="flex items-center gap-3">
                                 <img
                                   className="w-[18px]"
                                   src={getImages("Social", false)}
@@ -114,7 +114,7 @@ function CoursesAllocate() {
                                 />
                                 Social
                               </p>
-                              <p className="flex items-center gap-4">
+                              <p className="flex items-center gap-3">
                                 <img
                                   className="w-[20px]"
                                   src={getImages(
@@ -125,32 +125,22 @@ function CoursesAllocate() {
                                 />
                                 Technology & Innovation
                               </p>
-                              <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-3">
                                 <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                                 <span className="text-[black] font-bold text-sm mt-0.5">
                                   4.5
                                 </span>
                               </div>
-                              <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-3">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {courseallocate?.numberOfEmployee || 0}{" "}
-                                  Employee
+                                  {course?.data?.employee?.length || 0} Employee
                                 </p>
                               </div>
                             </div>
                           </div>
 
-                          <div
-                            className="mt-[18px]"
-                            style={{
-                              fontFamily: "Inter",
-                              fontSize: "16px",
-                              fontWeight: 500,
-                              lineHeight: "22px",
-                              textAlign: "left",
-                            }}
-                          >
+                          <div className="xl:mt-[18px] mt-3 font-inter sm:text-base text-sm font-medium leading-[22px] text-left">
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
@@ -161,7 +151,7 @@ function CoursesAllocate() {
                             ></span>
                           </div>
 
-                          <div className="flex items-center gap-4 mt-[17px]">
+                          <div className="flex flex-wrap items-center sm:gap-4 gap-2 sm:mt-[17px] mt-3">
                             <div className="flex items-center gap-1">
                               <img
                                 className=" h-[16] w-[18px]"
@@ -233,12 +223,12 @@ function CoursesAllocate() {
                                 src={institute}
                                 alt="institute"
                               />
-                              <p className="text-xs max-w-[400px] w-full break-all">
+                              <p className="text-xs">
                                 {courseallocate?.courseVersion.course.institute}
                               </p>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-[-10px] mt-[10px]">
+                          <div className="flex items-center space-x-[-10px] mt-[15px]">
                             {courseallocate?.employee &&
                               courseallocate?.employee?.length > 0 &&
                               courseallocate?.employee
@@ -264,11 +254,15 @@ function CoursesAllocate() {
                                             />
                                             <AvatarFallback
                                               delayMs={600}
+                                              className="uppercase"
                                               style={{
                                                 backgroundColor: color[index],
                                               }}
                                             >
-                                              12{avatar?.name?.charAt(0)}
+                                              {avatar?.name?.charAt(0) ||
+                                                avatar?.email
+                                                  ?.split("@")[0]
+                                                  ?.charAt(0)}
                                             </AvatarFallback>
                                           </Avatar>
                                         </TooltipTrigger>
@@ -292,9 +286,9 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      {statusFilter === "1" && (
+                      <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
                         <Button
-                          className="bg-[#64A70B] 2xl:px-7 px-3 xl:py-5 py-1 2xl:mx-2 mx-1 xl:my-0 my-1"
+                          className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"
                           onClick={() => {
                             setPopupOpen(true);
                             setOpenId(courseallocate?.id);
@@ -302,7 +296,7 @@ function CoursesAllocate() {
                         >
                           View Allocation
                         </Button>
-                      )}
+                      </div>
                     </div>
                   </div>
 

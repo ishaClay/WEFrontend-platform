@@ -9,6 +9,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { useToast } from "./ui/use-toast";
 import { ErrorType } from "@/types/Errors";
 import { useSelector } from "react-redux";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface RecommendedCoursesModelProps {
   isLoading: boolean;
@@ -16,23 +17,29 @@ interface RecommendedCoursesModelProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesModelProps) => {
+const RecommendedCoursesModel = ({
+  isLoading,
+  data,
+  setOpen,
+}: RecommendedCoursesModelProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { CompanyId } = useSelector((state: any) => state.user);
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
   const [itemList, setItemList] = useState<number[]>([]);
-  const [selectCourseByIndex, setSelectCourseByIndex] = useState<number | string>("");
+  const [selectCourseByIndex, setSelectCourseByIndex] = useState<
+    number | string
+  >("");
   const [selectCourse, setSelectCourse] = useState("");
 
   useEffect(() => {
-    if(data){
+    if (data) {
       const initialItemList = data?.map(() => 1);
       setItemList(initialItemList);
     }
   }, [data]);
 
-  const handleIncrement = (index: number) => {    
+  const handleIncrement = (index: number) => {
     if (index === selectCourseByIndex) {
       setItemList((prev) =>
         prev.map((item, idx) => (idx === index ? item + 1 : item))
@@ -43,7 +50,7 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
         prev.map((item, idx) => (idx === index ? item + 1 : item))
       );
     }
-  };  
+  };
 
   const handleDecrement = (index: number) => {
     if (index === selectCourseByIndex && itemList[index] > 0) {
@@ -53,12 +60,17 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
     }
   };
 
-  const filterOption = data?.[0]?.currentVersion?.cohortGroup?.map((item, index) => {
-    return {
-      label: `Cohort ${index + 1} : Start ${item?.slotStartDate?.date}/${item?.slotStartDate?.month}/${item?.slotStartDate?.year} End ${item?.slotEndDate?.date}/${item?.slotEndDate?.month}/${item?.slotEndDate?.year}`,
-      value: String(item?.id),
-    }
-  }) || [];
+  const filterOption =
+    data?.[0]?.currentVersion?.cohortGroup?.map((item, index) => {
+      return {
+        label: `Cohort ${index + 1} : Start ${item?.slotStartDate?.date}/${
+          item?.slotStartDate?.month
+        }/${item?.slotStartDate?.year} End ${item?.slotEndDate?.date}/${
+          item?.slotEndDate?.month
+        }/${item?.slotEndDate?.year}`,
+        value: String(item?.id),
+      };
+    }) || [];
 
   const { mutate: enrollRequest, isPending } = useMutation({
     mutationFn: fetchEnroll,
@@ -91,116 +103,124 @@ const RecommendedCoursesModel = ({isLoading, data, setOpen}: RecommendedCoursesM
     });
   };
 
-  return (
-    isLoading ? <span className="h-full flex items-center justify-center"><Loader2 className="w-7 h-7 animate-spin" /></span> : 
-    data?.length > 0 ? <div>
-      {data.map((courseList, index: number) => {
-        return (
-          <div key={index}>
-            <div className="border border-[#D9D9D9] p-5 mb-6 rounded-md">
-              <div className="flex justify-between pb-[18px]">
-                <div className="flex items-center text-base font-normal font-calibri text-[#000]">
-                  <input
-                    type="radio"
-                    value="button"
-                    name="course"
-                    className="w-6 h-6 mr-2"
-                    onChange={() => setSelectCourse(index?.toString())}
-                  />
-                  {courseList?.isDiscounted ? "With Discount" : "Without Discount"}
+  return isLoading ? (
+    <span className="h-full flex items-center justify-center">
+      <Loader2 className="w-7 h-7 animate-spin" />
+    </span>
+  ) : data?.length > 0 ? (
+    <div>
+      <ScrollArea className="md:h-[500px] h-[400px]">
+        {data.map((courseList, index: number) => {
+          return (
+            <div key={index}>
+              <div className="border border-[#D9D9D9] md:p-5 p-3 mb-6 rounded-md">
+                <div className="flex sm:flex-row flex-col sm:gap-0 gap-2 justify-between pb-[18px]">
+                  <div className="flex items-center text-base font-normal font-calibri gap-2 text-[#000]">
+                    <input
+                      type="radio"
+                      value="button"
+                      name="course"
+                      className="md:w-6 w-4 md:h-6 h-4"
+                      onChange={() => setSelectCourse(index?.toString())}
+                    />
+                    {courseList?.isDiscounted
+                      ? "With Discount"
+                      : "Without Discount"}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p className="text-base font-calibri leading-5">
+                      Course Price :{" "}
+                    </p>
+                    <span className="font-calibri font-bold text-base leading-5 text-[#000]">
+                      € {courseList?.price}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <p className="text-base font-calibri leading-5">
-                    Course Price :{" "}
-                  </p>
-                  <span className="font-calibri font-bold text-base leading-5 text-[#000]">
-                    € {courseList?.price}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-7">
-                <div>
-                  <img
-                    src={courseList?.bannerImage}
-                    alt=""
-                    className="min-w-[143px] min-h-[143px] w-[143px] h-[143px] rounded-md object-cover"
-                  />
-                </div>
-                <div>
-                  <h6 className="font-bold text-2xl font-calibri leading-7">
-                    {courseList?.title}
-                  </h6>
-                  <div className="flex items-center gap-6 mt-3">
-                    <div>
-                      <p className="text-base font-normal font-calibri leading-5 pb-[6px]">
-                        Number of Employee
-                      </p>
-                      <div className="inline-flex items-center border border-[#D9D9D9]">
-                        <Button
-                          className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r border-[#D9D9D9]"
-                          onClick={() => handleIncrement(index)}
-                        >
-                          <Plus />
-                        </Button>
-                        <input
-                          type="number"
-                          value={itemList[index]}
-                          min={0}
-                          onChange={(e) =>
-                            setItemList((prevItemList) =>
-                              prevItemList?.map((item:any, idx:number) =>
-                                idx === index
-                                  ? parseInt(e.target.value) || 0
-                                  : item
+                <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-7 gap-4">
+                  <div className="sm:min-w-[143px] sm:min-h-[143px] sm:w-[143px] sm:h-[143px] w-full">
+                    <img
+                      src={courseList?.bannerImage}
+                      alt=""
+                      className=" rounded-md object-cover h-full w-full"
+                    />
+                  </div>
+                  <div className="">
+                    <h6 className="font-bold md:text-2xl text-lg font-calibri leading-7">
+                      {courseList?.title}
+                    </h6>
+                    <div className="flex sm:flex-row flex-col sm:items-center items-start gap-6 mt-3">
+                      <div>
+                        <p className="text-base font-normal font-calibri leading-5 pb-[6px]">
+                          Number of Employee
+                        </p>
+                        <div className="inline-flex items-center border border-[#D9D9D9]">
+                          <Button
+                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r border-[#D9D9D9]"
+                            onClick={() => handleIncrement(index)}
+                          >
+                            <Plus />
+                          </Button>
+                          <input
+                            type="number"
+                            value={itemList[index]}
+                            min={0}
+                            onChange={(e) =>
+                              setItemList((prevItemList) =>
+                                prevItemList?.map((item: any, idx: number) =>
+                                  idx === index
+                                    ? parseInt(e.target.value) || 0
+                                    : item
+                                )
                               )
-                            )
-                          }
-                          className="w-[88px] h-[42px] text-center"
-                        />
-                        <Button
-                          className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"
-                          onClick={() => handleDecrement(index)}
-                        >
-                          <Minus />
-                        </Button>
+                            }
+                            className="w-[88px] h-[42px] text-center"
+                          />
+                          <Button
+                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"
+                            onClick={() => handleDecrement(index)}
+                          >
+                            <Minus />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <p className="text-base font-normal font-calibri leading-5">
-                        Total Price :{" "}
-                      </p>
-                      <span className="text-base font-calibri font-bold leading-5">
-                        € {courseList?.price * itemList[index]}
-                      </span>
+                      <div className="flex items-center gap-1">
+                        <p className="text-base font-normal font-calibri leading-5">
+                          Total Price :{" "}
+                        </p>
+                        <span className="text-base font-calibri font-bold leading-5">
+                          € {courseList?.price * itemList[index]}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-      <div className="flex justify-between">
-        <div>
-          <SelectMenu
-            option={filterOption}
-            setValue={(data: string) => setSelectFilterByCategory(data)}
-            value={selectFilterByCategory}
-            className="w-[391px] h-[52px] font-inter text-black border border-[#D9D9D9] text-base font-normal"
-            itemClassName="text-base font-medium font-inter"
-            placeholder="Select Cohort"
-          />
-        </div>
-        <div>
-          <Button className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] h-[52px]"
-            onClick={handleEnrollementRequest}
-            disabled={isPending}
-            >
-            {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
-          </Button>
-        </div>
+          );
+        })}
+      </ScrollArea>
+      <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-4">
+        <SelectMenu
+          option={filterOption}
+          setValue={(data: string) => setSelectFilterByCategory(data)}
+          value={selectFilterByCategory}
+          className="md:w-[391px] sm:w-[350px] w-[300px] sm:h-[52px] h-12 font-inter text-black border border-[#D9D9D9] sm:text-base text-sm font-normal"
+          itemClassName="text-base font-medium font-inter"
+          placeholder="Select Cohort"
+        />
+        <Button
+          className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
+          onClick={handleEnrollementRequest}
+          disabled={isPending}
+        >
+          {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
+        </Button>
       </div>
-    </div> : <span className="flex items-center justify-center text-xl">No data found</span>
+    </div>
+  ) : (
+    <span className="flex items-center justify-center text-xl">
+      No data found
+    </span>
   );
 };
 

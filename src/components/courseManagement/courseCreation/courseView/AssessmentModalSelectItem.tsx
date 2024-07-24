@@ -1,31 +1,48 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setQuestionType } from "@/redux/reducer/AssessmentReducer";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-const AssessmentModalSelectItem = ({ data, moduleId }: any) => {
+interface ModalItemProps {
+  setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
+  moduleId?: string;
+  data: any[];
+}
+
+const AssessmentModalSelectItem = ({
+  data,
+  moduleId,
+  setIsOpenAssessmentModal,
+}: ModalItemProps) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-  const { courseId } = useParams()
-  
+  const { courseId } = useParams();
 
   const handleButtonClick = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const queryParams: { [key: string]: string | null } = {};
-    for (const param of searchParams.keys()) {
-      queryParams[param] = searchParams.get(param);
+    if (!location.pathname.includes("add_assessment")) {
+      const searchParams = new URLSearchParams(window.location.search);
+      const queryParams: { [key: string]: string | null } = {};
+      for (const param of searchParams.keys()) {
+        queryParams[param] = searchParams.get(param);
+      }
+
+      if (courseId) {
+        queryParams["courseId"] = courseId;
+      }
+
+      if (moduleId) {
+        queryParams["moduleId"] = moduleId;
+      }
+      navigate(
+        `/${currentUser}/add_assessment/?` +
+          new URLSearchParams(queryParams as any).toString()
+      );
     }
 
-    if (courseId) {
-      queryParams['courseId'] = courseId;
-    }
-    
-    if (moduleId) {
-      queryParams['moduleId'] = moduleId;
-    }
-
-    navigate(
-      `/${currentUser}/add_assessment/${data[0]?.toLowerCase()}?` +
-        new URLSearchParams(queryParams as any).toString()
-    );
+    dispatch(setQuestionType(data[0]));
+    setIsOpenAssessmentModal(false);
   };
 
   return (

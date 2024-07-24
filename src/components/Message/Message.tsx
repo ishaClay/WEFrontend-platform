@@ -139,7 +139,7 @@ const Message = () => {
   };
 
   const currentChat = chatUserList?.data?.data?.find(
-    (item: GetChatUserList) => item?.id === chatId
+    (item) => item?.id === chatId
   );
 
   useEffect(() => {
@@ -248,16 +248,16 @@ const Message = () => {
             {chatId && UserId ? (
               <div className="flex items-center">
                 <Avatar className="w-8 h-8">
-                  <AvatarImage src={currentChat?.image} />
+                  <AvatarImage src={currentChat?.image || ""} />
                   <AvatarFallback
                     className="text-white text-xl"
                     style={{ background: chatDPColor(+chatId) }}
                   >
                     {chatUserList?.data?.data
-                      ?.find((item: GetChatUserList) => item?.id === chatId)
+                      ?.find((item) => item?.id === chatId)
                       ?.name?.[0]?.toUpperCase() ||
                       chatUserList?.data?.data
-                        ?.find((item: GetChatUserList) => item?.id === chatId)
+                        ?.find((item) => item?.id === chatId)
                         ?.email?.[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -330,15 +330,10 @@ const Message = () => {
                               {/* {item?.senderId?.name?.[0].toUpperCase() ||
                                 item?.senderId?.email?.[0].toUpperCase()} */}
                               {chatUserList?.data?.data
-                                ?.find(
-                                  (item: GetChatUserList) => item?.id === chatId
-                                )
+                                ?.find((item) => item?.id === chatId)
                                 ?.name?.[0]?.toUpperCase() ||
                                 chatUserList?.data?.data
-                                  ?.find(
-                                    (item: GetChatUserList) =>
-                                      item?.id === chatId
-                                  )
+                                  ?.find((item) => item?.id === chatId)
                                   ?.email?.[0]?.toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
@@ -606,16 +601,16 @@ const Message = () => {
             {chatId && UserId ? (
               <div className="flex items-center">
                 <Avatar className="w-[42px] h-[42px]">
-                  <AvatarImage src={currentChat?.image} />
+                  <AvatarImage src={currentChat?.image || ""} />
                   <AvatarFallback
                     className="text-white text-xl"
                     style={{ background: chatDPColor(+chatId) }}
                   >
                     {chatUserList?.data?.data
-                      ?.find((item: GetChatUserList) => item?.id === chatId)
+                      ?.find((item) => item?.id === chatId)
                       ?.name?.[0]?.toUpperCase() ||
                       chatUserList?.data?.data
-                        ?.find((item: GetChatUserList) => item?.id === chatId)
+                        ?.find((item) => item?.id === chatId)
                         ?.email?.[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

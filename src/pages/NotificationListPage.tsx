@@ -18,6 +18,12 @@ import { useNavigate } from "react-router-dom";
 const NotificationListPage = () => {
   const [notificationIds, setNotificationIds] = useState<string[]>([]);
   const { UserId } = useSelector((state: any) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId
+    ? UserId
+    : userData?.query
+    ? userData?.query?.id
+    : userData?.id;
   const navigate = useNavigate();
 
   const { toast } = useToast();
@@ -29,7 +35,7 @@ const NotificationListPage = () => {
 
   const { data: notification_list, isPending } = useQuery({
     queryKey: [QUERY_KEYS.notificationList],
-    queryFn: () => fetchNotification(UserId),
+    queryFn: () => fetchNotification(userID),
     retry: false,
   });
   const { mutate: delete_notification, isPending: deletePanding } = useMutation(

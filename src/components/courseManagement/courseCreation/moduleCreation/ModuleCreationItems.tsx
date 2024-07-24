@@ -406,7 +406,7 @@ const ModuleCreationItems = ({
         onClose={() => setIsOpenAssessmentModal(false)}
         className="max-w-3xl"
       >
-        <AssessmentModal />
+        <AssessmentModal setIsOpenAssessmentModal={setIsOpenAssessmentModal} />
       </Modal>
     </div>
   );

@@ -1,8 +1,12 @@
 import ResponseTicketIcon from "@/assets/images/message.png";
+import modulePdfFile from "@/assets/images/pdf-file.png";
 import RequestTicketIcon from "@/assets/images/Request.png";
 import ResolvedIcon from "@/assets/images/Resolved.png";
 import TotalTicketIcon from "@/assets/images/ticket.png";
 import PendingTicketIcon from "@/assets/images/ticket_star.png";
+import xlsxFileIcon from "@/assets/images/upload_option_2.png";
+import ModuleVideoPlay from "@/assets/images/video-play.png";
+import wordFile from "@/assets/images/word_file.png";
 import { UserRole } from "@/types/UserRole";
 import { clsx, type ClassValue } from "clsx";
 import moment from "moment";
@@ -376,12 +380,12 @@ export const sidebarLayout = {
         },
       ],
     },
-    {
-      label: "Message",
-      Icon: PiEnvelopeThin,
-      link: "/employee/message",
-      children: [],
-    },
+    // {
+    //   label: "Message",
+    //   Icon: PiEnvelopeThin,
+    //   link: "/employee/message",
+    //   children: [],
+    // },
     {
       label: "Logout",
       Icon: AiOutlinePoweroff,
@@ -421,6 +425,14 @@ export const TimeFormatter = (dateTime: Date | string) => {
   } else {
     formattedTime = date.format("h:mmA");
   }
+  return formattedTime;
+};
+
+export const TimesFormatter = (dateTime: Date | string) => {
+
+  const date = moment(dateTime);
+
+  const formattedTime = date.format("h:mm A");
   return formattedTime;
 };
 
@@ -574,4 +586,30 @@ export const fetchMessageRoles = (role: number) => {
     MessageRoles = ["company", "trainee", "trainer Company"];
   }
   return MessageRoles;
+};
+
+export const documentType = (type: string) => {
+  if (type?.split("/")?.[3]?.includes("pdf")) {
+    return "pdf";
+  } else if (type?.split("/")?.[3]?.includes("mp4") || type === "url") {
+    return "mp4";
+  } else if (type?.split("/")?.[3]?.includes("xlsx")) {
+    return "xlsx";
+  } else if (type?.split("/")?.[3]?.includes("doc")) {
+    return "doc";
+  } else if (type?.includes("www.youtube.com")) {
+    return "video";
+  }
+};
+
+export const documentIcon = (type: string) => {
+  if (type?.split("/")?.[3]?.includes("pdf")) {
+    return modulePdfFile;
+  } else if (type?.split("/")?.[3]?.includes("mp4") || type === "url") {
+    return ModuleVideoPlay;
+  } else if (type?.split("/")?.[3]?.includes("xlsx")) {
+    return xlsxFileIcon;
+  } else if (type?.split("/")?.[3]?.includes("doc")) {
+    return wordFile;
+  }
 };
