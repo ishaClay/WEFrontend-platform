@@ -1,14 +1,14 @@
+import Modal from "@/components/comman/Modal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Award, CircleCheck, FilePenLine, ShieldCheck } from "lucide-react";
-import Modal from "@/components/comman/Modal";
-import { useState } from "react";
-import EvaluateModalDetails from "./EvaluateModalDetails";
-import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
-import { EmployeeType } from "@/types/enroll";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { chatDPColor } from "@/lib/utils";
+import { EmployeeType } from "@/types/enroll";
+import { Award, CircleCheck, FilePenLine } from "lucide-react";
+import { useState } from "react";
+import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
+import EvaluateModalDetails from "./EvaluateModalDetails";
 
 type employeeCourseDetailsProps = {
   data: EmployeeType;
@@ -19,7 +19,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAllocate, setIsOpenAllocate] = useState(false);
   const progress = String(data?.progress)?.split(".");
-  
+
   return (
     <>
       <Modal
@@ -47,14 +47,15 @@ const EnrollCourseEmployeeDetailsListItem = ({
                 className="text-white text-xl"
                 style={{ background: chatDPColor(+data?.id) }}
               >
-                {
-                  data?.name?.charAt(0)?.toUpperCase() || data?.email?.charAt(0)?.toUpperCase()
-                }
+                {data?.name?.charAt(0)?.toUpperCase() ||
+                  data?.email?.charAt(0)?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>
           <div className="">
-            <h5 className="font-inter text-base font-medium">{data?.name || data?.email?.split("@")[0]}</h5>
+            <h5 className="font-inter text-base font-medium">
+              {data?.name || data?.email?.split("@")[0]}
+            </h5>
             <h6 className="text-base text-[#A3A3A3] font-normal font-inter">
               -
             </h6>
@@ -62,60 +63,71 @@ const EnrollCourseEmployeeDetailsListItem = ({
         </div>
 
         <div className="text-center flex items-center 2xl:col-span-5 sm:col-span-6 col-span-12">
-          <Progress color="#58BA66" value={+progress?.[0] || 0} className="w-full" isShow />
+          <Progress
+            color="#58BA66"
+            value={+progress?.[0] || 0}
+            className="w-full"
+            isShow
+          />
         </div>
 
         <div className="flex sm:flex-row flex-col gap-2 2xl:justify-end justify-center items-center 2xl:col-span-5 col-span-12">
           <div className="flex items-center">
-            {
-              (progress?.[0] === "100" && data?.certificate) ? <div className="pe-5">
-              <span className="text-[#58BA66] flex text-base font-calibri pe-5">
-                <CircleCheck className="me-2" width={18} /> 
-                Completed
-              </span>
-            </div> : <div className="flex items-center pe-5">
-              <Switch disabled={progress?.[0] !== "100" ? true : false} />
-              <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
-                Completed
-              </span>
-            </div>
-            }
+            {progress?.[0] === "100" && data?.certificate ? (
+              <div className="pe-5">
+                <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+                  <CircleCheck className="me-2" width={18} />
+                  Completed
+                </span>
+              </div>
+            ) : (
+              <div className="flex items-center pe-5">
+                <Switch disabled={progress?.[0] !== "100" ? true : false} />
+                <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
+                  Completed
+                </span>
+              </div>
+            )}
 
-            {
-              (progress?.[0] === "100" && data?.certificate) ? <div className="pe-5">
-              <span className="text-[#58BA66] flex text-base font-calibri pe-5">
-                <CircleCheck className="me-2" width={18} /> 
-                Certificate Issued
-              </span>
-            </div> : <div className="sm:me-4 me-2">
-              <Button
-                variant={"outlinePrimary"}
-                className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:text-base text-xs sm:h-10 h-9"
-                onClick={() => setIsOpenAllocate(true)}
-                disabled={progress?.[0] !== "100" ? true : false}
-              >
-                <Award width={18} height={18} />
-                Allocate Certificate
-              </Button>
-            </div>
-            }
+            {progress?.[0] === "100" && data?.certificate ? (
+              <div className="pe-5">
+                <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+                  <CircleCheck className="me-2" width={18} />
+                  Certificate Issued
+                </span>
+              </div>
+            ) : (
+              <div className="sm:me-4 me-2">
+                <Button
+                  variant={"outlinePrimary"}
+                  className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:text-base text-xs sm:h-10 h-9"
+                  onClick={() => setIsOpenAllocate(true)}
+                  disabled={progress?.[0] !== "100" ? true : false}
+                >
+                  <Award width={18} height={18} />
+                  Allocate Certificate
+                </Button>
+              </div>
+            )}
 
-            {
-              (progress?.[0] === "100" && data?.certificate) ? <div className="hidden">
-              <h6 className="text-base">
-                Score: 
-                <span className="font-bold">0/0</span>
-              </h6>
-            </div> : <div className="">
-              <Button
-                className="text-white flex bg-[#00778b] sm:px-5 px-2 py-2 font-calibri sm:text-base text-xs rounded-none sm:h-10 h-9"
-                onClick={() => setIsOpen(true)}
-                disabled={progress?.[0] !== "100" ? true : false}
-              >
-                <FilePenLine width={18} /> Evaluate
-              </Button>
-            </div>
-            }
+            {progress?.[0] === "100" && data?.certificate ? (
+              <div className="hidden">
+                <h6 className="text-base">
+                  Score:
+                  <span className="font-bold">0/0</span>
+                </h6>
+              </div>
+            ) : (
+              <div className="">
+                <Button
+                  className="text-white flex bg-[#00778b] sm:px-5 px-2 py-2 font-calibri sm:text-base text-xs rounded-none sm:h-10 h-9"
+                  onClick={() => setIsOpen(true)}
+                  disabled={progress?.[0] !== "100" ? true : false}
+                >
+                  <FilePenLine width={18} /> Evaluate
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
