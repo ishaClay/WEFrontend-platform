@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 // import moduleZoomVideo from "@/assets/images/zoom-video.png";
 
+import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import ViewSession from "./ViewSession";
@@ -26,7 +27,7 @@ const ModuleCourseViewCardItems = ({
   list,
 }: moduleCourseCardListProps | any) => {
   const navigate = useNavigate();
-
+  const queryclient = useQueryClient();
   const [viewDocument, setViewDocument] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [documentFile, setDocumentFile] = useState("");
@@ -34,7 +35,10 @@ const ModuleCourseViewCardItems = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
       console.log("data", data);
       setViewDocument(true);
       setDocumentFile(list?.url ? list?.url : list?.uploadContent);
@@ -162,6 +166,7 @@ const ModuleCourseViewCardItems = ({
           documentFile={documentFile}
           setDocumentFile={setDocumentFile}
           setViewDocument={setViewDocument}
+          list={list}
         />
       )}
     </div>
