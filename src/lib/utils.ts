@@ -105,7 +105,7 @@ export const sidebarLayout = {
         },
         {
           label: "Live Sessions",
-          link: "/trainer/create_course",
+          link: "/trainer/CourseLiveSession",
         },
       ],
     },
@@ -429,7 +429,6 @@ export const TimeFormatter = (dateTime: Date | string) => {
 };
 
 export const TimesFormatter = (dateTime: Date | string) => {
-
   const date = moment(dateTime);
 
   const formattedTime = date.format("h:mm A");

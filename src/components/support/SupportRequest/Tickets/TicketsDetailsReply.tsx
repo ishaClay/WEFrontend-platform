@@ -162,9 +162,10 @@ const TicketsDetailsReply = () => {
           <div className="flex justify-between">
             <div className="flex items-center gap-[11px]">
               <Avatar className="w-[32px] h-[32px]">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
+                <AvatarImage src="" />
                 <AvatarFallback>
-                  {userName(data?.data?.data?.openBy?.name)}
+                  {data?.data?.data?.openBy?.name?.charAt(0) || data?.data?.data?.openBy?.email?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>

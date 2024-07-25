@@ -89,7 +89,7 @@ const Message = () => {
   const { mutate: upload_file, isPending: FileUploadPending } = useMutation({
     mutationFn: (file: any) => uploadFile(file),
     onSuccess: (data) => {
-      setImages((prevImages) => [...prevImages, data?.data?.data?.image]);
+      setImages((prevImages) => [...prevImages, data?.data?.data?.file]);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -361,11 +361,11 @@ const Message = () => {
                                     <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
                                       <IoIosDocument className="h-5 w-5 me-3" />
                                       <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
-                                        {i.split("upload/")[1]}
+                                        {i?.split(".com/")?.[1]}
                                       </span>
                                       <Button
                                         variant={"ghost"}
-                                        className="p-0"
+                                        className="p-0 h-auto"
                                         onClick={() => window.open(i, "_blank")}
                                       >
                                         <img
@@ -397,7 +397,7 @@ const Message = () => {
                 <div className="">
                   {images?.length > 0 && (
                     <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
-                      {images.map((image, index: number) => (
+                      {images?.map((image, index: number) => (
                         <div key={index} className="mr-5 mb-2 relative">
                           <Button
                             variant="outline"
@@ -408,11 +408,11 @@ const Message = () => {
                             <MdClose className="h-4 w-4" />
                           </Button>
 
-                          {image.endsWith(".pdf") ? (
+                          {image?.endsWith(".pdf") ? (
                             <div className="flex items-center">
                               <IoIosDocument />
                               <span className="mx-3 text-[12px] text-medium">
-                                {image.split("upload/")[1]}
+                                {image?.split(".com/")?.[1]}
                               </span>
                             </div>
                           ) : (
@@ -718,12 +718,12 @@ const Message = () => {
                                     <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
                                       <IoIosDocument className="h-5 w-5 me-3" />
                                       <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
-                                        {i.split("upload/")[1]}
+                                        {i?.split(".com/")?.[1]}
                                       </span>
                                       <Button
                                         variant={"ghost"}
-                                        className="p-0"
-                                        onClick={() => window.open(i, "_blank")}
+                                        className="p-0 h-auto"
+                                        onClick={() => window?.open(i, "_blank")}
                                       >
                                         <img
                                           src={eye}
@@ -754,7 +754,7 @@ const Message = () => {
                 <div className="">
                   {images?.length > 0 && (
                     <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
-                      {images.map((image, index: number) => (
+                      {images?.map((image, index: number) => (
                         <div key={index} className="mr-5 mb-2 relative">
                           <Button
                             variant="outline"
@@ -765,11 +765,11 @@ const Message = () => {
                             <MdClose className="h-4 w-4" />
                           </Button>
 
-                          {image.endsWith(".pdf") ? (
+                          {image?.endsWith(".pdf") ? (
                             <div className="flex items-center">
                               <IoIosDocument />
                               <span className="mx-3 text-[12px] text-medium">
-                                {image.split("upload/")[1]}
+                                {image?.split(".com/")?.[1]}
                               </span>
                             </div>
                           ) : (

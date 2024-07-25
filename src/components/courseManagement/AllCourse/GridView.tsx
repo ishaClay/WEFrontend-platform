@@ -20,7 +20,7 @@ import {
   publishCourse,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
-import { AllCoursesResult } from "@/types/courseManagement";
+import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Loader2, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -72,6 +72,8 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
       setCourse("");
     }
   }, [cohort]);
+  console.log("selectCourseId", selectCourseId);
+  
 
   const {data: courseByVersionList, isPending: courseByVersionPending} = useQuery({
     queryKey: [QUERY_KEYS.courseByVersionList, selectVersionId],
@@ -226,32 +228,34 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
   };
 
   console.log("setVersionData", versionData);
-  console.log("courseByVersionList", courseByVersionPending, courseByVersionList?.data);
+  console.log("courseByVersionList", courseByVersionList?.data);
   
 
   return list ? (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-        {list?.map((item, i) => {
+        {list?.map((listItem, i) => {
           const currentRecord = versionData?.find(
-            (itm) => itm?.id === item?.id
+            (itm) => itm?.id === listItem?.id
           );
 
           // const currentVersion = 
-          console.log("item+++", item);
+          console.log("listItem+++", listItem);
           console.log("currentRecord", currentRecord, versionData);
+
+          const item = listItem.currentVersion?.mainCourse?.id === courseByVersionList?.data?.id ? courseByVersionList?.data : listItem
           
 
           const versionOption =
-            item?.version &&
-            item?.version.map((itm) => {
+            listItem?.version &&
+            listItem?.version.map((itm) => {
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               };
             });
-            console.log("item?.currentVersion?.id?.toString()", item?.currentVersion?.id?.toString());
+            console.log("listItem?.currentVersion?.id?.toString()", listItem?.currentVersion?.id?.toString());
             
           return (
             <Link
@@ -298,7 +302,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  {item?.courseData?.map((item) => {
+                  {item?.courseData?.map((item: CourseDataEntity) => {
                     return (
                       <div className="">
                         <Badge
@@ -312,7 +316,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                   })}
                 </div>
               </div>
-              <div className="flex items-center justify-between xl:gap-[7px] gap-[10px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
+              <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={item?.status === "PUBLISHED"}
                   className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
@@ -341,7 +345,7 @@ const GridView = ({ list }: { list: AllCoursesResult[] }) => {
                       option={versionOption || []}
                       setValue={(data: string) =>
                         {handleChangeVersion(data, item?.id)
-                          setSelectCourseId(item?.id)
+                          setSelectCourseId(item?.id)                          
                         }
                       }
                       value={currentRecord?.versionId?.toString() || ""}

@@ -37,7 +37,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] ">
+    <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] mt-2">
       {emails.map((email, index) => (
         <div
           key={index}

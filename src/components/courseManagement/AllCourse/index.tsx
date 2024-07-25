@@ -102,7 +102,7 @@ const AllCourses = () => {
         </div>
 
         <div className="flex items-center justify-between sm:py-5 sm:px-[18px] p-[15px]">
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 md:w-[550px] sm:w-[450px] min-w-[305px] sm:h-[52px] h-[36px]">
+          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 md:w-[550px] sm:w-[450px] min-w-[290px] sm:h-[52px] h-[46px]">
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"

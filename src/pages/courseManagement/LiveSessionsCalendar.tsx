@@ -7,13 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  CalendarRange,
-  ChevronLeft,
-  ChevronRight,
-  CirclePlus,
-  List,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 import {
@@ -85,51 +79,54 @@ const LiveSessionsCalendar = () => {
       month: true,
       week: true,
       day: true,
-      agenda: true,
     });
 
     return (
-      <div className="flex justify-between mb-[18px]">
-        <div className="flex items-center">
+      <div className="flex sm:flex-row flex-col justify-between mb-5 sm:gap-0 gap-4">
+        <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-10 sm:gap-8 gap-4">
           <Button
-            className="mr-[60px] bg-[#00778B] text-white"
+            className="bg-[#00778B] text-white"
             onClick={() => navigate(`/${currentUser}/schedule-live-session`)}
           >
-            <CirclePlus className="mr-2 h-4 w-4" />
+            <CirclePlus width={16} />
             Add New
           </Button>
-          <Button
-            type="button"
-            className="bg-transparent text-[#002A3A] mr-8"
-            variant="outline"
-            onClick={gotoToday}
-          >
-            Today
-          </Button>
-          <Button
-            type="button"
-            className="bg-transparent text-[#A3A3A3] p-0 mr-2"
-            onClick={gotoPrevious}
-          >
-            <ChevronLeft />
-          </Button>
-          <Button
-            type="button"
-            className="bg-transparent text-[#A3A3A3] p-0 mr-2"
-            onClick={gotoNext}
-          >
-            <ChevronRight />
-          </Button>
-          <span className="text-black font-semibold">
-            {moment(currentDate).format("MMMM YYYY")}
-          </span>
+          <div className="flex items-center md:gap-5 gap-3">
+            <Button
+              type="button"
+              className="bg-transparent text-[#002A3A]"
+              variant="outline"
+              onClick={gotoToday}
+            >
+              Today
+            </Button>
+            <div className="">
+              <Button
+                type="button"
+                className="bg-transparent text-[#A3A3A3] p-0 mr-2"
+                onClick={gotoPrevious}
+              >
+                <ChevronLeft />
+              </Button>
+              <Button
+                type="button"
+                className="bg-transparent text-[#A3A3A3] p-0 mr-2"
+                onClick={gotoNext}
+              >
+                <ChevronRight />
+              </Button>
+            </div>
+            <span className="text-black font-semibold">
+              {moment(currentDate).format("MMMM YYYY")}
+            </span>
+          </div>
         </div>
         <div className="flex items-center gap-[20px]">
           <Select value={view} onValueChange={handleViewChange}>
             <SelectTrigger className="w-[100px]">
-              <SelectValue />
+              <SelectValue className="w-[100px]" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-[100px]">
               <SelectGroup>
                 {viewOptions?.map((viewOption: string) => (
                   <SelectItem key={viewOption} value={viewOption}>
@@ -139,14 +136,6 @@ const LiveSessionsCalendar = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <div className="flex rounded-md bg-white border border-[#D9D9D9] overflow-hidden">
-            <Button className="text-base rounded-none bg-transparent text-[#A3A3A3] border-e border-[#D9D9D9] hover:bg-[#00778B] hover:text-white">
-              <CalendarRange />
-            </Button>
-            <Button className="text-base rounded-none bg-transparent text-[#A3A3A3] hover:bg-[#00778B] hover:text-white">
-              <List />
-            </Button>
-          </div>
         </div>
       </div>
     );
@@ -156,9 +145,9 @@ const LiveSessionsCalendar = () => {
 
   return (
     <div className="p-3 bg-white min-h-full">
-      <div className="text-[#606060] text-[15px] mb-2">
+      {/* <div className="text-[#606060] text-[15px] mb-2">
         All the Live Sessions across your courses, in one calender view
-      </div>
+      </div> */}
       <Calendar
         localizer={localizer}
         events={initialEvents}

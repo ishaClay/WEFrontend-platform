@@ -58,7 +58,6 @@ import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionable
 import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
 import MaturityLevelPage from "./pages/MaturityLevelPage";
 import MessagePopup from "./pages/MessagePopup";
-import Messaging from "./pages/Messaging";
 import Module from "./pages/Module";
 import ModuleFrist from "./pages/ModuleFrist";
 import ModulePdf from "./pages/ModulePdf";
@@ -101,9 +100,7 @@ import CourseManagement from "./pages/courseManagement";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
 import EnrolledCourse from "./pages/courseManagement/EnrolledCourse";
 import EnrollmentRequest from "./pages/courseManagement/EnrollmentRequest";
-import LiveSessionsCalendar from "./pages/courseManagement/LiveSessionsCalendar";
 import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
-import TotalLiveSessions from "./pages/courseManagement/TotalLiveSessions";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
@@ -120,6 +117,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -288,14 +286,6 @@ function App() {
           element={
             <ProtectedRoute>
               <IndividualEmployee />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/messaging"
-          element={
-            <ProtectedRoute>
-              <Messaging />
             </ProtectedRoute>
           }
         />
@@ -672,7 +662,6 @@ function App() {
             path="notification/:notificationId"
             element={<Notification />}
           />
-          <Route path="messaging" element={<Messaging />} />
         </Route>
 
         <Route
@@ -825,11 +814,7 @@ function App() {
             path="schedule-live-session"
             element={<ScheduleLiveSession />}
           />
-          <Route path="total-live-sessions" element={<TotalLiveSessions />} />
-          <Route
-            path="live-sessions-calendar"
-            element={<LiveSessionsCalendar />}
-          />
+          <Route path="CourseLiveSession" element={<CourseLiveSession />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />

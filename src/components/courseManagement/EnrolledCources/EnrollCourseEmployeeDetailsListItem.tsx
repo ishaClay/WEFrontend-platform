@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { CircleCheck, FilePenLine, ShieldCheck } from "lucide-react";
+import { Award, CircleCheck, FilePenLine, ShieldCheck } from "lucide-react";
 import Modal from "@/components/comman/Modal";
 import { useState } from "react";
 import EvaluateModalDetails from "./EvaluateModalDetails";
@@ -66,54 +66,56 @@ const EnrollCourseEmployeeDetailsListItem = ({
         </div>
 
         <div className="flex sm:flex-row flex-col gap-2 2xl:justify-end justify-center items-center 2xl:col-span-5 col-span-12">
-          <div className="flex items-center pe-5">
-            <Switch />
-            <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
-              {/* {data?.complete} */}
-            </span>
-          </div>
-
           <div className="flex items-center">
-            <div className="pe-5 hidden">
+            {
+              (progress?.[0] === "100" && data?.certificate) ? <div className="pe-5">
               <span className="text-[#58BA66] flex text-base font-calibri pe-5">
                 <CircleCheck className="me-2" width={18} /> 
-                {/* {data.complete} */}
+                Completed
+              </span>
+            </div> : <div className="flex items-center pe-5">
+              <Switch disabled={progress?.[0] !== "100" ? true : false} />
+              <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
+                Completed
               </span>
             </div>
+            }
 
-            <div className="sm:me-4 me-2">
+            {
+              (progress?.[0] === "100" && data?.certificate) ? <div className="pe-5">
+              <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+                <CircleCheck className="me-2" width={18} /> 
+                Certificate Issued
+              </span>
+            </div> : <div className="sm:me-4 me-2">
               <Button
                 variant={"outlinePrimary"}
-                className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:w-[164px] sm:text-base text-xs w-[146px] sm:h-10 h-9"
+                className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:text-base text-xs sm:h-10 h-9"
                 onClick={() => setIsOpenAllocate(true)}
+                disabled={progress?.[0] !== "100" ? true : false}
               >
-                <ShieldCheck width={18} />
+                <Award width={18} height={18} />
                 Allocate Certificate
               </Button>
             </div>
+            }
 
-            <div className="pe-5 hidden">
-              <span className="text-[#58BA66] flex text-base font-calibri pe-5 sm:w-[100px] w-[80px]">
-                <CircleCheck className="me-2" width={18} /> 
-                {/* {data.certificate} */}
-              </span>
-            </div>
-
-            <div className="">
+            {
+              (progress?.[0] === "100" && data?.certificate) ? <div className="hidden">
+              <h6 className="text-base">
+                Score: 
+                <span className="font-bold">0/0</span>
+              </h6>
+            </div> : <div className="">
               <Button
                 className="text-white flex bg-[#00778b] sm:px-5 px-2 py-2 font-calibri sm:text-base text-xs rounded-none sm:h-10 h-9"
                 onClick={() => setIsOpen(true)}
+                disabled={progress?.[0] !== "100" ? true : false}
               >
                 <FilePenLine width={18} /> Evaluate
               </Button>
             </div>
-
-            <div className="hidden">
-              <h6 className="text-base">
-                Score: 
-                {/* <span className="font-bold">{data?.score}</span> */}
-              </h6>
-            </div>
+            }
           </div>
         </div>
       </div>

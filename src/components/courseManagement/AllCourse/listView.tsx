@@ -231,7 +231,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                 key={index}
                 className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
-                <div className="xl:col-span-7 col-span-9 sm:flex block items-center">
+                <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">
                   <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
                     <img
                       src={data?.bannerImage}
@@ -269,28 +269,15 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                         Duration : {data?.duration || "--"}
                       </div>
                     </div>
-                    <div className="flex flex-wrap justify-between items-center gap-3">
+                    <div className="flex flex-wrap items-center md:gap-5 gap-3">
                       {data?.courseData?.map((item) => {
                         return (
-                          <div className="xl:w-[45%] w-full flex items-center justify-between mb-2">
+                          <div className="">
                             <Badge
                               variant="outline"
-                              className={`bg-[#EDF0F4] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                              className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
                             >
                               {item?.fetchPillar?.pillarName}
-                            </Badge>
-                            <Badge
-                              variant="outline"
-                              className={`bg-[${
-                                item?.fetchMaturity?.color
-                              }] p-1 px-3 text-[${
-                                item?.fetchMaturity?.maturityLevelName ===
-                                "Beginning"
-                                  ? "white"
-                                  : "#3A3A3A"
-                              }] text-xs font-Poppins font-normal`}
-                            >
-                              {item?.fetchMaturity?.maturityLevelName}
                             </Badge>
                           </div>
                         );
@@ -298,7 +285,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     </div>
                   </div>
                 </div>
-                <div className="xl:col-span-2 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
+                <div className="2xl:col-span-2 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
                   <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
                       disabled={data?.status === "PUBLISHED"}
@@ -368,7 +355,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto"></div>
+                  <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto xl:block hidden"></div>
                 </div>
               </Link>
             </>
