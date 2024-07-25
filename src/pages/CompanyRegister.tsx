@@ -69,8 +69,7 @@ function CompanyRegister() {
     county: z.string().min(1, { message: "County is required" }),
     averageNumberOfEmployees: z
       .string()
-      .min(1, { message: "Average Number Of Employees is required" })
-      .regex(/^[0-9]+$/, "Average Number Of Employees is Invalid"),
+      .min(1, { message: "Average Number Of Employees is required" }),
     sector: z.string().min(1, { message: "Sector is required" }),
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
