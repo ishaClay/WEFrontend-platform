@@ -134,11 +134,11 @@ const AllocatedCertificatePage = () => {
         return (
           <div className="">
             {row.original?.status === 1 ? (
-              <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 text-[14px] font-inter">
+              <Button className="bg-[#58BA66] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
                 Issued
               </Button>
             ) : (
-              <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 text-[14px] font-inter">
+              <Button className="bg-[#FFA25E] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
                 Pending
               </Button>
             )}
@@ -155,12 +155,18 @@ const AllocatedCertificatePage = () => {
           </h5>
         );
       },
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <div className="flex items-center">
+            {row.original?.status === 1 ? (
+              <Eye className="mx-2 cursor-pointer text-[#A3A3A3]" width={18} />
+            ) : (
+              <FileSliders
+                className="cursor-pointer text-[#A3A3A3]"
+                width={18}
+              />
+            )}
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
-            <Eye className="mx-2 cursor-pointer text-[#A3A3A3]" width={18} />
-            <FileSliders className="cursor-pointer text-[#A3A3A3]" width={18} />
           </div>
         );
       },
