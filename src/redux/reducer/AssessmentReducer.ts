@@ -46,7 +46,7 @@ const AssessmentSlice = createSlice({
     },
     addOption: (
       state,
-      action: PayloadAction<{ option: string; i: number; iIndex: number }>
+      action: PayloadAction<{ option: any; i: number; iIndex: number }>
     ) => {
       while (state.questionOption.length <= action.payload.i) {
         state.questionOption.push({});

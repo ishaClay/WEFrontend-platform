@@ -196,36 +196,39 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     <Modal
       open={open}
       onClose={handleClose}
-      className="max-w-[800px] w-full py-5 px-7"
+      className="lg:max-w-[800px] sm:max-w-[650px] max-w-[90%] w-full py-5 px-7 rounded-lg"
     >
       {isLoading ? (
         <Loader />
       ) : (
         <div className="">
-          <div className="text-2xl font-bold font-calibri leading-7 pb-[18px]">
+          <div className="sm:text-2xl text-xl font-bold font-calibri leading-7 sm:pb-[18px] pb-3">
             Add Cohort
           </div>
           <Button
             variant={"ghost"}
             onClick={handleAddRow}
-            className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 pb-5"
+            className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
           >
             + Add New Row
           </Button>
-          <div className="max-h-[400px] overflow-auto mb-4">
+          <div
+            className="max-h-[400px] lg:min-w-full lg:max-w-full sm:min-w-[calc(650px-50px)] sm:max-w-[calc(650px-50px)] min-w-[calc(100vw-100px)] max-w-[calc(100vw-100px)] overflow-auto mb-4"
+            id="scrollStyle"
+          >
             {/* <DataTable
             columns={column}
             data={cohortData}
             rounded={false}
             headerBackground={false}
           /> */}
-            <Table>
+            <Table mainClassName="lg:w-full lg:min-w-full lg:max-w-full min-w-[calc(750px-50px)] max-w-[calc(750px-50px)] overflow-auto">
               <TableHeader className="border-t">
                 <TableRow>
                   <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
                     Publish
                   </TableHead>
-                  <TableHead className=" px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                  <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
                     Cohort Name
                   </TableHead>
                   <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
@@ -315,12 +318,12 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
               </TableBody>
             </Table>
           </div>
-          <div className="flex items-center gap-[23px]">
+          <div className="flex items-center md:gap-[23px] gap-5">
             <Button
               type="button"
               variant={"secondary"}
               onClick={handleClose}
-              className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] py-[15px] h-auto w-[137px]"
+              className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
             >
               Cancel
             </Button>
@@ -328,7 +331,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
               type="button"
               onClick={handleSubmit}
               variant={"default"}
-              className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] py-[15px] h-auto w-[137px]"
+              className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
               isLoading={isPending}
             >
               Save

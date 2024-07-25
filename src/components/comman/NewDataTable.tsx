@@ -102,8 +102,8 @@ export function NewDataTable<TData, TValue>({
     <div
       className={`${
         sidebarOpen
-          ? "lg:w-[calc(100vw-300px)] w-[calc(100vw-40px)]"
-          : "lg:w-[calc(100vw-100px)] w-[calc(100vw-40px)]"
+          ? "lg:w-[calc(100vw-300px)] w-[calc(100vw-47px)]"
+          : "lg:w-[calc(100vw-100px)] w-[calc(100vw-47px)]"
       }`}
     >
       {!!inputbox && (

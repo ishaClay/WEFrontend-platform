@@ -1,11 +1,9 @@
 import api from "./api";
 
-export const createLiveSession = (data: any) => {
-    console.log("data", data);
-    
-    const url = `api/v1/course/module/section/create`;
+export const updateLiveSession = ({data, id}: any) => {
+    const url = `api/v1/livesessions/updateLivesession/${id}`;
 
-    return api({ url, data, method: "post" });
+    return api({ url, data, method: "put" });
 };
 
 
@@ -20,5 +18,10 @@ export const createLiveSection = async(data: any) => {
 
 export const getALlLiveSession = () => {
     const url = `api/v1/livesessions/list`;
+    return api({ url });
+};
+
+export const getLiveSession = (id: string) => {
+    const url = `api/v1/course/get/${id}`;
     return api({ url });
 };

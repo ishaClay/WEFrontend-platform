@@ -70,7 +70,7 @@ const MyCourse = () => {
         </div>
 
         <div className="flex items-center justify-between py-5 px-[18px]">
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 w-[550px] h-[52px]">
+          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 w-[550px] sm:h-[52px] h-[46px]">
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"
@@ -79,14 +79,14 @@ const MyCourse = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="flex ml-6">
+          <div className="flex sm:ml-6 ml-2 sm:gap-2 gap-0">
             <Button
               type="button"
               onClick={() => changeList(0)}
               className="bg-transparent p-1 hover:bg-transparent"
             >
               <AiOutlineAppstore
-                className={`w-8 h-8 ${
+                className={`sm:w-8 sm:h-8 w-6 h-6 ${
                   params === "0" || !params
                     ? "text-[#00778B]"
                     : "text-[#A3A3A3]"
@@ -99,7 +99,7 @@ const MyCourse = () => {
               className="bg-transparent p-1 hover:bg-transparent"
             >
               <AiOutlineBars
-                className={`w-8 h-8 ml-2 ${
+                className={`sm:w-8 sm:h-8 w-6 h-6 ${
                   params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
                 }`}
               />
