@@ -612,3 +612,20 @@ export const documentIcon = (type: string) => {
     return wordFile;
   }
 };
+
+export const isSessionOngoingAtTime = (
+  startTime: string,
+  sessionDuration: { hour: string; minute: string },
+): boolean => {
+  const startDateTime = new Date();
+  const [startHour, startMinute] = startTime.split(":").map(Number);
+  startDateTime.setHours(startHour);
+  startDateTime.setMinutes(startMinute);
+
+  const sessionEndTime = new Date(startDateTime);
+  const durationHours = parseInt(sessionDuration?.hour, 10);
+  const durationMinutes = parseInt(sessionDuration?.minute, 10);
+  sessionEndTime.setHours(sessionEndTime.getHours() + durationHours);
+  sessionEndTime.setMinutes(sessionEndTime.getMinutes() + durationMinutes);
+  return new Date() >= startDateTime && new Date() <= sessionEndTime;
+};

@@ -1,6 +1,12 @@
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,25 +14,21 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
   getLiveSession,
-  updateLiveSession,
+  getLiveSessionById,
+  scheduleLiveSession,
 } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
 import { TraineeCompanyDetails } from "@/types/Trainer";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CirclePlus, MoveLeft } from "lucide-react";
+import { CirclePlus, MoveLeft, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const timePeriodsOptions = [
   {
@@ -39,22 +41,23 @@ const timePeriodsOptions = [
   },
 ];
 
-const durationInHours = Array.from({ length: 12 }, (_, i) => ({
-  label: (i + 1).toString(),
-  value: (i + 1).toString(),
-}));
+const durationInHours = Array.from({ length: 24 }, (_, i) => {
+  const hour = i.toString().padStart(2, "0");
+  return {
+    label: hour,
+    value: hour,
+  };
+});
 
 const durationInMinute = Array.from({ length: 61 }, (_, i) => ({
   label: i.toString(),
   value: i.toString(),
 }));
 
-// interface TraineeListProps {
-//   name: string;
-//   id: number;
-// }
-
 const ScheduleLiveSessionPage = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const queryClient = useQueryClient();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -91,7 +94,9 @@ const ScheduleLiveSessionPage = () => {
     resolver: zodResolver(ScheduleLiveSessionSchema),
   });
 
-  console.log("errors", errors);
+  const [traineeList, setTraineeList] = useState<
+    { name: string; id: string }[]
+  >([]);
 
   const { data: fetchCourseAllCourseData } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse],
@@ -102,6 +107,51 @@ const ScheduleLiveSessionPage = () => {
     queryKey: [QUERY_KEYS.fetchTraineeCompany],
     queryFn: () => getTraineeCompany(),
   });
+
+  const { data: fetchLiveSessionById } = useQuery({
+    queryKey: [QUERY_KEYS.fetchLiveSessionById],
+    queryFn: () => getLiveSessionById(id?.toString() || ""),
+    enabled: !!id,
+  });
+
+  useEffect(() => {
+    const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
+
+    if (fetchLiveSessionData) {
+      const {
+        subtitle,
+        description,
+        date,
+        liveSecTitle,
+        startAmPm,
+        sessionDuration,
+        trainer,
+        course,
+        company,
+      } = fetchLiveSessionData;
+
+      setValue("sessionSubtitle", subtitle);
+      setValue("sessionDescription", description);
+      setValue("sessionDate", date?.split("T")[0]);
+      setValue("selectLiveSession", liveSecTitle);
+      setValue("selectTimePeriods", startAmPm);
+      setValue("selectDurationInHours", sessionDuration?.hour);
+      setValue("selectDurationInMinute", sessionDuration?.minute);
+      setValue("selectCourse", (+course?.id)?.toString());
+      setValue(
+        "selectCompany",
+        company?.map((item: any) => item?.id?.toString())
+      );
+      setTraineeList(
+        trainer?.map((item: any) => ({ id: item?.id, name: item?.name }))
+      );
+    }
+  }, [fetchLiveSessionById?.data?.data]);
+
+  console.log(
+    "fetchLiveSessionByIdfetchLiveSessionById",
+    fetchLiveSessionById?.data?.data
+  );
 
   const selectCourseOption = fetchCourseAllCourseData?.data?.length
     ? fetchCourseAllCourseData?.data?.map((i: AllCoursesResult) => {
@@ -127,7 +177,7 @@ const ScheduleLiveSessionPage = () => {
   }, [watch("selectCompany")]);
 
   const { mutate: addLiveSession } = useMutation({
-    mutationFn: updateLiveSession,
+    mutationFn: scheduleLiveSession,
     onSuccess: async (data) => {
       window.open(data?.data?.authorizationUrl, "_blank");
     },
@@ -162,14 +212,7 @@ const ScheduleLiveSessionPage = () => {
       value: i?.id?.toString(),
     }));
 
-  console.log(
-    "fetchLiveSession",
-    fetchLiveSession?.data?.data,
-    selectLiveSessionOption
-  );
-
-  const onSubmit = async (data: any) => {
-    console.log("data++", data);
+  const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     const transformedData = {
       course: data.selectCourse,
       subtitle: data.sessionSubtitle,
@@ -182,7 +225,7 @@ const ScheduleLiveSessionPage = () => {
         minute: data.selectDurationInMinute,
       },
       companyId: data.selectCompany,
-      // trainerId: formData.traineeList.map((trainee) => trainee.id),
+      trainerId: traineeList.map((trainee) => trainee.id),
       liveSecTitle: data.selectLiveSession,
     };
     await addLiveSession({
@@ -199,11 +242,12 @@ const ScheduleLiveSessionPage = () => {
         className="lg:max-w-3xl sm:max-w-xl max-w-[335px] xl:p-[30px] p-5 rounded-xl"
       >
         <AddTraineeModal
-          // formData={formData}
-          // setFormData={setFormData}
+          traineeList={traineeList}
+          setTraineeList={setTraineeList}
           selectCompanyOptions={selectCompanyOptions}
           setIsOpen={setIsOpen}
           watch={watch}
+          control={control}
         />
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -212,7 +256,10 @@ const ScheduleLiveSessionPage = () => {
             <h5 className="text-base text-black font-semibold">
               Schedule Live Session
             </h5>
-            <Button className="bg-transparent font-nunito flex items-center gap-3 text-base text-black font-semibold p-0 h-auto">
+            <Button
+              className="bg-transparent font-nunito flex items-center gap-3 text-base text-black font-semibold p-0 h-auto"
+              onClick={() => navigate(-1)}
+            >
               <MoveLeft /> Back
             </Button>
           </div>
@@ -293,7 +340,7 @@ const ScheduleLiveSessionPage = () => {
                 </Label>
                 <Input
                   placeholder="Enter Date"
-                  className="text-[#A3A3A3] d-block placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="text-[#A3A3A3] block placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   type="date"
                   {...register("sessionDate")}
                 />
@@ -433,22 +480,22 @@ const ScheduleLiveSessionPage = () => {
                 Add Trainee
               </Button>
               <ul className="flex items-center gap-2 overflow-x-auto overflow-y-hidden md:pb-0 pb-2">
-                {/* {formData.traineeList?.map((i: TraineeListProps) => (
-                  <li className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]">
+                {traineeList?.map((i: { name: string; id: string }) => (
+                  <li
+                    className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]"
+                    key={i.id}
+                  >
                     {i?.name}
                     <X
                       width={16}
                       onClick={() =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          traineeList: prev.traineeList.filter(
-                            (item) => item.name !== i.name
-                          ),
-                        }))
+                        setTraineeList((prev) =>
+                          prev.filter((item) => item.id !== i.id)
+                        )
                       }
                     />
                   </li>
-                ))} */}
+                ))}
               </ul>
               <div className="text-right">
                 <Button className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10">
