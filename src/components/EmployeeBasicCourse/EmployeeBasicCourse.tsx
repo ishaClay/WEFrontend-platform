@@ -5,11 +5,10 @@ import {
 } from "@/services/apiServices/courseSlider";
 import { SingleCourseEmployeeResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
+import { ChevronDown, MoveLeft } from "lucide-react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../comman/Modal";
-import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Feedback from "./feedback";
@@ -38,7 +37,7 @@ const EmployeeBasicCourse = () => {
       queryFn: () =>
         getEmployeeSingeCourse({
           courseId: courseById,
-          userId: userData?.query?.id,
+          userId: userData?.query?.detailsid,
         }),
       enabled: userData?.query?.role === "4",
     });
@@ -60,11 +59,11 @@ const EmployeeBasicCourse = () => {
       </Modal>
       <div className="bg-white rounded-b-xl min-h-[calc(100vh_-_130px)]">
         <div className="">
-          <div className="sm:flex block justify-between items-center px-5 lg:py-0 py-5 mb-5">
-            <h4 className="xl:text-[28px] md:text-[22px] text-[18px] font-bold font-nunito text-black sm:pb-0 pb-3">
+          <div className="sm:flex block justify-between items-center px-5 py-5">
+            <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
               {course?.course?.title}
             </h4>
-            {pathName !== "trainer" && (
+            {/* {pathName !== "trainer" && (
               <Button
                 className="bg-[#00778B] text-base lg:h-12 h-10 px-5 flex items-center"
                 onClick={() => setIsOpenReviewModal(true)}
@@ -72,7 +71,7 @@ const EmployeeBasicCourse = () => {
                 <PencilLine />
                 Write a Review
               </Button>
-            )}
+            )} */}
           </div>
           <div className="">
             <Tabs defaultValue="information" className="w-full">
@@ -98,6 +97,13 @@ const EmployeeBasicCourse = () => {
                   </TabsTrigger>
                 </div>
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
+                  <div
+                    className="flex pr-5 cursor-pointer"
+                    onClick={() => navigate(-1)}
+                  >
+                    <MoveLeft />
+                    <span className="text-base font-semibold pl-4">Back</span>
+                  </div>
                   {pathName !== "trainer" && pathName !== "trainee" && (
                     <Popover>
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
@@ -150,13 +156,6 @@ const EmployeeBasicCourse = () => {
                       </PopoverContent>
                     </Popover>
                   )}
-                  <div
-                    className="flex pr-5 cursor-pointer"
-                    onClick={() => navigate(-1)}
-                  >
-                    <MoveLeft />
-                    <span className="text-base font-semibold pl-4">Back</span>
-                  </div>
                 </div>
               </TabsList>
               <TabsContent value="information" className="p-5">

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 import Accomplishments from "./components/certifications/Accomplishments";
@@ -85,6 +86,7 @@ import TeamMemberDropdown from "./pages/TeamMemberDropdown";
 import TeaserScore from "./pages/TeaserScore";
 import TermsOfServices from "./pages/TermsOfServices";
 import TrainerManagementPage from "./pages/TrainerManagement";
+import TrainerSettingPage from "./pages/TrainerSettingPage";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
@@ -105,6 +107,7 @@ import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
 import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
+import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
@@ -117,7 +120,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -777,6 +779,10 @@ function App() {
             element={<TrainerManagementPage />}
           />
           <Route
+            path="trainer-management/edit/:id"
+            element={<TrainerDetailsEdit />}
+          />
+          <Route
             path="trainer-management/details/:id"
             element={<TrainerDetails />}
           />
@@ -826,7 +832,7 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
-          <Route path="setting" element={<FaqsListPage />} />
+          <Route path="setting" element={<TrainerSettingPage />} />
         </Route>
       </Routes>
     </div>

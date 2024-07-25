@@ -31,3 +31,9 @@ export const fetchcertificate = async (id: string) => {
 //     const res=await api({url,method,data})
 //     return res?.data;
 // }
+
+export const IssuedCertificateList = async ({ id, page, keyword }: { id: number, page: number, keyword: string }) => {
+  const url = `api/v1/certificate/get-employee/${id}?page=${page}&limit=10&keyword=${keyword}`;
+  const res = await api({ url });
+  return res.data;
+}

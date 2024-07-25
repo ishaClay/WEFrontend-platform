@@ -2,21 +2,25 @@ import { trainerInvitation } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as Zod from "zod";
+import CustomTabInput from "../comman/CustomTabInput";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loader from "../comman/Loader";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import CustomTabInput from "../comman/CustomTabInput";
-import { useEffect, useState } from "react";
-import ErrorMessage from "../comman/Error/ErrorMessage";
 
 const schema = Zod.object({
-  email: Zod.string({ message: "Email is required" }).min(1, { message: "Email is required" }),
-  details: Zod.string({ message: "Invitation detail is required" }).min(1, { message: "Invitation detail is required" }),
+  email: Zod.string({ message: "Email is required" }).min(1, {
+    message: "Email is required",
+  }),
+  details: Zod.string({ message: "Invitation detail is required" }).min(1, {
+    message: "Invitation detail is required",
+  }),
 });
 const TrainerInvitation = () => {
   const [emails, setEmails] = useState<string[]>([]);
@@ -42,7 +46,7 @@ const TrainerInvitation = () => {
   useEffect(() => {
     if (emails.length > 0) {
       setValue("email", emails.join(","));
-    } else{
+    } else {
       setValue("email", "");
     }
   }, [emails]);
@@ -85,9 +89,8 @@ const TrainerInvitation = () => {
       TrainerCompanyId: id,
       baseUrl: url,
     };
-console.log("payload", payload);
+    console.log("payload", payload);
 
-    return 
     mutate(payload);
   };
 
@@ -119,7 +122,9 @@ console.log("payload", payload);
               <span className="text-[#A3A3A3]">(comma separated email id)</span>
             </Label>
             <CustomTabInput setValue={setEmails} {...register("email")} />
-            {!errors?.email?.ref?.value && <ErrorMessage message={errors?.email?.message as string} />}
+            {!errors?.email?.ref?.value && (
+              <ErrorMessage message={errors?.email?.message as string} />
+            )}
           </div>
           <div className="w-full mb-[30px]">
             <Label className="text-[16px] font-nunito font-[400]">
@@ -130,7 +135,9 @@ console.log("payload", payload);
               {...register("details")}
               placeholder="Enter Details"
             />
-            {errors?.details && <ErrorMessage message={errors?.details?.message as string} />}
+            {errors?.details && (
+              <ErrorMessage message={errors?.details?.message as string} />
+            )}
           </div>
           <div className="text-right">
             <Button
