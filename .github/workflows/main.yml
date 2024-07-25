@@ -25,6 +25,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         
+    - run: rm -rf node_modules      
+    - run: rm package-lock.json 
     - name: Set environment variables in .env file
       run: |
           echo VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} >> .env      
