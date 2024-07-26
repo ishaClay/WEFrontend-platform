@@ -44,6 +44,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
   const [data, setData] = useState<SidebarItem[]>([]);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
@@ -67,7 +68,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
 
   const { data: notification_count } = useQuery({
     queryKey: [QUERY_KEYS.notificationCount],
-    queryFn: () => fetchNotificationCount(UserId),
+    queryFn: () => fetchNotificationCount(userID),
   });
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,

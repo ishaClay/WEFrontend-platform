@@ -46,6 +46,8 @@ const Message = () => {
 
   const { UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const [searchChat, setSearchChat] = useState("");
   const [images, setImages] = useState<string[]>([]);
@@ -67,13 +69,13 @@ const Message = () => {
     refetch: refetchUserList,
   } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList],
-    queryFn: () => fetchChatUserList(UserId as string),
+    queryFn: () => fetchChatUserList(userID as string),
   });
 
   const { data: chatList, refetch: refetchChat } = useQuery({
     queryKey: [QUERY_KEYS.chatList],
-    queryFn: () => fetchChat(UserId, chatId),
-    enabled: !!UserId && !!chatId,
+    queryFn: () => fetchChat(userID, chatId),
+    enabled: !!userID && !!chatId,
   });
 
   useEffect(() => {
@@ -723,7 +725,9 @@ const Message = () => {
                                       <Button
                                         variant={"ghost"}
                                         className="p-0 h-auto"
-                                        onClick={() => window?.open(i, "_blank")}
+                                        onClick={() =>
+                                          window?.open(i, "_blank")
+                                        }
                                       >
                                         <img
                                           src={eye}

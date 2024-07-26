@@ -1,15 +1,15 @@
-import { Loader2, Minus, Plus } from "lucide-react";
-import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
-import SelectMenu from "./comman/SelectMenu";
-import { CourseDiscountDataEntity } from "@/types/course";
-import { fetchEnroll } from "@/services/apiServices/enroll";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
-import { useToast } from "./ui/use-toast";
+import { fetchEnroll } from "@/services/apiServices/enroll";
+import { CourseDiscountDataEntity } from "@/types/course";
 import { ErrorType } from "@/types/Errors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2, Minus, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import SelectMenu from "./comman/SelectMenu";
+import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
+import { useToast } from "./ui/use-toast";
 
 interface RecommendedCoursesModelProps {
   isLoading: boolean;
@@ -211,7 +211,7 @@ const RecommendedCoursesModel = ({
         <Button
           className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
           onClick={handleEnrollementRequest}
-          disabled={isPending}
+          disabled={isPending || !selectCourse || !selectFilterByCategory}
         >
           {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
         </Button>

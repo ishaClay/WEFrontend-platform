@@ -1,11 +1,11 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 interface BreadcrumbData {
   label: string;
@@ -25,12 +25,12 @@ export function BreadcrumbWithCustomSeparator({
             {item.link ? (
               <>
                 <BreadcrumbItem>
-                  <BreadcrumbLink
+                  <Link
                     className="font-calibri text-[16px] capitalize"
-                    href={item.link}
+                    to={item.link}
                   >
                     {item.label}
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="font-calibri text-[16px]">
                   /
