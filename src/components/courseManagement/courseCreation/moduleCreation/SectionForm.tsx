@@ -72,6 +72,7 @@ const SectionForm = ({ errors, watch, setValue, register, sectionID, handleRemov
                                         !section.isLive
                                     )
                                 }}
+                                disabled
                                 className="me-3" />
                             Live Session
                         </h6>

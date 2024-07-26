@@ -61,7 +61,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
         </h5>
         <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-10 gap-2">
           <Label className="text-base text-black font-abhaya font-bold w-[100px]">
-            Filter By :
+            Filter By:
           </Label>
           <SelectMenu
             option={filter}
