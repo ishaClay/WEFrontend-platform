@@ -820,6 +820,10 @@ function App() {
             path="schedule-live-session"
             element={<ScheduleLiveSession />}
           />
+          <Route
+            path="schedule-live-session/edit/:id"
+            element={<ScheduleLiveSession />}
+          />
           <Route path="CourseLiveSession" element={<CourseLiveSession />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />

@@ -1,5 +1,5 @@
-import { Checkbox } from "../../ui/checkbox";
 import profile_img from "@/assets/images/face_1.jfif";
+import { Checkbox } from "../../ui/checkbox";
 
 type TraineeEmployee = {
   data: {
@@ -7,29 +7,32 @@ type TraineeEmployee = {
     name: string;
     companyName: string;
   };
+  traineeList: { name: string; id: string }[];
+  setTraineeList: React.Dispatch<
+    React.SetStateAction<{ name: string; id: string }[]>
+  >;
 };
 
-const TraineeItems = ({ data }: TraineeEmployee) => {
-
-  // const handleChanges = (e: boolean, data: any): void => {
-    // if (e) {
-    //   setFormData((prev: any) => ({
-    //     ...prev,
-    //     traineeList: [
-    //       ...prev.traineeList,
-    //       {
-    //         name: data.name,
-    //         id: data.id,
-    //       },
-    //     ],
-    //   }));
-    // } else {
-    //   setFormData((prev: any) => ({
-    //     ...prev,
-    //     traineeList: prev.traineeList.filter((item: {name: string}) => item.name !== data.name),
-    //   }));
-    // }
-  // };
+const TraineeItems = ({
+  data,
+  setTraineeList,
+  traineeList,
+}: TraineeEmployee) => {
+  const handleChanges = (e: boolean, data: any): void => {
+    if (e) {
+      setTraineeList((prev: any) => [
+        ...prev,
+        {
+          name: data.name,
+          id: data.id.toString(),
+        },
+      ]);
+    } else {
+      setTraineeList((prev: any) =>
+        prev.filter((item: { name: string }) => item.name !== data.name)
+      );
+    }
+  };
 
   return (
     <div className="flex items-center justify-between border-b border-[#D9D9D9] pb-2 mb-2">
@@ -47,10 +50,10 @@ const TraineeItems = ({ data }: TraineeEmployee) => {
       <div className="">
         <Checkbox
           className="border-[#D9D9D9] w-6 h-6"
-          // onCheckedChange={(e) => handleChanges(!!e, data)}
-          // checked={formData?.traineeList.some(
-          //   (item: {name: string}) => item.name === data.name
-          // )}
+          onCheckedChange={(e) => handleChanges(!!e, data)}
+          checked={traineeList?.some(
+            (item: { name: string }) => item.name === data.name
+          )}
         />
       </div>
     </div>

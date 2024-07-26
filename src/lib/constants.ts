@@ -87,6 +87,8 @@ export const QUERY_KEYS = {
   createLiveSessions: "createLiveSessions",
   fetchLiveSession: "fetchLiveSession",
   issuedCertificate: "issuedCertificate",
+  allLiveSession: "allLiveSession",
+  fetchLiveSessionById: "fetchLiveSessionById",
 };
 
 export const urlRegex =

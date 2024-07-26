@@ -1,17 +1,27 @@
 import TotalLiveSessionsPage from "@/components/courseManagement/TotalLiveSessions/TotalLiveSessionsPage";
 import { Button } from "@/components/ui/button";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getAllLiveSession } from "@/services/apiServices/liveSession";
+import { useQuery } from "@tanstack/react-query";
 import { List, NotepadText } from "lucide-react";
-import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
 import { useNavigate } from "react-router-dom";
+import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
 
 const CourseLiveSession = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("view");
   const navigate = useNavigate();
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
 
   const changeView = (id: number) => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
+
+  const { data: allLiveSession } = useQuery({
+    queryKey: [QUERY_KEYS.allLiveSession],
+    queryFn: () => getAllLiveSession(),
+  });
 
   return (
     <div className="rounded-xl bg-white">
@@ -25,6 +35,7 @@ const CourseLiveSession = () => {
             className={`bg-[#00778B] uppercase text-base ${
               params === "0" ? "hidden" : "block"
             }`}
+            onClick={() => navigate(`/${currentUser}/schedule-live-session`)}
           >
             Add New
           </Button>
@@ -53,11 +64,11 @@ const CourseLiveSession = () => {
 
       {params === "0" || !params ? (
         <div className="">
-          <LiveSessionsCalendar />
+          <LiveSessionsCalendar allLiveSession={allLiveSession?.data?.data} />
         </div>
       ) : (
         <div className="">
-          <TotalLiveSessionsPage />
+          <TotalLiveSessionsPage allLiveSession={allLiveSession?.data?.data} />
         </div>
       )}
     </div>
