@@ -110,6 +110,7 @@ module.exports = {
         Poppins: "Poppins",
         abhaya: ["Abhaya Libre", "serif"],
         nunito: ["Nunito Sans", "sans"],
+        greatvibes: ["Great Vibes", "cursive"],
       },
       borderRadius: {
         lg: "var(--radius)",

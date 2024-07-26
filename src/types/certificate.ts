@@ -38,9 +38,34 @@ export interface DataEntity {
   administratorSignature: string;
   instructorTitle: string;
   instructorSignature: string;
+  cretificateText: string;
+  companyLogo: string;
+  companyLogo1: string;
+  deletedAt?: null;
+  primaryColor: string;
+  secoundoryColor: string;
+  primaryFont: string;
+  secoundoryFont: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface updateCertificate {
+  user: number;
+  templateName: string;
+  backgroundImage: string;
+  cretificateText: string;
+  title: string;
+  bodyText: string;
+  administratorTitle: string;
+  instructorTitle: string;
+  instructorSignature: string;
+  administratorSignature: string;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  companyLogo: string;
+  message: string;
 }
 
 export interface EmployeeCertificationResponse {

@@ -1,45 +1,54 @@
+import FileUpload from "@/components/comman/FileUpload";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  fetchcertificate,
+  Updatecertificate,
+} from "@/services/apiServices/certificate";
+import { uploadFile } from "@/services/apiServices/uploadServices";
+import { ErrorType } from "@/types/Errors";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
+import { z } from "zod";
+import ErrorMessage from "../comman/Error/ErrorMessage";
+import Loading from "../comman/Error/Loading";
+import InputWithLabel from "../comman/InputWithLabel";
+import Loader from "../comman/Loader";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import { Input } from "../ui/input";
-import InputWithLabel from "../comman/InputWithLabel";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import ErrorMessage from "../comman/Error/ErrorMessage";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../ui/use-toast";
-import { QUERY_KEYS } from "@/lib/constants";
-import Loader from "../comman/Loader";
-import { uploadFile } from "@/services/apiServices/uploadServices";
-import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { fetchcertificate } from "@/services/apiServices/certificate";
-
+import { Label } from "../ui/label";
+import { useToast } from "../ui/use-toast";
+type RouteParams = {
+  id: string;
+};
 const Addcertificate = () => {
-  const params = useParams();
+  const { id: certificateId } = useParams<RouteParams>();
+  const htmlRef = useRef(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
-  // const UserId = useSelector((state: RootState) => state?.user);
-  // const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const schema = z.object({
     templateName: z.string({ required_error: "Template Name is required" }),
-    backgroundImage: z.instanceof(File, {
+    backgroundImage: z.string({
       message: "backgroundImage is required",
     }),
-    logoImage: z.instanceof(File, {
+    companyLogo1: z.string({
       message: "logoImage is required",
     }),
     title: z.string({ required_error: "Certificate Title is required" }),
-    employeName: z.string({ required_error: "Employee Name is required" }),
-    bodyText: z.string({ required_error: "Body is required" }),
+    bodyText: z
+      .string({ required_error: "Body is required" })
+      .max(100, { message: "Body must be at most 100 characters long" }),
 
     administratorTitle: z.string({
       required_error: "Administrator Title is required",
@@ -47,10 +56,10 @@ const Addcertificate = () => {
     instructorTitle: z.string({
       required_error: "Instructor Title is required",
     }),
-    administratorSignature: z.instanceof(File, {
+    administratorSignature: z.string({
       message: "administrator Signature is required",
     }),
-    instructorSignature: z.instanceof(File, {
+    instructorSignature: z.string({
       message: "instructor Signature is required",
     }),
   });
@@ -68,33 +77,36 @@ const Addcertificate = () => {
     mode: "all",
   });
 
-  const { data: fetchSinglecertificate, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
-    queryFn: () => fetchcertificate(params.id!),
+  const { data: Single_certificate, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.certificateDetail, { certificateId }],
+    queryFn: () => fetchcertificate(certificateId!),
   });
-
-  const isValue = watch();
   useEffect(() => {
-    setValue("templateName", fetchSinglecertificate?.data?.templateName);
-    setValue("backgroundImage", fetchSinglecertificate?.data?.backgroundImage);
-    setValue("logoImage", fetchSinglecertificate?.data?.logoImage);
-    setValue("title", fetchSinglecertificate?.data?.title);
-    setValue("bodyText", fetchSinglecertificate?.data?.bodyText);
-    setValue(
-      "administratorTitle",
-      fetchSinglecertificate?.data?.administratorTitle
-    );
+    setValue("templateName", Single_certificate?.data?.templateName);
+    setValue("backgroundImage", Single_certificate?.data?.backgroundImage);
+    setValue("title", Single_certificate?.data?.title);
+    setValue("bodyText", Single_certificate?.data?.bodyText);
+    setValue("companyLogo1", Single_certificate?.data?.companyLogo1);
     setValue(
       "administratorSignature",
-      fetchSinglecertificate?.data?.administratorSignature
+      Single_certificate?.data?.administratorSignature
     );
-    setValue("instructorTitle", fetchSinglecertificate?.data?.instructorTitle);
+    setValue(
+      "administratorTitle",
+      Single_certificate?.data?.administratorTitle
+    );
+    setValue(
+      "administratorTitle",
+      Single_certificate?.data?.administratorTitle
+    );
+    setValue("instructorTitle", Single_certificate?.data?.instructorTitle);
     setValue(
       "instructorSignature",
-      fetchSinglecertificate?.data?.instructorTitle
+      Single_certificate?.data?.instructorSignature
     );
-  }, [fetchSinglecertificate]);
+  }, [Single_certificate]);
 
+  console.log(Single_certificate, "Single_certificate===========");
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
@@ -102,9 +114,8 @@ const Addcertificate = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      console.log("filenamefilename",filename);
+
       if (filename) {
-        console.log(filename,"filename==============")
         setValue(filename as any, data?.data?.data?.file);
       }
       setFilename("");
@@ -116,8 +127,10 @@ const Addcertificate = () => {
       });
     },
   });
-  const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
+  const handleUploadFile = (e: any, name: string) => {
+    const { files } = e.target;
+    console.log("companyLogo1", name);
+
     if (files && files.length > 0) {
       createImageUpload(files[0]);
       setFilename(name.toString());
@@ -127,34 +140,54 @@ const Addcertificate = () => {
     }
   };
 
+  const { mutate: update_certificate, isPending: update_Panding } = useMutation(
+    {
+      mutationFn: Updatecertificate,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.certificateDetail],
+        });
+        navigate(-1);
+        toast({
+          variant: "default",
+          title: "Certificate Update Successfully",
+        });
+      },
+      onError: (error: ErrorType) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    }
+  );
+
+  console.log("errorr", errors);
+
   const onSubmit = async (data: FieldValues) => {
-    console.log("hello");
-    console.log(data, "data=================");
-    console.log(isValue, "isvalue==============");
-
-    // console.log(data, "certificatedata===========");
-    // const payload: CertificateSubmitPayload = {
-    //   user: userData?.query?.id,
-    //   templateName: data.templateName,
-    //   backgroundImage: data.backgroundImage,
-    //   logoImage: data.logoImage,
-    //   title: data.title,
-    //   employeName: data.employeName,
-    //   bodyText: data.bodyText,
-    //   administratorTitle: data.administratorTitle,
-    //   administratorSignature: data.administratorSignature,
-    //   instructorTitle: data.instructorTitle,
-    //   instructorSignature: data.instructorSignature,
-    // };
-    // createCertificatetemplate(payload);
+    const payload = {
+      user: userData?.query?.id,
+      templateName: data?.templateName,
+      backgroundImage: data?.backgroundImage,
+      title: data?.title,
+      bodyText: data?.bodyText,
+      administratorTitle: data?.administratorTitle,
+      administratorSignature: data?.administratorSignature,
+      instructorTitle: data?.instructorTitle,
+      companyLogo1: data?.companyLogo1,
+      instructorSignature: data?.instructorSignature,
+      createdAt: Single_certificate?.data?.createdAt,
+      updatedAt: Single_certificate?.data?.updatedAt,
+      message: "",
+    };
+    update_certificate({ data: payload, id: certificateId || "" });
   };
-
   return (
     <div className="lg:bg-white bg-transparent rounded-xl">
       <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px]">
         <div>
           <h2 className="font-[700] text-[16px] font-abhaya">
-            Add New Certificate
+            Edit Certificate
           </h2>
         </div>
         <div>
@@ -167,96 +200,148 @@ const Addcertificate = () => {
           </button>
         </div>
       </div>
-      <div className="p-2">
+      <div className="p-5">
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-2 gap-2 mt-4">
-            {isValue && (
-              <div className="sticky top-0 h-[501px]">
-                <div className="relative h-[80vh] w-full">
-                  <div className="absolute inset-0">
-                    {isValue?.backgroundImage && (
-                      <img
-                        src={`${isValue?.backgroundImage}`}
-                        className="object-cover w-full h-full"
-                        alt="Background"
-                      />
-                    )}
+          <div className="flex gap-[30px]">
+            <div className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full">
+              <div className="relative h-full w-full">
+                {watch("backgroundImage") && (
+                  <div className="flex justify-center">
+                    <img
+                      src={watch("backgroundImage")}
+                      className="object-cover bg-transparent w-full max-h-[700px] h-full"
+                      alt="Logo"
+                    />
                   </div>
-                  <div className="absolute top-[10%] left-[40%] w-[200px] ">
-                    {isValue?.logoImage && (
-                      <img
-                        src={`${isValue?.logoImage}`}
-                        className="object-cover"
-                        alt="Logo"
-                      />
-                    )}
-                  </div>
-
-                  <div className="absolute top-[22%] w-full text-center ">
-                    <div>
-                      <h1 className="text-2xl font-abhaya uppercase ">
-                        {isValue?.templateName}
-                      </h1>
-                      <h1 className="capitalize text-lg font-abhaya mt-[10px]">
-                        {isValue?.title}
-                      </h1>
-                    </div>
-                    <div>
-                      <h1 className=" font-abhaya text-4xl font-mediummt-[10px] border-black">
-                        {isValue?.employeName}
-                      </h1>
-                    </div>
-
-                    <div className=" p-4 mt-[10px]">
-                      <p className="text-[14px] font-abhaya">
-                        {isValue?.bodyText}
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-2 p-2 gap-2 mt-[20px]">
-                      <div className="grid grid-cols-2 gap-3 ">
-                        <div className="">
-                          {isValue?.administratorTitle && (
-                            <h1 className="font-abhaya text-2xl capitalize border-t border-black">
-                              {isValue?.administratorTitle}
-                            </h1>
-                          )}
-                          {isValue?.administratorTitle && (
-                            <span className="font-abhaya text-xl ">
-                              Head Of Marketing
-                            </span>
-                          )}
-                        </div>
-                        <div className=" w-[150px] h-[50px]">
-                          {isValue?.administratorSignature && (
-                            <img
-                              src={`${isValue?.administratorSignature}`}
-                              className="object-contain w-[50px]"
-                            />
-                          )}
-                        </div>
+                )}
+                <div className="absolute top-1/2 -translate-y-1/2 w-full px-20">
+                  {Single_certificate?.data?.cretificateText && (
+                    <h4
+                      className={`font-${Single_certificate?.data?.primaryFont} text-[70px] text-center font-semibold pb-2`}
+                      style={{ color: Single_certificate?.data?.primaryColor }}
+                    >
+                      {Single_certificate?.data?.cretificateText}
+                    </h4>
+                  )}
+                  <div className="w-full text-center ">
+                    {watch("title") && (
+                      <div className="pb-3 text-[30px] font-medium">
+                        <h1>OF PARTICIPATION</h1>
+                        <h1>{watch("title")}</h1>
                       </div>
-                      <div className="grid grid-cols-2 gap-3 ">
-                        <div className=" w-[150px] h-[50px]">
-                          {isValue?.instructorSignature && (
-                            <img
-                              src={`${isValue?.instructorSignature}`}
-                              className="object-contain w-[50px]"
-                            />
+                    )}
+                    <div>
+                      <h1
+                        className={`font-${Single_certificate?.data?.primaryFont} font-medium mt-[25px] text-6xl`}
+                        style={{
+                          color: Single_certificate?.data?.primaryColor,
+                        }}
+                      >
+                        Employe Name
+                      </h1>
+                      <div className="flex items-center justify-center mt-4">
+                        <span
+                          className={`block w-2 h-2 rounded-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></span>
+                        <div
+                          className={`h-[2px] max-w-[500px] w-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></div>
+                        <span
+                          className={`block w-2 h-2 rounded-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></span>
+                      </div>
+                    </div>
+                    {watch("bodyText") && (
+                      <div className="mt-5">
+                        <p className="text-[24px] font-nunito tracking-tight w-[50%] m-auto leading-8">
+                          {watch("bodyText")}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-3 justify-between pt-8">
+                      <div className="flex items-end justify-between pt-5 pr-6">
+                        <div>
+                          <div className="">
+                            {watch("administratorSignature") ? (
+                              <img
+                                src={watch("administratorSignature") || ""}
+                                alt="logo"
+                                className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full object-contain"
+                              />
+                            ) : (
+                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                            )}
+                          </div>
+                          {watch("administratorTitle") && (
+                            <div
+                              className="border-t font-nunito font-medium text-lg pt-2"
+                              style={{
+                                borderColor:
+                                  Single_certificate?.data?.primaryColor,
+                              }}
+                            >
+                              <h2>{watch("administratorTitle")}</h2>
+                              <h2>Head Of Marketing</h2>
+                            </div>
                           )}
                         </div>
-                        <div className="">
-                          {isValue?.instructorTitle && (
-                            <h1 className="font-abhaya text-2xl capitalize border-t border-black">
-                              {isValue?.instructorTitle}
-                            </h1>
-                          )}
-                          {isValue?.instructorTitle && (
-                            <span className="font-abhaya text-xl ">
-                              President Director
-                            </span>
+                        {Single_certificate?.data?.companyLogo && (
+                          <div className="">
+                            <img
+                              src={Single_certificate?.data?.companyLogo}
+                              className="w-full"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-end justify-between pt-5 pl-6">
+                        <div className=" w-[70px] h-[70px]  overflow-hidden">
+                          {
+                            <img
+                              src={watch("companyLogo1")}
+                              alt="logo"
+                              className="max-w-[100px] w-full min-h-[50px] max-h-[100px] h-full object-contain"
+                            />
+                          }
+                        </div>
+                        <div>
+                          <div className="overflow-hidden">
+                            {watch("instructorSignature") ? (
+                              <img
+                                src={watch("instructorSignature")}
+                                alt="logo"
+                                className="max-w-[100px] w-full min-h-[80px] max-h-[80px] m-auto h-full"
+                              />
+                            ) : (
+                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                            )}
+                          </div>
+                          {watch("instructorTitle") && (
+                            <div
+                              className="border-t font-nunito font-medium text-lg pt-2"
+                              style={{
+                                borderColor:
+                                  Single_certificate?.data?.primaryColor,
+                              }}
+                            >
+                              <h2>{watch("instructorTitle")}</h2>
+                              <h2>Head Of Marketing</h2>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -264,24 +349,29 @@ const Addcertificate = () => {
                   </div>
                 </div>
               </div>
-            )}
-            <div>
+            </div>
+
+            <div className="w-[361px]">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                  <div className="rounded-lg">
-                    <Accordion type="single" collapsible className="p-0">
-                      <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                  <div className=" rounded-lg font-abhaya">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 rounded-lg "
+                    >
+                      <AccordionItem value="item-1" className="p-0 ">
+                        <AccordionTrigger className="p-2 h-[48px] ">
                           <h2 className="font-semibold font-abhaya">
                             Certificate Template
                           </h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3">
+                        <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel
                             label="Certificate Template Name"
                             type="text"
-                            value={isValue?.templateName}
-                            className="border mt-2 p-3"
+                            labelClassName="font-semibold text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-abhaya"
                             placeholder="Certificate template name"
                             {...register("templateName")}
                           />
@@ -295,40 +385,66 @@ const Addcertificate = () => {
                     </Accordion>
                   </div>
 
-                  <div className="border mt-5 p-2 rounded-lg">
+                  <div className="border mt-5 p-2">
                     <div className="mt-2 p-2">
-                      <h2 className="font-semibold font-abhaya mb-5">
+                      <h2 className="font-semibold font-abhaya mb-1">
                         Upload Background Image
                       </h2>
-                      <div>
-                        <Input
-                          type="file"
-                          className="w-[300px]"
-                          accept=".jpg,.png"
-                          name="backgroundImage"
-                          onChange={(e) => handleUploadFile(e)}
-                        />
-                        {imagepending && <Loader />}
-                        <h3 className="text-[#A3A3A3] font-abhaya mt-2">
+                      <div className="">
+                        <FileUpload
+                          handleDrop={(e) => {
+                            setValue("backgroundImage", e);
+                            handleUploadFile(e, "backgroundImage");
+                          }}
+                          acceptType=".jpg,.png"
+                          className=" cursor-pointer p-[11px] "
+                        >
+                          <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                            <span className="border p-1 rounded-md text-[#515151]">
+                              Choose File
+                            </span>
+                            <span className="p-0">No file chosen</span>
+                          </div>
+                          {imagepending && <Loader />}
+                        </FileUpload>
+                        {errors?.backgroundImage && (
+                          <ErrorMessage
+                            message={errors?.backgroundImage?.message as string}
+                          />
+                        )}
+                        <h3 className="text-[#A3A3A3] text-[15px] font-abhaya mt-2 w-[155px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
                       </div>
                     </div>
-                    <div className="mt-2 p-2">
-                      <h2 className="font-semibold font-abhaya mb-5">
+                    <div className=" p-2">
+                      <h2 className="font-semibold font-abhaya mb-1">
                         Upload Logo Image
                       </h2>
                       <div>
-                        <Input
-                          type="file"
-                          className="w-[300px]"
-                          accept=".jpg,.png"
-                          name="logoImage"
-                          onChange={(e) => handleUploadFile(e)}
-                        />
-                        {imagepending && <Loader />}
-                        <h3 className="text-[#A3A3A3] font-abhaya mt-2">
+                        <FileUpload
+                          handleDrop={(e) => {
+                            setValue("companyLogo1", e);
+                            handleUploadFile(e, "companyLogo1");
+                          }}
+                          className=" cursor-pointer p-[11px]"
+                          acceptType=".jpg,.png"
+                        >
+                          <div className="flex items-center gap-3 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                            <span className="border p-1 rounded-md text-[#515151]">
+                              Choose File
+                            </span>
+                            <span className="p-0">No file chosen</span>
+                          </div>
+                          {imagepending && <Loader />}
+                        </FileUpload>
+                        {errors?.companyLogo1 && (
+                          <ErrorMessage
+                            message={errors?.companyLogo1?.message as string}
+                          />
+                        )}
+                        <h3 className="text-[#A3A3A3] text-[15px] font-abhaya mt-2 w-[155px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
@@ -336,20 +452,24 @@ const Addcertificate = () => {
                     </div>
                   </div>
 
-                  <div className="rounded-lg mt-5 ">
-                    <Accordion type="single" collapsible className="p-0">
+                  <div>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 mt-5 rounded-lg "
+                    >
                       <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                        <AccordionTrigger className="p-2 h-[48px] ">
                           <h2 className="font-semibold font-abhaya">
                             Certificate Title
                           </h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3">
+                        <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel
                             label="Enter Certificate Title"
                             type="text"
-                            value={isValue?.title}
-                            className="border  mt-2 p-3"
+                            labelClassName="font-semibold text-[16px] pb-1 pt-1 font-abhaya"
+                            className="mt-2 p-[11px] font-abhaya"
                             placeholder="Certificate title"
                             {...register("title")}
                           />
@@ -364,43 +484,46 @@ const Addcertificate = () => {
                   </div>
 
                   <div className="rounded-lg mt-5">
-                    <Accordion type="single" collapsible className="p-0">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 mt-5 rounded-lg "
+                    >
                       <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                        <AccordionTrigger className="p-2 h-[48px] ">
                           <h2 className="font-semibold font-abhaya">
                             Employee Name
                           </h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3">
+                        <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel
                             label="Employee Name"
                             type="text"
-                            className="border mt-2 p-3"
-                            placeholder="Employee name"
-                            {...register("employeName")}
+                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-abhaya"
+                            placeholder="0"
                           />
-                          {errors?.employeName && (
-                            <ErrorMessage
-                              message={errors?.employeName?.message as string}
-                            />
-                          )}
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
                   </div>
 
-                  <div className="rounded-lg mt-5">
-                    <Accordion type="single" collapsible className="p-0">
+                  <div>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 rounded-lg mt-5"
+                    >
                       <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                        <AccordionTrigger className="p-2 h-[48px]">
                           <h2 className="font-semibold font-abhaya">Body</h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3">
+                        <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel
                             label="Enter certificate body text"
                             type="text"
-                            className="border mt-2 p-3"
-                            value={isValue?.bodyText}
+                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             placeholder="[name] [course] Lorem ipsum dolor sit amet, consectetur adipiscing elit. A id amet metus pellentesque ac diam feugiat. Proin neque, enim sit tellus enim. Sed in nulla feugiat enim est lobortis euismod neque in."
                             {...register("bodyText")}
                           />
@@ -414,20 +537,24 @@ const Addcertificate = () => {
                     </Accordion>
                   </div>
 
-                  <div className="rounded-lg mt-5">
-                    <Accordion type="single" collapsible className="p-0">
+                  <div>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 rounded-lg mt-5"
+                    >
                       <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                        <AccordionTrigger className="p-2 h-[48px] ">
                           <h2 className="font-semibold font-abhaya">
                             Signature Title 01
                           </h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3 ">
+                        <AccordionContent className="p-2 pb-2 border-t">
                           <InputWithLabel
                             label="Title"
-                            value={isValue?.administratorTitle}
                             type="text"
-                            className="border p-3 mt-2"
+                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             placeholder="Administrator"
                             {...register("administratorTitle")}
                           />
@@ -440,34 +567,56 @@ const Addcertificate = () => {
                           )}
                         </AccordionContent>
 
-                        <AccordionContent className="p-3 pt-0">
-                          <InputWithLabel
-                            type="file"
-                            className="w-[300px] mt-2"
-                            label="Signature"
-                            name="administratorSignature"
-                            onChange={(e) => handleUploadFile(e)}
-                          />
-                          {imagepending && <Loader />}
+                        <AccordionContent className="p-2 pb-4">
+                          <Label className="font-semibold font-abhaya ">
+                            Signature
+                          </Label>
+                          <FileUpload
+                            handleDrop={(e) => {
+                              setValue("administratorSignature", e);
+                              handleUploadFile(e, "administratorSignature");
+                            }}
+                            className=" cursor-pointer p-[11px] mt-2"
+                          >
+                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                              <span className="border p-1 rounded-md text-[#515151]">
+                                Choose File
+                              </span>
+                              <span className="p-0">No file chosen</span>
+                            </div>
+                            {imagepending && <Loader />}
+                          </FileUpload>
+                          {errors?.administratorSignature && (
+                            <ErrorMessage
+                              message={
+                                errors?.administratorSignature
+                                  ?.message as string
+                              }
+                            />
+                          )}
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
                   </div>
 
-                  <div className="rounded-lg mt-5">
-                    <Accordion type="single" collapsible className="p-0">
+                  <div>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="p-0 rounded-lg mt-5"
+                    >
                       <AccordionItem value="item-1" className="p-0">
-                        <AccordionTrigger className="p-3 border-b">
+                        <AccordionTrigger className="p-3 ">
                           <h2 className="font-semibold font-abhaya">
                             Signature Title 02
                           </h2>
                         </AccordionTrigger>
-                        <AccordionContent className="p-3">
+                        <AccordionContent className="p-3 border-t">
                           <InputWithLabel
                             label="Title"
                             type="text"
-                            value={isValue?.instructorTitle}
-                            className="border mt-2 p-3"
+                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             placeholder="Instructor"
                             {...register("instructorTitle")}
                           />
@@ -481,21 +630,41 @@ const Addcertificate = () => {
                         </AccordionContent>
 
                         <AccordionContent className="p-3 pt-0">
-                          <InputWithLabel
-                            type="file"
-                            className="w-[300px] mt-2"
-                            label="Signature"
-                            name="instructorSignature"
-                            onChange={(e) => handleUploadFile(e)}
-                          />
-                          {imagepending && <Loader />}
+                          <Label className="font-semibold font-abhaya ">
+                            Signature
+                          </Label>
+                          <FileUpload
+                            handleDrop={(e) => {
+                              setValue("instructorSignature", e);
+                              handleUploadFile(e, "instructorSignature");
+                            }}
+                            className=" cursor-pointer p-[11px] mt-2"
+                          >
+                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                              <span className="border p-1 rounded-md text-[#515151]">
+                                Choose File
+                              </span>
+                              <span className="p-0">No file chosen</span>
+                            </div>
+                            {imagepending && <Loader />}
+                          </FileUpload>
+                          {errors?.instructorSignature && (
+                            <ErrorMessage
+                              message={
+                                errors?.instructorSignature?.message as string
+                              }
+                            />
+                          )}
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
                   </div>
-                  <div className="mt-5 text-center">
-                    <Button className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm inline-block lg:mt-0 ">
-                      ADD CERTIFICATE
+                  <div className="mt-5 text-center ">
+                    <Button
+                      type="submit"
+                      className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm inline-block lg:mt-0 w-full"
+                    >
+                      SAVE CERTIFICATE
                     </Button>
                   </div>
                 </div>
@@ -504,6 +673,7 @@ const Addcertificate = () => {
           </div>
         )}
       </div>
+      <Loading isLoading={update_Panding} />
     </div>
   );
 };

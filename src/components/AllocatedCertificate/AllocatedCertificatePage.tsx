@@ -157,9 +157,9 @@ const AllocatedCertificatePage = () => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
             {row.original?.status === 1 ? (
-              <Eye className="mx-2 cursor-pointer text-[#A3A3A3]" width={18} />
+              <Eye className="cursor-pointer text-[#A3A3A3]" width={18} />
             ) : (
               <FileSliders
                 className="cursor-pointer text-[#A3A3A3]"
