@@ -1,10 +1,12 @@
 import { RadioGroup } from "@/components/ui/radio-group";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
 import { Button } from "@/components/ui/button";
-import { addPoint, addQuestion } from "@/redux/reducer/AssessmentReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { addPoint, addQuestion, removeQuestion } from "@/redux/reducer/AssessmentReducer";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { Fragment } from "react/jsx-runtime";
 import { useState } from "react";
+import { CircleX } from "lucide-react";
+import { RootState } from "@/redux/store";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -12,6 +14,7 @@ interface AssecessmentTypeProps {
 }
 
 const AssecessmentTypeOne = ({ i, type }: AssecessmentTypeProps) => {
+  const assecessmentData = useAppSelector((state: RootState) => state.assessment);
   const dispatch = useAppDispatch();
   const [options, setOptions] = useState([
     {
@@ -28,15 +31,25 @@ const AssecessmentTypeOne = ({ i, type }: AssecessmentTypeProps) => {
     setOptions([...options, newOption]);
   };
 
+  console.log("assecessmentData", assecessmentData?.selectedQuestionType?.map((_, index) => index !== i));
+  
+  const handleRemove = (i:number) => {
+    dispatch(removeQuestion({ i }));
+  }
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
-        <h6 className="text-base text-black font-calibri pb-3">
-          Assessment Type
-        </h6>
+        <div className="flex justify-between items-center">
+          <h6 className="text-base text-black font-calibri pb-3">
+            Assessment Type
+          </h6>
+          <CircleX className="text-[#fb6262] -mt-7 cursor-pointer" onClick={() => handleRemove(i)} />
+        </div>
         <input
           placeholder="Single Choice Question"
-          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+          disabled
+          className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
         />
       </div>
       <div className="pb-8">
@@ -48,9 +61,9 @@ const AssecessmentTypeOne = ({ i, type }: AssecessmentTypeProps) => {
             placeholder="How would you describe an authoritarian (or controlling) management style?"
             className="outline-none font-base font-calibri text-[#1D2026] w-full"
             onChange={(e) =>
-              dispatch(
-                addQuestion({ index: i, question: e.target.value, type })
-              )
+              {dispatch(
+                addQuestion({ index: i, question: e.target.value, assessmentType: type })
+              )}
             }
           />
           <div className="flex items-center">
