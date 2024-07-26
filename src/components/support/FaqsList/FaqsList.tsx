@@ -1,3 +1,4 @@
+import Loader from "@/components/comman/Loader";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFaqs } from "@/services/apiServices/faqs";
 import { UserRole } from "@/types/UserRole";
@@ -42,13 +43,17 @@ const FaqsList = () => {
       </div>
       <div className="p-5">
         <div>
-          <Accordions
-            items={faqs_list?.data?.data}
-            rounded={false}
-            border={false}
-            triggerClassName="border w-full group hover:no-underline text-left sm:text-base text-sm font-semibold sm:p-5 p-3"
-            contentClassName="border w-full sm:p-5 p-3 text-[16px] leading-[22px]"
-          />
+          {isPending ? (
+            <Loader />
+          ) : (
+            <Accordions
+              items={faqs_list?.data?.data}
+              rounded={false}
+              border={false}
+              triggerClassName="border w-full group hover:no-underline text-left sm:text-base text-sm font-semibold sm:p-5 p-3"
+              contentClassName="border w-full sm:p-5 p-3 text-[16px] leading-[22px]"
+            />
+          )}
         </div>
       </div>
     </div>

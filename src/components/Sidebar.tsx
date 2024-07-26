@@ -34,6 +34,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const { sidebarOpen } = useContext(SidebarContext);
   const mavigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const toggleDropdown = (
     children: { label: string; link: string }[],
@@ -68,13 +69,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   });
 
   const handleLogout = () => {
-    const userId = userData?.query?.id;
-    mutate(userId);
+    mutate(userID);
   };
 
   const { data: chatUserList } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList],
-    queryFn: () => fetchChatUserList(UserId as string),
+    queryFn: () => fetchChatUserList(userID as string),
   });
   const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
 

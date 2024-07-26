@@ -240,54 +240,57 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                         {status()}
                       </Button>
                     )}
-                    {item.employeeId === null && (
-                      <div className="flex items-center gap-4">
-                        <Button
-                          className="text-base text-[#4285F4] underline bg-transparent font-abhaya font-semibold p-0"
-                          onClick={() => {
-                            setIsOpenHistoryModel(item.id);
-                            setHistoryMasure(item.measure);
-                          }}
-                        >
-                          History
-                        </Button>
-                        <Button
-                          className="bg-[#00778B] text-white rounded-md text-sm h-[32px] px-2 flex items-center w-[75px]"
-                          onClick={() => setIsOpenAssignModel(item.id)}
-                        >
-                          <BsPencilFill width={16} className="w-full" /> Assign
-                        </Button>
-                      </div>
-                    )}
-                    {item.iscompleted === 1 && (
-                      <div className="flex gap-3 items-center">
-                        <a
-                          href={item.evidence}
-                          target="_blank"
-                          className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
-                        >
-                          <Eye width={18} />
-                          view
-                        </a>
-
-                        <Button className="bg-transparent text-[#58BA66] text-base font-nunito font-semibold flex items-center px-2.5">
-                          <CircleCheck width={20} /> Completed
-                        </Button>
-                      </div>
-                    )}
-                    {item.iscompleted === 0 && item.employeeId !== null && (
+                    <div className="flex gap-3 items-center">
                       <Button
-                        type="button"
+                        className="text-base text-[#4285F4] underline bg-transparent font-abhaya font-semibold p-0"
                         onClick={() => {
-                          setIsOpenDelayModel(true);
-                          setUploadData(item);
+                          setIsOpenHistoryModel(item.id);
+                          setHistoryMasure(item.measure);
                         }}
-                        className="bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
                       >
-                        <BsPencilFill />
-                        Edit
+                        History
                       </Button>
-                    )}
+                      {item.employeeId === null && (
+                        <div className="flex items-center gap-4">
+                          <Button
+                            className="bg-[#00778B] text-white rounded-md text-sm h-[32px] px-2 flex items-center w-[75px]"
+                            onClick={() => setIsOpenAssignModel(item.id)}
+                          >
+                            <BsPencilFill width={16} className="w-full" />{" "}
+                            Assign
+                          </Button>
+                        </div>
+                      )}
+                      {item.iscompleted === 1 && (
+                        <div className="">
+                          <a
+                            href={item.evidence}
+                            target="_blank"
+                            className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
+                          >
+                            <Eye width={18} />
+                            view
+                          </a>
+
+                          <Button className="bg-transparent text-[#58BA66] text-base font-nunito font-semibold flex items-center px-2.5">
+                            <CircleCheck width={20} /> Completed
+                          </Button>
+                        </div>
+                      )}
+                      {item.iscompleted === 0 && item.employeeId !== null && (
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            setIsOpenDelayModel(true);
+                            setUploadData(item);
+                          }}
+                          className="bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
+                        >
+                          <BsPencilFill />
+                          Edit
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </>

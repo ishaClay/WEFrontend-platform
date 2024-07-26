@@ -6,7 +6,7 @@ function HeaderCourse() {
   const location = useLocation();
   const Role = location.pathname.split("/")[1];
 
-  console.log("Role", location);
+  console.log("+++Role", Role);
 
   const headerData = useMemo(() => {
     const pathName = location.pathname.split("/").pop();
@@ -69,7 +69,7 @@ function HeaderCourse() {
       case "add-new-ticket":
         title = [
           { label: "Support", link: "js:" },
-          { label: "Support Ticket", link: "js:" },
+          { label: "Support Ticket", link: `/${Role}/support-request` },
           { label: "Add New Ticket" },
         ];
         break;
@@ -77,7 +77,7 @@ function HeaderCourse() {
       case "ticket-details-reply":
         title = [
           { label: "Supports", link: "js:" },
-          { label: "Support Request", link: "js:" },
+          { label: "Support Request", link: `/${Role}/support-request` },
           { label: "ticket details reply" },
         ];
         break;
@@ -164,7 +164,7 @@ function HeaderCourse() {
       case "employeeinvition":
         title = [
           { label: "Team Management", link: "js:" },
-          { label: "Team List", link: "js:" },
+          { label: "Team List", link: `/${Role}/employeelist` },
           { label: "Team Invition" },
         ];
         break;
@@ -233,7 +233,7 @@ function HeaderCourse() {
       case "employee-basic-course":
         title = [
           { label: "Course Management", link: "js:" },
-          { label: "Employee Basic Course" },
+          { label: "Employee Basic Course Details" },
         ];
         break;
 
@@ -294,7 +294,7 @@ function HeaderCourse() {
       case "add-new-ticket":
         title = [
           { label: "Support", link: "js:" },
-          { label: "Support Ticket", link: "js:" },
+          { label: "Support Ticket", link: `/${Role}/support-request` },
           { label: "Add New Ticket" },
         ];
         break;

@@ -11,8 +11,10 @@ import AssignCard from "./AssignCard";
 
 const Assign = ({
   setStep,
+  setIsEdit,
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
+  setIsEdit: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -48,7 +50,10 @@ const Assign = ({
         <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">
           <Button
             type="button"
-            onClick={() => setStep(0)}
+            onClick={() => {
+              setStep(0);
+              setIsEdit(true);
+            }}
             className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
           >
             Edit Action Plan

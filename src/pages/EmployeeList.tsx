@@ -66,7 +66,7 @@ function CoursesAllocate() {
               navigate(`/company/employeelist/${row.original.id}`);
             }}
           >
-            #{row.original.id}
+            #{row.index + 1}
           </div>
         );
       },
