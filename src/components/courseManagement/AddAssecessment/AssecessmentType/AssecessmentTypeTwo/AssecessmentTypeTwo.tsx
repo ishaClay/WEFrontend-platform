@@ -1,10 +1,14 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/hooks/use-redux";
-import { addPoint, addQuestion, removeQuestion } from "@/redux/reducer/AssessmentReducer";
+import {
+  addPoint,
+  addQuestion,
+  removeQuestion,
+} from "@/redux/reducer/AssessmentReducer";
+import { CircleX } from "lucide-react";
 import { Fragment, useState } from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
-import { CircleX } from "lucide-react";
-import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -15,7 +19,14 @@ interface AssecessmentTypeProps {
   watch: any;
 }
 
-const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: AssecessmentTypeProps) => {
+const AssecessmentTypeTwo = ({
+  i,
+  type,
+  errors,
+  register,
+  setValue,
+  watch,
+}: AssecessmentTypeProps) => {
   const dispatch = useAppDispatch();
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [options, setOptions] = useState([
@@ -25,6 +36,8 @@ const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: Ass
     },
   ]);
 
+  console.log("+++++++", setValue, watch);
+
   const addOption = () => {
     const newOption = {
       optionTitle: `Option ${options.length + 1}:`,
@@ -33,21 +46,23 @@ const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: Ass
     setOptions([...options, newOption]);
   };
 
-  const handleRemove = (i:number) => {
+  const handleRemove = (i: number) => {
     dispatch(removeQuestion({ i }));
-  }
+  };
 
   console.log("errors?.questions?.[i]", errors?.questions?.[i]);
-  
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
-      <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center">
           <h6 className="text-base text-black font-calibri pb-3">
             Assessment Type
           </h6>
-          <CircleX className="text-[#fb6262] -mt-7 cursor-pointer" onClick={() => handleRemove(i)} />
+          <CircleX
+            className="text-[#fb6262] -mt-7 cursor-pointer"
+            onClick={() => handleRemove(i)}
+          />
         </div>
         <input
           placeholder="Multiple Choice Question"
@@ -66,7 +81,11 @@ const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: Ass
             className="outline-none font-base font-calibri text-[#1D2026] w-full"
             onChange={(e) =>
               dispatch(
-                addQuestion({ index: i, question: e.target.value, assessmentType: type })
+                addQuestion({
+                  index: i,
+                  question: e.target.value,
+                  assessmentType: type,
+                })
               )
             }
           />
@@ -83,8 +102,12 @@ const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: Ass
             />
           </div>
         </div>
-        {errors?.questions?.[i]?.question && <ErrorMessage message={errors?.questions?.[i]?.question?.message} />}
-        {errors?.questions?.[i]?.point && <ErrorMessage message={errors?.questions?.[i]?.point?.message} />}
+        {errors?.questions?.[i]?.question && (
+          <ErrorMessage message={errors?.questions?.[i]?.question?.message} />
+        )}
+        {errors?.questions?.[i]?.point && (
+          <ErrorMessage message={errors?.questions?.[i]?.point?.message} />
+        )}
       </div>
       <div className="">
         <div className="text-right">
