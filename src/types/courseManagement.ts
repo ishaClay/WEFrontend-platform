@@ -300,6 +300,8 @@ export interface CourseAllotedEntity {
   deletedAt?: null;
   updatedAt: string;
   courseVersion: CourseVersion;
+  completedSections: number;
+  totalSections: number;
   courseProgress: string;
   courseStatus: string;
 }

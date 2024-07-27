@@ -57,7 +57,7 @@ const EmployeeBasicCourse = () => {
       >
         <ReviewModal />
       </Modal>
-      <div className="bg-white rounded-b-xl min-h-[calc(100vh_-_130px)]">
+      <div className="bg-white rounded-b-xl h-[calc(100vh-170px)] overflow-y-auto">
         <div className="">
           <div className="sm:flex block justify-between items-center px-5 py-5">
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">

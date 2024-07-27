@@ -28,7 +28,7 @@ export interface EmployeeActionResponse {
 }
 export interface Data {
     myActionItems: MyActionItems;
-    measure?: (MeasureEntity)[] | null;
+    measureData?: (MeasureEntity)[] | null;
 }
 export interface MyActionItems {
     delayed: number;
