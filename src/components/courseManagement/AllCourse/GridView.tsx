@@ -23,11 +23,13 @@ import {
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
+import AllocatedCertificateModal from "./AllocatedCertificateModal";
+import { UserRole } from "@/types/UserRole";
 
 const GridView = ({
   list,
@@ -38,7 +40,9 @@ const GridView = ({
 }) => {
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
+  const [isOpen, setIsOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
@@ -204,6 +208,7 @@ const GridView = ({
 
   return list?.length > 0 && list ? (
     <>
+      <AllocatedCertificateModal isOpen={isOpen} setIsOpen={setIsOpen} />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
@@ -321,7 +326,9 @@ const GridView = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem
+                    {(+userData?.query?.role === UserRole.Trainee
+                      ? userData?.approved
+                      : true) && (<DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
                         onClick={(e: any) =>
                           handleCopy(e, item?.currentVersion?.id)
@@ -329,8 +336,10 @@ const GridView = ({
                       >
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
-                      </DropdownMenuItem>
-                      {item?.status !== "EXPIRED" && (
+                      </DropdownMenuItem>)}
+                      {item?.status !== "EXPIRED" && (+userData?.query?.role === UserRole.Trainee
+                        ? userData?.editCourses
+                        : true) && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
@@ -345,6 +354,16 @@ const GridView = ({
                           <span>Edit</span>
                         </DropdownMenuItem>
                       )}
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 font-nunito"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsOpen(item?.id);
+                        }}
+                      >
+                        <Combine className="w-4 h-4" />
+                        <span>Allocate</span>
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
                         onClick={(e: any) => {

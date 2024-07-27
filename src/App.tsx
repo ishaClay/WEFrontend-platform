@@ -717,6 +717,10 @@ function App() {
             element={<CourseManagement />}
           />
           <Route path="add_assessment" element={<AssecessmentPage />} />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route

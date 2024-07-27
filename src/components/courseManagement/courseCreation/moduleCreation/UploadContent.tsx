@@ -181,9 +181,19 @@ const UploadContent = ({
         </div>
       ) : (
         <div className="pb-4">
-          <h6 className="text-base font-calibri text-[#515151] pb-2">
+          <div className="justify-between flex align-items-center mb-1">
+          <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
             Upload Content
           </h6>
+          <Button
+          variant={"ghost"}
+          type="button"
+          onClick={() => {setIsOpenUploadDocumnet(true); removeFile();}}
+          className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
+        >
+          Change document type
+        </Button>
+          </div>
           <div className="md:p-4 p-2.5 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
             <div className="flex md:flex-row flex-col items-center lg:gap-10 gap-5">
               <div className="md:w-2/5 w-full">
