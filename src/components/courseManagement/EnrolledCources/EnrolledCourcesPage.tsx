@@ -1,4 +1,3 @@
-import { MoveLeft } from "lucide-react";
 import EnrolledCourseList from "./EnrolledCourseList";
 
 const EnrolledCourcesPage = () => {
@@ -17,10 +16,6 @@ const EnrolledCourcesPage = () => {
               ? "Here are all the companies and their cohorts who’ve been involved in this course"
               : "The full list of your courses that are currently enrolled in by companies"}
           </p>
-        </div>
-        <div className="flex items-center">
-          <MoveLeft />
-          <span className="text-base font-semibold pl-4">Back</span>
         </div>
       </div>
       <EnrolledCourseList />

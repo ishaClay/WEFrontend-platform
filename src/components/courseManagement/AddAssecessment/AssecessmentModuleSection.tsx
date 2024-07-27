@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -7,12 +8,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { QUERY_KEYS } from "@/lib/constants";
+import { getTotalDuration } from "@/lib/utils";
 import { getModuleSection } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import { Dot } from "lucide-react";
 import { useState } from "react";
 
-const AssecessmentModuleSection = () => {
+interface AssecessmentModuleSectionProps {
+  createAssecessment: any;
+  setCreateAssecessment: React.Dispatch<React.SetStateAction<object>>;
+  errors: any;
+  register: any;
+  setValue: any;
+  watch: any;
+}
+
+const AssecessmentModuleSection = ({createAssecessment, setCreateAssecessment, errors, register, setValue, watch }: AssecessmentModuleSectionProps) => {
   const moduleId = new URLSearchParams(window.location.search).get("moduleId");
 
   const [timeBound, setTimeBound] = useState("false");
@@ -27,16 +38,24 @@ const AssecessmentModuleSection = () => {
     ...(moduleSection?.data?.data?.moduleSection ?? []),
   ];
 
+  const getTotalSectionsTime = moduleSection?.data?.data?.moduleSection?.map((it:any) => it?.readingTime)
+  const totalTimeInSeconds = getTotalDuration(getTotalSectionsTime);
+
+// Convert total seconds back to hours, minutes, seconds
+  const hours = Math.floor(totalTimeInSeconds / 3600)?.toString()?.padStart(2, '0');
+  const minutes = Math.floor((totalTimeInSeconds % 3600) / 60)?.toString()?.padStart(2, '0');
+  const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, '0');  
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <h3 className="text-base font-bold font-calibri pb-2">
         Module: Chapter 1 - Intro
       </h3>
       <div className="flex items-center mb-5">
-        <h6 className="text-xs text-[#313131] font-inter pe-4">Section : 3</h6>
+        <h6 className="text-xs text-[#313131] font-inter pe-4">Section : {moduleSection?.data?.data?.moduleSection?.length || 0}</h6>
         <h6 className="text-xs text-[#313131] font-inter flex items-center">
           <Dot />
-          <strong className="text-black me-2">50m</strong> Reading
+          <strong className="text-black me-2">{+hours > 0 ? hours : "00" }:{+minutes > 0 ? minutes : "00"}:{+seconds > 0 ? seconds : "00"} Seconds</strong> Reading
         </h6>
       </div>
 
@@ -44,14 +63,19 @@ const AssecessmentModuleSection = () => {
         <h6 className="text-base text-[#515151] font-calibri pb-3">
           Select Section
         </h6>
-        <Select>
+        <Select {...register("section")} onValueChange={(e) => {
+            setCreateAssecessment({...createAssecessment, moduleSection: e})
+            setValue("section", e)
+          }}
+          value={watch("section")?.toString()}
+          >
           <SelectTrigger className="w-full border-[#D9D9D9] rounded-md text-base font-calibri px-4 py-4">
             <SelectValue placeholder="How to manage financial management?" />
           </SelectTrigger>
           <SelectContent>
             {sectionOption?.map((item) => (
               <SelectItem
-                value={item?.id}
+                value={item?.id?.toString()}
                 className="font-base font-calibri text-[#1D2026]"
               >
                 {item?.liveSecTitle || item?.title}
@@ -59,12 +83,20 @@ const AssecessmentModuleSection = () => {
             ))}
           </SelectContent>
         </Select>
+        {
+          !errors?.section?.ref?.value && <ErrorMessage message={errors?.section?.message} />
+        }
       </div>
       <div className="mb-5">
         <h6 className="text-base text-[#515151] font-calibri pb-3">
           Assessment Title
         </h6>
-        <Select>
+        <Select {...register("assessmentTitle")} onValueChange={(e) => {
+            setCreateAssecessment({...createAssecessment, title: e})
+            setValue("assessmentTitle", e)
+          }}
+          value={watch("assessmentTitle")?.toString()}
+          >
           <SelectTrigger className="w-full border-[#D9D9D9] rounded-md text-base font-calibri px-4 py-4">
             <SelectValue placeholder="Assessment One" />
           </SelectTrigger>
@@ -83,6 +115,9 @@ const AssecessmentModuleSection = () => {
             </SelectItem>
           </SelectContent>
         </Select>
+        {
+          !errors?.assessmentTitle?.ref?.value && <ErrorMessage message={errors?.assessmentTitle?.message} />
+        }
       </div>
 
       <div className="">
@@ -93,9 +128,11 @@ const AssecessmentModuleSection = () => {
             </h6>
             <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
               <input
+                {...register("percentage")}
                 className="border-none w-full outline-none text-sm text-black"
                 placeholder="35%"
                 type="number"
+                onChange={(e) => setCreateAssecessment({...createAssecessment, passingPercentage: e.target.value})}
               />
             </div>
           </div>
@@ -105,13 +142,14 @@ const AssecessmentModuleSection = () => {
             </h6>
             <div className="rounded-md p-3 me-5 flex justify-between items-center">
               <RadioGroup
-                defaultValue={"false"}
+                {...register("timeBound")}
+                defaultValue={"no"}
                 className="flex"
-                onValueChange={(value: any) => setTimeBound(value)}
+                onValueChange={(value: any) => {setTimeBound(value); setValue("timeBound", value); setCreateAssecessment({...createAssecessment, timeBound: value == "yes" ? "1" : "0"})}}
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value={"false"}
+                    value={"no"}
                     id="option-one"
                     className="w-[24px] h-[24px]"
                   />
@@ -119,7 +157,7 @@ const AssecessmentModuleSection = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem
-                    value={"true"}
+                    value={"yes"}
                     id="option-two"
                     className="w-[24px] h-[24px]"
                   />
@@ -134,14 +172,28 @@ const AssecessmentModuleSection = () => {
             </h6>
             <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
               <input
+                {...register("duration")}
                 className="border-none w-full outline-none text-sm text-black"
                 placeholder="01"
                 disabled={timeBound === "false"}
+                onChange={(e) => {
+                  setCreateAssecessment((prev) => ({...prev, timeDuration: e.target.value}))
+                  setValue("duration", e.target.value)
+                }}
               />
               <h6 className="text-sm text-[#A3A3A3] font-calibri">Hours</h6>
             </div>
           </div>
         </div>
+        {
+          !errors?.percentage?.ref?.value && <ErrorMessage message={errors?.percentage?.message} />
+        }
+        {
+          errors?.timeBound && <ErrorMessage message={errors?.timeBound?.message} />
+        }
+        {
+          errors?.duration && <ErrorMessage message={errors?.duration?.message} />
+        }
       </div>
     </div>
   );

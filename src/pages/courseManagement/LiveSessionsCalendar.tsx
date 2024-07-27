@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AllLivesessions } from "@/types/liveSession";
 import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
@@ -19,28 +20,63 @@ import {
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 
-const initialEvents = [
-  {
-    id: 1,
-    title: "Team Meeting",
-    start: new Date(2024, 6, 19, 10, 0, 0),
-    end: new Date(2024, 6, 19, 12, 0, 0),
-  },
-  {
-    id: 2,
-    title: "Project Review",
-    start: new Date(2024, 6, 20, 14, 0, 0),
-    end: new Date(2024, 6, 20, 16, 0, 0),
-  },
-];
+interface AllLiveSessionsProps {
+  allLiveSession: AllLivesessions[];
+}
 
-const LiveSessionsCalendar = () => {
+const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   const navigate = useNavigate();
   const localizer = momentLocalizer(moment);
   const pathName = window.location.pathname;
-  const currentUser = pathName.split("/")[1];
+  const currentUser = pathName?.split("/")[1];
 
   const [currentDate, setCurrentDate] = useState<Date | undefined>(new Date());
+
+  const calculateEndTime = (
+    startTime: string,
+    sessionDuration: { hour: string; minute: string }
+  ) => {
+    const [hours = 1, minutes = 0] = startTime?.split(":").map(Number) || [
+      0, 0,
+    ];
+    const [durationHours = 0, durationMinutes = 0] = sessionDuration
+      ? [sessionDuration.hour, sessionDuration.minute].map(Number) || [0, 0]
+      : [0, 0];
+
+    let totalMinutes =
+      hours * 60 + minutes + durationHours * 60 + durationMinutes;
+    let endHours = Math.floor(totalMinutes / 60);
+    let endMinutes = totalMinutes % 60;
+
+    if (endHours > 12) {
+      endHours -= 12;
+    }
+
+    return `${endHours}:${endMinutes < 10 ? "0" : ""}${endMinutes}`;
+  };
+
+  const events = allLiveSession?.map((session) => {
+    const eventStart = moment(
+      session.date + " " + session.startTime + " " + session.startAmPm,
+      "YYYY-MM-DD hh:mm A"
+    ).toDate();
+    const eventEnd = moment(
+      session.date +
+        " " +
+        calculateEndTime(session.startTime, session.sessionDuration) +
+        " " +
+        session.startAmPm,
+      "YYYY-MM-DD hh:mm A"
+    ).toDate();
+
+    return {
+      start: eventStart,
+      end: eventEnd,
+      title: "Live Session",
+    };
+  });
+
+  console.log("eventsevents", events);
 
   const CustomToolbar: React.FC<ToolbarProps> = ({ onView, view }) => {
     const handleViewChange = (e: string) => {
@@ -150,7 +186,7 @@ const LiveSessionsCalendar = () => {
       </div> */}
       <Calendar
         localizer={localizer}
-        events={initialEvents}
+        events={events}
         components={{ toolbar: CustomToolbar, event: CustomEvent }}
         date={currentDate}
         style={{ height: 800 }}

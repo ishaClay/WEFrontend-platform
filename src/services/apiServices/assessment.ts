@@ -20,3 +20,15 @@ export const getModuleSection = (id: string) => {
   const url = `api/v1/course/module/get/${id}`;
   return api({ url });
 };
+
+export const createAssessment = (data:any) => {
+  const url = `api/v1/assessment/create`;
+  const method = "post";
+  return api({ url, data, method });
+};
+
+export const createAssessmentQuestion = (data:any) => {
+  const url = `api/v1/assessment/create-question`;
+  const method = "post";
+  return api({ url, data, method });
+};

@@ -86,6 +86,7 @@ const DelayModel = ({
     const payload = {
       iscomplete: 1,
       evidence: file,
+      userId: userData?.id,
     };
     mark({ data: payload, id: uploadData?.id });
   };

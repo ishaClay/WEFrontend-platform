@@ -8,17 +8,23 @@ import {
 import { QUERY_KEYS } from "@/lib/constants";
 import { getTrainee } from "@/services/apiServices/trainer";
 import { useQuery } from "@tanstack/react-query";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Controller } from "react-hook-form";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
 import { Input } from "../../ui/input";
 import { ScrollArea } from "../../ui/scroll-area";
 import TraineeItems from "./TraineeItems";
+import { toast } from "@/components/ui/use-toast";
 
 interface TraineeModalProps {
   selectCompanyOptions: any[];
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   watch: any;
+  control: any;
+  setTraineeList: React.Dispatch<React.SetStateAction<any>>;
+  traineeList: any;
 }
 
 interface TraineeEmployee {
@@ -32,45 +38,43 @@ const AddTraineeModal = ({
   watch,
   selectCompanyOptions,
   setIsOpen,
+  control,
+  setTraineeList,
+  traineeList,
 }: TraineeModalProps) => {
   const { data: fetchTrainee, isPending } = useQuery({
     queryKey: [QUERY_KEYS.fetchTrainee],
     queryFn: () => getTrainee({ companyIds: watch("selectCompany") || [] }),
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const traineeEmployee = fetchTrainee?.data?.map((i: TraineeEmployee) => ({
-    name: i?.name,
-    companyName: i?.company?.name,
-    id: i?.id,
-  }));
+  const traineeEmployee =
+    fetchTrainee?.data?.map((i: TraineeEmployee) => ({
+      name: i.name,
+      companyName: i.company?.name || "",
+      id: i.id,
+    })) || [];
+
+  const filteredData = traineeEmployee.filter(
+    (data: TraineeEmployee) =>
+      data.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      data.companyName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   console.log("traineeEmployee", traineeEmployee);
 
-  // const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
-  // if (e) {
-  //   setFormData((prev: any) => ({
-  //     ...prev,
-  //     traineeList: data?.map((item) => ({ name: item.name, id: item.id })),
-  //   }));
-  // } else {
-  //   setFormData((prev: any) => ({
-  //     ...prev,
-  //     traineeList: [],
-  //   }));
-  // }
-  // };
-
-  // const handleCheckboxChange = (value: string) => {
-  // setFormData((prev) => {
-  //   const selectCompany = prev.selectCompany.includes(value)
-  //     ? prev.selectCompany?.filter((v) => v !== value)
-  //     : [...prev.selectCompany, value];
-  //   return {
-  //     ...prev,
-  //     selectCompany,
-  //   };
-  // });
-  // };
+  const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
+    if (e) {
+      setTraineeList((prev: any) => {
+        return [
+          ...prev,
+          ...data?.map((item) => ({ name: item.name, id: item.id })),
+        ];
+      });
+    } else {
+      setTraineeList([]);
+    }
+  };
 
   return (
     <div className="">
@@ -87,35 +91,55 @@ const AddTraineeModal = ({
             <Input
               placeholder="Search by name, company"
               className="text-[#A3A3A3] placeholder:text-[#A3A3A3] border-none text-[15px]"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
         <div className="relative">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="block text-left" variant="outline">
-                Select Company
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <div className="overflow-auto h-[250px]">
-                {selectCompanyOptions?.map(
-                  (i: { value: string; label: string }) => (
-                    <DropdownMenuCheckboxItem
-                      key={i.value}
-                      // checked={formData.selectCompany.includes(i.value)}
-                      // onCheckedChange={() => handleCheckboxChange(i.value)}
-                    >
-                      {i.label}
-                    </DropdownMenuCheckboxItem>
-                  )
-                )}
-              </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <SlidersHorizontal
-            width={18}
-            className="absolute top-0 bottom-0 left-[10px] m-auto text-[#A3A3A3]"
+          <Controller
+            control={control}
+            name="selectCompany"
+            defaultValue={[""]}
+            render={({ field: { onChange, value } }) => {
+              return (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="flex" variant="outline">
+                      <SlidersHorizontal
+                        width={18}
+                        className="text-[#A3A3A3]"
+                      />
+                      Company
+                      <ChevronDown className="text-[#A3A3A3]" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-full">
+                    <div className="overflow-auto h-[300px]">
+                      {selectCompanyOptions?.map(
+                        (i: { value: string; label: string }) => (
+                          <DropdownMenuCheckboxItem
+                            key={i.value}
+                            checked={value.includes(i.value)}
+                            onCheckedChange={(checked) => {
+                              onChange(
+                                checked
+                                  ? [...value, i.value].filter((item) => item)
+                                  : value.filter(
+                                      (item: string) => item !== i.value
+                                    )
+                              );
+                            }}
+                          >
+                            {i.label}
+                          </DropdownMenuCheckboxItem>
+                        )
+                      )}
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              );
+            }}
           />
         </div>
       </div>
@@ -128,14 +152,21 @@ const AddTraineeModal = ({
             Select All
             <Checkbox
               className="ms-3 border-[#D9D9D9] w-6 h-6"
-              // onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
+              onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
             />
           </span>
         </div>
         <div className="">
           <ScrollArea className="h-[300px]">
-            {traineeEmployee?.map((data: any, index: number) => {
-              return <TraineeItems key={index} data={data} />;
+            {filteredData?.map((data: any, index: number) => {
+              return (
+                <TraineeItems
+                  key={index}
+                  data={data}
+                  traineeList={traineeList}
+                  setTraineeList={setTraineeList}
+                />
+              );
             })}
             {isPending && <Loader />}
           </ScrollArea>
@@ -144,8 +175,13 @@ const AddTraineeModal = ({
       <div className="text-right mt-5">
         <Button
           className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
+          type="button"
           onClick={() => {
-            setIsOpen(false);
+            traineeList?.length > 0 ?
+            setIsOpen(false) : toast({
+              title: "Select Atleast one trainee",
+              variant: "destructive",
+            });;
           }}
         >
           Add Trainee

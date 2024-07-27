@@ -1,16 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/hooks/use-redux";
-import { addPoint, addQuestion } from "@/redux/reducer/AssessmentReducer";
+import { addPoint, addQuestion, removeQuestion } from "@/redux/reducer/AssessmentReducer";
 import { Fragment, useState } from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
+import { CircleX } from "lucide-react";
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 
 interface AssecessmentTypeProps {
   i: number;
   type: string;
+  errors: any;
+  register: any;
+  setValue: any;
+  watch: any;
 }
 
-const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
+const AssecessmentTypeTwo = ({ i, type, errors, register, setValue, watch }: AssecessmentTypeProps) => {
   const dispatch = useAppDispatch();
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const [options, setOptions] = useState([
     {
       optionTitle: `Option 1:`,
@@ -26,15 +33,26 @@ const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
     setOptions([...options, newOption]);
   };
 
+  const handleRemove = (i:number) => {
+    dispatch(removeQuestion({ i }));
+  }
+
+  console.log("errors?.questions?.[i]", errors?.questions?.[i]);
+  
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
-        <h6 className="text-base text-black font-calibri pb-3">
-          Assessment Type
-        </h6>
+      <div className="flex justify-between items-center">
+          <h6 className="text-base text-black font-calibri pb-3">
+            Assessment Type
+          </h6>
+          <CircleX className="text-[#fb6262] -mt-7 cursor-pointer" onClick={() => handleRemove(i)} />
+        </div>
         <input
           placeholder="Multiple Choice Question"
-          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+          disabled
+          className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
         />
       </div>
       <div className="pb-8">
@@ -43,11 +61,12 @@ const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
         </h6>
         <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
           <input
+            {...register(`questions.${i}.question`)}
             placeholder="How would you describe an authoritarian (or controlling) management style?"
             className="outline-none font-base font-calibri text-[#1D2026] w-full"
             onChange={(e) =>
               dispatch(
-                addQuestion({ index: i, question: e.target.value, type })
+                addQuestion({ index: i, question: e.target.value, assessmentType: type })
               )
             }
           />
@@ -56,6 +75,7 @@ const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
               Point
             </label>
             <input
+              {...register(`questions.${i}.point`)}
               className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
               onChange={(e) =>
                 dispatch(addPoint({ index: i, point: +e.target.value }))
@@ -63,12 +83,15 @@ const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
             />
           </div>
         </div>
+        {errors?.questions?.[i]?.question && <ErrorMessage message={errors?.questions?.[i]?.question?.message} />}
+        {errors?.questions?.[i]?.point && <ErrorMessage message={errors?.questions?.[i]?.point?.message} />}
       </div>
       <div className="">
         <div className="text-right">
           <Button
             className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
             onClick={addOption}
+            type="button"
           >
             + Add Option
           </Button>
@@ -82,6 +105,10 @@ const AssecessmentTypeTwo = ({ i, type }: AssecessmentTypeProps) => {
                 iIndex={index}
                 options={options}
                 setOptions={setOptions}
+                setCheckedItems={setCheckedItems}
+                checkedItems={checkedItems}
+                register={register}
+                errors={errors}
               />
             </Fragment>
           );

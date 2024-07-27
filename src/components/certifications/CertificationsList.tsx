@@ -1,6 +1,6 @@
+import { EmployeeCertificationResult } from "@/types/certificate";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { EmployeeCertificationResult } from "@/types/certificate";
 
 type certificationListProps = {
   data: EmployeeCertificationResult;
@@ -22,7 +22,7 @@ const CertificationsList = ({ data }: certificationListProps) => {
           <div>
             <h6 className="sm:text-sm text-xs font-normal font-nunito leading-5 text-[#000000] sm:pb-2 pb-[6px]">
               {data?.course?.courseData?.map(
-                (item) => item?.fetchPillar?.pillarName + " | "
+                (item: any) => item?.fetchPillar?.pillarName + " | "
               )}{" "}
               <br />
               {data?.course?.module} modules
