@@ -8,7 +8,7 @@ import { uploadFile } from "@/services/apiServices/uploadServices";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -31,7 +31,6 @@ type RouteParams = {
 };
 const Addcertificate = () => {
   const { id: certificateId } = useParams<RouteParams>();
-  const htmlRef = useRef(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();

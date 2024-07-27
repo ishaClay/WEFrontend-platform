@@ -98,7 +98,7 @@ export const getItemHistory = async (id: number) => {
 }
 
 export const markComplate = async ({ id, data }: { id: number, data: any }) => {
-    const url = `api/v1/pillar//action-item/mark-complete/${id}`;
+    const url = `api/v1/pillar/action-item/mark-complete/${id}`;
     const res = await api({ url, method: "put", data });
     return res.data
 }

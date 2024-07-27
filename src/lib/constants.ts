@@ -88,6 +88,7 @@ export const QUERY_KEYS = {
   fetchLiveSession: "fetchLiveSession",
   issuedCertificate: "issuedCertificate",
   allLiveSession: "allLiveSession",
+  getUserManual: "getUserManual",
   fetchLiveSessionById: "fetchLiveSessionById",
 };
 

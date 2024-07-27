@@ -3,8 +3,8 @@ import Paginations from "@/components/comman/Pagination";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { fetchDocument } from "@/services/apiServices/Document";
+import { UserManualResponse } from "@/types/userManual";
 import { UserRole } from "@/types/UserRole";
-import { getUserManual } from "@/types/userManual";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const UserManual = () => {
       ? 3
       : 4;
 
-  const { data: userManual_List, isPending } = useQuery<getUserManual>({
+  const { data: userManual_List, isPending } = useQuery<UserManualResponse>({
     queryKey: [QUERY_KEYS.getUserManual, { page }],
     queryFn: () =>
       fetchDocument({
@@ -33,6 +33,9 @@ const UserManual = () => {
         keyword: "",
       }),
   });
+
+  console.log("userManual_List", userManual_List);
+
   return (
     <div className="bg-white rounded-md">
       <h6 className="text-base font-calibri font-bold leading-5 py-5 px-7 border-b border-[#D9D9D9]">
@@ -49,7 +52,7 @@ const UserManual = () => {
           <Loader />
         ) : userManual_List?.data && userManual_List?.data?.length > 0 ? (
           userManual_List?.data?.map((user, index: number) => {
-            return <UserManualList data={user} key={index} />;
+            return <UserManualList list={user} key={index} />;
           })
         ) : (
           <span className="py-10 flex justify-center">No data</span>

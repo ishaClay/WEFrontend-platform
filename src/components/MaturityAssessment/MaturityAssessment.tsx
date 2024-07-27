@@ -69,7 +69,9 @@ const MaturityAssessment = () => {
     (item: any, i: number) => {
       return {
         label: `Re-assessment ${i + 1}`,
-        date: moment(new Date(item?.[0]?.createdAt || "")).format("DD/MM/YYYY"),
+        date: item?.[0]?.createdAt
+          ? moment(new Date(item?.[0]?.createdAt || "")).format("DD/MM/YYYY")
+          : "",
         value: String(i + 1),
       };
     }
@@ -87,6 +89,8 @@ const MaturityAssessment = () => {
         return acc + item?.total;
       }, 0)) ||
     0;
+
+  console.log("pillarCompleted", assessmentQuestionScoreLIST);
 
   return (
     <div className="">

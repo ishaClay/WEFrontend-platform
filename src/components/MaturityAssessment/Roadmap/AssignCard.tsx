@@ -262,7 +262,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                         </div>
                       )}
                       {item.iscompleted === 1 && (
-                        <div className="">
+                        <div className="flex items-center gap-3">
                           <a
                             href={item.evidence}
                             target="_blank"

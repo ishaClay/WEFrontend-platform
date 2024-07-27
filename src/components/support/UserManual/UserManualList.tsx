@@ -1,12 +1,9 @@
 import EllipseImage from "@/assets/images/Ellipse2.png";
 import EllipseImage2 from "@/assets/images/Ellipse3.png";
+import { DataEntity } from "@/types/userManual";
 
 type supportListProps = {
-  list: {
-    id: string;
-    title: string;
-    type: string;
-  };
+  list: DataEntity;
 };
 const UserManualList = ({ list }: supportListProps) => {
   return (

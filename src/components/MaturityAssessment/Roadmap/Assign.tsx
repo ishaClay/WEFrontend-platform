@@ -74,7 +74,7 @@ const Assign = ({
           </Button>
         </div>
         <p className="text-[#64A70B] lg:text-base text-sm font-semibold">
-          And whenever you’ve learnt, applied, and developed:  <br />
+          And whenever you’ve learnt, applied, and developed: <br />
           come back to measure your progress anytime with a re-assessment!
         </p>
       </div>

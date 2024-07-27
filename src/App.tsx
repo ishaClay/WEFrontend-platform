@@ -49,7 +49,6 @@ import InProgress from "./pages/InProgress";
 import IndividualEmployee from "./pages/IndividualEmployee";
 import LiveSession from "./pages/LiveSession";
 import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
-import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
 import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
 import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
 import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
@@ -320,14 +319,6 @@ function App() {
           element={
             <ProtectedRoute>
               <MaturityAssessmentRoadmapHistory />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmapactionview"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapActionView />
             </ProtectedRoute>
           }
         />
