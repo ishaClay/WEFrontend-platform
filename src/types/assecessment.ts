@@ -1,6 +1,6 @@
 export interface AssecessmentCreation {
     section: string;
-    assessmentTitle: string;
+    title: string;
     percentage: string;
     timeBound: string;
     duration: string;

@@ -17,6 +17,8 @@ export interface AllLivesessions {
   createdAt: string;
   updatedAt: string;
   trainer: LiveSessionTrainer[];
+  company?: any[];
+  course?: any;
 }
 
 export interface LiveSessionSectionTime {
