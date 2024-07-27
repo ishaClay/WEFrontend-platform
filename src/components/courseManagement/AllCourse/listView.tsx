@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import {
   copyCourse,
   deleteCourse,
@@ -24,12 +25,17 @@ import { AllCoursesResult } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
-const ListView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: boolean }) => {
+const ListView = ({
+  list,
+  isLoading,
+}: {
+  list: AllCoursesResult[];
+  isLoading?: boolean;
+}) => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
@@ -48,32 +54,33 @@ const ListView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
     setCourse(id);
   };
 
-  const { mutate: updateVersionFun, isPending: updateVersionPending } = useMutation({
-    mutationFn: updateVersion,
-    onSuccess: (data) => {
-      queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse]});
-      toast({
-        title: "Success",
-        description: data?.data?.message,
-        variant: "success",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+  const { mutate: updateVersionFun, isPending: updateVersionPending } =
+    useMutation({
+      mutationFn: updateVersion,
+      onSuccess: (data) => {
+        queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+        toast({
+          title: "Success",
+          description: data?.data?.message,
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
 
-  const handleChangeVersion = (versionId: string, item:AllCoursesResult) => {
+  const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
     const payload = {
       mainCourseId: item?.currentVersion?.mainCourse?.id,
       versionId: +versionId,
-      userId: +UserId
-    }
-    updateVersionFun(payload)
+      userId: +UserId,
+    };
+    updateVersionFun(payload);
   };
 
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
@@ -184,14 +191,14 @@ const ListView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  return (
-    list?.length > 0 && list ? <div>
+  return list?.length > 0 && list ? (
+    <div>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
-      {
-        (isLoading || updateVersionPending) && <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
+      {(isLoading || updateVersionPending) && (
+        <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
           <Loader className="h-10 w-10" />
         </div>
-      }
+      )}
       <div>
         {list.map((data, index: number) => {
           const versionOption =
@@ -287,7 +294,9 @@ const ListView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
                         option={versionOption || []}
                         setValue={(e: string) => handleChangeVersion(e, data)}
                         value={data?.currentVersion?.id?.toString() || ""}
-                        defaultValue={data?.currentVersion?.id?.toString() || ""}
+                        defaultValue={
+                          data?.currentVersion?.id?.toString() || ""
+                        }
                         containClassName="max-w-[62px]"
                         className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
                         placeholder="V-01"
@@ -356,7 +365,9 @@ const ListView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
             <Loader className="w-10 h-10 text-primary" />
           </div>
         ))}
-    </div> : <span className="py-10 block text-center">No data found</span> 
+    </div>
+  ) : (
+    <span className="py-10 block text-center">No data found</span>
   );
 };
 

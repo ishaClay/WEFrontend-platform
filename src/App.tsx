@@ -7,7 +7,6 @@ import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdi
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 import Accomplishments from "./components/certifications/Accomplishments";
-import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
@@ -716,7 +715,7 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
-          <Route path="add_assessment" element={<AssecessmentPage />} />
+          {/* <Route path="add_assessment" element={<AssecessmentPage />} /> */}
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route
@@ -764,7 +763,7 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
-          <Route path="add_assessment" element={<AssecessmentPage />} />
+          {/* <Route path="add_assessment" element={<AssecessmentPage />} /> */}
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}

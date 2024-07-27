@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import {
   copyCourse,
   deleteCourse,
@@ -24,12 +25,17 @@ import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
-const GridView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: boolean }) => {
+const GridView = ({
+  list,
+  isLoading,
+}: {
+  list: AllCoursesResult[];
+  isLoading?: boolean;
+}) => {
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
@@ -51,25 +57,26 @@ const GridView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
       setCourse("");
     }
   }, [cohort]);
-  
-  const { mutate: updateVersionFun, isPending: updateVersionPending } = useMutation({
-    mutationFn: updateVersion,
-    onSuccess: (data) => {
-      queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse]});
-      toast({
-        title: "Success",
-        description: data?.data?.message,
-        variant: "success",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+
+  const { mutate: updateVersionFun, isPending: updateVersionPending } =
+    useMutation({
+      mutationFn: updateVersion,
+      onSuccess: (data) => {
+        queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+        toast({
+          title: "Success",
+          description: data?.data?.message,
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
 
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
     useMutation({
@@ -136,14 +143,14 @@ const GridView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
       },
     });
 
-  const handleChangeVersion = (versionId: string, item:AllCoursesResult) => {
+  const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
     const payload = {
       mainCourseId: item?.currentVersion?.mainCourse?.id,
       versionId: +versionId,
-      userId: +UserId
-    }
-    updateVersionFun(payload)
-  };  
+      userId: +UserId,
+    };
+    updateVersionFun(payload);
+  };
 
   const handlePublish = (e: Event, id: number) => {
     e.preventDefault();
@@ -193,30 +200,29 @@ const GridView = ({ list, isLoading }: { list: AllCoursesResult[], isLoading: bo
   const handleDeleteCourse = () => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
-console.log("list", list);
+  console.log("list", list);
 
-  
   return list?.length > 0 && list ? (
     <>
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
-      {
-        (isLoading || updateVersionPending) && <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
+      {(isLoading || updateVersionPending) && (
+        <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
           <Loader className="h-10 w-10" />
         </div>
-      }
+      )}
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-        {list?.map((item:any, i:number) => {
+        {list?.map((item: any, i: number) => {
           const versionOption =
             item?.version &&
-            item?.version.map((itm:any) => {
+            item?.version.map((itm: any) => {
               console.log("itmitmitm", itm?.id);
-              
+
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               };
             });
-            
+
           return (
             <Link
               to={`/${pathName}/employee-basic-course/${item?.currentVersion?.id}`}
@@ -278,11 +284,14 @@ console.log("list", list);
               </div>
               <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
-                  disabled={item?.status === "PUBLISHED" || item?.status === "EXPIRED"}
-                  className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                  onClick={(e: any) =>
-                    {handlePublish(e, item?.currentVersion?.id as number); setCourse(item?.id);}
+                  disabled={
+                    item?.status === "PUBLISHED" || item?.status === "EXPIRED"
                   }
+                  className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                  onClick={(e: any) => {
+                    handlePublish(e, item?.currentVersion?.id as number);
+                    setCourse(item?.id);
+                  }}
                   isLoading={course === item?.id}
                 >
                   PUBLISH
@@ -296,15 +305,15 @@ console.log("list", list);
                   + Cohort
                 </Button>
                 <div className="">
-                    <SelectMenu
-                      option={versionOption || []}
-                      setValue={(data: string) => handleChangeVersion(data, item)}
-                      value={item?.currentVersion?.id?.toString() || ""}
-                      defaultValue={item?.currentVersion?.id?.toString() || ""}
-                      containClassName="max-w-[62px]"
-                      className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                      placeholder="V-01"
-                    />
+                  <SelectMenu
+                    option={versionOption || []}
+                    setValue={(data: string) => handleChangeVersion(data, item)}
+                    value={item?.currentVersion?.id?.toString() || ""}
+                    defaultValue={item?.currentVersion?.id?.toString() || ""}
+                    containClassName="max-w-[62px]"
+                    className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                    placeholder="V-01"
+                  />
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -321,19 +330,21 @@ console.log("list", list);
                         <Copy className="w-4 h-4" />
                         <span>Copy</span>
                       </DropdownMenuItem>
-                      {item?.status !== "EXPIRED" && <DropdownMenuItem
-                        className="flex items-center gap-2 font-nunito"
-                        onClick={(e) =>
-                          handleEdit(
-                            e,
-                            item?.currentVersion?.id?.toString(),
-                            item
-                          )
-                        }
-                      >
-                        <Pencil className="w-4 h-4" />
-                        <span>Edit</span>
-                      </DropdownMenuItem>}
+                      {item?.status !== "EXPIRED" && (
+                        <DropdownMenuItem
+                          className="flex items-center gap-2 font-nunito"
+                          onClick={(e) =>
+                            handleEdit(
+                              e,
+                              item?.currentVersion?.id?.toString(),
+                              item
+                            )
+                          }
+                        >
+                          <Pencil className="w-4 h-4" />
+                          <span>Edit</span>
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
                         onClick={(e: any) => {
