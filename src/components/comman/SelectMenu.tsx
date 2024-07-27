@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { cn } from "@/lib/utils";
+import Loader from "./Loader";
 
 interface IProps {
   className?: string;
@@ -23,6 +24,7 @@ interface IProps {
   containClassName?: string;
   defaultValue?: string;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 const SelectMenu: FC<IProps> = ({
@@ -34,25 +36,37 @@ const SelectMenu: FC<IProps> = ({
   itemClassName,
   containClassName,
   defaultValue,
-  disabled=false
+  disabled = false,
+  isLoading = false,
 }) => {
   return (
-    <Select onValueChange={(e) => setValue(e)} value={value} defaultValue={defaultValue} disabled={disabled}>
+    <Select
+      onValueChange={(e) => setValue(e)}
+      value={value}
+      defaultValue={defaultValue}
+      disabled={disabled}
+    >
       <SelectTrigger className={`bg-white outline-none ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent
         className={cn(`bg-white max-h-[250px] overflow-auto`, containClassName)}
       >
-        {option?.length > 0 ? option.map((item, index: number) => (
-          <SelectItem
-            key={index}
-            value={item.value}
-            className={`font-calibri ${itemClassName}`}
-          >
-            {item.label}
-          </SelectItem>
-        )) : <span className="text-center block py-1">No data found</span> }
+        {isLoading ? (
+          <Loader />
+        ) : option?.length > 0 ? (
+          option.map((item, index: number) => (
+            <SelectItem
+              key={index}
+              value={item.value}
+              className={`font-calibri ${itemClassName}`}
+            >
+              {item.label}
+            </SelectItem>
+          ))
+        ) : (
+          <span className="text-center block py-1">No data found</span>
+        )}
       </SelectContent>
     </Select>
   );

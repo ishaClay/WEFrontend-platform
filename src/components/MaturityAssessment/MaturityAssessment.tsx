@@ -21,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
+import Assign from "./Roadmap/Assign";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -94,7 +95,7 @@ const MaturityAssessment = () => {
 
   return (
     <div className="">
-      <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 my-4">
+      <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
         <div className="">
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
             Baseline Self Assessment
@@ -108,7 +109,10 @@ const MaturityAssessment = () => {
               : ""}
           </h6>
         </div>
-        {pillarCompleted && (
+        {((pillarCompleted && Role !== "employee") ||
+          (pillarCompleted &&
+            Role === "employee" &&
+            userData?.query?.retakeSelfAssessment)) && (
           <div className="">
             <Select
               onValueChange={(e) => {
@@ -169,7 +173,7 @@ const MaturityAssessment = () => {
                   value="maturityAssessment"
                   className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
-                  My Action Plan
+                  {Role === "employee" ? "Action Plan" : "My Action Plan"}
                 </TabsTrigger>
                 {Role !== "company" && (
                   <TabsTrigger
@@ -201,11 +205,15 @@ const MaturityAssessment = () => {
               value="maturityAssessment"
               className="lg:p-5 p-[15px] mt-0"
             >
-              <Roadmap
-                showButton={showButton}
-                isEdit={isEdit}
-                setIsEdit={setIsEdit}
-              />
+              {Role === "employee" ? (
+                <Assign setStep={() => {}} setIsEdit={setIsEdit} />
+              ) : (
+                <Roadmap
+                  showButton={showButton}
+                  isEdit={isEdit}
+                  setIsEdit={setIsEdit}
+                />
+              )}
             </TabsContent>
             <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0">
               <ActionItems />
