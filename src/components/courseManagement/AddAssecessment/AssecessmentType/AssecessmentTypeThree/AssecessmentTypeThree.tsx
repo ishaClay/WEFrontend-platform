@@ -48,7 +48,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
             className="outline-none font-base font-calibri text-[#1D2026] w-full"
             onChange={(e) =>
               dispatch(
-                addQuestion({ index: i, question: e.target.value, type })
+                addQuestion({ index: i, question: e.target.value, assessmentType: type })
               )
             }
           />

@@ -17,7 +17,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
-import { createLiveSection } from "@/services/apiServices/liveSession";
+import { scheduleLiveSession } from "@/services/apiServices/liveSession";
 
 const CourseViewCardInner = ({
   CourseCardList,
@@ -221,7 +221,7 @@ const CourseViewCardInner = ({
   });
 
   const { mutate: EditLiveSection } = useMutation({
-    mutationFn: (data: any) => createLiveSection(data),
+    mutationFn: (data: any) => scheduleLiveSession({data, id: isEditSection}),
     onSuccess: () => {
       setIsEditSection(null);
       reset({ ...intialSectionCreation });

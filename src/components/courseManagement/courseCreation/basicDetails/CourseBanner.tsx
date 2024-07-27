@@ -253,7 +253,7 @@ const CourseBanner = () => {
                 <ErrorMessage message={errors?.keys?.message as string} />
               )}
             </div>
-            <div className="text-right">
+            <div className="text-right mt-5">
               <Button
                 type="submit"
                 className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
@@ -268,18 +268,6 @@ const CourseBanner = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className="sm:text-right text-center sm:mt-5 mt-[15px]">
-        <Button
-          type="submit"
-          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
-        >
-          {isPending || isUpdatePending ? (
-            <Loader containerClassName="h-auto" />
-          ) : (
-            "Next"
-          )}
-        </Button>
       </div>
     </>
   );

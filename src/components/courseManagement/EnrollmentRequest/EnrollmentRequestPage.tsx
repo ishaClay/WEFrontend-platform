@@ -5,7 +5,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MoveLeft } from "lucide-react";
 import { useState } from "react";
 import EnrollmentCourseList from "./EnrollmentCourseList";
 
@@ -39,10 +38,6 @@ const EnrollmentRequestPage = () => {
                 <SelectItem value="2">Rejected</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="flex pl-5">
-            <MoveLeft />
-            <span className="text-base font-semibold pl-4">Back</span>
           </div>
         </div>
       </div>

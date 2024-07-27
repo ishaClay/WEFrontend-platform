@@ -11,8 +11,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const AllCourses = () => {
+  const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
@@ -28,10 +31,11 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
+    isFetching,
     refetch: fetchCourseAllCourseRefetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse],
-    queryFn: () => fetchCourseAllCourse(searchKeyword),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId),
   });
 
   useEffect(() => {
@@ -144,9 +148,9 @@ const AllCourses = () => {
               <Loader2 className="w-5 h-5 animate-spin" />
             </span>
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} />
+            <GridView list={fetchCourseAllCourseData?.data || []} isLoading={isFetching} />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            <ListView list={fetchCourseAllCourseData?.data || []} isLoading={isFetching} />
           )}
         </div>
       </div>
