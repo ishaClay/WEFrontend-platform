@@ -61,6 +61,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
               onChange={(e) =>
                 dispatch(addPoint({ index: i, point: +e.target.value }))
               }
+              type="number"
             />
           </div>
         </div>

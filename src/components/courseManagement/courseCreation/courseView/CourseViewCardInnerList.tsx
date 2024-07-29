@@ -1,6 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
-import { getFileType } from "@/lib/utils";
+import { getFileType, mapTimeDuration } from "@/lib/utils";
 import {
   deleteLiveSection,
   deleteSection,
@@ -42,7 +42,11 @@ const CourseViewCardInnerList = ({
     return formattedTime.trim();
   }
   const FileTypeData =
-    data.isLive === 0 ? getFileType(data.documentType) : FileType.Live;
+    data.isLive === 0
+      ? data?.type
+        ? FileType.AssessmentTest
+        : getFileType(data.documentType)
+      : FileType.Live;
 
   const { mutate: DeleteSection } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),
@@ -78,6 +82,8 @@ const CourseViewCardInnerList = ({
     }
   };
 
+  console.log("FileTypeData", FileTypeData);
+
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">
@@ -93,12 +99,29 @@ const CourseViewCardInnerList = ({
           </h5>
           <div className="">
             <h6 className="text-[#747474] text-xs font-inter">
-              {FileTypeData?.name} | Duration:{" "}
-              <span className="text-black">
-                {data.isLive == 0
-                  ? formatReadingTime(data.readingTime)
-                  : formatReadingTime(data.sectionTime)}
-              </span>
+              {data?.type ? (
+                <>
+                  Duration:{" "}
+                  <span className="text-black">
+                    {mapTimeDuration(data.timeDuration)}
+                  </span>{" "}
+                  <span className="ml-2">
+                    Passing Percentage:{" "}
+                    <span className="text-[#000] font-semibold">
+                      {data.passingPercentage}%
+                    </span>
+                  </span>
+                </>
+              ) : (
+                <>
+                  {FileTypeData?.name} | Duration:{" "}
+                  <span className="text-black">
+                    {data.isLive == 0
+                      ? formatReadingTime(data.readingTime)
+                      : formatReadingTime(data.sectionTime)}
+                  </span>
+                </>
+              )}
             </h6>
           </div>
         </div>

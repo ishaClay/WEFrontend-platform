@@ -116,7 +116,15 @@ function HomeHeader(props: headerProps) {
               <div className="font-bold text-lg text-color">
                 {userData ? (
                   <div className="flex items-center xl:gap-5 gap-3">
-                    {!!path && (+path === 7 || +path > 3) && (
+                    {JSON.parse(userData)?.query.role === 1 &&
+                    !!path &&
+                    (+path === 7 || +path > 3) ? (
+                      <PrimaryButton
+                        onClick={handleGotoDashboard}
+                        name="Go to Dashboard"
+                        className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                      />
+                    ) : (
                       <PrimaryButton
                         onClick={handleGotoDashboard}
                         name="Go to Dashboard"
