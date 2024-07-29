@@ -45,7 +45,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               {Number(grid?.courseProgress).toFixed(0)}%
             </div>
             <div className="text-xs font-normal font-calibri leading-4">
-              {grid?.completedSections} of {grid?.totalSections} Completed
+              {grid?.completedModule} of {grid?.totalmodules} Completed
             </div>
           </div>
           <Progress
