@@ -1,15 +1,12 @@
 import Ellipse_two from "@/assets/images/Ellipse2.png";
 import Ellipse_three from "@/assets/images/Ellipse3.png";
+import { MyActionDataType } from "@/types/common";
 
-type myActionProps = {
-  data: {
-    image: string;
-    title: number;
-    subTitle: string;
-  };
+type MyActionProps = {
+  data: MyActionDataType;
 };
 
-const MyActionItems = ({ data }: myActionProps) => {
+const MyActionItems = ({ data }: MyActionProps) => {
   return (
     <div className="col-span-1 sm:px-5 p-4 sm:py-6 shadow-md rounded-lg relative">
       <div className="flex items-center">

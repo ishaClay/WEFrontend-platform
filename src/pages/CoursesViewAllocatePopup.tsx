@@ -38,7 +38,7 @@ interface CourseViewAllocatePopupProps {
 const schema = zod.object({
   fname: zod.string().min(1, { message: "First Name is required" }),
   lname: zod.string().min(1, { message: "Last Name is required" }),
-  email: zod.string().email({ message: "Invalid Email" }),
+  email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
 

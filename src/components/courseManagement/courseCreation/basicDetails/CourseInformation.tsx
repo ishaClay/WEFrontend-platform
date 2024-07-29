@@ -30,9 +30,10 @@ const schema = zod
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) }).min(1, "Course price is required")
+      .string({ errorMap: () => ({ message: "Invalid course price" }) })
+      .min(1, "Course price is required")
       .refine(
-        (val: string | any) => (val === undefined || val === "") || !isNaN(val),
+        (val: string | any) => val === undefined || val === "" || !isNaN(val),
         "Invalid course price"
       ),
     discountApplicable: zod.number().optional(),
@@ -255,7 +256,7 @@ const CourseInformation = () => {
                       setValue("freeCourse", !isFreeCourse);
                     }}
                     className="w-8 h-5"
-                    switchClassName="w-4 h-4"
+                    switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
                   />
                 </div>
                 <div className="flex items-center">
@@ -267,7 +268,7 @@ const CourseInformation = () => {
                     checked={provideDisc}
                     onCheckedChange={() => setProvideDisc(!provideDisc)}
                     className="w-8 h-5"
-                    switchClassName="w-4 h-4"
+                    switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
                   />
                 </div>
               </div>

@@ -7,7 +7,7 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, Fragment, useImperativeHandle, useState } from "react";
+import { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
 
 interface AssecessmentTypeProps {
@@ -33,6 +33,16 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         option: "",
       },
     ]);
+
+    useEffect(() => {
+      setOptions(
+        questionOption[i]?.option?.map((item: string, index: number) => ({
+          optionTitle: `Option ${index + 1}:`,
+          option: item,
+        }))
+      );
+    }, [questionOption]);
+
     const [errors, setErrors] = useState({
       question: "",
       point: "",
@@ -81,7 +91,6 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         newErrors.answer = "Answer is required";
         valid = false;
       }
-      console.log("options", options);
 
       // Validate options
       const currentOptions = options.map((option) => option.option.trim());
@@ -136,6 +145,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
+            value={questionOption[i]?.question}
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -148,6 +158,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                   setErrors((prev) => ({ ...prev, point: "" }));
                 }}
                 type="number"
+                value={questionOption[i]?.point}
               />
             </div>
           </div>

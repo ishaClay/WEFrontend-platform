@@ -79,7 +79,7 @@ function HomeHeader(props: headerProps) {
 
   return (
     // Note : This below code is for backup
-    <div className=" sticky top-0 h-full z-[9] lg:shadow-none shadow-md bg-white">
+    <div className=" sticky top-0 h-full z-[999] lg:shadow-none shadow-md bg-white">
       <header
         className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
           props.hasDiffHeader ? "mx-7" : ""
@@ -122,19 +122,19 @@ function HomeHeader(props: headerProps) {
                       <PrimaryButton
                         onClick={handleGotoDashboard}
                         name="Go to Dashboard"
-                        className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                        className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
                       />
                     ) : (
                       <PrimaryButton
                         onClick={handleGotoDashboard}
                         name="Go to Dashboard"
-                        className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                        className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
                       />
                     )}
                     <PrimaryButton
                       onClick={handleLogout}
                       name="Logout"
-                      className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold"
+                      className="xl:px-[60px] px-[45px] py-2 primary-background text-lg !font-abhaya font-semibold"
                     />
                   </div>
                 ) : (
@@ -142,14 +142,14 @@ function HomeHeader(props: headerProps) {
                     <PrimaryButton
                       onClick={handleClickRegister}
                       name="Register"
-                      className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
+                      className="xl:px-[39px] px-[30px] py-2 primary-background text-lg !font-abhaya font-semibold"
                     />
                     <PrimaryButton
                       onClick={() => {
                         navigate("/auth");
                       }}
                       name="Login"
-                      className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
+                      className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold"
                     />
                   </>
                 )}

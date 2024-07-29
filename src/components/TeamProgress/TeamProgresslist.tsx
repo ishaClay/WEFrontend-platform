@@ -61,7 +61,7 @@ const TeamProgresslist = ({ data }: ProgressList) => {
               <span className="block">{data?.courseStatus?.totalAssigned}</span>
             </li>
             <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold">
-              InProgress
+              In Progress
               <span className="block">{data?.courseStatus?.inprogress}</span>
             </li>
             <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-abhaya font-semibold text-white">

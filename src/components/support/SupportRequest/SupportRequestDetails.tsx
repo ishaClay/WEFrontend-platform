@@ -27,7 +27,7 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
             <h2 className="font-[700] sm:text-[32px] text-[18px] sm:pb-2.5 pb-1">
               +{data?.totalTickets || 0}
             </h2>
-            <h3 className="capitalize sm:text-base text-xs">TotalTickets</h3>
+            <h3 className="capitalize sm:text-base text-xs">Total Tickets</h3>
           </div>
           <img
             src={Ellipse1}

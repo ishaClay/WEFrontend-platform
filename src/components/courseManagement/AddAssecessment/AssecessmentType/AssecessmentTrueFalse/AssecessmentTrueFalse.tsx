@@ -104,6 +104,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
                   setErrors((prev) => ({ ...prev, point: "" }));
                 }}
                 type="number"
+                value={questionOption[i]?.point}
               />
             </div>
           </div>
@@ -129,6 +130,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
+              value={questionOption[i]?.question}
             />
           </div>
           {errors.question && (

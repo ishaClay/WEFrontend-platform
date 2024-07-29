@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -6,16 +7,15 @@ import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
-import { Button } from "@/components/ui/button";
 
 const CourseManagement = () => {
-  const [currentTab, setCurrentTab] = useState<string>("0");
+  const [currentTab, setCurrentTab] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab") || "";
   const step = new URLSearchParams(search).get("step") || "";
-  const paramsId = new URLSearchParams(search).get("id");
+  // const paramsId = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
@@ -23,35 +23,37 @@ const CourseManagement = () => {
   useEffect(() => {
     if (paramsTab) {
       setCurrentTab(paramsTab);
+    } else {
+      setCurrentTab("0");
     }
   }, [paramsTab]);
 
-  useEffect(() => {
-    if (+courseId) {
-      navigate(
-        `/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
-      );
-      if (courseId && currentTab === "0") {
-        navigate(
-          `/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
-        );
-      } else {
-        navigate(
-          `/${pathName}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`
-        );
-      }
-    } else {
-      if (currentTab === "0") {
-        navigate(
-          `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
-        );
-      } else {
-        navigate(
-          `/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`
-        );
-      }
-    }
-  }, [currentTab]);
+  // useEffect(() => {
+  //   if (+courseId) {
+  //     // navigate(window.location);
+  //     if (courseId && currentTab === "0") {
+  //       navigate(
+  //         `/${pathName}/create_course/${courseId}?tab=${currentTab}&step=${step}&version=${paramsversion}`
+  //       );
+  //     } else {
+  //       navigate(
+  //         `/${pathName}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`
+  //       );
+  //     }
+  //   } else {
+  //     if (currentTab === "0") {
+  //       navigate(
+  //         `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
+  //       );
+  //     } else {
+  //       navigate(
+  //         `/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`
+  //       );
+  //     }
+  //   }
+  // }, [currentTab, pathName, step, paramsId]);
+
+  console.log("currentTab", currentTab);
 
   return (
     <div className="bg-white p-0">
@@ -59,7 +61,12 @@ const CourseManagement = () => {
         defaultValue={currentTab}
         value={currentTab}
         className=""
-        onValueChange={(e) => setCurrentTab(e)}
+        onValueChange={(e) => {
+          setCurrentTab(e);
+          navigate(
+            `/${pathName}/create_course/${courseId}?tab=${e}&step=${step}&version=${paramsversion}`
+          );
+        }}
       >
         <div className="border-b flex md:flex-row flex-col justify-between md:items-center items-start">
           <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">

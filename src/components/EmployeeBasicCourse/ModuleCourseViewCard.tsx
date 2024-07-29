@@ -1,8 +1,6 @@
 import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
 
 const ModuleCourseViewCard = ({ data }: any) => {
-  console.log("data+++data", data?.moduleSections);
-
   return (
     <div>
       {data?.moduleSections

@@ -7,7 +7,7 @@ interface FormErrorProps {
 
 const FormError: FC<FormErrorProps> = ({ message, className }) => {
   return (
-    <span className={`font-primary font-calibri text-xs italic text-red-500 ${className}`}>
+    <span className={`font-primary font-calibri text-sm text-red-400 ${className}`}>
       {message}
     </span>
   );

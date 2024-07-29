@@ -28,8 +28,7 @@ function Auth() {
   const navigate = useNavigate();
 
   const schema = z.object({
-    email: z.string().min(1, "Email is required"),
-    // .email("Please enter a valid email"),
+    email: z.string().email("Please enter valid email").min(1, "Email is required"),
     password: z.string().min(1, { message: "Password is required" }),
     // 	{
     // 		required_error: "Password is required",
@@ -77,14 +76,13 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
-      console.log("++++++++", user, data);
 
       // dispatch(setClientId(data.data.data.query.clientid));
 
       if (data.data.data.status === "Inactive") {
         toast({
           variant: "destructive",
-          title: data?.data?.message,
+          title: data?.data?.message || "",
         });
       } else if (data.data.data.status === "Pending") {
         toast({
@@ -250,7 +248,7 @@ function Auth() {
                 </ul>
                 <button
                   type="submit"
-                  className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px]"
+                  className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
                 >
                   Login
                 </button>
@@ -281,14 +279,14 @@ function Auth() {
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989] text-center">
-                  Protected by reCAPTCHA and subject to the Skillnet{" "}
+                  Protected by reCAPTCHA and subject to the Skillnet
                   <Link
                     to="/privacypolicy"
                     className="text-[#042937] font-bold"
                   >
-                    Privacy Policy{" "}
-                  </Link>{" "}
-                  and{" "}
+                    Privacy Policy
+                  </Link>
+                  and
                   <Link
                     to={"/termsofservices"}
                     className="text-[#042937] font-bold"

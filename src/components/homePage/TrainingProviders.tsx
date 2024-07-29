@@ -16,10 +16,10 @@ const TrainingProviders = () => {
           <p className="font-extrabold xl:text-2xl text-xl leading-5 traking-[-4%] text-color font-abhaya">
             For Training Providers
           </p>
-        </div> */}
+        </div>
         <h3 className="font-bold md:text-2xl sm:text-xl text-lg font-abhaya sm:leading-7 leading-5">
           Get your training to those it’ll help
-        </h3>
+        </h3> */}
         <div className="gap-10 mt-[24px] flex items-center justify-center flex-wrap xl:gap-y-20 md:gap-y-10 sm:gap-y-5 gap-y-3">
           <div className="flex sm:gap-[20px] gap-2 relative text-start w-[360px]">
             <div className="min-w-[56px] w-[56px] min-h-[56px] h-[56px] bg-[#00778B] rounded-full flex justify-center items-center">

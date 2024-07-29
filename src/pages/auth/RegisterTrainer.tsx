@@ -71,7 +71,7 @@ function RegisterTrainer() {
     email: z
       .string()
       .min(1, { message: "Email Address is required" })
-      .email("Invalid email address"),
+      .email("Please enter valid email"),
     providerNotes: z.string().optional(),
     foreignProvider: z
       .enum(["Yes", "No"])
@@ -439,16 +439,16 @@ function RegisterTrainer() {
                   <PrimaryButton
                     type="submit"
                     name="Submit"
-                    className="w-full h-[48px] primary-background"
+                    className="font-semibold !font-abhaya w-full text-lg h-12 primary-background"
                   />
                 </div>
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
                     <Link to="/privacypolicy" className="text-[#042937]">
-                      Privacy Policy{" "}
-                    </Link>{" "}
-                    and{" "}
+                      Privacy Policy
+                    </Link>
+                    and
                     <Link to={"/termsofservices"} className="text-[#042937]">
                       Terms of Service.
                     </Link>

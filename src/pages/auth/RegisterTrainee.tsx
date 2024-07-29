@@ -5,7 +5,7 @@ import RegisterTraineeForm from "@/components/RegisterTrainee/RegisterTraineeFor
 const RegisterTrainee = () => {
   return (
     <>
-      <Header />
+      <Header isBtnHide />
       <div className="display flex xl:gap-[50px] gap-[25px] xl:pr-4 mainContailner">
         <RegisterBanner />
         <div className="max-w-[509px] w-full 2xl:mx-auto relative xl:mr-0 mr-5">

@@ -34,7 +34,7 @@ const ResetPassword = () => {
       confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords don't match",
+      message: "Password don't match",
       path: ["confirmPassword"],
     });
 

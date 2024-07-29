@@ -14,7 +14,7 @@ const schema = z.object({
   email: z
     .string()
     .min(1, "Email is required")
-    .email("Please enter a valid email"),
+    .email("Please enter valid email"),
 });
 
 const ForgotPassword = () => {
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
                 />
                 <button
                   type="submit"
-                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px]"
+                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
                 >
                   {isPending ? <Loader containerClassName="h-auto" /> : "Send"}
                 </button>

@@ -11,12 +11,14 @@ import { getTotalDuration } from "@/lib/utils";
 import { getModuleSection } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import { Dot } from "lucide-react";
+import { useEffect } from "react";
 
 interface AssecessmentModuleSectionProps {
   createAssecessment: any;
   setCreateAssecessment: React.Dispatch<React.SetStateAction<object>>;
   errors: any;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
+  data: any;
 }
 
 const AssecessmentModuleSection = ({
@@ -24,8 +26,21 @@ const AssecessmentModuleSection = ({
   setCreateAssecessment,
   errors,
   setErrors,
+  data,
 }: AssecessmentModuleSectionProps) => {
   const moduleId = new URLSearchParams(window.location.search).get("moduleId");
+
+  useEffect(() => {
+    if (data && data?.moduleSection) {
+      setCreateAssecessment({
+        moduleSection: data?.moduleSection?.id?.toString(),
+        title: data?.title,
+        passingPercentage: data?.passingPercentage,
+        timeBound: +data?.timeBound,
+        timeDuration: data?.timeDuration,
+      });
+    }
+  }, [data, setCreateAssecessment]);
 
   const { data: moduleSection } = useQuery({
     queryKey: [QUERY_KEYS.fetchModuleSection],
@@ -51,6 +66,11 @@ const AssecessmentModuleSection = ({
     ?.padStart(2, "0");
   const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
 
+  const handleChangeValue = (e: string) => {
+    setCreateAssecessment((prev) => ({ ...prev, moduleSection: e }));
+    setErrors((prev: any) => ({ ...prev, moduleSection: "" }));
+  };
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <h3 className="text-base font-bold font-calibri pb-2">
@@ -75,11 +95,11 @@ const AssecessmentModuleSection = ({
           Select Section
         </h6>
         <Select
-          onValueChange={(e) => {
-            setCreateAssecessment({ ...createAssecessment, moduleSection: e });
-            setErrors({ ...errors, moduleSection: "" });
-          }}
-          value={createAssecessment?.moduleSection}
+          onValueChange={(e) => handleChangeValue(e)}
+          value={
+            createAssecessment?.moduleSection ||
+            data?.moduleSection?.id?.toString()
+          }
         >
           <SelectTrigger className="w-full border-[#D9D9D9] rounded-md text-base font-calibri px-4 py-4">
             <SelectValue placeholder="How to manage financial management?" />
@@ -110,10 +130,10 @@ const AssecessmentModuleSection = ({
             type="text"
             value={createAssecessment?.title}
             onChange={(e) => {
-              setCreateAssecessment({
-                ...createAssecessment,
+              setCreateAssecessment((prev) => ({
+                ...prev,
                 title: e.target.value,
-              });
+              }));
               setErrors((prev: any) => ({ ...prev, title: "" }));
             }}
           />
@@ -134,10 +154,10 @@ const AssecessmentModuleSection = ({
                 placeholder="35%"
                 type="number"
                 onChange={(e) => {
-                  setCreateAssecessment({
-                    ...createAssecessment,
+                  setCreateAssecessment((prev) => ({
+                    ...prev,
                     passingPercentage: e.target.value,
-                  });
+                  }));
                   setErrors((prev: any) => ({
                     ...prev,
                     passingPercentage: "",
@@ -162,10 +182,10 @@ const AssecessmentModuleSection = ({
                       timeBound: +value,
                     }));
                   } else if (value === "1") {
-                    setCreateAssecessment({
-                      ...createAssecessment,
+                    setCreateAssecessment((prev) => ({
+                      ...prev,
                       timeBound: +value,
-                    });
+                    }));
                   }
                 }}
               >

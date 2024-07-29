@@ -10,6 +10,7 @@ import { toast } from "./ui/use-toast";
 
 interface headerProps {
   hasDiffHeader?: boolean;
+  isBtnHide?: boolean;
 }
 
 function Header(props: headerProps) {
@@ -105,31 +106,37 @@ function Header(props: headerProps) {
                     <PrimaryButton
                       onClick={handleGotoDashboard}
                       name="Go to Dashboard"
-                      className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold"
+                      className="xl:px-[30px] px-[15px] py-2 primary-background font-semibold !font-abhaya text-lg"
                     />
                   )}
-                <PrimaryButton
-                  onClick={handleLogout}
-                  name="Logout"
-                  className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold"
-                />
+                {!props?.isBtnHide && (
+                  <PrimaryButton
+                    onClick={handleLogout}
+                    name="Logout"
+                    className="xl:px-[60px] px-[45px] py-2 primary-background font-semibold !font-abhaya text-lg="
+                  />
+                )}
               </div>
             ) : (
               <>
-                <PrimaryButton
-                  onClick={() => {
-                    navigate("/register");
-                  }}
-                  name="Register"
-                  className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold"
-                />
-                <PrimaryButton
-                  onClick={() => {
-                    navigate("/auth");
-                  }}
-                  name="Login"
-                  className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background !font-calibri text-lg font-bold"
-                />
+                {!props?.isBtnHide && (
+                  <>
+                    <PrimaryButton
+                      onClick={() => {
+                        navigate("/register");
+                      }}
+                      name="Register"
+                      className="xl:px-[39px] px-[30px] py-2 primary-background font-semibold !font-abhaya text-lg"
+                    />
+                    <PrimaryButton
+                      onClick={() => {
+                        navigate("/auth");
+                      }}
+                      name="Login"
+                      className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background font-semibold !font-abhaya text-lg"
+                    />
+                  </>
+                )}
               </>
             )}
           </div>

@@ -15,11 +15,11 @@ import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 
 const schema = Zod.object({
-  email: Zod.string({ message: "Email is required" }).min(1, {
-    message: "Email is required",
+  email: Zod.string({ message: "Please enter Invitation detail" }).min(1, {
+    message: "Please enter Email",
   }),
-  details: Zod.string({ message: "Invitation detail is required" }).min(1, {
-    message: "Invitation detail is required",
+  details: Zod.string({ message: "Please enter Invitation detail" }).min(1, {
+    message: "Please enter Invitation detail",
   }),
 });
 const TrainerInvitation = () => {
@@ -118,7 +118,7 @@ const TrainerInvitation = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full mb-[18px]">
             <Label className="text-[16px] font-nunito font-[400]">
-              Enter Trainer Email ID{" "}
+              Enter Trainer Email ID
               <span className="text-[#A3A3A3]">(comma separated email id)</span>
             </Label>
             <CustomTabInput setValue={setEmails} {...register("email")} />

@@ -71,7 +71,7 @@ function SupportDetails() {
 							<div className="flex mt-8 ml-2 gap-2 ">
 								<h1 className="text-[16px]">Status:</h1>
 								<div className=" text-[#FFD56A] text-xs font-semibold py-2 h-[25px] w-[71px] px-4 rounded-full mr-2 flex items-center justify-center">
-									InProgress
+									In Progress
 								</div>
 								<h1 className="text-[16px]">Priority:</h1>
 								<div className="bg-[#FF5252]  text-xs text-white py-2 h-[25px] w-[43px] px-4 rounded-full mr-2 flex items-center justify-center">
