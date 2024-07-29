@@ -90,6 +90,7 @@ export const QUERY_KEYS = {
   allLiveSession: "allLiveSession",
   getUserManual: "getUserManual",
   fetchLiveSessionById: "fetchLiveSessionById",
+  getdashboardEmployeeCourse: "getdashboardEmployeeCourse",
 };
 
 export const urlRegex =
