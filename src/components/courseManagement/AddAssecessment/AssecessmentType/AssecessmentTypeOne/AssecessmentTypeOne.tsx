@@ -54,10 +54,15 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
 
     const addOption = () => {
       const newOption = {
-        optionTitle: `Option ${options.length + 1}:`,
+        optionTitle: `Option ${options?.length + 1}:`,
         option: "",
       };
-      setOptions([...options, newOption]);
+
+      setOptions((prev) => {
+        // Ensure prev is an array
+        const currentOptions = Array.isArray(prev) ? prev : [];
+        return [...currentOptions, newOption];
+      });
     };
 
     const handleRemove = (i: number) => {

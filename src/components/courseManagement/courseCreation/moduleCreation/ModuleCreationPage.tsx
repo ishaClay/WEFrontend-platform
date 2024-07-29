@@ -298,21 +298,26 @@ const ModuleCreationPage = () => {
         <Loader />
       ) : (
         <>
-          {moduleList?.length > 0 &&
-            moduleList.map((data: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  draggable
-                  onDragStart={() => (dragPerson.current = index)}
-                  onDragEnter={() => (draggedOverPerson.current = index)}
-                  onDragEnd={handleSort}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <CourseViewPage data={data} />
-                </div>
-              );
-            })}
+          {moduleList?.length > 0
+            ? moduleList.map((data: any, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    draggable
+                    onDragStart={() => (dragPerson.current = index)}
+                    onDragEnter={() => (draggedOverPerson.current = index)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <CourseViewPage data={data} />
+                  </div>
+                );
+              })
+            : moduleCreationItem.length === 0 && (
+                <p className="text-[#606060] text-[15px] min-h-[200px] flex items-center justify-center">
+                  No Modules Data
+                </p>
+              )}
         </>
       )}
       <form onSubmit={handleSubmit(handleModuleSave)}>
@@ -334,12 +339,11 @@ const ModuleCreationPage = () => {
 
         {moduleCreationItem.length !== 0 && (
           <div className="text-right">
-            <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-              {CreateModuleAsync?.isPending ? (
-                <Loader containerClassName="h-auto" />
-              ) : (
-                "Save"
-              )}
+            <Button
+              isLoading={CreateModuleAsync?.isPending}
+              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+            >
+              Save
             </Button>
           </div>
         )}
