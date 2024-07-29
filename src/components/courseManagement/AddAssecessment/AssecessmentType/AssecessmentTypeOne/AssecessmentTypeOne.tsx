@@ -8,7 +8,7 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
 
@@ -35,14 +35,22 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
         option: "",
       },
     ]);
+
+    useEffect(() => {
+      setOptions(
+        questionOption[i]?.option?.map((item: string, index: number) => ({
+          optionTitle: `Option ${index + 1}:`,
+          option: item,
+        }))
+      );
+    }, [questionOption]);
+
     const [errors, setErrors] = useState({
       question: "",
       point: "",
       options: Array(options.length).fill(""),
       answer: "",
     });
-
-    console.log("errorserrors", errors);
 
     const addOption = () => {
       const newOption = {
@@ -85,7 +93,6 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
         newErrors.answer = "Answer is required";
         valid = false;
       }
-      console.log("options", options);
 
       // Validate options
       const currentOptions = options.map((option) => option.option.trim());
@@ -140,6 +147,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
+              value={questionOption[i]?.question}
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -152,6 +160,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                   setErrors((prev) => ({ ...prev, point: "" }));
                 }}
                 type="number"
+                value={questionOption[i]?.point}
               />
             </div>
           </div>

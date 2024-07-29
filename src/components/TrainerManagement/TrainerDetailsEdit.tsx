@@ -39,7 +39,7 @@ import { toast } from "../ui/use-toast";
 const schema = zod.object({
   name: zod.string().min(1, { message: "Trainer name is required" }),
   number: zod.string().min(1, { message: "Contact number is required" }),
-  email: zod.string().email({ message: "Invalid email" }),
+  email: zod.string().email({ message: "Please enter valid email" }),
   providerName: zod.string().min(1, { message: "Provider Name is required" }),
   providerType: zod.string().min(1, { message: "Provider Type is required" }),
   providerCity: zod.string().min(1, { message: "Provider City is required" }),

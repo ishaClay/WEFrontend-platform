@@ -20,7 +20,7 @@ const schema = zod
     confirmPassword: zod.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Password don't match",
     path: ["confirmPassword"],
   });
 

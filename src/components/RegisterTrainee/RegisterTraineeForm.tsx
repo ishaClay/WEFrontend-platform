@@ -2,7 +2,7 @@ import mandatory from "/assets/img/Mandatory.svg";
 
 import { trainerUpdate } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,8 +18,12 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
+import { CountryResponse } from "@/types/Company";
+import { getCountry } from "@/services/apiServices/company";
+import SelectMenu from "../comman/SelectMenu";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
+const genderOptions = ["Male", "Female"] as const;
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
@@ -30,7 +34,7 @@ const RegisterTraineeForm = () => {
 
   const schema = Zod.object({
     email: Zod.string()
-      .email({ message: "This is not a valid email." })
+      .email({ message: "Please enter valid email" })
       .optional(),
     ageRange: Zod.string()
       .regex(/^\d{1,2}$/, {
@@ -38,9 +42,9 @@ const RegisterTraineeForm = () => {
       })
       .min(1, { message: "Please enter a valid age range" })
       .max(2, { message: "Please enter a valid age range" }),
-    gender: Zod.string()
-      .regex(/^[A-Za-z]+$/, { message: "Please enter a valid gender" })
-      .min(1, { message: "Please enter valid gender" }),
+    gender: Zod.enum(genderOptions, {
+      message: "Please select gender",
+    }),
     firstName: Zod.string()
       .regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" })
       .min(1, { message: "Please enter a valid first name" }),
@@ -62,11 +66,9 @@ const RegisterTraineeForm = () => {
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string().nullable(),
     unemploymentTime: Zod.string().nullable(),
-    countyOfResidence: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, {
-        message: "Please enter a valid county of residence",
-      })
-      .min(1, { message: "Please enter valid county of residence" }),
+    countyOfResidence: Zod.string().min(1, {
+      message: "Provider Country is required",
+    }),
     attendedEvent: Zod.string().nullable(),
   });
   const {
@@ -74,6 +76,7 @@ const RegisterTraineeForm = () => {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -83,6 +86,19 @@ const RegisterTraineeForm = () => {
   useEffect(() => {
     setValue("email", email);
   }, [email]);
+
+  const { data: country } = useQuery<CountryResponse>({
+    queryKey: ["CountryData"],
+    queryFn: getCountry,
+  });
+
+  const countryOption =
+    country?.data &&
+    country?.data
+      ?.map((item) => {
+        return { value: item?.name, label: item?.name };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
 
   const { mutate: updateTrainee, isPending } = useMutation({
     mutationFn: trainerUpdate,
@@ -208,7 +224,19 @@ const RegisterTraineeForm = () => {
               Gender
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable className={"!w-full"} {...register("gender")} />
+            <Select onValueChange={(value) => setValue("gender", value)}>
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+                <SelectValue placeholder="Select Gender" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem className="px-8" value="Male">
+                  Male
+                </SelectItem>
+                <SelectItem className="px-8" value="Female">
+                  Female
+                </SelectItem>
+              </SelectContent>
+            </Select>
             {errors.gender && (
               <ErrorMessage
                 message={(errors?.gender?.message as string) || ""}
@@ -346,12 +374,15 @@ const RegisterTraineeForm = () => {
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri text-base">
-              County Of Residence
+              Country Of Residence
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("countyOfResidence")}
+            <SelectMenu
+              option={countryOption || []}
+              placeholder="Select county"
+              className=" h-[40px]"
+              setValue={(data: string) => setValue("countyOfResidence", data)}
+              value={watch("countyOfResidence") || ""}
             />
             {errors.countyOfResidence && (
               <ErrorMessage
@@ -376,7 +407,7 @@ const RegisterTraineeForm = () => {
         </div>
         <button
           type="submit"
-          className="xl:mt-12 mt-6 bg-primary-button rounded w-[370px] h-12 text-white border border-solid border-black shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-calibri font-bold"
+          className="xl:mt-12 mt-6 bg-primary-button rounded w-[370px] h-12 text-white text-lg shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-abhaya font-bold"
         >
           {isPending ? <Loader containerClassName="h-auto" /> : "Submit"}
         </button>

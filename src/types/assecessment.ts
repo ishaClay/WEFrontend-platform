@@ -31,6 +31,7 @@ export interface Data {
     createdAt: string;
     updatedAt: string;
     moduleSection: ModuleSection;
+    AssessmentQuestion: any[];
 }
 export interface ModuleSection {
     id: number;

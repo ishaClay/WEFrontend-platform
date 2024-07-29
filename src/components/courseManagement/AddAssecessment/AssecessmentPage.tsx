@@ -3,7 +3,7 @@ import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import {
@@ -28,6 +28,11 @@ import AssecessmentFreeText from "./AssecessmentType/AssecessmentFreeText/Assece
 import AssecessmentTrueFalse from "./AssecessmentType/AssecessmentTrueFalse/AssecessmentTrueFalse";
 import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
 import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
+import {
+  resetAssessment,
+  setAssessment,
+  setQuestionType,
+} from "@/redux/reducer/AssessmentReducer";
 
 enum AssessmentType {
   SingleChoiceQuestion = "Single Choice Question",
@@ -62,6 +67,8 @@ type Validatable = () => boolean;
 const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
+  const dispatch = useAppDispatch();
+
   const assecessmentQuestion = useAppSelector(
     (state: RootState) => state.assessment
   );
@@ -73,6 +80,9 @@ const AssecessmentPage = () => {
     timeBound: 0,
     timeDuration: "0",
   });
+
+  console.log("createAssecessment", createAssecessment);
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -82,19 +92,49 @@ const AssecessmentPage = () => {
     enabled: !!assId,
   });
 
-  console.log(data, "data");
+  const AssessmentTypeReverseMap: {
+    [key: string]: string;
+  } = Object.fromEntries(
+    Object.entries(AssessmentType).map(([key, value]) => [value, key])
+  );
 
   useEffect(() => {
-    if (data) {
+    if (data?.data) {
       setCreateAssecessment({
-        moduleSection: data?.data?.moduleSection?.id.toString(),
+        moduleSection: data?.data?.moduleSection?.title,
         title: data?.data?.title,
         passingPercentage: data?.data?.passingPercentage,
-        timeBound: data?.data?.timeBound,
+        timeBound: +data?.data?.timeBound,
         timeDuration: data?.data?.timeDuration,
       });
     }
-  }, [data]);
+
+    const assessmentTypes = data?.data?.AssessmentQuestion?.map(
+      (i) => i?.assessmentType
+    );
+    const transformedAssessmentTypes = assessmentTypes?.map(
+      (type) => AssessmentTypeReverseMap[type]
+    );
+    if (transformedAssessmentTypes) {
+      transformedAssessmentTypes.forEach((type) => {
+        if (type) {
+          dispatch(setQuestionType(type));
+        }
+      });
+
+      const transformedAssessmentQuestions =
+        data?.data?.AssessmentQuestion?.map((question) => ({
+          ...question,
+          assessmentType: AssessmentTypeReverseMap[question.assessmentType],
+        }));
+
+      if (transformedAssessmentQuestions) {
+        dispatch(setAssessment(transformedAssessmentQuestions));
+      }
+    }
+  }, [data?.data]);
+
+  console.log(data, "data");
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -224,6 +264,7 @@ const AssecessmentPage = () => {
     const id = searchParams.get("id");
     const version = searchParams.get("version");
     const tab = searchParams.get("tab");
+    dispatch(resetAssessment());
     navigate(
       `/trainer/create_course/${courseId ? courseId : id}?tab=${
         tab || 2

@@ -94,13 +94,6 @@ const ModuleCreationPage = () => {
             })
             .superRefine((data, ctx) => {
               if (data.isLive) {
-                console.log(
-                  "livesessionDuration",
-                  !data.livesessionDuration?.hour ||
-                    !data.livesessionDuration?.minute ||
-                    !data.livesessionDuration?.second
-                );
-
                 if (
                   !data.livesessionDuration?.hour &&
                   !data.livesessionDuration?.minute &&
@@ -176,11 +169,9 @@ const ModuleCreationPage = () => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      modules: [intialModuleCreation],
+      modules: [],
     },
   });
-  const error = errors;
-  console.log("error", error);
 
   const {
     fields: moduleCreationItem,
@@ -190,10 +181,6 @@ const ModuleCreationPage = () => {
     name: "modules",
     control,
   });
-  console.log(
-    "🚀 ~ ModuleCreationPage ~ moduleCreationItem:",
-    moduleCreationItem
-  );
 
   useEffect(() => {
     if (moduleList?.length > 0) {
@@ -233,11 +220,7 @@ const ModuleCreationPage = () => {
     }
   }, [CourseModule]);
 
-  console.log("CourseModule", CourseModule);
-
   const handleModuleSave = async (data: any) => {
-    console.log("moduleCreationItems===>", data.modules);
-
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
@@ -259,7 +242,6 @@ const ModuleCreationPage = () => {
         title: "All modules and sections saved successfully",
       });
     } catch (error) {
-      console.error("Error in saving process:", error);
       return toast({
         variant: "destructive",
         title: "Error in saving process",
@@ -268,7 +250,6 @@ const ModuleCreationPage = () => {
   };
 
   const handleModulePosition = async () => {
-    console.log("moduleList", moduleList);
     const payload = moduleList.map((module: any, index: number) => {
       return {
         Module: module.id,
