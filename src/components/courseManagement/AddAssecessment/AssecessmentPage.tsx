@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import {
+  resetAssessment,
+  setAssessment,
+  setQuestionType,
+} from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import {
   createAssessmentQuestion,
@@ -28,11 +33,6 @@ import AssecessmentFreeText from "./AssecessmentType/AssecessmentFreeText/Assece
 import AssecessmentTrueFalse from "./AssecessmentType/AssecessmentTrueFalse/AssecessmentTrueFalse";
 import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
 import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
-import {
-  resetAssessment,
-  setAssessment,
-  setQuestionType,
-} from "@/redux/reducer/AssessmentReducer";
 
 enum AssessmentType {
   SingleChoiceQuestion = "Single Choice Question",
@@ -64,6 +64,14 @@ export const intialModuleCreation: AssecessmentCreation = {
 
 type Validatable = () => boolean;
 
+const initialState = {
+  moduleSection: "",
+  title: "",
+  passingPercentage: "",
+  timeBound: 0,
+  timeDuration: "0",
+};
+
 const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
@@ -73,13 +81,9 @@ const AssecessmentPage = () => {
     (state: RootState) => state.assessment
   );
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
-  const [createAssecessment, setCreateAssecessment] = useState<null | any>({
-    moduleSection: "",
-    title: "",
-    passingPercentage: "",
-    timeBound: 0,
-    timeDuration: "0",
-  });
+  const [createAssecessment, setCreateAssecessment] = useState<null | any>(
+    initialState
+  );
 
   console.log("createAssecessment", createAssecessment);
 
@@ -99,16 +103,6 @@ const AssecessmentPage = () => {
   );
 
   useEffect(() => {
-    if (data?.data) {
-      setCreateAssecessment({
-        moduleSection: data?.data?.moduleSection?.title,
-        title: data?.data?.title,
-        passingPercentage: data?.data?.passingPercentage,
-        timeBound: +data?.data?.timeBound,
-        timeDuration: data?.data?.timeDuration,
-      });
-    }
-
     const assessmentTypes = data?.data?.AssessmentQuestion?.map(
       (i) => i?.assessmentType
     );
@@ -132,7 +126,7 @@ const AssecessmentPage = () => {
         dispatch(setAssessment(transformedAssessmentQuestions));
       }
     }
-  }, [data?.data]);
+  }, [data?.data, dispatch]);
 
   console.log(data, "data");
 
@@ -308,6 +302,7 @@ const AssecessmentPage = () => {
               createAssecessment={createAssecessment}
               setCreateAssecessment={setCreateAssecessment}
               errors={errors}
+              data={data?.data}
               setErrors={setErrors}
             />
 

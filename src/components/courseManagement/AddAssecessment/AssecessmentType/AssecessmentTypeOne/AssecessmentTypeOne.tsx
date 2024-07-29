@@ -48,7 +48,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
     const [errors, setErrors] = useState({
       question: "",
       point: "",
-      options: Array(options.length).fill(""),
+      options: Array(options?.length).fill(""),
       answer: "",
     });
 
@@ -182,7 +182,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
             </Button>
           </div>
           <RadioGroup defaultValue="comfortable">
-            {options.map((data, index) => {
+            {options?.map((data, index) => {
               return (
                 <Fragment key={index}>
                   <AssecessmentTypeOneOptions
