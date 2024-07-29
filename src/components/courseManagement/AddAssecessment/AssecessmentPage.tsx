@@ -1,23 +1,40 @@
-import { Button } from "@/components/ui/button";
-import { CirclePlus, Loader2 } from "lucide-react";
-import AssecessmentModuleSection from "./AssecessmentModuleSection";
-import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
-import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
-import { Fragment, useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
-import AssessmentModal from "../courseCreation/courseView/AssessmentModal";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
+import {
+  createAssessmentQuestion,
+  getAssessmentById,
+  updateAssessment,
+} from "@/services/apiServices/assessment";
+import {
+  AssecessmentCreation,
+  AssessmentById,
+  QuestionCreation,
+} from "@/types/assecessment";
+import { ResponseError } from "@/types/Errors";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { CirclePlus } from "lucide-react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import AssessmentModal from "../courseCreation/courseView/AssessmentModal";
+import AssecessmentModuleSection from "./AssecessmentModuleSection";
 import AssecessmentFreeText from "./AssecessmentType/AssecessmentFreeText/AssecessmentFreeText";
 import AssecessmentTrueFalse from "./AssecessmentType/AssecessmentTrueFalse/AssecessmentTrueFalse";
-import { useMutation } from "@tanstack/react-query";
-import {
-  createAssessment,
-  createAssessmentQuestion,
-} from "@/services/apiServices/assessment";
-import { ResponseError } from "@/types/Errors";
-import { useToast } from "@/components/ui/use-toast";
-import { AssecessmentCreation, QuestionCreation } from "@/types/assecessment";
+import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
+import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
+
+enum AssessmentType {
+  SingleChoiceQuestion = "Single Choice Question",
+  FreeTextResponse = "Free Text Response",
+  TrueOrFalse = "True Or False",
+  MultipleChoiceQuestion = "Multiple Choice Question",
+}
 
 export const intialSectionCreation: QuestionCreation = {
   question: "",
@@ -44,6 +61,7 @@ type Validatable = () => boolean;
 
 const AssecessmentPage = () => {
   const { toast } = useToast();
+  const { assId } = useParams();
   const assecessmentQuestion = useAppSelector(
     (state: RootState) => state.assessment
   );
@@ -55,6 +73,28 @@ const AssecessmentPage = () => {
     timeBound: 0,
     timeDuration: "0",
   });
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const { data, isLoading } = useQuery<AssessmentById>({
+    queryKey: [QUERY_KEYS.getAssesmentById],
+    queryFn: () => getAssessmentById(assId ? assId : ""),
+    enabled: !!assId,
+  });
+
+  console.log(data, "data");
+
+  useEffect(() => {
+    if (data) {
+      setCreateAssecessment({
+        moduleSection: data?.data?.moduleSection?.id.toString(),
+        title: data?.data?.title,
+        passingPercentage: data?.data?.passingPercentage,
+        timeBound: data?.data?.timeBound,
+        timeDuration: data?.data?.timeDuration,
+      });
+    }
+  }, [data]);
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -67,6 +107,15 @@ const AssecessmentPage = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      const courseId = searchParams.get("courseId");
+      const id = searchParams.get("id");
+      const version = searchParams.get("version");
+      const tab = searchParams.get("tab");
+      navigate(
+        `/trainer/create_course/${courseId ? courseId : id}?tab=${
+          tab || 2
+        }&version=${version}`
+      );
     },
     onError: (error: ResponseError) => {
       toast({
@@ -77,14 +126,17 @@ const AssecessmentPage = () => {
     },
   });
 
-  const { mutate: createAssessmentFun, isPending } = useMutation({
-    mutationFn: createAssessment,
-    onSuccess: (data) => {
+  const { mutate: updateAssessmentFun, isPending } = useMutation({
+    mutationFn: updateAssessment,
+    onSuccess: () => {
       const assecessmentQue = assecessmentQuestion?.questionOption?.map(
         (item: any) => {
           return {
             ...item,
-            assessmentId: data?.data?.id,
+            // @ts-ignore
+            assessmentId: assId as number,
+            // @ts-ignore
+            assessmentType: AssessmentType[item.assessmentType],
           };
         }
       );
@@ -160,15 +212,26 @@ const AssecessmentPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
-      createAssessmentFun(createAssecessment);
+      updateAssessmentFun({ data: createAssecessment, id: assId || "" });
     }
     return;
-    console.log(
-      "createAssecessment",
-      createAssecessment,
-      assecessmentQuestion?.questionOption
+  };
+
+  console.log("searchParams", searchParams.get("tab"));
+
+  const handleBack = () => {
+    const courseId = searchParams.get("courseId");
+    const id = searchParams.get("id");
+    const version = searchParams.get("version");
+    const tab = searchParams.get("tab");
+    navigate(
+      `/trainer/create_course/${courseId ? courseId : id}?tab=${
+        tab || 2
+      }&version=${version}`
     );
   };
+
+  // /trainer/create_course/28?tab=2&version=26
 
   return (
     <div className="bg-white rounded-lg">
@@ -179,79 +242,89 @@ const AssecessmentPage = () => {
             Create an assessment to test much your trainees have learnt
           </p>
         </div>
-        <Button
-          className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
-          onClick={() => setIsOpenAssessmentModal(true)}
-        >
-          <CirclePlus width={20} className="me-2" /> Add Question
-        </Button>
+        <div>
+          <Button
+            className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
+            onClick={handleBack}
+          >
+            <IoIosArrowRoundBack size={26} />
+            Back
+          </Button>
+          <Button
+            className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
+            onClick={() => setIsOpenAssessmentModal(true)}
+          >
+            <CirclePlus width={20} className="me-2" /> Add Question
+          </Button>
+        </div>
       </div>
       <div className="p-5">
-        <form onSubmit={handleSubmit}>
-          <AssecessmentModuleSection
-            createAssecessment={createAssecessment}
-            setCreateAssecessment={setCreateAssecessment}
-            errors={errors}
-            setErrors={setErrors}
-          />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <AssecessmentModuleSection
+              createAssecessment={createAssecessment}
+              setCreateAssecessment={setCreateAssecessment}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
-          {assecessmentQuestion?.selectedQuestionType?.map(
-            (type: string, index: number) => (
-              <Fragment key={index}>
-                {type === "MultipleChoiceQuestion" && (
-                  <AssecessmentTypeTwo
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                  />
-                )}
-                {type === "SingleChoiceQuestion" && (
-                  <AssecessmentTypeOne
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                  />
-                )}
-                {type === "FreeTextResponse" && (
-                  <AssecessmentFreeText
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                  />
-                )}
-                {type === "TrueOrFalse" && (
-                  <AssecessmentTrueFalse
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                  />
-                )}
-              </Fragment>
-            )
-          )}
+            {assecessmentQuestion?.selectedQuestionType?.map(
+              (type: string, index: number) => (
+                <Fragment key={index}>
+                  {type === "MultipleChoiceQuestion" && (
+                    <AssecessmentTypeTwo
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                    />
+                  )}
+                  {type === "SingleChoiceQuestion" && (
+                    <AssecessmentTypeOne
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                    />
+                  )}
+                  {type === "FreeTextResponse" && (
+                    <AssecessmentFreeText
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                    />
+                  )}
+                  {type === "TrueOrFalse" && (
+                    <AssecessmentTrueFalse
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                    />
+                  )}
+                </Fragment>
+              )
+            )}
 
-          <div className="text-right">
-            <Button
-              type="submit"
-              disabled={isPending || assessmentQuestionPending}
-              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-            >
-              {isPending ||
-                (assessmentQuestionPending && (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ))}
-              Save Assessment
-            </Button>
-          </div>
-        </form>
+            <div className="text-right">
+              <Button
+                type="submit"
+                disabled={isPending || assessmentQuestionPending}
+                className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+                isLoading={isPending || assessmentQuestionPending}
+              >
+                Save Assessment
+              </Button>
+            </div>
+          </form>
+        )}
       </div>
 
       <Modal

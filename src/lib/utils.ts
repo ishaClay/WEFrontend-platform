@@ -473,6 +473,20 @@ export const getFileType = (name: number) => {
   return fileType;
 };
 
+export function mapTimeDuration(timeDuration: string) {
+  const [hours, minutes] = timeDuration.split(':').map(Number);
+
+  if (hours !== 0 && minutes !== 0 && hours !== undefined && minutes !== undefined) {
+    return `${hours}h ${minutes}min`;
+  } else if (hours !== 0) {
+    return `${hours}h`;
+  } else if (minutes !== 0 && minutes !== undefined) {
+    return `${minutes}min`;
+  } else {
+    return `0sec`;
+  }
+}
+
 export const calculateTotalReadingTime = (sections: any) => {
   let totalHours = 0;
   let totalMinutes = 0;

@@ -166,6 +166,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
           <div className="text-right">
             <Button
               className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+              type="button"
               onClick={addOption}
             >
               + Add Option

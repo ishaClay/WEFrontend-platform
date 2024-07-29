@@ -332,38 +332,37 @@ const ModuleCreationPage = () => {
                 </div>
               );
             })}
-
-          <form onSubmit={handleSubmit(handleModuleSave)}>
-            {moduleCreationItem.map((_, index) => {
-              return (
-                <ModuleCreationItems
-                  errors={errors}
-                  register={register}
-                  setValue={setValue}
-                  watch={watch}
-                  control={control}
-                  removeModule={removeModule}
-                  key={`module${index}`}
-                  moduleListlength={moduleList?.length}
-                  index={index}
-                />
-              );
-            })}
-
-            {moduleCreationItem.length !== 0 && (
-              <div className="text-right">
-                <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-                  {CreateModuleAsync?.isPending ? (
-                    <Loader containerClassName="h-auto" />
-                  ) : (
-                    "Save"
-                  )}
-                </Button>
-              </div>
-            )}
-          </form>
         </>
       )}
+      <form onSubmit={handleSubmit(handleModuleSave)}>
+        {moduleCreationItem.map((_, index) => {
+          return (
+            <ModuleCreationItems
+              errors={errors}
+              register={register}
+              setValue={setValue}
+              watch={watch}
+              control={control}
+              removeModule={removeModule}
+              key={`module${index}`}
+              moduleListlength={moduleList?.length}
+              index={index}
+            />
+          );
+        })}
+
+        {moduleCreationItem.length !== 0 && (
+          <div className="text-right">
+            <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
+              {CreateModuleAsync?.isPending ? (
+                <Loader containerClassName="h-auto" />
+              ) : (
+                "Save"
+              )}
+            </Button>
+          </div>
+        )}
+      </form>
     </div>
   );
 };
