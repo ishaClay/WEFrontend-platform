@@ -35,6 +35,10 @@ const ViewSession = ({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       console.log("data", data);
+      setDocumentFile("");
+      setViewDocument(false);
+      setViewDoc(false);
+      setLike("");
     },
     onError: (error) => {
       console.log("error", error);
@@ -56,7 +60,7 @@ const ViewSession = ({
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
       {viewDoc ? (
         <div className="absolute top-0 left-0 w-full bg-white z-50">
           <CircleX
@@ -82,15 +86,11 @@ const ViewSession = ({
         <>
           {documentType(documentFile) === "mp4" ||
           documentType(documentFile) === "video" ? (
-            <div className="absolute top-0 left-0 w-full bg-white z-50">
-              <CircleX
-                className="absolute -top-[25px] right-0 cursor-pointer"
-                onClick={() => {
-                  setViewDocument(false);
-                  setDocumentFile("");
-                }}
-              />
-              {documentType(documentFile) === "pdf" ? (
+            <div className="">
+              {documentType(documentFile) === "mp4" ||
+              documentType(documentFile) === "video" ? (
+                <video src={docs[0]?.uri} className="w-full" controls></video>
+              ) : documentType(documentFile) === "pdf" ? (
                 <iframe
                   src={documentFile}
                   style={{ height: "600px", width: "100%" }}
@@ -129,7 +129,7 @@ const ViewSession = ({
               </div>
             </div>
           )}
-          <div>
+          <div className="mt-[20px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <h3 className="text-[12px] text-[#A3A3A3] font-inter">

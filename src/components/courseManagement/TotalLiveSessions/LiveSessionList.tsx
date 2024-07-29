@@ -53,12 +53,12 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         </h6>
         <h6 className="text-base text-black font-abhaya font-semibold">
           <span className="text-[#606060]">Course: </span>
-          {/* {data?.course} */}
+          {data?.course?.titile}
         </h6>
         <div className="sm:flex bloack gap-10">
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
             <span className="text-[#606060]">Company: </span>
-            {/* {data?.company} */}
+            {data?.company?.[0]?.name}
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold">
             <span className="text-[#606060]">Number of Employee: </span>
@@ -72,7 +72,13 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
-            {data?.startTime} {data?.startAmPm}
+            {/* {(JSON.parse(data?.startTime)?.hour && (JSON.parse(data?.startTime)?.minute))  && (
+              <>
+                {JSON?.parse(data?.startTime)?.hour} :
+                {JSON?.parse(data?.startTime)?.minute}
+              </>
+            )} */}
+            {data?.startAmPm}
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold">
             <span className="text-[#606060]">Duration: </span>

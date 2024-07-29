@@ -25,8 +25,7 @@ interface AllLiveSessionsProps {
 }
 
 const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
-  const [selectFilter, setSelectFilter] = useState("upcoming");
-  console.log("selectFilter", selectFilter);
+  const [selectFilter, setSelectFilter] = useState("");
 
   const filteredSessions = allLiveSession?.filter((session) => {
     const now = new Date();
@@ -67,7 +66,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
             option={filter}
             setValue={(data: string) => setSelectFilter(data)}
             value={selectFilter}
-            className="text-black text-base font-abhaya sm:h-[52px] h-[48px] font-semibold"
+            className="text-black placeholder:text-[#A3A3A3] text-base font-abhaya sm:h-[52px] h-[48px] font-semibold"
             placeholder="Upcoming Sessions"
           />
         </div>

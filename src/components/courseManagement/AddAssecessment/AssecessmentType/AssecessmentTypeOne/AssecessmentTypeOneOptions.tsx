@@ -18,6 +18,7 @@ type optionsProps = {
   iIndex: number;
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any>>;
+  setErrors: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const AssecessmentTypeOneOptions = ({
@@ -26,6 +27,7 @@ const AssecessmentTypeOneOptions = ({
   iIndex,
   setOptions,
   options,
+  setErrors,
 }: optionsProps) => {
   const dispatch = useAppDispatch();
   const { questionOption } = useAppSelector(
@@ -49,6 +51,18 @@ const AssecessmentTypeOneOptions = ({
                 className="w-full outline-none text-base font-calibri text-black"
                 onChange={(e) => {
                   dispatch(addOption({ option: e.target.value, i, iIndex }));
+                  const updatedOptions = [...options];
+                  updatedOptions[iIndex] = {
+                    ...updatedOptions[iIndex],
+                    option: e.target.value,
+                  };
+                  setOptions(updatedOptions);
+                  setErrors((prev: any) => ({
+                    ...prev,
+                    options: prev.options.map((option: string, index: number) =>
+                      index === iIndex ? "" : option
+                    ),
+                  }));
                 }}
                 value={questionOption[i]?.option?.[iIndex]}
               />

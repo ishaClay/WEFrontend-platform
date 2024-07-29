@@ -1,27 +1,38 @@
-import Course_image from "@/assets/images/Course_image.png";
 import RecentCoursesItems from "./RecentCoursesItems";
 import { Button } from "../ui/button";
 import CustomCarousel from "../comman/CustomCarousel";
+import { MyCourseResponse } from "@/types/courseManagement";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagement";
+import { useAppSelector } from "@/hooks/use-redux";
 
 const RecentCourses = () => {
-  const recentCourseItem = [
-    {
-      image: Course_image,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      subTitle: "Social | 5 modules",
-      progressCount: 25,
-      progressDes: "1 of 5 Completed",
-    },
-    {
-      image: Course_image,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      subTitle: "Social | 5 modules",
-      progressCount: 50,
-      progressDes: "1 of 5 Completed",
-    },
-  ];
+  const { CompanyId } = useAppSelector((state) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = CompanyId
+    ? CompanyId
+    : userData?.query
+    ? userData?.query?.detailsid
+    : userData?.detailsid;
+
+  const { data } = useQuery<MyCourseResponse>({
+    queryKey: [
+      QUERY_KEYS?.myCourses,
+      {
+        id: userID,
+      },
+    ],
+    queryFn: () =>
+      getAllEmployeeCourseList({
+        id: userID,
+        status: "In Progress",
+        categories: "",
+      }),
+  });
+
+  console.log("data", data);
+
   return (
     <div className="mb-8">
       <div className="mb-5 flex justify-between items-center">
@@ -35,16 +46,17 @@ const RecentCourses = () => {
       </div>
       <div className="sm:block hidden">
         <div className="grid xl:grid-cols-2 grid-cols-1 gap-6">
-          {recentCourseItem.map((data, index) => {
+          {data?.data?.courseAlloted?.map((data, index) => {
             return <RecentCoursesItems data={data} key={index} />;
           })}
         </div>
       </div>
+
       <div className="sm:hidden block">
         <CustomCarousel containerClassName="">
-          {recentCourseItem.map((data, index) => {
+          {data?.data?.courseAlloted?.map((data, index) => {
             return <RecentCoursesItems data={data} key={index} />;
-          })}
+          }) || []}
         </CustomCarousel>
       </div>
     </div>

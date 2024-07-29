@@ -22,11 +22,13 @@ import {
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import AllocatedCertificateModal from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 
 const GridView = ({
@@ -38,7 +40,9 @@ const GridView = ({
 }) => {
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
+  const [isOpen, setIsOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
@@ -155,7 +159,7 @@ const GridView = ({
   const handlePublish = (e: Event, id: number) => {
     e.preventDefault();
     const payload = {
-      status: "PUBLISHED",
+      status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
       id,
     };
     publishCourseFun(payload);
@@ -204,6 +208,7 @@ const GridView = ({
 
   return list?.length > 0 && list ? (
     <>
+      <AllocatedCertificateModal isOpen={isOpen} setIsOpen={setIsOpen} />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
@@ -285,7 +290,9 @@ const GridView = ({
               <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={
-                    item?.status === "PUBLISHED" || item?.status === "EXPIRED"
+                    item?.status === "PUBLISHED" ||
+                    item?.status === "EXPIRED" ||
+                    item?.status === "READYTOPUBLISH"
                   }
                   className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                   onClick={(e: any) => {
@@ -321,30 +328,47 @@ const GridView = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
                     <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        className="flex items-center gap-2 font-nunito"
-                        onClick={(e: any) =>
-                          handleCopy(e, item?.currentVersion?.id)
-                        }
-                      >
-                        <Copy className="w-4 h-4" />
-                        <span>Copy</span>
-                      </DropdownMenuItem>
-                      {item?.status !== "EXPIRED" && (
+                      {(+userData?.query?.role === UserRole.Trainee
+                        ? userData?.approved
+                        : true) && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
-                          onClick={(e) =>
-                            handleEdit(
-                              e,
-                              item?.currentVersion?.id?.toString(),
-                              item
-                            )
+                          onClick={(e: any) =>
+                            handleCopy(e, item?.currentVersion?.id)
                           }
                         >
-                          <Pencil className="w-4 h-4" />
-                          <span>Edit</span>
+                          <Copy className="w-4 h-4" />
+                          <span>Copy</span>
                         </DropdownMenuItem>
                       )}
+                      {item?.status !== "EXPIRED" &&
+                        (+userData?.query?.role === UserRole.Trainee
+                          ? userData?.editCourses
+                          : true) && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) =>
+                              handleEdit(
+                                e,
+                                item?.currentVersion?.id?.toString(),
+                                item
+                              )
+                            }
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>Edit</span>
+                          </DropdownMenuItem>
+                        )}
+                      <DropdownMenuItem
+                        className="flex items-center gap-2 font-nunito"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsOpen(item?.id);
+                        }}
+                      >
+                        <Combine className="w-4 h-4" />
+                        <span>Allocate</span>
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
                         onClick={(e: any) => {

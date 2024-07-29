@@ -151,7 +151,7 @@ export interface Course {
 }
 
 export interface AllCoursesResponse {
-  data: (AllCoursesResult)[];
+  data: AllCoursesResult[];
   message: string;
 }
 export interface AllCoursesResult {
@@ -163,13 +163,13 @@ export interface AllCoursesResult {
   price: number;
   description: string;
   bannerImage: string;
-  courseData?: (CourseDataEntity)[] | null;
+  courseData?: CourseDataEntity[] | null;
   status: string;
   createdAt: string;
   updatedAt: string;
-  version?: (VersionEntity)[] | null;
+  version?: VersionEntity[] | null;
   currentVersion: CurrentVersion;
-  module?: (ModuleEntity)[] | null;
+  module?: ModuleEntity[] | null;
   trainerCompanyId: TrainerCompanyId | null;
   trainerId?: TrainerId | null;
 }
@@ -230,20 +230,20 @@ export interface MainCourseType {
   description: string;
   bannerImage: string;
   keys: string;
-  courseData?: (CourseDataEntity)[] | null;
+  courseData?: CourseDataEntity[] | null;
   status: string;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
   currentVersion: CurrentVersion;
-  module?: (ModuleEntity)[] | null;
-  version?: (VersionEntity)[] | null;
+  module?: ModuleEntity[] | null;
+  version?: VersionEntity[] | null;
 }
 export interface ModuleEntity {
   id: number;
   title: string;
   position: number;
-  moduleSection?: (ModuleSectionEntity)[] | null;
+  moduleSection?: ModuleSectionEntity[] | null;
 }
 export interface ModuleSectionEntity {
   id: number;
@@ -269,7 +269,6 @@ export interface TrainerId {
   name: string;
 }
 
-
 export interface MyCourseResponse {
   data: MyCourseResult;
   message: string;
@@ -287,7 +286,7 @@ export interface MyCourseResult {
   editActionItem: boolean;
   retakeSelfAssessment: boolean;
   shareFeedback: boolean;
-  courseAlloted?: (CourseAllotedEntity)[] | null;
+  courseAlloted?: CourseAllotedEntity[] | null;
 }
 export interface CourseAllotedEntity {
   id: number;
@@ -300,7 +299,11 @@ export interface CourseAllotedEntity {
   deletedAt?: null;
   updatedAt: string;
   courseVersion: CourseVersion;
+  completedSections: number;
+  totalSections: number;
   courseProgress: string;
+  completedModule: number;
+  totalmodules: number;
   courseStatus: string;
 }
 export interface CourseVersion {
@@ -308,6 +311,5 @@ export interface CourseVersion {
   version: number;
   createdAt: string;
   updatedAt: string;
-  course: Course;
+  course: MainCourseType;
 }
-

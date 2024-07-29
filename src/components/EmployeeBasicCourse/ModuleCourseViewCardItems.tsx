@@ -63,6 +63,7 @@ const ModuleCourseViewCardItems = ({
           <img
             src={documentIcon(list?.url ? "url" : list?.uploadContent)}
             alt="documentIcon"
+            className="max-w-[32px] w-auto h-auto"
           />
         </div>
         <div className="">
