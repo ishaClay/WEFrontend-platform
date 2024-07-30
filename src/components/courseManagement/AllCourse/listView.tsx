@@ -303,7 +303,7 @@ const ListView = ({
                       />
                     </div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger asChild className="outline-none">
                         <EllipsisVertical />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-30">

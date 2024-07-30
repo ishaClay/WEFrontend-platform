@@ -14,7 +14,6 @@ import { Button } from "../ui/button";
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
-  console.log("page", page);
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({

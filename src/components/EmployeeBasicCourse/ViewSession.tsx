@@ -30,26 +30,19 @@ const ViewSession = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      console.log("data", data);
       setDocumentFile("");
       setViewDocument(false);
       setViewDoc(false);
       setLike("");
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
-
-  console.log(
-    "documentFile",
-    documentFile?.split("/").pop()?.split(".")[0],
-    list
-  );
 
   const handleStatusChanges = (status: number, id: number) => {
     const payload = {

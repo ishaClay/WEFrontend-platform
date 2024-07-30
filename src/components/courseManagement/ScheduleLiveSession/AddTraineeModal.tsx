@@ -104,7 +104,7 @@ const AddTraineeModal = ({
             render={({ field: { onChange, value } }) => {
               return (
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild className="outline-none">
                     <Button className="flex" variant="outline">
                       <SlidersHorizontal
                         width={18}
@@ -115,7 +115,7 @@ const AddTraineeModal = ({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-full">
-                    <div className="overflow-auto h-[300px]">
+                    <div className="overflow-auto max-h-[300px]">
                       {selectCompanyOptions?.map(
                         (i: { value: string; label: string }) => (
                           <DropdownMenuCheckboxItem

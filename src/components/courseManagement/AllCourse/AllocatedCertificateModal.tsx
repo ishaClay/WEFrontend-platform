@@ -54,9 +54,7 @@ export function AllocatedCertificateModal({
   });
 
   const courseData = data?.data && data?.data;
-  console.log("data+++", courseData);
 
-  console.log("errors", data);
   const showInviteForm = () => {
     setIsInvite(true);
   };
@@ -85,8 +83,6 @@ export function AllocatedCertificateModal({
     };
     allocate(payload);
   };
-
-  console.log("openId", selectFilter);
 
   const handleClose = () => {
     onClose();
@@ -124,8 +120,6 @@ export function AllocatedCertificateModal({
       });
     },
   });
-
-  console.log("errors", errors);
 
   const handleInvite = (data: FieldValues) => {
     const payload = {

@@ -20,10 +20,7 @@ export const QuestionSlice = createSlice({
   initialState,
   reducers: {
     setPillarName: (state, action) => {
-      console.log("state, action", state, action);
-
       state.allPillar = action.payload;
-      // action.payload?.map((i: string) => state[i] = { questions: [] })
     },
     setActivePillar: (state, action) => {
       state.activePillar = action.payload;

@@ -28,11 +28,8 @@ function Auth() {
   const navigate = useNavigate();
 
   const schema = z.object({
-    email: z.string().email("Please enter valid email").min(1, "Email is required"),
-    password: z.string().min(1, { message: "Password is required" }),
-    // 	{
-    // 		required_error: "Password is required",
-    // 	}
+    email: z.string().email("Please enter valid email").min(1, "Please enter email"),
+    password: z.string().min(1, { message: "Please enter password" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -102,7 +99,6 @@ function Auth() {
           },
         });
         dispatch(setUserData(user.id));
-        console.log("data", data?.data?.data);
       } else {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
@@ -158,15 +154,6 @@ function Auth() {
 
           dispatch(setUserData(user.id));
 
-          console.log(
-            "user.pathstatus",
-            user.pathstatus !== "7",
-            user.pathstatus !== "3",
-            user.lastlogout === null
-          );
-
-          // if (user.role == UserRole.Company) {
-          // console.log(user.pathstatus ===)
           if (user.pathstatus < "4") {
             navigate("/savedassesment");
           } else {
@@ -178,7 +165,7 @@ function Auth() {
       }
     },
     onError: (error: ErrorType) => {
-      console.log(error);
+      console.error(error);
       toast({
         variant: "destructive",
         title: "Error",

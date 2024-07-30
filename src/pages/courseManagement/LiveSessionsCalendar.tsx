@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -8,7 +13,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AllLivesessions } from "@/types/liveSession";
-import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CirclePlus,
+  List,
+  NotepadText,
+} from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 import {
@@ -29,8 +40,14 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   const localizer = momentLocalizer(moment);
   const pathName = window.location.pathname;
   const currentUser = pathName?.split("/")[1];
+  const search = window.location.search;
+  const params = new URLSearchParams(search).get("view");
 
   const [currentDate, setCurrentDate] = useState<Date | undefined>(new Date());
+
+  const changeView = (id: number) => {
+    navigate(`${location?.pathname}?view=${id}`, { replace: true });
+  };
 
   const calculateEndTime = (
     startTime: string,
@@ -56,14 +73,18 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const events = allLiveSession?.map((session) => {
+    const sessionDurationMinutes =
+      session?.sessionDuration?.hour * 60 + session?.sessionDuration?.minute;
+
     const eventStart = moment(
       session.date + " " + session.startTime + " " + session.startAmPm,
       "YYYY-MM-DD hh:mm A"
     ).toDate();
+
     const eventEnd = moment(
       session.date +
         " " +
-        calculateEndTime(session.startTime, session.sessionDuration) +
+        calculateEndTime(session.startTime, sessionDurationMinutes) +
         " " +
         session.startAmPm,
       "YYYY-MM-DD hh:mm A"
@@ -72,11 +93,10 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     return {
       start: eventStart,
       end: eventEnd,
-      title: "Live Session",
+      title: session?.liveSecTitle,
+      description: session?.description,
     };
   });
-
-  console.log("eventsevents", events);
 
   const CustomToolbar: React.FC<ToolbarProps> = ({ onView, view }) => {
     const handleViewChange = (e: string) => {
@@ -172,12 +192,46 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
               </SelectGroup>
             </SelectContent>
           </Select>
+          <div className="flex rounded-md bg-white border border-[#D9D9D9] overflow-hidden">
+            <Button
+              className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] border-e border-[#D9D9D9] hover:bg-[#00778B] hover:text-white ${
+                params === "0" || !params
+                  ? "text-[#fff] bg-[#00778B]"
+                  : "text-[#A3A3A3]"
+              }`}
+              onClick={() => changeView(0)}
+            >
+              <NotepadText />
+            </Button>
+            <Button
+              className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] hover:bg-[#00778B] hover:text-white ${
+                params === "1" ? "text-[#fff] bg-[#00778B]" : "text-[#A3A3A3]"
+              }`}
+              onClick={() => changeView(1)}
+            >
+              <List />
+            </Button>
+          </div>
         </div>
       </div>
     );
   };
 
-  const CustomEvent = ({ event }: { event: any }) => <div>{event.title}</div>;
+  const CustomEvent = ({ event }: { event: any }) => (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <p>{event.title}</p>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <p>Title: {event?.title}</p>
+        <p>
+          Meeting time: {moment(event?.start).format("hh:mm a")} -{" "}
+          {moment(event?.end).format("hh:mm a")}
+        </p>
+        <p>Description: {event?.description}</p>
+      </HoverCardContent>
+    </HoverCard>
+  );
 
   return (
     <div className="p-3 bg-white min-h-full">
@@ -190,6 +244,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         components={{ toolbar: CustomToolbar, event: CustomEvent }}
         date={currentDate}
         style={{ height: 800 }}
+        tooltipAccessor={null}
       />
     </div>
   );

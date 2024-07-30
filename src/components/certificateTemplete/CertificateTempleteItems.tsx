@@ -8,7 +8,6 @@ interface CertificateTempleteItemsProps {
 }
 
 const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
-  console.log("data", data);
 
   return (
     <div className="col-span-1 border border-[#D9D9D9]">

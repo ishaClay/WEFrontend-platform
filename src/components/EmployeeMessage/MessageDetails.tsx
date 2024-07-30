@@ -21,7 +21,7 @@ interface MessageDetailsProps {
 }
 
 const schema = z.object({
-  message: z.string().min(1, { message: "Message is required" }),
+  message: z.string().min(1, { message: "Please enter message" }),
 });
 
 let socket: any;

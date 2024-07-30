@@ -166,8 +166,6 @@ const GridView = ({
   };
 
   const handleCopy = (e: Event, id: number) => {
-    console.log("id++++++1212", e, id);
-
     e.preventDefault();
     copyCourseFun(id);
   };
@@ -177,7 +175,6 @@ const GridView = ({
     id: string | undefined,
     item: AllCoursesResult
   ) => {
-    console.log("item?.trainerId?.id", item, id, e);
 
     e.stopPropagation();
     if (item?.status === "HOLD" || item?.status === "PUBLISHED") {
@@ -204,7 +201,6 @@ const GridView = ({
   const handleDeleteCourse = () => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
-  console.log("list", list);
 
   return list?.length > 0 && list ? (
     <>
@@ -223,8 +219,6 @@ const GridView = ({
           const versionOption =
             item?.version &&
             item?.version.map((itm: any) => {
-              console.log("itmitmitm", itm?.id);
-
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
@@ -326,7 +320,7 @@ const GridView = ({
                   />
                 </div>
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild className="outline-none">
                     <EllipsisVertical className="w-8" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">

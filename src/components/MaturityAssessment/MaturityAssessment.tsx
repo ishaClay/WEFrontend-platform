@@ -91,8 +91,6 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
-  console.log("pillarCompleted", assessmentQuestionScoreLIST);
-
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">

@@ -20,8 +20,6 @@ const Question = ({
   const location = useLocation();
   const isHide = location.pathname?.split("/")?.length === 2 ? false : true;
 
-  console.log("question", question);
-
   const handlePrev = () => {
     const currentIndex = allPillar.indexOf(activePillar);
     if (currentIndex > 0) {

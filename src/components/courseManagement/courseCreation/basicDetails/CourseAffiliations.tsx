@@ -41,8 +41,8 @@ const organisationNameOption = [
 ];
 
 const schema = zod.object({
-  instituteOther: zod.string().min(1, "Affiliation is required"),
-  otherInstitutionName: zod.string().min(1, "Affiliation Name is required"),
+  instituteOther: zod.string().min(1, "Please select Affiliation"),
+  otherInstitutionName: zod.string().min(1, "Please select institution / organisation name"),
 });
 
 interface CourseAffiliationsProps {

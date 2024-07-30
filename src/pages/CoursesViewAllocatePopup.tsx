@@ -36,8 +36,8 @@ interface CourseViewAllocatePopupProps {
 }
 
 const schema = zod.object({
-  fname: zod.string().min(1, { message: "First Name is required" }),
-  lname: zod.string().min(1, { message: "Last Name is required" }),
+  fname: zod.string().min(1, { message: "Please enter first name" }),
+  lname: zod.string().min(1, { message: "Please enter last name" }),
   email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
@@ -115,9 +115,6 @@ function CourseViewAllocatePopup({
   });
 
   const courseData = data?.data && data?.data;
-  console.log("data+++", courseData);
-
-  console.log("errors", data);
   const showInviteForm = () => {
     setIsInvite(true);
   };
@@ -180,8 +177,6 @@ function CourseViewAllocatePopup({
     };
     allocate(payload);
   };
-
-  console.log("openId", openId);
 
   const handleClose = () => {
     onClose();

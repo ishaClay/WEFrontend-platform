@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import Drawer from "./comman/Drawer";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
 interface SidebarItem {
   label: string;
@@ -32,7 +33,9 @@ const DrawerPage = ({
 }) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
-  const mavigate = useNavigate();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const toggleDropdown = (
@@ -56,7 +59,7 @@ const DrawerPage = ({
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
-      mavigate("/");
+      navigate("/");
     },
     onError: (error: ResponseError) => {
       toast({
@@ -68,9 +71,13 @@ const DrawerPage = ({
   });
 
   const handleLogout = () => {
+    setIsAlertOpen(true)
+  };
+
+  const handleConfirmLogout = () => {
     const userId = userData?.query?.id;
     mutate(userId);
-  };
+  }
 
   return (
     <>
@@ -85,7 +92,7 @@ const DrawerPage = ({
               <Button
                 type="button"
                 onClick={() => {
-                  mavigate("/");
+                  navigate("/");
                   setOpen(false);
                 }}
                 className="flex items-center gap-2 outline-none focus-visible:ring-0 hover:bg-transparent h-auto"
@@ -139,7 +146,7 @@ const DrawerPage = ({
                                     <Button
                                       type="button"
                                       onClick={() => {
-                                        mavigate(child.link);
+                                        navigate(child.link);
                                         setOpen(false);
                                       }}
                                       className="flex items-center gap-2"
@@ -171,6 +178,11 @@ const DrawerPage = ({
           {isPending && <Loading isLoading={isPending} />}
         </div>
       </Drawer>
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 };

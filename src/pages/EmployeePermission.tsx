@@ -32,8 +32,6 @@ function EmployeePermission() {
       employeeList(page.toString(), "10", userData?.query?.detailsid, search),
   });
 
-  console.log("data", data);
-  console.log(userData?.query?.id);
   const { mutate: update_employee, isPending: updatePending } = useMutation({
     mutationFn: updateEmployeeList,
     onSuccess: () => {

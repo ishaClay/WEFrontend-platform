@@ -48,19 +48,19 @@ function SupportAddNewTicket() {
   const user = userData ? JSON.parse(userData) : null;
 
   const schema = z.object({
-    assignTo: z.string({ required_error: "Assign To is required" }),
-    ticketPriority: z.string({ required_error: "Ticket Priority is required" }),
+    assignTo: z.string({ required_error: "Please select Assign To" }),
+    ticketPriority: z.string({ required_error: "Please select ticket priority" }),
     ticketSubject: z
-      .string({ required_error: "Ticket Subject is required" })
-      .min(1, { message: "Ticket Subject is required" }),
+      .string({ required_error: "Please enter ticket subject" })
+      .min(1, { message: "Please enter ticket subject" }),
     description: z
-      .string({ required_error: "Description is required" })
-      .min(1, { message: "Description is required" }),
+      .string({ required_error: "Please enter description" })
+      .min(1, { message: "Please enter description" }),
     uploadDocument: z
-      .string({ required_error: "Upload Document is required" })
+      .string({ required_error: "Please upload document" })
       .optional(),
     uploadVideo: z
-      .string({ required_error: "Upload Video is required" })
+      .string({ required_error: "Please upload video" })
       .optional(),
   });
 
