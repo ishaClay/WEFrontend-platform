@@ -54,8 +54,12 @@ const schema = zod
   );
 
 type FormData = zod.infer<typeof schema>;
+// setStep: (e: string) => void;
+interface CourseInformationProps {
+  setStep: (e: string) => void;
+}
 
-const CourseInformation = () => {
+const CourseInformation = ({setStep}: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -80,6 +84,7 @@ const CourseInformation = () => {
   });
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab");
+  const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");
   const coursePrise = watch("price") || "0";
   const pathName: string = location?.pathname?.split("/")[1];
@@ -99,7 +104,7 @@ const CourseInformation = () => {
       });
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
-          data?.data?.data?.course?.id
+          data?.data?.data?.id
         }&version=${data?.data?.data?.version}`,
         {
           replace: true,
@@ -125,7 +130,7 @@ const CourseInformation = () => {
       });
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : paramsId
         }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
         {
           replace: true,
@@ -142,10 +147,11 @@ const CourseInformation = () => {
   });
 
   const { data: getSingleCourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion }],
-    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
-    enabled: +courseId ? !!paramsVersion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
+    enabled: (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false,
   });
+  console.log("paramsId", (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false, getSingleCourse);
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -175,11 +181,11 @@ const CourseInformation = () => {
       clientId: data?.data?.id || 0,
       userId: userID,
     };
-
-    if (+courseId) {
+    setStep("1")
+    if (+courseId || paramsId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {

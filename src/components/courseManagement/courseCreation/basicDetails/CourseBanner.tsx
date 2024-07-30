@@ -56,9 +56,9 @@ const CourseBanner = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   useEffect(() => {

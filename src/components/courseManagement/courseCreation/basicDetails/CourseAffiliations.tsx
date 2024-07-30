@@ -45,7 +45,11 @@ const schema = zod.object({
   otherInstitutionName: zod.string().min(1, "Affiliation Name is required"),
 });
 
-const CourseAffiliations = () => {
+interface CourseAffiliationsProps {
+  setStep: (e: string) => void;
+}
+
+const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     handleSubmit,
@@ -87,11 +91,11 @@ const CourseAffiliations = () => {
       });
     },
   });
-
+  
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   useEffect(() => {
@@ -134,7 +138,7 @@ const CourseAffiliations = () => {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
     };
-
+    setStep("4");
     if (+courseId) {
       updateCourseFun({
         payload,

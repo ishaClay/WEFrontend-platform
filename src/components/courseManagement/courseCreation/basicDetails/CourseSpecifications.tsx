@@ -32,7 +32,11 @@ const schema = zod.object({
   fetCredits: zod.string().min(1, "FET credit is required"),
 });
 
-const CourseSpecifications = () => {
+interface CourseSpecificationsProps {
+  setStep: (e: string) => void;
+}
+
+const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -63,9 +67,9 @@ const CourseSpecifications = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -160,6 +164,7 @@ const CourseSpecifications = () => {
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
     };
+    setStep("2");
     if (+courseId) {
       updateCourseFun({
         payload,

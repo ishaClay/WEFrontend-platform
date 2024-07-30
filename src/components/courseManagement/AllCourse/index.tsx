@@ -40,8 +40,8 @@ const AllCourses = () => {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
+    queryKey: [QUERY_KEYS.fetchAllCourse],
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, "PUBLISHED"),
   });
 
   return (
