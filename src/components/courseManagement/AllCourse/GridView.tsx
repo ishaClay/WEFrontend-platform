@@ -28,8 +28,8 @@ import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import AllocatedCertificateModal from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
+import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 
 const GridView = ({
   list,
@@ -208,7 +208,10 @@ const GridView = ({
 
   return list?.length > 0 && list ? (
     <>
-      <AllocatedCertificateModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <AllocatedCertificateModal
+        isOpen={!!isOpen}
+        onClose={() => setIsOpen("")}
+      />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">

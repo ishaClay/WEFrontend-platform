@@ -49,7 +49,7 @@ export const updateTrainerStatusById = async ({
 export const trainerInvitation = async (data: {
   email: string[];
   invitationDetails: string;
-  TrainerCompanyId: string;
+  TrainerCompanyId?: string;
 }) => {
   const url = `api/v1/trainer-company/send-invitation`;
   const response = await api({ url, data, method: "post" });

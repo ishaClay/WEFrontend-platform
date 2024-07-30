@@ -1,43 +1,64 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Label } from "@radix-ui/react-label";
-import { Button } from "@/components/ui/button";
-import { TrainersResponse } from "@/types/Trainer";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getTrainer } from "@/services/apiServices/trainer";
-import { trainerAllocateCourse } from "@/services/apiServices/allocatedcourse";
+import InputWithLabel from "@/components/comman/InputWithLabel";
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
+import TextAreaWithLabel from "@/components/comman/TextAreaWithLabel";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
+import { trainerAllocateCourse } from "@/services/apiServices/allocatedcourse";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import * as zod from "zod";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { TrainersResponse } from "@/types/Trainer";
+import { getTrainer, trainerInvitation } from "@/services/apiServices/trainer";
 import { AxiosError } from "axios";
-import Autocomplete from "@/components/comman/MultipleSelectMenu";
+import { MoveLeft } from "lucide-react";
 
-const AllocatedCertificateModal = ({
+interface CourseViewAllocatePopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const schema = zod.object({
+  fname: zod.string().min(1, { message: "First Name is required" }),
+  lname: zod.string().min(1, { message: "Last Name is required" }),
+  email: zod.string().email({ message: "Please enter valid email" }),
+  message: zod.string().optional(),
+});
+
+export function AllocatedCertificateModal({
   isOpen,
-  setIsOpen,
-}: {
-  isOpen: string;
-  setIsOpen: Dispatch<SetStateAction<string>>;
-}) => {
-  const [selectFilter, setSelectFilter] = useState<
-    { label: string; value: string }[]
-  >([]);
+  onClose,
+}: CourseViewAllocatePopupProps) {
+  const [isInvite, setIsInvite] = useState(false);
+  const [selectFilter, setSelectFilter] = useState<number[]>([]);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+    mode: "all",
+  });
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const id = userData?.query?.detailsid;
+  const queryClient = useQueryClient();
 
-  const { data } = useQuery<TrainersResponse>({
+  const { data, isPending } = useQuery<TrainersResponse>({
     queryKey: ["trainer", { id }],
-    queryFn: () => getTrainer({ page: 1, limit: 1000000, keyword: "", id }),
+    queryFn: () => getTrainer({ page: 1, limit: 100000000, keyword: "", id }),
   });
 
-  const filterModal = data?.data?.map((item) => {
-    return {
-      label: String(item?.name || item?.email?.split("@")[0]),
-      value: String(item?.id),
-    };
-  });
+  const courseData = data?.data && data?.data;
+  console.log("data+++", courseData);
 
-  const handleClose = () => {
-    setIsOpen("");
-    setSelectFilter([]);
+  console.log("errors", data);
+  const showInviteForm = () => {
+    setIsInvite(true);
   };
 
   const { mutate: allocate, isPending: isLoadingAllocate } = useMutation({
@@ -60,47 +81,248 @@ const AllocatedCertificateModal = ({
   const handleAllocate = () => {
     const payload = {
       courseId: +isOpen as number,
-      traineeId: selectFilter.map((item) => +item.value) || [],
+      traineeId: selectFilter || [],
     };
     allocate(payload);
   };
 
-  console.log("filterModal", filterModal);
+  console.log("openId", selectFilter);
+
+  const handleClose = () => {
+    onClose();
+    setIsInvite(false);
+    reset();
+  };
+
+  const { mutate, isPending: isInvitePending } = useMutation({
+    mutationFn: trainerInvitation,
+    onSuccess: (data) => {
+      if (data?.data?.trainerExist?.length > 0) {
+        toast({
+          title: "Success",
+          description: "Trainer invitation Already send.",
+          variant: "success",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: data?.message,
+          variant: "success",
+        });
+      }
+      queryClient?.invalidateQueries({
+        queryKey: ["trainer", { id }],
+      });
+      reset();
+      setIsInvite(false);
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  console.log("errors", errors);
+
+  const handleInvite = (data: FieldValues) => {
+    const payload = {
+      name: data?.fname,
+      surname: data?.lname,
+      email: [data?.email],
+      invitationDetails: data?.details,
+      TrainerCompanyId: id,
+    };
+
+    mutate(payload);
+  };
 
   return (
-    <>
-      <Modal open={!!isOpen} onClose={handleClose}>
-        <div>
-          <h4 className="text-2xl font-bold mb-5 font-inter">
-            Allocate Course
-          </h4>
-          <Label className="text-base mb-2 block">Trainer List</Label>
-          <Autocomplete
-            suggestions={filterModal || []}
-            selectedItems={selectFilter}
-            setSelectedItems={setSelectFilter}
-          />
-          <div className="flex justify-end gap-4 mt-7">
-            <Button
-              type="button"
-              onClick={handleClose}
-              className="w-[100px] h-[45px] text-base bg-red-500 hover:bg-red-600"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              isLoading={isLoadingAllocate}
-              onClick={handleAllocate}
-              className="w-[100px] h-[45px] text-base bg-green-600 hover:bg-green-700"
-            >
-              Submit
-            </Button>
+    <Modal
+      open={isOpen}
+      onClose={handleClose}
+      className="lg:max-w-[800px] md:max-w-[700px] sm:max-w-[580px] max-w-[350px] w-full overflow-y-auto max-h-full rounded-lg sm:p-[22px] p-[15px]"
+    >
+      {isPending ? (
+        <Loader />
+      ) : (
+        <ScrollArea className="h-[500px]">
+          <div>
+            {isInvite ? (
+              <div className="pt-[10px]">
+                <div className="mb-3 flex items-end justify-between">
+                  <div className="">
+                    <h5 className="text-[16px] font-calibri font-bold leading-5 pb-[6px]">
+                      Invite Team Member
+                    </h5>
+                    <p className="text-[15px] text-[#606060] font-semibold">
+                      Drop them an invite so they can join with their sleeves
+                      rolled
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={() => setIsInvite(false)}
+                    className="p-0 h-auto hover:bg-transparent text-black"
+                  >
+                    <MoveLeft /> Back
+                  </Button>
+                </div>
+                <form onSubmit={handleSubmit(handleInvite)}>
+                  <div className="grid grid-cols-2 gap-x-[29px] gap-y-[18px]">
+                    <div className="sm:col-span-1 col-span-2">
+                      <InputWithLabel
+                        type="text"
+                        label="First Name"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        placeholder="Enter First Name"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        {...register("fname")}
+                        error={errors?.fname?.message as string}
+                      />
+                    </div>
+                    <div className="sm:col-span-1 col-span-2">
+                      <InputWithLabel
+                        type="text"
+                        label="Last Name"
+                        placeholder="Enter Last Name"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        {...register("lname")}
+                        error={errors?.lname?.message as string}
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <InputWithLabel
+                        type="text"
+                        label="Team Member Email"
+                        placeholder="Enter email id"
+                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        {...register("email")}
+                        error={errors?.email?.message as string}
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <TextAreaWithLabel
+                        label="Invitation Details"
+                        placeholder="Enter Details"
+                        className="font-nunito text-[#000000] sm:text-[16px] text-[14px]"
+                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        isLength={false}
+                        {...register("message")}
+                        error={errors?.message?.message as string}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full flex items-center justify-end mt-[20px]">
+                    <Button
+                      type="submit"
+                      className="bg-[#58BA66] text-white w-[100px] sm:h-[52px] h-[45px] rounded mt-[5px] text-base"
+                    >
+                      {isInvitePending ? (
+                        <Loader containerClassName="h-auto" />
+                      ) : (
+                        "Send Invite"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center justify-between p-4 pb-0">
+                  <h2 className="text-base font-bold">Trainee</h2>
+                  <div className="flex items-center">
+                    <label className="font-bold mr-[10px]">Select All</label>
+                    <input
+                      type="checkbox"
+                      name="all"
+                      className="h-[18px] w-[18px] rounded"
+                      checked={courseData?.some((item) =>
+                        selectFilter?.includes(item?.id)
+                      )}
+                      onChange={() =>
+                        // @ts-ignore
+                        setSelectFilter((prev: number[]) => {
+                          return prev?.length > 0
+                            ? []
+                            : courseData?.map((item) => item?.id);
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="p-4 min-h-[390px] h-full max-h-[360px] overflow-auto">
+                  {courseData && courseData?.length > 0 ? (
+                    courseData?.map((employee) => (
+                      <div
+                        key={employee.id}
+                        className="flex items-center justify-between mb-2 border-b pb-2 border-[#D9D9D9]"
+                      >
+                        <div className="flex items-center gap-[15px]">
+                          <Avatar>
+                            <AvatarImage src={employee.profileImage || ""} />
+                            <AvatarFallback>
+                              {employee.name?.charAt(0) ||
+                                employee.email?.charAt(0)?.toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span>
+                            {employee.name || employee.email.split("@")?.[0]}
+                          </span>
+                        </div>
+                        <input
+                          type="checkbox"
+                          name="employee"
+                          checked={selectFilter?.includes(employee?.id)}
+                          onChange={() =>
+                            setSelectFilter((prev) =>
+                              prev?.find((item: any) => item === employee?.id)
+                                ? prev?.filter(
+                                    (item: any) => item !== employee?.id
+                                  )
+                                : [...prev, employee?.id]
+                            )
+                          }
+                          className="h-[18px] w-[18px] rounded"
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center min-h-[350px] h-full flex items-center justify-center">
+                      No data found
+                    </div>
+                  )}
+                </div>
+                <div className="w-full flex items-center justify-between mt-2">
+                  <Button
+                    type="button"
+                    className="bg-[#00778B] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
+                    onClick={showInviteForm}
+                  >
+                    Invite Member
+                  </Button>
+                  <Button
+                    type="button"
+                    className="bg-[#58BA66] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
+                    onClick={handleAllocate}
+                  >
+                    {isLoadingAllocate ? (
+                      <Loader containerClassName="h-auto" />
+                    ) : (
+                      "Edit Allocation"
+                    )}
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
-        </div>
-      </Modal>
-    </>
+        </ScrollArea>
+      )}
+    </Modal>
   );
-};
-
-export default AllocatedCertificateModal;
+}
