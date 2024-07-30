@@ -7,7 +7,13 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, Fragment, useEffect, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  Fragment,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
 
 interface AssecessmentTypeProps {
@@ -35,18 +41,20 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
     ]);
 
     useEffect(() => {
-      setOptions(
-        questionOption[i]?.option?.map((item: string, index: number) => ({
-          optionTitle: `Option ${index + 1}:`,
-          option: item,
-        }))
-      );
+      if (questionOption[i]?.option?.length) {
+        setOptions(
+          questionOption[i]?.option?.map((item: string, index: number) => ({
+            optionTitle: `Option ${index + 1}:`,
+            option: item,
+          }))
+        );
+      }
     }, [questionOption]);
 
     const [errors, setErrors] = useState({
       question: "",
       point: "",
-      options: Array(options.length).fill(""),
+      options: Array(options?.length ? options?.length : 0)?.fill(""),
       answer: "",
     });
 
@@ -145,7 +153,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
-            value={questionOption[i]?.question}
+              value={questionOption[i]?.question}
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -179,7 +187,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               + Add Option
             </Button>
           </div>
-          {options.map((data, index) => {
+          {options?.map((data, index) => {
             return (
               <Fragment key={index}>
                 <AssecessmentTypeTwoOptions

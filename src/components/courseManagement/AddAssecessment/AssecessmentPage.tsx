@@ -103,27 +103,29 @@ const AssecessmentPage = () => {
   );
 
   useEffect(() => {
-    const assessmentTypes = data?.data?.AssessmentQuestion?.map(
-      (i) => i?.assessmentType
-    );
-    const transformedAssessmentTypes = assessmentTypes?.map(
-      (type) => AssessmentTypeReverseMap[type]
-    );
-    if (transformedAssessmentTypes) {
-      transformedAssessmentTypes.forEach((type) => {
-        if (type) {
-          dispatch(setQuestionType(type));
+    if (data?.data?.AssessmentQuestion?.length) {
+      const assessmentTypes = data?.data?.AssessmentQuestion?.map(
+        (i) => i?.assessmentType
+      );
+      const transformedAssessmentTypes = assessmentTypes?.map(
+        (type) => AssessmentTypeReverseMap[type]
+      );
+      if (transformedAssessmentTypes) {
+        transformedAssessmentTypes.forEach((type) => {
+          if (type) {
+            dispatch(setQuestionType(type));
+          }
+        });
+
+        const transformedAssessmentQuestions =
+          data?.data?.AssessmentQuestion?.map((question) => ({
+            ...question,
+            assessmentType: AssessmentTypeReverseMap[question.assessmentType],
+          }));
+
+        if (transformedAssessmentQuestions) {
+          dispatch(setAssessment(transformedAssessmentQuestions));
         }
-      });
-
-      const transformedAssessmentQuestions =
-        data?.data?.AssessmentQuestion?.map((question) => ({
-          ...question,
-          assessmentType: AssessmentTypeReverseMap[question.assessmentType],
-        }));
-
-      if (transformedAssessmentQuestions) {
-        dispatch(setAssessment(transformedAssessmentQuestions));
       }
     }
   }, [data?.data, dispatch]);
@@ -150,6 +152,7 @@ const AssecessmentPage = () => {
           tab || 2
         }&version=${version}`
       );
+      dispatch(resetAssessment());
     },
     onError: (error: ResponseError) => {
       toast({
@@ -168,7 +171,7 @@ const AssecessmentPage = () => {
           return {
             ...item,
             // @ts-ignore
-            assessmentId: assId as number,
+            assessment: assId as number,
             // @ts-ignore
             assessmentType: AssessmentType[item.assessmentType],
           };

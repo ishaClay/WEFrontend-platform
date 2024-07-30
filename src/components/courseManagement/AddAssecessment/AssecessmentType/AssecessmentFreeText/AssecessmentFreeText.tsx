@@ -150,6 +150,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
                   })
                 );
               }}
+              value={questionOption[i]?.answer}
             />
             {errors.answer && (
               <p className="text-red-500 text-sm">{errors.answer}</p>

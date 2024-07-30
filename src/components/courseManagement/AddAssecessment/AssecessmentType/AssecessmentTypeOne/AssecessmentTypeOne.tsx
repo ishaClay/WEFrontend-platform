@@ -37,12 +37,14 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
     ]);
 
     useEffect(() => {
-      setOptions(
-        questionOption[i]?.option?.map((item: string, index: number) => ({
-          optionTitle: `Option ${index + 1}:`,
-          option: item,
-        }))
-      );
+      if (questionOption[i]?.option?.length) {
+        setOptions(
+          questionOption[i]?.option?.map((item: string, index: number) => ({
+            optionTitle: `Option ${index + 1}:`,
+            option: item,
+          }))
+        );
+      }
     }, [questionOption]);
 
     const [errors, setErrors] = useState({
