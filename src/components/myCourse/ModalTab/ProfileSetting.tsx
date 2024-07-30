@@ -123,7 +123,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   useEffect(() => {
     if (data) {
-      setValue("firstname", data?.data?.fname);
+      setValue("firstname", data?.data?.fname || data?.data?.name);
       setValue("lastname", data?.data?.lname);
       setValue("email", data?.data?.email);
       setValue("gender", data?.data?.gender);

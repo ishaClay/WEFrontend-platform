@@ -356,7 +356,7 @@ const CourseViewCardInner = ({
     }
   };
 
-  console.log("getCourseCardList +++++++++++++", CourseCardList);
+  console.log("getCourseCardList +++++++++++++", getCourseCardList);
 
   return (
     <div
@@ -375,42 +375,44 @@ const CourseViewCardInner = ({
       }}
     >
       <div>
-        {getCourseCardList.map((data: any, index: number) => {
-          console.log("data===>", data);
+        {getCourseCardList
+          ?.sort((a: any, b: any) => a.position - b.position)
+          .map((data: any, index: number) => {
+            console.log("data===>", data);
 
-          return (
-            <>
-              {isEditSection && isEditSection === data.id ? (
-                <form onSubmit={handleSubmit(onUpdate)} key={index}>
-                  <SectionForm
-                    watch={watch}
-                    setValue={setValue}
-                    errors={errors}
-                    register={register}
-                    getValues={getValues}
-                    sectionID={isEditSection}
-                    handleRemoveSection={handleRemoveSection}
-                  />
-                </form>
-              ) : (
-                <div
-                  key={index}
-                  draggable
-                  onDragStart={() => (dragPerson.current = index)}
-                  onDragEnter={() => (draggedOverPerson.current = index)}
-                  onDragEnd={handleSort}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <CourseViewCardInnerList
+            return (
+              <>
+                {isEditSection && isEditSection === data.id ? (
+                  <form onSubmit={handleSubmit(onUpdate)} key={index}>
+                    <SectionForm
+                      watch={watch}
+                      setValue={setValue}
+                      errors={errors}
+                      register={register}
+                      getValues={getValues}
+                      sectionID={isEditSection}
+                      handleRemoveSection={handleRemoveSection}
+                    />
+                  </form>
+                ) : (
+                  <div
                     key={index}
-                    data={data}
-                    handelEditSection={handelEditSection}
-                  />
-                </div>
-              )}
-            </>
-          );
-        })}
+                    draggable
+                    onDragStart={() => (dragPerson.current = index)}
+                    onDragEnter={() => (draggedOverPerson.current = index)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <CourseViewCardInnerList
+                      key={index}
+                      data={data}
+                      handelEditSection={handelEditSection}
+                    />
+                  </div>
+                )}
+              </>
+            );
+          })}
         <form onSubmit={handleSubmit(onSubmit)}>
           {addsectionList && (
             <SectionForm

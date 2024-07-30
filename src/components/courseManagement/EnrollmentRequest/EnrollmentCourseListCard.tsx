@@ -157,7 +157,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
               className="bg-[#00778B] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px]"
               onClick={() => handleInquire(data)}
             >
-              Enquire
+              Inquire
             </Button>
           )}
           <Button

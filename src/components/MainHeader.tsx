@@ -140,7 +140,10 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               <div className="flex items-center gap-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="text-[18px] flex items-center gap-1">
-                    Hi, {userData?.query?.email?.split("@")[0]}
+                    Hi,{" "}
+                    {userData?.query?.fname ||
+                      userData?.query?.name ||
+                      userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -200,7 +203,10 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               <div className="flex items-center gap-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="text-[18px] flex items-center gap-1">
-                    Hi, {userData?.query?.email?.split("@")[0]}
+                    Hi,{" "}
+                    {userData?.query?.fname ||
+                      userData?.query?.name ||
+                      userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>

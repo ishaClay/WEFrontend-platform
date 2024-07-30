@@ -49,7 +49,8 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
 
 export const fetchCourseAllCourse = async (
   searchKeyword: string,
-  userId?: number  
+  userId?: number,
+  status?: string
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};
@@ -58,6 +59,9 @@ export const fetchCourseAllCourse = async (
   }
   if (userId) {
     params["userid"] = userId;
+  }
+  if (status) {
+    params["status"] = status;
   }
   const res = await api({ url, params });
   console.log("res=====>", res.data);
@@ -143,7 +147,7 @@ export const getAllEmployeeCourseList = async ({ id, status, categories }: { id:
   const res = await api({ url, method });
   return res.data;
 }
-export const updateVersion = (data : {mainCourseId: number, versionId: number, userId: number}): Promise<CourseByVersionType | any> => {
+export const updateVersion = (data: { mainCourseId: number, versionId: number, userId: number }): Promise<CourseByVersionType | any> => {
   const url = `api/v1/course/change-course-version`;
   const method = "post";
   return api({ url, data, method });
