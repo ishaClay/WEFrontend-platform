@@ -63,9 +63,15 @@ const CourseManagement = () => {
         className=""
         onValueChange={(e) => {
           setCurrentTab(e);
-          navigate(
-            `/${pathName}/create_course/${courseId}?tab=${e}&step=${step}&version=${paramsversion}`
-          );
+          if (courseId) {
+            navigate(
+              `/${pathName}/create_course/${courseId}?tab=${e}&step=${step}&version=${paramsversion}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course?tab=${e}&step=${step}&version=${paramsversion}`
+            );
+          }
         }}
       >
         <div className="border-b flex md:flex-row flex-col justify-between md:items-center items-start">

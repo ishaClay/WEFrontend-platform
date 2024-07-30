@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
@@ -7,12 +15,11 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
 const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
@@ -66,7 +73,7 @@ const AllCourses = () => {
                     navigate(
                       `/${
                         location?.pathname?.split("/")?.[1]
-                      }/create_course/tab=0&step=0&version=1`
+                      }/create_course?tab=0&step=0&version=1`
                     )
                   }
                   className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
@@ -115,31 +122,42 @@ const AllCourses = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="sm:flex hidden">
-            <Button
-              type="button"
-              onClick={() => changeList(0)}
-              className="bg-transparent p-1 hover:bg-transparent"
-            >
-              <AiOutlineAppstore
-                className={`w-8 h-8 ${
-                  params === "0" || !params
-                    ? "text-[#00778B]"
-                    : "text-[#A3A3A3]"
-                }`}
-              />
-            </Button>
-            <Button
-              type="button"
-              onClick={() => changeList(1)}
-              className="bg-transparent p-1 hover:bg-transparent"
-            >
-              <AiOutlineBars
-                className={`w-8 h-8 ml-2 ${
-                  params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
-                }`}
-              />
-            </Button>
+          <div className="flex items-center gap-4">
+            <Select>
+              <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder="All Courses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Courses">All Courses</SelectItem>
+                <SelectItem value="Active Courses">Ready To Publish</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="sm:flex hidden">
+              <Button
+                type="button"
+                onClick={() => changeList(0)}
+                className="bg-transparent p-1 hover:bg-transparent"
+              >
+                <AiOutlineAppstore
+                  className={`w-8 h-8 ${
+                    params === "0" || !params
+                      ? "text-[#00778B]"
+                      : "text-[#A3A3A3]"
+                  }`}
+                />
+              </Button>
+              <Button
+                type="button"
+                onClick={() => changeList(1)}
+                className="bg-transparent p-1 hover:bg-transparent"
+              >
+                <AiOutlineBars
+                  className={`w-8 h-8 ml-2 ${
+                    params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                  }`}
+                />
+              </Button>
+            </div>
           </div>
         </div>
         <div className="sm:px-[18px] sm:pb-[18px] px-[15px] pb-[15px]">
@@ -148,9 +166,15 @@ const AllCourses = () => {
               <Loader2 className="w-5 h-5 animate-spin" />
             </span>
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} isLoading={isFetching} />
+            <GridView
+              list={fetchCourseAllCourseData?.data || []}
+              isLoading={isFetching}
+            />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} isLoading={isFetching} />
+            <ListView
+              list={fetchCourseAllCourseData?.data || []}
+              isLoading={isFetching}
+            />
           )}
         </div>
       </div>
