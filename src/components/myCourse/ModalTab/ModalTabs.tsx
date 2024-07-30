@@ -69,7 +69,7 @@ const ModalTabs = ({
             variant={"ghost"}
             type="button"
             onClick={handleLogout}
-            className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block hover:bg-[#00778B] hover:text-white px-3 sm:text-left text-center"
+            className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] hover:bg-[#00778B] hover:text-white px-3 sm:text-left text-center justify-center"
           >
             Log Out
           </Button>

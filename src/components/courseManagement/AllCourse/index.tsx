@@ -12,7 +12,7 @@ import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -39,15 +39,10 @@ const AllCourses = () => {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
     isFetching,
-    refetch: fetchCourseAllCourseRefetch,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse],
+    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword }],
     queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId),
   });
-
-  useEffect(() => {
-    fetchCourseAllCourseRefetch();
-  }, [searchKeyword]);
 
   return (
     <div>
@@ -166,15 +161,9 @@ const AllCourses = () => {
               <Loader2 className="w-5 h-5 animate-spin" />
             </span>
           ) : params === "0" || !params ? (
-            <GridView
-              list={fetchCourseAllCourseData?.data || []}
-              isLoading={isFetching}
-            />
+            <GridView list={fetchCourseAllCourseData?.data || []} />
           ) : (
-            <ListView
-              list={fetchCourseAllCourseData?.data || []}
-              isLoading={isFetching}
-            />
+            <ListView list={fetchCourseAllCourseData?.data || []} />
           )}
         </div>
       </div>
