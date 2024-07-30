@@ -1,6 +1,7 @@
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType, mapTimeDuration } from "@/lib/utils";
+import { deleteAssesment } from "@/services/apiServices/assessment";
 import {
   deleteLiveSection,
   deleteSection,
@@ -73,9 +74,23 @@ const CourseViewCardInnerList = ({
       });
     },
   });
+  const { mutate: deleteAssesments } = useMutation({
+    mutationFn: deleteAssesment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchAllCourseModule],
+      });
+      toast({
+        variant: "success",
+        title: "Section deleted successfully",
+      });
+    },
+  });
 
   const handleDeleteSection = (sectionID: number) => {
-    if (data.isLive === 0) {
+    if (data?.type) {
+      deleteAssesments(sectionID);
+    } else if (data.isLive === 0) {
       DeleteSection(sectionID);
     } else {
       DeleteLiveSection(sectionID);

@@ -53,3 +53,9 @@ export const getAssessmentById = async (id: string) => {
   const res = await api({ url });
   return res.data;
 };
+
+export const deleteAssesment = async (id: number) => {
+  const url = `api/v1/assessment/delete/${id}`;
+  const res = await api({ url, method: "delete", data: {} });
+  return res.data
+}
