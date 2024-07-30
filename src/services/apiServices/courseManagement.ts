@@ -49,8 +49,8 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
 
 export const fetchCourseAllCourse = async (
   searchKeyword: string,
-  userId?: number,
-  status?: string
+  userId?: number, 
+  status?: string,
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};

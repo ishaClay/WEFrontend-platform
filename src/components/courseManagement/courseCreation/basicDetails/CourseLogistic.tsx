@@ -80,7 +80,11 @@ const schema = zod.object({
   durationType: zod.string().min(1, "Duration type is required"),
 });
 
-const CourseLogistic = () => {
+interface CourseLogisticProps {
+  setStep: (e: string) => void;
+}
+
+const CourseLogistic = ({setStep}: CourseLogisticProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -108,9 +112,9 @@ const CourseLogistic = () => {
   const courseId: string = location?.pathname?.split("/")[3];
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -184,7 +188,7 @@ const CourseLogistic = () => {
       universityAddress: data?.universityAddress,
       duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
     };
-
+    setStep("3");
     if (+courseId) {
       updateCourseFun({
         payload,
