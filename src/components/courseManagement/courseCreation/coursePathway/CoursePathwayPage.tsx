@@ -118,8 +118,14 @@ const CoursePathwayPage = () => {
     }
   }, [getSingleCourse]);
 
+  console.log(
+    "selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit",
+    selectedData.length,
+    selectTargetPillarLimit?.data?.pillarLimit
+  );
+
   const handleSubmit = () => {
-    if (selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit) {
+    if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
       const payload = {
         courseData: selectedData,
         id: +courseId ? +courseId : paramsId,
@@ -132,15 +138,25 @@ const CoursePathwayPage = () => {
   };
   return (
     <div className="">
-      <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
-        <span className="font-nunito font-bold">
-          Target areas / pillars(Select applicable pillars)
-        </span>
-        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
-          Which sustainability pillars does your course apply to? And for which
-          level?
-        </p>
-      </h4>
+      <div className="flex items-center justify-between">
+        <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
+          <span className="font-nunito font-bold">
+            Target areas / pillars(Select applicable pillars)
+          </span>
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            Which sustainability pillars does your course apply to? And for
+            which level?
+          </p>
+        </h4>
+        <Button
+          type="button"
+          variant={"ghost"}
+          className="p-0 hover:bg-transparent h-auto underline text-[#000] text-[15px] font-nunito font-[600] leading-[16px]"
+          onClick={() => setSelectedData([])}
+        >
+          Reset
+        </Button>
+      </div>
       {isClientMaturityLevel || isPending ? (
         <Loader />
       ) : (

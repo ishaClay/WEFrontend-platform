@@ -24,6 +24,7 @@ import ListView from "./listView";
 const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
+  const [status, setStatus] = useState("");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
@@ -38,10 +39,9 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
-    isFetching,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId),
+    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
   });
 
   return (
@@ -118,13 +118,17 @@ const AllCourses = () => {
             />
           </div>
           <div className="flex items-center gap-4">
-            <Select>
+            <Select
+              value={status}
+              defaultValue="All"
+              onValueChange={(e) => setStatus(e === "All" ? "" : e)}
+            >
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="All Courses" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="All Courses">All Courses</SelectItem>
-                <SelectItem value="Active Courses">Ready To Publish</SelectItem>
+                <SelectItem value="All">All Courses</SelectItem>
+                <SelectItem value="READYTOPUBLISH">Ready To Publish</SelectItem>
               </SelectContent>
             </Select>
             <div className="sm:flex hidden">
