@@ -7,7 +7,7 @@ import {
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
@@ -22,6 +22,7 @@ import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
 import Assign from "./Roadmap/Assign";
+import { utils, writeFileXLSX } from "xlsx";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -48,6 +49,8 @@ const MaturityAssessment = () => {
     queryFn: () => getCheckedMeasures(userID, clientId),
     enabled: true,
   });
+
+  console.log("getEmployeeWnList 1212", getCheckedmeasures?.data?.data);
 
   const { data: assessmentQuestionScoreLIST } = useQuery({
     queryKey: [QUERY_KEYS.assessmentQuestionScore],
@@ -90,6 +93,84 @@ const MaturityAssessment = () => {
         return acc + item?.total;
       }, 0)) ||
     0;
+
+    const getStatus = (startDate: string, endDate:string) => {
+      if (
+        moment(new Date(startDate), "YYYY-MM-DD").isSameOrBefore(
+          moment(new Date(), "YYYY-MM-DD")
+        ) &&
+        moment(new Date(endDate), "YYYY-MM-DD").isSameOrAfter(
+          moment(new Date(), "YYYY-MM-DD")
+        )
+      ) {
+        return "On time";
+      } else if (
+        moment(new Date(), "YYYY-MM-DD").isAfter(
+          moment(new Date(endDate), "YYYY-MM-DD")
+        )
+      ) {
+        return "Delay";
+      } else if (
+        moment(new Date(startDate), "YYYY-MM-DD").isAfter(
+          moment(new Date(), "YYYY-MM-DD")
+        )
+      ) {
+        return "In Progress";
+      }
+    };
+
+    const exportData = getCheckedmeasures?.data?.data?.map((item:any) => {
+      return {
+        pillerName: item?.pillarName,
+        percentage: item?.progressPR,
+        yourLeval: item?.userMaturityLevel?.[0]?.level,
+        selectedLeval: item?.userMaturityLevel?.[0]?.nextLevel,
+        actionName: item?.measures?.filter((measuresData:any) => measuresData?.measure)?.map((measures:any) => measures?.measure).join(","),
+        assingName: item?.measures?.filter((measuresData:any) => measuresData?.employeeId?.name)?.map((measures:any) => measures?.employeeId?.name).join(","),
+        actionStatus: item?.measures?.filter((measuresData:any) => getStatus(measuresData?.startDate, measuresData?.endDate))?.map((measures:any) => getStatus(measures?.startDate, measures?.endDate)).join(","),
+        startDate: item?.measures?.filter((measuresData:any) => measuresData?.startDate)?.map((measures:any) => moment(new Date(measures?.startDate)).format("DD/MM/YYYY")).join(","),
+        endDate: item?.measures?.filter((measuresData:any) => measuresData?.endDate)?.map((measures:any) => moment(new Date(measures?.endDate)).format("DD/MM/YYYY")).join(","),
+        documentLink: item?.measures?.filter((measuresData:any) => measuresData?.evidence)?.map((measures:any) => measures?.evidence).join(","),
+      }
+    })
+    const exportFile = useCallback(() => {
+      if (exportData?.length > 0) {
+        // Convert JSON to worksheet
+        const ws = utils.json_to_sheet(exportData);
+        const wb = utils.book_new();
+        
+        // Add the worksheet to the workbook
+        utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+        // Adjust column widths (you can modify these widths as needed)
+        const columnWidths = [
+          { wch: 20 }, // width for 'pillerName'
+          { wch: 15 }, // width for 'percentage'
+          { wch: 20 }, // width for 'yourLeval'
+          { wch: 20 }, // width for 'selectedLeval'
+          { wch: 30 }, // width for 'actionName'
+          { wch: 25 }, // width for 'assingName'
+          { wch: 20 }, // width for 'actionStatus'
+          { wch: 15 }, // width for 'startDate'
+          { wch: 15 }, // width for 'endDate'
+          { wch: 25 }, // width for 'documentLink'
+        ];
+    
+        // Apply column widths
+        ws['!cols'] = columnWidths;
+    
+        // Write to file
+        writeFileXLSX(wb, "fileName.xlsx");
+      }
+    }, [exportData]);
+    // const exportFile = useCallback(() => {
+    //   if (exportData?.length > 0) {
+    //     const ws = utils.json_to_sheet(exportData);
+    //     const wb = utils.book_new();
+    //     utils.book_append_sheet(wb, ws);
+    //     writeFileXLSX(wb, "fileName.xlsx");
+    //   }
+    // }, [exportData]);
 
   return (
     <div className="">
@@ -183,7 +264,7 @@ const MaturityAssessment = () => {
                 )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm" onClick={exportFile}>
                   Export
                 </Button>
               </div>
