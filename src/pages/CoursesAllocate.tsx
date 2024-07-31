@@ -49,6 +49,8 @@ function CoursesAllocate() {
     queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
   });
 
+  console.log("course", course);
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="">
@@ -134,7 +136,8 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-3">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {course?.data?.employee?.length || 0} Employee
+                                  {courseallocate?.employee?.length || 0}{" "}
+                                  Employee
                                 </p>
                               </div>
                             </div>

@@ -18,19 +18,11 @@ const EnrolledCourseListItem = ({ data }: EnrolledCoursesType | any) => {
           <div className="flex items-center flex-wrap gap-[7px]">
             {data?.course?.courseData?.map((item: any) => {
               const pillarName = item.fetchPillar?.pillarName;
+              const bg = item.fetchMaturity?.color;
               return (
                 <Badge
                   variant="outline"
-                  className={`bg-[${
-                    pillarName === "Environmental" ||
-                    pillarName === "Governance"
-                      ? "#FFD56A"
-                      : pillarName === "Technology & Innovation" ||
-                        pillarName === "Strategic Integration" ||
-                        pillarName === "Economics"
-                      ? "#F63636"
-                      : "#64A70B"
-                  }] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                  className={`bg-[${bg}] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
                 >
                   {pillarName}
                 </Badge>
