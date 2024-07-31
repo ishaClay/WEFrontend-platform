@@ -8,18 +8,22 @@ import { toast } from "@/components/ui/use-toast";
 import { trainerAllocateCourse } from "@/services/apiServices/allocatedcourse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { TrainersResponse } from "@/types/Trainer";
-import { getTrainer, trainerInvitation } from "@/services/apiServices/trainer";
+import {
+  getTrainerByCompanyId,
+  trainerInvitation,
+} from "@/services/apiServices/trainer";
 import { AxiosError } from "axios";
 import { MoveLeft } from "lucide-react";
+import { AllocatedTraineeListResponse } from "@/types/Trainee";
 
 interface CourseViewAllocatePopupProps {
   isOpen: boolean;
   onClose: () => void;
+  courseId: number;
 }
 
 const schema = zod.object({
@@ -32,6 +36,7 @@ const schema = zod.object({
 export function AllocatedCertificateModal({
   isOpen,
   onClose,
+  courseId,
 }: CourseViewAllocatePopupProps) {
   const [isInvite, setIsInvite] = useState(false);
   const [selectFilter, setSelectFilter] = useState<number[]>([]);
@@ -48,13 +53,38 @@ export function AllocatedCertificateModal({
   const id = userData?.query?.detailsid;
   const queryClient = useQueryClient();
 
-  const { data, isPending } = useQuery<TrainersResponse>({
+  const { data, isPending } = useQuery<AllocatedTraineeListResponse>({
     queryKey: ["trainer", { id }],
-    queryFn: () => getTrainer({ page: 1, limit: 100000000, keyword: "", id }),
+    queryFn: () => getTrainerByCompanyId({ id, courseId: courseId.toString() }),
+    enabled: !!id && !!courseId,
   });
 
-  const courseData = data?.data && data?.data;
-  console.log("data+++", courseData);
+  const courseData = data?.data && data?.data?.trainer;
+  console.log("data+++", data);
+
+  // useEffect(() => {
+  //   if (courseData) {
+  //     data?.data?.trainer?.map((item) => {
+  //       if (item?.courseAllocated?.find((itm) => itm?.id === courseId)) {
+  //         setSelectFilter((prev) => [...prev, item.id]);
+  //       } else {
+  //         setSelectFilter((prev) => [...prev]);
+  //       }
+  //     });
+  //   }
+  // }, [courseData]);
+
+  useEffect(() => {
+    if (data?.data?.trainer) {
+      const selectedIds = data.data.trainer.reduce((acc, item) => {
+        if (item.courseAllocated?.some((itm) => itm?.id === courseId)) {
+          acc.push(item.id);
+        }
+        return acc;
+      }, [] as number[]);
+      setSelectFilter(selectedIds);
+    }
+  }, [data, courseId]);
 
   console.log("errors", data);
   const showInviteForm = () => {

@@ -99,17 +99,12 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             <CourseList rating={0} />
             <div className="flex xl:flex-nowrap flex-wrap gap-[11px]">
               {data?.courseVersion?.course?.courseData?.map((item) => {
-                const pillarName = item.fetchMaturity?.maturityLevelName;
+                const pillarName = item.fetchPillar?.pillarName;
+                const bg = item.fetchMaturity?.color;
                 return (
                   <Badge
                     variant="outline"
-                    className={`bg-[${
-                      pillarName === "Intermediate"
-                        ? "#FFD56A"
-                        : pillarName === "Introductory"
-                        ? "#F63636"
-                        : "#64A70B"
-                    }] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                    className={`bg-[${bg}] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
                   >
                     {pillarName}
                   </Badge>

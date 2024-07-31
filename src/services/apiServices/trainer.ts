@@ -34,6 +34,18 @@ export const getTrainerById = async ({ id }: { id: string }) => {
   return response.data;
 };
 
+export const getTrainerByCompanyId = async ({
+  id,
+  courseId,
+}: {
+  id: string;
+  courseId: string;
+}) => {
+  const url = `api/v1/trainer/get-trainers/${id}/?courseId=${courseId}`;
+  const response = await api({ url });
+  return response.data;
+};
+
 export const updateTrainerStatusById = async ({
   id,
   data,

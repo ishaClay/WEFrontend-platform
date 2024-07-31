@@ -23,11 +23,13 @@ import {
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
+import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
+import { CourseDataEntity } from "@/types/Trainer";
 
 const ListView = ({
   list,
@@ -40,6 +42,7 @@ const ListView = ({
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
   const [isDelete, setIsDelete] = useState(false);
+  const [isOpen, setIsOpen] = useState<string>("");
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
@@ -193,6 +196,11 @@ const ListView = ({
 
   return list?.length > 0 && list ? (
     <div>
+      <AllocatedCertificateModal
+        isOpen={!!isOpen}
+        onClose={() => setIsOpen("")}
+        courseId={+isOpen}
+      />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
@@ -200,10 +208,10 @@ const ListView = ({
         </div>
       )}
       <div>
-        {list.map((data, index: number) => {
+        {list.map((data: any, index: number) => {
           const versionOption =
             data?.version &&
-            data?.version.map((itm) => {
+            data?.version.map((itm: any) => {
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
@@ -255,7 +263,7 @@ const ListView = ({
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center md:gap-5 gap-3">
-                      {data?.courseData?.map((item) => {
+                      {data?.courseData?.map((item: CourseDataEntity) => {
                         return (
                           <div className="">
                             <Badge
@@ -329,6 +337,16 @@ const ListView = ({
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(data?.id);
+                            }}
+                          >
+                            <Combine className="w-4 h-4" />
+                            <span>Allocate</span>
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"

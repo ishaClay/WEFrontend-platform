@@ -211,6 +211,7 @@ const GridView = ({
       <AllocatedCertificateModal
         isOpen={!!isOpen}
         onClose={() => setIsOpen("")}
+        courseId={+isOpen}
       />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
