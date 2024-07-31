@@ -76,8 +76,6 @@ function MaturityLevelActionItem() {
     },
   ];
 
-  console.log("getCheckedmeasuresgetCheckedmeasures", getCheckedmeasures);
-
   return (
     <div>
       <Header />
@@ -164,7 +162,6 @@ function MaturityLevelActionItem() {
           <Loader />
         ) : (
           getCheckedmeasures?.data?.data?.map((item: any) => {
-            console.log(item);
             return (
               // <div className="flex flex-col h-full w-full mb-[40px]">
               //   <div className="mx-auto xl:max-w-[1126px] max-w-[970px] w-full">

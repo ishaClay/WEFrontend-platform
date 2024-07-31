@@ -91,7 +91,6 @@ export function NewDataTable<TData, TValue>({
       globalFilter,
     },
   });
-  console.log("datadatadata++++", table.getRowModel().rows);
 
   const handleSearchFilter = (e: string) => {
     setGlobalFilter(e);

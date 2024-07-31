@@ -151,8 +151,6 @@ const QuestionPage = () => {
     },
   ];
 
-  console.log(selectedData, "selectedData+++++++++++++");
-
   useEffect(() => {
     let totalQuestions = 0;
     let totalAttemptedQuestions = 0;

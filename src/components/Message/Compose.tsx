@@ -169,9 +169,9 @@ const Compose = () => {
   }, [selectTab]);
 
   const schema = z.object({
-    to: z.string({ required_error: "To is required" }).min(1, "To is required"),
+    to: z.string({ required_error: "Please select this field" }).min(1, "Please select this field"),
     emailTemplate: z.string().optional(),
-    message: z.string().min(1, "Message is required"),
+    message: z.string().min(1, "Please enter message"),
   });
   type ValidationSchema = z.infer<typeof schema>;
   const {

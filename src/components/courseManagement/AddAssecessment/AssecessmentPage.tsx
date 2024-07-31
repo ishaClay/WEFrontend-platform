@@ -85,8 +85,6 @@ const AssecessmentPage = () => {
     initialState
   );
 
-  console.log("createAssecessment", createAssecessment);
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -129,8 +127,6 @@ const AssecessmentPage = () => {
       }
     }
   }, [data?.data, dispatch]);
-
-  console.log(data, "data");
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -253,8 +249,6 @@ const AssecessmentPage = () => {
     }
     return;
   };
-
-  console.log("searchParams", searchParams.get("tab"));
 
   const handleBack = () => {
     const courseId = searchParams.get("courseId");

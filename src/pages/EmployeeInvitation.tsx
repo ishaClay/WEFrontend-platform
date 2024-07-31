@@ -18,7 +18,7 @@ import { z } from "zod";
 
 const schema = z.object({
   file: z.string().optional(),
-  invitiondetail: z.string().min(1, { message: "Email Address is required" }),
+  invitiondetail: z.string().min(1, { message: "Please enter email" }),
 });
 
 const EmployeeInvitation = () => {
@@ -67,7 +67,6 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log("saaaaa", data);
 
     const payload: EmployeePayload = {
       email: emails,

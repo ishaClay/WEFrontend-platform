@@ -37,22 +37,22 @@ import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
 
 const schema = zod.object({
-  name: zod.string().min(1, { message: "Trainer name is required" }),
-  number: zod.string().min(1, { message: "Contact number is required" }),
+  name: zod.string().min(1, { message: "Please enter trainer name" }),
+  number: zod.string().min(1, { message: "Please enter  contact number" }),
   email: zod.string().email({ message: "Please enter valid email" }),
-  providerName: zod.string().min(1, { message: "Provider Name is required" }),
-  providerType: zod.string().min(1, { message: "Provider Type is required" }),
-  providerCity: zod.string().min(1, { message: "Provider City is required" }),
+  providerName: zod.string().min(1, { message: "Please enter Provider Name" }),
+  providerType: zod.string().min(1, { message: "Please enter Provider Type" }),
+  providerCity: zod.string().min(1, { message: "Please select Provider City" }),
   providerCounty: zod
     .string()
-    .min(1, { message: "Provider Country is required" }),
+    .min(1, { message: "Please select provider country" }),
   providerNotes: zod.string().optional(),
   foreignProvider: zod
     .enum(["Yes", "No"])
     .refine(
       (value) => value !== undefined && (value === "Yes" || value === "No"),
       {
-        message: "Please select a valid option for Foreign Provider",
+        message: "Please select Foreign Provider",
         path: ["foreignProvider"],
       }
     ),

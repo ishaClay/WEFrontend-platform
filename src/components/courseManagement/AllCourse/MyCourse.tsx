@@ -33,8 +33,6 @@ const MyCourse = () => {
     queryFn: () => getCourseByTrainee(userData?.query?.detailsid),
   });
 
-  console.log("fetchCourseAllCourseData", fetchCourseAllCourseData);
-
   return (
     <div>
       <CohortModal open={cohort} setOpen={setCohort} id={0} />

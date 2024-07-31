@@ -72,12 +72,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
-            {/* {(JSON.parse(data?.startTime)?.hour && (JSON.parse(data?.startTime)?.minute))  && (
-              <>
-                {JSON?.parse(data?.startTime)?.hour} :
-                {JSON?.parse(data?.startTime)?.minute}
-              </>
-            )} */}
+            {data?.startTime}&nbsp;
             {data?.startAmPm}
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold">

@@ -13,7 +13,7 @@ import { toast } from "../ui/use-toast";
 const schema = z.object({
   email: z
     .string()
-    .min(1, "Email is required")
+    .min(1, "Please enter email")
     .email("Please enter valid email"),
 });
 

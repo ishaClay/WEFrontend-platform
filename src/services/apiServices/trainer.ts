@@ -1,7 +1,6 @@
 import api from "./api";
 
 export const registerTrainer = (data: any) => {
-  console.log(data);
   const url = `api/v1/user/register-trainer-company`;
   return api({ url, data, method: "post" });
 };

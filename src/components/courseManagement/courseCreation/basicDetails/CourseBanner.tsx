@@ -35,14 +35,14 @@ const CourseBanner = () => {
 
   const schema = zod.object({
     description: zod
-      .string({ required_error: "Description is required" })
-      .min(1, "Information is required"),
+      .string({ required_error: "Please enter description" })
+      .min(1, "Please enter description"),
     bannerImage: zod
-      .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner Image is required"),
+      .string({ required_error: "Please add banner image" })
+      .min(1, "Please add banner image"),
     keys: zod
-      .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required"),
+      .string({ required_error: "Please enter key outcomes" })
+      .min(1, "Please enter key outcomes"),
   });
 
   const {
@@ -104,7 +104,7 @@ const CourseBanner = () => {
       setValue("bannerImage", data?.data?.data?.image);
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 

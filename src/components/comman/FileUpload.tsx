@@ -89,7 +89,6 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(({
       // Check file size
       if (validationValue?.size) {
         if (file.size > validationValue?.size * 1024 * 1024) { // 18MB in bytes
-          // console.log(`File size exceeds ${validationValue?.size}MB`);
           toast({
             variant: "destructive",
             title: `File size exceeds ${validationValue?.size}MB`,

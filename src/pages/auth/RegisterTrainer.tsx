@@ -47,30 +47,30 @@ function RegisterTrainer() {
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const schema = z.object({
-    providerName: z.string().min(1, { message: "Provider Name is required" }),
-    providerType: z.string().min(1, { message: "Provider Type is required" }),
-    providerCity: z.string().min(1, { message: "Provider City is required" }),
+    providerName: z.string().min(1, { message: "Please enter provider name" }),
+    providerType: z.string().min(1, { message: "Please enter provider type" }),
+    providerCity: z.string().min(1, { message: "Please enter provider city" }),
     providerCountry: z
       .string()
-      .min(1, { message: "Provider County is required" }),
+      .min(1, { message: "Please select provider county" }),
     contactSurname: z.string().optional(),
     contactTelephone: z
       .string()
       .regex(/^[0-9]*$/, {
-        message: "Please enter a valid phone number (1-9 digits).",
+        message: "Please enter valid phone number (1-9 digits).",
       })
-      .max(10, { message: "Please enter a valid phone number (1-9 digits)." })
+      .max(10, { message: "Please enter valid phone number (1-9 digits)." })
       .optional(),
     providerAddress: z
       .string()
-      .min(1, { message: "Provider Address is required" }),
+      .min(1, { message: "Please enter provider address" }),
     providerCounty: z
       .string()
-      .min(1, { message: "Provider Country is required" }),
+      .min(1, { message: "Please select provider country" }),
     name: z.string().optional(),
     email: z
       .string()
-      .min(1, { message: "Email Address is required" })
+      .min(1, { message: "Please enter email" })
       .email("Please enter valid email"),
     providerNotes: z.string().optional(),
     foreignProvider: z
@@ -153,7 +153,7 @@ function RegisterTrainer() {
       reset();
       toast({
         variant: "success",
-        title: "Trainer Registered Successfully",
+        title: "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
     },

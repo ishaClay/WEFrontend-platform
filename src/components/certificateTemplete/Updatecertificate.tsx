@@ -37,29 +37,29 @@ const Addcertificate = () => {
   const [filename, setFilename] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const schema = z.object({
-    templateName: z.string({ required_error: "Template Name is required" }),
+    templateName: z.string({ required_error: "Please enter template name" }),
     backgroundImage: z.string({
-      message: "backgroundImage is required",
+      message: "Please add background image",
     }),
     companyLogo1: z.string({
-      message: "logoImage is required",
+      message: "Please add logo image",
     }),
-    title: z.string({ required_error: "Certificate Title is required" }),
+    title: z.string({ required_error: "Please enter certificate title" }),
     bodyText: z
-      .string({ required_error: "Body is required" })
-      .max(100, { message: "Body must be at most 100 characters long" }),
+      .string({ required_error: "Please enter body text" })
+      .max(100, { message: "Body text must contain at least 100 characters" }),
 
     administratorTitle: z.string({
-      required_error: "Administrator Title is required",
+      required_error: "Please enter administrator title",
     }),
     instructorTitle: z.string({
-      required_error: "Instructor Title is required",
+      required_error: "Please enter instructor title",
     }),
     administratorSignature: z.string({
-      message: "administrator Signature is required",
+      message: "Please add administrator signature",
     }),
     instructorSignature: z.string({
-      message: "instructor Signature is required",
+      message: "Please add instructor signature",
     }),
   });
 
@@ -105,7 +105,6 @@ const Addcertificate = () => {
     );
   }, [Single_certificate]);
 
-  console.log(Single_certificate, "Single_certificate===========");
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
@@ -128,7 +127,6 @@ const Addcertificate = () => {
   });
   const handleUploadFile = (e: any, name: string) => {
     const { files } = e.target;
-    console.log("companyLogo1", name);
 
     if (files && files.length > 0) {
       createImageUpload(files[0]);
@@ -160,8 +158,6 @@ const Addcertificate = () => {
       },
     }
   );
-
-  console.log("errorr", errors);
 
   const onSubmit = async (data: FieldValues) => {
     const payload = {

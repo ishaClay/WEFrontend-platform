@@ -38,30 +38,30 @@ const RegisterTraineeForm = () => {
       .optional(),
     ageRange: Zod.string()
       .regex(/^\d{1,2}$/, {
-        message: "Please enter a valid age range (1-2 digits).",
+        message: "Please enter valid age range (1-2 digits).",
       })
-      .min(1, { message: "Please enter a valid age range" })
-      .max(2, { message: "Please enter a valid age range" }),
+      .min(1, { message: "Please enter valid age range" })
+      .max(2, { message: "Please enter valid age range" }),
     gender: Zod.enum(genderOptions, {
       message: "Please select gender",
     }),
     firstName: Zod.string()
       .regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" })
-      .min(1, { message: "Please enter a valid first name" }),
+      .min(1, { message: "Please enter first name" }),
     surname: Zod.string()
       .regex(/^[A-Za-z]+$/, { message: "Surname can only contain letters" })
-      .min(1, { message: "Please enter a valid surname" }),
+      .min(1, { message: "Please enter surname" }),
     phone: Zod.string()
       .regex(/^\d{1,10}$/, {
-        message: "Please enter a valid phone number (1-9 digits).",
+        message: "Please enter valid phone number (1-9 digits).",
       })
-      .min(1, { message: "Please enter a valid phone number" })
-      .max(10, { message: "Please enter a valid phone number" }),
+      .min(1, { message: "Please enter valid phone number" })
+      .max(10, { message: "Please enter valid phone number" }),
     currentHighestNFQ: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, { message: "Please enter a valid NFQ" })
-      .min(1, { message: "Please enter valid NFQ" }),
+      .regex(/^[A-Za-z\s]+$/, { message: "Please enter valid NFQ" })
+      .min(1, { message: "Please enter NFQ" }),
     employmentStatus: Zod.enum(employmentStatusOptions, {
-      message: "Please enter valid employment status",
+      message: "Please select employment status",
     }).optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string().nullable(),
@@ -151,14 +151,14 @@ const RegisterTraineeForm = () => {
 
   return (
     <>
-      <div className="flex justify-end text-color">
+      {/* <div className="flex justify-end text-color">
         <label>
           Already have an account?{" "}
           <Link to={"/register"} className="font-[700] text-[#042937]">
             Sign In
           </Link>
         </label>
-      </div>
+      </div> */}
       <div className="mb-4 xl:mt-[49px] mt-[40px]">
         <span className="text-[#202020] text-2xl leading-[30px] font-bold drop-shadow-[0px_4px_4px_0px_#00000060] font-calibri">
           Register as

@@ -15,11 +15,11 @@ import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 
 const schema = Zod.object({
-  email: Zod.string({ message: "Please enter Invitation detail" }).min(1, {
+  email: Zod.string({ message: "Please enter invitation detail" }).min(1, {
     message: "Please enter Email",
   }),
-  details: Zod.string({ message: "Please enter Invitation detail" }).min(1, {
-    message: "Please enter Invitation detail",
+  details: Zod.string({ message: "Please enter invitation detail" }).min(1, {
+    message: "Please enter invitation detail",
   }),
 });
 const TrainerInvitation = () => {

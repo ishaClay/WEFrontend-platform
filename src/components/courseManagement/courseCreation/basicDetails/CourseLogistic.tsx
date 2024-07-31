@@ -68,16 +68,16 @@ const durationType = [
 ];
 
 const schema = zod.object({
-  time: zod.string().min(1, "Time is required"),
-  isOnline: zod.string().min(1, "Type is required"),
-  universityAddress: zod.string().min(1, "Location is required"),
+  time: zod.string().min(1, "Please select  time"),
+  isOnline: zod.string().min(1, "Please select type"),
+  universityAddress: zod.string().min(1, "Please enter university location"),
   duration: zod
     .string()
-    .min(1, "Duration is required")
+    .min(1, "Please enter duration")
     .refine((val) => {
       return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
     }, "Duration should be greater than 0"),
-  durationType: zod.string().min(1, "Duration type is required"),
+  durationType: zod.string().min(1, "Please select duration type"),
 });
 
 interface CourseLogisticProps {

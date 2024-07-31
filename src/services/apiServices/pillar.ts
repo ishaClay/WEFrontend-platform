@@ -110,8 +110,6 @@ export const deleteMeasuresItems = async (id: number) => {
 }
 
 export const assessmentQuestionScore = async (id: number) => {
-    console.log("ididid", id);
-
     const url = `api/v1/assessmentquestionscore/list/${id}`;
     const res = await api({ url });
     return res.data

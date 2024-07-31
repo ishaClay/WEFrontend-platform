@@ -185,7 +185,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                   moment(new Date(), "YYYY-MM-DD")
                 )
               ) {
-                return "On Progress";
+                return "In Progress";
               }
             };
             return (

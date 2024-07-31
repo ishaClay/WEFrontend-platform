@@ -21,6 +21,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
 type headerTitleProps = {
   title: {
@@ -30,13 +31,16 @@ type headerTitleProps = {
 };
 
 const EmployeeHeader = ({ title }: headerTitleProps) => {
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
+ 
+  const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
-  const navigate = useNavigate();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [data, setData] = useState<SidebarItem[]>([]);
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
@@ -79,8 +83,12 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
       : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
-    mutate(userData?.query?.id);
+    setIsAlertOpen(true)
   };
+  
+  const handleConfirmLogout = () => {
+    mutate(userData?.query?.id);
+  }
 
   return (
     <>
@@ -128,7 +136,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
               </div> */}
             </Link>
             <DropdownMenu>
-              <DropdownMenuTrigger>
+              <DropdownMenuTrigger className="outline-none">
                 <div className="flex items-center gap-3 cursor-pointer">
                   <div className="overflow-hidden">
                     <Avatar className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full ">
@@ -186,6 +194,11 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
         <DrawerPage sidebarItems={data} open={open} setOpen={setOpen} />
       </div>
       {isPending && <Loading isLoading={isPending} />}
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 };

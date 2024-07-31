@@ -65,7 +65,6 @@ function SelectLevel() {
     const fetchMeasuresItems = pillarChecked?.filter(
       (item: any) => item.actionItem?.length === 0
     );
-    console.log("fetchMeasuresItems", fetchMeasuresItems);
 
     setActionItemsList(
       fetchMeasuresItems?.length > 0 || pillarChecked?.length === 0

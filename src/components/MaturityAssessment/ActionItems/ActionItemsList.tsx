@@ -36,7 +36,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
         moment(new Date(), "YYYY-MM-DD")
       )
     ) {
-      return "On Progress";
+      return "In Progress";
     }
   };
   return (

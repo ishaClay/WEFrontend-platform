@@ -24,23 +24,22 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    title: zod.string().min(1, "Title is required"),
-    institute: zod.string().min(1, "Institute name is required"),
-    instituteWebsite: zod.string().url("Invalid website url"),
+    title: zod.string().min(1, "Please enter title"),
+    institute: zod.string().min(1, "Please enter institute name"),
+    instituteWebsite: zod.string().url("Please enter valid website url"),
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) })
-      .min(1, "Course price is required")
+      .string({ errorMap: () => ({ message: "Please enter valid course price" }) })
+      .min(1, "Please enter course price")
       .refine(
         (val: string | any) => val === undefined || val === "" || !isNaN(val),
-        "Invalid course price"
+        "Please enter valid course price"
       ),
     discountApplicable: zod.number().optional(),
   })
   .refine(
     (data) => {
-      // If isFreeCourse is true, coursePrise should be undefined or empty
       if (data.freeCourse && +!data.price) {
         return false;
       }
@@ -48,8 +47,8 @@ const schema = zod
     },
     {
       message:
-        "Course Price should be undefined or empty when the course is free",
-      path: ["price"], // The path to the field that caused the error
+        "Course Price should be empty if course is free",
+      path: ["price"],
     }
   );
 
@@ -151,7 +150,6 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
     queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
     enabled: (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false,
   });
-  console.log("paramsId", (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false, getSingleCourse);
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
