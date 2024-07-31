@@ -17,6 +17,7 @@ import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
 import DrawerPage from "./DrawerPage";
 import { SidebarItem } from "./layouts/DashboardLayout";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import ModalTabs from "./myCourse/ModalTab/ModalTabs";
 import { Button } from "./ui/button";
 import {
@@ -41,9 +42,12 @@ const MainHeader = ({ title }: mainHeraderProps) => {
   const { setSidebarOpen, sidebarOpen } = useContext(SidebarContext);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
+  const [data, setData] = useState<SidebarItem[]>([]);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
-  const [data, setData] = useState<SidebarItem[]>([]);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
@@ -67,7 +71,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
 
   const { data: notification_count } = useQuery({
     queryKey: [QUERY_KEYS.notificationCount],
-    queryFn: () => fetchNotificationCount(UserId),
+    queryFn: () => fetchNotificationCount(userID),
   });
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
@@ -85,6 +89,10 @@ const MainHeader = ({ title }: mainHeraderProps) => {
   });
 
   const handleLogout = () => {
+    setIsAlertOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
     mutate(userData?.query?.id);
   };
   return (
@@ -138,9 +146,12 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               </button>
               <div className="flex items-center gap-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="text-[18px] flex items-center gap-1">
-                    Hi, {userData?.query?.email?.split("@")[0]}
-                    <IoMdArrowDropdown className="w-[20px] h-[20px]" />
+                  <DropdownMenuTrigger className="text-[18px] flex items-center gap-1 outline-none">
+                    Hi,
+                    {userData?.query?.fname ||
+                      userData?.query?.name ||
+                      userData?.query?.email?.split("@")[0]}
+                  <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem
@@ -198,8 +209,11 @@ const MainHeader = ({ title }: mainHeraderProps) => {
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
               <div className="flex items-center gap-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="text-[18px] flex items-center gap-1">
-                    Hi, {userData?.query?.email?.split("@")[0]}
+                  <DropdownMenuTrigger className="text-[18px] flex items-center gap-1 outline-none">
+                    Hi,{" "}
+                    {userData?.query?.fname ||
+                      userData?.query?.name ||
+                      userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -245,6 +259,11 @@ const MainHeader = ({ title }: mainHeraderProps) => {
         <ModalTabs tab={openType} handleClose={() => setIsOpen(false)} />
       </Modal>
       {isPending && <Loading isLoading={isPending} />}
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 };

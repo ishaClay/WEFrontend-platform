@@ -185,19 +185,25 @@ const TrainerManagement = () => {
                   `/trainer/trainer-management/details/${row?.original?.id}`
                 )
               }
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Eye className="text-[#A3A3A3] w-5" />
             </Button>
             <Button
               variant={"ghost"}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              type="button"
+              onClick={() =>
+                navigate(
+                  `/trainer/trainer-management/edit/${row?.original?.id}`
+                )
+              }
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Pencil className="text-[#A3A3A3] w-4 h-4" />
             </Button>
             <Button
               variant={"ghost"}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Trash2 className="text-[#A3A3A3] w-4 h-4" />
             </Button>
@@ -217,7 +223,7 @@ const TrainerManagement = () => {
 
   return (
     <div>
-      <div className="px-[14px] py-[10px] flex items-center justify-between border-b">
+      <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
         <div>
           <h3 className="text-[16px] font-[700] font-nunito mb-1">
             Trainer Management
@@ -230,7 +236,7 @@ const TrainerManagement = () => {
         <Button
           type="button"
           onClick={() => navigate("/trainer/trainer-management/invitation")}
-          className="bg-[#00778B] font-nunito px-5 text-[16px]"
+          className="bg-[#00778B] font-nunito sm:px-5 px-4 sm:text-base text-sm md:mt-0 mt-3"
         >
           INVITE TRAINER
         </Button>
@@ -242,7 +248,7 @@ const TrainerManagement = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search by name, country, provider type, etc."
-              className="py-[17px] pl-[39px] border !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground h-[52px] placeholder:font-normal font-inter mr-[4px]"
+              className="py-[17px] pl-[39px] border !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[46px] placeholder:font-normal font-inter mr-[4px]"
               name={""}
               label={""}
             />

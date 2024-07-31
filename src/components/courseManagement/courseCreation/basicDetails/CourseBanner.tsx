@@ -35,14 +35,14 @@ const CourseBanner = () => {
 
   const schema = zod.object({
     description: zod
-      .string({ required_error: "Description is required" })
-      .min(1, "Information is required"),
+      .string({ required_error: "Please enter description" })
+      .min(1, "Please enter description"),
     bannerImage: zod
-      .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner Image is required"),
+      .string({ required_error: "Please add banner image" })
+      .min(1, "Please add banner image"),
     keys: zod
-      .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required"),
+      .string({ required_error: "Please enter key outcomes" })
+      .min(1, "Please enter key outcomes"),
   });
 
   const {
@@ -56,9 +56,9 @@ const CourseBanner = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const CourseBanner = () => {
       setValue("bannerImage", data?.data?.data?.image);
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 
@@ -253,7 +253,7 @@ const CourseBanner = () => {
                 <ErrorMessage message={errors?.keys?.message as string} />
               )}
             </div>
-            <div className="text-right">
+            <div className="text-right mt-5">
               <Button
                 type="submit"
                 className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
@@ -268,18 +268,6 @@ const CourseBanner = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className="sm:text-right text-center sm:mt-5 mt-[15px]">
-        <Button
-          type="submit"
-          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
-        >
-          {isPending || isUpdatePending ? (
-            <Loader containerClassName="h-auto" />
-          ) : (
-            "Next"
-          )}
-        </Button>
       </div>
     </>
   );

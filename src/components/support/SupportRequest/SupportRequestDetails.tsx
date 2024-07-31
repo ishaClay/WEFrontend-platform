@@ -1,5 +1,8 @@
 import { cn, supportTicketIcon } from "@/lib/utils";
 import { DataAnalytics } from "@/types/SupportRequest";
+import Ellipse1 from "../../../assets/images/Ellipse1.png";
+import Ellipse2 from "../../../assets/images/Ellipse2.png";
+import Ellipse3 from "../../../assets/images/Ellipse3.png";
 
 interface SupportRequestDetailsProps {
   data?: DataAnalytics;
@@ -24,20 +27,20 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
             <h2 className="font-[700] sm:text-[32px] text-[18px] sm:pb-2.5 pb-1">
               +{data?.totalTickets || 0}
             </h2>
-            <h3 className="capitalize sm:text-base text-xs">TotalTickets</h3>
+            <h3 className="capitalize sm:text-base text-xs">Total Tickets</h3>
           </div>
           <img
-            src="/src/assets/images/Ellipse1.png"
+            src={Ellipse1}
             alt="ellipse"
             className="absolute bottom-0 right-[10%] sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse2.png"
+            src={Ellipse2}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse3.png"
+            src={Ellipse3}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
@@ -51,22 +54,22 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
           </div>
           <div>
             <h2 className="font-[700] sm:text-[32px] text-[18px] sm:pb-2.5 pb-1">
-             +{data?.responded || 0}
+              +{data?.responded || 0}
             </h2>
             <h3 className="capitalize sm:text-base text-xs">Responded</h3>
           </div>
           <img
-            src="/src/assets/images/Ellipse1.png"
+            src={Ellipse1}
             alt="ellipse"
             className="absolute bottom-0 right-[10%] sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse2.png"
+            src={Ellipse2}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse3.png"
+            src={Ellipse3}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
@@ -85,17 +88,17 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
             <h3 className="capitalize sm:text-base text-xs">Resolved</h3>
           </div>
           <img
-            src="/src/assets/images/Ellipse1.png"
+            src={Ellipse1}
             alt="ellipse"
             className="absolute bottom-0 right-[10%] sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse2.png"
+            src={Ellipse2}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse3.png"
+            src={Ellipse3}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
@@ -114,17 +117,17 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
             <h3 className="capitalize sm:text-base text-xs">Pending</h3>
           </div>
           <img
-            src="/src/assets/images/Ellipse1.png"
+            src={Ellipse1}
             alt="ellipse"
             className="absolute bottom-0 right-[10%] sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse2.png"
+            src={Ellipse2}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>
           <img
-            src="/src/assets/images/Ellipse3.png"
+            src={Ellipse3}
             alt="ellipse"
             className="absolute top-0 right-0 sm:block hidden"
           ></img>

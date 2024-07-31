@@ -45,6 +45,7 @@ const HistoryModel = ({
   const { data, isLoading } = useQuery<HistoryResponse>({
     queryKey: [QUERY_KEYS.itemHistory, { id }],
     queryFn: () => getItemHistory(id as number),
+    enabled: !!id,
   });
 
   console.log("data", data);

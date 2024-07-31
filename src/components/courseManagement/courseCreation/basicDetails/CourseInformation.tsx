@@ -24,22 +24,22 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    title: zod.string().min(1, "Title is required"),
-    institute: zod.string().min(1, "Institute name is required"),
-    instituteWebsite: zod.string().url("Invalid website url"),
+    title: zod.string().min(1, "Please enter title"),
+    institute: zod.string().min(1, "Please enter institute name"),
+    instituteWebsite: zod.string().url("Please enter valid website url"),
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) }).min(1, "Course price is required")
+      .string({ errorMap: () => ({ message: "Please enter valid course price" }) })
+      .min(1, "Please enter course price")
       .refine(
-        (val: string | any) => (val === undefined || val === "") || !isNaN(val),
-        "Invalid course price"
+        (val: string | any) => val === undefined || val === "" || !isNaN(val),
+        "Please enter valid course price"
       ),
     discountApplicable: zod.number().optional(),
   })
   .refine(
     (data) => {
-      // If isFreeCourse is true, coursePrise should be undefined or empty
       if (data.freeCourse && +!data.price) {
         return false;
       }
@@ -47,14 +47,18 @@ const schema = zod
     },
     {
       message:
-        "Course Price should be undefined or empty when the course is free",
-      path: ["price"], // The path to the field that caused the error
+        "Course Price should be empty if course is free",
+      path: ["price"],
     }
   );
 
 type FormData = zod.infer<typeof schema>;
+// setStep: (e: string) => void;
+interface CourseInformationProps {
+  setStep: (e: string) => void;
+}
 
-const CourseInformation = () => {
+const CourseInformation = ({setStep}: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -79,6 +83,7 @@ const CourseInformation = () => {
   });
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab");
+  const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");
   const coursePrise = watch("price") || "0";
   const pathName: string = location?.pathname?.split("/")[1];
@@ -98,7 +103,7 @@ const CourseInformation = () => {
       });
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
-          data?.data?.data?.course?.id
+          data?.data?.data?.id
         }&version=${data?.data?.data?.version}`,
         {
           replace: true,
@@ -124,7 +129,7 @@ const CourseInformation = () => {
       });
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : paramsId
         }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
         {
           replace: true,
@@ -141,9 +146,9 @@ const CourseInformation = () => {
   });
 
   const { data: getSingleCourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion }],
-    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
-    enabled: +courseId ? !!paramsVersion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
+    enabled: (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false,
   });
 
   useEffect(() => {
@@ -174,11 +179,11 @@ const CourseInformation = () => {
       clientId: data?.data?.id || 0,
       userId: userID,
     };
-
-    if (+courseId) {
+    setStep("1")
+    if (+courseId || paramsId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {
@@ -255,7 +260,7 @@ const CourseInformation = () => {
                       setValue("freeCourse", !isFreeCourse);
                     }}
                     className="w-8 h-5"
-                    switchClassName="w-4 h-4"
+                    switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
                   />
                 </div>
                 <div className="flex items-center">
@@ -267,7 +272,7 @@ const CourseInformation = () => {
                     checked={provideDisc}
                     onCheckedChange={() => setProvideDisc(!provideDisc)}
                     className="w-8 h-5"
-                    switchClassName="w-4 h-4"
+                    switchClassName="w-4 h-4 data-[state=checked]:translate-x-3"
                   />
                 </div>
               </div>

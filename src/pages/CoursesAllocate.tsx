@@ -49,6 +49,8 @@ function CoursesAllocate() {
     queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
   });
 
+  console.log("course", course);
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="">
@@ -134,7 +136,8 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-3">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {course?.data?.employee?.length || 0} Employee
+                                  {courseallocate?.employee?.length || 0}{" "}
+                                  Employee
                                 </p>
                               </div>
                             </div>
@@ -286,17 +289,19 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
-                        <Button
-                          className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"
-                          onClick={() => {
-                            setPopupOpen(true);
-                            setOpenId(courseallocate?.id);
-                          }}
-                        >
-                          View Allocation
-                        </Button>
-                      </div>
+                      {statusFilter === "1" && (
+                        <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
+                          <Button
+                            className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"
+                            onClick={() => {
+                              setPopupOpen(true);
+                              setOpenId(courseallocate?.id);
+                            }}
+                          >
+                            View Allocation
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
 

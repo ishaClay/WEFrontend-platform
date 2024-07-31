@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -6,10 +7,9 @@ import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
-import { Button } from "@/components/ui/button";
 
 const CourseManagement = () => {
-  const [currentTab, setCurrentTab] = useState<string>("0");
+  const [currentTab, setCurrentTab] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
   const search = window.location.search;
@@ -23,6 +23,8 @@ const CourseManagement = () => {
   useEffect(() => {
     if (paramsTab) {
       setCurrentTab(paramsTab);
+    } else {
+      setCurrentTab("0");
     }
   }, [paramsTab]);
 
@@ -40,18 +42,35 @@ const CourseManagement = () => {
           `/${pathName}/create_course/${courseId}?tab=${currentTab}&version=${paramsversion}`
         );
       }
-    } else {
-      if (currentTab === "0") {
+    } else if (currentTab === "0") {
+      if (currentTab === "0" && paramsId) {
         navigate(
-          `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
+          `/${pathName}/create_course?tab=${currentTab}&step=${step}&id=${paramsId}&version=1`
         );
       } else {
         navigate(
-          `/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`
+          `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
         );
       }
+    }else {
+      navigate(
+        `/${pathName}/create_course?tab=${currentTab}&step=${step}&id=${paramsId}&version=1`
+      );
     }
   }, [currentTab]);
+
+  const handleChangeTab = (tab: string) => {
+    if (+courseId) {
+      setCurrentTab(tab);
+    } else if (paramsId) {
+      if (currentTab < tab) {
+        return null
+      } else {
+        navigate(`/${pathName}/create_course?tab=${paramsTab}&step=${tab}&id=${paramsId}&version=${paramsversion}`);
+        setCurrentTab(tab);
+      }
+    }
+  }
 
   return (
     <div className="bg-white p-0">
@@ -59,31 +78,31 @@ const CourseManagement = () => {
         defaultValue={currentTab}
         value={currentTab}
         className=""
-        onValueChange={(e) => setCurrentTab(e)}
+        onValueChange={(e) => handleChangeTab(e)}
       >
         <div className="border-b flex md:flex-row flex-col justify-between md:items-center items-start">
           <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">
             <TabsTrigger
               value="0"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold sm:py-5 py-2 sm:px-5 px-2 font-calibri"
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${+courseId || (+currentTab >= 0) ? "cursor-pointer" : "cursor-default"}`}
             >
               Basic Details
             </TabsTrigger>
             <TabsTrigger
               value="1"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${+courseId || (+currentTab >= 1) ? "cursor-pointer" : "cursor-default"}`}
             >
               Course Pathway
             </TabsTrigger>
             <TabsTrigger
               value="2"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${+courseId || (+currentTab >= 2) ? "cursor-pointer" : "cursor-default"}`}
             >
               Module Creation
             </TabsTrigger>
             <TabsTrigger
               value="3"
-              className="data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2"
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${+courseId || (+currentTab >= 3) ? "cursor-pointer" : "cursor-default"}`}
             >
               Forum
             </TabsTrigger>

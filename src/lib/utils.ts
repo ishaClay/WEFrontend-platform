@@ -473,6 +473,20 @@ export const getFileType = (name: number) => {
   return fileType;
 };
 
+export function mapTimeDuration(timeDuration: string) {
+  const [hours, minutes] = timeDuration.split(':').map(Number);
+
+  if (hours !== 0 && minutes !== 0 && hours !== undefined && minutes !== undefined) {
+    return `${hours}h ${minutes}min`;
+  } else if (hours !== 0) {
+    return `${hours}h`;
+  } else if (minutes !== 0 && minutes !== undefined) {
+    return `${minutes}min`;
+  } else {
+    return `0sec`;
+  }
+}
+
 export const calculateTotalReadingTime = (sections: any) => {
   let totalHours = 0;
   let totalMinutes = 0;
@@ -611,4 +625,35 @@ export const documentIcon = (type: string) => {
   } else if (type?.split("/")?.[3]?.includes("doc")) {
     return wordFile;
   }
+};
+
+export const isSessionOngoingAtTime = (
+  startTime: string,
+  sessionDuration: { hour: string; minute: string }
+): boolean => {
+  if (
+    !startTime ||
+    !sessionDuration ||
+    !sessionDuration.hour ||
+    !sessionDuration.minute
+  ) {
+    console.error("Invalid input");
+    return false;
+  }
+
+  const [startHour, startMinute] = startTime.split(":").map(Number);
+
+  const durationHours = parseInt(sessionDuration.hour, 10);
+  const durationMinutes = parseInt(sessionDuration.minute, 10);
+
+  const startDateTime = new Date();
+  startDateTime.setHours(startHour, startMinute, 0, 0);
+
+  const sessionEndTime = new Date(startDateTime);
+  sessionEndTime.setHours(sessionEndTime.getHours() + durationHours);
+  sessionEndTime.setMinutes(sessionEndTime.getMinutes() + durationMinutes);
+
+  const currentTime = new Date();
+
+  return currentTime >= startDateTime && currentTime <= sessionEndTime;
 };

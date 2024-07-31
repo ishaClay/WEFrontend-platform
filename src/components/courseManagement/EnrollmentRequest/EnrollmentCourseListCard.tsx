@@ -95,21 +95,16 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           />
         </div>
         <div className="sm:pl-[23px] px-3 pt-3">
-          <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-5 pb-3 gap-3">
+          <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-[22px] pb-3 gap-3">
             <CourseList rating={0} />
-            <div className="flex xl:flex-nowrap flex-wrap gap-2">
+            <div className="flex xl:flex-nowrap flex-wrap gap-[11px]">
               {data?.courseVersion?.course?.courseData?.map((item) => {
-                const pillarName = item.fetchMaturity?.maturityLevelName;
+                const pillarName = item.fetchPillar?.pillarName;
+                const bg = item.fetchMaturity?.color;
                 return (
                   <Badge
                     variant="outline"
-                    className={`bg-[${
-                      pillarName === "Intermediate"
-                        ? "#FFD56A"
-                        : pillarName === "Introductory"
-                        ? "#F63636"
-                        : "#64A70B"
-                    }] border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
+                    className={`bg-[${bg}] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
                   >
                     {pillarName}
                   </Badge>
@@ -121,7 +116,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           <h6 className="text-base sm:leading-7 leading-5 text-[#1D2026] font-inter font-medium">
             {data?.courseVersion?.course?.title}
           </h6>
-          <div className="flex flex-wrap justify-between items-center xl:pt-5 sm:pt-2 pt-3 2xl:gap-6 xl:gap-4 sm:gap-2 gap-[10px]">
+          <div className="flex flex-wrap justify-between items-center xl:pt-[18px] sm:pt-2 pt-3 2xl:gap-8 xl:gap-4 sm:gap-3 gap-[10px]">
             <div className="font-calibri">
               <p className="sm:text-base text-sm font-medium">
                 Company Name :{" "}
@@ -136,25 +131,25 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
                 </span>
               </p>
             </div>
-            <div className="flex font-bold font-calibri text-base">
-              <Euro className="w-[16px] font-bold" />
+            <div className="flex items-center font-bold font-calibri sm:text-base text-sm">
+              <Euro className="sm:w-[16px] w-[14px] font-bold" />
               {data?.courseVersion?.course?.price}
             </div>
           </div>
         </div>
       </div>
       {(data?.enroll === Enroll.default || data?.enroll === Enroll.enquiry) && (
-        <div className="flex xl:justify-center sm:justify-end justify-start sm:p-0 p-3 xl:flex-nowrap flex-wrap gap-2 lg:mt-0 md:mt-2 sm:mt-4 mt-0">
+        <div className="flex xl:justify-center sm:justify-end justify-start sm:p-0 p-3 xl:flex-nowrap flex-wrap sm:gap-3 gap-[5px] lg:mt-0 md:mt-2 sm:mt-4 mt-0">
           {data?.enroll === Enroll.enquiry ? (
             <Button
-              className="bg-[#00778B] sm:w-[125px] sm:h-[42px] w-[87px] h-[31px]"
+              className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
               onClick={() => handleInquire(data)}
             >
               Show Message
             </Button>
           ) : (
             <Button
-              className="bg-[#00778B] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px]"
+              className="bg-[#00778B] sm:w-[102px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
               onClick={() => handleInquire(data)}
             >
               Enquire
@@ -165,7 +160,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
               EditCourse(Enroll.accept);
               setSelectEnrollType(Enroll.accept);
             }}
-            className="bg-[#58BA66] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
+            className="bg-[#58BA66] sm:w-[102px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
             disabled={selectEnrollType === Enroll.accept}
           >
             {selectEnrollType === Enroll.accept && (
@@ -178,7 +173,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
               EditCourse(Enroll.reject);
               setSelectEnrollType(Enroll.reject);
             }}
-            className="bg-[#FF5252] sm:w-[102px] sm:h-[42px] w-[87px] h-[31px] sm:text-base text-sm"
+            className="bg-[#FF5252] sm:w-[102px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
             disabled={selectEnrollType === Enroll.reject}
           >
             {selectEnrollType === Enroll.reject && (
@@ -189,7 +184,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
         </div>
       )}
       {data?.enroll === Enroll.accept && (
-        <div className="flex items-center pr-8 xl:justify-center sm:justify-end justify-center xl:p-0 sm:p-0 p-[15px]">
+        <div className="flex items-center sm:pr-8 xl:justify-center sm:justify-end justify-center xl:p-0 sm:p-0 p-[15px]">
           <img src={AcceptedIcon} alt="" width={18} />
           <span className="text-[#58BA66] font-calibri text-base pl-1">
             Accepted

@@ -31,8 +31,6 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
 
     const upcomingData = matchingSlot ? matchingSlot : [];
 
-    console.log("upcomingData++++", matchingSlot);
-
     return (
       <>
         {upcomingData?.length > 0 ? (

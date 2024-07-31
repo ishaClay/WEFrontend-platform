@@ -1,5 +1,5 @@
-import { Checkbox } from "../../ui/checkbox";
 import profile_img from "@/assets/images/face_1.jfif";
+import { Checkbox } from "../../ui/checkbox";
 
 type TraineeEmployee = {
   data: {
@@ -7,29 +7,30 @@ type TraineeEmployee = {
     name: string;
     companyName: string;
   };
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  traineeList: { name: string; id: string }[];
+  setTraineeList: React.Dispatch<
+    React.SetStateAction<{ name: string; id: string }[]>
+  >;
 };
 
-const TraineeItems = ({ data, formData, setFormData }: TraineeEmployee) => {
-
+const TraineeItems = ({
+  data,
+  setTraineeList,
+  traineeList,
+}: TraineeEmployee) => {
   const handleChanges = (e: boolean, data: any): void => {
     if (e) {
-      setFormData((prev: any) => ({
+      setTraineeList((prev: any) => [
         ...prev,
-        traineeList: [
-          ...prev.traineeList,
-          {
-            name: data.name,
-            id: data.id,
-          },
-        ],
-      }));
+        {
+          name: data.name,
+          id: data.id.toString(),
+        },
+      ]);
     } else {
-      setFormData((prev: any) => ({
-        ...prev,
-        traineeList: prev.traineeList.filter((item: {name: string}) => item.name !== data.name),
-      }));
+      setTraineeList((prev: any) =>
+        prev.filter((item: { name: string }) => item.name !== data.name)
+      );
     }
   };
 
@@ -50,8 +51,8 @@ const TraineeItems = ({ data, formData, setFormData }: TraineeEmployee) => {
         <Checkbox
           className="border-[#D9D9D9] w-6 h-6"
           onCheckedChange={(e) => handleChanges(!!e, data)}
-          checked={formData?.traineeList.some(
-            (item: {name: string}) => item.name === data.name
+          checked={traineeList?.some(
+            (item: { name: string }) => item.name === data.name
           )}
         />
       </div>

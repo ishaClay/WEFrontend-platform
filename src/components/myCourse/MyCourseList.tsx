@@ -47,7 +47,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
               {Number(list?.courseProgress).toFixed(0)}%
             </div>
             <div className="text-xs font-normal font-calibri leading-4">
-              2 of 5 Completed
+              {list?.completedSections} of {list?.totalSections} Completed
             </div>
           </div>
           <Progress

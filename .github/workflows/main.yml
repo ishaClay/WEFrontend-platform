@@ -14,23 +14,30 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [ 18.x ]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - name: Set environment variables in .env file
-      run: |
-          echo VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} >> .env   
-    - run: rm -rf node_modules      
-    - run: rm package-lock.json      
-    - run: npm i -f
-    - run: npm run build 
-    - run: pm2 restart frontend
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      - name: Clear GitHub Actions cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Set environment variables in .env file
+        run: |
+          echo VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} >> .env      
+      - run: npm install -force
+      - run: npm run build 
+      - run: pm2 restart frontend
   

@@ -6,6 +6,7 @@ import {
 import { TrainerStatus, TrainersByIdResponse } from "@/types/Trainer";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../comman/Loader";
@@ -33,7 +34,7 @@ const TrainerDetails = () => {
       queryClient.invalidateQueries({
         queryKey: ["trainerDetails", params.id],
       });
-      navigate("/trainer/trainer-management")
+      navigate("/trainer/trainer-management");
       toast({
         variant: "success",
         description: "Trainer status updated successfully",
@@ -61,7 +62,7 @@ const TrainerDetails = () => {
     };
 
     mutate({ id: params.id || "", data });
-  };  
+  };
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
@@ -71,15 +72,27 @@ const TrainerDetails = () => {
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               Trainer Details
             </h3>
-            <p className="text-[#606060] text-[15px]">All the details on your trainer, in one convenient view</p>
+            <p className="text-[#606060] text-[15px]">
+              All the details on your trainer, in one convenient view
+            </p>
           </div>
-          <Button
-            type="button"
-            onClick={() => navigate("/trainer/trainer-management/invitation")}
-            className="bg-[#00778B] font-nunito px-5 text-[16px]"
-          >
-            INVITE TRAINER
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button
+              variant={"ghost"}
+              type="button"
+              onClick={() => navigate(-1)}
+              className="text-[16px] flex font-semibold items-center gap-[15px] hover:bg-transparent"
+            >
+              <MoveLeft /> Back
+            </Button>
+            <Button
+              type="button"
+              onClick={() => navigate("/trainer/trainer-management/invitation")}
+              className="bg-[#00778B] font-nunito px-5 text-[16px]"
+            >
+              INVITE TRAINER
+            </Button>
+          </div>
         </div>
         {isPending ? (
           <Loader />
@@ -93,8 +106,8 @@ const TrainerDetails = () => {
                 <Avatar className="w-28 h-28">
                   <AvatarImage src={clientDetails?.data?.profileImage || ""} />
                   <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
-                    {clientDetails?.data?.name?.[0] || 
-                    clientDetails?.data?.email?.[0]}
+                    {clientDetails?.data?.name?.[0] ||
+                      clientDetails?.data?.email?.[0]}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -102,7 +115,9 @@ const TrainerDetails = () => {
                 <div>
                   <h3 className="text-[#A3A3A3]">Trainer name</h3>
                   <p className="text-[#000]">
-                    {clientDetails?.data?.name || clientDetails?.data?.email?.split("@")?.[0] || "--"}
+                    {clientDetails?.data?.name ||
+                      clientDetails?.data?.email?.split("@")?.[0] ||
+                      "--"}
                   </p>
                 </div>
               </div>
@@ -166,15 +181,17 @@ const TrainerDetails = () => {
                   <RadioGroupItem
                     value={"1"}
                     id="r1"
-                    className={`${TrainerStatus[+trainerStatus] !== "Active" &&
+                    className={`${
+                      TrainerStatus[+trainerStatus] !== "Active" &&
                       "border-[#A3A3A3]"
-                      }`}
+                    } w-6 h-6`}
                   />
                   <Label
                     htmlFor="r1"
-                    className={`text-[16px] font-normal ${TrainerStatus[+trainerStatus] !== "Active" &&
+                    className={`text-[16px] font-normal ${
+                      TrainerStatus[+trainerStatus] !== "Active" &&
                       "text-[#A3A3A3]"
-                      }`}
+                    }`}
                   >
                     Active
                   </Label>
@@ -183,15 +200,17 @@ const TrainerDetails = () => {
                   <RadioGroupItem
                     value={"0"}
                     id="r2"
-                    className={`${TrainerStatus[+trainerStatus] !== "Inactive" &&
+                    className={`${
+                      TrainerStatus[+trainerStatus] !== "Inactive" &&
                       "border-[#A3A3A3]"
-                      }`}
+                    } w-6 h-6`}
                   />
                   <Label
                     htmlFor="r2"
-                    className={`text-[16px] font-normal ${TrainerStatus[+trainerStatus] !== "Inactive" &&
+                    className={`text-[16px] font-normal ${
+                      TrainerStatus[+trainerStatus] !== "Inactive" &&
                       "text-[#A3A3A3]"
-                      }`}
+                    }`}
                   >
                     Inactive
                   </Label>

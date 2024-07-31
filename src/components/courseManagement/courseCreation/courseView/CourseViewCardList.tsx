@@ -29,7 +29,7 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const schema = z.object({
-    moduleTitle: z.string().min(1, "Module Title is required"),
+    moduleTitle: z.string().min(1, "Please enter module title"),
   });
 
   type ValidationSchema = z.infer<typeof schema>;

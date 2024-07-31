@@ -46,7 +46,7 @@ const DelayModel = ({
         moment(new Date(), "YYYY-MM-DD")
       )
     ) {
-      return "On Progress";
+      return "In Progress";
     }
   };
 
@@ -86,13 +86,14 @@ const DelayModel = ({
     const payload = {
       iscomplete: 1,
       evidence: file,
+      userId: userData?.id,
     };
     mark({ data: payload, id: uploadData?.id });
   };
 
   return (
     <div>
-      <h6 className="text-base font-bold font-nunito text-[#000]">
+      <h6 className="text-base font-bold font-nunito pb-1 text-[#000]">
         Assigned Action Item Details
       </h6>
       <ScrollArea className="lg:h-auto h-[400px]">

@@ -1,61 +1,28 @@
-import employee_Image_1 from "@/assets/images/face_1.jfif";
-import employee_Image_2 from "@/assets/images/face_2.jfif";
-import employee_Image_3 from "@/assets/images/face_3.jfif";
-import employee_Image_4 from "@/assets/images/face_4.jfif";
+import { QUERY_KEYS } from "@/lib/constants";
+import { IssuedCertificateList } from "@/services/apiServices/certificate";
+import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
+import moment from "moment";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
-
-const data = [
-  {
-    id: 1,
-    employeeName: "Ankites Risher",
-    employeeImage: employee_Image_1,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 01",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 2,
-    employeeName: "Liam Risher",
-    employeeImage: employee_Image_2,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 02",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 3,
-    employeeName: "Honey Risher",
-    employeeImage: employee_Image_3,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 01",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-  {
-    id: 4,
-    employeeName: "Oliver Noah",
-    employeeImage: employee_Image_4,
-    courseName: "Certificate in the Sustainable Development Goals, Partners...",
-    certificateTitle: "Course Completion Certificate 02",
-    date: "01/01/2024",
-    status: "Issued",
-    action: "",
-  },
-];
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 const AllocatedCertificatePage = () => {
-  const [page, setPage] = useState(0);
-  console.log("page", page);
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState("");
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
-  const column: ColumnDef<any>[] = [
+  const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
+    queryKey: [QUERY_KEYS.issuedCertificate, { page, keyword }],
+    queryFn: () =>
+      IssuedCertificateList({ id: userData?.query?.id, page, keyword }),
+  });
+
+  const column: ColumnDef<certificateDataEntity>[] = [
     {
       accessorKey: "id",
       header: () => {
@@ -85,13 +52,16 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <div className="flex items-center gap-2">
-            <img
-              src={row.original?.employeeImage}
-              alt="employeeImage"
-              className="w-8 h-8 rounded-full"
-            />
+            <Avatar>
+              <AvatarImage src={row.original?.employee?.profileImage || ""} />
+              <AvatarFallback className="uppercase" delayMs={600}>
+                {row.original?.employee?.name?.charAt(0) ||
+                  row.original.employee?.email?.split("@")[0].charAt(0)}
+              </AvatarFallback>
+            </Avatar>
             <h6 className="2xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.employeeName}
+              {row.original?.employee?.name ||
+                row.original.employee?.email?.split("@")[0]}
             </h6>
           </div>
         );
@@ -109,7 +79,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2 2xl:leading-6 leading-4 2xl:w-[70%] w-full">
-            {row.original?.courseName}
+            {row.original?.course?.title}
           </h6>
         );
       },
@@ -126,7 +96,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.certificateTitle}
+            {row.original?.certificatePdf}
           </h6>
         );
       },
@@ -143,7 +113,9 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.date}
+            {moment(new Date(row?.original?.createdAt || "")).format(
+              "DD/MM/YYYY"
+            )}
           </h6>
         );
       },
@@ -160,12 +132,15 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <div className="">
-            <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 2xl:text-sm text-xs">
-              {row.original?.status}
-            </Button>
-            <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 2xl:text-sm text-xs hidden">
-              Pending
-            </Button>
+            {row.original?.status === 1 ? (
+              <Button className="bg-[#58BA66] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
+                Issued
+              </Button>
+            ) : (
+              <Button className="bg-[#FFA25E] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
+                Pending
+              </Button>
+            )}
           </div>
         );
       },
@@ -179,12 +154,18 @@ const AllocatedCertificatePage = () => {
           </h5>
         );
       },
-      cell: () => {
+      cell: ({ row }) => {
         return (
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            {row.original?.status === 1 ? (
+              <Eye className="cursor-pointer text-[#A3A3A3]" width={18} />
+            ) : (
+              <FileSliders
+                className="cursor-pointer text-[#A3A3A3]"
+                width={18}
+              />
+            )}
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
-            <Eye className="mx-2 cursor-pointer text-[#A3A3A3]" width={18} />
-            <FileSliders className="cursor-pointer text-[#A3A3A3]" width={18} />
           </div>
         );
       },
@@ -210,25 +191,32 @@ const AllocatedCertificatePage = () => {
       </div>
 
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] h-[52px] px-4 2xl:py-3 py-2 rounded-lg">
+        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] px-4 2xl:py-3 py-2 rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
             placeholder="Search by name, course name, certificate name, etc."
-          ></input>
+            onChange={(e) => {
+              setKeyword(e.target.value);
+            }}
+          />
         </div>
       </div>
 
       <div className="">
-        <NewDataTable
-          columns={column}
-          data={data}
-          totalPages={data?.length}
-          setPage={setPage}
-          pagination={{ pageIndex: page, pageSize: 10 }}
-          inputbox={false}
-          itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
-        />
+        {isPending ? (
+          <Loader />
+        ) : (
+          <NewDataTable
+            columns={column}
+            data={Issued_Certificate?.data || []}
+            totalPages={1}
+            setPage={setPage}
+            pagination={{ pageIndex: page, pageSize: 10 }}
+            inputbox={false}
+            itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
+          />
+        )}
       </div>
     </div>
   );

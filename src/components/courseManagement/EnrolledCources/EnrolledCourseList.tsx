@@ -15,22 +15,32 @@ const EnrolledCourseList = () => {
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
-  
-  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map((item: EnrolledCoursesType) => {
-    return {
-      title: <EnrolledCourseListItem data={item} />,
-      content: <EnrolledCourseDetailsList data={item} />,
-    };
-  })
+
+  const accordionItems: AccordionOption[] = enrolledCoursesData?.data.map(
+    (item: EnrolledCoursesType) => {
+      return {
+        title: <EnrolledCourseListItem data={item} />,
+        content: <EnrolledCourseDetailsList data={item} />,
+      };
+    }
+  );
 
   return (
-    <div className="sm:px-5 px-4 pb-4">
-      {isPending ? <span className="py-10 flex justify-center items-center"><Loader2 className="w-5 h-5 animate-spin" /></span> : accordionItems?.length > 0 ? <Accordions
-        items={accordionItems}
-        triggerClassName="sm:flex block"
-        itemsClass="sm:p-5 p-0"
-        customIconClassName="sm:static absolute right-4 bottom-4"
-      /> : <span className="text-center block text-xl">No data found</span> }
+    <div className="sm:px-5 px-[15px] pb-[15px]">
+      {isPending ? (
+        <span className="py-10 flex justify-center items-center">
+          <Loader2 className="w-5 h-5 animate-spin" />
+        </span>
+      ) : accordionItems?.length > 0 ? (
+        <Accordions
+          items={accordionItems}
+          triggerClassName="sm:flex block"
+          itemsClass="sm:px-5 sm:py-4 p-0 sm:border border-0"
+          customIconClassName="sm:static absolute right-4 bottom-4"
+        />
+      ) : (
+        <span className="text-center block text-xl">No data found</span>
+      )}
     </div>
   );
 };

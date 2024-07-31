@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import Drawer from "./comman/Drawer";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
 interface SidebarItem {
   label: string;
@@ -32,7 +33,9 @@ const DrawerPage = ({
 }) => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
-  const mavigate = useNavigate();
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const toggleDropdown = (
@@ -56,7 +59,7 @@ const DrawerPage = ({
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
-      mavigate("/");
+      navigate("/");
     },
     onError: (error: ResponseError) => {
       toast({
@@ -68,9 +71,13 @@ const DrawerPage = ({
   });
 
   const handleLogout = () => {
+    setIsAlertOpen(true)
+  };
+
+  const handleConfirmLogout = () => {
     const userId = userData?.query?.id;
     mutate(userId);
-  };
+  }
 
   return (
     <>
@@ -81,14 +88,14 @@ const DrawerPage = ({
       >
         <div className="top-0 left-0 lg:flex flex-col justify-between duration-500 bg-[#FFFFFF] overflow-hidden">
           <div className="h-[100vh] p-5">
-            <div className="ml-[40px] mt-[20px]">
+            <div className="flex items-center justify-center">
               <Button
                 type="button"
                 onClick={() => {
-                  mavigate("/");
+                  navigate("/");
                   setOpen(false);
                 }}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 outline-none focus-visible:ring-0 hover:bg-transparent h-auto"
                 variant="ghost"
               >
                 <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
@@ -107,7 +114,12 @@ const DrawerPage = ({
                             toggleDropdown(item.children, index);
                             item.children?.length === 0 && setOpen(false);
                           }}
-                          className="group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri"
+                          className={`group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] sm:hover:bg-[#00778B] sm:hover:text-white rounded-md text-[#606060] font-calibri ${
+                            isOpen[`bar${index + 1}`] ||
+                            location.pathname.includes(item.link)
+                              ? "bg-[#00778B] text-white"
+                              : "bg-[#fff]"
+                          }`}
                         >
                           <div className="flex items-center gap-2">
                             <Icon size={22} />
@@ -134,7 +146,7 @@ const DrawerPage = ({
                                     <Button
                                       type="button"
                                       onClick={() => {
-                                        mavigate(child.link);
+                                        navigate(child.link);
                                         setOpen(false);
                                       }}
                                       className="flex items-center gap-2"
@@ -166,6 +178,11 @@ const DrawerPage = ({
           {isPending && <Loading isLoading={isPending} />}
         </div>
       </Drawer>
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 };

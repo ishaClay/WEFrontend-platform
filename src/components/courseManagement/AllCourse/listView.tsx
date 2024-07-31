@@ -13,30 +13,36 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import {
   copyCourse,
   deleteCourse,
   publishCourse,
+  updateVersion,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
+import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
+import { CourseDataEntity } from "@/types/Trainer";
 
-interface VersionProps {
-  id: number;
-  versionId: number;
-  status: string;
-}
-
-const ListView = ({ list }: { list: AllCoursesResult[] }) => {
-  const [versionData, setVersionData] = useState<VersionProps[]>([]);
+const ListView = ({
+  list,
+  isLoading,
+}: {
+  list: AllCoursesResult[];
+  isLoading?: boolean;
+}) => {
+  const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
   const [isDelete, setIsDelete] = useState(false);
+  const [isOpen, setIsOpen] = useState<string>("");
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
@@ -51,52 +57,33 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     setCourse(id);
   };
 
-  useEffect(() => {
-    if (list?.length > 0) {
-      const data = list?.map((item) => {
-        const version = item?.version?.find((itm) => itm?.version === 1);
-        return {
-          id: item?.id,
-          versionId: version?.id as number,
-          status:
-            item?.status === "COPY" ? "PUBLISHED" : (item?.status as string),
-        };
-      });
-      setVersionData(data);
-    }
-  }, [list]);
-
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: courseStatusUpdate,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-  //     toast({
-  //       title: "Success",
-  //       description: "Course Published successfully",
-  //       variant: "success",
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     toast({
-  //       title: "Error",
-  //       description: error.message,
-  //       variant: "destructive",
-  //     });
-  //   },
-  // });
-
-  const handleChangeVersion = (versionId: string, id: number) => {
-    setVersionData((prev) => {
-      return prev.map((item) => {
-        if (item?.id === id) {
-          return {
-            ...item,
-            versionId: +versionId,
-          };
-        }
-        return item;
-      });
+  const { mutate: updateVersionFun, isPending: updateVersionPending } =
+    useMutation({
+      mutationFn: updateVersion,
+      onSuccess: (data) => {
+        queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+        toast({
+          title: "Success",
+          description: data?.data?.message,
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
     });
+
+  const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
+    const payload = {
+      mainCourseId: item?.currentVersion?.mainCourse?.id,
+      versionId: +versionId,
+      userId: +UserId,
+    };
+    updateVersionFun(payload);
   };
 
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
@@ -207,18 +194,24 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  return (
+  return list?.length > 0 && list ? (
     <div>
+      <AllocatedCertificateModal
+        isOpen={!!isOpen}
+        onClose={() => setIsOpen("")}
+        courseId={+isOpen}
+      />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
+      {(isLoading || updateVersionPending) && (
+        <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
+          <Loader className="h-10 w-10" />
+        </div>
+      )}
       <div>
-        {list.map((data, index: number) => {
-          const currentRecord = versionData?.find(
-            (itm) => itm?.id === data?.id
-          );
-
+        {list.map((data: any, index: number) => {
           const versionOption =
             data?.version &&
-            data?.version.map((itm) => {
+            data?.version.map((itm: any) => {
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
@@ -227,7 +220,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           return (
             <>
               <Link
-                to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
+                to={`/${pathName}/employee-basic-course/${data?.currentVersion?.id}`}
                 key={index}
                 className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
@@ -270,7 +263,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center md:gap-5 gap-3">
-                      {data?.courseData?.map((item) => {
+                      {data?.courseData?.map((item: CourseDataEntity) => {
                         return (
                           <div className="">
                             <Badge
@@ -304,16 +297,21 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     >
                       + Cohort
                     </Button>
-                    <SelectMenu
-                      option={versionOption || []}
-                      setValue={(v: string) => handleChangeVersion(v, data?.id)}
-                      value={currentRecord?.versionId?.toString() || ""}
-                      containClassName="max-w-[62px]"
-                      className="max-w-[62px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                      placeholder="V-01"
-                    />
+                    <div className="">
+                      <SelectMenu
+                        option={versionOption || []}
+                        setValue={(e: string) => handleChangeVersion(e, data)}
+                        value={data?.currentVersion?.id?.toString() || ""}
+                        defaultValue={
+                          data?.currentVersion?.id?.toString() || ""
+                        }
+                        containClassName="max-w-[62px]"
+                        className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                        placeholder="V-01"
+                      />
+                    </div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger asChild className="outline-none">
                         <EllipsisVertical />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-30">
@@ -321,7 +319,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) =>
-                              copyPublish(e, currentRecord?.versionId as number)
+                              copyPublish(e, data?.currentVersion?.id as number)
                             }
                           >
                             <Copy className="w-4 h-4" />
@@ -331,7 +329,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                             onClick={(e) =>
                               handleEdit(
                                 e,
-                                currentRecord?.versionId?.toString(),
+                                data?.currentVersion?.id?.toString(),
                                 data
                               )
                             }
@@ -339,6 +337,16 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(data?.id);
+                            }}
+                          >
+                            <Combine className="w-4 h-4" />
+                            <span>Allocate</span>
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
@@ -376,6 +384,8 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           </div>
         ))}
     </div>
+  ) : (
+    <span className="py-10 block text-center">No data found</span>
   );
 };
 

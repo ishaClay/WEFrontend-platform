@@ -14,7 +14,7 @@ function TeamMemberDropdown() {
     return (
         <div className="lg:ml-[800px] mt-[20px] md:ml-[600px] md:ml-[400px] sm:ml-[200px] xs:ml-[50px]">
             <DropdownMenu>
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger className="outline-none">
                     <IoMdArrowDropdown className="text-[24px]" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="h-[283px] w-[250px] lg:w-[200px] md:w-[180px] sm:w-[160px] xs:w-[140px]">

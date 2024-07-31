@@ -25,14 +25,18 @@ import * as zod from "zod";
 
 const schema = zod.object({
   nfqLeval: zod
-    .string({ required_error: "NQF level is required" })
-    .min(1, "NQF level is required"),
-  certificate: zod.string().min(1, "Participants is required").optional(),
-  ectsCredits: zod.string().min(1, "ECTS credit is required"),
-  fetCredits: zod.string().min(1, "FET credit is required"),
+    .string({ required_error: "Please select NQF level" })
+    .min(1, "Please select NQF level"),
+  certificate: zod.string().min(1, "Please select certificate type").optional(),
+  ectsCredits: zod.string().min(1, "Please enter ECTS credit"),
+  fetCredits: zod.string().min(1, "Please enter FET credit"),
 });
 
-const CourseSpecifications = () => {
+interface CourseSpecificationsProps {
+  setStep: (e: string) => void;
+}
+
+const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -63,9 +67,9 @@ const CourseSpecifications = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
+    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -160,6 +164,7 @@ const CourseSpecifications = () => {
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
     };
+    setStep("2");
     if (+courseId) {
       updateCourseFun({
         payload,

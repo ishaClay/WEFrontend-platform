@@ -90,7 +90,7 @@ function CoursesRecommended() {
 
                 <input
                   type="text"
-                  placeholder="Search by pilier, level, recommended, course name etc."
+                  placeholder="Search by course name etc."
                   className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
                   onChange={(e) => setSearch(e.target.value)}
                 />

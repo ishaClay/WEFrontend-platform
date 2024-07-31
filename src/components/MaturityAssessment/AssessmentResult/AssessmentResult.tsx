@@ -14,7 +14,7 @@ import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLev
 import { UserRole } from "@/types/UserRole";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 
@@ -52,12 +52,14 @@ type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
   assessmentData: any;
   showButton: number;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
 };
 
 const AssessmentResult = ({
   chnageTab,
   assessmentData,
   showButton,
+  setIsEdit,
 }: AssessmentResultProps) => {
   const location = useLocation();
   console.log("+++++", location);
@@ -104,6 +106,7 @@ const AssessmentResult = ({
   const handleMaturity = () => {
     EnumUpadate(path);
     // navigate("/company/my-action-plans");
+    setIsEdit(true);
     chnageTab("maturityAssessment");
   };
 

@@ -8,10 +8,10 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const BasicDetails = () => {
-  const [step, setStep] = React.useState(0);
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab") || "0";
   const params = new URLSearchParams(search).get("step") || "0";
+  const [step, setStep] = React.useState<string | null>(params || null);
   const paramsId = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
   const location = useLocation();
@@ -24,18 +24,18 @@ const BasicDetails = () => {
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${params}&id=${paramsId}&version=${paramsversion}`
       );
-      setStep(+params);
+      setStep(params);
     } else if (!!paramsId && !!paramsversion && !!paramsTab) {
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}id=${paramsId}&version=${paramsversion}`,
         { replace: true }
       );
-      setStep(+params);
+      setStep(params);
     } else if (courseId) {
       navigate(
         `/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${params}&version=${paramsversion}`
       );
-      setStep(+params);
+      setStep(params);
     } else if (paramsTab === "1" && paramsversion && paramsId) {
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&id=${paramsId}&version=${paramsversion}`,
@@ -43,7 +43,7 @@ const BasicDetails = () => {
           replace: true,
         }
       );
-      setStep(+params);
+      setStep(params);
     } else {
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${params}&version=${paramsversion}`,
@@ -51,9 +51,10 @@ const BasicDetails = () => {
           replace: true,
         }
       );
-      setStep(+params);
+      setStep(params);
     }
-  }, [params, step, paramsId, paramsversion, paramsTab, navigate]);
+  }, [paramsId, paramsversion, paramsTab, navigate]);
+
 
   return (
     <div>
@@ -70,14 +71,14 @@ const BasicDetails = () => {
           onChangeStep={setStep}
         />
       </div>
-      {step === 0 ? (
-        <CourseInformation />
-      ) : step === 1 ? (
-        <CourseSpecifications />
-      ) : step === 2 ? (
-        <CourseLogistic />
-      ) : step === 3 ? (
-        <CourseAffiliations />
+      {step === "0" ? (
+        <CourseInformation setStep={setStep} />
+      ) : step === "1" ? (
+        <CourseSpecifications setStep={setStep} />
+      ) : step === "2" ? (
+        <CourseLogistic setStep={setStep} />
+      ) : step === "3" ? (
+        <CourseAffiliations setStep={setStep} />
       ) : (
         <CourseBanner />
       )}

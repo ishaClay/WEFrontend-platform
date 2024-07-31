@@ -1,23 +1,24 @@
-import CourseViewCardInnerList from "./CourseViewCardInnerList";
-import { Button } from "@/components/ui/button";
-import { CirclePlus } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 import Modal from "@/components/comman/Modal";
-import AssessmentModal from "./AssessmentModal";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import { scheduleLiveSession } from "@/services/apiServices/liveSession";
 import {
   changeSectionPostion,
   createSection,
   updateSection,
 } from "@/services/apiServices/moduleCreation";
-import { toast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CirclePlus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { z } from "zod";
 import { intialSectionCreation } from "../moduleCreation/ModuleCreationPage";
 import SectionForm from "../moduleCreation/SectionForm";
-import { QUERY_KEYS } from "@/lib/constants";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { createLiveSection } from "@/services/apiServices/liveSession";
+import AssessmentModal from "./AssessmentModal";
+import CourseViewCardInnerList from "./CourseViewCardInnerList";
 
 const CourseViewCardInner = ({
   CourseCardList,
@@ -34,18 +35,43 @@ const CourseViewCardInner = ({
   const latestCourseCardList = useRef(getCourseCardList);
   const [isEditSection, setIsEditSection] = useState<number | null>(null);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const params = useParams();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (CourseCardList?.length > 0) {
+      const updateCouresListSection = [...CourseCardList];
+
+      CourseCardList?.map((item: any) => {
+        if (item?.assessment?.length !== null) {
+          return item.assessment?.map((itm: any) => {
+            updateCouresListSection.push({
+              ...itm,
+              position: item.position,
+              isLive: 0,
+              type: "AssessmentTest",
+            });
+          });
+        }
+
+        return item;
+      });
+      setGetCourseCardList(updateCouresListSection);
+    }
+  }, [CourseCardList]);
 
   const schema = z
     .object({
       isLive: z.boolean(),
       sectionTitle: z
         .string()
-        .min(1, "Section Title is required")
-        .max(250, "You can not write more than 250 characters"),
+        .min(1, "Please enter section title")
+        .max(250, "You can not write section title more than 250 characters"),
       information: z
         .string()
-        .min(1, "Information is required")
-        .max(1000, "You can not write more than 1000 characters"),
+        .min(1, "Please enter information")
+        .max(1000, "You can not write information more than 250 characters"),
       uploadContentType: z
         .number()
         // .min(1, "Upload content type is required")
@@ -152,11 +178,6 @@ const CourseViewCardInner = ({
     },
   });
 
-  console.log("🚀 ~ CourseViewCardInner ~ errors:", errors);
-  useEffect(() => {
-    setGetCourseCardList(CourseCardList);
-  }, [CourseCardList]);
-
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
 
   const { mutate: ChangeSectionPosition } = useMutation({
@@ -221,7 +242,7 @@ const CourseViewCardInner = ({
   });
 
   const { mutate: EditLiveSection } = useMutation({
-    mutationFn: (data: any) => createLiveSection(data),
+    mutationFn: (data: any) => scheduleLiveSession({ data, id: isEditSection }),
     onSuccess: () => {
       setIsEditSection(null);
       reset({ ...intialSectionCreation });
@@ -265,25 +286,36 @@ const CourseViewCardInner = ({
   };
 
   const handelEditSection = (data: any) => {
-    setIsEditSection(data.id);
-    setValue("sectionTitle", data.isLive ? data.liveSecTitle : data.title);
-    setValue(
-      "information",
-      data.isLive ? data.liveSecinformation : data.information
-    );
-    setValue("uploadContentType", data.documentType);
-    setValue("uploadedContentUrl", data.uploadContent);
-    setValue(
-      "readingTime",
-      data.readingTime || { hour: 0, minute: 0, second: 0 }
-    );
-    setValue("youtubeUrl", data.isLive ? "" : data.url);
-    setValue("uploadDocument", data.attachment);
-    setValue("isLive", data.isLive === 1 ? true : false);
-    setValue(
-      "livesessionDuration",
-      data.isLive ? data.sectionTime : { hour: 0, minute: 0, second: 0 }
-    );
+    if (data?.type) {
+      const tab = searchParams.get("tab");
+      const version = searchParams.get("version");
+      const courseId = params?.courseId;
+      const pathName = window.location.pathname;
+      const currentUser = pathName.split("/")[1];
+      navigate(
+        `/${currentUser}/add_assessment/${data?.id}?tab=${tab}&version=${version}&courseId=${courseId}&moduleId=${moduleId}`
+      );
+    } else {
+      setIsEditSection(data.id);
+      setValue("sectionTitle", data.isLive ? data.liveSecTitle : data.title);
+      setValue(
+        "information",
+        data.isLive ? data.liveSecinformation : data.information
+      );
+      setValue("uploadContentType", data.documentType);
+      setValue("uploadedContentUrl", data.uploadContent);
+      setValue(
+        "readingTime",
+        data.readingTime || { hour: 0, minute: 0, second: 0 }
+      );
+      setValue("youtubeUrl", data.isLive ? "" : data.url);
+      setValue("uploadDocument", data.attachment);
+      setValue("isLive", data.isLive === 1 ? true : false);
+      setValue(
+        "livesessionDuration",
+        data.isLive ? data.sectionTime : { hour: 0, minute: 0, second: 0 }
+      );
+    }
   };
 
   const handleRemoveSection = () => {
@@ -306,7 +338,6 @@ const CourseViewCardInner = ({
   };
 
   const onUpdate = (data: FieldValues) => {
-    
     const a = {
       isLive: true,
       liveSecTitle: data.sectionTitle,
@@ -316,8 +347,7 @@ const CourseViewCardInner = ({
         minute: data.livesessionDuration.minute,
         second: data.livesessionDuration.second,
       },
-      module: moduleId
-
+      module: moduleId,
     };
     if (data.isLive) {
       EditLiveSection(a);
@@ -326,7 +356,7 @@ const CourseViewCardInner = ({
     }
   };
 
-  console.log("getCourseCardList ===>", getCourseCardList);
+  console.log("getCourseCardList +++++++++++++", getCourseCardList);
 
   return (
     <div
@@ -345,42 +375,44 @@ const CourseViewCardInner = ({
       }}
     >
       <div>
-        {getCourseCardList.map((data: any, index: number) => {
-          console.log("data===>", data);
+        {getCourseCardList
+          ?.sort((a: any, b: any) => a.position - b.position)
+          .map((data: any, index: number) => {
+            console.log("data===>", data);
 
-          return (
-            <>
-              {isEditSection && isEditSection === data.id ? (
-                <form onSubmit={handleSubmit(onUpdate)} key={index}>
-                  <SectionForm
-                    watch={watch}
-                    setValue={setValue}
-                    errors={errors}
-                    register={register}
-                    getValues={getValues}
-                    sectionID={isEditSection}
-                    handleRemoveSection={handleRemoveSection}
-                  />
-                </form>
-              ) : (
-                <div
-                  key={index}
-                  draggable
-                  onDragStart={() => (dragPerson.current = index)}
-                  onDragEnter={() => (draggedOverPerson.current = index)}
-                  onDragEnd={handleSort}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <CourseViewCardInnerList
+            return (
+              <>
+                {isEditSection && isEditSection === data.id ? (
+                  <form onSubmit={handleSubmit(onUpdate)} key={index}>
+                    <SectionForm
+                      watch={watch}
+                      setValue={setValue}
+                      errors={errors}
+                      register={register}
+                      getValues={getValues}
+                      sectionID={isEditSection}
+                      handleRemoveSection={handleRemoveSection}
+                    />
+                  </form>
+                ) : (
+                  <div
                     key={index}
-                    data={data}
-                    handelEditSection={handelEditSection}
-                  />
-                </div>
-              )}
-            </>
-          );
-        })}
+                    draggable
+                    onDragStart={() => (dragPerson.current = index)}
+                    onDragEnter={() => (draggedOverPerson.current = index)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <CourseViewCardInnerList
+                      key={index}
+                      data={data}
+                      handelEditSection={handelEditSection}
+                    />
+                  </div>
+                )}
+              </>
+            );
+          })}
         <form onSubmit={handleSubmit(onSubmit)}>
           {addsectionList && (
             <SectionForm
@@ -433,6 +465,7 @@ const CourseViewCardInner = ({
         <AssessmentModal
           setIsOpenAssessmentModal={setIsOpenAssessmentModal}
           moduleId={moduleId}
+          sectionID={CourseCardList?.at(-1)?.id}
         />
       </Modal>
     </div>

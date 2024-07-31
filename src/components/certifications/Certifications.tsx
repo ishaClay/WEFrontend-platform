@@ -11,7 +11,6 @@ const Certifications = () => {
     queryKey: [QUERY_KEYS.getcertifications],
     queryFn: () => getCertifications(userData?.query?.id),
   });
-  console.log("++++", data?.data);
 
   return (
     <>
@@ -20,7 +19,7 @@ const Certifications = () => {
           {isLoading ? (
             <Loader />
           ) : data?.data?.length ? (
-            data?.data?.map((data, index: number) => {
+            data?.data?.map((data: any, index: number) => {
               return <CertificationsList key={index} data={data} />;
             })
           ) : (

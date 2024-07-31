@@ -5,6 +5,7 @@ import document_Option_2 from "@/assets/images/upload_option_2.png";
 import document_Option_4 from "@/assets/images/upload_option_4.png";
 import document_Option_6 from "@/assets/images/upload_option_6.png";
 import VideoICon from "@/assets/images/videoIcon.svg";
+import assesmentTest from "@/assets/svgs/assesmentTest.svg";
 // QUERY KEYS
 export const QUERY_KEYS = {
   pillarList: "pillar_list",
@@ -86,6 +87,12 @@ export const QUERY_KEYS = {
   getcertifications: "getcertifications",
   createLiveSessions: "createLiveSessions",
   fetchLiveSession: "fetchLiveSession",
+  issuedCertificate: "issuedCertificate",
+  allLiveSession: "allLiveSession",
+  getUserManual: "getUserManual",
+  fetchLiveSessionById: "fetchLiveSessionById",
+  getdashboardEmployeeCourse: "getdashboardEmployeeCourse",
+  getAssesmentById: "getAssesmentById",
 };
 
 export const urlRegex =
@@ -130,6 +137,14 @@ export const FileType = {
     image: document_Option_6,
     enum: 5,
     listIcon: VideoICon,
+  },
+  AssessmentTest: {
+    name: "AssesmentTest",
+    fileType: ["test"],
+    fileTypeText: "test",
+    image: assesmentTest,
+    enum: 6,
+    listIcon: assesmentTest,
   },
 };
 

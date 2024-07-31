@@ -13,6 +13,8 @@ const ActionItems = () => {
     queryFn: () => getEmployeeWiseAction(userID),
   });
 
+  console.log("data", data?.data);
+
   return (
     <div>
       <div className="xl:flex block items-center gap-6 mb-5">
@@ -41,7 +43,7 @@ const ActionItems = () => {
         </ul>
       </div>
       <div className="border border-[#D9D9D9] rounded-xl">
-        {data?.data?.measure?.map((data, index) => {
+        {data?.data?.measureData?.map((data, index) => {
           return <ActionItemsList data={data} key={index} />;
         })}
       </div>

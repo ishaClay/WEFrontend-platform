@@ -33,7 +33,9 @@ const EmployeeDetailsPage = () => {
   return (
     <div className="pb-[36px] bg-primary-foreground rounded-[10px] h-full font-nunitoSans">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
-        <h2 className="text-base font-bold font-nunito">Trainers Details</h2>
+        <h2 className="text-base font-bold font-nunito pb-1">
+          Trainers Details
+        </h2>
         <Button
           variant={"ghost"}
           className="p-0 text-base font-nunito font-bold"

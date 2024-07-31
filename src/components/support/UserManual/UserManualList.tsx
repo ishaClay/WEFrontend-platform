@@ -1,16 +1,17 @@
 import EllipseImage from "@/assets/images/Ellipse2.png";
 import EllipseImage2 from "@/assets/images/Ellipse3.png";
+import { DataEntity } from "@/types/userManual";
 
 type supportListProps = {
-  list: {
-    id: string;
-    title: string;
-    type: string;
-  };
+  list: DataEntity;
 };
 const UserManualList = ({ list }: supportListProps) => {
   return (
-    <div className="shadow sm:p-4 p-3 border border-[#dddddd33] rounded-[10px] relative overflow-hidden">
+    <a
+      href={list?.documentUrl}
+      target="_blank"
+      className="shadow sm:p-4 p-3 border border-[#dddddd33] rounded-[10px] relative overflow-hidden"
+    >
       <div>
         <h6 className="sm:text-[15px] text-sm font-normal font-calibri leading-5 text-black sm:pb-3 pb-2.5">
           ID: {list.id}
@@ -32,7 +33,7 @@ const UserManualList = ({ list }: supportListProps) => {
         alt="ellipse"
         className="absolute sm:top-0 top-[-20px] sm:right-0 right-[-18px]"
       />
-    </div>
+    </a>
   );
 };
 

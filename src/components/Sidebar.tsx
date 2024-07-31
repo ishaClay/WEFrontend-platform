@@ -12,6 +12,7 @@ import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/wing.png";
 import Loading from "./comman/Error/Loading";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
@@ -31,9 +32,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const location = useLocation();
   const { UserId } = useAppSelector((state) => state?.user);
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const { sidebarOpen } = useContext(SidebarContext);
-  const mavigate = useNavigate();
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const toggleDropdown = (
     children: { label: string; link: string }[],
@@ -56,7 +60,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
-      mavigate("/");
+      navigate("/");
     },
     onError: (error: ResponseError) => {
       toast({
@@ -67,14 +71,17 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     },
   });
 
+  const handleConfirmLogout = () => {
+    mutate(userID);
+  };
+
   const handleLogout = () => {
-    const userId = userData?.query?.id;
-    mutate(userId);
+    setIsAlertOpen(true);
   };
 
   const { data: chatUserList } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList],
-    queryFn: () => fetchChatUserList(UserId as string),
+    queryFn: () => fetchChatUserList(userID as string),
   });
   const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
 
@@ -260,6 +267,11 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         </div>
       </div>
       {isPending && <Loading isLoading={isPending} />}
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </div>
   );
 };

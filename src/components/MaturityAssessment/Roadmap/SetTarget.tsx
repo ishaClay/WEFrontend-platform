@@ -18,8 +18,10 @@ import PillerCard from "./PillerCard";
 
 const SetTarget = ({
   setStep,
+  setIsEdit,
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
+  setIsEdit: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -86,6 +88,7 @@ const SetTarget = ({
   const handleSelect = () => {
     EnumUpadate();
     setStep(2);
+    setIsEdit(false);
   };
 
   return (

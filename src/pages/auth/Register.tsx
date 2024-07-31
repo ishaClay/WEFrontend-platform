@@ -40,11 +40,11 @@ const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Please enter min 3 alphabets in company name" }),
+      .min(3, { message: "Please enter atleast 3 characters in company name" }),
     email: z
       .string()
       .min(1, { message: "Please enter email" })
-      .email("Please Enter Valid Email"),
+      .email("Please enter valid email"),
     password: z
       .string()
       .min(1, { message: "Please enter password" })
@@ -55,7 +55,7 @@ const schema = z
     cpassword: z.string().min(1, { message: "Please enter confirm password" }),
   })
   .refine((data) => data.password === data.cpassword, {
-    message: "Passwords don't match",
+    message: "Password don't match",
     path: ["cpassword"], // Set the error path to 'cpassword'
   });
 
@@ -89,8 +89,6 @@ function Register() {
   });
 
   const email = watch("email");
-
-  console.log("params", showRegistrationForm);
 
   const { mutate: logout, isPending: logoutPending } = useMutation({
     mutationFn: LogOut,
@@ -142,7 +140,6 @@ function Register() {
     mutationFn: RegisterEmployee,
     onSuccess: async (data) => {
       setTime(179);
-      console.log("6+++++", data);
 
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
@@ -345,7 +342,7 @@ function Register() {
                         onClick={() => {
                           navigate("/trainer-regestration");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
+                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Analyzing Skill.png" />}
                       />
 
@@ -354,7 +351,7 @@ function Register() {
                         onClick={() => {
                           setSelectedRole("company");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
+                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>
