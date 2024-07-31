@@ -12,7 +12,7 @@ import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -24,7 +24,7 @@ import ListView from "./listView";
 const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("All");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
@@ -39,10 +39,17 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
+    isFetching,
+    refetch
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, "PUBLISHED"),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status === "All" ? "" : status),
   });
+
+  useEffect(() => {
+    refetch()
+  }, [status])
+  
 
   return (
     <div>
@@ -121,7 +128,7 @@ const AllCourses = () => {
             <Select
               value={status}
               defaultValue="All"
-              onValueChange={(e) => setStatus(e === "All" ? "" : e)}
+              onValueChange={(e) => setStatus(e === "All" ? "All" : e)}
             >
               <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="All Courses" />
@@ -160,7 +167,7 @@ const AllCourses = () => {
           </div>
         </div>
         <div className="sm:px-[18px] sm:pb-[18px] px-[15px] pb-[15px]">
-          {fetchCourseAllCoursePending ? (
+          {fetchCourseAllCoursePending || isFetching ? (
             <span className="flex justify-center items-center py-10">
               <Loader2 className="w-5 h-5 animate-spin" />
             </span>

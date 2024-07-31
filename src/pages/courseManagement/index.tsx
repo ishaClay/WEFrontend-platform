@@ -53,9 +53,16 @@ const CourseManagement = () => {
         );
       }
     }else {
-      navigate(
-        `/${pathName}/create_course?tab=${currentTab}&step=${step}&id=${paramsId}&version=1`
-      );
+      if(!!currentTab && !!step){
+        navigate(
+          `/${pathName}/create_course?tab=${currentTab}&id=${paramsId}&version=1`
+        );
+      }
+      // else{
+      //   navigate(
+      //     `/${pathName}/create_course?tab=${currentTab}&step=${step}&version=1`
+      //   );
+      // }
     }
   }, [currentTab]);
 

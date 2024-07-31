@@ -3,12 +3,12 @@ import { CircleX, Link } from "lucide-react";
 import UploadContent from "./UploadContent";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { uploadFile } from "@/services/apiServices/moduleCreation";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import FormError from "@/components/comman/FormError";
+import CKEditorComponent from "@/components/comman/JoditEditor";
 
 interface SectionFormProps {
     sectionID?: number
@@ -92,7 +92,14 @@ const SectionForm = ({ errors, watch, setValue, register, sectionID, handleRemov
                 <h6 className="text-base font-calibri text-[#515151] pb-2">
                     Information <span className="text-xs">(Max 1000words only)</span>
                 </h6>
-                <Textarea {...register('information')} className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md text-base font-calibri text-black outline-none" />
+                <CKEditorComponent
+                    value={watch("information")}
+                    {...register("information")}
+                    onChange={(e, data) => {
+                        console.log("e", e); 
+                    setValue(`information`, data.getData());
+                    }}
+                />
                 {errors?.information && (
                     <FormError
                         className="font-calibri not-italic"

@@ -34,9 +34,10 @@ const schema = zod.object({
 
 interface CourseSpecificationsProps {
   setStep: (e: string) => void;
+  courseById: number | null;
 }
 
-const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
+const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -67,9 +68,9 @@ const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
-    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -80,6 +81,7 @@ const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("2");
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
         {
@@ -139,9 +141,10 @@ const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("2");
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : params
         }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
         {
           replace: true,
@@ -164,11 +167,11 @@ const CourseSpecifications = ({setStep}:CourseSpecificationsProps) => {
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
     };
-    setStep("2");
+
     if (+courseId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {

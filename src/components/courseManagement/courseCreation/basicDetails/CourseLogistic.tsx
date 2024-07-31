@@ -82,9 +82,10 @@ const schema = zod.object({
 
 interface CourseLogisticProps {
   setStep: (e: string) => void;
+  courseById: number | null;
 }
 
-const CourseLogistic = ({setStep}: CourseLogisticProps) => {
+const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -112,9 +113,9 @@ const CourseLogistic = ({setStep}: CourseLogisticProps) => {
   const courseId: string = location?.pathname?.split("/")[3];
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
-    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -125,6 +126,7 @@ const CourseLogistic = ({setStep}: CourseLogisticProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("3");
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${3}&id=${params}&version=${paramsversion}`,
         {
@@ -163,9 +165,10 @@ const CourseLogistic = ({setStep}: CourseLogisticProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("3");
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : params
         }?tab=${paramsTab}&step=${3}&version=${paramsversion}`,
         {
           replace: true,
@@ -188,11 +191,11 @@ const CourseLogistic = ({setStep}: CourseLogisticProps) => {
       universityAddress: data?.universityAddress,
       duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
     };
-    setStep("3");
+
     if (+courseId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {
@@ -203,7 +206,6 @@ const CourseLogistic = ({setStep}: CourseLogisticProps) => {
       });
     }
   };
-  console.log("watch(", watch("durationType"));
   
 
   return (

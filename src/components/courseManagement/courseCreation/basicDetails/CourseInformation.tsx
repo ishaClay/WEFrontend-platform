@@ -29,25 +29,21 @@ const schema = zod
     instituteWebsite: zod.string().url("Please enter valid website url"),
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
-    price: zod
-      .string({ errorMap: () => ({ message: "Please enter valid course price" }) })
-      .min(1, "Please enter course price")
-      .refine(
-        (val: string | any) => val === undefined || val === "" || !isNaN(val),
-        "Please enter valid course price"
-      ),
+    price: zod.string().optional().refine((val:any) => val === undefined || val === "" || !isNaN(Number(val)),"Invalid course price"),
     discountApplicable: zod.number().optional(),
   })
   .refine(
     (data) => {
-      if (data.freeCourse && +!data.price) {
+      if (data.freeCourse && (data.price === undefined || data.price === "")) {
+        return true;
+      }
+      if (data.freeCourse === false && (data.price === undefined || data.price === "" || isNaN(Number(data.price)))) {
         return false;
       }
       return true;
     },
     {
-      message:
-        "Course Price should be empty if course is free",
+      message: "Course price is required and must be a valid number",
       path: ["price"],
     }
   );
@@ -56,9 +52,11 @@ type FormData = zod.infer<typeof schema>;
 // setStep: (e: string) => void;
 interface CourseInformationProps {
   setStep: (e: string) => void;
+  courseById: number | null;
+  setCourseById: (e: number) => void;
 }
 
-const CourseInformation = ({setStep}: CourseInformationProps) => {
+const CourseInformation = ({setStep, courseById, setCourseById}: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -101,9 +99,11 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1");
+      setCourseById(data?.data?.data?.id);
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
-          data?.data?.data?.id
+          data?.data?.data?.course?.id
         }&version=${data?.data?.data?.version}`,
         {
           replace: true,
@@ -127,10 +127,11 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1")
       navigate(
         `/${pathName}/create_course/${
-          +courseId ? courseId : paramsId
-        }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
+          +courseId ? courseId : data?.data?.data?.id
+        }?tab=${paramsTab}&step=${1}&version=${data?.data?.data?.currentVersion?.id}`,
         {
           replace: true,
         }
@@ -147,8 +148,8 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
 
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
-    enabled: (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false,
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsVersion || !!courseById) : false,
   });
 
   useEffect(() => {
@@ -179,7 +180,7 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
       clientId: data?.data?.id || 0,
       userId: userID,
     };
-    setStep("1")
+
     if (+courseId || paramsId) {
       updateCourseFun({
         payload,

@@ -56,10 +56,6 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatUserList],
       });
-      toast({
-        variant: "success",
-        title: data?.data?.message,
-      });
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
       console.log("data+++++", data);

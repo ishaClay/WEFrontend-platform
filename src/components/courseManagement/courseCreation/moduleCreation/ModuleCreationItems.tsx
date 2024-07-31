@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { uploadFile } from "@/services/apiServices/moduleCreation";
 import { SectionCreation } from "@/types/modulecreation";
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { useState } from "react";
 import { UseFieldArrayRemove, useFieldArray } from "react-hook-form";
 import AssessmentModal from "../courseView/AssessmentModal";
 import UploadContent from "./UploadContent";
+import CKEditorComponent from "@/components/comman/JoditEditor";
 
 interface ModuleCreationItemsProps {
   index: number;
@@ -181,11 +181,15 @@ const ModuleCreationItems = ({
                 Information{" "}
                 <span className="text-xs">(Max 1000words only)</span>
               </h6>
-              <Textarea
+              <CKEditorComponent
+                value={watch("information")}
                 {...register(
                   `modules.${index}.section.${sectionindex}.information`
                 )}
-                className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md sm:text-base text-sm font-calibri text-black outline-none"
+                onChange={(e, data) => {
+                  console.log("e", e);                  
+                  setValue(`modules.${index}.section.${sectionindex}.information`, data.getData());
+                }}
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.information && (
