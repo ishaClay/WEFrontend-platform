@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { PrimaryButton } from "../comman/Button/CustomButton";
+import { RiShutDownLine } from "react-icons/ri";
 
 interface AlertLogOutDialogProps {
   isOpen: boolean;
@@ -26,26 +27,30 @@ export function AlertLogOutDialog({
       <AlertDialogTrigger asChild>
         <Button style={{ display: "none" }} />
       </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-[#000]">Log Out Confirmation</AlertDialogTitle>
-          <AlertDialogDescription className="text-[#606060]">
-            Are you sure you want to log out?
+      <AlertDialogContent className="px-[52px] py-[30px]">
+        <AlertDialogHeader className="items-center">
+          <div className="flex justify-center items-center bg-[#297f94] rounded-full text-white mb-[26px] w-[66px] h-[66px]">
+
+        <RiShutDownLine size={24} />
+          </div>
+          <AlertDialogTitle className="text-[#000] text-bold text-[24px] text-center mb-[8px]">Are you sure ?</AlertDialogTitle>
+          <AlertDialogDescription className="text-[#000] text-[16px] !mb-[34px] text-center">
+            Do you want to log out?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="!justify-center">
           <Button
               type="button"
-              variant={"secondary"}
+              variant="secondary"
               onClick={onClose}
-              className="xl:px-[30px] px-[15px] py-2 font-semibold !font-abhaya text-sm text-[#020817]"
+              className="xl:px-[30px] h-[52px] px-[15px] py-2 font-semibold !font-abhaya text-md text-[#020817]"
             >
               Cancel
             </Button>
           <PrimaryButton
             onClick={onConfirm}
             name="Log Out"
-            className="xl:px-[30px] px-[15px] py-2 primary-background font-semibold !font-abhaya text-sm"
+            className="xl:px-[30px] px-[15px] py-2 h-[52px] primary-background font-semibold !font-abhaya text-md !ml-[14px]"
           />
         </AlertDialogFooter>
       </AlertDialogContent>
