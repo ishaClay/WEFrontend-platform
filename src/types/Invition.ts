@@ -7,7 +7,7 @@ export interface EmployeeInvition {
 
 export interface EmployeePayload {
     companyId: string;
-    email: string[];
+    email: string[] | string;
     csvUrl: string;
     invitationDetails: string;
 }

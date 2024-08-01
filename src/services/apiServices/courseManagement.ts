@@ -1,5 +1,5 @@
 import { CourseByVersionType, GetSingleCourseByIdType } from "@/types/course";
-import { AllCoursesResponse } from "@/types/courseManagement";
+import { AllCoursesResponse, CoursesNameType, InstitutionsListType } from "@/types/courseManagement";
 import api from "./api";
 
 export interface courseRequest {
@@ -151,4 +151,16 @@ export const updateVersion = (data: { mainCourseId: number, versionId: number, u
   const url = `api/v1/course/change-course-version`;
   const method = "post";
   return api({ url, data, method });
+};
+
+export const fetchgetInstitutionsList = async (): Promise<InstitutionsListType> => {
+  const url = `api/v1/thirdparty/getInstitutionsName`;
+  const res = await api({ url });
+  return res?.data
+};
+
+export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
+  const url = `api/v1/thirdparty/getCoursesName`;
+  const res = await api({ url });
+  return res?.data
 };

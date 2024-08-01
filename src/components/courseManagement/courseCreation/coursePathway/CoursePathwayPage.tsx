@@ -125,7 +125,7 @@ const CoursePathwayPage = () => {
   );
 
   const handleSubmit = () => {
-    if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
+    if (selectedData.length === selectTargetPillarLimit?.data?.pillarLimit) {
       const payload = {
         courseData: selectedData,
         id: +courseId ? +courseId : paramsId,

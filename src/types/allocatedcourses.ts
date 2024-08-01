@@ -98,7 +98,7 @@ export interface CourseAllotedEntity {
   enroll: number;
   createdAt: string;
   updatedAt: string;
-  courseVersion: CourseVersion;
+  course: Course;
   numberOfEmployee: string;
   employee: EmployeeEntity[];
 }

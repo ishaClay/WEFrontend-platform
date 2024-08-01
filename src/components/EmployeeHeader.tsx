@@ -108,7 +108,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
             >
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
-                Welcome {userData?.query?.email?.split("@")[0]}
+                Welcome {userData?.query?.name?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator breadcrumbData={title} />
             </h4>

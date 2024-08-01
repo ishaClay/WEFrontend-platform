@@ -121,56 +121,39 @@ const MaturityAssessment = () => {
 
     const exportData = getCheckedmeasures?.data?.data?.map((item:any) => {
       return {
-        pillerName: item?.pillarName,
-        percentage: item?.progressPR,
-        yourLeval: item?.userMaturityLevel?.[0]?.level,
-        selectedLeval: item?.userMaturityLevel?.[0]?.nextLevel,
-        actionName: item?.measures?.filter((measuresData:any) => measuresData?.measure)?.map((measures:any) => measures?.measure).join(","),
-        assingName: item?.measures?.filter((measuresData:any) => measuresData?.employeeId?.name)?.map((measures:any) => measures?.employeeId?.name).join(","),
-        actionStatus: item?.measures?.filter((measuresData:any) => getStatus(measuresData?.startDate, measuresData?.endDate))?.map((measures:any) => getStatus(measures?.startDate, measures?.endDate)).join(","),
-        startDate: item?.measures?.filter((measuresData:any) => measuresData?.startDate)?.map((measures:any) => moment(new Date(measures?.startDate)).format("DD/MM/YYYY")).join(","),
-        endDate: item?.measures?.filter((measuresData:any) => measuresData?.endDate)?.map((measures:any) => moment(new Date(measures?.endDate)).format("DD/MM/YYYY")).join(","),
-        documentLink: item?.measures?.filter((measuresData:any) => measuresData?.evidence)?.map((measures:any) => measures?.evidence).join(","),
+        "Piller Name": item?.pillarName,
+        "Percentage": item?.progressPR,
+        "Your Leval": item?.userMaturityLevel?.[0]?.level,
+        "Selected Leval": item?.userMaturityLevel?.[0]?.nextLevel,
+        "Action Name": item?.measures?.filter((measuresData:any) => measuresData?.measure)?.map((measures:any) => measures?.measure).join(", "),
+        "Assing Name": item?.measures?.filter((measuresData:any) => measuresData?.employeeId?.name)?.map((measures:any) => measures?.employeeId?.name).join(", "),
+        "Action Status": item?.measures?.filter((measuresData:any) => getStatus(measuresData?.startDate, measuresData?.endDate))?.map((measures:any) => getStatus(measures?.startDate, measures?.endDate)).join(", ") || "",
+        "Start Date": item?.measures?.filter((measuresData:any) => measuresData?.startDate)?.map((measures:any) => moment(new Date(measures?.startDate)).format("DD/MM/YYYY")).join(", ") || "",
+        "End Date": item?.measures?.filter((measuresData:any) => measuresData?.endDate)?.map((measures:any) => moment(new Date(measures?.endDate)).format("DD/MM/YYYY")).join(", "),
+        "Document Link": item?.measures?.filter((measuresData:any) => measuresData?.evidence)?.map((measures:any) => measures?.evidence).join(", "),
       }
     })
     const exportFile = useCallback(() => {
       if (exportData?.length > 0) {
-        // Convert JSON to worksheet
         const ws = utils.json_to_sheet(exportData);
         const wb = utils.book_new();
-        
-        // Add the worksheet to the workbook
         utils.book_append_sheet(wb, ws, 'Sheet1');
-    
-        // Adjust column widths (you can modify these widths as needed)
         const columnWidths = [
-          { wch: 20 }, // width for 'pillerName'
-          { wch: 15 }, // width for 'percentage'
-          { wch: 20 }, // width for 'yourLeval'
-          { wch: 20 }, // width for 'selectedLeval'
-          { wch: 30 }, // width for 'actionName'
-          { wch: 25 }, // width for 'assingName'
-          { wch: 20 }, // width for 'actionStatus'
-          { wch: 15 }, // width for 'startDate'
-          { wch: 15 }, // width for 'endDate'
-          { wch: 25 }, // width for 'documentLink'
+          { wch: 25 },
+          { wch: 10 },
+          { wch: 15 },
+          { wch: 15 },
+          { wch: 50 },
+          { wch: 30 },
+          { wch: 30 },
+          { wch: 25 },
+          { wch: 25 },
+          { wch: 50 },
         ];
-    
-        // Apply column widths
         ws['!cols'] = columnWidths;
-    
-        // Write to file
-        writeFileXLSX(wb, "fileName.xlsx");
+        writeFileXLSX(wb, "Action Plan.xlsx");
       }
     }, [exportData]);
-    // const exportFile = useCallback(() => {
-    //   if (exportData?.length > 0) {
-    //     const ws = utils.json_to_sheet(exportData);
-    //     const wb = utils.book_new();
-    //     utils.book_append_sheet(wb, ws);
-    //     writeFileXLSX(wb, "fileName.xlsx");
-    //   }
-    // }, [exportData]);
 
   return (
     <div className="">
@@ -179,14 +162,10 @@ const MaturityAssessment = () => {
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
             Baseline Self Assessment
           </h5>
-          <h6 className="text-xs text-[#606060] font-bold font-calibri">
+          {getCheckedmeasures?.data?.data?.length > 0 && <h6 className="text-xs text-[#606060] font-bold font-calibri">
             Completed Date :{" "}
-            {getCheckedmeasures?.data?.data?.length > 0
-              ? moment(
-                  new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")
-                ).format("DD/MM/YYYY")
-              : ""}
-          </h6>
+            {moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY")}
+          </h6>}
         </div>
         {((pillarCompleted && Role !== "employee") ||
           (pillarCompleted &&

@@ -314,3 +314,20 @@ export interface CourseVersion {
   updatedAt: string;
   course: MainCourseType;
 }
+
+
+export interface InstitutionsListType {
+  data?: InstitutionsDataEntity[] | null;
+  message: string;
+}
+export interface InstitutionsDataEntity {
+  name: string;
+}
+
+export interface CoursesNameType {
+  data?: CoursesNameTypeDataEntity[] | null;
+  message: string;
+}
+export interface CoursesNameTypeDataEntity {
+  name: string;
+}

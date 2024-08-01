@@ -66,10 +66,10 @@ const TrainerInvitation = () => {
           description: data?.message,
           variant: "success",
         });
+        navigate("/trainer/trainer-management");
+        setEmails([]);
+        reset();
       }
-      navigate("/trainer/trainer-management");
-      setEmails([]);
-      reset();
     },
     onError: (error) => {
       toast({

@@ -217,8 +217,7 @@ const SupportRequestTable = ({data, page, setPage, search, setSearch, isLoading}
       cell: ({ row }) => {
         return (
           <div>
-            {row.original?.assignTo?.name ||
-              row.original.assignTo?.email?.split("@")[0]}
+            {row.original?.assignTo?.name ?? "-"}
           </div>
         );
       },

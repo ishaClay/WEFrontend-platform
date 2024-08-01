@@ -97,6 +97,10 @@ const TrainerManagement = () => {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        const providerCounty = row?.original?.providerCounty;
+        return <p>{providerCounty ?? "-"}</p>
+      }
     },
     {
       accessorKey: "providerName",
@@ -114,6 +118,10 @@ const TrainerManagement = () => {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        const providerName = row?.original?.providerName;
+        return <p>{providerName ?? "-"}</p>
+      }
     },
     {
       accessorKey: "rating",

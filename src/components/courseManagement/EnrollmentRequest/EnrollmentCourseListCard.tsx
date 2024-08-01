@@ -85,7 +85,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       senderId: UserId,
       receiverId: company,
       message: data?.title,
-      images: [data?.courseVersion?.course?.bannerImage],
+      images: [data?.course?.bannerImage],
     };
     handleSend(payload);
   };
@@ -95,7 +95,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       <div className="sm:flex block items-center">
         <div className="sm:min-w-[152px] sm:min-h-[152px] sm:w-[152px] sm:h-[152px]">
           <img
-            src={data?.courseVersion?.course?.bannerImage}
+            src={data?.course?.bannerImage}
             alt="img"
             className="w-full h-full rounded-md"
           />
@@ -104,7 +104,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-[22px] pb-3 gap-3">
             <CourseList rating={0} />
             <div className="flex xl:flex-nowrap flex-wrap gap-[11px]">
-              {data?.courseVersion?.course?.courseData?.map((item) => {
+              {data?.course?.courseData?.map((item) => {
                 const pillarName = item.fetchPillar?.pillarName;
                 const bg = item.fetchMaturity?.color;
                 return (
@@ -120,7 +120,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           </div>
 
           <h6 className="text-base sm:leading-7 leading-5 text-[#1D2026] font-inter font-medium">
-            {data?.courseVersion?.course?.title}
+            {data?.course?.title}
           </h6>
           <div className="flex flex-wrap justify-between items-center xl:pt-[18px] sm:pt-2 pt-3 2xl:gap-8 xl:gap-4 sm:gap-3 gap-[10px]">
             <div className="font-calibri">
@@ -139,7 +139,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             </div>
             <div className="flex items-center font-bold font-calibri sm:text-base text-sm">
               <Euro className="sm:w-[16px] w-[14px] font-bold" />
-              {data?.courseVersion?.course?.price}
+              {data?.course?.price}
             </div>
           </div>
         </div>

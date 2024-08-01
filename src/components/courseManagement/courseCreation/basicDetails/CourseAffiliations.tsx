@@ -6,6 +6,8 @@ import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   createCourseTwoPage,
+  fetchgetCoursesNameList,
+  fetchgetInstitutionsList,
   fetchSingleCourseById,
   updateCourse,
 } from "@/services/apiServices/courseManagement";
@@ -17,28 +19,6 @@ import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
-
-const organisationOption = [
-  {
-    label: "organisation 1",
-    value: "organisation 1",
-  },
-  {
-    label: "organisation 2",
-    value: "organisation 2",
-  },
-];
-
-const organisationNameOption = [
-  {
-    label: "organisation Name 1",
-    value: "organisation Name 1",
-  },
-  {
-    label: "organisation Name 2",
-    value: "organisation Name 2",
-  },
-];
 
 const schema = zod.object({
   instituteOther: zod.string().min(1, "Please select Affiliation"),
@@ -99,6 +79,29 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
     queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
     enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
+
+  const { data: getInstitutionsList} = useQuery({
+    queryKey: [QUERY_KEYS.getInstitutions],
+    queryFn: () => fetchgetInstitutionsList(),
+  })
+  const organisationOption = getInstitutionsList?.data?.map((item) => {
+    return {
+      label: item?.name,
+      value: item?.name,
+    }
+  }) || [];
+
+  const { data: fetchgetCoursesList} = useQuery({
+    queryKey: [QUERY_KEYS.fetchgetCoursesNameList],
+    queryFn: () => fetchgetCoursesNameList(),
+  })
+
+  const organisationNameOption = fetchgetCoursesList?.data?.map((item) => {
+    return {
+      label: item?.name,
+      value: item?.name,
+    }
+  }) || [];  
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -171,10 +174,10 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
             </h6>
             <div className="md:mb-[28px] sm:mb-5 mb-[15px]">
               <SelectMenu
-                option={organisationOption}
+                option={organisationNameOption}
                 setValue={(data: string) => setValue("instituteOther", data)}
                 value={watch("instituteOther")}
-                placeholder="Other"
+                placeholder="select course name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {errors.instituteOther && (
@@ -188,12 +191,12 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
               <SelectMenu
-                option={organisationNameOption}
+                option={organisationOption}
                 setValue={(data: string) =>
                   setValue("otherInstitutionName", data)
                 }
                 value={watch("otherInstitutionName")}
-                placeholder="Enter Name"
+                placeholder="select institution / organisation name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {errors.otherInstitutionName && (

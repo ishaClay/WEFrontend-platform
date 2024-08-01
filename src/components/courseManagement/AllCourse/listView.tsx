@@ -30,6 +30,8 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
+import { CourseDataEntity } from "@/types/Trainer";
+import { ErrorType } from "@/types/Errors";
 
 const ListView = ({
   list,
@@ -60,13 +62,8 @@ const ListView = ({
   const { mutate: updateVersionFun, isPending: updateVersionPending } =
     useMutation({
       mutationFn: updateVersion,
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-        toast({
-          title: "Success",
-          description: data?.data?.message,
-          variant: "success",
-        });
       },
       onError: (error) => {
         toast({
@@ -99,10 +96,11 @@ const ListView = ({
           variant: "success",
         });
       },
-      onError: (error) => {
+      onError: (error: ErrorType) => {      
+        setCourse("");  
         toast({
           title: "Error",
-          description: error.message,
+          description: error?.data?.message,
           variant: "destructive",
         });
       },
@@ -159,7 +157,7 @@ const ListView = ({
   };
 
   const copyPublish = (e: Event, id: number) => {
-    e.preventDefault();
+    e.stopPropagation();
     copyCourseFun(id);
   };
 

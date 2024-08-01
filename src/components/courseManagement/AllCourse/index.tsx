@@ -43,6 +43,7 @@ const AllCourses = () => {
     queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
     queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
   });
+  const getAllCourseList = fetchCourseAllCourseData?.data?.filter((item) => item !== null)
 
   return (
     <div>
@@ -167,9 +168,9 @@ const AllCourses = () => {
           {fetchCourseAllCoursePending ? (
             <Loader />
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} />
+            <GridView list={getAllCourseList || []} />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            <ListView list={getAllCourseList || []} />
           )}
         </div>
       </div>

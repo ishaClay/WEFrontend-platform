@@ -35,16 +35,20 @@ const isOnlineType = [
     value: "0",
   },
   {
-    label: "In-Person",
+    label: "Offline",
     value: "1",
   },
   {
-    label: "Hybrid",
+    label: "In-Person",
     value: "2",
   },
   {
-    label: "Major",
+    label: "Hybrid",
     value: "3",
+  },
+  {
+    label: "Major",
+    value: "4",
   },
 ];
 
@@ -97,8 +101,8 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      time: Time[0].value,
-      isOnline: isOnlineType[0].value,
+      time: "",
+      isOnline: "",
       universityAddress: "",
       duration: "",
       durationType: durationType[0].value,

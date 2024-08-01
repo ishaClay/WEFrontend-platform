@@ -1,4 +1,3 @@
-import CustomTabInput from "@/components/comman/CustomTabInput";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import FileUpload from "@/components/comman/FileUpload";
 import InputWithLabel from "@/components/comman/InputWithLabel";
@@ -10,13 +9,14 @@ import { createEmployeeInvition } from "@/services/apiServices/member";
 import { EmployeePayload } from "@/types/Invition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const schema = z.object({
+  email: z.string({ message: "Please enter email" }).min(1, { message: "Please enter email" }).regex(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[cC][oO][mM]$/i, { message: `Please enter an email address with @, number and .com` }),
   file: z.string().optional(),
   invitiondetail: z.string().min(1, { message: "Please enter email" }),
 });
@@ -25,7 +25,7 @@ const EmployeeInvitation = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [emails, setEmails] = useState<string[]>([]);
+  const [emails, setEmails] = useState<string>("");
   const [file, setFile] = useState("");
   const handleBackClick = () => {
     navigate("/company/employeelist");
@@ -51,12 +51,20 @@ const EmployeeInvitation = () => {
 
   const { mutate: createEmployeeInvitionlist, isPending } = useMutation({
     mutationFn: createEmployeeInvition,
-    onSuccess: () => {
-      reset();
-      setEmails([]);
-      setFile("");
-      navigate("/company/employeelist");
-      toast({ title: "Invitation sent successfully", variant: "success" });
+    onSuccess: (data) => {
+      if(data?.data?.data?.employeeExist?.length > 0){
+        toast({ 
+          title: "Success", 
+          description: "Employee invitation Already send.", 
+          variant: "success" 
+        });
+      }else{
+        reset();
+        setEmails("");
+        setFile("");
+        navigate("/company/employeelist");
+        toast({ title: "Invitation sent successfully", variant: "success" });
+      }
     },
     onError: (error) => {
       toast({
@@ -68,7 +76,7 @@ const EmployeeInvitation = () => {
 
   const onSubmit = async (data: FieldValues) => {
     const payload: EmployeePayload = {
-      email: emails,
+      email: [emails],
       csvUrl: data?.file,
       invitationDetails: data?.invitiondetail,
       companyId: CompanyID,
@@ -110,10 +118,18 @@ const EmployeeInvitation = () => {
             </h3>
             <div className="mt-[10px]">
               <div className="w-full">
-                <CustomTabInput setValue={setEmails} />
-                {/* {errors.email && (
-                  <ErrorMessage message={errors.email.message as string} />
-                )} */}
+                <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] mt-2">
+                  <input
+                    {...register("email")}
+                    value={emails}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {setValue("email", e?.target?.value); setEmails(e?.target?.value)}}
+                    placeholder="Enter email and Press Enter"
+                    className="flex-grow border-none outline-none"
+                  />
+                </div>
+                {errors.email?.message && (
+                  <ErrorMessage message={errors?.email?.message as string} />
+                )}
               </div>
             </div>
           </div>

@@ -31,6 +31,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
+import { ErrorType } from "@/types/Errors";
 
 const GridView = ({
   list,
@@ -67,13 +68,8 @@ const GridView = ({
   const { mutate: updateVersionFun, isPending: updateVersionPending } =
     useMutation({
       mutationFn: updateVersion,
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-        toast({
-          title: "Success",
-          description: data?.data?.message,
-          variant: "success",
-        });
       },
       onError: (error) => {
         toast({
@@ -99,10 +95,11 @@ const GridView = ({
         });
         setOpen("");
       },
-      onError: (error) => {
+      onError: (error: ErrorType) => {      
+        setCourse("");  
         toast({
           title: "Error",
-          description: error.message,
+          description: error?.data?.message,
           variant: "destructive",
         });
       },
@@ -182,7 +179,7 @@ const GridView = ({
   };
 
   const handleCopy = (e: Event, id: number) => {
-    e.preventDefault();
+    e.stopPropagation();
     copyCourseFun(id);
   };
 
