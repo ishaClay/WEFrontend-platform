@@ -20,7 +20,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
-const CourseBanner = () => {
+interface CourseBannerProps {
+  courseById: number | null;
+}
+
+const CourseBanner = ({courseById}: CourseBannerProps) => {
   const [editorData, setEditorData] = React.useState("");
   const [keyData, setKeyData] = React.useState("");
   const [image, setImage] = React.useState("");
@@ -35,14 +39,14 @@ const CourseBanner = () => {
 
   const schema = zod.object({
     description: zod
-      .string({ required_error: "Please enter description" })
-      .min(1, "Please enter description"),
+      .string({ required_error: "Description is required" })
+      .min(1, "Information is required"),
     bannerImage: zod
-      .string({ required_error: "Please add banner image" })
-      .min(1, "Please add banner image"),
+      .string({ required_error: "Banner Image is required" })
+      .min(1, "Banner Image is required"),
     keys: zod
-      .string({ required_error: "Please enter key outcomes" })
-      .min(1, "Please enter key outcomes"),
+      .string({ required_error: "Key Outcomes is required" })
+      .min(1, "Key Outcomes is required"),
   });
 
   const {
@@ -56,9 +60,9 @@ const CourseBanner = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, params }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : params)),
-    enabled: (+courseId || params) ? (!!paramsversion || !!params) : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   useEffect(() => {
@@ -82,7 +86,7 @@ const CourseBanner = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${courseId}?tab=${1}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${1}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -104,7 +108,7 @@ const CourseBanner = () => {
       setValue("bannerImage", data?.data?.data?.image);
     },
     onError: (error) => {
-      console.error(error);
+      console.log(error);
     },
   });
 
@@ -143,10 +147,10 @@ const CourseBanner = () => {
       bannerImage: image,
       keys: keyData,
     };
-    if (+courseId) {
+    if (+courseId) {   
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {

@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { calculateEndTime } from "@/lib/utils";
 import { AllLivesessions } from "@/types/liveSession";
 import {
   ChevronLeft,
@@ -49,32 +50,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
 
-  const calculateEndTime = (
-    startTime: string,
-    sessionDuration: { hour: string; minute: string }
-  ) => {
-    const [hours = 1, minutes = 0] = startTime?.split(":").map(Number) || [
-      0, 0,
-    ];
-    const [durationHours = 0, durationMinutes = 0] = sessionDuration
-      ? [sessionDuration.hour, sessionDuration.minute].map(Number) || [0, 0]
-      : [0, 0];
-
-    let totalMinutes =
-      hours * 60 + minutes + durationHours * 60 + durationMinutes;
-    let endHours = Math.floor(totalMinutes / 60);
-    let endMinutes = totalMinutes % 60;
-
-    if (endHours > 12) {
-      endHours -= 12;
-    }
-
-    return `${endHours}:${endMinutes < 10 ? "0" : ""}${endMinutes}`;
-  };
-
   const events = allLiveSession?.map((session) => {
-    const sessionDurationMinutes =
-      session?.sessionDuration?.hour * 60 + session?.sessionDuration?.minute;
+    const sessionDurationMinutes = session?.sessionDuration;
 
     const eventStart = moment(
       session.date + " " + session.startTime + " " + session.startAmPm,
@@ -84,7 +61,10 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     const eventEnd = moment(
       session.date +
         " " +
-        calculateEndTime(session.startTime, sessionDurationMinutes) +
+        calculateEndTime(
+          session.startTime + " " + session.startAmPm,
+          sessionDurationMinutes?.toString()
+        ) +
         " " +
         session.startAmPm,
       "YYYY-MM-DD hh:mm A"
@@ -95,6 +75,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
       end: eventEnd,
       title: session?.liveSecTitle,
       description: session?.description,
+      zoomlink: session?.zoomApiBaseUrl,
     };
   });
 
@@ -173,7 +154,9 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
               </Button>
             </div>
             <span className="text-black font-semibold">
-              {moment(currentDate).format("MMMM YYYY")}
+              {moment(currentDate).format(
+                view !== "day" ? "MMMM YYYY" : "DD MMMM YYYY"
+              )}
             </span>
           </div>
         </div>
@@ -218,17 +201,35 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const CustomEvent = ({ event }: { event: any }) => (
-    <HoverCard>
+    <HoverCard openDelay={300} closeDelay={300}>
       <HoverCardTrigger asChild>
         <p>{event.title}</p>
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
-        <p>Title: {event?.title}</p>
-        <p>
-          Meeting time: {moment(event?.start).format("hh:mm a")} -{" "}
+        <p className="mb-2">
+          <strong>Title:</strong> {event?.title}
+        </p>
+        <p className="mb-2">
+          <strong>Meeting time:</strong>{" "}
+          {moment(event?.start).format("hh:mm a")} -
           {moment(event?.end).format("hh:mm a")}
         </p>
-        <p>Description: {event?.description}</p>
+        <p className="mb-2">
+          <strong>Description:</strong> {event?.description}
+        </p>
+        <Button
+          disabled={
+            !moment().isBetween(
+              moment(event?.start),
+              moment(event?.end),
+              "minute",
+              "[)"
+            )
+          }
+          onClick={() => window.open(event?.zoomlink, "_blank")}
+        >
+          Join Meeting
+        </Button>
       </HoverCardContent>
     </HoverCard>
   );

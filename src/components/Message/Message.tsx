@@ -557,7 +557,10 @@ const Message = () => {
                         isRead: true,
                       });
                       await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.chatList],
+                        queryKey: [QUERY_KEYS.chatList]
+                      });
+                      await queryClient.invalidateQueries({
+                        queryKey: [QUERY_KEYS.notificationCount]
                       });
                     }}
                   >

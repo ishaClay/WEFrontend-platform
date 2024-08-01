@@ -166,7 +166,7 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
           <div
             className={`${
               item?.checked ? "bg-[#414648]" : "bg-[#838383] text-white"
-            } bg-[#414648] rounded-tl-lg rounded-br-lg pl-1 pt-0 h-[28px] w-[176px] flex items-center justify-center`}
+            } bg-[#414648] rounded-tl-lg rounded-br-lg px-1 pt-0 h-[28px] min-w-[176px] flex items-center justify-center`}
           >
             <h2 className="text-sm font-inter">
               <span
@@ -174,10 +174,10 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
                   item?.checked ? "text-white" : "text-[#FFD56A]"
                 } text-white`}
               >
-                Your level -
+                RECOMMENDED -
               </span>
               <span className="text-[#FFD56A] ms-1">
-                {item.maturityLevelName}
+                {item.maturityNameRecommended}
               </span>
             </h2>
           </div>

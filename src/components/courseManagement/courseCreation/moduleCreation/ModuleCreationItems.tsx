@@ -1,11 +1,11 @@
 import FormError from "@/components/comman/FormError";
+import CKEditorComponent from "@/components/comman/JoditEditor";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { uploadFile } from "@/services/apiServices/moduleCreation";
 import { SectionCreation } from "@/types/modulecreation";
@@ -201,11 +201,18 @@ const ModuleCreationItems = ({
                 Information{" "}
                 <span className="text-xs">(Max 1000words only)</span>
               </h6>
-              <Textarea
+              <CKEditorComponent
+                value={watch("information")}
                 {...register(
                   `modules.${index}.section.${sectionindex}.information`
                 )}
-                className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md sm:text-base text-sm font-calibri text-black outline-none"
+                onChange={(e, data) => {
+                  console.log("e", e);
+                  setValue(
+                    `modules.${index}.section.${sectionindex}.information`,
+                    data.getData()
+                  );
+                }}
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.information && (

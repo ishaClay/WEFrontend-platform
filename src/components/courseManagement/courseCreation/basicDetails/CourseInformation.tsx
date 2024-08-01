@@ -59,9 +59,15 @@ type FormData = zod.infer<typeof schema>;
 // setStep: (e: string) => void;
 interface CourseInformationProps {
   setStep: (e: string) => void;
+  courseById: number | null;
+  setCourseById: (e: number) => void;
 }
 
-const CourseInformation = ({ setStep }: CourseInformationProps) => {
+const CourseInformation = ({
+  setStep,
+  courseById,
+  setCourseById,
+}: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -104,6 +110,8 @@ const CourseInformation = ({ setStep }: CourseInformationProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1");
+      setCourseById(data?.data?.data?.id);
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
           data?.data?.data?.course?.id
@@ -130,10 +138,13 @@ const CourseInformation = ({ setStep }: CourseInformationProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1");
       navigate(
         `/${pathName}/create_course/${
-          +courseId ? courseId : paramsId
-        }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
+          +courseId ? courseId : data?.data?.data?.id
+        }?tab=${paramsTab}&step=${1}&version=${
+          data?.data?.data?.currentVersion?.id
+        }`,
         {
           replace: true,
         }

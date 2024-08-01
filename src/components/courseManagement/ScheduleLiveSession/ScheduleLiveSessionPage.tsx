@@ -11,7 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
   getLiveSession,
@@ -30,8 +32,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-import { useAppSelector } from "@/hooks/use-redux";
-import { RootState } from "@/redux/store";
 
 const timePeriodsOptions = [
   {
@@ -264,13 +264,18 @@ const ScheduleLiveSessionPage = () => {
       setValue("sessionDate", date?.split("T")[0]);
       setValue("selectLiveSession", id?.toString());
       setValue("selectTimePeriods", startAmPm);
-      setValue("selectDurationInHours", sessionDuration?.hour?.toString());
-      setValue("selectDurationInMinute", sessionDuration?.minute);
-      setValue("selectCourse", (+course?.id)?.toString());
       setValue(
-        "sessionTime",
-        JSON.parse(startTime)?.hour + ":" + JSON.parse(startTime)?.minute
+        "selectDurationInHours",
+        Math.floor(+sessionDuration / 60)
+          .toString()
+          .padStart(2, "0")
       );
+      setValue(
+        "selectDurationInMinute",
+        (+sessionDuration % 60).toString().padStart(2, "0")
+      );
+      setValue("selectCourse", (+course?.id)?.toString());
+      setValue("sessionTime", startTime);
       setValue(
         "selectCompany",
         company?.map((item: any) => item?.id?.toString())
@@ -606,7 +611,6 @@ const ScheduleLiveSessionPage = () => {
           </div>
         </div>
       </form>
-      
     </>
   );
 };

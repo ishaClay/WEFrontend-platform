@@ -257,9 +257,7 @@ const AssecessmentPage = () => {
     const tab = searchParams.get("tab");
     dispatch(resetAssessment());
     navigate(
-      `/trainer/create_course/${courseId ? courseId : id}?tab=${
-        tab || 2
-      }&version=${version}`
+      `/trainer/create_course/${courseId ? courseId : id}?tab=${tab}&version=${version}`
     );
   };
 
@@ -274,14 +272,12 @@ const AssecessmentPage = () => {
             Create an assessment to test much your trainees have learnt
           </p>
         </div>
-        <div>
-          <Button
-            className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
-            onClick={handleBack}
-          >
+        <div className="flex items-center gap-5">
+          <div className="bg-transparent inline-flex items-center gap-2 cursor-pointer hover:bg-transparent text-black font-semibold text-[16px]"
+              onClick={handleBack}>
             <IoIosArrowRoundBack size={26} />
             Back
-          </Button>
+          </div>
           <Button
             className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
             onClick={() => setIsOpenAssessmentModal(true)}
