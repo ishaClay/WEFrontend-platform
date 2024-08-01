@@ -68,6 +68,7 @@ const CourseInformation = ({
   courseById,
   setCourseById,
 }: CourseInformationProps) => {
+  console.log("courseById", courseById);
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");

@@ -67,7 +67,6 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-
     const payload: EmployeePayload = {
       email: emails,
       csvUrl: data?.file,
@@ -103,9 +102,9 @@ const EmployeeInvitation = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2">
+            <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
               Enter Team Member Email ID
-              <span className="font-nunito font-normal text-[#A3A3A3] text-base ml-2">
+              <span className="font-nunito font-normal text-[#A3A3A3] text-base">
                 (comma separated email id)
               </span>
             </h3>

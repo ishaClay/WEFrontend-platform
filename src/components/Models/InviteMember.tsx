@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
 
 const schema = z.object({
-  invitiondetail: z.string().min(1, { message: "Please enter invitation detail" }),
+  invitiondetail: z.string().min(1, { message: "Email Address is required" }),
 });
 const InviteMember = ({
   isOpen,
