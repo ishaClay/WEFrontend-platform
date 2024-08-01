@@ -30,8 +30,9 @@ const schema = zod
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Please enter valid course price" }) })
-      .min(1, "Please enter course price")
+      .string({
+        errorMap: () => ({ message: "Please enter valid course price" }),
+      })
       .refine(
         (val: string | any) => val === undefined || val === "" || !isNaN(val),
         "Please enter valid course price"
@@ -40,15 +41,17 @@ const schema = zod
   })
   .refine(
     (data) => {
-      if (data.freeCourse && +!data.price) {
+      if (
+        (data.freeCourse && data.price === undefined) ||
+        (!data?.freeCourse && data?.price !== undefined)
+      ) {
         return false;
       }
       return true;
     },
     {
-      message:
-        "Course Price should be empty if course is free",
-      path: ["price"],
+      message: "Course Price should be empty if course is free",
+      path: ["price", "freeCourse"],
     }
   );
 
@@ -58,7 +61,7 @@ interface CourseInformationProps {
   setStep: (e: string) => void;
 }
 
-const CourseInformation = ({setStep}: CourseInformationProps) => {
+const CourseInformation = ({ setStep }: CourseInformationProps) => {
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -103,7 +106,7 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
       });
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
-          data?.data?.data?.id
+          data?.data?.data?.course?.id
         }&version=${data?.data?.data?.version}`,
         {
           replace: true,
@@ -147,8 +150,9 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
 
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
-    enabled: (+courseId || paramsId) ? (!!paramsVersion || !!paramsId) : false,
+    queryFn: () =>
+      fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
+    enabled: paramsId === null ? false : true,
   });
 
   useEffect(() => {
@@ -179,8 +183,8 @@ const CourseInformation = ({setStep}: CourseInformationProps) => {
       clientId: data?.data?.id || 0,
       userId: userID,
     };
-    setStep("1")
-    if (+courseId || paramsId) {
+    setStep("1");
+    if (+courseId && paramsId) {
       updateCourseFun({
         payload,
         id: getSingleCourse?.data?.course?.id,

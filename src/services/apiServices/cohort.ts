@@ -31,3 +31,10 @@ export const getCohortsByCourse = async (id: number) => {
     const res = await api({ url, method });
     return res.data
 }
+
+export const deleteCohort = async (id: number) => {
+    const url = `api/v1/cohortgroup/delete/${id}`;
+    const method = "delete";
+    const res = await api({ url, method });
+    return res.data
+}

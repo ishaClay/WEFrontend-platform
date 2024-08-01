@@ -306,7 +306,7 @@ const AssecessmentPage = () => {
             {assecessmentQuestion?.selectedQuestionType?.map(
               (type: string, index: number) => (
                 <Fragment key={index}>
-                  {type === "MultipleChoiceQuestion" && (
+                  {type === "Multiple Choice" && (
                     <AssecessmentTypeTwo
                       i={index}
                       type={type}
@@ -315,7 +315,7 @@ const AssecessmentPage = () => {
                       }
                     />
                   )}
-                  {type === "SingleChoiceQuestion" && (
+                  {type === "MCQ" && (
                     <AssecessmentTypeOne
                       i={index}
                       type={type}
@@ -324,7 +324,7 @@ const AssecessmentPage = () => {
                       }
                     />
                   )}
-                  {type === "FreeTextResponse" && (
+                  {type === "Free Text Response" && (
                     <AssecessmentFreeText
                       i={index}
                       type={type}
@@ -333,7 +333,7 @@ const AssecessmentPage = () => {
                       }
                     />
                   )}
-                  {type === "TrueOrFalse" && (
+                  {type === "True & False" && (
                     <AssecessmentTrueFalse
                       i={index}
                       type={type}

@@ -31,7 +31,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   inputbox?: boolean;
-  pagenationbox?: true;
+  pagenationbox?: boolean;
   pagination?: PaginationState;
   totalPages?: number;
   border?: boolean;
@@ -49,7 +49,7 @@ export function NewDataTable<TData, TValue>({
   inputbox = true,
   border = true,
   itemClassName,
-  pagenationbox,
+  pagenationbox = true,
   pagination = { pageIndex: 1, pageSize: 10 },
   setPagination = () => {},
   totalPages = 0,
@@ -58,6 +58,8 @@ export function NewDataTable<TData, TValue>({
   isLoading,
   searchPlaceholder = "Search by company name, country, sector, etc.",
 }: DataTableProps<TData, TValue>) {
+  console.log("pagination", pagenationbox);
+
   const { sidebarOpen } = useContext(SidebarContext);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -192,7 +194,7 @@ export function NewDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {pagenationbox && totalPages > 0 ? null : (
+      {totalPages === 0 ? null : (
         <div
           className={cn(
             `flex items-center justify-end space-x-2 py-4`,

@@ -55,7 +55,7 @@ const TrainingDocument = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-[15px] text-xs font-calibri text-black">
-            #{row.original?.id}
+            #{row.index + 1}
           </h6>
         );
       },

@@ -147,6 +147,8 @@ export enum IsOnline {
   Online = 0,
   InPerson = 1,
   Hybrid = 2,
+  Major = 3,
+  Offline = 4,
 }
 
 export enum Provider {

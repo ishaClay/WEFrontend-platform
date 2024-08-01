@@ -49,20 +49,26 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
 
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
-    onSuccess: ({ data }) => {
+    onSuccess: ({ data: res }) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatList],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatUserList],
       });
+      updateEnrollRequest({
+        id: data.id,
+        enroll: {
+          enroll: 3,
+        },
+      });
       toast({
         variant: "success",
-        title: data?.data?.message,
+        title: res?.message,
       });
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
-      console.log("data+++++", data);
+      console.log("data+++++", res);
     },
     onError: (error: ErrorType) => {
       console.log("data+++++error", error);
@@ -74,7 +80,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
   });
 
   const handleInquire = (data: Data[] | any) => {
-    const company = data?.company?.id;
+    const company = data?.company?.userDetails?.id;
     const payload = {
       senderId: UserId,
       receiverId: company,
@@ -143,7 +149,11 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           {data?.enroll === Enroll.enquiry ? (
             <Button
               className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
-              onClick={() => handleInquire(data)}
+              onClick={() =>
+                navigate(
+                  `/${pathName}/message?chatId=${data?.company?.userDetails?.id}`
+                )
+              }
             >
               Show Message
             </Button>
@@ -152,7 +162,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
               className="bg-[#00778B] sm:w-[102px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
               onClick={() => handleInquire(data)}
             >
-              Enquire
+              Inquire
             </Button>
           )}
           <Button

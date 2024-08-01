@@ -22,14 +22,14 @@ import {
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { CourseDataEntity } from "@/types/Trainer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import CohortModal from "./CohortModal";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
-import { CourseDataEntity } from "@/types/Trainer";
+import CohortModal from "./CohortModal";
 
 const ListView = ({
   list,
@@ -169,7 +169,7 @@ const ListView = ({
     item: AllCoursesResult
   ) => {
     e.stopPropagation();
-    if (item?.status !== "HOLD") {
+    if (item?.status !== "DRAFT") {
       navigate(
         `/${pathName}/create_course/${
           item?.id
@@ -178,7 +178,7 @@ const ListView = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make Hold Status then You Can Edit",
+          title: "First Course make DRAFT Status then You Can Edit",
           variant: "destructive",
         });
       } else {

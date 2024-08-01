@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sendMessage } from "@/services/apiServices/chatServices";
+import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { ErrorType } from "@/types/Errors";
@@ -58,6 +59,21 @@ const CourseGridView = ({
     setRecommendedCoursesById(null);
   };
 
+  const { mutate: updateEnrollRequest } = useMutation({
+    mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
@@ -70,6 +86,12 @@ const CourseGridView = ({
       toast({
         variant: "success",
         title: data?.data?.message,
+      });
+      updateEnrollRequest({
+        id: recommendedCoursesById,
+        enroll: {
+          enroll: 3,
+        },
       });
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);

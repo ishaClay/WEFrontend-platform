@@ -4,21 +4,21 @@ import Modal from "@/components/comman/Modal";
 import TextAreaWithLabel from "@/components/comman/TextAreaWithLabel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { trainerAllocateCourse } from "@/services/apiServices/allocatedcourse";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import * as zod from "zod";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   getTrainerByCompanyId,
   trainerInvitation,
 } from "@/services/apiServices/trainer";
+import { AllocatedTraineeListResponse } from "@/types/Trainee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { MoveLeft } from "lucide-react";
-import { AllocatedTraineeListResponse } from "@/types/Trainee";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import * as zod from "zod";
 
 interface CourseViewAllocatePopupProps {
   isOpen: boolean;
@@ -60,31 +60,21 @@ export function AllocatedCertificateModal({
   });
 
   const courseData = data?.data && data?.data?.trainer;
-  console.log("data+++", data);
-
-  // useEffect(() => {
-  //   if (courseData) {
-  //     data?.data?.trainer?.map((item) => {
-  //       if (item?.courseAllocated?.find((itm) => itm?.id === courseId)) {
-  //         setSelectFilter((prev) => [...prev, item.id]);
-  //       } else {
-  //         setSelectFilter((prev) => [...prev]);
-  //       }
-  //     });
-  //   }
-  // }, [courseData]);
 
   useEffect(() => {
     if (data?.data?.trainer) {
-      const selectedIds = data.data.trainer.reduce((acc, item) => {
-        if (item.courseAllocated?.some((itm) => itm?.id === courseId)) {
-          acc.push(item.id);
+      data?.data?.trainer?.map((item) => {
+        console.log("data+++", item?.courseAllocated, courseId);
+        if (item?.courseAllocated?.find((itm) => itm?.id === courseId)) {
+          setSelectFilter((prev) => [...prev, item.id]);
+        } else {
+          setSelectFilter((prev) => [...prev]);
         }
-        return acc;
-      }, [] as number[]);
-      setSelectFilter(selectedIds);
+      });
     }
-  }, [data, courseId]);
+  }, [data?.data?.trainer, courseId]);
+
+  console.log("courseId", courseId);
 
   const showInviteForm = () => {
     setIsInvite(true);
@@ -109,9 +99,10 @@ export function AllocatedCertificateModal({
 
   const handleAllocate = () => {
     const payload = {
-      courseId: +isOpen as number,
+      courseId: +courseId as number,
       traineeId: selectFilter || [],
     };
+
     allocate(payload);
   };
 

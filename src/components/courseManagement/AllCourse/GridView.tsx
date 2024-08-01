@@ -28,8 +28,9 @@ import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import CohortModal from "./CohortModal";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
+import CohortModal from "./CohortModal";
+import ConfirmationModel from "./ConfirmationModel";
 
 const GridView = ({
   list,
@@ -43,6 +44,7 @@ const GridView = ({
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
   const [isOpen, setIsOpen] = useState<string>("");
+  const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
@@ -95,6 +97,7 @@ const GridView = ({
           description: "Course Published Successfully",
           variant: "success",
         });
+        setOpen("");
       },
       onError: (error) => {
         toast({
@@ -156,13 +159,26 @@ const GridView = ({
     updateVersionFun(payload);
   };
 
-  const handlePublish = (e: Event, id: number) => {
+  const handlePublish = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) => {
     e.preventDefault();
     const payload = {
       status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
-      id,
+      id: +id,
     };
-    publishCourseFun(payload);
+    const cohortCount =
+      list?.find((item) => item?.currentVersion?.id === (+id || 0))
+        ?.cohortGroups || 0;
+    if (cohortCount > 0) {
+      publishCourseFun(payload);
+    } else {
+      toast({
+        title: "Please Create Cohort Group",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleCopy = (e: Event, id: number) => {
@@ -175,9 +191,8 @@ const GridView = ({
     id: string | undefined,
     item: AllCoursesResult
   ) => {
-
     e.stopPropagation();
-    if (item?.status === "HOLD" || item?.status === "PUBLISHED") {
+    if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       navigate(
         `/${pathName}/create_course/${
           item?.id
@@ -186,7 +201,7 @@ const GridView = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make Hold Status then You Can Edit",
+          title: "First Course make DRAFT Status then You Can Edit",
           variant: "destructive",
         });
       } else {
@@ -202,12 +217,20 @@ const GridView = ({
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
+  console.log("list", list);
+
   return list?.length > 0 && list ? (
     <>
       <AllocatedCertificateModal
         isOpen={!!isOpen}
         onClose={() => setIsOpen("")}
         courseId={+isOpen}
+      />
+      <ConfirmationModel
+        open={open}
+        setOpen={setOpen}
+        handleSubmit={(e, id) => handlePublish(e, id)}
+        isLoader={publishCoursePending}
       />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
@@ -240,7 +263,7 @@ const GridView = ({
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item?.status === "COPY" ? "Hold" : item?.status || ""}
+                    {item?.status === "COPY" ? "DRAFT" : item?.status || ""}
                   </Badge>
                 </div>
               </div>
@@ -290,11 +313,15 @@ const GridView = ({
                   disabled={
                     item?.status === "PUBLISHED" ||
                     item?.status === "EXPIRED" ||
-                    item?.status === "READYTOPUBLISH"
+                    (+userData?.query?.role === UserRole?.Trainee &&
+                      item?.status === "READYTOPUBLISH")
                   }
                   className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                  onClick={(e: any) => {
-                    handlePublish(e, item?.currentVersion?.id as number);
+                  onClick={(
+                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                  ) => {
+                    e.preventDefault();
+                    setOpen(item?.currentVersion?.id);
                     setCourse(item?.id);
                   }}
                   isLoading={course === item?.id}
@@ -357,16 +384,18 @@ const GridView = ({
                             <span>Edit</span>
                           </DropdownMenuItem>
                         )}
-                      <DropdownMenuItem
-                        className="flex items-center gap-2 font-nunito"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsOpen(item?.id);
-                        }}
-                      >
-                        <Combine className="w-4 h-4" />
-                        <span>Allocate</span>
-                      </DropdownMenuItem>
+                      {+userData?.query?.role !== UserRole.Trainee && (
+                        <DropdownMenuItem
+                          className="flex items-center gap-2 font-nunito"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsOpen(item?.currentVersion?.mainCourse?.id);
+                          }}
+                        >
+                          <Combine className="w-4 h-4" />
+                          <span>Allocate</span>
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuItem
                         className="flex items-center gap-2 font-nunito"
                         onClick={(e: any) => {

@@ -57,7 +57,10 @@ const ModuleCreationPage = () => {
   const schema = z.object({
     modules: z.array(
       z.object({
-        moduleTitle: z.string().min(1, "Please enter module title"),
+        moduleTitle: z
+          .string()
+          .min(1, "Please enter module title")
+          .max(250, "Too long"),
         section: z.array(
           z
             .object({
@@ -65,17 +68,29 @@ const ModuleCreationPage = () => {
               sectionTitle: z
                 .string()
                 .min(1, "Please enter section title")
-                .max(250, "You can not write section title more than 250 characters"),
+                .max(
+                  250,
+                  "You can not write section title more than 250 characters"
+                ),
               information: z
                 .string()
                 .min(1, "Please enter information")
-                .max(1000, "You can not write information more than 1000 characters"),
+                .max(
+                  1000,
+                  "You can not write information more than 1000 characters"
+                ),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
                 .optional(),
               uploadedContentUrl: z.string().optional(),
-              youtubeUrl: z.string().optional(),
+              youtubeUrl: z
+                .string()
+                .regex(
+                  /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
+                  "Invalid YouTube URL"
+                )
+                .optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -134,16 +149,14 @@ const ModuleCreationPage = () => {
                   if (!data.uploadContentType) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Please select upload content type",
+                      message: "Please select upload content type",
                       path: ["uploadContentType"],
                     });
                   }
                   if (!data.uploadedContentUrl) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Please enter upload content url",
+                      message: "Please enter upload content url",
                       path: ["uploadedContentUrl"],
                     });
                   }
@@ -309,7 +322,7 @@ const ModuleCreationPage = () => {
                     onDragEnd={handleSort}
                     onDragOver={(e) => e.preventDefault()}
                   >
-                    <CourseViewPage data={data} />
+                    <CourseViewPage data={data} currIndex={index} />
                   </div>
                 );
               })

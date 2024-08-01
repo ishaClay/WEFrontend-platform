@@ -1,27 +1,23 @@
 import { Badge } from "@/components/ui/badge";
-import { CohortGroupType, SlotStartDateOrSlotEndDate } from "@/types/enroll";
-import moment from "moment";
+import { CohortGroupType } from "@/types/enroll";
 
 type detailsListProps = {
   data: CohortGroupType;
 };
 
 const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
-  const getDateBadgeStatus = (
-    startDate: SlotStartDateOrSlotEndDate,
-    endDate: SlotStartDateOrSlotEndDate
-  ) => {
-    const newStartDate = `${startDate?.date}/${startDate?.month}/${startDate?.year}`;
-    const newEndDate = `${endDate?.date}/${endDate?.month}/${endDate?.year}`;
-    const currentDate = moment(new Date()).format("DD/MM/YYYY");
+  const getDateBadgeStatus = () => {
     let statusName;
+    const status = data?.employee?.every((employee) => {
+      return employee?.progress === 100;
+    });
 
-    if (newEndDate < currentDate) {
+    if (status) {
       statusName = "Completed";
-    } else if (newStartDate <= currentDate && newEndDate >= currentDate) {
-      statusName = "Ongoing";
-    } else {
+    } else if (data?.employee?.length === 0) {
       statusName = "Upcoming";
+    } else {
+      statusName = "Ongoing";
     }
     return (
       <Badge
@@ -53,7 +49,7 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
         <h6>{data.employee?.length}</h6>
       </div>
       <div className="col-span-1 sm:text-left text-right font-semibold sm:text-base text-[15px] font-nunito">
-        {getDateBadgeStatus(data?.slotStartDate, data.slotEndDate)}
+        {getDateBadgeStatus()}
       </div>
       <div className="sm:col-span-1 col-span-2 text-left font-semibold sm:text-base text-[15px] font-calibri">
         <span className="block">

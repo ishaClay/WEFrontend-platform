@@ -101,6 +101,7 @@ export interface Company {
   createdAt: string;
   updatedAt: string;
   employee: (EmployeeEntity)[];
+  userDetails: any;
 }
 export interface EmployeeEntity {
   id: number;

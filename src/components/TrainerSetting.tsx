@@ -26,7 +26,7 @@ const TrainerSetting = () => {
   const { data, isPending } = useQuery<TrainersResponse>({
     queryKey: ["trainer", { page, search, id }],
     queryFn: () => getTrainer({ page, limit: 10, keyword: search, id }),
-  });  
+  });
 
   const { mutate, isPending: isPendingUpdate } = useMutation({
     mutationFn: updateTrainerStatusById,
@@ -108,7 +108,7 @@ const TrainerSetting = () => {
               </Avatar>
             </div>
             <h6 className="xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.name}
+              {row.original?.name || row.original?.email?.split("@")[0]}
             </h6>
           </div>
         );

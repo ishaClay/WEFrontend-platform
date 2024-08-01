@@ -158,6 +158,7 @@ export interface AllCoursesResult {
   id: number;
   title: string;
   freeCourse: number;
+  cohortGroups: number;
   discout: number;
   duration: string;
   price: number;

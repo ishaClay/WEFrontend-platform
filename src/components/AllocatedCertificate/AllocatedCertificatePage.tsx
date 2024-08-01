@@ -194,7 +194,7 @@ const AllocatedCertificatePage = () => {
         <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] px-4 2xl:py-3 py-2 rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
-            className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
+            className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3 w-full"
             placeholder="Search by name, course name, certificate name, etc."
             onChange={(e) => {
               setKeyword(e.target.value);
@@ -210,7 +210,7 @@ const AllocatedCertificatePage = () => {
           <NewDataTable
             columns={column}
             data={Issued_Certificate?.data || []}
-            totalPages={1}
+            totalPages={0}
             setPage={setPage}
             pagination={{ pageIndex: page, pageSize: 10 }}
             inputbox={false}

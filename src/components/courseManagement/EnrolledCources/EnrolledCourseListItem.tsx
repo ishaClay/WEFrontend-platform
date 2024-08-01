@@ -35,7 +35,8 @@ const EnrolledCourseListItem = ({ data }: EnrolledCoursesType | any) => {
         </h5>
         <h6 className="flex font-calibri md:text-base text-sm text-[#1D2026] pb-2">
           <span>Trainer :</span>
-          {data?.course.trainerCompanyId?.providerName}
+          {data?.course.trainerCompanyId?.providerName ||
+            data?.course?.trainerId?.providerName}
         </h6>
         <div className="flex sm:flex-row flex-col flex-wrap sm:items-center items-start sm:gap-[19px] gap-2">
           <div className="flex flex-wrap gap-1">

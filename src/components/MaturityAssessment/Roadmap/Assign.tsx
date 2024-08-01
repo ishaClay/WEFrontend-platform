@@ -54,18 +54,19 @@ const Assign = ({
           Retake Assessment
         </Button> */}
         <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">
-          {Role === "employee" && userData?.query?.editActionItem && (
-            <Button
-              type="button"
-              onClick={() => {
-                setStep(0);
-                setIsEdit(true);
-              }}
-              className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-            >
-              Edit Action Plan
-            </Button>
-          )}
+          {(Role === "employee" && userData?.query?.editActionItem) ||
+            (true && (
+              <Button
+                type="button"
+                onClick={() => {
+                  setStep(0);
+                  setIsEdit(true);
+                }}
+                className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+              >
+                Edit Action Plan
+              </Button>
+            ))}
           {Role !== "employee" && (
             <>
               <Button

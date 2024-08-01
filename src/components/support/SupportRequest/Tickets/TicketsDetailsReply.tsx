@@ -163,7 +163,8 @@ const TicketsDetailsReply = () => {
                 {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
                 <AvatarImage src="" />
                 <AvatarFallback>
-                  {data?.data?.data?.openBy?.name?.charAt(0) || data?.data?.data?.openBy?.email?.charAt(0)}
+                  {data?.data?.data?.openBy?.name?.charAt(0) ||
+                    data?.data?.data?.openBy?.email?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -239,7 +240,7 @@ const TicketsDetailsReply = () => {
             </h3>
 
             {(data?.data.data?.documentUrl || data?.data.data?.videoUrl) && (
-              <>
+              <div className="flex items-start gap-4">
                 <div className="flex items-center mt-[32px]">
                   <img src={DocImage} alt="DocImage" />
                   <h3 className="text-[16px] ml-2">
@@ -260,7 +261,7 @@ const TicketsDetailsReply = () => {
                     ></video>
                   </div>
                 )}
-              </>
+              </div>
             )}
           </div>
 
@@ -289,7 +290,10 @@ const TicketsDetailsReply = () => {
                           itm?.createdBy?.email?.split("@")[0]}
                       </h3>
                       <p className="text-[#A3A3A3] text-[12px]">
-                        Reply By: {itm?.status}
+                        Reply By:{" "}
+                        {itm?.status === "InProcess"
+                          ? itm?.status?.split("P").join(" P")
+                          : itm?.status}
                       </p>
                     </div>
                   </div>
@@ -384,7 +388,7 @@ const TicketsDetailsReply = () => {
                 <SelectContent>
                   <SelectItem value="Open">Open</SelectItem>
                   <SelectItem value="Answered">Answered</SelectItem>
-                  <SelectItem value="InProcess">InProcess</SelectItem>
+                  <SelectItem value="InProcess">In Process</SelectItem>
                 </SelectContent>
               </Select>
               {!errors?.ticketStatus?.ref?.value && (
