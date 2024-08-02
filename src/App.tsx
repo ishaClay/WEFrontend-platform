@@ -120,9 +120,15 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+<<<<<<< Updated upstream
 import BlogPage from "./pages/blog/BlogPage";
 import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
 import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
+=======
+import OurServicePage from "./pages/OurServicePage";
+import HomeContactPage from "./pages/HomeContactPage";
+import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
+>>>>>>> Stashed changes
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -169,6 +175,9 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/membership" element={<OurServicePage />} />
+        <Route path="/contact" element={<HomeContactPage />} />
+        <Route path="/our-courses" element={<HomeOurCoursesPage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/blog" element={<BlogPage />} />
