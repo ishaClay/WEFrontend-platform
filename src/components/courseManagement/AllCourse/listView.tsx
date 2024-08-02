@@ -30,7 +30,6 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
-import { CourseDataEntity } from "@/types/Trainer";
 import { ErrorType } from "@/types/Errors";
 
 const ListView = ({
@@ -96,8 +95,8 @@ const ListView = ({
           variant: "success",
         });
       },
-      onError: (error: ErrorType) => {      
-        setCourse("");  
+      onError: (error: ErrorType) => {
+        setCourse("");
         toast({
           title: "Error",
           description: error?.data?.message,

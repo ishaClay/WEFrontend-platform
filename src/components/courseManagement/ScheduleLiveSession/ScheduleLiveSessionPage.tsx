@@ -292,14 +292,6 @@ const ScheduleLiveSessionPage = () => {
     fetchLiveSession?.data?.data,
   ]);
 
-  const selectedValues: string[] = watch("selectCompany") || [];
-  const companyLabels: string = selectCompanyOptions
-    ?.filter(({ value }: { value: string; label: string }) =>
-      selectedValues.includes(value)
-    )
-    .map(({ label }: { value: string; label: string }) => label)
-    .join(", ");
-
   if (
     (fetchCoursePending ||
       fetchLiveSessionPending ||
