@@ -11,7 +11,6 @@ const Certifications = () => {
     queryKey: [QUERY_KEYS.getcertifications],
     queryFn: () => getCertifications(userData?.query?.id),
   });
-  console.log("++++", data?.data);
 
   return (
     <>

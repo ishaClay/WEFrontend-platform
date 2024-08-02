@@ -158,6 +158,7 @@ export interface AllCoursesResult {
   id: number;
   title: string;
   freeCourse: number;
+  cohortGroups: number;
   discout: number;
   duration: string;
   price: number;
@@ -312,4 +313,21 @@ export interface CourseVersion {
   createdAt: string;
   updatedAt: string;
   course: MainCourseType;
+}
+
+
+export interface InstitutionsListType {
+  data?: InstitutionsDataEntity[] | null;
+  message: string;
+}
+export interface InstitutionsDataEntity {
+  name: string;
+}
+
+export interface CoursesNameType {
+  data?: CoursesNameTypeDataEntity[] | null;
+  message: string;
+}
+export interface CoursesNameTypeDataEntity {
+  name: string;
 }

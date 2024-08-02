@@ -1,5 +1,6 @@
 import starImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Course_image from "@/assets/images/Course_image.png";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -22,12 +23,17 @@ import {
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { ErrorType } from "@/types/Errors";
+import { CourseDataEntity } from "@/types/Trainer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
+import ConfirmationModel from "./ConfirmationModel";
+import { UserRole } from "@/types/UserRole";
 
 const ListView = ({
   list,
@@ -39,7 +45,9 @@ const ListView = ({
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
+  const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
+  const [isOpen, setIsOpen] = useState<string>("");
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
@@ -47,6 +55,7 @@ const ListView = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const pathName = location?.pathname?.split("/")?.[1];
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   // const queryClient = useQueryClient();
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
@@ -57,13 +66,8 @@ const ListView = ({
   const { mutate: updateVersionFun, isPending: updateVersionPending } =
     useMutation({
       mutationFn: updateVersion,
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-        toast({
-          title: "Success",
-          description: data?.data?.message,
-          variant: "success",
-        });
       },
       onError: (error) => {
         toast({
@@ -90,16 +94,19 @@ const ListView = ({
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
+        setCourse("");
         toast({
           title: "Success",
           description: "Course Published Successfully",
           variant: "success",
         });
+        setOpen("");
       },
-      onError: (error) => {
+      onError: (error: ErrorType) => {
+        setCourse("");
         toast({
           title: "Error",
-          description: error.message,
+          description: error?.data?.message,
           variant: "destructive",
         });
       },
@@ -146,17 +153,30 @@ const ListView = ({
       },
     });
 
-  const handlePublish = (e: Event, id: number) => {
+  const handlePublish = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) => {
     e.preventDefault();
     const payload = {
-      status: "PUBLISHED",
-      id,
+      status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
+      id: +id,
     };
-    publishCourseFun(payload);
+    const cohortCount =
+      list?.find((item) => item?.currentVersion?.id === (+id || 0))
+        ?.cohortGroups || 0;
+    if (cohortCount > 0) {
+      publishCourseFun(payload);
+    } else {
+      toast({
+        title: "Please Create Cohort Group",
+        variant: "destructive",
+      });
+    }
   };
 
   const copyPublish = (e: Event, id: number) => {
-    e.preventDefault();
+    e.stopPropagation();
     copyCourseFun(id);
   };
 
@@ -166,7 +186,7 @@ const ListView = ({
     item: AllCoursesResult
   ) => {
     e.stopPropagation();
-    if (item?.status !== "HOLD") {
+    if (item?.status !== "DRAFT") {
       navigate(
         `/${pathName}/create_course/${
           item?.id
@@ -175,7 +195,7 @@ const ListView = ({
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make Hold Status then You Can Edit",
+          title: "First Course make DRAFT Status then You Can Edit",
           variant: "destructive",
         });
       } else {
@@ -193,6 +213,17 @@ const ListView = ({
 
   return list?.length > 0 && list ? (
     <div>
+      <AllocatedCertificateModal
+        isOpen={!!isOpen}
+        onClose={() => setIsOpen("")}
+        courseId={+isOpen}
+      />
+      <ConfirmationModel
+        open={open}
+        setOpen={setOpen}
+        handleSubmit={(e, id) => handlePublish(e, id)}
+        isLoader={publishCoursePending}
+      />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
@@ -200,10 +231,10 @@ const ListView = ({
         </div>
       )}
       <div>
-        {list.map((data, index: number) => {
+        {list.map((data: any, index: number) => {
           const versionOption =
             data?.version &&
-            data?.version.map((itm) => {
+            data?.version.map((itm: any) => {
               return {
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
@@ -219,7 +250,7 @@ const ListView = ({
                 <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">
                   <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
                     <img
-                      src={data?.bannerImage}
+                      src={data?.bannerImage || Course_image}
                       alt=""
                       className="w-full h-full"
                     />
@@ -251,11 +282,11 @@ const ListView = ({
                         Module : {data?.module?.length || 0}
                       </div>
                       <div className="text-sm font-normal font-nunito text-[#000]">
-                        Duration : {data?.duration || "--"}
+                        Duration : {data?.duration || "00"}
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center md:gap-5 gap-3">
-                      {data?.courseData?.map((item) => {
+                      {data?.courseData?.map((item: CourseDataEntity) => {
                         return (
                           <div className="">
                             <Badge
@@ -273,13 +304,27 @@ const ListView = ({
                 <div className="2xl:col-span-2 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
                   <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
-                      disabled={data?.status === "PUBLISHED"}
-                      className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                      onClick={(e: any) =>
-                        handlePublish(e, data?.currentVersion?.id as number)
+                      disabled={
+                        data?.status === "PUBLISHED" ||
+                        data?.status === "EXPIRED" ||
+                        data?.status === "READYTOPUBLISH" ||
+                        (+userData?.query?.role === UserRole?.Trainee &&
+                          data?.status === "READYTOPUBLISH")
                       }
+                      className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                      onClick={(
+                        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                      ) => {
+                        e.preventDefault();
+                        setOpen(data?.currentVersion?.id);
+                        setCourse(data?.id);
+                      }}
                     >
-                      PUBLISHED
+                      {data.status === "PUBLISHED"
+                        ? "Published"
+                        : data.status === "READYTOPUBLISH"
+                        ? "Ready to Publish"
+                        : "Publish"}
                     </Button>
                     <Button
                       onClick={(e: any) =>
@@ -303,7 +348,7 @@ const ListView = ({
                       />
                     </div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                      <DropdownMenuTrigger asChild className="outline-none">
                         <EllipsisVertical />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-30">
@@ -330,6 +375,22 @@ const ListView = ({
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
                           </DropdownMenuItem>
+                          {+userData?.query?.role !== UserRole.Trainee && (
+                            <DropdownMenuItem
+                              className={`flex items-center gap-2 font-nunito ${
+                                +userData?.query?.role === UserRole.Trainee
+                                  ? "hidden"
+                                  : "block"
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(data?.id);
+                              }}
+                            >
+                              <Combine className="w-4 h-4" />
+                              <span>Allocate</span>
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) => {

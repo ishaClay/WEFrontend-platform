@@ -1,3 +1,4 @@
+import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,7 +12,6 @@ import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
@@ -31,18 +31,18 @@ const AllCourses = () => {
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };
 
   const {
     data: fetchCourseAllCourseData,
-    isPending: fetchCourseAllCoursePending,
+    isLoading: fetchCourseAllCoursePending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status === "All" ? "" : status),
   });
+  const getAllCourseList = fetchCourseAllCourseData?.data?.filter((item) => item !== null)
 
   return (
     <div>
@@ -118,19 +118,23 @@ const AllCourses = () => {
             />
           </div>
           <div className="flex items-center gap-4">
-            <Select
-              value={status}
-              defaultValue="All"
-              onValueChange={(e) => setStatus(e === "All" ? "" : e)}
-            >
-              <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="All Courses" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All">All Courses</SelectItem>
-                <SelectItem value="READYTOPUBLISH">Ready To Publish</SelectItem>
-              </SelectContent>
-            </Select>
+            {+userData?.query?.role !== UserRole.Trainee && (
+              <Select
+                value={status}
+                defaultValue="All"
+                onValueChange={(e) => setStatus(e === "All" ? "" : e)}
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="All Courses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Courses</SelectItem>
+                  <SelectItem value="READYTOPUBLISH">
+                    Ready To Publish
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            )}
             <div className="sm:flex hidden">
               <Button
                 type="button"
@@ -161,13 +165,11 @@ const AllCourses = () => {
         </div>
         <div className="sm:px-[18px] sm:pb-[18px] px-[15px] pb-[15px]">
           {fetchCourseAllCoursePending ? (
-            <span className="flex justify-center items-center py-10">
-              <Loader2 className="w-5 h-5 animate-spin" />
-            </span>
+            <Loader />
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} />
+            <GridView list={getAllCourseList || []} />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            <ListView list={getAllCourseList || []} />
           )}
         </div>
       </div>

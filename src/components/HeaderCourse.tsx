@@ -6,11 +6,8 @@ function HeaderCourse() {
   const location = useLocation();
   const Role = location.pathname.split("/")[1];
 
-  console.log("+++Role", Role);
-
   const headerData = useMemo(() => {
     const pathName = location.pathname.split("/").pop();
-    console.log("pathName", pathName);
     let title: { label: string; link?: string }[] = [];
     switch (pathName) {
       case "dashboard":

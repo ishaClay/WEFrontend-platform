@@ -24,7 +24,7 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
             recommended
           </span>
           <p className="mb-2 text-[#000] text-sm font-abhaya font-semibold">
-            {data.courseVersion?.course?.title}
+            {data?.course?.title}
           </p>
           <div className="flex sm:flex-nowrap flex-wrap gap-3">
             <Badge className="bg-[#FFD56A] text-xs text-[#3A3A3A] hover:bg-[#FFD56A]">
@@ -36,7 +36,11 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
           </div>
         </div>
       </div>
-      <Progress value={90} color="#58BA66" className="w-full rounded-full" />
+      <Progress
+        value={Number(data?.courseProgress)}
+        color="#58BA66"
+        className="w-full rounded-full"
+      />
     </div>
   );
 };

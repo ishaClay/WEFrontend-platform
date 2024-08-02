@@ -33,8 +33,6 @@ const MyCourse = () => {
     queryFn: () => getCourseByTrainee(userData?.query?.detailsid),
   });
 
-  console.log("fetchCourseAllCourseData", fetchCourseAllCourseData);
-
   return (
     <div>
       <CohortModal open={cohort} setOpen={setCohort} id={0} />
@@ -63,7 +61,7 @@ const MyCourse = () => {
                 }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
-                Create Course
+                ADD NEW COURSE
               </Button>
             </div>
           )}

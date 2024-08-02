@@ -20,7 +20,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
-const CourseBanner = () => {
+interface CourseBannerProps {
+  courseById: number | null;
+}
+
+const CourseBanner = ({courseById}: CourseBannerProps) => {
   const [editorData, setEditorData] = React.useState("");
   const [keyData, setKeyData] = React.useState("");
   const [image, setImage] = React.useState("");
@@ -56,9 +60,9 @@ const CourseBanner = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   useEffect(() => {
@@ -82,7 +86,7 @@ const CourseBanner = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${courseId}?tab=${1}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${1}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -143,10 +147,10 @@ const CourseBanner = () => {
       bannerImage: image,
       keys: keyData,
     };
-    if (+courseId) {
+    if (+courseId) {   
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {

@@ -25,7 +25,7 @@ interface AllLiveSessionsProps {
 }
 
 const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
-  const [selectFilter, setSelectFilter] = useState("");
+  const [selectFilter, setSelectFilter] = useState("upcoming");
 
   const filteredSessions = allLiveSession?.filter((session) => {
     const now = new Date();
@@ -34,29 +34,30 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
       case "upcoming":
         return new Date(session.date) > now;
       case "starting":
-        return (
-          isSessionOngoingAtTime(
-            session.startTime,
-            session.sessionDuration,
-          ) && new Date(session.date) <= now
+        return isSessionOngoingAtTime(
+          session.date,
+          session.startTime + " " + session.startAmPm,
+          session.sessionDuration
         );
-        case "ending":
-          return (
-            new Date(session.date) <= now &&
-            !isSessionOngoingAtTime(session.startTime, session.sessionDuration)
-          );
+      case "ending":
+        return (
+          new Date(session.date) <= now &&
+          !isSessionOngoingAtTime(
+            session.date,
+            session.startTime + " " + session.startAmPm,
+            session.sessionDuration
+          )
+        );
       default:
         return true;
     }
   });
 
-  console.log("filteredSessions", filteredSessions);
-
   return (
     <div className="rounded-xl bg-white sm:p-5 p-4">
       <div className="sm:flex block justify-between items-center lg:mb-[30px] mb-5">
         <h5 className="text-base sm:pb-0 pb-3 text-black font-abhaya font-bold">
-          Total Live sessions (6)
+          Total Live sessions ({filteredSessions?.length})
         </h5>
         <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-10 gap-2">
           <Label className="text-base text-black font-abhaya font-bold w-[100px]">
@@ -66,8 +67,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
             option={filter}
             setValue={(data: string) => setSelectFilter(data)}
             value={selectFilter}
-            className="text-black placeholder:text-[#A3A3A3] text-base font-abhaya sm:h-[52px] h-[48px] font-semibold"
-            placeholder="Upcoming Sessions"
+            className="text-black placeholder:text-[#A3A3A3] text-base min-w-[200px] font-abhaya sm:h-[52px] h-[48px] font-semibold"
           />
         </div>
       </div>

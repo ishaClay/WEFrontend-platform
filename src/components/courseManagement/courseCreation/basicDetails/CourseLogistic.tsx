@@ -35,16 +35,20 @@ const isOnlineType = [
     value: "0",
   },
   {
-    label: "In-Person",
+    label: "Offline",
     value: "1",
   },
   {
-    label: "Hybrid",
+    label: "In-Person",
     value: "2",
   },
   {
-    label: "Major",
+    label: "Hybrid",
     value: "3",
+  },
+  {
+    label: "Major",
+    value: "4",
   },
 ];
 
@@ -68,19 +72,24 @@ const durationType = [
 ];
 
 const schema = zod.object({
-  time: zod.string().min(1, "Time is required"),
-  isOnline: zod.string().min(1, "Type is required"),
-  universityAddress: zod.string().min(1, "Location is required"),
+  time: zod.string().min(1, "Please select  time"),
+  isOnline: zod.string().min(1, "Please select type"),
+  universityAddress: zod.string().min(1, "Please enter university location"),
   duration: zod
     .string()
-    .min(1, "Duration is required")
+    .min(1, "Please enter duration")
     .refine((val) => {
       return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
     }, "Duration should be greater than 0"),
-  durationType: zod.string().min(1, "Duration type is required"),
+  durationType: zod.string().min(1, "Please select duration type"),
 });
 
-const CourseLogistic = () => {
+interface CourseLogisticProps {
+  setStep: (e: string) => void;
+  courseById: number | null;
+}
+
+const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -92,8 +101,8 @@ const CourseLogistic = () => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      time: Time[0].value,
-      isOnline: isOnlineType[0].value,
+      time: "",
+      isOnline: "",
       universityAddress: "",
       duration: "",
       durationType: durationType[0].value,
@@ -108,9 +117,9 @@ const CourseLogistic = () => {
   const courseId: string = location?.pathname?.split("/")[3];
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -121,6 +130,7 @@ const CourseLogistic = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("3");
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${3}&id=${params}&version=${paramsversion}`,
         {
@@ -159,9 +169,10 @@ const CourseLogistic = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("3");
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : params
         }?tab=${paramsTab}&step=${3}&version=${paramsversion}`,
         {
           replace: true,
@@ -188,7 +199,7 @@ const CourseLogistic = () => {
     if (+courseId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {
@@ -199,7 +210,6 @@ const CourseLogistic = () => {
       });
     }
   };
-  console.log("watch(", watch("durationType"));
   
 
   return (

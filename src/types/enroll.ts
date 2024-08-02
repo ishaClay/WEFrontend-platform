@@ -26,7 +26,7 @@ export interface Data {
   createdAt: string;
   updatedAt: string;
   numberOfEmployee: string;
-  courseVersion: CourseVersion;
+  course: Course;
   company: Company;
   employee: (EmployeeEntity)[];
 }
@@ -101,6 +101,7 @@ export interface Company {
   createdAt: string;
   updatedAt: string;
   employee: (EmployeeEntity)[];
+  userDetails: any;
 }
 export interface EmployeeEntity {
   id: number;

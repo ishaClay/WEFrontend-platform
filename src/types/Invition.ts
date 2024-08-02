@@ -7,7 +7,7 @@ export interface EmployeeInvition {
 
 export interface EmployeePayload {
     companyId: string;
-    email: string[];
+    email: string[] | string;
     csvUrl: string;
     invitationDetails: string;
 }
@@ -144,6 +144,7 @@ export interface MeasureEntity {
     empAssignDate?: null;
     createdAt: string;
     updatedAt: string;
+    lastUpdeated: any;
     deletedAt?: null;
 }
 export interface MeasureStatus {

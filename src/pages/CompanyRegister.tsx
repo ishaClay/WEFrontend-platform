@@ -64,16 +64,16 @@ function CompanyRegister() {
     : userData?.id;
 
   const schema = z.object({
-    name: z.string().min(1, { message: "Name is required" }),
-    address: z.string().min(1, { message: "Address is required" }),
-    county: z.string().min(1, { message: "County is required" }),
+    name: z.string().min(1, { message: "Please enter name" }),
+    address: z.string().min(1, { message: "Please enter address" }),
+    county: z.string().min(1, { message: "Please select county" }),
     averageNumberOfEmployees: z
       .string()
-      .min(1, { message: "Average Number Of Employees is required" }),
-    sector: z.string().min(1, { message: "Sector is required" }),
+      .min(1, { message: "Please select average number Of employees" }),
+    sector: z.string().min(1, { message: "Please select sector" }),
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
-    email: z.string().min(1, { message: "Email is required" }),
+    email: z.string().min(1, { message: "Please enter email" }),
     parentCompanyCounty: z.string().nullable().optional(),
   });
 

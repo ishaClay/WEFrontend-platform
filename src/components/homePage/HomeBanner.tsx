@@ -10,7 +10,7 @@ const HomeBanner = () => {
   const { clientId } = useAppSelector((state) => state.user);
   const { data: clientwiseBannerList, isPending: clientwiseBannerListPending } =
     useQuery<GetHomeBannerResponse>({
-      queryKey: [QUERY_KEYS.clientwiseBannerSlider, { clientId }],
+      queryKey: [QUERY_KEYS.clientwiseBannerSlider],
       queryFn: () => getHomeBanner(clientId?.toString(), "Active"),
       enabled: !!clientId,
     });
@@ -21,8 +21,6 @@ const HomeBanner = () => {
           <Loader />
         ) : (
           clientwiseBannerList?.data?.map((item) => {
-            console.log("item", item);
-
             return (
               <div className="relative">
                 <img

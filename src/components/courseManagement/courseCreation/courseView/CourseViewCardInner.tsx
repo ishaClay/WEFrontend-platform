@@ -66,12 +66,12 @@ const CourseViewCardInner = ({
       isLive: z.boolean(),
       sectionTitle: z
         .string()
-        .min(1, "Section Title is required")
-        .max(250, "You can not write more than 250 characters"),
+        .min(1, "Please enter section title")
+        .max(250, "You can not write section title more than 250 characters"),
       information: z
         .string()
-        .min(1, "Information is required")
-        .max(1000, "You can not write more than 1000 characters"),
+        .min(1, "Please enter information")
+        .max(1000, "You can not write information more than 250 characters"),
       uploadContentType: z
         .number()
         // .min(1, "Upload content type is required")
@@ -131,7 +131,7 @@ const CourseViewCardInner = ({
           ) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: "Reading time is required when isLive is false",
+              message: "Reading time is required",
               path: ["readingTime.hour"],
             });
           }
@@ -330,7 +330,7 @@ const CourseViewCardInner = ({
 
   const onSubmit = (data: FieldValues) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
-    let payload = [];
+    const payload = [];
     payload.push(data);
     if (payload.length > 0) {
       CreateSection(payload);
@@ -375,44 +375,42 @@ const CourseViewCardInner = ({
       }}
     >
       <div>
-        {getCourseCardList
-          ?.sort((a: any, b: any) => a.position - b.position)
-          .map((data: any, index: number) => {
-            console.log("data===>", data);
+        {getCourseCardList?.map((data: any, index: number) => {
+          console.log("data===>", data);
 
-            return (
-              <>
-                {isEditSection && isEditSection === data.id ? (
-                  <form onSubmit={handleSubmit(onUpdate)} key={index}>
-                    <SectionForm
-                      watch={watch}
-                      setValue={setValue}
-                      errors={errors}
-                      register={register}
-                      getValues={getValues}
-                      sectionID={isEditSection}
-                      handleRemoveSection={handleRemoveSection}
-                    />
-                  </form>
-                ) : (
-                  <div
+          return (
+            <>
+              {isEditSection && isEditSection === data.id ? (
+                <form onSubmit={handleSubmit(onUpdate)} key={index}>
+                  <SectionForm
+                    watch={watch}
+                    setValue={setValue}
+                    errors={errors}
+                    register={register}
+                    getValues={getValues}
+                    sectionID={isEditSection}
+                    handleRemoveSection={handleRemoveSection}
+                  />
+                </form>
+              ) : (
+                <div
+                  key={index}
+                  draggable
+                  onDragStart={() => (dragPerson.current = index)}
+                  onDragEnter={() => (draggedOverPerson.current = index)}
+                  onDragEnd={handleSort}
+                  onDragOver={(e) => e.preventDefault()}
+                >
+                  <CourseViewCardInnerList
                     key={index}
-                    draggable
-                    onDragStart={() => (dragPerson.current = index)}
-                    onDragEnter={() => (draggedOverPerson.current = index)}
-                    onDragEnd={handleSort}
-                    onDragOver={(e) => e.preventDefault()}
-                  >
-                    <CourseViewCardInnerList
-                      key={index}
-                      data={data}
-                      handelEditSection={handelEditSection}
-                    />
-                  </div>
-                )}
-              </>
-            );
-          })}
+                    data={data}
+                    handelEditSection={handelEditSection}
+                  />
+                </div>
+              )}
+            </>
+          );
+        })}
         <form onSubmit={handleSubmit(onSubmit)}>
           {addsectionList && (
             <SectionForm
@@ -465,7 +463,7 @@ const CourseViewCardInner = ({
         <AssessmentModal
           setIsOpenAssessmentModal={setIsOpenAssessmentModal}
           moduleId={moduleId}
-          sectionID={CourseCardList?.at(-1)?.id}
+          sectionID={0}
         />
       </Modal>
     </div>

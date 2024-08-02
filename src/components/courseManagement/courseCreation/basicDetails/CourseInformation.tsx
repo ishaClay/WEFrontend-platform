@@ -24,38 +24,51 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    title: zod.string().min(1, "Title is required"),
-    institute: zod.string().min(1, "Institute name is required"),
-    instituteWebsite: zod.string().url("Invalid website url"),
+    title: zod.string().min(1, "Please enter title"),
+    institute: zod.string().min(1, "Please enter institute name"),
+    instituteWebsite: zod.string().url("Please enter valid website url"),
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod.string().optional(),
     price: zod
-      .string({ errorMap: () => ({ message: "Invalid course price" }) })
-      .min(1, "Course price is required")
+      .string({
+        errorMap: () => ({ message: "Please enter valid course price" }),
+      })
       .refine(
         (val: string | any) => val === undefined || val === "" || !isNaN(val),
-        "Invalid course price"
+        "Please enter valid course price"
       ),
     discountApplicable: zod.number().optional(),
   })
   .refine(
     (data) => {
-      // If isFreeCourse is true, coursePrise should be undefined or empty
-      if (data.freeCourse && +!data.price) {
+      if (
+        (data.freeCourse && data.price === undefined) ||
+        (!data?.freeCourse && data?.price !== undefined)
+      ) {
         return false;
       }
       return true;
     },
     {
-      message:
-        "Course Price should be undefined or empty when the course is free",
-      path: ["price"], // The path to the field that caused the error
+      message: "Course Price should be empty if course is free",
+      path: ["price", "freeCourse"],
     }
   );
 
 type FormData = zod.infer<typeof schema>;
+// setStep: (e: string) => void;
+interface CourseInformationProps {
+  setStep: (e: string) => void;
+  courseById: number | null;
+  setCourseById: (e: number) => void;
+}
 
-const CourseInformation = () => {
+const CourseInformation = ({
+  setStep,
+  courseById,
+  setCourseById,
+}: CourseInformationProps) => {
+  console.log("courseById", courseById);
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
@@ -80,6 +93,7 @@ const CourseInformation = () => {
   });
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab");
+  const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");
   const coursePrise = watch("price") || "0";
   const pathName: string = location?.pathname?.split("/")[1];
@@ -97,6 +111,8 @@ const CourseInformation = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1");
+      setCourseById(data?.data?.data?.id);
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${1}&id=${
           data?.data?.data?.course?.id
@@ -123,10 +139,13 @@ const CourseInformation = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("1");
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
-        }?tab=${paramsTab}&step=${1}&version=${paramsVersion}`,
+          +courseId ? courseId : data?.data?.data?.id
+        }?tab=${paramsTab}&step=${1}&version=${
+          data?.data?.data?.currentVersion?.id
+        }`,
         {
           replace: true,
         }
@@ -142,9 +161,10 @@ const CourseInformation = () => {
   });
 
   const { data: getSingleCourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion }],
-    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
-    enabled: +courseId ? !!paramsVersion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
+    queryFn: () =>
+      fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
+    enabled: paramsId !== null || courseId ? true : false,
   });
 
   useEffect(() => {
@@ -175,11 +195,11 @@ const CourseInformation = () => {
       clientId: data?.data?.id || 0,
       userId: userID,
     };
-
-    if (+courseId) {
+    setStep("1");
+    if (+courseId || paramsId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {

@@ -42,8 +42,6 @@ const AssecessmentTypeThreeOptions = ({
               className="w-full outline-none px-5 text-base font-calibri text-black"
               type="file"
               onChange={(e) => {
-                console.log("e?.target?.files?.[0]", e?.target?.files?.[0]);
-
                 dispatch(
                   addOption({ option: e?.target?.files?.[0], i, iIndex })
                 );

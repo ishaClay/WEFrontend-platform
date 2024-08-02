@@ -57,25 +57,39 @@ const ModuleCreationPage = () => {
   const schema = z.object({
     modules: z.array(
       z.object({
-        moduleTitle: z.string().min(1, "Module Title is required"),
+        moduleTitle: z
+          .string()
+          .min(1, "Please enter module title")
+          .max(250, "Too long"),
         section: z.array(
           z
             .object({
               isLive: z.boolean(),
               sectionTitle: z
                 .string()
-                .min(1, "Section Title is required")
-                .max(250, "You can not write more than 250 characters"),
+                .min(1, "Please enter section title")
+                .max(
+                  250,
+                  "You can not write section title more than 250 characters"
+                ),
               information: z
                 .string()
-                .min(1, "Information is required")
-                .max(1000, "You can not write more than 1000 characters"),
+                .min(1, "Please enter information")
+                .max(
+                  1000,
+                  "You can not write information more than 1000 characters"
+                ),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
                 .optional(),
               uploadedContentUrl: z.string().optional(),
-              youtubeUrl: z.string().optional(),
+              youtubeUrl: z
+                .string().optional(),
+                // .regex(
+                //   /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
+                //   "Invalid YouTube URL"
+                // ).optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -111,7 +125,7 @@ const ModuleCreationPage = () => {
                   ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message:
-                      "Either uploaded content url and File or YouTube URL is required ",
+                      "Please enter uploaded Content URL or file or youTube URL ",
                     path: [
                       "uploadedContentUrl",
                       "uploadContentType",
@@ -127,23 +141,21 @@ const ModuleCreationPage = () => {
                   ) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message: "Reading time is required when isLive is false",
+                      message: "Please enter reading time",
                       path: ["readingTime.hour"],
                     });
                   }
                   if (!data.uploadContentType) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Upload content type is required when isLive is false",
+                      message: "Please select upload content type",
                       path: ["uploadContentType"],
                     });
                   }
                   if (!data.uploadedContentUrl) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Upload content url is required when isLive is false",
+                      message: "Please enter upload content url",
                       path: ["uploadedContentUrl"],
                     });
                   }
@@ -309,7 +321,7 @@ const ModuleCreationPage = () => {
                     onDragEnd={handleSort}
                     onDragOver={(e) => e.preventDefault()}
                   >
-                    <CourseViewPage data={data} />
+                    <CourseViewPage data={data} currIndex={index} />
                   </div>
                 );
               })

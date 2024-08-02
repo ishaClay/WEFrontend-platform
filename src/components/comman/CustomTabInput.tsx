@@ -27,7 +27,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
   };
 
   const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[cC][oO][mM]$/i;
     return re.test(String(email).toLowerCase());
   };
 
@@ -37,7 +37,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] mt-2">
+    <div className="flex flex-wrap gap-2 border p-3 rounded mt-2">
       {emails.map((email, index) => (
         <div
           key={index}

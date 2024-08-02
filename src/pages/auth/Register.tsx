@@ -40,7 +40,7 @@ const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Please enter min 3 alphabets in company name" }),
+      .min(3, { message: "Please enter atleast 3 characters in company name" }),
     email: z
       .string()
       .min(1, { message: "Please enter email" })
@@ -89,8 +89,6 @@ function Register() {
   });
 
   const email = watch("email");
-
-  console.log("params", showRegistrationForm);
 
   const { mutate: logout, isPending: logoutPending } = useMutation({
     mutationFn: LogOut,
@@ -142,7 +140,6 @@ function Register() {
     mutationFn: RegisterEmployee,
     onSuccess: async (data) => {
       setTime(179);
-      console.log("6+++++", data);
 
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
@@ -446,8 +443,8 @@ function Register() {
                     <img className="" src="../assets/img/Line 23.png" />
 
                     <p className="w-[450px] xl:w-full">
-                      Just a few quick details - your company's name, email, and
-                      a new password- and you'll be all set to navigate through
+                      Just a few quick details—your company's name, email, and a
+                      new password—and you'll be all set to navigate through
                       your sustainable and continue your impactful journey
                       anytime.
                     </p>

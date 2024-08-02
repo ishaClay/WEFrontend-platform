@@ -1,11 +1,15 @@
 import api from "./api";
 
 interface createAssessmentProps {
-  moduleSection: number,
+  module: string | null,
   title?: string,
   passingPercentage?: string,
   timeBound?: number,
-  timeDuration?: string
+  timeDuration?: {
+    hours: number,
+    minutes: number,
+    seconds: number
+  }
 }
 
 export const fetchAssessment = (id: string, clientId: string) => {

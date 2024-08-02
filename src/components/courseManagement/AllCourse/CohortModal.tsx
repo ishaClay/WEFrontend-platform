@@ -82,11 +82,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     }
   }, [data]);
 
-  console.log("datadatadatadata", cohortData);
-
   const handleChanges = (e: any, id: number, title?: string) => {
-    console.log("+++++", e);
-
     if (title) {
       setCohortData((prev) => {
         return prev.map((item) => {

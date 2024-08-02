@@ -103,19 +103,23 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
                   dispatch(addPoint({ index: i, point: +e.target.value }))
                 }
                 value={questionOption[i]?.point}
+                min={0}
                 type="number"
               />
             </div>
           </div>
-          {errors.point && (
-            <p className="text-red-500 text-sm">{errors.point}</p>
-          )}
+          <div className="flex justify-between items-center">
+            <span></span>
+            {errors.point && (
+              <p className="text-red-500 text-sm">{errors.point}</p>
+            )}
+          </div>
         </div>
         <div className="">
           <h6 className="text-base text-black font-calibri pb-3">
             Enter Question
           </h6>
-          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-3 mb-5">
+          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-3">
             <input
               placeholder="How would you describe an authoritarian (or controlling) management style?"
               className="outline-none font-base font-calibri text-[#1D2026] w-full"
@@ -134,7 +138,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
           {errors.question && (
             <p className="text-red-500 text-sm">{errors.question}</p>
           )}
-          <div className="">
+          <div className="mt-5">
             <label className="mb-3 text-[#515151] text-base block font-calibri">
               Answer Keywords (Enter Comma Separated keywords)
             </label>

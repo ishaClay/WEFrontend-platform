@@ -227,6 +227,10 @@ input[type="radio"] {
   background-color: var(--rkp-primary-color) !important;
 }
 
+.primary-border {
+  border-color: var(--rkp-primary-color) !important;
+}
+
 .secondary-text {
   color: var(--rkp-secondary-color) !important;
 }

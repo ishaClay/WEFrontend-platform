@@ -39,7 +39,6 @@ const TeaserScore = () => {
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
-  console.log(fetchClientmaturitylevel);
 
   const { data: allassessmant } = useQuery({
     queryKey: [QUERY_KEYS.totalAssessment],
@@ -154,15 +153,6 @@ const TeaserScore = () => {
         })}
     </div>
   );
-
-  // const dataArray = data && data?.datasets?.map((item) => item.data.map((item) => item))
-
-  // const dataValue = dataArray.find((x) => !x.includes(NaN))
-  // // // console.log(dataValue)
-  // const a =(dataValue == undefined) ? 0 : dataValue
-
-  // console.log(a)
-  // console.log(data)
 
   return (
     <div className="flex flex-col h-screen">

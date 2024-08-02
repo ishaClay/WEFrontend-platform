@@ -1,5 +1,5 @@
 import { CourseByVersionType, GetSingleCourseByIdType } from "@/types/course";
-import { AllCoursesResponse } from "@/types/courseManagement";
+import { AllCoursesResponse, CoursesNameType, InstitutionsListType } from "@/types/courseManagement";
 import api from "./api";
 
 export interface courseRequest {
@@ -50,7 +50,7 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
 export const fetchCourseAllCourse = async (
   searchKeyword: string,
   userId?: number,
-  status?: string
+  status?: string,
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};
@@ -152,3 +152,21 @@ export const updateVersion = (data: { mainCourseId: number, versionId: number, u
   const method = "post";
   return api({ url, data, method });
 };
+
+export const fetchgetInstitutionsList = async (): Promise<InstitutionsListType> => {
+  const url = `api/v1/thirdparty/getInstitutionsName`;
+  const res = await api({ url });
+  return res?.data
+};
+
+export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
+  const url = `api/v1/thirdparty/getCoursesName`;
+  const res = await api({ url });
+  return res?.data
+};
+export const createNewVersion = async (data: { courseId: number, version: number }) => {
+  const url = `api/v1/course/createCourseWithNewVersion`;
+  const method = "post";
+  const res = await api({ url, data, method });
+  return res.data;
+}

@@ -93,6 +93,10 @@ export const QUERY_KEYS = {
   fetchLiveSessionById: "fetchLiveSessionById",
   getdashboardEmployeeCourse: "getdashboardEmployeeCourse",
   getAssesmentById: "getAssesmentById",
+  getInstitutions: "getInstitutions",
+  fetchgetCoursesNameList: "fetchgetCoursesNameList",
+  fetchAssigToUserList: "fetchAssigToUserList",
+  fetchforumquestion: "fetchforumquestion",
 };
 
 export const urlRegex =

@@ -1,6 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
-import { getFileType, mapTimeDuration } from "@/lib/utils";
+import { getFileType } from "@/lib/utils";
 import { deleteAssesment } from "@/services/apiServices/assessment";
 import {
   deleteLiveSection,
@@ -23,17 +23,17 @@ const CourseViewCardInnerList = ({
     if (!readingTime) {
       return "0sec";
     }
-    const { hour, minute, second } = readingTime;
+    const { hour, minute, second, hours, minutes, seconds } = readingTime;
     let formattedTime = "";
 
-    if (hour) {
-      formattedTime += `${hour}h `;
+    if (hour || hours) {
+      formattedTime += `${hour || hours}h `;
     }
-    if (minute) {
-      formattedTime += `${minute}min `;
+    if (minute || minutes) {
+      formattedTime += `${minute || minutes}min `;
     }
-    if (second) {
-      formattedTime += `${second}sec`;
+    if (second || seconds) {
+      formattedTime += `${second || seconds}sec`;
     }
 
     if (!formattedTime) {
@@ -110,7 +110,7 @@ const CourseViewCardInnerList = ({
         </div>
         <div className="">
           <h5 className="text-sm text-black font-inter pb-2">
-            {data.isLive == 0 ? data.title : data.liveSecTitle}
+            {data.isLive == 0 || !data?.isLive ? data.title : data.liveSecTitle}
           </h5>
           <div className="">
             <h6 className="text-[#747474] text-xs font-inter">
@@ -118,7 +118,7 @@ const CourseViewCardInnerList = ({
                 <>
                   Duration:{" "}
                   <span className="text-black">
-                    {mapTimeDuration(data.timeDuration)}
+                    {formatReadingTime(data?.timeDuration)}
                   </span>{" "}
                   <span className="ml-2">
                     Passing Percentage:{" "}

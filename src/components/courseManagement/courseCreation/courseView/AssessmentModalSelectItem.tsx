@@ -1,9 +1,6 @@
-import Loading from "@/components/comman/Error/Loading";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setQuestionType } from "@/redux/reducer/AssessmentReducer";
-import { createAssessment } from "@/services/apiServices/assessment";
-import { useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ModalItemProps {
   setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,51 +17,60 @@ const AssessmentModalSelectItem = ({
 }: ModalItemProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const { courseId } = useParams();
 
   console.log("sectionIDsectionIDsectionID", sectionID);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: createAssessment,
-    onSuccess: (res) => {
-      if (!location.pathname.includes("add_assessment")) {
-        const searchParams = new URLSearchParams(window.location.search);
-        const queryParams: { [key: string]: string | null } = {};
-        for (const param of searchParams.keys()) {
-          queryParams[param] = searchParams.get(param);
-        }
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: createAssessment,
+  //   onSuccess: (res) => {
+  //     if (!location.pathname.includes("add_assessment")) {
+  //       const searchParams = new URLSearchParams(window.location.search);
+  //       const queryParams: { [key: string]: string | null } = {};
+  //       for (const param of searchParams.keys()) {
+  //         queryParams[param] = searchParams.get(param);
+  //       }
 
-        if (courseId) {
-          queryParams["courseId"] = courseId;
-        }
+  //       if (courseId) {
+  //         queryParams["courseId"] = courseId;
+  //       }
 
-        if (moduleId) {
-          queryParams["moduleId"] = moduleId;
-        }
-        navigate(
-          `/${currentUser}/add_assessment/${res?.data?.data?.id}?` +
-            new URLSearchParams(queryParams as any).toString()
-        );
-      }
+  //       if (moduleId) {
+  //         queryParams["moduleId"] = moduleId;
+  //       }
+  //       navigate(
+  //         `/${currentUser}/add_assessment/${res?.data?.data?.id}?` +
+  //           new URLSearchParams(queryParams as any).toString()
+  //       );
+  //     }
 
-      dispatch(setQuestionType(data[0]));
-      setIsOpenAssessmentModal(false);
-    },
-  });
+  //     dispatch(setQuestionType(data[0]));
+  //     setIsOpenAssessmentModal(false);
+  //   },
+  // });
 
   const handleButtonClick = () => {
-    if (!location.pathname.includes("add_assessment")) {
-      const payload = {
-        moduleSection: sectionID as number,
-      };
-      mutate(payload);
-    } else {
-      dispatch(setQuestionType(data[0]));
-      setIsOpenAssessmentModal(false);
+    dispatch(setQuestionType(data[0]));
+    setIsOpenAssessmentModal(false);
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryParams: { [key: string]: string | null } = {};
+    for (const param of searchParams.keys()) {
+      queryParams[param] = searchParams.get(param);
     }
+
+    if (courseId) {
+      queryParams["courseId"] = courseId;
+    }
+
+    if (moduleId) {
+      queryParams["moduleId"] = moduleId;
+    }
+    navigate(
+      `/${currentUser}/add_assessment?` +
+        new URLSearchParams(queryParams as any).toString()
+    );
   };
 
   return (
@@ -82,7 +88,7 @@ const AssessmentModalSelectItem = ({
           </h6>
         </div>
       </div>
-      <Loading isLoading={isPending} />
+      {/* <Loading isLoading={isPending} /> */}
     </div>
   );
 };

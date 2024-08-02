@@ -22,14 +22,18 @@ type CourseViewCardProps = {
     reading: string;
     id: number;
   };
+  currIndex: number;
 };
-const CourseViewCardList = ({ data }: CourseViewCardProps) => {
+const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const schema = z.object({
-    moduleTitle: z.string().min(1, "Module Title is required"),
+    moduleTitle: z
+      .string()
+      .min(1, "Please enter module title")
+      .max(250, "Too long"),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -69,7 +73,7 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
     },
   });
 
-  const { mutate: UpdateModule } = useMutation({
+  const { mutate: UpdateModule, isPending: isLoadingModule } = useMutation({
     mutationFn: (module: any) => updateModule(module, data.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -105,7 +109,11 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
 
   return (
     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-      <div className="w-full flex items-center justify-between gap-4">
+      <div
+        className={`flex ${
+          isEdit ? "items-end" : "items-center"
+        }  justify-between gap-4 w-full`}
+      >
         {!isEdit ? (
           <div>
             <h3 className="text-base font-bold font-calibri sm:pb-2 pb-1 text-left">
@@ -122,8 +130,14 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
             </div>
           </div>
         ) : (
-          <div>
-            <Input {...register("moduleTitle")} />
+          <div className="w-full">
+            <h4 className="font-bold font-calibri sm:text-xl text-base pb-2 text-left">
+              Module {currIndex + 1}
+            </h4>
+            <h6 className="text-sm font-calibri text-[#515151] text-left">
+              Module Title
+            </h6>
+            <Input {...register("moduleTitle")} className="w-full" />
             {errors?.moduleTitle && (
               <FormError
                 className="font-calibri not-italic"
@@ -153,7 +167,11 @@ const CourseViewCardList = ({ data }: CourseViewCardProps) => {
             className="flex items-center gap-2 mr-2"
             onClick={(e) => e.stopPropagation()}
           >
-            <Button type="submit" className="text-sm font-nunito">
+            <Button
+              isLoading={isLoadingModule}
+              type="submit"
+              className="text-sm font-nunito"
+            >
               Save
             </Button>
             <Button

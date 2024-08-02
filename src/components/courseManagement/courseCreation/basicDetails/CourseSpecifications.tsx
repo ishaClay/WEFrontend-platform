@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getCertificate } from "@/services/apiServices/certificate";
+import { RootState } from "@/redux/store";
+import { certificateList } from "@/services/apiServices/certificate";
 import {
   createCourseTwoPage,
   fetchNfqlLevel,
@@ -13,26 +14,50 @@ import {
   updateCourse,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
-import { CertificateResponse } from "@/types/certificate";
 import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod
-    .string({ required_error: "NQF level is required" })
-    .min(1, "NQF level is required"),
-  certificate: zod.string().min(1, "Participants is required").optional(),
-  ectsCredits: zod.string().min(1, "ECTS credit is required"),
-  fetCredits: zod.string().min(1, "FET credit is required"),
+  nfqLeval: zod.string().optional(),
+  certificate: zod.string().min(1, "Please select certificate type").optional(),
+  ectsCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The ECTS credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "ECTS credit must not be lesser than 0" }
+    ),
+  fetCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The FET credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "FET credit must not be lesser than 0" }
+    ),
 });
 
-const CourseSpecifications = () => {
+interface CourseSpecificationsProps {
+  setStep: (e: string) => void;
+  courseById: number | null;
+}
+
+const CourseSpecifications = ({
+  setStep,
+  courseById,
+}: CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -44,6 +69,7 @@ const CourseSpecifications = () => {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  const { UserId } = useSelector((state: RootState) => state.user);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsTab = new URLSearchParams(search).get("tab");
@@ -52,9 +78,9 @@ const CourseSpecifications = () => {
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
 
-  const { data } = useQuery<CertificateResponse>({
-    queryKey: ["certificate"],
-    queryFn: getCertificate,
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.getcertificate],
+    queryFn: () => certificateList(UserId),
   });
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({
@@ -63,9 +89,10 @@ const CourseSpecifications = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () =>
+      fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: +courseId || courseById ? !!paramsversion || !!courseById : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -76,6 +103,7 @@ const CourseSpecifications = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("2");
       navigate(
         `/${pathName}/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
         {
@@ -135,9 +163,10 @@ const CourseSpecifications = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep("2");
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
+          +courseId ? courseId : params
         }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
         {
           replace: true,
@@ -160,10 +189,11 @@ const CourseSpecifications = () => {
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
     };
+
     if (+courseId) {
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {
@@ -187,10 +217,9 @@ const CourseSpecifications = () => {
               Specify the NFQ level for this course (if applicable).
             </Label>
             <SelectMenu
-              {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => setValue("nfqLeval", e)}
-              value={watch("nfqLeval")}
+              value={watch("nfqLeval") || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />

@@ -7,7 +7,9 @@ import fulltime from "@/assets/images/fulltime.png";
 import online from "@/assets/images/online.png";
 import time from "@/assets/images/time.png";
 import unversity from "@/assets/images/unversity.png";
+import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Modal from "@/components/comman/Modal";
+import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import {
@@ -21,8 +23,6 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import CohortModel from "./CohortModel";
-import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
-import { Button } from "@/components/ui/button";
 
 type dataGridProps = {
   data: AllCourse[];
@@ -97,7 +97,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
 
     const upcomingData = matchingSlot
       ? matchingSlot
-      : {
+      : cohortData?.isOnline === IsOnline.Offline
+      ? {
           slotStartDate: {
             date: moment(currentDate).format("DD"),
             month: moment(currentDate).format("MM"),
@@ -108,41 +109,44 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
             month: moment(courseEndDate).format("MM"),
             year: moment(courseEndDate).format("YYYY"),
           },
-        };
-
-    console.log("upcomingData", upcomingData, findIndex);
+        }
+      : null;
 
     return (
-      <div
-        className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF] sm:w-[300px] w-[270px]"
-        onClick={() => setIsCohortShow(cohortData)}
-      >
-        <div className="flex items-center justify-between pb-[6px]">
-          <p className="text-black text-xs">
-            <span className="font-medium text-xs font-inter">
-              Cohort {findIndex ? findIndex : 1} :
-            </span>{" "}
-          </p>
-          <p className="text-[#4285F4] text-[10px] font-inter font-medium">
-            Show all cohort
-          </p>
-        </div>
-        <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
-          <span>Start Date : </span>
-          <span>
-            {`${upcomingData.slotStartDate.date
-              .toString()
-              .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
-              .toString()
-              .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
-          </span>
-          <span>End Date : </span>
-          <span>{`${upcomingData.slotEndDate.date
-            .toString()
-            .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
-            .toString()
-            .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
-        </div>
+      <div className="xl:col-span-5 col-span-7 sm:w-[300px] w-[270px]">
+        {upcomingData !== null && (
+          <div
+            className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
+            onClick={() => setIsCohortShow(cohortData)}
+          >
+            <div className="flex items-center justify-between pb-[6px]">
+              <p className="text-black text-xs">
+                <span className="font-medium text-xs font-inter">
+                  Cohort {findIndex ? findIndex : 1} :
+                </span>{" "}
+              </p>
+              <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+                Show all cohort
+              </p>
+            </div>
+            <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+              <span>Start Date : </span>
+              <span>
+                {`${upcomingData.slotStartDate.date
+                  .toString()
+                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
+                  .toString()
+                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
+              </span>
+              <span>End Date : </span>
+              <span>{`${upcomingData.slotEndDate.date
+                .toString()
+                .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
+                .toString()
+                .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -203,7 +207,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                   <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                     <FaStar className="text-[#FD8E1F]" />
                     <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                      {maturityLevel?.fetchMaturity?.maturityLevelName}
+                      {allcourse?.courseReconmendedStatus ||
+                        maturityLevel?.fetchMaturity?.maturityLevelName}
                     </span>
                   </div>
                 </div>

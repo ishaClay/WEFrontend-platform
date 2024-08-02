@@ -1,7 +1,6 @@
 import api from "./api";
 
 export const registerTrainer = (data: any) => {
-  console.log(data);
   const url = `api/v1/user/register-trainer-company`;
   return api({ url, data, method: "post" });
 };
@@ -34,12 +33,24 @@ export const getTrainerById = async ({ id }: { id: string }) => {
   return response.data;
 };
 
+export const getTrainerByCompanyId = async ({
+  id,
+  courseId,
+}: {
+  id: string;
+  courseId: string;
+}) => {
+  const url = `api/v1/trainer/get-trainers/${id}/?courseId=${courseId}`;
+  const response = await api({ url });
+  return response.data;
+};
+
 export const updateTrainerStatusById = async ({
   id,
   data,
 }: {
   id: string;
-  data: { status?: number; approved: boolean; editCourses?: boolean };
+  data: { status?: string; approved: boolean; editCourses?: boolean };
 }) => {
   const url = `api/v1/trainer/update-status/${id}`;
   const response = await api({ url, data, method: "put" });
@@ -49,7 +60,7 @@ export const updateTrainerStatusById = async ({
 export const trainerInvitation = async (data: {
   email: string[];
   invitationDetails: string;
-  TrainerCompanyId: string;
+  TrainerCompanyId?: string;
 }) => {
   const url = `api/v1/trainer-company/send-invitation`;
   const response = await api({ url, data, method: "post" });
