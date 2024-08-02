@@ -174,10 +174,10 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
                   item?.checked ? "text-white" : "text-[#FFD56A]"
                 } text-white`}
               >
-                RECOMMENDED -
+                Your Level -
               </span>
               <span className="text-[#FFD56A] ms-1">
-                {item.maturityNameRecommended}
+                {item.maturityLevelName}
               </span>
             </h2>
           </div>

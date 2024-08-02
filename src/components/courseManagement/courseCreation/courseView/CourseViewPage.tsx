@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Accordion,
   AccordionItem,
@@ -14,6 +15,9 @@ const CourseViewPage = ({
   data: any;
   currIndex: number;
 }) => {
+  // @ts-ignore
+  const CourseCardList = [...data.section, ...(data?.assessment as any)];
+
   return (
     <div className="pb-5">
       <Accordion type={"single"} collapsible>
@@ -29,7 +33,7 @@ const CourseViewPage = ({
             </AccordionTrigger>
             <AccordionContent>
               <CourseViewCardInner
-                CourseCardList={data.section}
+                CourseCardList={CourseCardList}
                 moduleId={data.id}
               />
             </AccordionContent>

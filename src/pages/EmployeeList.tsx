@@ -14,6 +14,7 @@ import { EmployeeEntity } from "@/types/Invition";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
+import { Eye, Pencil } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
@@ -260,7 +261,25 @@ function CoursesAllocate() {
       header: "",
       cell: ({ row }) => {
         return (
-          <div className="gap-[12px] ">
+          <div className="flex items-center gap-[12px] ">
+            <Button
+              onClick={() =>
+                navigate(`/company/employeelist/${row.original.id}`)
+              }
+              variant={"ghost"}
+              className="p-0"
+            >
+              <Eye className="text-gray-200" />
+            </Button>
+            <Button
+              onClick={() =>
+                navigate(`/company/employeelist/edit/${row.original.id}`)
+              }
+              variant={"ghost"}
+              className="p-0"
+            >
+              <Pencil className="text-gray-200 w-[20px]" />
+            </Button>
             <Button
               onClick={() => handleDelete(+row.original.id)}
               variant={"ghost"}

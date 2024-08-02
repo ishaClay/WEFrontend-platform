@@ -1,6 +1,7 @@
 import api from "./api";
 
 interface createAssessmentProps {
+  module: string | null,
   title?: string,
   passingPercentage?: string,
   timeBound?: number,

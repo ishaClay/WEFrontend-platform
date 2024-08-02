@@ -375,7 +375,7 @@ const CourseViewCardInner = ({
       }}
     >
       <div>
-        {getCourseCardList.map((data: any, index: number) => {
+        {getCourseCardList?.map((data: any, index: number) => {
           console.log("data===>", data);
 
           return (
@@ -463,7 +463,7 @@ const CourseViewCardInner = ({
         <AssessmentModal
           setIsOpenAssessmentModal={setIsOpenAssessmentModal}
           moduleId={moduleId}
-          sectionID={CourseCardList?.at(-1)?.id}
+          sectionID={0}
         />
       </Modal>
     </div>

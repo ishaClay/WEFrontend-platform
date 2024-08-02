@@ -6,6 +6,7 @@ export interface AllCourse {
   instituteWebsite2: string;
   freeCourse: freeCource;
   discout: Discout;
+  courseReconmendedStatus: string;
   discountApplicable: number;
   provider: Provider;
   ectsCredits: string;

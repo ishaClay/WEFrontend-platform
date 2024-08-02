@@ -211,14 +211,15 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                 <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                   <FaStar className="text-[#FD8E1F]" />
                   <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                    {maturityLevel?.fetchMaturity?.maturityLevelName}
+                    {allcourse?.courseReconmendedStatus ||
+                      maturityLevel?.fetchMaturity?.maturityLevelName}
                   </span>
                 </div>
               </div>
 
               <div className="">
                 <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                  <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026]">
+                  <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] min-h-[72px]">
                     {allcourse.title}
                   </p>
                   <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">

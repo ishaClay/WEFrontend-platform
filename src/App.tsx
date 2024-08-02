@@ -86,6 +86,7 @@ import TeamMemberDropdown from "./pages/TeamMemberDropdown";
 import TeaserScore from "./pages/TeaserScore";
 import TermsOfServices from "./pages/TermsOfServices";
 import TrainerManagementPage from "./pages/TrainerManagement";
+import TrainerEditDetails from "./pages/TrainerManagement/TrainerDetailsEdit";
 import TrainerSettingPage from "./pages/TrainerSettingPage";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
@@ -642,6 +643,10 @@ function App() {
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="employeelist" element={<EmployeeList />} />
           <Route path="employeelist/:id" element={<EmployeeDetailsPage />} />
+          <Route
+            path="employeelist/edit/:id"
+            element={<TrainerEditDetails />}
+          />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />

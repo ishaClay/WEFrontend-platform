@@ -258,8 +258,6 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
-  console.log(createAssecessment, "createAssecessment");
-
   useEffect(() => {
     validateAssecessmentModule();
   }, [createAssecessment]);
@@ -267,7 +265,12 @@ const AssecessmentPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
-      createAssessmentFun(createAssecessment);
+      createAssessmentFun({
+        ...createAssecessment,
+        module: searchParams.get("moduleId")
+          ? searchParams.get("moduleId")
+          : "",
+      });
     }
     return;
   };

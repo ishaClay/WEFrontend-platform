@@ -443,8 +443,8 @@ function Register() {
                     <img className="" src="../assets/img/Line 23.png" />
 
                     <p className="w-[450px] xl:w-full">
-                      Just a few quick details - your company's name, email, and
-                      a new password- and you'll be all set to navigate through
+                      Just a few quick details—your company's name, email, and a
+                      new password—and you'll be all set to navigate through
                       your sustainable and continue your impactful journey
                       anytime.
                     </p>
