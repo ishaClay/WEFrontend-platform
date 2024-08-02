@@ -61,6 +61,7 @@ export interface CourseAllotedEntity {
     numberOfEmployee?: null;
     price?: null;
     request: number;
+    course: Course;
     enroll: number;
     createdAt: string;
     deletedAt?: null;

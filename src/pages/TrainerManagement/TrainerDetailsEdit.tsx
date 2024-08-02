@@ -52,7 +52,7 @@ const TrainerEditDetails = () => {
     }
   }, [data]);
 
-  const handleChanges = (e) => {
+  const handleChanges = (e: any) => {
     const { name, value } = e.target;
     setTrainerDetails((prev) => ({ ...prev, [name]: value }));
   };
