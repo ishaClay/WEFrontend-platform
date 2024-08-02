@@ -308,8 +308,8 @@ const ListView = ({
                         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                       ) => {
                         e.preventDefault();
-                        setOpen(item?.currentVersion?.id);
-                        setCourse(item?.id);
+                        setOpen(data?.currentVersion?.id);
+                        setCourse(data?.id);
                       }}
                     >
                       PUBLISHED

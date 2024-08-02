@@ -120,6 +120,9 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import BlogPage from "./pages/blog/BlogPage";
+import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
+import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -168,6 +171,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blogDetails" element={<BlogDetailsPage />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -800,6 +805,10 @@ function App() {
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate-employee"
+            element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="certificate-template/updatecertificate/:id"

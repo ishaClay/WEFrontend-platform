@@ -6,7 +6,7 @@ import RoundLogoImage from "@/assets/images/RoundLogo.png";
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 
 const HomeFooter = () => {
@@ -145,18 +145,30 @@ const HomeFooter = () => {
 
             <div className="flex items-start">
               <ul className=" text-white flex flex-col  sm:gap-y-[3px] gap-y-[10px] text-start secondary-text lg:p-0 px-5 sm:pr-[35px] pr-[29px] underline">
-                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                <Link
+                  to={"/"}
+                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                >
                   Our Courses
-                </a>
-                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                </Link>
+                <Link
+                  to={"/"}
+                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                >
                   Membership
-                </a>
-                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                </Link>
+                <Link
+                  to={"/blog"}
+                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                >
                   News
-                </a>
-                <a className="font-abhaya text-base font-bold cursor-pointer leading-5">
+                </Link>
+                <Link
+                  to={"/"}
+                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                >
                   Contact Us
-                </a>
+                </Link>
               </ul>
               <p className="lg:hidden block no-underline text-sm text-white leading-5 font-abhaya font-bold max-w-[165px] w-[165px] text-left">
                 © County Wexford Chamber 2023. All Rights Reserved.

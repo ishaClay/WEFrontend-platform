@@ -10,11 +10,13 @@ import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 
 const AllocatedCertificatePage = () => {
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
     queryKey: [QUERY_KEYS.issuedCertificate, { page, keyword }],
@@ -184,7 +186,10 @@ const AllocatedCertificatePage = () => {
           </p>
         </div>
         <div className="">
-          <Button className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3">
+          <Button
+            className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
+            onClick={() => navigate("/trainer/allocated-certificate-employee")}
+          >
             Issued Certificate
           </Button>
         </div>
