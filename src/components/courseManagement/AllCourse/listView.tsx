@@ -22,6 +22,7 @@ import {
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { ErrorType } from "@/types/Errors";
 import { CourseDataEntity } from "@/types/Trainer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
@@ -30,8 +31,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
-import { CourseDataEntity } from "@/types/Trainer";
-import { ErrorType } from "@/types/Errors";
+import ConfirmationModel from "./ConfirmationModel";
 
 const ListView = ({
   list,
@@ -43,6 +43,7 @@ const ListView = ({
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
+  const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [isOpen, setIsOpen] = useState<string>("");
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
@@ -52,6 +53,7 @@ const ListView = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const pathName = location?.pathname?.split("/")?.[1];
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   // const queryClient = useQueryClient();
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
@@ -90,14 +92,16 @@ const ListView = ({
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
+        setCourse("");
         toast({
           title: "Success",
           description: "Course Published Successfully",
           variant: "success",
         });
+        setOpen("");
       },
-      onError: (error: ErrorType) => {      
-        setCourse("");  
+      onError: (error: ErrorType) => {
+        setCourse("");
         toast({
           title: "Error",
           description: error?.data?.message,
@@ -147,13 +151,26 @@ const ListView = ({
       },
     });
 
-  const handlePublish = (e: Event, id: number) => {
+  const handlePublish = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) => {
     e.preventDefault();
     const payload = {
-      status: "PUBLISHED",
-      id,
+      status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
+      id: +id,
     };
-    publishCourseFun(payload);
+    const cohortCount =
+      list?.find((item) => item?.currentVersion?.id === (+id || 0))
+        ?.cohortGroups || 0;
+    if (cohortCount > 0) {
+      publishCourseFun(payload);
+    } else {
+      toast({
+        title: "Please Create Cohort Group",
+        variant: "destructive",
+      });
+    }
   };
 
   const copyPublish = (e: Event, id: number) => {
@@ -198,6 +215,12 @@ const ListView = ({
         isOpen={!!isOpen}
         onClose={() => setIsOpen("")}
         courseId={+isOpen}
+      />
+      <ConfirmationModel
+        open={open}
+        setOpen={setOpen}
+        handleSubmit={(e, id) => handlePublish(e, id)}
+        isLoader={publishCoursePending}
       />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
@@ -281,9 +304,13 @@ const ListView = ({
                     <Button
                       disabled={data?.status === "PUBLISHED"}
                       className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                      onClick={(e: any) =>
-                        handlePublish(e, data?.currentVersion?.id as number)
-                      }
+                      onClick={(
+                        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                      ) => {
+                        e.preventDefault();
+                        setOpen(item?.currentVersion?.id);
+                        setCourse(item?.id);
+                      }}
                     >
                       PUBLISHED
                     </Button>

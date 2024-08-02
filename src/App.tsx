@@ -780,7 +780,7 @@ function App() {
             path="create_course/:courseId"
             element={<CourseManagement />}
           />
-          <Route path="add_assessment/:assId" element={<AssecessmentPage />} />
+          <Route path="add_assessment" element={<AssecessmentPage />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}

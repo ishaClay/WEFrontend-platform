@@ -166,6 +166,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                   setErrors((prev) => ({ ...prev, point: "" }));
                 }}
                 type="number"
+                min={0}
                 value={questionOption[i]?.point}
               />
             </div>

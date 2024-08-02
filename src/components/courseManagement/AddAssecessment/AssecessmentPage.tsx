@@ -12,15 +12,11 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import {
+  createAssessment,
   createAssessmentQuestion,
   getAssessmentById,
-  updateAssessment,
 } from "@/services/apiServices/assessment";
-import {
-  AssecessmentCreation,
-  AssessmentById,
-  QuestionCreation,
-} from "@/types/assecessment";
+import { AssessmentById, QuestionCreation } from "@/types/assecessment";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
@@ -53,15 +49,6 @@ export const intialSectionCreation: QuestionCreation = {
   answer: [""],
 };
 
-export const intialModuleCreation: AssecessmentCreation = {
-  section: "",
-  title: "",
-  percentage: "",
-  timeBound: "no",
-  duration: "",
-  question: [intialSectionCreation],
-};
-
 type Validatable = () => boolean;
 
 const initialState = {
@@ -69,7 +56,11 @@ const initialState = {
   title: "",
   passingPercentage: "",
   timeBound: 0,
-  timeDuration: "0",
+  timeDuration: {
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  },
 };
 
 const AssecessmentPage = () => {
@@ -81,9 +72,16 @@ const AssecessmentPage = () => {
     (state: RootState) => state.assessment
   );
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
-  const [createAssecessment, setCreateAssecessment] = useState<null | any>(
-    initialState
-  );
+  const [createAssecessment, setCreateAssecessment] = useState<{
+    title: string;
+    passingPercentage: string;
+    timeBound: number;
+    timeDuration: {
+      hours: number;
+      minutes: number;
+      seconds: number;
+    };
+  }>(initialState);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -159,30 +157,49 @@ const AssecessmentPage = () => {
     },
   });
 
-  const { mutate: updateAssessmentFun, isPending } = useMutation({
-    mutationFn: updateAssessment,
-    onSuccess: () => {
-      const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-        (item: any) => {
-          return {
-            ...item,
-            // @ts-ignore
-            assessment: assId as number,
-            // @ts-ignore
-            assessmentType: AssessmentType[item.assessmentType],
-          };
-        }
-      );
-      createAssessmentQuestionFun(assecessmentQue);
-    },
-    onError: (error: ResponseError) => {
-      toast({
-        title: "Error",
-        description: error?.data?.message || "Internal server error",
-        variant: "destructive",
-      });
-    },
-  });
+  const { mutate: createAssessmentFun, isPending: createAssessmentPending } =
+    useMutation({
+      mutationFn: createAssessment,
+      onSuccess: (res) => {
+        const assecessmentQue = assecessmentQuestion?.questionOption?.map(
+          (item: any) => {
+            return {
+              ...item,
+              // @ts-ignore
+              assessment: res?.data?.data?.id,
+              // @ts-ignore
+              assessmentType: AssessmentType[item.assessmentType],
+            };
+          }
+        );
+        createAssessmentQuestionFun(assecessmentQue);
+      },
+    });
+
+  // const { mutate: updateAssessmentFun, isPending } = useMutation({
+  //   mutationFn: updateAssessment,
+  //   onSuccess: () => {
+  //     const assecessmentQue = assecessmentQuestion?.questionOption?.map(
+  //       (item: any) => {
+  //         return {
+  //           ...item,
+  //           // @ts-ignore
+  //           assessment: assId as number,
+  //           // @ts-ignore
+  //           assessmentType: AssessmentType[item.assessmentType],
+  //         };
+  //       }
+  //     );
+  //     createAssessmentQuestionFun(assecessmentQue);
+  //   },
+  //   onError: (error: ResponseError) => {
+  //     toast({
+  //       title: "Error",
+  //       description: error?.data?.message || "Internal server error",
+  //       variant: "destructive",
+  //     });
+  //   },
+  // });
 
   const [errors, setErrors] = useState({
     moduleSection: "",
@@ -202,27 +219,26 @@ const AssecessmentPage = () => {
       timeDuration: "",
     };
 
-    // Validate moduleSection
-    if (!createAssecessment?.moduleSection) {
-      newErrors.moduleSection = "moduleSection is required";
-      valid = false;
-    }
-
     // Validate title
     if (!createAssecessment?.title) {
-      newErrors.title = "title is required";
+      newErrors.title = "Assessment Title is required";
       valid = false;
     }
 
     // Validate passingPercentage
     if (!createAssecessment?.passingPercentage) {
-      newErrors.passingPercentage = "passingPercentage is required";
+      newErrors.passingPercentage = "Passing Percentage is required";
       valid = false;
     }
 
     // Validate timeDuration
-    if (!createAssecessment?.timeDuration) {
-      newErrors.timeDuration = "timeDuration is required";
+    if (
+      !createAssecessment?.timeDuration?.hours &&
+      !createAssecessment?.timeDuration?.minutes &&
+      !createAssecessment?.timeDuration?.seconds &&
+      !!createAssecessment?.timeBound
+    ) {
+      newErrors.timeDuration = "Time Duration is required";
       valid = false;
     }
 
@@ -242,10 +258,16 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
+  console.log(createAssecessment, "createAssecessment");
+
+  useEffect(() => {
+    validateAssecessmentModule();
+  }, [createAssecessment]);
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
-      updateAssessmentFun({ data: createAssecessment, id: assId || "" });
+      createAssessmentFun(createAssecessment);
     }
     return;
   };
@@ -257,7 +279,9 @@ const AssecessmentPage = () => {
     const tab = searchParams.get("tab");
     dispatch(resetAssessment());
     navigate(
-      `/trainer/create_course/${courseId ? courseId : id}?tab=${tab}&version=${version}`
+      `/trainer/create_course/${
+        courseId ? courseId : id
+      }?tab=${tab}&version=${version}`
     );
   };
 
@@ -273,8 +297,10 @@ const AssecessmentPage = () => {
           </p>
         </div>
         <div className="flex items-center gap-5">
-          <div className="bg-transparent inline-flex items-center gap-2 cursor-pointer hover:bg-transparent text-black font-semibold text-[16px]"
-              onClick={handleBack}>
+          <div
+            className="bg-transparent inline-flex items-center gap-2 cursor-pointer hover:bg-transparent text-black font-semibold text-[16px]"
+            onClick={handleBack}
+          >
             <IoIosArrowRoundBack size={26} />
             Back
           </div>
@@ -345,9 +371,9 @@ const AssecessmentPage = () => {
             <div className="text-right">
               <Button
                 type="submit"
-                disabled={isPending || assessmentQuestionPending}
+                disabled={createAssessmentPending || assessmentQuestionPending}
                 className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-                isLoading={isPending || assessmentQuestionPending}
+                isLoading={createAssessmentPending || assessmentQuestionPending}
               >
                 Save Assessment
               </Button>

@@ -196,7 +196,7 @@ const CourseInformation = ({
       userId: userID,
     };
     setStep("1");
-    if (+courseId && paramsId) {
+    if (+courseId || paramsId) {
       updateCourseFun({
         payload,
         id: getSingleCourse?.data?.course?.id,

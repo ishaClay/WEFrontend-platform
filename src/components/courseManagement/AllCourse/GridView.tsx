@@ -24,6 +24,7 @@ import {
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
+import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
@@ -33,7 +34,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
-import { ErrorType } from "@/types/Errors";
 
 const GridView = ({
   list,
@@ -97,8 +97,8 @@ const GridView = ({
         });
         setOpen("");
       },
-      onError: (error: ErrorType) => {      
-        setCourse("");  
+      onError: (error: ErrorType) => {
+        setCourse("");
         toast({
           title: "Error",
           description: error?.data?.message,
@@ -211,10 +211,18 @@ const GridView = ({
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
-      createNewVersionFun({
-        courseId: item?.id,
-        version: item?.currentVersion?.version || 0,
-      });
+      if (item.status === "DRAFT") {
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${0}&step=${0}&version=${
+            item?.currentVersion?.id
+          }`
+        );
+      } else {
+        createNewVersionFun({
+          courseId: item?.id,
+          version: item?.currentVersion?.version || 0,
+        });
+      }
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -341,7 +349,6 @@ const GridView = ({
                     setOpen(item?.currentVersion?.id);
                     setCourse(item?.id);
                   }}
-                  isLoading={course === item?.id}
                 >
                   PUBLISH
                 </Button>

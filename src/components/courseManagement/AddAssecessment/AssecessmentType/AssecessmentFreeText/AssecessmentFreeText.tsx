@@ -103,6 +103,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
                   dispatch(addPoint({ index: i, point: +e.target.value }))
                 }
                 value={questionOption[i]?.point}
+                min={0}
                 type="number"
               />
             </div>
