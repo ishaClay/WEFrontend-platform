@@ -144,6 +144,7 @@ export interface MeasureEntity {
     empAssignDate?: null;
     createdAt: string;
     updatedAt: string;
+    lastUpdeated: any;
     deletedAt?: null;
 }
 export interface MeasureStatus {

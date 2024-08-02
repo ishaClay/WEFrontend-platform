@@ -164,7 +164,7 @@ const CourseInformation = ({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
     queryFn: () =>
       fetchSingleCourseById(String(+courseId ? paramsVersion : paramsId)),
-    enabled: paramsId === null ? false : true,
+    enabled: paramsId !== null || courseId ? true : false,
   });
 
   useEffect(() => {

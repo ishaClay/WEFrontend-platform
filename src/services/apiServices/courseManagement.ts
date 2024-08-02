@@ -49,7 +49,7 @@ export const UpdateEnrollmentRequest = (courseID: number, data: any) => {
 
 export const fetchCourseAllCourse = async (
   searchKeyword: string,
-  userId?: number, 
+  userId?: number,
   status?: string,
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
@@ -164,3 +164,9 @@ export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
   const res = await api({ url });
   return res?.data
 };
+export const createNewVersion = async (data: { courseId: number, version: number }) => {
+  const url = `api/v1/course/createCourseWithNewVersion`;
+  const method = "post";
+  const res = await api({ url, data, method });
+  return res.data;
+}

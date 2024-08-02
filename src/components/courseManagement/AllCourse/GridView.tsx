@@ -1,5 +1,6 @@
 import StarImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
+  createNewVersion,
   deleteCourse,
   publishCourse,
   updateVersion,
@@ -147,6 +149,26 @@ const GridView = ({
       },
     });
 
+  const { mutate: createNewVersionFun, isPending: createNewVersionPending } =
+    useMutation({
+      mutationFn: createNewVersion,
+      onSuccess: (data) => {
+        navigate(
+          `/${pathName}/create_course/${
+            data?.data?.id
+          }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
+        );
+        console.log("++++++++++++++++", data);
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+
   const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
     const payload = {
       mainCourseId: item?.currentVersion?.mainCourse?.id,
@@ -185,16 +207,14 @@ const GridView = ({
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | undefined,
     item: AllCoursesResult
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
-      navigate(
-        `/${pathName}/create_course/${
-          item?.id
-        }?tab=${0}&step=${0}&version=${id}`
-      );
+      createNewVersionFun({
+        courseId: item?.id,
+        version: item?.currentVersion?.version || 0,
+      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -369,13 +389,7 @@ const GridView = ({
                           : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e) =>
-                              handleEdit(
-                                e,
-                                item?.currentVersion?.id?.toString(),
-                                item
-                              )
-                            }
+                            onClick={(e) => handleEdit(e, item)}
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
@@ -412,6 +426,7 @@ const GridView = ({
           );
         })}
       </div>
+      <Loading isLoading={createNewVersionPending} />
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}

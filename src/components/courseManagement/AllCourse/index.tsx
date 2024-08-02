@@ -24,7 +24,7 @@ import ListView from "./listView";
 const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
-  const [status, setStatus] = useState("All");
+  const [status, setStatus] = useState("");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();

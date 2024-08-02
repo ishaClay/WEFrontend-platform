@@ -40,7 +40,10 @@ const ActionItemsList = ({ data }: ActionItems) => {
           <div className="grid 2xl:grid-cols-2 grid-cols-1 gap-2">
             <div className="flex flex-col gap-2 col-span-1">
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
-                Last Updated By : <span className="text-black">{"-"}</span>
+                Last Updated By :{" "}
+                <span className="text-black">
+                  {data?.lastUpdeated?.createdBy?.name}
+                </span>
               </h6>
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Last Updated Date :{" "}

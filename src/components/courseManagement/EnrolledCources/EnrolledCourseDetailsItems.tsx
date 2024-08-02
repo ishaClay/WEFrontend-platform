@@ -12,10 +12,10 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
       return employee?.progress === 100;
     });
 
-    if (status) {
-      statusName = "Completed";
-    } else if (data?.employee?.length === 0) {
+    if (data?.employee?.length === 0) {
       statusName = "Upcoming";
+    } else if (status) {
+      statusName = "Completed";
     } else {
       statusName = "Ongoing";
     }
