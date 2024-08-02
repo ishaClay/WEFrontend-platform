@@ -179,3 +179,53 @@ export interface SelfAssessmentType {
     totalPages: number;
   }
   
+
+
+  export interface AssigToUserListType {
+    data?: AssigToUserListDataEntity[] | null;
+    message: string;
+  }
+  export interface AssigToUserListDataEntity {
+    id: number;
+    name?: string | null;
+    email?: string | null;
+    status: string;
+    employeeStatus?: string | null;
+    profileImage?: string | null;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+    editActionItem?: boolean | null;
+    retakeSelfAssessment?: boolean | null;
+    shareFeedback?: boolean | null;
+    userDetails: UserDetails;
+    companyId?: string | null;
+    address?: string | null;
+    county?: string | null;
+    soleTrader?: boolean | null;
+    sector?: string | null;
+    averageNumberOfEmployees?: string | null;
+    parentCompanyName?: string | null;
+    parentCompanyAddress?: string | null;
+    parentCompanyCounty?: null;
+    note?: null;
+  }
+  export interface UserDetails {
+    id: number;
+    name?: string | null;
+    fname?: string | null;
+    lname?: string | null;
+    gender?: string | null;
+    email: string;
+    password: string;
+    role: number;
+    lastLogin?: string | null;
+    isVerify: number;
+    lastLogout?: string | null;
+    pathStatus: number;
+    deviceTokens?: (null)[] | null;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+  }
+  

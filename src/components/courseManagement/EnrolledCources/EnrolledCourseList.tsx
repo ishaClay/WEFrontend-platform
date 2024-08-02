@@ -5,12 +5,12 @@ import EnrolledCourseDetailsList from "./EnrolledCourseDetailsList";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchEnrollmentAccepted } from "@/services/apiServices/enroll";
-import { useSelector } from "react-redux";
 import { EnrolledCoursesType } from "@/types/enroll";
 import { Loader2 } from "lucide-react";
+import { useAppSelector } from "@/hooks/use-redux";
 
 const EnrolledCourseList = () => {
-  const { UserId } = useSelector((state: any) => state.user);
+  const { UserId } = useAppSelector((state) => state.user);
   const { data: enrolledCoursesData, isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),

@@ -17,12 +17,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   createSupportTicket,
-  fetchSupportTicketCompany,
+  fetchAssigToUser,
 } from "@/services/apiServices/supportRequestServices";
 import {
   SubmitPayload,
-  SupportTicketCompanyType,
 } from "@/types/SupportRequest";
+import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -39,7 +39,7 @@ function SupportAddNewTicket() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { clientId } = useSelector((state: any) => state.user);
+  const { UserId } = useSelector((state: any) => state.user);
   const [selectAssignTo, setSelectAssignTo] = useState("");
   const [selectTicketPriority, setSelectTicketPriority] = useState("");
   const [file, setFile] = useState("");
@@ -76,13 +76,12 @@ function SupportAddNewTicket() {
     mode: "all",
   });
 
-  const { data: fetchSupportCompany, isPending: supportCompanyPending } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchSupportTicketCompany],
-      queryFn: () =>
-        fetchSupportTicketCompany(String(clientId), String(user?.query?.role)),
-      enabled: true,
-    });
+    const { data: fetchAssigToUserList, isPending: assigToUserListPending } = useQuery({
+      queryKey: [QUERY_KEYS.fetchAssigToUserList],
+      queryFn: () => fetchAssigToUser(UserId),
+      enabled: !!UserId,
+    })
+    const assigToUserList = fetchAssigToUserList?.data?.filter((item) => item !== null);    
 
   const { mutate: createSupportRequestTicket, isPending: createPanding } =
     useMutation({
@@ -160,57 +159,32 @@ function SupportAddNewTicket() {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {supportCompanyPending ? (
+                  {assigToUserListPending ? (
                     <span className="flex justify-center py-3">
                       <Loader2 className="w-5 h-5 animate-spin" />
                     </span>
-                  ) : fetchSupportCompany?.data?.data.length > 0 ? (
-                    fetchSupportCompany?.data?.data?.map(
-                      (item: SupportTicketCompanyType) => {
+                  ) : assigToUserList && assigToUserList?.length > 0 ? (
+                    assigToUserList?.map((item) => {
                         return (
                           <>
-                            {item?.clientDetails && (
-                              <SelectItem
-                                key={item.id}
-                                value={String(item?.id)}
-                              >
-                                <span className="w-[150px] text-neutral-400 inline-block text-left">
-                                  Client Admin
-                                </span>{" "}
-                                <span className="mr-10 text-neutral-400">
-                                  --
-                                </span>{" "}
-                                {item?.clientDetails?.name}
-                              </SelectItem>
-                            )}
-                            {item?.trainerCompanyDetails && (
-                              <SelectItem
-                                key={item.id}
-                                value={String(item?.id)}
-                              >
-                                <span className="w-[150px] text-neutral-400 inline-block text-left">
-                                  Trainer Provider
-                                </span>{" "}
-                                <span className="mr-10 text-neutral-400">
-                                  --
-                                </span>{" "}
-                                {item?.trainerCompanyDetails?.providerName}
-                              </SelectItem>
-                            )}
-                            {item?.companyDetails && (
-                              <SelectItem
-                                key={item.id}
-                                value={String(item?.id)}
-                              >
-                                <span className="w-[150px] text-neutral-400 inline-block text-left">
-                                  Sme Company
-                                </span>{" "}
-                                <span className="mr-10 text-neutral-400">
-                                  --
-                                </span>{" "}
-                                {item?.companyDetails?.name}
-                              </SelectItem>
-                            )}
+                            <SelectItem
+                              key={item.id}
+                              value={String(item?.id)}
+                            >
+                              <span className="w-[150px] text-neutral-400 inline-block text-left">
+                                {
+                                  item?.userDetails.role === UserRole.Employee ? "Employee" :
+                                  item?.userDetails.role === UserRole.Company ? "SME Company" :
+                                  item?.userDetails.role === UserRole.Trainer ? "Trainer Provider" : 
+                                  item?.userDetails.role === UserRole.Trainee ? "Trainer" : "Client Admin"
+                                }
+                              </span>{" "}
+                              <span className="mr-10 text-neutral-400">
+                                --
+                              </span>{" "}
+                              {item?.userDetails?.name || item?.userDetails?.email?.split("@")?.[0]}
+
+                            </SelectItem>
                           </>
                         );
                       }

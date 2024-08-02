@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setQuestionType } from "@/redux/reducer/AssessmentReducer";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ModalItemProps {
   setIsOpenAssessmentModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +17,6 @@ const AssessmentModalSelectItem = ({
 }: ModalItemProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const { courseId } = useParams();

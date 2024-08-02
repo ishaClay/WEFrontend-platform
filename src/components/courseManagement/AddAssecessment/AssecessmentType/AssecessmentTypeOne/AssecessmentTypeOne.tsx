@@ -172,12 +172,15 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
               />
             </div>
           </div>
-          {errors.question && (
-            <p className="text-red-500 text-sm">{errors.question}</p>
-          )}
-          {errors.point && (
-            <p className="text-red-500 text-sm">{errors.point}</p>
-          )}
+          <div className="flex justify-between items-center mt-2">
+            {errors.question && (
+              <p className="text-red-500 text-sm">{errors.question}</p>
+            )}
+            <span></span>
+            {errors.point && (
+              <p className="text-red-500 text-sm">{errors.point}</p>
+            )}
+          </div>
         </div>
         <div className="">
           <div className="text-right">
@@ -189,7 +192,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
               + Add Option
             </Button>
           </div>
-          <RadioGroup defaultValue="comfortable">
+          <RadioGroup defaultValue="comfortable" className="relative">
             {options?.map((data, index) => {
               return (
                 <Fragment key={index}>
@@ -201,16 +204,18 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     setOptions={setOptions}
                     setErrors={setErrors}
                   />
-                  {errors.options[index] && (
-                    <p className="text-red-500 text-sm">
-                      {errors.options[index]}
-                    </p>
-                  )}
+                  <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
+                    {errors.options[index] && (
+                      <span className={`text-red-500 text-sm`}>
+                        {errors.options[index]}
+                      </span>
+                    )}
+                  </p>
                 </Fragment>
               );
             })}
             {errors.answer && (
-              <p className="text-red-500 text-sm">{errors.answer}</p>
+              <p className="text-red-500 text-sm absolute bottom-0 right-0">{errors.answer}</p>
             )}
           </RadioGroup>
         </div>

@@ -1,6 +1,5 @@
 import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
-import vector from "@/assets/images/Vector_menu.png";
 import { RegisterContext } from "@/context/RegisterContext";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
@@ -8,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Menu } from "lucide-react";
 import { useContext, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
 import { Button } from "../ui/button";
@@ -112,11 +111,21 @@ function HomeHeader(props: headerProps) {
                 <div className="text-[#1f1313]">
                   <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
                     <li className="group flex items-center gap-[5px]">
-                      <span className="cursor-pointer">Our Courses</span>
-                      <img className="w-[6px] h-[6px]" src={vector} />
+                      <Link to={`/our-courses`} className="cursor-pointer">
+                        Our Courses
+                      </Link>
+                      {/* <img className="w-[6px] h-[6px]" src={vector} /> */}
                     </li>
-                    <li className="cursor-pointer">Blogs</li>
-                    <li className="cursor-pointer">Contact Us</li>
+                    <li className="cursor-pointer">
+                      <Link to={`/blog`} className="cursor-pointer">
+                        Blogs
+                      </Link>
+                    </li>
+                    <li className="cursor-pointer">
+                      <Link to={`/contact`} className="cursor-pointer">
+                        Contact Us
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -200,16 +209,19 @@ function HomeHeader(props: headerProps) {
                     <div className="px-7 py-5 flex items-center justify-between flex-col w-full h-full">
                       <ul className="flex flex-col gap-2 mb-[14px] w-full">
                         <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
-                          <span className="cursor-pointer">Our Courses</span>
-                          <img src={vector} alt="icon" />
+                          <Link to={`/our-courses`} className="cursor-pointer">
+                            Our Courses
+                          </Link>
                         </li>
                         <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
-                          <span className="cursor-pointer">Blogs</span>
-                          {/* <img src={vector} alt="icon" /> */}
+                          <Link to={`/blog`} className="cursor-pointer">
+                            Blogs
+                          </Link>
                         </li>
                         <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
-                          <span className="cursor-pointer">Contact Us</span>
-                          {/* <img src={vector} alt="icon" /> */}
+                          <Link to={`/contact`} className="cursor-pointer">
+                            Contact Us
+                          </Link>
                         </li>
                       </ul>
                       <div className="flex flex-col gap-3 w-full">

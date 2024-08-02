@@ -8,7 +8,6 @@ interface CertificateTempleteItemsProps {
 }
 
 const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
-
   return (
     <div className="col-span-1 border border-[#D9D9D9]">
       <div className="text-center ">
@@ -21,11 +20,6 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
 
           <div className="absolute top-0 text-center h-full p-4">
             <div className="flex justify-center pb-1">
-                <img
-                  src={`${data?.backgroundImage}`}
-                  alt="backgroundImage"
-                  className="object-contain w-full mx-auto h-[300px]"
-                />
               <h4
                 className={`font-${data?.primaryFont} text-[34px] font-bold pt-1`}
                 style={{ color: data?.primaryColor }}

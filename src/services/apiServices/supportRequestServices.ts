@@ -1,9 +1,15 @@
-import { SubmitPayload, SupportTicketListType } from "@/types/SupportRequest";
+import { AssigToUserListType, SubmitPayload, SupportTicketListType } from "@/types/SupportRequest";
 import api from "./api";
 
 export const fetchSupportTicketCompany = (id: string, role: string) => {
     const url = `api/v1/support-ticket/getCompanyOrTrainerCompany?ClientId=${id}&role=${role}`
     return api({ url });
+}
+
+export const fetchAssigToUser = async (userId: string): Promise<AssigToUserListType> => {
+    const url = `api/v1/support-ticket/getAssigToUser/${userId}`
+    const res = await api({ url });
+    return res?.data
 }
 
 export const createSupportTicket = (data: SubmitPayload) => {

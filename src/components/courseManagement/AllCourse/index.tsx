@@ -31,7 +31,6 @@ const AllCourses = () => {
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };
@@ -41,7 +40,7 @@ const AllCourses = () => {
     isLoading: fetchCourseAllCoursePending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status === "All" ? "" : status),
   });
   const getAllCourseList = fetchCourseAllCourseData?.data?.filter((item) => item !== null)
 

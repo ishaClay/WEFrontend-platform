@@ -1,5 +1,6 @@
 import starImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Course_image from "@/assets/images/Course_image.png";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +33,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
+import { UserRole } from "@/types/UserRole";
 
 const ListView = ({
   list,
@@ -248,7 +250,7 @@ const ListView = ({
                 <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">
                   <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
                     <img
-                      src={data?.bannerImage}
+                      src={data?.bannerImage || Course_image}
                       alt=""
                       className="w-full h-full"
                     />
@@ -280,7 +282,7 @@ const ListView = ({
                         Module : {data?.module?.length || 0}
                       </div>
                       <div className="text-sm font-normal font-nunito text-[#000]">
-                        Duration : {data?.duration || "--"}
+                        Duration : {data?.duration || "00"}
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center md:gap-5 gap-3">
@@ -302,17 +304,27 @@ const ListView = ({
                 <div className="2xl:col-span-2 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
                   <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
-                      disabled={data?.status === "PUBLISHED"}
+                      disabled={
+                        data?.status === "PUBLISHED" ||
+                        data?.status === "EXPIRED" ||
+                        data?.status === "READYTOPUBLISH" ||
+                        (+userData?.query?.role === UserRole?.Trainee &&
+                          data?.status === "READYTOPUBLISH")
+                      }
                       className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                       onClick={(
                         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                       ) => {
                         e.preventDefault();
-                        setOpen(item?.currentVersion?.id);
-                        setCourse(item?.id);
+                        setOpen(data?.currentVersion?.id);
+                        setCourse(data?.id);
                       }}
                     >
-                      PUBLISHED
+                      {data.status === "PUBLISHED"
+                        ? "Published"
+                        : data.status === "READYTOPUBLISH"
+                        ? "Ready to Publish"
+                        : "Publish"}
                     </Button>
                     <Button
                       onClick={(e: any) =>
@@ -363,16 +375,22 @@ const ListView = ({
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsOpen(data?.id);
-                            }}
-                          >
-                            <Combine className="w-4 h-4" />
-                            <span>Allocate</span>
-                          </DropdownMenuItem>
+                          {+userData?.query?.role !== UserRole.Trainee && (
+                            <DropdownMenuItem
+                              className={`flex items-center gap-2 font-nunito ${
+                                +userData?.query?.role === UserRole.Trainee
+                                  ? "hidden"
+                                  : "block"
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(data?.id);
+                              }}
+                            >
+                              <Combine className="w-4 h-4" />
+                              <span>Allocate</span>
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) => {

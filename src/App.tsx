@@ -1,7 +1,6 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
@@ -121,6 +120,12 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import BlogPage from "./pages/blog/BlogPage";
+import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
+import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
+import OurServicePage from "./pages/OurServicePage";
+import HomeContactPage from "./pages/HomeContactPage";
+import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -151,24 +156,18 @@ function App() {
     themes?.data?.data?.textColor
   );
 
-  const ScrollToTop = () => {
-    const location = useLocation();
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [location.pathname]);
-
-    return null;
-  };
-
   return (
     <div className="App mx-auto">
       <Toaster />
-      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/membership" element={<OurServicePage />} />
+        <Route path="/contact" element={<HomeContactPage />} />
+        <Route path="/our-courses" element={<HomeOurCoursesPage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blogDetails" element={<BlogDetailsPage />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -805,6 +804,10 @@ function App() {
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate-employee"
+            element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="certificate-template/updatecertificate/:id"

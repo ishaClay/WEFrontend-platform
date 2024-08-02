@@ -61,7 +61,7 @@ const MyCourse = () => {
                 }
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
-                Create Course
+                ADD NEW COURSE
               </Button>
             </div>
           )}
