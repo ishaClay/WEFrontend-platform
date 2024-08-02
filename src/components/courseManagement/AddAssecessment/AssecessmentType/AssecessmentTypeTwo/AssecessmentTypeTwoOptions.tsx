@@ -49,7 +49,7 @@ const AssecessmentTypeTwoOptions = ({
   };
 
   return (
-    <div className="mb-4">
+    <div className="">
       <div className="space-x-2 flex items-center justify-between">
         <label htmlFor={data.optionTitle} className="flex items-center w-[98%]">
           <span className="text-sm text-black font-inter w-[80px]">

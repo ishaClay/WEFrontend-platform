@@ -350,7 +350,8 @@ const GridView = ({
                     setCourse(item?.id);
                   }}
                 >
-                  PUBLISH
+                  {(+userData?.query?.role === UserRole?.Trainee &&
+                      item?.status === "DRAFT") ? "Ready to Publish" : "PUBLISH"}
                 </Button>
                 <Button
                   onClick={(e: any) =>

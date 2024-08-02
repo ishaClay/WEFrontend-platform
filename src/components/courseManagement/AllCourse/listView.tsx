@@ -32,6 +32,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
+import { UserRole } from "@/types/UserRole";
 
 const ListView = ({
   list,
@@ -40,7 +41,7 @@ const ListView = ({
   list: AllCoursesResult[];
   isLoading?: boolean;
 }) => {
-  const { UserId } = useSelector((state: RootState) => state.user);
+  const { UserId, role } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
   const [open, setOpen] = useState<string>("");
@@ -312,7 +313,7 @@ const ListView = ({
                         setCourse(data?.id);
                       }}
                     >
-                      PUBLISHED
+                       {(+role === UserRole?.Trainee && data?.status === "DRAFT") ? "Ready to Publish" : "PUBLISH"}
                     </Button>
                     <Button
                       onClick={(e: any) =>

@@ -41,7 +41,7 @@ const AllCourses = () => {
     isLoading: fetchCourseAllCoursePending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status === "All" ? "" : status),
   });
   const getAllCourseList = fetchCourseAllCourseData?.data?.filter((item) => item !== null)
 

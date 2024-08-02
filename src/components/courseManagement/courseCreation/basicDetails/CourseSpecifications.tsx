@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getCertificate } from "@/services/apiServices/certificate";
+import { RootState } from "@/redux/store";
+import { certificateList } from "@/services/apiServices/certificate";
 import {
   createCourseTwoPage,
   fetchNfqlLevel,
@@ -13,13 +14,13 @@ import {
   updateCourse,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
-import { CertificateResponse } from "@/types/certificate";
 import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
@@ -49,6 +50,7 @@ const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) =
     resolver: zodResolver(schema),
     mode: "all",
   });
+  const { UserId } = useSelector((state: RootState) => state.user);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsTab = new URLSearchParams(search).get("tab");
@@ -57,9 +59,9 @@ const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) =
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
 
-  const { data } = useQuery<CertificateResponse>({
-    queryKey: ["certificate"],
-    queryFn: getCertificate,
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.getcertificate],
+    queryFn: () => certificateList(UserId),
   });
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({

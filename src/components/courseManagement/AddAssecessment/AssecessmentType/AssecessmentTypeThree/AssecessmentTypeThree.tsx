@@ -45,7 +45,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
         <h6 className="text-base text-black font-calibri pb-3">
-          Assessment Type
+          Assessment Type 12
         </h6>
         <input
           placeholder="Single Choice Question"
