@@ -83,7 +83,7 @@ import * as zod from "zod";
 
 const schema = zod.object({
   firstname: zod.string(),
-  lastname: zod.string(),
+  lastname: zod.string().min(1, { message: "Please Enter last name" }),
   email: zod.string(),
   gender: zod.string(),
 });

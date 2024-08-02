@@ -1,7 +1,6 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
@@ -120,15 +119,12 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-<<<<<<< Updated upstream
 import BlogPage from "./pages/blog/BlogPage";
 import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
 import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
-=======
 import OurServicePage from "./pages/OurServicePage";
 import HomeContactPage from "./pages/HomeContactPage";
 import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
->>>>>>> Stashed changes
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -159,20 +155,9 @@ function App() {
     themes?.data?.data?.textColor
   );
 
-  const ScrollToTop = () => {
-    const location = useLocation();
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [location.pathname]);
-
-    return null;
-  };
-
   return (
     <div className="App mx-auto">
       <Toaster />
-      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/membership" element={<OurServicePage />} />

@@ -31,7 +31,6 @@ const AllCourses = () => {
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };

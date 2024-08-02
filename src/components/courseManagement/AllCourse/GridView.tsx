@@ -1,4 +1,5 @@
 import StarImage from "@/assets/images/Vector.png";
+import Course_image from "@/assets/images/Course_image.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
@@ -282,13 +283,17 @@ const GridView = ({
             >
               <div className="relative min-h-[170px] h-[170px] overflow-hidden">
                 <img
-                  src={item?.bannerImage}
+                  src={item?.bannerImage || Course_image}
                   alt={"bannerImage"}
                   className="w-full h-full"
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item?.status === "COPY" ? "DRAFT" : item?.status || ""}
+                    {item?.status === "COPY"
+                      ? "DRAFT"
+                      : item?.status === "READYTOPUBLISH"
+                      ? "Ready to Publish"
+                      : item.status || item.status}
                   </Badge>
                 </div>
               </div>
@@ -315,13 +320,13 @@ const GridView = ({
                     Module : {item?.module?.length || 0}
                   </h5>
                   <p className="text-[14px] font-nunito min-w-[108px]">
-                    Duration : {item?.duration || "--"}
+                    Duration : {item?.duration || "00"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   {item?.courseData?.map((item: CourseDataEntity) => {
                     return (
-                      <div className="">
+                      <div className="" key={item?.pillarId}>
                         <Badge
                           variant="outline"
                           className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
@@ -338,6 +343,7 @@ const GridView = ({
                   disabled={
                     item?.status === "PUBLISHED" ||
                     item?.status === "EXPIRED" ||
+                    item?.status === "READYTOPUBLISH" ||
                     (+userData?.query?.role === UserRole?.Trainee &&
                       item?.status === "READYTOPUBLISH")
                   }
@@ -350,9 +356,13 @@ const GridView = ({
                     setCourse(item?.id);
                   }}
                 >
-                  {(+userData?.query?.role === UserRole?.Trainee &&
-                      item?.status === "DRAFT") ? "Ready to Publish" : "PUBLISH"}
+                  {item.status === "PUBLISHED"
+                    ? "Published"
+                    : item.status === "READYTOPUBLISH"
+                    ? "Ready to Publish"
+                    : "Publish"}
                 </Button>
+
                 <Button
                   onClick={(e: any) =>
                     handleCohort(e, item?.currentVersion?.id as number)
@@ -405,7 +415,11 @@ const GridView = ({
                         )}
                       {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
+                          className={`flex items-center gap-2 font-nunito ${
+                            +userData?.query?.role === UserRole.Trainee
+                              ? "hidden"
+                              : "block"
+                          }`}
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsOpen(item?.currentVersion?.mainCourse?.id);

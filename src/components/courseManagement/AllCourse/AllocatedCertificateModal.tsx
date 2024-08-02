@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
@@ -73,8 +74,6 @@ export function AllocatedCertificateModal({
       });
     }
   }, [data?.data?.trainer, courseId]);
-
-  console.log("courseId", courseId);
 
   const showInviteForm = () => {
     setIsInvite(true);

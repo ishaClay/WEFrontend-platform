@@ -96,6 +96,7 @@ export const QUERY_KEYS = {
   getInstitutions: "getInstitutions",
   fetchgetCoursesNameList: "fetchgetCoursesNameList",
   fetchAssigToUserList: "fetchAssigToUserList",
+  fetchforumquestion: "fetchforumquestion",
 };
 
 export const urlRegex =

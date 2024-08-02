@@ -25,12 +25,28 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod
-    .string({ required_error: "Please select NQF level" })
-    .min(1, "Please select NQF level"),
+  nfqLeval: zod.string().optional(),
   certificate: zod.string().min(1, "Please select certificate type").optional(),
-  ectsCredits: zod.string().min(1, "Please enter ECTS credit"),
-  fetCredits: zod.string().min(1, "Please enter FET credit"),
+  ectsCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The ECTS credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "ECTS credit must not be lesser than 0" }
+    ),
+  fetCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The FET credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "FET credit must not be lesser than 0" }
+    ),
 });
 
 interface CourseSpecificationsProps {
@@ -38,7 +54,10 @@ interface CourseSpecificationsProps {
   courseById: number | null;
 }
 
-const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) => {
+const CourseSpecifications = ({
+  setStep,
+  courseById,
+}: CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -71,8 +90,9 @@ const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) =
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
-    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
+    queryFn: () =>
+      fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: +courseId || courseById ? !!paramsversion || !!courseById : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -197,10 +217,9 @@ const CourseSpecifications = ({setStep, courseById}:CourseSpecificationsProps) =
               Specify the NFQ level for this course (if applicable).
             </Label>
             <SelectMenu
-              {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => setValue("nfqLeval", e)}
-              value={watch("nfqLeval")}
+              value={watch("nfqLeval") || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />

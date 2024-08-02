@@ -15,7 +15,6 @@ import { ChangeEvent, useState } from "react";
 const TrainingDocument = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  console.log("page", page);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData ? userData?.query?.role : null;
   const Role =
