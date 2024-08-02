@@ -28,17 +28,17 @@ const Contact = () => {
             <img
               src="/src/assets/images/Ellipse1.png"
               alt="ellipse"
-              className="absolute bottom-0 left-0 sm:block hidden"
+              className="absolute bottom-0 left-0"
             />
             <img
               src="/src/assets/images/Ellipse2.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
             <img
               src="/src/assets/images/Ellipse3.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
           </div>
 
@@ -56,17 +56,17 @@ const Contact = () => {
             <img
               src="/src/assets/images/Ellipse1.png"
               alt="ellipse"
-              className="absolute bottom-0 left-0 sm:block hidden"
+              className="absolute bottom-0 left-0"
             />
             <img
               src="/src/assets/images/Ellipse2.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
             <img
               src="/src/assets/images/Ellipse3.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
           </div>
 
@@ -84,17 +84,17 @@ const Contact = () => {
             <img
               src="/src/assets/images/Ellipse1.png"
               alt="ellipse"
-              className="absolute bottom-0 left-0 sm:block hidden"
+              className="absolute bottom-0 left-0"
             />
             <img
               src="/src/assets/images/Ellipse2.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
             <img
               src="/src/assets/images/Ellipse3.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
           </div>
 
@@ -112,17 +112,17 @@ const Contact = () => {
             <img
               src="/src/assets/images/Ellipse1.png"
               alt="ellipse"
-              className="absolute bottom-0 left-0 sm:block hidden"
+              className="absolute bottom-0 left-0"
             />
             <img
               src="/src/assets/images/Ellipse2.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
             <img
               src="/src/assets/images/Ellipse3.png"
               alt="ellipse"
-              className="absolute top-0 right-0 sm:block hidden"
+              className="absolute top-0 right-0"
             />
           </div>
         </div>

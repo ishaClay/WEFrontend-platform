@@ -114,30 +114,34 @@ const HomeFooter = () => {
                   </p>
 
                   <div className="flex gap-5  justify-center my-3">
-                    <Button
-                      variant={"ghost"}
+                    <a
+                      href="https://x.com/?lang=en"
+                      target="_blank"
                       className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
                     >
                       <FaXTwitter className="w-[19px] h-[19px]" />
-                    </Button>
-                    <Button
-                      variant={"ghost"}
+                    </a>
+                    <a
+                      href={"https://www.instagram.com"}
+                      target="_blank"
                       className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
                     >
                       <BsInstagram className="w-[19px] h-[19px]" />
-                    </Button>
-                    <Button
-                      variant={"ghost"}
+                    </a>
+                    <a
+                      href={"https://www.facebook.com"}
+                      target="_blank"
                       className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
                     >
                       <FaFacebookF className="w-[19px] h-[19px]" />
-                    </Button>
-                    <Button
-                      variant={"ghost"}
+                    </a>
+                    <a
+                      href={"https://www.youtube.com/"}
+                      target="_blank"
                       className="w-[19px] h-[19px] p-0 hover:bg-transparent hover:text-white"
                     >
                       <IoLogoYoutube className="w-[19px] h-[19px]" />
-                    </Button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -146,13 +150,13 @@ const HomeFooter = () => {
             <div className="flex items-start">
               <ul className=" text-white flex flex-col  sm:gap-y-[3px] gap-y-[10px] text-start secondary-text lg:p-0 px-5 sm:pr-[35px] pr-[29px] underline">
                 <Link
-                  to={"/"}
+                  to={"/our-courses"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
                   Our Courses
                 </Link>
                 <Link
-                  to={"/"}
+                  to={"/membership"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
                   Membership
@@ -164,7 +168,7 @@ const HomeFooter = () => {
                   News
                 </Link>
                 <Link
-                  to={"/"}
+                  to={"/contact"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
                   Contact Us

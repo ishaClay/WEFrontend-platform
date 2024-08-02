@@ -117,7 +117,7 @@ function HomeHeader(props: headerProps) {
                       {/* <img className="w-[6px] h-[6px]" src={vector} /> */}
                     </li>
                     <li className="cursor-pointer">
-                      <Link to={`/membership`} className="cursor-pointer">
+                      <Link to={`/blog`} className="cursor-pointer">
                         Blogs
                       </Link>
                     </li>
@@ -214,7 +214,7 @@ function HomeHeader(props: headerProps) {
                           </Link>
                         </li>
                         <li className="group flex items-center justify-between border-b border-[#B9B9B9] pb-2">
-                          <Link to={`/membership`} className="cursor-pointer">
+                          <Link to={`/blog`} className="cursor-pointer">
                             Blogs
                           </Link>
                         </li>

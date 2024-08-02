@@ -23,7 +23,7 @@ const ImageCard: FC<iconProps> = ({ headone, textone, texttwo }) => {
             {" "}
             {headone}
           </h1>
-          <p className="text-headingtext font-primary text-[16px] font-[400] leading-[24px] ">
+          <p className="font-primary font-inter text-sm font-[400] leading-[24px] ">
             {textone} <br /> {texttwo}
           </p>
         </div>

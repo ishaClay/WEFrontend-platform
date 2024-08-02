@@ -1,14 +1,12 @@
 import eco from "@/assets/images/eco.jpg";
 import route from "@/assets/images/route.jpg";
 import trackingnew from "@/assets/images/trackingnew.jpg";
-import doc from "@/assets/images/doc.png";
-import internet from "@/assets/images/internet_image.png";
-import question from "@/assets/images/question.png";
 import ImageCard from "./ImageCard";
 import WhiteIconCard from "./WhiteIconCard";
 import GradientHeading from "./GradientHeading";
 import HomeHeader from "../homePage/HomeHeader";
 import HomeFooter from "../homePage/HomeFooter";
+import { Boxes, Component, Group, Users } from "lucide-react";
 
 const OurService = () => {
   return (
@@ -29,24 +27,24 @@ const OurService = () => {
           </h1>
           <div className="grid grid-cols-1 lg:grid-cols-4 sm:grid-cols-2 gap-[20px] md:mb-12 mb-7">
             <WhiteIconCard
-              imgsrc={question}
+              imgsrc={<Boxes className="w-[40px] h-[40px]" />}
               headone="SME Company"
-              textone="All the questions regarding your shipping cycle and the OENA group products"
+              textone="The company description of your business plan describes the vision and direction of the company."
             />
             <WhiteIconCard
-              imgsrc={doc}
+              imgsrc={<Users className="w-[40px] h-[40px]" />}
               headone="Employee"
-              textone="From booking to delivery, all the tools we provide for a seamless documents management"
+              textone="Employees who exhibit positive and desirable traits usually get more career growth and success. "
             />
             <WhiteIconCard
-              imgsrc={internet}
+              imgsrc={<Component className="w-[40px] h-[40px]" />}
               headone="Trainer Company"
-              textone="Create an account and manage your access"
+              textone="A Corporate Trainer, or Development Educator, is responsible for maintaining the standards."
             />
             <WhiteIconCard
-              imgsrc={internet}
+              imgsrc={<Group className="w-[40px] h-[40px]" />}
               headone="Trainer"
-              textone="Create an account and manage your access"
+              textone="Trainers are highly required in every business setting."
             />
           </div>
           <h1 className="mb-3 text-left text-headingtext text-[24px] font-primary leading-[29px] font-[700]">
@@ -129,14 +127,14 @@ const OurService = () => {
               How to submit my SI?
             </li>
           </ul>
-          <h1 className="mb-3 text-left text-headingtext text-[24px] font-primary leading-[29px] font-[700]">
+          <h1 className="mb-3 text-left text-[24px] font-primary leading-[29px] font-[700]">
             Online tools
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px]">
             <ImageCard
               imgsrc={trackingnew}
               headone="Shipment Tracking"
-              textone={`Follow your shipment live through the vessel's position at sea: all you need to do is to enter the shipment reference number to track the shipment live on a map! View ETA and the remaining days to POD directly.`}
+              textone={`all you need to do is to enter the shipment reference number to track the shipment live on a map!`}
             />
             <ImageCard
               imgsrc={eco}
