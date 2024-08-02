@@ -2,12 +2,6 @@ import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,10 +22,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
+import Autocomplete from "@/components/comman/MultipleSelectMenu";
 
 const timePeriodsOptions = [
   {
@@ -71,6 +66,9 @@ const ScheduleLiveSessionPage = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
+  const [selectCompany, setSelectCompany] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   const ScheduleLiveSessionSchema = z.object({
     selectCourse: z.string({
@@ -79,12 +77,12 @@ const ScheduleLiveSessionPage = () => {
     selectLiveSession: z.string({
       required_error: "Please select Live session",
     }),
-    sessionSubtitle: z.string().nonempty("Please enter session title"),
+    sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
     sessionDescription: z.string().nonempty("Please enter session description"),
     sessionDate: z.string().nonempty("Please enter session date"),
     sessionTime: z
       .string()
-      .min(1, "Please enter time format")
+      .min(1, "time format are reqiured")
       .regex(/^(0[0-9]|1[0-2]):([0-5][0-9])$/, {
         message: "Please enter valid time format",
       }),
@@ -162,12 +160,14 @@ const ScheduleLiveSessionPage = () => {
     (i: any) => i?.trainer?.length > 0
   );
 
-  const selectCompanyOptions = filteredTraineeCompany?.length
-    ? filteredTraineeCompany?.map((i: TraineeCompanyDetails) => ({
+  const selectCompanyOptions = fetchTraineeCompany?.data
+    ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => ({
         label: i?.name,
         value: i?.id?.toString(),
       }))
     : [];
+
+  console.log("filteredTraineeCompany", filteredTraineeCompany);
 
   useEffect(() => {
     queryClient.invalidateQueries({
@@ -230,7 +230,7 @@ const ScheduleLiveSessionPage = () => {
       startAmPm: data.selectTimePeriods,
       sessionDuration:
         +data.selectDurationInHours * 60 + +data.selectDurationInMinute,
-      companyId: data.selectCompany,
+      companyId: selectCompany.map((val) => +val.value),
       trainerId: traineeList.map((trainee) => trainee.id),
     };
 
@@ -241,6 +241,8 @@ const ScheduleLiveSessionPage = () => {
       });
     }
   };
+
+  console.log("selectCompany", selectCompany);
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
@@ -515,10 +517,11 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-1">
+            {/* <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-semibold font-abhaya">
                 Select Company
               </Label>
+
               <Controller
                 control={control}
                 name="selectCompany"
@@ -562,6 +565,21 @@ const ScheduleLiveSessionPage = () => {
                   {errors.selectCompany.message}
                 </span>
               )}
+            </div> */}
+            <div className="flex flex-col gap-1">
+              <Label className="text-base text-black font-semibold font-abhaya">
+                Select Company
+              </Label>
+              <Autocomplete
+                suggestions={selectCompanyOptions}
+                selectedItems={selectCompany}
+                setSelectedItems={setSelectCompany}
+              />
+              {errors.selectCompany && (
+                <span className="text-red-500 text-sm">
+                  {errors.selectCompany.message}
+                </span>
+              )}
             </div>
             {traineeErr && traineeList?.length === 0 && (
               <span className="text-red-500 text-sm">
@@ -572,7 +590,7 @@ const ScheduleLiveSessionPage = () => {
               <Button
                 className="bg-transparent text-[#4285F4] text-base font-abhaya gap-2 items-center justify-start p-0 h-auto"
                 onClick={() => setIsOpen(true)}
-                disabled={!watch("selectCompany")?.length}
+                disabled={!selectCompany?.length}
                 type="button"
               >
                 <CirclePlus width={18} />

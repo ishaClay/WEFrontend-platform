@@ -107,7 +107,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         </div>
       </div>
       {showSuggestions && (
-        <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+        <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10  max-h-[200px] h-auto overflow-auto">
           {filteredSuggestions?.length > 0 ? (
             filteredSuggestions.map((suggestion, index) => (
               <li
