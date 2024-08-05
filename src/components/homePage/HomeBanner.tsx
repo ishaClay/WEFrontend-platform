@@ -21,8 +21,6 @@ const HomeBanner = () => {
           <Loader />
         ) : (
           clientwiseBannerList?.data?.map((item) => {
-            console.log("item", item);
-
             return (
               <div className="relative">
                 <img

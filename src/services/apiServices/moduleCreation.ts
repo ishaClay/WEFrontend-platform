@@ -39,7 +39,6 @@ export const updateModule = async(data: any, moduleId: any) => {
 export const createSection = async(data: any, moduleId: any) => {
     const url = `api/v1/course/module/section/create`,
     method = "post";
-    console.log('data.sections', data);
     const payloadData = data.map((it:any) => {
       return {
         ...it,
@@ -48,9 +47,6 @@ export const createSection = async(data: any, moduleId: any) => {
     })
     
     const payload = await transformSectionPayload(payloadData, moduleId)
-    console.log('payload', payload);
-    
-
     const res = await api({ url, method, data: payload});
     return res
 }

@@ -21,15 +21,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
+import Assign from "./Roadmap/Assign";
 
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
-  console.log("++++++++++", Role);
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [selectAssessment, setSelectAssessment] = useState<string>();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [isEdit, setIsEdit] = useState(false);
   const [activeTab, setActiveTab] =
     useState<MaturityAssessmentTabs>("assessmentresult");
   const userID =
@@ -68,7 +69,9 @@ const MaturityAssessment = () => {
     (item: any, i: number) => {
       return {
         label: `Re-assessment ${i + 1}`,
-        date: moment(new Date(item?.[0]?.createdAt || "")).format("DD/MM/YYYY"),
+        date: item?.[0]?.createdAt
+          ? moment(new Date(item?.[0]?.createdAt || "")).format("DD/MM/YYYY")
+          : "",
         value: String(i + 1),
       };
     }
@@ -81,15 +84,15 @@ const MaturityAssessment = () => {
     [];
 
   const showButton =
-    getCheckedmeasures?.data?.data?.length > 0 &&
-    getCheckedmeasures?.data?.data.reduce((acc: number, item: any) => {
-      return acc + item?.total;
-    }, 0);
-  console.log("assessmentQuestionScoreLIST?.data", showButton);
+    (getCheckedmeasures?.data?.data?.length > 0 &&
+      getCheckedmeasures?.data?.data.reduce((acc: number, item: any) => {
+        return acc + item?.total;
+      }, 0)) ||
+    0;
 
   return (
     <div className="">
-      <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 my-4">
+      <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
         <div className="">
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
             Baseline Self Assessment
@@ -103,7 +106,10 @@ const MaturityAssessment = () => {
               : ""}
           </h6>
         </div>
-        {pillarCompleted && (
+        {((pillarCompleted && Role !== "employee") ||
+          (pillarCompleted &&
+            Role === "employee" &&
+            userData?.query?.retakeSelfAssessment)) && (
           <div className="">
             <Select
               onValueChange={(e) => {
@@ -164,7 +170,7 @@ const MaturityAssessment = () => {
                   value="maturityAssessment"
                   className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
-                  My Action Plan
+                  {Role === "employee" ? "Action Plan" : "My Action Plan"}
                 </TabsTrigger>
                 {Role !== "company" && (
                   <TabsTrigger
@@ -189,13 +195,22 @@ const MaturityAssessment = () => {
                 assessmentData={assessmentData}
                 chnageTab={setActiveTab}
                 showButton={showButton}
+                setIsEdit={setIsEdit}
               />
             </TabsContent>
             <TabsContent
               value="maturityAssessment"
               className="lg:p-5 p-[15px] mt-0"
             >
-              <Roadmap showButton={showButton} />
+              {Role === "employee" ? (
+                <Assign setStep={() => {}} setIsEdit={setIsEdit} />
+              ) : (
+                <Roadmap
+                  showButton={showButton}
+                  isEdit={isEdit}
+                  setIsEdit={setIsEdit}
+                />
+              )}
             </TabsContent>
             <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0">
               <ActionItems />

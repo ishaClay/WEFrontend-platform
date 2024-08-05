@@ -10,6 +10,7 @@ import {
 } from "@/services/apiServices/employee";
 import { MeasuresItemsResponse } from "@/types/employee";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
 import { Dispatch, useState } from "react";
 
 const AssignModel = ({
@@ -45,7 +46,7 @@ const AssignModel = ({
     };
   });
 
-  console.log("data", data);
+  
 
   const { mutate, isPending } = useMutation({
     mutationFn: assignItemForEmployee,
@@ -103,6 +104,7 @@ const AssignModel = ({
         placeHolder="Enter Date"
         labelText="Start Date"
         date={date.startDate}
+        fromDate={new Date()}
         setDate={(e) => setDate((prev) => ({ ...prev, startDate: e }))}
         buttonClassName="text-base font-abhaya font-medium text-[#A3A3A3] w-[363px] h-[52px] xl:mb-7 mb-6"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
@@ -111,6 +113,7 @@ const AssignModel = ({
         placeHolder="Enter Date"
         labelText="End Date"
         date={date.endDate}
+        fromDate={moment(date?.startDate).add(1, "days").toDate() || new Date()}
         setDate={(e) => setDate((prev) => ({ ...prev, endDate: e }))}
         buttonClassName="text-base font-abhaya font-medium text-[#A3A3A3] w-[363px] h-[52px]"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"

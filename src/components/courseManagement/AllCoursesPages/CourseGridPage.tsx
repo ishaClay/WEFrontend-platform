@@ -109,8 +109,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           },
         };
 
-    console.log("upcomingData", data);
-
     return (
       <div
         className="xl:col-span-5 col-span-7 customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]"
@@ -182,7 +180,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
             (item) =>
               item.fetchPillar?.pillarName === selectedCourse?.pillarName
           );
-        console.log("allcourse", allcourse?.cohortGroups);
 
         return (
           <>

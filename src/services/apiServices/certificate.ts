@@ -1,6 +1,22 @@
 import { GetCertificate } from "@/types/certificate";
 import api from "./api";
 
+interface CertificateUpdate {
+  user: string;
+  templateName: string;
+  backgroundImage: string;
+  title: string;
+  bodyText: string;
+  administratorTitle: string;
+  administratorSignature: string;
+  instructorTitle: string;
+  companyLogo1: string;
+  instructorSignature: string;
+  createdAt: string;
+  updatedAt: string;
+  message: string;
+}
+
 export const getCertificate = async () => {
   const url = `api/v1/certificate/list`;
   const res = await api({ url });
@@ -25,14 +41,28 @@ export const fetchcertificate=async(id:string)=>{
     return res.data;
 }
 
-export const Updatecertificate = ({data, id}: {data: GetCertificate, id: string}) => {
-    const url = `api/v1/certificate/update/${id}`,
+export const Updatecertificate = ({
+  data,
+  id,
+}: {
+  data: CertificateUpdate | any;
+  id: string;
+}) => {
+  const url = `api/v1/certificate/update/${id}`,
     method = "put";
-    return api({ url, method, data });
+  return api({ url, method, data });
 };
 
-export const IssuedCertificateList=async(id:number)=>{
-    const url=`api/v1/certificate/get-employee/${id}`
-    const res=await api({url});
-    return res.data;
-}
+export const IssuedCertificateList = async ({
+  id,
+  page,
+  search,
+}: {
+  id: number;
+  page: number;
+  search: string;
+}) => {
+  const url = `api/v1/certificate/get-employee/${id}?page=${page}&limit=10&keyword=${search}`;
+  const res = await api({ url });
+  return res.data;
+};

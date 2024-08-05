@@ -13,27 +13,34 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import {
   copyCourse,
   deleteCourse,
   publishCourse,
+  updateVersion,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
+import { setPath } from "@/redux/reducer/PathReducer";
+import AllocatedCertificateModal from "./AllocatedCertificateModal";
+import { useAppDispatch } from "@/hooks/use-redux";
 
-interface VersionProps {
-  id: number;
-  versionId: number;
-  status: string;
-}
-
-const ListView = ({ list }: { list: AllCoursesResult[] }) => {
-  const [versionData, setVersionData] = useState<VersionProps[]>([]);
+const ListView = ({
+  list,
+  isLoading,
+}: {
+  list: AllCoursesResult[];
+  isLoading?: boolean;
+}) => {
+  const [isOpen, setIsOpen] = useState<string>("");
+  const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
   const [isDelete, setIsDelete] = useState(false);
@@ -43,7 +50,9 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const pathName = location?.pathname?.split("/")?.[1];
+  const Role = location?.pathname?.split("/")?.[1];
+  const pathName = location?.pathname?.split("/")?.[2];
+  const dispatch = useAppDispatch();
   // const queryClient = useQueryClient();
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
@@ -51,52 +60,33 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     setCourse(id);
   };
 
-  useEffect(() => {
-    if (list?.length > 0) {
-      const data = list?.map((item) => {
-        const version = item?.version?.find((itm) => itm?.version === 1);
-        return {
-          id: item?.id,
-          versionId: version?.id as number,
-          status:
-            item?.status === "COPY" ? "PUBLISHED" : (item?.status as string),
-        };
-      });
-      setVersionData(data);
-    }
-  }, [list]);
-
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: courseStatusUpdate,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-  //     toast({
-  //       title: "Success",
-  //       description: "Course Published successfully",
-  //       variant: "success",
-  //     });
-  //   },
-  //   onError: (error) => {
-  //     toast({
-  //       title: "Error",
-  //       description: error.message,
-  //       variant: "destructive",
-  //     });
-  //   },
-  // });
-
-  const handleChangeVersion = (versionId: string, id: number) => {
-    setVersionData((prev) => {
-      return prev.map((item) => {
-        if (item?.id === id) {
-          return {
-            ...item,
-            versionId: +versionId,
-          };
-        }
-        return item;
-      });
+  const { mutate: updateVersionFun, isPending: updateVersionPending } =
+    useMutation({
+      mutationFn: updateVersion,
+      onSuccess: (data) => {
+        queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
+        toast({
+          title: "Success",
+          description: data?.data?.message,
+          variant: "success",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
     });
+
+  const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
+    const payload = {
+      mainCourseId: item?.currentVersion?.mainCourse?.id,
+      versionId: +versionId,
+      userId: +UserId,
+    };
+    updateVersionFun(payload);
   };
 
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
@@ -184,7 +174,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     e.stopPropagation();
     if (item?.status !== "HOLD") {
       navigate(
-        `/${pathName}/create_course/${
+        `/${Role}/create_course/${
           item?.id
         }?tab=${0}&step=${0}&version=${id}`
       );
@@ -207,15 +197,17 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  return (
+  return list?.length > 0 && list ? (
     <div>
+       <AllocatedCertificateModal isOpen={isOpen} setIsOpen={setIsOpen} />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
+      {(isLoading || updateVersionPending) && (
+        <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
+          <Loader className="h-10 w-10" />
+        </div>
+      )}
       <div>
         {list.map((data, index: number) => {
-          const currentRecord = versionData?.find(
-            (itm) => itm?.id === data?.id
-          );
-
           const versionOption =
             data?.version &&
             data?.version.map((itm) => {
@@ -227,8 +219,17 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           return (
             <>
               <Link
-                to={`/${pathName}/employee-basic-course/${currentRecord?.versionId}`}
+                to={`/${Role}/employee-basic-course/${data?.currentVersion?.id}`}
                 key={index}
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      { label: "Course Management", link: null },
+                      { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                      { label: "Employee Basic Course", link: null },
+                    ])
+                  )
+                }
                 className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
                 <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">
@@ -304,14 +305,19 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                     >
                       + Cohort
                     </Button>
-                    <SelectMenu
-                      option={versionOption || []}
-                      setValue={(v: string) => handleChangeVersion(v, data?.id)}
-                      value={currentRecord?.versionId?.toString() || ""}
-                      containClassName="max-w-[62px]"
-                      className="max-w-[62px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                      placeholder="V-01"
-                    />
+                    <div className="">
+                      <SelectMenu
+                        option={versionOption || []}
+                        setValue={(e: string) => handleChangeVersion(e, data)}
+                        value={data?.currentVersion?.id?.toString() || ""}
+                        defaultValue={
+                          data?.currentVersion?.id?.toString() || ""
+                        }
+                        containClassName="max-w-[62px]"
+                        className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                        placeholder="V-01"
+                      />
+                    </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <EllipsisVertical />
@@ -321,7 +327,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) =>
-                              copyPublish(e, currentRecord?.versionId as number)
+                              copyPublish(e, data?.currentVersion?.id as number)
                             }
                           >
                             <Copy className="w-4 h-4" />
@@ -331,7 +337,7 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                             onClick={(e) =>
                               handleEdit(
                                 e,
-                                currentRecord?.versionId?.toString(),
+                                data?.currentVersion?.id?.toString(),
                                 data
                               )
                             }
@@ -340,6 +346,16 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
                           </DropdownMenuItem>
+                          {/* <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(data?.id);
+                            }}
+                          >
+                            <Combine className="w-4 h-4" />
+                            <span>Allocate</span>
+                          </DropdownMenuItem> */}
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) => {
@@ -376,6 +392,8 @@ const ListView = ({ list }: { list: AllCoursesResult[] }) => {
           </div>
         ))}
     </div>
+  ) : (
+    <span className="py-10 block text-center">No data found</span>
   );
 };
 

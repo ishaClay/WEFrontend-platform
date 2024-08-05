@@ -23,8 +23,7 @@ const CustomCarousel = ({
   children,
   className,
   containerClassName,
-}: CustomCarouselProps) => {
-  console.log("children", children);
+}: CustomCarouselProps) => {;
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);

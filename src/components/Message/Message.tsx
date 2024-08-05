@@ -31,21 +31,23 @@ import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import Drawer from "../comman/Drawer";
 import Loading from "../comman/Error/Loading";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 let socket: any;
 
 const Message = () => {
-  const navigate = useNavigate();
   const chatContainerRef = useRef<any>(null);
 
   const { UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
 
   const [searchChat, setSearchChat] = useState("");
   const [images, setImages] = useState<string[]>([]);
@@ -60,20 +62,20 @@ const Message = () => {
 
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-
+  const dispatch = useAppDispatch();
   const {
     data: chatUserList,
     isPending: userListPending,
     refetch: refetchUserList,
   } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList],
-    queryFn: () => fetchChatUserList(UserId as string),
+    queryFn: () => fetchChatUserList(userID as string),
   });
 
   const { data: chatList, refetch: refetchChat } = useQuery({
     queryKey: [QUERY_KEYS.chatList],
-    queryFn: () => fetchChat(UserId, chatId),
-    enabled: !!UserId && !!chatId,
+    queryFn: () => fetchChat(userID, chatId),
+    enabled: !!userID && !!chatId,
   });
 
   useEffect(() => {
@@ -89,7 +91,7 @@ const Message = () => {
   const { mutate: upload_file, isPending: FileUploadPending } = useMutation({
     mutationFn: (file: any) => uploadFile(file),
     onSuccess: (data) => {
-      setImages((prevImages) => [...prevImages, data?.data?.data?.image]);
+      setImages((prevImages) => [...prevImages, data?.data?.data?.file]);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -219,8 +221,6 @@ const Message = () => {
     setImages([]);
   }, [chatId]);
 
-  console.log("OpenDrawer", openDrawer);
-
   useEffect(() => {
     if (["mobile", "sm"].includes(viewType)) {
       setOpenDrawer(false);
@@ -304,8 +304,6 @@ const Message = () => {
                       new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                         createdAtDate.toDateString();
 
-                    console.log("item?.senderId", item);
-
                     return (
                       <div key={item.id}>
                         {showDate && (
@@ -361,11 +359,11 @@ const Message = () => {
                                     <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
                                       <IoIosDocument className="h-5 w-5 me-3" />
                                       <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
-                                        {i.split("upload/")[1]}
+                                        {i?.split(".com/")?.[1]}
                                       </span>
                                       <Button
                                         variant={"ghost"}
-                                        className="p-0"
+                                        className="p-0 h-auto"
                                         onClick={() => window.open(i, "_blank")}
                                       >
                                         <img
@@ -397,7 +395,7 @@ const Message = () => {
                 <div className="">
                   {images?.length > 0 && (
                     <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
-                      {images.map((image, index: number) => (
+                      {images?.map((image, index: number) => (
                         <div key={index} className="mr-5 mb-2 relative">
                           <Button
                             variant="outline"
@@ -408,11 +406,11 @@ const Message = () => {
                             <MdClose className="h-4 w-4" />
                           </Button>
 
-                          {image.endsWith(".pdf") ? (
+                          {image?.endsWith(".pdf") ? (
                             <div className="flex items-center">
                               <IoIosDocument />
                               <span className="mx-3 text-[12px] text-medium">
-                                {image.split("upload/")[1]}
+                                {image?.split(".com/")?.[1]}
                               </span>
                             </div>
                           ) : (
@@ -513,8 +511,6 @@ const Message = () => {
             {chatUserList?.data?.data
               ?.filter(filterByName)
               ?.map((item: GetChatUserList | any) => {
-                console.log("item?.email", item);
-
                 return (
                   <div
                     key={item.id}
@@ -638,7 +634,17 @@ const Message = () => {
             )}
             <Button
               className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri"
-              onClick={() => navigate(`/${currentUser}/message/compose`)}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    { label: "Message", link: `/${currentUser}/message` },
+                    {
+                      label: "Compose",
+                      link: `/${currentUser}/message/compose`,
+                    },
+                  ])
+                );
+              }}
             >
               <FilePenLine width={18} /> Compose
             </Button>
@@ -666,8 +672,6 @@ const Message = () => {
                       index === 0 ||
                       new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                         createdAtDate.toDateString();
-
-                    console.log("item?.senderId", item);
 
                     return (
                       <div key={item.id}>
@@ -718,12 +722,14 @@ const Message = () => {
                                     <div className="w-[300px] bg-[#EDEFF9] p-5 flex rounded">
                                       <IoIosDocument className="h-5 w-5 me-3" />
                                       <span className="w-[80%] overflow-hidden whitespace-nowrap text-ellipsis text-[14px]">
-                                        {i.split("upload/")[1]}
+                                        {i?.split(".com/")?.[1]}
                                       </span>
                                       <Button
                                         variant={"ghost"}
-                                        className="p-0"
-                                        onClick={() => window.open(i, "_blank")}
+                                        className="p-0 h-auto"
+                                        onClick={() =>
+                                          window?.open(i, "_blank")
+                                        }
                                       >
                                         <img
                                           src={eye}
@@ -754,7 +760,7 @@ const Message = () => {
                 <div className="">
                   {images?.length > 0 && (
                     <div className="p-2 flex overflow-x-auto bg-[#F5F5F5]">
-                      {images.map((image, index: number) => (
+                      {images?.map((image, index: number) => (
                         <div key={index} className="mr-5 mb-2 relative">
                           <Button
                             variant="outline"
@@ -765,11 +771,11 @@ const Message = () => {
                             <MdClose className="h-4 w-4" />
                           </Button>
 
-                          {image.endsWith(".pdf") ? (
+                          {image?.endsWith(".pdf") ? (
                             <div className="flex items-center">
                               <IoIosDocument />
                               <span className="mx-3 text-[12px] text-medium">
-                                {image.split("upload/")[1]}
+                                {image?.split(".com/")?.[1]}
                               </span>
                             </div>
                           ) : (

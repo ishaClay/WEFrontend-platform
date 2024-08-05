@@ -16,14 +16,14 @@ import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function Auth() {
   const { toast } = useToast();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -48,7 +48,6 @@ function Auth() {
   });
 
   const handleRedirect = (path: number, data: any) => {
-    console.log(path, "path", data);
     switch (path) {
       case 1:
         navigate("/savedassesment");
@@ -77,7 +76,6 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
-      console.log("++++++++", user, data);
 
       // dispatch(setClientId(data.data.data.query.clientid));
 
@@ -104,12 +102,11 @@ function Auth() {
           },
         });
         dispatch(setUserData(user.id));
-        console.log("data", data?.data?.data);
       } else {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
 
-        // navigate("/savedassesment");        
+        // navigate("/savedassesment");
         dispatch(setUserData(user.id));
         dispatch(setClientRole(+user.role));
         localStorage.setItem("user", JSON.stringify(data.data.data));
@@ -159,13 +156,6 @@ function Auth() {
           });
 
           dispatch(setUserData(user.id));
-
-          console.log(
-            "user.pathstatus",
-            user.pathstatus !== "7",
-            user.pathstatus !== "3",
-            user.lastlogout === null
-          );
 
           // if (user.role == UserRole.Company) {
           // console.log(user.pathstatus ===)

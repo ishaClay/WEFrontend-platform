@@ -43,8 +43,6 @@ const MyCoursePage = () => {
     ? userData?.query?.detailsid
     : userData?.detailsid;
 
-  console.log("+++++++++++++++++", window.location.pathname?.split("/")[1]);
-
   const changeView = (id: number) => {
     navigate(
       `/${window.location.pathname?.split("/")[1]}/mycourses?view=${id}`,
@@ -70,18 +68,20 @@ const MyCoursePage = () => {
       getAllEmployeeCourseList({
         id: userID,
         status: selectFilterByStatus,
-        categories: selectFilterByCategory,
+        categories:
+          selectFilterByCategory === "all" ? "" : selectFilterByCategory,
       }),
   });
 
-  console.log("data", clientwisePillarList);
-
-  const pillerFilterOption = clientwisePillarList?.data?.data?.map((itm) => {
-    return {
-      label: itm?.pillarName,
-      value: itm?.pillarName,
-    };
-  });
+  const pillerFilterOption = [
+    { label: "All", value: "all" },
+    ...(clientwisePillarList?.data?.data?.map((itm) => {
+      return {
+        label: itm?.pillarName,
+        value: itm?.pillarName,
+      };
+    }) || []),
+  ];
 
   useEffect(() => {
     if (pillerFilterOption) {

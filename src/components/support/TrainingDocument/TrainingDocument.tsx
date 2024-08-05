@@ -15,7 +15,6 @@ import { ChangeEvent, useState } from "react";
 const TrainingDocument = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  console.log("page", page);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData ? userData?.query?.role : null;
   const Role =
@@ -26,21 +25,15 @@ const TrainingDocument = () => {
       : UserRole?.Company === +userRole
       ? 3
       : 4;
-
-  console.log("userData?.query?.id", userData?.query?.id);
-
   const { data: document, isLoading } = useQuery<TrainingDocumentResponse>({
     queryKey: [QUERY_KEYS.fetchDocument, { page, search, Role }],
     queryFn: () =>
       fetchDocument({
         page,
-        userId: userData?.query?.id,
         role: Role,
         keyword: search,
       }),
   });
-
-  console.log("data", document);
 
   const column: ColumnDef<TrainingDocumentResult>[] = [
     {
@@ -113,13 +106,15 @@ const TrainingDocument = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="border-b border-[#D9D9D9] p-4">
-        <h6 className="font-nunito text-base font-bold">Training Document</h6>
-        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+        <h6 className="font-nunito text-base font-bold pb-2">
+          Training Document
+        </h6>
+        <p className="text-[#606060] text-[15px] font-abhaya sm:leading-[16px] leading-5">
           Here’s the full list of training documents related to all your courses
         </p>
       </div>
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center xl:w-[550px] md:w-[450px] sm:w-[350px] w-[290px] px-4 xl:py-3 py-2 rounded-lg">
+        <div className="border border-[#D9D9D9] flex items-center xl:w-[550px] md:w-[450px] sm:w-[350px] w-[290px] px-4 sm:h-[52px] h-[46px] rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             className="outline-none xl:text-[15px] text-sm text-[#A3A3A3] font-inter px-3 w-full"

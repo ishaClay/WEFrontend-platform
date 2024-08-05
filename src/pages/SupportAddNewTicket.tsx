@@ -14,7 +14,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   createSupportTicket,
   fetchSupportTicketCompany,
@@ -32,12 +34,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FiImage, FiVideo } from "react-icons/fi";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function SupportAddNewTicket() {
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const { toast } = useToast();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { clientId } = useSelector((state: any) => state.user);
   const [selectAssignTo, setSelectAssignTo] = useState("");
@@ -94,7 +96,14 @@ function SupportAddNewTicket() {
         setSelectAssignTo("");
         setSelectTicketPriority("");
         toast({ title: "Ticket created Successfully", variant: "default" });
-        navigate("/company/support-request");
+        dispatch(
+          setPath([
+            {
+              label: "Support Ticket",
+              link: `/${Role}/support-request`,
+            },
+          ])
+        );
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.supportTicketList],
         });
@@ -129,7 +138,20 @@ function SupportAddNewTicket() {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: "Support",
+                    link: null,
+                  },
+                  {
+                    label: "Support Request",
+                    link: `/${Role}/support-request`,
+                  },
+                ])
+              );
+            }}
             className="text-[16px] font-[600] flex items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />

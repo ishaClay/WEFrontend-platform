@@ -39,7 +39,6 @@ const TeaserScore = () => {
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
-  console.log(fetchClientmaturitylevel);
 
   const { data: allassessmant } = useQuery({
     queryKey: [QUERY_KEYS.totalAssessment],

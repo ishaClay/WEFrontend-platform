@@ -176,9 +176,9 @@ function CoursesAllocate() {
                                 alt="time"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion.course.time ===
+                                {courseallocate?.courseVersion?.course?.time ===
                                   CourseTime.FullTime && <span>Full-time</span>}
-                                {courseallocate?.courseVersion.course.time ===
+                                {courseallocate?.courseVersion?.course?.time ===
                                   CourseTime.PartTime && <span>Part-time</span>}
                               </p>
                             </div>
@@ -189,19 +189,19 @@ function CoursesAllocate() {
                                 alt="type"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion.course
+                                {courseallocate?.courseVersion?.course
                                   .isOnline === IsOnline.Online && (
                                   <span>Online</span>
                                 )}
-                                {courseallocate?.courseVersion.course
+                                {courseallocate?.courseVersion?.course
                                   .isOnline === IsOnline.InPerson && (
                                   <span>InPerson</span>
                                 )}
-                                {courseallocate?.courseVersion.course
+                                {courseallocate?.courseVersion?.course
                                   .isOnline === IsOnline.Hybrid && (
                                   <span>Hybrid</span>
                                 )}
-                                {courseallocate?.courseVersion.course
+                                {courseallocate?.courseVersion?.course
                                   .isOnline === IsOnline.Major && (
                                   <span>Major</span>
                                 )}
@@ -214,7 +214,7 @@ function CoursesAllocate() {
                                 alt="Duration"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion.course.duration}
+                                {courseallocate?.courseVersion?.course?.duration}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">
@@ -224,7 +224,7 @@ function CoursesAllocate() {
                                 alt="institute"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion.course.institute}
+                                {courseallocate?.courseVersion?.course?.institute}
                               </p>
                             </div>
                           </div>
@@ -286,17 +286,19 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
-                        <Button
-                          className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"
-                          onClick={() => {
-                            setPopupOpen(true);
-                            setOpenId(courseallocate?.id);
-                          }}
-                        >
-                          View Allocation
-                        </Button>
-                      </div>
+                      {statusFilter === "1" && (
+                        <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
+                          <Button
+                            className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"
+                            onClick={() => {
+                              setPopupOpen(true);
+                              setOpenId(courseallocate?.id);
+                            }}
+                          >
+                            View Allocation
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </div>
 

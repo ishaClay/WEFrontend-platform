@@ -130,12 +130,9 @@ const CourseGridView = ({
         <div className="">
           <div className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between">
             <div>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: recommendeddata.description,
-                }}
-                className="font-inter lg:text-base text-sm line-clamp-2 mb-3"
-              ></span>
+              <span className="font-inter lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
+                {recommendeddata.title}
+              </span>
               <h3 className="text-[#000000] text-[18px] font-calibri font-[600] sm:w-[100px] w-[80px] mb-3">
                 €{recommendeddata.price}
               </h3>

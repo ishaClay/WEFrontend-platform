@@ -7,6 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { AllLivesessions } from "@/types/liveSession";
 import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
@@ -17,30 +19,63 @@ import {
   View,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/hooks/use-redux";
 
-const initialEvents = [
-  {
-    id: 1,
-    title: "Team Meeting",
-    start: new Date(2024, 6, 19, 10, 0, 0),
-    end: new Date(2024, 6, 19, 12, 0, 0),
-  },
-  {
-    id: 2,
-    title: "Project Review",
-    start: new Date(2024, 6, 20, 14, 0, 0),
-    end: new Date(2024, 6, 20, 16, 0, 0),
-  },
-];
+interface AllLiveSessionsProps {
+  allLiveSession: AllLivesessions[];
+}
 
-const LiveSessionsCalendar = () => {
-  const navigate = useNavigate();
+const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
+  const dispatch = useAppDispatch();
   const localizer = momentLocalizer(moment);
   const pathName = window.location.pathname;
-  const currentUser = pathName.split("/")[1];
+  const currentUser = pathName?.split("/")[1];
 
   const [currentDate, setCurrentDate] = useState<Date | undefined>(new Date());
+
+  const calculateEndTime = (
+    startTime: string,
+    sessionDuration: { hour: string; minute: string }
+  ) => {
+    const [hours = 1, minutes = 0] = startTime?.split(":").map(Number) || [
+      0, 0,
+    ];
+    const [durationHours = 0, durationMinutes = 0] = sessionDuration
+      ? [sessionDuration.hour, sessionDuration.minute].map(Number) || [0, 0]
+      : [0, 0];
+
+    let totalMinutes =
+      hours * 60 + minutes + durationHours * 60 + durationMinutes;
+    let endHours = Math.floor(totalMinutes / 60);
+    let endMinutes = totalMinutes % 60;
+
+    if (endHours > 12) {
+      endHours -= 12;
+    }
+
+    return `${endHours}:${endMinutes < 10 ? "0" : ""}${endMinutes}`;
+  };
+
+  const events = allLiveSession?.map((session) => {
+    const eventStart = moment(
+      session.date + " " + session.startTime + " " + session.startAmPm,
+      "YYYY-MM-DD hh:mm A"
+    ).toDate();
+    const eventEnd = moment(
+      session.date +
+        " " +
+        calculateEndTime(session.startTime, session.sessionDuration) +
+        " " +
+        session.startAmPm,
+      "YYYY-MM-DD hh:mm A"
+    ).toDate();
+
+    return {
+      start: eventStart,
+      end: eventEnd,
+      title: "Live Session",
+    };
+  });
 
   const CustomToolbar: React.FC<ToolbarProps> = ({ onView, view }) => {
     const handleViewChange = (e: string) => {
@@ -86,7 +121,21 @@ const LiveSessionsCalendar = () => {
         <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-10 sm:gap-8 gap-4">
           <Button
             className="bg-[#00778B] text-white"
-            onClick={() => navigate(`/${currentUser}/schedule-live-session`)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Course Managment", link: null },
+                  {
+                    label: "Live Session",
+                    link: `/${currentUser}/CourseLiveSession`,
+                  },
+                  {
+                    label: "schedule-live-session",
+                    link: `/${currentUser}/schedule-live-session`,
+                  },
+                ])
+              );
+            }}
           >
             <CirclePlus width={16} />
             Add New
@@ -124,7 +173,7 @@ const LiveSessionsCalendar = () => {
         <div className="flex items-center gap-[20px]">
           <Select value={view} onValueChange={handleViewChange}>
             <SelectTrigger className="w-[100px]">
-              <SelectValue />
+              <SelectValue className="w-[100px]" />
             </SelectTrigger>
             <SelectContent className="w-[100px]">
               <SelectGroup>
@@ -145,12 +194,12 @@ const LiveSessionsCalendar = () => {
 
   return (
     <div className="p-3 bg-white min-h-full">
-      <div className="text-[#606060] text-[15px] mb-2">
+      {/* <div className="text-[#606060] text-[15px] mb-2">
         All the Live Sessions across your courses, in one calender view
-      </div>
+      </div> */}
       <Calendar
         localizer={localizer}
-        events={initialEvents}
+        events={events}
         components={{ toolbar: CustomToolbar, event: CustomEvent }}
         date={currentDate}
         style={{ height: 800 }}

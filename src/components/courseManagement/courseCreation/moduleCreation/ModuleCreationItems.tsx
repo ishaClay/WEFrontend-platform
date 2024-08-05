@@ -122,11 +122,6 @@ const ModuleCreationItems = ({
       </div>
       {sections.map((_: any, sectionindex: number) => {
         const sectionItem = watch(`modules.${index}.section.${sectionindex}`);
-        console.log(
-          "sectionItem",
-          sectionItem,
-          `modules.${index}.section.${sectionIndex}`
-        );
 
         return (
           <div key={index} className="sm:p-5 p-4 border-t border-[#D9D9D9]">

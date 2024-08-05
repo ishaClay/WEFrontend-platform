@@ -110,8 +110,6 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
           },
         };
 
-    console.log("upcomingData", upcomingData, findIndex);
-
     return (
       <div
         className="col-span-5 customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF] sm:w-[300px] w-[270px]"

@@ -4,16 +4,64 @@ import Ellipse_two from "@/assets/images/Ellipse2.png";
 import Ellipse_three from "@/assets/images/Ellipse3.png";
 import Ellipse_four from "@/assets/images/Ellipse4.png";
 import Ellipse_five from "@/assets/images/Ellipse5.png";
+import { QUERY_KEYS } from "@/lib/constants";
+import { useAppSelector } from "@/hooks/use-redux";
+import { useQuery } from "@tanstack/react-query";
+import { getAllassessment } from "@/services/apiServices/assessment";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+
+const findMaturityLevel = (score: number, maturityLevel: any) => {
+  for (const level of maturityLevel) {
+    if (score >= level.rangeStart && score <= level.rangeEnd) {
+      return level;
+    }
+  }
+  return null;
+};
 
 const MaturityLevel = () => {
+  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
+
+  const { data: fetchClientmaturitylevel } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+    queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+  });
+
+
+  const { data: allassessmant } = useQuery({
+    queryKey: [QUERY_KEYS.totalAssessment],
+    queryFn: () => getAllassessment(userID, clientId),
+  });
+
+  const score = (
+    (+allassessmant?.data?.data?.avTotalpoints /
+      +allassessmant?.data?.data?.avTotalmaxpoint) *
+    100
+  ).toFixed(2);
+
+  const setScore = isNaN(Number(score)) ? 0 : score;
+  const currentLavel =
+    fetchClientmaturitylevel &&
+    findMaturityLevel(Number(setScore), fetchClientmaturitylevel?.data);
+
+
   const data = {
-    labels: ["Beginner", "Intermediate", "Advanced"],
+    labels: ["Introductory", "Intermediate", "Advanced"],
     datasets: [
       {
         label: "Poll",
-        data: [100],
-        backgroundColor: ["#FFD56A", "green", "red"],
-        borderColor: ["#FFD56A", "green", "red"],
+        data: [setScore, 100 - Number(setScore)],
+        backgroundColor: [currentLavel?.color, "#D1D1D1"],
+        borderColor: [currentLavel?.color, "#D1D1D1"],
       },
     ],
   };
@@ -59,28 +107,17 @@ const MaturityLevel = () => {
 
   const Labels = () => (
     <div className="left-0 top-0 h-full md:flex block items-center gap-5">
-      {data.labels.map((label, index) => {
-        let colorClass, opacityClass;
-        if (index === 0) {
-          colorClass =
-            "bg-gradient-to-r from-red-500 via-red-500 to-transparent";
-          opacityClass = "bg-opacity-25";
-        } else if (index === 1) {
-          colorClass =
-            "bg-gradient-to-r from-yellow-500 via-yellow-500 to-transparent";
-          opacityClass = "bg-opacity-50";
-        } else {
-          colorClass =
-            "bg-gradient-to-r from-green-500 via-green-500 to-transparent";
-          opacityClass = "bg-opacity-75";
-        }
+      {fetchClientmaturitylevel?.data?.map((label, index) => {
         return (
           <div key={index} className="flex items-center relative mt-4">
             <div
-              className={`w-[60px] h-[27px] ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none `}
+              style={{
+                backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
+              }}
+              className={`w-[60px] h-[27px] rounded-l-lg rounded-r-none `}
             ></div>
             <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
-              {label}
+              {label?.maturityLevelName}
             </div>
           </div>
         );
@@ -106,7 +143,7 @@ const MaturityLevel = () => {
             <div className="md:mb-5 mb-0 sm:block hidden">
               <p className="inline">Your overall sustainability Score -</p>{" "}
               <span className="font-poppins font-bold text-[#000000] leading-6">
-                Intermediate
+                {currentLavel?.maturityLevelName}
               </span>
             </div>
             <div className="flex">

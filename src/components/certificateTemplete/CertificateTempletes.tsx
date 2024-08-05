@@ -1,10 +1,10 @@
-import CertificateTempleteItems from "./CertificateTempleteItems";
-import { useQuery } from "@tanstack/react-query";
-import { certificateList } from "@/services/apiServices/certificate";
-import { useSelector } from "react-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
+import { certificateList } from "@/services/apiServices/certificate";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 import Loader from "../comman/Loader";
+import CertificateTempleteItems from "./CertificateTempleteItems";
 const CertificateTemplete = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const { data: certificate_data, isPending } = useQuery({

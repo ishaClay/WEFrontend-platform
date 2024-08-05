@@ -21,21 +21,19 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
-type headerTitleProps = {
-  title: {
-    label: string;
-    link?: string;
-  }[];
-};
 
-const EmployeeHeader = ({ title }: headerTitleProps) => {
+
+const EmployeeHeader = () => {
   const [open, setOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
   const navigate = useNavigate();
+  const dispatch=useAppDispatch()
   const [data, setData] = useState<SidebarItem[]>([]);
 
   const { mutate, isPending } = useMutation({
@@ -43,6 +41,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -102,7 +101,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
                 Welcome {userData?.query?.email?.split("@")[0]}
               </h3>
-              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
+              <BreadcrumbWithCustomSeparator />
             </h4>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">

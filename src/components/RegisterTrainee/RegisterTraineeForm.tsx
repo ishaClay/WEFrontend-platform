@@ -1,6 +1,4 @@
 import mandatory from "/assets/img/Mandatory.svg";
-
-import { trainerUpdate } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -18,6 +16,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
+import { updateEmployeeEmail } from "@/services/apiServices/employee";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
 
@@ -27,7 +26,6 @@ const RegisterTraineeForm = () => {
   const type = params.get("type");
   const email: string | null = params.get("email");
   const navigate = useNavigate();
-
   const schema = Zod.object({
     email: Zod.string()
       .email({ message: "This is not a valid email." })
@@ -84,8 +82,8 @@ const RegisterTraineeForm = () => {
     setValue("email", email);
   }, [email]);
 
-  const { mutate: updateTrainee, isPending } = useMutation({
-    mutationFn: trainerUpdate,
+  const { mutate: update_Employee, isPending } = useMutation({
+    mutationFn: updateEmployeeEmail,
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
@@ -111,7 +109,6 @@ const RegisterTraineeForm = () => {
       });
     },
   });
-
   const onSubmit = async (data: FieldValues) => {
     const payload = {
       email: email,
@@ -122,17 +119,15 @@ const RegisterTraineeForm = () => {
       phone: +data.phone,
       currentHighestNFQ: data.currentHighestNFQ,
       employmentStatus: data.employmentStatus,
-      memberCompany: +data.memberCompany,
+      memberCompany: data.memberCompany,
       occupationalCategory: data.occupationalCategory,
       unemploymentTime: data.unemploymentTime,
       countyOfResidence: data.countyOfResidence,
       attendedEvent: data.attendedEvent,
       status: true,
-    };
-    console.log(payload); // Add this log to inspect the payload
-    updateTrainee(payload);
+    }; // Add this log to inspect the payload
+    update_Employee(payload);
   };
-
   return (
     <>
       <div className="flex justify-end text-color">
@@ -173,7 +168,7 @@ const RegisterTraineeForm = () => {
                 : "pointer-events-none"
             } `}
           >
-            Trainee
+            Employee
           </button>
         </div>
       </div>

@@ -10,6 +10,8 @@ import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import Drawer from "./comman/Drawer";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 interface SidebarItem {
   label: string;
@@ -30,6 +32,7 @@ const DrawerPage = ({
   open: boolean;
   setOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const dispatch=useAppDispatch();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const mavigate = useNavigate();
@@ -57,6 +60,8 @@ const DrawerPage = ({
     onSuccess: () => {
       localStorage.removeItem("user");
       mavigate("/");
+      dispatch(setPath([]));
+      
     },
     onError: (error: ResponseError) => {
       toast({
@@ -81,14 +86,14 @@ const DrawerPage = ({
       >
         <div className="top-0 left-0 lg:flex flex-col justify-between duration-500 bg-[#FFFFFF] overflow-hidden">
           <div className="h-[100vh] p-5">
-            <div className="ml-[40px] mt-[20px]">
+            <div className="flex items-center justify-center">
               <Button
                 type="button"
                 onClick={() => {
                   mavigate("/");
                   setOpen(false);
                 }}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 outline-none focus-visible:ring-0 hover:bg-transparent h-auto"
                 variant="ghost"
               >
                 <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
@@ -107,7 +112,12 @@ const DrawerPage = ({
                             toggleDropdown(item.children, index);
                             item.children?.length === 0 && setOpen(false);
                           }}
-                          className="group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri"
+                          className={`group flex items-center justify-between text-[16px] leading-5 font-[400] p-[10px] sm:hover:bg-[#00778B] sm:hover:text-white rounded-md text-[#606060] font-calibri ${
+                            isOpen[`bar${index + 1}`] ||
+                            location.pathname.includes(item.link)
+                              ? "bg-[#00778B] text-white"
+                              : "bg-[#fff]"
+                          }`}
                         >
                           <div className="flex items-center gap-2">
                             <Icon size={22} />

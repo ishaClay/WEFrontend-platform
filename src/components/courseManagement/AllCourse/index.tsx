@@ -11,8 +11,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const AllCourses = () => {
+  const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
@@ -20,18 +25,20 @@ const AllCourses = () => {
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-
+  const dispatch = useAppDispatch();
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };
+  const Role = location.pathname.split("/")[1];
 
   const {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
+    isFetching,
     refetch: fetchCourseAllCourseRefetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse],
-    queryFn: () => fetchCourseAllCourse(searchKeyword),
+    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId),
   });
 
   useEffect(() => {
@@ -58,13 +65,25 @@ const AllCourses = () => {
               <div>
                 <Button
                   type="button"
-                  onClick={() =>
-                    navigate(
-                      `/${
-                        location?.pathname?.split("/")?.[1]
-                      }/create_course/tab=0&step=0&version=1`
-                    )
-                  }
+                  onClick={() => {
+                  {  dispatch(
+                      setPath([
+                        {
+                          label: "Course Management",
+                          link: null,
+                        },
+                        {
+                          label: "All Course",
+                          link: `/${Role}/allcourse`,
+                        },
+                        {
+                          label: "Create Course",
+                          link: null,
+                        },
+                      ])
+                    ); navigate(`/${Role}/create_course/tab=0&step=0&version=null`)}
+                  }}
+                
                   className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
                 >
                   ADD NEW COURSE
@@ -144,9 +163,15 @@ const AllCourses = () => {
               <Loader2 className="w-5 h-5 animate-spin" />
             </span>
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} />
+            <GridView
+              list={fetchCourseAllCourseData?.data || []}
+              isLoading={isFetching}
+            />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            <ListView
+              list={fetchCourseAllCourseData?.data || []}
+              isLoading={isFetching}
+            />
           )}
         </div>
       </div>

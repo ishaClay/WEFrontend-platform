@@ -60,8 +60,6 @@ function CoursesAllCourse() {
       setSelectedCourse(pillarcourse?.data.data[0]);
     }
   }, [pillarcourse?.data.data]);
-
-  console.log(selectedCourse);
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
@@ -103,7 +101,7 @@ function CoursesAllCourse() {
               <BsSearch className="text-[#D9D9D9] mr-2" />
               <input
                 type="search"
-                placeholder="Search by Pillar, level, recommended, course name etc."
+                placeholder="Search by course name etc."
                 className="flex-1 focus:outline-none text-sm placeholder-[#D9D9D9]"
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}

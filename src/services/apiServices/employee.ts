@@ -1,12 +1,15 @@
-import { EmployeeDetailsResponse, EmployeeResponse } from "@/types/employeeDetails";
+import {
+  EmployeeDetailsResponse,
+  EmployeeResponse,
+} from "@/types/employeeDetails";
 import api from "./api";
 
 interface RegisterEmployee {
-  "name": string,
-  "email": string,
-  "password": string,
-  "cpassword": string,
-  "otp": number
+  name: string;
+  email: string;
+  password: string;
+  cpassword: string;
+  otp: number;
 }
 
 export const InviteSingleEmployee = async (data: any) => {
@@ -45,14 +48,22 @@ export const inviteSingleEmployeeDetail = async (
   return res.data.data;
 };
 
-export const employeeList = async (page: string, limit: string, id: number, keyword: string) => {
+export const employeeList = async (
+  page: string,
+  limit: string,
+  id: number,
+  keyword: string
+) => {
   const url = `api/v1/company/get/${id}/employee`;
   const params = { page, limit, keyword };
   const res = await api({ url, params });
   return res.data;
 };
 
-export const updateEmployeeList = async (data: { id: number; item: Partial<EmployeeResponse> }) => {
+export const updateEmployeeList = async (data: {
+  id: number;
+  item: Partial<EmployeeResponse>;
+}) => {
   const url = `/api/v1/employee/update/${data.id}/permission`;
   const method = "patch";
   return api({ url, data: data?.item, method });
@@ -62,16 +73,22 @@ export const RegisterEmployee = async (data: RegisterEmployee) => {
   const url = `api/v1/user/register-employee`;
   const res = await api({ url, method: "post", data });
   return res.data;
-}
+};
 
-export const deleteEmployee = async (id: number) => {
+export const deleteEmployee = async (id: string) => {
   const url = `api/v1/employee/delete/${id}`;
   const res = await api({ url, method: "delete" });
   return res.data;
-}
+};
 
 export const getEmployeeWiseAction = async (id: number) => {
   const url = `api/v1/employee/getActions/${id}`;
-  const res = await api({ url })
-  return res.data
-}
+  const res = await api({ url });
+  return res.data;
+};
+
+export const updateEmployeeEmail = async (data: any) => {
+  const url = `api/v1/employee/updateByEmail/${data?.email}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+};

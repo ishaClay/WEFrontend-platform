@@ -29,7 +29,6 @@ function Assessment() {
       localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
-  console.log("EnumUpadate", EnumUpadate);
 
   const handleAssesment = () => {
     EnumUpadate();

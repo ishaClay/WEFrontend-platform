@@ -78,7 +78,7 @@ export const supportTicketIcon = (name: string) => {
   }
 };
 
-export const sidebarLayout = {
+export const sidebarLayout ={
   TarinerSidebar: [
     {
       label: "Dashboard",
@@ -91,10 +91,10 @@ export const sidebarLayout = {
       Icon: TfiBook,
       link: "#",
       children: [
-        {
-          label: "Enrollment Requests",
-          link: "/trainer/enrolledrequest",
-        },
+        // {
+        //   label: "Enrollment Requests",
+        //   link: "/trainer/enrolledrequest",
+        // },
         {
           label: "Enrolled Courses",
           link: "/trainer/enrolledcourses",
@@ -224,7 +224,7 @@ export const sidebarLayout = {
         },
         {
           label: "User Manual",
-          link: "/trainee/trainingdocument",
+          link: "/trainee/usermenual",
         },
         {
           label: "Support Request",
@@ -611,4 +611,35 @@ export const documentIcon = (type: string) => {
   } else if (type?.split("/")?.[3]?.includes("doc")) {
     return wordFile;
   }
+};
+
+export const isSessionOngoingAtTime = (
+  startTime: string,
+  sessionDuration: { hour: string; minute: string }
+): boolean => {
+  if (
+    !startTime ||
+    !sessionDuration ||
+    !sessionDuration.hour ||
+    !sessionDuration.minute
+  ) {
+    console.error("Invalid input");
+    return false;
+  }
+
+  const [startHour, startMinute] = startTime.split(":").map(Number);
+
+  const durationHours = parseInt(sessionDuration.hour, 10);
+  const durationMinutes = parseInt(sessionDuration.minute, 10);
+
+  const startDateTime = new Date();
+  startDateTime.setHours(startHour, startMinute, 0, 0);
+
+  const sessionEndTime = new Date(startDateTime);
+  sessionEndTime.setHours(sessionEndTime.getHours() + durationHours);
+  sessionEndTime.setMinutes(sessionEndTime.getMinutes() + durationMinutes);
+
+  const currentTime = new Date();
+
+  return currentTime >= startDateTime && currentTime <= sessionEndTime;
 };

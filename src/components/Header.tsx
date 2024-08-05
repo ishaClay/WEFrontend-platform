@@ -7,6 +7,8 @@ import Logo2 from "@/assets/images/logo2.png";
 import { PrimaryButton } from "./comman/Button/CustomButton";
 import Loading from "./comman/Error/Loading";
 import { toast } from "./ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -14,7 +16,7 @@ interface headerProps {
 
 function Header(props: headerProps) {
   const navigate = useNavigate();
-
+const dispatch=useAppDispatch();
   const path = localStorage?.getItem("path");
   const userData = localStorage?.getItem("user");
   const userToken = !!userData && JSON.parse(userData)?.accessToken;
@@ -24,6 +26,7 @@ function Header(props: headerProps) {
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({

@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 export const PathSlice = createSlice({
 	name: "Path",
 	initialState: {
 		paths: [
 			{
-				name: "Home",
-				link: "/",
+				label: "Dashboard",
+				link: `/dashboard`,
 			},
 		],
 	},

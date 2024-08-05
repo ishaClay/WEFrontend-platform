@@ -1,11 +1,11 @@
-import { MoveLeft } from "lucide-react";
 import { Button } from "../ui/button";
 import EmployeeCertificate from "@/assets/images/EmployeeCertificate.png";
 import SelectMenu from "../comman/SelectMenu";
 import { useState } from "react";
 import { Label } from "../ui/label";
-import { useNavigate } from "react-router-dom";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 const selectCourseOption = [
   {
     label: "Select Course 1",
@@ -36,7 +36,8 @@ const selectTraineeOption = [
   },
 ];
 const AllocatedCertificateEmployeePage = () => {
-  const navigate = useNavigate();
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const [selectCourse, setSelectCourse] = useState("");
   const [selectTrainee, setSelectTrainee] = useState("");
   return (
@@ -49,7 +50,16 @@ const AllocatedCertificateEmployeePage = () => {
         </div>
         <div className="">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: "Allocate Certificate",
+                    link: `/${Role}/allocated-certificate`,
+                  },
+                ])
+              );
+            }}
             className="text-[16px] flex font-semibold items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />

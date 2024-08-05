@@ -1,9 +1,9 @@
-export interface getUserManual {
-    data?:(DataEntity)[] | null
+export interface UserManualResponse {
+    data?: (DataEntity)[] | null;
     metadata: Metadata;
     message: string;
-  }
-  export interface DataEntity {
+}
+export interface DataEntity {
     id: number;
     title: string;
     type: string;
@@ -12,17 +12,16 @@ export interface getUserManual {
     createdAt: string;
     updatedAt: string;
     targetAudience: TargetAudience;
-  }
-  export interface TargetAudience {
+}
+export interface TargetAudience {
     id: number;
     name: string;
     deletedAt?: null;
     createdAt: string;
     updatedAt: string;
-  }
-  export interface Metadata {
+}
+export interface Metadata {
     totalItems: number;
     currentPage: number;
     totalPages: number;
-  }
-  
+}

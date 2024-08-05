@@ -7,20 +7,24 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { IssuedCertificateList } from "@/services/apiServices/certificate";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Loader from "../comman/Loader";
-import { certificateDataEntity } from "@/types/certificate";
+import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const AllocatedCertificatePage = () => {
-  const [page, setPage] = useState(0);
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const { data: Issued_Certificate, isPending } = useQuery({
-    queryKey: [QUERY_KEYS.issuedCertificate],
-    queryFn: () => IssuedCertificateList(464),
+  const [filteredData, setFilteredData] = useState<certificateDataEntity[]>([]);
+  const [page, setPage] = useState(1);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+
+  const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
+    queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
+    queryFn: () =>
+      IssuedCertificateList({ id: userData?.query?.id, page, search }),
   });
-  console.log(Issued_Certificate?.data, "issued certificate========");
   const column: ColumnDef<certificateDataEntity>[] = [
     {
       accessorKey: "id",
@@ -164,12 +168,31 @@ const AllocatedCertificatePage = () => {
           <div className="flex gap-2 items-center">
             <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
             {row?.original?.certificatePdf && row?.original?.createdAt ? (
-              <Link to={`allocateEmploye/${row?.original?.employee?.id}`}>
+              <Button
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Certificate Management",
+                        link: null,
+                      },
+                      {
+                        label: "Certificate Allocation",
+                        link: "/allocated-certificate",
+                      },
+                      {
+                        label: "Issued Certificate",
+                        link: `allocateEmploye/${row?.original?.employee?.id}`,
+                      },
+                    ])
+                  )
+                }
+              >
                 <Eye
                   className="mx-2 cursor-pointer text-[#A3A3A3]"
                   width={18}
                 />
-              </Link>
+              </Button>
             ) : (
               <FileSliders
                 className="cursor-pointer text-[#A3A3A3]"
@@ -197,7 +220,6 @@ const AllocatedCertificatePage = () => {
         }
       );
       setFilteredData(filteredData);
-      console.log(filteredData, "filtered data ========");
     }
   }, [search, Issued_Certificate?.data]);
 
@@ -220,7 +242,7 @@ const AllocatedCertificatePage = () => {
       </div>
 
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] h-[52px] px-4 2xl:py-3 py-2 rounded-lg">
+        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] px-4 2xl:py-3 py-2 rounded-lg">
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             value={search}

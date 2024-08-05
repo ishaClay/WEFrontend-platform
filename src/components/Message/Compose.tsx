@@ -41,6 +41,8 @@ import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
 import { fetchMessageRoles } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 interface SendMessagePayload {
   senderId: string;
@@ -75,7 +77,7 @@ const Compose = () => {
   const currentUser = pathName.split("/")[1];
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (role === UserRole?.Trainer) {
       setSelectTab(
@@ -306,7 +308,16 @@ const Compose = () => {
             <Button
               variant={"ghost"}
               className="text-black font-semibold gap-2 text-[16px] m-0 p-0"
-              onClick={() => navigate(`/${currentUser}/message`)}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Message",
+                      link: `/${currentUser}/message`,
+                    },
+                  ])
+                );
+              }}
             >
               <IoIosArrowRoundBack size={26} />
               Back

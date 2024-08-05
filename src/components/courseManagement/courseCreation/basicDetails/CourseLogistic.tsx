@@ -199,7 +199,6 @@ const CourseLogistic = () => {
       });
     }
   };
-  console.log("watch(", watch("durationType"));
   
 
   return (

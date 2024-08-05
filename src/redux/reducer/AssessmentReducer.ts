@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AssessmentState {
   selectedQuestionType: string[];
   questionOption: any[];
+  module: any[];
 }
 
 const initialState: AssessmentState = {
   selectedQuestionType: [],
   questionOption: [],
+  module: [],
 };
 
 const AssessmentSlice = createSlice({
@@ -19,7 +21,11 @@ const AssessmentSlice = createSlice({
     },
     addQuestion: (
       state,
-      action: PayloadAction<{ index: number; question: string; type: string }>
+      action: PayloadAction<{
+        index: number;
+        question: string;
+        assessmentType: string;
+      }>
     ) => {
       while (state.questionOption.length <= action.payload.index) {
         state.questionOption.push({});
@@ -28,7 +34,7 @@ const AssessmentSlice = createSlice({
       const item = state.questionOption[action.payload.index];
       if (item) {
         item.question = action.payload.question;
-        item.type = action.payload.type;
+        item.assessmentType = action.payload.assessmentType;
       }
     },
     addPoint: (
@@ -46,7 +52,7 @@ const AssessmentSlice = createSlice({
     },
     addOption: (
       state,
-      action: PayloadAction<{ option: string; i: number; iIndex: number }>
+      action: PayloadAction<{ option: any; i: number; iIndex: number }>
     ) => {
       while (state.questionOption.length <= action.payload.i) {
         state.questionOption.push({});
@@ -84,6 +90,10 @@ const AssessmentSlice = createSlice({
         item.option.splice(action.payload.iIndex, 1);
       }
     },
+    removeQuestion: (state, action: PayloadAction<{ i: number }>) => {
+      state.questionOption.splice(action.payload.i, 1);
+      state.selectedQuestionType.splice(action.payload.i, 1);
+    },
   },
 });
 
@@ -94,6 +104,7 @@ export const {
   addOption,
   addAnswer,
   removeOption,
+  removeQuestion,
 } = AssessmentSlice.actions;
 
 export default AssessmentSlice.reducer;

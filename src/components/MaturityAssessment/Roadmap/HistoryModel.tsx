@@ -40,14 +40,11 @@ const HistoryModel = ({
   id: number | null;
   historyMasure: string;
 }) => {
-  console.log("id", id);
-
   const { data, isLoading } = useQuery<HistoryResponse>({
     queryKey: [QUERY_KEYS.itemHistory, { id }],
     queryFn: () => getItemHistory(id as number),
+    enabled: !!id,
   });
-
-  console.log("data", data);
 
   return (
     <>
@@ -63,7 +60,6 @@ const HistoryModel = ({
             <Loader />
           ) : (
             data?.data?.map((items, index: number) => {
-              console.log("items", items);
               return (
                 <div key={index}>
                   <div className="flex items-center gap-2 pb-5">

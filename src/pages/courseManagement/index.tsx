@@ -7,8 +7,11 @@ import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const CourseManagement = () => {
+  const dispatch = useAppDispatch();
   const [currentTab, setCurrentTab] = useState<string>("0");
   const navigate = useNavigate();
   const location = useLocation();
@@ -90,7 +93,14 @@ const CourseManagement = () => {
           </TabsList>
           <Button
             className="flex cursor-pointer md:order-2 order-1 bg-transparent text-black"
-            onClick={() => navigate(`/${pathName}/allcourse`)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Course Management", link: null },
+                  { label: "All Course", link: `/${pathName}/allcourse` },
+                ])
+              );
+            }}
           >
             <MoveLeft />
             <span className="text-base font-semibold pl-4">Back</span>

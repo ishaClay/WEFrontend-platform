@@ -41,7 +41,7 @@ const ActionItems = () => {
         </ul>
       </div>
       <div className="border border-[#D9D9D9] rounded-xl">
-        {data?.data?.measure?.map((data, index) => {
+        {data?.data?.measureData?.map((data, index) => {
           return <ActionItemsList data={data} key={index} />;
         })}
       </div>

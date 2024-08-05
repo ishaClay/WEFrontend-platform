@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
+import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 import Accomplishments from "./components/certifications/Accomplishments";
@@ -48,7 +49,6 @@ import InProgress from "./pages/InProgress";
 import IndividualEmployee from "./pages/IndividualEmployee";
 import LiveSession from "./pages/LiveSession";
 import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
-import MaturityAssessmentRoadmapActionView from "./pages/MaturityAssessmentRoadmapActionView";
 import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
 import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
 import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
@@ -58,7 +58,6 @@ import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionable
 import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
 import MaturityLevelPage from "./pages/MaturityLevelPage";
 import MessagePopup from "./pages/MessagePopup";
-import Messaging from "./pages/Messaging";
 import Module from "./pages/Module";
 import ModuleFrist from "./pages/ModuleFrist";
 import ModulePdf from "./pages/ModulePdf";
@@ -86,6 +85,7 @@ import TeamMemberDropdown from "./pages/TeamMemberDropdown";
 import TeaserScore from "./pages/TeaserScore";
 import TermsOfServices from "./pages/TermsOfServices";
 import TrainerManagementPage from "./pages/TrainerManagement";
+import TrainerSettingPage from "./pages/TrainerSettingPage";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
@@ -106,6 +106,7 @@ import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
 import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
+import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 import ComposePage from "./pages/message/ComposePage";
 import MessagePage from "./pages/message/MessagePage";
@@ -118,7 +119,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
 
 function App() {
@@ -162,8 +162,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/employee_register" element={<Register />} />
-        <Route path="/inviteRegister" element={<RegisterTrainee />} />
+        <Route path="/employee_register" element={<RegisterTrainee />} />
+        <Route path="/inviteRegister" element={<Register />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
@@ -292,14 +292,6 @@ function App() {
           }
         />
         <Route
-          path="/messaging"
-          element={
-            <ProtectedRoute>
-              <Messaging />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/compose"
           element={
             <ProtectedRoute>
@@ -328,14 +320,6 @@ function App() {
           element={
             <ProtectedRoute>
               <MaturityAssessmentRoadmapHistory />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmapactionview"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapActionView />
             </ProtectedRoute>
           }
         />
@@ -672,7 +656,6 @@ function App() {
             path="notification/:notificationId"
             element={<Notification />}
           />
-          <Route path="messaging" element={<Messaging />} />
         </Route>
 
         <Route
@@ -735,6 +718,10 @@ function App() {
             element={<CourseManagement />}
           />
           <Route path="add_assessment" element={<AssecessmentPage />} />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
           <Route
@@ -745,6 +732,7 @@ function App() {
             path="certificate-template/updatecertificate/:id"
             element={<Updatecertificate />}
           /> */}
+          <Route path="usermenual" element={<UserManualPage />} />
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
@@ -792,6 +780,10 @@ function App() {
             element={<TrainerManagementPage />}
           />
           <Route
+            path="trainer-management/edit/:id"
+            element={<TrainerDetailsEdit />}
+          />
+          <Route
             path="trainer-management/details/:id"
             element={<TrainerDetails />}
           />
@@ -825,12 +817,16 @@ function App() {
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
           />
-            <Route
+          <Route
             path="allocated-certificate/allocateEmploye/:id"
             element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="schedule-live-session"
+            element={<ScheduleLiveSession />}
+          />
+          <Route
+            path="schedule-live-session/edit/:id"
             element={<ScheduleLiveSession />}
           />
           <Route path="CourseLiveSession" element={<CourseLiveSession />} />
@@ -845,7 +841,7 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
-          <Route path="setting" element={<FaqsListPage />} />
+          <Route path="setting" element={<TrainerSettingPage />} />
         </Route>
       </Routes>
     </div>

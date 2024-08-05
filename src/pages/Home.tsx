@@ -17,7 +17,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -26,7 +26,7 @@ import Plus from "@/assets/images/Plus.png";
 import HomeFooter from "@/components/homePage/HomeFooter";
 
 function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { clientId } = useAppSelector((state) => state.user);
 
   const [activeIndex, setActiveIndex] = useState<null | string>(null);

@@ -94,13 +94,6 @@ const ModuleCreationPage = () => {
             })
             .superRefine((data, ctx) => {
               if (data.isLive) {
-                console.log(
-                  "livesessionDuration",
-                  !data.livesessionDuration?.hour ||
-                    !data.livesessionDuration?.minute ||
-                    !data.livesessionDuration?.second
-                );
-
                 if (
                   !data.livesessionDuration?.hour &&
                   !data.livesessionDuration?.minute &&
@@ -233,11 +226,7 @@ const ModuleCreationPage = () => {
     }
   }, [CourseModule]);
 
-  console.log("CourseModule", CourseModule);
-
   const handleModuleSave = async (data: any) => {
-    console.log("moduleCreationItems===>", data.modules);
-
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
@@ -268,7 +257,6 @@ const ModuleCreationPage = () => {
   };
 
   const handleModulePosition = async () => {
-    console.log("moduleList", moduleList);
     const payload = moduleList.map((module: any, index: number) => {
       return {
         Module: module.id,

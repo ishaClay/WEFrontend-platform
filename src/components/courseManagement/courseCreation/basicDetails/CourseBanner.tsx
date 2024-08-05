@@ -27,11 +27,9 @@ const CourseBanner = () => {
   const navigate = useNavigate();
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-  console.log("paramsTab", paramsTab);
 
   const schema = zod.object({
     description: zod
@@ -173,8 +171,7 @@ const CourseBanner = () => {
               <CKEditorComponent
                 value={editorData}
                 {...register("description")}
-                onChange={(e, data) => {
-                  console.log(e);
+                onChange={(_, data) => {
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}
@@ -243,8 +240,7 @@ const CourseBanner = () => {
               <CKEditorComponent
                 value={keyData}
                 {...register("keys")}
-                onChange={(e, data) => {
-                  console.log("e", e);
+                onChange={(_, data) => {
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}
@@ -253,7 +249,7 @@ const CourseBanner = () => {
                 <ErrorMessage message={errors?.keys?.message as string} />
               )}
             </div>
-            <div className="text-right">
+            <div className="text-right mt-5">
               <Button
                 type="submit"
                 className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
@@ -268,18 +264,6 @@ const CourseBanner = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className="sm:text-right text-center sm:mt-5 mt-[15px]">
-        <Button
-          type="submit"
-          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
-        >
-          {isPending || isUpdatePending ? (
-            <Loader containerClassName="h-auto" />
-          ) : (
-            "Next"
-          )}
-        </Button>
       </div>
     </>
   );

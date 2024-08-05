@@ -1,5 +1,4 @@
 import delet from "@/assets/images/delet.svg";
-import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,14 +16,20 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 
 // import { useSelector } from "react-redux";
 
 function CoursesAllocate() {
   const [page, setPage] = useState(1);
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
   const { CompanyId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [openDelete, setOpenDelete] = useState<EmployeeEntity | null>(null);
   const queryClient = useQueryClient();
   const companyId = CompanyId
     ? CompanyId
@@ -66,7 +71,7 @@ function CoursesAllocate() {
               navigate(`/company/employeelist/${row.original.id}`);
             }}
           >
-            #{row.original.id}
+            #{row.index + 1}
           </div>
         );
       },
@@ -262,7 +267,7 @@ function CoursesAllocate() {
         return (
           <div className="gap-[12px] ">
             <Button
-              onClick={() => handleDelete(+row.original.id)}
+              onClick={() => setOpenDelete(row?.original)}
               variant={"ghost"}
               className="p-0"
             >
@@ -284,13 +289,13 @@ function CoursesAllocate() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.MemberList],
       });
+      setOpenDelete(null);
     },
   });
 
-  const handleDelete = (id: number) => {
-    mutate(+id);
+  const handleDelete = () => {
+    mutate(String(openDelete?.id));
   };
-
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
@@ -306,6 +311,24 @@ function CoursesAllocate() {
           <div className="block sm:mt-0 mt-4">
             <Link
               to="employeeinvition"
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: null,
+                    },
+                    {
+                      label: "Team List",
+                      link: `/${Role}/employeelist`,
+                    },
+                    {
+                      label: "Send Invition",
+                      link: null,
+                    },
+                  ])
+                )
+              }
               className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
             >
               Send Invitation
@@ -345,7 +368,14 @@ function CoursesAllocate() {
         )}
       </div>
 
-      <Loading isLoading={isPending} />
+      <ConfirmModal
+        open={!!openDelete}
+        onClose={() => setOpenDelete(null)}
+        onDelete={handleDelete}
+        value={openDelete?.name || ""}
+        isLoading={isPending}
+      />
+      {/* <Loading isLoading={isPending} /> */}
     </div>
   );
 }

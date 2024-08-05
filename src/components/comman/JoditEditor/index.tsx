@@ -30,9 +30,6 @@ const CKEditorComponent: FC<CKEditorComponentProps> = ({
             "alignment",
             "link",
           ],
-          table: {
-            contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-          },
         }}
       />
     </div>

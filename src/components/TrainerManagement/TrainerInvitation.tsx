@@ -2,25 +2,31 @@ import { trainerInvitation } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import * as Zod from "zod";
+import CustomTabInput from "../comman/CustomTabInput";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loader from "../comman/Loader";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import CustomTabInput from "../comman/CustomTabInput";
-import { useEffect, useState } from "react";
-import ErrorMessage from "../comman/Error/ErrorMessage";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const schema = Zod.object({
-  email: Zod.string({ message: "Email is required" }).min(1, { message: "Email is required" }),
-  details: Zod.string({ message: "Invitation detail is required" }).min(1, { message: "Invitation detail is required" }),
+  email: Zod.string({ message: "Email is required" }).min(1, {
+    message: "Email is required",
+  }),
+  details: Zod.string({ message: "Invitation detail is required" }).min(1, {
+    message: "Invitation detail is required",
+  }),
 });
 const TrainerInvitation = () => {
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const [emails, setEmails] = useState<string[]>([]);
-  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const id = userData?.query?.detailsid;
 
@@ -37,12 +43,10 @@ const TrainerInvitation = () => {
   });
   const url = window.location.origin;
 
-  console.log("url", url);
-
   useEffect(() => {
     if (emails.length > 0) {
       setValue("email", emails.join(","));
-    } else{
+    } else {
       setValue("email", "");
     }
   }, [emails]);
@@ -63,7 +67,14 @@ const TrainerInvitation = () => {
           variant: "success",
         });
       }
-      navigate("/trainer/trainer-management");
+      dispatch(
+        setPath([
+          {
+            label: "Trainer Management",
+            link: `/${Role}/trainer-management`,
+          },
+        ])
+      );
       setEmails([]);
       reset();
     },
@@ -103,7 +114,16 @@ const TrainerInvitation = () => {
         <Button
           type="button"
           variant={"ghost"}
-          onClick={() => navigate("/trainer/trainer-management")}
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: "Trainer Managment",
+                  link: `/${Role}/trainer-management`,
+                },
+              ])
+            );
+          }}
           className="gap-4 font-nunito text-[16px]"
         >
           <MoveLeft className="text-[#0f170d]" /> Back
@@ -117,7 +137,9 @@ const TrainerInvitation = () => {
               <span className="text-[#A3A3A3]">(comma separated email id)</span>
             </Label>
             <CustomTabInput setValue={setEmails} {...register("email")} />
-            {!errors?.email?.ref?.value && <ErrorMessage message={errors?.email?.message as string} />}
+            {!errors?.email?.ref?.value && (
+              <ErrorMessage message={errors?.email?.message as string} />
+            )}
           </div>
           <div className="w-full mb-[30px]">
             <Label className="text-[16px] font-nunito font-[400]">
@@ -128,7 +150,9 @@ const TrainerInvitation = () => {
               {...register("details")}
               placeholder="Enter Details"
             />
-            {errors?.details && <ErrorMessage message={errors?.details?.message as string} />}
+            {errors?.details && (
+              <ErrorMessage message={errors?.details?.message as string} />
+            )}
           </div>
           <div className="text-right">
             <Button

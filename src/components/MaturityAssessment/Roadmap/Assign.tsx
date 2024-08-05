@@ -8,13 +8,17 @@ import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 import AssignCard from "./AssignCard";
+import AssignProf from "./AssignProf";
 
 const Assign = ({
   setStep,
+  setIsEdit,
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
+  setIsEdit: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const Role = location?.pathname?.split("/")[1];
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
@@ -36,9 +40,13 @@ const Assign = ({
     <div className="">
       {isPending ? (
         <Loader />
-      ) : (
+      ) : Role !== "employee" ? (
         getCheckedmeasures?.data?.data.map((data: any, index: number) => {
           return <AssignCard key={index} data={data} />;
+        })
+      ) : (
+        getCheckedmeasures?.data?.data.map((data: any, index: number) => {
+          return <AssignProf key={index} data={data} />;
         })
       )}
       <div className="text-center">
@@ -46,32 +54,43 @@ const Assign = ({
           Retake Assessment
         </Button> */}
         <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">
-          <Button
-            type="button"
-            onClick={() => setStep(0)}
-            className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-          >
-            Edit Action Plan
-          </Button>
-          <Button
-            type="button"
-            onClick={() => navigate(`/company/coursesrecommended`)}
-            className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-          >
-            View Recommended Courses
-          </Button>
-          <Button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-          >
-            Invite Team Members
-          </Button>
+          {Role === "employee" && userData?.query?.editActionItem && (
+            <Button
+              type="button"
+              onClick={() => {
+                setStep(0);
+                setIsEdit(true);
+              }}
+              className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+            >
+              Edit Action Plan
+            </Button>
+          )}
+          {Role !== "employee" && (
+            <>
+              <Button
+                type="button"
+                onClick={() => navigate(`/company/coursesrecommended`)}
+                className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+              >
+                View Recommended Courses
+              </Button>
+              <Button
+                type="button"
+                onClick={() => setIsOpen(true)}
+                className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+              >
+                Invite Team Members
+              </Button>
+            </>
+          )}
         </div>
-        <p className="text-[#64A70B] lg:text-base text-sm font-semibold">
-          And whenever you’ve learnt, applied, and developed:  <br />
-          come back to measure your progress anytime with a re-assessment!
-        </p>
+        {Role === "employee" && userData?.query?.editActionItem && (
+          <p className="text-[#64A70B] lg:text-base text-sm font-semibold">
+            And whenever you’ve learnt, applied, and developed:  <br />
+            come back to measure your progress anytime with a re-assessment!
+          </p>
+        )}
       </div>
       <InviteMember isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>

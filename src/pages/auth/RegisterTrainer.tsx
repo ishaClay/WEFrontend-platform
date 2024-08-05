@@ -111,7 +111,6 @@ function RegisterTrainer() {
     resolver: zodResolver(schema),
     mode: "all",
   });
-  console.log("errorserrors", errors);
   const email = watch("email");
 
   const { data: country } = useQuery<CountryResponse>({
@@ -187,8 +186,6 @@ function RegisterTrainer() {
   });
 
   const handleSendOtp = async (data: FieldValues) => {
-    console.log(data?.email);
-
     // @ts-ignore
     mutate({ email: data?.email });
   };

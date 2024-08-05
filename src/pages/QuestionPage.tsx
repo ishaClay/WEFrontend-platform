@@ -29,14 +29,14 @@ import { QuestionType } from "@/types/Question";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const [selectedData, setSelectedData] = useState<string[]>([]);
   const [isShow, setIsShow] = useState<boolean>(false);
@@ -151,8 +151,6 @@ const QuestionPage = () => {
     },
   ];
 
-  console.log(selectedData, "selectedData+++++++++++++");
-
   useEffect(() => {
     let totalQuestions = 0;
     let totalAttemptedQuestions = 0;
@@ -234,8 +232,6 @@ const QuestionPage = () => {
     }
   };
 
-  console.log("selectedData", selectedData);
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [selectedData, isShow]);
@@ -263,8 +259,6 @@ const QuestionPage = () => {
       }
     });
   };
-
-  console.log("allPillar", allPillar);
 
   return (
     <div

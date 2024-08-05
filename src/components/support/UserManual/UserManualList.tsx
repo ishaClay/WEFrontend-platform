@@ -2,24 +2,23 @@ import EllipseImage from "@/assets/images/Ellipse2.png";
 import EllipseImage2 from "@/assets/images/Ellipse3.png";
 import { DataEntity } from "@/types/userManual";
 
-interface UserManualItemsProps {
-  data: DataEntity;
-}
-
-const UserManualList = ({ data }: UserManualItemsProps) => {
+type supportListProps = {
+  list: DataEntity;
+};
+const UserManualList = ({ list }: supportListProps) => {
   return (
     <div>
       <div className="shadow sm:p-4 p-3 border border-[#dddddd33] rounded-[10px] relative overflow-hidden ">
         <div className="font-semibold font-abhaya">
           <h6 className="sm:text-[15px] text-sm  leading-5 text-black sm:pb-3 pb-2.5">
-            ID: #{data?.id}
+            ID: #{list?.id}
           </h6>
           <p className="text-[#00778B] sm:text-[15px] text-sm  leading-5 sm:pb-3 pb-2.5">
             <span className="text-[#000000]">Document Title:</span>{" "}
-            {data?.title}
+            {list?.title}
           </p>
           <p className="sm:text-[15px] text-sm leading-5">
-            Type: {data?.type}
+            Type: {list?.type}
           </p>
         </div>
         <img

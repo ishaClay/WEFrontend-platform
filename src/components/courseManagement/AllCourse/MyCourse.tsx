@@ -11,14 +11,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const MyCourse = () => {
+  const dispatch=useAppDispatch()
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const Role = location.pathname.split("/")[1];
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const changeList = (id: number) => {
@@ -33,8 +37,6 @@ const MyCourse = () => {
     queryFn: () => getCourseByTrainee(userData?.query?.detailsid),
   });
 
-  console.log("fetchCourseAllCourseData", fetchCourseAllCourseData);
-
   return (
     <div>
       <CohortModal open={cohort} setOpen={setCohort} id={0} />
@@ -44,9 +46,9 @@ const MyCourse = () => {
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               My Course
             </h3>
-            {/* <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
               The full list of your courses, in snapshot view
-            </p> */}
+            </p>
           </div>
           {(+userData?.query?.role === UserRole.Trainee
             ? userData?.approved
@@ -54,13 +56,24 @@ const MyCourse = () => {
             <div>
               <Button
                 type="button"
-                onClick={() =>
-                  navigate(
-                    `/${
-                      location?.pathname?.split("/")?.[1]
-                    }/create_course/tab=0&step=0&version=1`
-                  )
-                }
+                onClick={() => {
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Course Management",
+                        link: null,
+                      },
+                      {
+                        label: "My Course",
+                        link: `/${Role}/mycourses`,
+                      },
+                      {
+                        label: "Create Course",
+                        link: `/${Role}/create_course/tab=0&step=0&version=1`,
+                      },
+                    ])
+                  );
+                }}
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
                 Create Course
@@ -70,7 +83,7 @@ const MyCourse = () => {
         </div>
 
         <div className="flex items-center justify-between py-5 px-[18px]">
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 w-[550px] h-[52px]">
+          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 w-[550px] sm:h-[52px] h-[46px]">
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"
@@ -79,14 +92,14 @@ const MyCourse = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="flex ml-6">
+          <div className="flex sm:ml-6 ml-2 sm:gap-2 gap-0">
             <Button
               type="button"
               onClick={() => changeList(0)}
               className="bg-transparent p-1 hover:bg-transparent"
             >
               <AiOutlineAppstore
-                className={`w-8 h-8 ${
+                className={`sm:w-8 sm:h-8 w-6 h-6 ${
                   params === "0" || !params
                     ? "text-[#00778B]"
                     : "text-[#A3A3A3]"
@@ -99,7 +112,7 @@ const MyCourse = () => {
               className="bg-transparent p-1 hover:bg-transparent"
             >
               <AiOutlineBars
-                className={`w-8 h-8 ml-2 ${
+                className={`sm:w-8 sm:h-8 w-6 h-6 ${
                   params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
                 }`}
               />

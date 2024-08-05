@@ -14,9 +14,8 @@ import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLev
 import { UserRole } from "@/types/UserRole";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { useLocation } from "react-router-dom";
 
 const maturityLevel = [
   {
@@ -52,15 +51,16 @@ type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
   assessmentData: any;
   showButton: number;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
 };
 
 const AssessmentResult = ({
   chnageTab,
   assessmentData,
   showButton,
+  setIsEdit,
 }: AssessmentResultProps) => {
-  const location = useLocation();
-  console.log("+++++", location);
+
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
@@ -104,6 +104,7 @@ const AssessmentResult = ({
   const handleMaturity = () => {
     EnumUpadate(path);
     // navigate("/company/my-action-plans");
+    setIsEdit(true);
     chnageTab("maturityAssessment");
   };
 
@@ -115,8 +116,6 @@ const AssessmentResult = ({
 
   const setScore = isNaN(Number(score)) ? 0 : score;
   const currentLavel = findMaturityLevel(Number(setScore));
-
-  console.log("setScore", setScore);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -214,8 +213,6 @@ const AssessmentResult = ({
       </div>
     </>
   );
-
-  console.log("assessmant?.data?.data", assessmentData, assessmant?.data?.data);
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">

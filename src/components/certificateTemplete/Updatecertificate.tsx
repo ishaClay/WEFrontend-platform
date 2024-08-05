@@ -1,37 +1,41 @@
+import FileUpload from "@/components/comman/FileUpload";
+import { QUERY_KEYS } from "@/lib/constants";
+import {
+  fetchcertificate,
+  Updatecertificate,
+} from "@/services/apiServices/certificate";
+import { uploadFile } from "@/services/apiServices/uploadServices";
+import { ErrorType } from "@/types/Errors";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
+import { z } from "zod";
+import ErrorMessage from "../comman/Error/ErrorMessage";
+import Loading from "../comman/Error/Loading";
+import InputWithLabel from "../comman/InputWithLabel";
+import Loader from "../comman/Loader";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import InputWithLabel from "../comman/InputWithLabel";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import ErrorMessage from "../comman/Error/ErrorMessage";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../ui/use-toast";
-import { QUERY_KEYS } from "@/lib/constants";
-import Loader from "../comman/Loader";
-import { uploadFile } from "@/services/apiServices/uploadServices";
-import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import {
-  fetchcertificate,
-  Updatecertificate,
-} from "@/services/apiServices/certificate";
-import { ErrorType } from "@/types/Errors";
-import FileUpload from "@/components/comman/FileUpload";
-import { updateCertificate } from "@/types/certificate";
 import { Label } from "../ui/label";
+import { useToast } from "../ui/use-toast";
+import { updateCertificate } from "@/types/certificate";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 type RouteParams = {
   id: string;
 };
 const Addcertificate = () => {
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const { id: certificateId } = useParams<RouteParams>();
-  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
@@ -98,7 +102,6 @@ const Addcertificate = () => {
     );
   }, [Single_certificate]);
 
-  console.log(Single_certificate, "Single_certificate===========");
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
@@ -119,7 +122,7 @@ const Addcertificate = () => {
       });
     },
   });
-  const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUploadFile = (e:any) => {
     const { name, files } = e.target;
     if (files && files.length > 0) {
       createImageUpload(files[0]);
@@ -137,7 +140,18 @@ const Addcertificate = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.certificateDetail],
         });
-        navigate(-1);
+        dispatch(
+          setPath([
+            {
+              label: "Certificate Management",
+              link: null,
+            },
+            {
+              label: "Certificate List",
+              link: `/${Role}/certificate-template`,
+            },
+          ])
+        );
         toast({
           variant: "default",
           title: "Certificate Update Successfully",
@@ -153,7 +167,7 @@ const Addcertificate = () => {
   );
 
   const onSubmit = async (data: FieldValues) => {
-    const payload: updateCertificate = {
+    const payload: updateCertificate | any = {
       user: userData?.query?.id,
       templateName: data?.templateName,
       backgroundImage: data?.backgroundImage,
@@ -180,7 +194,17 @@ const Addcertificate = () => {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Certificate Managment", link: null },
+                  {
+                    label: "Certificate List",
+                    link: `/${Role}/certificate-template`,
+                  },
+                ])
+              );
+            }}
             className="text-[16px] flex font-semibold items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />
@@ -220,9 +244,7 @@ const Addcertificate = () => {
                   {watch("title") && (
                     <div className="pb-5 text-[28px]">
                       <h1 className="">OF PARTICIPATION</h1>
-                      <h1 className="  mt-[10px]">
-                        {watch("title")}
-                      </h1>
+                      <h1 className="  mt-[10px]">{watch("title")}</h1>
                     </div>
                   )}
                   <div>
@@ -599,6 +621,7 @@ const Addcertificate = () => {
           </div>
         )}
       </div>
+      <Loading isLoading={update_Panding} />
     </div>
   );
 };

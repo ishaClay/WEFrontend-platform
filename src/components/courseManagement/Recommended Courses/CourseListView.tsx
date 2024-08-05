@@ -1,30 +1,30 @@
+import speed from "@/assets/images/Speed.png";
+import atu from "@/assets/images/atu.png";
+import diploma from "@/assets/images/diploma.png";
+import fulltime from "@/assets/images/fulltime.png";
+import online from "@/assets/images/online.png";
+import time from "@/assets/images/time.png";
+import unversity from "@/assets/images/unversity.png";
 import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
+import { sendMessage } from "@/services/apiServices/chatServices";
+import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
+import { ErrorType } from "@/types/Errors";
 import {
   CourseTime,
   IsOnline,
   RecommendedCourses,
 } from "@/types/RecommendedCourses";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { useToast } from "@/components/ui/use-toast";
-import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
-import { ErrorType } from "@/types/Errors";
-import speed from "@/assets/images/Speed.png";
-import diploma from "@/assets/images/diploma.png";
-import fulltime from "@/assets/images/fulltime.png";
-import online from "@/assets/images/online.png";
-import time from "@/assets/images/time.png";
-import unversity from "@/assets/images/unversity.png";
-import atu from "@/assets/images/atu.png";
-import { sendMessage } from "@/services/apiServices/chatServices";
 import { useNavigate } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 
 function CourseListView({
   recommendeddata,
@@ -41,12 +41,20 @@ function CourseListView({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   // const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
-  const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
+  const [recommendedCoursesById, setRecommendedCoursesById] = useState<
+    number | null
+  >();
   const pathName = location?.pathname?.split("/")[1];
-  const { data: fetchCourseDiscountEnrollFun, isPending: isPendingCourseDEnroll } = useQuery({
-    queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll, { recommendedCoursesById }],
+  const {
+    data: fetchCourseDiscountEnrollFun,
+    isPending: isPendingCourseDEnroll,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchCourseDiscountEnroll,
+      { recommendedCoursesById },
+    ],
     queryFn: () => fetchCourseDiscountEnroll(recommendedCoursesById),
-    enabled: !!recommendedCoursesById
+    enabled: !!recommendedCoursesById,
   });
 
   // const getPillerName = (pillerData: CourseDataEntity[]) => {
@@ -67,16 +75,15 @@ function CourseListView({
   // }
 
   useEffect(() => {
-    if(!isRecommendedCourseShow){
-    setRecommendedCoursesById(null);
+    if (!isRecommendedCourseShow) {
+      setRecommendedCoursesById(null);
     }
-  }, [isRecommendedCourseShow])
+  }, [isRecommendedCourseShow]);
 
   const handleClose = () => {
-    setIsRecommendedCourseShow(false); 
+    setIsRecommendedCourseShow(false);
     setRecommendedCoursesById(null);
-  }
-
+  };
 
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
@@ -91,39 +98,50 @@ function CourseListView({
         variant: "success",
         title: data?.data?.message,
       });
-      navigate(`/${pathName}/message`)
+      navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
-      console.log("data+++++", data);
-      
     },
-    onError:(error: ErrorType) => {
+    onError: (error: ErrorType) => {
       console.log("data+++++error", error);
       setRecommendedCoursesById(null);
       toast({
         variant: "destructive",
         title: error?.data?.message,
       });
-    }
+    },
   });
 
   const handleInquire = (data: RecommendedCourses[] | any) => {
     const payload = {
       senderId: userData?.UserId,
-      receiverId: data?.trainerCompanyId ? data?.trainerCompanyId?.userDetails?.id : data?.trainerId?.userDetails?.id,
+      receiverId: data?.trainerCompanyId
+        ? data?.trainerCompanyId?.userDetails?.id
+        : data?.trainerId?.userDetails?.id,
       message: data?.title,
-      images: [data?.bannerImage]
-    }
-    handleSend(payload)
-  }
+      images: [data?.bannerImage],
+    };
+    handleSend(payload);
+  };
 
   return (
     <>
       <Modal
         open={isRecommendedCourseShow}
         onClose={handleClose}
-        className={`py-[60px] px-6 ${isPendingCourseDEnroll ? "h-[200px]" : fetchCourseDiscountEnrollFun?.data && fetchCourseDiscountEnrollFun?.data?.length > 0 ? "max-w-[800px] max-h-[800px] h-auto" : "h-[200px]"}`}
+        className={`py-[60px] px-6 ${
+          isPendingCourseDEnroll
+            ? "h-[200px]"
+            : fetchCourseDiscountEnrollFun?.data &&
+              fetchCourseDiscountEnrollFun?.data?.length > 0
+            ? "max-w-[800px] max-h-[800px] h-auto"
+            : "h-[200px]"
+        }`}
       >
-        <RecommendedCoursesModel data={fetchCourseDiscountEnrollFun?.data || []} isLoading={isPendingCourseDEnroll} setOpen={setIsRecommendedCourseShow} />
+        <RecommendedCoursesModel
+          data={fetchCourseDiscountEnrollFun?.data || []}
+          isLoading={isPendingCourseDEnroll}
+          setOpen={setIsRecommendedCourseShow}
+        />
       </Modal>
 
       <div>
@@ -168,12 +186,9 @@ function CourseListView({
                 <div className="grid grid-cols-12 justify-between xl:gap-[50px] gap-4 items-center">
                   <div className="xl:col-span-10 col-span-12">
                     {" "}
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: recommendeddata.description,
-                      }}
-                      className="font-inter lg:text-base text-sm line-clamp-2"
-                    ></span>
+                    <span className="font-inter lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
+                      {recommendeddata.title}
+                    </span>
                   </div>
                   <div className="xl:col-span-2 col-span-4">
                     <img
@@ -253,17 +268,31 @@ function CourseListView({
                 </h3>
 
                 <Button
-                  onClick={() => {setIsRecommendedCourseShow(true); setRecommendedCoursesById(recommendeddata?.id)}}
+                  onClick={() => {
+                    setIsRecommendedCourseShow(true);
+                    setRecommendedCoursesById(recommendeddata?.id);
+                  }}
                   className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
                   disabled={recommendeddata?.enrolled}
                 >
                   Enroll Now
                 </Button>
-                <Button className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
-                  onClick={() => {handleInquire(recommendeddata || []); setRecommendedCoursesById(recommendeddata?.id);}}
-                  disabled={!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id}
+                <Button
+                  className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                  onClick={() => {
+                    handleInquire(recommendeddata || []);
+                    setRecommendedCoursesById(recommendeddata?.id);
+                  }}
+                  disabled={
+                    !isRecommendedCourseShow &&
+                    recommendedCoursesById === recommendeddata?.id
+                  }
                 >
-                  {!isRecommendedCourseShow && recommendedCoursesById === recommendeddata?.id && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Inquire
+                  {!isRecommendedCourseShow &&
+                    recommendedCoursesById === recommendeddata?.id && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}{" "}
+                  Inquire
                 </Button>
               </div>
             </div>

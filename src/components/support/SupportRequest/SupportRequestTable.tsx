@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import {
-  deleteSupportTicket
-} from "@/services/apiServices/supportRequestServices";
+import { deleteSupportTicket } from "@/services/apiServices/supportRequestServices";
 import { ErrorType } from "@/types/Errors";
 import { DataEntity, SupportTicketListType } from "@/types/SupportRequest";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
@@ -19,6 +17,8 @@ import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 interface SupportRequestTableProps {
   data?: SupportTicketListType;
@@ -29,9 +29,17 @@ interface SupportRequestTableProps {
   page: number;
 }
 
-const SupportRequestTable = ({data, page, setPage, search, setSearch, isLoading}: SupportRequestTableProps) => {
+const SupportRequestTable = ({
+  data,
+  page,
+  setPage,
+  search,
+  setSearch,
+  isLoading,
+}: SupportRequestTableProps) => {
   const { toast } = useToast();
-  
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
 
@@ -117,6 +125,21 @@ const SupportRequestTable = ({data, page, setPage, search, setSearch, isLoading}
         return (
           <Link
             to={`ticket-details/${row.original.id}`}
+            onClick={() =>
+              dispatch(
+                setPath([
+                  {
+                    label: "support",
+                    link: null,
+                  },
+                  {
+                    label: "Support Request",
+                    link: `/${Role}/support-request`,
+                  },
+                  { label: "Ticket Detail", link: null },
+                ])
+              )
+            }
             className="text-[#00778B] cursor-pointer"
           >
             {row?.original?.openBy?.name ||

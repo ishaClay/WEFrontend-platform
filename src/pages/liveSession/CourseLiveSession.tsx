@@ -1,17 +1,29 @@
 import TotalLiveSessionsPage from "@/components/courseManagement/TotalLiveSessions/TotalLiveSessionsPage";
 import { Button } from "@/components/ui/button";
+import { QUERY_KEYS } from "@/lib/constants";
+import { getAllLiveSession } from "@/services/apiServices/liveSession";
+import { useQuery } from "@tanstack/react-query";
 import { List, NotepadText } from "lucide-react";
-import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
 import { useNavigate } from "react-router-dom";
+import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const CourseLiveSession = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("view");
   const navigate = useNavigate();
-
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
+  const dispatch = useAppDispatch();
   const changeView = (id: number) => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
+
+  const { data: allLiveSession } = useQuery({
+    queryKey: [QUERY_KEYS.allLiveSession],
+    queryFn: () => getAllLiveSession(),
+  });
 
   return (
     <div className="rounded-xl bg-white">
@@ -21,7 +33,25 @@ const CourseLiveSession = () => {
         </h5>
 
         <div className="flex items-center gap-7">
-          <Button className="bg-[#00778B] uppercase text-base">Add New</Button>
+          <Button
+            className={`bg-[#00778B] uppercase text-base ${
+              params === "0" ? "hidden" : "block"
+            }`}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Course Managment", link: null },
+                  { label: "Live Session", link: `/${currentUser}/CourseLiveSession` },
+                  {
+                    label: "schedule-live-session",
+                    link: `/${currentUser}/schedule-live-session`,
+                  },
+                ])
+              );
+            }}
+          >
+            Add New
+          </Button>
           <div className="flex rounded-md bg-white border border-[#D9D9D9] overflow-hidden">
             <Button
               className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] border-e border-[#D9D9D9] hover:bg-[#00778B] hover:text-white ${
@@ -46,12 +76,13 @@ const CourseLiveSession = () => {
       </div>
 
       {params === "0" || !params ? (
+        
         <div className="">
-          <LiveSessionsCalendar />
+          <LiveSessionsCalendar allLiveSession={allLiveSession?.data?.data} />
         </div>
       ) : (
         <div className="">
-          <TotalLiveSessionsPage />
+          <TotalLiveSessionsPage allLiveSession={allLiveSession?.data?.data} />
         </div>
       )}
     </div>
