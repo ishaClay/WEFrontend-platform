@@ -3,7 +3,6 @@ import { getCountry } from "@/services/apiServices/company";
 import {
   getTrainerById,
   trainerDetailsUpdate,
-  updateTrainerStatusById,
 } from "@/services/apiServices/trainer";
 import { uploadImage } from "@/services/apiServices/upload";
 import { CountryResponse } from "@/types/Company";
@@ -122,16 +121,6 @@ const TrainerDetailsEdit = () => {
         description: "Trainer details updated successfully",
       });
     },
-    onError: (error: AxiosError) => {
-      toast({
-        variant: "destructive",
-        description: error.message,
-      });
-    },
-  });
-
-  const { mutate, isPending: isPendingUpdate } = useMutation({
-    mutationFn: updateTrainerStatusById,
     onError: (error: AxiosError) => {
       toast({
         variant: "destructive",
@@ -532,7 +521,7 @@ const TrainerDetailsEdit = () => {
               <div className="text-right">
                 <Button
                   type="submit"
-                  isLoading={isUpdate || isPendingUpdate}
+                  isLoading={isUpdate}
                   className="text-[16px] font-semibold font-nunito uppercase py-[15px] px-[30px] h-auto bg-[#58BA66]"
                 >
                   Update

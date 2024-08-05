@@ -440,7 +440,6 @@ const GridView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-<<<<<<< Updated upstream
                           className={`items-center gap-2 font-nunito ${
                             +userData?.query?.role === UserRole.Trainee
                               ? "hidden"
@@ -449,13 +448,6 @@ const GridView = ({
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsOpen(item?.currentVersion?.mainCourse?.id);
-=======
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e: any) => {
-                            e.preventDefault();
-                            setIsDelete(true);
-                            setSingleCourse(item);
->>>>>>> Stashed changes
                           }}
                         >
                           <Trash2 className="w-4 h-4" />
