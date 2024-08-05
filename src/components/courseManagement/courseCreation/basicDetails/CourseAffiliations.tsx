@@ -21,22 +21,22 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  instituteOther: zod.string().min(1, "Please select Affiliation"),
-  otherInstitutionName: zod.string().min(1, "Please select institution / organisation name"),
+  instituteOther: zod.string({required_error: "Please select Affiliation"}).min(1, "Please select Affiliation"),
+  otherInstitutionName: zod.string({required_error: "Please select institution / organisation name"}).min(1, "Please select institution / organisation name"),
 });
 
 interface CourseAffiliationsProps {
   setStep: (e: string) => void;
-  courseById: number | null;
 }
 
-const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) => {
+const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
+    register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -44,7 +44,6 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
   const navigate = useNavigate();
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
@@ -57,9 +56,9 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("4");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
-        `/${pathName}/create_course?tab=${paramsTab}&step=${4}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -75,9 +74,9 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
   });
   
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
-    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: (+courseId) ? (!!paramsversion) : false,
   });
 
   const { data: getInstitutionsList} = useQuery({
@@ -106,9 +105,8 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
-      (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
-        setValue(key, data[key]);
-      });
+      setValue("instituteOther", data?.instituteOther?.toString());
+      setValue("otherInstitutionName", data?.otherInstitutionName?.toString());
     }
   }, [getSingleCourse]);
 
@@ -120,11 +118,11 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("4");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : params
-        }?tab=${paramsTab}&step=${4}&version=${paramsversion}`,
+        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -143,20 +141,24 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
     const payload = {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
+      tab: "0",
+      step: "4"
     };
 
-    if (+courseId) {
-      updateCourseFun({
-        payload,
-        id: getSingleCourse?.data?.course?.id,
-        version: getSingleCourse?.data?.version,
-      });
-    } else {
-      mutate({
-        data: payload,
-        id: params || "",
-        paramsversion: paramsversion || "",
-      });
+    if(isDirty){
+      if (+courseId) {
+        updateCourseFun({
+          payload,
+          id: getSingleCourse?.data?.course?.id,
+          version: getSingleCourse?.data?.version,
+        });
+      } else {
+        mutate({
+          data: payload,
+          id: params || "",
+          paramsversion: "1" || "",
+        });
+      }      
     }
   };
 
@@ -174,13 +176,14 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
             </h6>
             <div className="md:mb-[28px] sm:mb-5 mb-[15px]">
               <SelectMenu
+                {...register("instituteOther")}
                 option={organisationNameOption}
                 setValue={(data: string) => setValue("instituteOther", data)}
                 value={watch("instituteOther")}
                 placeholder="select course name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
-              {errors.instituteOther && (
+              {!errors.instituteOther?.ref?.value && (
                 <FormError message={errors.instituteOther?.message as string} />
               )}
             </div>
@@ -191,6 +194,7 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
               <SelectMenu
+                {...register("otherInstitutionName")}
                 option={organisationOption}
                 setValue={(data: string) =>
                   setValue("otherInstitutionName", data)
@@ -199,7 +203,7 @@ const CourseAffiliations = ({ setStep, courseById }: CourseAffiliationsProps) =>
                 placeholder="select institution / organisation name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
-              {errors.otherInstitutionName && (
+              {!errors.otherInstitutionName?.ref?.value && (
                 <FormError
                   message={errors.otherInstitutionName?.message as string}
                 />

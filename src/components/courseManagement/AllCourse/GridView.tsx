@@ -415,10 +415,10 @@ const GridView = ({
                         )}
                       {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
-                          className={`flex items-center gap-2 font-nunito ${
+                          className={`items-center gap-2 font-nunito ${
                             +userData?.query?.role === UserRole.Trainee
                               ? "hidden"
-                              : "block"
+                              : "flex"
                           }`}
                           onClick={(e) => {
                             e.stopPropagation();

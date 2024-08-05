@@ -50,6 +50,10 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
         newErrors.question = "Question is required";
         valid = false;
       }
+      if (questionValue?.length > 250) {
+        newErrors.question = "You can not write questionValue more than 250 characters.";
+        valid = false;
+      }
 
       // Validate points
       const pointValue = questionOption?.[i]?.point;
@@ -75,6 +79,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       validate: validateAssecessmentFreeText,
     }));
 
+    console.log("setErrors", errors);
+    
+
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">
@@ -99,12 +106,18 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
               </label>
               <input
                 className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) =>
-                  dispatch(addPoint({ index: i, point: +e.target.value }))
+                onChange={(e) =>{
+                  const {value} = e.target
+                  if (value.match(/^[0-9]*$/)) {
+                    dispatch(addPoint({ index: i, point: +e.target.value }))                    
+                  }
+                  return
                 }
-                value={questionOption[i]?.point}
+                }
+                value={questionOption[i]?.point || ""}
                 min={0}
-                type="number"
+                max={100}
+                type="text"
               />
             </div>
           </div>

@@ -123,7 +123,7 @@ const AssecessmentModuleSection = ({
                 className="border-none w-full outline-none text-sm text-black"
                 value={createAssecessment?.passingPercentage}
                 placeholder="passing percentage"
-                type="number"
+                type="text"
                 min={0}
                 onChange={(e) => {
                   setCreateAssecessment((prev) => ({
@@ -209,7 +209,7 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.hours || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri">Hours</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Hours</h6>
               </div>
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                 <input
@@ -228,7 +228,7 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.minutes || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri">Minutes</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Minutes</h6>
               </div>
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                 <input
@@ -247,7 +247,7 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.seconds || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri">Secound</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Secound</h6>
               </div>
             </div>
             {errors.timeDuration && (

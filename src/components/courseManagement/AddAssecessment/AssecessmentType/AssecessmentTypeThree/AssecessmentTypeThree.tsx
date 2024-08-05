@@ -73,8 +73,13 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
             </label>
             <input
               className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-              onChange={(e) =>
-                dispatch(addPoint({ index: i, point: +e.target.value }))
+              onChange={(e) =>{
+                const {value} = e.target
+                if (value.match(/^[0-9]*$/)) {
+                  dispatch(addPoint({ index: i, point: +e.target.value }))        
+                }
+                return
+              }
               }
               type="number"
               value={questionOption[i]?.point}

@@ -40,21 +40,21 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
   const schema = zod.object({
     description: zod
       .string({ required_error: "Description is required" })
-      .min(1, "Information is required"),
+      .min(1, "Information is required").max(250, "You can not write description more than 250 characters"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
       .min(1, "Banner Image is required"),
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required"),
+      .min(1, "Key Outcomes is required").max(250, "You can not write description more than 250 characters"),
   });
-
+  type FormData = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "all",
   });
@@ -86,7 +86,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${1}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -121,7 +121,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course?tab=${1}&id=${params}&version=${paramsversion}`
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${params}&version=${paramsversion}`
       );
     },
     onError: (error: ResponseError) => {
@@ -146,6 +146,8 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
       description: editorData,
       bannerImage: image,
       keys: keyData,
+      tab: "1",
+      step: "5"
     };
     if (+courseId) {   
       updateCourseFun({
@@ -157,10 +159,13 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
       create({
         data: payload,
         id: params || "",
-        paramsversion: paramsversion || "",
+        paramsversion: "1" || "",
       });
     }
   };
+
+  console.log("errors:", errors);
+  
 
   return (
     <>
@@ -182,9 +187,10 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}
+                className="bannerTextEditor h-[186px]"
               />
               {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
-              {!editorData && errors?.description && (
+              {!errors?.description?.ref?.value && (
                 <ErrorMessage
                   message={errors?.description?.message as string}
                 />
@@ -245,8 +251,8 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
                 Key Outcomes
               </h6>
               <CKEditorComponent
-                value={keyData}
                 {...register("keys")}
+                value={keyData}
                 onChange={(e, data) => {
                   console.log("e", e);
                   setKeyData(data.getData());

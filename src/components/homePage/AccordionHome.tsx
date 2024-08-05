@@ -1,38 +1,27 @@
 import titleCircle from "@/assets/images/title_de.svg";
 import Accordions from "@/components/comman/Accordions";
-import { AccordionOption } from "@/types";
+// import { AccordionOption} from "@/types";
 import AccordionAnswer from "./AccordionAnswer";
 import AccordionQuestion from "./AccordionQuestion";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchfaqdata } from "@/services/apiServices/faq";
+import { Loader } from "lucide-react";
 
 const AccordionHome = () => {
-  const questionList = [
-    {
-      question: "We’re beginners in sustainability. Can we join?",
-    },
-    {
-      question:
-        "We’re already involved in sustainability. How would this be useful?",
-    },
-    {
-      question: "We’re beginners in sustainability. Can we join?",
-    },
-    {
-      question: "What’s required from me to start?",
-    },
-    {
-      question: "How user-friendly is your platform?",
-    },
-    {
-      question: "What will determine my Sustainability Score?",
-    },
-  ];
-
-  const accordionItems: AccordionOption[] = questionList.map((item) => {
-    return {
-      title: <AccordionQuestion data={item} />,
-      content: <AccordionAnswer />,
-    };
+  const { data: getallfaq, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.fetchfaqquestion],
+    queryFn: () => fetchfaqdata(),
   });
+
+  const accordionItems: any =
+    getallfaq &&
+    getallfaq?.data?.map((item) => {
+      return {
+        title: <AccordionQuestion data={item} />,
+        content: <AccordionAnswer data={item} />,
+      };
+    });
 
   return (
     <div className="bg-[#F7F8FC] sm:pb-[26px] md:pt-[12px] sm:pt-[40px] pt-0 pb-[40px]">
@@ -47,28 +36,32 @@ const AccordionHome = () => {
           <span className="h-[4px] bg-[#64A70B] w-full absolute bottom-0 left-0"></span>
         </h3>
 
-        <div className="md:flex block xl:gap-[60px] gap-[40px] xl:mt-[50px] mt-[25px]">
-          <div className="w-full">
-            <Accordions
-              items={accordionItems.slice(0, 3)}
-              rounded={false}
-              padding={false}
-              className="sm:space-y-[24px] space-y-[9px]"
-              triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]`}
-              isPlusIcon
-            />
+        {isLoading ? (
+          <Loader className="h-10 w-10" />
+        ) : (
+          <div className="md:flex block xl:gap-[60px] gap-[40px] xl:mt-[50px] mt-[25px]">
+            <div className="w-full">
+              <Accordions
+                items={accordionItems?.slice(0, 3)}
+                rounded={false}
+                padding={false}
+                className="sm:space-y-[24px] space-y-[9px]"
+                triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]`}
+                isPlusIcon
+              />
+            </div>
+            <div className="w-full">
+              <Accordions
+                items={accordionItems?.slice(3)}
+                rounded={false}
+                padding={false}
+                className="sm:space-y-[24px] space-y-[9px] sm:mt-[25px] mt-[9px]"
+                triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]"
+                isPlusIcon
+              />
+            </div>
           </div>
-          <div className="w-full">
-            <Accordions
-              items={accordionItems.slice(3)}
-              rounded={false}
-              padding={false}
-              className="sm:space-y-[24px] space-y-[9px] sm:mt-[25px] mt-[9px]"
-              triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]"
-              isPlusIcon
-            />
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

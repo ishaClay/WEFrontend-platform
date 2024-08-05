@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -25,8 +26,9 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod.string().optional(),
-  certificate: zod.string().min(1, "Please select certificate type").optional(),
+  // nfqLeval: zod.string().optional(),
+  nfqLeval: zod.string({required_error: "Please select NFQ level"}).min(1, "Please select NFQ level"),
+  certificate: zod.string({required_error: "Please select certificate"}).min(1, "Please select certificate"),
   ectsCredits: zod
     .string()
     .min(1, "Please enter ECTS credit")
@@ -64,7 +66,7 @@ const CourseSpecifications = ({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -72,7 +74,6 @@ const CourseSpecifications = ({
   const { UserId } = useSelector((state: RootState) => state.user);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
   const pathName: string = location?.pathname?.split("/")[1];
@@ -103,9 +104,9 @@ const CourseSpecifications = ({
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("2");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
-        `/${pathName}/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -149,7 +150,7 @@ const CourseSpecifications = ({
         );
         setValue(
           "certificate",
-          getSingleCourse?.data?.course?.certificate?.id?.toString()
+          getSingleCourse?.data?.course?.certificate?.id?.toString() || ""
         );
       });
     }
@@ -163,11 +164,11 @@ const CourseSpecifications = ({
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("2");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : params
-        }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
+        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -188,20 +189,24 @@ const CourseSpecifications = ({
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
+      tab: "0",
+      step: "2"
     };
 
-    if (+courseId) {
-      updateCourseFun({
-        payload,
-        id: getSingleCourse?.data?.course?.id,
-        version: getSingleCourse?.data?.version,
-      });
-    } else {
-      mutate({
-        data: payload,
-        id: params || "",
-        paramsversion: paramsversion || "",
-      });
+    if(isDirty){
+      if (+courseId) {
+        updateCourseFun({
+          payload,
+          id: getSingleCourse?.data?.course?.id,
+          version: getSingleCourse?.data?.version,
+        });
+      } else {
+        mutate({
+          data: payload,
+          id: params || "",
+          paramsversion: "1" || "",
+        });
+      }
     }
   };
 
@@ -217,12 +222,16 @@ const CourseSpecifications = ({
               Specify the NFQ level for this course (if applicable).
             </Label>
             <SelectMenu
+              {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => setValue("nfqLeval", e)}
               value={watch("nfqLeval") || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
+            {!errors?.nfqLeval?.ref?.value && (
+              <ErrorMessage message={errors?.nfqLeval?.message as string} />
+            )}
           </div>
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
@@ -250,12 +259,16 @@ const CourseSpecifications = ({
               completion?
             </Label>
             <SelectMenu
+              {...register("certificate")}
               option={certificateOption || []}
               setValue={(e: string) => setValue("certificate", e)}
               value={watch("certificate") || ""}
               placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />
+            {!errors?.certificate?.ref?.value && (
+              <ErrorMessage message={errors?.nfqLeval?.message as string} />
+            )}
           </div>
           <div className="sm:text-right text-center">
             <Button
