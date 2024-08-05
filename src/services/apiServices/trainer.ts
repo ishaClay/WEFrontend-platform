@@ -50,7 +50,7 @@ export const updateTrainerStatusById = async ({
   data,
 }: {
   id: string;
-  data: { status?: string; approved: boolean; editCourses?: boolean };
+  data: { status?: string; approved: string; editCourses?: string; assignCertificate?: string };
 }) => {
   const url = `api/v1/trainer/update-status/${id}`;
   const response = await api({ url, data, method: "put" });

@@ -49,20 +49,28 @@ const TrainerSetting = () => {
 
   const handleChange = (
     updateData: DataEntity,
-    name: "approved" | "editCourses",
+    name: "approved" | "editCourses" | "assignCertificate",
     value: boolean
   ): void => {
-    const payload: Partial<DataEntity> = {};
+    const payload: {
+      approved?: string;
+      editCourses?: string;
+      assignCertificate?: string;
+    } = {};
     updateData[name] = value;
     if (updateData.approved !== undefined) {
-      payload.approved = updateData.approved;
+      payload.approved = updateData.approved.toString();
     }
     if (updateData.editCourses !== undefined) {
-      payload.editCourses = updateData.editCourses;
+      payload.editCourses = updateData.editCourses.toString();
+    }
+    if (updateData.assignCertificate !== undefined) {
+      payload.assignCertificate = updateData.assignCertificate.toString();
     }
     const data = {
-      approved: payload.approved as boolean,
-      editCourses: payload.editCourses as boolean,
+      approved: payload.approved as string,
+      editCourses: payload.editCourses as string,
+      assignCertificate: payload.assignCertificate as string,
     };
 
     mutate({ id: updateData?.id.toString() || "", data });
@@ -155,6 +163,30 @@ const TrainerSetting = () => {
               handleChange(row.original, "editCourses", value)
             }
             checked={row.original.editCourses}
+          />
+        );
+      },
+      meta: {
+        className: "text-center",
+      },
+    },
+    {
+      accessorKey: "assignCertificate",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+            Assing Certificate
+          </h5>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <Switch
+            className="data-[state=checked]:bg-[#00778B]"
+            onCheckedChange={(value) =>
+              handleChange(row.original, "assignCertificate", value)
+            }
+            checked={row.original.assignCertificate}
           />
         );
       },

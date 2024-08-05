@@ -38,11 +38,20 @@ const AllCourses = () => {
   const {
     data: fetchCourseAllCourseData,
     isLoading: fetchCourseAllCoursePending,
+    isFetching: fetchCourseAllCourseFetching,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
-    queryFn: () => fetchCourseAllCourse(searchKeyword, +UserId, status === "All" ? "" : status),
+    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status, UserId }],
+    queryFn: () =>
+      fetchCourseAllCourse(
+        searchKeyword,
+        +UserId,
+        status === "All" ? "" : status
+      ),
+    enabled: !!searchKeyword || !!status || !!UserId,
   });
-  const getAllCourseList = fetchCourseAllCourseData?.data?.filter((item) => item !== null)
+  const getAllCourseList = fetchCourseAllCourseData?.data?.filter(
+    (item) => item !== null
+  );
 
   return (
     <div>
@@ -164,7 +173,7 @@ const AllCourses = () => {
           </div>
         </div>
         <div className="sm:px-[18px] sm:pb-[18px] px-[15px] pb-[15px]">
-          {fetchCourseAllCoursePending ? (
+          {fetchCourseAllCoursePending || fetchCourseAllCourseFetching ? (
             <Loader />
           ) : params === "0" || !params ? (
             <GridView list={getAllCourseList || []} />

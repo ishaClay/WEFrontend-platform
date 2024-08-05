@@ -29,6 +29,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useAppSelector } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
 import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 import {
@@ -43,10 +44,12 @@ function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("1");
+  const { clientId } = useAppSelector((state) => state?.user);
   const [openId, setOpenId] = useState<number | null>(null);
   const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
     queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
-    queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
+    queryFn: () =>
+      fetchAllocatedCourse(userData?.query?.id, statusFilter, clientId),
   });
 
   console.log("course", course);
@@ -91,9 +94,7 @@ function CoursesAllocate() {
                       <div className="sm:flex block gap-[17px] xl:col-span-10 col-span-12">
                         <div className="overflow-hidden rounded sm:min-w-[152px] sm:w-[152px] sm:min-h-[152px] sm:h-[152px] w-full">
                           <img
-                            src={
-                              courseallocate?.course?.bannerImage
-                            }
+                            src={courseallocate?.course?.bannerImage}
                             alt="img"
                             className="w-full h-full rounded-md"
                           />
@@ -147,8 +148,7 @@ function CoursesAllocate() {
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
-                                  courseallocate?.course
-                                    ?.description || "",
+                                  courseallocate?.course?.description || "",
                               }}
                               className="line-clamp-2"
                             ></span>
@@ -180,9 +180,13 @@ function CoursesAllocate() {
                               />
                               <p className="text-xs">
                                 {courseallocate?.course?.time ===
-                                  CourseTime?.FullTime && <span>Full-time</span>}
+                                  CourseTime?.FullTime && (
+                                  <span>Full-time</span>
+                                )}
                                 {courseallocate?.course?.time ===
-                                  CourseTime?.PartTime && <span>Part-time</span>}
+                                  CourseTime?.PartTime && (
+                                  <span>Part-time</span>
+                                )}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">
@@ -192,22 +196,14 @@ function CoursesAllocate() {
                                 alt="type"
                               />
                               <p className="text-xs">
-                                {courseallocate?.course
-                                  .isOnline === IsOnline.Online && (
-                                  <span>Online</span>
-                                )}
-                                {courseallocate?.course
-                                  .isOnline === IsOnline.InPerson && (
-                                  <span>InPerson</span>
-                                )}
-                                {courseallocate?.course
-                                  .isOnline === IsOnline.Hybrid && (
-                                  <span>Hybrid</span>
-                                )}
-                                {courseallocate?.course
-                                  .isOnline === IsOnline.Major && (
-                                  <span>Major</span>
-                                )}
+                                {courseallocate?.course.isOnline ===
+                                  IsOnline.Online && <span>Online</span>}
+                                {courseallocate?.course.isOnline ===
+                                  IsOnline.InPerson && <span>InPerson</span>}
+                                {courseallocate?.course.isOnline ===
+                                  IsOnline.Hybrid && <span>Hybrid</span>}
+                                {courseallocate?.course.isOnline ===
+                                  IsOnline.Major && <span>Major</span>}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">

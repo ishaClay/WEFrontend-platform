@@ -38,7 +38,10 @@ import { toast } from "../ui/use-toast";
 
 const schema = zod.object({
   name: zod.string(),
-  number: zod.string().optional(),
+  number: zod
+    .string()
+    .regex(/^(\d{10})?$/, { message: "Please enter valid phone number" })
+    .optional(),
   email: zod.string().email({ message: "Please enter valid email" }),
   providerName: zod.string(),
   providerType: zod.string(),
@@ -63,6 +66,8 @@ const TrainerDetailsEdit = () => {
   const [trainerStatus, setTrainerStatus] = useState<string>("");
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
   const [trainerEditPermission, setTrainerEditPermission] =
+    useState<boolean>(false);
+  const [assignCertificatePermission, setAssignCertificatePermission] =
     useState<boolean>(false);
   const navigate = useNavigate();
   type ValidationSchema = zod.infer<typeof schema>;
@@ -110,7 +115,6 @@ const TrainerDetailsEdit = () => {
       queryClient.invalidateQueries({
         queryKey: ["trainerDetails", params.id],
       });
-      onSubmit();
       reset();
       navigate("/trainer/trainer-management");
       toast({
@@ -140,6 +144,7 @@ const TrainerDetailsEdit = () => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
+      setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
       setValue("name", clientDetails?.data?.name || "");
       setValue("number", clientDetails?.data?.phone || "");
       setValue("email", clientDetails?.data?.email);
@@ -149,18 +154,9 @@ const TrainerDetailsEdit = () => {
       setValue("providerCounty", clientDetails?.data?.providerCounty || "");
       setValue("providerNotes", clientDetails?.data?.providerNotes || "");
       setValue("foreignProvider", clientDetails?.data?.foreignProvider || "No");
+      setProfileImage(clientDetails?.data?.profileImage || "");
     }
   }, [clientDetails, setValue]);
-
-  const onSubmit = () => {
-    const data = {
-      status: trainerStatus.toString(),
-      approved: trainerPermission,
-      editCourses: trainerEditPermission,
-    };
-
-    mutate({ id: params.id || "", data });
-  };
 
   const handleUpdate = (data: FieldValues) => {
     const payload = {
@@ -176,6 +172,7 @@ const TrainerDetailsEdit = () => {
       profileImage: profile_image ? profile_image : null,
       status: trainerStatus.toString(),
       approved: trainerPermission,
+      assignCertificate: assignCertificatePermission,
       editCourses: trainerEditPermission,
     };
 
@@ -287,6 +284,14 @@ const TrainerDetailsEdit = () => {
                     placeholder="0044 1234 1234567"
                     className="h-[46px]"
                     label="Mobile No."
+                    // onChange={(e) => {
+                    //   const { value } = e.target;
+                    //   if (value.match(/^[0-9]*$/)) {
+                    //     setValue("number", value);
+                    //   }
+                    //   return;
+                    // }}
+                    // value={watch("number") || ""}
                     {...register("number")}
                   />
                   {errors.number && (
@@ -498,6 +503,28 @@ const TrainerDetailsEdit = () => {
                       className="text-[16px] font-nunito"
                     >
                       Edit Course Permission
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="airplane-mode"
+                      defaultChecked={assignCertificatePermission}
+                      checked={assignCertificatePermission}
+                      onCheckedChange={() =>
+                        setAssignCertificatePermission(
+                          !assignCertificatePermission
+                        )
+                      }
+                      switchClassName={
+                        "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                      }
+                      className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                    />
+                    <Label
+                      htmlFor="airplane-mode"
+                      className="text-[16px] font-nunito"
+                    >
+                      Assign Certificate Permission
                     </Label>
                   </div>
                 </div>

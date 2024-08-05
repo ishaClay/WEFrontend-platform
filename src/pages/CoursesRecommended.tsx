@@ -4,9 +4,7 @@ import CourseListView from "@/components/courseManagement/Recommended Courses/Co
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
-import { fetchAllocatedCourse } from "@/services/apiServices/allocatedcourse";
 import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
-import { EnrollmentRequestsResponse } from "@/types/allocatedcourses";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
@@ -36,12 +34,6 @@ function CoursesRecommended() {
         keyword: search,
       }),
   });
-
-  const { data: course } = useQuery<EnrollmentRequestsResponse>({
-    queryKey: [QUERY_KEYS.fetchbycourseallocate],
-    queryFn: () => fetchAllocatedCourse(usersData?.query?.id),
-  });
-  console.log("course++", course);
 
   const changeRecommendedCourseView = (id: number) => {
     navigate(`/company/coursesrecommended?view=${id}`, { replace: true });
@@ -90,7 +82,7 @@ function CoursesRecommended() {
 
                 <input
                   type="text"
-                  placeholder="Search by course name etc."
+                  placeholder="Search by pillar, level, recommended, course name etc."
                   className="flex-1 mr-2 focus:outline-none text-black placeholder-[#A3A3A3] text-sm"
                   onChange={(e) => setSearch(e.target.value)}
                 />
@@ -134,15 +126,16 @@ function CoursesRecommended() {
               >
                 {pending ? (
                   <Loader />
-                ) : recommendedcourses?.data ? (
+                ) : recommendedcourses?.data &&
+                  recommendedcourses?.data?.length > 0 ? (
                   recommendedcourses?.data?.map((recommendeddata) => (
                     <div key={recommendeddata.id}>
                       <CourseGridView recommendeddata={recommendeddata} />
                     </div>
                   ))
                 ) : (
-                  <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center">
-                    {recommendedcourses?.message}
+                  <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center col-span-full">
+                    No Reccomanded Data Found
                   </p>
                 )}
               </div>
@@ -150,7 +143,8 @@ function CoursesRecommended() {
               <div className="p-4 h-[calc(100vh-301px)] overflow-auto">
                 {pending ? (
                   <Loader />
-                ) : recommendedcourses?.data ? (
+                ) : recommendedcourses?.data &&
+                  recommendedcourses?.data?.length > 0 ? (
                   recommendedcourses?.data?.map((recommendeddata, i) => (
                     <div key={recommendeddata.id}>
                       <CourseListView
@@ -162,7 +156,7 @@ function CoursesRecommended() {
                   ))
                 ) : (
                   <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center">
-                    {recommendedcourses?.message}
+                    No Reccomanded Data Found
                   </p>
                 )}
               </div>
