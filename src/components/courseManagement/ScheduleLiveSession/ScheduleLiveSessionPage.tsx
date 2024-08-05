@@ -1,5 +1,6 @@
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
+import Autocomplete from "@/components/comman/MultipleSelectMenu";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +27,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-import Autocomplete from "@/components/comman/MultipleSelectMenu";
 
 const timePeriodsOptions = [
   {
@@ -125,7 +125,7 @@ const ScheduleLiveSessionPage = () => {
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchAllCourse],
-      queryFn: () => fetchCourseAllCourse("", +UserId),
+      queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
     });
 
   const filteredAllCourseData = fetchCourseAllCourseData?.data?.filter(

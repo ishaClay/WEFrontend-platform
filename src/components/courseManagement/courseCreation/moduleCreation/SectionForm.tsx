@@ -98,7 +98,6 @@ const SectionForm = ({
                 onCheckedChange={() => {
                   setValue(`isLive`, !section.isLive);
                 }}
-                disabled
                 className="me-3"
               />
               Live Session

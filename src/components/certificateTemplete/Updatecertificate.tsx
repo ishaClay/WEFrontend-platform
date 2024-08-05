@@ -8,7 +8,7 @@ import { uploadFile } from "@/services/apiServices/uploadServices";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
@@ -36,6 +36,7 @@ const Addcertificate = () => {
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const captureRef = React.useRef(null);
   const schema = z.object({
     templateName: z.string({ required_error: "Please enter template name" }),
     backgroundImage: z.string({
@@ -47,7 +48,7 @@ const Addcertificate = () => {
     title: z.string({ required_error: "Please enter certificate title" }),
     bodyText: z
       .string({ required_error: "Please enter body text" })
-      .max(100, { message: "Body text must contain at least 100 characters" }),
+      .max(250, { message: "Body text must contain at least 100 characters" }),
 
     administratorTitle: z.string({
       required_error: "Please enter administrator title",
@@ -160,6 +161,60 @@ const Addcertificate = () => {
   );
 
   const onSubmit = async (data: FieldValues) => {
+    // const loadImage = (url) =>
+    //   new Promise((resolve, reject) => {
+    //     const img = new Image();
+    //     img.crossOrigin = "Anonymous"; // Handle cross-origin images
+    //     img.onload = () => resolve(img);
+    //     img.onerror = reject;
+    //     img.src = url;
+    //   });
+
+    // // Ensure all images are loaded
+    // const images = [
+    //   data?.backgroundImage,
+    //   data?.companyLogo1,
+    //   data?.instructorSignature,
+    //   data?.administratorSignature,
+    //   // Add more dynamic image URLs if needed
+    // ];
+
+    // try {
+    //   await Promise.all(images.map((url) => loadImage(url)));
+
+    //   // Capture the image after ensuring all images are loaded
+    //   if (captureRef.current) {
+    //     html2canvas(captureRef.current, {
+    //       useCORS: true,
+    //       allowTaint: false,
+    //       logging: true,
+    //     }).then((canvas) => {
+    //       const imgData = canvas.toDataURL("image/png");
+    //       const link = document.createElement("a");
+    //       link.href = imgData;
+    //       link.download = "capture.png";
+    //       link.click();
+    //     });
+    //   }
+
+    //   // Other code (e.g., update_certificate) if needed
+    //   // const payload = { ... };
+    //   // update_certificate({ data: payload, id: certificateId || "" });
+    // } catch (error) {
+    //   console.error("Error loading images or capturing canvas:", error);
+    // }
+
+    // html2canvas(captureRef?.current, {
+    //   useCORS: true,
+    //   allowTaint: false,
+    //   logging: true,
+    // }).then((canvas) => {
+    //   const dataUrl = canvas.toDataURL("image/png");
+    //   const a = document.createElement("a");
+    //   a.href = dataUrl;
+    //   a.download = `certificate.png`;
+    //   a.click();
+    // });
     const payload = {
       user: userData?.query?.id,
       templateName: data?.templateName,
@@ -177,6 +232,7 @@ const Addcertificate = () => {
     };
     update_certificate({ data: payload, id: certificateId || "" });
   };
+
   return (
     <div className="lg:bg-white bg-transparent rounded-xl">
       <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px]">
@@ -200,7 +256,10 @@ const Addcertificate = () => {
           <Loader />
         ) : (
           <div className="flex gap-[30px]">
-            <div className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full">
+            <div
+              ref={captureRef}
+              className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full"
+            >
               <div className="relative h-full w-full">
                 {watch("backgroundImage") && (
                   <div className="flex justify-center">
@@ -214,24 +273,33 @@ const Addcertificate = () => {
                 <div className="absolute top-1/2 -translate-y-1/2 w-full px-20">
                   {Single_certificate?.data?.cretificateText && (
                     <h4
-                      className={`font-${Single_certificate?.data?.primaryFont} text-[70px] text-center font-semibold pb-2`}
-                      style={{ color: Single_certificate?.data?.primaryColor }}
+                      className={`!font-${Single_certificate?.data?.primaryFont} text-[70px] text-center font-semibold pb-2`}
+                      style={{
+                        color: Single_certificate?.data?.primaryColor,
+                        fontFamily: Single_certificate?.data?.primaryFont,
+                      }}
                     >
                       {Single_certificate?.data?.cretificateText}
                     </h4>
                   )}
                   <div className="w-full text-center ">
                     {watch("title") && (
-                      <div className="pb-3 text-[30px] font-medium">
+                      <div
+                        className="pb-3 text-[30px] font-medium"
+                        style={{
+                          fontFamily: Single_certificate?.data?.secondaryFont,
+                        }}
+                      >
                         <h1>OF PARTICIPATION</h1>
                         <h1>{watch("title")}</h1>
                       </div>
                     )}
                     <div>
                       <h1
-                        className={`font-${Single_certificate?.data?.primaryFont} font-medium mt-[25px] text-6xl`}
+                        className={`!font-${Single_certificate?.data?.primaryFont} font-medium mt-[25px] text-6xl`}
                         style={{
                           color: Single_certificate?.data?.primaryColor,
+                          fontFamily: Single_certificate?.data?.primaryFont,
                         }}
                       >
                         Employe Name
@@ -262,7 +330,12 @@ const Addcertificate = () => {
                     </div>
                     {watch("bodyText") && (
                       <div className="mt-5">
-                        <p className="text-[24px] font-nunito tracking-tight w-[50%] m-auto leading-8">
+                        <p
+                          className={`text-[24px] !font-${Single_certificate?.data?.secondaryFont} tracking-tight w-[50%] m-auto leading-8`}
+                          style={{
+                            fontFamily: Single_certificate?.data?.secondaryFont,
+                          }}
+                        >
                           {watch("bodyText")}
                         </p>
                       </div>
@@ -305,7 +378,7 @@ const Addcertificate = () => {
                         )}
                       </div>
                       <div className="flex items-end justify-between pt-5 pl-6">
-                        <div className=" w-[70px] h-[70px]  overflow-hidden">
+                        <div className=" w-[100px] h-[100px]  overflow-hidden">
                           {
                             <img
                               src={watch("companyLogo1")}

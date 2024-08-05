@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { arraysAreEqual } from "@/lib/utils";
 import {
   createCohort,
   getCohortsByCourse,
@@ -78,7 +79,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           isEdit: false,
         };
       });
-      setCohortData((prev) => [...newData, ...prev]);
+      setCohortData(newData);
     }
   }, [data]);
 
@@ -141,14 +142,15 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCohort,
-    onSuccess: () => {
-      setOpen(false);
-      setCohortData([InitialData]);
+    onSuccess: (data) => {
+      console.log("data", data);
+
       toast({
         title: "Success",
-        description: "Cohort created successfully",
+        description: data?.message,
         variant: "success",
       });
+      handleClose();
     },
     onError: (error: ErrorType) => {
       toast({
@@ -159,7 +161,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   });
 
   const handleSubmit = () => {
-    const data = cohortData.map((item) => {
+    const dataNew = cohortData.map((item) => {
       if (item.cohortName !== "") {
         return {
           name: item.cohortName,
@@ -178,14 +180,61 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       }
     });
 
+    const newData = data?.data?.map((item) => {
+      const startDate = new Date(
+        `${+item?.slotStartDate?.month}/${+item?.slotStartDate?.date}/${+item
+          ?.slotStartDate?.year}`
+      );
+      const endDate = new Date(
+        `${+item?.slotEndDate?.month}/${+item?.slotEndDate?.date}/${+item
+          ?.slotEndDate?.year}`
+      );
+      return {
+        id: item?.id,
+        publish: item?.publish === 0 ? false : true,
+        cohortName: item?.name,
+        startDate: startDate,
+        endDate: endDate,
+        isEdit: false,
+      };
+    });
+
+    const filteredData = dataNew.filter(
+      (item) => item !== null && item !== undefined
+    );
+
     const payload = {
-      timeSlot: data,
+      timeSlot: filteredData,
       courseVersion: id,
     };
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    mutate(payload);
+    if (filteredData?.length > 0) {
+      if (
+        !arraysAreEqual(
+          cohortData?.filter(
+            (item) =>
+              item.cohortName !== "" &&
+              item.startDate !== undefined &&
+              item.endDate !== undefined
+          ),
+          newData
+        )
+      ) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        mutate(payload);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Previous data: no changes!",
+        });
+      }
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Please add atleast one cohort",
+      });
+    }
   };
 
   return (
@@ -268,6 +317,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                           placeHolder={"dd-mm-yyyy"}
                           date={item?.startDate}
                           disabled={!item?.isEdit}
+                          fromDate={new Date()}
                           setDate={(date) =>
                             handleChanges(date, item.id, "startDate")
                           }

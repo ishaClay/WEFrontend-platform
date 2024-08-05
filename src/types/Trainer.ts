@@ -41,6 +41,7 @@ export interface DataEntity {
   providerCounty: string;
   providerNotes: string;
   approved: boolean;
+  assignCertificate: boolean;
   editCourses: boolean;
   status: number;
   rating: number;
