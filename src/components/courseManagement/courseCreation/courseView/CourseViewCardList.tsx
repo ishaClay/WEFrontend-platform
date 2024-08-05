@@ -33,7 +33,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
     moduleTitle: z
       .string()
       .min(1, "Please enter module title")
-      .max(250, "Too long"),
+      .max(250, "You can not write module title more than 250 characters"),
   });
 
   type ValidationSchema = z.infer<typeof schema>;

@@ -48,6 +48,7 @@ const ModuleCreationPage = () => {
   const queryClient = useQueryClient();
   const search = window.location.search;
   const courseID = new URLSearchParams(search).get("id") || "";
+  const paramsVersion = new URLSearchParams(search).get("version") || "";
   const [moduleList, setModuleList] = useState<any>([]);
   const dragPerson = useRef<number>(0);
   const draggedOverPerson = useRef<number>(0);
@@ -60,7 +61,7 @@ const ModuleCreationPage = () => {
         moduleTitle: z
           .string()
           .min(1, "Please enter module title")
-          .max(250, "Too long"),
+          .max(250, "You can not write module title more than 250 characters"),
         section: z.array(
           z
             .object({
@@ -85,11 +86,11 @@ const ModuleCreationPage = () => {
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string().optional(),
-                // .regex(
-                //   /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
-                //   "Invalid YouTube URL"
-                // ).optional(),
+                .string({ required_error: "Youtube url is required" })
+                .regex(
+                  /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
+                  "please enter Invalid YouTube URL"
+                ).optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -197,7 +198,7 @@ const ModuleCreationPage = () => {
   useEffect(() => {
     if (moduleList?.length > 0) {
       latestModuleList.current = moduleList; // update ref to latest state
-      if (+courseEditId) {
+      if (+paramsVersion) {
         handleModulePosition();
       }
       reset({ modules: [] });
@@ -221,9 +222,9 @@ const ModuleCreationPage = () => {
   });
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
-    queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
-    enabled: !!courseID || !!courseEditId,
+    queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
+    queryFn: () => getModuleData(+paramsVersion),
+    enabled: !!paramsVersion || !!courseEditId,
   });
 
   useEffect(() => {

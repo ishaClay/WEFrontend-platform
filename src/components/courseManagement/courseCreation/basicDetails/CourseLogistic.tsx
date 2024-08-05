@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -72,12 +73,13 @@ const durationType = [
 ];
 
 const schema = zod.object({
-  time: zod.string().min(1, "Please select  time"),
-  isOnline: zod.string().min(1, "Please select type"),
+  time: zod.string({required_error: "Please select time"}).min(1, "Please select  time"),
+  isOnline: zod.string({required_error: "Please select type"}).min(1, "Please select type"),
   universityAddress: zod.string().min(1, "Please enter university location"),
   duration: zod
     .string()
     .min(1, "Please enter duration")
+    .regex(/^[0-9]/, "The duration must contain only numbers")
     .refine((val) => {
       return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
     }, "Duration should be greater than 0"),
@@ -96,7 +98,7 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -118,8 +120,8 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
-    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : null)),
+    enabled: (+courseId) ? (!!paramsversion) : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -130,9 +132,9 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("3");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
-        `/${pathName}/create_course?tab=${paramsTab}&step=${3}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -169,7 +171,7 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
         description: data?.data?.message,
         variant: "success",
       });
-      setStep("3");
+      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : params
@@ -194,23 +196,29 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
       duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
+      tab: "0",
+      step: "3"
     };
-
-    if (+courseId) {
-      updateCourseFun({
-        payload,
-        id: getSingleCourse?.data?.course?.id,
-        version: getSingleCourse?.data?.version,
-      });
-    } else {
-      mutate({
-        data: payload,
-        id: params || "",
-        paramsversion: paramsversion || "",
-      });
+    
+    if(isDirty){
+      if (+courseId) {
+        updateCourseFun({
+          payload,
+          id: getSingleCourse?.data?.course?.id,
+          version: getSingleCourse?.data?.version,
+        });
+      } else {
+        mutate({
+          data: payload,
+          id: params || "",
+          paramsversion: "1" || "",
+        });
+      }
     }
   };
-  
+
+  console.log("errors:", errors);
+
 
   return (
     <>
@@ -225,11 +233,16 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
               <SelectMenu
+                {...register("time")}
                 option={Time}
                 setValue={(data: string) => setValue("time", data)}
                 value={watch("time")}
+                placeholder="Select Time"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
+              {!errors?.time?.ref?.value && (
+                <ErrorMessage message={errors?.time?.message as string} />
+              )}
             </div>
           </div>
           <div className="">
@@ -238,11 +251,16 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
               <SelectMenu
+                {...register("isOnline")}
                 option={isOnlineType}
                 setValue={(data: string) => setValue("isOnline", data)}
                 value={watch("isOnline")}
+                placeholder="Select Type"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
+              {!errors?.isOnline?.ref?.value && (
+                <ErrorMessage message={errors?.isOnline?.message as string} />
+              )}
             </div>
           </div>
           <div className="">
@@ -267,7 +285,7 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
             <div className="flex sm:mb-5 mb-[15px] gap-5">
               <div>
                 <InputWithLabel
-                  type="number"
+                  type="text"
                   placeholder={`Please enter ${watch("durationType")}`}
                   className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
                   {...register("duration")}

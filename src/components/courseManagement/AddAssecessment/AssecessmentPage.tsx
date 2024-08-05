@@ -224,10 +224,19 @@ const AssecessmentPage = () => {
       newErrors.title = "Assessment Title is required";
       valid = false;
     }
+    if (createAssecessment?.title?.length > 250) {
+      newErrors.title = "You can not write Assessment Title more than 250 characters.";
+      valid = false;
+    }
 
     // Validate passingPercentage
     if (!createAssecessment?.passingPercentage) {
       newErrors.passingPercentage = "Passing Percentage is required";
+      valid = false;
+    }
+    const passingPercentageRegex = /^[0-9]+$/;
+    if (!passingPercentageRegex.test(createAssecessment?.passingPercentage)) {
+      newErrors.passingPercentage = "Passing Percentage is required and must be a number";
       valid = false;
     }
 

@@ -57,15 +57,15 @@ const CoursePathwayPage = () => {
   const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } =
     useMutation({
       mutationFn: (e: any) => pillarMaturity(e),
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsError(false);
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${2}&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=${data?.data?.data?.tab}&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -110,6 +110,7 @@ const CoursePathwayPage = () => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
   });
+console.log("paramsversion", paramsversion);
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -130,12 +131,16 @@ const CoursePathwayPage = () => {
         courseData: selectedData,
         id: +courseId ? +courseId : paramsId,
         version: +courseId ? getSingleCourse?.data?.version : paramsversion,
+        tab: "2",
       };
       pillarMaturityFun(payload);
     } else {
       setIsError(true);
     }
   };
+
+  console.log("asdasd", selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit);
+  
   return (
     <div className="">
       <div className="flex items-center justify-between">
@@ -202,7 +207,7 @@ const CoursePathwayPage = () => {
           type="button"
           onClick={handleSubmit}
           className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
-          disabled={pillarMaturityLoading || isError}
+          disabled={pillarMaturityLoading || (selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit)}
         >
           {pillarMaturityLoading ? (
             <Loader containerClassName="max-h-auto" />

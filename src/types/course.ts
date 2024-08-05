@@ -26,6 +26,8 @@ export interface CourseData {
   universityAddress?: null;
   duration: string;
   price: number;
+  step: number;
+  tab: number;
   instituteOther: string;
   otherInstitutionName: string;
   description: string;
