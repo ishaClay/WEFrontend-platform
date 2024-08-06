@@ -21,8 +21,10 @@ import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  instituteOther: zod.string({required_error: "Please select Affiliation"}),
-  otherInstitutionName: zod.string({required_error: "Please select institution / organisation name"}),
+  instituteOther: zod.string({ required_error: "Please select Affiliation" }),
+  otherInstitutionName: zod.string({
+    required_error: "Please select institution / organisation name",
+  }),
 });
 
 interface SelectAffiliationsTypr {
@@ -48,10 +50,11 @@ const CourseAffiliations = () => {
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-  const [selectAffiliations, setSelectAffiliations] = useState<SelectAffiliationsTypr>({
-    instituteOther: "",
-    otherInstitutionName: "",
-  });
+  const [selectAffiliations, setSelectAffiliations] =
+    useState<SelectAffiliationsTypr>({
+      instituteOther: "",
+      otherInstitutionName: "",
+    });
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -76,36 +79,37 @@ const CourseAffiliations = () => {
       });
     },
   });
-  
+
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
   });
 
-  const { data: getInstitutionsList} = useQuery({
+  const { data: getInstitutionsList } = useQuery({
     queryKey: [QUERY_KEYS.getInstitutions],
     queryFn: () => fetchgetInstitutionsList(),
-  })
-  const organisationOption = getInstitutionsList?.data?.map((item) => {
-    return {
-      label: item?.name,
-      value: item?.name,
-    }
-  }) || [];
+  });
+  const organisationOption =
+    getInstitutionsList?.data?.map((item) => {
+      return {
+        label: item?.name,
+        value: item?.name,
+      };
+    }) || [];
 
-  const { data: fetchgetCoursesList} = useQuery({
+  const { data: fetchgetCoursesList } = useQuery({
     queryKey: [QUERY_KEYS.fetchgetCoursesNameList],
     queryFn: () => fetchgetCoursesNameList(),
-  })
+  });
 
-  const organisationNameOption = fetchgetCoursesList?.data?.map((item) => {
-    return {
-      label: item?.name,
-      value: item?.name,
-    }
-  }) || [];
-  
+  const organisationNameOption =
+    fetchgetCoursesList?.data?.map((item) => {
+      return {
+        label: item?.name,
+        value: item?.name,
+      };
+    }) || [];
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -113,10 +117,10 @@ const CourseAffiliations = () => {
       setSelectAffiliations({
         instituteOther: data?.instituteOther,
         otherInstitutionName: data?.otherInstitutionName,
-      })
+      });
       setValue("instituteOther", data?.instituteOther);
       setValue("otherInstitutionName", data?.otherInstitutionName);
-    }    
+    }
   }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
@@ -128,9 +132,9 @@ const CourseAffiliations = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${
-          +courseId ? courseId : params
-        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          data?.data?.data?.tab
+        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -148,14 +152,22 @@ const CourseAffiliations = () => {
   const onSubmit = (data: FieldValues) => {
     const basePayload = {
       instituteOther: data?.instituteOther,
-      otherInstitutionName: data?.otherInstitutionName
+      otherInstitutionName: data?.otherInstitutionName,
     };
 
-    const payload = watch("instituteOther") && watch("otherInstitutionName") && +courseId 
-    ? basePayload : params ? basePayload : { ...basePayload, tab: "0", step: "4" }
+    const payload =
+      watch("instituteOther") && watch("otherInstitutionName") && +courseId
+        ? basePayload
+        : params
+        ? basePayload
+        : { ...basePayload, tab: "0", step: "4" };
 
-    if(isDirty){
-      if (+courseId || selectAffiliations?.instituteOther !== data?.instituteOther || selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName) {
+    if (
+      isDirty ||
+      selectAffiliations?.instituteOther !== data?.instituteOther ||
+      selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName
+    ) {
+      if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
@@ -167,14 +179,12 @@ const CourseAffiliations = () => {
           id: params || "",
           paramsversion: "1" || "",
         });
-      }      
+      }
     } else {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${4}&version=${
-          getSingleCourse?.data?.id
-        }`,
+        }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
         }
@@ -198,7 +208,13 @@ const CourseAffiliations = () => {
               <SelectMenu
                 {...register("instituteOther")}
                 option={organisationNameOption}
-                setValue={(data: string) => {setSelectAffiliations({...selectAffiliations, instituteOther: data}); setValue("instituteOther", data)}}
+                setValue={(data: string) => {
+                  setSelectAffiliations({
+                    ...selectAffiliations,
+                    instituteOther: data,
+                  });
+                  setValue("instituteOther", data);
+                }}
                 value={selectAffiliations?.instituteOther || ""}
                 placeholder="select course name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
@@ -216,7 +232,13 @@ const CourseAffiliations = () => {
               <SelectMenu
                 {...register("otherInstitutionName")}
                 option={organisationOption}
-                setValue={(data: string) => {setSelectAffiliations({...selectAffiliations, otherInstitutionName: data}); setValue("otherInstitutionName", data)}}
+                setValue={(data: string) => {
+                  setSelectAffiliations({
+                    ...selectAffiliations,
+                    otherInstitutionName: data,
+                  });
+                  setValue("otherInstitutionName", data);
+                }}
                 value={selectAffiliations?.otherInstitutionName || ""}
                 placeholder="select institution / organisation name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"

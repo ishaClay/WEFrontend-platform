@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
 import EllipseImage from "@/assets/images/Ellipse1.png";
 import EllipseImage2 from "@/assets/images/Ellipse2.png";
 import EllipseImage3 from "@/assets/images/Ellipse3.png";
-import GradientHeading from "./ourServices/GradientHeading";
-import HomeHeader from "./homePage/HomeHeader";
-import HomeFooter from "./homePage/HomeFooter";
 import { Headset, MailCheck, NotebookTabs, PhoneCall } from "lucide-react";
+import { Link } from "react-router-dom";
+import HomeFooter from "./homePage/HomeFooter";
+import HomeHeader from "./homePage/HomeHeader";
+import GradientHeading from "./ourServices/GradientHeading";
 
 const Contact = () => {
   return (
@@ -26,7 +26,7 @@ const Contact = () => {
               Address
             </h1>
             <p className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]">
-              1105 W Peachtree St NW, Atlanta, GA 30309, United States
+              Peachtree St NW, Atlanta, GA 30309, United States
             </p>
             <img
               src={EllipseImage}
@@ -107,10 +107,10 @@ const Contact = () => {
               Email Id
             </h1>
             <Link
-              to="mailto:info@oenashipping.com"
+              to="mailto:info@clay.in"
               className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
-              info@oenashipping.com
+              info@clay.in
             </Link>
             <img
               src={EllipseImage}
