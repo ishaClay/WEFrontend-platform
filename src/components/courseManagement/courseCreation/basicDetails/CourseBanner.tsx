@@ -46,7 +46,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       .min(1, "Information is required").max(250, "You can not write description more than 250 characters"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner Image is required").optional(),
+      .min(1, "Banner Image is required"),
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
       .min(1, "Key Outcomes is required").max(250, "You can not write description more than 250 characters"),
@@ -57,7 +57,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     handleSubmit,
     setValue,
     formState: { errors, isDirty },
-    watch
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -152,14 +151,13 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
   };
 
   const onSubmit = () => {
-    const basePayload = {
+    const payload = {
       description: editorData,
       bannerImage: image,
-      keys: keyData
+      keys: keyData,
+      tab: "1", 
+      step: "5",
     };
-
-    const payload = watch("description") && watch("bannerImage") && watch("keys") && +courseId 
-    ? basePayload : params ? basePayload : { ...basePayload, tab: "1", step: "5" }
 
     if (isDirty || selectBoxValue?.description !== editorData || selectBoxValue?.bannerImage !== image || selectBoxValue?.keys !== keyData) {
       if (+courseId) {

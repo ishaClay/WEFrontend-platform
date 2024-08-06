@@ -38,7 +38,6 @@ const CourseAffiliations = () => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -150,24 +149,15 @@ const CourseAffiliations = () => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const basePayload = {
+    const payload = {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
+      tab: "0", 
+      step: "4"
     };
 
-    const payload =
-      watch("instituteOther") && watch("otherInstitutionName") && +courseId
-        ? basePayload
-        : params
-        ? basePayload
-        : { ...basePayload, tab: "0", step: "4" };
-
-    if (
-      isDirty ||
-      selectAffiliations?.instituteOther !== data?.instituteOther ||
-      selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName
-    ) {
-      if (+courseId) {
+if(isDirty || selectAffiliations?.instituteOther !== data?.instituteOther || selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName){
+if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,

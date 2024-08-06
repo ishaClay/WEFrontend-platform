@@ -50,7 +50,6 @@ const ForumPage = () => {
         userId: +userId,
         courseId: +courseId,
         tab: "4",
-        step: "5",
       });
     }
   };

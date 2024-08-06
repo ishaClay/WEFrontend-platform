@@ -65,7 +65,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -190,29 +189,16 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const basePayload = {
+    const payload = {
       nfqLeval: data?.nfqLeval,
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
+      tab: "0", 
+      step: "2"
     };
 
-    const payload =
-      watch("nfqLeval") &&
-      watch("ectsCredits") &&
-      watch("fetCredits") &&
-      watch("certificate") &&
-      +courseId
-        ? basePayload
-        : params
-        ? basePayload
-        : { ...basePayload, tab: "0", step: "2" };
-
-    if (
-      isDirty ||
-      selectBoxValue?.nfqLeval !== data?.nfqLeval ||
-      selectBoxValue?.certificate !== data?.certificate
-    ) {
+    if(isDirty || selectBoxValue?.nfqLeval !== data?.nfqLeval || selectBoxValue?.certificate !== data?.certificate){
       if (+courseId) {
         updateCourseFun({
           payload,

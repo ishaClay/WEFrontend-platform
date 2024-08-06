@@ -197,14 +197,14 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const basePayload = {
+    const payload = {
       time: +data?.time,
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
-      duration: data?.duration.split(" ")?.[0] + " " + data?.durationType
+      duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
+      tab: "0", 
+      step: "3"
     };
-    const payload = watch("time") && watch("isOnline") && watch("universityAddress") && watch("duration") && watch("durationType") && +courseId 
-    ? basePayload : params ? basePayload : {...basePayload, tab: "0", step: "3"}
     
     if(isDirty || selectBoxValue?.time !== data?.time || selectBoxValue?.isOnline !== data?.isOnline || selectBoxValue?.durationType !== data?.durationType){
       if (+courseId) {

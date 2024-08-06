@@ -15,7 +15,6 @@ interface BasicDetailsProps {
 const BasicDetails = ({ courseData }: BasicDetailsProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("step") || "0";
-  const courseId: string = location?.pathname?.split("/")[3];
   // const [step, setStep] = React.useState<string | null>(params || null);
   const [courseById, setCourseById] = React.useState<number | null>(null);
 
