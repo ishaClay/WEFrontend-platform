@@ -198,6 +198,7 @@ export interface CertificateResponse {
 export interface DataEntity {
   id: number;
   templateName: string;
+  previousCertificate: string;
   backgroundImage: string;
   logoImage: string;
   title: string;

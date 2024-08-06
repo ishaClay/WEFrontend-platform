@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import EllipseImage from "@/assets/images/Ellipse1.png";
+import EllipseImage2 from "@/assets/images/Ellipse2.png";
+import EllipseImage3 from "@/assets/images/Ellipse3.png";
 import GradientHeading from "./ourServices/GradientHeading";
 import HomeHeader from "./homePage/HomeHeader";
 import HomeFooter from "./homePage/HomeFooter";
@@ -22,21 +25,21 @@ const Contact = () => {
             <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
               Address
             </h1>
-            <p className="text-base text-center leading-[21px] font-medium mt-[5px]">
+            <p className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]">
               1105 W Peachtree St NW, Atlanta, GA 30309, United States
             </p>
             <img
-              src="/src/assets/images/Ellipse1.png"
+              src={EllipseImage}
               alt="ellipse"
               className="absolute bottom-0 left-0"
             />
             <img
-              src="/src/assets/images/Ellipse2.png"
+              src={EllipseImage2}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
             <img
-              src="/src/assets/images/Ellipse3.png"
+              src={EllipseImage3}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
@@ -49,22 +52,22 @@ const Contact = () => {
             </h1>
             <Link
               to="tel:(86) 13590328341"
-              className="text-base text-center leading-[21px] font-medium mt-[5px]"
+              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
               +14704306404
             </Link>
             <img
-              src="/src/assets/images/Ellipse1.png"
+              src={EllipseImage}
               alt="ellipse"
               className="absolute bottom-0 left-0"
             />
             <img
-              src="/src/assets/images/Ellipse2.png"
+              src={EllipseImage2}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
             <img
-              src="/src/assets/images/Ellipse3.png"
+              src={EllipseImage3}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
@@ -77,22 +80,22 @@ const Contact = () => {
             </h1>
             <Link
               to="tel:86-755-8212 4051"
-              className="text-base text-center leading-[21px] font-medium mt-[5px]"
+              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
               +1 (470) 919-8100
             </Link>
             <img
-              src="/src/assets/images/Ellipse1.png"
+              src={EllipseImage}
               alt="ellipse"
               className="absolute bottom-0 left-0"
             />
             <img
-              src="/src/assets/images/Ellipse2.png"
+              src={EllipseImage2}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
             <img
-              src="/src/assets/images/Ellipse3.png"
+              src={EllipseImage3}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
@@ -105,22 +108,22 @@ const Contact = () => {
             </h1>
             <Link
               to="mailto:info@oenashipping.com"
-              className="text-base text-center leading-[21px] font-medium mt-[5px]"
+              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
               info@oenashipping.com
             </Link>
             <img
-              src="/src/assets/images/Ellipse1.png"
+              src={EllipseImage}
               alt="ellipse"
               className="absolute bottom-0 left-0"
             />
             <img
-              src="/src/assets/images/Ellipse2.png"
+              src={EllipseImage2}
               alt="ellipse"
               className="absolute top-0 right-0"
             />
             <img
-              src="/src/assets/images/Ellipse3.png"
+              src={EllipseImage3}
               alt="ellipse"
               className="absolute top-0 right-0"
             />

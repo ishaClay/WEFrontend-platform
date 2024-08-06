@@ -8,7 +8,7 @@ import { uploadFile } from "@/services/apiServices/uploadServices";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useParams } from "react-router-dom";
@@ -39,7 +39,6 @@ const Addcertificate = () => {
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const captureRef = React.useRef(null);
   const schema = z.object({
     templateName: z.string({ required_error: "Please enter template name" }),
     backgroundImage: z.string({
@@ -129,7 +128,7 @@ const Addcertificate = () => {
       });
     },
   });
-  const handleUploadFile = (e:any, name: string) => {
+  const handleUploadFile = (e: any, name: string) => {
     const { files } = e.target;
     if (files && files.length > 0) {
       createImageUpload(files[0]);
@@ -247,7 +246,7 @@ const Addcertificate = () => {
   };
 
   return (
-    <div className="lg:bg-white bg-transparent rounded-xl">
+    <div className="bg-white rounded-xl">
       <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px]">
         <div>
           <h2 className="font-[700] text-[16px] font-abhaya">
@@ -278,10 +277,8 @@ const Addcertificate = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="flex gap-[30px]">
-            <div
-              className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full"
-            >
+          <div className="2xl:flex block gap-[30px]">
+            <div className="2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
               <div className="relative h-full w-full">
                 {watch("backgroundImage") && (
                   <div className="flex justify-center">
@@ -292,10 +289,10 @@ const Addcertificate = () => {
                     />
                   </div>
                 )}
-                <div className="absolute top-1/2 -translate-y-1/2 w-full px-20">
+                <div className="absolute top-1/2 -translate-y-1/2 w-full 2xl:px-20 xl:px-8 md:px-5 px-3">
                   {Single_certificate?.data?.cretificateText && (
                     <h4
-                      className={`!font-${Single_certificate?.data?.primaryFont} text-[70px] text-center font-semibold pb-2`}
+                      className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-2 pb-0`}
                       style={{
                         color: Single_certificate?.data?.primaryColor,
                         fontFamily: Single_certificate?.data?.primaryFont,
@@ -307,18 +304,19 @@ const Addcertificate = () => {
                   <div className="w-full text-center ">
                     {watch("title") && (
                       <div
-                        className="pb-3 text-[30px] font-medium"
+                        className="xl:pb-3 pb-1 xl:text-[30px] md:text-[26px] sm:text-[20px] text-base font-medium"
                         style={{
                           fontFamily: Single_certificate?.data?.secondaryFont,
                         }}
                       >
-                        <h1>OF PARTICIPATION</h1>
+                        <h1 className="mb-2">OF PARTICIPATION</h1>
                         <h1>{watch("title")}</h1>
                       </div>
                     )}
+
                     <div>
                       <h1
-                        className={`!font-${Single_certificate?.data?.primaryFont} font-medium mt-[25px] text-6xl`}
+                        className={`!font-${Single_certificate?.data?.primaryFont} font-medium lg:mt-[25px] md:mt-[10px] sm:mt-[8px] mt-[4px] xl:text-6xl md:text-5xl sm:text-3xl text-2xl`}
                         style={{
                           color: Single_certificate?.data?.primaryColor,
                           fontFamily: Single_certificate?.data?.primaryFont,
@@ -326,7 +324,7 @@ const Addcertificate = () => {
                       >
                         Employe Name
                       </h1>
-                      <div className="flex items-center justify-center mt-4">
+                      <div className="flex items-center justify-center md:mt-4 sm:mt-3 mt-1">
                         <span
                           className={`block w-2 h-2 rounded-full`}
                           style={{
@@ -335,7 +333,7 @@ const Addcertificate = () => {
                           }}
                         ></span>
                         <div
-                          className={`h-[2px] max-w-[500px] w-full`}
+                          className={`h-[2px] xl:max-w-[500px] md:max-w-[400px] sm:max-w-[280px] max-w-[220px] w-full`}
                           style={{
                             backgroundColor:
                               Single_certificate?.data?.primaryColor,
@@ -351,9 +349,9 @@ const Addcertificate = () => {
                       </div>
                     </div>
                     {watch("bodyText") && (
-                      <div className="mt-5">
+                      <div className="sm:mt-5 mt-3">
                         <p
-                          className={`text-[24px] !font-${Single_certificate?.data?.secondaryFont} tracking-tight w-[50%] m-auto leading-8`}
+                          className={`xl:text-[24px] sm:text-[20px] text-base !font-${Single_certificate?.data?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5 line-clamp-2`}
                           style={{
                             fontFamily: Single_certificate?.data?.secondaryFont,
                           }}
@@ -363,8 +361,8 @@ const Addcertificate = () => {
                       </div>
                     )}
 
-                    <div className="grid grid-cols-2 gap-3 justify-between pt-8">
-                      <div className="flex items-end justify-between pt-5 pr-6">
+                    <div className="grid grid-cols-2 gap-3 justify-between">
+                      <div className="flex items-end justify-between md:pt-3 pt-1 md:pr-6 pr-3">
                         <div>
                           <div className="">
                             {watch("administratorSignature") ? (
@@ -374,12 +372,12 @@ const Addcertificate = () => {
                                 className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full object-contain"
                               />
                             ) : (
-                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                              <div className="max-w-[100px] w-full md:min-h-[80px] min-h-[50px] md:max-h-[80px] max-h-[50px] mx-auto h-full"></div>
                             )}
                           </div>
                           {watch("administratorTitle") && (
                             <div
-                              className="border-t font-nunito font-medium text-lg pt-2"
+                              className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
                               style={{
                                 borderColor:
                                   Single_certificate?.data?.primaryColor,
@@ -394,18 +392,18 @@ const Addcertificate = () => {
                           <div className="">
                             <img
                               src={Single_certificate?.data?.companyLogo}
-                              className="w-full"
+                              className="md:w-full w-[80px]"
                             />
                           </div>
                         )}
                       </div>
-                      <div className="flex items-end justify-between pt-5 pl-6">
-                        <div className=" w-[100px] h-[100px]  overflow-hidden">
+                      <div className="flex items-end justify-between md:pt-3 pt-1 md:pl-6 pl-3">
+                        <div className=" md:w-[100px] md:h-[100px] w-[60px] h-[60px] overflow-hidden">
                           {
                             <img
                               src={watch("companyLogo1")}
                               alt="logo"
-                              className="max-w-[100px] w-full min-h-[50px] max-h-[100px] h-full object-contain"
+                              className="max-w-[100px] md:w-full w-[80px] min-h-[50px] md:max-h-[100px] max-h-[50px] h-full object-contain"
                             />
                           }
                         </div>
@@ -418,12 +416,12 @@ const Addcertificate = () => {
                                 className="max-w-[100px] w-full min-h-[80px] max-h-[80px] m-auto h-full"
                               />
                             ) : (
-                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                              <div className="max-w-[100px] w-full md:min-h-[80px] min-h-[50px] md:max-h-[80px] max-h-[50px] mx-auto h-full"></div>
                             )}
                           </div>
                           {watch("instructorTitle") && (
                             <div
-                              className="border-t font-nunito font-medium text-lg pt-2"
+                              className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
                               style={{
                                 borderColor:
                                   Single_certificate?.data?.primaryColor,
@@ -441,7 +439,7 @@ const Addcertificate = () => {
               </div>
             </div>
 
-            <div className="w-[361px]">
+            <div className="2xl:max-w-[361px] w-auto">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                   <div className=" rounded-lg font-abhaya">
