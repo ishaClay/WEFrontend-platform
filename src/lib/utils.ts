@@ -673,3 +673,18 @@ export const calculateEndTime = (
 
   return `${formattedHours}:${formattedMinutes} ${endPeriod}`;
 };
+
+export function objectsAreEqual(obj1: any, obj2: any) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
+export function arraysAreEqual(arr1: any, arr2: any) {
+  if (arr1.length !== arr2.length) return false;
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!objectsAreEqual(arr1[i], arr2[i])) return false;
+  }
+
+  return true;
+}
+

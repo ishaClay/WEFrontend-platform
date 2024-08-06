@@ -181,171 +181,179 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
         />
       </Modal>
 
-      {data?.map((allcourse: AllCourse) => {
-        const maturityLevel =
-          selectedCourse &&
-          allcourse?.courseData?.find(
-            (item) =>
-              item.fetchPillar?.pillarName === selectedCourse?.pillarName
-          );
-
-        return (
-          <>
-            <div
-              className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1"
-              key={allcourse.id}
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  className="w-full object-cover lg:h-[231px] h-full object-center"
-                  src={allcourse?.bannerImage}
-                  alt="Course"
-                />
-                <input
-                  type="checkbox"
-                  className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
-                />
-                <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
-                  <FaStar className="text-[#FD8E1F]" />
-                  <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                    {allcourse?.courseReconmendedStatus ||
-                      maturityLevel?.fetchMaturity?.maturityLevelName}
-                  </span>
+      {data?.length > 0 ? (
+        data?.map((allcourse: AllCourse) => {
+          const maturityLevel =
+            selectedCourse &&
+            allcourse?.courseData?.find(
+              (item) =>
+                item.fetchPillar?.pillarName === selectedCourse?.pillarName
+            );
+          return (
+            <>
+              <div
+                className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1"
+                key={allcourse.id}
+              >
+                <div className="relative overflow-hidden">
+                  <img
+                    className="w-full object-cover lg:h-[231px] h-full object-center"
+                    src={allcourse?.bannerImage}
+                    alt="Course"
+                  />
+                  <input
+                    type="checkbox"
+                    className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
+                  />
+                  <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
+                    <FaStar className="text-[#FD8E1F]" />
+                    <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
+                      {allcourse?.courseReconmendedStatus ||
+                        maturityLevel?.fetchMaturity?.maturityLevelName}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="">
-                <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                  <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] min-h-[72px]">
-                    {allcourse.title}
-                  </p>
-                  <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">
-                    {allcourse?.courseData?.map((item) => {
-                      return (
-                        <div className="flex gap-2 col-span-1 items-center">
+                <div className="">
+                  <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
+                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] min-h-[72px]">
+                      {allcourse.title}
+                    </p>
+                    <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">
+                      {allcourse?.courseData?.map((item) => {
+                        return (
+                          <div className="flex gap-2 col-span-1 items-center">
+                            <img
+                              className="inline-block w-[18px] h-[24px]"
+                              src={getImages(
+                                item?.fetchPillar?.pillarName,
+                                true
+                              )}
+                              alt="Image Alt Text"
+                            />
+                            <p className="text-[#918A8A] text-base font-normal font-calibri">
+                              {item?.fetchPillar?.pillarName}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    <div className="grid grid-cols-4">
+                      <div className="col-span-2 flex flex-col gap-1">
+                        <div className="flex items-center gap-1 mb-[2px]">
                           <img
-                            className="inline-block w-[18px] h-[24px]"
-                            src={getImages(item?.fetchPillar?.pillarName, true)}
-                            alt="Image Alt Text"
+                            className="h-[16] w-[18px]"
+                            src={speed}
+                            alt="Course"
                           />
-                          <p className="text-[#918A8A] text-base font-normal font-calibri">
-                            {item?.fetchPillar?.pillarName}
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            Level-
+                            {allcourse?.courseData?.[0]?.fetchMaturity
+                              ?.maturityLevelName || "--"}
                           </p>
                         </div>
-                      );
-                    })}
-                  </div>
+                        <div className="flex items-center gap-1 mb-[2px]">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={fulltime}
+                            alt="Course"
+                          />
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            {allcourse.time === CourseTime.FullTime && (
+                              <span>Full-time</span>
+                            )}
+                            {allcourse.time === CourseTime.PartTime && (
+                              <span>Part-time</span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 mb-[2px]">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={time}
+                            alt="Course"
+                          />
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            {allcourse.duration || "--"}
+                          </p>
+                        </div>
+                      </div>
 
-                  <div className="grid grid-cols-4">
-                    <div className="col-span-2 flex flex-col gap-1">
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className="h-[16] w-[18px]"
-                          src={speed}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          Level-
-                          {allcourse?.courseData?.[0]?.fetchMaturity
-                            ?.maturityLevelName || "--"}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className=" h-[16] w-[18px]"
-                          src={fulltime}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          {allcourse.time === CourseTime.FullTime && (
-                            <span>Full-time</span>
-                          )}
-                          {allcourse.time === CourseTime.PartTime && (
-                            <span>Part-time</span>
-                          )}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className=" h-[16] w-[18px]"
-                          src={time}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          {allcourse.duration || "--"}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="col-span-2 flex flex-col gap-1">
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className=" h-[16] w-[18px] text-black"
-                          src={diploma}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          {allcourse.otherInstitutionName || "--"}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className=" h-[16] w-[18px]"
-                          src={online}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          {allcourse.isOnline === IsOnline.Online && (
-                            <span>Online</span>
-                          )}
-                          {allcourse.isOnline === IsOnline.InPerson && (
-                            <span>InPerson</span>
-                          )}
-                          {allcourse.isOnline === IsOnline.Hybrid && (
-                            <span>Hybrid</span>
-                          )}
-                          {allcourse.isOnline === IsOnline.Major && (
-                            <span>Major</span>
-                          )}
-                          {allcourse.isOnline === IsOnline.Offline && (
-                            <span>Offline</span>
-                          )}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1 mb-[2px]">
-                        <img
-                          className=" h-[16] w-[18px]"
-                          src={unversity}
-                          alt="Course"
-                        />
-                        <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                          Atlantic Technological University
-                        </p>
+                      <div className="col-span-2 flex flex-col gap-1">
+                        <div className="flex items-center gap-1 mb-[2px]">
+                          <img
+                            className=" h-[16] w-[18px] text-black"
+                            src={diploma}
+                            alt="Course"
+                          />
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            {allcourse.otherInstitutionName || "--"}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 mb-[2px]">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={online}
+                            alt="Course"
+                          />
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            {allcourse.isOnline === IsOnline.Online && (
+                              <span>Online</span>
+                            )}
+                            {allcourse.isOnline === IsOnline.InPerson && (
+                              <span>InPerson</span>
+                            )}
+                            {allcourse.isOnline === IsOnline.Hybrid && (
+                              <span>Hybrid</span>
+                            )}
+                            {allcourse.isOnline === IsOnline.Major && (
+                              <span>Major</span>
+                            )}
+                            {allcourse.isOnline === IsOnline.Offline && (
+                              <span>Offline</span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 mb-[2px]">
+                          <img
+                            className=" h-[16] w-[18px]"
+                            src={unversity}
+                            alt="Course"
+                          />
+                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                            Atlantic Technological University
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="border-t py-[13px] px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
-                  {getUpcommingCohort(allcourse)}
-                  <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
-                    <Button
-                      onClick={() => {
-                        setIsRecommendedCourseShow(true);
-                        setRecommendedCoursesById(allcourse?.id);
-                      }}
-                      className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
-                      disabled={allcourse?.enrolled}
-                    >
-                      Enroll Now
-                    </Button>
+                  <div className="border-t py-[13px] px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
+                    {getUpcommingCohort(allcourse)}
+                    <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
+                      <Button
+                        onClick={() => {
+                          setIsRecommendedCourseShow(true);
+                          setRecommendedCoursesById(allcourse?.id);
+                        }}
+                        className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
+                        disabled={allcourse?.enrolled}
+                      >
+                        Enroll Now
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        );
-      })}
+            </>
+          );
+        })
+      ) : (
+        <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center col-span-full">
+          No Course Data Found
+        </p>
+      )}
     </>
   );
 };

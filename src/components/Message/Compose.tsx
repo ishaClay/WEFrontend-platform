@@ -20,6 +20,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { fetchMessageRoles } from "@/lib/utils";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { getTargetUserby } from "@/services/apiServices/clientServices";
 import { fetchEmails } from "@/services/apiServices/emailTemplate";
@@ -40,7 +41,6 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
-import { fetchMessageRoles } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
 
@@ -153,6 +153,8 @@ const Compose = () => {
     }
   };
 
+  console.log("selectToValue", selectToValue, isActive);
+
   useEffect(() => {
     fetchAssignToList(isActive);
   }, [isActive, fetchTargetUserbyList]);
@@ -171,7 +173,9 @@ const Compose = () => {
   }, [selectTab]);
 
   const schema = z.object({
-    to: z.string({ required_error: "Please select this field" }).min(1, "Please select this field"),
+    to: z
+      .string({ required_error: "Please select this field" })
+      .min(1, "Please select this field"),
     emailTemplate: z.string().optional(),
     message: z.string().min(1, "Please enter message"),
   });
@@ -353,12 +357,23 @@ const Compose = () => {
                   }
                 >
                   {isActive === "client" ? (
-                    <SelectItem
-                      value={String(selectToValue?.clientDetails?.id)}
-                    >
-                      {selectToValue?.clientDetails?.name ||
-                        selectToValue?.clientDetails?.email?.split("@")[0]}
-                    </SelectItem>
+                    <>
+                      {+userData?.query?.role === UserRole.Trainee ? (
+                        <SelectItem
+                          value={String(selectToValue?.userDetails?.id)}
+                        >
+                          {selectToValue?.userDetails?.name ||
+                            selectToValue?.userDetails?.email?.split("@")[0]}
+                        </SelectItem>
+                      ) : (
+                        <SelectItem
+                          value={String(selectToValue?.clientDetails?.id)}
+                        >
+                          {selectToValue?.clientDetails?.name ||
+                            selectToValue?.clientDetails?.email?.split("@")[0]}
+                        </SelectItem>
+                      )}
+                    </>
                   ) : selectToValue?.length > 0 ? (
                     selectToValue?.map((item: any) => {
                       return (
@@ -367,7 +382,11 @@ const Compose = () => {
                           value={String(item?.userDetails?.id)}
                         >
                           {isActive === "trainer Company"
-                            ? `${item?.contactFirstName} ${item?.contactSurname}`
+                            ? `${
+                                item?.contactFirstName || item?.providerName
+                                  ? item?.contactFirstName || item?.providerName
+                                  : item?.userDetails?.email?.split("@")[0]
+                              } ${item?.contactSurname}`
                             : item?.name || item?.email?.split("@")[0]}
                         </SelectItem>
                       );

@@ -1,6 +1,8 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { io } from "socket.io-client";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
@@ -44,6 +46,8 @@ import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
 import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
 import FaqsList from "./pages/FaqsList";
 import Home from "./pages/Home";
+import HomeContactPage from "./pages/HomeContactPage";
+import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 import HomePage from "./pages/HomePage";
 import InProgress from "./pages/InProgress";
 import IndividualEmployee from "./pages/IndividualEmployee";
@@ -72,6 +76,7 @@ import MyCoursesInformaction from "./pages/MyCoursesInformaction";
 import MyCoursesSocial from "./pages/MyCoursesSocial";
 import Notification from "./pages/Notification";
 import NotificationListPage from "./pages/NotificationListPage";
+import OurServicePage from "./pages/OurServicePage";
 import ProfileSetting from "./pages/ProfileSetting";
 import QuestionPage from "./pages/QuestionPage";
 import RatingPopup from "./pages/RatingPopup";
@@ -90,6 +95,7 @@ import TrainerSettingPage from "./pages/TrainerSettingPage";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
+import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
 import Auth from "./pages/auth/Auth";
 import ChangePasswordPage from "./pages/auth/ChangePasswordPage";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
@@ -97,6 +103,8 @@ import Register from "./pages/auth/Register";
 import RegisterTrainee from "./pages/auth/RegisterTrainee";
 import RegisterTrainer from "./pages/auth/RegisterTrainer";
 import ResetPassword from "./pages/auth/ResetPassword";
+import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
+import BlogPage from "./pages/blog/BlogPage";
 import CertificateTempletePage from "./pages/certificateManagement";
 import CourseManagement from "./pages/courseManagement";
 import AllCoursesPage from "./pages/courseManagement/AllCourses";
@@ -120,14 +128,10 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import BlogPage from "./pages/blog/BlogPage";
-import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
-import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
-import OurServicePage from "./pages/OurServicePage";
-import HomeContactPage from "./pages/HomeContactPage";
-import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 
 function App() {
+  let socket: any;
+  const queryClient = useQueryClient();
   const { clientId } = useAppSelector((state) => state.user);
 
   const { data: themes } = useQuery({
@@ -155,6 +159,25 @@ function App() {
     "--rkp-text-color",
     themes?.data?.data?.textColor
   );
+
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+    socket.on("message recieved", () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatList],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.notificationCount],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatUserList],
+      });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="App mx-auto">

@@ -70,8 +70,8 @@ const TrainerDetails = () => {
   const handleSubmit = () => {
     const data = {
       status: trainerStatus.toString(),
-      approved: trainerPermission,
-      editCourses: trainerEditPermission,
+      approved: trainerPermission.toString(),
+      editCourses: trainerEditPermission.toString(),
     };
 
     mutate({ id: params.id || "", data });

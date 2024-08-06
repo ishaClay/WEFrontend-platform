@@ -1,11 +1,11 @@
-import RecentCoursesItems from "./RecentCoursesItems";
-import { Button } from "../ui/button";
-import CustomCarousel from "../comman/CustomCarousel";
-import { MyCourseResponse } from "@/types/courseManagement";
-import { useQuery } from "@tanstack/react-query";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagement";
-import { useAppSelector } from "@/hooks/use-redux";
+import { MyCourseResponse } from "@/types/courseManagement";
+import { useQuery } from "@tanstack/react-query";
+import CustomCarousel from "../comman/CustomCarousel";
+import { Button } from "../ui/button";
+import RecentCoursesItems from "./RecentCoursesItems";
 
 const RecentCourses = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
@@ -46,18 +46,31 @@ const RecentCourses = () => {
       </div>
       <div className="sm:block hidden">
         <div className="grid xl:grid-cols-2 grid-cols-1 gap-6">
-          {data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
-            return <RecentCoursesItems data={data} key={index} />;
-          })}
+          {data?.data?.courseAlloted &&
+          data?.data?.courseAlloted?.length > 0 ? (
+            data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
+              return <RecentCoursesItems data={data} key={index} />;
+            })
+          ) : (
+            <p className="text-[20px] font-calibri font-[500] h-[200px] flex items-center justify-center col-span-full">
+              No Course Data Found
+            </p>
+          )}
         </div>
       </div>
 
       <div className="sm:hidden block">
-        <CustomCarousel containerClassName="">
-          {data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
-            return <RecentCoursesItems data={data} key={index} />;
-          }) || []}
-        </CustomCarousel>
+        {data?.data?.courseAlloted && data?.data?.courseAlloted?.length > 0 ? (
+          <CustomCarousel containerClassName="">
+            {data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
+              return <RecentCoursesItems data={data} key={index} />;
+            }) || []}
+          </CustomCarousel>
+        ) : (
+          <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
+            No Course Data Found
+          </p>
+        )}
       </div>
     </div>
   );
