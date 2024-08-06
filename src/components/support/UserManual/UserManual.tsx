@@ -53,12 +53,15 @@ const UserManual = () => {
         )}
       </div>
       <div className="pb-4">
-        <Paginations
-          currentPage={userManual_List?.metadata?.currentPage || 1}
-          totalPages={userManual_List?.metadata?.totalPages || 1}
-          itemsPerPage={10}
-          setCurrentPage={setPage}
-        />
+        {userManual_List?.metadata?.totalPages &&
+          userManual_List?.metadata?.totalPages > 1 && (
+            <Paginations
+              currentPage={userManual_List?.metadata?.currentPage || 1}
+              totalPages={userManual_List?.metadata?.totalPages || 1}
+              itemsPerPage={10}
+              setCurrentPage={setPage}
+            />
+          )}
       </div>
     </div>
   );

@@ -1,4 +1,8 @@
-import mandatory from "/assets/img/Mandatory.svg";
+import { LogOut } from "@/services/apiServices/authService";
+import { getCountry } from "@/services/apiServices/company";
+import { updateEmployeeEmail } from "@/services/apiServices/employee";
+import { CountryResponse } from "@/types/Company";
+import { ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -6,7 +10,9 @@ import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as Zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
+import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
+import SelectMenu from "../comman/SelectMenu";
 import { InputWithLable } from "../ui/inputwithlable";
 import {
   Select,
@@ -16,10 +22,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
-import { updateEmployeeEmail } from "@/services/apiServices/employee";
-import SelectMenu from "../comman/SelectMenu";
-import { CountryResponse } from "@/types/Company";
-import { getCountry } from "@/services/apiServices/company";
+import mandatory from "/assets/img/Mandatory.svg";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
 const genderOptions = ["Male", "Female"] as const;
@@ -27,6 +30,7 @@ const genderOptions = ["Male", "Female"] as const;
 const RegisterTraineeForm = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
   const email: string | null = params.get("email");
   const navigate = useNavigate();
@@ -51,7 +55,7 @@ const RegisterTraineeForm = () => {
       .min(1, { message: "Please enter surname" }),
     phone: Zod.string()
       .regex(/^\d{1,10}$/, {
-        message: "Please enter valid phone number (1-9 digits).",
+        message: "Please enter valid phone number",
       })
       .min(1, { message: "Please enter valid phone number" })
       .max(10, { message: "Please enter valid phone number" }),
@@ -81,9 +85,32 @@ const RegisterTraineeForm = () => {
     mode: "all",
   });
 
+  const { mutate, isPending: isLogoutPending } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("path");
+      setValue("email", email);
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
   useEffect(() => {
-    setValue("email", email);
-  }, [email]);
+    if (email && type) {
+      if (userData) {
+        const userId = userData?.query?.id;
+        mutate(userId);
+      } else {
+        setValue("email", email);
+      }
+    }
+  }, [email, userData]);
 
   const { mutate: update_Employee, isPending } = useMutation({
     mutationFn: updateEmployeeEmail,
@@ -178,7 +205,7 @@ const RegisterTraineeForm = () => {
           </button>
           <button
             className={`w-full ${
-              type === "trainee"
+              type === "employee"
                 ? "bg-[#73AF26] text-white font-bold"
                 : "pointer-events-none"
             } `}
@@ -416,6 +443,7 @@ const RegisterTraineeForm = () => {
           Terms of Service.
         </Link>
       </p>
+      <Loading isLoading={isLogoutPending} />
     </>
   );
 };

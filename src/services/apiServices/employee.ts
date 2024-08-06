@@ -1,9 +1,9 @@
+import { EmployeeCourse } from "@/types/employee";
 import {
   EmployeeDetailsResponse,
   EmployeeResponse,
 } from "@/types/employeeDetails";
 import api from "./api";
-import { EmployeeCourse } from "@/types/employee";
 
 interface RegisterEmployee {
   name: string;
@@ -90,6 +90,12 @@ export const getEmployeeWiseAction = async (id: number) => {
 
 export const updateEmployeeEmail = async (data: any) => {
   const url = `api/v1/employee/updateByEmail/${data?.email}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+}
+
+export const updateEmployee = async ({ id, data }: { id: string, data: any }) => {
+  const url = `api/v1/employee/update/${id}`;
   const response = await api({ url, data, method: "put" });
   return response.data;
 }

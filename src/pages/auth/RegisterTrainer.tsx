@@ -26,26 +26,34 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { ResendOtp } from "@/services/apiServices/authService";
+import { LogOut, ResendOtp } from "@/services/apiServices/authService";
 import { getCountry } from "@/services/apiServices/company";
-import { registerTrainer, sendOtp } from "@/services/apiServices/trainer";
+import {
+  registerTrainee,
+  registerTrainer,
+  sendOtp,
+} from "@/services/apiServices/trainer";
 import { CountryResponse } from "@/types/Company";
 import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const { clientId } = useAppSelector((state) => state.user);
   const [otp, setOtp] = useState("");
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const defEmail = searchParams.get("email");
+  const type = searchParams.get("type");
   const schema = z.object({
     providerName: z.string().min(1, { message: "Please enter provider name" }),
     providerType: z.string().min(1, { message: "Please enter provider type" }),
@@ -84,6 +92,26 @@ function RegisterTrainer() {
       ),
   });
 
+  const { mutate: registerTrainees, isPending: registerPending } = useMutation({
+    mutationFn: registerTrainee,
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.message,
+        variant: "success",
+      });
+      navigate("/auth");
+      reset();
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTime((prevTime) => {
@@ -112,6 +140,33 @@ function RegisterTrainer() {
     mode: "all",
   });
   const email = watch("email");
+
+  const { mutate: logout, isPending: isLogoutPending } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("path");
+      setValue("email", defEmail || "");
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (defEmail) {
+      if (userData) {
+        const userId = userData?.query?.id;
+        logout(userId);
+      } else {
+        setValue("email", defEmail);
+      }
+    }
+  }, [defEmail, logout, setValue, userData]);
 
   const { data: country } = useQuery<CountryResponse>({
     queryKey: ["CountryData"],
@@ -152,7 +207,8 @@ function RegisterTrainer() {
       reset();
       toast({
         variant: "success",
-        title: "Registered successfully, But you can't login. Now your account verification is pending by admin.",
+        title:
+          "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
     },
@@ -186,8 +242,12 @@ function RegisterTrainer() {
   });
 
   const handleSendOtp = async (data: FieldValues) => {
-    // @ts-ignore
-    mutate({ email: data?.email });
+    if (defEmail && type) {
+      registerTrainees({ email: defEmail, data: data });
+    } else {
+      // @ts-ignore
+      mutate({ email: data?.email });
+    }
   };
 
   const handleVerifyOtp = () => {
@@ -410,6 +470,7 @@ function RegisterTrainer() {
                     <InputWithLable
                       placeholder="john.sample@emailsample.com"
                       className="h-[46px]"
+                      disabled={!!defEmail}
                       label="Email Address"
                       isMendatory={true}
                       {...register("email")}
@@ -454,7 +515,9 @@ function RegisterTrainer() {
               </form>
             </div>
           </div>
-          <Loading isLoading={createPending} />
+          <Loading
+            isLoading={createPending || registerPending || isLogoutPending}
+          />
         </div>
       </div>
       <Modal

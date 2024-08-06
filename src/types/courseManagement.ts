@@ -163,6 +163,7 @@ export interface AllCoursesResult {
   duration: string;
   price: number;
   description: string;
+  certificate: any;
   bannerImage: string;
   courseData?: CourseDataEntity[] | null;
   status: string;
@@ -302,6 +303,7 @@ export interface CourseAllotedEntity {
   deletedAt?: null;
   updatedAt: string;
   courseVersion: CourseVersion;
+  course: MainCourseType;
   completedSections: number;
   totalSections: number;
   courseProgress: string;

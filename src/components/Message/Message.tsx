@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import useBreakpoints from "@/hooks/use-breakpoints";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { TimeFormatter, chatDPColor, handleScrollToBottom } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchChat,
   fetchChatUserList,
@@ -34,11 +35,8 @@ import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import Drawer from "../comman/Drawer";
-import Loading from "../comman/Error/Loading";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 let socket: any;
 
@@ -82,11 +80,7 @@ const Message = () => {
     }
   }, [searchParams]);
 
-  const {
-    data: chatUserList,
-    isPending: userListPending,
-    refetch: refetchUserList,
-  } = useQuery({
+  const { data: chatUserList, refetch: refetchUserList } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList, { userID, chatId }],
     queryFn: () => fetchChatUserList(userID as string),
   });
@@ -553,10 +547,10 @@ const Message = () => {
                         isRead: true,
                       });
                       await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.chatList]
+                        queryKey: [QUERY_KEYS.chatList],
                       });
                       await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.notificationCount]
+                        queryKey: [QUERY_KEYS.notificationCount],
                       });
                     }}
                   >
@@ -876,7 +870,7 @@ const Message = () => {
             </>
           )}
         </Card>
-        <Loading isLoading={userListPending} />
+        {/* <Loading isLoading={userListPending} /> */}
       </div>
     </>
   );

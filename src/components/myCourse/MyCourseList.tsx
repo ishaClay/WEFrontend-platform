@@ -21,17 +21,17 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
       <div className="flex sm:flex-nowrap flex-wrap sm:justify-start justify-center items-center xl:gap-5 gap-3">
         <div className="overflow-hidden rounded-lg sm:min-h-[152px] sm:min-w-[152px] sm:w-[152px] sm:h-[152px] w-full">
           <img
-            src={list.courseVersion?.course?.bannerImage}
+            src={list.course?.bannerImage}
             alt=""
             className="w-full h-full"
           />
         </div>
         <div className="w-full sm:p-0 px-4">
           <p className="sm:text-base text-sm font-medium font-inter leading-6 mb-[10px] line-clamp-1">
-            {list.courseVersion?.course?.title}
+            {list.course?.title}
           </p>
           <div className="flex flex-wrap md:gap-5 sm:gap-2 gap-1 pb-[10px]">
-            {list?.courseVersion?.course?.courseData?.map((item) => {
+            {list?.course?.courseData?.map((item) => {
               const bgColor = item?.fetchMaturity?.color;
               return (
                 <Badge
@@ -65,7 +65,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
                 Level-{" "}
                 {
-                  list?.courseVersion?.course?.courseData?.find(
+                  list?.course?.courseData?.find(
                     (item) =>
                       item?.fetchPillar?.pillarName === selectFilterByCategory
                   )?.fetchMaturity?.maturityLevelName
@@ -75,16 +75,16 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
             <div className="flex items-center">
               <img src={GraduationCapImage} alt="" />
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
-                {list?.courseVersion?.course?.otherInstitutionName}
+                {list?.course?.otherInstitutionName}
               </p>
             </div>
             <div className="flex items-center">
               <img src={ClockImage} alt="" />
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                {list?.courseVersion?.course?.time === CourseTime.FullTime && (
+                {list?.course?.time === CourseTime.FullTime && (
                   <span>Full-time</span>
                 )}
-                {list?.courseVersion?.course?.time === CourseTime.PartTime && (
+                {list?.course?.time === CourseTime.PartTime && (
                   <span>Part-time</span>
                 )}
               </p>
@@ -92,12 +92,13 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
             <div className="flex items-center">
               <img src={InternetImage} alt="" />
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
-                {list?.courseVersion?.course?.isOnline === IsOnline.Online && (
+                {list?.course?.isOnline === IsOnline.Online && (
                   <span>Online</span>
                 )}
-                {list?.courseVersion?.course?.isOnline ===
-                  IsOnline.InPerson && <span>InPerson</span>}
-                {list?.courseVersion?.course?.isOnline === IsOnline.Hybrid && (
+                {list?.course?.isOnline === IsOnline.InPerson && (
+                  <span>InPerson</span>
+                )}
+                {list?.course?.isOnline === IsOnline.Hybrid && (
                   <span>Hybrid</span>
                 )}
               </p>
@@ -105,13 +106,13 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
             <div className="flex items-center">
               <img src={TimesheetImage} alt="" />
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
-                {list?.courseVersion?.course?.duration}
+                {list?.course?.duration}
               </p>
             </div>
             <div className="flex items-center">
               <img src={UniversityImage} alt="" />
               <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1">
-                {list?.courseVersion?.course?.institute}
+                {list?.course?.institute}
               </p>
             </div>
           </div>
