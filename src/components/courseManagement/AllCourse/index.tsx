@@ -93,7 +93,7 @@ const AllCourses = () => {
                           link: null,
                         },
                       ])
-                    ); navigate(`/${Role}/create_course/tab=0&step=0&version=null`)}
+                    ); navigate(`/${Role}/create_course?tab=0&step=0&version=1`)}
                   }}
                 
                   className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"

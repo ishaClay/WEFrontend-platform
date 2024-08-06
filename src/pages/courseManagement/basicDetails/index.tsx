@@ -74,7 +74,7 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
   // }, [paramsId, paramsversion, paramsTab, navigate, courseData]);
 
   return (
-    !courseData && +courseId ? <div><Loader /></div> :
+    // !courseData && +courseId ? <div><Loader /></div> :
     <div>
       <div className="w-full sm:my-10 mt-5 mb-[15px]">
         <CourseStepper

@@ -69,7 +69,7 @@ const MyCourse = () => {
                       },
                       {
                         label: "Create Course",
-                        link: `/${Role}/create_course/tab=0&step=0&version=1`,
+                        link: `/${Role}/create_course?tab=0&step=0&version=1`,
                       },
                     ])
                   );

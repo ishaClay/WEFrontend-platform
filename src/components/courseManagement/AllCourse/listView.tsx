@@ -57,7 +57,7 @@ const ListView = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
-  const pathName = location?.pathname?.split("/")?.[2];
+  const pathName = location?.pathname?.split("/")?.[1];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   // const queryClient = useQueryClient();
@@ -193,7 +193,7 @@ const ListView = ({
     if (item?.status !== "DRAFT") {
       if(+item?.step === 5){
         navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${id}`
+          `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&version=${id}`
         );
       }else {
         navigate(
