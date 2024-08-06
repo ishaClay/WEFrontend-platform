@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loading from "../comman/Error/Loading";
@@ -26,12 +26,15 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 type RouteParams = {
   id: string;
 };
 const Addcertificate = () => {
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const { id: certificateId } = useParams<RouteParams>();
-  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
@@ -126,9 +129,8 @@ const Addcertificate = () => {
       });
     },
   });
-  const handleUploadFile = (e: any, name: string) => {
+  const handleUploadFile = (e:any, name: string) => {
     const { files } = e.target;
-
     if (files && files.length > 0) {
       createImageUpload(files[0]);
       setFilename(name.toString());
@@ -145,7 +147,18 @@ const Addcertificate = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.certificateDetail],
         });
-        navigate(-1);
+        dispatch(
+          setPath([
+            {
+              label: "Certificate Management",
+              link: null,
+            },
+            {
+              label: "Certificate List",
+              link: `/${Role}/certificate-template`,
+            },
+          ])
+        );
         toast({
           variant: "default",
           title: "Certificate Update Successfully",
@@ -243,7 +256,17 @@ const Addcertificate = () => {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Certificate Managment", link: null },
+                  {
+                    label: "Certificate List",
+                    link: `/${Role}/certificate-template`,
+                  },
+                ])
+              );
+            }}
             className="text-[16px] flex font-semibold items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />
@@ -257,7 +280,6 @@ const Addcertificate = () => {
         ) : (
           <div className="flex gap-[30px]">
             <div
-              ref={captureRef}
               className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full"
             >
               <div className="relative h-full w-full">

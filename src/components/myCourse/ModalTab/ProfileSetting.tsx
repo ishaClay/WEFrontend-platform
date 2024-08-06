@@ -118,9 +118,6 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       toast({ title: "Profile updated successfully", variant: "success" });
     },
   });
-
-  console.log("data", data);
-
   useEffect(() => {
     if (data) {
       setValue("firstname", data?.data?.fname || data?.data?.name);

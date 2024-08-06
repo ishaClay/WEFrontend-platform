@@ -12,7 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { calculateEndTime } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { AllLivesessions } from "@/types/liveSession";
 import {
   ChevronLeft,
@@ -38,6 +40,7 @@ interface AllLiveSessionsProps {
 
 const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const localizer = momentLocalizer(moment);
   const pathName = window.location.pathname;
   const currentUser = pathName?.split("/")[1];
@@ -123,7 +126,21 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-10 sm:gap-8 gap-4">
           <Button
             className="bg-[#00778B] text-white"
-            onClick={() => navigate(`/${currentUser}/schedule-live-session`)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  { label: "Course Managment", link: null },
+                  {
+                    label: "Live Session",
+                    link: `/${currentUser}/CourseLiveSession`,
+                  },
+                  {
+                    label: "schedule-live-session",
+                    link: `/${currentUser}/schedule-live-session`,
+                  },
+                ])
+              );
+            }}
           >
             <CirclePlus width={16} />
             Add New

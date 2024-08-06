@@ -6,7 +6,8 @@ import { Image, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const selectNameOption = [
   {
@@ -39,7 +40,8 @@ const ticketPriorityOption = [
 ];
 
 const AddNewTickets = () => {
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const [selectName, setSelectName] = useState("");
   const [ticketPriority, setTicketPriority] = useState("");
   return (
@@ -50,8 +52,18 @@ const AddNewTickets = () => {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
-            className="text-[16px] font-[600] flex items-center gap-[15px]"
+            onClick={() =>
+              dispatch(
+                setPath([
+                  { label: "Support", link: null },
+                  {
+                    label: "Support Request",
+                    link: `/${Role}/support-request`,
+                  },
+                ])
+              )
+            }
+            className="text-[16px] font-[600] flex items-center gap-[15px] "
           >
             <HiOutlineArrowNarrowLeft />
             Back

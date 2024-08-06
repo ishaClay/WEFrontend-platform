@@ -23,7 +23,6 @@ const Paginations = ({
   className,
   currentPage,
   totalPages,
-  itemsPerPage,
   useUrlParams,
   setCurrentPage,
 }: PaginationsProps) => {
@@ -38,7 +37,6 @@ const Paginations = ({
     totalPages,
     siblingCount: 1,
   });
-  console.log("itemsPerPage", itemsPerPage);
 
   const handlePrev = () => {
     if (currentPage <= 1) return;

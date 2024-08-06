@@ -1,6 +1,4 @@
 import mandatory from "/assets/img/Mandatory.svg";
-
-import { trainerUpdate } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -18,9 +16,10 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
+import { updateEmployeeEmail } from "@/services/apiServices/employee";
+import SelectMenu from "../comman/SelectMenu";
 import { CountryResponse } from "@/types/Company";
 import { getCountry } from "@/services/apiServices/company";
-import SelectMenu from "../comman/SelectMenu";
 
 const employmentStatusOptions = ["Active", "Inactive"] as const;
 const genderOptions = ["Male", "Female"] as const;
@@ -31,7 +30,6 @@ const RegisterTraineeForm = () => {
   const type = params.get("type");
   const email: string | null = params.get("email");
   const navigate = useNavigate();
-
   const schema = Zod.object({
     email: Zod.string()
       .email({ message: "Please enter valid email" })
@@ -87,21 +85,8 @@ const RegisterTraineeForm = () => {
     setValue("email", email);
   }, [email]);
 
-  const { data: country } = useQuery<CountryResponse>({
-    queryKey: ["CountryData"],
-    queryFn: getCountry,
-  });
-
-  const countryOption =
-    country?.data &&
-    country?.data
-      ?.map((item) => {
-        return { value: item?.name, label: item?.name };
-      })
-      .sort((a, b) => a.label.localeCompare(b.label));
-
-  const { mutate: updateTrainee, isPending } = useMutation({
-    mutationFn: trainerUpdate,
+  const { mutate: update_Employee, isPending } = useMutation({
+    mutationFn: updateEmployeeEmail,
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
@@ -127,7 +112,18 @@ const RegisterTraineeForm = () => {
       });
     },
   });
+  const { data: country } = useQuery<CountryResponse>({
+    queryKey: ["CountryData"],
+    queryFn: getCountry,
+  });
 
+  const countryOption =
+    country?.data &&
+    country?.data
+      ?.map((item) => {
+        return { value: item?.name, label: item?.name };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
   const onSubmit = async (data: FieldValues) => {
     const payload = {
       email: email,
@@ -138,17 +134,15 @@ const RegisterTraineeForm = () => {
       phone: +data.phone,
       currentHighestNFQ: data.currentHighestNFQ,
       employmentStatus: data.employmentStatus,
-      memberCompany: +data.memberCompany,
+      memberCompany: data.memberCompany,
       occupationalCategory: data.occupationalCategory,
       unemploymentTime: data.unemploymentTime,
       countyOfResidence: data.countyOfResidence,
       attendedEvent: data.attendedEvent,
       status: true,
-    };
-    console.log(payload); // Add this log to inspect the payload
-    updateTrainee(payload);
+    }; // Add this log to inspect the payload
+    update_Employee(payload);
   };
-
   return (
     <>
       {/* <div className="flex justify-end text-color">
@@ -189,7 +183,7 @@ const RegisterTraineeForm = () => {
                 : "pointer-events-none"
             } `}
           >
-            Trainee
+            Employee
           </button>
         </div>
       </div>

@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loader from "../comman/Loader";
@@ -34,6 +34,8 @@ import {
 } from "../ui/select";
 import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const schema = zod.object({
   name: zod.string(),
@@ -60,6 +62,8 @@ const schema = zod.object({
 
 const TrainerDetailsEdit = () => {
   const params = useParams();
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const [profile_image, setProfileImage] = useState<string>("");
   const [trainerStatus, setTrainerStatus] = useState<string>("");
@@ -68,7 +72,6 @@ const TrainerDetailsEdit = () => {
     useState<boolean>(false);
   const [assignCertificatePermission, setAssignCertificatePermission] =
     useState<boolean>(false);
-  const navigate = useNavigate();
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -115,7 +118,15 @@ const TrainerDetailsEdit = () => {
         queryKey: ["trainerDetails", params.id],
       });
       reset();
-      navigate("/trainer/trainer-management");
+      dispatch(
+        setPath([
+          {
+            label: "Trainer Management",
+            link: `/${Role}/trainer-management`,
+          },
+        ])
+      );
+
       toast({
         variant: "success",
         description: "Trainer details updated successfully",
@@ -165,8 +176,6 @@ const TrainerDetailsEdit = () => {
       editCourses: trainerEditPermission,
     };
 
-    console.log("payload+++++++++++++++++", payload);
-
     update({ data: payload, id: params.id || "" });
   };
 
@@ -195,14 +204,37 @@ const TrainerDetailsEdit = () => {
             <Button
               type="button"
               variant={"ghost"}
-              onClick={() => navigate("/trainer/trainer-management")}
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+                  ])
+                )
+              }
               className="gap-4 font-nunito text-[16px] hover:bg-transparent"
             >
               <MoveLeft className="text-[#0f170d]" /> Back
             </Button>
             <Button
               type="button"
-              onClick={() => navigate("/trainer/trainer-management/invitation")}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+
+                    {
+                      label: "Invitation",
+                      link: `/${Role}/trainer-management/invitation`,
+                    },
+                  ])
+                );
+              }}
               className="bg-[#00778B] font-nunito px-5 text-[16px]"
             >
               INVITE TRAINER

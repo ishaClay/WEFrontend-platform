@@ -8,6 +8,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import AccountSetting from "./AccountSetting";
 import ProfileSetting from "./ProfileSetting";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { AlertLogOutDialog } from "@/components/Models/AlertLogOut";
 import { useState } from "react";
 
@@ -18,6 +20,7 @@ const ModalTabs = ({
   tab?: string;
   handleClose: () => void;
 }) => {
+  const dispatch=useAppDispatch()
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
 
@@ -28,6 +31,7 @@ const ModalTabs = ({
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({

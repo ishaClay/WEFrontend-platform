@@ -25,21 +25,15 @@ const TrainingDocument = () => {
       : UserRole?.Company === +userRole
       ? 3
       : 4;
-
-  console.log("userData?.query?.id", userData?.query?.id);
-
   const { data: document, isLoading } = useQuery<TrainingDocumentResponse>({
     queryKey: [QUERY_KEYS.fetchDocument, { page, search, Role }],
     queryFn: () =>
       fetchDocument({
         page,
-        userId: userData?.query?.id,
         role: Role,
         keyword: search,
       }),
   });
-
-  console.log("data", document);
 
   const column: ColumnDef<TrainingDocumentResult>[] = [
     {

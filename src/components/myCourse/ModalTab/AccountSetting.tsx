@@ -59,7 +59,6 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
       password: data?.password,
       confirmPassword: data?.confirmPassword,
     };
-    console.log("+++++++++++", payload);
     mutate(payload);
   };
 

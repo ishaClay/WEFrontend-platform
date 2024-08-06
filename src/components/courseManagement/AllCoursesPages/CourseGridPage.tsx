@@ -113,8 +113,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
         }
       : null;
 
-    console.log("upcomingData", data);
-
     return (
       <div className="xl:col-span-5 col-span-7">
         {upcomingData !== null && (
@@ -191,8 +189,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               (item) =>
                 item.fetchPillar?.pillarName === selectedCourse?.pillarName
             );
-          console.log("allcourse", allcourse?.cohortGroups);
-
           return (
             <>
               <div

@@ -35,17 +35,17 @@ export const getCertifications = async (id: string) => {
   return res.data;
 };
 
-export const fetchcertificate = async (id: string) => {
-  const url = `api/v1/certificate/get/${id}`;
-  const res = await api({ url });
-  return res.data;
-};
+export const fetchcertificate=async(id:string)=>{
+    const url=`api/v1/certificate/get/${id}`
+    const res=await api({url});
+    return res.data;
+}
 
 export const Updatecertificate = ({
   data,
   id,
 }: {
-  data: CertificateUpdate;
+  data: CertificateUpdate | any;
   id: string;
 }) => {
   const url = `api/v1/certificate/update/${id}`,
@@ -56,13 +56,13 @@ export const Updatecertificate = ({
 export const IssuedCertificateList = async ({
   id,
   page,
-  keyword,
+  search,
 }: {
   id: number;
   page: number;
-  keyword: string;
+  search: string;
 }) => {
-  const url = `api/v1/certificate/get-employee/${id}?page=${page}&limit=10&keyword=${keyword}`;
+  const url = `api/v1/certificate/get-employee/${id}?page=${page}&limit=10&keyword=${search}`;
   const res = await api({ url });
   return res.data;
 };

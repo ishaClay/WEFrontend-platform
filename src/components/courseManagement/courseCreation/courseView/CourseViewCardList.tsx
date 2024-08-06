@@ -1,3 +1,4 @@
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import FormError from "@/components/comman/FormError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +29,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
+  const [isDelete, setIsDelete] = useState(false);
   const schema = z.object({
     moduleTitle: z
       .string()
@@ -54,8 +55,8 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
 
   console.log("🚀 ~ CourseViewCardList ~ data:", data.id);
 
-  const { mutate: DeleteModule } = useMutation({
-    mutationFn: (moduleId: number) => deleteModule(moduleId),
+  const { mutate: DeleteModule, isPending } = useMutation({
+    mutationFn: deleteModule,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],
@@ -64,6 +65,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
         variant: "success",
         title: "Module deleted successfully",
       });
+      setIsDelete(false);
     },
     onError: () => {
       toast({
@@ -104,91 +106,100 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
     UpdateModule(title);
     setIsEdit(false);
   };
-
-  console.log("data=====>", data);
-
+  const handleDelete = () => {
+    DeleteModule(data?.id);
+  };
   return (
-    <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-      <div
-        className={`flex ${
-          isEdit ? "items-end" : "items-center"
-        }  justify-between gap-4 w-full`}
-      >
-        {!isEdit ? (
-          <div>
-            <h3 className="text-base font-bold font-calibri sm:pb-2 pb-1 text-left">
-              Module: {data.title}
-            </h3>
-            <div className="flex items-center">
-              <h6 className="text-xs text-[#313131] font-inter pe-4">
-                Section: {data.section?.length}
-              </h6>
-              <h6 className="text-xs text-[#313131] font-inter flex items-center">
-                <Dot />
-                {reading}
-              </h6>
+    <>
+      <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+        <div
+          className={`flex ${
+            isEdit ? "items-end" : "items-center"
+          }  justify-between gap-4 w-full`}
+        >
+          {!isEdit ? (
+            <div>
+              <h3 className="text-base font-bold font-calibri sm:pb-2 pb-1 text-left">
+                Module: {data.title}
+              </h3>
+              <div className="flex items-center">
+                <h6 className="text-xs text-[#313131] font-inter pe-4">
+                  Section: {data.section?.length}
+                </h6>
+                <h6 className="text-xs text-[#313131] font-inter flex items-center">
+                  <Dot />
+                  {reading}
+                </h6>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="w-full">
-            <h4 className="font-bold font-calibri sm:text-xl text-base pb-2 text-left">
-              Module {currIndex + 1}
-            </h4>
-            <h6 className="text-sm font-calibri text-[#515151] text-left">
-              Module Title
-            </h6>
-            <Input {...register("moduleTitle")} className="w-full" />
-            {errors?.moduleTitle && (
-              <FormError
-                className="font-calibri not-italic"
-                message={errors.moduleTitle?.message}
+          ) : (
+            <div className="w-full">
+              <h4 className="font-bold font-calibri sm:text-xl text-base pb-2 text-left">
+                Module {currIndex + 1}
+              </h4>
+              <h6 className="text-sm font-calibri text-[#515151] text-left">
+                Module Title
+              </h6>
+              <Input {...register("moduleTitle")} className="w-full" />
+              {errors?.moduleTitle && (
+                <FormError
+                  className="font-calibri not-italic"
+                  message={errors.moduleTitle?.message}
+                />
+              )}
+            </div>
+          )}
+          {!isEdit ? (
+            <div
+              className="flex items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FilePenLine
+                width={18}
+                className="me-3 text-[#575757] cursor-pointer"
+                onClick={() => onEditModule()}
               />
-            )}
-          </div>
-        )}
-        {!isEdit ? (
-          <div
-            className="flex items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <FilePenLine
-              width={18}
-              className="me-3 text-[#575757] cursor-pointer"
-              onClick={() => onEditModule()}
-            />
-            <Trash2
-              width={18}
-              className="me-3 text-[#575757] cursor-pointer"
-              onClick={() => DeleteModule(data.id)}
-            />
-          </div>
-        ) : (
-          <div
-            className="flex items-center gap-2 mr-2"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Button
-              isLoading={isLoadingModule}
-              type="submit"
-              className="text-sm font-nunito"
+              <Trash2
+                width={18}
+                className="me-3 text-[#575757] cursor-pointer"
+                onClick={() => setIsDelete(true)}
+              />
+            </div>
+          ) : (
+            <div
+              className="flex items-center gap-2 mr-2"
+              onClick={(e) => e.stopPropagation()}
             >
-              Save
-            </Button>
-            <Button
-              type="button"
-              onClick={() => {
-                setIsEdit(false);
-                reset();
-              }}
-              className="text-sm font-nunito"
-              variant="outline"
-            >
-              Cancel
-            </Button>
-          </div>
-        )}
-      </div>
-    </form>
+              <Button
+                type="submit"
+                isLoading={isLoadingModule}
+                className="text-sm font-nunito"
+              >
+                Save
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setIsEdit(false);
+                  reset();
+                }}
+                className="text-sm font-nunito"
+                variant="outline"
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
+        </div>
+      </form>
+      <ConfirmModal
+        open={isDelete}
+        onClose={() => setIsDelete(false)}
+        onDelete={handleDelete}
+        value={data?.title || ""}
+        isLoading={isPending}
+      />
+    </>
   );
 };
 

@@ -39,7 +39,6 @@ const api = ({
     },
     onUploadProgress: (progressEvent: any) => {
       const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-      console.log(`Upload progress: ${percentCompleted}%`);
       progressCallback(percentCompleted)
     }
   };

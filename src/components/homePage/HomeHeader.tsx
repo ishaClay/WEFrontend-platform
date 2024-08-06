@@ -12,6 +12,8 @@ import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { AlertLogOutDialog } from "../Models/AlertLogOut";
 
 interface headerProps {
@@ -28,12 +30,13 @@ function HomeHeader(props: headerProps) {
 
   const userData = localStorage?.getItem("user");
   const path = JSON.parse(localStorage?.getItem("path") as string);
-
+const dispatch=useAppDispatch()
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({

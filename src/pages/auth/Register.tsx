@@ -32,9 +32,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const schema = z
   .object({
@@ -73,7 +74,7 @@ function Register() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   type ValidationSchema = z.infer<typeof schema>;
   const {
@@ -94,6 +95,7 @@ function Register() {
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -188,7 +190,6 @@ function Register() {
   const { mutate: createotp, isPending: createOtp } = useMutation({
     mutationFn: checkOTP,
     onSuccess: async (data) => {
-      console.log("++++++++++++++++++++", data);
 
       setShowOtpPopup(false);
       dispatch(setUserData(data?.data?.data?.id));

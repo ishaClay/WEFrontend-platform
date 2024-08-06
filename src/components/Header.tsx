@@ -9,6 +9,8 @@ import { PrimaryButton } from "./comman/Button/CustomButton";
 import Loading from "./comman/Error/Loading";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { toast } from "./ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -17,6 +19,7 @@ interface headerProps {
 
 function Header(props: headerProps) {
   const navigate = useNavigate();
+const dispatch=useAppDispatch();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
@@ -29,6 +32,7 @@ function Header(props: headerProps) {
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({

@@ -69,8 +69,8 @@ function CompanyRegister() {
     county: z.string().min(1, { message: "Please select county" }),
     averageNumberOfEmployees: z
       .string()
-      .min(1, { message: "Please select average number Of employees" }),
-    sector: z.string().min(1, { message: "Please select sector" }),
+      .min(1, { message: "Average Number Of Employees is required" }),
+    sector: z.string().min(1, { message: "Sector is required" }),
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Please enter email" }),

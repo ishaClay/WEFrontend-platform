@@ -14,11 +14,11 @@ import { setClientId } from "@/redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "@/services/apiServices/courseSlider";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const HomePage = () => {
   const domain = document.location.origin;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
     useQuery({

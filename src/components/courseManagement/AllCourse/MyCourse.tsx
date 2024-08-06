@@ -11,14 +11,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const MyCourse = () => {
+  const dispatch=useAppDispatch()
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
+  const Role = location.pathname.split("/")[1];
   const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const changeList = (id: number) => {
@@ -42,9 +46,9 @@ const MyCourse = () => {
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               My Course
             </h3>
-            {/* <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
               The full list of your courses, in snapshot view
-            </p> */}
+            </p>
           </div>
           {(+userData?.query?.role === UserRole.Trainee
             ? userData?.approved
@@ -52,13 +56,24 @@ const MyCourse = () => {
             <div>
               <Button
                 type="button"
-                onClick={() =>
-                  navigate(
-                    `/${
-                      location?.pathname?.split("/")?.[1]
-                    }/create_course/tab=0&step=0&version=1`
-                  )
-                }
+                onClick={() => {
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Course Management",
+                        link: null,
+                      },
+                      {
+                        label: "My Course",
+                        link: `/${Role}/mycourses`,
+                      },
+                      {
+                        label: "Create Course",
+                        link: `/${Role}/create_course/tab=0&step=0&version=1`,
+                      },
+                    ])
+                  );
+                }}
                 className="text-base font-semibold leading-5 font-sans bg-[#00778B]"
               >
                 ADD NEW COURSE

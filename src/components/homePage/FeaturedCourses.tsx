@@ -39,8 +39,7 @@ const FeaturedCourses = () => {
         <GrNext />
       </div>
     ),
-    beforeChange: (current: number, next: number) => {
-      console.log("+++++++++++", current, next);
+    beforeChange: (current: number) => {
       setTitle(
         (clientwiseCourseslider?.data &&
           clientwiseCourseslider?.data[current]?.courseType) ||
@@ -85,7 +84,6 @@ const FeaturedCourses = () => {
             ) : (
               <Slider {...settings}>
                 {clientwiseCourseslider?.data?.map((item) => {
-                  console.log("item", item?.courseType);
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />

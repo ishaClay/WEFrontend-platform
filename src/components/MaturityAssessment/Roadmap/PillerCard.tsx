@@ -157,8 +157,6 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
     }
   };
 
-  console.log("item", item);
-
   return (
     <div className="pb-0 flex w-full">
       <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">

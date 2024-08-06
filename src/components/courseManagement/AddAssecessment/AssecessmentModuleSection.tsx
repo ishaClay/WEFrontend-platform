@@ -80,6 +80,9 @@ const AssecessmentModuleSection = ({
         Module: Chapter 1 - Intro
       </h3>
       <div className="flex items-center mb-5">
+        <h6 className="text-xs text-[#313131] font-inter pe-4">
+          Section : {moduleSection?.data?.data?.moduleSection?.length || 0}
+        </h6>
         <h6 className="text-xs text-[#313131] font-inter flex items-center">
           <Dot />
           <strong className="text-black me-2">
@@ -89,7 +92,6 @@ const AssecessmentModuleSection = ({
           Reading
         </h6>
       </div>
-
       <div className="mb-5">
         <h6 className="text-base text-[#515151] font-calibri pb-3">
           Assessment Title
@@ -255,6 +257,12 @@ const AssecessmentModuleSection = ({
             )}
           </div>
         </div>
+        {errors.passingPercentage && (
+          <p className="text-red-500 text-sm">{errors.passingPercentage}</p>
+        )}
+        {errors.timeDuration && (
+          <p className="text-red-500 text-sm">{errors.timeDuration}</p>
+        )}
       </div>
     </div>
   );

@@ -31,8 +31,6 @@ const RecentCourses = () => {
       }),
   });
 
-  console.log("data", data);
-
   return (
     <div className="mb-8">
       <div className="mb-5 flex justify-between items-center">

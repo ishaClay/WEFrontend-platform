@@ -47,8 +47,6 @@ export const createSection = async(data: any, moduleId: any) => {
     })
     
     const payload = await transformSectionPayload(payloadData, moduleId)
-    
-
     const res = await api({ url, method, data: payload});
     return res
 }

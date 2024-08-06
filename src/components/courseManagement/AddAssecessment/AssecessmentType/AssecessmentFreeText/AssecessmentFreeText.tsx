@@ -79,9 +79,6 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       validate: validateAssecessmentFreeText,
     }));
 
-    console.log("setErrors", errors);
-    
-
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">

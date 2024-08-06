@@ -31,11 +31,9 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
   const navigate = useNavigate();
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-  console.log("paramsTab", paramsTab);
 
   const schema = zod.object({
     description: zod
@@ -182,8 +180,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
               <CKEditorComponent
                 value={editorData}
                 {...register("description")}
-                onChange={(e, data) => {
-                  console.log(e);
+                onChange={(_, data) => {
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}

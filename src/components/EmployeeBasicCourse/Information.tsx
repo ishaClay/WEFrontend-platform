@@ -2,7 +2,6 @@ import { getSingleCourseType } from "@/types/course";
 import { Star, Users } from "lucide-react";
 
 const Information = ({ data }: getSingleCourseType | any) => {
-  console.log("datadata+++", data);
 
   return (
     <div>

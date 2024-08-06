@@ -13,7 +13,7 @@ const CertificateTemplete = () => {
   });
   return (
     <div className="bg-white rounded-lg">
-      <div className="md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
+      <div className=" md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
           <h6 className="text-base font-bold font-abhaya">All Certificate</h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] mt-1">

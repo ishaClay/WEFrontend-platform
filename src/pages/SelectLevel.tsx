@@ -16,12 +16,12 @@ import {
 } from "@/types/MaturityLavel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { useNavigate } from "react-router-dom";
 
 function SelectLevel() {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const pillars = useAppSelector((state) => state.pillar?.maturitypillar);
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -42,9 +42,6 @@ function SelectLevel() {
     queryFn: () => fetchMaturityPillar(+clientId, userID),
     enabled: true,
   });
-
-  console.log("checkedStates", actionItemsList);
-
   const path = 5 + 1;
   const { mutate: EnumUpadate, isPending } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
@@ -65,7 +62,6 @@ function SelectLevel() {
     const fetchMeasuresItems = pillarChecked?.filter(
       (item: any) => item.actionItem?.length === 0
     );
-
     setActionItemsList(
       fetchMeasuresItems?.length > 0 || pillarChecked?.length === 0
     );
@@ -78,7 +74,6 @@ function SelectLevel() {
     }
   }, [dispatch, maturitypillar?.data]);
 
-  // console.log(actionItems)
 
   const handleSelect = () => {
     EnumUpadate();

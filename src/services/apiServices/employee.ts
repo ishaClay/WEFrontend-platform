@@ -76,7 +76,7 @@ export const RegisterEmployee = async (data: RegisterEmployee) => {
   return res.data;
 };
 
-export const deleteEmployee = async (id: number) => {
+export const deleteEmployee = async (id: string) => {
   const url = `api/v1/employee/delete/${id}`;
   const res = await api({ url, method: "delete" });
   return res.data;
@@ -87,6 +87,12 @@ export const getEmployeeWiseAction = async (id: number) => {
   const res = await api({ url });
   return res.data;
 };
+
+export const updateEmployeeEmail = async (data: any) => {
+  const url = `api/v1/employee/updateByEmail/${data?.email}`;
+  const response = await api({ url, data, method: "put" });
+  return response.data;
+}
 
 export const getDashboardEmployeeCourse = async (
   id: number

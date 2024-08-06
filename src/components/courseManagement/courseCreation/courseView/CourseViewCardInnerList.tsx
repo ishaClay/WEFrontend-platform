@@ -1,3 +1,4 @@
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType } from "@/lib/utils";
@@ -8,6 +9,7 @@ import {
 } from "@/services/apiServices/moduleCreation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FilePenLine, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 const CourseViewCardInnerList = ({
   data,
@@ -18,7 +20,7 @@ const CourseViewCardInnerList = ({
 }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
+  const [isDelete, setIsDelete] = useState(false);
   function formatReadingTime(readingTime: any) {
     if (!readingTime) {
       return "0sec";
@@ -49,7 +51,7 @@ const CourseViewCardInnerList = ({
         : getFileType(data.documentType)
       : FileType.Live;
 
-  const { mutate: DeleteSection } = useMutation({
+  const { mutate: DeleteSection, isPending } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -59,6 +61,7 @@ const CourseViewCardInnerList = ({
         variant: "success",
         title: "Section deleted successfully",
       });
+      setIsDelete(false);
     },
   });
 
@@ -72,6 +75,7 @@ const CourseViewCardInnerList = ({
         variant: "success",
         title: "Section deleted successfully",
       });
+      setIsDelete(false);
     },
   });
   const { mutate: deleteAssesments } = useMutation({
@@ -95,6 +99,7 @@ const CourseViewCardInnerList = ({
     } else {
       DeleteLiveSection(sectionID);
     }
+    setIsDelete(true);
   };
 
   console.log("FileTypeData", FileTypeData);
@@ -153,9 +158,18 @@ const CourseViewCardInnerList = ({
         <Trash2
           width={18}
           className="text-[#575757] cursor-pointer"
-          onClick={() => handleDeleteSection(data.id)}
+          onClick={() => {
+            handleDeleteSection(data.id);
+          }}
         />
       </div>
+      <ConfirmModal
+        open={isDelete}
+        onClose={() => setIsDelete(false)}
+        onDelete={() => handleDeleteSection}
+        value={data?.title || ""}
+        isLoading={isPending}
+      />
     </div>
   );
 };

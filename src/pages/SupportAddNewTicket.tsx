@@ -14,7 +14,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   createSupportTicket,
   fetchAssigToUser,
@@ -32,12 +34,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FiImage, FiVideo } from "react-icons/fi";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function SupportAddNewTicket() {
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const { toast } = useToast();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { UserId } = useSelector((state: any) => state.user);
   const [selectAssignTo, setSelectAssignTo] = useState("");
@@ -93,7 +95,14 @@ function SupportAddNewTicket() {
         setSelectAssignTo("");
         setSelectTicketPriority("");
         toast({ title: "Ticket created Successfully", variant: "default" });
-        navigate("/company/support-request");
+        dispatch(
+          setPath([
+            {
+              label: "Support Ticket",
+              link: `/${Role}/support-request`,
+            },
+          ])
+        );
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.supportTicketList],
         });
@@ -128,7 +137,20 @@ function SupportAddNewTicket() {
         </div>
         <div>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: "Support",
+                    link: null,
+                  },
+                  {
+                    label: "Support Request",
+                    link: `/${Role}/support-request`,
+                  },
+                ])
+              );
+            }}
             className="text-[16px] font-[600] flex items-center gap-[15px]"
           >
             <HiOutlineArrowNarrowLeft />
@@ -173,10 +195,10 @@ function SupportAddNewTicket() {
                             >
                               <span className="w-[150px] text-neutral-400 inline-block text-left">
                                 {
-                                  item?.userDetails.role === UserRole.Employee ? "Employee" :
-                                  item?.userDetails.role === UserRole.Company ? "SME Company" :
-                                  item?.userDetails.role === UserRole.Trainer ? "Trainer Provider" : 
-                                  item?.userDetails.role === UserRole.Trainee ? "Trainer" : "Client Admin"
+                                  item?.userDetails?.role === UserRole?.Employee ? "Employee" :
+                                  item?.userDetails?.role === UserRole?.Company ? "SME Company" :
+                                  item?.userDetails?.role === UserRole?.Trainer ? "Trainer Provider" : 
+                                  item?.userDetails?.role === UserRole?.Trainee ? "Trainer" : "Client Admin"
                                 }
                               </span>{" "}
                               <span className="mr-10 text-neutral-400">

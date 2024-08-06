@@ -61,8 +61,6 @@ const InviteMember = ({
   });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log("saaaaa", data);
-
     const payload: EmployeePayload = {
       email: emails,
       csvUrl: "",

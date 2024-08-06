@@ -153,8 +153,6 @@ function CourseViewAllocatePopup({
       courseData?.employee
     );
 
-  console.log("mergedArray", mergedArray);
-
   const handleInviteEmployee = (data: FieldValues) => {
     const payload = {
       email: data.email,

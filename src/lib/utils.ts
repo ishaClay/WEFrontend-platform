@@ -78,7 +78,7 @@ export const supportTicketIcon = (name: string) => {
   }
 };
 
-export const sidebarLayout = {
+export const sidebarLayout ={
   TarinerSidebar: [
     {
       label: "Dashboard",
@@ -91,10 +91,10 @@ export const sidebarLayout = {
       Icon: TfiBook,
       link: "#",
       children: [
-        {
-          label: "Enrollment Requests",
-          link: "/trainer/enrolledrequest",
-        },
+        // {
+        //   label: "Enrollment Requests",
+        //   link: "/trainer/enrolledrequest",
+        // },
         {
           label: "Enrolled Courses",
           link: "/trainer/enrolledcourses",
@@ -224,7 +224,7 @@ export const sidebarLayout = {
         },
         {
           label: "User Manual",
-          link: "/trainee/trainingdocument",
+          link: "/trainee/usermenual",
         },
         {
           label: "Support Request",

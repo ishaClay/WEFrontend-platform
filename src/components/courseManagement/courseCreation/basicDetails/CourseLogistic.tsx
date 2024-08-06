@@ -216,9 +216,7 @@ const CourseLogistic = ({setStep, courseById}: CourseLogisticProps) => {
       }
     }
   };
-
-  console.log("errors:", errors);
-
+  
 
   return (
     <>

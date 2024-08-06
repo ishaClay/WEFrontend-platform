@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 const EmployeeDetailsPage = () => {
   // const [approved, setApproved] = useState(false);
   const params = useParams();
-  console.log(params);
+
 
   const [trainerStatus, setTrainerStatus] = useState(1);
 
@@ -21,8 +21,6 @@ const EmployeeDetailsPage = () => {
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
-
-  console.log("datadatadata", data);
 
   useEffect(() => {
     if (data) {

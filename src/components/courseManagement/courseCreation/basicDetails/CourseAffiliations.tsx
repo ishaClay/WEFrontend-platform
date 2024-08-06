@@ -47,7 +47,6 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
     onSuccess: (data) => {

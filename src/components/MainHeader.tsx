@@ -1,5 +1,5 @@
 import { SidebarContext } from "@/context/Sidebarcontext";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
 import { LogOut } from "@/services/apiServices/authService";
@@ -12,7 +12,6 @@ import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
 import { VscBellDot } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import Logo2 from "../assets/images/logo2.png";
-import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
 import DrawerPage from "./DrawerPage";
@@ -27,14 +26,11 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-type mainHeraderProps = {
-  title: {
-    link?: string;
-    label: string;
-  }[];
-};
+import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
+import { setPath } from "@/redux/reducer/PathReducer";
 
-const MainHeader = ({ title }: mainHeraderProps) => {
+
+const MainHeader = () => {
   const navigate = useNavigate();
   const { UserId } = useAppSelector((state) => state.user);
 
@@ -48,6 +44,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
   const userID = UserId ? UserId : userData?.query?.id;
+  const dispatch = useAppDispatch();
 
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
@@ -78,6 +75,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -124,7 +122,7 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
                 Welcome {userData?.query?.name?.split("@")[0]}
               </h3>
-              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
+              <BreadcrumbWithCustomSeparator />
             </li>
           </ul>
 
@@ -136,7 +134,16 @@ const MainHeader = ({ title }: mainHeraderProps) => {
               >
                 <IoIosNotificationsOutline
                   className="text-[30px]"
-                  onClick={() => navigate(`/${currentUser}/notification-list`)}
+                  onClick={() =>
+                    dispatch(
+                      setPath([
+                        {
+                          label: "Notification List",
+                          link: `/${currentUser}/notification-list`,
+                        },
+                      ])
+                    )
+                  }
                 />
                 {notification_count?.data?.count > 0 && (
                   <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
@@ -196,9 +203,9 @@ const MainHeader = ({ title }: mainHeraderProps) => {
                 />
               </div>
 
-              <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
+              {/* <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
                 {title[title?.length - 1]?.label}
-              </p>
+              </p> */}
             </div>
             <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">
               <VscBellDot className="w-[24px] h-[24px] leading-10" />

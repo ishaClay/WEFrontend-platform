@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
@@ -16,15 +16,18 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const TrainerDetails = () => {
   const params = useParams();
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const [trainerStatus, setTrainerStatus] = useState<string>("");
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
   const [trainerEditPermission, setTrainerEditPermission] =
     useState<boolean>(false);
-  const navigate = useNavigate();
   const { data: clientDetails, isPending } = useQuery<TrainersByIdResponse>({
     queryKey: ["trainerDetails", params.id],
     queryFn: () => getTrainerById({ id: params.id || "" }),
@@ -36,7 +39,14 @@ const TrainerDetails = () => {
       queryClient.invalidateQueries({
         queryKey: ["trainer"],
       });
-      navigate("/trainer/trainer-management");
+      dispatch(
+        setPath([
+          {
+            label: "Trainer Management",
+            link: `/${Role}/trainer-management`,
+          },
+        ])
+      );
       toast({
         variant: "success",
         description: "Trainer status updated successfully",
@@ -83,14 +93,37 @@ const TrainerDetails = () => {
             <Button
               variant={"ghost"}
               type="button"
-              onClick={() => navigate(-1)}
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+                  ])
+                )
+              }
               className="text-[16px] flex font-semibold items-center gap-[15px] hover:bg-transparent"
             >
               <MoveLeft /> Back
             </Button>
             <Button
               type="button"
-              onClick={() => navigate("/trainer/trainer-management/invitation")}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+
+                    {
+                      label: "Invitation",
+                      link: `/${Role}/trainer-management/invitation`,
+                    },
+                  ])
+                );
+              }}
               className="bg-[#00778B] font-nunito px-5 text-[16px]"
             >
               INVITE TRAINER

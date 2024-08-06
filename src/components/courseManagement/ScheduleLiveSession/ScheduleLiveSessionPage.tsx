@@ -21,12 +21,14 @@ import { TraineeCompanyDetails } from "@/types/Trainer";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
+import { CirclePlus, MoveLeft, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const timePeriodsOptions = [
   {
@@ -56,12 +58,13 @@ const durationInMinute = Array.from({ length: 60 }, (_, i) => {
 });
 
 const ScheduleLiveSessionPage = () => {
-  const navigate = useNavigate();
+  const Role = location.pathname.split("/")[1];
   const { id } = useParams();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-
+  const navigate = useNavigate()
   const UserId = useAppSelector((state: RootState) => state.user.UserId);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -242,8 +245,6 @@ const ScheduleLiveSessionPage = () => {
     }
   };
 
-  console.log("selectCompany", selectCompany);
-
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
 
@@ -325,7 +326,20 @@ const ScheduleLiveSessionPage = () => {
             </h5>
             <Button
               className="bg-transparent font-nunito flex items-center gap-3 text-base text-black font-semibold p-0 h-auto"
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Course Management",
+                      link: null,
+                    },
+                    {
+                      label: "Live Session",
+                      link: `/${Role}/CourseLiveSession`,
+                    },
+                  ])
+                );
+              }}
             >
               <MoveLeft /> Back
             </Button>
@@ -612,7 +626,7 @@ const ScheduleLiveSessionPage = () => {
                   type="submit"
                 >
                   {isSaveSessionPending && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Save Session
                 </Button>

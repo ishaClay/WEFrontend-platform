@@ -122,7 +122,6 @@ function CourseListView({
       });
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
-      console.log("data+++++", data);
     },
     onError: (error: ErrorType) => {
       console.log("data+++++error", error);

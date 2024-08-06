@@ -10,6 +10,8 @@ import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import Drawer from "./comman/Drawer";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
 interface SidebarItem {
@@ -31,6 +33,7 @@ const DrawerPage = ({
   open: boolean;
   setOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const dispatch=useAppDispatch();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -60,6 +63,8 @@ const DrawerPage = ({
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
+      
     },
     onError: (error: ResponseError) => {
       toast({

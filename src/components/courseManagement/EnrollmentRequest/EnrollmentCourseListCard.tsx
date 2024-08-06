@@ -68,7 +68,6 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       });
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
-      console.log("data+++++", res);
     },
     onError: (error: ErrorType) => {
       console.log("data+++++error", error);
