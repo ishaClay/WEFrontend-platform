@@ -5,7 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { inviteSingleEmployeeDetail } from "@/services/apiServices/employee";
 import { uploadImage } from "@/services/apiServices/upload";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -15,6 +17,8 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { useParams } from "react-router-dom";
 
 const TrainerEditDetails = () => {
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const [trainerDetails, setTrainerDetails] = useState({
     name: "",
     contact: "",
@@ -75,7 +79,20 @@ const TrainerEditDetails = () => {
         <Button
           variant={"ghost"}
           className="p-0 text-base font-nunito font-bold"
-          onClick={() => window.history.back()}
+          onClick={() =>
+            dispatch(
+              setPath([
+                {
+                  label: "Trainer Managment",
+                  link: null,
+                },
+                {
+                  label: "Team List",
+                  link: `/${Role}/employeelist`,
+                },
+              ])
+            )
+          }
         >
           <IoIosArrowRoundBack size={26} />
           Back
