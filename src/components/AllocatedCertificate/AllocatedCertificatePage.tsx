@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
-import { useNavigate } from "react-router-dom";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +19,7 @@ const AllocatedCertificatePage = () => {
   const [filteredData, setFilteredData] = useState<certificateDataEntity[]>([]);
   const [page, setPage] = useState(1);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const navigate = useNavigate()
+  const Role = location.pathname.split("/")[1];
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
     queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
@@ -239,7 +238,24 @@ const AllocatedCertificatePage = () => {
         <div className="">
           <Button
             className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
-            onClick={() => navigate("/trainer/allocated-certificate-employee")}
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: "Certificate Management",
+                    link: null,
+                  },
+                  {
+                    label: "Issued Certificate",
+                    link: `/${Role}/allocated-certificate`,
+                  },
+                  {
+                    label: " Allocated Certificate",
+                    link: `/${Role}/allocated-certificate-employee`,
+                  },
+                ])
+              );
+            }}
           >
             Issued Certificate
           </Button>

@@ -55,7 +55,11 @@ const AllocatedCertificateEmployeePage = () => {
               dispatch(
                 setPath([
                   {
-                    label: "Allocate Certificate",
+                    label: "Certificate Management",
+                    link: null,
+                  },
+                  {
+                    label: "Issued Certificate",
                     link: `/${Role}/allocated-certificate`,
                   },
                 ])
