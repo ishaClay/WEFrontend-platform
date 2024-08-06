@@ -15,7 +15,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
 
 const MyCourse = () => {
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
@@ -41,8 +41,8 @@ const MyCourse = () => {
     <div>
       <CohortModal open={cohort} setOpen={setCohort} id={0} />
       <div className="bg-[#FFFFFF] rounded-[10px] w-full">
-        <div className="flex items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
-          <div className="bg-white">
+        <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
+          <div className="bg-white sm:pb-0 pb-3">
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               My Course
             </h3>

@@ -4,8 +4,8 @@ import { Button } from "../ui/button";
 
 const LiveSession = () => {
   return (
-    <div className="lg:bg-white bg-transparent min-h-[calc(100vh_-_130px)]">
-      <div className="md:p-5 p-4 md:pt-0 pt-0">
+    <div className="bg-white min-h-[calc(100vh_-_130px)]">
+      <div className="md:p-5 p-4">
         <div className="md:pb-5 pb-4">
           <h4 className="xl:text-[28px] md:text-[22px] text-[18px] font-bold font-nunito text-black">
             Wind energy basic course
@@ -45,7 +45,7 @@ const LiveSession = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#00778B1A] xl:h-[450px] h-[425px] w-full rounded-xl flex justify-center items-center">
+        <div className="bg-[#00778B1A] xl:h-[450px] sm:h-[425px] h-[380px] w-full rounded-xl flex justify-center items-center">
           <div className="text-center">
             <p className="text-[#313131] sm:text-sm text-xs font-inter mb-5">
               The meeting link will be enabled 15 minutes <br />

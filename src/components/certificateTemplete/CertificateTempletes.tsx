@@ -22,7 +22,7 @@ const CertificateTemplete = () => {
         </div>
       </div>
       <div className="p-4">
-        <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-x-3 sm:gap-x-2 gap-y-5">
+        <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-x-3 sm:gap-x-2 sm:gap-y-5 gap-y-0">
           {isPending ? (
             <Loader containerClassName="col-span-full" />
           ) : (

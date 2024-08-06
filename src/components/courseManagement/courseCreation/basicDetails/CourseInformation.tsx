@@ -181,7 +181,7 @@ const CourseInformation = ({
   
 
   const onSubmit = (formdata: FieldValues) => {
-    const basePayload = {
+    const payload = {
       title: formdata?.title,
       institute: formdata?.institute,
       instituteWebsite: formdata?.instituteWebsite,
@@ -192,11 +192,10 @@ const CourseInformation = ({
       discout: provideDisc ? 1 : 0,
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
-      userId: userID
+      userId: userID,
+      tab: "0", 
+      step: "1"
     };
-
-    const payload = watch("title") && watch("institute") && watch("instituteWebsite") && watch("freeCourse") && watch("price") && +courseId 
-    ? basePayload : paramsId ? basePayload : {...basePayload, tab: "0", step: "1"}
 
     if(isDirty){
       if (+courseId || paramsId) {

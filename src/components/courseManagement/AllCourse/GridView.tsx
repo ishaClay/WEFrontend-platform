@@ -14,7 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
@@ -35,8 +37,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 const GridView = ({
   list,
@@ -217,15 +217,17 @@ const GridView = ({
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        if(+item?.step === 5){
+        if (+item?.step === 5) {
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&version=${
-              item?.currentVersion?.id
-            }`
+            `/${pathName}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&version=${item?.currentVersion?.id}`
           );
-        }else {
+        } else {
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+            `/${pathName}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
               item?.currentVersion?.id
             }`
           );
@@ -297,16 +299,16 @@ const GridView = ({
 
             return (
               <Link
-              to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
-              onClick={() =>
-                dispatch(
-                  setPath([
-                    { label: "Course Management", link: null },
-                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
-                    { label: "Employee Basic Course", link: null },
-                  ])
-                )
-              }
+                to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      { label: "Course Management", link: null },
+                      { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                      { label: "Employee Basic Course", link: null },
+                    ])
+                  )
+                }
                 key={i}
                 className="border border-[#ddd] rounded-[10px] overflow-hidden"
               >
@@ -372,7 +374,6 @@ const GridView = ({
                     disabled={
                       item?.status === "PUBLISHED" ||
                       item?.status === "EXPIRED" ||
-                      item?.status === "READYTOPUBLISH" ||
                       (+userData?.query?.role === UserRole?.Trainee &&
                         item?.status === "READYTOPUBLISH")
                     }
@@ -388,7 +389,9 @@ const GridView = ({
                     {item.status === "PUBLISHED"
                       ? "Published"
                       : item.status === "READYTOPUBLISH"
-                      ? "Ready to Publish"
+                      ? userData?.query?.role === "2"
+                        ? "Publish"
+                        : "Ready to Publish"
                       : "Publish"}
                   </Button>
 

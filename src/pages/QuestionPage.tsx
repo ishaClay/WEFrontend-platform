@@ -323,7 +323,7 @@ const QuestionPage = () => {
         </div>
       </div>
       <div
-        className={`sticky ${isHide ? "top-[0px]" : "top-[44px]"} ${
+        className={`sticky ${isHide ? "top-[-20px]" : "top-[44px]"} ${
           isHide ? "max-h-[calc(100vh-120px)]" : "max-h-[calc(100vh-164px)]"
         } z-30`}
       >

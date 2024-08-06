@@ -1,6 +1,8 @@
 import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
 import { RegisterContext } from "@/context/RegisterContext";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
@@ -10,11 +12,9 @@ import ClickAwayListener from "react-click-away-listener";
 import { Link, useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
+import { AlertLogOutDialog } from "../Models/AlertLogOut";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { AlertLogOutDialog } from "../Models/AlertLogOut";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -30,13 +30,15 @@ function HomeHeader(props: headerProps) {
 
   const userData = localStorage?.getItem("user");
   const path = JSON.parse(localStorage?.getItem("path") as string);
-const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
+      localStorage.removeItem("path");
       navigate("/");
       dispatch(setPath([]));
+      setIsAlertOpen(false);
     },
     onError: (error: ResponseError) => {
       toast({

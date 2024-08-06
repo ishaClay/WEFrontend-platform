@@ -18,12 +18,13 @@ const CourseManagement = () => {
   const location = useLocation();
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab") || "";
+  const step = new URLSearchParams(search).get("step") || "";
   const paramsId = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
 
- 
+
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -63,32 +64,38 @@ const CourseManagement = () => {
   });
 
   const handleChangeTab = (tab: string) => {
-    if(getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab){
-      if (+courseId) {
-        console.log(courseId, tab, "Call this");
-  
-        // setCurrentTab(tab);
+    if (getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab) {
+      if (!+courseId) {
         navigate(
-          `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}`,
+          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}`,
           {
             replace: true,
           }
         );
-      } else if (paramsId) {
-        if (paramsTab < tab) {
-          return null;
-        } else {
+      } else {
+        if(+courseId){
           navigate(
-            `/${pathName}/create_course?tab=${paramsTab}&step=${tab}&id=${paramsId}&version=${paramsversion}`, {replace: true}
+            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}`,
+            {
+              replace: true,
+            }
           );
-          // setCurrentTab(tab);
+        } else if (paramsId) {
+          if (paramsTab < tab) {
+            return null;
+          } else {
+            navigate(
+              `/${pathName}/create_course?tab=${tab}&step=${step}&id=${paramsId}&version=${paramsversion}`, { replace: true }
+            );
+            // setCurrentTab(tab);
+          }
         }
       }
     }
   };
 
-  console.log("getSingleCourse?.data", getSingleCourse?.data?.course?.step);
-  
+  console.log("getSingleCourse?.data", getSingleCourse?.data?.course?.tab, getSingleCourse?.data?.course?.step);
+
 
   return (
     <div className="bg-white p-0">
@@ -102,41 +109,37 @@ const CourseManagement = () => {
           <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">
             <TabsTrigger
               value="0"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
-                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 0
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 0
                   ? "cursor-pointer"
                   : "cursor-default"
-              }`}
+                }`}
             >
               Basic Details
             </TabsTrigger>
             <TabsTrigger
               value="1"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
-                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 1
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 1
                   ? "cursor-pointer"
                   : "cursor-default"
-              }`}
+                }`}
             >
               Course Pathway
             </TabsTrigger>
             <TabsTrigger
               value="2"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
-                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
                   ? "cursor-pointer"
                   : "cursor-default"
-              }`}
+                }`}
             >
               Module Creation
             </TabsTrigger>
             <TabsTrigger
               value="3"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
-                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 3
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 3
                   ? "cursor-pointer"
                   : "cursor-default"
-              }`}
+                }`}
             >
               Forum
             </TabsTrigger>

@@ -1,9 +1,10 @@
 import clockImage from "@/assets/images/Speed.png";
-import fulltimeImage from "@/assets/images/fulltime.png";
-import timeImage from "@/assets/images/time.png";
 import organisationImage from "@/assets/images/diploma.png";
+import fulltimeImage from "@/assets/images/fulltime.png";
 import onlineImage from "@/assets/images/online.png";
+import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
 type OurCoursrseListProps = {
@@ -15,6 +16,8 @@ type OurCoursrseListProps = {
 };
 
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
       <img src={data?.image} alt="course" className="rounded-t-lg" />
@@ -77,7 +80,17 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           alt="course"
           className="xl:w-[162px] w-[140px] h-[48px]"
         />
-        <Button className="bg-[#64A70B] font-abhaya text-base px-5 py-2 h-auto">
+        <Button
+          type="button"
+          onClick={() => {
+            if (userData) {
+              navigate("/");
+            } else {
+              navigate("/register");
+            }
+          }}
+          className="bg-[#64A70B] font-abhaya text-base px-5 py-2 h-auto"
+        >
           Enroll Now
         </Button>
       </div>

@@ -27,8 +27,12 @@ import * as zod from "zod";
 
 const schema = zod.object({
   // nfqLeval: zod.string().optional(),
-  nfqLeval: zod.string({required_error: "Please select NFQ level"}).min(1, "Please select NFQ level"),
-  certificate: zod.string({required_error: "Please select certificate"}).min(1, "Please select certificate"),
+  nfqLeval: zod
+    .string({ required_error: "Please select NFQ level" })
+    .min(1, "Please select NFQ level"),
+  certificate: zod
+    .string({ required_error: "Please select certificate" })
+    .min(1, "Please select certificate"),
   ectsCredits: zod
     .string()
     .min(1, "Please enter ECTS credit")
@@ -55,15 +59,12 @@ interface CourseSpecificationsProps {
   courseById: number | null;
 }
 
-const CourseSpecifications = ({
-  courseById,
-}: CourseSpecificationsProps) => {
+const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -93,9 +94,8 @@ const CourseSpecifications = ({
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () =>
-      fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: !!paramsversion || !!courseById,
   });
 
   const { mutate, isPending } = useMutation({
@@ -156,7 +156,8 @@ const CourseSpecifications = ({
       });
       setSelectBoxValue({
         nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id.toString() || "",
-        certificate: getSingleCourse?.data?.course?.certificate?.id.toString() || ""
+        certificate:
+          getSingleCourse?.data?.course?.certificate?.id.toString() || "",
       });
     }
   }, [getSingleCourse]);
@@ -170,9 +171,9 @@ const CourseSpecifications = ({
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${
-          +courseId ? courseId : params
-        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          data?.data?.data?.tab
+        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -188,15 +189,14 @@ const CourseSpecifications = ({
   });
 
   const onSubmit = (data: FieldValues) => {
-    const basePayload = {
+    const payload = {
       nfqLeval: data?.nfqLeval,
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
-      certificate: data?.certificate
+      certificate: data?.certificate,
+      tab: "0", 
+      step: "2"
     };
-
-    const payload = watch("nfqLeval") && watch("ectsCredits") && watch("fetCredits") && watch("certificate") && +courseId 
-    ? basePayload : params ? basePayload : {...basePayload, tab: "0", step: "2"}
 
     if(isDirty || selectBoxValue?.nfqLeval !== data?.nfqLeval || selectBoxValue?.certificate !== data?.certificate){
       if (+courseId) {
@@ -216,9 +216,7 @@ const CourseSpecifications = ({
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${2}&version=${
-          getSingleCourse?.data?.id
-        }`,
+        }?tab=${0}&step=${2}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
         }
@@ -240,7 +238,10 @@ const CourseSpecifications = ({
             <SelectMenu
               {...register("nfqLeval")}
               option={nfqlLevelOption || []}
-              setValue={(e: string) => {setSelectBoxValue({...selectBoxValue, nfqLeval: e}); setValue("nfqLeval", e)}}
+              setValue={(e: string) => {
+                setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
+                setValue("nfqLeval", e);
+              }}
               value={selectBoxValue.nfqLeval || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
@@ -277,7 +278,10 @@ const CourseSpecifications = ({
             <SelectMenu
               {...register("certificate")}
               option={certificateOption || []}
-              setValue={(e: string) => {setSelectBoxValue({...selectBoxValue, certificate: e}); setValue("certificate", e)}}
+              setValue={(e: string) => {
+                setSelectBoxValue({ ...selectBoxValue, certificate: e });
+                setValue("certificate", e);
+              }}
               value={selectBoxValue.certificate || ""}
               placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"

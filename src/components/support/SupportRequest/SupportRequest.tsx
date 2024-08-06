@@ -58,7 +58,7 @@ const SupportRequest = () => {
         </div>
       </div>
       <div className="">
-        <div className="sm:p-5 p-3">
+        <div className="sm:p-5 p-[15px]">
           <SupportRequestDetails
             data={support_request_list?.data?.dataAnalytics}
           />

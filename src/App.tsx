@@ -725,8 +725,6 @@ function App() {
             element={<TicketDetailsReplyPage />}
           />
           <Route path="retakeAssessment" element={<QuestionPage />} />
-          <Route path="message" element={<MessagePage />} />
-          <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />
           <Route
             path="notification/:notificationId"
@@ -766,10 +764,6 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
-          {/* <Route
-            path="certificate-template/updatecertificate/:id"
-            element={<Updatecertificate />}
-          /> */}
           <Route path="usermenual" element={<UserManualPage />} />
           <Route
             path="allocated-certificate"

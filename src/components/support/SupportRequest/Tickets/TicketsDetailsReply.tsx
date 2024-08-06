@@ -166,10 +166,10 @@ const TicketsDetailsReply = () => {
         </Button>
       </div>
 
-      <div className="pl-[20px] p-[28px]">
+      <div className="sm:pl-[20px] sm:p-[28px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex justify-between">
-            <div className="flex items-center gap-[11px]">
+          <div className="md:flex block justify-between">
+            <div className="flex items-center gap-[11px] md:pb-0 pb-3">
               <Avatar className="w-[32px] h-[32px]">
                 {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
                 <AvatarImage src="" />
@@ -234,7 +234,7 @@ const TicketsDetailsReply = () => {
             </div>
           </div>
 
-          <div className="max-w-full border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
+          <div className="max-w-full border solid 1px gray rounded-[10px] sm:mt-[34px] mt-[25px] p-[17px]">
             {data?.data.data?.subject && (
               <>
                 <p className="text-[#A3A3A3] text-[16px] ">Ticket Subject</p>
@@ -252,12 +252,17 @@ const TicketsDetailsReply = () => {
 
             {(data?.data.data?.documentUrl || data?.data.data?.videoUrl) && (
               <div className="flex items-start gap-4">
-                <div className="flex items-center mt-[32px]">
-                  <img src={DocImage} alt="DocImage" />
-                  <h3 className="text-[16px] ml-2">
-                    {data?.data.data?.documentUrl.split("/").pop()}
-                  </h3>
-                  <Button onClick={handleDownload} className="ml-[22px]">
+                <div className="sm:flex block items-center mt-[32px]">
+                  <div className="flex">
+                    <img src={DocImage} alt="DocImage" />
+                    <h3 className="text-[16px] ml-2">
+                      {data?.data.data?.documentUrl.split("/").pop()}
+                    </h3>
+                  </div>
+                  <Button
+                    onClick={handleDownload}
+                    className="sm:ml-[22px] mt-5"
+                  >
                     DOWNLOAD
                   </Button>
                 </div>
@@ -279,7 +284,7 @@ const TicketsDetailsReply = () => {
           {data?.data?.data?.response?.length > 0 &&
             data?.data?.data?.response?.map((itm: any) => {
               return (
-                <div className="max-w-full border solid 1px gray rounded-[10px] mt-[34px] p-[17px]">
+                <div className="max-w-full border solid 1px gray rounded-[10px] sm:mt-[34px] mt-[20px] p-[17px]">
                   <div className="flex items-center gap-[11px]">
                     <Avatar className="w-[32px] h-[32px]">
                       <AvatarImage src={itm?.createdBy?.profileImage} />
@@ -341,7 +346,7 @@ const TicketsDetailsReply = () => {
               );
             })}
 
-          <div className="grid grid-cols-2 gap-[36px] mt-[29px]">
+          <div className="grid grid-cols-2 gap-[36px] sm:mt-[29px] mt-0">
             {/* <InputWithLable label="Assign To" /> */}
             <div>
               <Select
@@ -413,13 +418,13 @@ const TicketsDetailsReply = () => {
           <textarea
             placeholder="Enter Details"
             {...register("details")}
-            className="w-full h-[200px] border solid 1px gray rounded-[10px] mt-[34px] p-[17px]"
+            className="w-full h-[200px] border solid 1px gray rounded-[10px] sm:mt-[34px] mt-5 p-[17px]"
           />
           {errors?.details && (
             <ErrorMessage message={errors?.details?.message as string} />
           )}
 
-          <div className="w-full flex justify-end mt-[50px]">
+          <div className="w-full flex justify-end sm:mt-[50px] mt-[30px]">
             <Button
               type="submit"
               variant="secondary"
