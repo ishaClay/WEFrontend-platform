@@ -4,7 +4,9 @@ import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
@@ -19,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { UserId } = useSelector((state: RootState) => state.user);
   const pathName: string = location?.pathname?.split("/")[1];
@@ -149,8 +152,13 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             <Button
               className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
               onClick={() =>
-                navigate(
-                  `/${pathName}/message?chatId=${data?.company?.userDetails?.id}`
+                dispatch(
+                  setPath([
+                    {
+                      label: "Message",
+                      link: `/${pathName}/message?chatId=${data?.company?.userDetails?.id}`,
+                    },
+                  ])
                 )
               }
             >
