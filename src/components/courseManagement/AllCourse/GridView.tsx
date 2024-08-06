@@ -60,7 +60,7 @@ const GridView = ({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
-  const pathName = location?.pathname?.split("/")?.[2];
+  const pathName = location?.pathname?.split("/")?.[1];
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -219,7 +219,7 @@ const GridView = ({
       if (item.status === "DRAFT") {
         if(+item?.step === 5){
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&version=${
               item?.currentVersion?.id
             }`
           );
