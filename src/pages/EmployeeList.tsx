@@ -1,11 +1,13 @@
 import delet from "@/assets/images/delet.svg";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { deleteEmployee } from "@/services/apiServices/employee";
 import { getMemberlist } from "@/services/apiServices/member";
@@ -17,9 +19,6 @@ import { Eye, Pencil } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { ConfirmModal } from "@/components/comman/ConfirmModal";
 
 // import { useSelector } from "react-redux";
 
@@ -112,7 +111,9 @@ function CoursesAllocate() {
                   : row.original.email?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <p className={`font-bold px-3`}>{row.original.name}</p>
+            <p className={`font-bold px-3`}>
+              {row.original.name || row.original.email?.split("@")[0]}
+            </p>
           </div>
         );
       },

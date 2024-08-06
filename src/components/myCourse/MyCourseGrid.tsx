@@ -4,14 +4,14 @@ import InternetImage from "@/assets/images/Internet.png";
 import SpeedImage from "@/assets/images/Speed.png";
 import TimesheetImage from "@/assets/images/Timesheet.png";
 import UniversityImage from "@/assets/images/University.png";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { CourseAllotedEntity } from "@/types/courseManagement";
 import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 type myPagesListProps = {
   grid: CourseAllotedEntity;
@@ -21,9 +21,11 @@ type myPagesListProps = {
 const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
+  console.log("grid", grid);
+
   return (
     <Link
-      to={`/employee/employee-basic-course/${grid?.courseVersion?.id}`}
+      to={`/employee/employee-basic-course/${grid?.course?.id}`}
       onClick={() =>
         dispatch(
           setPath([
@@ -42,7 +44,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
           <img
-            src={grid.courseVersion?.course?.bannerImage}
+            src={grid.course?.bannerImage}
             alt="img"
             className="sm:h-[231px] h-[180px] object-cover w-full"
           />
@@ -57,7 +59,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
         <div className="xl:p-5 sm:p-4 px-[12px] py-[15px]">
           <div>
             <p className="sm:text-base text-sm font-medium font-inter sm:leading-6 leading-[22px] mb-2 line-clamp-1">
-              {grid.courseVersion?.course?.title}
+              {grid.course?.title}
             </p>
           </div>
           <div className="flex items-center justify-between pb-[6px]">
@@ -79,7 +81,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
           />
           <div className="min-h-[80px]">
             <div className="flex flex-wrap justify-between pt-4">
-              {grid?.courseVersion?.course?.courseData?.map((item) => {
+              {grid?.course?.courseData?.map((item) => {
                 const bgColor = item?.fetchMaturity?.color;
                 return (
                   <Badge
@@ -98,7 +100,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
                   Level-{" "}
                   {
-                    grid?.courseVersion?.course?.courseData?.find(
+                    grid?.course?.courseData?.find(
                       (item) =>
                         item?.fetchPillar?.pillarName === selectFilterByCategory
                     )?.fetchMaturity?.maturityLevelName
@@ -108,16 +110,18 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               <div className="flex items-center">
                 <img src={ClockImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.courseVersion?.course?.time ===
-                    CourseTime.FullTime && <span>Full-time</span>}
-                  {grid?.courseVersion?.course?.time ===
-                    CourseTime.PartTime && <span>Part-time</span>}
+                  {grid?.course?.time === CourseTime.FullTime && (
+                    <span>Full-time</span>
+                  )}
+                  {grid?.course?.time === CourseTime.PartTime && (
+                    <span>Part-time</span>
+                  )}
                 </p>
               </div>
               <div className="flex items-center">
                 <img src={TimesheetImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.courseVersion?.course?.duration}
+                  {grid?.course?.duration}
                 </p>
               </div>
             </div>
@@ -125,25 +129,28 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               <div className="flex items-center">
                 <img src={GraduationCapImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.courseVersion?.course?.otherInstitutionName}
+                  {grid?.course?.otherInstitutionName}
                 </p>
               </div>
               <div className="flex items-center">
                 <img src={InternetImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.courseVersion?.course?.isOnline ===
-                    IsOnline.Online && <span>Online</span>}
-                  {grid?.courseVersion?.course?.isOnline ===
-                    IsOnline.InPerson && <span>InPerson</span>}
-                  {grid?.courseVersion?.course?.isOnline ===
-                    IsOnline.Hybrid && <span>Hybrid</span>}
+                  {grid?.course?.isOnline === IsOnline.Online && (
+                    <span>Online</span>
+                  )}
+                  {grid?.course?.isOnline === IsOnline.InPerson && (
+                    <span>InPerson</span>
+                  )}
+                  {grid?.course?.isOnline === IsOnline.Hybrid && (
+                    <span>Hybrid</span>
+                  )}
                 </p>
               </div>
 
               <div className="flex items-center">
                 <img src={UniversityImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.courseVersion?.course?.institute}
+                  {grid?.course?.institute}
                 </p>
               </div>
             </div>

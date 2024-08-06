@@ -197,7 +197,7 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/employee_register" element={<RegisterTrainee />} />
-        <Route path="/inviteRegister" element={<Register />} />
+        <Route path="/inviteRegister" element={<RegisterTrainer />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
@@ -784,6 +784,11 @@ function App() {
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
+          />
+          <Route path="notification-list" element={<NotificationListPage />} />
+          <Route
+            path="notification/:notificationId"
+            element={<Notification />}
           />
           <Route
             path="support-request/ticket-details/:id"

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { FC } from "react";
 import {
   Select,
@@ -6,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { cn } from "@/lib/utils";
 import Loader from "./Loader";
 
 interface IProps {
@@ -50,7 +50,10 @@ const SelectMenu: FC<IProps> = ({
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent
-        className={cn(`bg-white max-h-[250px] overflow-auto`, containClassName)}
+        className={cn(
+          `bg-white max-h-[250px] w-full overflow-auto`,
+          containClassName
+        )}
       >
         {isLoading ? (
           <Loader />

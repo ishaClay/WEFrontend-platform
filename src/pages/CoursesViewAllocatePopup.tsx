@@ -1,9 +1,16 @@
+import speed from "@/assets/images/Speed.png";
+import course from "@/assets/svgs/cource.svg";
+import duration from "@/assets/svgs/duration.svg";
+import institute from "@/assets/svgs/institute.svg";
+import online from "@/assets/svgs/online.svg";
+import time from "@/assets/svgs/time.svg";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import TextAreaWithLabel from "@/components/comman/TextAreaWithLabel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
@@ -21,13 +28,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
 import * as zod from "zod";
-import course from "@/assets/svgs/cource.svg";
-import duration from "@/assets/svgs/duration.svg";
-import institute from "@/assets/svgs/institute.svg";
-import online from "@/assets/svgs/online.svg";
-import time from "@/assets/svgs/time.svg";
-import speed from "@/assets/images/Speed.png";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CourseViewAllocatePopupProps {
   isOpen: boolean;
@@ -210,7 +210,7 @@ function CourseViewAllocatePopup({
       {isPending ? (
         <Loader />
       ) : (
-        <ScrollArea className="h-[500px]">
+        <ScrollArea className="xl:h-auto h-[500px]">
           <div className="bg-white rounded-lg">
             <div className="border-b-2 pb-[10px]">
               <div className="sm:flex block overflow-hidden rounded">
@@ -298,10 +298,12 @@ function CourseViewAllocatePopup({
                     <div className="flex items-center gap-1">
                       <img className=" h-[16] w-[18px]" src={time} alt="time" />
                       <p className="text-xs">
-                        {courseData?.course?.time ===
-                          CourseTime?.FullTime && <span>Full-time</span>}
-                        {courseData?.course.time ===
-                          CourseTime?.PartTime && <span>Part-time</span>}
+                        {courseData?.course?.time === CourseTime?.FullTime && (
+                          <span>Full-time</span>
+                        )}
+                        {courseData?.course.time === CourseTime?.PartTime && (
+                          <span>Part-time</span>
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-1">
@@ -311,14 +313,17 @@ function CourseViewAllocatePopup({
                         alt="type"
                       />
                       <p className="text-xs">
-                        {courseData?.course?.isOnline ===
-                          IsOnline?.Online && <span>Online</span>}
+                        {courseData?.course?.isOnline === IsOnline?.Online && (
+                          <span>Online</span>
+                        )}
                         {courseData?.course?.isOnline ===
                           IsOnline?.InPerson && <span>InPerson</span>}
-                        {courseData?.course?.isOnline ===
-                          IsOnline?.Hybrid && <span>Hybrid</span>}
-                        {courseData?.course?.isOnline ===
-                          IsOnline?.Major && <span>Major</span>}
+                        {courseData?.course?.isOnline === IsOnline?.Hybrid && (
+                          <span>Hybrid</span>
+                        )}
+                        {courseData?.course?.isOnline === IsOnline?.Major && (
+                          <span>Major</span>
+                        )}
                       </p>
                     </div>
                     <div className="flex items-center gap-1">
@@ -327,9 +332,7 @@ function CourseViewAllocatePopup({
                         src={duration}
                         alt="Duration"
                       />
-                      <p className="text-xs">
-                        {courseData?.course?.duration}
-                      </p>
+                      <p className="text-xs">{courseData?.course?.duration}</p>
                     </div>
                     <div className="flex items-center gap-1">
                       <img
@@ -337,9 +340,7 @@ function CourseViewAllocatePopup({
                         src={institute}
                         alt="institute"
                       />
-                      <p className="text-xs">
-                        {courseData?.course?.institute}
-                      </p>
+                      <p className="text-xs">{courseData?.course?.institute}</p>
                     </div>
                   </div>
                 </div>

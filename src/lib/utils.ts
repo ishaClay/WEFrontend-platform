@@ -78,7 +78,7 @@ export const supportTicketIcon = (name: string) => {
   }
 };
 
-export const sidebarLayout ={
+export const sidebarLayout = {
   TarinerSidebar: [
     {
       label: "Dashboard",
@@ -91,10 +91,10 @@ export const sidebarLayout ={
       Icon: TfiBook,
       link: "#",
       children: [
-        // {
-        //   label: "Enrollment Requests",
-        //   link: "/trainer/enrolledrequest",
-        // },
+        {
+          label: "Enrollment Requests",
+          link: "/trainer/enrolledrequest",
+        },
         {
           label: "Enrolled Courses",
           link: "/trainer/enrolledcourses",
@@ -180,10 +180,10 @@ export const sidebarLayout ={
       Icon: TfiBook,
       link: "#",
       children: [
-        {
-          label: "Enrollment Requests",
-          link: "/trainee/enrolledrequest",
-        },
+        // {
+        //   label: "Enrollment Requests",
+        //   link: "/trainee/enrolledrequest",
+        // },
         {
           label: "All Courses",
           link: "/trainee/allcourse",
@@ -232,12 +232,12 @@ export const sidebarLayout ={
         },
       ],
     },
-    {
-      label: "Settings",
-      Icon: FiSettings,
-      link: "/trainee/employeepermission",
-      children: [],
-    },
+    // {
+    //   label: "Settings",
+    //   Icon: FiSettings,
+    //   link: "/trainee/employeepermission",
+    //   children: [],
+    // },
     {
       label: "Message",
       Icon: PiEnvelopeThin,

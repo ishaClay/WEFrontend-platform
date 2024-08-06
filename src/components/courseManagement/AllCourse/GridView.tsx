@@ -280,6 +280,12 @@ const GridView = ({
         {list
           ?.filter((item) => item !== undefined && item !== null)
           ?.map((item: any, i: number) => {
+            const update =
+              +userData?.query?.role === UserRole?.Trainer
+                ? true
+                : item?.trainerId?.id === +userData?.query?.detailsid
+                ? true
+                : userData?.editCourses;
             const versionOption =
               item?.version &&
               item?.version.map((itm: any) => {
@@ -387,9 +393,7 @@ const GridView = ({
                   </Button>
 
                   <Button
-                    disabled={
-                      userData?.query?.role !== "2" && !userData?.editCourses
-                    }
+                    disabled={!update}
                     onClick={(e: any) => {
                       e.preventDefault();
                       e.stopPropagation();

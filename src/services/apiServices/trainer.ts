@@ -103,3 +103,10 @@ export const getTrainee = async (companyIds: any) => {
   const res = await api({ url, data: companyIds, method });
   return res.data;
 };
+
+export const registerTrainee = async ({ email, data }: { email: string, data: any }) => {
+  const url = `api/v1/trainer/update-email/${email}`;
+  const method = "put";
+  const res = await api({ url, data, method });
+  return res.data;
+}

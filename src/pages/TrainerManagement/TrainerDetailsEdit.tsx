@@ -5,16 +5,24 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import { inviteSingleEmployeeDetail } from "@/services/apiServices/employee";
+import { setPath } from "@/redux/reducer/PathReducer";
+import {
+  inviteSingleEmployeeDetail,
+  updateEmployee,
+} from "@/services/apiServices/employee";
 import { uploadImage } from "@/services/apiServices/upload";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Pencil, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TrainerEditDetails = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [trainerDetails, setTrainerDetails] = useState({
     name: "",
     contact: "",
@@ -28,6 +36,33 @@ const TrainerEditDetails = () => {
   const { data, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.employeeDetails, { id: params.id }],
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
+  });
+
+  const { mutate, isPending: isMutating } = useMutation({
+    mutationFn: updateEmployee,
+    onSuccess: () => {
+      dispatch(
+        setPath([
+          {
+            label: "Trainer Managment",
+            link: null,
+          },
+          {
+            label: "Team List",
+            link: null,
+          },
+        ])
+      );
+
+      navigate(`/company/employeelist`);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
   });
 
   const { mutate: upload, isPending: isUploading } = useMutation({
@@ -49,6 +84,12 @@ const TrainerEditDetails = () => {
   useEffect(() => {
     if (data) {
       setTrainerStatus(data?.employeeStatus === "Active" ? 1 : 0);
+      setTrainerDetails({
+        name: data?.name,
+        // @ts-ignore
+        contact: data?.phone,
+        image: data?.profileImage || "",
+      });
     }
   }, [data]);
 
@@ -64,6 +105,15 @@ const TrainerEditDetails = () => {
     // @ts-ignore
     formData.append("image", file);
     upload(formData);
+  };
+
+  const handleSubmit = () => {
+    const payload = {
+      name: trainerDetails?.name,
+      phone: trainerDetails?.contact,
+      profileImage: trainerDetails?.image,
+    };
+    mutate({ id: params?.id ? params?.id : "", data: payload });
   };
 
   return (
@@ -94,7 +144,7 @@ const TrainerEditDetails = () => {
                     Trainer personal information
                   </h2>
                 </legend>
-                <div className="grid grid-cols-9 items-center pl-[25px] py-[20px]">
+                <div className="grid grid-cols-9 items-center gap-4 pl-[25px] py-[20px]">
                   <div className="text-base xl:col-span-2 col-span-4">
                     {/* <Avatar className="w-[109px] h-[109px]">
                       <AvatarImage src={data?.profileImage || ""} />
@@ -154,16 +204,24 @@ const TrainerEditDetails = () => {
                     <InputWithLabel
                       placeholder="John"
                       className="h-[46px]"
+                      name="name"
                       onChange={handleChanges}
-                      value={trainerDetails?.name || data?.name || ""}
+                      value={trainerDetails?.name || ""}
                     />
-                    <p className="text-base font-nunito">{data?.name || "-"}</p>
+                    {/* <p className="text-base font-nunito">{data?.name || "-"}</p> */}
                   </div>
                   <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Contact number
                     </h6>
-                    <p className="text-base font-nunito">{"-"}</p>
+                    <InputWithLabel
+                      placeholder="Contact Number"
+                      className="h-[46px]"
+                      name="contact"
+                      onChange={handleChanges}
+                      value={trainerDetails?.contact || ""}
+                    />
+                    {/* <p className="text-base font-nunito">{"-"}</p> */}
                   </div>
                   <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
@@ -257,6 +315,17 @@ const TrainerEditDetails = () => {
                   </Button> */}
                 </div>
               </fieldset>
+            </div>
+            <div className="mt-[40px] text-right">
+              <Button
+                className="w-[100px] h-[52px] bg-[#58BA66] text-white font-nunito font-semibold"
+                isLoading={isMutating}
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                SAVE
+              </Button>
             </div>
           </div>
         )}

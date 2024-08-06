@@ -159,7 +159,7 @@ const ResetPassword = () => {
               </div>
               <button
                 onClick={() => navigate("/auth")}
-                className="text-[14px] text-color font-medium mb-11 cursor-pointer"
+                className="text-[14px] underline font-medium mb-5 cursor-pointer"
               >
                 Login
               </button>

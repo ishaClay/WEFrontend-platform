@@ -194,7 +194,7 @@ export function NewDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {totalPages === 0 ? null : (
+      {totalPages === 1 ? null : (
         <div
           className={cn(
             `flex items-center justify-end space-x-2 py-4`,

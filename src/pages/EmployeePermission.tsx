@@ -111,7 +111,7 @@ function EmployeePermission() {
               </Avatar>
             </div>
             <h6 className="xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.name}
+              {row.original?.name || row?.original?.email?.split("@")[0]}
             </h6>
           </div>
         );
