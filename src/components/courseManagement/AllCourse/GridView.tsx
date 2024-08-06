@@ -217,11 +217,19 @@ const GridView = ({
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${0}&step=${0}&version=${
-            item?.currentVersion?.id
-          }`
-        );
+        if(+item?.step === 5){
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${
+              item?.currentVersion?.id
+            }`
+          );
+        }else {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+              item?.currentVersion?.id
+            }`
+          );
+        }
       } else {
         createNewVersionFun({
           courseId: item?.id,

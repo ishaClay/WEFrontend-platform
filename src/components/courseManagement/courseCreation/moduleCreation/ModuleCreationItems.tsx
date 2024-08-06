@@ -25,6 +25,8 @@ interface ModuleCreationItemsProps {
   control: any;
   setValue: any;
   errors: any;
+  setUrlError: ((e: any) => void | undefined) | any;
+  urlError?: string
 }
 
 const intialSectionCreation: SectionCreation = {
@@ -56,6 +58,8 @@ const ModuleCreationItems = ({
   removeModule,
   watch,
   moduleListlength,
+  urlError,
+  setUrlError
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -104,6 +108,15 @@ const ModuleCreationItems = ({
       });
     }
   };
+
+  const handleAddURL = (e:string, name: any) => {
+    if(!e.match(/^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtu(?:\.be|\.com)\/(?:(?:embed\/|e\/|v\/|watch\?v=|watch\/\S*\/)?)([\w\-]{11})(?:\S*)?$/)){
+      setUrlError("please enter Invalid YouTube URL");
+    }else{
+      setUrlError("");
+      setValue(name, e);
+    }
+  }
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
@@ -251,15 +264,16 @@ const ModuleCreationItems = ({
                     {...register(
                       `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
+                    onChange={(e:any) => handleAddURL(e?.target?.value, `modules.${index}.section.${sectionindex}.youtubeUrl`)}
                     className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.youtubeUrl && (
+                    ?.youtubeUrl || urlError && (
                     <FormError
                       className="font-calibri not-italic"
                       message={
-                        errors.modules[index].section[sectionindex].youtubeUrl
-                          ?.message
+                        errors?.modules?.[index]?.section?.[sectionindex]?.youtubeUrl
+                          ?.message || urlError
                       }
                     />
                   )}

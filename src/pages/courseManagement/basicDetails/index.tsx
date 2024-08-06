@@ -1,11 +1,12 @@
 import CourseStepper from "@/components/comman/CourseStepper";
+import Loader from "@/components/comman/Loader";
 import CourseAffiliations from "@/components/courseManagement/courseCreation/basicDetails/CourseAffiliations";
 import CourseBanner from "@/components/courseManagement/courseCreation/basicDetails/CourseBanner";
 import CourseInformation from "@/components/courseManagement/courseCreation/basicDetails/CourseInformation";
 import CourseLogistic from "@/components/courseManagement/courseCreation/basicDetails/CourseLogistic";
 import CourseSpecifications from "@/components/courseManagement/courseCreation/basicDetails/CourseSpecifications";
 import { GetSingleCourseEntity } from "@/types/course";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface BasicDetailsProps{
   courseData: GetSingleCourseEntity | null
@@ -14,14 +15,15 @@ interface BasicDetailsProps{
 const BasicDetails = ({courseData}: BasicDetailsProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("step") || "0";
-  const [step, setStep] = React.useState<string | null>(params || null);
+  const courseId: string = location?.pathname?.split("/")[3];
+  // const [step, setStep] = React.useState<string | null>(params || null);
   const [courseById, setCourseById] = React.useState<number | null>(null);
 
-  useEffect(() => {
-    if (courseData) {
-      setStep(courseData?.course?.step?.toString() || null);
-    }
-  }, [courseData])
+  // useEffect(() => {
+  //   if (courseData) {
+  //     setStep(courseData?.course?.step?.toString() || null);
+  //   }
+  // }, [courseData])
 
   console.log("courseData", courseData);
   
@@ -71,8 +73,8 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
   //   }
   // }, [paramsId, paramsversion, paramsTab, navigate, courseData]);
 
-
   return (
+    !courseData && +courseId ? <div><Loader /></div> :
     <div>
       <div className="w-full sm:my-10 mt-5 mb-[15px]">
         <CourseStepper
@@ -83,19 +85,18 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
             "Course Affiliations",
             "Course Banner",
           ]}
-          currentStep={step}
-          onChangeStep={setStep}
+          currentStep={params}
           courseData={courseData}
         />
       </div>
-      {step === "0" ? (
-        <CourseInformation setStep={setStep} courseById={courseById} setCourseById={setCourseById} />
-      ) : step === "1" ? (
-        <CourseSpecifications setStep={setStep} courseById={courseById} />
-      ) : step === "2" ? (
-        <CourseLogistic setStep={setStep} courseById={courseById} />
-      ) : step === "3" ? (
-        <CourseAffiliations setStep={setStep} />
+      {params === "0" ? (
+        <CourseInformation courseById={courseById} setCourseById={setCourseById} />
+      ) : params === "1" ? (
+        <CourseSpecifications courseById={courseById} />
+      ) : params === "2" ? (
+        <CourseLogistic courseById={courseById} />
+      ) : params === "3" ? (
+        <CourseAffiliations />
       ) : (
         <CourseBanner courseById={courseById} />
       )}

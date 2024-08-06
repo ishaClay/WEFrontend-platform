@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoveLeft } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
@@ -15,7 +14,6 @@ import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 
 const CourseManagement = () => {
   const dispatch = useAppDispatch();
-  const [currentTab, setCurrentTab] = useState<string>("0");
   const navigate = useNavigate();
   const location = useLocation();
   const search = window.location.search;
@@ -64,41 +62,39 @@ const CourseManagement = () => {
     enabled: !!paramsversion,
   });
 
-  console.log("getSingleCourse", getSingleCourse?.data, currentTab);
-  useEffect(() => {
-      setCurrentTab(getSingleCourse?.data?.course?.tab?.toString() || "0");
-  }, [getSingleCourse?.data]);
-
-  const handleChangeTab = (tab: string) => {    
+  const handleChangeTab = (tab: string) => {
     if(getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab){
       if (+courseId) {
         console.log(courseId, tab, "Call this");
   
-        setCurrentTab(tab);
+        // setCurrentTab(tab);
         navigate(
-          `/${pathName}/create_course/${courseId}?tab=${getSingleCourse?.data?.course?.tab}&version=${paramsversion}`,
+          `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}`,
           {
             replace: true,
           }
         );
       } else if (paramsId) {
-        if (currentTab < tab) {
+        if (paramsTab < tab) {
           return null;
         } else {
           navigate(
             `/${pathName}/create_course?tab=${paramsTab}&step=${tab}&id=${paramsId}&version=${paramsversion}`, {replace: true}
           );
-          setCurrentTab(tab);
+          // setCurrentTab(tab);
         }
       }
     }
   };
 
+  console.log("getSingleCourse?.data", getSingleCourse?.data?.course?.step);
+  
+
   return (
     <div className="bg-white p-0">
       <Tabs
-        defaultValue={currentTab}
-        value={currentTab}
+        defaultValue={paramsTab}
+        value={paramsTab}
         className=""
         onValueChange={(e) => handleChangeTab(e)}
       >

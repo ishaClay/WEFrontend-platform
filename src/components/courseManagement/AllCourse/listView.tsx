@@ -191,11 +191,15 @@ const ListView = ({
   ) => {
     e.stopPropagation();
     if (item?.status !== "DRAFT") {
-      navigate(
-        `/${Role}/create_course/${
-          item?.id
-        }?tab=${0}&step=${0}&version=${id}`
-      );
+      if(+item?.step === 5){
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${id}`
+        );
+      }else {
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
+        );
+      }
     } else {
       if (item?.trainerId?.id) {
         toast({

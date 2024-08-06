@@ -173,6 +173,8 @@ export interface AllCoursesResult {
   module?: ModuleEntity[] | null;
   trainerCompanyId: TrainerCompanyId | null;
   trainerId?: TrainerId | null;
+  tab: string;
+  step: string;
 }
 export interface CourseDataEntity {
   pillarId: number;

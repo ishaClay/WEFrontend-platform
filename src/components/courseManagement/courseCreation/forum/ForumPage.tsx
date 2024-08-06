@@ -49,6 +49,8 @@ const ForumPage = () => {
         question: forumquestion,
         userId: +userId,
         courseId: +courseId,
+        tab: "4",
+        step: "5",
       });
     }
   };

@@ -54,6 +54,7 @@ const ModuleCreationPage = () => {
   const draggedOverPerson = useRef<number>(0);
   const latestModuleList = useRef(moduleList);
   const courseEditId: string = location?.pathname?.split("/")[3];
+  const [urlError, setUrlError] = useState<string>("");
 
   const schema = z.object({
     modules: z.array(
@@ -86,11 +87,7 @@ const ModuleCreationPage = () => {
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string({ required_error: "Youtube url is required" })
-                .regex(
-                  /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
-                  "please enter Invalid YouTube URL"
-                ).optional(),
+                .string({ required_error: "Youtube url is required" }).optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -223,7 +220,7 @@ const ModuleCreationPage = () => {
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
-    queryFn: () => getModuleData(+paramsVersion),
+    queryFn: () => getModuleData(+courseEditId),
     enabled: !!paramsVersion || !!courseEditId,
   });
 
@@ -248,6 +245,9 @@ const ModuleCreationPage = () => {
       await Promise.all(promises);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       reset({ modules: [] });
       toast({
@@ -346,6 +346,8 @@ const ModuleCreationPage = () => {
               key={`module${index}`}
               moduleListlength={moduleList?.length}
               index={index}
+              setUrlError={setUrlError}
+              urlError={urlError}
             />
           );
         })}
