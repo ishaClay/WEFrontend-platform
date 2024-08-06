@@ -8,11 +8,11 @@ import CourseSpecifications from "@/components/courseManagement/courseCreation/b
 import { GetSingleCourseEntity } from "@/types/course";
 import React from "react";
 
-interface BasicDetailsProps{
-  courseData: GetSingleCourseEntity | null
+interface BasicDetailsProps {
+  courseData: GetSingleCourseEntity | null;
 }
 
-const BasicDetails = ({courseData}: BasicDetailsProps) => {
+const BasicDetails = ({ courseData }: BasicDetailsProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("step") || "0";
   const courseId: string = location?.pathname?.split("/")[3];
@@ -26,7 +26,6 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
   // }, [courseData])
 
   console.log("courseData", courseData);
-  
 
   // useEffect(() => {
   //   if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {
@@ -73,8 +72,11 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
   //   }
   // }, [paramsId, paramsversion, paramsTab, navigate, courseData]);
 
-  return (
-    // !courseData && +courseId ? <div><Loader /></div> :
+  return !courseData && +courseId ? (
+    <div>
+      <Loader />
+    </div>
+  ) : (
     <div>
       <div className="w-full sm:my-10 mt-5 mb-[15px]">
         <CourseStepper
@@ -90,7 +92,10 @@ const BasicDetails = ({courseData}: BasicDetailsProps) => {
         />
       </div>
       {params === "0" ? (
-        <CourseInformation courseById={courseById} setCourseById={setCourseById} />
+        <CourseInformation
+          courseById={courseById}
+          setCourseById={setCourseById}
+        />
       ) : params === "1" ? (
         <CourseSpecifications courseById={courseById} />
       ) : params === "2" ? (
