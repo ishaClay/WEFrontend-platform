@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Tree_Planting from "@/assets/images/Tree_Planting.png";
-import Loading from "@/components/comman/Error/Loading";
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,7 @@ const ActionItemModel = ({
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [isDelete, setIsDelete] = useState(false);
   const userID = UserId
     ? +UserId
     : userData?.query
@@ -84,7 +85,7 @@ const ActionItemModel = ({
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.maturitypillar],
         });
-
+        setIsDelete(false);
         handleClose();
       },
       onError: (error: ErrorType) => {
@@ -160,13 +161,13 @@ const ActionItemModel = ({
     setPillerItems(
       (prev) =>
         ({
-          [currentPiller]: prev[currentPiller].filter((item, i) => {
-            console.log(item);
+          [currentPiller]: prev[currentPiller].filter((_, i) => {
             return i !== index;
           }),
         } as PillerItem)
     );
     deleteMeasuresItemsFun(measuresItemsId);
+    setIsDelete(true);
   };
 
   const addActionItem = (currentPiller: string) => {
@@ -187,8 +188,6 @@ const ActionItemModel = ({
       } as PillerItem);
     }
   }, [getActionItems, currentPiller]);
-
-  console.log("getActionItems", filtermesuresdata);
 
   return (
     <Modal
@@ -244,7 +243,6 @@ const ActionItemModel = ({
                           <Loader />
                         ) : (
                           filtermesuresdata?.data?.map((item) => {
-                            console.log("item?.pillarid", item?.pillarid, pid);
                             return (
                               pid &&
                               item?.pillarid === +pid &&
@@ -364,8 +362,16 @@ const ActionItemModel = ({
             </div>
           </ScrollArea>
         </div>
+
+        <ConfirmModal
+          open={isDelete}
+          onClose={() => setIsDelete(false)}
+          onDelete={() => removeActionItem}
+          value={currentPiller || ""}
+          isLoading={deletePending}
+        />
       </div>
-      <Loading isLoading={deletePending} />
+      {/* <Loading isLoading={deletePending} /> */}
     </Modal>
   );
 };

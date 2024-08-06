@@ -43,8 +43,6 @@ const MyCoursePage = () => {
     ? userData?.query?.detailsid
     : userData?.detailsid;
 
-  console.log("+++++++++++++++++", window.location.pathname?.split("/")[1]);
-
   const changeView = (id: number) => {
     navigate(
       `/${window.location.pathname?.split("/")[1]}/mycourses?view=${id}`,
@@ -74,8 +72,6 @@ const MyCoursePage = () => {
           selectFilterByCategory === "all" ? "" : selectFilterByCategory,
       }),
   });
-
-  console.log("data", clientwisePillarList);
 
   const pillerFilterOption = [
     { label: "All", value: "all" },

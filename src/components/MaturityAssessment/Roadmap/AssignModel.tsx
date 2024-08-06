@@ -46,7 +46,7 @@ const AssignModel = ({
     };
   });
 
-  console.log("data", data);
+  
 
   const { mutate, isPending } = useMutation({
     mutationFn: assignItemForEmployee,

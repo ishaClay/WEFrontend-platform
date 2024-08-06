@@ -15,7 +15,7 @@ import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Image } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
@@ -24,18 +24,21 @@ interface CourseBannerProps {
   courseById: number | null;
 }
 
-const CourseBanner = ({courseById}: CourseBannerProps) => {
+const CourseBanner = ({ courseById }: CourseBannerProps) => {
   const [editorData, setEditorData] = React.useState("");
   const [keyData, setKeyData] = React.useState("");
   const [image, setImage] = React.useState("");
   const navigate = useNavigate();
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
-  console.log("paramsTab", paramsTab);
+  const [selectBoxValue, setSelectBoxValue] = useState<any>({
+    description: "",
+    bannerImage: "",
+    keys: "",
+  });
 
   const schema = zod.object({
     description: zod
@@ -43,7 +46,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
       .min(1, "Information is required").max(250, "You can not write description more than 250 characters"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner Image is required"),
+      .min(1, "Banner Image is required").optional(),
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
       .min(1, "Key Outcomes is required").max(250, "You can not write description more than 250 characters"),
@@ -53,7 +56,8 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
+    watch
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "all",
@@ -61,8 +65,8 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
-    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
+    queryFn: () => fetchSingleCourseById(String(paramsversion)),
+    enabled: !!paramsversion,
   });
 
   useEffect(() => {
@@ -74,6 +78,11 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
         setKeyData(data?.keys || "");
         setImage(data?.bannerImage);
       });
+      setSelectBoxValue({
+        description: data?.description || "",
+        bannerImage: data?.bannerImage || "",
+        keys: data?.keys || ""
+      })
     }
   }, [getSingleCourse]);
 
@@ -106,6 +115,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
     onSuccess: (data) => {
       setImage(data.data?.data?.image);
       setValue("bannerImage", data?.data?.data?.image);
+      setSelectBoxValue({ ...selectBoxValue, bannerImage: data?.data?.data?.image });
     },
     onError: (error) => {
       console.log(error);
@@ -142,30 +152,40 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
   };
 
   const onSubmit = () => {
-    const payload = {
+    const basePayload = {
       description: editorData,
       bannerImage: image,
-      keys: keyData,
-      tab: "1",
-      step: "5"
+      keys: keyData
     };
-    if (+courseId) {   
-      updateCourseFun({
-        payload,
-        id: getSingleCourse?.data?.course?.id,
-        version: getSingleCourse?.data?.version,
-      });
+
+    const payload = watch("description") && watch("bannerImage") && watch("keys") && +courseId 
+    ? basePayload : params ? basePayload : { ...basePayload, tab: "1", step: "5" }
+
+    if (isDirty || selectBoxValue?.description !== editorData || selectBoxValue?.bannerImage !== image || selectBoxValue?.keys !== keyData) {
+      if (+courseId) {
+        updateCourseFun({
+          payload,
+          id: getSingleCourse?.data?.course?.id,
+          version: getSingleCourse?.data?.version,
+        });
+      } else {
+        create({
+          data: payload,
+          id: params || "",
+          paramsversion: "1" || "",
+        });
+      }
     } else {
-      create({
-        data: payload,
-        id: params || "",
-        paramsversion: "1" || "",
-      });
+      navigate(
+        `/${pathName}/create_course/${getSingleCourse?.data?.course?.id
+        }?tab=${1}&version=${getSingleCourse?.data?.id
+        }`,
+        {
+          replace: true,
+        }
+      );
     }
   };
-
-  console.log("errors:", errors);
-  
 
   return (
     <>
@@ -184,6 +204,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
                 {...register("description")}
                 onChange={(e, data) => {
                   console.log(e);
+                  setSelectBoxValue({ ...selectBoxValue, description: e });
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}
@@ -255,6 +276,7 @@ const CourseBanner = ({courseById}: CourseBannerProps) => {
                 value={keyData}
                 onChange={(e, data) => {
                   console.log("e", e);
+                  setSelectBoxValue({ ...selectBoxValue, keys: e });
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}

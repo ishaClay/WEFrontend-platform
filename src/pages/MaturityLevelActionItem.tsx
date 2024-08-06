@@ -14,8 +14,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 function MaturityLevelActionItem() {
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
@@ -40,7 +44,14 @@ function MaturityLevelActionItem() {
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
       localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
-      navigate("/company/coursesrecommended");
+      dispatch(
+        setPath([
+          {
+            label: "Recommended Course",
+            link: `/${Role}/coursesrecommended`,
+          },
+        ])
+      );
     },
   });
 
@@ -75,7 +86,6 @@ function MaturityLevelActionItem() {
       status: "pending",
     },
   ];
-
   return (
     <div>
       <Header />

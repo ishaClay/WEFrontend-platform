@@ -35,6 +35,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const GridView = ({
   list,
@@ -43,6 +45,7 @@ const GridView = ({
   list: AllCoursesResult[];
   isLoading?: boolean;
 }) => {
+  const dispatch = useAppDispatch();
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -56,7 +59,8 @@ const GridView = ({
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const pathName = location?.pathname?.split("/")?.[1];
+  const Role = location?.pathname?.split("/")?.[1];
+  const pathName = location?.pathname?.split("/")?.[2];
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -213,11 +217,19 @@ const GridView = ({
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${0}&step=${0}&version=${
-            item?.currentVersion?.id
-          }`
-        );
+        if(+item?.step === 5){
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${
+              item?.currentVersion?.id
+            }`
+          );
+        }else {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+              item?.currentVersion?.id
+            }`
+          );
+        }
       } else {
         createNewVersionFun({
           courseId: item?.id,
@@ -279,7 +291,16 @@ const GridView = ({
 
             return (
               <Link
-                to={`/${pathName}/employee-basic-course/${item?.currentVersion?.id}`}
+              to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    { label: "Course Management", link: null },
+                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                    { label: "Employee Basic Course", link: null },
+                  ])
+                )
+              }
                 key={i}
                 className="border border-[#ddd] rounded-[10px] overflow-hidden"
               >

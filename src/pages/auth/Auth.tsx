@@ -16,14 +16,14 @@ import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 function Auth() {
   const { toast } = useToast();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -44,7 +44,6 @@ function Auth() {
   });
 
   const handleRedirect = (path: number, data: any) => {
-    console.log(path, "path", data);
     switch (path) {
       case 1:
         navigate("/savedassesment");
@@ -103,7 +102,7 @@ function Auth() {
         // dispatch(setUserData(user.id));
         // localStorage.setItem("token", data.data.data.accessToken);
 
-        // navigate("/savedassesment");        
+        // navigate("/savedassesment");
         dispatch(setUserData(user.id));
         dispatch(setClientRole(+user.role));
         localStorage.setItem("user", JSON.stringify(data.data.data));

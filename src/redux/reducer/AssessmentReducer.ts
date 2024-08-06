@@ -3,11 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AssessmentState {
   selectedQuestionType: string[];
   questionOption: any[];
+  module: any[];
 }
 
 const initialState: AssessmentState = {
   selectedQuestionType: [],
   questionOption: [],
+  module: [],
 };
 
 const AssessmentSlice = createSlice({

@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { List, NotepadText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const CourseLiveSession = () => {
   const search = window.location.search;
@@ -13,7 +15,7 @@ const CourseLiveSession = () => {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-
+  const dispatch = useAppDispatch();
   const changeView = (id: number) => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
@@ -34,7 +36,18 @@ const CourseLiveSession = () => {
           <div className="flex items-center gap-7">
             <Button
               className={`bg-[#00778B] uppercase text-base`}
-              onClick={() => navigate(`/${currentUser}/schedule-live-session`)}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    { label: "Course Managment", link: null },
+                    { label: "Live Session", link: `/${currentUser}/CourseLiveSession` },
+                    {
+                      label: "schedule-live-session",
+                      link: `/${currentUser}/schedule-live-session`,
+                    },
+                  ])
+                );
+              }}
             >
               Add New
             </Button>
@@ -59,6 +72,7 @@ const CourseLiveSession = () => {
       )}
 
       {params === "0" || !params ? (
+        
         <div className="">
           <LiveSessionsCalendar allLiveSession={allLiveSession?.data?.data} />
         </div>

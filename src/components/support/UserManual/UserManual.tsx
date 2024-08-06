@@ -1,17 +1,14 @@
 import Loader from "@/components/comman/Loader";
 import Paginations from "@/components/comman/Pagination";
 import { QUERY_KEYS } from "@/lib/constants";
-import { RootState } from "@/redux/store";
 import { fetchDocument } from "@/services/apiServices/Document";
 import { UserManualResponse } from "@/types/userManual";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import UserManualList from "./UserManualList";
 const UserManual = () => {
   const [page, setPage] = useState(1);
-  const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData ? userData?.query?.role : null;
   const Role =
@@ -28,13 +25,10 @@ const UserManual = () => {
     queryFn: () =>
       fetchDocument({
         page: page,
-        userId: UserId.toString(),
         role: +Role,
         keyword: "",
       }),
   });
-
-  console.log("userManual_List", userManual_List);
 
   return (
     <div className="bg-white rounded-md">

@@ -35,11 +35,10 @@ const ModuleCourseViewCardItems = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      console.log("data", data);
       setViewDocument(true);
       setDocumentFile(list?.url ? list?.url : list?.uploadContent);
     },

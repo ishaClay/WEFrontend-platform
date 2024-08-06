@@ -34,9 +34,6 @@ export const DatePicker = ({
   disabled = false,
 }: DatePickerProps) => {
   // const [date, setDate] = React.useState<Date>();
-
-  console.log("date", date);
-
   return (
     <div className="flex flex-col">
       <Label className={cn("text-md font-normal font-calibri", labelClassName)}>

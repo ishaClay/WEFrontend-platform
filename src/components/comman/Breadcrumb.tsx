@@ -2,47 +2,70 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-interface BreadcrumbData {
-  label: string;
-  link?: string;
-}
-
-export function BreadcrumbWithCustomSeparator({
-  breadcrumbData,
-}: {
-  breadcrumbData: BreadcrumbData[];
-}) {
+export function BreadcrumbWithCustomSeparator() {
+  const { paths } = useSelector((state: RootState) => state.path);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (paths[paths?.length - 1]?.link) {
+      navigate(paths[paths.length - 1].link);
+    }
+  }, [paths]);
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {breadcrumbData.map((item, index) => (
-          <BreadcrumbItem key={index}>
-            {item.link ? (
-              <>
-                <BreadcrumbItem>
-                  <Link
-                    className="font-calibri text-[16px] capitalize"
-                    to={item.link}
-                  >
-                    {item.label}
-                  </Link>
+        {paths?.map((item, index: number) => {
+          return (
+            <BreadcrumbItem key={index}>
+              {item.link ? (
+                <>
+                  <BreadcrumbItem>
+                    {index > 0 && " / "}
+                    {
+                      <Link
+                        className={`${
+                          index === paths?.length - 1 && index > 0
+                            ? " "
+                            : "text-[#000000]"
+                        } font-Nunito font-sans capitalize font-medium`}
+                        to={item.link}
+                        onClick={() =>
+                          dispatch(
+                            setPath(
+                              paths?.filter((_, i: number) => {
+                                return i <= index;
+                              })
+                            )
+                          )
+                        }
+                      >
+                        {item.label}
+                      </Link>
+                    }
+                  </BreadcrumbItem>
+                </>
+              ) : (
+                <BreadcrumbItem
+                  className={`${
+                    index === paths?.length - 1 && index > 0
+                      ? "text-[#00778B] font-medium"
+                      : "text-[#000000]"
+                  } font-Nunito font-sans capitalize font-medium`}
+                >
+                  {index > 0 && " / "} {item.label}
                 </BreadcrumbItem>
-                <BreadcrumbSeparator className="font-calibri text-[16px]">
-                  /
-                </BreadcrumbSeparator>
-              </>
-            ) : (
-              <BreadcrumbPage className="font-calibri text-[16px] capitalize">
-                {item.label}
-              </BreadcrumbPage>
-            )}
-          </BreadcrumbItem>
-        ))}
+              )}
+            </BreadcrumbItem>
+          );
+        })}
       </BreadcrumbList>
     </Breadcrumb>
   );

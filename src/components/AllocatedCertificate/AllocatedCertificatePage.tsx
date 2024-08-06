@@ -1,29 +1,32 @@
-import { QUERY_KEYS } from "@/lib/constants";
-import { IssuedCertificateList } from "@/services/apiServices/certificate";
-import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
-import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
-import moment from "moment";
-import { useState } from "react";
-import Loader from "../comman/Loader";
-import { NewDataTable } from "../comman/NewDataTable";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { NewDataTable } from "../comman/NewDataTable";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { IssuedCertificateList } from "@/services/apiServices/certificate";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Loader from "../comman/Loader";
+import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
+import { useEffect, useState } from "react";
+import moment from "moment";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { useNavigate } from "react-router-dom";
 
 const AllocatedCertificatePage = () => {
+  const dispatch = useAppDispatch();
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<certificateDataEntity[]>([]);
   const [page, setPage] = useState(1);
-  const [keyword, setKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
-    queryKey: [QUERY_KEYS.issuedCertificate, { page, keyword }],
+    queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
     queryFn: () =>
-      IssuedCertificateList({ id: userData?.query?.id, page, keyword }),
+      IssuedCertificateList({ id: userData?.query?.id, page, search }),
   });
-
   const column: ColumnDef<certificateDataEntity>[] = [
     {
       accessorKey: "id",
@@ -53,18 +56,23 @@ const AllocatedCertificatePage = () => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center font-bold px-3">
             <Avatar>
-              <AvatarImage src={row.original?.employee?.profileImage || ""} />
-              <AvatarFallback className="uppercase" delayMs={600}>
-                {row.original?.employee?.name?.charAt(0) ||
-                  row.original.employee?.email?.split("@")[0].charAt(0)}
+              <AvatarImage
+                src={row?.original?.employee?.profileImage || undefined}
+                alt="Img"
+              />
+              <AvatarFallback>
+                {row?.original?.employee?.name
+                  ? row?.original?.employee?.name?.charAt(0)
+                  : row?.original?.employee?.email?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <h6 className="2xl:text-[15px] text-xs font-inter text-black">
-              {row.original?.employee?.name ||
-                row.original.employee?.email?.split("@")[0]}
-            </h6>
+
+            <p className={`font-bold px-3`}>
+              {row?.original?.employee?.name ||
+                row?.original?.employee?.email?.split("@")[0]}
+            </p>
           </div>
         );
       },
@@ -81,7 +89,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2 2xl:leading-6 leading-4 2xl:w-[70%] w-full">
-            {row.original?.course?.title}
+            {row?.original?.course?.title}
           </h6>
         );
       },
@@ -115,7 +123,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {moment(new Date(row?.original?.createdAt || "")).format(
+            {moment(new Date(row?.original?.employee?.createdAt || "")).format(
               "DD/MM/YYYY"
             )}
           </h6>
@@ -134,12 +142,13 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <div className="">
-            {row.original?.status === 1 ? (
-              <Button className="bg-[#58BA66] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
-                Issued
+            {row?.original?.certificatePdf &&
+            row?.original?.employee?.createdAt ? (
+              <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 2xl:text-sm text-xs">
+                {row.original?.employee?.status}
               </Button>
             ) : (
-              <Button className="bg-[#FFA25E] w-[100px] px-4 2xl:h-8 h-7 text-[14px] font-inter">
+              <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 2xl:text-sm text-xs ">
                 Pending
               </Button>
             )}
@@ -158,21 +167,63 @@ const AllocatedCertificatePage = () => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-3">
-            {row.original?.status === 1 ? (
-              <Eye className="cursor-pointer text-[#A3A3A3]" width={18} />
+          <div className="flex gap-2 items-center">
+            <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
+            {row?.original?.certificatePdf && row?.original?.createdAt ? (
+              <Button
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Certificate Management",
+                        link: null,
+                      },
+                      {
+                        label: "Certificate Allocation",
+                        link: "/allocated-certificate",
+                      },
+                      {
+                        label: "Issued Certificate",
+                        link: `allocateEmploye/${row?.original?.employee?.id}`,
+                      },
+                    ])
+                  )
+                }
+              >
+                <Eye
+                  className="mx-2 cursor-pointer text-[#A3A3A3]"
+                  width={18}
+                />
+              </Button>
             ) : (
               <FileSliders
                 className="cursor-pointer text-[#A3A3A3]"
                 width={18}
               />
             )}
-            <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
           </div>
         );
       },
     },
   ];
+  useEffect(() => {
+    if (Issued_Certificate?.data && Array.isArray(Issued_Certificate.data)) {
+      const filteredData = Issued_Certificate.data.filter(
+        (item: certificateDataEntity) => {
+          return (
+            item.employee?.name
+              ?.toLowerCase()
+              ?.includes(search?.toLowerCase()) ||
+            item.employee?.email
+              ?.toLowerCase()
+              ?.includes(search?.toLowerCase()) ||
+            item.course?.title?.toLowerCase()?.includes(search?.toLowerCase())
+          );
+        }
+      );
+      setFilteredData(filteredData);
+    }
+  }, [search, Issued_Certificate?.data]);
 
   return (
     <div className="bg-white rounded-lg">
@@ -197,32 +248,33 @@ const AllocatedCertificatePage = () => {
 
       <div className="p-5">
         <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] px-4 2xl:py-3 py-2 rounded-lg">
-          <Search className="text-[#A3A3A3]" width={180} />
+          <Search className="text-[#A3A3A3]" width={18} />
           <input
-            className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3 w-full"
+            value={search}
+            className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
             placeholder="Search by name, course name, certificate name, etc."
-            onChange={(e) => {
-              setKeyword(e.target.value);
-            }}
-          />
+            onChange={(e) => setSearch(e.target.value)}
+          ></input>
         </div>
       </div>
-
-      <div className="">
-        {isPending ? (
-          <Loader />
-        ) : (
-          <NewDataTable
-            columns={column}
-            data={Issued_Certificate?.data || []}
-            totalPages={0}
-            setPage={setPage}
-            pagination={{ pageIndex: page, pageSize: 10 }}
-            inputbox={false}
-            itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
-          />
-        )}
-      </div>
+      {isPending ? (
+        <span className="flex justify-center items-center py-10">
+          <Loader className="w-5 h-5 animate-spin" />
+        </span>
+      ) : (
+        <>
+          <div className="">
+            <NewDataTable
+              columns={column}
+              data={filteredData || []}
+              setPage={setPage}
+              inputbox={false}
+              pagination={{ pageIndex: page, pageSize: 10 }}
+              itemClassName="flex sm:flex-row flex-col sm:space-y-0 space-y-4"
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

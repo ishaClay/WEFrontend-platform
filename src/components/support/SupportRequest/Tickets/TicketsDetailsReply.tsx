@@ -14,7 +14,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchAssignTo,
   getSingleSupportTicket,
@@ -27,12 +29,12 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 
 const TicketsDetailsReply = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const Role = location.pathname.split("/")[1];
   const [playVideo, setPlayVideo] = useState(false);
   const { clientId } = useSelector((state: any) => state?.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -41,11 +43,9 @@ const TicketsDetailsReply = () => {
     queryKey: [QUERY_KEYS.courseTopFive, id],
     queryFn: () => getSingleSupportTicket(id as string),
   });
-  console.log("id======", id);
-
+  const dispatch = useAppDispatch();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const navegate = useNavigate();
   const [selectAssingValue, setSelectAssingValue] = useState("");
   const [selectTicketStatus, setSelectTicketStatus] = useState("");
 
@@ -58,7 +58,6 @@ const TicketsDetailsReply = () => {
     queryKey: [QUERY_KEYS.getSingleSupportTicket, { id }],
     queryFn: () => getSingleSupportTicket(id as string),
   });
-
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select this field" }),
     ticketStatus: z.string({ required_error: "Please enter ticket status" }),
@@ -102,7 +101,12 @@ const TicketsDetailsReply = () => {
         variant: "default",
         title: "Ticket Updated Successfully",
       });
-      navegate(-1);
+      dispatch(
+        setPath([
+          { label: "Support ", link: null },
+          { label: "Support Request", link: `/${Role}/support-request` },
+        ])
+      );
       reset();
     },
   });
@@ -148,7 +152,14 @@ const TicketsDetailsReply = () => {
         <h2 className="font-[700] text-[16px]">Ticket Details</h2>
         <Button
           className="bg-transparent hover:bg-transparent text-black font-semibold text-[16px]"
-          onClick={() => navigate(-1)}
+          onClick={() =>
+            dispatch(
+              setPath([
+                { label: "Support ", link: null },
+                { label: "Support Request", link: `/${Role}/support-request` },
+              ])
+            )
+          }
         >
           <IoIosArrowRoundBack size={26} className="mr-4" />
           Back

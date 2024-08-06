@@ -13,7 +13,7 @@ import {
 } from "@/types/MaturityLavel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import PillerCard from "./PillerCard";
 
 const SetTarget = ({
@@ -24,7 +24,7 @@ const SetTarget = ({
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const pillars = useAppSelector((state) => state.pillar?.maturitypillar);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -49,8 +49,6 @@ const SetTarget = ({
       enabled: true,
     }
   );
-
-  console.log("checkedStates", checkedStates);
 
   const path = 5 + 1;
   const { mutate: EnumUpadate } = useMutation({
@@ -83,7 +81,6 @@ const SetTarget = ({
     }
   }, [dispatch, maturitypillar?.data]);
 
-  // console.log(actionItems)
 
   const handleSelect = () => {
     EnumUpadate();

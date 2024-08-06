@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import * as Zod from "zod";
 import CustomTabInput from "../comman/CustomTabInput";
 import ErrorMessage from "../comman/Error/ErrorMessage";
@@ -13,18 +12,21 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const schema = Zod.object({
-  email: Zod.string({ message: "Please enter invitation detail" }).min(1, {
-    message: "Please enter Email",
+  email: Zod.string({ message: "Email is required" }).min(1, {
+    message: "Email is required",
   }),
-  details: Zod.string({ message: "Please enter invitation detail" }).min(1, {
-    message: "Please enter invitation detail",
+  details: Zod.string({ message: "Invitation detail is required" }).min(1, {
+    message: "Invitation detail is required",
   }),
 });
 const TrainerInvitation = () => {
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const [emails, setEmails] = useState<string[]>([]);
-  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const id = userData?.query?.detailsid;
 
@@ -40,8 +42,6 @@ const TrainerInvitation = () => {
     mode: "all",
   });
   const url = window.location.origin;
-
-  console.log("url", url);
 
   useEffect(() => {
     if (emails.length > 0) {
@@ -66,10 +66,19 @@ const TrainerInvitation = () => {
           description: data?.message,
           variant: "success",
         });
-        navigate("/trainer/trainer-management");
         setEmails([]);
         reset();
+        dispatch(
+          setPath([
+            {
+              label: "Trainer Management",
+              link: `/${Role}/trainer-management`,
+            },
+          ])
+        );
       }
+      setEmails([]);
+      reset();
     },
     onError: (error) => {
       toast({
@@ -108,7 +117,16 @@ const TrainerInvitation = () => {
         <Button
           type="button"
           variant={"ghost"}
-          onClick={() => navigate("/trainer/trainer-management")}
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: "Trainer Managment",
+                  link: `/${Role}/trainer-management`,
+                },
+              ])
+            );
+          }}
           className="gap-4 font-nunito text-[16px]"
         >
           <MoveLeft className="text-[#0f170d]" /> Back

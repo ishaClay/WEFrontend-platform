@@ -7,7 +7,7 @@ import { SingleCourseEmployeeResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft } from "lucide-react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Modal from "../comman/Modal";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -15,16 +15,16 @@ import Feedback from "./feedback";
 import Information from "./Information";
 import Module from "./Module";
 import ReviewModal from "./ReviewModal";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
-  console.log("location", courseById);
-
+  const dispatch = useAppDispatch();
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () => fetchSingleCourse(courseById),
@@ -46,7 +46,6 @@ const EmployeeBasicCourse = () => {
     userData?.query?.role !== "4"
       ? getSingleCourse?.data
       : fetchEmployeeSingeCourse?.data;
-  console.log("getSingleCourse", fetchEmployeeSingeCourse, getSingleCourse);
 
   return (
     <>
@@ -98,8 +97,27 @@ const EmployeeBasicCourse = () => {
                 </div>
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
                   <div
-                    className="flex pr-5 cursor-pointer"
-                    onClick={() => navigate(-1)}
+                    className="flex pr-5 cursor-pointer text-black"
+                    onClick={() =>
+                      pathName !== "employee"
+                        ? dispatch(
+                            setPath([
+                              { label: "Course Management", link: null },
+                              {
+                                label: "All Course",
+                                link: `/${pathName}/allcourse`,
+                              },
+                            ])
+                          )
+                        : dispatch(
+                            setPath([
+                              {
+                                label: "My course",
+                                link: `/${pathName}/mycourses`,
+                              },
+                            ])
+                          )
+                    }
                   >
                     <MoveLeft />
                     <span className="text-base font-semibold pl-4">Back</span>

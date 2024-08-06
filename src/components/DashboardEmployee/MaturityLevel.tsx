@@ -35,7 +35,6 @@ const MaturityLevel = () => {
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
-  console.log("assessmant", fetchClientmaturitylevel?.data);
 
   const { data: allassessmant } = useQuery({
     queryKey: [QUERY_KEYS.totalAssessment],
@@ -53,7 +52,6 @@ const MaturityLevel = () => {
     fetchClientmaturitylevel &&
     findMaturityLevel(Number(setScore), fetchClientmaturitylevel?.data);
 
-  console.log("setScore", setScore);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -109,7 +107,6 @@ const MaturityLevel = () => {
   const Labels = () => (
     <div className="left-0 top-0 h-full md:flex block items-center gap-5">
       {fetchClientmaturitylevel?.data?.map((label, index) => {
-        console.log("labellabel", label);
         return (
           <div key={index} className="flex items-center relative mt-4">
             <div

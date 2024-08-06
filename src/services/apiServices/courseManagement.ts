@@ -64,7 +64,6 @@ export const fetchCourseAllCourse = async (
     params["status"] = status;
   }
   const res = await api({ url, params });
-  console.log("res=====>", res.data);
 
   return res.data;
 };

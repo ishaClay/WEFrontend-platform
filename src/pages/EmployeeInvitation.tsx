@@ -28,7 +28,7 @@ const EmployeeInvitation = () => {
   const [emails, setEmails] = useState<string>("");
   const [file, setFile] = useState("");
   const handleBackClick = () => {
-    navigate("/company/employeelist");
+      navigate("/company/employeelist");
   };
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const CompanyID = CompanyId
@@ -75,6 +75,7 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
+   
     const payload: EmployeePayload = {
       email: [emails],
       csvUrl: data?.file,

@@ -37,7 +37,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
         return isSessionOngoingAtTime(
           session.date,
           session.startTime + " " + session.startAmPm,
-          session.sessionDuration
+          session?.sessionDuration
         );
       case "ending":
         return (
@@ -45,7 +45,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
           !isSessionOngoingAtTime(
             session.date,
             session.startTime + " " + session.startAmPm,
-            session.sessionDuration
+            session?.sessionDuration
           )
         );
       default:

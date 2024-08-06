@@ -1,26 +1,30 @@
 import star from "@/assets/images/Vector.png";
 import { cn } from "@/lib/utils";
 import { getTrainer } from "@/services/apiServices/trainer";
-import { DataEntity, TrainerStatus, TrainersResponse } from "@/types/Trainer";
+import { DataEntity, TrainerStatus } from "@/types/Trainer";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Eye, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import search from "../../assets/images/search.svg";
 import Input from "../comman/Input/Input";
 import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { ConfirmModal } from "../comman/ConfirmModal";
 
 const TrainerManagement = () => {
   const [page, setPage] = useState(1);
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   const limit = 10;
   const [searchValue, setSearchValue] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const id = userData?.query?.detailsid;
-  const navigate = useNavigate();
+  const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
   const colums: ColumnDef<DataEntity>[] = [
     {
       accessorKey: "id",
@@ -192,11 +196,20 @@ const TrainerManagement = () => {
           <div className="flex items-center 2xl:gap-[12px] gap-[7px]">
             <Button
               variant={"ghost"}
-              onClick={() =>
-                navigate(
-                  `/trainer/trainer-management/details/${row?.original?.id}`
-                )
-              }
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+                    {
+                      label: "View Trainer Details",
+                      link: `/${Role}/trainer-management/details/${row?.original?.id}`,
+                    },
+                  ])
+                );
+              }}
               className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Eye className="text-[#A3A3A3] w-5" />
@@ -204,16 +217,26 @@ const TrainerManagement = () => {
             <Button
               variant={"ghost"}
               type="button"
-              onClick={() =>
-                navigate(
-                  `/trainer/trainer-management/edit/${row?.original?.id}`
-                )
-              }
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Trainer Managment",
+                      link: `/${Role}/trainer-management`,
+                    },
+                    {
+                      label: "Edit Trainer Details",
+                      link: `/${Role}/trainer-management/edit/${row?.original?.id}`,
+                    },
+                  ])
+                );
+              }}
               className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
               <Pencil className="text-[#A3A3A3] w-4 h-4" />
             </Button>
             <Button
+              onClick={() => setOpenDelete(row?.original)}
               variant={"ghost"}
               className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
             >
@@ -228,11 +251,13 @@ const TrainerManagement = () => {
     },
   ];
 
-  const { data, isPending } = useQuery<TrainersResponse>({
+  const { data, isPending } = useQuery({
     queryKey: ["trainer", { page, limit, searchValue, id }],
     queryFn: () => getTrainer({ page, limit, keyword: searchValue, id }),
   });
-
+  const handleDelete = () => {
+    data(openDelete?.id);
+  };
   return (
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
@@ -247,7 +272,21 @@ const TrainerManagement = () => {
         </div>
         <Button
           type="button"
-          onClick={() => navigate("/trainer/trainer-management/invitation")}
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: "Trainer Managment",
+                  link: `/${Role}/trainer-management`,
+                },
+
+                {
+                  label: "Invitation",
+                  link: `/${Role}/trainer-management/invitation`,
+                },
+              ])
+            );
+          }}
           className="bg-[#00778B] font-nunito sm:px-5 px-4 sm:text-base text-sm md:mt-0 mt-3"
         >
           INVITE TRAINER
@@ -285,6 +324,13 @@ const TrainerManagement = () => {
           />
         )}
       </div>
+      <ConfirmModal
+        open={!!openDelete}
+        onClose={() => setOpenDelete(null)}
+        onDelete={() => handleDelete}
+        value={openDelete?.name || ""}
+        isLoading={isPending}
+      />
     </div>
   );
 };

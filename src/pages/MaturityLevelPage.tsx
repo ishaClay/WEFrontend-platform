@@ -87,9 +87,6 @@ const MaturityLevelPage = () => {
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
-
-  console.log("fetchClientmaturitylevel", fetchClientmaturitylevel);
-
   const handleMaturity = () => {
     EnumUpadate(path);
     navigate("/selectlevel");
@@ -103,8 +100,6 @@ const MaturityLevelPage = () => {
 
   const setScore = isNaN(Number(score)) ? 0 : score;
   const currentLavel = findMaturityLevel(Number(setScore));
-
-  console.log("setScore", setScore);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],

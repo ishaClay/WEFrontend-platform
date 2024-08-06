@@ -1,5 +1,5 @@
 export interface AllLivesessions {
-  id: number;
+  id: string;
   liveSecTitle: string;
   subtitle: string;
   liveSecinformation: string;

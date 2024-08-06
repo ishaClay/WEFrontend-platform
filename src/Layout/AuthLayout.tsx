@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import { UserRole } from "@/types/UserRole";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -11,7 +12,7 @@ const AuthLayout = () => {
 
   useEffect(() => {
     if (userToken) {
-      navigate("/dashboard");
+      navigate(`/${UserRole[user?.query?.role]}/dashboard`);
     }
     //   else if (location.pathname !== "/resetpassword") {
     //     navigate("/auth");

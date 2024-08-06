@@ -54,15 +54,12 @@ const schema = zod
   );
 
 type FormData = zod.infer<typeof schema>;
-// setStep: (e: string) => void;
 interface CourseInformationProps {
-  setStep: (e: string) => void;
   courseById: number | null;
   setCourseById: (e: number) => void;
 }
 
 const CourseInformation = ({
-  setStep,
   courseById,
   setCourseById,
 }: CourseInformationProps) => {
@@ -109,8 +106,6 @@ const CourseInformation = ({
         variant: "success",
       });
       console.log("success", data?.data?.data);
-      
-      setStep(data?.data?.data?.step?.toString());
       setCourseById(data?.data?.data?.id);
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.course?.tab}&step=${data?.data?.data?.course?.step}&id=${
@@ -138,7 +133,6 @@ const CourseInformation = ({
         description: data?.data?.message,
         variant: "success",
       });
-      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : data?.data?.data?.id
@@ -166,8 +160,8 @@ const CourseInformation = ({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
     queryFn: () =>
       fetchSingleCourseById(String(paramsVersion)),
-    enabled: !!paramsVersion,
-  });
+      enabled: !!paramsVersion,
+  });  
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -183,8 +177,11 @@ const CourseInformation = ({
     }
   }, [getSingleCourse, setValue]);
 
+  console.log("asdasd", watch());
+  
+
   const onSubmit = (formdata: FieldValues) => {
-    const payload = {
+    const basePayload = {
       title: formdata?.title,
       institute: formdata?.institute,
       instituteWebsite: formdata?.instituteWebsite,
@@ -195,10 +192,11 @@ const CourseInformation = ({
       discout: provideDisc ? 1 : 0,
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
-      userId: userID,
-      tab: "0",
-      step: "1",
+      userId: userID
     };
+
+    const payload = watch("title") && watch("institute") && watch("instituteWebsite") && watch("freeCourse") && watch("price") && +courseId 
+    ? basePayload : paramsId ? basePayload : {...basePayload, tab: "0", step: "1"}
 
     if(isDirty){
       if (+courseId || paramsId) {
@@ -210,6 +208,19 @@ const CourseInformation = ({
       } else {
         mutate(payload);
       }
+    } else {
+      console.log("payload");
+      
+      navigate(
+        `/${pathName}/create_course/${
+          getSingleCourse?.data?.course?.id
+        }?tab=${0}&step=${1}&version=${
+          getSingleCourse?.data?.id
+        }`,
+        {
+          replace: true,
+        }
+      );
     }
   };
 

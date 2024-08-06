@@ -29,8 +29,6 @@ const FaqsList = () => {
     queryFn: () => fetchFaqs(Role),
   });
 
-  console.log("faqs_list", faqs_list, isPending);
-
   return (
     <div className="bg-white rounded-xl">
       <div className="border-b border-[#D9D9D9] p-5">

@@ -1,5 +1,5 @@
 import { SidebarContext } from "@/context/Sidebarcontext";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut } from "@/services/apiServices/authService";
 import { fetchChatUserList } from "@/services/apiServices/chatServices";
@@ -17,6 +17,7 @@ import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 interface SidebarItem {
   label: string;
@@ -30,6 +31,7 @@ interface SidebarItem {
 
 const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const { UserId } = useAppSelector((state) => state?.user);
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -56,11 +58,22 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (location.pathname.includes("dashboard")) {
+      dispatch(
+        setPath([
+          { label: `Dashboard`, link: null },
+        ])
+      );
+    }
+  }, [location.pathname])
+
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -115,7 +128,17 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                     {sidebarOpen && (
                       <Link
                         to={item.link}
-                        onClick={() => toggleDropdown(item.children, index)}
+                        onClick={() => {
+                          toggleDropdown(item.children, index);
+                          {
+                            item?.children.length === 0 &&
+                              dispatch(
+                                setPath([
+                                  { label: `${item.label}`, link: null },
+                                ])
+                              );
+                          }
+                        }}
                         className={`relative group flex items-center ${
                           sidebarOpen ? "justify-between" : "justify-center"
                         } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
@@ -150,7 +173,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                       (item.children?.length === 0 ? (
                         <Link
                           to={item.link}
-                          onClick={() => toggleDropdown(item.children, index)}
+                          onClick={() => {
+                            toggleDropdown(item.children, index);
+                          }}
                           className={`relative group flex items-center ${
                             sidebarOpen ? "justify-between" : "justify-center"
                           } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
@@ -182,9 +207,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         </Link>
                       ) : (
                         <Popover
-                          onOpenChange={() =>
-                            toggleDropdown(item.children, index)
-                          }
+                          onOpenChange={() => {
+                            toggleDropdown(item.children, index);
+                          }}
                           open={isOpen[`bar${index + 1}`]}
                         >
                           <PopoverTrigger
@@ -217,9 +242,17 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                                   >
                                     <Link
                                       to={child.link}
-                                      onClick={() =>
-                                        toggleDropdown(item.children, index)
-                                      }
+                                      onClick={() => {
+                                        toggleDropdown(item.children, index);
+                                        dispatch(
+                                          setPath([
+                                            {
+                                              label: `${item.children[index]?.label}`,
+                                              link: `${item.children[index]?.link}`,
+                                            },
+                                          ])
+                                        );
+                                      }}
                                     >
                                       {child.label}
                                     </Link>
@@ -243,7 +276,25 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                               }`}
                               key={childIndex}
                             >
-                              <Link to={child.link}>{child.label}</Link>
+                              <Link
+                                to={child.link}
+                                onClick={() =>
+                                  dispatch(
+                                    setPath([
+                                      {
+                                        label: `${item.label}`,
+                                        link: null,
+                                      },
+                                      {
+                                        label: `${child?.label}`,
+                                        link: `${child?.link}`,
+                                      },
+                                    ])
+                                  )
+                                }
+                              >
+                                {child.label}
+                              </Link>
                             </li>
                           ))}
                         </ul>

@@ -30,8 +30,6 @@ function SavedAssesment() {
     queryFn: () => getPillerWiseProgress(clientId, userID),
   });
 
-  console.log(data?.data);
-
   // const { data: pillarList } = useQuery({
   //   queryKey: [QUERY_KEYS.pillarList],
   //   queryFn: () => fetchClientwisePillarList(clientId),
@@ -52,8 +50,6 @@ function SavedAssesment() {
 
   const handleAssesment = () => {
     const pathStatus = enums?.data.data.pathStatus;
-
-    console.log(pathStatus);
 
     switch (pathStatus) {
       case 1:

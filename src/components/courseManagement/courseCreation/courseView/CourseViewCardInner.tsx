@@ -96,13 +96,6 @@ const CourseViewCardInner = ({
     })
     .superRefine((data, ctx) => {
       if (data.isLive) {
-        console.log(
-          "livesessionDuration",
-          !data.livesessionDuration?.hour ||
-            !data.livesessionDuration?.minute ||
-            !data.livesessionDuration?.second
-        );
-
         if (
           !data.livesessionDuration?.hour &&
           !data.livesessionDuration?.minute &&
@@ -195,7 +188,7 @@ const CourseViewCardInner = ({
 
   useEffect(() => {
     // This effect runs after getCourseCardList state has been updated
-    console.log("getCourseCardListgetCourseCardList", getCourseCardList);
+
     latestCourseCardList.current = getCourseCardList; // update ref to latest state
     handelSectionPosition();
   }, [getCourseCardList]);
@@ -356,8 +349,6 @@ const CourseViewCardInner = ({
     }
   };
 
-  console.log("getCourseCardList +++++++++++++", getCourseCardList);
-
   return (
     <div
       className=""
@@ -375,8 +366,7 @@ const CourseViewCardInner = ({
       }}
     >
       <div>
-        {getCourseCardList?.map((data: any, index: number) => {
-          console.log("data===>", data);
+        {getCourseCardList.map((data: any, index: number) => {
 
           return (
             <>

@@ -20,6 +20,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 
 const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
@@ -31,9 +33,11 @@ const AllCourses = () => {
   const location = useLocation();
   const [searchKeyword, setSearchKeyword] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const dispatch = useAppDispatch();
   const changeList = (id: number) => {
     navigate(`${location?.pathname}?list=${id}`, { replace: true });
   };
+  const Role = location.pathname.split("/")[1];
 
   const {
     data: fetchCourseAllCourseData,
@@ -73,13 +77,25 @@ const AllCourses = () => {
               <div>
                 <Button
                   type="button"
-                  onClick={() =>
-                    navigate(
-                      `/${
-                        location?.pathname?.split("/")?.[1]
-                      }/create_course?tab=0&step=0&version=1`
-                    )
-                  }
+                  onClick={() => {
+                  {  dispatch(
+                      setPath([
+                        {
+                          label: "Course Management",
+                          link: null,
+                        },
+                        {
+                          label: "All Course",
+                          link: `/${Role}/allcourse`,
+                        },
+                        {
+                          label: "Create Course",
+                          link: null,
+                        },
+                      ])
+                    ); navigate(`/${Role}/create_course/tab=0&step=0&version=null`)}
+                  }}
+                
                   className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
                 >
                   ADD NEW COURSE

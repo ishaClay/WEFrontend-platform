@@ -54,8 +54,6 @@ interface UserMaturityLevelEntity {
 }
 
 const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
-  console.log("data", data);
-
   return (
     <div className="mb-5">
       <div className="w-full border border-[#D9D9D9] rounded-xl">
@@ -113,8 +111,6 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
           </div>
         </div>
         {data?.measures?.map((item: any) => {
-          console.log("item", item);
-
           return (
             <>
               <div className="sm:py-[23px] sm:px-5 p-[15px] border-b border-[#D9D9D9] last:border-b-0">

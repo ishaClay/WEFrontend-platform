@@ -27,7 +27,6 @@ import { utils, writeFileXLSX } from "xlsx";
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
-  console.log("++++++++++", Role);
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [selectAssessment, setSelectAssessment] = useState<string>();

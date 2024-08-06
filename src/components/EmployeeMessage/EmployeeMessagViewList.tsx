@@ -30,8 +30,6 @@ const EmployeeMessagViewList = () => {
     queryFn: () => fetchChatUserList(userID.toString() as string),
   });
 
-  console.log("chatUserList", chatUserList?.data?.data);
-
   const { mutate: updatemessage } = useMutation({
     mutationFn: (data: {
       userId1: number | string;

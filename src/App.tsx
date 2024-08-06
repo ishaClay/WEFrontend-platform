@@ -196,8 +196,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/employee_register" element={<Register />} />
-        <Route path="/inviteRegister" element={<RegisterTrainee />} />
+        <Route path="/employee_register" element={<RegisterTrainee />} />
+        <Route path="/inviteRegister" element={<Register />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
@@ -770,6 +770,7 @@ function App() {
             path="certificate-template/updatecertificate/:id"
             element={<Updatecertificate />}
           /> */}
+          <Route path="usermenual" element={<UserManualPage />} />
           <Route
             path="allocated-certificate"
             element={<AllocatedCertificate />}
@@ -788,6 +789,10 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
+          {/* <Route
+            path="allocated-certificate/allocateEmploye/:id"
+            element={<AllocatedCertificateEmployee />}
+          /> */}
         </Route>
 
         <Route
@@ -853,6 +858,10 @@ function App() {
           <Route
             path="support-request/add-new-ticket"
             element={<SupportAddNewTicket />}
+          />
+          <Route
+            path="allocated-certificate/allocateEmploye/:id"
+            element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="schedule-live-session"

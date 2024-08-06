@@ -21,16 +21,12 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
-type headerTitleProps = {
-  title: {
-    label: string;
-    link?: string;
-  }[];
-};
 
-const EmployeeHeader = ({ title }: headerTitleProps) => {
+const EmployeeHeader = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
@@ -38,6 +34,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
+  const dispatch=useAppDispatch()
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [data, setData] = useState<SidebarItem[]>([]);
 
@@ -47,6 +44,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
     onSuccess: () => {
       localStorage.removeItem("user");
       navigate("/");
+      dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
       toast({
@@ -110,7 +108,7 @@ const EmployeeHeader = ({ title }: headerTitleProps) => {
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
                 Welcome {userData?.query?.name?.split("@")[0]}
               </h3>
-              <BreadcrumbWithCustomSeparator breadcrumbData={title} />
+              <BreadcrumbWithCustomSeparator />
             </h4>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">

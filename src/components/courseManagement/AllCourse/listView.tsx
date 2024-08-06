@@ -34,6 +34,8 @@ import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
 import { UserRole } from "@/types/UserRole";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const ListView = ({
   list,
@@ -54,7 +56,9 @@ const ListView = ({
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const pathName = location?.pathname?.split("/")?.[1];
+  const Role = location?.pathname?.split("/")?.[1];
+  const pathName = location?.pathname?.split("/")?.[2];
+  const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   // const queryClient = useQueryClient();
   const handleCohort = (e: Event, id: number) => {
@@ -187,11 +191,15 @@ const ListView = ({
   ) => {
     e.stopPropagation();
     if (item?.status !== "DRAFT") {
-      navigate(
-        `/${pathName}/create_course/${
-          item?.id
-        }?tab=${0}&step=${0}&version=${id}`
-      );
+      if(+item?.step === 5){
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${item?.tab}&version=${id}`
+        );
+      }else {
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
+        );
+      }
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -245,6 +253,15 @@ const ListView = ({
               <Link
                 to={`/${pathName}/employee-basic-course/${data?.currentVersion?.id}`}
                 key={index}
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      { label: "Course Management", link: null },
+                      { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                      { label: "Employee Basic Course", link: null },
+                    ])
+                  )
+                }
                 className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
                 <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">

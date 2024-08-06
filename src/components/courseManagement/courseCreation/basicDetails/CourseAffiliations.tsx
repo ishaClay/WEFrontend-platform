@@ -15,21 +15,22 @@ import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  instituteOther: zod.string({required_error: "Please select Affiliation"}).min(1, "Please select Affiliation"),
-  otherInstitutionName: zod.string({required_error: "Please select institution / organisation name"}).min(1, "Please select institution / organisation name"),
+  instituteOther: zod.string({required_error: "Please select Affiliation"}),
+  otherInstitutionName: zod.string({required_error: "Please select institution / organisation name"}),
 });
 
-interface CourseAffiliationsProps {
-  setStep: (e: string) => void;
+interface SelectAffiliationsTypr {
+  instituteOther: string;
+  otherInstitutionName: string;
 }
 
-const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
+const CourseAffiliations = () => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -47,6 +48,10 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
+  const [selectAffiliations, setSelectAffiliations] = useState<SelectAffiliationsTypr>({
+    instituteOther: "",
+    otherInstitutionName: "",
+  });
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -56,7 +61,6 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
-      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
         {
@@ -76,7 +80,7 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: (+courseId) ? (!!paramsversion) : false,
+    enabled: !!paramsversion,
   });
 
   const { data: getInstitutionsList} = useQuery({
@@ -100,14 +104,19 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
       label: item?.name,
       value: item?.name,
     }
-  }) || [];  
+  }) || [];
+  
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
-      setValue("instituteOther", data?.instituteOther?.toString());
-      setValue("otherInstitutionName", data?.otherInstitutionName?.toString());
-    }
+      setSelectAffiliations({
+        instituteOther: data?.instituteOther,
+        otherInstitutionName: data?.otherInstitutionName,
+      })
+      setValue("instituteOther", data?.instituteOther);
+      setValue("otherInstitutionName", data?.otherInstitutionName);
+    }    
   }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
@@ -118,7 +127,6 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
-      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : params
@@ -138,15 +146,16 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const payload = {
+    const basePayload = {
       instituteOther: data?.instituteOther,
-      otherInstitutionName: data?.otherInstitutionName,
-      tab: "0",
-      step: "4"
+      otherInstitutionName: data?.otherInstitutionName
     };
 
+    const payload = watch("instituteOther") && watch("otherInstitutionName") && +courseId 
+    ? basePayload : params ? basePayload : { ...basePayload, tab: "0", step: "4" }
+
     if(isDirty){
-      if (+courseId) {
+      if (+courseId || selectAffiliations?.instituteOther !== data?.instituteOther || selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
@@ -159,6 +168,17 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
           paramsversion: "1" || "",
         });
       }      
+    } else {
+      navigate(
+        `/${pathName}/create_course/${
+          getSingleCourse?.data?.course?.id
+        }?tab=${0}&step=${4}&version=${
+          getSingleCourse?.data?.id
+        }`,
+        {
+          replace: true,
+        }
+      );
     }
   };
 
@@ -178,8 +198,8 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
               <SelectMenu
                 {...register("instituteOther")}
                 option={organisationNameOption}
-                setValue={(data: string) => setValue("instituteOther", data)}
-                value={watch("instituteOther")}
+                setValue={(data: string) => {setSelectAffiliations({...selectAffiliations, instituteOther: data}); setValue("instituteOther", data)}}
+                value={selectAffiliations?.instituteOther || ""}
                 placeholder="select course name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
@@ -196,10 +216,8 @@ const CourseAffiliations = ({ setStep }: CourseAffiliationsProps) => {
               <SelectMenu
                 {...register("otherInstitutionName")}
                 option={organisationOption}
-                setValue={(data: string) =>
-                  setValue("otherInstitutionName", data)
-                }
-                value={watch("otherInstitutionName")}
+                setValue={(data: string) => {setSelectAffiliations({...selectAffiliations, otherInstitutionName: data}); setValue("otherInstitutionName", data)}}
+                value={selectAffiliations?.otherInstitutionName || ""}
                 placeholder="select institution / organisation name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />

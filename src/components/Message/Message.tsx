@@ -31,17 +31,18 @@ import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import Drawer from "../comman/Drawer";
 import Loading from "../comman/Error/Loading";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 let socket: any;
 
 const Message = () => {
-  const navigate = useNavigate();
   const chatContainerRef = useRef<any>(null);
 
   const { UserId } = useAppSelector((state) => state.user);
@@ -62,6 +63,7 @@ const Message = () => {
 
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
   const updatemessageData = (chatId: string) => {
@@ -240,8 +242,6 @@ const Message = () => {
     setImages([]);
   }, [chatId]);
 
-  console.log("OpenDrawer", openDrawer);
-
   useEffect(() => {
     if (["mobile", "sm"].includes(viewType)) {
       setOpenDrawer(false);
@@ -324,8 +324,6 @@ const Message = () => {
                       index === 0 ||
                       new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                         createdAtDate.toDateString();
-
-                    console.log("item?.senderId", item);
 
                     return (
                       <div key={item.id}>
@@ -534,8 +532,6 @@ const Message = () => {
             {chatUserList?.data?.data
               ?.filter(filterByName)
               ?.map((item: GetChatUserList | any) => {
-                console.log("item?.email", item);
-
                 return (
                   <div
                     key={item.id}
@@ -662,7 +658,17 @@ const Message = () => {
             )}
             <Button
               className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri"
-              onClick={() => navigate(`/${currentUser}/message/compose`)}
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    { label: "Message", link: `/${currentUser}/message` },
+                    {
+                      label: "Compose",
+                      link: `/${currentUser}/message/compose`,
+                    },
+                  ])
+                );
+              }}
             >
               <FilePenLine width={18} /> Compose
             </Button>
@@ -690,8 +696,6 @@ const Message = () => {
                       index === 0 ||
                       new Date(allMsg[index - 1]?.createdAt).toDateString() !==
                         createdAtDate.toDateString();
-
-                    console.log("item?.senderId", item);
 
                     return (
                       <div key={item.id}>

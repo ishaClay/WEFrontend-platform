@@ -16,7 +16,6 @@ import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { useLocation } from "react-router-dom";
 
 const maturityLevel = [
   {
@@ -61,8 +60,7 @@ const AssessmentResult = ({
   showButton,
   setIsEdit,
 }: AssessmentResultProps) => {
-  const location = useLocation();
-  console.log("+++++", location);
+
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
@@ -118,8 +116,6 @@ const AssessmentResult = ({
 
   const setScore = isNaN(Number(score)) ? 0 : score;
   const currentLavel = findMaturityLevel(Number(setScore));
-
-  console.log("setScore", setScore);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -217,8 +213,6 @@ const AssessmentResult = ({
       </div>
     </>
   );
-
-  console.log("assessmant?.data?.data", assessmentData, assessmant?.data?.data);
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
@@ -332,7 +326,7 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white w-[225px] rounded-xl p-2.5">
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -394,7 +388,7 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] w-[225px] rounded-xl p-2.5">
                               <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -456,7 +450,7 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white w-[225px] rounded-xl p-2.5">
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -509,40 +503,55 @@ const AssessmentResult = ({
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data
-              )?.map((item: any) => (
-                <>
-                  {item.totalpoints < "40" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="flex flex-wrap lg:gap-5 gap-4">
-                        <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                          <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+              )?.map((item: any) => {
+                const persantage =
+                  ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
+                    0
+                  ) !== "NaN"
+                    ? (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0)
+                    : 0;
+                return (
+                  <>
+                    {fetchClientmaturitylevel?.data &&
+                      +persantage >=
+                        fetchClientmaturitylevel?.data[0]?.rangeStart &&
+                      +persantage <=
+                        fetchClientmaturitylevel?.data[0]?.rangeEnd && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[140px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
-                            {item.pillarname}
-                          </h4>
-                          <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
+                        </Button>
+                      )}
+                  </>
+                );
+              })}
             </div>
           </TabsContent>
           <TabsContent value="intermediate" className="lg:p-5 p-0 mt-0">
@@ -550,40 +559,55 @@ const AssessmentResult = ({
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data
-              )?.map((item: any) => (
-                <>
-                  {item.totalpoints >= "40" && item.totalpoints < "70" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="flex flex-wrap lg:gap-5 gap-4">
-                        <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                          <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+              )?.map((item: any) => {
+                const persantage =
+                  ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
+                    0
+                  ) !== "NaN"
+                    ? (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0)
+                    : 0;
+                return (
+                  <>
+                    {fetchClientmaturitylevel?.data &&
+                      +persantage >=
+                        fetchClientmaturitylevel?.data[1]?.rangeStart &&
+                      +persantage <=
+                        fetchClientmaturitylevel?.data[1]?.rangeEnd && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[140px] rounded-xl p-2.5">
+                              <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
-                            {item.pillarname}
-                          </h4>
-                          <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
+                        </Button>
+                      )}
+                  </>
+                );
+              })}
             </div>
           </TabsContent>
           <TabsContent value="advanced" className="lg:p-5 p-0 mt-0">
@@ -591,40 +615,55 @@ const AssessmentResult = ({
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data
-              )?.map((item: any) => (
-                <>
-                  {item.totalpoints >= "70" && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="h-auto p-0 bg-white hover:bg-transparent"
-                      key={item.pillarid}
-                      onClick={() => {
-                        setIsOpen(item.pillarid);
-                        setPillerName(item.pillarname);
-                      }}
-                    >
-                      <div className="flex flex-wrap lg:gap-5 gap-4">
-                        <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
-                          <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                            <img
-                              src={getImages(item.pillarname)}
-                              alt="img"
-                              className=""
-                            />
+              )?.map((item: any) => {
+                const persantage =
+                  ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
+                    0
+                  ) !== "NaN"
+                    ? (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0)
+                    : 0;
+                return (
+                  <>
+                    {fetchClientmaturitylevel?.data &&
+                      +persantage >=
+                        fetchClientmaturitylevel?.data[2]?.rangeStart &&
+                      +persantage <=
+                        fetchClientmaturitylevel?.data[2]?.rangeEnd && (
+                        <Button
+                          type="button"
+                          variant={"ghost"}
+                          className="h-auto p-0 bg-white hover:bg-transparent"
+                          key={item.pillarid}
+                          onClick={() => {
+                            setIsOpen(item.pillarid);
+                            setPillerName(item.pillarname);
+                          }}
+                        >
+                          <div className="flex flex-wrap lg:gap-5 gap-4">
+                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[140px] rounded-xl p-2.5">
+                              <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                <img
+                                  src={getImages(item.pillarname)}
+                                  alt="img"
+                                  className=""
+                                />
+                              </div>
+                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                {item.pillarname}
+                              </h4>
+                              <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                {item?.totalpoints}%
+                              </span>
+                            </div>
                           </div>
-                          <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
-                            {item.pillarname}
-                          </h4>
-                          <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                            {item?.totalpoints}%
-                          </span>
-                        </div>
-                      </div>
-                    </Button>
-                  )}
-                </>
-              ))}
+                        </Button>
+                      )}
+                  </>
+                );
+              })}
             </div>
           </TabsContent>
         </Tabs>

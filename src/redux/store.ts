@@ -5,13 +5,18 @@ import CompanyReducer from './reducer/CompanyReducer';
 import QuestionReducer from './reducer/QuestionReducer';
 import PillarReducer from './reducer/PillarReducer';
 import AssessmentReducer from './reducer/AssessmentReducer';
+import PathReducer from './reducer/PathReducer';
 
 const persistConfig = {
     key: 'root',
     storage,
 };
-
+const persistPathConfig = {
+	key: "path",
+	storage,
+};
 const persistedCompanyReducer = persistReducer(persistConfig, CompanyReducer);
+const persistPathReducer=persistReducer(persistPathConfig,PathReducer)
 // const persistedQuestionReducer = persistReducer(persistConfig, QuestionReducer);
 // const persistedPillarReducer = persistReducer(persistConfig, PillarReducer);
 
@@ -25,8 +30,10 @@ export const store = configureStore({
         question: QuestionReducer,
         pillar: PillarReducer,
         assessment: AssessmentReducer,
+        path:persistPathReducer,
     },
 })
+
 
 export const persistor = persistStore(store);
 

@@ -61,8 +61,6 @@ interface UserMaturityLevelEntity {
 }
 
 const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
-  console.log("data", data);
-
   const [isOpenAssignModel, setIsOpenAssignModel] = useState<number | null>(
     null
   );
@@ -72,8 +70,6 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
   const [isOpenDelayModel, setIsOpenDelayModel] = useState(false);
   const [uploadData, setUploadData] = useState<any>(null);
   const [historyMasure, setHistoryMasure] = useState<string>("");
-
-  console.log("isOpenHistoryModel", isOpenHistoryModel);
 
   return (
     <>

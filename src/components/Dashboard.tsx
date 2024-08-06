@@ -78,7 +78,6 @@ const employeeData = [
 const Dashboard = () => {
   const [page, setPage] = useState(0);
   console.log("+++", page);
-
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "ID",

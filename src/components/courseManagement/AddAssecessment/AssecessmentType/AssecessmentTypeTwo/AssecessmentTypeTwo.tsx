@@ -9,6 +9,7 @@ import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
 import {
   forwardRef,
+  Fragment,
   useEffect,
   useImperativeHandle,
   useState,
@@ -189,6 +190,84 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               <p className="text-red-500 text-sm">{errors.point}</p>
             )}
           </div>
+          <input
+            placeholder="Multiple Choice Question"
+            disabled
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+          />
+        </div>
+        <div className="pb-8">
+          <h6 className="text-base text-black font-calibri pb-3">
+            Enter Question
+          </h6>
+          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
+            <input
+              placeholder="How would you describe an authoritarian (or controlling) management style?"
+              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              onChange={(e) => {
+                dispatch(
+                  addQuestion({
+                    index: i,
+                    question: e.target.value,
+                    assessmentType: type,
+                  })
+                );
+                setErrors((prev) => ({ ...prev, question: "" }));
+              }}
+            />
+            <div className="flex items-center">
+              <label className="me-3 text-[#515151] text-base font-calibri">
+                Point
+              </label>
+              <input
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
+                onChange={(e) => {
+                  dispatch(addPoint({ index: i, point: +e.target.value }));
+                  setErrors((prev) => ({ ...prev, point: "" }));
+                }}
+                type="number"
+              />
+            </div>
+          </div>
+          {errors.question && (
+            <p className="text-red-500 text-sm">{errors.question}</p>
+          )}
+          {errors.point && (
+            <p className="text-red-500 text-sm">{errors.point}</p>
+          )}
+        </div>
+        <div className="">
+          <div className="text-right">
+            <Button
+              className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+              onClick={addOption}
+              type="button"
+            >
+              + Add Option
+            </Button>
+          </div>
+          {options.map((data, index) => {
+            return (
+              <Fragment key={index}>
+                <AssecessmentTypeTwoOptions
+                  data={data}
+                  i={i}
+                  iIndex={index}
+                  options={options}
+                  setOptions={setOptions}
+                  setErrors={setErrors}
+                />
+                {errors.options[index] && (
+                  <p className="text-red-500 text-sm">
+                    {errors.options[index]}
+                  </p>
+                )}
+              </Fragment>
+            );
+          })}
+          {errors.answer && (
+            <p className="text-red-500 text-sm">{errors.answer}</p>
+          )}
         </div>
         <div className="relative mb-3">
           <div className="text-right">

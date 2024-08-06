@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -7,6 +9,7 @@ import { AllLivesessions } from "@/types/liveSession";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleCheck, Copy, Pencil, X } from "lucide-react";
 import moment from "moment";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface LivesessionsListProps {
@@ -18,11 +21,9 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-
-  const { mutate: deleteLiveSession } = useMutation({
-    mutationFn: async (id: number) => {
-      return deleteLiveSessions(id?.toString());
-    },
+  const [isDelete, setIsDelete] = useState(false);
+  const { mutate: deleteLiveSession, isPending } = useMutation({
+    mutationFn: deleteLiveSessions,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.allLiveSession],
@@ -32,6 +33,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         description: "Live sessions deleted successfully",
         variant: "success",
       });
+      setIsDelete(false);
     },
     onError: (error) => {
       toast({
@@ -41,13 +43,17 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
       });
     },
   });
+  const handleDelete = () => {
+    deleteLiveSession(data?.id);
+  };
 
   const isCompleted =
     new Date(data.date) <= new Date() &&
     !isSessionOngoingAtTime(
       data.date,
       data.startTime + " " + data.startAmPm,
-      data.sessionDuration
+      // @ts-ignore
+      data?.sessionDuration
     );
 
   return (
@@ -69,7 +75,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         </h6>
         <h6 className="text-base text-black font-abhaya font-semibold">
           <span className="text-[#606060]">Course: </span>
-          {data?.course?.title}
+          {data?.course?.titile}
         </h6>
         <div className="sm:flex bloack gap-10">
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
@@ -151,7 +157,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
             </Button>
             <Button
               className="bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
-              onClick={() => deleteLiveSession(data?.id)}
+              onClick={() => setIsDelete(true)}
             >
               <X width={20} />
               Delete
@@ -159,6 +165,13 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </div>
         )}
       </div>
+      <ConfirmModal
+        open={isDelete}
+        onClose={() => setIsDelete(false)}
+        onDelete={handleDelete}
+        value={data?.course?.title || ""}
+        isLoading={isPending}
+      />
     </div>
   );
 };
