@@ -77,7 +77,7 @@ function CoursesRecommended() {
             </div>
 
             <div className="flex sm:flex-row flex-col p-3 bg-[#FFFFFF] justify-between sm:items-center items-start sm:gap-0 gap-3">
-              <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 md:w-[550px] sm:w-[450px] w-[300px] h-[52px] text-[#A3A3A3]">
+              <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 md:w-[550px] sm:w-[450px] w-[300px] sm:h-[52px] h-[46px] text-[#A3A3A3]">
                 <BsSearch className="text-[#D9D9D9] mr-2" />
 
                 <input

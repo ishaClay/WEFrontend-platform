@@ -191,13 +191,17 @@ const ListView = ({
   ) => {
     e.stopPropagation();
     if (item?.status !== "DRAFT") {
-      if(+item?.step === 5){
+      if (+item?.step === 5) {
         navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&version=${id}`
+          `/${pathName}/create_course/${item?.id}?tab=${
+            +item?.tab === 4 ? 0 : item?.tab
+          }&version=${id}`
         );
-      }else {
+      } else {
         navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab}&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
+          `/${pathName}/create_course/${item?.id}?tab=${
+            +item?.tab === 4 ? 0 : item?.tab
+          }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
         );
       }
     } else {
@@ -337,9 +341,9 @@ const ListView = ({
                         setCourse(data?.id);
                       }}
                     >
-                      {data.status === "PUBLISHED"
+                      {data?.status === "PUBLISHED"
                         ? "Published"
-                        : data.status === "READYTOPUBLISH"
+                        : data?.status === "READYTOPUBLISH"
                         ? "Ready to Publish"
                         : "Publish"}
                     </Button>

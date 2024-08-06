@@ -281,7 +281,7 @@ const Compose = () => {
   return (
     <>
       <Card className="border-0 shadow-none rounded-lg bg-white">
-        <CardHeader className="px-[20px] py-3 border-b-[#d9d9d9] border-b border-solid">
+        <CardHeader className="sm:px-[20px] sm:py-3 p-[15px] border-b-[#d9d9d9] border-b border-solid">
           <div className="lg:flex block items-center justify-between">
             <div>
               {fetchMessageRoles(role)?.map((item: string) => {
@@ -329,7 +329,7 @@ const Compose = () => {
           </div>
         </CardHeader>
         <form onSubmit={handleSubmit(handleSendMessage)}>
-          <CardContent className="pt-6 pb-4 px-5">
+          <CardContent className="sm:pt-6 sm:pb-4 sm:px-5 p-[15px]">
             <div className="sm:mb-[29px] mb-[20px]">
               <Select
                 onValueChange={(e) => {
