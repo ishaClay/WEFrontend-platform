@@ -17,6 +17,12 @@ const Roadmap = ({
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [step, setStep] = React.useState(0);
 
+  console.log(
+    "showButton",
+    userData?.query?.role === UserRole.Company && pathStatus > 5,
+    showButton !== 0 && !isEdit
+  );
+
   useEffect(() => {
     if (
       !isEdit &&

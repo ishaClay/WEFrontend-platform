@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import AssecessmentTypeThreeOptions from "./AssecessmentTypeThreeOptions";
-import { Fragment, useState } from "react";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { addPoint, addQuestion } from "@/redux/reducer/AssessmentReducer";
+import { RootState } from "@/redux/store";
+import { Fragment, useEffect, useState } from "react";
+import AssecessmentTypeThreeOptions from "./AssecessmentTypeThreeOptions";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -12,12 +13,25 @@ interface AssecessmentTypeProps {
 const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
   const dispatch = useAppDispatch();
 
+  const { questionOption } = useAppSelector(
+    (state: RootState) => state.assessment
+  );
+
   const [options, setOptions] = useState([
     {
       optionTitle: `Option 1:`,
       option: "",
     },
   ]);
+
+  useEffect(() => {
+    setOptions(
+      questionOption[i]?.option?.map((item: string, index: number) => ({
+        optionTitle: `Option ${index + 1}:`,
+        option: item,
+      }))
+    );
+  }, [questionOption]);
 
   const addOption = () => {
     const newOption = {
@@ -31,7 +45,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
         <h6 className="text-base text-black font-calibri pb-3">
-          Assessment Type
+          Assessment Type 12
         </h6>
         <input
           placeholder="Single Choice Question"
@@ -51,6 +65,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
                 addQuestion({ index: i, question: e.target.value, assessmentType: type })
               )
             }
+            value={questionOption[i]?.question}
           />
           <div className="flex items-center">
             <label className="me-3 text-[#515151] text-base font-calibri">
@@ -58,10 +73,16 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
             </label>
             <input
               className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-              onChange={(e) =>
-                dispatch(addPoint({ index: i, point: +e.target.value }))
+              onChange={(e) =>{
+                const {value} = e.target
+                if (value.match(/^[0-9]*$/)) {
+                  dispatch(addPoint({ index: i, point: +e.target.value }))        
+                }
+                return
+              }
               }
               type="number"
+              value={questionOption[i]?.point}
             />
           </div>
         </div>

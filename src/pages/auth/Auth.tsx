@@ -28,12 +28,8 @@ function Auth() {
   const navigate = useNavigate();
 
   const schema = z.object({
-    email: z.string().min(1, "Email is required"),
-    // .email("Please enter a valid email"),
-    password: z.string().min(1, { message: "Password is required" }),
-    // 	{
-    // 		required_error: "Password is required",
-    // 	}
+    email: z.string().email("Please enter valid email").min(1, "Please enter email"),
+    password: z.string().min(1, { message: "Please enter password" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -82,7 +78,7 @@ function Auth() {
       if (data.data.data.status === "Inactive") {
         toast({
           variant: "destructive",
-          title: data?.data?.message,
+          title: data?.data?.message || "",
         });
       } else if (data.data.data.status === "Pending") {
         toast({
@@ -157,8 +153,6 @@ function Auth() {
 
           dispatch(setUserData(user.id));
 
-          // if (user.role == UserRole.Company) {
-          // console.log(user.pathstatus ===)
           if (user.pathstatus < "4") {
             navigate("/savedassesment");
           } else {
@@ -170,7 +164,7 @@ function Auth() {
       }
     },
     onError: (error: ErrorType) => {
-      console.log(error);
+      console.error(error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -240,7 +234,7 @@ function Auth() {
                 </ul>
                 <button
                   type="submit"
-                  className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px]"
+                  className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
                 >
                   Login
                 </button>
@@ -271,14 +265,14 @@ function Auth() {
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989] text-center">
-                  Protected by reCAPTCHA and subject to the Skillnet{" "}
+                  Protected by reCAPTCHA and subject to the Skillnet
                   <Link
                     to="/privacypolicy"
                     className="text-[#042937] font-bold"
                   >
-                    Privacy Policy{" "}
-                  </Link>{" "}
-                  and{" "}
+                    Privacy Policy
+                  </Link>
+                  and
                   <Link
                     to={"/termsofservices"}
                     className="text-[#042937] font-bold"

@@ -75,7 +75,7 @@ const CoursePathwayPageItems = ({
               className="flex items-center gap-[50px] col-span-9"
             >
               <div
-                className={`checkbox space-x-2 rounded-full flex items-center px-2.5 w-[140px] sm:h-[44px] h-[36px] outline-none bg-[${
+                className={`checkbox space-x-2 rounded-full flex items-center pl-2.5 pr-3 sm:h-[44px] h-[36px] outline-none bg-[${
                   item.color
                 }] ${
                   item?.color === "#FF5252" ? "text-white" : "text-black"

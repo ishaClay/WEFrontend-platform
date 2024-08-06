@@ -14,17 +14,17 @@ import { toast } from "../ui/use-toast";
 
 const schema = zod
   .object({
-    email: zod.string().email("Please enter a valid email"),
+    email: zod.string().email("Please enter valid email"),
     password: zod
       .string()
       .regex(
         /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
         "Password must contain at least one uppercase letter, one Number letter, and one special character and Minimum 8 characters"
       ),
-    confirmPassword: zod.string().min(1, "Confirm password is required"),
+    confirmPassword: zod.string().min(1, "Please enter Confirm password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Password don't match",
     path: ["confirmPassword"],
   });
 

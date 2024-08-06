@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { DataAnalytics } from "@/types/SupportRequest";
 import SupportMetric from "./SupportMetric";
+
 interface SupportRequestDetailsProps {
   data?: DataAnalytics;
 }

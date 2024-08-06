@@ -72,11 +72,15 @@ const TrainerManagement = () => {
             <Avatar className="w-8 h-8">
               <AvatarImage src={row.original?.profileImage || ""} />
               <AvatarFallback className="uppercase shadow-lg text-[12px]">
-                {row?.original?.name?.[0]}
-                {row?.original?.name?.[1]}
+                {row?.original?.name?.[0] ||
+                  row?.original?.email?.split("@")?.[0].charAt(0)}
+                {row?.original?.name?.[1] ||
+                  row?.original?.email?.split("@")?.[0].charAt(1)}
               </AvatarFallback>
             </Avatar>
-            <p className="text-[15px] font-medium">{row.original.name}</p>
+            <p className="text-[15px] font-medium">
+              {row.original.name || row?.original?.email?.split("@")?.[0]}
+            </p>
           </div>
         );
       },
@@ -97,6 +101,10 @@ const TrainerManagement = () => {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        const providerCounty = row?.original?.providerCounty;
+        return <p>{providerCounty ?? "-"}</p>
+      }
     },
     {
       accessorKey: "providerName",
@@ -114,6 +122,10 @@ const TrainerManagement = () => {
           </Button>
         );
       },
+      cell: ({ row }) => {
+        const providerName = row?.original?.providerName;
+        return <p>{providerName ?? "-"}</p>
+      }
     },
     {
       accessorKey: "rating",

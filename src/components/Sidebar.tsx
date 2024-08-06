@@ -12,6 +12,7 @@ import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/wing.png";
 import Loading from "./comman/Error/Loading";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
@@ -33,10 +34,13 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const dispatch = useAppDispatch();
   const { UserId } = useAppSelector((state) => state?.user);
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const { sidebarOpen } = useContext(SidebarContext);
-  const mavigate = useNavigate();
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
+
   const toggleDropdown = (
     children: { label: string; link: string }[],
     index: number
@@ -68,7 +72,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     mutationFn: LogOut,
     onSuccess: () => {
       localStorage.removeItem("user");
-      mavigate("/");
+      navigate("/");
       dispatch(setPath([]));
     },
     onError: (error: ResponseError) => {
@@ -80,8 +84,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     },
   });
 
-  const handleLogout = () => {
+  const handleConfirmLogout = () => {
     mutate(userID);
+  };
+
+  const handleLogout = () => {
+    setIsAlertOpen(true);
   };
 
   const { data: chatUserList } = useQuery({
@@ -310,6 +318,11 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         </div>
       </div>
       {isPending && <Loading isLoading={isPending} />}
+      <AlertLogOutDialog
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={handleConfirmLogout}
+      />
     </div>
   );
 };

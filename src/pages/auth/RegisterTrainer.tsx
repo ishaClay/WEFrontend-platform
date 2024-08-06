@@ -47,31 +47,31 @@ function RegisterTrainer() {
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const schema = z.object({
-    providerName: z.string().min(1, { message: "Provider Name is required" }),
-    providerType: z.string().min(1, { message: "Provider Type is required" }),
-    providerCity: z.string().min(1, { message: "Provider City is required" }),
+    providerName: z.string().min(1, { message: "Please enter provider name" }),
+    providerType: z.string().min(1, { message: "Please enter provider type" }),
+    providerCity: z.string().min(1, { message: "Please enter provider city" }),
     providerCountry: z
       .string()
-      .min(1, { message: "Provider County is required" }),
+      .min(1, { message: "Please select provider county" }),
     contactSurname: z.string().optional(),
     contactTelephone: z
       .string()
       .regex(/^[0-9]*$/, {
-        message: "Please enter a valid phone number (1-9 digits).",
+        message: "Please enter valid phone number (1-9 digits).",
       })
-      .max(10, { message: "Please enter a valid phone number (1-9 digits)." })
+      .max(10, { message: "Please enter valid phone number (1-9 digits)." })
       .optional(),
     providerAddress: z
       .string()
-      .min(1, { message: "Provider Address is required" }),
+      .min(1, { message: "Please enter provider address" }),
     providerCounty: z
       .string()
-      .min(1, { message: "Provider Country is required" }),
+      .min(1, { message: "Please select provider country" }),
     name: z.string().optional(),
     email: z
       .string()
-      .min(1, { message: "Email Address is required" })
-      .email("Invalid email address"),
+      .min(1, { message: "Please enter email" })
+      .email("Please enter valid email"),
     providerNotes: z.string().optional(),
     foreignProvider: z
       .enum(["Yes", "No"])
@@ -152,7 +152,7 @@ function RegisterTrainer() {
       reset();
       toast({
         variant: "success",
-        title: "Trainer Registered Successfully",
+        title: "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
     },
@@ -436,16 +436,16 @@ function RegisterTrainer() {
                   <PrimaryButton
                     type="submit"
                     name="Submit"
-                    className="w-full h-[48px] primary-background"
+                    className="font-semibold !font-abhaya w-full text-lg h-12 primary-background"
                   />
                 </div>
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
                     <Link to="/privacypolicy" className="text-[#042937]">
-                      Privacy Policy{" "}
-                    </Link>{" "}
-                    and{" "}
+                      Privacy Policy
+                    </Link>
+                    and
                     <Link to={"/termsofservices"} className="text-[#042937]">
                       Terms of Service.
                     </Link>

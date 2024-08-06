@@ -37,7 +37,7 @@ const AssecessmentTypeOneOptions = ({
   return (
     <div>
       <div className="">
-        <div className="space-x-2 flex items-center justify-between mb-4">
+        <div className="space-x-2 flex items-center justify-between">
           <label
             htmlFor={data.optionTitle}
             className="flex items-center w-[98%]"

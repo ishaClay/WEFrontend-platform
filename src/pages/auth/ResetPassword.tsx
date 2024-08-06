@@ -1,3 +1,4 @@
+import rePasswordBanner from "@/assets/images/LoginImage.svg";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
@@ -12,7 +13,6 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import rePasswordBanner from "@/assets/images/LoginImage.svg";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const ResetPassword = () => {
       oldPassword: z.string().optional(),
       password: z
         .string()
-        .max(8, "Password must be at least 8 characters")
+        .min(8, "Password must be at least 8 characters")
         .regex(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&_.?]).{8}$/,
           "Password must contain at least one uppercase letter, one lowercase letter, and one special character"
@@ -33,7 +33,7 @@ const ResetPassword = () => {
       confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords don't match",
+      message: "Password don't match",
       path: ["confirmPassword"],
     });
 

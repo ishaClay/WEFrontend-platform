@@ -31,6 +31,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import Drawer from "../comman/Drawer";
 import Loading from "../comman/Error/Loading";
@@ -63,17 +64,35 @@ const Message = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+
+  const updatemessageData = (chatId: string) => {
+    updatemessage({
+      userId1: userID,
+      userId2: chatId,
+      isRead: true,
+    });
+  };
+
+  useEffect(() => {
+    const chatId = searchParams.get("chatId");
+    if (chatId) {
+      setChatId(chatId);
+      updatemessageData(chatId);
+    }
+  }, [searchParams]);
+
   const {
     data: chatUserList,
     isPending: userListPending,
     refetch: refetchUserList,
   } = useQuery({
-    queryKey: [QUERY_KEYS.chatUserList],
+    queryKey: [QUERY_KEYS.chatUserList, { userID, chatId }],
     queryFn: () => fetchChatUserList(userID as string),
   });
 
   const { data: chatList, refetch: refetchChat } = useQuery({
-    queryKey: [QUERY_KEYS.chatList],
+    queryKey: [QUERY_KEYS.chatList, { userID, chatId }],
     queryFn: () => fetchChat(userID, chatId),
     enabled: !!userID && !!chatId,
   });
@@ -141,8 +160,10 @@ const Message = () => {
   };
 
   const currentChat = chatUserList?.data?.data?.find(
-    (item) => item?.id === chatId
+    (item) => item?.id === +chatId
   );
+
+  console.log("currentChat", chatUserList);
 
   useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
@@ -532,7 +553,10 @@ const Message = () => {
                         isRead: true,
                       });
                       await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.chatList],
+                        queryKey: [QUERY_KEYS.chatList]
+                      });
+                      await queryClient.invalidateQueries({
+                        queryKey: [QUERY_KEYS.notificationCount]
                       });
                     }}
                   >
@@ -603,10 +627,10 @@ const Message = () => {
                     style={{ background: chatDPColor(+chatId) }}
                   >
                     {chatUserList?.data?.data
-                      ?.find((item) => item?.id === chatId)
+                      ?.find((item) => item?.id === +chatId)
                       ?.name?.[0]?.toUpperCase() ||
                       chatUserList?.data?.data
-                        ?.find((item) => item?.id === chatId)
+                        ?.find((item) => item?.id === +chatId)
                         ?.email?.[0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

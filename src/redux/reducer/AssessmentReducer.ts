@@ -94,6 +94,12 @@ const AssessmentSlice = createSlice({
       state.questionOption.splice(action.payload.i, 1);
       state.selectedQuestionType.splice(action.payload.i, 1);
     },
+    resetAssessment: () => {
+      return initialState
+    },
+    setAssessment: (state, action) => {
+      state.questionOption = action.payload
+    }
   },
 });
 
@@ -105,6 +111,8 @@ export const {
   addAnswer,
   removeOption,
   removeQuestion,
+  resetAssessment,
+  setAssessment
 } = AssessmentSlice.actions;
 
 export default AssessmentSlice.reducer;

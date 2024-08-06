@@ -22,6 +22,7 @@ module.exports = {
       colors: {
         "primary-button": "#00778B",
         "secondary-button": "#64A70B",
+        "primary-bg": "var(--rkp-primary-color)",
 
         white: "#fff",
         silver: "#b9b9b9",
@@ -110,6 +111,7 @@ module.exports = {
         Poppins: "Poppins",
         abhaya: ["Abhaya Libre", "serif"],
         nunito: ["Nunito Sans", "sans"],
+        greatvibes: ["Great Vibes", "cursive"],
       },
       borderRadius: {
         lg: "var(--radius)",

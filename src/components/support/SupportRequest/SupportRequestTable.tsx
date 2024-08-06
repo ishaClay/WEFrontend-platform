@@ -240,8 +240,7 @@ const SupportRequestTable = ({
       cell: ({ row }) => {
         return (
           <div>
-            {row.original?.assignTo?.name ||
-              row.original.assignTo?.email?.split("@")[0]}
+            {row.original?.assignTo?.name ?? "-"}
           </div>
         );
       },

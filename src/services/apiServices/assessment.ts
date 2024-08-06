@@ -1,5 +1,17 @@
 import api from "./api";
 
+interface createAssessmentProps {
+  module: string | null,
+  title?: string,
+  passingPercentage?: string,
+  timeBound?: number,
+  timeDuration?: {
+    hours: number,
+    minutes: number,
+    seconds: number
+  }
+}
+
 export const fetchAssessment = (id: string, clientId: string) => {
   const url = `api/v1/question/get-assessment-scores/${id}?clientId=${clientId}`;
 
@@ -21,14 +33,33 @@ export const getModuleSection = (id: string) => {
   return api({ url });
 };
 
-export const createAssessment = (data:any) => {
+export const createAssessment = (data: createAssessmentProps) => {
   const url = `api/v1/assessment/create`;
   const method = "post";
   return api({ url, data, method });
 };
 
-export const createAssessmentQuestion = (data:any) => {
+export const updateAssessment = async ({ data, id }: { data: createAssessmentProps, id: string }) => {
+  const url = `api/v1/assessment/update/${id}`;
+  const method = "put";
+  const res = await api({ url, data, method });
+  return res.data
+};
+
+export const createAssessmentQuestion = (data: any) => {
   const url = `api/v1/assessment/create-question`;
   const method = "post";
   return api({ url, data, method });
 };
+
+export const getAssessmentById = async (id: string) => {
+  const url = `api/v1/assessment/get/${id}`;
+  const res = await api({ url });
+  return res.data;
+};
+
+export const deleteAssesment = async (id: number) => {
+  const url = `api/v1/assessment/delete/${id}`;
+  const res = await api({ url, method: "delete", data: {} });
+  return res.data
+}

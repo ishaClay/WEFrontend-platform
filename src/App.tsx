@@ -85,6 +85,7 @@ import TeamMemberDropdown from "./pages/TeamMemberDropdown";
 import TeaserScore from "./pages/TeaserScore";
 import TermsOfServices from "./pages/TermsOfServices";
 import TrainerManagementPage from "./pages/TrainerManagement";
+import TrainerEditDetails from "./pages/TrainerManagement/TrainerDetailsEdit";
 import TrainerSettingPage from "./pages/TrainerSettingPage";
 import TrainingDocument from "./pages/TrainingDocument";
 import UserManual from "./pages/UserManual";
@@ -119,7 +120,12 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import BlogPage from "./pages/blog/BlogPage";
+import BlogDetailsPage from "./pages/blog/BlogDetailsPage";
 import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
+import OurServicePage from "./pages/OurServicePage";
+import HomeContactPage from "./pages/HomeContactPage";
+import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 
 function App() {
   const { clientId } = useAppSelector((state) => state.user);
@@ -155,8 +161,13 @@ function App() {
       <Toaster />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/membership" element={<OurServicePage />} />
+        <Route path="/contact" element={<HomeContactPage />} />
+        <Route path="/our-courses" element={<HomeOurCoursesPage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blogDetails" element={<BlogDetailsPage />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -631,6 +642,10 @@ function App() {
           <Route path="allcourses" element={<CoursesAllCourse />} />
           <Route path="employeelist" element={<EmployeeList />} />
           <Route path="employeelist/:id" element={<EmployeeDetailsPage />} />
+          <Route
+            path="employeelist/edit/:id"
+            element={<TrainerEditDetails />}
+          />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />
@@ -794,6 +809,10 @@ function App() {
           <Route
             path="certificate-template"
             element={<CertificateTempletePage />}
+          />
+          <Route
+            path="allocated-certificate-employee"
+            element={<AllocatedCertificateEmployee />}
           />
           <Route
             path="certificate-template/updatecertificate/:id"

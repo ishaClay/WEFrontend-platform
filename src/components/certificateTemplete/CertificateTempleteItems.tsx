@@ -50,13 +50,29 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
                   <img src={`${data?.companyLogo}`} className=" h-[40px]" />
                 </div>
               </div>
-              <div className="flex gap-2 justify-between ">
+              <div className="flex items-end gap-2 justify-between ">
                 <div className=" w-[40px] h-[40px] overflow-hidden">
-                  <img src={`${data?.instructorSignature}`} className="" />
+                  <img src={`${data?.companyLogo1}`} className="" />
                 </div>
-                <div className="border-t border-black font-abhaya text-[14px]">
-                  <h2>{data?.instructorTitle}</h2>
-                  <h2>President Director</h2>
+                <div>
+                  <div className="">
+                    {data?.instructorSignature ? (
+                      <img
+                        src={data?.instructorSignature || ""}
+                        alt="logo"
+                        className="max-w-[120px] w-full min-h-[30px] max-h-[30px] m-auto h-full object-contain"
+                      />
+                    ) : (
+                      <div className="max-w-[100px] w-full min-h-[30px] max-h-[30px] mx-auto h-full"></div>
+                    )}
+                  </div>
+                  <div
+                    className="border-t font-nunito text-xs text-black font-medium leading-[18px] pt-2"
+                    style={{ borderColor: data?.primaryColor }}
+                  >
+                    <h2>{data?.instructorTitle}</h2>
+                    <h2>President Director</h2>
+                  </div>
                 </div>
               </div>
             </div>

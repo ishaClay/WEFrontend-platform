@@ -59,6 +59,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
+    console.log("cohortData", cohortData);
+
     const currentDate = new Date();
     const formattedCurrentDate = {
       date: String(currentDate.getDate()).padStart(2, "0"),
@@ -96,7 +98,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
     const upcomingData = matchingSlot
       ? matchingSlot
-      : {
+      : cohortData?.isOnline === IsOnline.Offline
+      ? {
           slotStartDate: {
             date: moment(currentDate).format("DD"),
             month: moment(currentDate).format("MM"),
@@ -107,39 +110,44 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
             month: moment(courseEndDate).format("MM"),
             year: moment(courseEndDate).format("YYYY"),
           },
-        };
+        }
+      : null;
 
     return (
-      <div
-        className="xl:col-span-5 col-span-7 customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]"
-        onClick={() => setIsCohortShow(cohortData)}
-      >
-        <div className="flex items-center justify-between">
-          <p className="text-black text-xs">
-            <span className="font-medium text-xs font-inter">
-              Cohort {findIndex ? findIndex : 1} :
-            </span>{" "}
-          </p>
-          <p className="text-[#4285F4] text-[10px] font-inter font-medium">
-            Show all cohort
-          </p>
-        </div>
-        <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
-          <span>Start Date : </span>
-          <span>
-            {`${upcomingData.slotStartDate.date
-              .toString()
-              .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
-              .toString()
-              .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
-          </span>
-          <span>End Date : </span>
-          <span>{`${upcomingData.slotEndDate.date
-            .toString()
-            .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
-            .toString()
-            .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
-        </div>
+      <div className="xl:col-span-5 col-span-7">
+        {upcomingData !== null && (
+          <div
+            className="customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]"
+            onClick={() => setIsCohortShow(cohortData)}
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-black text-xs">
+                <span className="font-medium text-xs font-inter">
+                  Cohort {findIndex ? findIndex : 1} :
+                </span>{" "}
+              </p>
+              <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+                Show all cohort
+              </p>
+            </div>
+            <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+              <span>Start Date : </span>
+              <span>
+                {`${upcomingData?.slotStartDate.date
+                  .toString()
+                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
+                  .toString()
+                  .padStart(2, "0")}/${upcomingData?.slotStartDate?.year}`}{" "}
+              </span>
+              <span>End Date : </span>
+              <span>{`${upcomingData.slotEndDate.date
+                .toString()
+                .padStart(2, "0")}/${upcomingData?.slotEndDate?.month
+                .toString()
+                .padStart(2, "0")}/${upcomingData?.slotEndDate?.year}`}</span>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -200,14 +208,15 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                 <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                   <FaStar className="text-[#FD8E1F]" />
                   <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
-                    {maturityLevel?.fetchMaturity?.maturityLevelName}
+                    {allcourse?.courseReconmendedStatus ||
+                      maturityLevel?.fetchMaturity?.maturityLevelName}
                   </span>
                 </div>
               </div>
 
               <div className="">
                 <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                  <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026]">
+                  <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] min-h-[72px]">
                     {allcourse.title}
                   </p>
                   <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">
@@ -294,6 +303,12 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                           )}
                           {allcourse.isOnline === IsOnline.Hybrid && (
                             <span>Hybrid</span>
+                          )}
+                          {allcourse.isOnline === IsOnline.Major && (
+                            <span>Major</span>
+                          )}
+                          {allcourse.isOnline === IsOnline.Offline && (
+                            <span>Offline</span>
                           )}
                         </p>
                       </div>

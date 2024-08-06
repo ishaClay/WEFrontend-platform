@@ -33,7 +33,7 @@ function CoursesRecommended() {
       fetchRecommendedCourses({
         user: parseInt(userID),
         client: parseInt(userData?.clientId),
-        search,
+        keyword: search,
       }),
   });
 

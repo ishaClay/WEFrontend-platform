@@ -2,7 +2,6 @@ import EnrolledCourseList from "./EnrolledCourseList";
 
 const EnrolledCourcesPage = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
-
   return (
     <div>
       <div className="flex justify-between items-center py-2 px-4 border-b border-[#D9D9D9] mb-7">

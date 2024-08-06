@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 type myPagesListProps = {
   grid: CourseAllotedEntity;
@@ -17,8 +19,26 @@ type myPagesListProps = {
 };
 
 const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
+  const dispatch = useAppDispatch();
+  const Role = location.pathname.split("/")[1];
   return (
-    <Link to={`/employee/employee-basic-course/${grid.courseVersion?.id}`}>
+    <Link
+      to={`/employee/employee-basic-course/${grid?.courseVersion?.id}`}
+      onClick={() =>
+        dispatch(
+          setPath([
+            {
+              label: "My Course",
+              link: `/${Role}/mycourses`,
+            },
+            {
+              label: "Employee Basic Course",
+              link: null,
+            },
+          ])
+        )
+      }
+    >
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
         <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
           <img
@@ -45,7 +65,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               {Number(grid?.courseProgress).toFixed(0)}%
             </div>
             <div className="text-xs font-normal font-calibri leading-4">
-              {grid?.completedSections} of {grid?.totalSections} Completed
+              {grid?.completedModule} of {grid?.totalmodules} Completed
             </div>
           </div>
           <Progress

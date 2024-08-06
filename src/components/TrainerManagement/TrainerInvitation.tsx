@@ -66,15 +66,17 @@ const TrainerInvitation = () => {
           description: data?.message,
           variant: "success",
         });
+        setEmails([]);
+        reset();
+        dispatch(
+          setPath([
+            {
+              label: "Trainer Management",
+              link: `/${Role}/trainer-management`,
+            },
+          ])
+        );
       }
-      dispatch(
-        setPath([
-          {
-            label: "Trainer Management",
-            link: `/${Role}/trainer-management`,
-          },
-        ])
-      );
       setEmails([]);
       reset();
     },
@@ -96,6 +98,7 @@ const TrainerInvitation = () => {
       TrainerCompanyId: id,
       baseUrl: url,
     };
+    console.log("payload", payload);
 
     mutate(payload);
   };
@@ -133,7 +136,7 @@ const TrainerInvitation = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full mb-[18px]">
             <Label className="text-[16px] font-nunito font-[400]">
-              Enter Trainer Email ID{" "}
+              Enter Trainer Email ID
               <span className="text-[#A3A3A3]">(comma separated email id)</span>
             </Label>
             <CustomTabInput setValue={setEmails} {...register("email")} />

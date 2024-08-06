@@ -19,7 +19,7 @@ const Certifications = () => {
           {isLoading ? (
             <Loader />
           ) : data?.data?.length ? (
-            data?.data?.map((data, index: number) => {
+            data?.data?.map((data: any, index: number) => {
               return <CertificationsList key={index} data={data} />;
             })
           ) : (

@@ -21,7 +21,7 @@ export const fetchAllCourse = (
     params["client"] = client;
   }
   if (userId) {
-    params["userId"] = userId;
+    params["user"] = userId;
   }
   if (companyId) {
     params["companyId"] = companyId;

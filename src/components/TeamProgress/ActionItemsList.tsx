@@ -41,21 +41,29 @@ const ActionItemsList = ({ data }: ActionItems) => {
             <div className="flex flex-col gap-2 col-span-1">
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Last Updated By :{" "}
-                <span className="text-black">{data.evidence || "-"}</span>
+                <span className="text-black">
+                  {data?.lastUpdeated?.createdBy?.name}
+                </span>
               </h6>
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Last Updated Date :{" "}
-                <span className="text-black">{data.updatedAt}</span>
+                <span className="text-black">
+                  {moment(data.updatedAt).format("DD/MM/YYYY")}
+                </span>
               </h6>
             </div>
             <div className="flex flex-col gap-2 col-span-1">
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Target Completion Date :{" "}
-                <span className="text-black">{data.startDate}</span>
+                <span className="text-black">
+                  {moment(data.startDate).format("DD/MM/YYYY")}
+                </span>
               </h6>
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Actual Completion Date :{" "}
-                <span className="text-black">{data.endDate}</span>
+                <span className="text-black">
+                  {moment(data.endDate).format("DD/MM/YYYY")}
+                </span>
               </h6>
             </div>
           </div>

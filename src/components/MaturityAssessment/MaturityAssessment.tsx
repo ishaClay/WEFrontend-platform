@@ -7,7 +7,7 @@ import {
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import {
@@ -22,6 +22,7 @@ import ActionItems from "./ActionItems/ActionItems";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Roadmap from "./Roadmap/Roadmap";
 import Assign from "./Roadmap/Assign";
+import { utils, writeFileXLSX } from "xlsx";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -47,6 +48,8 @@ const MaturityAssessment = () => {
     queryFn: () => getCheckedMeasures(userID, clientId),
     enabled: true,
   });
+
+  console.log("getEmployeeWnList 1212", getCheckedmeasures?.data?.data);
 
   const { data: assessmentQuestionScoreLIST } = useQuery({
     queryKey: [QUERY_KEYS.assessmentQuestionScore],
@@ -90,6 +93,67 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
+    const getStatus = (startDate: string, endDate:string) => {
+      if (
+        moment(new Date(startDate), "YYYY-MM-DD").isSameOrBefore(
+          moment(new Date(), "YYYY-MM-DD")
+        ) &&
+        moment(new Date(endDate), "YYYY-MM-DD").isSameOrAfter(
+          moment(new Date(), "YYYY-MM-DD")
+        )
+      ) {
+        return "On time";
+      } else if (
+        moment(new Date(), "YYYY-MM-DD").isAfter(
+          moment(new Date(endDate), "YYYY-MM-DD")
+        )
+      ) {
+        return "Delay";
+      } else if (
+        moment(new Date(startDate), "YYYY-MM-DD").isAfter(
+          moment(new Date(), "YYYY-MM-DD")
+        )
+      ) {
+        return "In Progress";
+      }
+    };
+
+    const exportData = getCheckedmeasures?.data?.data?.map((item:any) => {
+      return {
+        "Piller Name": item?.pillarName,
+        "Percentage": item?.progressPR,
+        "Your Leval": item?.userMaturityLevel?.[0]?.level,
+        "Selected Leval": item?.userMaturityLevel?.[0]?.nextLevel,
+        "Action Name": item?.measures?.filter((measuresData:any) => measuresData?.measure)?.map((measures:any) => measures?.measure).join(", "),
+        "Assing Name": item?.measures?.filter((measuresData:any) => measuresData?.employeeId?.name)?.map((measures:any) => measures?.employeeId?.name).join(", "),
+        "Action Status": item?.measures?.filter((measuresData:any) => getStatus(measuresData?.startDate, measuresData?.endDate))?.map((measures:any) => getStatus(measures?.startDate, measures?.endDate)).join(", ") || "",
+        "Start Date": item?.measures?.filter((measuresData:any) => measuresData?.startDate)?.map((measures:any) => moment(new Date(measures?.startDate)).format("DD/MM/YYYY")).join(", ") || "",
+        "End Date": item?.measures?.filter((measuresData:any) => measuresData?.endDate)?.map((measures:any) => moment(new Date(measures?.endDate)).format("DD/MM/YYYY")).join(", "),
+        "Document Link": item?.measures?.filter((measuresData:any) => measuresData?.evidence)?.map((measures:any) => measures?.evidence).join(", "),
+      }
+    })
+    const exportFile = useCallback(() => {
+      if (exportData?.length > 0) {
+        const ws = utils.json_to_sheet(exportData);
+        const wb = utils.book_new();
+        utils.book_append_sheet(wb, ws, 'Sheet1');
+        const columnWidths = [
+          { wch: 25 },
+          { wch: 10 },
+          { wch: 15 },
+          { wch: 15 },
+          { wch: 50 },
+          { wch: 30 },
+          { wch: 30 },
+          { wch: 25 },
+          { wch: 25 },
+          { wch: 50 },
+        ];
+        ws['!cols'] = columnWidths;
+        writeFileXLSX(wb, "Action Plan.xlsx");
+      }
+    }, [exportData]);
+
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
@@ -97,14 +161,10 @@ const MaturityAssessment = () => {
           <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
             Baseline Self Assessment
           </h5>
-          <h6 className="text-xs text-[#606060] font-bold font-calibri">
+          {getCheckedmeasures?.data?.data?.length > 0 && <h6 className="text-xs text-[#606060] font-bold font-calibri">
             Completed Date :{" "}
-            {getCheckedmeasures?.data?.data?.length > 0
-              ? moment(
-                  new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")
-                ).format("DD/MM/YYYY")
-              : ""}
-          </h6>
+            {moment(new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")).format("DD/MM/YYYY")}
+          </h6>}
         </div>
         {((pillarCompleted && Role !== "employee") ||
           (pillarCompleted &&
@@ -182,7 +242,7 @@ const MaturityAssessment = () => {
                 )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm" onClick={exportFile}>
                   Export
                 </Button>
               </div>

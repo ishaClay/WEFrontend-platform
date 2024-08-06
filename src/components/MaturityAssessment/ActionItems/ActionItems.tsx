@@ -13,6 +13,8 @@ const ActionItems = () => {
     queryFn: () => getEmployeeWiseAction(userID),
   });
 
+  console.log("data", data?.data);
+
   return (
     <div>
       <div className="xl:flex block items-center gap-6 mb-5">

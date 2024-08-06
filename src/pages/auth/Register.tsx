@@ -41,11 +41,11 @@ const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Please enter min 3 alphabets in company name" }),
+      .min(3, { message: "Please enter atleast 3 characters in company name" }),
     email: z
       .string()
       .min(1, { message: "Please enter email" })
-      .email("Please Enter Valid Email"),
+      .email("Please enter valid email"),
     password: z
       .string()
       .min(1, { message: "Please enter password" })
@@ -56,7 +56,7 @@ const schema = z
     cpassword: z.string().min(1, { message: "Please enter confirm password" }),
   })
   .refine((data) => data.password === data.cpassword, {
-    message: "Passwords don't match",
+    message: "Password don't match",
     path: ["cpassword"], // Set the error path to 'cpassword'
   });
 
@@ -343,7 +343,7 @@ function Register() {
                         onClick={() => {
                           navigate("/trainer-regestration");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
+                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Analyzing Skill.png" />}
                       />
 
@@ -352,7 +352,7 @@ function Register() {
                         onClick={() => {
                           setSelectedRole("company");
                         }}
-                        className="w-[198px] h-[72px]  flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya"
+                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>
@@ -444,8 +444,8 @@ function Register() {
                     <img className="" src="../assets/img/Line 23.png" />
 
                     <p className="w-[450px] xl:w-full">
-                      Just a few quick details - your company's name, email, and
-                      a new password- and you'll be all set to navigate through
+                      Just a few quick details—your company's name, email, and a
+                      new password—and you'll be all set to navigate through
                       your sustainable and continue your impactful journey
                       anytime.
                     </p>

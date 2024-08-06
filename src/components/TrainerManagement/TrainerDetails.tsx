@@ -26,6 +26,8 @@ const TrainerDetails = () => {
   const queryClient = useQueryClient();
   const [trainerStatus, setTrainerStatus] = useState<string>("");
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
+  const [trainerEditPermission, setTrainerEditPermission] =
+    useState<boolean>(false);
   const { data: clientDetails, isPending } = useQuery<TrainersByIdResponse>({
     queryKey: ["trainerDetails", params.id],
     queryFn: () => getTrainerById({ id: params.id || "" }),
@@ -35,7 +37,7 @@ const TrainerDetails = () => {
     mutationFn: updateTrainerStatusById,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["trainerDetails", params.id],
+        queryKey: ["trainer"],
       });
       dispatch(
         setPath([
@@ -67,8 +69,9 @@ const TrainerDetails = () => {
 
   const handleSubmit = () => {
     const data = {
-      status: Number(trainerStatus),
+      status: trainerStatus.toString(),
       approved: trainerPermission,
+      editCourses: trainerEditPermission,
     };
 
     mutate({ id: params.id || "", data });
@@ -215,9 +218,11 @@ const TrainerDetails = () => {
                     value={"1"}
                     id="r1"
                     className={`${
-                      TrainerStatus[+trainerStatus] !== "Active" &&
-                      "border-[#A3A3A3]"
-                    } w-6 h-6`}
+                      TrainerStatus[+trainerStatus] !== "Active"
+                        ? "border-[#A3A3A3]"
+                        : "border-[#05668A]"
+                    } w-[22px] h-[22px]`}
+                    indicatorClassName="w-[12px] fill-[#05668A] h-[12px]"
                   />
                   <Label
                     htmlFor="r1"
@@ -234,9 +239,11 @@ const TrainerDetails = () => {
                     value={"0"}
                     id="r2"
                     className={`${
-                      TrainerStatus[+trainerStatus] !== "Inactive" &&
-                      "border-[#A3A3A3]"
+                      TrainerStatus[+trainerStatus] !== "Inactive"
+                        ? "border-[#A3A3A3]"
+                        : "border-[#05668A]"
                     } w-6 h-6`}
+                    indicatorClassName="w-[12px] fill-[#05668A] h-[12px]"
                   />
                   <Label
                     htmlFor="r2"
@@ -254,25 +261,47 @@ const TrainerDetails = () => {
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                 Trainer Permission
               </h2>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="airplane-mode"
-                  defaultChecked={trainerPermission}
-                  checked={trainerPermission}
-                  onCheckedChange={() =>
-                    setTrainerPermission(!trainerPermission)
-                  }
-                  switchClassName={
-                    "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
-                  }
-                  className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
-                />
-                <Label
-                  htmlFor="airplane-mode"
-                  className="text-[16px] font-nunito"
-                >
-                  Course Creation Permission
-                </Label>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="airplane-mode"
+                    defaultChecked={trainerPermission}
+                    checked={trainerPermission}
+                    onCheckedChange={() =>
+                      setTrainerPermission(!trainerPermission)
+                    }
+                    switchClassName={
+                      "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                    }
+                    className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                  />
+                  <Label
+                    htmlFor="airplane-mode"
+                    className="text-[16px] font-nunito"
+                  >
+                    Course Creation Permission
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="airplane-mode"
+                    defaultChecked={trainerEditPermission}
+                    checked={trainerEditPermission}
+                    onCheckedChange={() =>
+                      setTrainerEditPermission(!trainerEditPermission)
+                    }
+                    switchClassName={
+                      "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                    }
+                    className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                  />
+                  <Label
+                    htmlFor="airplane-mode"
+                    className="text-[16px] font-nunito"
+                  >
+                    Edit Course Permission
+                  </Label>
+                </div>
               </div>
             </div>
             <div className="text-right">

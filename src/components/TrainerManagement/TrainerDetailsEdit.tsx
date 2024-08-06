@@ -39,22 +39,20 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
 
 const schema = zod.object({
-  name: zod.string().min(1, { message: "Trainer name is required" }),
-  number: zod.string().min(1, { message: "Contact number is required" }),
-  email: zod.string().email({ message: "Invalid email" }),
-  providerName: zod.string().min(1, { message: "Provider Name is required" }),
-  providerType: zod.string().min(1, { message: "Provider Type is required" }),
-  providerCity: zod.string().min(1, { message: "Provider City is required" }),
-  providerCounty: zod
-    .string()
-    .min(1, { message: "Provider Country is required" }),
+  name: zod.string(),
+  number: zod.string().optional(),
+  email: zod.string().email({ message: "Please enter valid email" }),
+  providerName: zod.string(),
+  providerType: zod.string(),
+  providerCity: zod.string(),
+  providerCounty: zod.string(),
   providerNotes: zod.string().optional(),
   foreignProvider: zod
     .enum(["Yes", "No"])
     .refine(
       (value) => value !== undefined && (value === "Yes" || value === "No"),
       {
-        message: "Please select a valid option for Foreign Provider",
+        message: "Please select Foreign Provider",
         path: ["foreignProvider"],
       }
     ),
@@ -68,6 +66,8 @@ const TrainerDetailsEdit = () => {
   const [profile_image, setProfileImage] = useState<string>("");
   const [trainerStatus, setTrainerStatus] = useState<string>("");
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
+  const [trainerEditPermission, setTrainerEditPermission] =
+    useState<boolean>(false);
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -151,8 +151,8 @@ const TrainerDetailsEdit = () => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
-      setValue("name", clientDetails?.data?.name);
-      setValue("number", clientDetails?.data?.phone);
+      setValue("name", clientDetails?.data?.name || "");
+      setValue("number", clientDetails?.data?.phone || "");
       setValue("email", clientDetails?.data?.email);
       setValue("providerName", clientDetails?.data?.providerName || "");
       setValue("providerType", clientDetails?.data?.providerType || "");
@@ -165,8 +165,9 @@ const TrainerDetailsEdit = () => {
 
   const onSubmit = () => {
     const data = {
-      status: Number(trainerStatus),
+      status: trainerStatus.toString(),
       approved: trainerPermission,
+      editCourses: trainerEditPermission,
     };
 
     mutate({ id: params.id || "", data });
@@ -184,6 +185,9 @@ const TrainerDetailsEdit = () => {
       providerNotes: data?.providerNotes,
       foreignProvider: data?.foreignProvider,
       profileImage: profile_image ? profile_image : null,
+      status: trainerStatus.toString(),
+      approved: trainerPermission,
+      editCourses: trainerEditPermission,
     };
 
     update({ data: payload, id: params.id || "" });
@@ -487,25 +491,47 @@ const TrainerDetailsEdit = () => {
                 <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                   Trainer Permission
                 </h2>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    id="airplane-mode"
-                    defaultChecked={trainerPermission}
-                    checked={trainerPermission}
-                    onCheckedChange={() =>
-                      setTrainerPermission(!trainerPermission)
-                    }
-                    switchClassName={
-                      "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
-                    }
-                    className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
-                  />
-                  <Label
-                    htmlFor="airplane-mode"
-                    className="text-[16px] font-nunito"
-                  >
-                    Course Creation Permission
-                  </Label>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="airplane-mode"
+                      defaultChecked={trainerPermission}
+                      checked={trainerPermission}
+                      onCheckedChange={() =>
+                        setTrainerPermission(!trainerPermission)
+                      }
+                      switchClassName={
+                        "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                      }
+                      className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                    />
+                    <Label
+                      htmlFor="airplane-mode"
+                      className="text-[16px] font-nunito"
+                    >
+                      Course Creation Permission
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Switch
+                      id="airplane-mode"
+                      defaultChecked={trainerEditPermission}
+                      checked={trainerEditPermission}
+                      onCheckedChange={() =>
+                        setTrainerEditPermission(!trainerEditPermission)
+                      }
+                      switchClassName={
+                        "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                      }
+                      className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                    />
+                    <Label
+                      htmlFor="airplane-mode"
+                      className="text-[16px] font-nunito"
+                    >
+                      Edit Course Permission
+                    </Label>
+                  </div>
                 </div>
               </div>
               <div className="text-right">

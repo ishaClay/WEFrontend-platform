@@ -8,7 +8,7 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
 
@@ -35,19 +35,36 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
         option: "",
       },
     ]);
+
+    useEffect(() => {
+      if (questionOption[i]?.option?.length) {
+        setOptions(
+          questionOption[i]?.option?.map((item: string, index: number) => ({
+            optionTitle: `Option ${index + 1}:`,
+            option: item,
+          }))
+        );
+      }
+    }, [questionOption]);
+
     const [errors, setErrors] = useState({
       question: "",
       point: "",
-      options: Array(options.length).fill(""),
+      options: Array(options?.length).fill(""),
       answer: "",
     });
 
     const addOption = () => {
       const newOption = {
-        optionTitle: `Option ${options.length + 1}:`,
+        optionTitle: `Option ${options?.length + 1}:`,
         option: "",
       };
-      setOptions([...options, newOption]);
+
+      setOptions((prev) => {
+        // Ensure prev is an array
+        const currentOptions = Array.isArray(prev) ? prev : [];
+        return [...currentOptions, newOption];
+      });
     };
 
     const handleRemove = (i: number) => {
@@ -67,6 +84,10 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
       const questionValue = questionOption?.[i]?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
+        valid = false;
+      }
+      if (questionValue?.length > 250) {
+        newErrors.question = "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -137,6 +158,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
+              value={questionOption[i]?.question}
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -144,32 +166,44 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
               </label>
               <input
                 className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) => {
-                  dispatch(addPoint({ index: i, point: +e.target.value }));
-                  setErrors((prev) => ({ ...prev, point: "" }));
-                }}
-                type="number"
+                onChange={(e) =>{
+                  const {value} = e.target
+                  if (value.match(/^[0-9]*$/)) {
+                    dispatch(addPoint({ index: i, point: +e.target.value }))    
+                    setErrors((prev) => ({ ...prev, point: "" }));                
+                  }
+                  return
+                }
+                }
+                type="text"
+                min={0}
+                max={100}
+                value={questionOption[i]?.point || ""}
               />
             </div>
           </div>
-          {errors.question && (
-            <p className="text-red-500 text-sm">{errors.question}</p>
-          )}
-          {errors.point && (
-            <p className="text-red-500 text-sm">{errors.point}</p>
-          )}
+          <div className="flex justify-between items-center mt-2">
+            {errors.question && (
+              <p className="text-red-500 text-sm">{errors.question}</p>
+            )}
+            <span></span>
+            {errors.point && (
+              <p className="text-red-500 text-sm">{errors.point}</p>
+            )}
+          </div>
         </div>
         <div className="">
           <div className="text-right">
             <Button
               className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+              type="button"
               onClick={addOption}
             >
               + Add Option
             </Button>
           </div>
-          <RadioGroup defaultValue="comfortable">
-            {options.map((data, index) => {
+          <RadioGroup defaultValue="comfortable" className="relative">
+            {options?.map((data, index) => {
               return (
                 <Fragment key={index}>
                   <AssecessmentTypeOneOptions
@@ -180,16 +214,18 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     setOptions={setOptions}
                     setErrors={setErrors}
                   />
-                  {errors.options[index] && (
-                    <p className="text-red-500 text-sm">
-                      {errors.options[index]}
-                    </p>
-                  )}
+                  <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
+                    {errors.options[index] && (
+                      <span className={`text-red-500 text-sm`}>
+                        {errors.options[index]}
+                      </span>
+                    )}
+                  </p>
                 </Fragment>
               );
             })}
             {errors.answer && (
-              <p className="text-red-500 text-sm">{errors.answer}</p>
+              <p className="text-red-500 text-sm absolute bottom-0 right-0">{errors.answer}</p>
             )}
           </RadioGroup>
         </div>

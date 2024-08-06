@@ -48,6 +48,7 @@ const ModuleCreationPage = () => {
   const queryClient = useQueryClient();
   const search = window.location.search;
   const courseID = new URLSearchParams(search).get("id") || "";
+  const paramsVersion = new URLSearchParams(search).get("version") || "";
   const [moduleList, setModuleList] = useState<any>([]);
   const dragPerson = useRef<number>(0);
   const draggedOverPerson = useRef<number>(0);
@@ -57,25 +58,39 @@ const ModuleCreationPage = () => {
   const schema = z.object({
     modules: z.array(
       z.object({
-        moduleTitle: z.string().min(1, "Module Title is required"),
+        moduleTitle: z
+          .string()
+          .min(1, "Please enter module title")
+          .max(250, "You can not write module title more than 250 characters"),
         section: z.array(
           z
             .object({
               isLive: z.boolean(),
               sectionTitle: z
                 .string()
-                .min(1, "Section Title is required")
-                .max(250, "You can not write more than 250 characters"),
+                .min(1, "Please enter section title")
+                .max(
+                  250,
+                  "You can not write section title more than 250 characters"
+                ),
               information: z
                 .string()
-                .min(1, "Information is required")
-                .max(1000, "You can not write more than 1000 characters"),
+                .min(1, "Please enter information")
+                .max(
+                  1000,
+                  "You can not write information more than 1000 characters"
+                ),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
                 .optional(),
               uploadedContentUrl: z.string().optional(),
-              youtubeUrl: z.string().optional(),
+              youtubeUrl: z
+                .string({ required_error: "Youtube url is required" })
+                .regex(
+                  /(?:http?s?:\/\/)?(?:www.)?(?:m.)?(?:music.)?youtu(?:\.?be)(?:\.com)?(?:(?:\w*.?:\/\/)?\w*.?\w*-?.?\w*\/(?:embed|e|v|watch|.*\/)?\??(?:feature=\w*\.?\w*)?&?(?:v=)?\/?)([\w\d_-]{11})(?:\S+)?/gm,
+                  "please enter Invalid YouTube URL"
+                ).optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -111,7 +126,7 @@ const ModuleCreationPage = () => {
                   ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message:
-                      "Either uploaded content url and File or YouTube URL is required ",
+                      "Please enter uploaded Content URL or file or youTube URL ",
                     path: [
                       "uploadedContentUrl",
                       "uploadContentType",
@@ -127,23 +142,21 @@ const ModuleCreationPage = () => {
                   ) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message: "Reading time is required when isLive is false",
+                      message: "Please enter reading time",
                       path: ["readingTime.hour"],
                     });
                   }
                   if (!data.uploadContentType) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Upload content type is required when isLive is false",
+                      message: "Please select upload content type",
                       path: ["uploadContentType"],
                     });
                   }
                   if (!data.uploadedContentUrl) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
-                      message:
-                        "Upload content url is required when isLive is false",
+                      message: "Please enter upload content url",
                       path: ["uploadedContentUrl"],
                     });
                   }
@@ -169,11 +182,9 @@ const ModuleCreationPage = () => {
     resolver: zodResolver(schema),
     mode: "all",
     defaultValues: {
-      modules: [intialModuleCreation],
+      modules: [],
     },
   });
-  const error = errors;
-  console.log("error", error);
 
   const {
     fields: moduleCreationItem,
@@ -183,15 +194,11 @@ const ModuleCreationPage = () => {
     name: "modules",
     control,
   });
-  console.log(
-    "🚀 ~ ModuleCreationPage ~ moduleCreationItem:",
-    moduleCreationItem
-  );
 
   useEffect(() => {
     if (moduleList?.length > 0) {
       latestModuleList.current = moduleList; // update ref to latest state
-      if (+courseEditId) {
+      if (+paramsVersion) {
         handleModulePosition();
       }
       reset({ modules: [] });
@@ -215,9 +222,9 @@ const ModuleCreationPage = () => {
   });
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourseModule, courseID],
-    queryFn: () => getModuleData(courseEditId ? +courseEditId : +courseID),
-    enabled: !!courseID || !!courseEditId,
+    queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
+    queryFn: () => getModuleData(+paramsVersion),
+    enabled: !!paramsVersion || !!courseEditId,
   });
 
   useEffect(() => {
@@ -248,7 +255,6 @@ const ModuleCreationPage = () => {
         title: "All modules and sections saved successfully",
       });
     } catch (error) {
-      console.error("Error in saving process:", error);
       return toast({
         variant: "destructive",
         title: "Error in saving process",
@@ -305,53 +311,56 @@ const ModuleCreationPage = () => {
         <Loader />
       ) : (
         <>
-          {moduleList?.length > 0 &&
-            moduleList.map((data: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  draggable
-                  onDragStart={() => (dragPerson.current = index)}
-                  onDragEnter={() => (draggedOverPerson.current = index)}
-                  onDragEnd={handleSort}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  <CourseViewPage data={data} />
-                </div>
-              );
-            })}
-
-          <form onSubmit={handleSubmit(handleModuleSave)}>
-            {moduleCreationItem.map((_, index) => {
-              return (
-                <ModuleCreationItems
-                  errors={errors}
-                  register={register}
-                  setValue={setValue}
-                  watch={watch}
-                  control={control}
-                  removeModule={removeModule}
-                  key={`module${index}`}
-                  moduleListlength={moduleList?.length}
-                  index={index}
-                />
-              );
-            })}
-
-            {moduleCreationItem.length !== 0 && (
-              <div className="text-right">
-                <Button className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8">
-                  {CreateModuleAsync?.isPending ? (
-                    <Loader containerClassName="h-auto" />
-                  ) : (
-                    "Save"
-                  )}
-                </Button>
-              </div>
-            )}
-          </form>
+          {moduleList?.length > 0
+            ? moduleList.map((data: any, index: number) => {
+                return (
+                  <div
+                    key={index}
+                    draggable
+                    onDragStart={() => (dragPerson.current = index)}
+                    onDragEnter={() => (draggedOverPerson.current = index)}
+                    onDragEnd={handleSort}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <CourseViewPage data={data} currIndex={index} />
+                  </div>
+                );
+              })
+            : moduleCreationItem.length === 0 && (
+                <p className="text-[#606060] text-[15px] min-h-[200px] flex items-center justify-center">
+                  No Modules Data
+                </p>
+              )}
         </>
       )}
+      <form onSubmit={handleSubmit(handleModuleSave)}>
+        {moduleCreationItem.map((_, index) => {
+          return (
+            <ModuleCreationItems
+              errors={errors}
+              register={register}
+              setValue={setValue}
+              watch={watch}
+              control={control}
+              removeModule={removeModule}
+              key={`module${index}`}
+              moduleListlength={moduleList?.length}
+              index={index}
+            />
+          );
+        })}
+
+        {moduleCreationItem.length !== 0 && (
+          <div className="text-right">
+            <Button
+              isLoading={CreateModuleAsync?.isPending}
+              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+            >
+              Save
+            </Button>
+          </div>
+        )}
+      </form>
     </div>
   );
 };

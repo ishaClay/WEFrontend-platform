@@ -18,7 +18,7 @@ function SmeAdminDropdonw() {
     return (
         <div className='ml-[800px] mt-[20px]'>
             <DropdownMenu>
-                <DropdownMenuTrigger ><IoMdArrowDropdown /></DropdownMenuTrigger>
+                <DropdownMenuTrigger className="outline-none"><IoMdArrowDropdown /></DropdownMenuTrigger>
                 <DropdownMenuContent  className="h-[258px]">
                     <DropdownMenuLabel className='w-[250px] h-[62px] bg-[#00778B] rounded-sm'> 
                     <div className="flex">

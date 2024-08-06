@@ -3,6 +3,7 @@ import {
   EmployeeResponse,
 } from "@/types/employeeDetails";
 import api from "./api";
+import { EmployeeCourse } from "@/types/employee";
 
 interface RegisterEmployee {
   name: string;
@@ -91,4 +92,12 @@ export const updateEmployeeEmail = async (data: any) => {
   const url = `api/v1/employee/updateByEmail/${data?.email}`;
   const response = await api({ url, data, method: "put" });
   return response.data;
+}
+
+export const getDashboardEmployeeCourse = async (
+  id: number
+): Promise<EmployeeCourse> => {
+  const url = `api/v1/dashboard/employeeCourseCount/${id}`;
+  const res = await api({ url });
+  return res.data.data;
 };

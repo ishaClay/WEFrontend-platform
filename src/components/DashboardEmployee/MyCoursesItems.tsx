@@ -1,13 +1,10 @@
 import Ellipse_one from "@/assets/images/Ellipse1.png";
 import Ellipse_two from "@/assets/images/Ellipse2.png";
 import Ellipse_three from "@/assets/images/Ellipse3.png";
+import { MyActionDataType } from "@/types/common";
 
 type myCoursesProps = {
-  data: {
-    image: string;
-    title: number;
-    subTitle: string;
-  };
+  data: MyActionDataType;
 };
 
 const MyCoursesItems = ({ data }: myCoursesProps) => {

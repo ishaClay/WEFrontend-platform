@@ -1,10 +1,12 @@
 import FormError from "@/components/comman/FormError";
+import CKEditorComponent from "@/components/comman/JoditEditor";
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 import { uploadFile } from "@/services/apiServices/moduleCreation";
 import { SectionCreation } from "@/types/modulecreation";
 import { useMutation } from "@tanstack/react-query";
@@ -66,7 +68,7 @@ const ModuleCreationItems = ({
     name: `modules.${index}.section`,
   });
 
-  const { mutate: uploadAttechment } = useMutation({
+  const { mutate: uploadAttechment, isPending } = useMutation({
     mutationFn: (data: any) => uploadFile(data),
     onSuccess: (data: any) => {
       setValue(
@@ -79,10 +81,28 @@ const ModuleCreationItems = ({
     },
   });
 
+  const handleRemoveFile = (sectionIndex: number) => {
+    setValue(`modules.${index}.section.${sectionIndex}.uploadDocument`, "");
+  };
+
   const handleFileSelect = (e: any, sectionIndex: number) => {
     setSectionIndex(sectionIndex);
     const file = e.target.files[0];
-    uploadAttechment(file);
+
+    if (
+      file.name?.split(".").pop() === "pdf" ||
+      file.name?.split(".").pop() === "docx" ||
+      file.name?.split(".").pop() === "pptx" ||
+      file.name?.split(".").pop() === "ppt"
+    ) {
+      uploadAttechment(file);
+    } else {
+      toast({
+        title: "Invalid file type",
+        description: "Only pdf, docx, pptx files are allowed",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -176,11 +196,18 @@ const ModuleCreationItems = ({
                 Information{" "}
                 <span className="text-xs">(Max 1000words only)</span>
               </h6>
-              <Textarea
+              <CKEditorComponent
+                value={watch("information")}
                 {...register(
                   `modules.${index}.section.${sectionindex}.information`
                 )}
-                className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md sm:text-base text-sm font-calibri text-black outline-none"
+                onChange={(e, data) => {
+                  console.log("e", e);
+                  setValue(
+                    `modules.${index}.section.${sectionindex}.information`,
+                    data.getData()
+                  );
+                }}
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.information && (
@@ -238,12 +265,24 @@ const ModuleCreationItems = ({
                   )}
                 </div>
                 <div className="">
-                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
-                    Upload Related Document to Download
-                    <span className="text-xs">
-                      (Supported File:- .Pdf, .Ppt, docx)
-                    </span>
-                  </h6>
+                  <div className="flex items-center justify-between pb-2">
+                    <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+                      Upload Related Document to Download
+                      <span className="text-xs">
+                        (Supported File:- .Pdf, .Ppt, docx)
+                      </span>
+                    </h6>
+                    {sectionItem.uploadDocument && (
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        onClick={() => handleRemoveFile(sectionindex)}
+                        className="p-0 h-auto hover:bg-transparent text-[#ff0000]"
+                      >
+                        Remove File
+                      </Button>
+                    )}
+                  </div>
                   <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full flex justify-between items-center">
                     <input
                       placeholder={sectionItem.uploadDocument
@@ -256,15 +295,18 @@ const ModuleCreationItems = ({
                       htmlFor="AttechmentUpload"
                       className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
                     >
+                      {" "}
                       <Link width={18} className="me-2" />
                       Upload Attachment
                       <input
                         type="file"
                         className="hidden"
                         id="AttechmentUpload"
+                        accept=".pdf,.ppt,.docx,.pptx"
                         onChange={(e) => handleFileSelect(e, sectionindex)}
                       />
                     </Label>
+                    {isPending && <Loader containerClassName="h-auto ml-3" />}
                   </div>
                 </div>
                 {errors.modules?.[index]?.section?.[sectionindex]
@@ -385,6 +427,7 @@ const ModuleCreationItems = ({
           type="button"
           className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[141px] w-[131px] h-9"
           onClick={() => setIsOpenAssessmentModal(true)}
+          disabled={!watch(`modules.${index}`)}
         >
           <CirclePlus width={18} /> Add Assessment
         </Button>

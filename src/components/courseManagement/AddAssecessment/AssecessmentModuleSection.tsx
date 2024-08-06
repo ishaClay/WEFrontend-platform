@@ -1,22 +1,28 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getTotalDuration } from "@/lib/utils";
 import { getModuleSection } from "@/services/apiServices/assessment";
 import { useQuery } from "@tanstack/react-query";
 import { Dot } from "lucide-react";
+import { useEffect } from "react";
 
 interface AssecessmentModuleSectionProps {
   createAssecessment: any;
-  setCreateAssecessment: React.Dispatch<React.SetStateAction<object>>;
+  setCreateAssecessment: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      passingPercentage: string;
+      timeBound: number;
+      timeDuration: {
+        hours: number;
+        minutes: number;
+        seconds: number;
+      };
+    }>
+  >;
   errors: any;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
+  data: any;
 }
 
 const AssecessmentModuleSection = ({
@@ -24,18 +30,35 @@ const AssecessmentModuleSection = ({
   setCreateAssecessment,
   errors,
   setErrors,
+  data,
 }: AssecessmentModuleSectionProps) => {
   const moduleId = new URLSearchParams(window.location.search).get("moduleId");
+
+  console.log("errors", errors);
+
+  useEffect(() => {
+    if (data && data?.moduleSection) {
+      setCreateAssecessment({
+        title: data?.title,
+        passingPercentage: data?.passingPercentage,
+        timeBound: +data?.timeBound,
+        timeDuration: {
+          hours: data?.timeDuration?.hours,
+          minutes: data?.timeDuration?.minutes,
+          seconds: data?.timeDuration?.seconds,
+        },
+      });
+    }
+  }, [data, setCreateAssecessment]);
+
+  console.log("data++++++++++++", data);
 
   const { data: moduleSection } = useQuery({
     queryKey: [QUERY_KEYS.fetchModuleSection],
     queryFn: () => getModuleSection(moduleId as string),
   });
 
-  const sectionOption = [
-    ...(moduleSection?.data?.data?.moduleLiveSection ?? []),
-    ...(moduleSection?.data?.data?.moduleSection ?? []),
-  ];
+  console.log("moduleSection", moduleSection);
 
   const getTotalSectionsTime = moduleSection?.data?.data?.moduleSection?.map(
     (it: any) => it?.readingTime
@@ -69,36 +92,6 @@ const AssecessmentModuleSection = ({
           Reading
         </h6>
       </div>
-
-      <div className="mb-5">
-        <h6 className="text-base text-[#515151] font-calibri pb-3">
-          Select Section
-        </h6>
-        <Select
-          onValueChange={(e) => {
-            setCreateAssecessment({ ...createAssecessment, moduleSection: e });
-            setErrors({ ...errors, moduleSection: "" });
-          }}
-          value={createAssecessment?.moduleSection}
-        >
-          <SelectTrigger className="w-full border-[#D9D9D9] rounded-md text-base font-calibri px-4 py-4">
-            <SelectValue placeholder="How to manage financial management?" />
-          </SelectTrigger>
-          <SelectContent>
-            {sectionOption?.map((item) => (
-              <SelectItem
-                value={item?.id?.toString()}
-                className="font-base font-calibri text-[#1D2026]"
-              >
-                {item?.liveSecTitle || item?.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {errors.moduleSection && (
-          <p className="text-red-500 text-sm">{errors.moduleSection}</p>
-        )}
-      </div>
       <div className="mb-5">
         <h6 className="text-base text-[#515151] font-calibri pb-3">
           Assessment Title
@@ -110,10 +103,10 @@ const AssecessmentModuleSection = ({
             type="text"
             value={createAssecessment?.title}
             onChange={(e) => {
-              setCreateAssecessment({
-                ...createAssecessment,
+              setCreateAssecessment((prev) => ({
+                ...prev,
                 title: e.target.value,
-              });
+              }));
               setErrors((prev: any) => ({ ...prev, title: "" }));
             }}
           />
@@ -127,17 +120,18 @@ const AssecessmentModuleSection = ({
             <h6 className="text-base text-[#515151] font-calibri pb-3">
               Passing Percentage
             </h6>
-            <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
+            <div className="border border-[#D9D9D9] rounded-md p-3 w-[150px] me-5 flex justify-between items-center">
               <input
                 className="border-none w-full outline-none text-sm text-black"
                 value={createAssecessment?.passingPercentage}
-                placeholder="35%"
-                type="number"
+                placeholder="passing percentage"
+                type="text"
+                min={0}
                 onChange={(e) => {
-                  setCreateAssecessment({
-                    ...createAssecessment,
+                  setCreateAssecessment((prev) => ({
+                    ...prev,
                     passingPercentage: e.target.value,
-                  });
+                  }));
                   setErrors((prev: any) => ({
                     ...prev,
                     passingPercentage: "",
@@ -145,6 +139,9 @@ const AssecessmentModuleSection = ({
                 }}
               />
             </div>
+            {errors.passingPercentage && (
+              <p className="text-red-500 text-sm">{errors.passingPercentage}</p>
+            )}
           </div>
           <div className="">
             <h6 className="text-base text-[#515151] font-calibri pb-3">
@@ -158,14 +155,18 @@ const AssecessmentModuleSection = ({
                   if (value === "0") {
                     setCreateAssecessment((prev) => ({
                       ...prev,
-                      timeDuration: "0",
+                      timeDuration: {
+                        hours: 0,
+                        minutes: 0,
+                        seconds: 0,
+                      },
                       timeBound: +value,
                     }));
                   } else if (value === "1") {
-                    setCreateAssecessment({
-                      ...createAssecessment,
+                    setCreateAssecessment((prev) => ({
+                      ...prev,
                       timeBound: +value,
-                    });
+                    }));
                   }
                 }}
               >
@@ -192,22 +193,68 @@ const AssecessmentModuleSection = ({
             <h6 className="text-base text-[#515151] font-calibri pb-3">
               Duration
             </h6>
-            <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
-              <input
-                className="border-none w-full outline-none text-sm text-black"
-                placeholder="01"
-                disabled={!+createAssecessment?.timeBound}
-                onChange={(e) => {
-                  setCreateAssecessment((prev) => ({
-                    ...prev,
-                    timeDuration: e.target.value,
-                  }));
-                  setErrors((prev: any) => ({ ...prev, timeDuration: "" }));
-                }}
-                value={createAssecessment?.timeDuration}
-              />
-              <h6 className="text-sm text-[#A3A3A3] font-calibri">Hours</h6>
+            <div className="flex items-center gap-4">
+              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
+                <input
+                  className="border-none w-full outline-none text-sm text-black"
+                  placeholder="00"
+                  disabled={!+createAssecessment?.timeBound}
+                  onChange={(e) => {
+                    setCreateAssecessment((prev) => ({
+                      ...prev,
+                      timeDuration: {
+                        ...prev?.timeDuration,
+                        hours: +e.target.value,
+                      },
+                    }));
+                    setErrors((prev: any) => ({ ...prev, timeDuration: "" }));
+                  }}
+                  value={createAssecessment?.timeDuration?.hours || 0}
+                />
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Hours</h6>
+              </div>
+              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
+                <input
+                  className="border-none w-full outline-none text-sm text-black"
+                  placeholder="00"
+                  disabled={!+createAssecessment?.timeBound}
+                  onChange={(e) => {
+                    setCreateAssecessment((prev) => ({
+                      ...prev,
+                      timeDuration: {
+                        ...prev?.timeDuration,
+                        minutes: +e.target.value,
+                      },
+                    }));
+                    setErrors((prev: any) => ({ ...prev, timeDuration: "" }));
+                  }}
+                  value={createAssecessment?.timeDuration?.minutes || 0}
+                />
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Minutes</h6>
+              </div>
+              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
+                <input
+                  className="border-none w-full outline-none text-sm text-black"
+                  placeholder="00"
+                  disabled={!+createAssecessment?.timeBound}
+                  onChange={(e) => {
+                    setCreateAssecessment((prev) => ({
+                      ...prev,
+                      timeDuration: {
+                        ...prev?.timeDuration,
+                        seconds: +e.target.value,
+                      },
+                    }));
+                    setErrors((prev: any) => ({ ...prev, timeDuration: "" }));
+                  }}
+                  value={createAssecessment?.timeDuration?.seconds || 0}
+                />
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Secound</h6>
+              </div>
             </div>
+            {errors.timeDuration && (
+              <p className="text-red-500 text-sm">{errors.timeDuration}</p>
+            )}
           </div>
         </div>
         {errors.passingPercentage && (

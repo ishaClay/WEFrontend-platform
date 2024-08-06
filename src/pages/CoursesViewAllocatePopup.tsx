@@ -36,9 +36,9 @@ interface CourseViewAllocatePopupProps {
 }
 
 const schema = zod.object({
-  fname: zod.string().min(1, { message: "First Name is required" }),
-  lname: zod.string().min(1, { message: "Last Name is required" }),
-  email: zod.string().email({ message: "Invalid Email" }),
+  fname: zod.string().min(1, { message: "Please enter first name" }),
+  lname: zod.string().min(1, { message: "Please enter last name" }),
+  email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
 
@@ -115,7 +115,6 @@ function CourseViewAllocatePopup({
   });
 
   const courseData = data?.data && data?.data;
-
   const showInviteForm = () => {
     setIsInvite(true);
   };
@@ -162,7 +161,7 @@ function CourseViewAllocatePopup({
       companyId: courseData?.company?.id,
       csvUrl: "",
       invitationDetails: data.message,
-      courseVersion: courseData?.courseVersion?.id,
+      courseVersion: courseData?.course?.id,
     };
 
     mutate(payload);
@@ -217,14 +216,14 @@ function CourseViewAllocatePopup({
               <div className="sm:flex block overflow-hidden rounded">
                 <img
                   className="md:w-[204px] md:h-[192px] sm:w-[190px] sm:h-[170px] w-full h-[250px] rounded object-cover object-center"
-                  src={courseData?.courseVersion?.course?.bannerImage}
+                  src={courseData?.course?.bannerImage}
                   alt="Course"
                 />
 
                 <div className="flex flex-col sm:ml-[15px] sm:mt-0 mt-3">
                   <div className="flex items-start justify-between">
                     <span className="text-[#1D2026] md:text-2xl text-lg font-bold">
-                      {courseData?.courseVersion?.course?.title}
+                      {courseData?.course?.title}
                     </span>
                   </div>
 
@@ -236,7 +235,7 @@ function CourseViewAllocatePopup({
                           RECOMMENDED
                         </span>
                       </div>
-                      {/* {courseData?.courseVersion?.course?.courseData?.map((item) => {
+                      {/* {courseData?.course?.courseData?.map((item) => {
                       return (
                         <div className="flex gap-2 items-center">
                           <p
@@ -299,9 +298,9 @@ function CourseViewAllocatePopup({
                     <div className="flex items-center gap-1">
                       <img className=" h-[16] w-[18px]" src={time} alt="time" />
                       <p className="text-xs">
-                        {courseData?.courseVersion?.course?.time ===
+                        {courseData?.course?.time ===
                           CourseTime?.FullTime && <span>Full-time</span>}
-                        {courseData?.courseVersion?.course.time ===
+                        {courseData?.course.time ===
                           CourseTime?.PartTime && <span>Part-time</span>}
                       </p>
                     </div>
@@ -312,13 +311,13 @@ function CourseViewAllocatePopup({
                         alt="type"
                       />
                       <p className="text-xs">
-                        {courseData?.courseVersion?.course?.isOnline ===
+                        {courseData?.course?.isOnline ===
                           IsOnline?.Online && <span>Online</span>}
-                        {courseData?.courseVersion?.course?.isOnline ===
+                        {courseData?.course?.isOnline ===
                           IsOnline?.InPerson && <span>InPerson</span>}
-                        {courseData?.courseVersion?.course?.isOnline ===
+                        {courseData?.course?.isOnline ===
                           IsOnline?.Hybrid && <span>Hybrid</span>}
-                        {courseData?.courseVersion?.course?.isOnline ===
+                        {courseData?.course?.isOnline ===
                           IsOnline?.Major && <span>Major</span>}
                       </p>
                     </div>
@@ -329,7 +328,7 @@ function CourseViewAllocatePopup({
                         alt="Duration"
                       />
                       <p className="text-xs">
-                        {courseData?.courseVersion?.course?.duration}
+                        {courseData?.course?.duration}
                       </p>
                     </div>
                     <div className="flex items-center gap-1">
@@ -339,7 +338,7 @@ function CourseViewAllocatePopup({
                         alt="institute"
                       />
                       <p className="text-xs">
-                        {courseData?.courseVersion?.course?.institute}
+                        {courseData?.course?.institute}
                       </p>
                     </div>
                   </div>

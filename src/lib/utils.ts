@@ -473,6 +473,25 @@ export const getFileType = (name: number) => {
   return fileType;
 };
 
+export function mapTimeDuration(timeDuration: string) {
+  const [hours, minutes] = timeDuration.split(":").map(Number);
+
+  if (
+    hours !== 0 &&
+    minutes !== 0 &&
+    hours !== undefined &&
+    minutes !== undefined
+  ) {
+    return `${hours}h ${minutes}min`;
+  } else if (hours !== 0) {
+    return `${hours}h`;
+  } else if (minutes !== 0 && minutes !== undefined) {
+    return `${minutes}min`;
+  } else {
+    return `0sec`;
+  }
+}
+
 export const calculateTotalReadingTime = (sections: any) => {
   let totalHours = 0;
   let totalMinutes = 0;
@@ -614,32 +633,43 @@ export const documentIcon = (type: string) => {
 };
 
 export const isSessionOngoingAtTime = (
+  date: string,
   startTime: string,
-  sessionDuration: { hour: string; minute: string }
+  sessionDuration: number
 ): boolean => {
-  if (
-    !startTime ||
-    !sessionDuration ||
-    !sessionDuration.hour ||
-    !sessionDuration.minute
-  ) {
-    console.error("Invalid input");
-    return false;
+  const targetDate = moment();
+  const sessionStart = moment(`${date} ${startTime}`, 'YYYY-MM-DD hh:mm A');
+  const sessionEnd = sessionStart.clone().add(sessionDuration, 'minutes');
+  return targetDate.isBetween(sessionStart, sessionEnd, null, '[)');
+};
+
+export const calculateEndTime = (
+  startTime: string,
+  sessionDuration: string
+) => {
+  const [time, period] = startTime.split(" ");
+  const [hours, minutes] = time.split(":").map(Number);
+  const startDate = new Date();
+
+  let startHours = hours;
+  if (period?.toUpperCase() === "PM" && hours !== 12) {
+    startHours = hours + 12;
+  } else if (period?.toUpperCase() === "AM" && hours === 12) {
+    startHours = 0;
   }
 
-  const [startHour, startMinute] = startTime.split(":").map(Number);
+  startDate.setHours(startHours);
+  startDate.setMinutes(minutes);
+  startDate.setSeconds(0);
+  startDate.setMilliseconds(0);
+  const durationInMinutes = Number(sessionDuration);
+  const endDate = new Date(startDate.getTime() + durationInMinutes * 60000);
 
-  const durationHours = parseInt(sessionDuration.hour, 10);
-  const durationMinutes = parseInt(sessionDuration.minute, 10);
+  const endHours = endDate.getHours();
+  const endMinutes = endDate.getMinutes();
+  const endPeriod = endHours >= 12 ? "PM" : "AM";
+  const formattedHours = endHours % 12 || 12;
+  const formattedMinutes = endMinutes.toString().padStart(2, "0");
 
-  const startDateTime = new Date();
-  startDateTime.setHours(startHour, startMinute, 0, 0);
-
-  const sessionEndTime = new Date(startDateTime);
-  sessionEndTime.setHours(sessionEndTime.getHours() + durationHours);
-  sessionEndTime.setMinutes(sessionEndTime.getMinutes() + durationMinutes);
-
-  const currentTime = new Date();
-
-  return currentTime >= startDateTime && currentTime <= sessionEndTime;
+  return `${formattedHours}:${formattedMinutes} ${endPeriod}`;
 };

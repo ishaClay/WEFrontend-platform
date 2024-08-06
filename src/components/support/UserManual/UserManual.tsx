@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import UserManualList from "./UserManualList";
-import { useState } from "react";
-import { QUERY_KEYS } from "@/lib/constants";
 import Loader from "@/components/comman/Loader";
-import { fetchDocument } from "@/services/apiServices/Document";
-import { UserRole } from "@/types/UserRole";
-import { UserManualResponse } from "@/types/userManual";
 import Paginations from "@/components/comman/Pagination";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchDocument } from "@/services/apiServices/Document";
+import { UserManualResponse } from "@/types/userManual";
+import { UserRole } from "@/types/UserRole";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import UserManualList from "./UserManualList";
 const UserManual = () => {
   const [page, setPage] = useState(1);
   const userData = JSON.parse(localStorage.getItem("user") as string);

@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import {
   Select,
   SelectContent,
   SelectGroup,
@@ -7,9 +12,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { calculateEndTime } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { AllLivesessions } from "@/types/liveSession";
-import { ChevronLeft, ChevronRight, CirclePlus } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CirclePlus,
+  List,
+  NotepadText,
+} from "lucide-react";
 import moment from "moment";
 import { useState } from "react";
 import {
@@ -19,52 +32,42 @@ import {
   View,
 } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useNavigate } from "react-router-dom";
 
 interface AllLiveSessionsProps {
   allLiveSession: AllLivesessions[];
 }
 
 const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const localizer = momentLocalizer(moment);
   const pathName = window.location.pathname;
   const currentUser = pathName?.split("/")[1];
+  const search = window.location.search;
+  const params = new URLSearchParams(search).get("view");
 
   const [currentDate, setCurrentDate] = useState<Date | undefined>(new Date());
 
-  const calculateEndTime = (
-    startTime: string,
-    sessionDuration: { hour: string; minute: string }
-  ) => {
-    const [hours = 1, minutes = 0] = startTime?.split(":").map(Number) || [
-      0, 0,
-    ];
-    const [durationHours = 0, durationMinutes = 0] = sessionDuration
-      ? [sessionDuration.hour, sessionDuration.minute].map(Number) || [0, 0]
-      : [0, 0];
-
-    let totalMinutes =
-      hours * 60 + minutes + durationHours * 60 + durationMinutes;
-    let endHours = Math.floor(totalMinutes / 60);
-    let endMinutes = totalMinutes % 60;
-
-    if (endHours > 12) {
-      endHours -= 12;
-    }
-
-    return `${endHours}:${endMinutes < 10 ? "0" : ""}${endMinutes}`;
+  const changeView = (id: number) => {
+    navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
 
   const events = allLiveSession?.map((session) => {
+    const sessionDurationMinutes = session?.sessionDuration;
+
     const eventStart = moment(
       session.date + " " + session.startTime + " " + session.startAmPm,
       "YYYY-MM-DD hh:mm A"
     ).toDate();
+
     const eventEnd = moment(
       session.date +
         " " +
-        calculateEndTime(session.startTime, session.sessionDuration) +
+        calculateEndTime(
+          session.startTime + " " + session.startAmPm,
+          sessionDurationMinutes?.toString()
+        ) +
         " " +
         session.startAmPm,
       "YYYY-MM-DD hh:mm A"
@@ -73,7 +76,9 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     return {
       start: eventStart,
       end: eventEnd,
-      title: "Live Session",
+      title: session?.liveSecTitle,
+      description: session?.description,
+      zoomlink: session?.zoomApiBaseUrl,
     };
   });
 
@@ -166,7 +171,9 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
               </Button>
             </div>
             <span className="text-black font-semibold">
-              {moment(currentDate).format("MMMM YYYY")}
+              {moment(currentDate).format(
+                view !== "day" ? "MMMM YYYY" : "DD MMMM YYYY"
+              )}
             </span>
           </div>
         </div>
@@ -185,12 +192,64 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
               </SelectGroup>
             </SelectContent>
           </Select>
+          <div className="flex rounded-md bg-white border border-[#D9D9D9] overflow-hidden">
+            <Button
+              className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] border-e border-[#D9D9D9] hover:bg-[#00778B] hover:text-white ${
+                params === "0" || !params
+                  ? "text-[#fff] bg-[#00778B]"
+                  : "text-[#A3A3A3]"
+              }`}
+              onClick={() => changeView(0)}
+            >
+              <NotepadText />
+            </Button>
+            <Button
+              className={`uppercase text-base rounded-none bg-transparent text-[#A3A3A3] hover:bg-[#00778B] hover:text-white ${
+                params === "1" ? "text-[#fff] bg-[#00778B]" : "text-[#A3A3A3]"
+              }`}
+              onClick={() => changeView(1)}
+            >
+              <List />
+            </Button>
+          </div>
         </div>
       </div>
     );
   };
 
-  const CustomEvent = ({ event }: { event: any }) => <div>{event.title}</div>;
+  const CustomEvent = ({ event }: { event: any }) => (
+    <HoverCard openDelay={300} closeDelay={300}>
+      <HoverCardTrigger asChild>
+        <p>{event.title}</p>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <p className="mb-2">
+          <strong>Title:</strong> {event?.title}
+        </p>
+        <p className="mb-2">
+          <strong>Meeting time:</strong>{" "}
+          {moment(event?.start).format("hh:mm a")} -
+          {moment(event?.end).format("hh:mm a")}
+        </p>
+        <p className="mb-2">
+          <strong>Description:</strong> {event?.description}
+        </p>
+        <Button
+          disabled={
+            !moment().isBetween(
+              moment(event?.start),
+              moment(event?.end),
+              "minute",
+              "[)"
+            )
+          }
+          onClick={() => window.open(event?.zoomlink, "_blank")}
+        >
+          Join Meeting
+        </Button>
+      </HoverCardContent>
+    </HoverCard>
+  );
 
   return (
     <div className="p-3 bg-white min-h-full">
@@ -203,6 +262,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         components={{ toolbar: CustomToolbar, event: CustomEvent }}
         date={currentDate}
         style={{ height: 800 }}
+        tooltipAccessor={null}
       />
     </div>
   );

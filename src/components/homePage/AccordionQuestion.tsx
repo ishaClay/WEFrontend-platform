@@ -1,14 +1,15 @@
-type QuestionListProps = {
+type FaqProps = {
   data: {
     question: string;
+    answer?: string;
   };
 };
 
-const AccordionQuestion = ({ data }: QuestionListProps) => {
+const AccordionQuestion = ({ data }: FaqProps) => {
   return (
     <div className="text-left">
       <h4 className="xl:text-2xl text-xl font-extrabold font-abhaya line-clamp-2">
-        {data.question}
+        {data?.question}
       </h4>
     </div>
   );

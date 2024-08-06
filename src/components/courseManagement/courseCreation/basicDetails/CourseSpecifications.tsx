@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -5,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getCertificate } from "@/services/apiServices/certificate";
+import { RootState } from "@/redux/store";
+import { certificateList } from "@/services/apiServices/certificate";
 import {
   createCourseTwoPage,
   fetchNfqlLevel,
@@ -13,48 +15,73 @@ import {
   updateCourse,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
-import { CertificateResponse } from "@/types/certificate";
 import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
 const schema = zod.object({
-  nfqLeval: zod
-    .string({ required_error: "NQF level is required" })
-    .min(1, "NQF level is required"),
-  certificate: zod.string().min(1, "Participants is required").optional(),
-  ectsCredits: zod.string().min(1, "ECTS credit is required"),
-  fetCredits: zod.string().min(1, "FET credit is required"),
+  // nfqLeval: zod.string().optional(),
+  nfqLeval: zod.string({required_error: "Please select NFQ level"}).min(1, "Please select NFQ level"),
+  certificate: zod.string({required_error: "Please select certificate"}).min(1, "Please select certificate"),
+  ectsCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The ECTS credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "ECTS credit must not be lesser than 0" }
+    ),
+  fetCredits: zod
+    .string()
+    .min(1, "Please enter ECTS credit")
+    .regex(/^[0-9]/, "The FET credit must contain only numbers")
+    .refine(
+      (val) => {
+        return Number(val) > 0;
+      },
+      { message: "FET credit must not be lesser than 0" }
+    ),
 });
 
-const CourseSpecifications = () => {
+interface CourseSpecificationsProps {
+  setStep: (e: string) => void;
+  courseById: number | null;
+}
+
+const CourseSpecifications = ({
+  setStep,
+  courseById,
+}: CourseSpecificationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
+  const { UserId } = useSelector((state: RootState) => state.user);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const navigate = useNavigate();
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
 
-  const { data } = useQuery<CertificateResponse>({
-    queryKey: ["certificate"],
-    queryFn: getCertificate,
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.getcertificate],
+    queryFn: () => certificateList(UserId),
   });
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({
@@ -63,9 +90,10 @@ const CourseSpecifications = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () =>
+      fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: +courseId || courseById ? !!paramsversion || !!courseById : false,
   });
 
   const { mutate, isPending } = useMutation({
@@ -76,8 +104,9 @@ const CourseSpecifications = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep(data?.data?.data?.step?.toString());
       navigate(
-        `/${pathName}/create_course?tab=${paramsTab}&step=${2}&id=${params}&version=${paramsversion}`,
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -121,7 +150,7 @@ const CourseSpecifications = () => {
         );
         setValue(
           "certificate",
-          getSingleCourse?.data?.course?.certificate?.id?.toString()
+          getSingleCourse?.data?.course?.certificate?.id?.toString() || ""
         );
       });
     }
@@ -135,10 +164,11 @@ const CourseSpecifications = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      setStep(data?.data?.data?.step?.toString());
       navigate(
         `/${pathName}/create_course/${
-          location?.pathname?.split("/")[3]
-        }?tab=${paramsTab}&step=${2}&version=${paramsversion}`,
+          +courseId ? courseId : params
+        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -159,19 +189,24 @@ const CourseSpecifications = () => {
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
+      tab: "0",
+      step: "2"
     };
-    if (+courseId) {
-      updateCourseFun({
-        payload,
-        id: +courseId,
-        version: getSingleCourse?.data?.version,
-      });
-    } else {
-      mutate({
-        data: payload,
-        id: params || "",
-        paramsversion: paramsversion || "",
-      });
+
+    if(isDirty){
+      if (+courseId) {
+        updateCourseFun({
+          payload,
+          id: getSingleCourse?.data?.course?.id,
+          version: getSingleCourse?.data?.version,
+        });
+      } else {
+        mutate({
+          data: payload,
+          id: params || "",
+          paramsversion: "1" || "",
+        });
+      }
     }
   };
 
@@ -190,10 +225,13 @@ const CourseSpecifications = () => {
               {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => setValue("nfqLeval", e)}
-              value={watch("nfqLeval")}
+              value={watch("nfqLeval") || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
+            {!errors?.nfqLeval?.ref?.value && (
+              <ErrorMessage message={errors?.nfqLeval?.message as string} />
+            )}
           </div>
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
@@ -221,12 +259,16 @@ const CourseSpecifications = () => {
               completion?
             </Label>
             <SelectMenu
+              {...register("certificate")}
               option={certificateOption || []}
               setValue={(e: string) => setValue("certificate", e)}
               value={watch("certificate") || ""}
               placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />
+            {!errors?.certificate?.ref?.value && (
+              <ErrorMessage message={errors?.nfqLeval?.message as string} />
+            )}
           </div>
           <div className="sm:text-right text-center">
             <Button

@@ -30,8 +30,7 @@ const ViewSession = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
-    onSuccess: async (data) => {
-      console.log(data,"data")
+    onSuccess: async () => {
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
@@ -41,7 +40,7 @@ const ViewSession = ({
       setLike("");
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 

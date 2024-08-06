@@ -20,7 +20,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
-const CourseBanner = () => {
+interface CourseBannerProps {
+  courseById: number | null;
+}
+
+const CourseBanner = ({courseById}: CourseBannerProps) => {
   const [editorData, setEditorData] = React.useState("");
   const [keyData, setKeyData] = React.useState("");
   const [image, setImage] = React.useState("");
@@ -34,29 +38,29 @@ const CourseBanner = () => {
   const schema = zod.object({
     description: zod
       .string({ required_error: "Description is required" })
-      .min(1, "Information is required"),
+      .min(1, "Information is required").max(250, "You can not write description more than 250 characters"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
       .min(1, "Banner Image is required"),
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required"),
+      .min(1, "Key Outcomes is required").max(250, "You can not write description more than 250 characters"),
   });
-
+  type FormData = zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "all",
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+    queryFn: () => fetchSingleCourseById(String(+courseId ? paramsversion : courseById)),
+    enabled: (+courseId || courseById) ? (!!paramsversion || !!courseById) : false,
   });
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const CourseBanner = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${courseId}?tab=${1}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -115,7 +119,7 @@ const CourseBanner = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course?tab=${1}&id=${params}&version=${paramsversion}`
+        `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${params}&version=${paramsversion}`
       );
     },
     onError: (error: ResponseError) => {
@@ -140,21 +144,26 @@ const CourseBanner = () => {
       description: editorData,
       bannerImage: image,
       keys: keyData,
+      tab: "1",
+      step: "5"
     };
-    if (+courseId) {
+    if (+courseId) {   
       updateCourseFun({
         payload,
-        id: +courseId,
+        id: getSingleCourse?.data?.course?.id,
         version: getSingleCourse?.data?.version,
       });
     } else {
       create({
         data: payload,
         id: params || "",
-        paramsversion: paramsversion || "",
+        paramsversion: "1" || "",
       });
     }
   };
+
+  console.log("errors:", errors);
+  
 
   return (
     <>
@@ -175,9 +184,10 @@ const CourseBanner = () => {
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}
+                className="bannerTextEditor h-[186px]"
               />
               {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
-              {!editorData && errors?.description && (
+              {!errors?.description?.ref?.value && (
                 <ErrorMessage
                   message={errors?.description?.message as string}
                 />
@@ -238,9 +248,10 @@ const CourseBanner = () => {
                 Key Outcomes
               </h6>
               <CKEditorComponent
-                value={keyData}
                 {...register("keys")}
-                onChange={(_, data) => {
+                value={keyData}
+                onChange={(e, data) => {
+                  console.log("e", e);
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}

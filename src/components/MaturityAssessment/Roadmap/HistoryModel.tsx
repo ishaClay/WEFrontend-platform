@@ -55,14 +55,13 @@ const HistoryModel = ({
         <h5 className="font-abhaya text-xl font-semibold text-[#000] leading-6 pt-[30px]">
           {historyMasure}
         </h5>
-        <div className="pt-4">
+        <div className="pt-4 flex flex-col gap-5">
           {isLoading ? (
             <Loader />
           ) : (
             data?.data?.map((items, index: number) => {
               return (
-                <div key={index}>
-                  <div className="flex items-center gap-2 pb-5">
+                  <div className="flex items-center gap-2" key={index}>
                     <div>
                       <Avatar>
                         {/* <AvatarImage src={items?.image} alt="Avatar" /> */}
@@ -77,7 +76,7 @@ const HistoryModel = ({
                           {items.createdBy?.name}
                         </h6>
                         ,{" "}
-                        <p className="text-[12px] font-abhaya text-[#777] font-[700]">
+                        <p className="text-[12px] font-abhaya text-[#777] font-[700] ml-1">
                           {getTimeAgo(items.createdAt)}
                         </p>
                       </div>
@@ -86,7 +85,6 @@ const HistoryModel = ({
                       </div>
                     </div>
                   </div>
-                </div>
               );
             })
           )}

@@ -49,6 +49,8 @@ function CoursesAllocate() {
     queryFn: () => fetchAllocatedCourse(userData?.query?.id, statusFilter),
   });
 
+  console.log("course", course);
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="">
@@ -90,7 +92,7 @@ function CoursesAllocate() {
                         <div className="overflow-hidden rounded sm:min-w-[152px] sm:w-[152px] sm:min-h-[152px] sm:h-[152px] w-full">
                           <img
                             src={
-                              courseallocate?.courseVersion?.course?.bannerImage
+                              courseallocate?.course?.bannerImage
                             }
                             alt="img"
                             className="w-full h-full rounded-md"
@@ -134,7 +136,8 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-3">
                                 <MdOutlineGroup />
                                 <p className="text-[#A3A3A3] text-[13px]">
-                                  {course?.data?.employee?.length || 0} Employee
+                                  {courseallocate?.employee?.length || 0}{" "}
+                                  Employee
                                 </p>
                               </div>
                             </div>
@@ -144,7 +147,7 @@ function CoursesAllocate() {
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
-                                  courseallocate?.courseVersion?.course
+                                  courseallocate?.course
                                     ?.description || "",
                               }}
                               className="line-clamp-2"
@@ -176,10 +179,10 @@ function CoursesAllocate() {
                                 alt="time"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion?.course?.time ===
-                                  CourseTime.FullTime && <span>Full-time</span>}
-                                {courseallocate?.courseVersion?.course?.time ===
-                                  CourseTime.PartTime && <span>Part-time</span>}
+                                {courseallocate?.course?.time ===
+                                  CourseTime?.FullTime && <span>Full-time</span>}
+                                {courseallocate?.course?.time ===
+                                  CourseTime?.PartTime && <span>Part-time</span>}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">
@@ -189,19 +192,19 @@ function CoursesAllocate() {
                                 alt="type"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion?.course
+                                {courseallocate?.course
                                   .isOnline === IsOnline.Online && (
                                   <span>Online</span>
                                 )}
-                                {courseallocate?.courseVersion?.course
+                                {courseallocate?.course
                                   .isOnline === IsOnline.InPerson && (
                                   <span>InPerson</span>
                                 )}
-                                {courseallocate?.courseVersion?.course
+                                {courseallocate?.course
                                   .isOnline === IsOnline.Hybrid && (
                                   <span>Hybrid</span>
                                 )}
-                                {courseallocate?.courseVersion?.course
+                                {courseallocate?.course
                                   .isOnline === IsOnline.Major && (
                                   <span>Major</span>
                                 )}
@@ -214,7 +217,7 @@ function CoursesAllocate() {
                                 alt="Duration"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion?.course?.duration}
+                                {courseallocate?.course?.duration}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">
@@ -224,7 +227,7 @@ function CoursesAllocate() {
                                 alt="institute"
                               />
                               <p className="text-xs">
-                                {courseallocate?.courseVersion?.course?.institute}
+                                {courseallocate?.course?.institute}
                               </p>
                             </div>
                           </div>
@@ -279,7 +282,7 @@ function CoursesAllocate() {
                                   +
                                   {Math.max(
                                     0,
-                                    courseallocate?.employee.length - 5
+                                    courseallocate?.employee?.length - 5
                                   )}
                                 </div>
                               )}

@@ -22,10 +22,14 @@ const CertificateTemplete = () => {
         </div>
       </div>
       <div className="p-4">
-        <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-cols-1">
-          {isPending ? <Loader containerClassName="col-span-full" /> : certificate_data?.data?.map((item, index: number) => {
-            return <CertificateTempleteItems data={item} key={index}/>
-          })}
+        <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-x-3 sm:gap-x-2 gap-y-5">
+          {isPending ? (
+            <Loader containerClassName="col-span-full" />
+          ) : (
+            certificate_data?.data?.map((item, index: number) => {
+              return <CertificateTempleteItems data={item} key={index} />;
+            })
+          )}
         </div>
       </div>
     </div>

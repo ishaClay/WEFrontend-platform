@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { z } from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loading from "../comman/Error/Loading";
@@ -26,7 +26,6 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
-import { updateCertificate } from "@/types/certificate";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
 type RouteParams = {
@@ -41,29 +40,29 @@ const Addcertificate = () => {
   const [filename, setFilename] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const schema = z.object({
-    templateName: z.string({ required_error: "Template Name is required" }),
+    templateName: z.string({ required_error: "Please enter template name" }),
     backgroundImage: z.string({
-      message: "backgroundImage is required",
+      message: "Please add background image",
     }),
-    cretificateText: z.string({
-      message: "logoImage is required",
+    companyLogo1: z.string({
+      message: "Please add logo image",
     }),
-    title: z.string({ required_error: "Certificate Title is required" }),
+    title: z.string({ required_error: "Please enter certificate title" }),
     bodyText: z
-      .string({ required_error: "Body is required" })
-      .max(100, { message: "Body must be at most 100 characters long" }),
+      .string({ required_error: "Please enter body text" })
+      .max(250, { message: "Body text must contain at least 100 characters" }),
 
     administratorTitle: z.string({
-      required_error: "Administrator Title is required",
+      required_error: "Please enter administrator title",
     }),
     instructorTitle: z.string({
-      required_error: "Instructor Title is required",
+      required_error: "Please enter instructor title",
     }),
-    companyLogo: z.string({
-      message: "administrator Signature is required",
+    administratorSignature: z.string({
+      message: "Please add administrator signature",
     }),
     instructorSignature: z.string({
-      message: "instructor Signature is required",
+      message: "Please add instructor signature",
     }),
   });
 
@@ -87,14 +86,21 @@ const Addcertificate = () => {
   useEffect(() => {
     setValue("templateName", Single_certificate?.data?.templateName);
     setValue("backgroundImage", Single_certificate?.data?.backgroundImage);
-    setValue("cretificateText", Single_certificate?.data?.cretificateText);
     setValue("title", Single_certificate?.data?.title);
     setValue("bodyText", Single_certificate?.data?.bodyText);
+    setValue("companyLogo1", Single_certificate?.data?.companyLogo1);
+    setValue(
+      "administratorSignature",
+      Single_certificate?.data?.administratorSignature
+    );
     setValue(
       "administratorTitle",
       Single_certificate?.data?.administratorTitle
     );
-    setValue("companyLogo", Single_certificate?.data?.companyLogo);
+    setValue(
+      "administratorTitle",
+      Single_certificate?.data?.administratorTitle
+    );
     setValue("instructorTitle", Single_certificate?.data?.instructorTitle);
     setValue(
       "instructorSignature",
@@ -122,8 +128,8 @@ const Addcertificate = () => {
       });
     },
   });
-  const handleUploadFile = (e:any) => {
-    const { name, files } = e.target;
+  const handleUploadFile = (e:any, name: string) => {
+    const { files } = e.target;
     if (files && files.length > 0) {
       createImageUpload(files[0]);
       setFilename(name.toString());
@@ -167,16 +173,16 @@ const Addcertificate = () => {
   );
 
   const onSubmit = async (data: FieldValues) => {
-    const payload: updateCertificate | any = {
+    const payload = {
       user: userData?.query?.id,
       templateName: data?.templateName,
       backgroundImage: data?.backgroundImage,
-      cretificateText: data?.cretificateText,
       title: data?.title,
       bodyText: data?.bodyText,
       administratorTitle: data?.administratorTitle,
-      companyLogo: data?.companyLogo,
+      administratorSignature: data?.administratorSignature,
       instructorTitle: data?.instructorTitle,
+      companyLogo1: data?.companyLogo1,
       instructorSignature: data?.instructorSignature,
       createdAt: Single_certificate?.data?.createdAt,
       updatedAt: Single_certificate?.data?.updatedAt,
@@ -217,84 +223,162 @@ const Addcertificate = () => {
           <Loader />
         ) : (
           <div className="flex gap-[30px]">
-            <div className="sticky top-0 h-[501px] max-w-[calc(100%-391px)] w-full">
+            <div
+              className="sticky top-0 min-h-[501px] h-full max-w-[calc(100%-391px)] w-full"
+            >
               <div className="relative h-full w-full">
-                <div className="absolute inset-0">
-                  {watch("backgroundImage") && (
+                {watch("backgroundImage") && (
+                  <div className="flex justify-center">
                     <img
                       src={watch("backgroundImage")}
-                      className="object-cover w-full h-full"
-                      alt="Background"
+                      className="object-cover bg-transparent w-full max-h-[700px] h-full"
+                      alt="Logo"
                     />
-                  )}
-                </div>
-                <div className="absolute top-[10%] w-full text-center">
-                  {watch("cretificateText") && (
-                    <div className="flex justify-center">
-                      <img
-                        src={watch("cretificateText")}
-                        className="object-cover bg-transparent"
-                        alt="Logo"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className="absolute top-[30%] w-full text-center ">
-                  {watch("title") && (
-                    <div className="pb-5 text-[28px]">
-                      <h1 className="">OF PARTICIPATION</h1>
-                      <h1 className="  mt-[10px]">{watch("title")}</h1>
-                    </div>
-                  )}
-                  <div>
-                    <h1
-                      className=" font-abhaya  font-mediummt-[10px] text-5xl"
-                      style={{ fontFamily: "cursive" }}
-                    >
-                      Employe Name
-                    </h1>
                   </div>
-                  {watch("bodyText") && (
-                    <div className=" p-4 mt-[10px]">
-                      <p className="text-[28px] font-abhaya w-[50%] m-auto">
-                        {watch("bodyText")}
-                      </p>
-                    </div>
+                )}
+                <div className="absolute top-1/2 -translate-y-1/2 w-full px-20">
+                  {Single_certificate?.data?.cretificateText && (
+                    <h4
+                      className={`!font-${Single_certificate?.data?.primaryFont} text-[70px] text-center font-semibold pb-2`}
+                      style={{
+                        color: Single_certificate?.data?.primaryColor,
+                        fontFamily: Single_certificate?.data?.primaryFont,
+                      }}
+                    >
+                      {Single_certificate?.data?.cretificateText}
+                    </h4>
                   )}
-
-                  <div className="grid grid-cols-2 gap-3 justify-between p-3">
-                    <div className="flex justify-between pt-5">
-                      {watch("administratorTitle") && (
-                        <div className="border-t border-black font-abhaya text-[14px]">
-                          <h2>{watch("administratorTitle")}</h2>
-                          <h2>Head Of Marketing</h2>
-                        </div>
-                      )}
-                      {watch("companyLogo") && (
-                        <div className=" w-[70px] h-[70px] ">
-                          <img
-                            src={watch("companyLogo")}
-                            className="h-[70px]"
-                          />
-                        </div>
-                      )}
+                  <div className="w-full text-center ">
+                    {watch("title") && (
+                      <div
+                        className="pb-3 text-[30px] font-medium"
+                        style={{
+                          fontFamily: Single_certificate?.data?.secondaryFont,
+                        }}
+                      >
+                        <h1>OF PARTICIPATION</h1>
+                        <h1>{watch("title")}</h1>
+                      </div>
+                    )}
+                    <div>
+                      <h1
+                        className={`!font-${Single_certificate?.data?.primaryFont} font-medium mt-[25px] text-6xl`}
+                        style={{
+                          color: Single_certificate?.data?.primaryColor,
+                          fontFamily: Single_certificate?.data?.primaryFont,
+                        }}
+                      >
+                        Employe Name
+                      </h1>
+                      <div className="flex items-center justify-center mt-4">
+                        <span
+                          className={`block w-2 h-2 rounded-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></span>
+                        <div
+                          className={`h-[2px] max-w-[500px] w-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></div>
+                        <span
+                          className={`block w-2 h-2 rounded-full`}
+                          style={{
+                            backgroundColor:
+                              Single_certificate?.data?.primaryColor,
+                          }}
+                        ></span>
+                      </div>
                     </div>
-                    <div className="flex justify-between pt-5">
-                      {watch("instructorSignature") && (
-                        <div className=" w-[70px] h-[70px]  overflow-hidden">
-                          <img
-                            src={watch("instructorSignature")}
-                            className=""
-                          />
+                    {watch("bodyText") && (
+                      <div className="mt-5">
+                        <p
+                          className={`text-[24px] !font-${Single_certificate?.data?.secondaryFont} tracking-tight w-[50%] m-auto leading-8`}
+                          style={{
+                            fontFamily: Single_certificate?.data?.secondaryFont,
+                          }}
+                        >
+                          {watch("bodyText")}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-3 justify-between pt-8">
+                      <div className="flex items-end justify-between pt-5 pr-6">
+                        <div>
+                          <div className="">
+                            {watch("administratorSignature") ? (
+                              <img
+                                src={watch("administratorSignature") || ""}
+                                alt="logo"
+                                className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full object-contain"
+                              />
+                            ) : (
+                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                            )}
+                          </div>
+                          {watch("administratorTitle") && (
+                            <div
+                              className="border-t font-nunito font-medium text-lg pt-2"
+                              style={{
+                                borderColor:
+                                  Single_certificate?.data?.primaryColor,
+                              }}
+                            >
+                              <h2>{watch("administratorTitle")}</h2>
+                              <h2>Head Of Marketing</h2>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {watch("instructorTitle") && (
-                        <div className="border-t border-black font-abhaya text-[14px]">
-                          <h2>{watch("instructorTitle")}</h2>
-                          <h2>Head Of Marketing</h2>
+                        {Single_certificate?.data?.companyLogo && (
+                          <div className="">
+                            <img
+                              src={Single_certificate?.data?.companyLogo}
+                              className="w-full"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-end justify-between pt-5 pl-6">
+                        <div className=" w-[100px] h-[100px]  overflow-hidden">
+                          {
+                            <img
+                              src={watch("companyLogo1")}
+                              alt="logo"
+                              className="max-w-[100px] w-full min-h-[50px] max-h-[100px] h-full object-contain"
+                            />
+                          }
                         </div>
-                      )}
+                        <div>
+                          <div className="overflow-hidden">
+                            {watch("instructorSignature") ? (
+                              <img
+                                src={watch("instructorSignature")}
+                                alt="logo"
+                                className="max-w-[100px] w-full min-h-[80px] max-h-[80px] m-auto h-full"
+                              />
+                            ) : (
+                              <div className="max-w-[100px] w-full min-h-[80px] max-h-[80px] mx-auto h-full"></div>
+                            )}
+                          </div>
+                          {watch("instructorTitle") && (
+                            <div
+                              className="border-t font-nunito font-medium text-lg pt-2"
+                              style={{
+                                borderColor:
+                                  Single_certificate?.data?.primaryColor,
+                              }}
+                            >
+                              <h2>{watch("instructorTitle")}</h2>
+                              <h2>Head Of Marketing</h2>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -344,7 +428,7 @@ const Addcertificate = () => {
                         <FileUpload
                           handleDrop={(e) => {
                             setValue("backgroundImage", e);
-                            handleUploadFile(e);
+                            handleUploadFile(e, "backgroundImage");
                           }}
                           acceptType=".jpg,.png"
                           className=" cursor-pointer p-[11px] "
@@ -375,8 +459,8 @@ const Addcertificate = () => {
                       <div>
                         <FileUpload
                           handleDrop={(e) => {
-                            setValue("cretificateText", e);
-                            handleUploadFile(e);
+                            setValue("companyLogo1", e);
+                            handleUploadFile(e, "companyLogo1");
                           }}
                           className=" cursor-pointer p-[11px]"
                           acceptType=".jpg,.png"
@@ -389,9 +473,9 @@ const Addcertificate = () => {
                           </div>
                           {imagepending && <Loader />}
                         </FileUpload>
-                        {errors?.cretificateText && (
+                        {errors?.companyLogo1 && (
                           <ErrorMessage
-                            message={errors?.cretificateText?.message as string}
+                            message={errors?.companyLogo1?.message as string}
                           />
                         )}
                         <h3 className="text-[#A3A3A3] text-[15px] font-abhaya mt-2 w-[155px] h-[44px]">
@@ -523,8 +607,8 @@ const Addcertificate = () => {
                           </Label>
                           <FileUpload
                             handleDrop={(e) => {
-                              setValue("companyLogo", e);
-                              handleUploadFile(e);
+                              setValue("administratorSignature", e);
+                              handleUploadFile(e, "administratorSignature");
                             }}
                             className=" cursor-pointer p-[11px] mt-2"
                           >
@@ -536,9 +620,12 @@ const Addcertificate = () => {
                             </div>
                             {imagepending && <Loader />}
                           </FileUpload>
-                          {errors?.companyLogo && (
+                          {errors?.administratorSignature && (
                             <ErrorMessage
-                              message={errors?.companyLogo?.message as string}
+                              message={
+                                errors?.administratorSignature
+                                  ?.message as string
+                              }
                             />
                           )}
                         </AccordionContent>
@@ -583,7 +670,7 @@ const Addcertificate = () => {
                           <FileUpload
                             handleDrop={(e) => {
                               setValue("instructorSignature", e);
-                              handleUploadFile(e);
+                              handleUploadFile(e, "instructorSignature");
                             }}
                             className=" cursor-pointer p-[11px] mt-2"
                           >
@@ -615,7 +702,6 @@ const Addcertificate = () => {
                     </Button>
                   </div>
                 </div>
-                {update_Panding && <Loader />}
               </form>
             </div>
           </div>

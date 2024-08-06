@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { sendMessage } from "@/services/apiServices/chatServices";
+import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { ErrorType } from "@/types/Errors";
 import {
@@ -57,6 +58,21 @@ function CourseListView({
     enabled: !!recommendedCoursesById,
   });
 
+  const { mutate: updateEnrollRequest } = useMutation({
+    mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
+      });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
   // const getPillerName = (pillerData: CourseDataEntity[]) => {
   //   if (!pillerData) return null;
   //   return pillerData?.map((item) => {
@@ -93,6 +109,12 @@ function CourseListView({
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatUserList],
+      });
+      updateEnrollRequest({
+        id: recommendedCoursesById,
+        enroll: {
+          enroll: 3,
+        },
       });
       toast({
         variant: "success",

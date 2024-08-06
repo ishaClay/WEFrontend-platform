@@ -37,6 +37,7 @@ function CoursesAllCourse() {
         userID,
         user?.CompanyId
       ),
+    enabled: !!selectedCourse,
   });
   const searchUrl = window.location.search;
   const params = new URLSearchParams(searchUrl).get("view");

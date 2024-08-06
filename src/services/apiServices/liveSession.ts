@@ -1,7 +1,13 @@
 import api from "./api";
 
+// export const scheduleLiveSession = ({ data, id }: any) => {
+//   const url = `api/v1/livesessions/update/${id}`;
+
+//   return api({ url, data, method: "put" });
+// };
+
 export const scheduleLiveSession = ({ data, id }: any) => {
-  const url = `api/v1/livesessions/update/${id}`;
+  const url = `api/v1/livesessions/liveSessionUpdate/${id}`;
 
   return api({ url, data, method: "put" });
 };

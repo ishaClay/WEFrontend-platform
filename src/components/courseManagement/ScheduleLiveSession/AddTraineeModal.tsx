@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import Loader from "@/components/comman/Loader";
 import {
   DropdownMenu,
@@ -61,6 +62,8 @@ const AddTraineeModal = ({
       data.companyName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  console.log("traineeEmployee", traineeEmployee);
+
   const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
     if (e) {
       setTraineeList((prev: any) => {
@@ -102,7 +105,7 @@ const AddTraineeModal = ({
             render={({ field: { onChange, value } }) => {
               return (
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild className="outline-none">
                     <Button className="flex" variant="outline">
                       <SlidersHorizontal
                         width={18}
@@ -113,7 +116,7 @@ const AddTraineeModal = ({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-full">
-                    <div className="overflow-auto h-[300px]">
+                    <div className="overflow-auto max-h-[300px]">
                       {selectCompanyOptions?.map(
                         (i: { value: string; label: string }) => (
                           <DropdownMenuCheckboxItem
@@ -175,12 +178,11 @@ const AddTraineeModal = ({
           className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
           type="button"
           onClick={() => {
-            traineeList?.length > 0
-              ? setIsOpen(false)
-              : toast({
-                  title: "Select Atleast one trainee",
-                  variant: "destructive",
-                });
+            traineeList?.length > 0 ?
+            setIsOpen(false) : toast({
+              title: "Select Atleast one trainee",
+              variant: "destructive",
+            });;
           }}
         >
           Add Trainee

@@ -2,6 +2,7 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType } from "@/lib/utils";
+import { deleteAssesment } from "@/services/apiServices/assessment";
 import {
   deleteLiveSection,
   deleteSection,
@@ -24,17 +25,17 @@ const CourseViewCardInnerList = ({
     if (!readingTime) {
       return "0sec";
     }
-    const { hour, minute, second } = readingTime;
+    const { hour, minute, second, hours, minutes, seconds } = readingTime;
     let formattedTime = "";
 
-    if (hour) {
-      formattedTime += `${hour}h `;
+    if (hour || hours) {
+      formattedTime += `${hour || hours}h `;
     }
-    if (minute) {
-      formattedTime += `${minute}min `;
+    if (minute || minutes) {
+      formattedTime += `${minute || minutes}min `;
     }
-    if (second) {
-      formattedTime += `${second}sec`;
+    if (second || seconds) {
+      formattedTime += `${second || seconds}sec`;
     }
 
     if (!formattedTime) {
@@ -44,7 +45,11 @@ const CourseViewCardInnerList = ({
     return formattedTime.trim();
   }
   const FileTypeData =
-    data.isLive === 0 ? getFileType(data.documentType) : FileType.Live;
+    data.isLive === 0
+      ? data?.type
+        ? FileType.AssessmentTest
+        : getFileType(data.documentType)
+      : FileType.Live;
 
   const { mutate: DeleteSection, isPending } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),
@@ -73,15 +78,31 @@ const CourseViewCardInnerList = ({
       setIsDelete(false);
     },
   });
+  const { mutate: deleteAssesments } = useMutation({
+    mutationFn: deleteAssesment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchAllCourseModule],
+      });
+      toast({
+        variant: "success",
+        title: "Section deleted successfully",
+      });
+    },
+  });
 
   const handleDeleteSection = (sectionID: number) => {
-    if (data.isLive === 0) {
+    if (data?.type) {
+      deleteAssesments(sectionID);
+    } else if (data.isLive === 0) {
       DeleteSection(sectionID);
     } else {
       DeleteLiveSection(sectionID);
     }
     setIsDelete(true);
   };
+
+  console.log("FileTypeData", FileTypeData);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
@@ -94,16 +115,33 @@ const CourseViewCardInnerList = ({
         </div>
         <div className="">
           <h5 className="text-sm text-black font-inter pb-2">
-            {data.isLive == 0 ? data.title : data.liveSecTitle}
+            {data.isLive == 0 || !data?.isLive ? data.title : data.liveSecTitle}
           </h5>
           <div className="">
             <h6 className="text-[#747474] text-xs font-inter">
-              {FileTypeData?.name} | Duration:{" "}
-              <span className="text-black">
-                {data.isLive == 0
-                  ? formatReadingTime(data.readingTime)
-                  : formatReadingTime(data.sectionTime)}
-              </span>
+              {data?.type ? (
+                <>
+                  Duration:{" "}
+                  <span className="text-black">
+                    {formatReadingTime(data?.timeDuration)}
+                  </span>{" "}
+                  <span className="ml-2">
+                    Passing Percentage:{" "}
+                    <span className="text-[#000] font-semibold">
+                      {data.passingPercentage}%
+                    </span>
+                  </span>
+                </>
+              ) : (
+                <>
+                  {FileTypeData?.name} | Duration:{" "}
+                  <span className="text-black">
+                    {data.isLive == 0
+                      ? formatReadingTime(data.readingTime)
+                      : formatReadingTime(data.sectionTime)}
+                  </span>
+                </>
+              )}
             </h6>
           </div>
         </div>

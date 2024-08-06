@@ -9,7 +9,7 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    oldPassword: zod.string().min(3, "Old password is required"),
+    oldPassword: zod.string().min(3, "Please enter old password"),
     password: zod
       .string()
       .min(1, { message: "Please enter password" })
@@ -20,7 +20,7 @@ const schema = zod
     confirmPassword: zod.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    message: "Password don't match",
     path: ["confirmPassword"],
   });
 

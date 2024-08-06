@@ -10,7 +10,7 @@ export type CourseEnrollmentPayload = {
 export const fetchRecommendedCourses = async (params: {
   user: number;
   client: number;
-  search: string;
+  keyword: string;
 }): Promise<RecommendedCourseResponse> => {
   const url = `/api/v1/course/recommended`;
 

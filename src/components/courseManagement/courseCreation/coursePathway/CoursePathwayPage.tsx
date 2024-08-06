@@ -57,15 +57,15 @@ const CoursePathwayPage = () => {
   const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } =
     useMutation({
       mutationFn: (e: any) => pillarMaturity(e),
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsError(false);
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${2}&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=${data?.data?.data?.tab}&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${2}&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -110,6 +110,7 @@ const CoursePathwayPage = () => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
   });
+console.log("paramsversion", paramsversion);
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -118,29 +119,49 @@ const CoursePathwayPage = () => {
     }
   }, [getSingleCourse]);
 
+  console.log(
+    "selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit",
+    selectedData.length,
+    selectTargetPillarLimit?.data?.pillarLimit
+  );
+
   const handleSubmit = () => {
-    if (selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit) {
+    if (selectedData.length === selectTargetPillarLimit?.data?.pillarLimit) {
       const payload = {
         courseData: selectedData,
         id: +courseId ? +courseId : paramsId,
         version: +courseId ? getSingleCourse?.data?.version : paramsversion,
+        tab: "2",
       };
       pillarMaturityFun(payload);
     } else {
       setIsError(true);
     }
   };
+
+  console.log("asdasd", selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit);
+  
   return (
     <div className="">
-      <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
-        <span className="font-nunito font-bold">
-          Target areas / pillars(Select applicable pillars)
-        </span>
-        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
-          Which sustainability pillars does your course apply to? And for which
-          level?
-        </p>
-      </h4>
+      <div className="flex items-center justify-between">
+        <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
+          <span className="font-nunito font-bold">
+            Target areas / pillars(Select applicable pillars)
+          </span>
+          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            Which sustainability pillars does your course apply to? And for
+            which level?
+          </p>
+        </h4>
+        <Button
+          type="button"
+          variant={"ghost"}
+          className="p-0 hover:bg-transparent h-auto underline text-[#000] text-[15px] font-nunito font-[600] leading-[16px]"
+          onClick={() => setSelectedData([])}
+        >
+          Reset
+        </Button>
+      </div>
       {isClientMaturityLevel || isPending ? (
         <Loader />
       ) : (
@@ -186,7 +207,7 @@ const CoursePathwayPage = () => {
           type="button"
           onClick={handleSubmit}
           className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
-          disabled={pillarMaturityLoading || isError}
+          disabled={pillarMaturityLoading || (selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit)}
         >
           {pillarMaturityLoading ? (
             <Loader containerClassName="max-h-auto" />

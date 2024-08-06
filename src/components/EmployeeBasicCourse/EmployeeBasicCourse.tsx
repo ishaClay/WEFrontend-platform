@@ -99,15 +99,24 @@ const EmployeeBasicCourse = () => {
                   <div
                     className="flex pr-5 cursor-pointer text-black"
                     onClick={() =>
-                      dispatch(
-                        setPath([
-                          { label: "Course Management", link: null },
-                          {
-                            label: "All Course",
-                            link: `/${pathName}/allcourse`,
-                          },
-                        ])
-                      )
+                      pathName !== "employee"
+                        ? dispatch(
+                            setPath([
+                              { label: "Course Management", link: null },
+                              {
+                                label: "All Course",
+                                link: `/${pathName}/allcourse`,
+                              },
+                            ])
+                          )
+                        : dispatch(
+                            setPath([
+                              {
+                                label: "My course",
+                                link: `/${pathName}/mycourses`,
+                              },
+                            ])
+                          )
                     }
                   >
                     <MoveLeft />

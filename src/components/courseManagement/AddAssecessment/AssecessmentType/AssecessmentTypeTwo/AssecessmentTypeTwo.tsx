@@ -7,7 +7,13 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, Fragment, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  Fragment,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
 
 interface AssecessmentTypeProps {
@@ -33,10 +39,22 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         option: "",
       },
     ]);
+
+    useEffect(() => {
+      if (questionOption[i]?.option?.length) {
+        setOptions(
+          questionOption[i]?.option?.map((item: string, index: number) => ({
+            optionTitle: `Option ${index + 1}:`,
+            option: item,
+          }))
+        );
+      }
+    }, [questionOption]);
+
     const [errors, setErrors] = useState({
       question: "",
       point: "",
-      options: Array(options.length).fill(""),
+      options: Array(options?.length ? options?.length : 0)?.fill(""),
       answer: "",
     });
 
@@ -65,6 +83,10 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
       const questionValue = questionOption?.[i]?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
+        valid = false;
+      }
+      if (questionValue?.length > 250) {
+        newErrors.question = "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -110,6 +132,63 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               className="text-[#fb6262] -mt-7 cursor-pointer"
               onClick={() => handleRemove(i)}
             />
+          </div>
+          <input
+            placeholder="Multiple Choice Question"
+            disabled
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+          />
+        </div>
+        <div className="pb-8">
+          <h6 className="text-base text-black font-calibri pb-3">
+            Enter Question
+          </h6>
+          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
+            <input
+              placeholder="How would you describe an authoritarian (or controlling) management style?"
+              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              onChange={(e) => {
+                dispatch(
+                  addQuestion({
+                    index: i,
+                    question: e.target.value,
+                    assessmentType: type,
+                  })
+                );
+                setErrors((prev) => ({ ...prev, question: "" }));
+              }}
+              value={questionOption[i]?.question}
+            />
+            <div className="flex items-center">
+              <label className="me-3 text-[#515151] text-base font-calibri">
+                Point
+              </label>
+              <input
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
+                onChange={(e) =>{
+                  const {value} = e.target
+                  if (value.match(/^[0-9]*$/)) {
+                    dispatch(addPoint({ index: i, point: +e.target.value }))    
+                    setErrors((prev) => ({ ...prev, point: "" }));                
+                  }
+                  return
+                }
+                }
+                type="text"
+                min={0}
+                max={100}
+                value={questionOption[i]?.point || ""}
+              />
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
+            {errors.question && (
+              <p className="text-red-500 text-sm">{errors.question}</p>
+            )}
+            <span></span>
+            {errors.point && (
+              <p className="text-red-500 text-sm">{errors.point}</p>
+            )}
           </div>
           <input
             placeholder="Multiple Choice Question"
@@ -188,6 +267,41 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           })}
           {errors.answer && (
             <p className="text-red-500 text-sm">{errors.answer}</p>
+          )}
+        </div>
+        <div className="relative mb-3">
+          <div className="text-right">
+            <Button
+              className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+              onClick={addOption}
+              type="button"
+            >
+              + Add Option
+            </Button>
+          </div>
+          {options?.map((data, index) => {
+            return (
+              <div key={index} className="mb-4">
+                <AssecessmentTypeTwoOptions
+                  data={data}
+                  i={i}
+                  iIndex={index}
+                  options={options}
+                  setOptions={setOptions}
+                  setErrors={setErrors}
+                />
+                <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
+                  {errors.options[index] && (
+                    <span className={`text-red-500 text-sm`}>
+                      {errors.options[index]}
+                    </span>
+                  )}
+                </p>
+              </div>
+            );
+          })}
+          {errors.answer && (
+            <p className="text-red-500 text-sm absolute bottom-0 right-0">{errors.answer}</p>
           )}
         </div>
       </div>

@@ -19,7 +19,8 @@ const EnrolledCourseDetailsList = ({ data }: EnrolledCoursesType | any) => {
         items={accordionItems}
         rounded={false}
         className="sm:mt-[25px] mt-0"
-        itemsClass="md:p-5 p-3 sm:mx-0 mx-3"
+        itemsClass="md:p-5 p-3 sm:mx-0 mx-0"
+        customIconClassName="sm:block hidden"
       />
     </div>
   );

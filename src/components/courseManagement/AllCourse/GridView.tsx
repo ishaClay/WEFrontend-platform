@@ -1,5 +1,7 @@
 import StarImage from "@/assets/images/Vector.png";
+import Course_image from "@/assets/images/Course_image.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -16,22 +18,25 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
+  createNewVersion,
   deleteCourse,
   publishCourse,
   updateVersion,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
+import { ErrorType } from "@/types/Errors";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
-import AllocatedCertificateModal from "./AllocatedCertificateModal";
-import { UserRole } from "@/types/UserRole";
-import { setPath } from "@/redux/reducer/PathReducer";
+import ConfirmationModel from "./ConfirmationModel";
 import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 
 const GridView = ({
   list,
@@ -46,6 +51,7 @@ const GridView = ({
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
   const [isOpen, setIsOpen] = useState<string>("");
+  const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
@@ -55,7 +61,6 @@ const GridView = ({
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
   const pathName = location?.pathname?.split("/")?.[2];
-  console.log(Role, "role========");
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -70,13 +75,8 @@ const GridView = ({
   const { mutate: updateVersionFun, isPending: updateVersionPending } =
     useMutation({
       mutationFn: updateVersion,
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.refetchQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
-        toast({
-          title: "Success",
-          description: data?.data?.message,
-          variant: "success",
-        });
       },
       onError: (error) => {
         toast({
@@ -100,11 +100,13 @@ const GridView = ({
           description: "Course Published Successfully",
           variant: "success",
         });
+        setOpen("");
       },
-      onError: (error) => {
+      onError: (error: ErrorType) => {
+        setCourse("");
         toast({
           title: "Error",
-          description: error.message,
+          description: error?.data?.message,
           variant: "destructive",
         });
       },
@@ -152,6 +154,26 @@ const GridView = ({
       },
     });
 
+  const { mutate: createNewVersionFun, isPending: createNewVersionPending } =
+    useMutation({
+      mutationFn: createNewVersion,
+      onSuccess: (data) => {
+        navigate(
+          `/${pathName}/create_course/${
+            data?.data?.id
+          }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
+        );
+        console.log("++++++++++++++++", data);
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+
   const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
     const payload = {
       mainCourseId: item?.currentVersion?.mainCourse?.id,
@@ -161,36 +183,55 @@ const GridView = ({
     updateVersionFun(payload);
   };
 
-  const handlePublish = (e: Event, id: number) => {
+  const handlePublish = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string
+  ) => {
     e.preventDefault();
     const payload = {
-      status: "PUBLISHED",
-      id,
+      status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
+      id: +id,
     };
-    publishCourseFun(payload);
+    const cohortCount =
+      list?.find((item) => item?.currentVersion?.id === (+id || 0))
+        ?.cohortGroups || 0;
+    if (cohortCount > 0) {
+      publishCourseFun(payload);
+    } else {
+      toast({
+        title: "Please Create Cohort Group",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleCopy = (e: Event, id: number) => {
-    e.preventDefault();
+    e.stopPropagation();
     copyCourseFun(id);
   };
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | undefined,
     item: AllCoursesResult
   ) => {
     e.stopPropagation();
-    if (item?.status === "HOLD" || item?.status === "PUBLISHED") {
-      navigate(
-        `/${Role}/create_course/${
-          item?.id
-        }?tab=${0}&step=${0}&version=${id}`
-      );
+    if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
+      if (item.status === "DRAFT") {
+        navigate(
+          `/${pathName}/create_course/${item?.id}?tab=${0}&step=${0}&version=${
+            item?.currentVersion?.id
+          }`
+        );
+      } else {
+        createNewVersionFun({
+          courseId: item?.id,
+          version: item?.currentVersion?.version || 0,
+        });
+      }
     } else {
       if (item?.trainerId?.id) {
         toast({
-          title: "First Course make Hold Status then You Can Edit",
+          title: "First Course make DRAFT Status then You Can Edit",
           variant: "destructive",
         });
       } else {
@@ -205,9 +246,22 @@ const GridView = ({
   const handleDeleteCourse = () => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
+
+  console.log("list", list);
+
   return list?.length > 0 && list ? (
     <>
-      <AllocatedCertificateModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <AllocatedCertificateModal
+        isOpen={!!isOpen}
+        onClose={() => setIsOpen("")}
+        courseId={+isOpen}
+      />
+      <ConfirmationModel
+        open={open}
+        setOpen={setOpen}
+        handleSubmit={(e, id) => handlePublish(e, id)}
+        isLoader={publishCoursePending}
+      />
       <CohortModal open={cohort} setOpen={setCohort} id={+course || 0} />
       {(isLoading || updateVersionPending) && (
         <div className="fixed w-full h-full top-0 left-0 z-50 flex justify-center items-center bg-[#00000033]">
@@ -242,13 +296,17 @@ const GridView = ({
             >
               <div className="relative min-h-[170px] h-[170px] overflow-hidden">
                 <img
-                  src={item?.bannerImage}
+                  src={item?.bannerImage || Course_image}
                   alt={"bannerImage"}
                   className="w-full h-full"
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item?.status === "COPY" ? "Hold" : item?.status || ""}
+                    {item?.status === "COPY"
+                      ? "DRAFT"
+                      : item?.status === "READYTOPUBLISH"
+                      ? "Ready to Publish"
+                      : item.status || item.status}
                   </Badge>
                 </div>
               </div>
@@ -275,13 +333,13 @@ const GridView = ({
                     Module : {item?.module?.length || 0}
                   </h5>
                   <p className="text-[14px] font-nunito min-w-[108px]">
-                    Duration : {item?.duration || "--"}
+                    Duration : {item?.duration || "00"}
                   </p>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   {item?.courseData?.map((item: CourseDataEntity) => {
                     return (
-                      <div className="">
+                      <div className="" key={item?.pillarId}>
                         <Badge
                           variant="outline"
                           className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
@@ -296,17 +354,28 @@ const GridView = ({
               <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                 <Button
                   disabled={
-                    item?.status === "PUBLISHED" || item?.status === "EXPIRED"
+                    item?.status === "PUBLISHED" ||
+                    item?.status === "EXPIRED" ||
+                    item?.status === "READYTOPUBLISH" ||
+                    (+userData?.query?.role === UserRole?.Trainee &&
+                      item?.status === "READYTOPUBLISH")
                   }
                   className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                  onClick={(e: any) => {
-                    handlePublish(e, item?.currentVersion?.id as number);
+                  onClick={(
+                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                  ) => {
+                    e.preventDefault();
+                    setOpen(item?.currentVersion?.id);
                     setCourse(item?.id);
                   }}
-                  isLoading={course === item?.id}
                 >
-                  PUBLISH
+                  {item.status === "PUBLISHED"
+                    ? "Published"
+                    : item.status === "READYTOPUBLISH"
+                    ? "Ready to Publish"
+                    : "Publish"}
                 </Button>
+
                 <Button
                   onClick={(e: any) =>
                     handleCohort(e, item?.currentVersion?.id as number)
@@ -327,7 +396,7 @@ const GridView = ({
                   />
                 </div>
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger asChild className="outline-none">
                     <EllipsisVertical className="w-8" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-30">
@@ -351,25 +420,22 @@ const GridView = ({
                           : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e) =>
-                              handleEdit(
-                                e,
-                                item?.currentVersion?.id?.toString(),
-                                item
-                              )
-                            }
+                            onClick={(e) => handleEdit(e, item)}
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Edit</span>
                           </DropdownMenuItem>
                         )}
-
-                      {Role !== "trainee" && (
+                      {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
+                          className={`items-center gap-2 font-nunito ${
+                            +userData?.query?.role === UserRole.Trainee
+                              ? "hidden"
+                              : "flex"
+                          }`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsOpen(item?.id);
+                            setIsOpen(item?.currentVersion?.mainCourse?.id);
                           }}
                         >
                           <Combine className="w-4 h-4" />
@@ -395,6 +461,7 @@ const GridView = ({
           );
         })}
       </div>
+      <Loading isLoading={createNewVersionPending} />
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}

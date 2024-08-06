@@ -6,6 +6,7 @@ import { Label } from "../ui/label";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
+import { Textarea } from "../ui/textarea";
 const selectCourseOption = [
   {
     label: "Select Course 1",
@@ -80,9 +81,9 @@ const AllocatedCertificateEmployeePage = () => {
                 </h5>
               </div>
               <div className="xl:p-5 p-3">
-                <div className="pb-3">
+                <div className="pb-3 flex flex-col gap-2">
                   <Label className="text-base text-[#515151] font-normal font-calibri">
-                    Select Course
+                    Trainee Details
                   </Label>
                   <SelectMenu
                     option={selectCourseOption}
@@ -93,9 +94,9 @@ const AllocatedCertificateEmployeePage = () => {
                   />
                 </div>
 
-                <div className="">
+                <div className="flex flex-col gap-2">
                   <Label className="text-base text-[#515151] font-normal font-calibri">
-                    Select Course
+                    Select Trainee
                   </Label>
                   <SelectMenu
                     option={selectTraineeOption}
@@ -112,12 +113,12 @@ const AllocatedCertificateEmployeePage = () => {
                 <h5 className="text-base font-bold font-calibri">Body</h5>
               </div>
               <div className="xl:p-5 p-3 border border-[#D9D9D9] xl:mx-4 mx-2 xl:my-3 my-2 rounded-lg">
-                <p className="text-base text-[#A3A3A3] font-calibri line-clamp-4">
-                  [name] [course] Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. A id amet metus pellentesque ac diam feugiat.
-                  Proin neque, enim sit tellus enim. Sed in nulla feugiat enim
-                  est lobortis euismod neque in.
-                </p>
+                <Textarea
+                  className="text-base text-[#A3A3A3] font-calibri line-clamp-4"
+                  rows={5}
+                >
+                  Desription..
+                </Textarea>
               </div>
             </div>
             <div className="">
