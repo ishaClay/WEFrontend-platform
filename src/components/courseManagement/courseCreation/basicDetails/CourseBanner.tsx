@@ -159,7 +159,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       step: "5",
     };
 
-    if (isDirty || selectBoxValue?.description !== editorData || selectBoxValue?.bannerImage !== image || selectBoxValue?.keys !== keyData) {
+    if (isDirty || String(getSingleCourse?.data?.course?.description) !== editorData || getSingleCourse?.data?.course?.bannerImage !== image || String(getSingleCourse?.data?.course?.keys) !== keyData) {
       if (+courseId) {
         updateCourseFun({
           payload,

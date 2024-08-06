@@ -441,7 +441,7 @@ const ModuleCreationItems = ({
           type="button"
           className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[141px] w-[131px] h-9"
           onClick={() => setIsOpenAssessmentModal(true)}
-          disabled={!watch(`modules.${index}`)}
+          disabled
         >
           <CirclePlus width={18} /> Add Assessment
         </Button>

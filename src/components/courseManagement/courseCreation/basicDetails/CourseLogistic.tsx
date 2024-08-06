@@ -197,16 +197,17 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
+    const durationTime = data?.duration.split(" ")?.[0] + " " + data?.durationType;
     const payload = {
       time: +data?.time,
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
-      duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
+      duration: durationTime,
       tab: "0", 
       step: "3"
     };
     
-    if(isDirty || selectBoxValue?.time !== data?.time || selectBoxValue?.isOnline !== data?.isOnline || selectBoxValue?.durationType !== data?.durationType){
+    if(isDirty || getSingleCourse?.data?.course?.time !== data?.time || getSingleCourse?.data?.course?.isOnline !== data?.isOnline || getSingleCourse?.data?.course?.duration !== durationTime){
       if (+courseId) {
         updateCourseFun({
           payload,

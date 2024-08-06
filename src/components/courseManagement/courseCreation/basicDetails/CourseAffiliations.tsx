@@ -32,7 +32,10 @@ interface SelectAffiliationsTypr {
   otherInstitutionName: string;
 }
 
-const CourseAffiliations = () => {
+interface CourseAffiliationsProps {
+  courseById: number | null;
+}
+const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -80,7 +83,7 @@ const CourseAffiliations = () => {
   });
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
   });
@@ -131,8 +134,7 @@ const CourseAffiliations = () => {
         variant: "success",
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          data?.data?.data?.tab
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab
         }&step=${data?.data?.data?.step}&version=${paramsversion}`,
         {
           replace: true,
@@ -152,12 +154,12 @@ const CourseAffiliations = () => {
     const payload = {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
-      tab: "0", 
+      tab: "0",
       step: "4"
     };
 
-if(isDirty || selectAffiliations?.instituteOther !== data?.instituteOther || selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName){
-if (+courseId) {
+    if (isDirty || getSingleCourse?.data?.course?.instituteOther !== data?.instituteOther || getSingleCourse?.data?.course?.otherInstitutionName !== data?.otherInstitutionName) {
+      if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
@@ -172,8 +174,7 @@ if (+courseId) {
       }
     } else {
       navigate(
-        `/${pathName}/create_course/${
-          getSingleCourse?.data?.course?.id
+        `/${pathName}/create_course/${getSingleCourse?.data?.course?.id
         }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,

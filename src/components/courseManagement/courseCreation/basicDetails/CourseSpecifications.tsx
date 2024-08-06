@@ -198,7 +198,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       step: "2"
     };
 
-    if(isDirty || selectBoxValue?.nfqLeval !== data?.nfqLeval || selectBoxValue?.certificate !== data?.certificate){
+    if(isDirty || getSingleCourse?.data?.course?.nfqLeval?.id?.toString() !== data?.nfqLeval?.toString() || getSingleCourse?.data?.course?.certificate?.id?.toString() !== data?.certificate?.toString()){
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -242,7 +242,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}
-              value={selectBoxValue.nfqLeval || ""}
+              value={getSingleCourse?.data?.course?.nfqLeval?.id.toString() || selectBoxValue.nfqLeval || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
@@ -282,7 +282,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, certificate: e });
                 setValue("certificate", e);
               }}
-              value={selectBoxValue.certificate || ""}
+              value={getSingleCourse?.data?.course?.certificate?.id.toString() || selectBoxValue.certificate || ""}
               placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />

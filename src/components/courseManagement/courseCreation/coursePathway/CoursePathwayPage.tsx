@@ -61,11 +61,11 @@ const CoursePathwayPage = () => {
         setIsError(false);
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${data?.data?.data?.tab}&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=${data?.data?.tab}&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${data?.data?.tab}&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
