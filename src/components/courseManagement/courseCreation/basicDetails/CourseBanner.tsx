@@ -13,7 +13,7 @@ import { uploadImage } from "@/services/apiServices/upload";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +39,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     bannerImage: "",
     keys: "",
   });
+  const queryClient = useQueryClient();
 
   const schema = zod.object({
     description: zod
@@ -93,8 +94,12 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "1" : updatedData?.tab}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -129,6 +134,9 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${params}&version=${paramsversion}`
       );
@@ -159,7 +167,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       step: "5",
     };
 
-    if (isDirty || selectBoxValue?.description !== editorData || selectBoxValue?.bannerImage !== image || selectBoxValue?.keys !== keyData) {
+    if (isDirty || String(getSingleCourse?.data?.course?.description) !== editorData || getSingleCourse?.data?.course?.bannerImage !== image || String(getSingleCourse?.data?.course?.keys) !== keyData) {
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -209,7 +217,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 className="bannerTextEditor h-[186px]"
               />
               {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
-              {!errors?.description?.ref?.value && (
+              {errors?.description && (
                 <ErrorMessage
                   message={errors?.description?.message as string}
                 />
@@ -270,17 +278,20 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 Key Outcomes
               </h6>
               <CKEditorComponent
-                {...register("keys")}
                 value={keyData}
+                {...register("keys")}
                 onChange={(e, data) => {
-                  console.log("e", e);
+                  console.log(e);
                   setSelectBoxValue({ ...selectBoxValue, keys: e });
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}
+                className="bannerTextEditor h-[186px]"
               />
-              {!keyData && errors?.keys && (
-                <ErrorMessage message={errors?.keys?.message as string} />
+              {errors?.keys && (
+                <ErrorMessage
+                  message={errors?.keys?.message as string}
+                />
               )}
             </div>
             <div className="text-right mt-5">

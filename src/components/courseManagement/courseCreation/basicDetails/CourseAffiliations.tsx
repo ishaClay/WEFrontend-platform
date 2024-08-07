@@ -14,7 +14,7 @@ import {
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,10 @@ interface SelectAffiliationsTypr {
   otherInstitutionName: string;
 }
 
-const CourseAffiliations = () => {
+interface CourseAffiliationsProps {
+  courseById: number | null;
+}
+const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -54,6 +57,7 @@ const CourseAffiliations = () => {
       instituteOther: "",
       otherInstitutionName: "",
     });
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -62,6 +66,9 @@ const CourseAffiliations = () => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
@@ -79,8 +86,8 @@ const CourseAffiliations = () => {
     },
   });
 
-  const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
+  const { data: getSingleCourse, isPending: getSingleCoursePending } = useQuery({
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
   });
@@ -120,7 +127,7 @@ const CourseAffiliations = () => {
       setValue("instituteOther", data?.instituteOther);
       setValue("otherInstitutionName", data?.otherInstitutionName);
     }
-  }, [getSingleCourse]);
+  }, [getSingleCourse, getSingleCoursePending]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -130,10 +137,13 @@ const CourseAffiliations = () => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          data?.data?.data?.tab
-        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab
+        }&step=${updatedData?.creationCompleted ? "4" : updatedData?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -152,12 +162,12 @@ const CourseAffiliations = () => {
     const payload = {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
-      tab: "0", 
+      tab: "0",
       step: "4"
     };
 
-if(isDirty || selectAffiliations?.instituteOther !== data?.instituteOther || selectAffiliations?.otherInstitutionName !== data?.otherInstitutionName){
-if (+courseId) {
+    if (isDirty || getSingleCourse?.data?.course?.instituteOther !== data?.instituteOther || getSingleCourse?.data?.course?.otherInstitutionName !== data?.otherInstitutionName) {
+      if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
@@ -172,8 +182,7 @@ if (+courseId) {
       }
     } else {
       navigate(
-        `/${pathName}/create_course/${
-          getSingleCourse?.data?.course?.id
+        `/${pathName}/create_course/${getSingleCourse?.data?.course?.id
         }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,

@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { uploadFile } from "@/services/apiServices/moduleCreation";
 import { useMutation } from "@tanstack/react-query";
-import { CircleX, Link } from "lucide-react";
+import { CircleX, Link, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import UploadContent from "./UploadContent";
+import CKEditorComponent from "@/components/comman/JoditEditor";
 
 interface SectionFormProps {
   sectionID?: number;
@@ -20,6 +20,7 @@ interface SectionFormProps {
   errors: any;
   watch: any;
   setValue: any;
+  isLoading: boolean;
 }
 
 const SectionForm = ({
@@ -28,6 +29,7 @@ const SectionForm = ({
   setValue,
   register,
   sectionID,
+  isLoading,
   handleRemoveSection,
 }: SectionFormProps) => {
   const [attechmentName, setAttechment] = useState("");
@@ -119,9 +121,14 @@ const SectionForm = ({
         <h6 className="text-base font-calibri text-[#515151] pb-2">
           Information <span className="text-xs">(Max 1000words only)</span>
         </h6>
-        <Textarea
+        <CKEditorComponent
+          value={watch("information")}
           {...register("information")}
-          className="px-4 py-5 w-full h-[150px] border border-[#D9D9D9] rounded-md text-base font-calibri text-black outline-none"
+          onChange={(e, data) => {
+              console.log("e", e);
+              setValue("information",data.getData()
+            );
+          }}
         />
         {errors?.information && (
           <FormError
@@ -296,8 +303,9 @@ const SectionForm = ({
             type="submit"
             // onClick={handleSectionSave}
             className="bg-[#58BA66] px-5 py-3 font-inter text-md"
+            disabled={isLoading}
           >
-            Save
+            {isLoading && <Loader2 className="w-5 h-5 animate-spin" />} Save
           </Button>
         </div>
       )}

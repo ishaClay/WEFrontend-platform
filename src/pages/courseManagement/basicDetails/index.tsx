@@ -71,7 +71,7 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
   //   }
   // }, [paramsId, paramsversion, paramsTab, navigate, courseData]);
 
-  return !courseData ? (
+  return !courseData && courseById ? (
     <div>
       <Loader />
     </div>
@@ -100,7 +100,7 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
       ) : params === "2" ? (
         <CourseLogistic courseById={courseById} />
       ) : params === "3" ? (
-        <CourseAffiliations />
+        <CourseAffiliations courseById={courseById} />
       ) : (
         <CourseBanner courseById={courseById} />
       )}

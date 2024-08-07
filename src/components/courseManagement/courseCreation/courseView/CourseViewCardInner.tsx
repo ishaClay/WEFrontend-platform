@@ -10,7 +10,7 @@ import {
 } from "@/services/apiServices/moduleCreation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -193,7 +193,7 @@ const CourseViewCardInner = ({
     handelSectionPosition();
   }, [getCourseCardList]);
 
-  const { mutate: CreateSection } = useMutation({
+  const { mutate: CreateSection, isPending: createSectionPending } = useMutation({
     mutationFn: (data: any) => createSection(data, moduleId),
     onSuccess: (data: any) => {
       const newData = getCourseCardList.concat(data.data.data);
@@ -213,7 +213,7 @@ const CourseViewCardInner = ({
     },
   });
 
-  const { mutate: EditSection } = useMutation({
+  const { mutate: EditSection, isPending: editSectionPending } = useMutation({
     mutationFn: (data: any) => updateSection(data, moduleId, isEditSection),
     onSuccess: () => {
       setIsEditSection(null);
@@ -234,7 +234,7 @@ const CourseViewCardInner = ({
     },
   });
 
-  const { mutate: EditLiveSection } = useMutation({
+  const { mutate: EditLiveSection, isPending: editLiveSectionPending } = useMutation({
     mutationFn: (data: any) => scheduleLiveSession({ data, id: isEditSection }),
     onSuccess: () => {
       setIsEditSection(null);
@@ -380,6 +380,7 @@ const CourseViewCardInner = ({
                     getValues={getValues}
                     sectionID={isEditSection}
                     handleRemoveSection={handleRemoveSection}
+                    isLoading={editSectionPending || editLiveSectionPending}
                   />
                 </form>
               ) : (
@@ -410,6 +411,7 @@ const CourseViewCardInner = ({
               register={register}
               getValues={getValues}
               handleRemoveSection={handleRemoveSection}
+              isLoading={createSectionPending}
             />
           )}
 
@@ -437,8 +439,9 @@ const CourseViewCardInner = ({
                   type="submit"
                   // onClick={handleSectionSave}
                   className="bg-[#58BA66] px-5 py-3 font-inter text-md"
+                  disabled={createSectionPending}
                 >
-                  Save
+                  {createSectionPending && <Loader2 className="w-5 h-5 animate-spin" />} Save
                 </Button>
               )}
             </div>

@@ -13,7 +13,7 @@ import {
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -112,7 +112,6 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
   const navigate = useNavigate();
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
-  const paramsTab = new URLSearchParams(search).get("tab");
   const paramsversion = new URLSearchParams(search).get("version");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
@@ -126,6 +125,7 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
   });
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -134,6 +134,9 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
@@ -178,10 +181,14 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : params
-        }?tab=${paramsTab}&step=${3}&version=${paramsversion}`,
+        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${updatedData?.creationCompleted ? "3" : updatedData?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -197,16 +204,17 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
+    const durationTime = data?.duration.split(" ")?.[0] + " " + data?.durationType;
     const payload = {
       time: +data?.time,
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
-      duration: data?.duration.split(" ")?.[0] + " " + data?.durationType,
+      duration: durationTime,
       tab: "0", 
       step: "3"
     };
     
-    if(isDirty || selectBoxValue?.time !== data?.time || selectBoxValue?.isOnline !== data?.isOnline || selectBoxValue?.durationType !== data?.durationType){
+    if(isDirty || getSingleCourse?.data?.course?.time !== +data?.time || getSingleCourse?.data?.course?.isOnline !== +data?.isOnline || getSingleCourse?.data?.course?.duration !== durationTime){
       if (+courseId) {
         updateCourseFun({
           payload,

@@ -8,9 +8,9 @@ export interface courseRequest {
   instituteWebsite: string;
   instituteWebsite2: string;
   freeCourse: number;
-  price: number;
-  discout: number;
-  discountApplicable: number;
+  price: string;
+  discout: string;
+  discountApplicable: string;
   providerName: number;
   clientId: number;
 }

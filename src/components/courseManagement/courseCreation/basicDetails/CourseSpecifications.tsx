@@ -18,7 +18,7 @@ import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -81,6 +81,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     nfqLeval: "",
     certificate: "",
   });
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
@@ -105,6 +106,9 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
@@ -170,10 +174,14 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          data?.data?.data?.tab
-        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" :
+          updatedData?.tab
+        }&step=${updatedData?.creationCompleted ? "2" : updatedData?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -198,7 +206,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       step: "2"
     };
 
-    if(isDirty || selectBoxValue?.nfqLeval !== data?.nfqLeval || selectBoxValue?.certificate !== data?.certificate){
+    if(isDirty || getSingleCourse?.data?.course?.nfqLeval?.id?.toString() !== data?.nfqLeval?.toString() || getSingleCourse?.data?.course?.certificate?.id?.toString() !== data?.certificate?.toString()){
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -242,7 +250,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}
-              value={selectBoxValue.nfqLeval || ""}
+              value={getSingleCourse?.data?.course?.nfqLeval?.id.toString() || selectBoxValue.nfqLeval || ""}
               placeholder="Select NQF Level"
               className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
@@ -282,7 +290,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, certificate: e });
                 setValue("certificate", e);
               }}
-              value={selectBoxValue.certificate || ""}
+              value={getSingleCourse?.data?.course?.certificate?.id.toString() || selectBoxValue.certificate || ""}
               placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />

@@ -205,6 +205,11 @@ const ModuleCreationPage = () => {
   const CreateModuleAsync = useMutation({
     mutationFn: async (data: ModuleCreation) =>
       createModule(data, courseID || courseEditId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+    }
   });
 
   const createSectionAsync = useMutation({
@@ -228,6 +233,9 @@ const ModuleCreationPage = () => {
     if (CourseModule?.data?.data?.length) {
       setModuleList(CourseModule?.data.data);
     }
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.getSingleCourse],
+    });
   }, [CourseModule]);
 
   const handleModuleSave = async (data: any) => {

@@ -11,7 +11,7 @@ import {
   pillarLimit,
   pillarMaturity,
 } from "@/services/apiServices/pillar";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -34,6 +34,7 @@ const CoursePathwayPage = () => {
   const paramsId = new URLSearchParams(search).get("id");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = location?.pathname?.split("/")[3];
+  const queryClient = useQueryClient();
 
   const { data: clientMaturityLevel, isPending: isClientMaturityLevel } =
     useQuery({
@@ -59,13 +60,17 @@ const CoursePathwayPage = () => {
       mutationFn: (e: any) => pillarMaturity(e),
       onSuccess: (data) => {
         setIsError(false);
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.getSingleCourse],
+        });
+        const updatedData = data?.data;
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${data?.data?.data?.tab}&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=${updatedData?.creationCompleted ? "2" : updatedData?.tab}&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${updatedData?.creationCompleted ? "2" : updatedData?.tab}&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -125,22 +130,41 @@ console.log("paramsversion", paramsversion);
     selectTargetPillarLimit?.data?.pillarLimit
   );
 
+  const updateedPillar = (selectedData:any, pillarLimit:any) => {
+    if(selectedData?.length !== pillarLimit?.length) return false;
+    return JSON.stringify(selectedData) === JSON.stringify(pillarLimit);
+  }
+  const getPillarLimit = getSingleCourse?.data?.course?.courseData || [];
+
   const handleSubmit = () => {
-    if (selectedData.length === selectTargetPillarLimit?.data?.pillarLimit) {
-      const payload = {
-        courseData: selectedData,
-        id: +courseId ? +courseId : paramsId,
-        version: +courseId ? getSingleCourse?.data?.version : paramsversion,
-        tab: "2",
-      };
-      pillarMaturityFun(payload);
-    } else {
+    if(selectedData?.length > 0){
+      if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
+        if(updateedPillar(selectedData, getPillarLimit)){
+          if (+courseId) {
+            navigate(
+              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course?tab=2&id=${paramsId}&version=${paramsversion}`
+            );
+          }
+        } else{
+          const payload = {
+            courseData: selectedData,
+            id: +courseId ? +courseId : paramsId,
+            version: +courseId ? getSingleCourse?.data?.version : paramsversion,
+            tab: "2",
+          };
+          pillarMaturityFun(payload);
+        }
+      } else {
+        setIsError(true);
+      }
+    }else {
       setIsError(true);
     }
   };
-
-  console.log("asdasd", selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit);
-  
   return (
     <div className="">
       <div className="flex items-center justify-between">
@@ -207,7 +231,7 @@ console.log("paramsversion", paramsversion);
           type="button"
           onClick={handleSubmit}
           className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
-          disabled={pillarMaturityLoading || (selectedData?.length !== selectTargetPillarLimit?.data?.pillarLimit)}
+          disabled={pillarMaturityLoading}
         >
           {pillarMaturityLoading ? (
             <Loader containerClassName="max-h-auto" />
