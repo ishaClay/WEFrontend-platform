@@ -204,7 +204,7 @@ const CourseInformation = ({
       step: "1"
     };
 
-    if(isDirty){
+    if(isDirty || provideDisc !== (getSingleCourse?.data?.course?.discout === 1 ? true : false) || isFreeCourse !== (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false)){
       if (+courseId || paramsId) {
         updateCourseFun({
           payload,
@@ -337,7 +337,7 @@ const CourseInformation = ({
                 <InputWithLabel
                   placeholder="€255"
                   className="sm:w-[190px] w-[150px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
-                  disabled={!provideDisc}
+                  disabled={!provideDisc || isFreeCourse}
                   value={discount}
                   onChange={(e) => setDiscount(e.target.value)}
                   error={
