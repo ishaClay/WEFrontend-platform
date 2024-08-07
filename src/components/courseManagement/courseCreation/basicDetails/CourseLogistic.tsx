@@ -207,7 +207,7 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
       step: "3"
     };
     
-    if(isDirty || getSingleCourse?.data?.course?.time !== data?.time || getSingleCourse?.data?.course?.isOnline !== data?.isOnline || getSingleCourse?.data?.course?.duration !== durationTime){
+    if(isDirty || getSingleCourse?.data?.course?.time !== +data?.time || getSingleCourse?.data?.course?.isOnline !== +data?.isOnline || getSingleCourse?.data?.course?.duration !== durationTime){
       if (+courseId) {
         updateCourseFun({
           payload,
