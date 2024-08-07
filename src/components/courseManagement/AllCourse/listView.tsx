@@ -332,7 +332,7 @@ const ListView = ({
                         (+userData?.query?.role === UserRole?.Trainee &&
                           data?.status === "READYTOPUBLISH")
                       }
-                      className="xl:max-w-[90px] max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                      className="xl:max-w-[90px] sm:text-sm text-xs max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                       onClick={(
                         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                       ) => {

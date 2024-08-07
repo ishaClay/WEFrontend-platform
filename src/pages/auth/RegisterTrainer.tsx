@@ -5,7 +5,7 @@ import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
-import Header from "@/components/Header";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { Button } from "@/components/ui/button";
 import {
   InputOTP,
@@ -267,7 +267,7 @@ function RegisterTrainer() {
 
   return (
     <div className="">
-      <Header />
+      <HomeHeader />
       <div className="mainContailner">
         <div className="flex relative mt-[40px]">
           <div>
@@ -279,13 +279,13 @@ function RegisterTrainer() {
             /> */}
             <img
               src={LandingPageBuildImage}
-              className="xl:w-auto min-w-[530px] w-[530px] h-full"
+              className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
               alt="LandingPageBuildImage"
               loading="lazy"
             />
           </div>
 
-          <div className="2xl:px-0 px-5 max-w-[550px] w-full mx-auto">
+          <div className="2xl:px-0 px-5 lg:max-w-[550px] w-full mx-auto">
             <div className="flex justify-end">
               <label>
                 Already have an account?{" "}
@@ -305,7 +305,7 @@ function RegisterTrainer() {
               </div>
 
               <form onSubmit={handleSubmit(handleSendOtp)}>
-                <div className="grid grid-cols-4 gap-x-[30px] gap-y-[22px] xl:mt-[32px] mt-4 justify-start">
+                <div className="grid grid-cols-4 sm:gap-x-[30px] gap-x-[15px] sm:gap-y-[22px] gap-y-[15px] xl:mt-[32px] mt-4 justify-start">
                   <div className="col-span-2">
                     <InputWithLable
                       className="h-[46px]"
@@ -349,7 +349,7 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <Label className="mb-[8px]  font-bold text-[16px]">
+                    <Label className="mb-[8px] font-bold text-[16px]">
                       Provider County <span className="text-red-500">*</span>
                     </Label>
                     <SelectMenu
@@ -493,7 +493,7 @@ function RegisterTrainer() {
                     )}
                   </div>
                 </div>
-                <div className="w-[370px] mx-auto xl:mt-[40px] mt-5">
+                <div className="sm:w-[370px] w-full mx-auto xl:mt-[40px] mt-5">
                   <PrimaryButton
                     type="submit"
                     name="Submit"

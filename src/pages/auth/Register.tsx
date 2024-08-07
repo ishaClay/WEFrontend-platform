@@ -190,7 +190,6 @@ function Register() {
   const { mutate: createotp, isPending: createOtp } = useMutation({
     mutationFn: checkOTP,
     onSuccess: async (data) => {
-
       setShowOtpPopup(false);
       dispatch(setUserData(data?.data?.data?.id));
       dispatch(setClientRole(+data?.data?.data.role));
@@ -295,7 +294,7 @@ function Register() {
             <>
               <img
                 src={RegisterSideImage}
-                className="xl:w-auto min-w-[530px] w-[530px] h-full"
+                className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
                 alt="LandingPageBuildImage"
                 loading="lazy"
               />
@@ -304,14 +303,14 @@ function Register() {
             <>
               <img
                 src={SideImage}
-                className="xl:w-auto min-w-[530px] w-[530px] h-full"
+                className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
                 alt="LandingPageBuildImage"
                 loading="lazy"
               />
             </>
           )}
 
-          <div className="w-full 2xl:px-0 px-5 mt-[33px] max-w-[515px] mx-auto flex flex-col justify-between">
+          <div className="w-full 2xl:px-0 px-5 sm:mt-[33px] mt-[20px] sm:max-w-[515px] max-w-[450px] mx-auto flex flex-col justify-between">
             <div>
               <div className="flex justify-end">
                 <label>
@@ -323,9 +322,9 @@ function Register() {
               </div>
 
               {selectedRole !== "company" ? (
-                <div className="h-[524px] relative mt-[92px]">
+                <div className="lg:h-[524px] sm:h-[450px] h-[420px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
                   <div className="">
-                    <h3 className="text-[24px] font-[700] mb-[40px] font-abhaya">
+                    <h3 className="sm:text-[24px] text-[22px] font-[700] sm:mb-[40px] mb-[32px] font-abhaya">
                       Which best describes you?
                     </h3>
                     <img
@@ -337,13 +336,13 @@ function Register() {
                     <p className="text-[16px] font-[400] mt-3 font-abhaya">
                       Select your role so we can get you to the right place.
                     </p>
-                    <div className="flex gap-x-[40px] mt-[40px]">
+                    <div className="flex sm:flex-nowrap flex-wrap sm:gap-[40px] gap-[20px] mt-[40px]">
                       <PrimaryButton
                         name="I’m A Trainer"
                         onClick={() => {
                           navigate("/trainer-regestration");
                         }}
-                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
+                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Analyzing Skill.png" />}
                       />
 
@@ -352,7 +351,7 @@ function Register() {
                         onClick={() => {
                           setSelectedRole("company");
                         }}
-                        className="w-[198px] h-[72px] text-lg flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
+                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>
@@ -433,8 +432,8 @@ function Register() {
                   </div>
                 </div>
               ) : (
-                <div className="w-full mt-[92px]">
-                  <div className="h-[524px] relative ">
+                <div className="w-full lg:mt-[92px] mt-[70px]">
+                  <div className="lg:h-[524px] h-[400px] relative ">
                     <div className="flex items-center justify-between">
                       <h3 className="font-[700] xl:text-[24px] text-[22px]">
                         Setting sail on your sustainability voyage
@@ -443,7 +442,7 @@ function Register() {
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
 
-                    <p className="w-[450px] xl:w-full">
+                    <p className="sm:w-[450px] w-full xl:w-full">
                       Just a few quick details—your company's name, email, and a
                       new password—and you'll be all set to navigate through
                       your sustainable and continue your impactful journey
