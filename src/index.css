@@ -299,8 +299,9 @@ input[type="radio"] {
 }
 
 .bannerTextEditor .ck-editor,
+.bannerTextEditor .ck-editor .ck-rounded-corners,
 .bannerTextEditor .ck-editor .ck-editor__main .ck-content{
-  height: 100%;
+  height: 100% !important;
 }
 .bannerTextEditor .ck-editor .ck-editor__main{
   height: calc(100% - 38px);

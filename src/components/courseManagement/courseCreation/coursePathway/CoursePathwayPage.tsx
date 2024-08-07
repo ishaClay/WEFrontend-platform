@@ -130,16 +130,34 @@ console.log("paramsversion", paramsversion);
     selectTargetPillarLimit?.data?.pillarLimit
   );
 
+  const updateedPillar = (selectedData:any, pillarLimit:any) => {
+    if(selectedData?.length !== pillarLimit?.length) return false;
+    return JSON.stringify(selectedData) === JSON.stringify(pillarLimit);
+  }
+  const getPillarLimit = getSingleCourse?.data?.course?.courseData || [];
+
   const handleSubmit = () => {
     if(selectedData?.length > 0){
       if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
-        const payload = {
-          courseData: selectedData,
-          id: +courseId ? +courseId : paramsId,
-          version: +courseId ? getSingleCourse?.data?.version : paramsversion,
-          tab: "2",
-        };
-        pillarMaturityFun(payload);
+        if(updateedPillar(selectedData, getPillarLimit)){
+          if (+courseId) {
+            navigate(
+              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course?tab=2&id=${paramsId}&version=${paramsversion}`
+            );
+          }
+        } else{
+          const payload = {
+            courseData: selectedData,
+            id: +courseId ? +courseId : paramsId,
+            version: +courseId ? getSingleCourse?.data?.version : paramsversion,
+            tab: "2",
+          };
+          pillarMaturityFun(payload);
+        }
       } else {
         setIsError(true);
       }
@@ -147,9 +165,6 @@ console.log("paramsversion", paramsversion);
       setIsError(true);
     }
   };
-
-  console.log("asdasd", selectedData?.length , selectTargetPillarLimit?.data?.pillarLimit);
-  
   return (
     <div className="">
       <div className="flex items-center justify-between">

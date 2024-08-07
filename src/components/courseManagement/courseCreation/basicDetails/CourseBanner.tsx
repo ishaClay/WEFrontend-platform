@@ -217,7 +217,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 className="bannerTextEditor h-[186px]"
               />
               {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
-              {!errors?.description?.ref?.value && (
+              {errors?.description && (
                 <ErrorMessage
                   message={errors?.description?.message as string}
                 />
@@ -278,17 +278,20 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 Key Outcomes
               </h6>
               <CKEditorComponent
-                {...register("keys")}
                 value={keyData}
+                {...register("keys")}
                 onChange={(e, data) => {
-                  console.log("e", e);
+                  console.log(e);
                   setSelectBoxValue({ ...selectBoxValue, keys: e });
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}
+                className="bannerTextEditor h-[186px]"
               />
-              {!keyData && errors?.keys && (
-                <ErrorMessage message={errors?.keys?.message as string} />
+              {errors?.keys && (
+                <ErrorMessage
+                  message={errors?.keys?.message as string}
+                />
               )}
             </div>
             <div className="text-right mt-5">
