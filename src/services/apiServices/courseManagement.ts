@@ -7,7 +7,7 @@ export interface courseRequest {
   institute: string;
   instituteWebsite: string;
   instituteWebsite2: string;
-  freeCourse: number;
+  freeCourse: string;
   price: string;
   discout: string;
   discountApplicable: string;
