@@ -1,4 +1,4 @@
-import { Dot, MessageCircle, ThumbsDown, ThumbsUp } from "lucide-react";
+import { Dot, Loader2, MessageCircle, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import MessageList from "./MessageList";
@@ -26,11 +26,14 @@ const ForumPage = () => {
   const { courseId } = useParams();
   const [openCommnet, setopenCommnet] = useState<number>(0);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: createForumLoading } = useMutation({
     mutationFn: createForum,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchforumquestion],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
     },
     onError: (error: AxiosError) => {
@@ -122,8 +125,8 @@ const ForumPage = () => {
             value={forumquestion ?? ""}
           />
           <div className="text-right pt-5">
-            <Button className="bg-[#42A7C3] text-xs md:text:md" type="submit">
-              {forumLoading && <Loader />}
+            <Button className="bg-[#42A7C3] text-xs md:text:md" type="submit" disabled={createForumLoading}>
+              {createForumLoading && <Loader2 className="h-4 w-4 animate-spin" />}
               Post Question
             </Button>
           </div>

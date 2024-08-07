@@ -13,7 +13,7 @@ import { uploadImage } from "@/services/apiServices/upload";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +39,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     bannerImage: "",
     keys: "",
   });
+  const queryClient = useQueryClient();
 
   const schema = zod.object({
     description: zod
@@ -93,8 +94,12 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "1" : updatedData?.tab}&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -128,6 +133,9 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&id=${params}&version=${paramsversion}`

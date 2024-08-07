@@ -18,7 +18,7 @@ import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { NfqlLevelResponse } from "@/types/nfql";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -81,6 +81,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     nfqLeval: "",
     certificate: "",
   });
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
@@ -105,6 +106,9 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
@@ -170,10 +174,14 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          data?.data?.data?.tab
-        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" :
+          updatedData?.tab
+        }&step=${updatedData?.creationCompleted ? "2" : updatedData?.step}&version=${paramsversion}`,
         {
           replace: true,
         }

@@ -16,7 +16,7 @@ import { ResponseError } from "@/types/Errors";
 import { ClientResponse } from "@/types/client";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -96,6 +96,7 @@ const CourseInformation = ({
     queryKey: ["price", { clientId }],
     queryFn: () => fetchClientById(clientId),
   });
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourse,
@@ -105,7 +106,9 @@ const CourseInformation = ({
         description: data?.data?.message,
         variant: "success",
       });
-      console.log("success", data?.data?.data);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
       setCourseById(data?.data?.data?.id);
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.course?.tab}&step=${data?.data?.data?.course?.step}&id=${
@@ -133,11 +136,15 @@ const CourseInformation = ({
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
         `/${pathName}/create_course/${
-          +courseId ? courseId : data?.data?.data?.id
-        }?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&version=${
-          data?.data?.data?.currentVersion?.id
+          +courseId ? courseId : updatedData?.id
+        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${updatedData?.creationCompleted ? "1" : updatedData?.step}&version=${
+          updatedData?.currentVersion?.id
         }`,
         {
           replace: true,

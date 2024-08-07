@@ -14,7 +14,7 @@ import {
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +57,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       instituteOther: "",
       otherInstitutionName: "",
     });
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -65,6 +66,9 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
         title: "Success",
         description: data?.data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
         `/${pathName}/create_course?tab=${data?.data?.data?.tab}&step=${data?.data?.data?.step}&id=${params}&version=${paramsversion}`,
@@ -82,7 +86,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isPending: getSingleCoursePending } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
@@ -123,7 +127,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       setValue("instituteOther", data?.instituteOther);
       setValue("otherInstitutionName", data?.otherInstitutionName);
     }
-  }, [getSingleCourse]);
+  }, [getSingleCourse, getSingleCoursePending]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -133,9 +137,13 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
         description: data?.data?.message,
         variant: "success",
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${data?.data?.data?.tab
-        }&step=${data?.data?.data?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab
+        }&step=${updatedData?.creationCompleted ? "4" : updatedData?.step}&version=${paramsversion}`,
         {
           replace: true,
         }
