@@ -1,26 +1,29 @@
+import { PermissionContext } from "@/context/PermissionContext";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { IssuedCertificateList } from "@/services/apiServices/certificate";
+import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
+import { UserRole } from "@/types/UserRole";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
-import { Button } from "../ui/button";
-import { NewDataTable } from "../comman/NewDataTable";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/constants";
-import { IssuedCertificateList } from "@/services/apiServices/certificate";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import Loader from "../comman/Loader";
-import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
-import { useEffect, useState } from "react";
 import moment from "moment";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../comman/Loader";
+import { NewDataTable } from "../comman/NewDataTable";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
+  const { permissions } = useContext(PermissionContext);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState<certificateDataEntity[]>([]);
   const [page, setPage] = useState(1);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { data: Issued_Certificate, isPending } = useQuery<IssuedCertificate>({
     queryKey: [QUERY_KEYS.issuedCertificate, { page, search }],
@@ -225,6 +228,8 @@ const AllocatedCertificatePage = () => {
     }
   }, [search, Issued_Certificate?.data]);
 
+  console.log("permissions", permissions);
+
   return (
     <div className="bg-white rounded-lg">
       <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
@@ -238,8 +243,15 @@ const AllocatedCertificatePage = () => {
         </div>
         <div className="">
           <Button
+            disabled={!permissions?.certificate}
             className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
-            onClick={() => navigate("/trainer/allocated-certificate-employee")}
+            onClick={() =>
+              navigate(
+                `/${UserRole[
+                  userData?.query?.role
+                ]?.toLowerCase()}/allocated-certificate-employee`
+              )
+            }
           >
             Issued Certificate
           </Button>

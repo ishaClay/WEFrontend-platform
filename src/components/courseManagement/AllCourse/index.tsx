@@ -7,12 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PermissionContext } from "@/context/PermissionContext";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -20,10 +23,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
 
 const AllCourses = () => {
+  const { permissions } = useContext(PermissionContext);
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [status, setStatus] = useState("");
@@ -72,30 +74,32 @@ const AllCourses = () => {
           </div>
           <div className="flex justify-between items-center">
             {(+userData?.query?.role === UserRole.Trainee
-              ? userData?.approved
+              ? permissions?.createCourse
               : true) && (
               <div>
                 <Button
                   type="button"
                   onClick={() => {
-                  {  dispatch(
-                      setPath([
-                        {
-                          label: "Course Management",
-                          link: null,
-                        },
-                        {
-                          label: "All Course",
-                          link: `/${Role}/allcourse`,
-                        },
-                        {
-                          label: "Create Course",
-                          link: null,
-                        },
-                      ])
-                    ); navigate(`/${Role}/create_course?tab=0&step=0&version=1`)}
+                    {
+                      dispatch(
+                        setPath([
+                          {
+                            label: "Course Management",
+                            link: null,
+                          },
+                          {
+                            label: "All Course",
+                            link: `/${Role}/allcourse`,
+                          },
+                          {
+                            label: "Create Course",
+                            link: null,
+                          },
+                        ])
+                      );
+                      navigate(`/${Role}/create_course?tab=0&step=0&version=1`);
+                    }
                   }}
-                
                   className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
                 >
                   ADD NEW COURSE

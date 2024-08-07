@@ -9,16 +9,23 @@ type moduleCourseCardProps = {
 };
 
 const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
-  const getTotalSectionsTime = data?.moduleSections?.map((it:any) => it?.readingTime)
+  const getTotalSectionsTime = (
+    data?.moduleSections || data?.moduleSection
+  )?.map((it: any) => it?.readingTime);
   const totalTimeInSeconds = getTotalDuration(getTotalSectionsTime);
 
-// Convert total seconds back to hours, minutes, seconds
-  const hours = Math.floor(totalTimeInSeconds / 3600)?.toString()?.padStart(2, '0');
-  const minutes = Math.floor((totalTimeInSeconds % 3600) / 60)?.toString()?.padStart(2, '0');
-  const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, '0');
-  
-  return (
-    data ? 
+  console.log("totalTimeInSeconds", data?.moduleSection);
+
+  // Convert total seconds back to hours, minutes, seconds
+  const hours = Math.floor(totalTimeInSeconds / 3600)
+    ?.toString()
+    ?.padStart(2, "0");
+  const minutes = Math.floor((totalTimeInSeconds % 3600) / 60)
+    ?.toString()
+    ?.padStart(2, "0");
+  const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
+
+  return data ? (
     <div className="">
       <h3 className="sm:text-base text-sm font-bold font-calibri pb-2 text-left flex items-center">
         {/* <CircleAlert className="me-2 text-[#747474]" /> */}
@@ -32,7 +39,9 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
           Duration {hours}: {minutes}: {seconds}
         </h6>
       </div>
-    </div> : <div className="text-center w-full py-10">No data found</div>
+    </div>
+  ) : (
+    <div className="text-center w-full py-10">No data found</div>
   );
 };
 

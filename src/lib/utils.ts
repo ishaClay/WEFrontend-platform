@@ -204,7 +204,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "Certificate Management",
+          label: "Certificate Template",
           link: "/trainee/certificate-template",
         },
         {

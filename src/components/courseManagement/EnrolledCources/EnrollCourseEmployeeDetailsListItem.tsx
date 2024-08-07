@@ -3,10 +3,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
+import { PermissionContext } from "@/context/PermissionContext";
 import { chatDPColor } from "@/lib/utils";
 import { EmployeeType } from "@/types/enroll";
 import { Award, CircleCheck, FilePenLine } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 import EvaluateModalDetails from "./EvaluateModalDetails";
 
@@ -17,8 +18,11 @@ const EnrollCourseEmployeeDetailsListItem = ({
   data,
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const { permissions } = useContext(PermissionContext);
   const [isOpenAllocate, setIsOpenAllocate] = useState(false);
   const progress = String(data?.progress)?.split(".");
+  console.log("permissions", permissions);
 
   return (
     <>
@@ -102,7 +106,13 @@ const EnrollCourseEmployeeDetailsListItem = ({
                   variant={"outlinePrimary"}
                   className="text-[#00778b] border-[#00778b] sm:px-5 px-2 rounded-none sm:text-base text-xs sm:h-10 h-9"
                   onClick={() => setIsOpenAllocate(true)}
-                  disabled={progress?.[0] !== "100" ? true : false}
+                  disabled={
+                    progress?.[0] !== "100"
+                      ? true
+                      : userData?.query?.role === "3"
+                      ? !permissions?.certificate
+                      : false
+                  }
                 >
                   <Award width={18} height={18} />
                   Allocate Certificate
@@ -122,7 +132,13 @@ const EnrollCourseEmployeeDetailsListItem = ({
                 <Button
                   className="text-white flex bg-[#00778b] sm:px-5 px-2 py-2 font-calibri sm:text-base text-xs rounded-none sm:h-10 h-9"
                   onClick={() => setIsOpen(true)}
-                  disabled={progress?.[0] !== "100" ? true : false}
+                  disabled={
+                    progress?.[0] !== "100"
+                      ? true
+                      : userData?.query?.role === "3"
+                      ? !permissions?.certificate
+                      : false
+                  }
                 >
                   <FilePenLine width={18} /> Evaluate
                 </Button>

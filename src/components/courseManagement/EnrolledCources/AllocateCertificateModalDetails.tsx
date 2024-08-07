@@ -1,7 +1,10 @@
 import dropFile from "@/assets/images/drop_file-img.png";
 import { Button } from "@/components/ui/button";
+import { UserRole } from "@/types/UserRole";
+import { Link } from "react-router-dom";
 
 const AllocateCertificateModalDetails = () => {
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   return (
     <div className="text-center">
       <h3 className="text-xl font-abhaya font-bold pb-5">
@@ -25,7 +28,14 @@ const AllocateCertificateModalDetails = () => {
       <h5 className="text-xl font-bold font-calibri pb-4">OR</h5>
       <h6 className="text-base font-calibri pb-8">
         System Generated Certificate :
-        <span className="text-[#4285F4] ps-2">Generate Now</span>
+        <Link
+          to={`/${UserRole[
+            userData?.query?.role
+          ]?.toLowerCase()}/allocated-certificate`}
+          className="text-[#4285F4] ps-2"
+        >
+          Generate Now
+        </Link>
       </h6>
       <Button className="outline-none text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3">
         Issue A Certificate

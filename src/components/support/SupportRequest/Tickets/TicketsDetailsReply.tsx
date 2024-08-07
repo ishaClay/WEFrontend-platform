@@ -1,6 +1,7 @@
 import DocImage from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,7 @@ import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
-  fetchAssignTo,
+  fetchAssigToUser,
   getSingleSupportTicket,
   updateSupportTicket,
 } from "@/services/apiServices/supportRequestServices";
@@ -28,7 +29,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 
@@ -36,7 +36,6 @@ const TicketsDetailsReply = () => {
   const { id } = useParams();
   const Role = location.pathname.split("/")[1];
   const [playVideo, setPlayVideo] = useState(false);
-  const { clientId } = useSelector((state: any) => state?.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = userData?.query?.id;
   const { data, isPending } = useQuery({
@@ -49,15 +48,16 @@ const TicketsDetailsReply = () => {
   const [selectAssingValue, setSelectAssingValue] = useState("");
   const [selectTicketStatus, setSelectTicketStatus] = useState("");
 
-  const { data: fetchAssignToData, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.AssignTo],
-    queryFn: () => fetchAssignTo(clientId as string),
-  });
+  const { data: fetchAssigToUserList, isPending: assigToUserListPending } =
+    useQuery({
+      queryKey: [QUERY_KEYS.fetchAssigToUserList],
+      queryFn: () => fetchAssigToUser(userID),
+      enabled: !!userID,
+    });
 
-  const { data: fetchSingleSupportTicket } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleSupportTicket, { id }],
-    queryFn: () => getSingleSupportTicket(id as string),
-  });
+  const assigToUserList = fetchAssigToUserList?.data?.filter(
+    (item) => item !== null
+  );
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select this field" }),
     ticketStatus: z.string({ required_error: "Please enter ticket status" }),
@@ -79,17 +79,33 @@ const TicketsDetailsReply = () => {
   });
 
   useEffect(() => {
-    setValue(
-      "assignTo",
-      String(fetchSingleSupportTicket?.data.data?.assignTo.id)
-    );
-    setValue(
-      "ticketStatus",
-      String(fetchSingleSupportTicket?.data.data?.status)
-    );
-    setSelectAssingValue(fetchSingleSupportTicket?.data.data?.assignTo.id);
-    setSelectTicketStatus(String(fetchSingleSupportTicket?.data.data?.status));
-  }, [clientId, fetchSingleSupportTicket, setValue]);
+    if (data?.data?.data) {
+      console.log("selectTicketStatus", data?.data?.data?.openBy?.id);
+
+      setValue(
+        "assignTo",
+        data?.data?.data?.openBy.id === userID
+          ? String(data?.data?.data?.assignTo.id)
+          : String(data?.data?.data?.openBy.id)
+      );
+      setValue(
+        "ticketStatus",
+        data?.data.data?.status === "Open"
+          ? "Answered"
+          : String(data?.data.data?.status)
+      );
+      setSelectAssingValue(
+        data?.data?.data?.openBy.id === userID
+          ? String(data?.data?.data?.assignTo.id)
+          : String(data?.data?.data?.openBy.id)
+      );
+      setSelectTicketStatus(
+        data?.data.data?.status === "Open"
+          ? "Answered"
+          : String(data?.data.data?.status)
+      );
+    }
+  }, [data, setValue]);
 
   const { mutate: updateTicket, isPending: updatePanding } = useMutation({
     mutationFn: (e: any) => updateSupportTicket(e),
@@ -110,10 +126,6 @@ const TicketsDetailsReply = () => {
       reset();
     },
   });
-
-  useEffect(() => {
-    refetch();
-  }, [clientId]);
 
   const userName = (name: string) => {
     const uName = name?.split(" ");
@@ -145,6 +157,8 @@ const TicketsDetailsReply = () => {
     };
     updateTicket(payload);
   };
+
+  console.log("datav", data);
 
   return (
     <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">
@@ -350,12 +364,8 @@ const TicketsDetailsReply = () => {
             {/* <InputWithLable label="Assign To" /> */}
             <div>
               <Select
-                onValueChange={(e) => {
-                  setValue("assignTo", e);
-                  setSelectAssingValue(e);
-                }}
+                onValueChange={(e) => setValue("assignTo", e)}
                 value={String(selectAssingValue)}
-                {...register("assignTo")}
               >
                 <SelectGroup>
                   <SelectLabel className="text-[16px] font-[400]">
@@ -367,15 +377,35 @@ const TicketsDetailsReply = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {fetchAssignToData?.data.data
-                    .filter((item: any) => item.name)
-                    .map((item: any) => {
+                  {assigToUserListPending ? (
+                    <Loader className="w-5 h-5 animate-spin" />
+                  ) : assigToUserList && assigToUserList?.length > 0 ? (
+                    assigToUserList.map((item: any) => {
                       return (
-                        <SelectItem key={item._id} value={String(item.id)}>
-                          {item.name}
+                        <SelectItem
+                          key={item.id}
+                          value={String(item?.userDetails?.id)}
+                        >
+                          <span className="w-[150px] text-neutral-400 inline-block text-left">
+                            {item?.userDetails?.role === UserRole?.Employee
+                              ? "Employee"
+                              : item?.userDetails?.role === UserRole?.Company
+                              ? "SME Company"
+                              : item?.userDetails?.role === UserRole?.Trainer
+                              ? "Trainer Provider"
+                              : item?.userDetails?.role === UserRole?.Trainee
+                              ? "Trainer"
+                              : "Client Admin"}
+                          </span>{" "}
+                          <span className="mr-10 text-neutral-400">--</span>{" "}
+                          {item?.userDetails?.name ||
+                            item?.userDetails?.email?.split("@")?.[0]}
                         </SelectItem>
                       );
-                    })}
+                    })
+                  ) : (
+                    <span>No data found</span>
+                  )}
                 </SelectContent>
               </Select>
               {!errors?.assignTo?.ref?.value && (

@@ -769,6 +769,10 @@ function App() {
             path="allocated-certificate"
             element={<AllocatedCertificate />}
           />
+          <Route
+            path="allocated-certificate-employee"
+            element={<AllocatedCertificateEmployee />}
+          />
           <Route path="support-faqslist" element={<FaqsListPage />} />
           <Route path="trainingdocument" element={<TrainingDocumentPage />} />
           <Route path="support-request" element={<SupportRequestPage />} />

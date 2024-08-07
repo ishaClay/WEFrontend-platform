@@ -87,7 +87,8 @@ const ModuleCreationPage = () => {
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string({ required_error: "Youtube url is required" }).optional(),
+                .string({ required_error: "Youtube url is required" })
+                .optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -225,8 +226,8 @@ const ModuleCreationPage = () => {
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
-    queryFn: () => getModuleData(+courseEditId),
-    enabled: !!paramsVersion || !!courseEditId,
+    queryFn: () => getModuleData(+courseEditId || +courseID),
+    enabled: !!courseID || !!courseEditId,
   });
 
   useEffect(() => {

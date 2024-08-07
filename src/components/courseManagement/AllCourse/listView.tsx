@@ -1,6 +1,6 @@
+import Course_image from "@/assets/images/Course_image.png";
 import starImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
-import Course_image from "@/assets/images/Course_image.png";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import { PermissionContext } from "@/context/PermissionContext";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
@@ -25,17 +28,15 @@ import { PublishCourseType } from "@/types/course";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { ErrorType } from "@/types/Errors";
 import { CourseDataEntity } from "@/types/Trainer";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
 import CohortModal from "./CohortModal";
 import ConfirmationModel from "./ConfirmationModel";
-import { UserRole } from "@/types/UserRole";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 const ListView = ({
   list,
@@ -44,6 +45,7 @@ const ListView = ({
   list: AllCoursesResult[];
   isLoading?: boolean;
 }) => {
+  const { permissions } = useContext(PermissionContext);
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [course, setCourse] = useState<string | number>("");
@@ -252,6 +254,12 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               };
             });
+          const update =
+            +userData?.query?.role === UserRole?.Trainer
+              ? true
+              : data?.trainerId?.id === +userData?.query?.detailsid
+              ? true
+              : permissions?.updateCourse;
           return (
             <>
               <Link
@@ -268,7 +276,7 @@ const ListView = ({
                 }
                 className="border rounded overflow-hidden grid grid-cols-9 mb-5"
               >
-                <div className="2xl:col-span-7 xl:col-span-6 col-span-9 sm:flex block items-center">
+                <div className="2xl:col-span-6 xl:col-span-6 col-span-9 sm:flex block items-center">
                   <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
                     <img
                       src={data?.bannerImage || Course_image}
@@ -322,7 +330,7 @@ const ListView = ({
                     </div>
                   </div>
                 </div>
-                <div className="2xl:col-span-2 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
+                <div className="2xl:col-span-3 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
                   <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
                       disabled={
@@ -332,7 +340,11 @@ const ListView = ({
                         (+userData?.query?.role === UserRole?.Trainee &&
                           data?.status === "READYTOPUBLISH")
                       }
-                      className="xl:max-w-[90px] sm:text-sm text-xs max-w-[85px] xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                      className={`${
+                        +userData?.query?.role === UserRole.Trainee
+                          ? "xl:min-w-auto min-w-auto"
+                          : "xl:max-w-[90px] max-w-[85px]"
+                      } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
                       onClick={(
                         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                       ) => {
@@ -348,6 +360,7 @@ const ListView = ({
                         : "Publish"}
                     </Button>
                     <Button
+                      disabled={!update}
                       onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
@@ -374,28 +387,43 @@ const ListView = ({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="w-30">
                         <DropdownMenuGroup>
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e: any) =>
-                              copyPublish(e, data?.currentVersion?.id as number)
-                            }
-                          >
-                            <Copy className="w-4 h-4" />
-                            <span>Copy</span>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={(e) =>
-                              handleEdit(
-                                e,
-                                data?.currentVersion?.id?.toString(),
-                                data
-                              )
-                            }
-                            className="flex items-center gap-2 font-nunito"
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Edit</span>
-                          </DropdownMenuItem>
+                          {(+userData?.query?.role === UserRole.Trainee
+                            ? data?.trainerId?.id ===
+                              +userData?.query?.detailsid
+                              ? true
+                              : permissions?.createCourse
+                            : true) && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e: any) =>
+                                copyPublish(
+                                  e,
+                                  data?.currentVersion?.id as number
+                                )
+                              }
+                            >
+                              <Copy className="w-4 h-4" />
+                              <span>Copy</span>
+                            </DropdownMenuItem>
+                          )}
+                          {data?.status !== "EXPIRED" &&
+                            (+userData?.query?.role === UserRole.Trainee
+                              ? update
+                              : true) && (
+                              <DropdownMenuItem
+                                onClick={(e) =>
+                                  handleEdit(
+                                    e,
+                                    data?.currentVersion?.id?.toString(),
+                                    data
+                                  )
+                                }
+                                className="flex items-center gap-2 font-nunito"
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>Edit</span>
+                              </DropdownMenuItem>
+                            )}
                           {+userData?.query?.role !== UserRole.Trainee && (
                             <DropdownMenuItem
                               className={`items-center gap-2 font-nunito ${
@@ -413,7 +441,11 @@ const ListView = ({
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className={`items-center gap-2 font-nunito ${
+                              +userData?.query?.role === UserRole.Trainee
+                                ? "hidden"
+                                : "flex"
+                            }`}
                             onClick={(e: any) => {
                               e.preventDefault();
                               setIsDelete(true);
