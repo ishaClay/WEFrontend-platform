@@ -129,6 +129,7 @@ const SectionForm = ({
               setValue("information",data.getData()
             );
           }}
+          className="w-full"
         />
         {errors?.information && (
           <FormError

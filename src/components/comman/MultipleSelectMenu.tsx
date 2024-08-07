@@ -44,7 +44,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const handleSuggestionClick = (suggestion: {
     label: string;
     value: string;
-  }) => {
+  }) => {    
     if (!selectedItems.includes(suggestion)) {
       setSelectedItems([...selectedItems, suggestion]);
       setInputValue(""); // Clear input field on selection

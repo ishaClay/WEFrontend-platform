@@ -73,6 +73,7 @@ const AssecessmentModuleSection = ({
     ?.toString()
     ?.padStart(2, "0");
   const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
+console.log("errors", errors);
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -139,9 +140,6 @@ const AssecessmentModuleSection = ({
                 }}
               />
             </div>
-            {errors.passingPercentage && (
-              <p className="text-red-500 text-sm">{errors.passingPercentage}</p>
-            )}
           </div>
           <div className="">
             <h6 className="text-base text-[#515151] font-calibri pb-3">

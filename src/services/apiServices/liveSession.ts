@@ -12,6 +12,11 @@ export const scheduleLiveSession = ({ data, id }: any) => {
   return api({ url, data, method: "put" });
 };
 
+export const scheduleUpdateLiveSession = ({ data, id }: any) => {
+  const url = `api/v1/livesessions/updateZoomPortal/${id}`;
+  return api({ url, data, method: "put" });
+};
+
 export const createLiveSection = async (data: any) => {
   const url = `api/v1/course/module/section/create`,
     method = "post";
@@ -31,7 +36,7 @@ export const getLiveSession = (id: string) => {
 };
 
 export const deleteLiveSessions = (id: string) => {
-  const url = `api/v1/livesessions/delete/${id}`,
+  const url = `api/v1/livesessions/liveSessionDelete/${id}`,
     method = "delete";
 
   return api({ url, method, data: {} });

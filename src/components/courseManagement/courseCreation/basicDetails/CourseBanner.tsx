@@ -214,7 +214,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                   setEditorData(data.getData());
                   setValue("description", data.getData());
                 }}
-                className="bannerTextEditor h-[186px]"
+                className="bannerTextEditor h-[186px] w-full"
               />
               {/* {!errors?.description?.ref?.value && <ErrorMessage message={errors?.description?.message as string} />} */}
               {errors?.description && (
@@ -286,7 +286,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                   setKeyData(data.getData());
                   setValue("keys", data.getData());
                 }}
-                className="bannerTextEditor h-[186px]"
+                className="bannerTextEditor h-[186px] w-full"
               />
               {errors?.keys && (
                 <ErrorMessage

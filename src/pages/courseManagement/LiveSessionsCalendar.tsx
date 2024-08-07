@@ -222,7 +222,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
 
   const CustomEvent = ({ event }: { event: any }) => (
     <HoverCard openDelay={300} closeDelay={300}>
-      <HoverCardTrigger asChild>
+      <HoverCardTrigger asChild className="relative">
         <p className="cursor-pointer max-w-[150px] w-full line-clamp-1">
           {event.title}
         </p>

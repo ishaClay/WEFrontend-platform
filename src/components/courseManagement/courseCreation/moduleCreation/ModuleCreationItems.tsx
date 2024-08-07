@@ -221,6 +221,7 @@ const ModuleCreationItems = ({
                     data.getData()
                   );
                 }}
+                className="w-full"
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.information && (

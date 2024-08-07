@@ -19,6 +19,8 @@ const TraineeItems = ({
   traineeList,
 }: TraineeEmployee) => {
   const handleChanges = (e: boolean, data: any): void => {
+    console.log("eeee+++++++", e, data);
+    
     if (e) {
       setTraineeList((prev: any) => [
         ...prev,

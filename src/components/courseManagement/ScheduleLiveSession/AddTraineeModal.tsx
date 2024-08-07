@@ -1,5 +1,4 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import Loader from "@/components/comman/Loader";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -9,8 +8,8 @@ import {
 import { QUERY_KEYS } from "@/lib/constants";
 import { getTrainee } from "@/services/apiServices/trainer";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, Search, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown, Loader2, Search, SlidersHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
@@ -18,6 +17,8 @@ import { Input } from "../../ui/input";
 import { ScrollArea } from "../../ui/scroll-area";
 import TraineeItems from "./TraineeItems";
 import { toast } from "@/components/ui/use-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface TraineeModalProps {
   selectCompanyOptions: any[];
@@ -43,11 +44,13 @@ const AddTraineeModal = ({
   setTraineeList,
   traineeList,
 }: TraineeModalProps) => {
-  const { data: fetchTrainee, isPending } = useQuery({
-    queryKey: [QUERY_KEYS.fetchTrainee],
-    queryFn: () => getTrainee({ companyIds: watch("selectCompany") || [] }),
-  });
+  const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: fetchTrainee, isPending, isFetching, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTrainee],
+    queryFn: () => getTrainee(+CompanyId, +watch("selectCompany"), searchQuery),
+  });
 
   const traineeEmployee =
     fetchTrainee?.data?.map((i: TraineeEmployee) => ({
@@ -56,13 +59,9 @@ const AddTraineeModal = ({
       id: i.id,
     })) || [];
 
-  const filteredData = traineeEmployee.filter(
-    (data: TraineeEmployee) =>
-      data.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      data.companyName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  console.log("traineeEmployee", traineeEmployee);
+    useEffect(() => {
+      refetch()
+    }, [searchQuery])
 
   const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
     if (e) {
@@ -123,14 +122,21 @@ const AddTraineeModal = ({
                             key={i.value}
                             checked={value.includes(i.value)}
                             onCheckedChange={(checked) => {
-                              onChange(
-                                checked
-                                  ? [...value, i.value].filter((item) => item)
-                                  : value.filter(
-                                      (item: string) => item !== i.value
-                                    )
-                              );
+                              if (checked) {
+                                onChange(i.value);
+                              } else {
+                                onChange('');
+                              }
                             }}
+                            // onCheckedChange={(checked) => {
+                            //   onChange(
+                            //     checked
+                            //       ? [...value, i.value].filter((item) => item)
+                            //       : value.filter(
+                            //           (item: string) => item !== i.value
+                            //         )
+                            //   );
+                            // }}
                           >
                             {i.label}
                           </DropdownMenuCheckboxItem>
@@ -159,7 +165,9 @@ const AddTraineeModal = ({
         </div>
         <div className="">
           <ScrollArea className="h-[300px]">
-            {filteredData?.map((data: any, index: number) => {
+            {isPending || isFetching ? <span className="flex justify-center items-center py-10">
+              <Loader2 className="w-5 h-5 animate-spin" />
+            </span> : traineeEmployee?.length > 0 ? traineeEmployee?.map((data: any, index: number) => {
               return (
                 <TraineeItems
                   key={index}
@@ -168,8 +176,7 @@ const AddTraineeModal = ({
                   setTraineeList={setTraineeList}
                 />
               );
-            })}
-            {isPending && <Loader />}
+            }) : <span className="flex justify-center items-center py-10">No data found</span>}
           </ScrollArea>
         </div>
       </div>

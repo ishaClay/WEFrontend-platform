@@ -14,6 +14,7 @@ import {
   getLiveSession,
   getLiveSessionById,
   scheduleLiveSession,
+  scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
@@ -65,13 +66,15 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate()
-  const UserId = useAppSelector((state: RootState) => state.user.UserId);
+  const { UserId, CompanyId } = useAppSelector((state: RootState) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
   const [selectCompany, setSelectCompany] = useState<
     { label: string; value: string }[]
   >([]);
+  console.log("selectCompany", selectCompany);
+  
 
   const ScheduleLiveSessionSchema = z.object({
     selectCourse: z.string({
@@ -140,7 +143,7 @@ const ScheduleLiveSessionPage = () => {
 
   const { data: fetchTraineeCompany } = useQuery({
     queryKey: [QUERY_KEYS.fetchTraineeCompany],
-    queryFn: () => getTraineeCompany(),
+    queryFn: () => getTraineeCompany(+CompanyId),
   });
 
   const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
@@ -149,6 +152,7 @@ const ScheduleLiveSessionPage = () => {
       queryFn: () => getLiveSessionById(id?.toString() || ""),
       enabled: !!id,
     });
+console.log("filteredAllCourseData", filteredAllCourseData);
 
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
@@ -189,6 +193,20 @@ const ScheduleLiveSessionPage = () => {
       },
     });
 
+  const { mutate: updateLiveSession, isPending: isUpdateSessionPending } =
+    useMutation({
+      mutationFn: scheduleUpdateLiveSession,
+      onSuccess: async () => {
+        navigate(`/${currentUser}/CourseLiveSession?view=0`);
+      },
+      onError: (error: ErrorType) => {
+        console.error(error);
+      },
+    });
+
+  console.log("id+++++", id);
+  
+
   const {
     data: fetchLiveSession,
     refetch: fetchData,
@@ -220,10 +238,12 @@ const ScheduleLiveSessionPage = () => {
     }));
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    if (traineeList.length === 0) {
+    if (traineeList?.length === 0) {
       setTraineeErr(true);
       return;
     }
+    console.log("data1221", data);
+    
     const transformedData = {
       course: data.selectCourse,
       subtitle: data.sessionSubtitle,
@@ -233,15 +253,27 @@ const ScheduleLiveSessionPage = () => {
       startAmPm: data.selectTimePeriods,
       sessionDuration:
         +data.selectDurationInHours * 60 + +data.selectDurationInMinute,
-      companyId: selectCompany.map((val) => +val.value),
-      trainerId: traineeList.map((trainee) => trainee.id),
+      companyId: selectCompany?.map((val) => +val.value),
+      trainerId: traineeList?.map((trainee) => trainee.id),
+      sectionTime: {
+        hour: data?.selectDurationInHours || "0",
+        minute: data?.selectDurationInMinute ||"0"
+      },
+      employeeId: traineeList || []
     };
 
-    if (traineeList) {
-      await addLiveSession({
+    if(id !== undefined){
+      await updateLiveSession({
         data: transformedData,
-        id: String(data.selectLiveSession),
+        id: id,
       });
+    } else{
+      if (traineeList) {
+        await addLiveSession({
+          data: transformedData,
+          id: String(data.selectLiveSession),
+        });
+      }
     }
   };
 
@@ -624,8 +656,9 @@ const ScheduleLiveSessionPage = () => {
                 <Button
                   className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10"
                   type="submit"
+                  disabled={isSaveSessionPending || isUpdateSessionPending}
                 >
-                  {isSaveSessionPending && (
+                  {isSaveSessionPending || isUpdateSessionPending && (
                     <Loader className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Save Session

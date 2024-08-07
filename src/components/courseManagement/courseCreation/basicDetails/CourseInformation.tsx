@@ -184,9 +184,6 @@ const CourseInformation = ({
     }
   }, [getSingleCourse, setValue]);
 
-  console.log("asdasd", watch());
-  
-
   const onSubmit = (formdata: FieldValues) => {
     const payload = {
       title: formdata?.title,
