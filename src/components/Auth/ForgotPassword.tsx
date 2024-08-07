@@ -5,10 +5,10 @@ import { useMutation } from "@tanstack/react-query";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as z from "zod";
-import Header from "../Header";
 import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import { toast } from "../ui/use-toast";
+import HomeHeader from "../homePage/HomeHeader";
 
 const schema = z.object({
   email: z
@@ -57,17 +57,20 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <Header />
+      <HomeHeader />
       <div className="mainContailner">
         <div className="flex mt-[26px]">
           <div className="relative">
-            <img className="max-w-full" src="../assets/img/Image.png" />
+            <img
+              className="max-w-full lg:block hidden"
+              src="../assets/img/Image.png"
+            />
 
             <img
               className="absolute top-[137px] left-1/2 -translate-x-1/2 max-h-[365px] h-auto"
               src="../assets/img/pngwing.png"
             />
-            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full">
+            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full lg:block hidden">
               <span className="text-[#73AF26]">Empower</span> your potential
               through our comprehensive training programs, where knowledge meets
               innovation
@@ -84,7 +87,7 @@ const ForgotPassword = () => {
               </label>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="relative max-w-[418px] mx-auto mt-[80px]">
+              <div className="relative max-w-[418px] lg:h-auto sm:h-[550px] h-[500px] mx-auto mt-[80px]">
                 <p className="text-[24px] font-[700] mb-4 text-color">
                   Forgot Password
                 </p>

@@ -1,7 +1,6 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
-import Header from "@/components/Header";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -19,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
+import HomeHeader from "@/components/homePage/HomeHeader";
 
 function Auth() {
   const { toast } = useToast();
@@ -28,7 +28,10 @@ function Auth() {
   const navigate = useNavigate();
 
   const schema = z.object({
-    email: z.string().email("Please enter valid email").min(1, "Please enter email"),
+    email: z
+      .string()
+      .email("Please enter valid email")
+      .min(1, "Please enter email"),
     password: z.string().min(1, { message: "Please enter password" }),
   });
 
@@ -179,17 +182,20 @@ function Auth() {
 
   return (
     <>
-      <Header />
+      <HomeHeader />
       <div className="mainContailner">
         <div className="flex mt-[26px]">
           <div className="relative">
-            <img className="max-w-full" src="../assets/img/Image.png" />
+            <img
+              className="max-w-full lg:block hidden"
+              src="../assets/img/Image.png"
+            />
 
             <img
               className="absolute top-[137px] left-1/2 -translate-x-1/2 max-h-[365px] h-auto"
               src="../assets/img/pngwing.png"
             />
-            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full">
+            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full lg:block hidden">
               Quite literally:{" "}
               <span className="text-[#73AF26]">you’ll be the bridge</span> for
               companies across Ireland to upskill their teams, and{" "}
@@ -197,7 +203,7 @@ function Auth() {
             </h2>
           </div>
 
-          <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
+          <div className="w-full 2xl:px-0 px-5 max-w-[515px] lg:h-auto sm:h-[580px] h-[550px] mx-auto relative">
             <div className="flex justify-end">
               <label>
                 Already have an account?{" "}
@@ -234,7 +240,7 @@ function Auth() {
                 </ul>
                 <button
                   type="submit"
-                  className="primary-background rounded w-[370px] h-[48px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
+                  className="primary-background rounded sm:w-[370px] w-full sm:h-[48px] h-[44px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
                 >
                   Login
                 </button>
