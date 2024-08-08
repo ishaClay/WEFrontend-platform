@@ -1,6 +1,7 @@
 import Course_image from "@/assets/images/Course_image.png";
 import starImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Badge } from "@/components/ui/badge";
@@ -20,18 +21,18 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
+  createNewVersion,
   deleteCourse,
   publishCourse,
   updateVersion,
 } from "@/services/apiServices/courseManagement";
 import { PublishCourseType } from "@/types/course";
-import { AllCoursesResult } from "@/types/courseManagement";
+import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { ErrorType } from "@/types/Errors";
-import { CourseDataEntity } from "@/types/Trainer";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
@@ -62,12 +63,16 @@ const ListView = ({
   const pathName = location?.pathname?.split("/")?.[1];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  // const queryClient = useQueryClient();
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
     setCourse(id);
   };
+  useEffect(() => {
+    if (!cohort) {
+      setCourse("");
+    }
+  }, [cohort]);
 
   const { mutate: updateVersionFun, isPending: updateVersionPending } =
     useMutation({
@@ -181,6 +186,25 @@ const ListView = ({
     }
   };
 
+  const { mutate: createNewVersionFun, isPending: createNewVersionPending } =
+    useMutation({
+      mutationFn: createNewVersion,
+      onSuccess: (data) => {
+        navigate(
+          `/${pathName}/create_course/${
+            data?.data?.id
+          }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
+        );
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+
   const copyPublish = (e: Event, id: number) => {
     e.stopPropagation();
     copyCourseFun(id);
@@ -192,20 +216,26 @@ const ListView = ({
     item: AllCoursesResult
   ) => {
     e.stopPropagation();
-    if (item?.status !== "DRAFT") {
-      if (+item?.step === 5) {
-        navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${
-            +item?.tab === 4 ? 0 : item?.tab
-          }&version=${id}`
-        );
-      } else {
-        navigate(
-          `/${pathName}/create_course/${item?.id}?tab=${
-            +item?.tab === 4 ? 0 : item?.tab
-          }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
-        );
+    if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
+      if (item.status === "DRAFT") {
+        if (+item?.step === 5) {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&version=${id}`
+          );
+        } else {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
+          );
+        }
       }
+      createNewVersionFun({
+        courseId: item?.id,
+        version: item?.currentVersion?.version || 0,
+      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -447,7 +477,7 @@ const ListView = ({
                                 : "flex"
                             }`}
                             onClick={(e: any) => {
-                              e.preventDefault();
+                              e.stopPropagation();
                               setIsDelete(true);
                               setSingleCourse(data);
                             }}
@@ -466,6 +496,7 @@ const ListView = ({
           );
         })}
       </div>
+      <Loading isLoading={createNewVersionPending} />
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}

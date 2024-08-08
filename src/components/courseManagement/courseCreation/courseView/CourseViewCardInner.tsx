@@ -23,9 +23,11 @@ import CourseViewCardInnerList from "./CourseViewCardInnerList";
 const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
+  assessments
 }: {
   CourseCardList: any;
   moduleId: string;
+  assessments: any
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -349,6 +351,9 @@ const CourseViewCardInner = ({
     }
   };
 
+  console.log("addsectionList", addsectionList, getCourseCardList, CourseCardList);
+  
+
   return (
     <div
       className=""
@@ -430,6 +435,7 @@ const CourseViewCardInner = ({
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
+                    disabled={assessments?.length === 1}
                   >
                     <CirclePlus width={18} /> Add Assessment
                   </Button>

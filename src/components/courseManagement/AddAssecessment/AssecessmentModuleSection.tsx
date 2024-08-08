@@ -74,6 +74,8 @@ const AssecessmentModuleSection = ({
     ?.padStart(2, "0");
   const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
 console.log("errors", errors);
+console.log("datadata", createAssecessment);
+
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -257,9 +259,6 @@ console.log("errors", errors);
         </div>
         {errors.passingPercentage && (
           <p className="text-red-500 text-sm">{errors.passingPercentage}</p>
-        )}
-        {errors.timeDuration && (
-          <p className="text-red-500 text-sm">{errors.timeDuration}</p>
         )}
       </div>
     </div>

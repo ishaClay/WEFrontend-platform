@@ -21,6 +21,7 @@ const CourseViewCardInnerList = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDelete, setIsDelete] = useState(false);
+  const [isId, setIsId] = useState<{id:string | number, type:string}>({id: "", type: ""});
   function formatReadingTime(readingTime: any) {
     if (!readingTime) {
       return "0sec";
@@ -92,17 +93,16 @@ const CourseViewCardInnerList = ({
   });
 
   const handleDeleteSection = (sectionID: number) => {
-    if (data?.type) {
+    if (data?.type || isId?.type === "assesment") {
       deleteAssesments(sectionID);
     } else if (data.isLive === 0) {
       DeleteSection(sectionID);
     } else {
       DeleteLiveSection(sectionID);
     }
-    setIsDelete(true);
   };
 
-  console.log("FileTypeData", FileTypeData);
+  console.log("FileTypeData", FileTypeData, data);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
@@ -159,14 +159,15 @@ const CourseViewCardInnerList = ({
           width={18}
           className="text-[#575757] cursor-pointer"
           onClick={() => {
-            handleDeleteSection(data.id);
+            setIsDelete(true);
+            setIsId({id: data?.id, type: "assesment"});
           }}
         />
       </div>
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}
-        onDelete={() => handleDeleteSection}
+        onDelete={() => handleDeleteSection(+isId?.id)}
         value={data?.title || ""}
         isLoading={isPending}
       />

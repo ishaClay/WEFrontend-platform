@@ -764,6 +764,10 @@ function App() {
             path="certificate-template"
             element={<CertificateTempletePage />}
           />
+          <Route
+            path="certificate-template/updatecertificate/:id"
+            element={<Updatecertificate />}
+          />
           <Route path="usermenual" element={<UserManualPage />} />
           <Route
             path="allocated-certificate"

@@ -234,12 +234,11 @@ const GridView = ({
             }`
           );
         }
-      } else {
-        createNewVersionFun({
-          courseId: item?.id,
-          version: item?.currentVersion?.version || 0,
-        });
       }
+      createNewVersionFun({
+        courseId: item?.id,
+        version: item?.currentVersion?.version || 0,
+      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -480,9 +479,10 @@ const GridView = ({
                               ? "hidden"
                               : "flex"
                           }`}
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
-                            setIsOpen(item?.currentVersion?.mainCourse?.id);
+                            setIsDelete(true);
+                            setSingleCourse(item);
                           }}
                         >
                           <Trash2 className="w-4 h-4" />

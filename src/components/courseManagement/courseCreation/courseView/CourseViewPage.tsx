@@ -17,6 +17,8 @@ const CourseViewPage = ({
 }) => {
   // @ts-ignore
   const CourseCardList = [...data.section, ...(data?.assessment as any)];
+  console.log("CourseCardList1212", data, CourseCardList);
+  
 
   return (
     <div className="pb-5">
@@ -35,6 +37,7 @@ const CourseViewPage = ({
               <CourseViewCardInner
                 CourseCardList={CourseCardList}
                 moduleId={data.id}
+                assessments={data?.assessment}
               />
             </AccordionContent>
           </AccordionItem>

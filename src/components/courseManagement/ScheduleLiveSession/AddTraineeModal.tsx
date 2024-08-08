@@ -31,6 +31,7 @@ interface TraineeModalProps {
 
 interface TraineeEmployee {
   name: string;
+  email: string;
   companyName: string;
   id: number;
   company?: any;
@@ -54,9 +55,10 @@ const AddTraineeModal = ({
 
   const traineeEmployee =
     fetchTrainee?.data?.map((i: TraineeEmployee) => ({
-      name: i.name,
-      companyName: i.company?.name || "",
-      id: i.id,
+      name: i?.name,
+      email: i?.email,
+      companyName: i?.company?.name || "",
+      id: i?.id,
     })) || [];
 
     useEffect(() => {
