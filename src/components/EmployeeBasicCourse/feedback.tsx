@@ -20,6 +20,8 @@ const Feedback = ({ data }: any) => {
     queryFn: () => getFeedback(data?.course?.id, filter),
   });
 
+  console.log(feedback, "feedback");
+
   return (
     <div className="">
       <div className="flex items-center justify-end mb-4">
