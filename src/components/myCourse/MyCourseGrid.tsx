@@ -34,7 +34,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               link: `/${Role}/mycourses`,
             },
             {
-              label: "Employee Basic Course",
+              label: "Course Details",
               link: null,
             },
           ])

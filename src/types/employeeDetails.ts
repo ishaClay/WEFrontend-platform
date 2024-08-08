@@ -8,6 +8,9 @@ export interface EmployeeDetailsResponse {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  editActionItem: boolean;
+  shareFeedback: boolean;
+  retakeSelfAssessment: boolean;
   employeeDetails: EmployeeDetails;
 }
 export interface EmployeeDetails {

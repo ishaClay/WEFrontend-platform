@@ -9,7 +9,7 @@ import Question from "@/components/comman/Question";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import {
@@ -26,10 +26,10 @@ import {
   fetchQuestionList,
 } from "@/services/apiServices/question";
 import { QuestionType } from "@/types/Question";
+import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
@@ -113,6 +113,17 @@ const QuestionPage = () => {
   const { mutate: assessmentQuestionScoreFun } = useMutation({
     mutationFn: (data: { UserId: number; clientId: number }) =>
       assessmentQuestionScore(data),
+    onSuccess: async () => {
+      if (userData?.query?.role === "4") {
+        navigate(
+          `/${UserRole[
+            userData?.query?.role
+          ]?.toLowerCase()}/maturityassessment`
+        );
+      } else {
+        navigate("/teaserscore");
+      }
+    },
   });
 
   useEffect(() => {
@@ -177,13 +188,24 @@ const QuestionPage = () => {
     allPillar.forEach((pillar: string) => {
       allQueAns[pillar] = question[pillar];
     });
-    navigate("/teaserscore");
-    assessmentQuestionScoreFun({ UserId: userID, clientId: +clientId });
+
+    assessmentQuestionScoreFun({
+      UserId:
+        userData?.query?.role === "4"
+          ? userData?.company?.userDetails?.id
+          : userID,
+      clientId: +clientId,
+    });
   };
 
   const { data: fetchQuestionAnswer } = useQuery({
     queryKey: [QUERY_KEYS.getQuestionAnswer],
-    queryFn: () => fetchQuestionAnswerList(userID?.toString()),
+    queryFn: () =>
+      fetchQuestionAnswerList(
+        userData?.query?.role === "4"
+          ? userData?.company?.userDetails?.id
+          : userID?.toString()
+      ),
     enabled: !!userID,
   });
 

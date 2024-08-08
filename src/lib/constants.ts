@@ -98,7 +98,8 @@ export const QUERY_KEYS = {
   fetchAssigToUserList: "fetchAssigToUserList",
   fetchforumquestion: "fetchforumquestion",
   fetchfaqquestion: "fetchfaqquestion",
-  fetchEmployeeByCourse: "fetchEmployeeByCourse"
+  fetchEmployeeByCourse: "fetchEmployeeByCourse",
+  feedback: "feedback"
 };
 
 export const urlRegex =

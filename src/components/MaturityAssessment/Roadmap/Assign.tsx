@@ -1,11 +1,13 @@
 import Loader from "@/components/comman/Loader";
 import InviteMember from "@/components/Models/InviteMember";
 import { Button } from "@/components/ui/button";
+import { PermissionContext } from "@/context/PermissionContext";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
+import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import React, { Dispatch } from "react";
+import React, { Dispatch, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AssignCard from "./AssignCard";
 import AssignProf from "./AssignProf";
@@ -19,6 +21,7 @@ const Assign = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const Role = location?.pathname?.split("/")[1];
+  const { empPermissions } = useContext(PermissionContext);
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
@@ -36,6 +39,9 @@ const Assign = ({
     queryFn: () => getCheckedMeasures(userID, clientId),
     enabled: true,
   });
+
+  console.log("empPermissions", empPermissions);
+
   return (
     <div className="">
       {isPending ? (
@@ -54,19 +60,20 @@ const Assign = ({
           Retake Assessment
         </Button> */}
         <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">
-          {(Role === "employee" && userData?.query?.editActionItem) ||
-            (true && (
-              <Button
-                type="button"
-                onClick={() => {
-                  setStep(0);
-                  setIsEdit(true);
-                }}
-                className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-              >
-                Edit Action Plan
-              </Button>
-            ))}
+          {((+userData?.query?.role === UserRole?.Employee &&
+            empPermissions?.editActionItem) ||
+            (Role !== "employee" && true)) && (
+            <Button
+              type="button"
+              onClick={() => {
+                setStep(0);
+                setIsEdit(true);
+              }}
+              className="bg-[#64A70B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+            >
+              Edit Action Plan
+            </Button>
+          )}
           {Role !== "employee" && (
             <>
               <Button

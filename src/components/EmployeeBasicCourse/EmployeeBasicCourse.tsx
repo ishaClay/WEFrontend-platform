@@ -1,25 +1,29 @@
+import { PermissionContext } from "@/context/PermissionContext";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchSingleCourse,
   getEmployeeSingeCourse,
 } from "@/services/apiServices/courseSlider";
 import { SingleCourseEmployeeResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, MoveLeft } from "lucide-react";
-import { useState } from "react";
+import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Modal from "../comman/Modal";
+import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import Feedback from "./feedback";
+import Feedback from "./Feedback";
 import Information from "./Information";
 import Module from "./Module";
 import ReviewModal from "./ReviewModal";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
+  const { empPermissions } = useContext(PermissionContext);
+  const [currentTab, setCurrentTab] = useState("");
   const location = useLocation();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const pathName = location?.pathname?.split("/")[1];
@@ -54,7 +58,10 @@ const EmployeeBasicCourse = () => {
         onClose={() => setIsOpenReviewModal(false)}
         className="lg:max-w-[610px] sm:max-w-[550px] max-w-[335px] lg:p-6 p-4 rounded-xl"
       >
-        <ReviewModal />
+        <ReviewModal
+          course={course}
+          onClose={() => setIsOpenReviewModal(false)}
+        />
       </Modal>
       <div className="bg-white rounded-b-xl h-[calc(100vh-170px)] overflow-y-auto">
         <div className="">
@@ -62,18 +69,24 @@ const EmployeeBasicCourse = () => {
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
               {course?.course?.title}
             </h4>
-            {/* {pathName !== "trainer" && (
-              <Button
-                className="bg-[#00778B] text-base lg:h-12 h-10 px-5 flex items-center"
-                onClick={() => setIsOpenReviewModal(true)}
-              >
-                <PencilLine />
-                Write a Review
-              </Button>
-            )} */}
+            {pathName === "employee" &&
+              currentTab === "feedback" &&
+              empPermissions?.shareFeedback && (
+                <Button
+                  className="bg-[#00778B] text-base lg:h-12 h-10 px-5 flex items-center"
+                  onClick={() => setIsOpenReviewModal(true)}
+                >
+                  <PencilLine />
+                  Write a Review
+                </Button>
+              )}
           </div>
           <div className="">
-            <Tabs defaultValue="information" className="w-full">
+            <Tabs
+              defaultValue="information"
+              onValueChange={(e) => setCurrentTab(e)}
+              className="w-full"
+            >
               <TabsList className="p-0 flex justify-between sm:items-center items-start sm:flex-row flex-col h-auto border-b">
                 <div className="flex sm:order-1 order-2">
                   <TabsTrigger
@@ -183,7 +196,7 @@ const EmployeeBasicCourse = () => {
                 <Module data={course} />
               </TabsContent>
               <TabsContent value="feedback" className="p-5">
-                <Feedback />
+                <Feedback data={course} />
               </TabsContent>
             </Tabs>
           </div>

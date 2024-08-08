@@ -243,7 +243,9 @@ const AllocatedCertificatePage = () => {
         </div>
         <div className="">
           <Button
-            disabled={!permissions?.certificate}
+            disabled={
+              userData?.query?.role === "3" && !permissions?.certificate
+            }
             className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
             onClick={() =>
               navigate(

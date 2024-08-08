@@ -61,7 +61,10 @@ const QuestionBox = ({
       : userData?.id;
     if (userID) {
       addanswer({
-        userId: userID,
+        userId:
+          userData?.query?.role === "4"
+            ? userData?.company?.userDetails?.id
+            : userID,
         questionId: questionId,
         selectedOptions: [selectedOptions],
       });
