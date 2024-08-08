@@ -60,7 +60,6 @@ const AssessmentResult = ({
   showButton,
   setIsEdit,
 }: AssessmentResultProps) => {
-
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isOpen, setIsOpen] = React.useState<number | null>(null);
@@ -108,11 +107,31 @@ const AssessmentResult = ({
     chnageTab("maturityAssessment");
   };
 
-  const score = (
-    (+allassessmant?.data?.data?.avTotalpoints /
-      +allassessmant?.data?.data?.avTotalmaxpoint) *
-    100
-  ).toFixed(2);
+  console.log("assessmentData", assessmentData);
+
+  const points =
+    assessmentData?.length &&
+    assessmentData.reduce(
+      (ass: { maxPoint: number; totalPoint: number }, curr: any) => {
+        return {
+          maxPoint: ass.maxPoint + +curr.totalmaxpoint,
+          totalPoint: ass.totalPoint + +curr.totalpoints,
+        };
+      },
+      {
+        maxPoint: 0,
+        totalPoint: 0,
+      }
+    );
+
+  const score =
+    assessmentData?.length > 0
+      ? ((points?.totalPoint / points?.maxPoint) * 100).toFixed(0)
+      : (
+          (+allassessmant?.data?.data?.avTotalpoints /
+            +allassessmant?.data?.data?.avTotalmaxpoint) *
+          100
+        ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
   const currentLavel = findMaturityLevel(Number(setScore));
@@ -167,6 +186,8 @@ const AssessmentResult = ({
     },
   };
 
+  console.log("points", points);
+
   const Labels = () => (
     <>
       {fetchClientmaturitylevel &&
@@ -204,10 +225,15 @@ const AssessmentResult = ({
         <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px]">
           Total Score -
           <span className="ms-5 font-calibri font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
-            {allassessmant?.data?.data?.avTotalpoints}
+            {assessmentData?.length > 0
+              ? points?.totalPoint
+              : allassessmant?.data?.data?.avTotalpoints}
           </span>
           <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
-            /{allassessmant?.data?.data?.avTotalmaxpoint}
+            /
+            {assessmentData?.length > 0
+              ? points?.maxPoint
+              : allassessmant?.data?.data?.avTotalmaxpoint}
           </span>
         </p>
       </div>
@@ -266,14 +292,7 @@ const AssessmentResult = ({
                 Your overall sustainability level -
               </p>{" "}
               <span className="font-bold text-base text-[#000000] leading-6 font-calibri">
-                {/* {score < "40" && "Introductory"}
-                {score >= "40" && score < "70" && "Intermediate"}
-                {score >= "70" && "Advanced"} */}
-                {fetchClientmaturitylevel?.data &&
-                  fetchClientmaturitylevel?.data?.find(
-                    (item: any) =>
-                      item.rangeStart <= score && item.rangeEnd >= score
-                  )?.maturityLevelName}
+                {currentLavel?.maturityLevelName}
               </span>
             </div>
           </div>

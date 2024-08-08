@@ -46,8 +46,6 @@ const AssignModel = ({
     };
   });
 
-  
-
   const { mutate, isPending } = useMutation({
     mutationFn: assignItemForEmployee,
     onSuccess: async (data) => {
@@ -73,6 +71,7 @@ const AssignModel = ({
       employeeId: selectAsignModel,
       startDate: date?.startDate,
       endDate: date?.endDate,
+      userId: userData?.id,
     };
     if (id) {
       mutate({ data: payload, masureId: +id });

@@ -1,6 +1,6 @@
 const RegisterBanner = () => {
   return (
-    <div className="relative">
+    <div className="relative lg:block hidden">
       <img
         className="max-w-full xl:h-[1006px] h-[980px]"
         src="../assets/img/Image.png"

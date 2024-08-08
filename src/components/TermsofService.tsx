@@ -1,15 +1,15 @@
 import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
 import { Button } from "./ui/button";
 import HomeFooter from "./homePage/HomeFooter";
+import HomeHeader from "./homePage/HomeHeader";
 
 const TermsofService = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header />
-      <div className="bg-primary text-primary-foreground py-6 px-4 md:px-6">
+      <HomeHeader />
+      <div className="bg-primary text-primary-foreground sm:py-12 py-10 px-4 md:px-6">
         <div className="xl:max-w-[1160px] max-w-full mx-auto">
           <Button
             variant="ghost"
@@ -22,7 +22,7 @@ const TermsofService = () => {
           <h1 className="text-4xl font-bold font-calibri">Terms of Service</h1>
         </div>
       </div>
-      <main className="flex-1 py-12 2xl:py-24 xl:py-20 ">
+      <main className="flex-1 sm:py-12 py-10 2xl:py-24 xl:py-20 ">
         <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
           <section className="mb-12">
             <h2 className="text-[26px] font-bold mb-4 font-calibri">

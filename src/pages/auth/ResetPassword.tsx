@@ -110,7 +110,7 @@ const ResetPassword = () => {
             </h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-row flex-wrap gap-x-8 sm:mt-20 mt-12"
+              className="flex flex-row flex-wrap gap-x-8 md:mt-20 sm:mt-12 mt-7"
             >
               <div className="w-full mb-4">
                 <InputWithLable

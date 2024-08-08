@@ -217,14 +217,20 @@ function CompanyRegister() {
     <>
       <HomeHeader />
       <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
-        <div>
+        <div className="lg:block hidden">
           <img
-            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
+            className="xl:min-w-[590px] lg:min-w-[500px] min-w-full w-full h-full object-cover"
             src={CompanyRegisterSideImage}
           />
+          {/* <img
+            src={RegisterSideImage}
+            className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
+            alt="LandingPageBuildImage"
+            loading="lazy"
+          /> */}
         </div>
 
-        <div className="w-full xl:px-0 px-2 max-w-[515px] mx-auto">
+        <div className="w-full xl:px-0 px-5 lg:max-w-[515px] max-w-[600px] mx-auto lg:mt-0 mt-5">
           <div className="flex justify-end text-color">
             <label>
               Already have an account?{" "}
@@ -307,14 +313,14 @@ function CompanyRegister() {
                   )}
                 </div>
 
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     County <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
                     option={countryOption || []}
                     placeholder="Select county"
-                    className="w-[241px] h-[46px] mt-2"
+                    className="sm:w-[241px] w-full h-[46px] mt-2"
                     setValue={(data: string) => setValue("county", data)}
                     value={watch("county") || ""}
                   />
@@ -322,7 +328,7 @@ function CompanyRegister() {
                     <ErrorMessage message={errors.county.message as string} />
                   )}
                 </div>
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     Average Number Of Employees{" "}
                     <span className="text-[#FF0000]">*</span>
@@ -330,7 +336,7 @@ function CompanyRegister() {
                   <SelectMenu
                     option={employeeOption || []}
                     placeholder="Number of employees"
-                    className="w-[241px] h-[46px] mt-2"
+                    className="sm:w-[241px] w-full h-[46px] mt-2"
                     setValue={(data: string) =>
                       setValue("averageNumberOfEmployees", data)
                     }
@@ -345,14 +351,14 @@ function CompanyRegister() {
                   )}
                 </div>
 
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     Sector <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
                     option={sectorOption || []}
                     placeholder="Select Sector"
-                    className="w-[241px] h-[46px] mt-2"
+                    className="sm:w-[241px] w-full h-[46px] mt-2"
                     setValue={(data: string) => setValue("sector", data)}
                     value={watch("sector") || ""}
                   />
@@ -360,10 +366,10 @@ function CompanyRegister() {
                     <ErrorMessage message={errors.sector.message as string} />
                   )}
                 </div>
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <InputWithLable
                     placeholder="Parent Company Address."
-                    className="w-[241px] h-[46px]"
+                    className="sm:w-[241px] w-full h-[46px]"
                     label="Parent Company Address."
                     {...register("parentCompanyAddress")}
                   />
@@ -374,10 +380,10 @@ function CompanyRegister() {
                   )}
                 </div>
 
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <InputWithLable
                     placeholder="221 B Baker Street"
-                    className="w-[241px] h-[46px]"
+                    className="sm:w-[241px] w-full h-[46px]"
                     label="Parent Company Name"
                     {...register("parentCompanyName")}
                   />
@@ -387,10 +393,10 @@ function CompanyRegister() {
                     />
                   )}
                 </div>
-                <div>
+                <div className="sm:w-[241px] w-full">
                   <InputWithLable
                     placeholder="Enter Email"
-                    className="w-[241px] h-[46px]"
+                    className="sm:w-[241px] w-full h-[46px]"
                     label="Email Address"
                     {...register("email")}
                     disabled
@@ -400,9 +406,7 @@ function CompanyRegister() {
                     <ErrorMessage message={errors.email.message as string} />
                   )}
                 </div>
-
-                <div>
-                  {/* <InputWithLable
+                {/* <InputWithLable
                     placeholder="John"
                     className="w-[241px] h-[46px]"
                     label="Parent Company County"
@@ -413,25 +417,24 @@ function CompanyRegister() {
                       message={errors.parentCompanyCounty.message as string}
                     />
                   )} */}
-                  <div>
-                    <Label className="mb-[8px]  font-bold text-[16px]">
-                      Parent Company County
-                    </Label>
-                    <SelectMenu
-                      option={countryOption || []}
-                      placeholder="Select county"
-                      className="w-[241px] h-[46px] mt-2"
-                      setValue={(data: string) =>
-                        setValue("parentCompanyCounty", data)
-                      }
-                      value={watch("parentCompanyCounty") || ""}
+                <div className="sm:w-[241px] w-full">
+                  <Label className="mb-[8px]  font-bold text-[16px]">
+                    Parent Company County
+                  </Label>
+                  <SelectMenu
+                    option={countryOption || []}
+                    placeholder="Select county"
+                    className="sm:w-[241px] w-full h-[46px] mt-2"
+                    setValue={(data: string) =>
+                      setValue("parentCompanyCounty", data)
+                    }
+                    value={watch("parentCompanyCounty") || ""}
+                  />
+                  {errors.parentCompanyCounty && (
+                    <ErrorMessage
+                      message={errors.parentCompanyCounty.message as string}
                     />
-                    {errors.parentCompanyCounty && (
-                      <ErrorMessage
-                        message={errors.parentCompanyCounty.message as string}
-                      />
-                    )}
-                  </div>
+                  )}
                 </div>
 
                 <div className="w-[241px] ">
@@ -459,10 +462,10 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] mt-[107px] ml-[87px] !primary-background"
+                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !primary-background"
                   disabled={isAble}
                 />
-                <div className="max-w-[296px] mx-auto mt-[60px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
+                <div className="max-w-[296px] mx-auto lg:mt-[60px] sm:mt-[40px] mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet{" "}
                     <Link to={"/privacypolicy"} className="text-[#042937]">

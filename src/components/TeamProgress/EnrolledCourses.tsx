@@ -13,7 +13,7 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
       <div className="sm:flex block gap-4 items-center">
         <div className="sm:min-w-[100px] sm:min-h-[92px] sm:w-[100px] sm:h-[92px] w-full h-full rounded-lg overflow-hidden">
           <img
-            src={data.courseVersion?.course?.bannerImage}
+            src={data?.course?.bannerImage}
             alt=""
             className="w-full h-full"
           />
@@ -27,12 +27,16 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
             {data?.course?.title}
           </p>
           <div className="flex sm:flex-nowrap flex-wrap gap-3">
-            <Badge className="bg-[#FFD56A] text-xs text-[#3A3A3A] hover:bg-[#FFD56A]">
-              Technology & Innovation
-            </Badge>
-            <Badge className="bg-[#D6F5AC] text-xs text-[#3A3A3A] hover:bg-[#D6F5AC]">
-              Social
-            </Badge>
+            {data?.course?.courseData?.map((item: any) => {
+              const color = item.fetchMaturity?.color;
+              return (
+                <Badge
+                  className={`bg-[${color}] text-xs text-[#3A3A3A] hover:bg-[#FFD56A]`}
+                >
+                  {item?.fetchPillar?.pillarName}
+                </Badge>
+              );
+            })}
           </div>
         </div>
       </div>

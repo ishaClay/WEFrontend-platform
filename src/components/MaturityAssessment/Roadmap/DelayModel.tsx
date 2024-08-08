@@ -66,9 +66,15 @@ const DelayModel = ({
       console.log("data", data);
       setUploadData(null);
       setFile(null);
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.checkedMeasures],
-      });
+      if (userData?.role === "4") {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.getEmployeeWiseAcion],
+        });
+      } else {
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.checkedMeasures],
+        });
+      }
       handleClose();
     },
     onError: (error) => {

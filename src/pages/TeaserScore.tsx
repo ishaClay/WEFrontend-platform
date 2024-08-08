@@ -134,7 +134,7 @@ const TeaserScore = () => {
           return (
             <div
               key={index}
-              className="text-sm flex flex-col items-start relative  mt-10 h-6"
+              className="text-sm flex flex-col items-start relative mt-10 h-6"
             >
               <div
                 style={{
@@ -158,9 +158,9 @@ const TeaserScore = () => {
     <div className="flex flex-col h-screen">
       <HomeHeader />
       <div className="bg-[url('../assets/img/backgroundscore.png')]">
-        <div className="w-full max-w-[800px] mx-auto mt-20 mb-32 flex justify-center">
-          <div className="border-t-8 border-solid border-[#00778B] flex justify-between bg-white rounded-lg w-full">
-            <div className="flex w-full">
+        <div className="w-full max-w-[800px] mx-auto sm:mt-20 sm:mb-32 my-14 flex justify-center">
+          <div className="border-t-8 border-solid border-[#00778B] flex justify-between bg-white rounded-lg w-full mx-5">
+            <div className="lg:flex block w-full">
               <div className="mr-0">
                 <div className="flex flex-col pl-8 pt-4">
                   <div className="flex items-center">
@@ -200,14 +200,14 @@ const TeaserScore = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between max-w-[calc(100%_-_382px)] mb-10">
+              <div className="flex justify-between lg:max-w-[calc(100%_-_382px)] sm:max-w-[calc(100%_-_250px)] w-full sm:mb-10 mb-2">
                 <div className="p-4 relative w-full">
                   <h2 className="text-lg font-semibold font-abhaya">
                     A glimpse of your Sustainability Score
                   </h2>
-                  <div className="flex w-full justify-between">
+                  <div className="flex sm:flex-row flex-col w-full justify-between">
                     <Labels />
-                    <div className="text-center mt-8  relative">
+                    <div className="text-center sm:mt-8 mt-14 mx-auto  relative">
                       <div className="w-40 h-40 mt-0 relative">
                         <Doughnut
                           data={data}

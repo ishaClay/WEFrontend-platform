@@ -322,7 +322,7 @@ function Register() {
               </div>
 
               {selectedRole !== "company" ? (
-                <div className="lg:h-[524px] sm:h-[450px] h-[420px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
+                <div className="lg:h-[524px] h-[350px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
                   <div className="">
                     <h3 className="sm:text-[24px] text-[22px] font-[700] sm:mb-[40px] mb-[32px] font-abhaya">
                       Which best describes you?
@@ -433,7 +433,7 @@ function Register() {
                 </div>
               ) : (
                 <div className="w-full lg:mt-[92px] mt-[70px]">
-                  <div className="lg:h-[524px] h-[400px] relative ">
+                  <div className="lg:h-[524px] h-[300px] relative ">
                     <div className="flex items-center justify-between">
                       <h3 className="font-[700] xl:text-[24px] text-[22px]">
                         Setting sail on your sustainability voyage

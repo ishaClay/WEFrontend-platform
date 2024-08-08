@@ -42,12 +42,14 @@ const AllocatedCertificateEmployeePage = () => {
 
   console.log("selectedCertificate", fetchEmployeeByCourse);
 
-  const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map((item:any) => {
-    return {
-      label: item?.name || item?.email?.split("@")[0],
-      value: item?.id?.toString(),
-    };
-  });
+  const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map(
+    (item: any) => {
+      return {
+        label: item?.name || item?.email?.split("@")[0],
+        value: item?.id?.toString(),
+      };
+    }
+  );
 
   return (
     <div className="bg-white">

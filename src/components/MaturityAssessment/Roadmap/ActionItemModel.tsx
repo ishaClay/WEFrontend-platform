@@ -98,7 +98,13 @@ const ActionItemModel = ({
 
   const { data: getActionItems, isLoading } = useQuery<MeasuresItemsResponse>({
     queryKey: [QUERY_KEYS.getActionItems, { pid, userID }],
-    queryFn: () => getActionItembyPiller(pid ? +pid : 0, userID),
+    queryFn: () =>
+      getActionItembyPiller(
+        pid ? +pid : 0,
+        userData?.query?.role === "4"
+          ? userData?.company?.userDetails?.id
+          : userID
+      ),
     enabled: !!pid && !!userID,
     // enabled: open && !!pid && !!userID,
   });
@@ -112,7 +118,9 @@ const ActionItemModel = ({
       queryFn: () =>
         filterMaturityMeasures(
           clientId as string,
-          userID as string,
+          userData?.query?.role === "4"
+            ? userData?.company?.userDetails?.id
+            : (userID as string),
           selectmaturity as string,
           pid as string
         ),
@@ -134,7 +142,15 @@ const ActionItemModel = ({
       }
     });
 
-    createmeasuresitem({ clientId, userId: userID, pillerId: pid, measures });
+    createmeasuresitem({
+      clientId,
+      userId:
+        userData?.query?.role === "4"
+          ? userData?.company?.userDetails?.id
+          : userID,
+      pillerId: pid,
+      measures,
+    });
   };
 
   const handleActionItemChange = (

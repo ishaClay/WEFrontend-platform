@@ -1,7 +1,7 @@
-import Header from "@/components/Header";
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -206,7 +206,7 @@ const MaturityLevelPage = () => {
   return (
     <>
       <div className="font-normal text-darkslategray-100 font-calibri">
-        {isShowHeader && <Header />}
+        {isShowHeader && <HomeHeader />}
         <div className="xl:max-w-[1160px] max-w-full w-full mx-auto">
           <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5 xl:px-0 px-5">
             <div className="lg:col-span-8 col-span-12 lg:mb-0 mb-10">
@@ -233,11 +233,11 @@ const MaturityLevelPage = () => {
                   to its next green stage.
                 </p>
               </div>
-              <div className="sm:flex block items-center gap-7 lg:mt-10 mt-5">
+              <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-7 gap-4 lg:mt-10 mt-5">
                 <Button
                   type="button"
                   onClick={handleMaturity}
-                  className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya sm:mb-0 mb-5"
+                  className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya"
                 >
                   Build My Action Plan
                 </Button>
@@ -277,8 +277,8 @@ const MaturityLevelPage = () => {
           </div>
           <div className="border-2 border-solid border-[#D9D9D9] mt-[30px] mb-6" />
 
-          <div className="sm:block hidden">
-            <div className="flex justify-between items-center mb-5 xl:px-0 px-5">
+          <div className="sm:block hidden xl:px-0 px-5">
+            <div className="flex justify-between items-center mb-5">
               <h2 className="lg:text-xl sm:text-lg text-base font-calibri font-bold">
                 How you fare across the Maturity levels
               </h2>

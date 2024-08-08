@@ -203,7 +203,7 @@ function Auth() {
             </h2>
           </div>
 
-          <div className="w-full 2xl:px-0 px-5 max-w-[515px] lg:h-auto sm:h-[580px] h-[550px] mx-auto relative">
+          <div className="w-full 2xl:px-0 px-5 max-w-[515px] lg:h-auto sm:h-[580px] h-[530px] mx-auto relative">
             <div className="flex justify-end">
               <label>
                 Already have an account?{" "}

@@ -1,3 +1,6 @@
+import Ellipse1 from "@/assets/images/Ellipse1.png";
+import Ellipse2 from "@/assets/images/Ellipse2.png";
+import Ellipse3 from "@/assets/images/Ellipse3.png";
 import { supportTicketIcon } from "@/lib/utils";
 
 interface SupportMetricProps {
@@ -23,17 +26,17 @@ const SupportMetric = ({ label, value = 0, iconName }: SupportMetricProps) => {
         <h3 className="capitalize sm:text-base text-xs">{label}</h3>
       </div>
       <img
-        src="/src/assets/images/Ellipse1.png"
+        src={Ellipse1}
         alt="ellipse"
         className="absolute bottom-0 right-[10%] sm:block hidden"
       />
       <img
-        src="/src/assets/images/Ellipse2.png"
+        src={Ellipse2}
         alt="ellipse"
         className="absolute top-0 right-0 sm:block hidden"
       />
       <img
-        src="/src/assets/images/Ellipse3.png"
+        src={Ellipse3}
         alt="ellipse"
         className="absolute top-0 right-0 sm:block hidden"
       />
