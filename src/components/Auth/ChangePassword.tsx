@@ -120,7 +120,7 @@ const ChangePassword = () => {
               </label>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="relative max-w-[418px] mx-auto mt-[80px]">
+              <div className="relative max-w-[418px] mx-auto lg:mt-[80px] md:mt-[50px] mt-[30px] lg:h-[650px] sm:h-[600px] h-[530px]">
                 <p className="text-[24px] font-[700] mb-4 text-color">
                   Create Password
                 </p>

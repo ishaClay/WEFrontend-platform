@@ -39,7 +39,7 @@ function Assessment() {
     <div className="mainContailner w-full m-auto">
       <HomeHeader />
 
-      <div className="flex flex-row gap-[48px] pb-[60px]">
+      <div className="flex flex-row lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]">
         <div>
           {/* <img
             className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
@@ -49,16 +49,16 @@ function Assessment() {
           /> */}
           <img
             src={RegisterSideImage}
-            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
+            className="xl:min-w-[590px] min-w-full w-full h-full object-cover lg:block hidden"
             alt="RegisterSideImage"
             loading="lazy"
           />
         </div>
 
         <div className="w-full ">
-          <div className="mt-[100px] xl:mb-0 mb-[100px] ">
+          <div className="lg:my-[100px] sm:my-[60px] my-[30px] xl:mb-0">
             <div className="flex items-end gap-x-[14px]">
-              <h3 className="font-abhaya text-[24px] font-[400]">
+              <h3 className="font-abhaya sm:text-[24px] text-[22px] font-[400]">
                 Perfect. Now to jump right in…
               </h3>
               <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
@@ -66,12 +66,12 @@ function Assessment() {
 
             <img className="w-[380px]" src="../assets/img/Line 23.png" />
 
-            <p className="w-[525px] text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
+            <p className="sm:w-[525px] w-full text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
               Find how you score across 6 sustainability pillars with 30
               questions.
             </p>
 
-            <h2 className="font-[700] text-[24px] font-abhaya mt-[63px]">
+            <h2 className="font-[700] sm:text-[24px] text-[22px] font-abhaya lg:mt-[63px] sm:mt-[40px] mt-[25px]">
               The 6 sustainability pillars you’ll be assessed by:
             </h2>
             {/* flex-col 2xl:flex-row gap-8 2xl: */}
@@ -85,7 +85,7 @@ function Assessment() {
                         className=""
                         alt="Environment"
                       />
-                      <p>Environment</p>
+                      <p className="sm:text-base text-sm">Environment</p>
                     </div>
 
                     <div className="flex gap-x-[10px] items-center font-abhaya">
@@ -94,7 +94,7 @@ function Assessment() {
                         src={getImages("Social", false)}
                         alt="Social"
                       />
-                      <p>Social</p>
+                      <p className="sm:text-base text-sm">Social</p>
                     </div>
 
                     <div className="flex gap-x-[10px] items-center font-abhaya">
@@ -103,7 +103,7 @@ function Assessment() {
                         src={getImages("Economic", false)}
                         alt="Economic"
                       />
-                      <p>Economic</p>
+                      <p className="sm:text-base text-sm">Economic</p>
                     </div>
                   </div>
 
@@ -114,7 +114,7 @@ function Assessment() {
                         src={getImages("Strategic Intergration", false)}
                         alt="Strategy"
                       />
-                      <p>Strategy</p>
+                      <p className="sm:text-base text-sm">Strategy</p>
                     </div>
 
                     <div className="flex gap-x-[10px] items-center font-abhaya">
@@ -123,7 +123,9 @@ function Assessment() {
                         src={getImages("Technology & Innovation", false)}
                         alt="Technology & Innovation"
                       />
-                      <p>Technology & Innovation</p>
+                      <p className="sm:text-base text-sm">
+                        Technology & Innovation
+                      </p>
                     </div>
 
                     <div className="flex gap-x-[10px] items-center font-abhaya">
@@ -132,7 +134,7 @@ function Assessment() {
                         src={getImages("Governance", false)}
                         alt="Governance"
                       />
-                      <p>Governance</p>
+                      <p className="sm:text-base text-sm">Governance</p>
                     </div>
                   </div>
                 </div>
@@ -151,7 +153,7 @@ function Assessment() {
             <PrimaryButton
               onClick={handleAssesment}
               name="Start Me Now"
-              className="w-[266px] primary-background  h-[55px] mt-[57px] text-[20px] !font-abhaya"
+              className="sm:w-[266px] w-[200px] primary-background  sm:h-[55px] h-[50px] md:mt-[57px] sm:mt-[45px] mt-[35px] sm:text-[20px] text-lg !font-abhaya"
             />
           </div>
         </div>

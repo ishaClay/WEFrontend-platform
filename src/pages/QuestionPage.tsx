@@ -315,7 +315,7 @@ const QuestionPage = () => {
       <div
         className={`${
           isHide ? "hidden" : "flex"
-        } h-[120px] flex justify-center pb-3 pt-[13px] overflow-x-auto overflow-y-hidden`}
+        } h-[130px] flex justify-center pb-3 pt-[13px] overflow-x-auto overflow-y-hidden`}
       >
         <div className="relative sm:gap-[80px] gap-[50px] justify-between overflow-auto flex items-center mx-5">
           {paths.map((path, index: number) => {

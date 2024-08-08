@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 
 import Loader from "@/components/comman/Loader";
-import Header from "@/components/Header";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import PillerCard from "@/components/MaturityAssessment/Roadmap/PillerCard";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -18,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { useNavigate } from "react-router-dom";
+import HomeHeader from "@/components/homePage/HomeHeader";
 
 function SelectLevel() {
   const queryClient = useQueryClient();
@@ -74,7 +74,6 @@ function SelectLevel() {
     }
   }, [dispatch, maturitypillar?.data]);
 
-
   const handleSelect = () => {
     EnumUpadate();
   };
@@ -82,11 +81,11 @@ function SelectLevel() {
   return (
     <div>
       <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">
-        <Header />
+        <HomeHeader />
       </div>
       <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 py-3">
         <div className="my-6">
-          <h1 className="text-[#3A3A3A] font-extrabold text-2xl leading-7 font-abhaya">
+          <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-abhaya">
             Which sustainability pillars do you want to advance first? (We'll
             suggest recommended courses after you build first.)
           </h1>

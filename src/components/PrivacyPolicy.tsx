@@ -1,15 +1,15 @@
 import { ArrowBigLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "./Header";
 import { Button } from "./ui/button";
 import HomeFooter from "./homePage/HomeFooter";
+import HomeHeader from "./homePage/HomeHeader";
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
   return (
     <div className="">
-      <Header />
-      <div className="bg-primary py-12">
+      <HomeHeader />
+      <div className="bg-primary sm:py-12 py-10">
         <div className="xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
           <Button
             variant="ghost"
@@ -24,7 +24,7 @@ const PrivacyPolicy = () => {
           </h1>
         </div>
       </div>
-      <main className="py-12 xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
+      <main className="sm:py-12 py-10 xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
         <nav className="mb-8">
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <li>
