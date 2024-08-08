@@ -14,6 +14,7 @@ import {
   getLiveSession,
   getLiveSessionById,
   scheduleLiveSession,
+  scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
@@ -21,7 +22,7 @@ import { TraineeCompanyDetails } from "@/types/Trainer";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CirclePlus, MoveLeft, X } from "lucide-react";
+import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate, useParams } from "react-router-dom";
@@ -65,13 +66,15 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate()
-  const UserId = useAppSelector((state: RootState) => state.user.UserId);
+  const { UserId, CompanyId } = useAppSelector((state: RootState) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
   const [selectCompany, setSelectCompany] = useState<
     { label: string; value: string }[]
   >([]);
+  console.log("selectCompany", selectCompany);
+  
 
   const ScheduleLiveSessionSchema = z.object({
     selectCourse: z.string({
@@ -111,6 +114,7 @@ const ScheduleLiveSessionPage = () => {
     watch,
     control,
     clearErrors,
+    reset,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(ScheduleLiveSessionSchema),
@@ -119,10 +123,10 @@ const ScheduleLiveSessionPage = () => {
       selectCompany: [],
     },
   });
+  console.log("watch", watch());
+  
 
-  const [traineeList, setTraineeList] = useState<
-    { name: string; id: string }[]
-  >([]);
+  const [traineeList, setTraineeList] = useState<{ name: string; id: string }[]>([]);
   const [traineeErr, setTraineeErr] = useState(false);
 
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
@@ -130,6 +134,12 @@ const ScheduleLiveSessionPage = () => {
       queryKey: [QUERY_KEYS.fetchAllCourse],
       queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
     });
+
+    useEffect(() => {
+      const companyValues: any = selectCompany.map(company => company.value);
+      setValue("selectCompany", companyValues);
+    }, [selectCompany])
+    
 
   const filteredAllCourseData = fetchCourseAllCourseData?.data?.filter(
     (course) =>
@@ -140,7 +150,7 @@ const ScheduleLiveSessionPage = () => {
 
   const { data: fetchTraineeCompany } = useQuery({
     queryKey: [QUERY_KEYS.fetchTraineeCompany],
-    queryFn: () => getTraineeCompany(),
+    queryFn: () => getTraineeCompany(+CompanyId),
   });
 
   const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
@@ -183,11 +193,29 @@ const ScheduleLiveSessionPage = () => {
       mutationFn: scheduleLiveSession,
       onSuccess: async () => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
+        setSelectCompany([]);
+        reset();
       },
       onError: (error: ErrorType) => {
         console.error(error);
       },
     });
+
+  const { mutate: updateLiveSession, isPending: isUpdateSessionPending } =
+    useMutation({
+      mutationFn: scheduleUpdateLiveSession,
+      onSuccess: async () => {
+        navigate(`/${currentUser}/CourseLiveSession?view=0`);
+        setSelectCompany([]);
+        reset();
+      },
+      onError: (error: ErrorType) => {
+        console.error(error);
+      },
+    });
+
+  console.log("id+++++", id);
+  
 
   const {
     data: fetchLiveSession,
@@ -219,79 +247,105 @@ const ScheduleLiveSessionPage = () => {
       value: i?.id?.toString(),
     }));
 
+    useEffect(() => {
+      const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
+      
+      if(id !== undefined){
+        if (fetchLiveSessionData) {
+          const {
+            subtitle,
+            description,
+            date,
+            startAmPm,
+            sessionDuration,
+            employee,
+            course,
+            company,
+            startTime,
+          } = fetchLiveSessionData;
+          console.log("companycompany", company?.map((item: any) => item?.id?.toString()));
+          
+    
+          setValue("sessionSubtitle", subtitle);
+          setValue("sessionDescription", description);
+          setValue("sessionDate", date?.split("T")[0]);
+          setValue("selectTimePeriods", startAmPm);
+          setValue(
+            "selectDurationInHours",
+            Math.floor(+sessionDuration / 60)
+              .toString()
+              .padStart(2, "0")
+          );
+          setValue(
+            "selectDurationInMinute",
+            (+sessionDuration % 60).toString().padStart(2, "0")
+          );
+          setValue("selectCourse", (+course?.id)?.toString());
+          setValue("sessionTime", startTime);
+          setValue(
+            "selectCompany",
+            company?.map((item: any) => {
+              return { label: item?.name, value: item?.id?.toString()}
+            })
+          );
+          setSelectCompany(company?.map((item: any) => {
+            return { label: item?.name, value: item?.id?.toString()}
+          }))
+          setTraineeList(
+            employee?.map((item: any) => ({ id: item?.id, name: item?.name }))
+          );
+        }
+      }
+    }, [
+      fetchLiveSessionById?.data?.data, id
+      // fetchCourseAllCourseData?.data?.length,
+    ]);
+
+    useEffect(() => {
+      const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
+      const liveSecTitle = selectLiveSessionOption?.find((item:any) => item?.label === fetchLiveSessionData?.liveSecTitle);  
+      setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
+    }, [fetchLiveSession?.data?.data])
+    
+    console.log("setTraineeList", traineeList);
+    
+
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    if (traineeList.length === 0) {
+    if (traineeList?.length === 0) {
       setTraineeErr(true);
       return;
     }
+    const liveSecTitle = selectLiveSessionOption?.find((item:any) => +item?.value === +data?.selectLiveSession);
     const transformedData = {
-      course: data.selectCourse,
+      course: data?.selectCourse,
       subtitle: data.sessionSubtitle,
-      description: data.sessionDescription,
-      date: data.sessionDate,
-      startTime: data?.sessionTime,
-      startAmPm: data.selectTimePeriods,
-      sessionDuration:
-        +data.selectDurationInHours * 60 + +data.selectDurationInMinute,
-      companyId: selectCompany.map((val) => +val.value),
-      trainerId: traineeList.map((trainee) => trainee.id),
+      description: data?.sessionDescription,
+      sessionDuration: +data.selectDurationInHours * 60 + +data.selectDurationInMinute?.toString(),
+      date: data?.sessionDate,
+      liveSecTitle: liveSecTitle?.label || "",
+      startTime: data?.sessionTime + data?.selectTimePeriods,
+      sectionTime: {
+          hour: data?.selectDurationInHours || "0",
+          minute: data?.selectDurationInMinute ||"0"
+      },
+      companyId: selectCompany?.map((val) => +val?.value),
+      employeeId: traineeList?.map((val) => +val?.id) || [],
     };
 
-    if (traineeList) {
-      await addLiveSession({
+    if(id !== undefined){
+      await updateLiveSession({
         data: transformedData,
-        id: String(data.selectLiveSession),
+        id: id,
       });
+    } else{
+      if (traineeList) {
+        await addLiveSession({
+          data: transformedData,
+          id: liveSecTitle?.value,
+        });
+      }
     }
   };
-
-  useEffect(() => {
-    const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
-
-    if (fetchLiveSessionData) {
-      const {
-        subtitle,
-        description,
-        date,
-        startAmPm,
-        sessionDuration,
-        trainer,
-        course,
-        company,
-        startTime,
-        id,
-      } = fetchLiveSessionData;
-
-      setValue("sessionSubtitle", subtitle);
-      setValue("sessionDescription", description);
-      setValue("sessionDate", date?.split("T")[0]);
-      setValue("selectLiveSession", id?.toString());
-      setValue("selectTimePeriods", startAmPm);
-      setValue(
-        "selectDurationInHours",
-        Math.floor(+sessionDuration / 60)
-          .toString()
-          .padStart(2, "0")
-      );
-      setValue(
-        "selectDurationInMinute",
-        (+sessionDuration % 60).toString().padStart(2, "0")
-      );
-      setValue("selectCourse", (+course?.id)?.toString());
-      setValue("sessionTime", startTime);
-      setValue(
-        "selectCompany",
-        company?.map((item: any) => item?.id?.toString())
-      );
-      setTraineeList(
-        trainer?.map((item: any) => ({ id: item?.id, name: item?.name }))
-      );
-    }
-  }, [
-    fetchLiveSessionById?.data?.data,
-    fetchCourseAllCourseData?.data?.length,
-    fetchLiveSession?.data?.data,
-  ]);
 
   if (
     (fetchCoursePending ||
@@ -302,6 +356,8 @@ const ScheduleLiveSessionPage = () => {
     return <Loader />;
   }
 
+  console.log("errors:", errors);
+  
   return (
     <>
       <Modal
@@ -325,6 +381,7 @@ const ScheduleLiveSessionPage = () => {
               Schedule Live Session
             </h5>
             <Button
+              type="button"
               className="bg-transparent font-nunito flex items-center gap-3 text-base text-black font-semibold p-0 h-auto"
               onClick={() => {
                 dispatch(
@@ -577,13 +634,14 @@ const ScheduleLiveSessionPage = () => {
                 Select Company
               </Label>
               <Autocomplete
+                {...register("selectCompany")}
                 suggestions={selectCompanyOptions}
                 selectedItems={selectCompany}
                 setSelectedItems={setSelectCompany}
               />
-              {errors.selectCompany && (
+              {errors?.selectCompany && (
                 <span className="text-red-500 text-sm">
-                  {errors.selectCompany.message}
+                  {errors?.selectCompany?.message}
                 </span>
               )}
             </div>
@@ -624,9 +682,10 @@ const ScheduleLiveSessionPage = () => {
                 <Button
                   className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10"
                   type="submit"
+                  disabled={isSaveSessionPending || isUpdateSessionPending}
                 >
-                  {isSaveSessionPending && (
-                    <Loader className="mr-2 h-4 w-4 animate-spin" />
+                  {isSaveSessionPending || isUpdateSessionPending && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   Save Session
                 </Button>

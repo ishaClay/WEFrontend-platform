@@ -90,17 +90,24 @@ export const trainerDetailsUpdate = async ({
   return response.data;
 };
 
-export const getTraineeCompany = async () => {
-  const url = `api/v1/livesessions/list-traineeofcompany`,
+export const getTraineeCompany = async (id: number) => {
+  const url = `api/v1/livesessions/company-trainerCompany/${id}`,
     method = "get";
   const res = await api({ url, method });
   return res.data;
 };
 
-export const getTrainee = async (companyIds: any) => {
-  const url = `api/v1/company/get-company-trainee`,
-    method = "post";
-  const res = await api({ url, data: companyIds, method });
+export const getTrainee = async (trainerCompanyID: number, companyId: number, searchQuery: string) => {
+  const url = `api/v1/livesessions/employee-trainerCompany/${trainerCompanyID}`;
+  const params:any = {};
+
+  if(companyId){
+    params["companyId"] = companyId;
+  }
+  if(searchQuery){
+    params["keyword"] = searchQuery;
+  }
+  const res = await api({ url, params });
   return res.data;
 };
 

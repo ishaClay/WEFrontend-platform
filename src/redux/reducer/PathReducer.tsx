@@ -9,9 +9,7 @@ export const PathSlice = createSlice({
     paths: [
       {
         label: "Dashboard",
-        link: `/${UserRole[
-          userData?.query?.role
-        ]?.toLocaleLowerCase()}/dashboard`,
+        link: `/${UserRole[userData?.query?.role]?.toLowerCase()}/dashboard`,
       },
     ],
   },

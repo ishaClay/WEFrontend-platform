@@ -25,7 +25,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
 
   return (
     <Link
-      to={`/employee/employee-basic-course/${grid?.course?.id}`}
+      to={`/employee/employee-basic-course/${grid?.course?.currentVersion?.id}`}
       onClick={() =>
         dispatch(
           setPath([

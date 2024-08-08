@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SidebarContext } from "@/context/Sidebarcontext";
 import { cn } from "@/lib/utils";
 import {
   ColumnDef,
@@ -22,7 +21,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Loader2 } from "lucide-react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Input } from "../../components/ui/input";
 import Paginations from "./Pagination";
 import search from "/assets/icons/search.svg";
@@ -60,7 +59,6 @@ export function NewDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   console.log("pagination", pagenationbox);
 
-  const { sidebarOpen } = useContext(SidebarContext);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -101,11 +99,7 @@ export function NewDataTable<TData, TValue>({
 
   return (
     <div
-      className={`${
-        sidebarOpen
-          ? "lg:w-[calc(100vw-300px)] w-[calc(100vw-47px)]"
-          : "lg:w-[calc(100vw-100px)] w-[calc(100vw-47px)]"
-      }`}
+      className={`w-full`}
     >
       {!!inputbox && (
         <div className="flex items-center py-4 relative">

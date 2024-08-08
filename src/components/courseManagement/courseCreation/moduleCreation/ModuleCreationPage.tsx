@@ -17,6 +17,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import CourseViewPage from "../courseView/CourseViewPage";
 import ModuleCreationItems from "./ModuleCreationItems";
+import { useNavigate } from "react-router-dom";
 
 export const intialSectionCreation: SectionCreation = {
   sectionTitle: "",
@@ -44,9 +45,11 @@ export const intialModuleCreation: ModuleCreation = {
 };
 
 const ModuleCreationPage = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const search = window.location.search;
+  const paramsTab = new URLSearchParams(search).get("tab") || "";
   const courseID = new URLSearchParams(search).get("id") || "";
   const paramsVersion = new URLSearchParams(search).get("version") || "";
   const [moduleList, setModuleList] = useState<any>([]);
@@ -55,6 +58,7 @@ const ModuleCreationPage = () => {
   const latestModuleList = useRef(moduleList);
   const courseEditId: string = location?.pathname?.split("/")[3];
   const [urlError, setUrlError] = useState<string>("");
+  const pathName = location?.pathname?.split("/")[1];
 
   const schema = z.object({
     modules: z.array(
@@ -87,7 +91,8 @@ const ModuleCreationPage = () => {
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string({ required_error: "Youtube url is required" }).optional(),
+                .string({ required_error: "Youtube url is required" })
+                .optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -220,13 +225,13 @@ const ModuleCreationPage = () => {
   });
 
   const { mutate: ChangeModulePosition } = useMutation({
-    mutationFn: (data: any) => changeModulePostion(data, courseEditId),
+    mutationFn: (data: any) => changeModulePostion(data, courseEditId || courseID),
   });
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
-    queryFn: () => getModuleData(+courseEditId),
-    enabled: !!paramsVersion || !!courseEditId,
+    queryFn: () => getModuleData(+courseEditId || +courseID),
+    enabled: !!courseID || !!courseEditId,
   });
 
   useEffect(() => {
@@ -250,6 +255,11 @@ const ModuleCreationPage = () => {
           });
         }
       });
+      if(+courseEditId){
+        navigate(`/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}`);
+      } else {
+        navigate(`/${pathName}/create_course?tab=${paramsTab}&id=${courseID}&version=${paramsVersion}`);
+      }
       await Promise.all(promises);
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourseModule],

@@ -184,16 +184,13 @@ const CourseInformation = ({
     }
   }, [getSingleCourse, setValue]);
 
-  console.log("asdasd", watch());
-  
-
   const onSubmit = (formdata: FieldValues) => {
     const payload = {
       title: formdata?.title,
       institute: formdata?.institute,
       instituteWebsite: formdata?.instituteWebsite,
       instituteWebsite2: formdata?.instituteWebsite2,
-      freeCourse: isFreeCourse ? 1 : 0,
+      freeCourse: isFreeCourse ? "1" : "0",
       price: formdata?.price ? formdata?.price?.toString() : "0",
       discountApplicable: discount ? discount?.toString() : "0",
       discout: provideDisc ? "1" : "0",

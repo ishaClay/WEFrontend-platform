@@ -33,7 +33,6 @@ import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import Drawer from "../comman/Drawer";
 import eye from "/assets/icons/eye.svg";
 import search from "/assets/icons/search.svg";
@@ -80,12 +79,12 @@ const Message = () => {
     }
   }, [searchParams]);
 
-  const { data: chatUserList, refetch: refetchUserList } = useQuery({
-    queryKey: [QUERY_KEYS.chatUserList, { userID, chatId }],
+  const { data: chatUserList } = useQuery({
+    queryKey: [QUERY_KEYS.chatUserList],
     queryFn: () => fetchChatUserList(userID as string),
   });
 
-  const { data: chatList, refetch: refetchChat } = useQuery({
+  const { data: chatList } = useQuery({
     queryKey: [QUERY_KEYS.chatList, { userID, chatId }],
     queryFn: () => fetchChat(userID, chatId),
     enabled: !!userID && !!chatId,
@@ -159,28 +158,28 @@ const Message = () => {
 
   console.log("currentChat", chatUserList);
 
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL);
-    socket.on("message recieved", (newMessageReceived: any) => {
-      setAllMsg((prevMsgs: any) => {
-        const isDuplicate = prevMsgs.some(
-          (msg: any) => msg.id === newMessageReceived.id
-        );
+  // useEffect(() => {
+  //   socket = io(import.meta.env.VITE_SOCKET_URL);
+  //   socket.on("message recieved", (newMessageReceived: any) => {
+  //     setAllMsg((prevMsgs: any) => {
+  //       const isDuplicate = prevMsgs.some(
+  //         (msg: any) => msg.id === newMessageReceived.id
+  //       );
 
-        if (!isDuplicate) {
-          return [...prevMsgs, newMessageReceived];
-        }
-        return prevMsgs;
-      });
+  //       if (!isDuplicate) {
+  //         return [...prevMsgs, newMessageReceived];
+  //       }
+  //       return prevMsgs;
+  //     });
 
-      // !!UserId && !!chatId && (await refetchChat());
-      // await refetchUserList();
-    });
+  //     // !!UserId && !!chatId && (await refetchChat());
+  //     // await refetchUserList();
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [chatId, refetchChat, refetchUserList, UserId]);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [chatId, refetchChat, refetchUserList, UserId]);
 
   const { mutate: handleSend, isPending: sendPending } = useMutation({
     mutationFn: sendMessage,

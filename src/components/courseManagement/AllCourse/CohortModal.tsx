@@ -22,7 +22,7 @@ import {
 } from "@/services/apiServices/cohort";
 import { ErrorType } from "@/types/Errors";
 import { cohortgroupResponse } from "@/types/cohort";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -58,6 +58,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     queryFn: () => getCohortsByCourse(id),
     enabled: !!open && !!id,
   });
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (data?.data && data?.data?.length > 0) {
@@ -149,6 +150,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
         title: "Success",
         description: data?.message,
         variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchAllCourse],
       });
       handleClose();
     },

@@ -6,6 +6,8 @@ type TraineeEmployee = {
     image: string;
     name: string;
     companyName: string;
+    email: string;
+    id: string;
   };
   traineeList: { name: string; id: string }[];
   setTraineeList: React.Dispatch<
@@ -17,19 +19,19 @@ const TraineeItems = ({
   data,
   setTraineeList,
   traineeList,
-}: TraineeEmployee) => {
+}: TraineeEmployee) => {  
   const handleChanges = (e: boolean, data: any): void => {
     if (e) {
-      setTraineeList((prev: any) => [
+      setTraineeList((prev: any[]) => [
         ...prev,
         {
-          name: data.name,
+          name: data?.name || data?.email?.split("@")?.[0] || "",
           id: data.id.toString(),
         },
       ]);
     } else {
-      setTraineeList((prev: any) =>
-        prev.filter((item: { name: string }) => item.name !== data.name)
+      setTraineeList((prev: any[]) =>
+        prev.filter((item: { id: number }) => +item?.id !== +data?.id)
       );
     }
   };
@@ -52,7 +54,7 @@ const TraineeItems = ({
           className="border-[#D9D9D9] w-6 h-6"
           onCheckedChange={(e) => handleChanges(!!e, data)}
           checked={traineeList?.some(
-            (item: { name: string }) => item.name === data.name
+            (item: any) => +item?.id === +data?.id
           )}
         />
       </div>

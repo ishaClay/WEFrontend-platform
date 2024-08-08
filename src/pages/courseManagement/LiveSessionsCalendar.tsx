@@ -122,7 +122,10 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     });
 
     return (
-      <div className="flex sm:flex-row flex-col justify-between mb-5 sm:gap-0 gap-4">
+      <div
+        id="toolBar"
+        className="flex sm:flex-row flex-col justify-between mb-5 sm:gap-0 gap-4"
+      >
         <div className="flex sm:flex-row flex-col sm:items-center items-start md:gap-10 sm:gap-8 gap-4">
           <Button
             className="bg-[#00778B] text-white"
@@ -219,19 +222,21 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
 
   const CustomEvent = ({ event }: { event: any }) => (
     <HoverCard openDelay={300} closeDelay={300}>
-      <HoverCardTrigger asChild>
-        <p>{event.title}</p>
+      <HoverCardTrigger asChild className="relative">
+        <p className="cursor-pointer max-w-[150px] w-full line-clamp-1">
+          {event.title}
+        </p>
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
-        <p className="mb-2">
+        <h3 className="mb-2 text-wrap">
           <strong>Title:</strong> {event?.title}
-        </p>
+        </h3>
         <p className="mb-2">
           <strong>Meeting time:</strong>{" "}
           {moment(event?.start).format("hh:mm a")} -
           {moment(event?.end).format("hh:mm a")}
         </p>
-        <p className="mb-2">
+        <p className="mb-2 text-wrap">
           <strong>Description:</strong> {event?.description}
         </p>
         <Button

@@ -218,11 +218,11 @@ const TrainerSetting = () => {
             />
           </div>
         </div>
-        <div>
+        <div className="w-full">
           {isPending ? (
             <Loader />
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <NewDataTable
                 columns={column}
                 data={data?.data || []}

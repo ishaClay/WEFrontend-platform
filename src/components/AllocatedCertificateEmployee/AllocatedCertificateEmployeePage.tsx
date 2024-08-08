@@ -2,6 +2,7 @@ import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
+import { getEmployeeByCourse } from "@/services/apiServices/employee";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
@@ -10,20 +11,6 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
-const selectTraineeOption = [
-  {
-    label: "Select Trainee 1",
-    value: "Select_Trainee_1",
-  },
-  {
-    label: "Select Trainee 2",
-    value: "Select_Trainee_2",
-  },
-  {
-    label: "Select Trainee 3",
-    value: "Select_Trainee_3",
-  },
-];
 const AllocatedCertificateEmployeePage = () => {
   const Role = location.pathname.split("/")[1];
   const dispatch = useAppDispatch();
@@ -34,6 +21,12 @@ const AllocatedCertificateEmployeePage = () => {
     queryKey: [QUERY_KEYS.fetchAllCourse, { UserId: userData?.query?.id }],
     queryFn: () => fetchCourseAllCourse("", +userData?.query?.id, "PUBLISHED"),
     enabled: !!userData?.query?.id,
+  });
+
+  const { data: fetchEmployeeByCourse } = useQuery({
+    queryKey: [QUERY_KEYS.fetchEmployeeByCourse, { selectCourse }],
+    queryFn: () => getEmployeeByCourse(selectCourse),
+    enabled: !!selectCourse,
   });
 
   const courseOptions = fetchCourseAllCourseData?.data?.map((item) => {
@@ -47,7 +40,14 @@ const AllocatedCertificateEmployeePage = () => {
     (item) => item?.id?.toString() === selectCourse
   );
 
-  console.log("selectedCertificate", selectedCertificate);
+  console.log("selectedCertificate", fetchEmployeeByCourse);
+
+  const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map((item:any) => {
+    return {
+      label: item?.name || item?.email?.split("@")[0],
+      value: item?.id?.toString(),
+    };
+  });
 
   return (
     <div className="bg-white">
@@ -123,7 +123,11 @@ const AllocatedCertificateEmployeePage = () => {
                                 selectedCertificate?.certificate?.primaryFont,
                             }}
                           >
-                            Employe Name
+                            {
+                              employeeOptions?.find(
+                                (item: any) => item?.value === selectTrainee
+                              )?.label
+                            }
                           </h1>
                           <div className="flex items-center justify-center md:mt-4 sm:mt-3 mt-1">
                             <span
@@ -300,7 +304,7 @@ const AllocatedCertificateEmployeePage = () => {
                     Select Trainee
                   </Label>
                   <SelectMenu
-                    option={selectTraineeOption}
+                    option={employeeOptions || []}
                     setValue={(data: string) => setSelectTrainee(data)}
                     value={selectTrainee}
                     className="text-[#A3A3A3] text-base font-calibri"

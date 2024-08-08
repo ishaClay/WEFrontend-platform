@@ -1,21 +1,23 @@
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { PermissionContext } from "@/context/PermissionContext";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { getCourseByTrainee } from "@/services/apiServices/courseManagement";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
 
 const MyCourse = () => {
   const dispatch = useAppDispatch();
+  const { permissions } = useContext(PermissionContext);
   const [cohort, setCohort] = useState(false);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
@@ -51,7 +53,7 @@ const MyCourse = () => {
             </p>
           </div>
           {(+userData?.query?.role === UserRole.Trainee
-            ? userData?.approved
+            ? permissions?.createCourse
             : true) && (
             <div>
               <Button

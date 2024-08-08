@@ -67,6 +67,7 @@ const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
   const dispatch = useAppDispatch();
+  const pathName = window.location.pathname.split("/")[1];  
 
   const assecessmentQuestion = useAppSelector(
     (state: RootState) => state.assessment
@@ -85,6 +86,10 @@ const AssecessmentPage = () => {
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const id = searchParams.get("id");
+  const version = searchParams.get("version");
+  const tab = searchParams.get("tab");
 
   const { data, isLoading } = useQuery<AssessmentById>({
     queryKey: [QUERY_KEYS.getAssesmentById],
@@ -137,15 +142,15 @@ const AssecessmentPage = () => {
         description: data?.data?.message,
         variant: "success",
       });
-      const courseId = searchParams.get("courseId");
-      const id = searchParams.get("id");
-      const version = searchParams.get("version");
-      const tab = searchParams.get("tab");
-      navigate(
-        `/trainer/create_course/${courseId ? courseId : id}?tab=${
-          tab || 2
-        }&version=${version}`
-      );
+      if(courseId){
+        navigate(
+          `/${pathName}/create_course/${courseId ? courseId : id}?tab=${
+            tab || 2
+          }&version=${version}`
+        );
+      } else {
+        navigate(`/${pathName}/create_course?tab=${tab || 2}&id=${id}&version=${version}`);
+      }
       dispatch(resetAssessment());
     },
     onError: (error: ResponseError) => {
@@ -172,6 +177,15 @@ const AssecessmentPage = () => {
             };
           }
         );
+        if(courseId && +courseId){
+          navigate(
+            `/${pathName}/create_course/${courseId ? courseId : id}?tab=${
+              tab || 2
+            }&version=${version}`
+          );
+        } else {
+          navigate(`/${pathName}/create_course?tab=${tab || 2}&id=${id}&version=${version}`);
+        }
         createAssessmentQuestionFun(assecessmentQue);
       },
     });
@@ -290,11 +304,17 @@ const AssecessmentPage = () => {
     const version = searchParams.get("version");
     const tab = searchParams.get("tab");
     dispatch(resetAssessment());
-    navigate(
-      `/trainer/create_course/${
-        courseId ? courseId : id
-      }?tab=${tab}&version=${version}`
-    );
+    if(courseId && +courseId && courseId !== null){
+      navigate(
+        `/${pathName}/create_course/${
+          courseId ? courseId : id
+        }?tab=${tab}&version=${version}`
+      );
+    } else {
+      navigate(
+        `/${pathName}/create_course?tab=${tab}&id=${id}&version=${version}`
+      );
+    }
   };
 
   // /trainer/create_course/28?tab=2&version=26

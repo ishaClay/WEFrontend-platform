@@ -21,9 +21,7 @@ import {
   createSupportTicket,
   fetchAssigToUser,
 } from "@/services/apiServices/supportRequestServices";
-import {
-  SubmitPayload,
-} from "@/types/SupportRequest";
+import { SubmitPayload } from "@/types/SupportRequest";
 import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -51,7 +49,9 @@ function SupportAddNewTicket() {
 
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select Assign To" }),
-    ticketPriority: z.string({ required_error: "Please select ticket priority" }),
+    ticketPriority: z.string({
+      required_error: "Please select ticket priority",
+    }),
     ticketSubject: z
       .string({ required_error: "Please enter ticket subject" })
       .min(1, { message: "Please enter ticket subject" }),
@@ -61,9 +61,7 @@ function SupportAddNewTicket() {
     uploadDocument: z
       .string({ required_error: "Please upload document" })
       .optional(),
-    uploadVideo: z
-      .string({ required_error: "Please upload video" })
-      .optional(),
+    uploadVideo: z.string({ required_error: "Please upload video" }).optional(),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -78,12 +76,15 @@ function SupportAddNewTicket() {
     mode: "all",
   });
 
-    const { data: fetchAssigToUserList, isPending: assigToUserListPending } = useQuery({
+  const { data: fetchAssigToUserList, isPending: assigToUserListPending } =
+    useQuery({
       queryKey: [QUERY_KEYS.fetchAssigToUserList],
       queryFn: () => fetchAssigToUser(UserId),
       enabled: !!UserId,
-    })
-    const assigToUserList = fetchAssigToUserList?.data?.filter((item) => item !== null);    
+    });
+  const assigToUserList = fetchAssigToUserList?.data?.filter(
+    (item) => item !== null
+  );
 
   const { mutate: createSupportRequestTicket, isPending: createPanding } =
     useMutation({
@@ -126,6 +127,7 @@ function SupportAddNewTicket() {
       openBy: user?.query?.id,
       email: user?.query?.email,
     };
+
     createSupportRequestTicket(payload);
   };
 
@@ -187,30 +189,30 @@ function SupportAddNewTicket() {
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item) => {
-                        return (
-                          <>
-                            <SelectItem
-                              key={item.id}
-                              value={String(item?.id)}
-                            >
-                              <span className="w-[150px] text-neutral-400 inline-block text-left">
-                                {
-                                  item?.userDetails?.role === UserRole?.Employee ? "Employee" :
-                                  item?.userDetails?.role === UserRole?.Company ? "SME Company" :
-                                  item?.userDetails?.role === UserRole?.Trainer ? "Trainer Provider" : 
-                                  item?.userDetails?.role === UserRole?.Trainee ? "Trainer" : "Client Admin"
-                                }
-                              </span>{" "}
-                              <span className="mr-10 text-neutral-400">
-                                --
-                              </span>{" "}
-                              {item?.userDetails?.name || item?.userDetails?.email?.split("@")?.[0]}
-
-                            </SelectItem>
-                          </>
-                        );
-                      }
-                    )
+                      return (
+                        <>
+                          <SelectItem
+                            key={item.id}
+                            value={String(item?.userDetails?.id)}
+                          >
+                            <span className="w-[150px] text-neutral-400 inline-block text-left">
+                              {item?.userDetails?.role === UserRole?.Employee
+                                ? "Employee"
+                                : item?.userDetails?.role === UserRole?.Company
+                                ? "SME Company"
+                                : item?.userDetails?.role === UserRole?.Trainer
+                                ? "Trainer Provider"
+                                : item?.userDetails?.role === UserRole?.Trainee
+                                ? "Trainer"
+                                : "Client Admin"}
+                            </span>{" "}
+                            <span className="mr-10 text-neutral-400">--</span>{" "}
+                            {item?.userDetails?.name ||
+                              item?.userDetails?.email?.split("@")?.[0]}
+                          </SelectItem>
+                        </>
+                      );
+                    })
                   ) : (
                     <span>No data found</span>
                   )}

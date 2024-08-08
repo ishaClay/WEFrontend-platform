@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -31,7 +32,7 @@ import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
@@ -46,6 +47,7 @@ const GridView = ({
   isLoading?: boolean;
 }) => {
   const dispatch = useAppDispatch();
+  const { permissions } = useContext(PermissionContext);
   const { toast } = useToast();
   const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -232,12 +234,11 @@ const GridView = ({
             }`
           );
         }
-      } else {
-        createNewVersionFun({
-          courseId: item?.id,
-          version: item?.currentVersion?.version || 0,
-        });
       }
+      createNewVersionFun({
+        courseId: item?.id,
+        version: item?.currentVersion?.version || 0,
+      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -287,7 +288,10 @@ const GridView = ({
                 ? true
                 : item?.trainerId?.id === +userData?.query?.detailsid
                 ? true
-                : userData?.editCourses;
+                : permissions?.updateCourse;
+
+            console.log("update", update);
+
             const versionOption =
               item?.version &&
               item?.version.map((itm: any) => {
@@ -426,7 +430,9 @@ const GridView = ({
                     <DropdownMenuContent className="w-30">
                       <DropdownMenuGroup>
                         {(+userData?.query?.role === UserRole.Trainee
-                          ? userData?.approved
+                          ? item?.trainerId?.id === +userData?.query?.detailsid
+                            ? true
+                            : permissions?.createCourse
                           : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
@@ -440,7 +446,7 @@ const GridView = ({
                         )}
                         {item?.status !== "EXPIRED" &&
                           (+userData?.query?.role === UserRole.Trainee
-                            ? userData?.editCourses
+                            ? update
                             : true) && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
@@ -473,9 +479,10 @@ const GridView = ({
                               ? "hidden"
                               : "flex"
                           }`}
-                          onClick={(e) => {
+                          onClick={(e: any) => {
                             e.stopPropagation();
-                            setIsOpen(item?.currentVersion?.mainCourse?.id);
+                            setIsDelete(true);
+                            setSingleCourse(item);
                           }}
                         >
                           <Trash2 className="w-4 h-4" />

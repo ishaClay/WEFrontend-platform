@@ -1,10 +1,11 @@
 import { sidebarLayout } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
 import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
+import { SidebarContext } from "@/context/Sidebarcontext";
 
 export interface SidebarItem {
   label: string;
@@ -21,6 +22,9 @@ const DashboardLayout = () => {
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
   const location = window.location.pathname;
   const Role = location.split("/")[1];
+  const { sidebarOpen } = useContext(SidebarContext);
+  console.log("sidebarOpen", sidebarOpen);
+  
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
@@ -45,7 +49,7 @@ const DashboardLayout = () => {
       <div className="lg:block hidden">
         <Sidebar sidebarItems={data} />
       </div>
-      <div className="w-full relative">
+      <div className={`relative ${sidebarOpen ? "w-[calc(100%-260px)]" : "w-[calc(100%-60px)]"}`}>
         <HeaderCourse />
         <div>
           <div

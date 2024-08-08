@@ -107,3 +107,9 @@ export const getDashboardEmployeeCourse = async (
   const res = await api({ url });
   return res.data.data;
 };
+
+export const getEmployeeByCourse = async (id: string) => {
+  const url = `api/v1/employee/getCourseEnrollAllEmployee/${id}`;
+  const res = await api({ url });
+  return res.data;
+}

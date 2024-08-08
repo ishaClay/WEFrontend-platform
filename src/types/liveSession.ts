@@ -19,7 +19,33 @@ export interface AllLivesessions {
   trainer: LiveSessionTrainer[];
   company?: any[];
   course?: any;
+  employee: EmployeeLivesessionsEntity[];
 }
+export interface EmployeeLivesessionsEntity {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  employeeStatus: string;
+  gender?: null;
+  ageRange?: null;
+  phone?: null;
+  nFQ?: null;
+  employmentStatus?: null;
+  memberCompany?: null;
+  occupationalCategory?: null;
+  unemploymentTime?: null;
+  countyOfResidence?: null;
+  attendedEvent?: null;
+  profileImage?: null;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  editActionItem: boolean;
+  retakeSelfAssessment: boolean;
+  shareFeedback: boolean;
+}
+
 
 export interface LiveSessionSectionTime {
   hour: number;

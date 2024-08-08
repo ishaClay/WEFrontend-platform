@@ -75,7 +75,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         </h6>
         <h6 className="text-base text-black font-abhaya font-semibold">
           <span className="text-[#606060]">Course: </span>
-          {data?.course?.titile}
+          {data?.course?.title}
         </h6>
         <div className="sm:flex bloack gap-10">
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
@@ -84,7 +84,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold">
             <span className="text-[#606060]">Number of Employee: </span>
-            {data?.trainer?.length}
+            {data?.employee?.length || 0}
           </h6>
         </div>
         <div className="sm:flex block gap-10">
