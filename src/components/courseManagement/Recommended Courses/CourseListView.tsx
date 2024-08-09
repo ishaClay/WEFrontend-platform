@@ -26,6 +26,7 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 let socket: any;
 
@@ -68,6 +69,7 @@ function CourseListView({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
       });
+      navigate(`/${pathName}/message`);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -93,6 +95,14 @@ function CourseListView({
   //     </Badge>
   //   })
   // }
+
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (!isRecommendedCourseShow) {
@@ -123,7 +133,7 @@ function CourseListView({
         variant: "success",
         title: data?.data?.message,
       });
-      navigate(`/${pathName}/message`);
+
       socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {

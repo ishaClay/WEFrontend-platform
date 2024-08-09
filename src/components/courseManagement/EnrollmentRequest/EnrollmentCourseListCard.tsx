@@ -12,9 +12,12 @@ import { ErrorType } from "@/types/Errors";
 import { Data, Enroll } from "@/types/enroll";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Euro, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
+
+let socket: any;
 
 const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
   const { toast } = useToast();
@@ -47,6 +50,14 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
     });
   };
 
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   const { mutate: handleSend, isPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data: res }) => {
@@ -67,7 +78,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
         title: res?.message,
       });
       navigate(`/${pathName}/message`);
-      // socket.emit("new message", data?.data);
+      socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
       console.log("data+++++error", error);

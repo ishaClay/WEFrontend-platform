@@ -21,6 +21,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
 
 let socket: any;
 
@@ -69,6 +70,7 @@ const CourseGridView = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
       });
+      navigate(`/${pathName}/message`);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -77,6 +79,14 @@ const CourseGridView = ({
       });
     },
   });
+
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL);
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
@@ -96,7 +106,7 @@ const CourseGridView = ({
         courseId: recommendeddata?.id,
       };
       Inquiry(payload);
-      navigate(`/${pathName}/message`);
+
       socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
