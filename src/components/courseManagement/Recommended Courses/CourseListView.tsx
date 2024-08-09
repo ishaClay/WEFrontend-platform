@@ -36,7 +36,9 @@ function CourseListView({
   totalData: number;
   currentIndex: number;
 }) {
-  const userData = useSelector((state: RootState) => state.user);
+  const { UserId } = useSelector((state: RootState) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -135,7 +137,7 @@ function CourseListView({
 
   const handleInquire = (data: RecommendedCourses[] | any) => {
     const payload = {
-      senderId: userData?.UserId,
+      senderId: userID,
       receiverId: data?.trainerCompanyId
         ? data?.trainerCompanyId?.userDetails?.id
         : data?.trainerId?.userDetails?.id,

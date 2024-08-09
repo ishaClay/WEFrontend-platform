@@ -25,6 +25,10 @@ const RecommendedCoursesModel = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { CompanyId } = useSelector((state: any) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const CompanyID = CompanyId
+    ? CompanyId
+    : userData?.query?.companyDetails?.id || userData?.query?.detailsid;
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
   const [itemList, setItemList] = useState<number[]>([]);
   const [selectCourseByIndex, setSelectCourseByIndex] = useState<
@@ -95,7 +99,7 @@ const RecommendedCoursesModel = ({
   const handleEnrollementRequest = () => {
     enrollRequest({
       versionId: data[+selectCourse]?.currentVersion?.id,
-      companyId: +CompanyId,
+      companyId: +CompanyID,
       cohortGroupId: +selectFilterByCategory,
       isdiscounted: +selectCourse,
       numberOfEmployee: itemList[+selectCourse],
