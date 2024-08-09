@@ -169,3 +169,10 @@ export const createNewVersion = async (data: { courseId: number, version: number
   const res = await api({ url, data, method });
   return res.data;
 }
+
+export const createInquiry = async (data: { courseId: number, userId: number }) => {
+  const url = `api/v1/inquire/create`;
+  const method = "post";
+  const res = await api({ url, data, method });
+  return res.data;
+}
