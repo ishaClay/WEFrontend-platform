@@ -12,7 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sendMessage } from "@/services/apiServices/chatServices";
-import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
+import { createInquiry } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { ErrorType } from "@/types/Errors";
@@ -61,8 +61,8 @@ const CourseGridView = ({
     setRecommendedCoursesById(null);
   };
 
-  const { mutate: updateEnrollRequest } = useMutation({
-    mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
+  const { mutate: Inquiry } = useMutation({
+    mutationFn: createInquiry,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
@@ -87,14 +87,13 @@ const CourseGridView = ({
       });
       toast({
         variant: "success",
-        title: data?.data?.message,
+        title: data?.message,
       });
-      updateEnrollRequest({
-        id: recommendedCoursesById,
-        enroll: {
-          enroll: 3,
-        },
-      });
+      const payload = {
+        userId: userID as number,
+        courseId: recommendeddata?.id,
+      };
+      Inquiry(payload);
       navigate(`/${pathName}/message`);
       // socket.emit("new message", data?.data);
     },
@@ -118,6 +117,8 @@ const CourseGridView = ({
     };
     handleSend(payload);
   };
+
+  console.log("recommendeddata", recommendeddata);
 
   return (
     <>
@@ -264,23 +265,40 @@ const CourseGridView = ({
               />
             </div>
             <div className="2xl:col-span-5 col-span-4 xl:mr-0 ml-auto m-0 flex items-center 2xl:flex-row flex-col 2xl:gap-4 gap-2">
-              <Button
-                className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
-                onClick={() => {
-                  handleInquire(recommendeddata || []);
-                  setRecommendedCoursesById(recommendeddata?.id);
-                }}
-                disabled={
-                  !isRecommendedCourseShow &&
-                  recommendedCoursesById === recommendeddata?.id
-                }
-              >
-                {!isRecommendedCourseShow &&
-                  recommendedCoursesById === recommendeddata?.id && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}{" "}
-                Inquire
-              </Button>
+              {recommendeddata?.inquire ? (
+                <Button
+                  className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
+                  onClick={() =>
+                    navigate(
+                      `/${pathName}/message?chatId=${
+                        recommendeddata?.trainerCompanyId
+                          ? recommendeddata?.trainerCompanyId?.userDetails?.id
+                          : recommendeddata?.trainerId?.userDetails?.id
+                      }`
+                    )
+                  }
+                >
+                  Show Message
+                </Button>
+              ) : (
+                <Button
+                  className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                  onClick={() => {
+                    handleInquire(recommendeddata || []);
+                    setRecommendedCoursesById(recommendeddata?.id);
+                  }}
+                  disabled={
+                    !isRecommendedCourseShow &&
+                    recommendedCoursesById === recommendeddata?.id
+                  }
+                >
+                  {!isRecommendedCourseShow &&
+                    recommendedCoursesById === recommendeddata?.id && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}{" "}
+                  Inquire
+                </Button>
+              )}
               <Button
                 onClick={() => {
                   setIsRecommendedCourseShow(true);

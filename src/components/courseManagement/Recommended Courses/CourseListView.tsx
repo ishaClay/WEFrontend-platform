@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { sendMessage } from "@/services/apiServices/chatServices";
-import { UpdateEnrollmentRequest } from "@/services/apiServices/courseManagement";
+import { createInquiry } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import { ErrorType } from "@/types/Errors";
 import {
@@ -60,8 +60,8 @@ function CourseListView({
     enabled: !!recommendedCoursesById,
   });
 
-  const { mutate: updateEnrollRequest } = useMutation({
-    mutationFn: (data: any) => UpdateEnrollmentRequest(data?.id, data?.enroll),
+  const { mutate: Inquiry } = useMutation({
+    mutationFn: createInquiry,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
@@ -112,12 +112,11 @@ function CourseListView({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatUserList],
       });
-      updateEnrollRequest({
-        id: recommendedCoursesById,
-        enroll: {
-          enroll: 3,
-        },
-      });
+      const payload = {
+        userId: userID as number,
+        courseId: recommendeddata?.id,
+      };
+      Inquiry(payload);
       toast({
         variant: "success",
         title: data?.data?.message,
@@ -301,23 +300,40 @@ function CourseListView({
                 >
                   Enroll Now
                 </Button>
-                <Button
-                  className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
-                  onClick={() => {
-                    handleInquire(recommendeddata || []);
-                    setRecommendedCoursesById(recommendeddata?.id);
-                  }}
-                  disabled={
-                    !isRecommendedCourseShow &&
-                    recommendedCoursesById === recommendeddata?.id
-                  }
-                >
-                  {!isRecommendedCourseShow &&
-                    recommendedCoursesById === recommendeddata?.id && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    )}{" "}
-                  Inquire
-                </Button>
+                {recommendeddata?.inquire ? (
+                  <Button
+                    className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
+                    onClick={() =>
+                      navigate(
+                        `/${pathName}/message?chatId=${
+                          recommendeddata?.trainerCompanyId
+                            ? recommendeddata?.trainerCompanyId?.userDetails?.id
+                            : recommendeddata?.trainerId?.userDetails?.id
+                        }`
+                      )
+                    }
+                  >
+                    Show Message
+                  </Button>
+                ) : (
+                  <Button
+                    className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                    onClick={() => {
+                      handleInquire(recommendeddata || []);
+                      setRecommendedCoursesById(recommendeddata?.id);
+                    }}
+                    disabled={
+                      !isRecommendedCourseShow &&
+                      recommendedCoursesById === recommendeddata?.id
+                    }
+                  >
+                    {!isRecommendedCourseShow &&
+                      recommendedCoursesById === recommendeddata?.id && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}{" "}
+                    Inquire
+                  </Button>
+                )}
               </div>
             </div>
           </div>

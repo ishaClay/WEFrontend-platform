@@ -47,7 +47,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
     });
   };
 
-  const { mutate: handleSend } = useMutation({
+  const { mutate: handleSend, isPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data: res }) => {
       queryClient.invalidateQueries({
@@ -159,6 +159,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           ) : (
             <Button
               className="bg-[#00778B] sm:w-[102px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
+              isLoading={isPending}
               onClick={() => handleInquire(data)}
             >
               Inquire

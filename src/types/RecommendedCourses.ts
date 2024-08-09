@@ -53,6 +53,9 @@ export interface RecommendedCourses {
   fetCredits: string;
   time: number;
   isOnline: number;
+  inquire: boolean;
+  trainerCompanyId: any;
+  trainerId: any;
   duration: string;
   price: number;
   instituteOther: string;
