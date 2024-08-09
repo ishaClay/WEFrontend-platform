@@ -140,7 +140,7 @@ const CourseGridView = ({
         />
       </Modal>
       <div
-        className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
+        className="w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
         key={recommendeddata.id}
       >
         <div className="relative overflow-hidden h-[231px]">
