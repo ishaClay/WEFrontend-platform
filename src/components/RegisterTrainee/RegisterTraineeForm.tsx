@@ -210,7 +210,7 @@ const RegisterTraineeForm = () => {
                 : "pointer-events-none"
             } `}
           >
-            Employee
+            Trainee
           </button>
         </div>
       </div>
