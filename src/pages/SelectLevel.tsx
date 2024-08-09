@@ -4,8 +4,9 @@ import { QUERY_KEYS } from "@/lib/constants";
 
 import Loader from "@/components/comman/Loader";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import PillerCard from "@/components/MaturityAssessment/Roadmap/PillerCard";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchMaturityPillar } from "@/services/apiServices/pillar";
@@ -15,9 +16,7 @@ import {
 } from "@/types/MaturityLavel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { useNavigate } from "react-router-dom";
-import HomeHeader from "@/components/homePage/HomeHeader";
 
 function SelectLevel() {
   const queryClient = useQueryClient();
@@ -37,11 +36,12 @@ function SelectLevel() {
   >([]);
   const [actionItemsList, setActionItemsList] = useState<boolean>(true);
 
-  const { data: maturitypillar } = useQuery<AllActionDataPillerWise>({
-    queryKey: [QUERY_KEYS.maturitypillar],
-    queryFn: () => fetchMaturityPillar(+clientId, userID),
-    enabled: true,
-  });
+  const { data: maturitypillar, isPending: isPendingPillar } =
+    useQuery<AllActionDataPillerWise>({
+      queryKey: [QUERY_KEYS.maturitypillar],
+      queryFn: () => fetchMaturityPillar(+clientId, userID),
+      enabled: true,
+    });
   const path = 5 + 1;
   const { mutate: EnumUpadate, isPending } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
@@ -90,7 +90,7 @@ function SelectLevel() {
             suggest recommended courses after you build first.)
           </h1>
         </div>
-        {isPending ? (
+        {isPending || isPendingPillar ? (
           <Loader className="w-8 h-8" />
         ) : (
           checkedStates &&

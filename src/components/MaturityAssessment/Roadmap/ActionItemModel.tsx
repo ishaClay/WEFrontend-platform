@@ -357,7 +357,7 @@ const ActionItemModel = ({
                       </ScrollArea>
                     </div>
                   </div>
-                  <div className="text-right mt-6">
+                  <div className="flex items-center justify-end text-right mt-6">
                     <Button
                       type="submit"
                       isLoading={createPending}

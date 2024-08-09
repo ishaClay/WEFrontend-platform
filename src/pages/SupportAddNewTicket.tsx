@@ -189,6 +189,8 @@ function SupportAddNewTicket() {
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item) => {
+                      console.log("+++++++++", item);
+
                       return (
                         <>
                           <SelectItem
@@ -207,8 +209,12 @@ function SupportAddNewTicket() {
                                 : "Client Admin"}
                             </span>{" "}
                             <span className="mr-10 text-neutral-400">--</span>{" "}
-                            {item?.userDetails?.name ||
-                              item?.userDetails?.email?.split("@")?.[0]}
+                            {item?.name || item?.email?.split("@")?.[0]}
+                            {/* {!!item?.userDetails
+                              ? item?.userDetails?.name ||
+                                item?.userDetails?.email?.split("@")?.[0]
+                              : item?.clientDetails?.name ||
+                                item?.clientDetails?.email?.split("@")?.[0]} */}
                           </SelectItem>
                         </>
                       );

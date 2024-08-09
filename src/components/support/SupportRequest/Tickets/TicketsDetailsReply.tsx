@@ -1,6 +1,7 @@
 import DocImage from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
+import FileUpload from "@/components/comman/FileUpload";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,8 +27,10 @@ import {
 import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { FiImage, FiVideo } from "react-icons/fi";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
@@ -47,6 +50,8 @@ const TicketsDetailsReply = () => {
   const queryClient = useQueryClient();
   const [selectAssingValue, setSelectAssingValue] = useState("");
   const [selectTicketStatus, setSelectTicketStatus] = useState("");
+  const [file, setFile] = useState("");
+  const [video, setVideo] = useState<any>(undefined);
 
   const { data: fetchAssigToUserList, isPending: assigToUserListPending } =
     useQuery({
@@ -64,6 +69,10 @@ const TicketsDetailsReply = () => {
     details: z
       .string({ required_error: "Please enter details" })
       .min(1, "Please enter details"),
+    uploadDocument: z
+      .string({ required_error: "Please upload document" })
+      .optional(),
+    uploadVideo: z.string({ required_error: "Please upload video" }).optional(),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -153,12 +162,14 @@ const TicketsDetailsReply = () => {
         assignTo: +data?.assignTo,
         status: data?.ticketStatus,
         response: data?.details,
+        documentUrl: data?.uploadDocument ? data?.uploadDocument : "",
+        videoUrl: data?.uploadVideo ? data?.uploadVideo : "",
       },
     };
     updateTicket(payload);
   };
 
-  console.log("datav", data);
+  console.log("datav", video, file);
 
   return (
     <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">
@@ -345,13 +356,10 @@ const TicketsDetailsReply = () => {
                       </div>
                       {itm.videoUrl && (
                         <div
-                          className="w-[100px] h-[100px]"
+                          className="w-[100px] h-[100px] bg-slate-300 mt-4 rounded flex items-center justify-center cursor-pointer"
                           onClick={() => setPlayVideo(true)}
                         >
-                          <video
-                            src={itm.videoUrl}
-                            className="w-full h-[100px] rounded-sm object-cover"
-                          ></video>
+                          <PlayIcon />
                         </div>
                       )}
                     </>
@@ -398,8 +406,7 @@ const TicketsDetailsReply = () => {
                               : "Client Admin"}
                           </span>{" "}
                           <span className="mr-10 text-neutral-400">--</span>{" "}
-                          {item?.userDetails?.name ||
-                            item?.userDetails?.email?.split("@")?.[0]}
+                          {item?.name || item?.email?.split("@")?.[0]}
                         </SelectItem>
                       );
                     })
@@ -454,7 +461,59 @@ const TicketsDetailsReply = () => {
             <ErrorMessage message={errors?.details?.message as string} />
           )}
 
-          <div className="w-full flex justify-end sm:mt-[50px] mt-[30px]">
+          <div className="w-full flex items-center justify-between sm:mt-[40px] mt-[30px]">
+            <div className="sm:flex block gap-[32px]">
+              <FileUpload
+                handleDrop={(e) => {
+                  setValue("uploadDocument", e);
+                  setFile(e);
+                }}
+                className="border-none cursor-pointer !p-0 w-[200px]"
+                acceptType=".pdf"
+              >
+                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
+                  <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
+                    <FiImage className="w-6 h-6" />
+                  </div>
+                  <span>Upload Document</span>
+                </div>
+                {file && (
+                  <a
+                    href={file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 w-full overflow-hidden text-ellipsis"
+                  >
+                    {file}
+                  </a>
+                )}
+              </FileUpload>
+              <FileUpload
+                handleDrop={(e) => {
+                  setValue("uploadVideo", e);
+                  setVideo(e);
+                }}
+                className="border-none cursor-pointer !p-0 w-[200px]"
+                acceptType=".mp4"
+              >
+                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
+                  <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
+                    <FiVideo className="w-6 h-6" />
+                  </div>
+                  <span>Upload Video</span>
+                </div>
+                {video && (
+                  <a
+                    href={file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 w-full overflow-hidden text-ellipsis"
+                  >
+                    {file}
+                  </a>
+                )}
+              </FileUpload>
+            </div>
             <Button
               type="submit"
               variant="secondary"

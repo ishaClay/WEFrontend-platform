@@ -6,20 +6,19 @@ import selfAssess from "@/assets/images/selfAssess.svg";
 import Header from "@/components/Header";
 import AssignCard from "@/components/MaturityAssessment/Roadmap/AssignCard";
 import Loader from "@/components/comman/Loader";
-import { useAppSelector } from "@/hooks/use-redux";
+import HomeFooter from "@/components/homePage/HomeFooter";
+import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
-import HomeFooter from "@/components/homePage/HomeFooter";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
 
 function MaturityLevelActionItem() {
   const dispatch = useAppDispatch();
-  const Role = location.pathname.split("/")[1];
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const queryClient = useQueryClient();
@@ -37,7 +36,7 @@ function MaturityLevelActionItem() {
   });
 
   const path = 6 + 1;
-  const { mutate: EnumUpadate } = useMutation({
+  const { mutate: EnumUpadate, isPending: isLoading } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, +userID),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
@@ -48,10 +47,11 @@ function MaturityLevelActionItem() {
         setPath([
           {
             label: "Recommended Course",
-            link: `/${Role}/coursesrecommended`,
+            link: `/company/coursesrecommended`,
           },
         ])
       );
+      navigate("/company/coursesrecommended");
     },
   });
 
@@ -154,12 +154,14 @@ function MaturityLevelActionItem() {
             </p>
           </div>
           <div className="flex justify-center xl:mt-[42px] mt-[36px]">
-            <button
+            <Button
+              type="button"
+              isLoading={isLoading}
               onClick={handlematurityAction}
               className="bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center text-base font-abhaya"
             >
               See Recommended Courses
-            </button>
+            </Button>
             <button
               onClick={() => navigate("/company/dashboard")}
               className="ml-4 bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center font-abhaya text-base"
@@ -172,44 +174,7 @@ function MaturityLevelActionItem() {
           <Loader />
         ) : (
           getCheckedmeasures?.data?.data?.map((item: any) => {
-            return (
-              // <div className="flex flex-col h-full w-full mb-[40px]">
-              //   <div className="mx-auto xl:max-w-[1126px] max-w-[970px] w-full">
-              //     <div className="w-full py-[9px] px-[17px] h-[74px] border border-solid border-[#D9D9D9] border-b-0 rounded-tl-lg rounded-tr-lg">
-              //       <div className="flex items-center justify-between gap-5">
-              //         <div className="flex items-center gap-[15px]">
-              //           <div className="bg-white rounded-full drop-shadow-md w-[52px] h-[52px] flex items-center justify-center p-3">
-              //             <img
-              //               src={getImages(item?.pillarName, true)}
-              //               alt="Leaf Icon"
-              //               className="w-full h-full"
-              //             />
-              //           </div>
-
-              //           <div className="text-[#1D2026] font-abhaya font-bold text-base">
-              //             {item.pillarName}
-              //           </div>
-              //         </div>
-
-              //         <div className="flex items-center gap-[12px]">
-              //           <div className="text-center text-base leading-[22px] font-abhaya rounded-full bg-opacity-70 font-bold bg-[#EFF4FAF5] flex items-center justify-center py-[3px] px-3">
-              //             {item.maturityNextLevelName}
-              //           </div>
-
-              //           <div className=" text-white text-center text-base leading-[22px] font-abhaya rounded-full bg-green-700 font-bold bg-opacity-70 flex items-center justify-center py-[3px] px-3">
-              //             {item.maturityLevelName}
-              //           </div>
-              //         </div>
-              //       </div>
-              //     </div>
-
-              //     <div className="w-full px-[23px] py-[27px] border border-[#D9D9D9] font-abhaya text-base font-bold">
-              //       <p className="">{item.measures}</p>
-              //     </div>
-              //   </div>
-              // </div>
-              <AssignCard data={item} />
-            );
+            return <AssignCard data={item} />;
           })
         )}
 
