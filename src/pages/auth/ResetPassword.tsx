@@ -27,7 +27,7 @@ const ResetPassword = () => {
         .string()
         .min(8, "Password must be at least 8 characters")
         .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&_.?]).{8}$/,
+          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&_.?])[A-Za-z\d!@#$%&_.?]{8,}$/,
           "Password must contain at least one uppercase letter, one lowercase letter, and one special character"
         ),
       confirmPassword: z.string(),

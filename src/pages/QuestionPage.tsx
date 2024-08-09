@@ -110,21 +110,22 @@ const QuestionPage = () => {
     queryFn: () => fetchQuestionList(clientId?.toString()),
   });
 
-  const { mutate: assessmentQuestionScoreFun } = useMutation({
-    mutationFn: (data: { UserId: number; clientId: number }) =>
-      assessmentQuestionScore(data),
-    onSuccess: async () => {
-      if (userData?.query?.role === "4") {
-        navigate(
-          `/${UserRole[
-            userData?.query?.role
-          ]?.toLowerCase()}/maturityassessment`
-        );
-      } else {
-        navigate("/teaserscore");
-      }
-    },
-  });
+  const { mutate: assessmentQuestionScoreFun, isPending: isPending1 } =
+    useMutation({
+      mutationFn: (data: { UserId: number; clientId: number }) =>
+        assessmentQuestionScore(data),
+      onSuccess: async () => {
+        if (userData?.query?.role === "4") {
+          navigate(
+            `/${UserRole[
+              userData?.query?.role
+            ]?.toLowerCase()}/maturityassessment`
+          );
+        } else {
+          navigate("/teaserscore");
+        }
+      },
+    });
 
   useEffect(() => {
     allPillar?.forEach((i: string) => {
@@ -552,8 +553,11 @@ const QuestionPage = () => {
                 <Button
                   className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
                   onClick={handleSubmit}
+                  isLoading={isPending1}
                   disabled={
-                    totalAttemptedQuestions !== totalQuestions || isLoading
+                    totalAttemptedQuestions !== totalQuestions ||
+                    isLoading ||
+                    isPending1
                   }
                 >
                   Submit

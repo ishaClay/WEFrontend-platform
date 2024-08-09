@@ -1,7 +1,4 @@
-import { UserRole } from "@/types/UserRole";
 import { createSlice } from "@reduxjs/toolkit";
-const userData = JSON.parse(localStorage.getItem("user") as string);
-console.log(UserRole[userData?.query?.role]);
 
 export const PathSlice = createSlice({
   name: "Path",
@@ -9,7 +6,7 @@ export const PathSlice = createSlice({
     paths: [
       {
         label: "Dashboard",
-        link: `/${UserRole[userData?.query?.role]?.toLowerCase()}/dashboard`,
+        link: ``,
       },
     ],
   },

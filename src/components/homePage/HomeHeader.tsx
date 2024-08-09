@@ -139,14 +139,15 @@ function HomeHeader(props: headerProps) {
                   {userData ? (
                     <div className="flex items-center xl:gap-5 gap-3">
                       {JSON.parse(userData)?.query.role === 1 &&
-                      !!path &&
-                      (+path === 7 || +path > 3) ? (
-                        <PrimaryButton
-                          onClick={handleGotoDashboard}
-                          name="Go to Dashboard"
-                          className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
-                        />
-                      ) : (
+                        !!path &&
+                        (+path === 7 || +path > 3) && (
+                          <PrimaryButton
+                            onClick={handleGotoDashboard}
+                            name="Go to Dashboard"
+                            className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                          />
+                        )}
+                      {JSON.parse(userData)?.query.role !== 1 && (
                         <PrimaryButton
                           onClick={handleGotoDashboard}
                           name="Go to Dashboard"

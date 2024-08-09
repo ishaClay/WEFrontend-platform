@@ -1,8 +1,10 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
+import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import {
   setClientRole,
   // setClientId,
@@ -15,10 +17,8 @@ import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import HomeHeader from "@/components/homePage/HomeHeader";
 
 function Auth() {
   const { toast } = useToast();
@@ -76,8 +76,6 @@ function Auth() {
     onSuccess: (data) => {
       const user = data.data.data.query;
 
-      // dispatch(setClientId(data.data.data.query.clientid));
-
       if (data.data.data.status === "Inactive") {
         toast({
           variant: "destructive",
@@ -102,10 +100,6 @@ function Auth() {
         });
         dispatch(setUserData(user.id));
       } else {
-        // dispatch(setUserData(user.id));
-        // localStorage.setItem("token", data.data.data.accessToken);
-
-        // navigate("/savedassesment");
         dispatch(setUserData(user.id));
         dispatch(setClientRole(+user.role));
         localStorage.setItem("user", JSON.stringify(data.data.data));
@@ -114,10 +108,6 @@ function Auth() {
           JSON.stringify(data.data.data?.query?.pathstatus)
         );
         dispatch(setCompanyId(data.data.data.query?.detailsid));
-
-        // toast({
-        //   title: "Login Successfully",
-        // });
 
         if (user.role == UserRole.SuperAdmin || user.role == UserRole.Client) {
           toast({
