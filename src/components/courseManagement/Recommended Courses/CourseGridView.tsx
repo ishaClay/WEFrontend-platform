@@ -22,6 +22,8 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+let socket: any;
+
 const CourseGridView = ({
   recommendeddata,
 }: {
@@ -95,7 +97,7 @@ const CourseGridView = ({
       };
       Inquiry(payload);
       navigate(`/${pathName}/message`);
-      // socket.emit("new message", data?.data);
+      socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
       setRecommendedCoursesById(null);
