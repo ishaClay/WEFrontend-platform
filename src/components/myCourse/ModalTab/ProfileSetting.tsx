@@ -115,7 +115,11 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     onSuccess: (data) => {
       const newUser = {
         ...userData,
-        query: { detailsid: userData?.query?.detailsid, ...data?.data },
+        query: {
+          ...data?.data,
+          detailsid: userData?.query?.detailsid,
+          role: userData?.query?.role.toString(),
+        },
       };
       localStorage.setItem("user", JSON.stringify(newUser));
 
