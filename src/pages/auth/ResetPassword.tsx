@@ -2,6 +2,7 @@ import rePasswordBanner from "@/assets/images/LoginImage.svg";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
+import { Button } from "@/components/ui/button";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
 import { ResetPasswordApi } from "@/services/apiServices/authService";
@@ -157,12 +158,6 @@ const ResetPassword = () => {
                   />
                 )}
               </div>
-              <button
-                onClick={() => navigate("/auth")}
-                className="text-[14px] underline font-medium mb-5 cursor-pointer"
-              >
-                Login
-              </button>
 
               <button
                 type="submit"
@@ -171,6 +166,16 @@ const ResetPassword = () => {
                 Submit
               </button>
             </form>
+            <div className="text-center">
+              <Button
+                type="button"
+                variant={"ghost"}
+                onClick={() => navigate("/auth")}
+                className="text-[14px] underline font-medium mt-5 cursor-pointer hover:bg-transparent"
+              >
+                Login
+              </Button>
+            </div>
           </div>
         </div>
       </div>
