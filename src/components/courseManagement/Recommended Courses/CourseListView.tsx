@@ -27,6 +27,8 @@ import { FaStar } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+let socket: any;
+
 function CourseListView({
   recommendeddata,
   totalData,
@@ -122,7 +124,7 @@ function CourseListView({
         title: data?.data?.message,
       });
       navigate(`/${pathName}/message`);
-      // socket.emit("new message", data?.data);
+      socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
       console.log("data+++++error", error);
