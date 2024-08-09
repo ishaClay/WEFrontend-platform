@@ -112,7 +112,13 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   const { mutate, isPending: isPendingMutation } = useMutation({
     mutationFn: updateUserDetails,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const newUser = {
+        ...userData,
+        query: { detailsid: userData?.query?.detailsid, ...data?.data },
+      };
+      localStorage.setItem("user", JSON.stringify(newUser));
+
       reset();
       handleClose();
       toast({ title: "Profile updated successfully", variant: "success" });

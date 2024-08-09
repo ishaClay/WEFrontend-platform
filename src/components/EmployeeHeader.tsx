@@ -1,4 +1,6 @@
+import { useAppDispatch } from "@/hooks/use-redux";
 import { sidebarLayout } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +12,7 @@ import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
 import DrawerPage from "./DrawerPage";
 import { SidebarItem } from "./layouts/DashboardLayout";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import ModalTabs from "./myCourse/ModalTab/ModalTabs";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -21,23 +24,18 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { AlertLogOutDialog } from "./Models/AlertLogOut";
-
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
- 
+
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openType, setOpenType] = useState("");
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [data, setData] = useState<SidebarItem[]>([]);
-
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
@@ -81,12 +79,12 @@ const EmployeeHeader = () => {
       : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
-    setIsAlertOpen(true)
+    setIsAlertOpen(true);
   };
-  
+
   const handleConfirmLogout = () => {
     mutate(userData?.query?.id);
-  }
+  };
 
   return (
     <>
@@ -149,7 +147,7 @@ const EmployeeHeader = () => {
                       {userName}
                     </h5>
                     <h6 className="xl:text-base text-sm font-nunito text-black">
-                      {userRole === "4" && "Employee"}
+                      {+userRole === 4 && "Employee"}
                     </h6>
                   </div>
                 </div>
