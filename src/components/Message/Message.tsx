@@ -222,7 +222,7 @@ const Message = () => {
   const handleSendMessage = () => {
     if (chatId && (chatMessage || images.length > 0)) {
       handleSend({
-        senderId: UserId,
+        senderId: userID,
         receiverId: chatId,
         message: chatMessage,
         images,
@@ -541,7 +541,7 @@ const Message = () => {
                       }
                       setChatId(item?.id);
                       await updatemessage({
-                        userId1: UserId,
+                        userId1: userID,
                         userId2: item?.id,
                         isRead: true,
                       });

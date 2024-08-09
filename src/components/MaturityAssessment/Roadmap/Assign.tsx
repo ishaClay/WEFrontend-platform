@@ -2,8 +2,9 @@ import Loader from "@/components/comman/Loader";
 import InviteMember from "@/components/Models/InviteMember";
 import { Button } from "@/components/ui/button";
 import { PermissionContext } from "@/context/PermissionContext";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ const Assign = ({
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const dispatch = useAppDispatch();
   const Role = location?.pathname?.split("/")[1];
   const { empPermissions } = useContext(PermissionContext);
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -78,7 +80,21 @@ const Assign = ({
             <>
               <Button
                 type="button"
-                onClick={() => navigate(`/company/coursesrecommended`)}
+                onClick={() => {
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Course Management",
+                        link: null,
+                      },
+                      {
+                        label: "Recommended Course",
+                        link: `/company/coursesrecommended`,
+                      },
+                    ])
+                  );
+                  navigate("/company/coursesrecommended");
+                }}
                 className="bg-[#002A3A] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
               >
                 View Recommended Courses

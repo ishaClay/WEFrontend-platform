@@ -46,6 +46,10 @@ function MaturityLevelActionItem() {
       dispatch(
         setPath([
           {
+            label: "Course Management",
+            link: null,
+          },
+          {
             label: "Recommended Course",
             link: `/company/coursesrecommended`,
           },
