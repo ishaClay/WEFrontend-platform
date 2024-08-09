@@ -194,6 +194,26 @@ export interface EmployeeType {
   shareFeedback: boolean;
   certificate: boolean;
   progress: number;
+  company: EmployeeCompanyEntity | null;
+}
+
+export interface EmployeeCompanyEntity {
+  id: number;
+  companyId: string;
+  name: string;
+  address: string;
+  county: string;
+  soleTrader: boolean;
+  sector: string;
+  averageNumberOfEmployees: string;
+  parentCompanyName: string;
+  parentCompanyAddress: string;
+  parentCompanyCounty?: null;
+  note?: null;
+  status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface EnrollRequestCompany {
@@ -210,6 +230,50 @@ export interface EnrollRequestCompany {
   parentCompanyCounty?: null;
   note?: null;
   status: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+
+export interface EvaluteType {
+  data?: EvaluteDataEntity[] | null;
+  message: string;
+}
+export interface EvaluteDataEntity {
+  id: number;
+  title: string;
+  position: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  evaluations?: (EvaluationsEntity | null)[] | null;
+}
+export interface EvaluationsEntity {
+  id: number;
+  answer?: (string)[] | null;
+  machedKeyword?: (string | null)[] | null | undefined;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  question: Question;
+  module: Module;
+}
+export interface Question {
+  id: number;
+  question: string;
+  point: number;
+  assessmentType: string;
+  option?: (string | null)[] | null;
+  answer: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface Module {
+  id: number;
+  title: string;
+  position: number;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;

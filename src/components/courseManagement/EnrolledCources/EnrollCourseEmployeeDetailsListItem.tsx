@@ -10,12 +10,19 @@ import { Award, CircleCheck, FilePenLine } from "lucide-react";
 import { useContext, useState } from "react";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 import EvaluateModalDetails from "./EvaluateModalDetails";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchEvaluteData } from "@/services/apiServices/enroll";
 
 type employeeCourseDetailsProps = {
   data: EmployeeType;
+  courseById: number;
+  cohortGroupById: number;
 };
 const EnrollCourseEmployeeDetailsListItem = ({
   data,
+  courseById,
+  cohortGroupById
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -24,14 +31,21 @@ const EnrollCourseEmployeeDetailsListItem = ({
   const progress = String(data?.progress)?.split(".");
   console.log("permissions", permissions);
 
+  const {data: fetchEvaluteList} = useQuery({
+    queryKey: [QUERY_KEYS.fetchEvalute, courseById, cohortGroupById],
+    queryFn: () => fetchEvaluteData(courseById, cohortGroupById),
+    enabled: !!courseById && !!cohortGroupById
+  });
+  
   return (
     <>
       <Modal
         open={isOpen}
+        // open={true}
         onClose={() => setIsOpen(false)}
         className="lg:max-w-[800px] md:max-w-[650px] sm:max-w-[550px] max-w-[335px] px-0"
       >
-        <EvaluateModalDetails />
+        <EvaluateModalDetails data={fetchEvaluteList?.data || []} />
       </Modal>
 
       <Modal
@@ -56,12 +70,12 @@ const EnrollCourseEmployeeDetailsListItem = ({
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="">
+          <div className="w-[calc(100%-56px)]">
             <h5 className="font-inter text-base font-medium">
               {data?.name || data?.email?.split("@")[0]}
             </h5>
             <h6 className="text-base text-[#A3A3A3] font-normal font-inter">
-              -
+              {data?.company?.name}
             </h6>
           </div>
         </div>

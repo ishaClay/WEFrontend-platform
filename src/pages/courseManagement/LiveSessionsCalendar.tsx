@@ -227,7 +227,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
           {event.title}
         </p>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
+      <HoverCardContent className="w-80 z-50">
         <h3 className="mb-2 text-wrap">
           <strong>Title:</strong> {event?.title}
         </h3>

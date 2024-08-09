@@ -1,51 +1,61 @@
 import { Button } from "@/components/ui/button";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
+import { EvaluteDataEntity } from "@/types/enroll";
+import { useState } from "react";
 
 type evaluteModalProps = {
-  data: {
-    modalId: number;
-    sessionId: number;
-    assessmentId: number;
-    questions: {
-      questionId: number;
-      pointId: number;
-      desription: string;
-      answer: string;
-      keyWords: string;
-    }[];
-    page1: number;
-    page2: number;
-  };
+  data: EvaluteDataEntity;
+  index: number;
 };
-const EvaluateModalDetailsItem = ({ data }: evaluteModalProps) => {
+const EvaluateModalDetailsItem = ({ data, index }: evaluteModalProps) => {
+  const [addTotalPoints, setAddTotalPoints] = useState<string>("");
+  const [errors, setErrors] = useState<{type: boolean, message: string}>({type: false, message: ""});
+  const totalPoints = data?.evaluations?.reduce((sum:any, evaluation:any) => {
+      return sum + evaluation?.question?.point;
+  }, 0);
+
+  const handleAddPoints = (value:string) => {
+    if(!value?.match(/^[0-9]*$/)){
+      setErrors({type: true, message: "Please enter valid number"})
+    } else{
+      setAddTotalPoints(value)
+      setErrors({type: false, message: ""})
+    }
+  }
+
   return (
-    <div className="sm:p-5 p-4 border-b border-[#D9D9D9]">
+    data?.evaluations && data?.evaluations?.length > 0 && <div className="sm:p-5 p-4 border-b border-[#D9D9D9]">
       <div className="">
         <div className="flex items-center pb-3">
           <h5 className="sm:text-base text-sm font-calibri font-bold pe-5">
-            Module :<span>{data.modalId}</span>
+            Module :<span className="ml-1">{index +1}</span>
           </h5>
-          <h5 className="sm:text-base text-sm font-calibri font-bold">
+          {/* <h5 className="sm:text-base text-sm font-calibri font-bold">
             Session :<span>{data.sessionId}</span>
-          </h5>
+          </h5> */}
         </div>
-        <h5 className="sm:text-base text-sm font-calibri font-bold pb-3">
+        {/* <h5 className="sm:text-base text-sm font-calibri font-bold pb-3">
           Assessment :<span>{data.assessmentId}</span>
-        </h5>
+        </h5> */}
 
         <div className="space-y-6">
-          {data.questions.map((item: any, index: number) => {
-            return <EvaluateQuestionsDetailsItem key={index} item={item} />;
+          {data?.evaluations?.map((item, index: number) => {
+            return <EvaluateQuestionsDetailsItem key={index} item={item || null} index={index} />;
           })}
         </div>
       </div>
       <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
-        <div className="flex items-center">
-          <span className="px-3 py-2 border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px] cursor-pointer">
-            {data.page1}
-          </span>
-          <span className="px-3 py-2 text-[#1D2026] font-bold font-calibri sm:text-4xl text-[26px] cursor-pointer">
-            /{data.page2}
+        <div className="flex items-center gap-3">
+          <p className="px-3 py-2 w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px] cursor-pointer">
+            {/* {data.page1} */}
+            <input 
+              type="text" 
+              className="w-full h-full outline-none"
+              onChange={(e) => handleAddPoints(e?.target?.value)}
+            />
+          </p>
+          <span className="text-[#1D2026] font-bold font-calibri sm:text-4xl text-[26px] cursor-pointer">
+            /{totalPoints}
           </span>
         </div>
         <div className="">
@@ -54,6 +64,9 @@ const EvaluateModalDetailsItem = ({ data }: evaluteModalProps) => {
           </Button>
         </div>
       </div>
+      {
+        (addTotalPoints > totalPoints || errors?.type) && <p className="text-red-500">{errors?.type ? errors?.message : `Points should not be greater than total ${totalPoints} points`}</p>
+      }
     </div>
   );
 };

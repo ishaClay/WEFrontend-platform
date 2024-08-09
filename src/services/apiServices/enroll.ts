@@ -1,4 +1,4 @@
-import { enroll, EnrolledCoursesType } from "@/types/enroll";
+import { enroll, EnrolledCoursesType, EvaluteType } from "@/types/enroll";
 import api from "./api";
 import { CourseDiscountType } from "@/types/course";
 
@@ -21,5 +21,11 @@ export const fetchCourseDiscountEnroll = async (id?: number | null) : Promise<Co
     params["courseId"] = id;
   }
   const res = await api({ url, params });
+  return res?.data
+};
+
+export const fetchEvaluteData = async (courseId: number, cohortId: number) : Promise<EvaluteType> => {
+  const url = `api/v1/evalute/get/${courseId}/${cohortId}`;
+  const res = await api({ url });
   return res?.data
 };

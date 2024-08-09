@@ -15,10 +15,10 @@ import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import Feedback from "./Feedback";
 import Information from "./Information";
 import Module from "./Module";
 import ReviewModal from "./ReviewModal";
+import Feedback from "./feedback";
 
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);

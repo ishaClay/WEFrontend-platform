@@ -9,7 +9,7 @@ const EnrolledCourseDetailsList = ({ data }: EnrolledCoursesType | any) => {
     (item: CohortGroupType) => {
       return {
         title: <EnrolledCourseDetailsItems data={item} />,
-        content: <EnrollCourseEmployeeDetailsList data={item} />,
+        content: <EnrollCourseEmployeeDetailsList data={item} courseById={data?.course?.id} cohortGroupById={item?.id} />,
       };
     }
   );
