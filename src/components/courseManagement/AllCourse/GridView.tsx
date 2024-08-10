@@ -338,11 +338,13 @@ const GridView = ({
                   </h5>
                   <div className="flex items-center justify-between sm:mb-[11px] mb-5">
                     <div>
-                      <h6 className="text-sm leading-5 font-normal font-nunito">
+                      <h6 className="text-sm leading-5 font-normal font-nunito capitalize">
                         Created By :{" "}
                         {item?.trainerId
-                          ? item?.trainerId?.name
-                          : item?.trainerCompanyId?.providerName || "-"}
+                          ? item?.trainerId?.name ||
+                            item?.trainerId?.email?.split("@")[0]
+                          : item?.trainerCompanyId?.providerName ||
+                            item?.trainerCompanyId?.email?.split("@")[0]}
                       </h6>
                     </div>
                     <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">

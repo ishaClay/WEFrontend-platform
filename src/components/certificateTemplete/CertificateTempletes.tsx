@@ -7,9 +7,11 @@ import Loader from "../comman/Loader";
 import CertificateTempleteItems from "./CertificateTempleteItems";
 const CertificateTemplete = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userID = UserId ? UserId : userData?.query?.id;
   const { data: certificate_data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
-    queryFn: () => certificateList(UserId),
+    queryFn: () => certificateList(userID),
   });
   return (
     <div className="bg-white rounded-lg">

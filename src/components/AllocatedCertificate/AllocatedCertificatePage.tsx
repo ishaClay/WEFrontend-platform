@@ -247,13 +247,33 @@ const AllocatedCertificatePage = () => {
               userData?.query?.role === "3" && !permissions?.certificate
             }
             className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
-            onClick={() =>
+            onClick={() => {
               navigate(
                 `/${UserRole[
                   userData?.query?.role
                 ]?.toLowerCase()}/allocated-certificate-employee`
-              )
-            }
+              );
+              dispatch(
+                setPath([
+                  {
+                    label: `Certificate Management`,
+                    link: null,
+                  },
+                  {
+                    label: `Issued Certificate`,
+                    link: `/${UserRole[
+                      userData?.query?.role
+                    ]?.toLowerCase()}/allocated-certificate`,
+                  },
+                  {
+                    label: `Allocate Certificate`,
+                    link: `/${UserRole[
+                      userData?.query?.role
+                    ]?.toLowerCase()}/allocated-certificate-employee`,
+                  },
+                ])
+              );
+            }}
           >
             Issued Certificate
           </Button>
