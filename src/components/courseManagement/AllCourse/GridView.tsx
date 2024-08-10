@@ -58,11 +58,15 @@ const GridView = ({
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
+  const [selectedCourse, setSelectedCourse] = useState<AllCoursesResult | null>(
+    null
+  );
   const [course, setCourse] = useState<string | number>("");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
   const pathName = location?.pathname?.split("/")?.[1];
+  const allCoursePathName = location?.pathname?.split("/")?.[2];
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -258,14 +262,13 @@ const GridView = ({
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  console.log("list", list);
-
   return list?.length > 0 && list ? (
     <>
       <AllocatedCertificateModal
         isOpen={!!isOpen}
         onClose={() => setIsOpen("")}
         courseId={+isOpen}
+        selectedCourse={selectedCourse}
       />
       <ConfirmationModel
         open={open}
@@ -284,12 +287,11 @@ const GridView = ({
           ?.filter((item) => item !== undefined && item !== null)
           ?.map((item: any, i: number) => {
             const update =
-              +userData?.query?.role === UserRole?.Trainer
-                ? true
-                : item?.trainerId?.id === +userData?.query?.detailsid
-                ? true
-                : permissions?.updateCourse;
-
+            +userData?.query?.role === UserRole?.Trainer
+            ? true
+            // : item?.trainerId?.id === +userData?.query?.detailsid
+            // ? true
+            : permissions?.updateCourse;
             console.log("update", update);
 
             const versionOption =
@@ -412,7 +414,7 @@ const GridView = ({
                   >
                     + Cohort
                   </Button>
-                  <div className="">
+                  {!(pathName === 'trainee' && allCoursePathName === 'allcourse') && <div className="">
                     <SelectMenu
                       option={versionOption || []}
                       setValue={(data: string) =>
@@ -424,7 +426,7 @@ const GridView = ({
                       className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
                       placeholder="V-01"
                     />
-                  </div>
+                  </div>}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="outline-none">
                       <EllipsisVertical className="w-8" />
@@ -432,9 +434,9 @@ const GridView = ({
                     <DropdownMenuContent className="w-30">
                       <DropdownMenuGroup>
                         {(+userData?.query?.role === UserRole.Trainee
-                          ? item?.trainerId?.id === +userData?.query?.detailsid
-                            ? true
-                            : permissions?.createCourse
+                          // ? item?.trainerId?.id === +userData?.query?.detailsid
+                          //   ? true
+                            ? permissions?.createCourse
                           : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
@@ -469,6 +471,7 @@ const GridView = ({
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsOpen(item?.currentVersion?.mainCourse?.id);
+                              setSelectedCourse(item);
                             }}
                           >
                             <Combine className="w-4 h-4" />
