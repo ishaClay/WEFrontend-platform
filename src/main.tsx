@@ -13,26 +13,26 @@ import ReactGA from "react-ga4";
 
 ReactGA.initialize("G-SV4CBBR4ER");
 ReactGA.send({
-	hitType: "pageview",
-	page: window.location.pathname,
+  hitType: "pageview",
+  page: window.location.pathname,
 });
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<BrowserRouter>
-		<PermissionProvider>
-			<SidebarProvider>
-				<RegisterProvider>
-					<Provider store={store}>
-						<PersistGate loading={null} persistor={persistor}>
-							<QueryClientProvider client={queryClient}>
-								<App />
-							</QueryClientProvider>
-						</PersistGate>
-					</Provider>
-				</RegisterProvider>
-			</SidebarProvider>
-		</PermissionProvider>
-	</BrowserRouter>
+  <BrowserRouter>
+    <PermissionProvider>
+      <SidebarProvider>
+        <RegisterProvider>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <QueryClientProvider client={queryClient}>
+                <App />
+              </QueryClientProvider>
+            </PersistGate>
+          </Provider>
+        </RegisterProvider>
+      </SidebarProvider>
+    </PermissionProvider>
+  </BrowserRouter>
 );
