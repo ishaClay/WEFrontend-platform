@@ -9,13 +9,13 @@ import { RegisterProvider } from "./context/RegisterContext.tsx";
 import { SidebarProvider } from "./context/Sidebarcontext.tsx";
 import "./index.css";
 import { persistor, store } from "./redux/store";
-import ReactGA from "react-ga4";
+// import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-SV4CBBR4ER");
-ReactGA.send({
-	hitType: "pageview",
-	page: window.location.pathname,
-});
+// ReactGA.initialize("G-SV4CBBR4ER");
+// ReactGA.send({
+// 	hitType: "pageview",
+// 	page: window.location.pathname,
+// });
 
 const queryClient = new QueryClient();
 
