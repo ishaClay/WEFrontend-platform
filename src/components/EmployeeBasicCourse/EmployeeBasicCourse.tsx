@@ -12,7 +12,7 @@ import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useContext, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -25,6 +25,8 @@ import ReviewModal from "./ReviewModal";
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
   const { empPermissions } = useContext(PermissionContext);
+  const [searchParams] = useSearchParams();
+  const mainCourseId = searchParams.get("courseId");
   const [currentTab, setCurrentTab] = useState("");
   const location = useLocation();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -54,13 +56,13 @@ const EmployeeBasicCourse = () => {
       : fetchEmployeeSingeCourse?.data;
 
   const { data: getModule } = useQuery<ModuleStatusResponse>({
-    queryKey: [QUERY_KEYS.getSingleCourse, courseById],
+    queryKey: [QUERY_KEYS.getSingleCourse, mainCourseId],
     queryFn: () =>
       getModuleById({
         userId: userData?.query?.detailsid,
-        courseId: +course?.course?.id,
+        courseId: (mainCourseId && +mainCourseId) || 0,
       }),
-    enabled: !!course && userData?.query?.role === "4",
+    enabled: !!mainCourseId && userData?.query?.role === "4",
   });
 
   console.log("getModule", getModule);
@@ -153,8 +155,10 @@ const EmployeeBasicCourse = () => {
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
                         Modules Completed -{" "}
                         {getModule?.moduleStatuses &&
-                          getModule?.moduleStatuses.findIndex(
-                            (item) => item.status === "started"
+                          getModule?.moduleStatuses?.findIndex(
+                            (item) =>
+                              item.status === "started" ||
+                              item.status === "inrogress"
                           ) + 1}
                         /{getModule?.moduleStatuses?.length}{" "}
                         <ChevronDown width={18} />
@@ -163,6 +167,12 @@ const EmployeeBasicCourse = () => {
                         <ul className="p-5">
                           {getModule?.moduleStatuses &&
                             getModule?.moduleStatuses?.map((item, i) => {
+                              const current =
+                                getModule?.moduleStatuses?.findIndex(
+                                  (item) =>
+                                    item.status === "started" ||
+                                    item.status === "inrogress"
+                                );
                               return (
                                 <li
                                   className={`flex items-center gap-4 ${
@@ -172,8 +182,20 @@ const EmployeeBasicCourse = () => {
                                     "pb-5"
                                   } relative`}
                                 >
-                                  <div className="w-5 h-5 rounded-full border border-[#017285] relative">
-                                    <div className="w-3 h-3 rounded-full bg-[#017285] absolute top-0 bottom-0 left-0 right-0 m-auto"></div>
+                                  <div
+                                    className={`w-5 h-5 rounded-full border ${
+                                      current !== i
+                                        ? "border-[#D9D9D9]"
+                                        : "border-[#017285]"
+                                    } relative`}
+                                  >
+                                    <div
+                                      className={`w-3 h-3 rounded-full ${
+                                        current !== i
+                                          ? "bg-[#D9D9D9]"
+                                          : "bg-[#017285]"
+                                      } absolute top-0 bottom-0 left-0 right-0 m-auto`}
+                                    ></div>
                                   </div>
                                   <div className="">
                                     <h5 className="text-[14px] text-black font-nunito font-[500]">
@@ -186,7 +208,7 @@ const EmployeeBasicCourse = () => {
                                   {getModule?.moduleStatuses &&
                                     i !==
                                       getModule?.moduleStatuses?.length - 1 && (
-                                      <div className="absolute h-[40px] w-[1px] bg-[#D9D9D9] top-[-10px] left-[10px]"></div>
+                                      <div className="absolute h-[40px] w-[1px] bg-[#D9D9D9] bottom-[-10px] left-[10px]"></div>
                                     )}
                                 </li>
                               );

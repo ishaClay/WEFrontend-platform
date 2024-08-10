@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { PermissionContext } from "@/context/PermissionContext";
+import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor } from "@/lib/utils";
+import { fetchEvaluteData } from "@/services/apiServices/enroll";
 import { EmployeeType } from "@/types/enroll";
+import { useQuery } from "@tanstack/react-query";
 import { Award, CircleCheck, FilePenLine } from "lucide-react";
 import { useContext, useState } from "react";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 import EvaluateModalDetails from "./EvaluateModalDetails";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/constants";
-import { fetchEvaluteData } from "@/services/apiServices/enroll";
 
 type employeeCourseDetailsProps = {
   data: EmployeeType;
@@ -22,7 +22,7 @@ type employeeCourseDetailsProps = {
 const EnrollCourseEmployeeDetailsListItem = ({
   data,
   courseById,
-  cohortGroupById
+  cohortGroupById,
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -31,12 +31,12 @@ const EnrollCourseEmployeeDetailsListItem = ({
   const progress = String(data?.progress)?.split(".");
   console.log("permissions", permissions);
 
-  const {data: fetchEvaluteList} = useQuery({
+  const { data: fetchEvaluteList } = useQuery({
     queryKey: [QUERY_KEYS.fetchEvalute, courseById, cohortGroupById],
     queryFn: () => fetchEvaluteData(courseById, cohortGroupById),
-    enabled: !!courseById && !!cohortGroupById
+    enabled: !!courseById && !!cohortGroupById,
   });
-  
+
   return (
     <>
       <Modal
@@ -74,7 +74,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
             <h5 className="font-inter text-base font-medium">
               {data?.name || data?.email?.split("@")[0]}
             </h5>
-            <h6 className="text-base text-[#A3A3A3] font-normal font-inter">
+            <h6 className="text-[12px] text-[#A3A3A3] font-normal font-inter">
               {data?.company?.name}
             </h6>
           </div>

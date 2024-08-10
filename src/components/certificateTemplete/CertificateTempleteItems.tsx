@@ -117,6 +117,7 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
           <Button
             type="button"
             isLoading={isPending}
+            disabled
             onClick={() => handleDelete(data?.id)}
             className="p-2 w-8 h-8 bg-[#FF5252]"
           >

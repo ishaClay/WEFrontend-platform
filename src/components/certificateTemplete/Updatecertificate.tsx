@@ -1,5 +1,7 @@
 import FileUpload from "@/components/comman/FileUpload";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchcertificate,
   Updatecertificate,
@@ -26,8 +28,6 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 type RouteParams = {
   id: string;
 };
@@ -173,60 +173,6 @@ const Addcertificate = () => {
   );
 
   const onSubmit = async (data: FieldValues) => {
-    // const loadImage = (url) =>
-    //   new Promise((resolve, reject) => {
-    //     const img = new Image();
-    //     img.crossOrigin = "Anonymous"; // Handle cross-origin images
-    //     img.onload = () => resolve(img);
-    //     img.onerror = reject;
-    //     img.src = url;
-    //   });
-
-    // // Ensure all images are loaded
-    // const images = [
-    //   data?.backgroundImage,
-    //   data?.companyLogo1,
-    //   data?.instructorSignature,
-    //   data?.administratorSignature,
-    //   // Add more dynamic image URLs if needed
-    // ];
-
-    // try {
-    //   await Promise.all(images.map((url) => loadImage(url)));
-
-    //   // Capture the image after ensuring all images are loaded
-    //   if (captureRef.current) {
-    //     html2canvas(captureRef.current, {
-    //       useCORS: true,
-    //       allowTaint: false,
-    //       logging: true,
-    //     }).then((canvas) => {
-    //       const imgData = canvas.toDataURL("image/png");
-    //       const link = document.createElement("a");
-    //       link.href = imgData;
-    //       link.download = "capture.png";
-    //       link.click();
-    //     });
-    //   }
-
-    //   // Other code (e.g., update_certificate) if needed
-    //   // const payload = { ... };
-    //   // update_certificate({ data: payload, id: certificateId || "" });
-    // } catch (error) {
-    //   console.error("Error loading images or capturing canvas:", error);
-    // }
-
-    // html2canvas(captureRef?.current, {
-    //   useCORS: true,
-    //   allowTaint: false,
-    //   logging: true,
-    // }).then((canvas) => {
-    //   const dataUrl = canvas.toDataURL("image/png");
-    //   const a = document.createElement("a");
-    //   a.href = dataUrl;
-    //   a.download = `certificate.png`;
-    //   a.click();
-    // });
     const payload = {
       user: userData?.query?.id,
       templateName: data?.templateName,

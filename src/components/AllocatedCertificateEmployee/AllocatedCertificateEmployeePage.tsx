@@ -4,13 +4,13 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
 import { useQuery } from "@tanstack/react-query";
+import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import html2canvas from "html2canvas";
 
 const AllocatedCertificateEmployeePage = () => {
   const captureRef = useRef(null);
@@ -84,10 +84,12 @@ const AllocatedCertificateEmployeePage = () => {
           logging: true,
         }).then((canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          const link = document.createElement("a");
-          link.href = imgData;
-          link.download = "capture.png";
-          link.click();
+          console.log("++++++++++++++++++++++++", imgData);
+
+          // const link = document.createElement("a");
+          // link.href = imgData;
+          // link.download = "capture.png";
+          // link.click();
         });
       }
     } catch (error) {
@@ -142,7 +144,7 @@ const AllocatedCertificateEmployeePage = () => {
                     </div>
                     <div className="absolute top-1/2 -translate-y-1/2 w-full 2xl:px-20 xl:px-8 md:px-5 px-3">
                       <h4
-                        className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-2 pb-0`}
+                        className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-0 pb-0`}
                         style={{
                           color: selectedCertificate?.certificate?.primaryColor,
                           fontFamily:
@@ -151,6 +153,8 @@ const AllocatedCertificateEmployeePage = () => {
                       >
                         {selectedCertificate?.certificate?.cretificateText}
                       </h4>
+                      <br />
+                      <br />
                       <div className="w-full text-center ">
                         <div
                           className="xl:pb-3 pb-1 xl:text-[30px] md:text-[26px] sm:text-[20px] text-base font-medium"
@@ -179,6 +183,7 @@ const AllocatedCertificateEmployeePage = () => {
                               )?.label
                             }
                           </h1>
+                          <br />
                           <div className="flex items-center justify-center md:mt-4 sm:mt-3 mt-1">
                             <span
                               className={`block w-2 h-2 rounded-full`}
@@ -208,7 +213,7 @@ const AllocatedCertificateEmployeePage = () => {
                         </div>
                         <div className="sm:mt-5 mt-3">
                           <p
-                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.certificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5 line-clamp-2`}
+                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.certificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5`}
                             style={{
                               fontFamily:
                                 selectedCertificate?.certificate?.secondaryFont,
