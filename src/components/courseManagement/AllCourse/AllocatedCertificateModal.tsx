@@ -12,6 +12,7 @@ import {
   getTrainerByCompanyId,
   trainerInvitation,
 } from "@/services/apiServices/trainer";
+import { AllCoursesResult } from "@/types/courseManagement";
 import { AllocatedTraineeListResponse } from "@/types/Trainee";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -25,6 +26,7 @@ interface CourseViewAllocatePopupProps {
   isOpen: boolean;
   onClose: () => void;
   courseId: number;
+  selectedCourse: AllCoursesResult | null;
 }
 
 const schema = zod.object({
@@ -38,6 +40,7 @@ export function AllocatedCertificateModal({
   isOpen,
   onClose,
   courseId,
+  selectedCourse,
 }: CourseViewAllocatePopupProps) {
   const [isInvite, setIsInvite] = useState(false);
   const [selectFilter, setSelectFilter] = useState<number[]>([]);
@@ -293,7 +296,8 @@ export function AllocatedCertificateModal({
                         <input
                           type="checkbox"
                           name="employee"
-                          checked={selectFilter?.includes(employee?.id)}
+                          disabled={selectedCourse?.trainerId?.id === employee?.id}
+                          checked={selectFilter?.includes(employee?.id) && selectedCourse?.trainerId?.id !== employee?.id}
                           onChange={() =>
                             setSelectFilter((prev) =>
                               prev?.find((item: any) => item === employee?.id)

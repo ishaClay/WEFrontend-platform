@@ -38,7 +38,6 @@ interface TraineeEmployee {
 }
 
 const AddTraineeModal = ({
-  watch,
   selectCompanyOptions,
   setIsOpen,
   control,
@@ -47,10 +46,12 @@ const AddTraineeModal = ({
 }: TraineeModalProps) => {
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectCompany, setSelectCompany] = useState<string>("")
+console.log("selectCompany", selectCompany);
 
   const { data: fetchTrainee, isPending, isFetching, refetch } = useQuery({
     queryKey: [QUERY_KEYS.fetchTrainee],
-    queryFn: () => getTrainee(+CompanyId, +watch("selectCompany"), searchQuery),
+    queryFn: () => getTrainee(+CompanyId, +selectCompany, searchQuery),
   });
 
   const traineeEmployee =
@@ -63,7 +64,7 @@ const AddTraineeModal = ({
 
     useEffect(() => {
       refetch()
-    }, [searchQuery])
+    }, [searchQuery, selectCompany])
 
   const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
     if (e) {
@@ -78,6 +79,10 @@ const AddTraineeModal = ({
     }
   };
 
+  console.log("selectCompanyOptions", selectCompanyOptions);
+  console.log("traineeList", traineeList);
+  
+  
   return (
     <div className="">
       <h5 className="text-[20px] text-black font-abhaya font-semibold">
@@ -101,7 +106,7 @@ const AddTraineeModal = ({
         <div className="relative">
           <Controller
             control={control}
-            name="selectCompany"
+            name="selectTrainee"
             defaultValue={[""]}
             render={({ field: { onChange, value } }) => {
               return (
@@ -126,8 +131,10 @@ const AddTraineeModal = ({
                             onCheckedChange={(checked) => {
                               if (checked) {
                                 onChange(i.value);
+                                setSelectCompany(i.value);
                               } else {
                                 onChange('');
+                                setSelectCompany("");
                               }
                             }}
                             // onCheckedChange={(checked) => {
@@ -162,6 +169,7 @@ const AddTraineeModal = ({
             <Checkbox
               className="ms-3 border-[#D9D9D9] w-6 h-6"
               onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
+              checked={traineeList?.length === traineeEmployee?.length}
             />
           </span>
         </div>

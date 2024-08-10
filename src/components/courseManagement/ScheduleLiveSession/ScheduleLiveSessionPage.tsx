@@ -73,6 +73,10 @@ const ScheduleLiveSessionPage = () => {
   const [selectCompany, setSelectCompany] = useState<
     { label: string; value: string }[]
   >([]);
+  const [traineeList, setTraineeList] = useState<{ name: string; id: string }[]>([]);
+  // const [traineeErr, setTraineeErr] = useState(false);
+  
+  
   console.log("selectCompany", selectCompany);
   
 
@@ -103,7 +107,15 @@ const ScheduleLiveSessionPage = () => {
     }),
     selectCompany: z
       .array(z.string())
-      .nonempty("Please select at least one company"),
+      .nonempty("Please select at least one company").optional(),
+  }).refine(() => {
+    if(traineeList?.length === 0){
+      return true
+    }
+  }, 
+  {
+    message: "Please select at least one company",
+    path: ["selectCompany"],
   });
   type ValidationSchema = z.infer<typeof ScheduleLiveSessionSchema>;
 
@@ -124,10 +136,8 @@ const ScheduleLiveSessionPage = () => {
     },
   });
   console.log("watch", watch());
+  console.log("errors", errors);
   
-
-  const [traineeList, setTraineeList] = useState<{ name: string; id: string }[]>([]);
-  const [traineeErr, setTraineeErr] = useState(false);
 
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
@@ -311,10 +321,10 @@ const ScheduleLiveSessionPage = () => {
     
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    if (traineeList?.length === 0) {
-      setTraineeErr(true);
-      return;
-    }
+    // if (traineeList?.length === 0) {
+    //   setTraineeErr(true);
+    //   return;
+    // }
     const liveSecTitle = selectLiveSessionOption?.find((item:any) => +item?.value === +data?.selectLiveSession);
     const transformedData = {
       course: data?.selectCourse,
@@ -645,11 +655,11 @@ const ScheduleLiveSessionPage = () => {
                 </span>
               )}
             </div>
-            {traineeErr && traineeList?.length === 0 && (
+            {/* {traineeErr && traineeList?.length === 0 && (
               <span className="text-red-500 text-sm">
                 Please select trainee list.
               </span>
-            )}
+            )} */}
             <div className="flex flex-col gap-3">
               <Button
                 className="bg-transparent text-[#4285F4] text-base font-abhaya gap-2 items-center justify-start p-0 h-auto"

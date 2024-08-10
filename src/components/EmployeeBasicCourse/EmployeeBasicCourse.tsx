@@ -6,7 +6,9 @@ import {
   fetchSingleCourse,
   getEmployeeSingeCourse,
 } from "@/services/apiServices/courseSlider";
+import { getModuleById } from "@/services/apiServices/moduleCreation";
 import { SingleCourseEmployeeResponse } from "@/types/employee";
+import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useContext, useState } from "react";
@@ -51,6 +53,17 @@ const EmployeeBasicCourse = () => {
       ? getSingleCourse?.data
       : fetchEmployeeSingeCourse?.data;
 
+  const { data: getModule } = useQuery<ModuleStatusResponse>({
+    queryKey: [QUERY_KEYS.getSingleCourse, courseById],
+    queryFn: () =>
+      getModuleById({
+        userId: userData?.query?.detailsid,
+        courseId: +course?.course?.id,
+      }),
+    enabled: !!course && userData?.query?.role === "4",
+  });
+
+  console.log("getModule", getModule);
   return (
     <>
       <Modal
@@ -138,51 +151,46 @@ const EmployeeBasicCourse = () => {
                   {pathName !== "trainer" && pathName !== "trainee" && (
                     <Popover>
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
-                        Modules Completed - 1/5 <ChevronDown width={18} />
+                        Modules Completed -{" "}
+                        {getModule?.moduleStatuses &&
+                          getModule?.moduleStatuses.findIndex(
+                            (item) => item.status === "started"
+                          ) + 1}
+                        /{getModule?.moduleStatuses?.length}{" "}
+                        <ChevronDown width={18} />
                       </PopoverTrigger>
                       <PopoverContent className="w-[240px]">
                         <ul className="p-5">
-                          <li className="flex items-center gap-4 pb-5 relative">
-                            <div className="w-5 h-5 rounded-full border border-[#017285] relative">
-                              <div className="w-3 h-3 rounded-full bg-[#017285] absolute top-0 bottom-0 left-0 right-0 m-auto"></div>
-                            </div>
-                            <div className="">
-                              <h5 className="text-sm text-black font-nunito">
-                                Chapter 1 - Intro
-                              </h5>
-                              <h6 className="text-sm text-[#606060] font-nunito">
-                                Started
-                              </h6>
-                            </div>
-                            <div className="absolute h-[40px] w-[1px] bg-[#D9D9D9] bottom-[-10px] left-[10px]"></div>
-                          </li>
-                          <li className="flex items-center gap-4 pb-5 relative">
-                            <div className="w-5 h-5 rounded-full border border-[#D9D9D9] hover:border-[#017285] relative group">
-                              <div className="w-3 h-3 rounded-full bg-white group-hover:bg-[#017285] absolute top-0 bottom-0 left-0 right-0 m-auto"></div>
-                            </div>
-                            <div className="">
-                              <h5 className="text-sm text-black font-nunito">
-                                Chapter 1 - Intro
-                              </h5>
-                              <h6 className="text-sm text-[#606060] font-nunito">
-                                Started
-                              </h6>
-                            </div>
-                            <div className="absolute h-[40px] w-[1px] bg-[#D9D9D9] bottom-[-10px] left-[10px]"></div>
-                          </li>
-                          <li className="flex items-center gap-4">
-                            <div className="w-5 h-5 rounded-full border border-[#D9D9D9] hover:border-[#017285] relative group">
-                              <div className="w-3 h-3 rounded-full bg-white group-hover:bg-[#017285] absolute top-0 bottom-0 left-0 right-0 m-auto"></div>
-                            </div>
-                            <div className="">
-                              <h5 className="text-sm text-black font-nunito">
-                                Chapter 1 - Intro
-                              </h5>
-                              <h6 className="text-sm text-[#606060] font-nunito">
-                                Started
-                              </h6>
-                            </div>
-                          </li>
+                          {getModule?.moduleStatuses &&
+                            getModule?.moduleStatuses?.map((item, i) => {
+                              return (
+                                <li
+                                  className={`flex items-center gap-4 ${
+                                    getModule?.moduleStatuses &&
+                                    i !==
+                                      getModule?.moduleStatuses?.length - 1 &&
+                                    "pb-5"
+                                  } relative`}
+                                >
+                                  <div className="w-5 h-5 rounded-full border border-[#017285] relative">
+                                    <div className="w-3 h-3 rounded-full bg-[#017285] absolute top-0 bottom-0 left-0 right-0 m-auto"></div>
+                                  </div>
+                                  <div className="">
+                                    <h5 className="text-[14px] text-black font-nunito font-[500]">
+                                      {item?.title}
+                                    </h5>
+                                    <h6 className="text-[14px] text-[#606060] font-nunito capitalize">
+                                      {item?.status}
+                                    </h6>
+                                  </div>
+                                  {getModule?.moduleStatuses &&
+                                    i !==
+                                      getModule?.moduleStatuses?.length - 1 && (
+                                      <div className="absolute h-[40px] w-[1px] bg-[#D9D9D9] top-[-10px] left-[10px]"></div>
+                                    )}
+                                </li>
+                              );
+                            })}
                         </ul>
                       </PopoverContent>
                     </Popover>

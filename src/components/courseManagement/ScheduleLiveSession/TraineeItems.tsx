@@ -1,5 +1,6 @@
-import profile_img from "@/assets/images/face_1.jfif";
 import { Checkbox } from "../../ui/checkbox";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { chatDPColor } from "@/lib/utils";
 
 type TraineeEmployee = {
   data: {
@@ -26,7 +27,7 @@ const TraineeItems = ({
         ...prev,
         {
           name: data?.name || data?.email?.split("@")?.[0] || "",
-          id: data.id.toString(),
+          id: data?.id?.toString(),
         },
       ]);
     } else {
@@ -39,12 +40,21 @@ const TraineeItems = ({
   return (
     <div className="flex items-center justify-between border-b border-[#D9D9D9] pb-2 mb-2">
       <div className="flex items-center gap-3">
-        <div className="w-[38px] h-[38px] overflow-hidden rounded-full border border-[#A3A3A3]">
-          <img src={data.image || profile_img} alt="" />
+        <div className="w-[38px] h-[38px]">
+          <Avatar className="w-full h-full">
+            <AvatarImage src={""} alt="profileImage" />
+            <AvatarFallback
+              className="text-white text-xl"
+              style={{ background: chatDPColor(+data?.id) }}
+            >
+              {data?.name?.charAt(0)?.toUpperCase() ||
+                data?.email?.charAt(0)?.toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
         </div>
         <div className="">
           <h5 className="text-base font-abhaya text-black font-semibold">
-            {data.name}
+            {data?.name || data?.email?.split?.("@")?.[0]}
           </h5>
           <h6 className="text-[#606060] text-base">{data.companyName}</h6>
         </div>

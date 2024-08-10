@@ -1,72 +1,12 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import EvaluateModalDetailsItem from "./EvaluateModalDetailsItem";
+import { EvaluteDataEntity } from "@/types/enroll";
 
-const EvaluateModalDetails = () => {
-  const evaluteModal = [
-    {
-      modalId: 1,
-      sessionId: 1,
-      assessmentId: 1,
-      questions: [
-        {
-          questionId: 1,
-          pointId: 1,
-          desription:
-            "This is the second item's accordion body. It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.",
-          answer:
-            "This is the second item's accordion body. It is hidden by default.",
-          keyWords: " (Matched 40, Unmatched 10) ",
-        },
-        {
-          questionId: 2,
-          pointId: 2,
-          desription:
-            "This is the second item's accordion body. It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.",
-          answer:
-            "This is the second item's accordion body. It is hidden by default.",
-          keyWords: " (Matched 40, Unmatched 10) ",
-        },
-      ],
-      page1: 10,
-      page2: 50,
-    },
-    {
-      modalId: 1,
-      sessionId: 1,
-      assessmentId: 1,
-      questions: [
-        {
-          questionId: 1,
-          pointId: 1,
-          desription:
-            "This is the second item's accordion body. It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.",
-          answer:
-            "This is the second item's accordion body. It is hidden by default.",
-          keyWords: " (Matched 40, Unmatched 10) ",
-        },
-        {
-          questionId: 1,
-          pointId: 1,
-          desription:
-            "This is the second item's accordion body. It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.",
-          answer:
-            "This is the second item's accordion body. It is hidden by default.",
-          keyWords: " (Matched 40, Unmatched 10) ",
-        },
-        {
-          questionId: 1,
-          pointId: 1,
-          desription:
-            "This is the second item's accordion body. It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element.",
-          answer:
-            "This is the second item's accordion body. It is hidden by default.",
-          keyWords: " (Matched 40, Unmatched 10) ",
-        },
-      ],
-      page1: 0,
-      page2: 50,
-    },
-  ];
+interface EvaluateModalDetailsProps {
+  data: EvaluteDataEntity[];
+}
+
+const EvaluateModalDetails = ({data} : EvaluateModalDetailsProps) => {
   return (
     <div className="">
       <div className="sm:px-5 px-4">
@@ -79,8 +19,8 @@ const EvaluateModalDetails = () => {
         </p>
       </div>
       <ScrollArea className="xl:h-[600px] sm:h-[500px] h-[400px]">
-        {evaluteModal.map((data, index) => {
-          return <EvaluateModalDetailsItem key={index} data={data} />;
+        {data && data?.map((item, index) => {
+          return <EvaluateModalDetailsItem key={index} data={item} index={index} />;
         })}
       </ScrollArea>
     </div>

@@ -8,16 +8,18 @@ import { CohortGroupType } from "@/types/enroll";
 
 
 interface EnrollCourseEmployeeDetailsListProps {
-  data: CohortGroupType
+  data: CohortGroupType;
+  courseById: number;
+  cohortGroupById: number;
 }
-const EnrollCourseEmployeeDetailsList = ({ data }: EnrollCourseEmployeeDetailsListProps) => {
+const EnrollCourseEmployeeDetailsList = ({ data, courseById, cohortGroupById }: EnrollCourseEmployeeDetailsListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
       <div className="">
         {data?.employee && data?.employee?.length > 0 ? data?.employee?.map((item, index) => {
           return (
-            <EnrollCourseEmployeeDetailsListItem data={item} key={index} />
+            <EnrollCourseEmployeeDetailsListItem data={item} key={index} courseById={courseById} cohortGroupById={cohortGroupById} />
           );
         }) : <span className="text-center block text-xl text-neutral-400">No data found</span> }
       </div>

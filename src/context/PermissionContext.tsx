@@ -79,6 +79,7 @@ export const PermissionProvider = ({
         "allcourse",
         "mycourses",
         "allocated-certificate",
+        "certificate-template",
         "enrolledcourses",
       ].includes(location.pathname?.split("/").pop() || "")
     ) {

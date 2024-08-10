@@ -4,7 +4,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
@@ -17,6 +17,7 @@ const AllocatedCertificateEmployeePage = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [selectCourse, setSelectCourse] = useState("");
   const [selectTrainee, setSelectTrainee] = useState("");
+  const [body, setBody] = useState("");
   const { data: fetchCourseAllCourseData } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { UserId: userData?.query?.id }],
     queryFn: () => fetchCourseAllCourse("", +userData?.query?.id, "PUBLISHED"),
@@ -39,6 +40,12 @@ const AllocatedCertificateEmployeePage = () => {
   const selectedCertificate = fetchCourseAllCourseData?.data?.find(
     (item) => item?.id?.toString() === selectCourse
   );
+
+  useEffect(() => {
+    if (selectedCertificate) {
+      setBody(selectedCertificate?.certificate?.bodyText);
+    }
+  }, [selectedCertificate]);
 
   console.log("selectedCertificate", fetchEmployeeByCourse);
 
@@ -65,7 +72,11 @@ const AllocatedCertificateEmployeePage = () => {
               dispatch(
                 setPath([
                   {
-                    label: "Allocate Certificate",
+                    label: `Certificate Management`,
+                    link: null,
+                  },
+                  {
+                    label: `Issued Certificate`,
                     link: `/${Role}/allocated-certificate`,
                   },
                 ])
@@ -166,7 +177,7 @@ const AllocatedCertificateEmployeePage = () => {
                                 selectedCertificate?.certificate?.secondaryFont,
                             }}
                           >
-                            {selectedCertificate?.certificate?.bodyText}
+                            {body}
                           </p>
                         </div>
 
@@ -323,6 +334,9 @@ const AllocatedCertificateEmployeePage = () => {
                 <Textarea
                   className="text-base text-[#A3A3A3] font-calibri line-clamp-4"
                   rows={5}
+                  placeholder="Write here..."
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
                 >
                   Desription..
                 </Textarea>

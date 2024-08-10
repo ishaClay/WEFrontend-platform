@@ -225,7 +225,7 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
         mutate({
           data: payload,
           id: params || "",
-          paramsversion: "1" || "",
+          paramsversion: paramsversion || "",
         });
       }
     } else {
