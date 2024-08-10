@@ -4,14 +4,16 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import html2canvas from "html2canvas";
 
 const AllocatedCertificateEmployeePage = () => {
+  const captureRef = useRef(null);
   const Role = location.pathname.split("/")[1];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -47,8 +49,6 @@ const AllocatedCertificateEmployeePage = () => {
     }
   }, [selectedCertificate]);
 
-  console.log("selectedCertificate", fetchEmployeeByCourse);
-
   const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map(
     (item: any) => {
       return {
@@ -57,6 +57,43 @@ const AllocatedCertificateEmployeePage = () => {
       };
     }
   );
+
+  const handleIssue = async () => {
+    const loadImage = (url: string) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = url;
+      });
+
+    const images = [
+      selectedCertificate?.certificate?.backgroundImage,
+      selectedCertificate?.certificate?.companyLogo1,
+      selectedCertificate?.certificate?.instructorSignature,
+      selectedCertificate?.certificate?.administratorSignature,
+    ]?.filter((item) => !!item);
+
+    try {
+      await Promise.all(images.map((url) => loadImage(url)));
+      if (captureRef.current) {
+        html2canvas(captureRef.current, {
+          useCORS: true,
+          allowTaint: false,
+          logging: true,
+        }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          const link = document.createElement("a");
+          link.href = imgData;
+          link.download = "capture.png";
+          link.click();
+        });
+      }
+    } catch (error) {
+      console.error("Error loading images or capturing canvas:", error);
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -93,8 +130,8 @@ const AllocatedCertificateEmployeePage = () => {
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-8 ">
             {selectCourse && selectedCertificate ? (
-              <div className="2xl:flex block gap-[30px]">
-                <div className="relative 2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
+              <div className="2xl:flex block gap-[30px]" ref={captureRef}>
+                <div className="relative 2xl:sticky top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
                   <div className="h-full w-full">
                     <div className="flex justify-center">
                       <img
@@ -343,7 +380,10 @@ const AllocatedCertificateEmployeePage = () => {
               </div>
             </div>
             <div className="">
-              <Button className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg">
+              <Button
+                className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg"
+                onClick={handleIssue}
+              >
                 issue certificate
               </Button>
             </div>
