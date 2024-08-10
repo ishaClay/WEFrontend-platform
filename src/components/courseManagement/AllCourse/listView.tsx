@@ -56,6 +56,9 @@ const ListView = ({
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
+  const [selectedCourse, setSelectedCourse] = useState<AllCoursesResult | null>(
+    null
+  );
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -261,6 +264,7 @@ const ListView = ({
         isOpen={!!isOpen}
         onClose={() => setIsOpen("")}
         courseId={+isOpen}
+        selectedCourse={selectedCourse}
       />
       <ConfirmationModel
         open={open}
@@ -464,6 +468,7 @@ const ListView = ({
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsOpen(data?.id);
+                                setSelectedCourse(data);
                               }}
                             >
                               <Combine className="w-4 h-4" />
