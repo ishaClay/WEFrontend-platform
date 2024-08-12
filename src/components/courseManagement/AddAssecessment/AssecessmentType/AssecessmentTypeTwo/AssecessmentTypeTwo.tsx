@@ -19,6 +19,7 @@ import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
 interface AssecessmentTypeProps {
   i: number;
   type: string;
+  assecessmentQuestion: any;
 }
 
 interface Validatable {
@@ -26,7 +27,7 @@ interface Validatable {
 }
 
 const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type }, ref) => {
+  ({ i, type, assecessmentQuestion }, ref) => {
     const dispatch = useAppDispatch();
 
     const { questionOption } = useAppSelector(
@@ -50,6 +51,32 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         );
       }
     }, [questionOption]);
+
+    useEffect(() => {
+      if (assecessmentQuestion?.id) {
+        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
+        dispatch(
+          addQuestion({
+            index: i,
+            question: assecessmentQuestion?.question,
+            assessmentType: assecessmentQuestion?.assessmentType,
+          })
+        );
+      }
+    }, [assecessmentQuestion, questionOption]);
+
+    useEffect(() => {
+      setTimeout(() => {
+        if (assecessmentQuestion?.option) {
+          setOptions(
+            assecessmentQuestion?.option?.map((item: string, index: number) => ({
+              optionTitle: `Option ${index + 1}:`,
+              option: item,
+            }))
+          );        
+        }        
+      }, 50);
+    }, [assecessmentQuestion, i, dispatch]);    
 
     const [errors, setErrors] = useState({
       question: "",
@@ -157,63 +184,6 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                 );
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
-              value={questionOption[i]?.question}
-            />
-            <div className="flex items-center">
-              <label className="me-3 text-[#515151] text-base font-calibri">
-                Point
-              </label>
-              <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) =>{
-                  const {value} = e.target
-                  if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }))    
-                    setErrors((prev) => ({ ...prev, point: "" }));                
-                  }
-                  return
-                }
-                }
-                type="text"
-                min={0}
-                max={100}
-                value={questionOption[i]?.point || ""}
-              />
-            </div>
-          </div>
-          <div className="flex justify-between items-center">
-            {errors.question && (
-              <p className="text-red-500 text-sm">{errors.question}</p>
-            )}
-            <span></span>
-            {errors.point && (
-              <p className="text-red-500 text-sm">{errors.point}</p>
-            )}
-          </div>
-          <input
-            placeholder="Multiple Choice Question"
-            disabled
-            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
-          />
-        </div>
-        <div className="pb-8">
-          <h6 className="text-base text-black font-calibri pb-3">
-            Enter Question
-          </h6>
-          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
-            <input
-              placeholder="How would you describe an authoritarian (or controlling) management style?"
-              className="outline-none font-base font-calibri text-[#1D2026] w-full"
-              onChange={(e) => {
-                dispatch(
-                  addQuestion({
-                    index: i,
-                    question: e.target.value,
-                    assessmentType: type,
-                  })
-                );
-                setErrors((prev) => ({ ...prev, question: "" }));
-              }}
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -226,6 +196,9 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                   setErrors((prev) => ({ ...prev, point: "" }));
                 }}
                 type="number"
+                min={0}
+                max={100}
+                value={questionOption[i]?.point || ""}
               />
             </div>
           </div>
@@ -246,7 +219,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               + Add Option
             </Button>
           </div>
-          {options.map((data, index) => {
+          {options?.map((data, index) => {
             return (
               <Fragment key={index}>
                 <AssecessmentTypeTwoOptions
@@ -256,6 +229,8 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                   options={options}
                   setOptions={setOptions}
                   setErrors={setErrors}
+                  assecessmentQuestion={assecessmentQuestion?.option}
+                  answer={assecessmentQuestion?.answer}
                 />
                 {errors.options[index] && (
                   <p className="text-red-500 text-sm">
@@ -267,41 +242,6 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           })}
           {errors.answer && (
             <p className="text-red-500 text-sm">{errors.answer}</p>
-          )}
-        </div>
-        <div className="relative mb-3">
-          <div className="text-right">
-            <Button
-              className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
-              onClick={addOption}
-              type="button"
-            >
-              + Add Option
-            </Button>
-          </div>
-          {options?.map((data, index) => {
-            return (
-              <div key={index} className="mb-4">
-                <AssecessmentTypeTwoOptions
-                  data={data}
-                  i={i}
-                  iIndex={index}
-                  options={options}
-                  setOptions={setOptions}
-                  setErrors={setErrors}
-                />
-                <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
-                  {errors.options[index] && (
-                    <span className={`text-red-500 text-sm`}>
-                      {errors.options[index]}
-                    </span>
-                  )}
-                </p>
-              </div>
-            );
-          })}
-          {errors.answer && (
-            <p className="text-red-500 text-sm absolute bottom-0 right-0">{errors.answer}</p>
           )}
         </div>
       </div>

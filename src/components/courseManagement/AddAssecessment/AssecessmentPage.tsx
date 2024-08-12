@@ -15,8 +15,10 @@ import {
   createAssessment,
   createAssessmentQuestion,
   getAssessmentById,
+  getModuleSection,
+  updateAssessment,
 } from "@/services/apiServices/assessment";
-import { AssessmentById, QuestionCreation } from "@/types/assecessment";
+import { QuestionCreation } from "@/types/assecessment";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
@@ -91,11 +93,43 @@ const AssecessmentPage = () => {
   const version = searchParams.get("version");
   const tab = searchParams.get("tab");
 
-  const { data, isLoading } = useQuery<AssessmentById>({
+  const { data: getAssessmentByIdData, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getAssesmentById],
     queryFn: () => getAssessmentById(assId ? assId : ""),
     enabled: !!assId,
   });
+
+  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
+  
+
+  const { data: moduleSection } = useQuery({
+    queryKey: [QUERY_KEYS.fetchModuleSection],
+    queryFn: () => getModuleSection(searchParams.get("moduleId") as string),
+  });
+
+  const assessmentData = moduleSection?.data?.data?.assessment;
+  useEffect(() => {
+    if (getAssessmentByIdData?.data?.id) {
+      setCreateAssecessment({
+        title: getAssessmentByIdData?.data?.title,
+        passingPercentage: getAssessmentByIdData?.data?.passingPercentage,
+        timeBound: +getAssessmentByIdData?.data?.timeBound,
+        timeDuration: {
+          hours: getAssessmentByIdData?.data?.timeDuration?.hours,
+          minutes: getAssessmentByIdData?.data?.timeDuration?.minutes,
+          seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
+        },
+      });
+    }
+  }, [assessmentData]);  
+
+  useEffect(() => {
+    if(assessmentData?.id){
+      assessmentData?.[0]?.AssessmentQuestion?.map((item:any) => {
+        dispatch(setQuestionType(item?.assessmentType));
+      })
+    }
+  }, [assessmentData])  
 
   const AssessmentTypeReverseMap: {
     [key: string]: string;
@@ -104,8 +138,8 @@ const AssecessmentPage = () => {
   );
 
   useEffect(() => {
-    if (data?.data?.AssessmentQuestion?.length) {
-      const assessmentTypes = data?.data?.AssessmentQuestion?.map(
+    if (getAssessmentByIdData?.data?.AssessmentQuestion?.length) {
+      const assessmentTypes = getAssessmentByIdData?.data?.AssessmentQuestion?.map(
         (i) => i?.assessmentType
       );
       const transformedAssessmentTypes = assessmentTypes?.map(
@@ -119,7 +153,7 @@ const AssecessmentPage = () => {
         });
 
         const transformedAssessmentQuestions =
-          data?.data?.AssessmentQuestion?.map((question) => ({
+          getAssessmentByIdData?.data?.AssessmentQuestion?.map((question) => ({
             ...question,
             assessmentType: AssessmentTypeReverseMap[question.assessmentType],
           }));
@@ -129,7 +163,7 @@ const AssecessmentPage = () => {
         }
       }
     }
-  }, [data?.data, dispatch]);
+  }, [getAssessmentByIdData, dispatch]);
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -190,30 +224,30 @@ const AssecessmentPage = () => {
       },
     });
 
-  // const { mutate: updateAssessmentFun, isPending } = useMutation({
-  //   mutationFn: updateAssessment,
-  //   onSuccess: () => {
-  //     const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-  //       (item: any) => {
-  //         return {
-  //           ...item,
-  //           // @ts-ignore
-  //           assessment: assId as number,
-  //           // @ts-ignore
-  //           assessmentType: AssessmentType[item.assessmentType],
-  //         };
-  //       }
-  //     );
-  //     createAssessmentQuestionFun(assecessmentQue);
-  //   },
-  //   onError: (error: ResponseError) => {
-  //     toast({
-  //       title: "Error",
-  //       description: error?.data?.message || "Internal server error",
-  //       variant: "destructive",
-  //     });
-  //   },
-  // });
+  const { mutate: updateAssessmentFun, isPending } = useMutation({
+    mutationFn: updateAssessment,
+    onSuccess: () => {
+      const assecessmentQue = assecessmentQuestion?.questionOption?.map(
+        (item: any) => {
+          return {
+            ...item,
+            // @ts-ignore
+            id: item?.id as number,
+            // @ts-ignore
+            assessmentType: AssessmentType[item.assessmentType],
+          };
+        }
+      );
+      createAssessmentQuestionFun(assecessmentQue);
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
 
   const [errors, setErrors] = useState({
     moduleSection: "",
@@ -288,12 +322,19 @@ const AssecessmentPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
-      createAssessmentFun({
-        ...createAssecessment,
-        module: searchParams.get("moduleId")
-          ? searchParams.get("moduleId")
-          : "",
-      });
+      if(assId && +assId){
+        updateAssessmentFun({
+          data: {...createAssecessment, moduleSection: searchParams.get("moduleId") || ""},
+          id: assId,
+        })
+      } else{
+        createAssessmentFun({
+          ...createAssecessment,
+          module: searchParams.get("moduleId")
+            ? searchParams.get("moduleId")
+            : "",
+        });
+      }
     }
     return;
   };
@@ -316,8 +357,6 @@ const AssecessmentPage = () => {
       );
     }
   };
-
-  // /trainer/create_course/28?tab=2&version=26
 
   return (
     <div className="bg-white rounded-lg">
@@ -353,59 +392,64 @@ const AssecessmentPage = () => {
               createAssecessment={createAssecessment}
               setCreateAssecessment={setCreateAssecessment}
               errors={errors}
-              data={data?.data}
+              data={getAssessmentByIdData?.data}
               setErrors={setErrors}
+              moduleSectionById={moduleSection?.data?.data}
             />
 
-            {assecessmentQuestion?.selectedQuestionType?.map(
-              (type: string, index: number) => (
-                <Fragment key={index}>
-                  {type === "Multiple Choice" && (
-                    <AssecessmentTypeTwo
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                    />
-                  )}
-                  {type === "MCQ" && (
-                    <AssecessmentTypeOne
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                    />
-                  )}
-                  {type === "Free Text Response" && (
-                    <AssecessmentFreeText
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                    />
-                  )}
-                  {type === "True & False" && (
-                    <AssecessmentTrueFalse
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                    />
-                  )}
-                </Fragment>
-              )
+            {(getAssessmentByIdData?.data?.AssessmentQuestion || assecessmentQuestion?.selectedQuestionType)?.map(
+              (type: string | any, index: number) => {
+                return <Fragment key={index}>
+                {(type?.assessmentType === "Multiple Choice Question" || type === "Multiple Choice") && (
+                  <AssecessmentTypeTwo
+                    i={index}
+                    type={type}
+                    ref={(el: any) =>
+                      (validationRefs.current[index] = el?.validate)
+                    }
+                    assecessmentQuestion={type}
+                  />
+                )}
+                {((type?.assessmentType === "Single Choice Question" && type?.option?.length > 0) || type === "MCQ") && (
+                  <AssecessmentTypeOne
+                    i={index}
+                    type={type}
+                    ref={(el: any) =>
+                      (validationRefs.current[index] = el?.validate)
+                    }
+                    assecessmentQuestion={type}
+                  />
+                )} 
+                {(type?.assessmentType === "Free Text Response" ||type === "Free Text Response") && (
+                  <AssecessmentFreeText
+                    i={index}
+                    type={type}
+                    ref={(el: any) =>
+                      (validationRefs.current[index] = el?.validate)
+                    }
+                    assecessmentQuestion={type}
+                  />
+                )}
+                {((type?.assessmentType === "Single Choice Question" && type?.option?.length === 0) || type === "True & False") && (
+                  <AssecessmentTrueFalse
+                    i={index}
+                    type={type}
+                    ref={(el: any) =>
+                      (validationRefs.current[index] = el?.validate)
+                    }
+                    assecessmentQuestion={type}
+                  />
+                )}
+              </Fragment>
+              }
             )}
 
             <div className="text-right">
               <Button
                 type="submit"
-                disabled={createAssessmentPending || assessmentQuestionPending}
+                disabled={createAssessmentPending || assessmentQuestionPending || isPending}
                 className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-                isLoading={createAssessmentPending || assessmentQuestionPending}
+                isLoading={createAssessmentPending || assessmentQuestionPending || isPending}
               >
                 Save Assessment
               </Button>

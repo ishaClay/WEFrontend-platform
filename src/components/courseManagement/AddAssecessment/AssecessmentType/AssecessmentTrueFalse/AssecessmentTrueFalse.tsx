@@ -9,11 +9,12 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 interface AssecessmentTypeProps {
   i: number;
   type: string;
+  assecessmentQuestion: any;
 }
 
 interface Validatable {
@@ -21,7 +22,7 @@ interface Validatable {
 }
 
 const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type }, ref) => {
+  ({ i, type, assecessmentQuestion }, ref) => {
     const dispatch = useAppDispatch();
 
     const { questionOption } = useAppSelector(
@@ -78,6 +79,21 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
     useImperativeHandle(ref, () => ({
       validate: validateAssecessmentTrueFalse,
     }));
+
+    useEffect(() => {
+      if(assecessmentQuestion){
+        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
+        dispatch(addAnswer({ answer: assecessmentQuestion?.answer, i }));
+        dispatch(
+          addQuestion({
+            index: i,
+            question: assecessmentQuestion?.question,
+            assessmentType: assecessmentQuestion?.assessmentType,
+          })
+        );
+      }
+    }, [assecessmentQuestion])
+    
 
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">

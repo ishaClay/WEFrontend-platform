@@ -5,7 +5,7 @@ import ModuleCourseViewCard from "./ModuleCourseViewCard";
 import { getSingleCourseType } from "@/types/course";
 
 const Module = ({ data }: getSingleCourseType | any) => {
-  const accordionItems: AccordionOption[] = data?.course?.module.map((item: any) => {
+  const accordionItems: AccordionOption[] = data?.course?.module?.map((item: any) => {
     return {
       title: <ModuleCardList data={item} />,
       content: <ModuleCourseViewCard data={item} />,

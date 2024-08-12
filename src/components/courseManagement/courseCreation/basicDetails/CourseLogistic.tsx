@@ -73,8 +73,12 @@ const durationType = [
 ];
 
 const schema = zod.object({
-  time: zod.string({required_error: "Please select time"}).min(1, "Please select  time"),
-  isOnline: zod.string({required_error: "Please select type"}).min(1, "Please select type"),
+  time: zod
+    .string({ required_error: "Please select time" })
+    .min(1, "Please select  time"),
+  isOnline: zod
+    .string({ required_error: "Please select type" })
+    .min(1, "Please select type"),
   universityAddress: zod.string().min(1, "Please enter university location"),
   duration: zod
     .string()
@@ -90,7 +94,7 @@ interface CourseLogisticProps {
   courseById: number | null;
 }
 
-const CourseLogistic = ({courseById}: CourseLogisticProps) => {
+const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   type ValidationSchema = zod.infer<typeof schema>;
   const {
     register,
@@ -168,7 +172,7 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
           time: data?.time?.toString() || "",
           isOnline: data?.isOnline?.toString() || "",
           durationType: data?.duration?.split(" ")?.[1] || "",
-        })
+        });
       });
     }
   }, [getSingleCourse]);
@@ -186,9 +190,11 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
       });
       const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${
-          +courseId ? courseId : params
-        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${updatedData?.creationCompleted ? "3" : updatedData?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          updatedData?.creationCompleted ? "0" : updatedData?.tab
+        }&step=${
+          updatedData?.creationCompleted ? "3" : updatedData?.step
+        }&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -204,17 +210,23 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
   });
 
   const onSubmit = (data: FieldValues) => {
-    const durationTime = data?.duration.split(" ")?.[0] + " " + data?.durationType;
+    const durationTime =
+      data?.duration.split(" ")?.[0] + " " + data?.durationType;
     const payload = {
       time: +data?.time,
       isOnline: +data?.isOnline,
       universityAddress: data?.universityAddress,
       duration: durationTime,
-      tab: "0", 
-      step: "3"
+      tab: "0",
+      step: "3",
     };
-    
-    if(isDirty || getSingleCourse?.data?.course?.time !== +data?.time || getSingleCourse?.data?.course?.isOnline !== +data?.isOnline || getSingleCourse?.data?.course?.duration !== durationTime){
+
+    if (
+      isDirty ||
+      getSingleCourse?.data?.course?.time !== +data?.time ||
+      getSingleCourse?.data?.course?.isOnline !== +data?.isOnline ||
+      getSingleCourse?.data?.course?.duration !== durationTime
+    ) {
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -225,23 +237,20 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
         mutate({
           data: payload,
           id: params || "",
-          paramsversion: paramsversion || "",
+          paramsversion: getSingleCourse?.data?.version?.toString() || "",
         });
       }
     } else {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${3}&version=${
-          getSingleCourse?.data?.id
-        }`,
+        }?tab=${0}&step=${3}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
         }
       );
     }
   };
-  
 
   return (
     <>
@@ -258,7 +267,10 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
               <SelectMenu
                 {...register("time")}
                 option={Time}
-                setValue={(data: string) => {setSelectBoxValue({...selectBoxValue, time: data}); setValue("time", data)}}
+                setValue={(data: string) => {
+                  setSelectBoxValue({ ...selectBoxValue, time: data });
+                  setValue("time", data);
+                }}
                 value={selectBoxValue?.time || ""}
                 placeholder="Select Time"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
@@ -276,7 +288,10 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
               <SelectMenu
                 {...register("isOnline")}
                 option={isOnlineType}
-                setValue={(data: string) => {setSelectBoxValue({...selectBoxValue, isOnline: data}); setValue("isOnline", data)}}
+                setValue={(data: string) => {
+                  setSelectBoxValue({ ...selectBoxValue, isOnline: data });
+                  setValue("isOnline", data);
+                }}
                 value={selectBoxValue?.isOnline || ""}
                 placeholder="Select Type"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
@@ -319,7 +334,13 @@ const CourseLogistic = ({courseById}: CourseLogisticProps) => {
               <div className="">
                 <SelectMenu
                   option={durationType}
-                  setValue={(data: string) => {setSelectBoxValue({...selectBoxValue, durationType: data}); setValue("durationType", data)}}
+                  setValue={(data: string) => {
+                    setSelectBoxValue({
+                      ...selectBoxValue,
+                      durationType: data,
+                    });
+                    setValue("durationType", data);
+                  }}
                   value={selectBoxValue?.durationType || ""}
                   className="sm:w-[150px] w-[110px] border font-calibri border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
                   itemClassName="text-[#1D2026] font-calibri"

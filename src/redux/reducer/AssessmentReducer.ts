@@ -95,7 +95,11 @@ const AssessmentSlice = createSlice({
       state.selectedQuestionType.splice(action.payload.i, 1);
     },
     resetAssessment: () => {
-      return initialState
+      return {
+        selectedQuestionType: [],
+        questionOption: [],
+        module: [],
+      }
     },
     setAssessment: (state, action) => {
       state.questionOption = action.payload

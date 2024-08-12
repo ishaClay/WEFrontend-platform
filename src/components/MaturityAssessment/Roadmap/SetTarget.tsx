@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 
 import Loader from "@/components/comman/Loader";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchMaturityPillar } from "@/services/apiServices/pillar";
@@ -13,15 +13,16 @@ import {
 } from "@/types/MaturityLavel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, useEffect, useMemo, useState } from "react";
-import { useAppDispatch } from "@/hooks/use-redux";
 import PillerCard from "./PillerCard";
 
 const SetTarget = ({
   setStep,
   setIsEdit,
+  selectAssessment = "1",
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
+  selectAssessment: string;
 }) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
@@ -44,9 +45,9 @@ const SetTarget = ({
 
   const { data: maturitypillar, isPending } = useQuery<AllActionDataPillerWise>(
     {
-      queryKey: [QUERY_KEYS.maturitypillar],
-      queryFn: () => fetchMaturityPillar(+clientId, userID),
-      enabled: true,
+      queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+      queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
+      enabled: !!selectAssessment,
     }
   );
 
@@ -81,7 +82,6 @@ const SetTarget = ({
     }
   }, [dispatch, maturitypillar?.data]);
 
-
   const handleSelect = () => {
     EnumUpadate();
     setStep(2);
@@ -97,7 +97,11 @@ const SetTarget = ({
           checkedStates &&
           checkedStates?.map((item) => {
             return (
-              <PillerCard item={item} setCheckedStates={setCheckedStates} />
+              <PillerCard
+                item={item}
+                setCheckedStates={setCheckedStates}
+                selectAssessment={selectAssessment}
+              />
             );
           })
         )}

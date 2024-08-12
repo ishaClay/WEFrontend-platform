@@ -8,6 +8,7 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { Trash2 } from "lucide-react";
+import { useEffect } from "react";
 
 type optionsProps = {
   data: {
@@ -19,6 +20,8 @@ type optionsProps = {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any>>;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
+  assecessmentQuestion: any;
+  answer: any
 };
 
 const AssecessmentTypeTwoOptions = ({
@@ -28,15 +31,26 @@ const AssecessmentTypeTwoOptions = ({
   setOptions,
   options,
   setErrors,
+  assecessmentQuestion,
+  answer
 }: optionsProps) => {
   const dispatch = useAppDispatch();
   const { questionOption } = useAppSelector(
     (state: RootState) => state.assessment
   );
 
+  useEffect(() => {
+    dispatch(addAnswer({ answer: answer, i }));    
+  }, [answer])
+
+  useEffect(() => {
+    if(assecessmentQuestion) {
+      dispatch(addOption({ option: assecessmentQuestion?.[iIndex], i, iIndex }));
+    }
+  }, [assecessmentQuestion])
+
   const handleCheck = (inx: number) => {
     const currentAnswers = questionOption[i]?.answer || [];
-
     const updatedCheckedItems = currentAnswers.includes(inx)
       ? currentAnswers.filter((item: number) => item !== inx)
       : [...currentAnswers, inx];
@@ -49,7 +63,7 @@ const AssecessmentTypeTwoOptions = ({
   };
 
   return (
-    <div className="">
+    <div className="mb-3">
       <div className="space-x-2 flex items-center justify-between">
         <label htmlFor={data.optionTitle} className="flex items-center w-[98%]">
           <span className="text-sm text-black font-inter w-[80px]">
@@ -86,6 +100,7 @@ const AssecessmentTypeTwoOptions = ({
                     (_, index) => index !== iIndex
                   );
                   setOptions(updatedOptions);
+                  dispatch(addAnswer({ answer: questionOption?.[i]?.answer?.filter((item: number) => item !== iIndex), i }));
                   dispatch(
                     removeOption({
                       i,

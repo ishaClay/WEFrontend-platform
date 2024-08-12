@@ -5,7 +5,7 @@ import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
-import { getCheckedMeasures } from "@/services/apiServices/pillar";
+import { getCheckedMeasuresByAssessment } from "@/services/apiServices/pillar";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch, useContext } from "react";
@@ -16,9 +16,11 @@ import AssignProf from "./AssignProf";
 const Assign = ({
   setStep,
   setIsEdit,
+  selectAssessment = "1",
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
+  selectAssessment: string;
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useAppDispatch();
@@ -37,9 +39,14 @@ const Assign = ({
       : userData?.id;
 
   const { data: getCheckedmeasures, isPending } = useQuery({
-    queryKey: [QUERY_KEYS.checkedMeasures],
-    queryFn: () => getCheckedMeasures(userID, clientId),
-    enabled: true,
+    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment, { selectAssessment }],
+    queryFn: () =>
+      getCheckedMeasuresByAssessment({
+        userId: userID,
+        clientId,
+        assNumber: selectAssessment || "",
+      }),
+    enabled: !!selectAssessment,
   });
 
   console.log("empPermissions", empPermissions);

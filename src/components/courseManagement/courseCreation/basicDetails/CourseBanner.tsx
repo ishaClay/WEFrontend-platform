@@ -44,13 +44,15 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
   const schema = zod.object({
     description: zod
       .string({ required_error: "Description is required" })
-      .min(1, "Information is required").max(250, "You can not write description more than 250 characters"),
+      .min(1, "Information is required")
+      .max(1000, "You can not write description more than 1000 characters"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
       .min(1, "Banner Image is required"),
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required").max(250, "You can not write description more than 250 characters"),
+      .min(1, "Key Outcomes is required")
+      .max(250, "You can not write description more than 250 characters"),
   });
   type FormData = zod.infer<typeof schema>;
   const {
@@ -81,8 +83,8 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       setSelectBoxValue({
         description: data?.description || "",
         bannerImage: data?.bannerImage || "",
-        keys: data?.keys || ""
-      })
+        keys: data?.keys || "",
+      });
     }
   }, [getSingleCourse]);
 
@@ -99,7 +101,9 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       });
       const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "1" : updatedData?.tab}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          updatedData?.creationCompleted ? "1" : updatedData?.tab
+        }&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -119,7 +123,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     onSuccess: (data) => {
       setImage(data.data?.data?.image);
       setValue("bannerImage", data?.data?.data?.image);
-      setSelectBoxValue({ ...selectBoxValue, bannerImage: data?.data?.data?.image });
+      setSelectBoxValue({
+        ...selectBoxValue,
+        bannerImage: data?.data?.data?.image,
+      });
     },
     onError: (error) => {
       console.log(error);
@@ -163,11 +170,16 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       description: editorData,
       bannerImage: image,
       keys: keyData,
-      tab: "1", 
+      tab: "1",
       step: "5",
     };
 
-    if (isDirty || String(getSingleCourse?.data?.course?.description) !== editorData || getSingleCourse?.data?.course?.bannerImage !== image || String(getSingleCourse?.data?.course?.keys) !== keyData) {
+    if (
+      isDirty ||
+      String(getSingleCourse?.data?.course?.description) !== editorData ||
+      getSingleCourse?.data?.course?.bannerImage !== image ||
+      String(getSingleCourse?.data?.course?.keys) !== keyData
+    ) {
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -183,9 +195,9 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       }
     } else {
       navigate(
-        `/${pathName}/create_course/${getSingleCourse?.data?.course?.id
-        }?tab=${1}&version=${getSingleCourse?.data?.id
-        }`,
+        `/${pathName}/create_course/${
+          getSingleCourse?.data?.course?.id
+        }?tab=${1}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
         }
@@ -289,9 +301,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 className="bannerTextEditor h-[186px] w-full"
               />
               {errors?.keys && (
-                <ErrorMessage
-                  message={errors?.keys?.message as string}
-                />
+                <ErrorMessage message={errors?.keys?.message as string} />
               )}
             </div>
             <div className="text-right mt-5">

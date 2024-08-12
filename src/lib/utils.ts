@@ -499,9 +499,10 @@ export const calculateTotalReadingTime = (sections: any) => {
 
   sections.forEach((section: any) => {
     const time = section.isLive ? section.sectionTime : section.readingTime;
-    totalHours += time?.hour;
-    totalMinutes += time?.minute;
-    totalSeconds += time?.second;
+    const assessmentTime = section?.module?.assessment?.length > 0 && section?.module?.assessment?.[0]?.timeDuration;
+    totalHours += time?.hour || assessmentTime?.hours;
+    totalMinutes += time?.minute || assessmentTime?.minutes;
+    totalSeconds += time?.second || assessmentTime?.seconds;
   });
 
   // Convert total seconds to minutes and hours if necessary
@@ -561,7 +562,11 @@ export const getTotalDuration = (data: any) => {
       totalSeconds +
       readingTime?.hour * 3600 +
       readingTime?.minute * 60 +
-      readingTime?.second
+      readingTime?.second || 
+      totalSeconds +
+      readingTime?.hours * 3600 +
+      readingTime?.minutes * 60 +
+      readingTime?.seconds
     );
   }, 0);
 };

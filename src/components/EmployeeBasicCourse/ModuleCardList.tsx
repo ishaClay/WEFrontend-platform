@@ -9,12 +9,12 @@ type moduleCourseCardProps = {
 };
 
 const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
+  const assessmentTime = data?.assessment?.length > 0 ? data?.assessment?.[0]?.timeDuration : null;  
   const getTotalSectionsTime = (
     data?.moduleSections || data?.moduleSection
   )?.map((it: any) => it?.readingTime);
-  const totalTimeInSeconds = getTotalDuration(getTotalSectionsTime);
-
-  console.log("totalTimeInSeconds", data?.moduleSection);
+  const addAssessment = [...getTotalSectionsTime, assessmentTime];
+  const totalTimeInSeconds = getTotalDuration(addAssessment?.filter(item => item !== null));
 
   // Convert total seconds back to hours, minutes, seconds
   const hours = Math.floor(totalTimeInSeconds / 3600)

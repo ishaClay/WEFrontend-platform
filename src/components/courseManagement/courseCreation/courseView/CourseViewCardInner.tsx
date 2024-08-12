@@ -281,7 +281,7 @@ const CourseViewCardInner = ({
   };
 
   const handelEditSection = (data: any) => {
-    if (data?.type) {
+    if (data?.timeDuration) {
       const tab = searchParams.get("tab");
       const version = searchParams.get("version");
       const courseId = params?.courseId;

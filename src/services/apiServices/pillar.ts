@@ -15,8 +15,8 @@ export const fetchClientwisePillarList = async (
     return res;
 };
 
-export const fetchMaturityPillar = async (clientId: number, userId: number) => {
-    const url = `api/v1/pillar/get-maturity-pillar?clientId=${clientId}&userId=${userId}`;
+export const fetchMaturityPillar = async (clientId: number, userId: number, assessmentNumber: string) => {
+    const url = `api/v1/pillar/get-maturity-pillar?clientId=${clientId}&userId=${userId}&assessmentNumber=${assessmentNumber}`;
     const res = await api({ url });
     return res.data;
 };
@@ -30,9 +30,10 @@ export const filterMaturityMeasures = async (
     clientId: string,
     userId: string,
     maturity: string,
-    pillerId: string
+    pillerId: string,
+    assessmentNumber: string
 ) => {
-    const url = `api/v1/pillar/filter-maturity?clientId=${clientId}&userId=${userId}&maturity=${maturity}&pillerId=${pillerId}`;
+    const url = `api/v1/pillar/filter-maturity?clientId=${clientId}&userId=${userId}&maturity=${maturity}&pillerId=${pillerId}&assessmentNumber=${assessmentNumber}`;
 
     const res = await api({ url });
     return res.data
@@ -58,6 +59,11 @@ export const updatePillarCheckbox = ({ data, pillerId }: {
 
 export const getCheckedMeasures = (userId: string, clientId: string) => {
     const url = `api/v1/pillar/get-measures-items/${userId}?clientId=${clientId}`;
+    return api({ url });
+}
+
+export const getCheckedMeasuresByAssessment = ({ userId, clientId, assNumber }: { userId: string, clientId: string, assNumber: string }) => {
+    const url = `api/v1/pillar/get-measures-items-byassessment/${userId}?assessmentNumber=${assNumber}&clientId=${clientId}`;
     return api({ url });
 }
 

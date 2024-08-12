@@ -16,9 +16,16 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 const schema = z.object({
-  email: z.string({ message: "Please enter email" }).min(1, { message: "Please enter email" }).regex(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[cC][oO][mM]$/i, { message: `Please enter an email address with @, number and .com` }),
+  email: z
+    .string({ message: "Please enter email" })
+    .min(1, { message: "Please enter email" })
+    .regex(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[cC][oO][mM]$/i, {
+      message: `Please enter an email address with @, number and .com`,
+    }),
   file: z.string().optional(),
-  invitiondetail: z.string().min(1, { message: "Please enter email" }),
+  invitiondetail: z
+    .string()
+    .min(1, { message: "Please Enter Invition Detail" }),
 });
 
 const EmployeeInvitation = () => {
@@ -28,7 +35,7 @@ const EmployeeInvitation = () => {
   const [emails, setEmails] = useState<string>("");
   const [file, setFile] = useState("");
   const handleBackClick = () => {
-      navigate("/company/employeelist");
+    navigate("/company/employeelist");
   };
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const CompanyID = CompanyId
@@ -52,13 +59,13 @@ const EmployeeInvitation = () => {
   const { mutate: createEmployeeInvitionlist, isPending } = useMutation({
     mutationFn: createEmployeeInvition,
     onSuccess: (data) => {
-      if(data?.data?.data?.employeeExist?.length > 0){
-        toast({ 
-          title: "Success", 
-          description: "Employee invitation Already send.", 
-          variant: "success" 
+      if (data?.data?.data?.employeeExist?.length > 0) {
+        toast({
+          title: "Success",
+          description: "Employee invitation Already send.",
+          variant: "success",
         });
-      }else{
+      } else {
         reset();
         setEmails("");
         setFile("");
@@ -75,7 +82,6 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-   
     const payload: EmployeePayload = {
       email: [emails],
       csvUrl: data?.file,
@@ -123,7 +129,10 @@ const EmployeeInvitation = () => {
                   <input
                     {...register("email")}
                     value={emails}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {setValue("email", e?.target?.value); setEmails(e?.target?.value)}}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setValue("email", e?.target?.value);
+                      setEmails(e?.target?.value);
+                    }}
                     placeholder="Enter email and Press Enter"
                     className="flex-grow border-none outline-none"
                   />
@@ -179,7 +188,7 @@ const EmployeeInvitation = () => {
 
           <div className="mt-[33px]">
             <InputWithLabel
-              className="text-stone-400 border h-[102px] mt-[10px] text-base font-nunito"
+              className="text-stone-400 border mt-[10px] text-base font-nunito"
               label="Invitation Details"
               labelClassName="font-nunito font-semibold !text-base"
               {...register("invitiondetail")}
