@@ -128,6 +128,7 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
+import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 
 function App() {
   let socket: any;
@@ -738,6 +739,10 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
+          <Route
+            path="employee-assessment/:assessmentId"
+            element={<EmployeeAssessment />}
+          />
           <Route path="live-session" element={<LiveSessionPage />} />
         </Route>
 
@@ -824,6 +829,7 @@ function App() {
             element={<CourseManagement />}
           />
           <Route path="add_assessment" element={<AssecessmentPage />} />
+          <Route path="add_assessment/:assId" element={<AssecessmentPage />} />
           <Route
             path="trainer-management"
             element={<TrainerManagementPage />}

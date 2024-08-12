@@ -1,10 +1,6 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { QUERY_KEYS } from "@/lib/constants";
 import { getTotalDuration } from "@/lib/utils";
-import { getModuleSection } from "@/services/apiServices/assessment";
-import { useQuery } from "@tanstack/react-query";
 import { Dot } from "lucide-react";
-import { useEffect } from "react";
 
 interface AssecessmentModuleSectionProps {
   createAssecessment: any;
@@ -23,6 +19,7 @@ interface AssecessmentModuleSectionProps {
   errors: any;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
   data: any;
+  moduleSectionById: any;
 }
 
 const AssecessmentModuleSection = ({
@@ -30,37 +27,10 @@ const AssecessmentModuleSection = ({
   setCreateAssecessment,
   errors,
   setErrors,
-  data,
+  moduleSectionById,
 }: AssecessmentModuleSectionProps) => {
-  const moduleId = new URLSearchParams(window.location.search).get("moduleId");
 
-  console.log("errors", errors);
-
-  useEffect(() => {
-    if (data && data?.moduleSection) {
-      setCreateAssecessment({
-        title: data?.title,
-        passingPercentage: data?.passingPercentage,
-        timeBound: +data?.timeBound,
-        timeDuration: {
-          hours: data?.timeDuration?.hours,
-          minutes: data?.timeDuration?.minutes,
-          seconds: data?.timeDuration?.seconds,
-        },
-      });
-    }
-  }, [data, setCreateAssecessment]);
-
-  console.log("data++++++++++++", data);
-
-  const { data: moduleSection } = useQuery({
-    queryKey: [QUERY_KEYS.fetchModuleSection],
-    queryFn: () => getModuleSection(moduleId as string),
-  });
-
-  console.log("moduleSection", moduleSection);
-
-  const getTotalSectionsTime = moduleSection?.data?.data?.moduleSection?.map(
+  const getTotalSectionsTime = moduleSectionById?.moduleSection?.map(
     (it: any) => it?.readingTime
   );
   const totalTimeInSeconds = getTotalDuration(getTotalSectionsTime);
@@ -84,7 +54,7 @@ console.log("datadata", createAssecessment);
       </h3>
       <div className="flex items-center mb-5">
         <h6 className="text-xs text-[#313131] font-inter pe-4">
-          Section : {moduleSection?.data?.data?.moduleSection?.length || 0}
+          Section : {moduleSectionById?.moduleSection?.length || 0}
         </h6>
         <h6 className="text-xs text-[#313131] font-inter flex items-center">
           <Dot />

@@ -1,3 +1,4 @@
+import { AssessmentById, EmpAssesmentQuestionType, GetAssessmentSingleQuestion } from "@/types/assecessment";
 import api from "./api";
 
 interface createAssessmentProps {
@@ -39,20 +40,19 @@ export const createAssessment = (data: createAssessmentProps) => {
   return api({ url, data, method });
 };
 
-export const updateAssessment = async ({ data, id }: { data: createAssessmentProps, id: string }) => {
+export const updateAssessment = async ({ data, id }: { data: createAssessmentProps | any, id: string }) => {
   const url = `api/v1/assessment/update/${id}`;
   const method = "put";
   const res = await api({ url, data, method });
   return res.data
 };
-
 export const createAssessmentQuestion = (data: any) => {
   const url = `api/v1/assessment/create-question`;
   const method = "post";
   return api({ url, data, method });
 };
 
-export const getAssessmentById = async (id: string) => {
+export const getAssessmentById = async (id: string): Promise<AssessmentById> => {
   const url = `api/v1/assessment/get/${id}`;
   const res = await api({ url });
   return res.data;
@@ -62,4 +62,22 @@ export const deleteAssesment = async (id: number) => {
   const url = `api/v1/assessment/delete/${id}`;
   const res = await api({ url, method: "delete", data: {} });
   return res.data
+}
+
+export const fetchAssesmentQuestion = async (assecessmentId: string): Promise<EmpAssesmentQuestionType> => {
+  const url = `api/v1/assessment/get-question/${assecessmentId}`;
+  const res = await api({ url });
+  return res.data
+}
+
+export const fetchAssesmentSingleQuestion = async (assecessmentId: string): Promise<GetAssessmentSingleQuestion> => {
+  const url = `api/v1/assessment/get-without-question/${assecessmentId}`;
+  const res = await api({ url });
+  return res.data
+}
+
+export const createEvalute = async (data: any) => {
+  const url = `api/v1/evalute/create`;
+  const method = "post";
+  return api({ url, data, method });
 }

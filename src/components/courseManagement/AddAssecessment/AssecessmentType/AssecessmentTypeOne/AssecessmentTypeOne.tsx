@@ -15,6 +15,7 @@ import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
 interface AssecessmentTypeProps {
   i: number;
   type: string;
+  assecessmentQuestion: any;
 }
 
 interface Validatable {
@@ -22,7 +23,7 @@ interface Validatable {
 }
 
 const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type }, ref) => {
+  ({ i, type, assecessmentQuestion }, ref) => {
     const dispatch = useAppDispatch();
 
     const { questionOption } = useAppSelector(
@@ -46,6 +47,28 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
         );
       }
     }, [questionOption]);
+
+    useEffect(() => {
+      if (assecessmentQuestion?.id) {
+        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));    
+        dispatch(addQuestion({
+          index: i,
+          question: assecessmentQuestion?.question,
+          assessmentType: assecessmentQuestion?.assessmentType,
+        }));
+      }
+    }, [assecessmentQuestion, questionOption]);
+
+    useEffect(() => {
+      setTimeout(() => {
+        if(assecessmentQuestion?.id){
+          setOptions(assecessmentQuestion?.option?.map((item: string, index: number) => ({
+            optionTitle: `Option ${index + 1}:`,
+            option: item,
+          })));
+        }        
+      }, 50);
+    }, [assecessmentQuestion, i, dispatch])
 
     const [errors, setErrors] = useState({
       question: "",
@@ -213,6 +236,8 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     options={options}
                     setOptions={setOptions}
                     setErrors={setErrors}
+                    assecessmentQuestion={assecessmentQuestion?.option}
+                    answer={assecessmentQuestion?.answer}
                   />
                   <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
                     {errors.options[index] && (

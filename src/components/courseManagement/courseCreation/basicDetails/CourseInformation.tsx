@@ -128,6 +128,14 @@ const CourseInformation = ({
     },
   });
 
+  useEffect(() => {
+    if(isFreeCourse){
+      setValue("price", "");
+      setDiscount("");
+      setProvideDisc(false);
+    }
+  }, [isFreeCourse]);
+
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
     onSuccess: (data) => {

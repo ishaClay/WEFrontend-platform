@@ -36,12 +36,12 @@ const EmployeeBasicCourse = () => {
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () => fetchSingleCourse(courseById),
-    enabled: !!courseById && userData?.query?.role !== "4",
+    enabled: !!courseById,
   });
 
   const { data: fetchEmployeeSingeCourse } =
     useQuery<SingleCourseEmployeeResponse>({
-      queryKey: [QUERY_KEYS.getSingleCourse],
+      queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       queryFn: () =>
         getEmployeeSingeCourse({
           courseId: courseById,

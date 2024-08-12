@@ -8,6 +8,7 @@ import {
 } from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import { Trash2 } from "lucide-react";
+import { useEffect } from "react";
 
 type optionsProps = {
   data: {
@@ -19,6 +20,8 @@ type optionsProps = {
   options: any[];
   setOptions: React.Dispatch<React.SetStateAction<any>>;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
+  assecessmentQuestion: any;
+  answer: any
 };
 
 const AssecessmentTypeOneOptions = ({
@@ -28,11 +31,23 @@ const AssecessmentTypeOneOptions = ({
   setOptions,
   options,
   setErrors,
+  assecessmentQuestion,
+  answer
 }: optionsProps) => {
   const dispatch = useAppDispatch();
   const { questionOption } = useAppSelector(
     (state: RootState) => state.assessment
   );
+
+  useEffect(() => {
+    dispatch(addAnswer({ answer: answer, i }));    
+  }, [answer])
+
+  useEffect(() => {
+    if(assecessmentQuestion) {
+      dispatch(addOption({ option: assecessmentQuestion?.[iIndex], i, iIndex }));
+    }
+  }, [assecessmentQuestion])
 
   return (
     <div>
@@ -74,6 +89,7 @@ const AssecessmentTypeOneOptions = ({
                     (_, index) => index !== iIndex
                   );
                   setOptions(updatedOptions);
+                  dispatch(addAnswer({ answer: questionOption?.[i]?.answer?.filter((item: number) => item !== iIndex), i }));
                   dispatch(
                     removeOption({
                       i,

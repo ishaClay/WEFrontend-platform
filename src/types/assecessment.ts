@@ -26,7 +26,7 @@ export interface Data {
     title: string;
     passingPercentage: string;
     timeBound: number;
-    timeDuration: string;
+    timeDuration: TimeDuration;
     deletedAt?: null;
     createdAt: string;
     updatedAt: string;
@@ -55,3 +55,50 @@ export interface ReadingTime {
     minute: number;
     second: number;
 }
+
+
+export interface EmpAssesmentQuestionType {
+    data?: QuestionDataEntity[] | null;
+    message: string;
+  }
+  export interface QuestionDataEntity {
+    id: number;
+    question: string;
+    point: number;
+    assessmentType: string;
+    option?: (string | null)[] | null | any;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  export interface GetAssessmentSingleQuestion {
+    data: AssessmentData;
+    message: string;
+  }
+  export interface AssessmentData {
+    id: number;
+    title: string;
+    passingPercentage: string;
+    timeBound: number;
+    timeDuration: TimeDuration;
+    position: number;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+    module: Module;
+  }
+  export interface TimeDuration {
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }
+  export interface Module {
+    id: number;
+    title: string;
+    position: number;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+  }
+  

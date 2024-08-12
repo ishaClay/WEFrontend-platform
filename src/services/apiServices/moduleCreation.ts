@@ -16,11 +16,11 @@ export const createModule = async (data: any, courseId: any) => {
   const url = `api/v1/course/module/create`,
     method = "post";
 
-  const payload = {
-    title: data.moduleTitle,
-    course: courseId,
-    tab: "3"
-  }
+    const payload = {
+        title: data.moduleTitle,
+        course: courseId,
+        tab: "4"
+    }
 
   const res = await api({ url, method, data: payload });
   return res

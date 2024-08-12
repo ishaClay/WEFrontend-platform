@@ -102,7 +102,7 @@ const CourseViewCardInnerList = ({
     }
   };
 
-  console.log("FileTypeData", FileTypeData, data);
+  console.log("FileTypeData", data);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
@@ -137,7 +137,8 @@ const CourseViewCardInnerList = ({
                   {FileTypeData?.name} | Duration:{" "}
                   <span className="text-black">
                     {data.isLive == 0
-                      ? formatReadingTime(data.readingTime)
+                      ? formatReadingTime(data.readingTime) :
+                      data?.timeDuration ? formatReadingTime(data?.timeDuration)
                       : formatReadingTime(data.sectionTime)}
                   </span>
                 </>

@@ -219,6 +219,70 @@ export interface Course {
   updatedAt: string;
   nfqLeval: NfqLeval;
   certificate?: null;
+  module: ModuleDataEntity[] | null;
+}
+
+export interface ModuleDataEntity {
+  id: number;
+  title: string;
+  position: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  assessment?: (AssessmentEntity)[] | null;
+  moduleSections?: (ModuleSectionsEntity)[] | null;
+}
+export interface AssessmentEntity {
+  id: number;
+  title: string;
+  passingPercentage: string;
+  timeBound: number;
+  timeDuration: TimeDuration;
+  position: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  AssessmentQuestion?: (AssessmentQuestionEntity)[] | null;
+}
+export interface TimeDuration {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+export interface AssessmentQuestionEntity {
+  id: number;
+  question: string;
+  point: number;
+  assessmentType?: null;
+  option?: (string)[] | null;
+  answer: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ModuleSectionsEntity {
+  id: number;
+  title: string;
+  information: string;
+  documentType: number;
+  url: string;
+  uploadContent: string;
+  attachment: string;
+  duration?: null;
+  formate?: null;
+  position: number;
+  readingTime: ReadingTime;
+  isLive: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  progressEmployee?: (null)[] | null;
+  completedEmployee?: (null)[] | null;
+}
+export interface ReadingTime {
+  hour: number;
+  minute: number;
+  second: number;
 }
 
 
