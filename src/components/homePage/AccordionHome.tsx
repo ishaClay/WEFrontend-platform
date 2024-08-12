@@ -46,7 +46,7 @@ const AccordionHome = () => {
                 rounded={false}
                 padding={false}
                 className="sm:space-y-[24px] space-y-[9px]"
-                triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]`}
+                triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-0 text-[#002A3A]`}
                 isPlusIcon
               />
             </div>
@@ -55,8 +55,8 @@ const AccordionHome = () => {
                 items={accordionItems?.slice(3)}
                 rounded={false}
                 padding={false}
-                className="sm:space-y-[24px] space-y-[9px] sm:mt-[25px] mt-[9px]"
-                triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-4 text-[#002A3A] h-[70px]"
+                className="sm:space-y-[24px] space-y-[9px] md:mt-0 mt-[25px]"
+                triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-0 text-[#002A3A]"
                 isPlusIcon
               />
             </div>

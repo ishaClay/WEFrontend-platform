@@ -80,10 +80,36 @@ const EmployeeBasicCourse = () => {
       </Modal>
       <div className="bg-white rounded-b-xl h-[calc(100vh-170px)] overflow-y-auto">
         <div className="">
-          <div className="sm:flex block justify-between items-center px-5 py-5">
+          <div className="flex justify-between items-center px-5 py-5">
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
               {course?.course?.title}
             </h4>
+            <div
+              className="flex pr-5 cursor-pointer text-black md:hidden"
+              onClick={() =>
+                pathName !== "employee"
+                  ? dispatch(
+                      setPath([
+                        { label: "Course Management", link: null },
+                        {
+                          label: "All Course",
+                          link: `/${pathName}/allcourse`,
+                        },
+                      ])
+                    )
+                  : dispatch(
+                      setPath([
+                        {
+                          label: "My course",
+                          link: `/${pathName}/mycourses`,
+                        },
+                      ])
+                    )
+              }
+            >
+              <MoveLeft />
+              <span className="text-base font-semibold pl-4">Back</span>
+            </div>
             {pathName === "employee" &&
               currentTab === "feedback" &&
               empPermissions?.shareFeedback && (
@@ -125,7 +151,7 @@ const EmployeeBasicCourse = () => {
                 </div>
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
                   <div
-                    className="flex pr-5 cursor-pointer text-black"
+                    className="md:flex hidden pr-5 cursor-pointer text-black"
                     onClick={() =>
                       pathName !== "employee"
                         ? dispatch(

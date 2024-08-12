@@ -88,8 +88,8 @@ const EmployeeHeader = () => {
 
   return (
     <>
-      <div className="lg:px-5 px-0 pt-[15px] lg:bg-white bg-transparent rounded-t-xl sm:pb-5 pb-2.5">
-        <div className="flex justify-between items-center border-b border-[#F1F1F1] lg:pb-[11px] pb-5">
+      <div className="lg:px-5 px-0 lg:pt-[15px] lg:bg-white bg-transparent rounded-t-xl lg:pb-5 pb-0">
+        <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] lg:pb-[11px] pb-0 p-5 ">
           <div className="flex items-center gap-1">
             <Button
               type="button"

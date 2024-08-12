@@ -24,7 +24,7 @@ const DashboardLayout = () => {
   const Role = location.split("/")[1];
   const { sidebarOpen } = useContext(SidebarContext);
   console.log("sidebarOpen", sidebarOpen);
-  
+
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
   useEffect(() => {
@@ -45,11 +45,17 @@ const DashboardLayout = () => {
   }, [userRole]);
 
   return (
-    <div className="flex bg-[#F5F7FF] overflow-hidden">
+    <div className="lg:flex bg-[#F5F7FF] overflow-hidden">
       <div className="lg:block hidden">
         <Sidebar sidebarItems={data} />
       </div>
-      <div className={`relative ${sidebarOpen ? "w-[calc(100%-260px)]" : "w-[calc(100%-60px)]"}`}>
+      <div
+        className={`relative ${
+          sidebarOpen
+            ? "2xl:w-[calc(100%-260px)] lg:w-[calc(100%-235px)]"
+            : "lg:w-[calc(100%-60px)]"
+        }`}
+      >
         <HeaderCourse />
         <div>
           <div

@@ -60,13 +60,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
 
   useEffect(() => {
     if (location.pathname.includes("dashboard")) {
-      dispatch(
-        setPath([
-          { label: `Dashboard`, link: null },
-        ])
-      );
+      dispatch(setPath([{ label: `Dashboard`, link: null }]));
     }
-  }, [location.pathname])
+  }, [location.pathname]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
@@ -102,7 +98,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     <div
       className={`top-0 left-0 lg:flex flex-col justify-between ${
         sidebarOpen ? "2xl:w-[260px] w-[235px]" : "2xl:w-[60px] w-[235px]"
-      } 2xl:w-[260px] w-[235px] duration-500 bg-[#FFFFFF] overflow-hidden`}
+      } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
       <div className="h-screen">
         {sidebarOpen ? (
