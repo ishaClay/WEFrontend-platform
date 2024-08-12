@@ -6,12 +6,12 @@ import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   assessmentQuestionScore,
-  getCheckedMeasures,
+  getCheckedMeasuresByAssessment,
 } from "@/services/apiServices/pillar";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { utils, writeFileXLSX } from "xlsx";
 import { Button } from "../ui/button";
@@ -49,9 +49,14 @@ const MaturityAssessment = () => {
       : userData?.id;
 
   const { data: getCheckedmeasures } = useQuery({
-    queryKey: [QUERY_KEYS.checkedMeasures],
-    queryFn: () => getCheckedMeasures(userID, clientId),
-    enabled: true,
+    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
+    queryFn: () =>
+      getCheckedMeasuresByAssessment({
+        userId: userID,
+        clientId,
+        assNumber: selectAssessment || "",
+      }),
+    enabled: !!selectAssessment,
   });
 
   console.log("getEmployeeWnList 1212", getCheckedmeasures);
@@ -65,35 +70,50 @@ const MaturityAssessment = () => {
     (item: any) => item?.progressPR === 100
   );
 
-  const assessmentDetailOptions =
-    assessmentQuestionScoreLIST?.data?.length > 0
-      ? [
-          ...assessmentQuestionScoreLIST?.data?.map((item: any, i: number) => {
+  console.log("pillarCompleted", assessmentQuestionScoreLIST);
+
+  const assessmentDetailOptions = useMemo(() => {
+    const newData =
+      assessmentQuestionScoreLIST?.data?.length > 0
+        ? assessmentQuestionScoreLIST?.data?.map((item: any) => {
+            console.log("item", item);
+
             return {
-              label: `Re-assessment ${i + 1}`,
+              label: item[0]?.assessmentName || "",
               date: item?.[0]?.createdAt
                 ? moment(new Date(item?.[0]?.createdAt || "")).format(
                     "DD/MM/YYYY"
                   )
                 : "",
-              value: String(i + 1),
+              value: item[0]?.assessmentNumber?.toString() || "",
             };
-          }),
-          {
-            label: `Re-assessment ${
-              assessmentQuestionScoreLIST?.data.length + 1
-            }`,
-            date: "",
-            value: (assessmentQuestionScoreLIST?.data.length + 1)?.toString(),
-          },
-        ]
-      : [
-          {
-            label: "Re-assessment 1",
-            date: "",
-            value: "1",
-          },
-        ];
+          })
+        : [
+            {
+              label: "Re-assessment 1",
+              date: "",
+              value: "1",
+            },
+          ];
+
+    if (getCheckedmeasures) {
+      const checkAssesment = getCheckedmeasures?.data?.data?.find(
+        (item: any) => item?.progressPR === 100
+      );
+      console.log("checkAssesment", checkAssesment);
+
+      if (checkAssesment) {
+        newData.push({
+          label: `Re-assessment ${assessmentQuestionScoreLIST?.data?.length}`,
+          date: "",
+          value: `${assessmentQuestionScoreLIST?.data?.length + 1}`,
+        });
+      }
+    }
+    return newData;
+  }, [getCheckedmeasures, assessmentQuestionScoreLIST]);
+
+  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
 
   useEffect(() => {
     if (assessmentDetailOptions) {
@@ -103,6 +123,8 @@ const MaturityAssessment = () => {
       );
     }
   }, [assessmentQuestionScoreLIST]);
+
+  console.log("assessmentDetailOptions", assessmentDetailOptions);
 
   const assessmentData =
     (selectAssessment &&
@@ -208,7 +230,7 @@ const MaturityAssessment = () => {
     }
   }, [exportData]);
 
-  console.log("empPermissions", empPermissions);
+  console.log("empPermissions", getCheckedmeasures);
 
   return (
     <div className="">
@@ -233,6 +255,7 @@ const MaturityAssessment = () => {
           )}
         </div>
         {((pillarCompleted && Role !== "employee") ||
+          assessmentQuestionScoreLIST?.data?.length > 1 ||
           (pillarCompleted &&
             Role === "employee" &&
             empPermissions?.retakeSelfAssessment)) && (
@@ -261,7 +284,7 @@ const MaturityAssessment = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className={"bg-white max-h-[250px] overflow-auto"}>
-                <SelectItem value="baseline self assessment">
+                {/* <SelectItem value="baseline self assessment">
                   Baseline Self Assessment
                   <p>
                     {moment(
@@ -270,17 +293,18 @@ const MaturityAssessment = () => {
                       )
                     ).format("DD/MM/YYYY")}
                   </p>
-                </SelectItem>
-                {assessmentDetailOptions?.map((item: any, index: number) => (
-                  <SelectItem
-                    key={index}
-                    value={item.value}
-                    className={`text-base font-medium font-abhaya bg-transparent`}
-                  >
-                    {item.label}
-                    {item.date && <p>{item.date}</p>}
-                  </SelectItem>
-                ))}
+                </SelectItem> */}
+                {assessmentDetailOptions &&
+                  assessmentDetailOptions?.map((item: any, index: number) => (
+                    <SelectItem
+                      key={index}
+                      value={item.value}
+                      className={`text-base font-medium font-abhaya bg-transparent`}
+                    >
+                      {item.label}
+                      {item.date && <p>{item.date}</p>}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
@@ -342,12 +366,17 @@ const MaturityAssessment = () => {
               className="lg:p-5 p-[15px] mt-0"
             >
               {Role === "employee" && !isEdit ? (
-                <Assign setStep={() => {}} setIsEdit={setIsEdit} />
+                <Assign
+                  setStep={() => {}}
+                  setIsEdit={setIsEdit}
+                  selectAssessment={selectAssessment || "1"}
+                />
               ) : (
                 <Roadmap
                   showButton={showButton}
                   isEdit={isEdit}
                   setIsEdit={setIsEdit}
+                  selectAssessment={selectAssessment || "1"}
                 />
               )}
             </TabsContent>

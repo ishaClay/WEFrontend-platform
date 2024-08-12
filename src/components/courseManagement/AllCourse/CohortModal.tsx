@@ -143,7 +143,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCohort,
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log("data", data);
 
       toast({
@@ -151,7 +151,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
         description: data?.message,
         variant: "success",
       });
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchAllCourse],
       });
       handleClose();

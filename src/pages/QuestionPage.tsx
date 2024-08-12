@@ -44,6 +44,7 @@ const QuestionPage = () => {
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
+  const currPath = localStorage.getItem("path");
   const isHide = location.pathname?.split("/")?.length === 2 ? false : true;
 
   const userID = UserId
@@ -115,7 +116,7 @@ const QuestionPage = () => {
       mutationFn: (data: { UserId: number; clientId: number }) =>
         assessmentQuestionScore(data),
       onSuccess: async () => {
-        if (userData?.query?.role === "4") {
+        if (currPath && +currPath > 4 && userData?.query?.role === "4") {
           navigate(
             `/${UserRole[
               userData?.query?.role

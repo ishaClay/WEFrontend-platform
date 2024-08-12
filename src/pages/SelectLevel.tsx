@@ -39,7 +39,7 @@ function SelectLevel() {
   const { data: maturitypillar, isPending: isPendingPillar } =
     useQuery<AllActionDataPillerWise>({
       queryKey: [QUERY_KEYS.maturitypillar],
-      queryFn: () => fetchMaturityPillar(+clientId, userID),
+      queryFn: () => fetchMaturityPillar(+clientId, userID, "1"),
       enabled: true,
     });
   const path = 5 + 1;
@@ -96,7 +96,11 @@ function SelectLevel() {
           checkedStates &&
           checkedStates?.map((item) => {
             return (
-              <PillerCard item={item} setCheckedStates={setCheckedStates} />
+              <PillerCard
+                item={item}
+                setCheckedStates={setCheckedStates}
+                selectAssessment="1"
+              />
             );
           })
         )}

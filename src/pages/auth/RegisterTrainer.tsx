@@ -54,43 +54,61 @@ function RegisterTrainer() {
   const [searchParams] = useSearchParams();
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
-  const schema = z.object({
-    providerName: z.string().min(1, { message: "Please enter provider name" }),
-    providerType: z.string().min(1, { message: "Please enter provider type" }),
-    providerCity: z.string().min(1, { message: "Please enter provider city" }),
-    providerCountry: z
-      .string()
-      .min(1, { message: "Please select provider county" }),
-    contactSurname: z.string().optional(),
-    contactTelephone: z
-      .string()
-      .regex(/^[0-9]*$/, {
-        message: "Please enter valid phone number (1-9 digits).",
-      })
-      .max(10, { message: "Please enter valid phone number (1-9 digits)." })
-      .optional(),
-    providerAddress: z
-      .string()
-      .min(1, { message: "Please enter provider address" }),
-    providerCounty: z
-      .string()
-      .min(1, { message: "Please select provider country" }),
-    name: z.string().optional(),
-    email: z
-      .string()
-      .min(1, { message: "Please enter email" })
-      .email("Please enter valid email"),
-    providerNotes: z.string().optional(),
-    foreignProvider: z
-      .enum(["Yes", "No"])
-      .refine(
-        (value) => value !== undefined && (value === "Yes" || value === "No"),
-        {
-          message: "Please select a valid option for Foreign Provider",
-          path: ["foreignProvider"],
-        }
-      ),
-  });
+  const schema = z
+    .object({
+      providerName: z
+        .string()
+        .min(1, { message: "Please enter provider name" }),
+      providerType: z
+        .string()
+        .min(1, { message: "Please enter provider type" }),
+      providerCity: z
+        .string()
+        .min(1, { message: "Please enter provider city" }),
+      providerCountry: z
+        .string()
+        .min(1, { message: "Please select provider county" }),
+      contactSurname: z.string().optional(),
+      contactTelephone: z
+        .string()
+        .regex(/^[0-9]*$/, {
+          message: "Please enter valid phone number (1-9 digits).",
+        })
+        .max(10, { message: "Please enter valid phone number (1-9 digits)." })
+        .optional(),
+      providerAddress: z.string().optional(),
+      providerCounty: z.string().optional(),
+      name: z.string().optional(),
+      email: z
+        .string()
+        .min(1, { message: "Please enter email" })
+        .email("Please enter valid email"),
+      providerNotes: z.string().optional(),
+      foreignProvider: z
+        .enum(["Yes", "No"])
+        .refine(
+          (value) => value !== undefined && (value === "Yes" || value === "No"),
+          {
+            message: "Please select a valid option for Foreign Provider",
+            path: ["foreignProvider"],
+          }
+        ),
+    })
+    .superRefine((data, ctx) => {
+      console.log("++++++++++++++++", data, ctx);
+      if (data.foreignProvider === "Yes") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select a Address",
+          path: ["providerAddress"],
+        });
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select a country",
+          path: ["providerCounty"],
+        });
+      }
+    });
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
     mutationFn: registerTrainee,
@@ -428,6 +446,7 @@ function RegisterTrainer() {
                       className="h-[46px]"
                       label="Provider Address"
                       isMendatory={true}
+                      disabled={watch("foreignProvider") === "No"}
                       {...register("providerAddress")}
                     />
                     {errors.providerAddress && (
@@ -447,6 +466,7 @@ function RegisterTrainer() {
                       setValue={(data: string) =>
                         setValue("providerCounty", data)
                       }
+                      disabled={watch("foreignProvider") === "No"}
                       value={watch("providerCounty") || ""}
                     />
                     {errors.providerCounty && (

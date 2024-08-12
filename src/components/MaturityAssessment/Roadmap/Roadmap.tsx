@@ -8,14 +8,16 @@ const Roadmap = ({
   showButton,
   isEdit,
   setIsEdit,
+  selectAssessment,
 }: {
   showButton: number;
   isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
+  selectAssessment: string;
 }) => {
   const pathStatus = JSON.parse(localStorage.getItem("path") as string);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [step, setStep] = React.useState(0);
+  const [step, setStep] = React.useState(2);
 
   console.log(
     "showButton",
@@ -49,11 +51,19 @@ const Roadmap = ({
         />
       </div>
       {step === 0 ? (
-        <SetTarget setStep={setStep} setIsEdit={setIsEdit} />
+        <SetTarget
+          setStep={setStep}
+          setIsEdit={setIsEdit}
+          selectAssessment={selectAssessment}
+        />
       ) : (
         step === 2 && (
           <div className="w-full">
-            <Assign setStep={setStep} setIsEdit={setIsEdit} />
+            <Assign
+              setStep={setStep}
+              setIsEdit={setIsEdit}
+              selectAssessment={selectAssessment}
+            />
           </div>
         )
       )}

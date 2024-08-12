@@ -34,6 +34,7 @@ interface ActionItemModelProps {
   setPId: Dispatch<React.SetStateAction<string | null>>;
   pid: string | null;
   selectmaturity: string;
+  selectAssessment: string;
 }
 
 const ActionItemModel = ({
@@ -43,6 +44,7 @@ const ActionItemModel = ({
   setPId,
   pid,
   selectmaturity,
+  selectAssessment,
 }: ActionItemModelProps) => {
   const [pillerItems, setPillerItems] = useState<PillerItem>({});
   const queryClient = useQueryClient();
@@ -122,9 +124,10 @@ const ActionItemModel = ({
             ? userData?.company?.userDetails?.id
             : (userID as string),
           selectmaturity as string,
-          pid as string
+          pid as string,
+          selectAssessment || "1"
         ),
-      enabled: !!selectmaturity,
+      enabled: !!selectmaturity && !!selectAssessment,
     });
 
   const handleSubmit = async (
@@ -150,6 +153,7 @@ const ActionItemModel = ({
           : userID,
       pillerId: pid,
       measures,
+      assessmentNumber: selectAssessment || "1",
     });
   };
 

@@ -38,9 +38,14 @@ interface PillerItemProps {
   setCheckedStates: Dispatch<
     React.SetStateAction<AllActionDataPillerWiseResult[]>
   >;
+  selectAssessment: string;
 }
 
-const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
+const PillerCard = ({
+  item,
+  setCheckedStates,
+  selectAssessment = "1",
+}: PillerItemProps) => {
   const [view, setView] = useState<View[] | null>(null);
   const [selectmaturity, setselectMaturity] = useState("");
   const [pid, setPId] = useState<string | null>("");
@@ -94,9 +99,10 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
           clientId as string,
           userID as string,
           selectmaturity as string,
-          pid as string
+          pid as string,
+          selectAssessment as string
         ),
-      enabled: !!selectmaturity,
+      enabled: !!selectmaturity && !!selectAssessment,
     });
 
   // Impliment Functions
@@ -145,6 +151,7 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
         checked: !check ? 0 : 1,
         clientId: +clientId,
         userId: +userID,
+        assessmentNumber: selectAssessment,
       },
     };
     updatepillarcheckbox(payload);
@@ -214,7 +221,7 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
               onValueChange={(e) => {
                 handleChange(e, item?.pillarid.toString());
               }}
-              value={item.maturityNameRecommended}
+              value={selectmaturity || item.maturityNameRecommended}
             >
               <SelectGroup>
                 <SelectTrigger className="max-w-[176px] rounded-none">
@@ -333,6 +340,7 @@ const PillerCard = ({ item, setCheckedStates }: PillerItemProps) => {
         setPId={setPId}
         pid={pid}
         selectmaturity={selectmaturity}
+        selectAssessment={selectAssessment}
       />
     </div>
   );
