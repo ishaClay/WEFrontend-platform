@@ -136,8 +136,14 @@ const AllCourses = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between sm:py-5 sm:px-[18px] p-[15px]">
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 md:w-[550px] sm:w-[450px] min-w-[290px] sm:h-[52px] h-[46px]">
+        <div
+          className={`${
+            +userData?.query?.role !== UserRole.Trainee
+              ? "lg:flex block"
+              : "sm:flex block"
+          } items-center justify-between sm:py-5 sm:px-[18px] p-[15px]`}
+        >
+          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 xl:w-[550px] sm:w-[430px] min-w-[290px] sm:h-[52px] h-[46px]">
             <BsSearch className="text-[#D9D9D9] mr-2" />
             <input
               type="search"
@@ -146,7 +152,13 @@ const AllCourses = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-4">
+          <div
+            className={`flex items-center gap-4 ${
+              +userData?.query?.role !== UserRole.Trainee
+                ? "lg:pt-0 pt-4"
+                : "pt-0"
+            }`}
+          >
             {+userData?.query?.role !== UserRole.Trainee && (
               <Select
                 value={status}

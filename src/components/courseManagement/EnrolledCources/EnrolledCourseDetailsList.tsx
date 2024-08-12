@@ -1,15 +1,23 @@
-import { AccordionOption } from "@/types";
-import EnrolledCourseDetailsItems from "./EnrolledCourseDetailsItems";
 import Accordions from "@/components/comman/Accordions";
-import EnrollCourseEmployeeDetailsList from "./EnrollCourseEmployeeDetailsList";
+import { AccordionOption } from "@/types";
 import { CohortGroupType, EnrolledCoursesType } from "@/types/enroll";
+import EnrollCourseEmployeeDetailsList from "./EnrollCourseEmployeeDetailsList";
+import EnrolledCourseDetailsItems from "./EnrolledCourseDetailsItems";
 
 const EnrolledCourseDetailsList = ({ data }: EnrolledCoursesType | any) => {
+  console.log("data", data);
+
   const accordionItems: AccordionOption[] = data?.cohortGroup?.map(
     (item: CohortGroupType) => {
       return {
         title: <EnrolledCourseDetailsItems data={item} />,
-        content: <EnrollCourseEmployeeDetailsList data={item} courseById={data?.course?.id} cohortGroupById={item?.id} />,
+        content: (
+          <EnrollCourseEmployeeDetailsList
+            data={item}
+            course={data}
+            cohortGroupById={item?.id}
+          />
+        ),
       };
     }
   );

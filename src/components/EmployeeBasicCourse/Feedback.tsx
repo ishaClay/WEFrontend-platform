@@ -42,12 +42,14 @@ const Feedback = ({ data }: any) => {
       <div className="">
         {isLoading ? (
           <Loader />
-        ) : (
-          feedback?.data &&
-          feedback?.data?.length > 0 &&
+        ) : feedback?.data && feedback?.data?.length > 0 ? (
           feedback?.data?.map((item) => {
             return <FeedbackCard data={item} />;
           })
+        ) : (
+          <div className="flex justify-center items-center py-10">
+            No Feedback
+          </div>
         )}
       </div>
     </div>

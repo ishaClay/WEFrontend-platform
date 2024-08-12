@@ -247,7 +247,7 @@ export interface EvaluteDataEntity {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  evaluations?: (EvaluationsEntity | null)[] | null;
+  evaluations: EvaluationsEntity[];
 }
 export interface EvaluationsEntity {
   id: number;

@@ -1,20 +1,26 @@
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
+import { allocateCertificate } from "@/services/apiServices/certificate";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Uploads3imagesBase64 } from "@/services/uploadImage";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import html2canvas from "html2canvas";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
 const AllocatedCertificateEmployeePage = () => {
+  const captureRef = useRef(null);
   const Role = location.pathname.split("/")[1];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [loading, setLoading] = useState(false);
   const [selectCourse, setSelectCourse] = useState("");
   const [selectTrainee, setSelectTrainee] = useState("");
   const [body, setBody] = useState("");
@@ -28,6 +34,25 @@ const AllocatedCertificateEmployeePage = () => {
     queryKey: [QUERY_KEYS.fetchEmployeeByCourse, { selectCourse }],
     queryFn: () => getEmployeeByCourse(selectCourse),
     enabled: !!selectCourse,
+  });
+
+  const { mutate: allocate } = useMutation({
+    mutationFn: allocateCertificate,
+    onSuccess: () => {
+      toast({
+        description: "Certificate issued successfully",
+      });
+      setSelectCourse("");
+      setSelectTrainee("");
+      setLoading(false);
+    },
+    onError: (error: any) => {
+      toast({
+        description: error?.message,
+        variant: "destructive",
+      });
+      setLoading(false);
+    },
   });
 
   const courseOptions = fetchCourseAllCourseData?.data?.map((item) => {
@@ -47,8 +72,6 @@ const AllocatedCertificateEmployeePage = () => {
     }
   }, [selectedCertificate]);
 
-  console.log("selectedCertificate", fetchEmployeeByCourse);
-
   const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map(
     (item: any) => {
       return {
@@ -57,6 +80,64 @@ const AllocatedCertificateEmployeePage = () => {
       };
     }
   );
+
+  const handleIssue = async () => {
+    setLoading(true);
+    const loadImage = (url: string) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = url;
+      });
+
+    const images = [
+      selectedCertificate?.certificate?.backgroundImage,
+      selectedCertificate?.certificate?.companyLogo1,
+      selectedCertificate?.certificate?.instructorSignature,
+      selectedCertificate?.certificate?.administratorSignature,
+    ]?.filter((item) => !!item);
+
+    try {
+      await Promise.all(images.map((url) => loadImage(url)));
+      if (captureRef.current) {
+        html2canvas(captureRef.current, {
+          useCORS: true,
+          allowTaint: false,
+          logging: true,
+        }).then(async (canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          if (imgData) {
+            const result = await Uploads3imagesBase64(imgData);
+            if (result.status === 200) {
+              const payload = {
+                certificate: selectedCertificate?.certificate?.id,
+                user: userData?.query?.id,
+                status: 1,
+                course: selectedCertificate?.currentVersion?.mainCourse?.id,
+                trainee: selectedCertificate?.trainerId?.id,
+                trainerCompany: selectedCertificate?.trainerCompanyId?.id,
+                employee: +selectTrainee,
+                certificatePdf: result?.data,
+              };
+
+              allocate(payload);
+            } else {
+              toast({
+                description: `Upload failed: ${result.data}`,
+                variant: "destructive",
+              });
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error loading images or capturing canvas:", error);
+    }
+  };
+
+  console.log("selectedCertificate", selectedCertificate);
 
   return (
     <div className="bg-white">
@@ -93,8 +174,8 @@ const AllocatedCertificateEmployeePage = () => {
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-8 ">
             {selectCourse && selectedCertificate ? (
-              <div className="2xl:flex block gap-[30px]">
-                <div className="relative 2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
+              <div className="2xl:flex block gap-[30px]" ref={captureRef}>
+                <div className="relative 2xl:sticky top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
                   <div className="h-full w-full">
                     <div className="flex justify-center">
                       <img
@@ -105,7 +186,7 @@ const AllocatedCertificateEmployeePage = () => {
                     </div>
                     <div className="absolute top-1/2 -translate-y-1/2 w-full 2xl:px-20 xl:px-8 md:px-5 px-3">
                       <h4
-                        className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-2 pb-0`}
+                        className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-0 pb-0`}
                         style={{
                           color: selectedCertificate?.certificate?.primaryColor,
                           fontFamily:
@@ -114,6 +195,8 @@ const AllocatedCertificateEmployeePage = () => {
                       >
                         {selectedCertificate?.certificate?.cretificateText}
                       </h4>
+                      <br />
+                      <br />
                       <div className="w-full text-center ">
                         <div
                           className="xl:pb-3 pb-1 xl:text-[30px] md:text-[26px] sm:text-[20px] text-base font-medium"
@@ -142,6 +225,7 @@ const AllocatedCertificateEmployeePage = () => {
                               )?.label
                             }
                           </h1>
+                          <br />
                           <div className="flex items-center justify-center md:mt-4 sm:mt-3 mt-1">
                             <span
                               className={`block w-2 h-2 rounded-full`}
@@ -171,7 +255,7 @@ const AllocatedCertificateEmployeePage = () => {
                         </div>
                         <div className="sm:mt-5 mt-3">
                           <p
-                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.certificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5 line-clamp-2`}
+                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.certificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5`}
                             style={{
                               fontFamily:
                                 selectedCertificate?.certificate?.secondaryFont,
@@ -343,8 +427,13 @@ const AllocatedCertificateEmployeePage = () => {
               </div>
             </div>
             <div className="">
-              <Button className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg">
-                issue certificate
+              <Button
+                className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg"
+                onClick={handleIssue}
+                disabled={selectTrainee === "" || selectCourse === ""}
+                isLoading={loading}
+              >
+                Issue certificate
               </Button>
             </div>
           </div>

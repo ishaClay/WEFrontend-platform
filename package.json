@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.627.0",
     "@ckeditor/ckeditor5-build-classic": "^41.4.2",
     "@ckeditor/ckeditor5-react": "^7.0.0",
     "@cyntler/react-doc-viewer": "^1.16.6",
@@ -44,6 +45,7 @@
     "@types/react-chartjs-2": "^2.5.7",
     "@types/react-slick": "^0.23.13",
     "axios": "^1.6.8",
+    "buffer": "^6.0.3",
     "chart.js": "^4.4.2",
     "chartjs-adapter-date-fns": "^3.0.0",
     "class-variance-authority": "^0.7.0",

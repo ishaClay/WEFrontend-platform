@@ -33,7 +33,7 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
       </h3>
       <div className="flex items-center">
         <h6 className="text-xs text-[#747474] font-inter pe-3 me-3 border-e border-[#747474]">
-          Section: {data.moduleSections?.length}
+          Section: {(data?.moduleSections || data?.moduleSection)?.length}
         </h6>
         <h6 className="text-xs text-[#747474] font-inter">
           Duration {hours}: {minutes}: {seconds}

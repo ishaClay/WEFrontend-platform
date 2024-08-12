@@ -1,42 +1,56 @@
-import EnrollCourseEmployeeDetailsListItem from "./EnrollCourseEmployeeDetailsListItem";
-import { Button } from "@/components/ui/button";
-import { Video } from "lucide-react";
 import Modal from "@/components/comman/Modal";
-import { useState } from "react";
-import SessionModalDetails from "./SessionModalDetails";
+import { Button } from "@/components/ui/button";
 import { CohortGroupType } from "@/types/enroll";
-
+import { Video } from "lucide-react";
+import { useState } from "react";
+import EnrollCourseEmployeeDetailsListItem from "./EnrollCourseEmployeeDetailsListItem";
+import SessionModalDetails from "./SessionModalDetails";
 
 interface EnrollCourseEmployeeDetailsListProps {
   data: CohortGroupType;
-  courseById: number;
+  course: any;
   cohortGroupById: number;
 }
-const EnrollCourseEmployeeDetailsList = ({ data, courseById, cohortGroupById }: EnrollCourseEmployeeDetailsListProps) => {
+const EnrollCourseEmployeeDetailsList = ({
+  data,
+  course,
+  cohortGroupById,
+}: EnrollCourseEmployeeDetailsListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
       <div className="">
-        {data?.employee && data?.employee?.length > 0 ? data?.employee?.map((item, index) => {
-          return (
-            <EnrollCourseEmployeeDetailsListItem data={item} key={index} courseById={courseById} cohortGroupById={cohortGroupById} />
-          );
-        }) : <span className="text-center block text-xl text-neutral-400">No data found</span> }
+        {data?.employee && data?.employee?.length > 0 ? (
+          data?.employee?.map((item, index) => {
+            return (
+              <EnrollCourseEmployeeDetailsListItem
+                data={item}
+                key={index}
+                course={course}
+                cohortGroupById={cohortGroupById}
+              />
+            );
+          })
+        ) : (
+          <span className="text-center block text-xl text-neutral-400">
+            No data found
+          </span>
+        )}
       </div>
       <div className="flex sm:flex-row flex-col sm:items-start items-center gap-3 mt-5">
-        {
-          data?.moduleLiveSection?.map((item, i:number) => {
-            return <Button 
-            key={i}
-            variant={"outlinePrimary"}
-            className="text-base font-calibri px-2.5"
-            onClick={() => setIsOpen(true)}
-          >
-            <Video />
-            {item?.liveSecTitle}
-          </Button>
-          })
-        }
+        {data?.moduleLiveSection?.map((item, i: number) => {
+          return (
+            <Button
+              key={i}
+              variant={"outlinePrimary"}
+              className="text-base font-calibri px-2.5"
+              onClick={() => setIsOpen(true)}
+            >
+              <Video />
+              {item?.liveSecTitle}
+            </Button>
+          );
+        })}
       </div>
 
       <Modal

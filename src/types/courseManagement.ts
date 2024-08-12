@@ -226,6 +226,10 @@ export interface MainCourseType {
   ectsCredits: string;
   fetCredits: string;
   time: number;
+  courseProgress: string;
+  versionId: number;
+  completedModule: number;
+  totalmodules: number;
   isOnline: number;
   duration: string;
   price: number;

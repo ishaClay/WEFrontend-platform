@@ -287,11 +287,11 @@ const GridView = ({
           ?.filter((item) => item !== undefined && item !== null)
           ?.map((item: any, i: number) => {
             const update =
-            +userData?.query?.role === UserRole?.Trainer
-            ? true
-            // : item?.trainerId?.id === +userData?.query?.detailsid
-            // ? true
-            : permissions?.updateCourse;
+              +userData?.query?.role === UserRole?.Trainer
+                ? true
+                : // : item?.trainerId?.id === +userData?.query?.detailsid
+                  // ? true
+                  permissions?.updateCourse;
             console.log("update", update);
 
             const versionOption =
@@ -414,19 +414,25 @@ const GridView = ({
                   >
                     + Cohort
                   </Button>
-                  {!(pathName === 'trainee' && allCoursePathName === 'allcourse') && <div className="">
-                    <SelectMenu
-                      option={versionOption || []}
-                      setValue={(data: string) =>
-                        handleChangeVersion(data, item)
-                      }
-                      value={item?.currentVersion?.id?.toString() || ""}
-                      defaultValue={item?.currentVersion?.id?.toString() || ""}
-                      containClassName="max-w-[62px]"
-                      className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                      placeholder="V-01"
-                    />
-                  </div>}
+                  {!(
+                    pathName === "trainee" && allCoursePathName === "allcourse"
+                  ) && (
+                    <div className="">
+                      <SelectMenu
+                        option={versionOption || []}
+                        setValue={(data: string) =>
+                          handleChangeVersion(data, item)
+                        }
+                        value={item?.currentVersion?.id?.toString() || ""}
+                        defaultValue={
+                          item?.currentVersion?.id?.toString() || ""
+                        }
+                        containClassName="max-w-[62px]"
+                        className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                        placeholder="V-01"
+                      />
+                    </div>
+                  )}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="outline-none">
                       <EllipsisVertical className="w-8" />
@@ -434,9 +440,9 @@ const GridView = ({
                     <DropdownMenuContent className="w-30">
                       <DropdownMenuGroup>
                         {(+userData?.query?.role === UserRole.Trainee
-                          // ? item?.trainerId?.id === +userData?.query?.detailsid
-                          //   ? true
-                            ? permissions?.createCourse
+                          ? // ? item?.trainerId?.id === +userData?.query?.detailsid
+                            //   ? true
+                            permissions?.createCourse
                           : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"

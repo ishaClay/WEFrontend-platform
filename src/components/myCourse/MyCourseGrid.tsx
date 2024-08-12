@@ -25,7 +25,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
 
   return (
     <Link
-      to={`/employee/employee-basic-course/${grid?.course?.currentVersion?.id}`}
+      to={`/employee/employee-basic-course/${grid?.course?.versionId}?courseId=${grid?.course?.id}`}
       onClick={() =>
         dispatch(
           setPath([
@@ -50,7 +50,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
             <Button className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]">
-              {+Number(grid?.courseProgress).toFixed(0) === 100
+              {+Number(grid?.course?.courseProgress).toFixed(0) === 100
                 ? "view certificate"
                 : "Continue"}
             </Button>
@@ -64,17 +64,18 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
           </div>
           <div className="flex items-center justify-between pb-[6px]">
             <div className="text-xl font-calibri leading-6 text-[#00778B] font-bold">
-              {Number(grid?.courseProgress).toFixed(0)}%
+              {Number(grid?.course?.courseProgress).toFixed(0)}%
             </div>
             <div className="text-xs font-normal font-calibri leading-4">
-              {grid?.completedModule} of {grid?.totalmodules} Completed
+              {grid?.course?.completedModule} of {grid?.course?.totalmodules}{" "}
+              Completed
             </div>
           </div>
           <Progress
             color="#00778B"
             value={
-              grid?.courseProgress
-                ? +Number(grid?.courseProgress).toFixed(0)
+              grid?.course?.courseProgress
+                ? +Number(grid?.course?.courseProgress).toFixed(0)
                 : 0
             }
             className="rounded-full w-full h-[6px]"
