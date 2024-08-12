@@ -155,11 +155,19 @@ const EmployeeBasicCourse = () => {
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
                         Modules Completed -{" "}
                         {getModule?.moduleStatuses &&
-                          getModule?.moduleStatuses?.findIndex(
-                            (item) =>
-                              item.status === "started" ||
-                              item.status === "inrogress"
-                          ) + 1}
+                        getModule?.moduleStatuses?.findIndex(
+                          (item) =>
+                            item.status === "started" ||
+                            item.status === "inrogress"
+                        ) +
+                          1 !==
+                          0
+                          ? getModule?.moduleStatuses?.findIndex(
+                              (item) =>
+                                item.status === "started" ||
+                                item.status === "inrogress"
+                            ) + 1
+                          : getModule?.moduleStatuses?.length}
                         /{getModule?.moduleStatuses?.length}{" "}
                         <ChevronDown width={18} />
                       </PopoverTrigger>

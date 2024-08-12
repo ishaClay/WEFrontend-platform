@@ -1,9 +1,11 @@
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
+import { allocateCertificate } from "@/services/apiServices/certificate";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
-import { useQuery } from "@tanstack/react-query";
+import { Uploads3imagesBase64 } from "@/services/uploadImage";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
@@ -11,12 +13,14 @@ import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
 const AllocatedCertificateEmployeePage = () => {
   const captureRef = useRef(null);
   const Role = location.pathname.split("/")[1];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [loading, setLoading] = useState(false);
   const [selectCourse, setSelectCourse] = useState("");
   const [selectTrainee, setSelectTrainee] = useState("");
   const [body, setBody] = useState("");
@@ -30,6 +34,25 @@ const AllocatedCertificateEmployeePage = () => {
     queryKey: [QUERY_KEYS.fetchEmployeeByCourse, { selectCourse }],
     queryFn: () => getEmployeeByCourse(selectCourse),
     enabled: !!selectCourse,
+  });
+
+  const { mutate: allocate } = useMutation({
+    mutationFn: allocateCertificate,
+    onSuccess: () => {
+      toast({
+        description: "Certificate issued successfully",
+      });
+      setSelectCourse("");
+      setSelectTrainee("");
+      setLoading(false);
+    },
+    onError: (error: any) => {
+      toast({
+        description: error?.message,
+        variant: "destructive",
+      });
+      setLoading(false);
+    },
   });
 
   const courseOptions = fetchCourseAllCourseData?.data?.map((item) => {
@@ -59,6 +82,7 @@ const AllocatedCertificateEmployeePage = () => {
   );
 
   const handleIssue = async () => {
+    setLoading(true);
     const loadImage = (url: string) =>
       new Promise((resolve, reject) => {
         const img = new Image();
@@ -82,20 +106,38 @@ const AllocatedCertificateEmployeePage = () => {
           useCORS: true,
           allowTaint: false,
           logging: true,
-        }).then((canvas) => {
+        }).then(async (canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          console.log("++++++++++++++++++++++++", imgData);
+          if (imgData) {
+            const result = await Uploads3imagesBase64(imgData);
+            if (result.status === 200) {
+              const payload = {
+                certificate: selectedCertificate?.certificate?.id,
+                user: userData?.query?.id,
+                status: 1,
+                course: selectedCertificate?.currentVersion?.mainCourse?.id,
+                trainee: selectedCertificate?.trainerId?.id,
+                trainerCompany: selectedCertificate?.trainerCompanyId?.id,
+                employee: +selectTrainee,
+                certificatePdf: result?.data,
+              };
 
-          // const link = document.createElement("a");
-          // link.href = imgData;
-          // link.download = "capture.png";
-          // link.click();
+              allocate(payload);
+            } else {
+              toast({
+                description: `Upload failed: ${result.data}`,
+                variant: "destructive",
+              });
+            }
+          }
         });
       }
     } catch (error) {
       console.error("Error loading images or capturing canvas:", error);
     }
   };
+
+  console.log("selectedCertificate", selectedCertificate);
 
   return (
     <div className="bg-white">
@@ -388,8 +430,10 @@ const AllocatedCertificateEmployeePage = () => {
               <Button
                 className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg"
                 onClick={handleIssue}
+                disabled={selectTrainee === "" || selectCourse === ""}
+                isLoading={loading}
               >
-                issue certificate
+                Issue certificate
               </Button>
             </div>
           </div>

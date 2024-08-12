@@ -16,12 +16,12 @@ import EvaluateModalDetails from "./EvaluateModalDetails";
 
 type employeeCourseDetailsProps = {
   data: EmployeeType;
-  courseById: number;
+  course: any;
   cohortGroupById: number;
 };
 const EnrollCourseEmployeeDetailsListItem = ({
   data,
-  courseById,
+  course,
   cohortGroupById,
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,9 +32,9 @@ const EnrollCourseEmployeeDetailsListItem = ({
   console.log("permissions", permissions);
 
   const { data: fetchEvaluteList } = useQuery({
-    queryKey: [QUERY_KEYS.fetchEvalute, courseById, cohortGroupById],
-    queryFn: () => fetchEvaluteData(courseById, cohortGroupById),
-    enabled: !!courseById && !!cohortGroupById,
+    queryKey: [QUERY_KEYS.fetchEvalute, course?.course?.id, cohortGroupById],
+    queryFn: () => fetchEvaluteData(course?.course?.id, cohortGroupById),
+    enabled: !!course?.course?.id && !!cohortGroupById,
   });
 
   return (
@@ -53,7 +53,11 @@ const EnrollCourseEmployeeDetailsListItem = ({
         onClose={() => setIsOpenAllocate(false)}
         className="max-w-3xl"
       >
-        <AllocateCertificateModalDetails />
+        <AllocateCertificateModalDetails
+          course={course}
+          data={data}
+          setIsOpenAllocate={setIsOpenAllocate}
+        />
       </Modal>
 
       <div className="grid grid-cols-12 border border-solid md:py-4 md:px-6 sm:p-3 p-2.5 gap-2">
@@ -151,7 +155,11 @@ const EnrollCourseEmployeeDetailsListItem = ({
                       ? true
                       : userData?.query?.role === "3"
                       ? !permissions?.certificate
-                      : false
+                      : fetchEvaluteList?.data?.find(
+                          (item) => item?.evaluations?.length > 0
+                        )
+                      ? false
+                      : true
                   }
                 >
                   <FilePenLine width={18} /> Evaluate

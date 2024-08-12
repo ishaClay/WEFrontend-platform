@@ -7,16 +7,17 @@ import {
   Updatecertificate,
 } from "@/services/apiServices/certificate";
 import { uploadFile } from "@/services/apiServices/uploadServices";
+import { Uploads3imagesBase64 } from "@/services/uploadImage";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import html2canvas from "html2canvas";
+import { useEffect, useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
-import Loading from "../comman/Error/Loading";
 import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import {
@@ -36,9 +37,12 @@ const Addcertificate = () => {
   const dispatch = useAppDispatch();
   const { id: certificateId } = useParams<RouteParams>();
   const { toast } = useToast();
+  const captureRef = useRef(null);
   const queryClient = useQueryClient();
   const [filename, setFilename] = useState<string>("");
+  const [empName, setEmpName] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [loading, setLoading] = useState(false);
   const schema = z.object({
     templateName: z.string({ required_error: "Please enter template name" }),
     backgroundImage: z.string({
@@ -162,33 +166,78 @@ const Addcertificate = () => {
           variant: "default",
           title: "Certificate Update Successfully",
         });
+        setLoading(false);
       },
       onError: (error: ErrorType) => {
         toast({
           variant: "destructive",
           title: error.data.message,
         });
+        setLoading(false);
       },
     }
   );
 
   const onSubmit = async (data: FieldValues) => {
-    const payload = {
-      user: userData?.query?.id,
-      templateName: data?.templateName,
-      backgroundImage: data?.backgroundImage,
-      title: data?.title,
-      bodyText: data?.bodyText,
-      administratorTitle: data?.administratorTitle,
-      administratorSignature: data?.administratorSignature,
-      instructorTitle: data?.instructorTitle,
-      companyLogo1: data?.companyLogo1,
-      instructorSignature: data?.instructorSignature,
-      createdAt: Single_certificate?.data?.createdAt,
-      updatedAt: Single_certificate?.data?.updatedAt,
-      message: "",
-    };
-    update_certificate({ data: payload, id: certificateId || "" });
+    setLoading(true);
+    setEmpName("");
+    const loadImage = (url: string) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = url;
+      });
+
+    const images = [
+      data?.backgroundImage,
+      data?.companyLogo1,
+      data?.instructorSignature,
+      data?.administratorSignature,
+    ]?.filter((item) => !!item);
+
+    try {
+      await Promise.all(images.map((url) => loadImage(url)));
+      if (captureRef.current) {
+        html2canvas(captureRef.current, {
+          useCORS: true,
+          allowTaint: false,
+          logging: true,
+        }).then(async (canvas) => {
+          const imgData = canvas.toDataURL("image/png");
+          if (imgData) {
+            const result = await Uploads3imagesBase64(imgData);
+            if (result.status === 200) {
+              const payload = {
+                user: userData?.query?.id,
+                templateName: data?.templateName,
+                backgroundImage: data?.backgroundImage,
+                title: data?.title,
+                bodyText: data?.bodyText,
+                administratorTitle: data?.administratorTitle,
+                administratorSignature: data?.administratorSignature,
+                instructorTitle: data?.instructorTitle,
+                companyLogo1: data?.companyLogo1,
+                instructorSignature: data?.instructorSignature,
+                createdAt: Single_certificate?.data?.createdAt,
+                updatedAt: Single_certificate?.data?.updatedAt,
+                message: "",
+                previousCertificate: result?.data,
+              };
+              update_certificate({ data: payload, id: certificateId || "" });
+            } else {
+              toast({
+                description: `Upload failed: ${result.data}`,
+                variant: "destructive",
+              });
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error loading images or capturing canvas:", error);
+    }
   };
 
   return (
@@ -224,7 +273,10 @@ const Addcertificate = () => {
           <Loader />
         ) : (
           <div className="2xl:flex block gap-[30px]">
-            <div className="2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
+            <div
+              ref={captureRef}
+              className="2xl:sticky static top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6"
+            >
               <div className="relative h-full w-full">
                 {watch("backgroundImage") && (
                   <div className="flex justify-center">
@@ -238,7 +290,7 @@ const Addcertificate = () => {
                 <div className="absolute top-1/2 -translate-y-1/2 w-full 2xl:px-20 xl:px-8 md:px-5 px-3">
                   {Single_certificate?.data?.cretificateText && (
                     <h4
-                      className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-2 pb-0`}
+                      className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold pb-0`}
                       style={{
                         color: Single_certificate?.data?.primaryColor,
                         fontFamily: Single_certificate?.data?.primaryFont,
@@ -247,6 +299,8 @@ const Addcertificate = () => {
                       {Single_certificate?.data?.cretificateText}
                     </h4>
                   )}
+                  <br />
+                  <br />
                   <div className="w-full text-center ">
                     {watch("title") && (
                       <div
@@ -268,8 +322,9 @@ const Addcertificate = () => {
                           fontFamily: Single_certificate?.data?.primaryFont,
                         }}
                       >
-                        Employe Name
+                        {empName !== "" ? empName : "Employe Name"}
                       </h1>
+                      <br />
                       <div className="flex items-center justify-center md:mt-4 sm:mt-3 mt-1">
                         <span
                           className={`block w-2 h-2 rounded-full`}
@@ -297,7 +352,7 @@ const Addcertificate = () => {
                     {watch("bodyText") && (
                       <div className="sm:mt-5 mt-3">
                         <p
-                          className={`xl:text-[24px] sm:text-[20px] text-base !font-${Single_certificate?.data?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5 line-clamp-2`}
+                          className={`xl:text-[24px] sm:text-[20px] text-base !font-${Single_certificate?.data?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5`}
                           style={{
                             fontFamily: Single_certificate?.data?.secondaryFont,
                           }}
@@ -533,6 +588,10 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Employee Name"
                             type="text"
+                            onChange={(e) => {
+                              setEmpName(e.target.value);
+                            }}
+                            value={empName}
                             labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             className="mt-2 p-[11px] font-abhaya"
                             placeholder="0"
@@ -696,6 +755,8 @@ const Addcertificate = () => {
                   <div className="mt-5 text-center ">
                     <Button
                       type="submit"
+                      disabled={update_Panding || loading}
+                      isLoading={update_Panding || loading}
                       className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm inline-block lg:mt-0 w-full"
                     >
                       SAVE CERTIFICATE
@@ -707,7 +768,7 @@ const Addcertificate = () => {
           </div>
         )}
       </div>
-      <Loading isLoading={update_Panding} />
+      {/* <Loading isLoading={update_Panding} /> */}
     </div>
   );
 };
