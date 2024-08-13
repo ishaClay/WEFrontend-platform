@@ -115,8 +115,8 @@ export const deleteMeasuresItems = async (id: number) => {
     return res.data
 }
 
-export const assessmentQuestionScore = async (id: number) => {
-    const url = `api/v1/assessmentquestionscore/list/${id}`;
+export const assessmentQuestionScore = async (id: number, clientId: number) => {
+    const url = `api/v1/assessmentquestionscore/list/${id}?clientId=${clientId}`;
     const res = await api({ url });
     return res.data
 }

@@ -26,10 +26,23 @@ function EmployeePermission() {
   const { data, isPending: employeeListPending } = useQuery<EmployeeResult>({
     queryKey: [
       QUERY_KEYS.getEmployeeList,
-      { page, search, id: userData?.query?.detailsid },
+      {
+        page,
+        search,
+        id: !!userData?.query?.companyDetails
+          ? userData?.query?.companyDetails?.id
+          : userData?.query?.detailsid,
+      },
     ],
     queryFn: () =>
-      employeeList(page.toString(), "10", userData?.query?.detailsid, search),
+      employeeList(
+        page.toString(),
+        "10",
+        !!userData?.query?.companyDetails
+          ? userData?.query?.companyDetails?.id
+          : userData?.query?.detailsid,
+        search
+      ),
   });
 
   const { mutate: update_employee, isPending: updatePending } = useMutation({
