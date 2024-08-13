@@ -46,6 +46,45 @@ function Auth() {
     mode: "all",
   });
 
+  function trackUserLogin(role: number) {
+    let roleName = "";
+    const Roles = {
+      Company: 1,
+      TrainerCompany: 2,
+      Trainer: 3,
+      CompanyEmployee: 4,
+      SuperAdmin: 5,
+      Client: 6,
+    };
+    console.log(role, Roles.Company, "rolerolerolerole");
+
+    switch (role) {
+      case Roles.Company:
+        roleName = "Company";
+        break;
+      case Roles.TrainerCompany:
+        roleName = "TrainerCompany";
+        break;
+      case Roles.Trainer:
+        roleName = "Trainer";
+        break;
+      case Roles.CompanyEmployee:
+        roleName = "CompanyEmployee";
+        break;
+      case Roles.SuperAdmin:
+        roleName = "SuperAdmin";
+        break;
+      case Roles.Client:
+        roleName = "Client";
+        break;
+      default:
+        roleName = "Unknown";
+        break;
+    }
+
+    return roleName;
+  }
+
   const handleRedirect = (path: number, data: any) => {
     switch (path) {
       case 1:
@@ -75,6 +114,19 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
+      console.log(user, (window as any).gtag, "useruseruser");
+      const role = trackUserLogin(+user.role);
+      console.log(role, user.role, "rolerolerolerolerole");
+
+      if ((window as any).gtag) {
+        (window as any).gtag("event", "login", {
+          user_id: user.id,
+          user_role: trackUserLogin(+user.role),
+          user_name: user.name,
+          user_email: user.email,
+          gender: user.gender,
+        });
+      }
 
       if (data.data.data.status === "Inactive") {
         toast({
