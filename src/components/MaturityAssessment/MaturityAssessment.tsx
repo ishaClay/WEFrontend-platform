@@ -49,7 +49,7 @@ const MaturityAssessment = () => {
       : userData?.id;
 
   const { data: getCheckedmeasures } = useQuery({
-    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
+    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment, { selectAssessment }],
     queryFn: () =>
       getCheckedMeasuresByAssessment({
         userId: userID,
@@ -63,14 +63,14 @@ const MaturityAssessment = () => {
 
   const { data: assessmentQuestionScoreLIST } = useQuery({
     queryKey: [QUERY_KEYS.assessmentQuestionScore],
-    queryFn: () => assessmentQuestionScore(+userID),
+    queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
 
   const pillarCompleted = getCheckedmeasures?.data?.data?.find(
     (item: any) => item?.progressPR === 100
   );
 
-  console.log("pillarCompleted", assessmentQuestionScoreLIST);
+  console.log("pillarCompleted", assessmentQuestionScoreLIST?.data?.at(-1));
 
   const assessmentDetailOptions = useMemo(() => {
     const newData =
@@ -96,13 +96,11 @@ const MaturityAssessment = () => {
             },
           ];
 
-    if (getCheckedmeasures) {
-      const checkAssesment = getCheckedmeasures?.data?.data?.find(
-        (item: any) => item?.progressPR === 100
-      );
-      console.log("checkAssesment", checkAssesment);
-
-      if (checkAssesment) {
+    if (assessmentQuestionScoreLIST) {
+      const checkData = assessmentQuestionScoreLIST?.data
+        ?.at(-1)
+        ?.filter((item: any) => item?.pillarProgress === 100);
+      if (checkData?.length > 0) {
         newData.push({
           label: `Re-assessment ${assessmentQuestionScoreLIST?.data?.length}`,
           date: "",
@@ -111,7 +109,7 @@ const MaturityAssessment = () => {
       }
     }
     return newData;
-  }, [getCheckedmeasures, assessmentQuestionScoreLIST]);
+  }, [getCheckedmeasures, assessmentQuestionScoreLIST, pillarCompleted]);
 
   console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
 
@@ -230,7 +228,7 @@ const MaturityAssessment = () => {
     }
   }, [exportData]);
 
-  console.log("empPermissions", getCheckedmeasures);
+  console.log("empPermissions", empPermissions);
 
   return (
     <div className="">
@@ -255,8 +253,9 @@ const MaturityAssessment = () => {
           )}
         </div>
         {((pillarCompleted && Role !== "employee") ||
-          assessmentQuestionScoreLIST?.data?.length > 1 ||
-          (pillarCompleted &&
+          (assessmentQuestionScoreLIST?.data?.length > 1 &&
+            Role !== "employee") ||
+          (assessmentQuestionScoreLIST?.data?.length > 1 &&
             Role === "employee" &&
             empPermissions?.retakeSelfAssessment)) && (
           <div className="">

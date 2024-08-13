@@ -58,7 +58,7 @@ const AssignModel = ({
       setSelectAsignModel("");
 
       await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.checkedMeasures],
+        queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
       });
     },
     onError: (error) => {

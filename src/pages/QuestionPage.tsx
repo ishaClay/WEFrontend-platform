@@ -116,7 +116,7 @@ const QuestionPage = () => {
       mutationFn: (data: { UserId: number; clientId: number }) =>
         assessmentQuestionScore(data),
       onSuccess: async () => {
-        if (currPath && +currPath > 4 && userData?.query?.role === "4") {
+        if ((currPath && +currPath > 4) || userData?.query?.role === "4") {
           navigate(
             `/${UserRole[
               userData?.query?.role

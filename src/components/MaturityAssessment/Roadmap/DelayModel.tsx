@@ -72,7 +72,7 @@ const DelayModel = ({
         });
       } else {
         await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.checkedMeasures],
+          queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
         });
       }
       handleClose();

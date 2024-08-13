@@ -23,7 +23,7 @@ import {
 import { ErrorType } from "@/types/Errors";
 import { AllActionDataPillerWiseResult } from "@/types/MaturityLavel";
 import { MaturityLevelOneResponse } from "@/types/message";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import ActionItemModel from "./ActionItemModel";
@@ -55,6 +55,7 @@ const PillerCard = ({
   const [currentPiller, setCurrentPiller] = useState<string>("");
   const [open, setOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const queryClient = useQueryClient();
   const userID = UserId
     ? +UserId
     : userData?.query
@@ -78,6 +79,9 @@ const PillerCard = ({
               return item;
             })
           );
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.maturitypillar],
         });
       },
       onError: (error: ErrorType) => {
