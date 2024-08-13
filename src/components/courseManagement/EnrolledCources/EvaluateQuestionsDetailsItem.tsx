@@ -39,7 +39,7 @@ const EvaluateQuestionsDetailsItem = ({ item, index }: EvaluateQuestionsDetailsI
         <ul className="flex flex-wrap flex-row md:gap-4 gap-2.5 items-center font-calibri font-base">
           {
             item?.question?.option?.slice(0, showAll ? item?.question?.option?.length : 5)?.map((option, optionIndex) => {
-              return <li key={optionIndex} className={`text-${item?.machedKeyword?.includes(option) ? "white" : "black"} py-1.5 text-center bg-[${item?.machedKeyword?.includes(option) ? "#58BA66" : "#EDF0F4"}] rounded-full sm:text-base text-sm md:w-[104px] w-[95px]`}>
+              return <li key={optionIndex} className={`text-${item?.machedKeyword?.includes(option) ? "white" : "black"} py-1.5 text-center bg-[${item?.machedKeyword?.includes(option) ? "#58BA66" : "#EDF0F4"}] px-5 rounded-full sm:text-base text-sm md:min-w-[104px] min-w-[95px]`}>
               {option}
             </li>
             })

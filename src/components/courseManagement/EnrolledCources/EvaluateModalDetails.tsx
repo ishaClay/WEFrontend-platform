@@ -4,12 +4,17 @@ import EvaluateModalDetailsItem from "./EvaluateModalDetailsItem";
 
 interface EvaluateModalDetailsProps {
   data: EvaluteDataEntity[];
+  courseId: number;
+  employeeId: number;
 }
 
-const EvaluateModalDetails = ({ data }: EvaluateModalDetailsProps) => {
+const EvaluateModalDetails = ({ data, courseId, employeeId }: EvaluateModalDetailsProps) => {
+  const evaluationsData = data?.filter((item) => item?.evaluations?.length > 0);
+  console.log("datadata1234", data);
+  
   return (
     <div className="">
-      <div className="sm:px-5 px-4">
+      <div className="sm:px-5 px-4 pb-2">
         <h3 className="sm:text-2xl text-base font-calibri font-bold pb-2">
           Evaluate
         </h3>
@@ -19,12 +24,11 @@ const EvaluateModalDetails = ({ data }: EvaluateModalDetailsProps) => {
         </p>
       </div>
       <ScrollArea className="xl:h-[600px] sm:h-[500px] h-[400px]">
-        {data &&
-          data?.map((item, index) => {
+        {evaluationsData?.length > 0 ? evaluationsData?.map((item, index) => {
             return (
-              <EvaluateModalDetailsItem key={index} data={item} index={index} />
+              <EvaluateModalDetailsItem key={index} data={item} index={index} courseId={courseId} employeeId={employeeId} />
             );
-          })}
+          }) : <span className="flex justify-center items-center py-10 h-[400px]">No Data Found</span>}
       </ScrollArea>
     </div>
   );

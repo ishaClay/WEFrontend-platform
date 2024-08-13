@@ -1,4 +1,4 @@
-import { AssessmentById, EmpAssesmentQuestionType, GetAssessmentSingleQuestion } from "@/types/assecessment";
+import { AssessmentById, AssessmentScoreType, EmpAssesmentQuestionType, GetAssessmentSingleQuestion } from "@/types/assecessment";
 import api from "./api";
 
 interface createAssessmentProps {
@@ -80,4 +80,17 @@ export const createEvalute = async (data: any) => {
   const url = `api/v1/evalute/create`;
   const method = "post";
   return api({ url, data, method });
+}
+
+export const fetchAssessmentScore = async (assessmentId: string, employeeId: string): Promise<AssessmentScoreType> => {
+  const url = `api/v1/assessment/get-emp-score`;
+  const params: any = {};
+  if(assessmentId){
+    params["assessmentId"] = assessmentId;
+  }
+  if(employeeId){
+    params["employeeId"] = employeeId;
+  }
+  const res = await api({ url, params });
+  return res.data
 }

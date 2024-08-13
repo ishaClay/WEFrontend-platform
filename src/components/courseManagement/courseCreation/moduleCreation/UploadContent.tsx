@@ -48,6 +48,8 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
+    console.log("typetypetype", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`, type);
+    
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
@@ -156,6 +158,9 @@ const UploadContent = ({
     errorkey = errors;
   }
 
+  console.log("FileType && FileType.fileTypeText", data, FileType && FileType?.fileTypeText, data.uploadContentType);
+  
+
   return (
     <div className="">
       {!data.uploadContentType ? (
@@ -238,7 +243,7 @@ const UploadContent = ({
                         type="file"
                         className="hidden"
                         id="fileUpload"
-                        accept={FileType && FileType.fileTypeText}
+                        accept={FileType && FileType?.fileTypeText}
                         onChange={(e) => handleFileSelect(e)}
                       />
                     </Label>

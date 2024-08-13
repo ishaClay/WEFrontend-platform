@@ -29,3 +29,8 @@ export const fetchEvaluteData = async (courseId: number, cohortId: number) : Pro
   const res = await api({ url });
   return res?.data
 };
+
+export const createEvaluationScore = (data: any) => {
+  const url = `api/v1/evaluationScore/create`;
+  return api({ url, data, method: "post" });
+};

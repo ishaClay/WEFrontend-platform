@@ -102,3 +102,18 @@ export interface EmpAssesmentQuestionType {
     updatedAt: string;
   }
   
+export interface AssessmentScoreType {
+  data: AssessmentScoreDataEntity;
+  message: string;
+}
+export interface AssessmentScoreDataEntity {
+  isPassed: string;
+  totalCorrect: TotalCorrectOrTotal;
+  total: TotalCorrectOrTotal;
+  YourPercentage: number;
+  assessmentPercentage: number;
+}
+export interface TotalCorrectOrTotal {
+  point: number;
+  questions: number;
+}

@@ -118,6 +118,8 @@ const ModuleCreationItems = ({
     }
   }
 
+  console.log("watchwatch123", watch());
+
   return (
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
       <div className="sm:p-5 p-4">

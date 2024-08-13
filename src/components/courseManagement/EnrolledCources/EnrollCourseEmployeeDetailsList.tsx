@@ -9,12 +9,10 @@ import SessionModalDetails from "./SessionModalDetails";
 interface EnrollCourseEmployeeDetailsListProps {
   data: CohortGroupType;
   course: any;
-  cohortGroupById: number;
 }
 const EnrollCourseEmployeeDetailsList = ({
   data,
   course,
-  cohortGroupById,
 }: EnrollCourseEmployeeDetailsListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -27,7 +25,6 @@ const EnrollCourseEmployeeDetailsList = ({
                 data={item}
                 key={index}
                 course={course}
-                cohortGroupById={cohortGroupById}
               />
             );
           })

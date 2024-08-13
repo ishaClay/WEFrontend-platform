@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
 import ModuleVideoPlay from "@/assets/images/video-play.png";
@@ -8,7 +8,10 @@ import { RootState } from "@/redux/store";
 const ModuleCourseViewCard = ({ data }: any) => {
   const { role } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
+  const {versionId} = useParams();
+  const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
+  const courseId = searchParams.get("courseId");
 
   return (
     <div>
@@ -38,19 +41,23 @@ const ModuleCourseViewCard = ({ data }: any) => {
                   Assessment
                 </h6>
                 <h6 className="text-[#747474] text-xs font-nunito">
-                  Duration : {assessmentData?.timeDuration?.hours?.toString()?.padStart(2, "0")}
-                  : {assessmentData?.timeDuration?.minutes?.toString()?.padStart(2, "0")}:{" "}
-                  {assessmentData?.timeDuration?.seconds?.toString()?.padStart(2, "0")}
+                  Duration : {assessmentData?.timeDuration?.hours?.toString()?.padStart(2, "0") || "00"}
+                  : {assessmentData?.timeDuration?.minutes?.toString()?.padStart(2, "0") || "00"}: {" "}
+                  {assessmentData?.timeDuration?.seconds?.toString()?.padStart(2, "0") || "00"}
                 </h6>
               </div>
             </div>
             {+role === 4 && (
             <Button
               type="button"
-              onClick={() => navigate(`/employee/employee-assessment/${assessmentData?.id}?moduleId=${data?.id}`)}
+              onClick={() => navigate(`/employee/employee-assessment/${assessmentData?.id}?moduleId=${data?.id}`, { 
+                state: { 
+                  versionId: versionId,
+                  courseId: courseId,
+                } })}
               // isLoading={isPending}
               className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
-              disabled={assessmentData?.isCompleted}
+              // disabled={assessmentData?.isCompleted}
             >
               Start
             </Button>

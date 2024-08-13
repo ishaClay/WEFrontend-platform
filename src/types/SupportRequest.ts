@@ -22,6 +22,7 @@ export interface SubmitType {
 export interface SubmitPayload {
   assignTo: number,
   priority: string,
+  type: string,
   subject: string,
   description: string,
   documentUrl: string,
