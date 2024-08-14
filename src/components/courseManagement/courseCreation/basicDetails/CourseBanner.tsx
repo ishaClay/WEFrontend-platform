@@ -260,23 +260,23 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                   <h6 className="sm:text-base text-sm font-calibri pb-3">
                     File Support: jpg, .jpeg
                   </h6>
-                  <input
-                    type="file"
-                    className="hidden"
-                    id="file"
-                    accept=".jpeg, .jpg"
-                    {...register("bannerImage")}
-                    onChange={handleUpload}
-                  />
                   <div>
                     <label
-                      htmlFor="file"
+                      htmlFor="file_1"
                       className="cursor-pointer inline-block"
                     >
                       <div className="flex items-center justify-center sm:w-[140px] w-[130px] sm:h-[42px] h-[38px] mx-auto rounded-[5px] text-white bg-[#42A7C3] sm:text-base text-sm">
                         <Image className="sm:me-1 me-[6px] sm:w-auto w-[14px]" />
                         Upload Photo
                       </div>
+                      <input
+                        type="file"
+                        className="hidden"
+                        id="file_1"
+                        accept=".jpeg, .jpg"
+                        {...register("bannerImage")}
+                        onChange={handleUpload}
+                      />
                     </label>
                   </div>
                 </div>
