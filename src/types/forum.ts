@@ -240,3 +240,54 @@ export interface commnntsData {
   updatedAt: string;
 }
 
+
+export interface ForumQuestionType {
+  data: ForumQuestionData;
+  message: string;
+}
+export interface ForumQuestionData {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  time: number;
+  isOnline: number;
+  universityAddress: string;
+  duration: string;
+  price: number;
+  instituteOther: string;
+  otherInstitutionName: string;
+  description: string;
+  bannerImage: string;
+  keys: string;
+  courseData?: (CourseDataEntity)[] | null;
+  status: string;
+  publishDate?: null;
+  step: string;
+  tab: string;
+  creationCompleted: boolean;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  module?: (ModuleEntity)[] | null;
+}
+export interface CourseDataEntity {
+  pillarId: number;
+  maturityId: number;
+}
+export interface ModuleEntity {
+  id: number;
+  title: string;
+  position: number;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  forumQuestions?: (null)[] | null;
+}

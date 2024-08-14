@@ -308,7 +308,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             <div className="sm:mb-[18px] mb-[15px] w-full">
               <InputWithLabel
                 type="text"
-                placeholder="University Address"
+                placeholder="Please enter the address – University or Institute address"
                 className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-black rounded-md text-base font-calibri"
                 {...register("universityAddress")}
                 value={watch("universityAddress")}

@@ -338,9 +338,9 @@ const CourseViewCardInner = ({
       liveSecTitle: data.sectionTitle,
       liveSecinformation: data.information,
       sectionTime: {
-        hour: data.livesessionDuration.hour,
-        minute: data.livesessionDuration.minute,
-        second: data.livesessionDuration.second,
+        hour: +data.livesessionDuration.hour,
+        minute: +data.livesessionDuration.minute,
+        second: +data.livesessionDuration.second,
       },
       module: moduleId,
     };

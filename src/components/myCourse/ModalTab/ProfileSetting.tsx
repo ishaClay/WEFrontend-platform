@@ -134,6 +134,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       setValue("lastname", data?.data?.lname);
       setValue("email", data?.data?.email);
       setValue("gender", data?.data?.gender);
+      const userData = JSON.parse(localStorage.getItem("user") as string);
+      localStorage.setItem("user", JSON.stringify({...userData, query: {...userData?.query, fname: data?.data?.fname, lname: data?.data?.lname}}));
     }
   }, [data]);
 

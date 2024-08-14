@@ -106,6 +106,7 @@ export const QUERY_KEYS = {
   fetchEmployeeSingeCourse: "fetchEmployeeSingeCourse",
   getAssessmentSingleQuestion: "getAssessmentSingleQuestion",
   getAssessmentScore: "getAssessmentScore",
+  fetchForumQuestion: "fetchForumQuestion",
 };
 
 export const urlRegex =

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { arraysAreEqual } from "@/lib/utils";
 import {
   createCohort,
+  deleteCohort,
   getCohortsByCourse,
 } from "@/services/apiServices/cohort";
 import { ErrorType } from "@/types/Errors";
@@ -53,6 +55,10 @@ const InitialData = {
 
 const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   const [cohortData, setCohortData] = useState<CohortDataType[]>([InitialData]);
+  const [isDeleteCohort, setIsDeleteCohort] = useState<{type: boolean; data: CohortDataType | ""}>({
+    type: false,
+    data: ""
+  });
   const { data, isLoading } = useQuery<cohortgroupResponse>({
     queryKey: [QUERY_KEYS.getCohortsByCourse, { id, open }],
     queryFn: () => getCohortsByCourse(id),
@@ -121,10 +127,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     ]);
   };
 
-  const handleRemoveRow = (id: number) => {
-    setCohortData((prev) => prev.filter((item) => item.id !== id));
-  };
-
   const handleEdit = (id: number) => {
     setCohortData((prev) => {
       return prev.map((item) => {
@@ -155,6 +157,33 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
         queryKey: [QUERY_KEYS.fetchAllCourse],
       });
       handleClose();
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  const { mutate: deleteCohortFun, isPending: deleteCohortPending } = useMutation({
+    mutationFn: deleteCohort,
+    onSuccess: async (data) => {
+      toast({
+        title: "Success",
+        description: data?.message,
+        variant: "success",
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchAllCourse],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getCohortsByCourse],
+      });
+      setIsDeleteCohort({
+        type: false,
+        data: ""
+      })
     },
     onError: (error: ErrorType) => {
       toast({
@@ -241,155 +270,169 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     }
   };
 
+  const handleDeleteCohort = () => {
+    const cohortId = isDeleteCohort?.data && isDeleteCohort?.data?.id;
+    deleteCohortFun(+cohortId);
+  }
+
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      className="lg:max-w-[800px] sm:max-w-[650px] max-w-[90%] w-full py-5 px-7 rounded-lg"
-    >
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="">
-          <div className="sm:text-2xl text-xl font-bold font-calibri leading-7 sm:pb-[18px] pb-3">
-            Add Cohort
-          </div>
-          <Button
-            variant={"ghost"}
-            onClick={handleAddRow}
-            className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
-          >
-            + Add New Row
-          </Button>
-          <div
-            className="max-h-[400px] lg:min-w-full lg:max-w-full sm:min-w-[calc(650px-50px)] sm:max-w-[calc(650px-50px)] min-w-[calc(100vw-100px)] max-w-[calc(100vw-100px)] overflow-auto mb-4"
-            id="scrollStyle"
-          >
-            {/* <DataTable
-            columns={column}
-            data={cohortData}
-            rounded={false}
-            headerBackground={false}
-          /> */}
-            <Table mainClassName="lg:w-full lg:min-w-full lg:max-w-full min-w-[calc(750px-50px)] max-w-[calc(750px-50px)] overflow-auto">
-              <TableHeader className="border-t">
-                <TableRow>
-                  <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
-                    Publish
-                  </TableHead>
-                  <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
-                    Cohort Name
-                  </TableHead>
-                  <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
-                    Start Date
-                  </TableHead>
-                  <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
-                    End Date
-                  </TableHead>
-                  <TableHead className="w-[100px] px-2 py-[16px] text-black text-[15px] font-inter font-[600]">
-                    Action
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {cohortData?.map((item) => {
-                  return (
-                    <TableRow key={item.id} className="border-0 py-[9px]">
-                      <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
-                        <Checkbox
-                          checked={item?.publish}
-                          disabled={!item?.isEdit}
-                          onCheckedChange={(e) =>
-                            handleChanges(e, item.id, "publish")
-                          }
-                          className="w-6 h-6 border border-[#A3A3A3]"
-                        />
-                      </TableCell>
-                      <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
-                        <Input
-                          value={item?.cohortName}
-                          className="h-[52px] text-[#000] text-base font-normal font-calibri"
-                          placeholder="Enter Name"
-                          name="cohortName"
-                          disabled={!item?.isEdit}
-                          onChange={(e) => handleChanges(e, item.id)}
-                        />
-                      </TableCell>
-                      <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
-                        <DatePicker
-                          buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
-                          placeHolder={"dd-mm-yyyy"}
-                          date={item?.startDate}
-                          disabled={!item?.isEdit}
-                          fromDate={new Date()}
-                          setDate={(date) =>
-                            handleChanges(date, item.id, "startDate")
-                          }
-                          labelText=""
-                        />
-                      </TableCell>
-                      <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
-                        <DatePicker
-                          buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
-                          placeHolder={"dd-mm-yyyy"}
-                          date={item?.endDate}
-                          disabled={!item?.isEdit}
-                          fromDate={item?.startDate}
-                          setDate={(date) =>
-                            handleChanges(date, item.id, "endDate")
-                          }
-                          labelText=""
-                        />
-                      </TableCell>
-                      <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant={"secondary"}
-                            type="button"
-                            className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
-                            onClick={() => handleEdit(item.id)}
-                          >
-                            <Pencil className="w-4 h-4 text-[#606060]" />
-                          </Button>
-                          {!item.publish && (
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className="lg:max-w-[800px] sm:max-w-[650px] max-w-[90%] w-full py-5 px-7 rounded-lg"
+      >
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="">
+            <div className="sm:text-2xl text-xl font-bold font-calibri leading-7 sm:pb-[18px] pb-3">
+              Add Cohort
+            </div>
+            <Button
+              variant={"ghost"}
+              onClick={handleAddRow}
+              className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
+            >
+              + Add New Row
+            </Button>
+            <div
+              className="max-h-[400px] lg:min-w-full lg:max-w-full sm:min-w-[calc(650px-50px)] sm:max-w-[calc(650px-50px)] min-w-[calc(100vw-100px)] max-w-[calc(100vw-100px)] overflow-auto mb-4"
+              id="scrollStyle"
+            >
+              {/* <DataTable
+              columns={column}
+              data={cohortData}
+              rounded={false}
+              headerBackground={false}
+            /> */}
+              <Table mainClassName="lg:w-full lg:min-w-full lg:max-w-full min-w-[calc(750px-50px)] max-w-[calc(750px-50px)] overflow-auto">
+                <TableHeader className="border-t">
+                  <TableRow>
+                    <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                      Publish
+                    </TableHead>
+                    <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                      Cohort Name
+                    </TableHead>
+                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                      Start Date
+                    </TableHead>
+                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                      End Date
+                    </TableHead>
+                    <TableHead className="w-[100px] px-2 py-[16px] text-black text-[15px] font-inter font-[600]">
+                      Action
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {cohortData?.map((item) => {
+                    return (
+                      <TableRow key={item.id} className="border-0 py-[9px]">
+                        <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
+                          <Checkbox
+                            checked={item?.publish}
+                            disabled={!item?.isEdit}
+                            onCheckedChange={(e) =>
+                              handleChanges(e, item.id, "publish")
+                            }
+                            className="w-6 h-6 border border-[#A3A3A3]"
+                          />
+                        </TableCell>
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                          <Input
+                            value={item?.cohortName}
+                            className="h-[52px] text-[#000] text-base font-normal font-calibri"
+                            placeholder="Enter Name"
+                            name="cohortName"
+                            disabled={!item?.isEdit}
+                            onChange={(e) => handleChanges(e, item.id)}
+                          />
+                        </TableCell>
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                          <DatePicker
+                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
+                            placeHolder={"dd-mm-yyyy"}
+                            date={item?.startDate}
+                            disabled={!item?.isEdit}
+                            fromDate={new Date()}
+                            setDate={(date) =>
+                              handleChanges(date, item.id, "startDate")
+                            }
+                            labelText=""
+                          />
+                        </TableCell>
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                          <DatePicker
+                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
+                            placeHolder={"dd-mm-yyyy"}
+                            date={item?.endDate}
+                            disabled={!item?.isEdit}
+                            fromDate={item?.startDate}
+                            setDate={(date) =>
+                              handleChanges(date, item.id, "endDate")
+                            }
+                            labelText=""
+                          />
+                        </TableCell>
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                          <div className="flex items-center gap-2">
                             <Button
                               variant={"secondary"}
-                              onClick={() => handleRemoveRow(item.id)}
+                              type="button"
                               className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
+                              onClick={() => handleEdit(item.id)}
                             >
-                              <Trash2 className="w-4 h-4 text-[#606060]" />
+                              <Pencil className="w-4 h-4 text-[#606060]" />
                             </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+                            {!item.publish && (
+                              <Button
+                                variant={"secondary"}
+                                onClick={() => setIsDeleteCohort({type: true, data: item})}
+                                className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
+                              >
+                                <Trash2 className="w-4 h-4 text-[#606060]" />
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="flex items-center md:gap-[23px] gap-5">
+              <Button
+                type="button"
+                variant={"secondary"}
+                onClick={handleClose}
+                className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                variant={"default"}
+                className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+                isLoading={isPending}
+              >
+                Save
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center md:gap-[23px] gap-5">
-            <Button
-              type="button"
-              variant={"secondary"}
-              onClick={handleClose}
-              className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={handleSubmit}
-              variant={"default"}
-              className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
-              isLoading={isPending}
-            >
-              Save
-            </Button>
-          </div>
-        </div>
-      )}
-    </Modal>
+        )}
+      </Modal>
+      <ConfirmModal
+        open={isDeleteCohort?.type}
+        onClose={() => setIsDeleteCohort({type: false, data: ""})}
+        onDelete={handleDeleteCohort}
+        value={isDeleteCohort?.data && isDeleteCohort?.data?.cohortName || ""}
+        isLoading={deleteCohortPending}
+      />
+    </>
   );
 };
 

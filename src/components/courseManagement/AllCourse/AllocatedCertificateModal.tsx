@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/components/ui/use-toast";
+import { chatDPColor } from "@/lib/utils";
 import { trainerAllocateCourse } from "@/services/apiServices/allocatedcourse";
 import {
   getTrainerByCompanyId,
@@ -107,6 +108,25 @@ export function AllocatedCertificateModal({
 
     allocate(payload);
   };
+
+  const filterCourseData = courseData?.filter((item) => item?.id !== selectedCourse?.trainerId?.id);
+  const handleAllCheckboxChange = () => {
+    if (selectFilter?.length === filterCourseData?.length) {
+      setSelectFilter([]);
+    } else {      
+      setSelectFilter(filterCourseData && filterCourseData?.map((item) => item?.id as number) || []);
+    }
+  };
+
+  const handleEmployeeCheckboxChange = (employeeId: number) => {
+    setSelectFilter((prev) =>
+      prev.includes(employeeId)
+        ? prev.filter((id) => id !== employeeId)
+        : [...prev, employeeId]
+    );
+  };
+
+  const isAllSelected = filterCourseData && filterCourseData?.length > 0 && selectFilter?.length === filterCourseData?.length;  
 
   const handleClose = () => {
     onClose();
@@ -260,17 +280,8 @@ export function AllocatedCertificateModal({
                       type="checkbox"
                       name="all"
                       className="h-[18px] w-[18px] rounded"
-                      checked={courseData?.some((item) =>
-                        selectFilter?.includes(item?.id)
-                      )}
-                      onChange={() =>
-                        // @ts-ignore
-                        setSelectFilter((prev: number[]) => {
-                          return prev?.length > 0
-                            ? []
-                            : courseData?.map((item) => item?.id);
-                        })
-                      }
+                      checked={isAllSelected}
+                      onChange={handleAllCheckboxChange}
                     />
                   </div>
                 </div>
@@ -284,7 +295,7 @@ export function AllocatedCertificateModal({
                         <div className="flex items-center gap-[15px]">
                           <Avatar>
                             <AvatarImage src={employee.profileImage || ""} />
-                            <AvatarFallback>
+                            <AvatarFallback style={{ background: chatDPColor(employee?.id) }}>
                               {employee.name?.charAt(0) ||
                                 employee.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
@@ -294,20 +305,13 @@ export function AllocatedCertificateModal({
                           </span>
                         </div>
                         <input
+                          key={employee?.id}
                           type="checkbox"
-                          name="employee"
-                          disabled={selectedCourse?.trainerId?.id === employee?.id}
-                          checked={selectFilter?.includes(employee?.id) && selectedCourse?.trainerId?.id !== employee?.id}
-                          onChange={() =>
-                            setSelectFilter((prev) =>
-                              prev?.find((item: any) => item === employee?.id)
-                                ? prev?.filter(
-                                    (item: any) => item !== employee?.id
-                                  )
-                                : [...prev, employee?.id]
-                            )
-                          }
+                          name={`employee-${employee?.id}`}
                           className="h-[18px] w-[18px] rounded"
+                          disabled={selectedCourse?.trainerId?.id === employee?.id}
+                          checked={selectFilter?.includes(employee?.id)}
+                          onChange={() => handleEmployeeCheckboxChange(employee?.id)}
                         />
                       </div>
                     ))
