@@ -46,8 +46,9 @@ const AccordionHome = () => {
                 rounded={false}
                 padding={false}
                 className="sm:space-y-[24px] space-y-[9px]"
-                triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-0 text-[#002A3A]`}
+                triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white  text-[#002A3A]`}
                 isPlusIcon
+                itemsClass="p-0"
               />
             </div>
             <div className="w-full">
@@ -56,8 +57,9 @@ const AccordionHome = () => {
                 rounded={false}
                 padding={false}
                 className="sm:space-y-[24px] space-y-[9px] md:mt-0 mt-[25px]"
-                triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white p-0 text-[#002A3A]"
+                triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white  text-[#002A3A]"
                 isPlusIcon
+                itemsClass="p-0"
               />
             </div>
           </div>

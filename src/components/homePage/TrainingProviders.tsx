@@ -31,8 +31,8 @@ const TrainingProviders = () => {
                 Reach An Ireland-Wide Audience
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
-                So you’re never limited by your geography, reach a global
-                audience that needs your training on the platform
+                You’re never limited by your geography, reach a national
+                sustainability-ready audience.
               </p>
             </div>
           </div>
@@ -45,8 +45,9 @@ const TrainingProviders = () => {
                 Deliver Your Courses With Ease
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
-                Thanks to an advanced learning management system, you focus on
-                your course content and we’ll facilitate delivery
+                The built-in learning management system enables you to focus on
+                your content, and we’ll take care of the delivery and
+                route-to-market
               </p>
             </div>
           </div>
@@ -62,8 +63,7 @@ const TrainingProviders = () => {
                 Engage & Collaborate With Trainers
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
-                Hone your training based on easy-to-glimpse analytics on how
-                your course takers are learning and where the market demand is
+                On our marketplace-oriented platform.
               </p>
             </div>
           </div>
@@ -79,8 +79,8 @@ const TrainingProviders = () => {
                 Gain Strategic Insights Via Analytics
               </h3>
               <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
-                Hone your training based on easy-to-glimpse analytics on how
-                your course takers are learning and where the market demand is
+                Hone your training using our targeted analytics that reports on
+                learner performance and market demand.
               </p>
             </div>
           </div>

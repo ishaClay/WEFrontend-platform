@@ -1,27 +1,36 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import FileUpload from "@/components/comman/FileUpload";
+import FormError from "@/components/comman/FormError";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { createEmployeeInvition } from "@/services/apiServices/member";
 import { EmployeePayload } from "@/types/Invition";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { Minus, Plus } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
+interface InviteData {
+  email: string;
+  fName: string;
+  lName: string;
+}
+
+const initialData = {
+  email: "",
+  fName: "",
+  lName: "",
+};
+
 const schema = z.object({
-  email: z
-    .string({ message: "Please enter email" })
-    .min(1, { message: "Please enter email" })
-    .regex(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[cC][oO][mM]$/i, {
-      message: `Please enter an email address with @, number and .com`,
-    }),
   file: z.string().optional(),
   invitiondetail: z
     .string()
@@ -32,7 +41,8 @@ const EmployeeInvitation = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [emails, setEmails] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [inviteData, setInviteData] = useState<InviteData[]>([initialData]);
   const [file, setFile] = useState("");
   const handleBackClick = () => {
     navigate("/company/employeelist");
@@ -45,6 +55,9 @@ const EmployeeInvitation = () => {
     : userData?.companyDetails?.id;
 
   type ValidationSchema = z.infer<typeof schema>;
+
+  console.log("inviteData", inviteData);
+
   const {
     register,
     formState: { errors },
@@ -67,7 +80,6 @@ const EmployeeInvitation = () => {
         });
       } else {
         reset();
-        setEmails("");
         setFile("");
         navigate("/company/employeelist");
         toast({ title: "Invitation sent successfully", variant: "success" });
@@ -82,19 +94,53 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const payload: EmployeePayload = {
-      email: [emails],
-      csvUrl: data?.file,
-      invitationDetails: data?.invitiondetail,
-      companyId: CompanyID,
-    };
-    createEmployeeInvitionlist(payload);
+    const isCheckValid = inviteData.every(
+      (data) => data.email !== "" && data.fName !== "" && data.lName !== ""
+    );
+
+    if (!isCheckValid) {
+      setError("Please fill all the fields");
+      return;
+    } else {
+      setError("");
+      const payload: EmployeePayload = {
+        email: inviteData,
+        csvUrl: data?.file,
+        invitationDetails: data?.invitiondetail,
+        companyId: CompanyID,
+      };
+      createEmployeeInvitionlist(payload);
+    }
   };
+
+  const handleAddEmail = () => {
+    setInviteData((prevData) => [...prevData, initialData]);
+  };
+
+  const handleRemoveEmail = (index: number) => {
+    setInviteData((prevData) => prevData.filter((_, i) => i !== index));
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const { name, value } = e.target;
+
+    setInviteData((prevData) => {
+      return prevData.map((data, i) => {
+        if (i === index) {
+          return { ...data, [name]: value };
+        } else {
+          return data;
+        }
+      });
+    });
+  };
+
+  console.log("inviteData", error);
 
   return (
     <div>
-      <div className="bg-[#FFFFFF] rounded-xl p-5">
-        <div className="bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between pb-[15px]">
+      <div className="rounded-xl">
+        <div className="bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between pb-[5px] p-5">
           <div className="md:flex block items-center gap-3">
             <p className="text-[#000000] font-abhaya text-base font-semibold">
               Send Invitation
@@ -116,69 +162,98 @@ const EmployeeInvitation = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
-              Enter Team Member Email ID
+          <div className="py-6 px-5 bg-white rounded-lg">
+            <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
+              Enter Team Member Name & Email ID
               <span className="font-nunito font-normal text-[#A3A3A3] text-base">
                 (comma separated email id)
               </span>
             </h3>
-            <div className="mt-[10px]">
-              <div className="w-full">
-                <div className="flex flex-wrap gap-2 border p-3 rounded h-[52px] mt-2">
-                  <input
-                    {...register("email")}
-                    value={emails}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                      setValue("email", e?.target?.value);
-                      setEmails(e?.target?.value);
-                    }}
-                    placeholder="Enter email and Press Enter"
-                    className="flex-grow border-none outline-none"
+            {inviteData?.map((data, index, arr) => (
+              <div>
+                <div className="flex lg:flex-nowrap flex-wrap items-center sm:gap-5 gap-3 w-full mb-2">
+                  <Input
+                    type="text"
+                    placeholder="First Name"
+                    value={data?.fName}
+                    name="fName"
+                    onChange={(e) => handleChange(e, index)}
+                    className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />
+                  <Input
+                    type="text"
+                    placeholder="Last Name"
+                    name="lName"
+                    value={data?.lName}
+                    onChange={(e) => handleChange(e, index)}
+                    className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
+                  />
+                  <Input
+                    value={data?.email}
+                    name="email"
+                    onChange={(e) => handleChange(e, index)}
+                    placeholder="Enter email id"
+                    className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
+                  />
+                  <Button
+                    variant={"ghost"}
+                    type="button"
+                    onClick={() => handleRemoveEmail(index)}
+                  >
+                    <Minus />
+                  </Button>
+                  {arr.length - 1 === index && (
+                    <Button
+                      variant={"ghost"}
+                      type="button"
+                      onClick={() => handleAddEmail()}
+                    >
+                      <Plus />
+                    </Button>
+                  )}
                 </div>
-                {errors.email?.message && (
-                  <ErrorMessage message={errors?.email?.message as string} />
-                )}
               </div>
-            </div>
+            ))}
+            {error && <FormError message={error} />}
           </div>
 
-          <p className="font-bold font-abhaya mt-[32px] text-base">
-            OR
-            <a href="#" className="text-[#0E9CFF] ml-2 underline">
-              Download Sample File
-            </a>
-          </p>
-          <div className="mt-[18px] ">
-            <p className="text-base font-abhaya text-[#000000] font-bold">
-              Want to invite a list of team members?
-              <br />
-              Simply prepare their details on a CSV file, keeping at least one
-              row per email user, and we’ll send an invitation to each person.
+          <div className="bg-white p-5 mt-5 rounded-lg">
+            <div className="">
+              <p className="text-lg font-medium">Bulk Invite Team Members</p>
+              <p className="text-base font-abhaya text-[#000000] font-bold">
+                Want to invite a list of team members?
+                <br />
+                Simply prepare their details on a CSV file, keeping at least one
+                row per email user, and we’ll send an invitation to each person.
+              </p>
+            </div>
+            <p className="font-bold font-abhaya text-base">
+              <a href="#" className="text-[#0E9CFF] underline">
+                Download Sample File
+              </a>
             </p>
-          </div>
-          <div className="mt-[24px] flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <FileUpload
-                handleDrop={(e) => {
-                  setValue("file", e);
-                  setFile(e);
-                }}
-                className="border-none cursor-pointer !p-0 justify-center"
-                acceptType=".csv"
-              >
-                <div className="flex">
-                  <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-abhaya">
-                    Upload CSV File
-                  </span>
-                </div>
-              </FileUpload>
-              {file && (
-                <label className=" w-full overflow-hidden text-ellipsis mt-[4px]">
-                  {file.split("/").pop()}
-                </label>
-              )}
+            <div className="mt-[16px] flex items-center gap-6">
+              <div className="flex items-center gap-3">
+                <FileUpload
+                  handleDrop={(e) => {
+                    setValue("file", e);
+                    setFile(e);
+                  }}
+                  className="border-none cursor-pointer !p-0 justify-center"
+                  acceptType=".csv"
+                >
+                  <div className="flex">
+                    <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-abhaya">
+                      Upload CSV File
+                    </span>
+                  </div>
+                </FileUpload>
+                {file && (
+                  <label className=" w-full overflow-hidden text-ellipsis mt-[4px]">
+                    {file.split("/").pop()}
+                  </label>
+                )}
+              </div>
             </div>
           </div>
 
@@ -186,10 +261,10 @@ const EmployeeInvitation = () => {
             <ErrorMessage message={errors.file.message as string} />
           )}
 
-          <div className="mt-[33px]">
+          <div className="mt-[20px]">
             <InputWithLabel
-              className="text-stone-400 border mt-[10px] text-base font-nunito"
-              label="Invitation Details"
+              className="text-stone-400 border h-[60px] mt-[10px] text-base font-nunito"
+              label="Invitation Message"
               labelClassName="font-nunito font-semibold !text-base"
               {...register("invitiondetail")}
               placeholder="Enter Details"

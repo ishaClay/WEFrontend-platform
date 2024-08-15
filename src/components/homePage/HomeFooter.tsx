@@ -40,7 +40,7 @@ const HomeFooter = () => {
                   <img
                     src={footerLogoImage}
                     alt="footer logo"
-                    className="lg:block hidden"
+                    className="lg:block hidden w-[90px]"
                   />
                   <img
                     src={footerLogoImage1}
@@ -50,7 +50,8 @@ const HomeFooter = () => {
                 </div>
                 <div className="secondary-text sm:flex block justify-between items-center lg:hidden lg:order-3 order-3">
                   <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
-                    © County Wexford Chamber 2023. All Rights Reserved.
+                    © All Rights Reserved. Green Tech Skillnet & County Wexford
+                    Chamber Skillnet 2024.
                   </p>
 
                   <div className="flex gap-5  justify-center sm:my-3">
@@ -84,7 +85,7 @@ const HomeFooter = () => {
                   <img
                     src={homeFooterLogo}
                     alt=""
-                    className="lg:block hidden"
+                    className="lg:block hidden w-[160px]"
                   />
                   <img
                     src={homeFooterLogo1}
@@ -110,7 +111,8 @@ const HomeFooter = () => {
               <div className="lg:block hidden">
                 <div className="secondary-text sm:flex block justify-between items-center py-3">
                   <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
-                    © County Wexford Chamber 2023. All Rights Reserved.
+                    © All Rights Reserved. Green Tech Skillnet & County Wexford
+                    Chamber Skillnet 2024.
                   </p>
 
                   <div className="flex gap-5  justify-center my-3">

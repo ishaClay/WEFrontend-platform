@@ -1,4 +1,4 @@
-import CompanyRegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import CompanyRegisterSideImage from "@/assets/images/RegisterSideImage.png";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";

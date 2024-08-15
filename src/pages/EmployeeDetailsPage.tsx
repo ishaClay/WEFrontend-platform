@@ -14,7 +14,6 @@ const EmployeeDetailsPage = () => {
   // const [approved, setApproved] = useState(false);
   const params = useParams();
 
-
   const [trainerStatus, setTrainerStatus] = useState(1);
 
   const { data, isLoading } = useQuery({

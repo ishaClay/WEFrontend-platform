@@ -1,4 +1,4 @@
-import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Loader from "@/components/comman/Loader";
 import HomeFooter from "@/components/homePage/HomeFooter";

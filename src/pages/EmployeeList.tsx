@@ -384,7 +384,7 @@ function CoursesAllocate() {
               }
               className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
             >
-              Send Invitation
+              Invite Team-members
             </Link>
           </div>
         </div>

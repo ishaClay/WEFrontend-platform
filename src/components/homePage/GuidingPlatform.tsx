@@ -3,7 +3,7 @@ import image1 from "@/assets/images/GuidingImage1.png";
 
 const GuidingPlatform = () => {
   return (
-    <div className="bg-[#F7F8FC] xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
+    <div className="xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6">
         <div>
           <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-abhaya traking-[4px] text-center sm:pb-6 pb-[60px] tracking-tighter">

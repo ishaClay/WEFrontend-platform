@@ -79,9 +79,15 @@ const HomeBanner = () => {
                         />
                       </div>
                       <div className="md:bg-transparent bg-[#1a5762] md:shadow-none shadow-md text-[#ACEBF5] text-[18px] flex md:flex-row flex-col md:items-center items-start md:gap-1 sm:gap-3 gap-6 md:py-0 md:px-0 py-5 px-4">
-                        <h3 className="xl:text-lg sm:text-base text-sm font-bold font-abhaya leading-5">
-                          One Platform To Advance Sustainability
-                        </h3>
+                        <div className="flex md:gap-1 gap-3 items-center">
+                          <div>
+                            <img src="../assets/img/Arrow Right (1).png" />
+                          </div>
+
+                          <h3 className="xl:text-lg sm:text-base text-sm font-bold font-abhaya leading-5">
+                            One Platform To Advance Sustainability
+                          </h3>
+                        </div>
                         <div className="flex md:gap-1 gap-3 items-center">
                           <div>
                             <img src="../assets/img/Arrow Right (1).png" />
