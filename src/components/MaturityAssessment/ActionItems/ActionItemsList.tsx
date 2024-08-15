@@ -64,6 +64,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
         </h6>
       </div>
       <div className="sm:text-right text-left sm:block flex sm:gap-0 gap-2.5 items-center">
+      {!data.iscompleted && (
         <Button
           className={`${
             status() === "Delay"
@@ -73,6 +74,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
         >
           {status()}
         </Button>
+        )}
 
         {!data.iscompleted && (
           <Button

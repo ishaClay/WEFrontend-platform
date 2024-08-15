@@ -130,13 +130,13 @@ const MaturityLevel = () => {
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
-      <div className="relative grid grid-cols-12 items-center">
-        <div className="2xl:col-span-2 xl:col-span-3 sm:col-span-4 col-span-6 sm:order-1 order-2">
-          <div className="2xl:w-48 md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] 2xl:h-48 md:h-52 relative">
+      <div className="relative flex items-center gap-10">
+        <div className="flex sm:order-1 order-2">
+          <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
           </div>
         </div>
-        <div className="2xl:col-span-10 xl:col-span-9 sm:col-span-8 col-span-6 sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
+        <div className="w-full sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
           <div className="sm:ps-10 ps-0">
             <div className="md:mb-5 mb-0 sm:block hidden">
               <p className="inline">Your overall sustainability Score -</p>{" "}
@@ -179,13 +179,13 @@ const MaturityLevel = () => {
             className="absolute bottom-[-10px] right-[21%] sm:block hidden"
           />
         </div>
-        <div className="md:mb-5 mb-0 sm:hidden block col-span-12 order-3">
+      </div>
+        <div className="md:mb-5 mb-0 sm:hidden block order-3">
           <p className="inline">Your overall sustainability Score -</p>{" "}
           <span className="font-poppins font-bold text-[#000000] leading-6">
             Intermediate
           </span>
         </div>
-      </div>
     </div>
   );
 };

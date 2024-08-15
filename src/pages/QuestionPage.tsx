@@ -304,7 +304,7 @@ const QuestionPage = () => {
               }}
             >
               <img src={LeftArrow} alt="arrow" width={22} height={22} />
-              <span>back</span>
+              <span>Back</span>
             </button>
           </div>
 

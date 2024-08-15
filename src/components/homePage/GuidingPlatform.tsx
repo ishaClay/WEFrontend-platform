@@ -71,8 +71,7 @@ const GuidingPlatform = () => {
                 Measure Your Progress
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-abhaya lg:line-clamp-3 line-clamp-2">
-                Once you’ve been walking the sustainability journey, re-take the
-                self-assessment to see how your measurably company’s developed
+                Once you’ve been walking the sustainability journey, retake the self-assessment to see how measurably your company has developed
               </p>
             </div>
 

@@ -8,9 +8,15 @@ export const fetchAllocatedCourseById = async (enrollId: number) => {
 };
 
 export const fetchAllocatedCourse = async (id: number, filter?: string, client?: string) => {
-  const url = `api/v1/course/course-enrollment/${id}?filter=${filter}&client=${client}`;
-
-  const res = await api({ url });
+  const url = `api/v1/course/course-enrollment/${id}`;
+  const params: any = {};
+  if (filter) {
+    params["filter"] = filter;
+  }
+  if (client) {
+    params["client"] = client;
+  }
+  const res = await api({ url, params });
   return res.data;
 };
 

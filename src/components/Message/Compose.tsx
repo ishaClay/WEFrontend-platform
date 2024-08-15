@@ -414,7 +414,7 @@ const Compose = () => {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] p-0 text-base font-calibri font-normal">
-                    Message Templates
+                    {role === UserRole?.SuperAdmin ? 'Email Templates' : 'Message Templates'}
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-calibri`}
