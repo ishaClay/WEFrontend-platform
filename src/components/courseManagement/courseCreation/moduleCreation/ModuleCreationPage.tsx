@@ -14,10 +14,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import CourseViewPage from "../courseView/CourseViewPage";
 import ModuleCreationItems from "./ModuleCreationItems";
-import { useNavigate } from "react-router-dom";
 
 export const intialSectionCreation: SectionCreation = {
   sectionTitle: "",
@@ -124,7 +124,11 @@ const ModuleCreationPage = () => {
                   });
                 }
               } else {
-                if (!data.uploadedContentUrl && !data.youtubeUrl) {
+                if (
+                  data?.uploadContentType &&
+                  !data.uploadedContentUrl &&
+                  !data.youtubeUrl
+                ) {
                   ctx.addIssue({
                     code: z.ZodIssueCode.custom,
                     message:
@@ -214,7 +218,7 @@ const ModuleCreationPage = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-    }
+    },
   });
 
   const createSectionAsync = useMutation({
@@ -225,7 +229,8 @@ const ModuleCreationPage = () => {
   });
 
   const { mutate: ChangeModulePosition } = useMutation({
-    mutationFn: (data: any) => changeModulePostion(data, courseEditId || courseID),
+    mutationFn: (data: any) =>
+      changeModulePostion(data, courseEditId || courseID),
   });
 
   const { data: CourseModule, isLoading: courseLoading } = useQuery({
@@ -248,17 +253,26 @@ const ModuleCreationPage = () => {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
         const moduleId = response.data.data.id;
+        console.log("module", module);
+
         if (moduleId) {
           await createSectionAsync.mutateAsync({
             moduleId,
-            sections: module.section,
+            sections: module.section.map((item) => {
+              const { uploadContentType, ...rest } = item;
+              return uploadContentType === 0 ? rest : item;
+            }),
           });
         }
       });
-      if(+courseEditId){
-        navigate(`/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}`);
+      if (+courseEditId) {
+        navigate(
+          `/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}`
+        );
       } else {
-        navigate(`/${pathName}/create_course?tab=${paramsTab}&id=${courseID}&version=${paramsVersion}`);
+        navigate(
+          `/${pathName}/create_course?tab=${paramsTab}&id=${courseID}&version=${paramsVersion}`
+        );
       }
       await Promise.all(promises);
       queryClient.invalidateQueries({

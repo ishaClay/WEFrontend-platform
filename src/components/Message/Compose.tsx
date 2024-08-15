@@ -19,8 +19,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchMessageRoles } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { getTargetUserby } from "@/services/apiServices/clientServices";
 import { fetchEmails } from "@/services/apiServices/emailTemplate";
@@ -41,8 +43,6 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
 
 interface SendMessagePayload {
   senderId: string;
@@ -414,7 +414,7 @@ const Compose = () => {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] p-0 text-base font-calibri font-normal">
-                    Email Templates
+                    Message Templates
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-calibri`}

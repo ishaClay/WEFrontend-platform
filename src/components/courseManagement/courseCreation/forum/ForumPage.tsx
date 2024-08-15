@@ -1,21 +1,27 @@
-import { Dot, Loader2, MessageCircle, ThumbsDown, ThumbsUp } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import MessageList from "./MessageList";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { createForum, fetchAllForum } from "@/services/apiServices/forum";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/constants";
-import { CommentFormData } from "@/types/forum";
 import Loader from "@/components/comman/Loader";
-import { AxiosError } from "axios";
-import { toast } from "@/components/ui/use-toast";
-import { chatDPColor, getTimeAgo } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserRole } from "@/types/UserRole";
-import { useSelector } from "react-redux";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
+import { chatDPColor, getTimeAgo } from "@/lib/utils";
+import { createForum, fetchAllForum } from "@/services/apiServices/forum";
 import { UserData } from "@/types/auth";
+import { CommentFormData } from "@/types/forum";
+import { UserRole } from "@/types/UserRole";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import {
+  Dot,
+  Loader2,
+  MessageCircle,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import MessageList from "./MessageList";
 
 const ForumPage = () => {
   const queryClient = useQueryClient();
@@ -63,7 +69,7 @@ const ForumPage = () => {
       queryFn: () => fetchAllForum(courseId ? +courseId : 0),
       enabled: !!courseId,
     });
-  // console.log(forumdata, "forumdata+++");
+  console.log(forumdata, "forumdata+++");
 
   return (
     <div className="">
@@ -82,39 +88,39 @@ const ForumPage = () => {
         </div>
       </div>
       <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:py-5 py-3 rounded-lg mb-5">
-          <div className="flex gap-4 items-center">
-            <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
-              <Avatar className="w-full h-full">
-                <AvatarImage src={""} alt="profileImage" />
-                <AvatarFallback
-                  className="text-white text-xl"
-                  style={{ background: chatDPColor(userData?.query?.id) }}
-                >
-                  {userData?.query?.name?.charAt(0)?.toUpperCase() ||
-                    userData?.query?.email?.charAt(0)?.toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-
-            <div className="">
-              <h5 className="text-black text-base font-abhaya">
-                {userData?.query?.name}
-              </h5>
-              <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
-                {userData?.role === UserRole.Company
-                  ? "Company"
-                  : userData?.role === UserRole.Trainer
-                  ? "Trainer Company"
-                  : userData?.role === UserRole.Trainee
-                  ? "Trainer"
-                  : userData?.role === UserRole.Employee
-                  ? "Company Employee"
-                  : userData?.role === UserRole.SuperAdmin
-                  ? "Super Admin"
-                  : "Client"}
-              </h6>
-            </div>
+        <div className="flex gap-4 items-center">
+          <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
+            <Avatar className="w-full h-full">
+              <AvatarImage src={""} alt="profileImage" />
+              <AvatarFallback
+                className="text-white text-xl"
+                style={{ background: chatDPColor(userData?.query?.id) }}
+              >
+                {userData?.query?.name?.charAt(0)?.toUpperCase() ||
+                  userData?.query?.email?.charAt(0)?.toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
           </div>
+
+          <div className="">
+            <h5 className="text-black text-base font-abhaya">
+              {userData?.query?.name}
+            </h5>
+            <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
+              {userData?.role === UserRole.Company
+                ? "Company"
+                : userData?.role === UserRole.Trainer
+                ? "Trainer Company"
+                : userData?.role === UserRole.Trainee
+                ? "Trainer"
+                : userData?.role === UserRole.Employee
+                ? "Company Employee"
+                : userData?.role === UserRole.SuperAdmin
+                ? "Super Admin"
+                : "Client"}
+            </h6>
+          </div>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <Textarea
@@ -125,8 +131,14 @@ const ForumPage = () => {
             value={forumquestion ?? ""}
           />
           <div className="text-right pt-5">
-            <Button className="bg-[#42A7C3] text-xs md:text:md" type="submit" disabled={createForumLoading}>
-              {createForumLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+            <Button
+              className="bg-[#42A7C3] text-xs md:text:md"
+              type="submit"
+              disabled={createForumLoading}
+            >
+              {createForumLoading && (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              )}
               Post Question
             </Button>
           </div>

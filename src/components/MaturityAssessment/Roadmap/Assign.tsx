@@ -49,7 +49,7 @@ const Assign = ({
     enabled: !!selectAssessment,
   });
 
-  console.log("empPermissions", empPermissions);
+  console.log("empPermissions", getCheckedmeasures);
 
   return (
     <div className="">

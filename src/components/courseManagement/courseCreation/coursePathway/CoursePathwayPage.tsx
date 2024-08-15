@@ -66,11 +66,15 @@ const CoursePathwayPage = () => {
         const updatedData = data?.data;
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${updatedData?.creationCompleted ? "2" : updatedData?.tab}&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=${
+              updatedData?.creationCompleted ? "2" : updatedData?.tab
+            }&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${updatedData?.creationCompleted ? "2" : updatedData?.tab}&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${
+              updatedData?.creationCompleted ? "2" : updatedData?.tab
+            }&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -115,7 +119,7 @@ const CoursePathwayPage = () => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
   });
-console.log("paramsversion", paramsversion);
+  console.log("paramsversion", paramsversion);
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -130,16 +134,16 @@ console.log("paramsversion", paramsversion);
     selectTargetPillarLimit?.data?.pillarLimit
   );
 
-  const updateedPillar = (selectedData:any, pillarLimit:any) => {
-    if(selectedData?.length !== pillarLimit?.length) return false;
+  const updateedPillar = (selectedData: any, pillarLimit: any) => {
+    if (selectedData?.length !== pillarLimit?.length) return false;
     return JSON.stringify(selectedData) === JSON.stringify(pillarLimit);
-  }
+  };
   const getPillarLimit = getSingleCourse?.data?.course?.courseData || [];
 
   const handleSubmit = () => {
-    if(selectedData?.length > 0){
+    if (selectedData?.length > 0) {
       if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
-        if(updateedPillar(selectedData, getPillarLimit)){
+        if (updateedPillar(selectedData, getPillarLimit)) {
           if (+courseId) {
             navigate(
               `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
@@ -149,7 +153,7 @@ console.log("paramsversion", paramsversion);
               `/${pathName}/create_course?tab=2&id=${paramsId}&version=${paramsversion}`
             );
           }
-        } else{
+        } else {
           const payload = {
             courseData: selectedData,
             id: +courseId ? +courseId : paramsId,
@@ -161,7 +165,7 @@ console.log("paramsversion", paramsversion);
       } else {
         setIsError(true);
       }
-    }else {
+    } else {
       setIsError(true);
     }
   };
@@ -209,9 +213,9 @@ console.log("paramsversion", paramsversion);
           <div className="flex items-center gap-3">
             <img src={CloseIcon} alt="close" />
             <span className="text-[#842029] text-base font-calibri">
-              You can tag up to{" "}
-              {selectTargetPillarLimit?.data?.pillarLimit || 0} 
-              pillars per course. If your course targets additional pillars, please reach out to your Skillnet admin to request more tags.
+              You can tag up to 3 pillars per course. If your course targets
+              additional pillars, please reach out to your Skillnet admin to
+              request more tags.
             </span>
           </div>
           <Button

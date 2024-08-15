@@ -173,7 +173,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
               isLoading={isPending}
               onClick={() => handleInquire(data)}
             >
-              Inquire
+              Enquire
             </Button>
           )}
           <Button

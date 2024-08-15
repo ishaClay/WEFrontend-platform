@@ -88,6 +88,8 @@ const SetTarget = ({
     setIsEdit(false);
   };
 
+  console.log("checkedStates", checkedStates);
+
   return (
     <div>
       <div className="h-full w-full max-w-full mx-auto">

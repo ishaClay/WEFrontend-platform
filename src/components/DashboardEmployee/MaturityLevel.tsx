@@ -1,14 +1,14 @@
-import { Doughnut } from "react-chartjs-2";
 import Ellipse_one from "@/assets/images/Ellipse1.png";
 import Ellipse_two from "@/assets/images/Ellipse2.png";
 import Ellipse_three from "@/assets/images/Ellipse3.png";
 import Ellipse_four from "@/assets/images/Ellipse4.png";
 import Ellipse_five from "@/assets/images/Ellipse5.png";
-import { QUERY_KEYS } from "@/lib/constants";
 import { useAppSelector } from "@/hooks/use-redux";
-import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
 import { getAllassessment } from "@/services/apiServices/assessment";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import { useQuery } from "@tanstack/react-query";
+import { Doughnut } from "react-chartjs-2";
 
 const findMaturityLevel = (score: number, maturityLevel: any) => {
   for (const level of maturityLevel) {
@@ -51,7 +51,6 @@ const MaturityLevel = () => {
   const currentLavel =
     fetchClientmaturitylevel &&
     findMaturityLevel(Number(setScore), fetchClientmaturitylevel?.data);
-
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -132,12 +131,12 @@ const MaturityLevel = () => {
         </h3>
       </div>
       <div className="relative grid grid-cols-12 items-center">
-        <div className="xl:col-span-2 sm:col-span-4 col-span-6 sm:order-1 order-2">
-          <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
+        <div className="2xl:col-span-2 xl:col-span-3 sm:col-span-4 col-span-6 sm:order-1 order-2">
+          <div className="2xl:w-48 md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] 2xl:h-48 md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
           </div>
         </div>
-        <div className="xl:col-span-10 sm:col-span-8 col-span-6 sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
+        <div className="2xl:col-span-10 xl:col-span-9 sm:col-span-8 col-span-6 sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
           <div className="sm:ps-10 ps-0">
             <div className="md:mb-5 mb-0 sm:block hidden">
               <p className="inline">Your overall sustainability Score -</p>{" "}
