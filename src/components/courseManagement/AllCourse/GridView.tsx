@@ -204,10 +204,15 @@ const GridView = ({
     if (cohortCount > 0) {
       publishCourseFun(payload);
     } else {
-      toast({
-        title: "Please Create Cohort Group",
-        variant: "destructive",
-      });
+      const singleCourse = list?.find((item) => item?.currentVersion?.id === +id);      
+      if(singleCourse?.isOnline){
+        publishCourseFun(payload);        
+      } else{
+        toast({
+          title: "Please Create Cohort Group",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -218,31 +223,50 @@ const GridView = ({
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: AllCoursesResult
+    item: AllCoursesResult,
+    type?: string
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        if (+item?.step === 5) {
-          navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${
-              +item?.tab === 4 ? 0 : item?.tab
-            }&version=${item?.currentVersion?.id}`
-          );
-        } else {
-          navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${
-              +item?.tab === 4 ? 0 : item?.tab
-            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-              item?.currentVersion?.id
-            }`
-          );
+        if(type === "majorEdit"){
+          // if (+item?.step === 5) {
+          //   navigate(
+          //     `/${pathName}/create_course/${item?.id}?tab=${
+          //       +item?.tab === 4 ? 0 : item?.tab
+          //     }&version=${item?.currentVersion?.id}&type=${type}`
+          //   );
+          // } else {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
+              }&type=${type}`
+            );
+          // }
+        } else{
+          if (+item?.step === 5) {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&version=${item?.currentVersion?.id}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
+              }`
+            );
+          }
+          createNewVersionFun({
+            courseId: item?.id,
+            version: item?.currentVersion?.version || 0,
+          });
         }
       }
-      createNewVersionFun({
-        courseId: item?.id,
-        version: item?.currentVersion?.version || 0,
-      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -454,16 +478,23 @@ const GridView = ({
                             <span>Copy</span>
                           </DropdownMenuItem>
                         )}
+                        <DropdownMenuItem
+                          className="flex items-center gap-2 font-nunito"
+                          onClick={(e) => handleEdit(e, item, "majorEdit")}
+                        >
+                          <Pencil className="w-4 h-4" />
+                          <span>Major edit</span>
+                        </DropdownMenuItem>
                         {item?.status !== "EXPIRED" &&
                           (+userData?.query?.role === UserRole.Trainee
                             ? update
                             : true) && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleEdit(e, item)}
+                              onClick={(e) => handleEdit(e, item, "editWithNew")}
                             >
                               <Pencil className="w-4 h-4" />
-                              <span>Edit</span>
+                              <span>Edit with new version</span>
                             </DropdownMenuItem>
                           )}
                         {+userData?.query?.role !== UserRole.Trainee && (

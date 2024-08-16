@@ -157,8 +157,8 @@ const MainHeader = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,
-                    {(userData?.query?.fname + " " + userData?.query?.lname) ||
-                      userData?.query?.name ||
+                    {(userData?.query?.fname && userData?.query?.fname + " " + userData?.query?.lname && userData?.query?.lname) ||
+                      (userData?.query?.name && userData?.query?.name) ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>

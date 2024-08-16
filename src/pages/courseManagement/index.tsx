@@ -21,6 +21,7 @@ const CourseManagement = () => {
   const step = new URLSearchParams(search).get("step") || "";
   const paramsId = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
 
@@ -67,7 +68,7 @@ const CourseManagement = () => {
     if (getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab) {
       if (!+courseId) {
         navigate(
-          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}`,
+          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}&type=${paramsType}`,
           {
             replace: true,
           }
@@ -75,7 +76,7 @@ const CourseManagement = () => {
       } else {
         if(+courseId){
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}`,
+            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}&type=${paramsType}`,
             {
               replace: true,
             }

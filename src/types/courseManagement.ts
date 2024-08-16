@@ -176,6 +176,7 @@ export interface AllCoursesResult {
   trainerId?: TrainerId | null;
   tab: string;
   step: string;
+  isOnline: number;
 }
 export interface CourseDataEntity {
   pillarId: number;

@@ -34,3 +34,9 @@ export const createEvaluationScore = (data: any) => {
   const url = `api/v1/evaluationScore/create`;
   return api({ url, data, method: "post" });
 };
+
+export const fetchEnrollmentAcceptedFilterData = async (trainercompnyId: number, versionId: number) : Promise<any> => {
+  const url = `api/v1/course/course-enrollment-Accepted-filter/${trainercompnyId}/${versionId}`;
+  const res = await api({ url });
+  return res?.data
+};

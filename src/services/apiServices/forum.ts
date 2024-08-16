@@ -13,6 +13,7 @@ export const fetchAllForum = async (courseId: number):Promise<CommentFormData> =
 export const createForum = async (data: {question: string,
   userId: number,
   courseId: number,
+  moduleId: number,
   tab: string}):Promise<forumquestion> => {
   const url = `api/v1/forum-question/create`;
   const method = "post";
