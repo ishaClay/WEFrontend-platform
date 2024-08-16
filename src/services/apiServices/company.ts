@@ -47,3 +47,9 @@ export const getCountry = async () => {
   const res = await api({ url, method });
   return res.data
 };
+export const providerType = async () => {
+  const url = `api/v1/trainer-company/getProviderTypes`,
+    method = "get";
+  const res = await api({ url, method });
+  return res.data
+};

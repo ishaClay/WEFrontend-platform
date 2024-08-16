@@ -159,10 +159,10 @@ const ListView = ({
           variant: "success",
         });
       },
-      onError: (error) => {
+      onError: (error : ErrorType) => {
         toast({
           title: "Error",
-          description: error.message,
+          description: error.data.message,
           variant: "destructive",
         });
       },

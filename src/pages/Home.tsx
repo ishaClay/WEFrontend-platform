@@ -15,21 +15,37 @@ import {
   HomeCourseSlidersResponse,
 } from "@/types/banner";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useAppDispatch } from "@/hooks/use-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import Minus from "@/assets/images/Minus.png";
-import Plus from "@/assets/images/Plus.png";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import Accordions from "@/components/comman/Accordions";
+import AccordionQuestion from "@/components/homePage/AccordionQuestion";
+import AccordionAnswer from "@/components/homePage/AccordionAnswer";
+import { fetchfaqdata } from "@/services/apiServices/faq";
+import titleCircle from "@/assets/images/title_de.svg";
+import { Loader } from "lucide-react";
 
 function Home() {
+  const { data: getallfaq, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.fetchfaqquestion],
+    queryFn: () => fetchfaqdata(),
+  });
+
+  const accordionItems: any =
+    getallfaq &&
+    getallfaq?.data?.map((item) => {
+      return {
+        title: <AccordionQuestion data={item} />,
+        content: <AccordionAnswer data={item} />,
+      };
+    });
   const dispatch = useAppDispatch();
   const { clientId } = useAppSelector((state) => state.user);
 
-  const [activeIndex, setActiveIndex] = useState<null | string>(null);
   const domain = document.location.origin;
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
@@ -60,10 +76,6 @@ function Home() {
     queryFn: () => getCourseSlider(clientId.toString(), "Active"),
     enabled: !!clientId,
   });
-
-  const onItemClick = (index: string) => {
-    setActiveIndex(index === activeIndex ? null : index);
-  };
 
   const settings = {
     dots: true,
@@ -567,7 +579,7 @@ function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-[#F7F8FC] xl:py-11 py-8 xl:mt-[80px] mt-[60px]">
+      {/* <section className="bg-[#F7F8FC] xl:py-11 py-8 xl:mt-[80px] mt-[60px]">
         <div className="h-[auto] xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
           <div className="font-[700] text-[32px] relative">
             <h3 className="xl:text-[32px] text-[26px] font-UniNeue leading-9 font-bold traking-[-4%] text-color">
@@ -668,7 +680,49 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+      <div className="bg-[#F7F8FC] sm:pb-[26px] md:pt-[12px] sm:pt-[40px] pt-0 pb-[40px]">
+        <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[35px]">
+          <h3 className="xl:text-[32px] text-2xl font-abhaya leading-9 font-bold relative pb-3 inline-block pe-[50px] tracking-tighter">
+            Frequently asked Questions
+            <img
+              src={titleCircle}
+              alt=""
+              className="absolute right-0 top-0 bottom-0"
+            />
+            <span className="h-[4px] bg-[#64A70B] w-full absolute bottom-0 left-0"></span>
+          </h3>
+
+          {isLoading ? (
+            <Loader className="h-10 w-10" />
+          ) : (
+            <div className="md:flex block xl:gap-[60px] gap-[40px] xl:mt-[50px] mt-[25px]">
+              <div className="w-full">
+                <Accordions
+                  items={accordionItems?.slice(0, 3)}
+                  rounded={false}
+                  padding={false}
+                  className="sm:space-y-[24px] space-y-[9px]"
+                  triggerClassName={`data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white  text-[#002A3A]`}
+                  isPlusIcon
+                  itemsClass="p-0"
+                />
+              </div>
+              <div className="w-full">
+                <Accordions
+                  items={accordionItems?.slice(3)}
+                  rounded={false}
+                  padding={false}
+                  className="sm:space-y-[24px] space-y-[9px] md:mt-0 mt-[25px]"
+                  triggerClassName="data-[state=open]:bg-[#002A3A] p-4 data-[state=open]:text-white  text-[#002A3A]"
+                  isPlusIcon
+                  itemsClass="p-0"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
       <section className="flex items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 relative xl:my-20 my-8 lg:h-[350px] h-full">
         <div className="z-50">
