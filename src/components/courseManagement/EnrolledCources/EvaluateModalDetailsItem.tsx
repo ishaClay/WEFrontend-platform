@@ -2,14 +2,23 @@ import { Button } from "@/components/ui/button";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
 import { EvaluteDataEntity } from "@/types/enroll";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/Errors";
+import { useToast } from "@/components/ui/use-toast";
+import { createEvaluationScore } from "@/services/apiServices/enroll";
+import { Loader2 } from "lucide-react";
 
 type evaluteModalProps = {
   data: EvaluteDataEntity;
   index: number;
+  courseId: number;
+  employeeId: number;
 };
-const EvaluateModalDetailsItem = ({ data, index }: evaluteModalProps) => {
+const EvaluateModalDetailsItem = ({ data, index, courseId, employeeId }: evaluteModalProps) => {
+  const { toast } = useToast();
   const [addTotalPoints, setAddTotalPoints] = useState<string>("");
-  const [errors, setErrors] = useState<{type: boolean, message: string}>({type: false, message: ""});
+  const [moduleId, setModuleId] = useState<string | number>("");
+  const [errors, setErrors] = useState<{type: boolean, message: string}>({type: true, message: ""});
   const totalPoints = data?.evaluations?.reduce((sum:any, evaluation:any) => {
       return sum + evaluation?.question?.point;
   }, 0);
@@ -17,10 +26,49 @@ const EvaluateModalDetailsItem = ({ data, index }: evaluteModalProps) => {
   const handleAddPoints = (value:string) => {
     if(!value?.match(/^[0-9]*$/)){
       setErrors({type: true, message: "Please enter valid number"})
-    } else{
-      setAddTotalPoints(value)
+    } else if(value > totalPoints) {
+      setErrors({type: true, message: `Points should not be greater than total ${totalPoints} points`})
+    }else if(value === ""){
+      setErrors({type: true, message: `please enter points`})
+    }else{
+      setAddTotalPoints(value);
       setErrors({type: false, message: ""})
     }
+  }
+// api/v1/evaluationScore/create
+  const { mutate: createEvaluationScoreFun, isPending } = useMutation({
+    mutationFn: createEvaluationScore,
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data?.data?.message,
+        variant: "success",
+      });
+      setModuleId("");
+      setAddTotalPoints("");
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onSubmit = (mId: number) => {
+    const payload = {
+      data: [
+        {
+            moduleId: mId,
+            courseId: courseId,
+            total: totalPoints as string,
+            score: addTotalPoints
+        }
+      ],
+      employeeId: employeeId
+    }
+    createEvaluationScoreFun(payload)
   }
 
   return (
@@ -46,11 +94,13 @@ const EvaluateModalDetailsItem = ({ data, index }: evaluteModalProps) => {
       </div>
       <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <p className="px-3 py-2 w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px] cursor-pointer">
+          <p className="px-3 py-2 w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px]">
             {/* {data.page1} */}
             <input 
               type="text" 
               className="w-full h-full outline-none"
+              disabled={data?.score ? true : false}
+              defaultValue={data?.score}
               onChange={(e) => handleAddPoints(e?.target?.value)}
             />
           </p>
@@ -59,13 +109,16 @@ const EvaluateModalDetailsItem = ({ data, index }: evaluteModalProps) => {
           </span>
         </div>
         <div className="">
-          <Button className="outline-none sm:text-base text-sm font-calibri text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]">
-            Submit
+          <Button className="outline-none sm:text-base text-sm font-calibri text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]"
+            disabled={(errors?.type || isPending) && data?.score ? true : false}
+            onClick={() => {onSubmit(data?.id); setModuleId(data?.id)}}
+          >
+            {(isPending && data?.id === moduleId) && <Loader2 className="w-5 h-5 animate-spin" />} Submit
           </Button>
         </div>
       </div>
       {
-        (addTotalPoints > totalPoints || errors?.type) && <p className="text-red-500">{errors?.type ? errors?.message : `Points should not be greater than total ${totalPoints} points`}</p>
+        errors?.type && <p className="text-red-500">{errors?.message}</p>
       }
     </div>
   );

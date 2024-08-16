@@ -67,7 +67,7 @@ const Steps = () => {
                       {steps.title}
                     </h6>
                   </div>
-                  <p className="text-[13px] font-abhaya line-clamp-5 leading-[18px] font-extrabold">
+                  <p className="text-[13px] font-abhaya leading-[18px] font-extrabold">
                     {steps.desc}
                   </p>
                 </div>

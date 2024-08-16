@@ -500,9 +500,9 @@ export const calculateTotalReadingTime = (sections: any) => {
   sections.forEach((section: any) => {
     const time = section.isLive ? section.sectionTime : section.readingTime;
     const assessmentTime = section?.module?.assessment?.length > 0 && section?.module?.assessment?.[0]?.timeDuration;
-    totalHours += time?.hour || assessmentTime?.hours;
-    totalMinutes += time?.minute || assessmentTime?.minutes;
-    totalSeconds += time?.second || assessmentTime?.seconds;
+    totalHours += time?.hour || (assessmentTime?.hours || 0);
+    totalMinutes += time?.minute || (assessmentTime?.minutes || 0);
+    totalSeconds += time?.second || (assessmentTime?.seconds || 0);
   });
 
   // Convert total seconds to minutes and hours if necessary

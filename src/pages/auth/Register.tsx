@@ -12,7 +12,7 @@ import {
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
 import SideImage from "@/assets/images/AuthSide.svg";
-import RegisterSideImage from "@/assets/images/RegisterSideImage.svg";
+import RegisterSideImage from "@/assets/images/RegisterSideImage.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
@@ -362,21 +362,21 @@ function Register() {
                   <div className=" relative mt-[60px]">
                     <div className="flex items-center justify-between">
                       <h3 className="text-[24px] font-bold">
-                        Secure your berth & set sail
+                        Just a few details away
                       </h3>
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
                     <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
-                      Enter your company name eamil and set a password to anchor
-                      your details. submit to receive an OTP, steering you
-                      towards the next leg of your sustainable journey.
+                      Simply fill in your company name, email, create a
+                      password—and you’ll be sent a one-time password to get
+                      directly in.
                     </p>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div className="mb-2">
                         <InputWithLable
-                          label="Company Name"
+                          label="Registered Company Name"
                           className="h-[46px] border solid 1.5px"
                           placeholder="Enter Company Name"
                           {...register("name")}
@@ -436,17 +436,16 @@ function Register() {
                   <div className="lg:h-[524px] h-[300px] relative ">
                     <div className="flex items-center justify-between">
                       <h3 className="font-[700] xl:text-[24px] text-[22px]">
-                        Setting sail on your sustainability voyage
+                        Let’s get your company assessed
                       </h3>
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
 
                     <p className="sm:w-[450px] w-full xl:w-full">
-                      Just a few quick details—your company's name, email, and a
-                      new password—and you'll be all set to navigate through
-                      your sustainable and continue your impactful journey
-                      anytime.
+                      Just a few details to fill in, and you’ll be able to
+                      self-assess where your company is now on their
+                      sustainability journey.
                     </p>
 
                     <div className="mt-[20px] flex gap-x-[40px] font-[700]">
@@ -454,7 +453,7 @@ function Register() {
                         className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
                         onClick={handleLaunchJourney}
                       >
-                        Launch your journey!
+                        Start Now
                       </button>
                     </div>
                   </div>
@@ -525,7 +524,7 @@ function Register() {
         >
           <div className="mb-[2px] mt-2 text-center font-abhaya">
             <h2 className="text-xl font-semibold">
-              If you can verify the one-time password emailed to you
+              Please verify the one-time password in your inbox
             </h2>
             <p className="text-[#848181] text-[16px] font-abhaya">
               A one- time password has been sent to {email}
@@ -583,7 +582,7 @@ function Register() {
               }}
               className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-abhaya"
             >
-              Send a different email?
+              Send to a different email?
             </Button>
           </div>
         </Modal>

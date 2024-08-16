@@ -35,7 +35,7 @@ const AllocateCertificateModalDetails = ({
     },
   });
 
-  console.log("course", course, data);
+  console.log("course123", course, data);
 
   const handleDragEnter = (e: any) => {
     e.preventDefault();

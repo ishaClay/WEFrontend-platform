@@ -4,22 +4,46 @@ import Accordions from "@/components/comman/Accordions";
 import EnrolledCourseDetailsList from "./EnrolledCourseDetailsList";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
-import { fetchEnrollmentAccepted } from "@/services/apiServices/enroll";
+import { fetchEnrollmentAccepted, fetchEnrollmentAcceptedFilterData } from "@/services/apiServices/enroll";
 import { EnrolledCoursesType } from "@/types/enroll";
 import { Loader2 } from "lucide-react";
 import { useAppSelector } from "@/hooks/use-redux";
+import { useEffect, useState } from "react";
 
 const EnrolledCourseList = () => {
   const { UserId } = useAppSelector((state) => state.user);
+  const [selectVersion, setSelectVersion] = useState<any>({
+    versionId: "",
+    trainercompnyId: "",
+    index: '',
+  });
   const { data: enrolledCoursesData, isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
 
+
+  console.log("selectVersion", selectVersion);
+  
+  const { data: fetchEnrollmentAcceptedFilterList, isPending: fetchEnrollmentAcceptedFilterPending, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.fetchEnrollmentAcceptedFilter],
+    queryFn: () => fetchEnrollmentAcceptedFilterData(+UserId, +selectVersion?.versionId)
+  });
+
+  useEffect(() => {
+    refetch()
+  }, [selectVersion])
+  
+  console.log("fetchEnrollmentAcceptedFilterList", fetchEnrollmentAcceptedFilterList?.data, fetchEnrollmentAcceptedFilterPending);
+  
+
   const accordionItems: AccordionOption[] = enrolledCoursesData?.data?.map(
-    (item: EnrolledCoursesType) => {
+    (item: EnrolledCoursesType, index:number) => {
+      console.log("itemitem", item);
+      
       return {
-        title: <EnrolledCourseListItem data={item} />,
+        title: <EnrolledCourseListItem data={item} index={index} selectVersion={selectVersion} 
+        setSelectVersion={(e: number, inx:number, trainercompnyId: number) =>setSelectVersion({versionId: e, index: inx, trainercompnyId: trainercompnyId})} />,
         content: <EnrolledCourseDetailsList data={item} />,
       };
     }

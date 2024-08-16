@@ -7,7 +7,7 @@ import api from "./api";
 // };
 
 export const scheduleLiveSession = ({ data, id }: any) => {
-  const url = `api/v1/livesessions/liveSessionUpdate/${id}`;
+  const url = `api/v1/course/module/section/update-live-section/${id}`;
 
   return api({ url, data, method: "put" });
 };

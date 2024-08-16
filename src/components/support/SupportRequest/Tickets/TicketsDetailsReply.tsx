@@ -50,6 +50,7 @@ const TicketsDetailsReply = () => {
   const queryClient = useQueryClient();
   const [selectAssingValue, setSelectAssingValue] = useState("");
   const [selectTicketStatus, setSelectTicketStatus] = useState("");
+  const [selectTicketType, setSelectTicketType] = useState("");
   const [file, setFile] = useState("");
   const [video, setVideo] = useState<any>(undefined);
 
@@ -66,6 +67,7 @@ const TicketsDetailsReply = () => {
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select this field" }),
     ticketStatus: z.string({ required_error: "Please enter ticket status" }),
+    ticketType: z.string({ required_error: "Please enter ticket type" }),
     details: z
       .string({ required_error: "Please enter details" })
       .min(1, "Please enter details"),
@@ -103,6 +105,12 @@ const TicketsDetailsReply = () => {
           ? "Answered"
           : String(data?.data.data?.status)
       );
+      setValue(
+        "ticketType",String(data?.data.data?.type)
+      );
+      setValue(
+        "details",String(data?.data.data?.description)
+      );
       setSelectAssingValue(
         data?.data?.data?.openBy.id === userID
           ? String(data?.data?.data?.assignTo.id)
@@ -113,6 +121,7 @@ const TicketsDetailsReply = () => {
           ? "Answered"
           : String(data?.data.data?.status)
       );
+      setSelectTicketType(data?.data.data?.type);
     }
   }, [data, setValue]);
 
@@ -161,6 +170,7 @@ const TicketsDetailsReply = () => {
         openBy: +userID,
         assignTo: +data?.assignTo,
         status: data?.ticketStatus,
+        type: data?.ticketType,
         response: data?.details,
         documentUrl: data?.uploadDocument ? data?.uploadDocument : "",
         videoUrl: data?.uploadVideo ? data?.uploadVideo : "",
@@ -368,7 +378,7 @@ const TicketsDetailsReply = () => {
               );
             })}
 
-          <div className="grid grid-cols-2 gap-[36px] sm:mt-[29px] mt-0">
+          <div className="grid grid-cols-3 gap-[36px] sm:mt-[29px] mt-0">
             {/* <InputWithLable label="Assign To" /> */}
             <div>
               <Select
@@ -447,6 +457,40 @@ const TicketsDetailsReply = () => {
               {!errors?.ticketStatus?.ref?.value && (
                 <ErrorMessage
                   message={errors?.ticketStatus?.message as string}
+                />
+              )}
+            </div>
+
+            <div>
+              <Select
+                onValueChange={(e) => {
+                  setValue("ticketType", e);
+                  setSelectTicketType(e);
+                }}
+                value={selectTicketType}
+                {...register("ticketType")}
+              >
+                <SelectGroup>
+                  <SelectLabel className="text-[16px] font-[400]">
+                    Ticket Type
+                  </SelectLabel>
+
+                  <SelectTrigger className="max-w-full h-[52px]">
+                    <SelectValue placeholder="Select Ticket Status" />
+                  </SelectTrigger>
+                </SelectGroup>
+                <SelectContent>
+                  <SelectItem value={"Technical"}>Technical</SelectItem>
+                  <SelectItem value={"Feature Request"}>Feature Request</SelectItem>
+                  <SelectItem value={"Suggestion"}>Suggestion</SelectItem>
+                  <SelectItem value={"Data Actraction"}>Data Actraction</SelectItem>
+                  <SelectItem value={"Bug Report"}>Bug Report</SelectItem>
+                  <SelectItem value={"General Inquiry"}>General Inquiry</SelectItem>
+                </SelectContent>
+              </Select>
+              {!errors?.ticketType?.ref?.value && (
+                <ErrorMessage
+                  message={errors?.ticketType?.message as string}
                 />
               )}
             </div>

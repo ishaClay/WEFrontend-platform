@@ -10,32 +10,39 @@ import { fetchEvaluteData } from "@/services/apiServices/enroll";
 import { EmployeeType } from "@/types/enroll";
 import { useQuery } from "@tanstack/react-query";
 import { Award, CircleCheck, FilePenLine } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AllocateCertificateModalDetails from "./AllocateCertificateModalDetails";
 import EvaluateModalDetails from "./EvaluateModalDetails";
 
 type employeeCourseDetailsProps = {
   data: EmployeeType;
   course: any;
-  cohortGroupById: number;
 };
 const EnrollCourseEmployeeDetailsListItem = ({
   data,
   course,
-  cohortGroupById,
 }: employeeCourseDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { permissions } = useContext(PermissionContext);
   const [isOpenAllocate, setIsOpenAllocate] = useState(false);
   const progress = String(data?.progress)?.split(".");
-  console.log("permissions", permissions);
+  const [empId, setEmpId] = useState<string | number>("");
 
   const { data: fetchEvaluteList } = useQuery({
-    queryKey: [QUERY_KEYS.fetchEvalute, course?.course?.id, cohortGroupById],
-    queryFn: () => fetchEvaluteData(course?.course?.id, cohortGroupById),
-    enabled: !!course?.course?.id && !!cohortGroupById,
+    queryKey: [QUERY_KEYS.fetchEvalute, course?.course?.id, empId],
+    queryFn: () => fetchEvaluteData(course?.course?.id, +empId),
+    enabled: !!course?.course?.id && !!empId,
   });
+
+  useEffect(() => {
+    if(!isOpen){
+      setEmpId("");
+    }
+  }, [isOpen])
+
+  console.log("coursecourse", course, data);
+  
 
   return (
     <>
@@ -45,7 +52,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
         onClose={() => setIsOpen(false)}
         className="lg:max-w-[800px] md:max-w-[650px] sm:max-w-[550px] max-w-[335px] px-0"
       >
-        <EvaluateModalDetails data={fetchEvaluteList?.data || []} />
+        <EvaluateModalDetails data={fetchEvaluteList?.data || []} courseId={course?.course?.id} employeeId={+empId} />
       </Modal>
 
       <Modal
@@ -149,18 +156,18 @@ const EnrollCourseEmployeeDetailsListItem = ({
               <div className="">
                 <Button
                   className="text-white flex bg-[#00778b] sm:px-5 px-2 py-2 font-calibri sm:text-base text-xs rounded-none sm:h-10 h-9"
-                  onClick={() => setIsOpen(true)}
-                  disabled={
-                    progress?.[0] !== "100"
-                      ? true
-                      : userData?.query?.role === "3"
-                      ? !permissions?.certificate
-                      : fetchEvaluteList?.data?.find(
-                          (item) => item?.evaluations?.length > 0
-                        )
-                      ? false
-                      : true
-                  }
+                  onClick={() => {setIsOpen(true); setEmpId(data?.id)}}
+                  // disabled={
+                  //   progress?.[0] !== "100"
+                  //     ? true
+                  //     : userData?.query?.role === "3"
+                  //     ? !permissions?.certificate
+                  //     : fetchEvaluteList?.data?.find(
+                  //         (item) => item?.evaluations?.length > 0
+                  //       )
+                  //     ? false
+                  //     : true
+                  // }
                 >
                   <FilePenLine width={18} /> Evaluate
                 </Button>

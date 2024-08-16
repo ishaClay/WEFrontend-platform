@@ -6,12 +6,12 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
-import CustomTabInput from "../comman/CustomTabInput";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Modal from "../comman/Modal";
 import TextAreaWithLabel from "../comman/TextAreaWithLabel";
 import { Button } from "../ui/button";
 import { useToast } from "../ui/use-toast";
+import { Input } from "../ui/input";
 
 const schema = z.object({
   invitiondetail: z.string().min(1, { message: "Email Address is required" }),
@@ -24,8 +24,17 @@ const InviteMember = ({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { CompanyId } = useAppSelector((state) => state.user);
+  const [error, setError] = useState<string>("");
   const { toast } = useToast();
-  const [emails, setEmails] = useState<string[]>([]);
+  const [emails, setEmails] = useState<{
+    email: string;
+    fName: string;
+    lName: string;
+  }>({
+    email: "",
+    fName: "",
+    lName: "",
+  });
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const CompanyID = CompanyId
     ? CompanyId
@@ -48,7 +57,11 @@ const InviteMember = ({
     mutationFn: createEmployeeInvition,
     onSuccess: () => {
       reset();
-      setEmails([]);
+      setEmails({
+        email: "",
+        fName: "",
+        lName: "",
+      });
       setIsOpen(false);
       toast({ title: "Invitation Sent Successfully", variant: "success" });
     },
@@ -61,13 +74,22 @@ const InviteMember = ({
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const payload: EmployeePayload = {
-      email: emails,
-      csvUrl: "",
-      invitationDetails: data?.invitiondetail,
-      companyId: CompanyID,
-    };
-    createEmployeeInvitionlist(payload);
+    const isCheckValid =
+      emails.email !== "" && emails.fName !== "" && emails.lName !== "";
+
+    if (!isCheckValid) {
+      setError("Please fill all the fields");
+      return;
+    } else {
+      const payload: EmployeePayload = {
+        email: [emails],
+        csvUrl: "",
+        invitationDetails: data?.invitiondetail,
+        companyId: CompanyID,
+      };
+      setError("");
+      createEmployeeInvitionlist(payload);
+    }
   };
   return (
     <Modal
@@ -88,12 +110,38 @@ const InviteMember = ({
               </span>
             </h3>
             <div className="mt-[10px]">
-              <div className="w-full">
-                <CustomTabInput setValue={setEmails} />
-                {/* {errors.email && (
-                  <ErrorMessage message={errors.email.message as string} />
-                )} */}
+              <div className="flex lg:flex-nowrap flex-wrap items-center sm:gap-5 gap-3 w-full mb-2">
+                <Input
+                  type="text"
+                  placeholder="First Name"
+                  value={emails?.fName}
+                  name="fName"
+                  onChange={(e) =>
+                    setEmails({ ...emails, fName: e.target.value })
+                  }
+                  className="border rounded p-3 sm:w-[200px] w-full h-[52px]"
+                />
+                <Input
+                  type="text"
+                  placeholder="Last Name"
+                  name="lName"
+                  value={emails?.lName}
+                  onChange={(e) =>
+                    setEmails({ ...emails, lName: e.target.value })
+                  }
+                  className="border rounded p-3 sm:w-[200px] w-full h-[52px]"
+                />
+                <Input
+                  value={emails?.email}
+                  name="email"
+                  onChange={(e) =>
+                    setEmails({ ...emails, email: e.target.value })
+                  }
+                  placeholder="Enter email id"
+                  className="border rounded p-3 sm:w-[200px] w-full h-[52px]"
+                />
               </div>
+              {error && <ErrorMessage message={error} />}
             </div>
           </div>
 

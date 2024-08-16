@@ -307,7 +307,7 @@ const ModuleCreationItems = ({
                       disabled
                     />
                     <Label
-                      htmlFor="AttechmentUpload"
+                      htmlFor={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
                       className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
                     >
                       {" "}
@@ -316,7 +316,7 @@ const ModuleCreationItems = ({
                       <input
                         type="file"
                         className="hidden"
-                        id="AttechmentUpload"
+                        id={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
                         accept=".pdf,.ppt,.docx,.pptx"
                         onChange={(e) => handleFileSelect(e, sectionindex)}
                       />

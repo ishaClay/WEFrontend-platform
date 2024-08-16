@@ -168,6 +168,8 @@ const PillerCard = ({
     }
   };
 
+  console.log("checkedStatescheckedStates", item);
+
   return (
     <div className="pb-0 flex w-full">
       <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">
@@ -320,7 +322,7 @@ const PillerCard = ({
             </div>
           </div>
 
-          <div className="md:col-span-3 sm:col-span-4 col-span-12 flex items-center sm:justify-end justify-center">
+          <div className="md:col-span-3 sm:col-span-4 col-span-12 flex items-end sm:flex-col sm:justify-center justify-center">
             <Button
               disabled={item.checked === 0}
               onClick={() => {
@@ -331,8 +333,11 @@ const PillerCard = ({
               }}
               className="bg-[#64A70B] text-sm font-calibri text-white py-2 px-4 rounded-md h-[40px] w-[150px] font-bold"
             >
-              Define Action Items
+              {item?.actionItem && item?.actionItem?.length > 0 ? "View Action Items" : "Define Action Items"}
             </Button>
+            {item?.actionItem?.length > 0 && (
+              <span>Action Item: {item?.actionItem?.length}</span>
+            )}
           </div>
         </div>
       </div>

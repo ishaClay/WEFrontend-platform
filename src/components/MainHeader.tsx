@@ -2,6 +2,7 @@ import { SidebarContext } from "@/context/Sidebarcontext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { fetchNotificationCount } from "@/services/apiServices/notificationServices";
 import { ResponseError } from "@/types/Errors";
@@ -12,6 +13,7 @@ import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
 import { VscBellDot } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 import Logo2 from "../assets/images/logo2.png";
+import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
 import DrawerPage from "./DrawerPage";
@@ -26,9 +28,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
-import { setPath } from "@/redux/reducer/PathReducer";
-
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -120,7 +119,10 @@ const MainHeader = () => {
             <li className="">
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
-                Welcome {userData?.query?.name?.split("@")[0]}
+                Welcome{" "}
+                {userData?.query?.fname ||
+                  userData?.query?.name ||
+                  userData?.query?.email?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
@@ -155,8 +157,8 @@ const MainHeader = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,
-                    {userData?.query?.fname ||
-                      userData?.query?.name ||
+                    {(userData?.query?.fname && userData?.query?.fname + " " + userData?.query?.lname && userData?.query?.lname) ||
+                      (userData?.query?.name && userData?.query?.name) ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
@@ -218,7 +220,7 @@ const MainHeader = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,{" "}
-                    {userData?.query?.fname ||
+                    {(userData?.query?.fname + "" + userData?.query?.lname) ||
                       userData?.query?.name ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />

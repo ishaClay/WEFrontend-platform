@@ -736,7 +736,7 @@ function App() {
             element={<Notification />}
           />
           <Route
-            path="employee-basic-course/:courseId"
+            path="employee-basic-course/:versionId"
             element={<BasicCoursePage />}
           />
           <Route

@@ -3,7 +3,7 @@ import image1 from "@/assets/images/GuidingImage1.png";
 
 const GuidingPlatform = () => {
   return (
-    <div className="bg-[#F7F8FC] xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
+    <div className="xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6">
         <div>
           <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-abhaya traking-[4px] text-center sm:pb-6 pb-[60px] tracking-tighter">
@@ -71,8 +71,7 @@ const GuidingPlatform = () => {
                 Measure Your Progress
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-abhaya lg:line-clamp-3 line-clamp-2">
-                Once you’ve been walking the sustainability journey, re-take the
-                self-assessment to see how your measurably company’s developed
+                Once you’ve been walking the sustainability journey, retake the self-assessment to see how measurably your company has developed
               </p>
             </div>
 

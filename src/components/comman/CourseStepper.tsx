@@ -14,6 +14,7 @@ const CourseStepper = ({ currentStep, steps, onChangeStep, courseData }: Stepper
   const paramsTab = new URLSearchParams(search).get("tab") || "0";
   const paramsversion = new URLSearchParams(search).get("version");
   const paramsId = new URLSearchParams(search).get("id");
+  const paramsType = new URLSearchParams(search).get("type");
   const location = useLocation();
   const navigate = useNavigate();
   const pathName = location?.pathname?.split("/")[1];
@@ -31,7 +32,7 @@ const CourseStepper = ({ currentStep, steps, onChangeStep, courseData }: Stepper
         onChangeStep?.(index?.toString());
       } else {
         if (+courseId) {
-          navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${index}&version=${paramsversion}`)
+          navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${index}&version=${paramsversion}&type=${paramsType}`);
           onChangeStep?.(index?.toString());
         } else if (paramsId && currentStep) {
           if (currentStep && +currentStep <= index) {

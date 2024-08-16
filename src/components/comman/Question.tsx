@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import QuestionBox from "../QuestionBox";
 import { Button } from "../ui/button";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import { toast } from "../ui/use-toast";
 
 const Question = ({
   setIsLoading,
@@ -34,6 +35,11 @@ const Question = ({
       const nextPillar = allPillar[currentIndex + 1];
       handleSelected(nextPillar);
       dispatch(setActivePillar(nextPillar));
+    } else {
+      toast({
+        variant: "success",
+        title: "Please Click on Submit button",
+      })
     }
   };
 

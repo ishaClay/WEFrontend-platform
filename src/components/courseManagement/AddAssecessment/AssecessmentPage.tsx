@@ -109,7 +109,7 @@ const AssecessmentPage = () => {
 
   const assessmentData = moduleSection?.data?.data?.assessment;
   useEffect(() => {
-    if (getAssessmentByIdData?.data?.id) {
+    if (getAssessmentByIdData?.data) {
       setCreateAssecessment({
         title: getAssessmentByIdData?.data?.title,
         passingPercentage: getAssessmentByIdData?.data?.passingPercentage,
@@ -322,14 +322,21 @@ const AssecessmentPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
+      const payload = {
+        ...createAssecessment, timeDuration: {
+          hours: +createAssecessment?.timeDuration?.hours || 0,
+          minutes: +createAssecessment?.timeDuration?.minutes || 0,
+          seconds: +createAssecessment?.timeDuration?.seconds || 0
+        }
+      }
       if(assId && +assId){
         updateAssessmentFun({
-          data: {...createAssecessment, moduleSection: searchParams.get("moduleId") || ""},
+          data: {...payload, moduleSection: searchParams.get("moduleId") || ""},
           id: assId,
         })
       } else{
         createAssessmentFun({
-          ...createAssecessment,
+          ...payload,
           module: searchParams.get("moduleId")
             ? searchParams.get("moduleId")
             : "",

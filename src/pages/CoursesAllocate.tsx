@@ -43,13 +43,13 @@ import { useState } from "react";
 function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const [statusFilter, setStatusFilter] = useState("1");
+  const [statusFilter, setStatusFilter] = useState("all");
   const { clientId } = useAppSelector((state) => state?.user);
   const [openId, setOpenId] = useState<number | null>(null);
   const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
     queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
     queryFn: () =>
-      fetchAllocatedCourse(userData?.query?.id, statusFilter, clientId),
+      fetchAllocatedCourse(userData?.query?.id, statusFilter === 'all' ? '' : statusFilter, clientId),
   });
 
   console.log("course", course);
@@ -73,9 +73,12 @@ function CoursesAllocate() {
                     <SelectValue placeholder="Pending" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
                     <SelectItem value="1">Completed</SelectItem>
                     <SelectItem value="3">In Progress</SelectItem>
                     <SelectItem value="0">Pending</SelectItem>
+                    <SelectItem value="3">In Progress</SelectItem>
+                    <SelectItem value="1">Completed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

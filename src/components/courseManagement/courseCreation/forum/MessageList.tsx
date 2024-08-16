@@ -6,7 +6,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor, getTimeAgo } from "@/lib/utils";
 import { createCommnets, createReply } from "@/services/apiServices/forum";
 import { UserData } from "@/types/auth";
-import { forumDataEntity } from "@/types/forum";
+import { ForumQuestionsType } from "@/types/forum";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Dispatch, useState } from "react";
@@ -17,7 +17,7 @@ const MessageList = ({
   openCommnet,
   setopenCommnet,
 }: {
-  data: forumDataEntity;
+  data: ForumQuestionsType;
   openCommnet: number;
   setopenCommnet: Dispatch<React.SetStateAction<number>>;
 }) => {
@@ -36,6 +36,9 @@ const MessageList = ({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchforumquestion],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
       });
     },
     onError: (error: AxiosError) => {
@@ -66,6 +69,9 @@ const MessageList = ({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchforumquestion],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
       });
       setopenCommnet(0);
     },
@@ -243,7 +249,7 @@ const MessageList = ({
                     placeholder={"messages"}
                     className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
                     type="text"
-                    value={com?.reply}
+                    value={com?.reply as string}
                   />
                 </div>
               </div>

@@ -15,7 +15,6 @@ const EnrolledCourseDetailsList = ({ data }: EnrolledCoursesType | any) => {
           <EnrollCourseEmployeeDetailsList
             data={item}
             course={data}
-            cohortGroupById={item?.id}
           />
         ),
       };

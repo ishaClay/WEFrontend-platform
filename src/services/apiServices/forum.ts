@@ -1,4 +1,4 @@
-import {  CommentFormData, CommnetReply, commnets, forumquestion } from "@/types/forum";
+import {  CommentFormData, CommnetReply, commnets, forumquestion, ForumQuestionType } from "@/types/forum";
 import api from "./api";
 
 
@@ -13,6 +13,7 @@ export const fetchAllForum = async (courseId: number):Promise<CommentFormData> =
 export const createForum = async (data: {question: string,
   userId: number,
   courseId: number,
+  moduleId: number,
   tab: string}):Promise<forumquestion> => {
   const url = `api/v1/forum-question/create`;
   const method = "post";
@@ -54,10 +55,9 @@ export const fetchAllCommnets = async (id: number):Promise<commnets> => {
   return res.data;
 };
 
-
-
-
-
-
-
+export const fetchForumQuestion = async (id: number | string | any):Promise<ForumQuestionType> => {
+  const url = `api/v1/forum-question/get-by-course-module/${id}`;
+  const res = await api({ url });
+  return res.data;
+};
 

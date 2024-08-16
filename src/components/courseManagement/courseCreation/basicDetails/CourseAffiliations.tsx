@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   createCourseTwoPage,
-  fetchgetCoursesNameList,
+  // fetchgetCoursesNameList,
   fetchgetInstitutionsList,
   fetchSingleCourseById,
   updateCourse,
@@ -104,18 +104,28 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       };
     }) || [];
 
-  const { data: fetchgetCoursesList } = useQuery({
-    queryKey: [QUERY_KEYS.fetchgetCoursesNameList],
-    queryFn: () => fetchgetCoursesNameList(),
-  });
+  // const { data: fetchgetCoursesList } = useQuery({
+  //   queryKey: [QUERY_KEYS.fetchgetCoursesNameList],
+  //   queryFn: () => fetchgetCoursesNameList(),
+  // });
 
-  const organisationNameOption =
-    fetchgetCoursesList?.data?.map((item) => {
-      return {
-        label: item?.name,
-        value: item?.name,
-      };
-    }) || [];
+  // const organisationNameOption =
+  //   fetchgetCoursesList?.data?.map((item) => {
+  //     return {
+  //       label: item?.name,
+  //       value: item?.name,
+  //     };
+  //   }) || [];
+
+  const organisationNameOption = 
+    [{
+      label: 'Yes',
+        value: 'yes',
+    }, {
+      label: 'No',
+        value: 'no',
+    }]
+  
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {

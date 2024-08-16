@@ -42,6 +42,7 @@ function SupportAddNewTicket() {
   const { UserId } = useSelector((state: any) => state.user);
   const [selectAssignTo, setSelectAssignTo] = useState("");
   const [selectTicketPriority, setSelectTicketPriority] = useState("");
+  const [selectTicketType, setSelectTicketType] = useState("");
   const [file, setFile] = useState("");
   const [video, setVideo] = useState<any>(undefined);
   const userData = localStorage.getItem("user");
@@ -51,6 +52,9 @@ function SupportAddNewTicket() {
     assignTo: z.string({ required_error: "Please select Assign To" }),
     ticketPriority: z.string({
       required_error: "Please select ticket priority",
+    }),
+    ticketType: z.string({
+      required_error: "Please select ticket type",
     }),
     ticketSubject: z
       .string({ required_error: "Please enter ticket subject" })
@@ -120,6 +124,7 @@ function SupportAddNewTicket() {
     const payload: SubmitPayload = {
       assignTo: +data.assignTo,
       priority: data.ticketPriority,
+      type: data.ticketType,
       subject: data.ticketSubject,
       description: data.description,
       documentUrl: data.uploadDocument ? data.uploadDocument : "",
@@ -162,7 +167,7 @@ function SupportAddNewTicket() {
       </div>
       <div className="sm:p-5 p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-[36px] gap-0 mb-5">
+          <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-[36px] gap-0 mb-5">
             <div className="col-span-1 w-full">
               <Select
                 onValueChange={(e) => {
@@ -256,6 +261,40 @@ function SupportAddNewTicket() {
               {!errors?.ticketPriority?.ref?.value && (
                 <ErrorMessage
                   message={errors?.ticketPriority?.message as string}
+                />
+              )}
+            </div>
+            <div className="col-span-1 w-full">
+              <Select
+                onValueChange={(e) => {
+                  setValue("ticketType", e);
+                  setSelectTicketType(e);
+                }}
+                value={selectTicketType}
+                {...register("ticketType")}
+              >
+                <SelectGroup>
+                  <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
+                  Ticket Type <span className="text-red-400">*</span>
+                  </SelectLabel>
+                  <SelectTrigger
+                    className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
+                  >
+                    <SelectValue placeholder={`Select Ticket Type`} />
+                  </SelectTrigger>
+                </SelectGroup>
+                <SelectContent>
+                  <SelectItem value={"Technical"}>Technical</SelectItem>
+                  <SelectItem value={"Feature Request"}>Feature Request</SelectItem>
+                  <SelectItem value={"Suggestion"}>Suggestion</SelectItem>
+                  <SelectItem value={"Data Actraction"}>Data Actraction</SelectItem>
+                  <SelectItem value={"Bug Report"}>Bug Report</SelectItem>
+                  <SelectItem value={"General Inquiry"}>General Inquiry</SelectItem>
+                </SelectContent>
+              </Select>
+              {!errors?.ticketType?.ref?.value && (
+                <ErrorMessage
+                  message={errors?.ticketType?.message as string}
                 />
               )}
             </div>

@@ -48,6 +48,8 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
+    console.log("typetypetype", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`, type);
+    
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
@@ -154,7 +156,7 @@ const UploadContent = ({
   } else {
     registerkey = "";
     errorkey = errors;
-  }
+  }  
 
   return (
     <div className="">
@@ -228,7 +230,7 @@ const UploadContent = ({
                       -OR-
                     </h6>
                     <Label
-                      htmlFor="fileUpload"
+                      htmlFor={`modules.${moduleIndex}.section.${sectionIndex}`}
                       className="py-3 px-7 bg-[#42A7C3] text-xs font-calibri cursor-pointer rounded text-white"
                     >
                       {/* <Button className="py-3 px-7 bg-[#42A7C3] text-xs font-calibri"> */}
@@ -237,8 +239,9 @@ const UploadContent = ({
                       <input
                         type="file"
                         className="hidden"
-                        id="fileUpload"
-                        accept={FileType && FileType.fileTypeText}
+                        key={`modules.${moduleIndex}.section.${sectionIndex}`}
+                        id={`modules.${moduleIndex}.section.${sectionIndex}`}
+                        accept={FileType && FileType?.fileTypeText}
                         onChange={(e) => handleFileSelect(e)}
                       />
                     </Label>

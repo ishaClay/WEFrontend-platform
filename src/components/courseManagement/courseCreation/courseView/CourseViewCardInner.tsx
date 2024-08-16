@@ -23,11 +23,11 @@ import CourseViewCardInnerList from "./CourseViewCardInnerList";
 const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
-  assessments
+  assessments,
 }: {
   CourseCardList: any;
   moduleId: string;
-  assessments: any
+  assessments: any;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -190,30 +190,32 @@ const CourseViewCardInner = ({
 
   useEffect(() => {
     // This effect runs after getCourseCardList state has been updated
-
-    latestCourseCardList.current = getCourseCardList; // update ref to latest state
-    handelSectionPosition();
+    if (getCourseCardList) {
+      latestCourseCardList.current = getCourseCardList; // update ref to latest state
+      handelSectionPosition();
+    }
   }, [getCourseCardList]);
 
-  const { mutate: CreateSection, isPending: createSectionPending } = useMutation({
-    mutationFn: (data: any) => createSection(data, moduleId),
-    onSuccess: (data: any) => {
-      const newData = getCourseCardList.concat(data.data.data);
-      setGetCourseCardList(newData);
-      setAddSectionList(false);
-      reset({ ...intialSectionCreation });
-      toast({
-        variant: "success",
-        title: "Section added successfully",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  const { mutate: CreateSection, isPending: createSectionPending } =
+    useMutation({
+      mutationFn: (data: any) => createSection(data, moduleId),
+      onSuccess: (data: any) => {
+        const newData = getCourseCardList.concat(data.data.data);
+        setGetCourseCardList(newData);
+        setAddSectionList(false);
+        reset({ ...intialSectionCreation });
+        toast({
+          variant: "success",
+          title: "Section added successfully",
+        });
+      },
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
 
   const { mutate: EditSection, isPending: editSectionPending } = useMutation({
     mutationFn: (data: any) => updateSection(data, moduleId, isEditSection),
@@ -236,26 +238,28 @@ const CourseViewCardInner = ({
     },
   });
 
-  const { mutate: EditLiveSection, isPending: editLiveSectionPending } = useMutation({
-    mutationFn: (data: any) => scheduleLiveSession({ data, id: isEditSection }),
-    onSuccess: () => {
-      setIsEditSection(null);
-      reset({ ...intialSectionCreation });
-      toast({
-        variant: "success",
-        title: "Section updated successfully",
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  const { mutate: EditLiveSection, isPending: editLiveSectionPending } =
+    useMutation({
+      mutationFn: (data: any) =>
+        scheduleLiveSession({ data, id: isEditSection }),
+      onSuccess: () => {
+        setIsEditSection(null);
+        reset({ ...intialSectionCreation });
+        toast({
+          variant: "success",
+          title: "Section updated successfully",
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourseModule],
+        });
+      },
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
 
   const handleSort = () => {
     const moduleListClone = [...getCourseCardList];
@@ -338,9 +342,9 @@ const CourseViewCardInner = ({
       liveSecTitle: data.sectionTitle,
       liveSecinformation: data.information,
       sectionTime: {
-        hour: data.livesessionDuration.hour,
-        minute: data.livesessionDuration.minute,
-        second: data.livesessionDuration.second,
+        hour: +data.livesessionDuration.hour,
+        minute: +data.livesessionDuration.minute,
+        second: +data.livesessionDuration.second,
       },
       module: moduleId,
     };
@@ -351,8 +355,12 @@ const CourseViewCardInner = ({
     }
   };
 
-  console.log("addsectionList", addsectionList, getCourseCardList, CourseCardList);
-  
+  console.log(
+    "addsectionList",
+    addsectionList,
+    getCourseCardList,
+    CourseCardList
+  );
 
   return (
     <div
@@ -372,7 +380,6 @@ const CourseViewCardInner = ({
     >
       <div>
         {getCourseCardList.map((data: any, index: number) => {
-
           return (
             <>
               {isEditSection && isEditSection === data.id ? (
@@ -447,7 +454,10 @@ const CourseViewCardInner = ({
                   className="bg-[#58BA66] px-5 py-3 font-inter text-md"
                   disabled={createSectionPending}
                 >
-                  {createSectionPending && <Loader2 className="w-5 h-5 animate-spin" />} Save
+                  {createSectionPending && (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  )}{" "}
+                  Save
                 </Button>
               )}
             </div>

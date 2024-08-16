@@ -17,8 +17,9 @@ const Journey = () => {
             <br /> you can purposefully journey there
           </h3>
           <SecondaryButton
+            symbol={<img src="../assets/img/Move Right.png" />}
             name="Get Started Today"
-            className="py-[12px] px-[36px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] hover:bg-[green] text-[20px] leading-5 font-abhaya font-bold"
+            className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] hover:bg-[green] lg:text-[20px] text-lg leading-5 font-abhaya font-bold flex items-center justify-center gap-[10px]"
           ></SecondaryButton>
         </div>
       </div>

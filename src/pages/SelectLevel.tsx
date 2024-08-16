@@ -86,8 +86,11 @@ function SelectLevel() {
       <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 py-3">
         <div className="my-6">
           <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-abhaya">
-            Which sustainability pillars do you want to advance first? (We'll
-            suggest recommended courses after you build first.)
+            Select the sustainability pillars you want to progress on most—then
+            choose an action item(s) for each of them. (Not sure what actions to
+            take? Head to your dashboard and view ‘Recommended Courses’ to see
+            what training is available to specifically help you advance your
+            green.)
           </h1>
         </div>
         {isPending || isPendingPillar ? (
@@ -106,15 +109,15 @@ function SelectLevel() {
         )}
         <div className=" text-center font-abhaya  font-semibold mb-[23px]">
           <p>
-            <span className="text-[#F63636]"> An important note:</span>{" "}
-            nothing’s set in stone here! 
+            <span className="text-[#F63636]"> An important note:</span> The
+            action items you choose here are never fixed.
           </p>
 
           <p className="mt-[20px]">
-            Discuss sustainability measures over coffee with your colleagues. 
+            Come back anytime to edit them. But to build your Action Plan,  {" "}
             <br />
-            Come back anytime to edit action items.  <br />
-            And tweek-as-needed an action plan that will guide your company. 
+            you’ll need to have at least 1 action item defined for each
+            sustainability pillar you select.
           </p>
         </div>
         <div className="text-center flex items-center justify-center gap-4">
@@ -124,7 +127,7 @@ function SelectLevel() {
             isLoading={isPending}
             className="bg-[#64A70B] text-[white] rounded-md lg:text-base text-sm font-extrabold text-center w-[250px] h-[50px]"
           >
-            Got it. Build My Action Plan!
+            Build My Action Plan
           </Button>
           <Button
             onClick={() => navigate("/company/allcourses")}

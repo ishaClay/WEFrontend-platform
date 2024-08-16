@@ -68,7 +68,7 @@ export interface AllActionDataPillerWiseResult {
     rangeEnd: number;
     maturityNameRecommended: string;
     filteredOptions: (FilteredOptionsEntity)[];
-    actionItem?: (ActionItemEntity)[];
+    actionItem: (ActionItemEntity)[];
 }
 export interface FilteredOptionsEntity {
     name: string;

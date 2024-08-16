@@ -6,7 +6,7 @@ export interface ModuleCreation {
 export interface SectionCreation {
   sectionTitle: string;
   information: string;
-  uploadContentType: number;
+  uploadContentType?: number;
   uploadedContentUrl: string;
   readingTime: {
     hour: number;
