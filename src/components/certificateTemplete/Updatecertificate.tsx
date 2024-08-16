@@ -268,7 +268,7 @@ const Addcertificate = () => {
           </button>
         </div>
       </div>
-      <div className="p-5">
+      <div className="sm:p-5 p-[15px]">
         {isLoading ? (
           <Loader />
         ) : (

@@ -359,7 +359,7 @@ const GridView = ({
                   </div>
                 </div>
                 <div className="p-2 h-[calc(100%-220px)]">
-                  <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
+                  <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 sm:min-h-[48px] h-auto line-clamp-2">
                     {item?.title}
                   </h5>
                   <div className="flex items-center justify-between sm:mb-[11px] mb-5">
@@ -401,7 +401,7 @@ const GridView = ({
                     })}
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
+                <div className="flex sm:flex-nowrap flex-wrap items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                   <Button
                     disabled={
                       item?.status === "PUBLISHED" ||

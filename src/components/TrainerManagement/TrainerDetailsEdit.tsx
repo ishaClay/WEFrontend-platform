@@ -191,7 +191,7 @@ const TrainerDetailsEdit = () => {
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
       <div className="font-nunitoSans text-[16px] leading-[22px] text-black">
-        <div className="px-[14px] py-[10px] flex items-center justify-between border-b mb-[36px]">
+        <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b mb-[36px]">
           <div>
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               Trainer Details
@@ -200,7 +200,7 @@ const TrainerDetailsEdit = () => {
               All the details on your trainer, in one convenient view
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 md:mt-0 mt-3">
             <Button
               type="button"
               variant={"ghost"}
@@ -214,7 +214,7 @@ const TrainerDetailsEdit = () => {
                   ])
                 )
               }
-              className="gap-4 font-nunito text-[16px] hover:bg-transparent"
+              className="gap-4 font-nunito text-[16px] hover:bg-transparent pl-0"
             >
               <MoveLeft className="text-[#0f170d]" /> Back
             </Button>
@@ -245,12 +245,12 @@ const TrainerDetailsEdit = () => {
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(handleUpdate)}>
-            <div className="px-2 sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
-              <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 px-6 py-[30px] gap-8 mb-[36px]">
+            <div className="px-[15px] sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
+              <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 sm:px-6 p-[15px] sm:py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
                 <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                   Trainer personal information
                 </h2>
-                <div className="col-span-1 w-full flex justify-start mb-2 md:mb-0">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 w-full flex justify-start mb-2 md:mb-0">
                   <label htmlFor="upload">
                     <Avatar className="w-28 h-28">
                       <input
@@ -289,7 +289,7 @@ const TrainerDetailsEdit = () => {
                     </AvatarFallback>
                   </Avatar> */}
                 </div>
-                <div className="col-span-1 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
                   <InputWithLable
                     placeholder="John"
                     className="h-[46px]"
@@ -300,7 +300,7 @@ const TrainerDetailsEdit = () => {
                     <ErrorMessage message={errors.name.message as string} />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
                   <InputWithLable
                     placeholder="0044 1234 1234567"
                     className="h-[46px]"
@@ -319,7 +319,7 @@ const TrainerDetailsEdit = () => {
                     <ErrorMessage message={errors.number.message as string} />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
                   <InputWithLable
                     placeholder="john.sample@emailsample.com"
                     className="h-[46px]"
@@ -332,11 +332,11 @@ const TrainerDetailsEdit = () => {
                   )}
                 </div>
               </div>
-              <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 px-6 py-[30px] gap-8 mb-[36px]">
+              <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 sm:px-6 px-[15px] py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
                 <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                   Provider information
                 </h2>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <InputWithLable
                     className="h-[46px]"
                     placeholder="Sample Consulting Company"
@@ -349,7 +349,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <InputWithLable
                     placeholder="IT or University"
                     className="h-[46px]"
@@ -362,7 +362,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     County
                   </Label>
@@ -376,7 +376,7 @@ const TrainerDetailsEdit = () => {
                     value={watch("providerCounty") || ""}
                   />
                 </div>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <InputWithLable
                     placeholder="London"
                     className="h-[46px]"
@@ -389,7 +389,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <Select
                     onValueChange={(data) =>
                       // @ts-ignore
@@ -417,7 +417,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="col-span-1 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
                   <InputWithLable
                     placeholder="Notes 1"
                     className="h-[46px]"
@@ -431,7 +431,7 @@ const TrainerDetailsEdit = () => {
                   )}
                 </div>
               </div>
-              <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center mb-[36px]">
+              <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] sm:px-6 px-[15px] py-[30px] items-center sm:mb-[36px] mb-[20px]">
                 <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                   Trainer Status
                 </h2>
@@ -481,11 +481,11 @@ const TrainerDetailsEdit = () => {
                   </div>
                 </RadioGroup>
               </div>
-              <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center">
+              <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] sm:px-6 px-[15px] py-[30px] items-center">
                 <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                   Trainer Permission
                 </h2>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center space-x-2">
                     <Switch
                       id="airplane-mode"
@@ -554,7 +554,7 @@ const TrainerDetailsEdit = () => {
                 <Button
                   type="submit"
                   isLoading={isUpdate}
-                  className="text-[16px] font-semibold font-nunito uppercase py-[15px] px-[30px] h-auto bg-[#58BA66]"
+                  className="text-[16px] font-semibold font-nunito uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
                 >
                   Update
                 </Button>

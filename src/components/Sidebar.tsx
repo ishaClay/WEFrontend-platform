@@ -100,7 +100,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         sidebarOpen ? "2xl:w-[260px] w-[235px]" : "2xl:w-[60px] w-[235px]"
       } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
-      <div className="h-screen">
+      <div className="h-screen overflow-auto">
         {sidebarOpen ? (
           <div className="ml-[40px] mt-[20px]">
             <Link to={"/"}>

@@ -157,7 +157,9 @@ const MainHeader = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,
-                    {(userData?.query?.fname && userData?.query?.fname + " " + userData?.query?.lname && userData?.query?.lname) ||
+                    {(userData?.query?.fname &&
+                      userData?.query?.fname + " " + userData?.query?.lname &&
+                      userData?.query?.lname) ||
                       (userData?.query?.name && userData?.query?.name) ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
@@ -210,7 +212,19 @@ const MainHeader = () => {
               </p> */}
             </div>
             <div className="w-10 h-10 bg-white rounded-full flex justify-center items-center">
-              <VscBellDot className="w-[24px] h-[24px] leading-10" />
+              <VscBellDot
+                className="w-[24px] h-[24px] leading-10"
+                onClick={() =>
+                  dispatch(
+                    setPath([
+                      {
+                        label: "Notification List",
+                        link: `/${currentUser}/notification-list`,
+                      },
+                    ])
+                  )
+                }
+              />
             </div>
           </div>
 
@@ -220,7 +234,7 @@ const MainHeader = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,{" "}
-                    {(userData?.query?.fname + "" + userData?.query?.lname) ||
+                    {userData?.query?.fname + "" + userData?.query?.lname ||
                       userData?.query?.name ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />

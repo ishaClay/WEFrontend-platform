@@ -27,7 +27,7 @@ export function AlertLogOutDialog({
       <AlertDialogTrigger asChild>
         <Button style={{ display: "none" }} />
       </AlertDialogTrigger>
-      <AlertDialogContent className="px-[52px] py-[30px]">
+      <AlertDialogContent className="sm:px-[52px] px-[40px] py-[30px] rounded-lg sm:w-full w-[345px]">
         <AlertDialogHeader className="items-center">
           <div className="flex justify-center items-center bg-[#297f94] rounded-full text-white w-[66px] h-[66px]">
             <RiShutDownLine size={24} />
@@ -39,19 +39,19 @@ export function AlertLogOutDialog({
             Do you want to log out?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="!justify-center">
+        <AlertDialogFooter className="!justify-center sm:gap-0 gap-[10px]">
           <Button
             type="button"
             variant="secondary"
             onClick={onClose}
-            className="xl:px-[30px] h-[40px] px-[15px] py-2 font-semibold !font-abhaya text-md text-[#020817]"
+            className="xl:px-[30px] w-full h-[40px] px-[15px] py-2 font-semibold !font-abhaya text-md text-[#020817]"
           >
             Cancel
           </Button>
           <PrimaryButton
             onClick={onConfirm}
             name="Log Out"
-            className="xl:px-[30px] px-[15px] py-2 h-[40px] primary-background font-semibold !font-abhaya text-md !ml-[14px]"
+            className="xl:px-[30px] w-full px-[15px] py-2 h-[40px] primary-background font-semibold !font-abhaya text-md !sm:ml-[14px]"
           />
         </AlertDialogFooter>
       </AlertDialogContent>

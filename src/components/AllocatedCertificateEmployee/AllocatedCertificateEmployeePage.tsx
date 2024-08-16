@@ -170,9 +170,9 @@ const AllocatedCertificateEmployeePage = () => {
           </button>
         </div>
       </div>
-      <div className="p-5">
+      <div className="sm:p-5 p-[15px]">
         <div className="grid grid-cols-12 gap-5">
-          <div className="col-span-8 ">
+          <div className="2xl:col-span-8 col-span-12">
             {selectCourse && selectedCertificate ? (
               <div className="2xl:flex block gap-[30px]" ref={captureRef}>
                 <div className="relative 2xl:sticky top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
@@ -374,7 +374,7 @@ const AllocatedCertificateEmployeePage = () => {
               </p>
             )}
           </div>
-          <div className="col-span-4">
+          <div className="2xl:col-span-4 col-span-12">
             <div className="border border-[#D9D9D9] rounded-lg mb-5">
               <div className="xl:p-4 p-2 border-b border-[#D9D9D9]">
                 <h5 className="text-base font-bold font-calibri">

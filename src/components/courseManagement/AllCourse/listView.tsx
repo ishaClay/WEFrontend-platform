@@ -389,7 +389,7 @@ const ListView = ({
                     </div>
                   </div>
                 </div>
-                <div className="2xl:col-span-3 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
+                <div className="2xl:col-span-3 xl:col-span-3 col-span-9 flex sm:flex-nowrap flex-wrap items-center sm:justify-end justify-start relative p-4">
                   <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
                     <Button
                       disabled={
@@ -403,7 +403,7 @@ const ListView = ({
                         +userData?.query?.role === UserRole.Trainee
                           ? "xl:min-w-auto min-w-auto"
                           : "xl:max-w-[90px] max-w-[85px]"
-                      } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
+                      } xl:py-[6px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
                       onClick={(
                         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                       ) => {
@@ -423,7 +423,7 @@ const ListView = ({
                       onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
-                      className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
+                      className="xl:max-w-[90px] sm:max-w-[80px] max-w-[88px] text-sm py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                     >
                       + Cohort
                     </Button>

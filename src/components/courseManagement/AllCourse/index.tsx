@@ -165,7 +165,7 @@ const AllCourses = () => {
                 defaultValue="All"
                 onValueChange={(e) => setStatus(e === "All" ? "" : e)}
               >
-                <SelectTrigger className="w-[150px]">
+                <SelectTrigger className="sm:w-[150px] w-full">
                   <SelectValue placeholder="All Courses" />
                 </SelectTrigger>
                 <SelectContent>
