@@ -64,6 +64,7 @@ const ListView = ({
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
   const pathName = location?.pathname?.split("/")?.[1];
+  const allCoursePathName = location?.pathname?.split("/")?.[2];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const handleCohort = (e: Event, id: number) => {
@@ -182,10 +183,15 @@ const ListView = ({
     if (cohortCount > 0) {
       publishCourseFun(payload);
     } else {
-      toast({
-        title: "Please Create Cohort Group",
-        variant: "destructive",
-      });
+      const singleCourse = list?.find((item) => item?.currentVersion?.id === +id);      
+      if(singleCourse?.isOnline){
+        publishCourseFun(payload);        
+      } else{
+        toast({
+          title: "Please Create Cohort Group",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -216,29 +222,48 @@ const ListView = ({
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     id: string | undefined,
-    item: AllCoursesResult
+    item: AllCoursesResult,
+    type?: string
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        if (+item?.step === 5) {
-          navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${
-              +item?.tab === 4 ? 0 : item?.tab
-            }&version=${id}`
-          );
+        if(type === "majorEdit"){
+          if (+item?.step === 5) {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&version=${id}&type=${type}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}&type=${type}`
+            );
+          }
         } else {
-          navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${
-              +item?.tab === 4 ? 0 : item?.tab
-            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}`
-          );
-        }
+          if (+item?.step === 5) {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&version=${item?.currentVersion?.id}`
+            );
+          } else {
+            navigate(
+              `/${pathName}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
+              }`
+            );
+          }
+          createNewVersionFun({
+            courseId: item?.id,
+            version: item?.currentVersion?.version || 0,
+          });
+        }        
       }
-      createNewVersionFun({
-        courseId: item?.id,
-        version: item?.currentVersion?.version || 0,
-      });
     } else {
       if (item?.trainerId?.id) {
         toast({
@@ -288,12 +313,12 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               };
             });
-          const update =
+            const update =
             +userData?.query?.role === UserRole?.Trainer
               ? true
-              : data?.trainerId?.id === +userData?.query?.detailsid
-              ? true
-              : permissions?.updateCourse;
+              : // : item?.trainerId?.id === +userData?.query?.detailsid
+                // ? true
+                permissions?.updateCourse;
           return (
             <>
               <Link
@@ -402,6 +427,9 @@ const ListView = ({
                     >
                       + Cohort
                     </Button>
+                    {!(
+                    pathName === "trainee" && allCoursePathName === "allcourse"
+                  ) && (
                     <div className="">
                       <SelectMenu
                         option={versionOption || []}
@@ -415,6 +443,7 @@ const ListView = ({
                         placeholder="V-01"
                       />
                     </div>
+                    )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild className="outline-none">
                         <EllipsisVertical />
@@ -440,6 +469,13 @@ const ListView = ({
                               <span>Copy</span>
                             </DropdownMenuItem>
                           )}
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "majorEdit")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>Major edit</span>
+                          </DropdownMenuItem>
                           {data?.status !== "EXPIRED" &&
                             (+userData?.query?.role === UserRole.Trainee
                               ? update
@@ -449,13 +485,14 @@ const ListView = ({
                                   handleEdit(
                                     e,
                                     data?.currentVersion?.id?.toString(),
-                                    data
+                                    data,
+                                    "editWithNew"
                                   )
                                 }
                                 className="flex items-center gap-2 font-nunito"
                               >
                                 <Pencil className="w-4 h-4" />
-                                <span>Edit</span>
+                                <span>Edit with new version</span>
                               </DropdownMenuItem>
                             )}
                           {+userData?.query?.role !== UserRole.Trainee && (

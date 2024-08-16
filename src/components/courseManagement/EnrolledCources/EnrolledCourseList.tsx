@@ -17,24 +17,54 @@ const EnrolledCourseList = () => {
     trainercompnyId: "",
     index: '',
   });
+  const [coursesEnrolleList, setCoursesEnrolleList] = useState<any>([]);
+
   const { data: enrolledCoursesData, isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
 
+  useEffect(() => {
+    setCoursesEnrolleList(enrolledCoursesData?.data || [])
+  }, [enrolledCoursesData])
 
   console.log("selectVersion", selectVersion);
   
   const { data: fetchEnrollmentAcceptedFilterList, isPending: fetchEnrollmentAcceptedFilterPending, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.fetchEnrollmentAcceptedFilter],
-    queryFn: () => fetchEnrollmentAcceptedFilterData(+UserId, +selectVersion?.versionId)
+    queryKey: [QUERY_KEYS.fetchEnrollmentAcceptedFilter, selectVersion?.versionId],
+    queryFn: () => fetchEnrollmentAcceptedFilterData(+UserId, +selectVersion?.versionId),
+    enabled: !!selectVersion?.versionId
   });
+
+
+  const updateData = () => {
+    // Adjust for zero-based index
+    const indexToReplace = selectVersion?.index - 1;
+
+    // Return a new array where the item at indexToReplace is replaced with dataB
+    const updatedDataA = enrolledCoursesData?.data?.map((item:any, index:number) => {
+      if (index === indexToReplace) {
+        return fetchEnrollmentAcceptedFilterList?.data; // Replace the item with dataB
+      }
+      return item;
+    });
+
+    return updatedDataA;
+  };
+
+  useEffect(() => {
+    setCoursesEnrolleList(updateData())
+  }, [fetchEnrollmentAcceptedFilterList])
+
+  console.log("updateDataupdateData", updateData());
+  
+
 
   useEffect(() => {
     refetch()
   }, [selectVersion])
   
-  console.log("fetchEnrollmentAcceptedFilterList", fetchEnrollmentAcceptedFilterList?.data, fetchEnrollmentAcceptedFilterPending);
+  console.log("fetchEnrollmentAcceptedFilterList", fetchEnrollmentAcceptedFilterPending);
   
 
   const accordionItems: AccordionOption[] = enrolledCoursesData?.data?.map(

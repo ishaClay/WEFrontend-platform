@@ -478,24 +478,26 @@ const GridView = ({
                             <span>Copy</span>
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "majorEdit")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Major edit</span>
-                        </DropdownMenuItem>
-                        {item?.status !== "EXPIRED" &&
-                          (+userData?.query?.role === UserRole.Trainee
-                            ? update
-                            : true) && (
-                            <DropdownMenuItem
-                              className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleEdit(e, item, "editWithNew")}
-                            >
-                              <Pencil className="w-4 h-4" />
-                              <span>Edit with new version</span>
-                            </DropdownMenuItem>
+                          {item?.status !== "EXPIRED" &&
+                            (+userData?.query?.role === UserRole.Trainee
+                              ? update
+                              : true) && (
+                            <>
+                              <DropdownMenuItem
+                                className="flex items-center gap-2 font-nunito"
+                                onClick={(e) => handleEdit(e, item, "majorEdit")}
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>Major edit</span>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                className="flex items-center gap-2 font-nunito"
+                                onClick={(e) => handleEdit(e, item, "editWithNew")}
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>Edit with new version</span>
+                              </DropdownMenuItem>
+                            </>
                           )}
                         {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
@@ -516,11 +518,7 @@ const GridView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            +userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                          }`}
+                          className={`items-center gap-2 font-nunito`}
                           onClick={(e: any) => {
                             e.stopPropagation();
                             setIsDelete(true);

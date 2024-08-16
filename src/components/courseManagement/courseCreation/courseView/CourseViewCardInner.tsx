@@ -33,6 +33,8 @@ const CourseViewCardInner = ({
     useState<any[]>(CourseCardList);
   const dragPerson = useRef<number>(0);
   const draggedOverPerson = useRef<number>(0);
+  const search = window.location.search;
+  const paramsType = new URLSearchParams(search).get("type") || "";
   const [addsectionList, setAddSectionList] = useState<boolean>(false);
   const latestCourseCardList = useRef(getCourseCardList);
   const [isEditSection, setIsEditSection] = useState<number | null>(null);
@@ -398,7 +400,7 @@ const CourseViewCardInner = ({
               ) : (
                 <div
                   key={index}
-                  draggable
+                  draggable={paramsType === "majorEdit" ? false : true}
                   onDragStart={() => (dragPerson.current = index)}
                   onDragEnter={() => (draggedOverPerson.current = index)}
                   onDragEnd={handleSort}
@@ -435,6 +437,7 @@ const CourseViewCardInner = ({
                     type="button"
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
+                    disabled={paramsType === "majorEdit"}
                   >
                     <CirclePlus width={18} /> Section
                   </Button>
@@ -442,7 +445,7 @@ const CourseViewCardInner = ({
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
-                    disabled={assessments?.length === 1}
+                    disabled={paramsType === "majorEdit" ? true : assessments?.length === 1}
                   >
                     <CirclePlus width={18} /> Add Assessment
                   </Button>
