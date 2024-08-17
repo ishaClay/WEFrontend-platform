@@ -60,7 +60,6 @@ const MaturityLevelModel = ({
       }),
     enabled: !!isOpen && !!userID && !!clientId,
   });
-
   const findMaturityLevel = (score: number) => {
     for (const level of maturityLevel) {
       if (score >= level.rangeStart && score <= level.rangeEnd) {

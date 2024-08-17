@@ -51,6 +51,7 @@ const ModuleCreationPage = () => {
   const search = window.location.search;
   const paramsTab = new URLSearchParams(search).get("tab") || "";
   const courseID = new URLSearchParams(search).get("id") || "";
+  const paramsType = new URLSearchParams(search).get("type") || "";
   const paramsVersion = new URLSearchParams(search).get("version") || "";
   const [moduleList, setModuleList] = useState<any>([]);
   const dragPerson = useRef<number>(0);
@@ -316,6 +317,8 @@ const ModuleCreationPage = () => {
   };
 
   console.log("watchwatch", watch());
+  console.log("asdasd++++", paramsType === "majorEdit" , moduleList?.length > 0 ,  moduleCreationItem.length > 0);
+  
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
@@ -333,7 +336,7 @@ const ModuleCreationPage = () => {
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
-          disabled={moduleList?.length > 0 && moduleCreationItem.length > 0}
+          disabled={paramsType === "majorEdit" ? true : moduleList?.length > 0 && moduleCreationItem.length > 0}
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
           <CirclePlus width={18} /> Add Module
@@ -349,7 +352,7 @@ const ModuleCreationPage = () => {
                 return (
                   <div
                     key={index}
-                    draggable
+                    draggable={paramsType === "majorEdit" ? false : true}
                     onDragStart={() => (dragPerson.current = index)}
                     onDragEnter={() => (draggedOverPerson.current = index)}
                     onDragEnd={handleSort}

@@ -18,7 +18,11 @@ const ConfirmationModel = ({
   isLoader: boolean;
 }) => {
   return (
-    <Modal open={!!open} onClose={() => setOpen("")}>
+    <Modal
+      open={!!open}
+      onClose={() => setOpen("")}
+      className="px-5 sm:w-auto w-[345px] rounded-lg"
+    >
       <img
         src={warningIcon}
         alt="warningIcon"
@@ -28,7 +32,7 @@ const ConfirmationModel = ({
         Are you sure you want to Publish this course?
       </p>
 
-      <div className="flex justify-center gap-5 mt-5">
+      <div className="flex justify-center gap-5 sm:mt-5 mt-3">
         <Button
           type="button"
           variant={"outline"}

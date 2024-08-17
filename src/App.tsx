@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
+import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
@@ -14,6 +15,7 @@ import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
+import { getDeviceToken } from "./firebaseConfig";
 import { useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
@@ -128,7 +130,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 
 function App() {
   let socket: any;
@@ -161,6 +162,11 @@ function App() {
     themes?.data?.data?.textColor
   );
 
+  const handleGetToken = async () => {
+    const token = await getDeviceToken();
+    console.log("token", token);
+  };
+
   useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
     socket.on("message recieved", () => {
@@ -174,6 +180,8 @@ function App() {
         queryKey: [QUERY_KEYS.chatUserList],
       });
     });
+
+    handleGetToken();
 
     return () => {
       socket.disconnect();

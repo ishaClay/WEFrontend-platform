@@ -187,7 +187,7 @@ function SupportAddNewTicket() {
                     <SelectValue placeholder={`Select Name`} />
                   </SelectTrigger>
                 </SelectGroup>
-                <SelectContent>
+                <SelectContent className="min-w-full w-full max-w-full">
                   {assigToUserListPending ? (
                     <span className="flex justify-center py-3">
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -201,8 +201,9 @@ function SupportAddNewTicket() {
                           <SelectItem
                             key={item.id}
                             value={String(item?.userDetails?.id)}
+                            className="flex items-center gap-5"
                           >
-                            <span className="w-[150px] text-neutral-400 inline-block text-left">
+                            <span className="w-full text-neutral-400 text-left">
                               {item?.userDetails?.role === UserRole?.Employee
                                 ? "Employee"
                                 : item?.userDetails?.role === UserRole?.Company
@@ -213,7 +214,9 @@ function SupportAddNewTicket() {
                                 ? "Trainer"
                                 : "Client Admin"}
                             </span>{" "}
-                            <span className="mr-10 text-neutral-400">--</span>{" "}
+                            <span className="xl:mx-10 mx-0 text-neutral-400">
+                              --
+                            </span>{" "}
                             {item?.name || item?.email?.split("@")?.[0]}
                             {/* {!!item?.userDetails
                               ? item?.userDetails?.name ||
@@ -275,7 +278,7 @@ function SupportAddNewTicket() {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
-                  Ticket Type <span className="text-red-400">*</span>
+                    Ticket Type <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
@@ -285,17 +288,21 @@ function SupportAddNewTicket() {
                 </SelectGroup>
                 <SelectContent>
                   <SelectItem value={"Technical"}>Technical</SelectItem>
-                  <SelectItem value={"Feature Request"}>Feature Request</SelectItem>
+                  <SelectItem value={"Feature Request"}>
+                    Feature Request
+                  </SelectItem>
                   <SelectItem value={"Suggestion"}>Suggestion</SelectItem>
-                  <SelectItem value={"Data Actraction"}>Data Actraction</SelectItem>
+                  <SelectItem value={"Data Actraction"}>
+                    Data Actraction
+                  </SelectItem>
                   <SelectItem value={"Bug Report"}>Bug Report</SelectItem>
-                  <SelectItem value={"General Inquiry"}>General Inquiry</SelectItem>
+                  <SelectItem value={"General Inquiry"}>
+                    General Inquiry
+                  </SelectItem>
                 </SelectContent>
               </Select>
               {!errors?.ticketType?.ref?.value && (
-                <ErrorMessage
-                  message={errors?.ticketType?.message as string}
-                />
+                <ErrorMessage message={errors?.ticketType?.message as string} />
               )}
             </div>
           </div>

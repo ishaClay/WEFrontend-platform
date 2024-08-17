@@ -27,7 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
-import { getCountry } from "@/services/apiServices/company";
+import { getCountry, providerType } from "@/services/apiServices/company";
 import {
   registerTrainee,
   registerTrainer,
@@ -35,6 +35,7 @@ import {
 } from "@/services/apiServices/trainer";
 import { CountryResponse } from "@/types/Company";
 import { ErrorType, ResponseError } from "@/types/Errors";
+import { Gettype } from "@/types/providerTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -83,7 +84,7 @@ function RegisterTrainer() {
         .string()
         .min(1, { message: "Please enter email" })
         .email("Please enter valid email"),
-      providerNotes: z.string().optional(),
+      providerNotes: z.string().max(200, {message: "Provider Notes must contain at least 200 characters" }).optional(),
       foreignProvider: z
         .enum(["Yes", "No"])
         .refine(
@@ -190,6 +191,12 @@ function RegisterTrainer() {
     queryKey: ["CountryData"],
     queryFn: getCountry,
   });
+  const { data :providertype } = useQuery<Gettype>({
+    queryKey: ["ProviderType"],
+    queryFn: providerType,
+  });
+console.log(providertype?.providerTypes,"providertype")
+// console.log(country?.data,"country")
 
   const countryOption =
     country?.data &&
@@ -197,7 +204,16 @@ function RegisterTrainer() {
       ?.map((item) => {
         return { value: item?.name, label: item?.name };
       })
-      .sort((a, b) => a.label.localeCompare(b.label));
+      .sort((a, b) => a.label.localeCompare(b.label))
+
+  const typeoption =
+  providertype?.providerTypes &&
+  providertype?.providerTypes
+      ?.map((item) => {
+        console.log(item,"item")
+        return {value : item , label : item}
+      }).sort((a, b) => a.label.localeCompare(b.label))
+      console.log(typeoption,"typeoption")
 
   const { mutate, isPending } = useMutation({
     mutationFn: sendOtp,
@@ -282,7 +298,6 @@ function RegisterTrainer() {
   const handleResendOtp = (email: string) => {
     ReSendOTP({ email: email });
   };
-
   return (
     <div className="">
       <HomeHeader />
@@ -339,16 +354,36 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
+                    <Label className="mb-[8px]  font-bold text-[16px]">
+                    Provider Type <span className="text-red-500">*</span>
+                    </Label>
+                    <SelectMenu
+                      option={typeoption || []}
                       placeholder="IT or University"
-                      className="h-[46px]"
-                      label="Provider Type"
-                      isMendatory={true}
-                      {...register("providerType")}
+                      className="h-[46px] mt-2"
+                      setValue={(data: string) =>
+                        setValue("providerType", data)
+                      }
+                      value={watch("providerType") || ""}
                     />
                     {errors.providerType && (
                       <ErrorMessage
                         message={errors.providerType.message as string}
+                      />
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLable
+                      placeholder="221 B Baker Street"
+                      className="h-[46px]"
+                      label="Provider Address"
+                      isMendatory={true}
+                      disabled={watch("foreignProvider") === "No"}
+                      {...register("providerAddress")}
+                    />
+                    {errors.providerAddress && (
+                      <ErrorMessage
+                        message={errors.providerAddress.message as string}
                       />
                     )}
                   </div>
@@ -386,32 +421,6 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="Sample"
-                      className="h-[46px]"
-                      label="Contact Surname"
-                      {...register("contactSurname")}
-                    />
-                    {errors.contactSurname && (
-                      <ErrorMessage
-                        message={errors.contactSurname.message as string}
-                      />
-                    )}
-                  </div>
-                  <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="0044 1234 1234567"
-                      className="h-[46px]"
-                      label="Contact Telephone No."
-                      {...register("contactTelephone")}
-                    />
-                    {errors.contactTelephone && (
-                      <ErrorMessage
-                        message={errors.contactTelephone.message as string}
-                      />
-                    )}
-                  </div>
-                  <div className="col-span-2">
                     <Select
                       onValueChange={(data: any) =>
                         // @ts-ignore
@@ -419,6 +428,7 @@ function RegisterTrainer() {
                       }
                       value={watch("foreignProvider") || ""}
                     >
+                      
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
                           Foregin Provider
@@ -442,20 +452,70 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="221 B Baker Street"
+                      placeholder="Notes 1"
                       className="h-[46px]"
-                      label="Provider Address"
-                      isMendatory={true}
-                      disabled={watch("foreignProvider") === "No"}
-                      {...register("providerAddress")}
+                      label="Provider Notes"
+                      {...register("providerNotes")}
                     />
-                    {errors.providerAddress && (
+                    {errors.providerNotes && (
                       <ErrorMessage
-                        message={errors.providerAddress.message as string}
+                        message={errors.providerNotes.message as string}
                       />
                     )}
                   </div>
                   <div className="col-span-2">
+                    <InputWithLable
+                      placeholder="John"
+                      className="h-[46px]"
+                      label="Contact First Name"
+                      {...register("name")}
+                    />
+                    {errors.name && (
+                      <ErrorMessage message={errors.name.message as string} />
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLable
+                      placeholder="Sample"
+                      className="h-[46px]"
+                      label="Contact Surname"
+                      {...register("contactSurname")}
+                    />
+                    {errors.contactSurname && (
+                      <ErrorMessage
+                        message={errors.contactSurname.message as string}
+                      />
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLable
+                      placeholder="john.sample@emailsample.com"
+                      className="h-[46px]"
+                      disabled={!!defEmail}
+                      label="Email Address"
+                      isMendatory={true}
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <ErrorMessage message={errors.email.message as string} />
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLable
+                      placeholder="0044 1234 1234567"
+                      className="h-[46px]"
+                      label="Contact Telephone No."
+                      {...register("contactTelephone")}
+                    />
+                    {errors.contactTelephone && (
+                      <ErrorMessage
+                        message={errors.contactTelephone.message as string}
+                      />
+                    )}
+                  </div>
+                
+                 
+                  {/* <div className="col-span-2">
                     <Label className="mb-[8px]  font-bold text-[16px]">
                       Provider County <span className="text-red-500">*</span>
                     </Label>
@@ -474,44 +534,10 @@ function RegisterTrainer() {
                         message={errors.providerCounty.message as string}
                       />
                     )}
-                  </div>
-                  <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="John"
-                      className="h-[46px]"
-                      label="Contact First Name"
-                      {...register("name")}
-                    />
-                    {errors.name && (
-                      <ErrorMessage message={errors.name.message as string} />
-                    )}
-                  </div>{" "}
-                  <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="john.sample@emailsample.com"
-                      className="h-[46px]"
-                      disabled={!!defEmail}
-                      label="Email Address"
-                      isMendatory={true}
-                      {...register("email")}
-                    />
-                    {errors.email && (
-                      <ErrorMessage message={errors.email.message as string} />
-                    )}
-                  </div>
-                  <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="Notes 1"
-                      className="h-[46px]"
-                      label="Provider Notes"
-                      {...register("providerNotes")}
-                    />
-                    {errors.providerNotes && (
-                      <ErrorMessage
-                        message={errors.providerNotes.message as string}
-                      />
-                    )}
-                  </div>
+                  </div> */}
+                  
+                 
+                
                 </div>
                 <div className="sm:w-[370px] w-full mx-auto xl:mt-[40px] mt-5">
                   <PrimaryButton

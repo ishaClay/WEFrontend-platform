@@ -32,6 +32,11 @@
   src: url("assets/fonts/D-din-pro/D-DIN-PRO-700-Bold.otf");
 }
 
+@font-face {
+  font-family: "Droid Sans Regular";
+  src: url("assets/fonts/Droid Sans/Droid\ Sans\ Regular.ttf");
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -105,6 +110,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-Droid-Regular {
+  font-family: "Droid Sans Regular";
 }
 
 /* width */

@@ -105,12 +105,8 @@ const TicketsDetailsReply = () => {
           ? "Answered"
           : String(data?.data.data?.status)
       );
-      setValue(
-        "ticketType",String(data?.data.data?.type)
-      );
-      setValue(
-        "details",String(data?.data.data?.description)
-      );
+      setValue("ticketType", String(data?.data.data?.type));
+      setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
         data?.data?.data?.openBy.id === userID
           ? String(data?.data?.data?.assignTo.id)
@@ -378,9 +374,9 @@ const TicketsDetailsReply = () => {
               );
             })}
 
-          <div className="grid grid-cols-3 gap-[36px] sm:mt-[29px] mt-0">
+          <div className="grid grid-cols-3 lg:gap-[36px] sm:gap-[20px] gap-[10px] md:mt-[29px] mt-0">
             {/* <InputWithLable label="Assign To" /> */}
-            <div>
+            <div className="md:col-span-1 col-span-3">
               <Select
                 onValueChange={(e) => setValue("assignTo", e)}
                 value={String(selectAssingValue)}
@@ -390,21 +386,24 @@ const TicketsDetailsReply = () => {
                     Assign To
                   </SelectLabel>
 
-                  <SelectTrigger className="max-w-full h-[52px]">
+                  <SelectTrigger className="max-w-full w-full h-[52px]">
                     <SelectValue placeholder="Select Name" />
                   </SelectTrigger>
                 </SelectGroup>
-                <SelectContent>
+                <SelectContent className="min-w-full w-full max-w-full">
                   {assigToUserListPending ? (
-                    <Loader className="w-5 h-5 animate-spin" />
+                    <span className="flex justify-center py-3">
+                      <Loader className="w-5 h-5 animate-spin" />
+                    </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList.map((item: any) => {
                       return (
                         <SelectItem
                           key={item.id}
                           value={String(item?.userDetails?.id)}
+                          className="flex items-center gap-5"
                         >
-                          <span className="w-[150px] text-neutral-400 inline-block text-left">
+                          <span className="w-full text-neutral-400 text-left">
                             {item?.userDetails?.role === UserRole?.Employee
                               ? "Employee"
                               : item?.userDetails?.role === UserRole?.Company
@@ -415,7 +414,9 @@ const TicketsDetailsReply = () => {
                               ? "Trainer"
                               : "Client Admin"}
                           </span>{" "}
-                          <span className="mr-10 text-neutral-400">--</span>{" "}
+                          <span className="xl:mx-10 mx-0 text-neutral-400">
+                            --
+                          </span>{" "}
                           {item?.name || item?.email?.split("@")?.[0]}
                         </SelectItem>
                       );
@@ -430,7 +431,7 @@ const TicketsDetailsReply = () => {
               )}
             </div>
 
-            <div>
+            <div className="md:col-span-1 col-span-3">
               <Select
                 onValueChange={(e) => {
                   setValue("ticketStatus", e);
@@ -440,7 +441,7 @@ const TicketsDetailsReply = () => {
                 {...register("ticketStatus")}
               >
                 <SelectGroup>
-                  <SelectLabel className="text-[16px] font-[400]">
+                  <SelectLabel className="text-[16px] font-[400] mt-0">
                     Ticket Status
                   </SelectLabel>
 
@@ -461,7 +462,7 @@ const TicketsDetailsReply = () => {
               )}
             </div>
 
-            <div>
+            <div className="md:col-span-1 col-span-3">
               <Select
                 onValueChange={(e) => {
                   setValue("ticketType", e);
@@ -471,7 +472,7 @@ const TicketsDetailsReply = () => {
                 {...register("ticketType")}
               >
                 <SelectGroup>
-                  <SelectLabel className="text-[16px] font-[400]">
+                  <SelectLabel className="text-[16px] font-[400] mt-0">
                     Ticket Type
                   </SelectLabel>
 
@@ -481,17 +482,21 @@ const TicketsDetailsReply = () => {
                 </SelectGroup>
                 <SelectContent>
                   <SelectItem value={"Technical"}>Technical</SelectItem>
-                  <SelectItem value={"Feature Request"}>Feature Request</SelectItem>
+                  <SelectItem value={"Feature Request"}>
+                    Feature Request
+                  </SelectItem>
                   <SelectItem value={"Suggestion"}>Suggestion</SelectItem>
-                  <SelectItem value={"Data Actraction"}>Data Actraction</SelectItem>
+                  <SelectItem value={"Data Actraction"}>
+                    Data Actraction
+                  </SelectItem>
                   <SelectItem value={"Bug Report"}>Bug Report</SelectItem>
-                  <SelectItem value={"General Inquiry"}>General Inquiry</SelectItem>
+                  <SelectItem value={"General Inquiry"}>
+                    General Inquiry
+                  </SelectItem>
                 </SelectContent>
               </Select>
               {!errors?.ticketType?.ref?.value && (
-                <ErrorMessage
-                  message={errors?.ticketType?.message as string}
-                />
+                <ErrorMessage message={errors?.ticketType?.message as string} />
               )}
             </div>
           </div>

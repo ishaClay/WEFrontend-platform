@@ -126,9 +126,11 @@ export const copyCourse = (id: number) => {
 };
 
 export const getCourseByTrainee = async (
-  id: number
+  id: number,
+  status?: string,
+  keyword?: string
 ): Promise<AllCoursesResponse> => {
-  const url = `api/v1/trainer-company/allcoursebytrainer/${id}`;
+  const url = `api/v1/trainer-company/allcoursebytrainer/${id}?status=${status}&keyword=${keyword}`;
   const method = "get";
   const res = await api({ url, method });
   return res.data;

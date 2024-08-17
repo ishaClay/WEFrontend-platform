@@ -9,7 +9,7 @@ const TrainingProviders = () => {
         id="trainer"
         className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5 xl:mb-[50px] mb-[45px]"
       >
-        <h6 className="md:text-4xl sm:text-3xl text-2xl font-abhaya font-semibold text-center sm:pb-10 pb-[30px]">
+        <h6 className="md:text-4xl sm:text-3xl text-2xl font-UniNeue font-semibold text-center sm:pb-10 pb-[30px]">
           Get your training to those it’ll help
         </h6>
         {/* <div className="w-[250px] h-[47px] button-color rounded-[6px] flex justify-center items-center mb-[44px]">
@@ -27,10 +27,10 @@ const TrainingProviders = () => {
             </div>
 
             <div className="">
-              <h3 className="text-lg font-abhaya font-semibold leading-5">
+              <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Reach An Ireland-Wide Audience
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 You’re never limited by your geography, reach a national
                 sustainability-ready audience.
               </p>
@@ -41,10 +41,10 @@ const TrainingProviders = () => {
               <img className="w-9 h-9" src="../assets/img/Class (1).png" />
             </div>
             <div className="">
-              <h3 className="text-lg font-abhaya font-semibold leading-5">
+              <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Deliver Your Courses With Ease
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 The built-in learning management system enables you to focus on
                 your content, and we’ll take care of the delivery and
                 route-to-market
@@ -59,10 +59,10 @@ const TrainingProviders = () => {
               />
             </div>
             <div className="">
-              <h3 className="text-lg font-abhaya font-semibold leading-5">
+              <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 On our marketplace-oriented platform.
               </p>
             </div>
@@ -75,10 +75,10 @@ const TrainingProviders = () => {
               />
             </div>
             <div className="">
-              <h3 className="text-lg font-abhaya font-semibold leading-5">
+              <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Gain Strategic Insights Via Analytics
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 Hone your training using our targeted analytics that reports on
                 learner performance and market demand.
               </p>

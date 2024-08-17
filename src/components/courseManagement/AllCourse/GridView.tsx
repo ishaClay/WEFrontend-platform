@@ -151,10 +151,10 @@ const GridView = ({
           variant: "success",
         });
       },
-      onError: (error) => {
+      onError: (error: ErrorType) => {
         toast({
           title: "Error",
-          description: error.message,
+          description: error.data.message,
           variant: "destructive",
         });
       },
@@ -204,10 +204,12 @@ const GridView = ({
     if (cohortCount > 0) {
       publishCourseFun(payload);
     } else {
-      const singleCourse = list?.find((item) => item?.currentVersion?.id === +id);      
-      if(singleCourse?.isOnline){
-        publishCourseFun(payload);        
-      } else{
+      const singleCourse = list?.find(
+        (item) => item?.currentVersion?.id === +id
+      );
+      if (singleCourse?.isOnline) {
+        publishCourseFun(payload);
+      } else {
         toast({
           title: "Please Create Cohort Group",
           variant: "destructive",
@@ -229,7 +231,7 @@ const GridView = ({
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        if(type === "majorEdit"){
+        if (type === "majorEdit") {
           // if (+item?.step === 5) {
           //   navigate(
           //     `/${pathName}/create_course/${item?.id}?tab=${
@@ -237,15 +239,15 @@ const GridView = ({
           //     }&version=${item?.currentVersion?.id}&type=${type}`
           //   );
           // } else {
-            navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-                item?.currentVersion?.id
-              }&type=${type}`
-            );
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+              item?.currentVersion?.id
+            }&type=${type}`
+          );
           // }
-        } else{
+        } else {
           if (+item?.step === 5) {
             navigate(
               `/${pathName}/create_course/${item?.id}?tab=${
@@ -359,7 +361,7 @@ const GridView = ({
                   </div>
                 </div>
                 <div className="p-2 h-[calc(100%-220px)]">
-                  <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
+                  <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 sm:min-h-[48px] h-auto line-clamp-2">
                     {item?.title}
                   </h5>
                   <div className="flex items-center justify-between sm:mb-[11px] mb-5">
@@ -401,7 +403,7 @@ const GridView = ({
                     })}
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
+                <div className="flex sm:flex-nowrap flex-wrap items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
                   <Button
                     disabled={
                       item?.status === "PUBLISHED" ||
@@ -491,7 +493,9 @@ const GridView = ({
                             : true) && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleEdit(e, item, "editWithNew")}
+                              onClick={(e) =>
+                                handleEdit(e, item, "editWithNew")
+                              }
                             >
                               <Pencil className="w-4 h-4" />
                               <span>Edit with new version</span>
@@ -516,11 +520,7 @@ const GridView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            +userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                          }`}
+                          className={`items-center gap-2 font-nunito`}
                           onClick={(e: any) => {
                             e.stopPropagation();
                             setIsDelete(true);

@@ -216,7 +216,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
                 <div className="">
                   <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] min-h-[72px]">
+                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] sm:min-h-[72px] h-auto">
                       {allcourse.title}
                     </p>
                     <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">

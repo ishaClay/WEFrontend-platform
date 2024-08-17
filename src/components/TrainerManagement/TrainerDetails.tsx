@@ -80,7 +80,7 @@ const TrainerDetails = () => {
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
       <div className="font-nunitoSans text-[16px] leading-[22px] text-black">
-        <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b mb-[36px]">
+        <div className="p-[15px] md:flex block items-center justify-between border-b mb-[36px]">
           <div>
             <h3 className="text-[16px] font-[700] font-nunito mb-1">
               Trainer Details
@@ -133,8 +133,8 @@ const TrainerDetails = () => {
         {isPending ? (
           <Loader />
         ) : (
-          <div className="px-2 sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
-            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-9 px-6 py-[30px] gap-8 mb-[36px]">
+          <div className="px-[15px] sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
+            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-9 px-6 py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                 Trainer personal information
               </h2>
@@ -157,7 +157,7 @@ const TrainerDetails = () => {
                   </p>
                 </div>
               </div>
-              <div className="xl:col-span-2 col-span-4 flex items-center font-nunito w-full">
+              <div className="xl:col-span-2 sm:col-span-4 col-span-9 flex items-center font-nunito w-full">
                 <div>
                   <h3 className="text-[#A3A3A3]">Contact number</h3>
                   <p className="text-[#000]">
@@ -165,16 +165,16 @@ const TrainerDetails = () => {
                   </p>
                 </div>
               </div>
-              <div className="xl:col-span-2 col-span-5 flex items-center font-nunito w-full">
+              <div className="xl:col-span-2 sm:col-span-5 col-span-9 flex items-center font-nunito w-full">
                 <div>
-                  <h3 className="text-[#A3A3A3]">Email address</h3>
+                  <h3 className="text-[#A3A3A3] sm:text-base">Email address</h3>
                   <p className="text-[#000]">
                     {clientDetails?.data?.email || "--"}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 px-6 py-[30px] gap-8 mb-[36px]">
+            <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 px-6 py-[30px] gap-8 sm:mb-[36px] mb-[20px]">
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                 Provider information
               </h2>
@@ -203,7 +203,7 @@ const TrainerDetails = () => {
                 <p>{clientDetails?.data?.providerNotes || "--"}</p>
               </div>
             </div>
-            <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center mb-[36px]">
+            <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center sm:mb-[36px] mb-[20px]">
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
                 Trainer Status
               </h2>
@@ -308,7 +308,7 @@ const TrainerDetails = () => {
               <Button
                 type="button"
                 onClick={handleSubmit}
-                className="text-[16px] font-semibold font-nunito uppercase py-[15px] px-[30px] h-auto bg-[#58BA66]"
+                className="text-[16px] font-semibold font-nunito uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
               >
                 {isPendingUpdate ? (
                   <Loader containerClassName="h-auto" />
@@ -327,10 +327,10 @@ const TrainerDetails = () => {
                   clientDetails?.data?.course?.map((course: any) => (
                     <div
                       key={course?.id}
-                      className="border border-[#D9D9D9] rounded-[6px] col-span-2 py-[14px] px-[19px]"
+                      className="border border-[#D9D9D9] rounded-[6px] xl:col-span-2 col-span-4 sm:py-[14px] sm:px-[19px] p-[15px]"
                     >
-                      <div className="flex items-start gap-[22px]">
-                        <div className="max-w-[164px] w-full h-[180px] rounded-[5px] bg-slate-400">
+                      <div className="sm:flex block items-start gap-[22px]">
+                        <div className="sm:max-w-[164px] w-full sm:h-[180px] h-auto rounded-[5px] bg-slate-400">
                           <img
                             src={course?.bannerImage}
                             alt="bannerImage"
@@ -338,8 +338,8 @@ const TrainerDetails = () => {
                           />
                         </div>
                         <div>
-                          <div className="flex items-center gap-[7px] mb-[22px]">
-                            <div className="flex items-center">
+                          <div className="flex flex-wrap items-center gap-[7px] sm:mb-[22px] sm:mt-0 my-4">
+                            <div className="flex flex-wrap items-center">
                               <img
                                 src={starImage}
                                 alt=""
@@ -349,7 +349,7 @@ const TrainerDetails = () => {
                                 0/5
                               </p>
                             </div>
-                            <div className="flex items-center gap-[11px]">
+                            <div className="flex flex-wrap items-center gap-[11px]">
                               {course?.courseData?.map((itm: any) => {
                                 const color = itm?.fetchMaturity?.color;
                                 return (
@@ -362,10 +362,10 @@ const TrainerDetails = () => {
                               })}
                             </div>
                           </div>
-                          <h3 className="text-[16px] font-inter font-[500] mb-[12px]">
+                          <h3 className="text-[16px] font-inter font-[500] xl:mb-[12px] mb-2">
                             {course?.title}
                           </h3>
-                          <h5 className="text-[16px] font-abhaya font-semibold mb-[13px]">
+                          <h5 className="text-[16px] font-abhaya font-semibold xl:mb-[13px] mb-2">
                             Company Name : {course?.trainerId?.name}
                           </h5>
                           <h5 className="text-[16px] font-abhaya font-semibold">

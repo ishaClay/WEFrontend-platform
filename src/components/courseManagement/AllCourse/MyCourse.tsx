@@ -1,5 +1,12 @@
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -19,6 +26,7 @@ const MyCourse = () => {
   const dispatch = useAppDispatch();
   const { permissions } = useContext(PermissionContext);
   const [cohort, setCohort] = useState(false);
+  const [status, setStatus] = useState("All");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
@@ -35,8 +43,13 @@ const MyCourse = () => {
     data: fetchCourseAllCourseData,
     isPending: fetchCourseAllCoursePending,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword }],
-    queryFn: () => getCourseByTrainee(userData?.query?.detailsid),
+    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status }],
+    queryFn: () =>
+      getCourseByTrainee(
+        userData?.query?.detailsid,
+        status === "All" ? "" : status,
+        searchKeyword
+      ),
   });
 
   return (
@@ -94,31 +107,48 @@ const MyCourse = () => {
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
-          <div className="flex sm:ml-6 ml-2 sm:gap-2 gap-0">
-            <Button
-              type="button"
-              onClick={() => changeList(0)}
-              className="bg-transparent p-1 hover:bg-transparent"
-            >
-              <AiOutlineAppstore
-                className={`sm:w-8 sm:h-8 w-6 h-6 ${
-                  params === "0" || !params
-                    ? "text-[#00778B]"
-                    : "text-[#A3A3A3]"
-                }`}
-              />
-            </Button>
-            <Button
-              type="button"
-              onClick={() => changeList(1)}
-              className="bg-transparent p-1 hover:bg-transparent"
-            >
-              <AiOutlineBars
-                className={`sm:w-8 sm:h-8 w-6 h-6 ${
-                  params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
-                }`}
-              />
-            </Button>
+          <div className="flex items-center">
+            {+userData?.query?.role !== UserRole.Trainer && (
+              <Select
+                value={status}
+                defaultValue="All"
+                onValueChange={(e) => setStatus(e === "All" ? "" : e)}
+              >
+                <SelectTrigger className="sm:w-[150px] w-full">
+                  <SelectValue placeholder="All Courses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Courses</SelectItem>
+                  <SelectItem value="assign">Assign Courses</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+            <div className="flex sm:ml-6 ml-2 sm:gap-2 gap-0">
+              <Button
+                type="button"
+                onClick={() => changeList(0)}
+                className="bg-transparent p-1 hover:bg-transparent"
+              >
+                <AiOutlineAppstore
+                  className={`sm:w-8 sm:h-8 w-6 h-6 ${
+                    params === "0" || !params
+                      ? "text-[#00778B]"
+                      : "text-[#A3A3A3]"
+                  }`}
+                />
+              </Button>
+              <Button
+                type="button"
+                onClick={() => changeList(1)}
+                className="bg-transparent p-1 hover:bg-transparent"
+              >
+                <AiOutlineBars
+                  className={`sm:w-8 sm:h-8 w-6 h-6 ${
+                    params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                  }`}
+                />
+              </Button>
+            </div>
           </div>
         </div>
         <div className="px-[18px] pb-[18px]">
