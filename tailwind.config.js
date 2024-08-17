@@ -112,6 +112,7 @@ module.exports = {
         abhaya: ["Abhaya Libre", "serif"],
         nunito: ["Nunito Sans", "sans"],
         greatvibes: ["Great Vibes", "cursive"],
+        droid: ["Droid Regular", "Sans"],
       },
       borderRadius: {
         lg: "var(--radius)",

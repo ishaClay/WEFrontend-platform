@@ -23,9 +23,15 @@ const HomeBanner = () => {
           clientwiseBannerList?.data?.map((item) => {
             return (
               <div className="relative">
-                <div style={{ backgroundImage: `url(${item.banner})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: 'right' }} className=" md:block hidden w-full xl:h-[610px] md:h-[480px] h-[810px]">
-
-                </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${item.banner})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right",
+                  }}
+                  className=" md:block hidden w-full xl:h-[610px] md:h-[480px] h-[810px]"
+                ></div>
                 {/* <img
                   className="sm:block hidden w-full xl:h-[610px] md:h-[480px] h-[810px] object-cover"
                   src={item.banner}
@@ -41,7 +47,7 @@ const HomeBanner = () => {
                         <h6 className="text-[36px] font-bold secondary-text font-abhaya xl:mb-5 sm:mb-4 mb-2.5 sm:w-[428px] w-[260px] break-all leading-8">
                           {item.title}
                         </h6>
-                        <p className="sm:w-[500px] w-[260px] font-semibold secondary-text md:text-lg text-base font-abhaya line-clamp-3 leading-5 xl:mb-[66px] sm:mb-[35px] mb-2.5">
+                        <p className="sm:w-[500px] w-[260px] font-semibold secondary-text md:text-lg text-base font-Droid-Regular line-clamp-3 leading-5 xl:mb-[66px] sm:mb-[35px] mb-2.5">
                           {item.content}
                         </p>
                         <SecondaryButton

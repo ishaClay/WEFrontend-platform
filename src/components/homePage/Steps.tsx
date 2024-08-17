@@ -63,11 +63,11 @@ const Steps = () => {
                     <div className="h-[76px] mb-2.5">
                       <img src={steps.image} alt="" />
                     </div>
-                    <h6 className="primary-text text-lg font-abhaya font-extrabold leading-5">
+                    <h6 className="primary-text text-lg font-Droid-Regular font-extrabold leading-5">
                       {steps.title}
                     </h6>
                   </div>
-                  <p className="text-[13px] font-abhaya leading-[18px] font-extrabold">
+                  <p className="text-[13px] font-Droid-Regular leading-[18px] font-extrabold">
                     {steps.desc}
                   </p>
                 </div>

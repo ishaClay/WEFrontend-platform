@@ -33,7 +33,7 @@ const DrawerPage = ({
   open: boolean;
   setOpen: Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const dispatch=useAppDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -64,7 +64,6 @@ const DrawerPage = ({
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
-      
     },
     onError: (error: ResponseError) => {
       toast({
@@ -76,13 +75,13 @@ const DrawerPage = ({
   });
 
   const handleLogout = () => {
-    setIsAlertOpen(true)
+    setIsAlertOpen(true);
   };
 
   const handleConfirmLogout = () => {
     const userId = userData?.query?.id;
     mutate(userId);
-  }
+  };
 
   return (
     <>
@@ -92,7 +91,7 @@ const DrawerPage = ({
         onClose={() => setOpen(false)}
       >
         <div className="top-0 left-0 lg:flex flex-col justify-between duration-500 bg-[#FFFFFF] overflow-hidden">
-          <div className="h-[100vh] p-5">
+          <div className="h-[100vh] overflow-auto p-5">
             <div className="flex items-center justify-center">
               <Button
                 type="button"

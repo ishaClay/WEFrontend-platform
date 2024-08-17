@@ -96,7 +96,7 @@ const FeaturedCourses = () => {
                             {item.courseTitle}
                           </h2>
 
-                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-abhaya line-clamp-3">
+                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-Droid-Regular line-clamp-3">
                             {item.content}
                           </p>
 

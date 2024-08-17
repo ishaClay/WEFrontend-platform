@@ -28,7 +28,7 @@ const EmployeeDetailsPage = () => {
   }, [data]);
 
   return (
-    <div className="pb-[36px] bg-primary-foreground rounded-[10px] h-full font-nunitoSans">
+    <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-nunitoSans overflow-auto">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
         <h2 className="text-base font-bold font-nunito pb-1">
           Trainers Details

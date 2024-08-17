@@ -30,7 +30,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Reach An Ireland-Wide Audience
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 You’re never limited by your geography, reach a national
                 sustainability-ready audience.
               </p>
@@ -44,7 +44,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Deliver Your Courses With Ease
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 The built-in learning management system enables you to focus on
                 your content, and we’ll take care of the delivery and
                 route-to-market
@@ -62,7 +62,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 On our marketplace-oriented platform.
               </p>
             </div>
@@ -78,7 +78,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-abhaya font-semibold leading-5">
                 Gain Strategic Insights Via Analytics
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-abhaya text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-Droid-Regular text-[#4E5566] line-clamp-3">
                 Hone your training using our targeted analytics that reports on
                 learner performance and market demand.
               </p>

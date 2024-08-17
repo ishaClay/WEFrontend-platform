@@ -504,7 +504,7 @@ const Message = () => {
       </Drawer>
       <div className="grid grid-cols-12 min-h-[calc(100vh_-_162px)] gap-3">
         <Card className="xl:col-span-3 md:col-span-5 col-span-12 shadow-none rounded-lg border-0">
-          <CardHeader className="px-[11px] py-2.5 border-b-[#D9D9D9] border-b border-solid">
+          <CardHeader className="px-[11px] py-2.5 border-b-[#D9D9D9] border-b border-solid md:block flex justify-between flex-row items-center w-full sm:gap-0 gap-2">
             <div className="relative">
               <img
                 src={search}
@@ -514,11 +514,27 @@ const Message = () => {
               <Input
                 type="text"
                 placeholder="Search by employee name"
-                className="h-[42px] border text-[15px] leading-[19.5] bg-[white] pl-[39px] pr-4 py-[13px] border-solid border-[#D9D9D9] font-inter"
+                className="h-[42px] md:w-full sm:w-[400px] w-full border text-[15px] leading-[19.5] bg-[white] pl-[39px] pr-4 py-[13px] border-solid border-[#D9D9D9] font-inter"
                 value={searchChat}
                 onChange={(e) => setSearchChat(e.target.value)}
               />
             </div>
+            <Button
+              className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri md:hidden flex !mt-0"
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    { label: "Message", link: `/${currentUser}/message` },
+                    {
+                      label: "Compose",
+                      link: `/${currentUser}/message/compose`,
+                    },
+                  ])
+                );
+              }}
+            >
+              <FilePenLine width={18} /> Compose
+            </Button>
           </CardHeader>
           <CardContent className="h-[700px] p-0 overflow-y-auto">
             {/* <ScrollArea className="h-full message-scroll" ref={chatContainerRef}> */}

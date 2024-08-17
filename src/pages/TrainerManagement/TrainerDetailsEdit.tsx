@@ -117,7 +117,7 @@ const TrainerEditDetails = () => {
   };
 
   return (
-    <div className="pb-[36px] bg-primary-foreground rounded-[10px] h-full font-nunitoSans">
+    <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-nunitoSans overflow-auto">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
         <h2 className="text-base font-bold font-nunito pb-1">
           Trainers Details
@@ -144,7 +144,7 @@ const TrainerEditDetails = () => {
                     Trainer personal information
                   </h2>
                 </legend>
-                <div className="grid grid-cols-9 items-center gap-4 pl-[25px] py-[20px]">
+                <div className="grid grid-cols-9 items-center gap-4 sm:px-[25px] sm:py-[20px] p-[15px]">
                   <div className="text-base xl:col-span-2 col-span-4">
                     {/* <Avatar className="w-[109px] h-[109px]">
                       <AvatarImage src={data?.profileImage || ""} />

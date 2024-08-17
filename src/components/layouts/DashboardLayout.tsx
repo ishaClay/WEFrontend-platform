@@ -62,7 +62,7 @@ const DashboardLayout = () => {
             className={`${
               Role === "employee"
                 ? "h-[calc(100vh-130px)]"
-                : "sm:h-[calc(100vh-120px)] h-[calc(100vh-164px)]"
+                : "sm:h-[calc(100vh-120px)] h-[calc(100vh-144px)]"
             } overflow-auto p-5`}
           >
             <Outlet />

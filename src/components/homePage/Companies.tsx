@@ -11,7 +11,7 @@ const Companies = () => {
             <br />
             <span className="font-extrabold">a clear road for you before</span>
           </h6>
-          <p className="xl:pt-6 pt-5 xl:text-xl text-lg font-abhaya text-[#000000] font-medium">
+          <p className="xl:pt-6 pt-5 xl:text-xl text-lg font-Droid-Regular text-[#000000] font-medium">
             As a mindful, aware business: the goal for greater sustainability
             may always have been clear to you. But between not knowing where you
             even stand now, what actions you should take, and what progress even
