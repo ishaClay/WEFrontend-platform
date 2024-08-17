@@ -120,9 +120,7 @@ const MainHeader = () => {
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
                 Welcome{" "}
-                {userData?.query?.fname ||
-                  userData?.query?.name ||
-                  userData?.query?.email?.split("@")[0]}
+                {userData?.query?.name || userData?.query?.email?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
@@ -158,8 +156,8 @@ const MainHeader = () => {
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
                     Hi,
                     {(userData?.query?.fname &&
-                      userData?.query?.fname + " " + userData?.query?.lname &&
-                      userData?.query?.lname) ||
+                      userData?.query?.lname &&
+                      userData?.query?.fname + " " + userData?.query?.lname) ||
                       (userData?.query?.name && userData?.query?.name) ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />

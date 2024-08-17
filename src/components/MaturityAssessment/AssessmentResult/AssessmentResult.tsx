@@ -272,9 +272,9 @@ const AssessmentResult = ({
               </p>
             </div>
           </div>
-          <div className="xxl:col-span-4 lg:col-span-6 sm:col-span-8 col-span-12">
-            <div className="flex sm:flex-row flex-col justify-between">
-              <div className="sm:order-1 order-2">
+          <div className="2xl:col-span-4 lg:col-span-6 sm:col-span-8 col-span-12">
+            <div className="flex justify-between">
+              <div className="">
                 <Labels />
               </div>
               <div className="text-center relative sm:order-2 order-1 sm:mb-0 mb-5">

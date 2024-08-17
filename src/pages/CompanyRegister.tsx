@@ -75,6 +75,8 @@ function CompanyRegister() {
     parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Please enter email" }),
     parentCompanyCounty: z.string().nullable().optional(),
+    contactFirstName: z.string().min(1, { message: "Please Enter First name" }),
+    contactLastName: z.string().min(1, { message: "Please Enter Last name" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -299,6 +301,34 @@ function CompanyRegister() {
                     className="px-5 h-[46px] ml-[20px]"
                     onClick={handleVerifyId}
                   />
+                </div>
+                <div className="sm:w-[241px] w-full">
+                  <InputWithLable
+                    placeholder="Enter your contact first name"
+                    className="w-full h-[46px]"
+                    label="Contact First Name"
+                    {...register("contactFirstName")}
+                    isMendatory={true}
+                  />
+                  {errors.contactFirstName && (
+                    <ErrorMessage
+                      message={errors.contactFirstName.message as string}
+                    />
+                  )}
+                </div>
+                <div className="sm:w-[241px] w-full">
+                  <InputWithLable
+                    placeholder="Enter your contact last name"
+                    className="w-full h-[46px]"
+                    label="Contact Last Name"
+                    {...register("contactLastName")}
+                    isMendatory={true}
+                  />
+                  {errors.contactLastName && (
+                    <ErrorMessage
+                      message={errors.contactLastName.message as string}
+                    />
+                  )}
                 </div>
                 <div className="w-full">
                   <InputWithLable
