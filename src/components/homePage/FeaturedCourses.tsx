@@ -92,7 +92,7 @@ const FeaturedCourses = () => {
                     <div className="relative">
                       <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
                         <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
-                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-abhaya pb-4">
+                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-UniNeue pb-4">
                             {item.courseTitle}
                           </h2>
 

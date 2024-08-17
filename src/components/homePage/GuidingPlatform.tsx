@@ -6,7 +6,7 @@ const GuidingPlatform = () => {
     <div className="xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6">
         <div>
-          <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-abhaya traking-[4px] text-center sm:pb-6 pb-[60px] tracking-tighter">
+          <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-UniNeue traking-[4px] text-center sm:pb-6 pb-[60px] tracking-tighter">
             One guiding platform,
             <br />
             <span className="font-extrabold">that grows your green feet</span>
@@ -19,7 +19,7 @@ const GuidingPlatform = () => {
           </div>
           <div className="flex flex-col xl:gap-8 sm:gap-6 gap-3">
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-bold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 Find Out Where You Stand
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-Droid-Regular lg:line-clamp-3 line-clamp-2">
@@ -29,7 +29,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 lg:px-4 px-6 traking-[-4%]">
-              <h3 className="font-bold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 {" "}
                 Get a Personalised Roadmap
               </h3>
@@ -40,7 +40,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text  py-6 px-4 traking-[-4%]">
-              <h3 className="font-bold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 See Training Recommendations
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-Droid-Regular lg:line-clamp-3 line-clamp-2">
@@ -56,7 +56,7 @@ const GuidingPlatform = () => {
 
           <div className="flex flex-col xl:gap-8 sm:gap-6 gap-3 lg:mt-0 sm:mt-6 mt-3">
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-semibold text-base font-abhaya leading-[18px]">
+              <h3 className="font-semibold text-base font-d-din-pro leading-[18px]">
                 Invite & Assign Your Staff
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-Droid-Regular lg:line-clamp-3 line-clamp-2">
@@ -66,7 +66,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-bold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 {" "}
                 Measure Your Progress
               </h3>
@@ -77,7 +77,7 @@ const GuidingPlatform = () => {
             </div>
 
             <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
-              <h3 className="font-bold text-base font-abhaya leading-[18px]">
+              <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 Share Reports With Stakeholders
               </h3>
               <p className="sm:text-sm text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-Droid-Regular lg:line-clamp-3 line-clamp-2">
