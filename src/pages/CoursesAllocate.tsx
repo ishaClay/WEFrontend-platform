@@ -52,7 +52,7 @@ function CoursesAllocate() {
       fetchAllocatedCourse(userData?.query?.id, statusFilter === 'all' ? '' : statusFilter, clientId),
   });
 
-  console.log("course", course);
+  console.log("course", course?.data);
 
   return (
     <div className="bg-[#f5f3ff]">

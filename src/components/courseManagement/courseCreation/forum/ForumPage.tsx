@@ -7,13 +7,13 @@ import { useState } from "react";
 import { createForum, fetchForumQuestion } from "@/services/apiServices/forum";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/lib/constants";
-import { AxiosError } from "axios";
 import { toast } from "@/components/ui/use-toast";
 import { calculateTotalReadingTime, chatDPColor, getTimeAgo } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserData } from "@/types/auth";
 import { UserRole } from "@/types/UserRole";
 import { useSelector } from "react-redux";
+import { ErrorType } from "@/types/Errors";
 
 const ForumPage = () => {
   const queryClient = useQueryClient();
@@ -49,11 +49,11 @@ const ForumPage = () => {
         question: "",
       });
     },
-    onError: (error: AxiosError) => {
+    onError: (error: ErrorType) => {
       toast({
         title: "Error",
         variant: "destructive",
-        description: error.message,
+        description: error.data.message,
       });
     },
   });

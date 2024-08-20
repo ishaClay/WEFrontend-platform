@@ -83,7 +83,12 @@ function RegisterTrainer() {
         .string()
         .min(1, { message: "Please enter email" })
         .email("Please enter valid email"),
-      providerNotes: z.string().max(200, {message: "Provider Notes must contain at least 200 characters" }).optional(),
+      providerNotes: z
+        .string()
+        .max(200, {
+          message: "Provider Notes must contain at least 200 characters",
+        })
+        .optional(),
       foreignProvider: z
         .enum(["Yes", "No"])
         .refine(
@@ -120,7 +125,7 @@ function RegisterTrainer() {
       });
       toast({
         title: "Success",
-        description: 'Password send to your registered email address',
+        description: "Password send to your registered email address",
         variant: "success",
       });
       navigate("/auth");
@@ -197,7 +202,7 @@ function RegisterTrainer() {
   });
 
   const { data: getProviderTypes } = useQuery({
-  queryKey: [QUERY_KEYS.fetchProviderTypes],
+    queryKey: [QUERY_KEYS.fetchProviderTypes],
     queryFn: fetchProviderTypes,
   });
   const providerTypesList = getProviderTypes?.providerTypes;
@@ -205,8 +210,8 @@ function RegisterTrainer() {
     return {
       value: item,
       label: item,
-    }
-  });  
+    };
+  });
 
   const countryOption =
     country?.data &&
@@ -214,7 +219,7 @@ function RegisterTrainer() {
       ?.map((item) => {
         return { value: item?.name, label: item?.name };
       })
-      .sort((a, b) => a.label.localeCompare(b.label))
+      .sort((a, b) => a.label.localeCompare(b.label));
 
   const { mutate, isPending } = useMutation({
     mutationFn: sendOtp,
@@ -429,7 +434,6 @@ function RegisterTrainer() {
                       }
                       value={watch("foreignProvider") || ""}
                     >
-                      
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
                           Foregin Provider
@@ -514,8 +518,7 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                
-                 
+
                   {/* <div className="col-span-2">
                     <Label className="mb-[8px]  font-bold text-[16px]">
                       Provider County <span className="text-red-500">*</span>
@@ -536,9 +539,6 @@ function RegisterTrainer() {
                       />
                     )}
                   </div> */}
-                  
-                 
-                
                 </div>
                 <div className="sm:w-[370px] w-full mx-auto xl:mt-[40px] mt-5">
                   <PrimaryButton
