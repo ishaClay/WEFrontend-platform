@@ -1,4 +1,4 @@
-import { EmployeeCourse } from "@/types/employee";
+import { AgeRangesType, EmployeeCourse, EmploymentStatusType, OccupationalCategoriesType, UnemploymentTimeType } from "@/types/employee";
 import {
   EmployeeDetailsResponse,
   EmployeeResponse,
@@ -110,6 +110,30 @@ export const getDashboardEmployeeCourse = async (
 
 export const getEmployeeByCourse = async (id: string) => {
   const url = `api/v1/employee/getCourseEnrollAllEmployee/${id}`;
+  const res = await api({ url });
+  return res.data;
+}
+
+export const fetchAgeRanges = async (): Promise<AgeRangesType> => {
+  const url = `api/v1/employee/getAgeRanges`;
+  const res = await api({ url });
+  return res.data;
+}
+
+export const fetchEmploymentStatus = async (): Promise<EmploymentStatusType> => {
+  const url = `api/v1/employee/getEmploymentStatus`;
+  const res = await api({ url });
+  return res.data;
+}
+
+export const fetchOccupationalCategories = async (): Promise<OccupationalCategoriesType> => {
+  const url = `api/v1/employee/getOccupationalCategories`;
+  const res = await api({ url });
+  return res.data;
+}
+
+export const fetchUnemploymentTime = async (): Promise<UnemploymentTimeType> => {
+  const url = `api/v1/employee/getUnemploymentTime`;
   const res = await api({ url });
   return res.data;
 }

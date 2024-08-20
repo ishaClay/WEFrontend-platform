@@ -130,7 +130,7 @@ const ForumPage = () => {
               rows={5}
               className="w-full border-border-[#D9D9D9] text-[#A3A3A3] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
               onChange={(e) => setforumquestion({ moduleId: item?.id, question: e.target.value })}
-              value={forumquestion?.question ?? ""}
+              // value={forumquestion?.question ?? ""}
             />
             <div className="text-right pt-5">
               <Button className="bg-[#42A7C3] text-xs md:text:md" type="submit" disabled={(createForumLoading && item?.id ===forumquestion?.moduleId)}>

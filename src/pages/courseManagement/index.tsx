@@ -68,7 +68,7 @@ const CourseManagement = () => {
     if (getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab) {
       if (!+courseId) {
         navigate(
-          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}&type=${paramsType}`,
+          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}`,
           {
             replace: true,
           }
@@ -94,9 +94,6 @@ const CourseManagement = () => {
       }
     }
   };
-
-  console.log("getSingleCourse?.data", getSingleCourse?.data?.course?.tab, getSingleCourse?.data?.course?.step);
-
 
   return (
     <div className="bg-white p-0">

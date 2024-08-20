@@ -77,8 +77,6 @@ function CoursesAllocate() {
                     <SelectItem value="1">Completed</SelectItem>
                     <SelectItem value="3">In Progress</SelectItem>
                     <SelectItem value="0">Pending</SelectItem>
-                    <SelectItem value="3">In Progress</SelectItem>
-                    <SelectItem value="1">Completed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -288,7 +286,7 @@ function CoursesAllocate() {
                           </div>
                         </div>
                       </div>
-                      {statusFilter === "1" && (
+                      {courseallocate?.enroll === 1 && (
                         <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
                           <Button
                             className="bg-[#64A70B] sm:w-[120px] w-[110px] sm:h-[42px] h-[38px] sm:text-base text-sm"

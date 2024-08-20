@@ -210,7 +210,7 @@ const MessageList = ({
                       className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
                       type="text"
                       onChange={(e) => setreplyMessage(e.target.value)}
-                      value={replyMessage ?? ""}
+                      // value={replyMessage ?? ""}
                     />
                     <div className="text-right">
                       <Button

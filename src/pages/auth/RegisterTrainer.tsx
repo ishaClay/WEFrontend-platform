@@ -27,7 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
-import { getCountry, providerType } from "@/services/apiServices/company";
+import { fetchProviderTypes, getCountry } from "@/services/apiServices/company";
 import {
   registerTrainee,
   registerTrainer,
@@ -35,7 +35,6 @@ import {
 } from "@/services/apiServices/trainer";
 import { CountryResponse } from "@/types/Company";
 import { ErrorType, ResponseError } from "@/types/Errors";
-import { Gettype } from "@/types/providerTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -196,12 +195,18 @@ function RegisterTrainer() {
     queryKey: ["CountryData"],
     queryFn: getCountry,
   });
-  const { data :providertype } = useQuery<Gettype>({
-    queryKey: ["ProviderType"],
-    queryFn: providerType,
+
+  const { data: getProviderTypes } = useQuery({
+  queryKey: [QUERY_KEYS.fetchProviderTypes],
+    queryFn: fetchProviderTypes,
   });
-console.log(providertype?.providerTypes,"providertype")
-// console.log(country?.data,"country")
+  const providerTypesList = getProviderTypes?.providerTypes;
+  const providerTypesOption = providerTypesList?.map((item) => {
+    return {
+      value: item,
+      label: item,
+    }
+  });  
 
   const countryOption =
     country?.data &&
@@ -210,15 +215,6 @@ console.log(providertype?.providerTypes,"providertype")
         return { value: item?.name, label: item?.name };
       })
       .sort((a, b) => a.label.localeCompare(b.label))
-
-  const typeoption =
-  providertype?.providerTypes &&
-  providertype?.providerTypes
-      ?.map((item) => {
-        console.log(item,"item")
-        return {value : item , label : item}
-      }).sort((a, b) => a.label.localeCompare(b.label))
-      console.log(typeoption,"typeoption")
 
   const { mutate, isPending } = useMutation({
     mutationFn: sendOtp,
@@ -359,13 +355,13 @@ console.log(providertype?.providerTypes,"providertype")
                     )}
                   </div>
                   <div className="col-span-2">
-                    <Label className="mb-[8px]  font-bold text-[16px]">
-                    Provider Type <span className="text-red-500">*</span>
+                    <Label className="mb-[8px] font-bold text-[16px]">
+                      Provider Type <span className="text-red-500">*</span>
                     </Label>
                     <SelectMenu
-                      option={typeoption || []}
-                      placeholder="IT or University"
-                      className="h-[46px] mt-2"
+                      option={providerTypesOption || []}
+                      placeholder="Select county"
+                      className="h-[46px] mt-2 text-left"
                       setValue={(data: string) =>
                         setValue("providerType", data)
                       }

@@ -213,7 +213,7 @@ const CoursePathwayPage = () => {
           <div className="flex items-center gap-3">
             <img src={CloseIcon} alt="close" />
             <span className="text-[#842029] text-base font-calibri">
-              You can tag up to 3 pillars per course. If your course targets
+              You can tag up to {selectTargetPillarLimit?.data?.pillarLimit || 0} pillars per course. If your course targets
               additional pillars, please reach out to your Skillnet admin to
               request more tags.
             </span>
