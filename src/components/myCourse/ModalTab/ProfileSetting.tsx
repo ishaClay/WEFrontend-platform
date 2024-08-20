@@ -93,6 +93,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   // const [selectBirthYear, setSelectBirthYear] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const pathName = window.location.pathname;
+  const currentUser = pathName.split("/")[1];
   const {
     register,
     formState: { errors },
@@ -158,8 +160,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
           <div className="grid grid-cols-2 gap-5">
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label="First name"
-                placeholder="First name"
+                label={currentUser === 'company' ? "SME Organisation" : "First name"}
+                placeholder={currentUser === 'company' ? "SME Organisation" : "First name"}
                 {...register("firstname")}
                 error={errors?.firstname?.message as string}
               />
@@ -167,8 +169,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label="Last name"
-                placeholder="Last name"
+                label={currentUser === 'company' ? "User Name" : "Last name"}
+                placeholder={currentUser === 'company' ? "User Name" : "Last name"}
                 {...register("lastname")}
                 error={errors?.lastname?.message as string}
               />

@@ -119,6 +119,11 @@ function RegisterTrainer() {
         description: data.message,
         variant: "success",
       });
+      toast({
+        title: "Success",
+        description: 'Password send to your registered email address',
+        variant: "success",
+      });
       navigate("/auth");
       reset();
     },

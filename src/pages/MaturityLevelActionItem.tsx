@@ -16,11 +16,14 @@ import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
+import InviteMember from "@/components/Models/InviteMember";
+import { useState } from "react";
 
 function MaturityLevelActionItem() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId
@@ -144,7 +147,7 @@ function MaturityLevelActionItem() {
             </div>
           </div>
         </div>
-        <div className="xl:mb-[66px] xl:mt-[76px] my-[55px]">
+        <div className="xl:mb-[20px] xl:mt-[76px] my-[20px]">
           <div className=" text-center font-abhaya font-bold">
             <h3 className="font-abhaya text-[30px]">
               Now, that’s worthy of a congrats.
@@ -154,7 +157,7 @@ function MaturityLevelActionItem() {
               Because it’s one thing to have the will to be green.
               <br /> Another thing to know where you stand.
               <br /> And a whole other to have defined actions that will advance
-              your sustainability. 
+              your sustainability.
             </p>
           </div>
           <div className="flex justify-center xl:mt-[42px] mt-[36px]">
@@ -174,6 +177,9 @@ function MaturityLevelActionItem() {
             </button>
           </div>
         </div>
+          <div className="mb-5">
+            <h4 className="font-abhaya text-[30px] font-bold text-center">My Action Items</h4>
+          </div>
         {isPending ? (
           <Loader />
         ) : (
@@ -181,6 +187,16 @@ function MaturityLevelActionItem() {
             return <AssignCard data={item} />;
           })
         )}
+          <h5 className="font-abhaya text-[20px] font-bold text-center">Please ensure that Employees/Delegates are added or invited first before assigning Action Items. To do so, please click here.</h5>
+            <div className="my-5 text-center">
+              <Button
+                type="button"
+                onClick={() => setIsOpen(true)}
+                className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+              >
+                Invite Team Members
+              </Button>
+            </div>
 
         {/* <div className="flex flex-col h-full w-full mt-2">
 				<div className="ml-[180px]   h-[390px] w-[1126px]">
@@ -227,6 +243,7 @@ function MaturityLevelActionItem() {
 
         <HomeFooter />
       </div>
+      <InviteMember isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

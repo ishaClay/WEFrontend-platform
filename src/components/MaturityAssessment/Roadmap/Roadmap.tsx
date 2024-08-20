@@ -17,7 +17,7 @@ const Roadmap = ({
 }) => {
   const pathStatus = JSON.parse(localStorage.getItem("path") as string);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [step, setStep] = React.useState(2);
+  const [step, setStep] = React.useState(3);
 
   console.log(
     "showButton",

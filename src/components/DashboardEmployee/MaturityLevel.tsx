@@ -9,6 +9,7 @@ import { getAllassessment } from "@/services/apiServices/assessment";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useQuery } from "@tanstack/react-query";
 import { Doughnut } from "react-chartjs-2";
+import { Link } from "react-router-dom";
 
 const findMaturityLevel = (score: number, maturityLevel: any) => {
   for (const level of maturityLevel) {
@@ -132,7 +133,10 @@ const MaturityLevel = () => {
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
-      <div className="relative flex items-center gap-10">
+      <Link
+        to="/employee/maturityAssessment"
+        className="relative flex items-center gap-10"
+      >
         <div className="flex sm:order-1 order-2">
           <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
@@ -181,13 +185,13 @@ const MaturityLevel = () => {
             className="absolute bottom-[-10px] right-[21%] sm:block hidden"
           />
         </div>
+      </Link>
+      <div className="md:mb-5 mb-0 sm:hidden block order-3">
+        <p className="inline">Your overall sustainability Score -</p>{" "}
+        <span className="font-poppins font-bold text-[#000000] leading-6">
+          Intermediate
+        </span>
       </div>
-        <div className="md:mb-5 mb-0 sm:hidden block order-3">
-          <p className="inline">Your overall sustainability Score -</p>{" "}
-          <span className="font-poppins font-bold text-[#000000] leading-6">
-            Intermediate
-          </span>
-        </div>
     </div>
   );
 };

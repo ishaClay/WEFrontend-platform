@@ -249,7 +249,7 @@ const AssessmentResult = ({
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
           <div className="xxl:col-span-8 lg:col-span-6 col-span-12 lg:mb-0 sm:mb-10 mb-5">
             <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
-              Where {userData?.company?.name} <br /> Green Feet are now...
+              Where {userData?.query?.name}'s <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
             </h3>
             <div className="max-w-[602.78px]">

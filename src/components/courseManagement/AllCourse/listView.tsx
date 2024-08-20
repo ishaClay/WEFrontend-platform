@@ -159,7 +159,7 @@ const ListView = ({
           variant: "success",
         });
       },
-      onError: (error : ErrorType) => {
+      onError: (error: ErrorType) => {
         toast({
           title: "Error",
           description: error.data.message,
@@ -183,10 +183,12 @@ const ListView = ({
     if (cohortCount > 0) {
       publishCourseFun(payload);
     } else {
-      const singleCourse = list?.find((item) => item?.currentVersion?.id === +id);      
-      if(singleCourse?.isOnline){
-        publishCourseFun(payload);        
-      } else{
+      const singleCourse = list?.find(
+        (item) => item?.currentVersion?.id === +id
+      );
+      if (singleCourse?.isOnline) {
+        publishCourseFun(payload);
+      } else {
         toast({
           title: "Please Create Cohort Group",
           variant: "destructive",
@@ -228,7 +230,7 @@ const ListView = ({
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
       if (item.status === "DRAFT") {
-        if(type === "majorEdit"){
+        if (type === "majorEdit") {
           if (+item?.step === 5) {
             navigate(
               `/${pathName}/create_course/${item?.id}?tab=${
@@ -239,7 +241,9 @@ const ListView = ({
             navigate(
               `/${pathName}/create_course/${item?.id}?tab=${
                 +item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id}&type=${type}`
+              }&step=${
+                +item?.step === 5 ? 0 : item?.step
+              }&version=${id}&type=${type}`
             );
           }
         } else {
@@ -262,7 +266,7 @@ const ListView = ({
             courseId: item?.id,
             version: item?.currentVersion?.version || 0,
           });
-        }        
+        }
       }
     } else {
       if (item?.trainerId?.id) {
@@ -313,7 +317,7 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               };
             });
-            const update =
+          const update =
             +userData?.query?.role === UserRole?.Trainer
               ? true
               : // : item?.trainerId?.id === +userData?.query?.detailsid
@@ -419,7 +423,6 @@ const ListView = ({
                         : "Publish"}
                     </Button>
                     <Button
-                      disabled={!update}
                       onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
@@ -428,21 +431,22 @@ const ListView = ({
                       + Cohort
                     </Button>
                     {!(
-                    pathName === "trainee" && allCoursePathName === "allcourse"
-                  ) && (
-                    <div className="">
-                      <SelectMenu
-                        option={versionOption || []}
-                        setValue={(e: string) => handleChangeVersion(e, data)}
-                        value={data?.currentVersion?.id?.toString() || ""}
-                        defaultValue={
-                          data?.currentVersion?.id?.toString() || ""
-                        }
-                        containClassName="max-w-[62px]"
-                        className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                        placeholder="V-01"
-                      />
-                    </div>
+                      pathName === "trainee" &&
+                      allCoursePathName === "allcourse"
+                    ) && (
+                      <div className="">
+                        <SelectMenu
+                          option={versionOption || []}
+                          setValue={(e: string) => handleChangeVersion(e, data)}
+                          value={data?.currentVersion?.id?.toString() || ""}
+                          defaultValue={
+                            data?.currentVersion?.id?.toString() || ""
+                          }
+                          containClassName="max-w-[62px]"
+                          className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                          placeholder="V-01"
+                        />
+                      </div>
                     )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild className="outline-none">
@@ -471,7 +475,14 @@ const ListView = ({
                           )}
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "majorEdit")}
+                            onClick={(e) =>
+                              handleEdit(
+                                e,
+                                data?.currentVersion?.id?.toString(),
+                                data,
+                                "majorEdit"
+                              )
+                            }
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Major edit</span>

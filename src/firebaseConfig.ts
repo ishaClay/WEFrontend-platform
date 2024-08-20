@@ -1,17 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import 'firebase/messaging';
 import {
     getMessaging,
     getToken,
     isSupported,
     onMessage
 } from "firebase/messaging";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyB_gIx9o3CEWslOdGz9P3lAbbK1mjIRLf0",
     authDomain: "webackend-7454d.firebaseapp.com",
@@ -73,3 +70,15 @@ export const onMessageListener = async () => {
         });
     });
 };
+
+// messaging.onBackgroundMessage((payload) => {
+//     console.log('Received background message ', payload);
+
+//     const notificationTitle = payload.notification?.title || 'Default Title';
+//     const notificationOptions = {
+//         body: payload.notification?.body || 'Default Body',
+//         icon: './favicon.ico',
+//     };
+
+//     self.registration.showNotification(notificationTitle, notificationOptions);
+// });
