@@ -74,7 +74,7 @@ const MaturityLevelModel = ({
       open={!!isOpen}
       title="Have you identified actionable items on provided
                             measures?"
-      className="max-w-[815px] w-full gap-0"
+      className="max-w-[815px] w-full gap-0 h-[800px]"
       onClose={() => {
         setIsOpen(null);
         setPillerName("");
@@ -132,18 +132,42 @@ const MaturityLevelModel = ({
       {isPending ? (
         <Loader />
       ) : (
-        <div className="flex  flex-col mt-6">
-          <div className="flex items-center flex-wrap gap-2">
+        // <div className="flex mt-6 h-[calc(100%_-_250px)] overflow-y-auto">
+          <div className="flex mt-6 h-[calc(800px_-_250px)] overflow-y-auto items-start flex-wrap gap-2">
             {data?.data?.[pillerName as string]?.map((item, i) => {
               const color =
                 findMaturityLevel(item?.questionScores)?.color || "";
               return (
-                <div className="flex flex-col border p-3 rounded-lg w-[242px] h-[150px]">
+                <div className="flex flex-col border p-3 rounded-lg w-[242px] h-[255px]">
+                  <div className="overflow-y-auto h-[calc(100%_-_16px)]">
                   <div className="text-xs font-bold">
                     Question : {(i + 1).toString().padStart(2, "0")}
                   </div>
-                  <div className="mt-[11px] h-[75px] w-[220px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                  <div className="mt-2 w-[210px] scroll-y-auto font-calibri text-sm font-normal leading-[17.4px] text-left">
                     {item.title}
+                  </div>
+                  <div className="text-xs font-bold mt-2">
+                    Answer :
+                  </div>
+                  {
+                    item?.answers?.length > 0 && 
+                    <div className="mt-2 w-[210px] scroll-y-auto font-calibri text-sm font-normal leading-[17.4px] text-left">
+                    {item?.answers?.[0]}
+                  </div>
+                  }
+                  {/* <div className="h-[75px] w-[210px] leading-[17.4px] text-left">
+                  {
+                    item?.answers?.length > 0 && item?.answers?.map((answer, i) => {
+                      return (
+                        <div className="mt-[10px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                         {`${i + 1}. ${answer}`}
+                        </div>
+                      )
+                    })
+
+                  }
+
+                  </div> */}
                   </div>
 
                   <Progress
@@ -155,7 +179,7 @@ const MaturityLevelModel = ({
               );
             })}
           </div>
-        </div>
+        // {/* </div> */}
       )}
       <div className="mt-8 text-right">
         <Button

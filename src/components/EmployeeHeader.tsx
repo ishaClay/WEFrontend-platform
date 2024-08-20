@@ -24,6 +24,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
+import Logo2 from "../assets/images/logo2.png";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -88,8 +89,8 @@ const EmployeeHeader = () => {
 
   return (
     <>
-      <div className="lg:px-5 px-0 lg:pt-[15px] lg:bg-white bg-transparent rounded-t-xl lg:pb-5 pb-0">
-        <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] lg:pb-[11px] pb-0 p-5 ">
+      <div className="lg:bg-white bg-transparent rounded-t-xl">
+        <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] lg:pb-[11px] px-5 ">
           <div className="flex items-center gap-1">
             <Button
               type="button"
@@ -174,9 +175,16 @@ const EmployeeHeader = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+        <div className="lg:block hidden">
+              <img
+                className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
+                src={Logo2}
+                alt="Logo 2"
+              />
+            </div>
+      </div>
           </div>
         </div>
-      </div>
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}

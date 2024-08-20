@@ -89,6 +89,7 @@ export interface Data {
 export interface EnviromentalEntity {
   id: number;
   title: string;
+  answers: string;
   maxPoint: number;
   options?: OptionsEntityOrSelectedOptionsEntity[] | null;
   deletedAt?: null;
