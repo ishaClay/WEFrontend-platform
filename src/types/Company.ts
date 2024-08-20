@@ -24,3 +24,9 @@ export interface DataEntity {
     name: string;
     code: string;
 }
+
+export interface ProviderTypesType {
+    providerTypes?: (string)[] | null;
+    message: string;
+  }
+  

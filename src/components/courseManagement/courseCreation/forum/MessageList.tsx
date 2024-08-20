@@ -6,6 +6,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor, getTimeAgo } from "@/lib/utils";
 import { createCommnets, createReply } from "@/services/apiServices/forum";
 import { UserData } from "@/types/auth";
+import { ErrorType } from "@/types/Errors";
 import { ForumQuestionsType } from "@/types/forum";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -75,11 +76,11 @@ const MessageList = ({
       });
       setopenCommnet(0);
     },
-    onError: (error: AxiosError) => {
+    onError: (error: ErrorType) => {
       toast({
-        title: "Comment already exists",
+        title: "Error",
         variant: "destructive",
-        description: error.message,
+        description: error.data.message,
       });
       setopenCommnet(0);
     },
@@ -210,7 +211,7 @@ const MessageList = ({
                       className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
                       type="text"
                       onChange={(e) => setreplyMessage(e.target.value)}
-                      value={replyMessage ?? ""}
+                      // value={replyMessage ?? ""}
                     />
                     <div className="text-right">
                       <Button

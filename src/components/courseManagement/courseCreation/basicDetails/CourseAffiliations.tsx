@@ -24,7 +24,7 @@ const schema = zod.object({
   instituteOther: zod.string({ required_error: "Please select Affiliation" }),
   otherInstitutionName: zod.string({
     required_error: "Please select institution / organisation name",
-  }),
+  }).optional(),
 });
 
 interface SelectAffiliationsTypr {
@@ -41,6 +41,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -241,6 +242,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
               <SelectMenu
                 {...register("otherInstitutionName")}
                 option={organisationOption}
+                disabled={watch("instituteOther") === "yes" ? false : true}
                 setValue={(data: string) => {
                   setSelectAffiliations({
                     ...selectAffiliations,

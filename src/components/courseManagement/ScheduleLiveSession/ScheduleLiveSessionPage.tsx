@@ -30,6 +30,7 @@ import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
+import { Switch } from "@/components/ui/switch";
 
 const timePeriodsOptions = [
   {
@@ -74,6 +75,7 @@ const ScheduleLiveSessionPage = () => {
     { label: string; value: string }[]
   >([]);
   const [traineeList, setTraineeList] = useState<{ name: string; id: string }[]>([]);
+  const [selectLiveSession, setSelectLiveSession] = useState<string>("");
   // const [traineeErr, setTraineeErr] = useState(false);
   
   
@@ -105,6 +107,8 @@ const ScheduleLiveSessionPage = () => {
     selectDurationInMinute: z.string({
       required_error: "Please select duration in hours",
     }),
+    platform: z.boolean(),
+    zoomUrl: z.string({ required_error: "Please enter zoom url"}).regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/, "Please enter a valid zoom URL starting with http:// or https://"),
     selectCompany: z
       .array(z.string())
       .nonempty("Please select at least one company").optional(),
@@ -133,6 +137,7 @@ const ScheduleLiveSessionPage = () => {
     mode: "all",
     defaultValues: {
       selectCompany: [],
+      platform: false,
     },
   });
   console.log("watch", watch());
@@ -315,16 +320,14 @@ const ScheduleLiveSessionPage = () => {
       const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
       const liveSecTitle = selectLiveSessionOption?.find((item:any) => item?.label === fetchLiveSessionData?.liveSecTitle);  
       setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
+      setSelectLiveSession(liveSecTitle?.value || id?.toString());
     }, [fetchLiveSession?.data?.data])
-    
-    console.log("setTraineeList", traineeList);
-    
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    // if (traineeList?.length === 0) {
-    //   setTraineeErr(true);
-    //   return;
-    // }
+    if(watch("platform")){
+      console.log("asdasdasd");
+      setValue("zoomUrl", "");
+    }
     const liveSecTitle = selectLiveSessionOption?.find((item:any) => +item?.value === +data?.selectLiveSession);
     const transformedData = {
       course: data?.selectCourse,
@@ -340,8 +343,9 @@ const ScheduleLiveSessionPage = () => {
       },
       companyId: selectCompany?.map((val) => +val?.value),
       employeeId: traineeList?.map((val) => +val?.id) || [],
+      platform: data?.platform,
+      zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl
     };
-
     if(id !== undefined){
       await updateLiveSession({
         data: transformedData,
@@ -435,29 +439,58 @@ const ScheduleLiveSessionPage = () => {
                 </span>
               )}
             </div>
-            <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
-                Select Live session
-              </Label>
-              <SelectMenu
-                option={selectLiveSessionOption}
-                {...register("selectLiveSession")}
-                setValue={(e: string) => {
-                  setValue("selectLiveSession", e);
-                  clearErrors("selectLiveSession");
-                }}
-                value={watch("selectLiveSession")}
-                itemClassName="text-base"
-                className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                placeholder="Select live session name"
-                disabled={!!id}
-              />
-              {errors.selectLiveSession && (
-                <span className="text-red-500 text-sm">
-                  {errors.selectLiveSession.message}
-                </span>
-              )}
+            <div className="flex items-center gap-5">
+              <div className="flex flex-col gap-1 w-[calc(100%_-_200px)]">
+                <Label className="text-base text-black font-semibold font-abhaya">
+                  Select Live session
+                </Label>
+                <SelectMenu
+                  option={selectLiveSessionOption}
+                  {...register("selectLiveSession")}
+                  setValue={(e: string) => {
+                    setSelectLiveSession(e);
+                    setValue("selectLiveSession", e);
+                    clearErrors("selectLiveSession");
+                  }}
+                  value={selectLiveSession}
+                  itemClassName="text-base"
+                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  placeholder="Select live session name"
+                  disabled={!!id}
+                />
+                {errors.selectLiveSession && (
+                  <span className="text-red-500 text-sm">
+                    {errors.selectLiveSession.message}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-row gap-3 items-center">
+                <Label className="text-base text-black font-semibold font-abhaya">
+                  Use Platform
+                </Label>
+                <Switch
+                  checked={watch("platform")}
+                  onCheckedChange={() => {
+                    setValue(`platform`, !watch("platform"));
+                  }}
+                  className="me-3"
+                />
+              </div>
             </div>
+            {!watch("platform") && <div className="flex flex-col gap-1">
+              <Label className="text-base text-black font-semibold font-abhaya">
+                Zoom Base Url
+              </Label>
+              <Input
+                {...register("zoomUrl")}
+                placeholder="Enter Zoom Base Url"
+                className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                value={watch("zoomUrl")}
+              />
+              {errors?.zoomUrl && (
+                <span className="text-red-500 text-sm">{errors?.zoomUrl?.message}</span>
+              )}
+            </div>}
             <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-semibold font-abhaya">
                 Session Subtitle

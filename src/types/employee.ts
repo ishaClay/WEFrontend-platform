@@ -135,3 +135,23 @@ export interface MyCourses {
   completedCourses: number;
   inprogressCourses: number;
 }
+
+export interface AgeRangesType {
+  AgeRanges?: (string)[] | null;
+  message: string;
+}
+
+export interface EmploymentStatusType {
+  employmentStatus?: (string)[] | null;
+  message: string;
+}
+
+export interface OccupationalCategoriesType {
+  occupationalCategories?: (string)[] | null;
+  message: string;
+}
+
+export interface UnemploymentTimeType {
+  unemploymentTime?: (string)[] | null;
+  message: string;
+}

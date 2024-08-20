@@ -1,5 +1,5 @@
 import { CompanyResponse } from "@/pages/CompanyRegister";
-import { Company } from "@/types/Company";
+import { Company, ProviderTypesType } from "@/types/Company";
 import api from "./api";
 
 export const createCompany = (data: { email: string, client: string }) => {
@@ -47,9 +47,9 @@ export const getCountry = async () => {
   const res = await api({ url, method });
   return res.data
 };
-export const providerType = async () => {
-  const url = `api/v1/trainer-company/getProviderTypes`,
-    method = "get";
-  const res = await api({ url, method });
+
+export const fetchProviderTypes = async (): Promise<ProviderTypesType> => {
+  const url = `api/v1/trainer-company/getProviderTypes`;
+  const res = await api({ url });
   return res.data
 };

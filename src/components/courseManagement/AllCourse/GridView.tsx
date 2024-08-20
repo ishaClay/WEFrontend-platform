@@ -165,11 +165,9 @@ const GridView = ({
       mutationFn: createNewVersion,
       onSuccess: (data) => {
         navigate(
-          `/${pathName}/create_course/${
-            data?.data?.id
+          `/${pathName}/create_course/${data?.data?.id
           }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
         );
-        console.log("++++++++++++++++", data);
       },
       onError: (error) => {
         toast({
@@ -207,7 +205,7 @@ const GridView = ({
       const singleCourse = list?.find(
         (item) => item?.currentVersion?.id === +id
       );
-      if (singleCourse?.isOnline) {
+      if (singleCourse?.isOnline === 1) {
         publishCourseFun(payload);
       } else {
         toast({
@@ -230,44 +228,25 @@ const GridView = ({
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
-      if (item.status === "DRAFT") {
-        if (type === "majorEdit") {
-          // if (+item?.step === 5) {
-          //   navigate(
-          //     `/${pathName}/create_course/${item?.id}?tab=${
-          //       +item?.tab === 4 ? 0 : item?.tab
-          //     }&version=${item?.currentVersion?.id}&type=${type}`
-          //   );
-          // } else {
+      if (type === "majorEdit") {
+        if (+item?.step === 5) {
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${
-              +item?.tab === 4 ? 0 : item?.tab
-            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-              item?.currentVersion?.id
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+            }&version=${item?.currentVersion?.id}&type=${type}`
+          );
+        } else {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${item?.currentVersion?.id
             }&type=${type}`
           );
-          // }
-        } else {
-          if (+item?.step === 5) {
-            navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&version=${item?.currentVersion?.id}`
-            );
-          } else {
-            navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-                item?.currentVersion?.id
-              }`
-            );
-          }
-          createNewVersionFun({
-            courseId: item?.id,
-            version: item?.currentVersion?.version || 0,
-          });
         }
+      }
+      if(type === "editWithNew"){
+        createNewVersionFun({
+          courseId: item?.id,
+          version: item?.currentVersion?.version || 0,
+        });
       }
     } else {
       if (item?.trainerId?.id) {
@@ -309,139 +288,135 @@ const GridView = ({
         </div>
       )}
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-        {list
-          ?.filter((item) => item !== undefined && item !== null)
-          ?.map((item: any, i: number) => {
-            const update =
-              +userData?.query?.role === UserRole?.Trainer
-                ? true
-                : // : item?.trainerId?.id === +userData?.query?.detailsid
-                  // ? true
-                  permissions?.updateCourse;
-            console.log("update", update);
-
-            const versionOption =
-              item?.version &&
-              item?.version.map((itm: any) => {
-                return {
-                  label: `V-${itm?.version}`,
-                  value: itm?.id.toString() || "",
-                };
-              });
-
-            return (
-              <Link
-                to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
-                onClick={() =>
-                  dispatch(
-                    setPath([
-                      { label: "Course Management", link: null },
-                      { label: `${pathName}`, link: `/${Role}/${pathName}` },
-                      { label: "Employee Basic Course", link: null },
-                    ])
-                  )
-                }
-                key={i}
-                className="border border-[#ddd] rounded-[10px] overflow-hidden"
-              >
-                <div className="relative min-h-[170px] h-[170px] overflow-hidden">
-                  <img
-                    src={item?.bannerImage || Course_image}
-                    alt={"bannerImage"}
-                    className="w-full h-full"
-                  />
-                  <div className="absolute right-2 bottom-2">
-                    <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                      {item?.status === "COPY"
-                        ? "DRAFT"
-                        : item?.status === "READYTOPUBLISH"
+        {list?.map((item: any, i: number) => {
+          const update =
+            +userData?.query?.role === UserRole?.Trainer
+              ? true
+              : // : item?.trainerId?.id === +userData?.query?.detailsid
+              // ? true
+              permissions?.updateCourse;
+          const versionOption =
+            item?.version &&
+            item?.version.map((itm: any) => {
+              return {
+                label: `V-${itm?.version}`,
+                value: itm?.id.toString() || "",
+              };
+            });
+          return (
+            <Link
+              to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    { label: "Course Management", link: null },
+                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                    { label: "Employee Basic Course", link: null },
+                  ])
+                )
+              }
+              key={i}
+              className="border border-[#ddd] rounded-[10px] overflow-hidden"
+            >
+              <div className="relative min-h-[170px] h-[170px] overflow-hidden">
+                <img
+                  src={item?.bannerImage || Course_image}
+                  alt={"bannerImage"}
+                  className="w-full h-full"
+                />
+                <div className="absolute right-2 bottom-2">
+                  <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                    {item?.status === "COPY"
+                      ? "DRAFT"
+                      : item?.status === "READYTOPUBLISH"
                         ? "Ready to Publish"
                         : item.status || item.status}
-                    </Badge>
+                  </Badge>
+                </div>
+              </div>
+              <div className="p-2 h-[calc(100%-220px)]">
+                <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
+                  {item?.title}
+                </h5>
+                <div className="flex items-center justify-between sm:mb-[11px] mb-5">
+                  <div>
+                    <h6 className="text-sm leading-5 font-normal font-nunito capitalize">
+                      Created By :{" "}
+                      {item?.trainerId
+                        ? item?.trainerId?.name ||
+                        item?.trainerId?.email?.split("@")[0]
+                        : item?.trainerCompanyId?.providerName ||
+                        item?.trainerCompanyId?.email?.split("@")[0]}
+                    </h6>
+                  </div>
+                  <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
+                    <img src={StarImage} alt="" className="pb-1" />
+                    0/5
                   </div>
                 </div>
-                <div className="p-2 h-[calc(100%-220px)]">
-                  <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 sm:min-h-[48px] h-auto line-clamp-2">
-                    {item?.title}
+                <div className="flex justify-between items-center mb-[11px]">
+                  <h5 className="text-[14px] font-nunito">
+                    Module : {item?.module?.length || 0}
                   </h5>
-                  <div className="flex items-center justify-between sm:mb-[11px] mb-5">
-                    <div>
-                      <h6 className="text-sm leading-5 font-normal font-nunito capitalize">
-                        Created By :{" "}
-                        {item?.trainerId
-                          ? item?.trainerId?.name ||
-                            item?.trainerId?.email?.split("@")[0]
-                          : item?.trainerCompanyId?.providerName ||
-                            item?.trainerCompanyId?.email?.split("@")[0]}
-                      </h6>
-                    </div>
-                    <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
-                      <img src={StarImage} alt="" className="pb-1" />
-                      0/5
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center mb-[11px]">
-                    <h5 className="text-[14px] font-nunito">
-                      Module : {item?.module?.length || 0}
-                    </h5>
-                    <p className="text-[14px] font-nunito min-w-[108px]">
-                      Duration : {item?.duration || "00"}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {item?.courseData?.map((item: CourseDataEntity) => {
-                      return (
-                        <div className="" key={item?.pillarId}>
-                          <Badge
-                            variant="outline"
-                            className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                          >
-                            {item?.fetchPillar?.pillarName}
-                          </Badge>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <p className="text-[14px] font-nunito min-w-[108px]">
+                    Duration : {item?.duration || "00"}
+                  </p>
                 </div>
-                <div className="flex sm:flex-nowrap flex-wrap items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
-                  <Button
-                    disabled={
-                      item?.status === "PUBLISHED" ||
-                      item?.status === "EXPIRED" ||
-                      (+userData?.query?.role === UserRole?.Trainee &&
-                        item?.status === "READYTOPUBLISH")
-                    }
-                    className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
-                    onClick={(
-                      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                    ) => {
-                      e.preventDefault();
-                      setOpen(item?.currentVersion?.id);
-                      setCourse(item?.id);
-                    }}
-                  >
-                    {item.status === "PUBLISHED"
-                      ? "Published"
-                      : item.status === "READYTOPUBLISH"
+                <div className="flex items-center gap-2 flex-wrap">
+                  {item?.courseData?.map((item: CourseDataEntity) => {
+                    return (
+                      <div className="" key={item?.pillarId}>
+                        <Badge
+                          variant="outline"
+                          className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                        >
+                          {item?.fetchPillar?.pillarName}
+                        </Badge>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-[7px] 2xl:px-[13px] xl:px-[8px] p-2.5 border-t">
+                <Button
+                  disabled={
+                    item?.status === "PUBLISHED" ||
+                    item?.status === "EXPIRED" ||
+                    (+userData?.query?.role === UserRole?.Trainee &&
+                      item?.status === "READYTOPUBLISH")
+                  }
+                  className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                  onClick={(
+                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                  ) => {
+                    e.preventDefault();
+                    setOpen(item?.currentVersion?.id);
+                    setCourse(item?.id);
+                  }}
+                >
+                  {item.status === "PUBLISHED"
+                    ? "Published"
+                    : item.status === "READYTOPUBLISH"
                       ? userData?.query?.role === "2"
                         ? "Publish"
                         : "Ready to Publish"
                       : "Publish"}
-                  </Button>
+                </Button>
 
-                  <Button
-                    onClick={(e: any) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleCohort(e, item?.currentVersion?.id as number);
-                    }}
-                    className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
-                  >
-                    + Cohort
-                  </Button>
-                  {!(
-                    pathName === "trainee" && allCoursePathName === "allcourse"
-                  ) && (
+                <Button
+                  disabled={!update}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleCohort(e, item?.currentVersion?.id as number);
+                  }}
+                  className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
+                >
+                  + Cohort
+                </Button>
+                {!(
+                  pathName === "trainee" && allCoursePathName === "allcourse"
+                ) && (
                     <div className="">
                       <SelectMenu
                         option={versionOption || []}
@@ -458,17 +433,17 @@ const GridView = ({
                       />
                     </div>
                   )}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="outline-none">
-                      <EllipsisVertical className="w-8" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-30">
-                      <DropdownMenuGroup>
-                        {(+userData?.query?.role === UserRole.Trainee
-                          ? // ? item?.trainerId?.id === +userData?.query?.detailsid
-                            //   ? true
-                            permissions?.createCourse
-                          : true) && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild className="outline-none">
+                    <EllipsisVertical className="w-8" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-30">
+                    <DropdownMenuGroup>
+                      {(+userData?.query?.role === UserRole.Trainee
+                        ? // ? item?.trainerId?.id === +userData?.query?.detailsid
+                        //   ? true
+                        permissions?.createCourse
+                        : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e: any) =>
@@ -479,63 +454,62 @@ const GridView = ({
                             <span>Copy</span>
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "majorEdit")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Major edit</span>
-                        </DropdownMenuItem>
-                        {item?.status !== "EXPIRED" &&
-                          (+userData?.query?.role === UserRole.Trainee
-                            ? update
-                            : true) && (
+                      {item?.status !== "EXPIRED" &&
+                        (+userData?.query?.role === UserRole.Trainee
+                          ? update
+                          : true) && (
+                          <>
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) =>
-                                handleEdit(e, item, "editWithNew")
-                              }
+                              onClick={(e) => handleEdit(e, item, "majorEdit")}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>Minor edit</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleEdit(e, item, "editWithNew")}
                             >
                               <Pencil className="w-4 h-4" />
                               <span>Edit with new version</span>
                             </DropdownMenuItem>
-                          )}
-                        {+userData?.query?.role !== UserRole.Trainee && (
-                          <DropdownMenuItem
-                            className={`flex items-center gap-2 font-nunito ${
-                              +userData?.query?.role === UserRole.Trainee
-                                ? "hidden"
-                                : "flex"
-                            }`}
-                            disabled={item?.status !== "PUBLISHED"}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsOpen(item?.currentVersion?.mainCourse?.id);
-                              setSelectedCourse(item);
-                            }}
-                          >
-                            <Combine className="w-4 h-4" />
-                            <span>Allocate</span>
-                          </DropdownMenuItem>
+                          </>
                         )}
+                      {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito`}
-                          onClick={(e: any) => {
+                          className={`flex items-center gap-2 font-nunito ${+userData?.query?.role === UserRole.Trainee
+                            ? "hidden"
+                            : "flex"
+                            }`}
+                          disabled={item?.status !== "PUBLISHED"}
+                          onClick={(e) => {
                             e.stopPropagation();
-                            setIsDelete(true);
-                            setSingleCourse(item);
+                            setIsOpen(item?.currentVersion?.mainCourse?.id);
+                            setSelectedCourse(item);
                           }}
                         >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Delete</span>
+                          <Combine className="w-4 h-4" />
+                          <span>Allocate</span>
                         </DropdownMenuItem>
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </Link>
-            );
-          })}
+                      )}
+                      <DropdownMenuItem
+                        className={`items-center gap-2 font-nunito ${pathName === "trainee" && item?.trainerId?.id === +userData?.query?.detailsid ? "flex" : ""}`}
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          setIsDelete(true);
+                          setSingleCourse(item);
+                        }}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span>Delete</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </Link>
+          );
+        })}
       </div>
       <Loading isLoading={createNewVersionPending} />
       <ConfirmModal

@@ -2,15 +2,17 @@ import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EnrolledCoursesType } from "@/types/enroll";
+import { Loader2 } from "lucide-react";
 
 interface EnrolledCourseListItemProps {
   data: EnrolledCoursesType | any;
   selectVersion: number | any;
   setSelectVersion: (e: any, index: number, trainercompnyId: number) => void;
-  index: number
+  index: number;
+  isLoading: boolean;
 }
 
-const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index }: EnrolledCourseListItemProps) => {
+const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index, isLoading }: EnrolledCourseListItemProps) => {
   const versionOption = data?.course?.version?.map((item: any) => {
     return {
       label: `V-${item?.version}`,
@@ -18,8 +20,6 @@ const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index }
       trainercompnyId: item?.trainerCompanyId ? item?.trainerCompanyId?.id : item?.trainerId?.id
     }
   })
-
-  console.log("data?.currentVersion?.id", data?.course?.currentVersion?.id);
 
   return (
     <div className="flex justify-between items-center w-full">
@@ -33,7 +33,7 @@ const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index }
         </div>
         <div className="w-full items-start sm:px-0 px-[15px] pb-[15px]">
           <div className="flex items-center flex-wrap xl:gap-4 gap-2 pb-2.5">
-            <CourseList rating={data.rating} />
+            <CourseList rating={data?.rating} />
             <div className="flex items-center flex-wrap gap-[7px]">
               {data?.course?.courseData?.map((item: any) => {
                 const pillarName = item.fetchPillar?.pillarName;
@@ -80,10 +80,11 @@ const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index }
       <div className="mr-10">
         <Select
           onValueChange={(e: any) => setSelectVersion(e, index, data?.course?.trainerCompanyId ? data?.course?.trainerCompanyId?.id : data?.course?.trainerId?.id)}
-          value={selectVersion?.index === index ? selectVersion?.trainercompnyId : data?.course?.currentVersion?.id}
+          value={data?.id}
           defaultValue={data?.course?.currentVersion?.id?.toString() || ""}
         >
-          <SelectTrigger className={`bg-white outline-none`}>
+          <SelectTrigger className={`bg-white outline-none flex items-center gap-2`} disabled={selectVersion?.index === index}>
+            {(selectVersion?.index === index && isLoading) && <Loader2 className="w-5 h-5 animate-spin" />}
             <SelectValue placeholder={"V-01"} />
           </SelectTrigger>
           <SelectContent

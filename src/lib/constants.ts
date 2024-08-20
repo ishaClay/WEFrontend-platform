@@ -108,6 +108,11 @@ export const QUERY_KEYS = {
   getAssessmentScore: "getAssessmentScore",
   fetchModuleForumQuestion: "fetchModuleForumQuestion",
   fetchEnrollmentAcceptedFilter: "fetchEnrollmentAcceptedFilter",
+  fetchAgeRanges: "fetchAgeRanges",
+  fetchEmploymentStatus: "fetchEmploymentStatus",
+  fetchOccupationalCategories: "fetchOccupationalCategories",
+  fetchUnemploymentTime: "fetchUnemploymentTime",
+  fetchProviderTypes: "fetchProviderTypes",
 };
 
 export const urlRegex =

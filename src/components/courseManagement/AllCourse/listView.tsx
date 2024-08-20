@@ -153,6 +153,8 @@ const ListView = ({
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
+        setIsDelete(false);
+        setSingleCourse(null);
         toast({
           title: "Success",
           description: data?.data?.message,
@@ -202,8 +204,7 @@ const ListView = ({
       mutationFn: createNewVersion,
       onSuccess: (data) => {
         navigate(
-          `/${pathName}/create_course/${
-            data?.data?.id
+          `/${pathName}/create_course/${data?.data?.id
           }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
         );
       },
@@ -216,15 +217,14 @@ const ListView = ({
       },
     });
 
-  const copyPublish = (e: Event, id: number) => {
+  const handleCopy = (e: Event, id: number) => {
     e.stopPropagation();
     copyCourseFun(id);
   };
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | undefined,
-    item: AllCoursesResult,
+    id: string | undefined, item: AllCoursesResult,
     type?: string
   ) => {
     e.stopPropagation();
@@ -233,8 +233,7 @@ const ListView = ({
         if (type === "majorEdit") {
           if (+item?.step === 5) {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
+              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
               }&version=${id}&type=${type}`
             );
           } else {
@@ -249,16 +248,13 @@ const ListView = ({
         } else {
           if (+item?.step === 5) {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
+              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
               }&version=${item?.currentVersion?.id}`
             );
           } else {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-                item?.currentVersion?.id
+              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${item?.currentVersion?.id
               }`
             );
           }
@@ -308,7 +304,7 @@ const ListView = ({
         </div>
       )}
       <div>
-        {list.map((data: any, index: number) => {
+        {list?.map((data: any, index: number) => {
           const versionOption =
             data?.version &&
             data?.version.map((itm: any) => {
@@ -321,119 +317,117 @@ const ListView = ({
             +userData?.query?.role === UserRole?.Trainer
               ? true
               : // : item?.trainerId?.id === +userData?.query?.detailsid
-                // ? true
-                permissions?.updateCourse;
+              // ? true
+              permissions?.updateCourse;
           return (
-            <>
-              <Link
-                to={`/${pathName}/employee-basic-course/${data?.currentVersion?.id}`}
-                key={index}
-                onClick={() =>
-                  dispatch(
-                    setPath([
-                      { label: "Course Management", link: null },
-                      { label: `${pathName}`, link: `/${Role}/${pathName}` },
-                      { label: "Employee Basic Course", link: null },
-                    ])
-                  )
-                }
-                className="border rounded overflow-hidden grid grid-cols-9 mb-5"
-              >
-                <div className="2xl:col-span-6 xl:col-span-6 col-span-9 sm:flex block items-center">
-                  <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
-                    <img
-                      src={data?.bannerImage || Course_image}
-                      alt=""
-                      className="w-full h-full"
-                    />
-                  </div>
-                  <div className="col-span-3 xl:pl-4 p-3">
-                    <h6 className="font-bold font-nunito text-base xl:pb-4 pb-3">
-                      {data?.title}
-                    </h6>
-                    <div className="flex xl:pb-4 pb-3">
-                      <p className="text-sm font-normal font-nunito xl:pr-[61px] pr-[35px] text-[#000000]">
-                        Created By :{" "}
-                        {data?.trainerId
-                          ? data?.trainerId?.name
-                          : data?.trainerCompanyId?.providerName || "--"}
+            <Link
+              to={`/${pathName}/employee-basic-course/${data?.currentVersion?.id}`}
+              key={index}
+              onClick={() =>
+                dispatch(
+                  setPath([
+                    { label: "Course Management", link: null },
+                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                    { label: "Employee Basic Course", link: null },
+                  ])
+                )
+              }
+              className="border rounded overflow-hidden grid grid-cols-9 mb-5"
+            >
+              <div className="2xl:col-span-6 xl:col-span-6 col-span-9 sm:flex block items-center">
+                <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
+                  <img
+                    src={data?.bannerImage || Course_image}
+                    alt=""
+                    className="w-full h-full"
+                  />
+                </div>
+                <div className="col-span-3 xl:pl-4 p-3">
+                  <h6 className="font-bold font-nunito text-base xl:pb-4 pb-3">
+                    {data?.title}
+                  </h6>
+                  <div className="flex xl:pb-4 pb-3">
+                    <p className="text-sm font-normal font-nunito xl:pr-[61px] pr-[35px] text-[#000000]">
+                      Created By :{" "}
+                      {data?.trainerId
+                        ? data?.trainerId?.name
+                        : data?.trainerCompanyId?.providerName || "--"}
+                    </p>
+                    <div className="flex items-center">
+                      <img
+                        src={starImage}
+                        alt=""
+                        className="w-[16px] h-[16px]"
+                      />
+                      <p className="pl-1 font-semibold font-nunito text-sm mt-1">
+                        0/5
                       </p>
-                      <div className="flex items-center">
-                        <img
-                          src={starImage}
-                          alt=""
-                          className="w-[16px] h-[16px]"
-                        />
-                        <p className="pl-1 font-semibold font-nunito text-sm mt-1">
-                          0/5
-                        </p>
-                      </div>
                     </div>
-                    <div className="flex items-center xl:pb-4 pb-3">
-                      <div className="text-sm font-normal font-nunito text-[#000] xl:pr-24 pr-16">
-                        Module : {data?.module?.length || 0}
-                      </div>
-                      <div className="text-sm font-normal font-nunito text-[#000]">
-                        Duration : {data?.duration || "00"}
-                      </div>
+                  </div>
+                  <div className="flex items-center xl:pb-4 pb-3">
+                    <div className="text-sm font-normal font-nunito text-[#000] xl:pr-24 pr-16">
+                      Module : {data?.module?.length || 0}
                     </div>
-                    <div className="flex flex-wrap items-center md:gap-5 gap-3">
-                      {data?.courseData?.map((item: CourseDataEntity) => {
-                        return (
-                          <div className="">
-                            <Badge
-                              variant="outline"
-                              className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                            >
-                              {item?.fetchPillar?.pillarName}
-                            </Badge>
-                          </div>
-                        );
-                      })}
+                    <div className="text-sm font-normal font-nunito text-[#000]">
+                      Duration : {data?.duration || "00"}
                     </div>
+                  </div>
+                  <div className="flex flex-wrap items-center md:gap-5 gap-3">
+                    {data?.courseData?.map((item: CourseDataEntity) => {
+                      return (
+                        <div className="">
+                          <Badge
+                            variant="outline"
+                            className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                          >
+                            {item?.fetchPillar?.pillarName}
+                          </Badge>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-                <div className="2xl:col-span-3 xl:col-span-3 col-span-9 flex sm:flex-nowrap flex-wrap items-center sm:justify-end justify-start relative p-4">
-                  <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
-                    <Button
-                      disabled={
-                        data?.status === "PUBLISHED" ||
-                        data?.status === "EXPIRED" ||
-                        data?.status === "READYTOPUBLISH" ||
-                        (+userData?.query?.role === UserRole?.Trainee &&
-                          data?.status === "READYTOPUBLISH")
-                      }
-                      className={`${
-                        +userData?.query?.role === UserRole.Trainee
-                          ? "xl:min-w-auto min-w-auto"
-                          : "xl:max-w-[90px] max-w-[85px]"
-                      } xl:py-[6px] py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
-                      onClick={(
-                        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                      ) => {
-                        e.preventDefault();
-                        setOpen(data?.currentVersion?.id);
-                        setCourse(data?.id);
-                      }}
-                    >
-                      {data?.status === "PUBLISHED"
-                        ? "Published"
-                        : data?.status === "READYTOPUBLISH"
+              </div>
+              <div className="2xl:col-span-3 xl:col-span-3 col-span-9 flex items-center sm:justify-end justify-start relative p-4">
+                <div className="flex flex-row items-center xl:justify-end justify-center xl:gap-[7px] gap-[5px]">
+                  <Button
+                    disabled={
+                      data?.status === "PUBLISHED" ||
+                      data?.status === "EXPIRED" ||
+                      data?.status === "READYTOPUBLISH" ||
+                      (+userData?.query?.role === UserRole?.Trainee &&
+                        data?.status === "READYTOPUBLISH")
+                    }
+                    className={`${+userData?.query?.role === UserRole.Trainee
+                      ? "xl:min-w-auto min-w-auto"
+                      : "xl:max-w-[90px] max-w-[85px]"
+                      } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
+                    onClick={(
+                      e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                    ) => {
+                      e.preventDefault();
+                      setOpen(data?.currentVersion?.id);
+                      setCourse(data?.id);
+                    }}
+                  >
+                    {data?.status === "PUBLISHED"
+                      ? "Published"
+                      : data?.status === "READYTOPUBLISH"
                         ? "Ready to Publish"
                         : "Publish"}
-                    </Button>
-                    <Button
-                      onClick={(e: any) =>
-                        handleCohort(e, data?.currentVersion?.id as number)
-                      }
-                      className="xl:max-w-[90px] sm:max-w-[80px] max-w-[88px] text-sm py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
-                    >
-                      + Cohort
-                    </Button>
-                    {!(
-                      pathName === "trainee" &&
-                      allCoursePathName === "allcourse"
-                    ) && (
+                  </Button>
+                  <Button
+                    disabled={!update}
+                    onClick={(e: any) =>
+                      handleCohort(e, data?.currentVersion?.id as number)
+                    }
+                    className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
+                  >
+                    + Cohort
+                  </Button>
+                  {!(
+                    pathName === "trainee" && allCoursePathName === "allcourse"
+                  ) && (
                       <div className="">
                         <SelectMenu
                           option={versionOption || []}
@@ -448,22 +442,22 @@ const ListView = ({
                         />
                       </div>
                     )}
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild className="outline-none">
-                        <EllipsisVertical />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-30">
-                        <DropdownMenuGroup>
-                          {(+userData?.query?.role === UserRole.Trainee
-                            ? data?.trainerId?.id ===
-                              +userData?.query?.detailsid
-                              ? true
-                              : permissions?.createCourse
-                            : true) && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="outline-none">
+                      <EllipsisVertical />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-30">
+                      <DropdownMenuGroup>
+                        {(+userData?.query?.role === UserRole.Trainee
+                          ? data?.trainerId?.id ===
+                            +userData?.query?.detailsid
+                            ? true
+                            : permissions?.createCourse
+                          : true) && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
                               onClick={(e: any) =>
-                                copyPublish(
+                                handleCopy(
                                   e,
                                   data?.currentVersion?.id as number
                                 )
@@ -473,24 +467,18 @@ const ListView = ({
                               <span>Copy</span>
                             </DropdownMenuItem>
                           )}
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) =>
-                              handleEdit(
-                                e,
-                                data?.currentVersion?.id?.toString(),
-                                data,
-                                "majorEdit"
-                              )
-                            }
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Major edit</span>
-                          </DropdownMenuItem>
-                          {data?.status !== "EXPIRED" &&
-                            (+userData?.query?.role === UserRole.Trainee
-                              ? update
-                              : true) && (
+                        {data?.status !== "EXPIRED" &&
+                          (+userData?.query?.role === UserRole.Trainee
+                            ? update
+                            : true) && (
+                            <>
+                              <DropdownMenuItem
+                                className="flex items-center gap-2 font-nunito"
+                                onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "majorEdit")}
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>Major edit</span>
+                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
                                   handleEdit(
@@ -505,47 +493,45 @@ const ListView = ({
                                 <Pencil className="w-4 h-4" />
                                 <span>Edit with new version</span>
                               </DropdownMenuItem>
-                            )}
-                          {+userData?.query?.role !== UserRole.Trainee && (
-                            <DropdownMenuItem
-                              className={`items-center gap-2 font-nunito ${
-                                +userData?.query?.role === UserRole.Trainee
-                                  ? "hidden"
-                                  : "flex"
-                              }`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsOpen(data?.id);
-                                setSelectedCourse(data);
-                              }}
-                            >
-                              <Combine className="w-4 h-4" />
-                              <span>Allocate</span>
-                            </DropdownMenuItem>
+                            </>
                           )}
+                        {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${
-                              +userData?.query?.role === UserRole.Trainee
-                                ? "hidden"
-                                : "flex"
-                            }`}
-                            onClick={(e: any) => {
+                            className={`items-center gap-2 font-nunito ${+userData?.query?.role === UserRole.Trainee
+                              ? "hidden"
+                              : "flex"
+                              }`}
+                            onClick={(e) => {
                               e.stopPropagation();
-                              setIsDelete(true);
-                              setSingleCourse(data);
+                              setIsOpen(data?.id);
+                              setSelectedCourse(data);
                             }}
                           >
-                            <Trash2 className="w-4 h-4" />
-                            <span>Delete</span>
+                            <Combine className="w-4 h-4" />
+                            <span>Allocate</span>
                           </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                  <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto xl:block hidden"></div>
+                        )}
+                        <DropdownMenuItem
+                          className={`items-center gap-2 font-nunito ${+userData?.query?.role === UserRole.Trainee
+                            ? "hidden"
+                            : "flex"
+                            }`}
+                          onClick={(e: any) => {
+                            e.stopPropagation();
+                            setIsDelete(true);
+                            setSingleCourse(data);
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          <span>Delete</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
-              </Link>
-            </>
+                <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto xl:block hidden"></div>
+              </div>
+            </Link>
           );
         })}
       </div>

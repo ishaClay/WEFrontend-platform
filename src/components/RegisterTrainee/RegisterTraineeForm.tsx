@@ -1,11 +1,11 @@
 import { LogOut } from "@/services/apiServices/authService";
 import { getCountry } from "@/services/apiServices/company";
-import { updateEmployeeEmail } from "@/services/apiServices/employee";
+import { fetchAgeRanges, fetchEmploymentStatus, fetchOccupationalCategories, fetchUnemploymentTime, updateEmployeeEmail } from "@/services/apiServices/employee";
 import { CountryResponse } from "@/types/Company";
 import { ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as Zod from "zod";
@@ -23,8 +23,10 @@ import {
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
+import { QUERY_KEYS } from "@/lib/constants";
+import { Loader2 } from "lucide-react";
+import PhoneInput from 'react-phone-number-input'
 
-const employmentStatusOptions = ["Active", "Inactive"] as const;
 const genderOptions = ["Male", "Female"] as const;
 
 const RegisterTraineeForm = () => {
@@ -33,17 +35,14 @@ const RegisterTraineeForm = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
   const email: string | null = params.get("email");
+  const [phone, setPhone] = useState<any>("");
   const navigate = useNavigate();
   const schema = Zod.object({
     email: Zod.string()
       .email({ message: "Please enter valid email" })
       .optional(),
-    ageRange: Zod.string()
-      .regex(/^\d{1,2}$/, {
-        message: "Please enter valid age range (1-2 digits).",
-      })
-      .min(1, { message: "Please enter valid age range" })
-      .max(2, { message: "Please enter valid age range" }),
+    ageRange: Zod.string({
+      required_error: "Please select age range"}),
     gender: Zod.enum(genderOptions, {
       message: "Please select gender",
     }),
@@ -62,9 +61,7 @@ const RegisterTraineeForm = () => {
     currentHighestNFQ: Zod.string()
       .regex(/^[A-Za-z\s]+$/, { message: "Please enter valid NFQ" })
       .min(1, { message: "Please enter NFQ" }),
-    employmentStatus: Zod.enum(employmentStatusOptions, {
-      message: "Please select employment status",
-    }).optional(),
+    employmentStatus: Zod.string().optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string().nullable(),
     unemploymentTime: Zod.string().nullable(),
@@ -84,6 +81,30 @@ const RegisterTraineeForm = () => {
     resolver: zodResolver(schema),
     mode: "all",
   });
+
+  const {data: getAgeRangesList, isPending: isAgeRangesPending} = useQuery({
+    queryKey: [QUERY_KEYS.fetchAgeRanges],
+    queryFn: fetchAgeRanges,
+  })
+  const ageRangesList = getAgeRangesList?.AgeRanges;
+
+  const {data: getEmploymentStatusList, isPending: isEmploymentStatusPending} = useQuery({
+    queryKey: [QUERY_KEYS.fetchEmploymentStatus],
+    queryFn: fetchEmploymentStatus,
+  })
+  const employmentStatusList = getEmploymentStatusList?.employmentStatus;
+
+  const {data: getOccupationalCategoriesList, isPending: isOccupationalCategoriesPending} = useQuery({
+    queryKey: [QUERY_KEYS.fetchOccupationalCategories],
+    queryFn: fetchOccupationalCategories,
+  })
+  const occupationalCategoriesList = getOccupationalCategoriesList?.occupationalCategories;
+
+  const {data: getUnemploymentTimeList, isPending: isUnemploymentTimePending} = useQuery({
+    queryKey: [QUERY_KEYS.fetchUnemploymentTime],
+    queryFn: fetchUnemploymentTime,
+  })
+  const unemploymentTimeList = getUnemploymentTimeList?.unemploymentTime;
 
   const { mutate, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
@@ -269,11 +290,22 @@ const RegisterTraineeForm = () => {
               Age Range
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              // type="number"
-              {...register("ageRange")}
-            />
+            <Select onValueChange={(value) => setValue("ageRange", value)}>
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+                <SelectValue placeholder="Select Age" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {
+                  isAgeRangesPending ? <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span> : ageRangesList && ageRangesList?.length > 0 ? ageRangesList?.map((item, index) => {
+                    return <SelectItem className="px-8" value={item} key={index}>
+                      {item}
+                    </SelectItem>
+                  }) : <span className="flex items-center justify-center py-5">No Data Found</span>
+                }
+              </SelectContent>
+            </Select>
             {errors.ageRange && (
               <ErrorMessage
                 message={(errors?.ageRange?.message as string) || ""}
@@ -302,7 +334,12 @@ const RegisterTraineeForm = () => {
               Phone
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable className={"!w-full"} {...register("phone")} />
+            <PhoneInput
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => {setValue("phone", e); setPhone(e)}}
+              className="phone-input"
+            />
             {errors.phone && (
               <ErrorMessage
                 message={(errors?.phone?.message as string) || ""}
@@ -335,12 +372,15 @@ const RegisterTraineeForm = () => {
                 <SelectValue placeholder="select status" />
               </SelectTrigger>
               <SelectContent className="w-full">
-                <SelectItem className="px-8" value="Active">
-                  Active
-                </SelectItem>
-                <SelectItem className="px-8" value="Inactive">
-                  Inactive
-                </SelectItem>
+                {
+                  isEmploymentStatusPending ? <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span> : employmentStatusList && employmentStatusList?.length > 0 ? employmentStatusList?.map((item, index) => {
+                    return <SelectItem className="px-8" value={item} key={index}>
+                    {item}
+                  </SelectItem>
+                  }) : <span className="flex items-center justify-center py-5">No Data Found</span>
+                }
               </SelectContent>
             </Select>
             {errors.employmentStatus && (
@@ -367,10 +407,24 @@ const RegisterTraineeForm = () => {
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Occupational Category
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("occupationalCategory")}
-            />
+            <Select
+              onValueChange={(value) => setValue("occupationalCategory", value)}
+            >
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+                <SelectValue placeholder="select status" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {
+                  isOccupationalCategoriesPending ? <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span> : occupationalCategoriesList && occupationalCategoriesList?.length > 0 ? occupationalCategoriesList?.map((item, index) => {
+                    return <SelectItem className="px-8" value={item} key={index}>
+                    {item}
+                  </SelectItem>
+                  }) : <span className="flex items-center justify-center py-5">No Data Found</span>
+                }
+              </SelectContent>
+            </Select>
             {errors.occupationalCategory && (
               <ErrorMessage
                 message={
@@ -383,10 +437,24 @@ const RegisterTraineeForm = () => {
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Unemployment Time
             </label>
-            <InputWithLable
-              className={"!w-full"}
-              {...register("unemploymentTime")}
-            />
+            <Select
+              onValueChange={(value) => setValue("unemploymentTime", value)}
+            >
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+                <SelectValue placeholder="select status" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {
+                  isUnemploymentTimePending ? <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span> : unemploymentTimeList && unemploymentTimeList?.length > 0 ? unemploymentTimeList?.map((item, index) => {
+                    return <SelectItem className="px-8" value={item} key={index}>
+                    {item}
+                  </SelectItem>
+                  }) : <span className="flex items-center justify-center py-5">No Data Found</span>
+                }
+              </SelectContent>
+            </Select>
             {errors.unemploymentTime && (
               <ErrorMessage
                 message={(errors?.unemploymentTime?.message as string) || ""}
