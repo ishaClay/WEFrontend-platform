@@ -14,6 +14,7 @@ import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Button } from "../ui/button";
 import {
   Select,
@@ -24,11 +25,10 @@ import {
 } from "../ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import ActionItems from "./ActionItems/ActionItems";
+import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import AssessmentPdf from "./AssessmentPdf";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -166,38 +166,60 @@ const MaturityAssessment = () => {
     }
   };
 
-  
-
-  const transformData = (): { "Piller Name": string, 'Percentage': number, "Your Leval": string, "Selected Leval": string, "Action Name": string, "Assing Name": string, 
-    "Action Status": string | any, "Start Date": string, "End Date": string, "Document Link": string
-   }[] => {
+  const transformData = (): {
+    "Piller Name": string;
+    Percentage: number;
+    "Your Leval": string;
+    "Selected Leval": string;
+    "Action Name": string;
+    "Assing Name": string;
+    "Action Status": string | any;
+    "Start Date": string;
+    "End Date": string;
+    "Document Link": string;
+  }[] => {
     // Prepare the transformed data array
-    const transformedData: { "Piller Name": string, 'Percentage': number, "Your Leval": string, "Selected Leval": string, "Action Name": string, "Assing Name": string,
-      "Action Status": string | any, "Start Date": string, "End Date": string, "Document Link": string
-     }[] = [];
-    
+    const transformedData: {
+      "Piller Name": string;
+      Percentage: number;
+      "Your Leval": string;
+      "Selected Leval": string;
+      "Action Name": string;
+      "Assing Name": string;
+      "Action Status": string | any;
+      "Start Date": string;
+      "End Date": string;
+      "Document Link": string;
+    }[] = [];
+
     // Iterate over each pillar
-    getCheckedmeasures?.data?.data.forEach((pillar : any) => {
+    getCheckedmeasures?.data?.data.forEach((pillar: any) => {
       // Extract pillar details
       const pillarName = pillar.pillarName;
       const percentage = pillar.progressPR;
-      const yourLeval = pillar.userMaturityLevel[0]?.level || '';
-      const selectedLeval = pillar.userMaturityLevel[0]?.nextLevel || '';
-  
+      const yourLeval = pillar.userMaturityLevel[0]?.level || "";
+      const selectedLeval = pillar.userMaturityLevel[0]?.nextLevel || "";
+
       // Iterate over each measure
-      pillar.measures.forEach((measure : any) => {
+      pillar.measures.forEach((measure: any) => {
         // Extract measure details
         const actionName = measure.measure;
         const actionStatus = getStatus(measure?.startDate, measure?.endDate);
-        const assingName = measure.measureHistory.employeeId ? measure.measureHistory.employeeId.name : '';
-        const startDate = measure?.startDate ? moment(new Date(measure?.startDate)).format("DD/MM/YYYY") : '';
-        const endDate = measure?.endDate ? moment(new Date(measure?.endDate)).format("DD/MM/YYYY") : '';
-        const documentLink = measure?.evidence || '';
-  
+        const assingName = measure.measureHistory.employeeId
+          ? measure.measureHistory.employeeId.name
+          : "";
+        const startDate = measure?.startDate
+          ? moment(new Date(measure?.startDate)).format("DD/MM/YYYY")
+          : "";
+        const endDate = measure?.endDate
+          ? moment(new Date(measure?.endDate)).format("DD/MM/YYYY")
+          : "";
+        const documentLink = measure?.evidence || "";
+
         // Push transformed item to the result array
         transformedData.push({
           "Piller Name": pillarName,
-          'Percentage': percentage,
+          Percentage: percentage,
           "Your Leval": yourLeval,
           "Selected Leval": selectedLeval,
           "Action Name": actionName,
@@ -206,15 +228,14 @@ const MaturityAssessment = () => {
           "Start Date": startDate,
           "End Date": endDate,
           "Document Link": documentLink,
-
         });
       });
-  
+
       // Handle case for measures with empty names
       if (pillar.measures.length === 0) {
         transformedData.push({
           "Piller Name": pillarName,
-          'Percentage': percentage,
+          Percentage: percentage,
           "Your Leval": yourLeval,
           "Selected Leval": selectedLeval,
           "Action Name": "",
@@ -226,11 +247,11 @@ const MaturityAssessment = () => {
         });
       }
     });
-  
+
     return transformedData;
   };
-  
-  console.log('firstgetCheckedmeasures',transformData())
+
+  console.log("firstgetCheckedmeasures", transformData());
 
   // const exportData = getCheckedmeasures?.data?.data?.map((item: any) => {
   //   return {
@@ -410,14 +431,14 @@ const MaturityAssessment = () => {
                 )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button
-                  className="bg-[#00778B] font-abhaya font-semibold text-sm"
-                >
+                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
                   <PDFDownloadLink
                     document={<AssessmentPdf data={transformData()} />}
                     fileName="Action-Items.pdf"
                   >
-                    {({ loading }) => (loading ? 'Loading document...' : 'Export')}
+                    {({ loading }) =>
+                      loading ? "Loading document..." : "Export"
+                    }
                   </PDFDownloadLink>
                   {/* Export */}
                 </Button>

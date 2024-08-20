@@ -187,7 +187,7 @@ function SupportAddNewTicket() {
                     <SelectValue placeholder={`Select Name`} />
                   </SelectTrigger>
                 </SelectGroup>
-                <SelectContent className="min-w-full w-full max-w-full">
+                <SelectContent className="min-w-full w-full max-w-full max-h-[300px]">
                   {assigToUserListPending ? (
                     <span className="flex justify-center py-3">
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -201,23 +201,30 @@ function SupportAddNewTicket() {
                           <SelectItem
                             key={item.id}
                             value={String(item?.userDetails?.id)}
-                            className="flex items-center gap-5"
+                            className="w-full"
                           >
-                            <span className="w-full text-neutral-400 text-left">
-                              {item?.userDetails?.role === UserRole?.Employee
-                                ? "Employee"
-                                : item?.userDetails?.role === UserRole?.Company
-                                ? "SME Company"
-                                : item?.userDetails?.role === UserRole?.Trainer
-                                ? "Trainer Provider"
-                                : item?.userDetails?.role === UserRole?.Trainee
-                                ? "Trainer"
-                                : "Client Admin"}
-                            </span>{" "}
-                            <span className="xl:mx-10 mx-0 text-neutral-400">
-                              --
-                            </span>{" "}
-                            {item?.name || item?.email?.split("@")?.[0]}
+                            <div className="flex items-center sm:gap-5 gap-2">
+                              <p className="text-neutral-400 text-left">
+                                {item?.userDetails?.role === UserRole?.Employee
+                                  ? "Employee"
+                                  : item?.userDetails?.role ===
+                                    UserRole?.Company
+                                  ? "SME Company"
+                                  : item?.userDetails?.role ===
+                                    UserRole?.Trainer
+                                  ? "Trainer Provider"
+                                  : item?.userDetails?.role ===
+                                    UserRole?.Trainee
+                                  ? "Trainer"
+                                  : "Client Admin"}
+                              </p>{" "}
+                              <p className="xl:mx-10 mx-0 text-neutral-400">
+                                --
+                              </p>{" "}
+                              <p className="max-w-[220px] break-all	">
+                                {item?.name || item?.email?.split("@")?.[0]}
+                              </p>
+                            </div>
                             {/* {!!item?.userDetails
                               ? item?.userDetails?.name ||
                                 item?.userDetails?.email?.split("@")?.[0]

@@ -33,7 +33,7 @@ const Roadmap = ({
     ) {
       setStep(2);
     } else {
-      setStep(2);
+      setStep(0);
     }
   }, [isEdit, pathStatus, showButton, userData]);
 

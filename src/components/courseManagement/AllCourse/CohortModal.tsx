@@ -23,6 +23,7 @@ import {
   getCohortsByCourse,
 } from "@/services/apiServices/cohort";
 import { ErrorType } from "@/types/Errors";
+import { UserRole } from "@/types/UserRole";
 import { cohortgroupResponse } from "@/types/cohort";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
@@ -55,9 +56,13 @@ const InitialData = {
 
 const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   const [cohortData, setCohortData] = useState<CohortDataType[]>([InitialData]);
-  const [isDeleteCohort, setIsDeleteCohort] = useState<{type: boolean; data: CohortDataType | ""}>({
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [isDeleteCohort, setIsDeleteCohort] = useState<{
+    type: boolean;
+    data: CohortDataType | "";
+  }>({
     type: false,
-    data: ""
+    data: "",
   });
   const { data, isLoading } = useQuery<cohortgroupResponse>({
     queryKey: [QUERY_KEYS.getCohortsByCourse, { id, open }],
@@ -166,32 +171,33 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     },
   });
 
-  const { mutate: deleteCohortFun, isPending: deleteCohortPending } = useMutation({
-    mutationFn: deleteCohort,
-    onSuccess: async (data) => {
-      toast({
-        title: "Success",
-        description: data?.message,
-        variant: "success",
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchAllCourse],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.getCohortsByCourse],
-      });
-      setIsDeleteCohort({
-        type: false,
-        data: ""
-      })
-    },
-    onError: (error: ErrorType) => {
-      toast({
-        variant: "destructive",
-        title: error.data.message,
-      });
-    },
-  });
+  const { mutate: deleteCohortFun, isPending: deleteCohortPending } =
+    useMutation({
+      mutationFn: deleteCohort,
+      onSuccess: async (data) => {
+        toast({
+          title: "Success",
+          description: data?.message,
+          variant: "success",
+        });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourse],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.getCohortsByCourse],
+        });
+        setIsDeleteCohort({
+          type: false,
+          data: "",
+        });
+      },
+      onError: (error: ErrorType) => {
+        toast({
+          variant: "destructive",
+          title: error.data.message,
+        });
+      },
+    });
 
   const handleSubmit = () => {
     const dataNew = cohortData.map((item) => {
@@ -273,6 +279,13 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   const handleDeleteCohort = () => {
     const cohortId = isDeleteCohort?.data && isDeleteCohort?.data?.id;
     deleteCohortFun(+cohortId);
+  };
+
+  function isDateBetween(startDate: Date | undefined) {
+    const isBetDate = moment(startDate).diff(moment(), "days") > 0;
+
+    // Check if the current date is between start date and end date
+    return isBetDate;
   }
 
   return (
@@ -289,13 +302,15 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
             <div className="sm:text-2xl text-xl font-bold font-calibri leading-7 sm:pb-[18px] pb-3">
               Add Cohort
             </div>
-            <Button
-              variant={"ghost"}
-              onClick={handleAddRow}
-              className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
-            >
-              + Add New Row
-            </Button>
+            {+userData?.query?.role === UserRole.Trainer && (
+              <Button
+                variant={"ghost"}
+                onClick={handleAddRow}
+                className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
+              >
+                + Add New Row
+              </Button>
+            )}
             <div
               className="max-h-[400px] lg:min-w-full lg:max-w-full sm:min-w-[calc(650px-50px)] sm:max-w-[calc(650px-50px)] min-w-[calc(100vw-100px)] max-w-[calc(100vw-100px)] overflow-auto mb-4"
               id="scrollStyle"
@@ -328,12 +343,16 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                 </TableHeader>
                 <TableBody>
                   {cohortData?.map((item) => {
+                    const isEditeble = isDateBetween(item?.startDate);
+
                     return (
                       <TableRow key={item.id} className="border-0 py-[9px]">
                         <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
                           <Checkbox
                             checked={item?.publish}
-                            disabled={!item?.isEdit}
+                            disabled={
+                              +userData?.query?.role === UserRole.Trainee
+                            }
                             onCheckedChange={(e) =>
                               handleChanges(e, item.id, "publish")
                             }
@@ -346,7 +365,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             className="h-[52px] text-[#000] text-base font-normal font-calibri"
                             placeholder="Enter Name"
                             name="cohortName"
-                            disabled={!item?.isEdit}
+                            disabled={
+                              !item?.isEdit ||
+                              +userData?.query?.role === UserRole.Trainee
+                            }
                             onChange={(e) => handleChanges(e, item.id)}
                           />
                         </TableCell>
@@ -355,7 +377,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.startDate}
-                            disabled={!item?.isEdit}
+                            disabled={
+                              !item?.isEdit ||
+                              +userData?.query?.role === UserRole.Trainee
+                            }
                             fromDate={new Date()}
                             setDate={(date) =>
                               handleChanges(date, item.id, "startDate")
@@ -368,7 +393,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.endDate}
-                            disabled={!item?.isEdit}
+                            disabled={
+                              !item?.isEdit ||
+                              +userData?.query?.role === UserRole.Trainee
+                            }
                             fromDate={item?.startDate}
                             setDate={(date) =>
                               handleChanges(date, item.id, "endDate")
@@ -381,6 +409,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             <Button
                               variant={"secondary"}
                               type="button"
+                              disabled={
+                                +userData?.query?.role === UserRole.Trainee ||
+                                !isEditeble
+                              }
                               className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
                               onClick={() => handleEdit(item.id)}
                             >
@@ -389,7 +421,13 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             {!item.publish && (
                               <Button
                                 variant={"secondary"}
-                                onClick={() => setIsDeleteCohort({type: true, data: item})}
+                                type="button"
+                                disabled={
+                                  +userData?.query?.role === UserRole.Trainee
+                                }
+                                onClick={() =>
+                                  setIsDeleteCohort({ type: true, data: item })
+                                }
                                 className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
                               >
                                 <Trash2 className="w-4 h-4 text-[#606060]" />
@@ -403,33 +441,35 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                 </TableBody>
               </Table>
             </div>
-            <div className="flex items-center md:gap-[23px] gap-5">
-              <Button
-                type="button"
-                variant={"secondary"}
-                onClick={handleClose}
-                className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                onClick={handleSubmit}
-                variant={"default"}
-                className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
-                isLoading={isPending}
-              >
-                Save
-              </Button>
-            </div>
+            {+userData?.query?.role === UserRole.Trainer && (
+              <div className="flex items-center md:gap-[23px] gap-5">
+                <Button
+                  type="button"
+                  variant={"secondary"}
+                  onClick={handleClose}
+                  className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleSubmit}
+                  variant={"default"}
+                  className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+                  isLoading={isPending}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </Modal>
       <ConfirmModal
         open={isDeleteCohort?.type}
-        onClose={() => setIsDeleteCohort({type: false, data: ""})}
+        onClose={() => setIsDeleteCohort({ type: false, data: "" })}
         onDelete={handleDeleteCohort}
-        value={isDeleteCohort?.data && isDeleteCohort?.data?.cohortName || ""}
+        value={(isDeleteCohort?.data && isDeleteCohort?.data?.cohortName) || ""}
         isLoading={deleteCohortPending}
       />
     </>

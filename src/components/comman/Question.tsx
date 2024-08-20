@@ -39,7 +39,7 @@ const Question = ({
       toast({
         variant: "success",
         title: "Please Click on Submit button",
-      })
+      });
     }
   };
 
@@ -80,6 +80,7 @@ const Question = ({
       >
         <Button
           // variant={"outline"}
+          disabled={allPillar.indexOf(activePillar) === 0}
           type="button"
           className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
           onClick={handlePrev}
@@ -89,6 +90,7 @@ const Question = ({
         <Button
           type="button"
           // variant={"outline"}
+          disabled={allPillar.indexOf(activePillar) === allPillar.length - 1}
           className="text-base w-full bg-[#64A70B] hover:bg-[#64A70B] max-w-[130px]"
           onClick={handleNext}
         >

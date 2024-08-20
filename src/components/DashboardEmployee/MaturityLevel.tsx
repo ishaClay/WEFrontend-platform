@@ -133,7 +133,10 @@ const MaturityLevel = () => {
           <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
-      <Link to="/employee/maturityAssessment" className="relative flex items-center gap-10">
+      <Link
+        to="/employee/maturityAssessment"
+        className="relative flex items-center gap-10"
+      >
         <div className="flex sm:order-1 order-2">
           <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
             <Doughnut data={data} options={options} plugins={[textCenter]} />
@@ -183,12 +186,12 @@ const MaturityLevel = () => {
           />
         </div>
       </Link>
-        <div className="md:mb-5 mb-0 sm:hidden block order-3">
-          <p className="inline">Your overall sustainability Score -</p>{" "}
-          <span className="font-poppins font-bold text-[#000000] leading-6">
-            Intermediate
-          </span>
-        </div>
+      <div className="md:mb-5 mb-0 sm:hidden block order-3">
+        <p className="inline">Your overall sustainability Score -</p>{" "}
+        <span className="font-poppins font-bold text-[#000000] leading-6">
+          Intermediate
+        </span>
+      </div>
     </div>
   );
 };

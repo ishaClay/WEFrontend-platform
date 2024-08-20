@@ -430,7 +430,6 @@ const GridView = ({
                   </Button>
 
                   <Button
-                    disabled={!update}
                     onClick={(e: any) => {
                       e.preventDefault();
                       e.stopPropagation();

@@ -166,6 +166,7 @@ function App() {
     const token = await getDeviceToken();
     console.log("token", token);
   };
+  handleGetToken();
 
   useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
@@ -180,8 +181,6 @@ function App() {
         queryKey: [QUERY_KEYS.chatUserList],
       });
     });
-
-    handleGetToken();
 
     return () => {
       socket.disconnect();
