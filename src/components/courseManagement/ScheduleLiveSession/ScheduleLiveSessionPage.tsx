@@ -93,12 +93,7 @@ const ScheduleLiveSessionPage = () => {
         .string()
         .nonempty("Please enter session description"),
       sessionDate: z.string().nonempty("Please enter session date"),
-      sessionTime: z
-        .string()
-        .min(1, "time format are reqiured")
-        .regex(/^(0[0-9]|1[0-2]):([0-5][0-9])$/, {
-          message: "Please enter valid time format",
-        }),
+      sessionTime: z.string().min(1, "time format are reqiured"),
       selectTimePeriods: z.string({
         required_error: "Please select AM/PM",
       }),
@@ -568,7 +563,8 @@ const ScheduleLiveSessionPage = () => {
                 <Input
                   className="placeholder:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   {...register("sessionTime")}
-                  type="text"
+                  aria-label="Time"
+                  type="time"
                   placeholder="hh:mm"
                 />
                 {errors.sessionTime && (
@@ -753,7 +749,9 @@ const ScheduleLiveSessionPage = () => {
                   type="submit"
                   disabled={isSaveSessionPending || isUpdateSessionPending}
                 >
-                  {(isSaveSessionPending || isUpdateSessionPending) && <Loader2 className="h-5 w-5 animate-spin" />}
+                  {(isSaveSessionPending || isUpdateSessionPending) && (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  )}
                   Save Session
                 </Button>
               </div>
