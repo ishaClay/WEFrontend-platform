@@ -707,7 +707,7 @@ const ScheduleLiveSessionPage = () => {
                 onKeyPressFn={function noRefCheck() {}}
                 onRemove={function noRefCheck() {}}
                 onSearch={function noRefCheck() {}}
-                onSelect={(selectList) => {
+                onSelect={(selectList: any) => {
                   setSelectCompany(selectList);
                 }}
                 options={selectCompanyOptions}

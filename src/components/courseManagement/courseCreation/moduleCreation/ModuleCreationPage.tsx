@@ -81,10 +81,10 @@ const ModuleCreationPage = () => {
                 ),
               information: z
                 .string()
-                .min(1, "Please enter information")
+                .min(500, "Please enter information")
                 .max(
-                  1000,
-                  "You can not write information more than 1000 characters"
+                  5000,
+                  "You can not write information more than 5000 characters"
                 ),
               uploadContentType: z
                 .number()

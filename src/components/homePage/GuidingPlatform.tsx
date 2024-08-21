@@ -1,9 +1,14 @@
 import image from "@/assets/images/GuidingImage.svg";
 import image1 from "@/assets/images/GuidingImage1.png";
+import { RegisterContext } from "@/context/RegisterContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const GuidingPlatform = () => {
+  const navigate = useNavigate();
+  const { setSelectedRole } = useContext(RegisterContext);
   return (
-    <div className="xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10">
+    <div className="xl:pt-8 sm:pt-4 pt-7 xl:pb-[32px] sm:pb-[16px] pb-7 xl:mt-20 sm:mt-16 mt-10 sm:mb-[54px] mb-10 bg-[#F7F8FC]">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6">
         <div>
           <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-UniNeue traking-[4px] text-center sm:pb-6 pb-[60px] tracking-tighter">
@@ -18,7 +23,7 @@ const GuidingPlatform = () => {
             <img src={image1} alt="" className="w-full" />
           </div>
           <div className="flex flex-col xl:gap-8 sm:gap-6 gap-3">
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A]  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
               <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 Find Out Where You Stand
               </h3>
@@ -28,7 +33,7 @@ const GuidingPlatform = () => {
               </p>
             </div>
 
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 lg:px-4 px-6 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A] rounded-[6px] secondary-text py-6 lg:px-4 px-6 traking-[-4%]">
               <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 {" "}
                 Get a Personalised Roadmap
@@ -39,7 +44,7 @@ const GuidingPlatform = () => {
               </p>
             </div>
 
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text  py-6 px-4 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A] rounded-[6px] secondary-text  py-6 px-4 traking-[-4%]">
               <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 See Training Recommendations
               </h3>
@@ -55,7 +60,7 @@ const GuidingPlatform = () => {
           </div>
 
           <div className="flex flex-col xl:gap-8 sm:gap-6 gap-3 lg:mt-0 sm:mt-6 mt-3">
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A] rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
               <h3 className="font-semibold text-base font-d-din-pro leading-[18px]">
                 Invite & Assign Your Staff
               </h3>
@@ -65,7 +70,7 @@ const GuidingPlatform = () => {
               </p>
             </div>
 
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A] rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
               <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 {" "}
                 Measure Your Progress
@@ -76,7 +81,7 @@ const GuidingPlatform = () => {
               </p>
             </div>
 
-            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] button-color  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
+            <div className="xl:w-[322px] lg:w-[300px] w-auto xl:h-[150px] lg:h-[140px] h-[102px] bg-[#4C7D0A]  rounded-[6px] secondary-text py-6 px-4 traking-[-4%]">
               <h3 className="font-bold text-base font-d-din-pro leading-[18px]">
                 Share Reports With Stakeholders
               </h3>
@@ -88,13 +93,19 @@ const GuidingPlatform = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px]  text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] lg:mt-0 mt-6">
+        <div
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px]  text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] lg:mt-0 mt-6 button-color text-color cursor-pointer"
+          onClick={() => {
+            setSelectedRole("company");
+            navigate("/register");
+          }}
+        >
           <p className="leading-[normal]">
             Find Out Your
             <br /> Sustainability Score
           </p>
           <div>
-            <img className="" src="../assets/img/Move Right Dark.png" />
+            <img className="" src="../assets/img/Move Right.png" />
           </div>
         </div>
       </div>

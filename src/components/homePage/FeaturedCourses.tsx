@@ -8,8 +8,10 @@ import { GrNext, GrPrevious } from "react-icons/gr";
 import Slider from "react-slick";
 import { SecondaryButton } from "../comman/Button/CustomButton";
 import Loader from "../comman/Loader";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedCourses = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = React.useState<string>("");
   const { clientId } = useAppSelector((state) => state.user);
   const {
@@ -104,6 +106,9 @@ const FeaturedCourses = () => {
                             name={item.buttonTitle}
                             symbol={<img src="../assets/img/Move Right.png" />}
                             className="sm:w-[195px] w-full xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
+                            onClick={() => {
+                              navigate("/our-courses");
+                            }}
                           ></SecondaryButton>
                         </div>
 

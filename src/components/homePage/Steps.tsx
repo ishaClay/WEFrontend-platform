@@ -4,8 +4,13 @@ import stepImage2 from "@/assets/images/Neighbour.png";
 import stepImage6 from "@/assets/images/PathSteps.png";
 import stepImage1 from "@/assets/images/TreePlanting.png";
 import stepImage3 from "@/assets/images/WeakFinancialGrowth.png";
+import { RegisterContext } from "@/context/RegisterContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Steps = () => {
+  const navigate = useNavigate();
+  const { setSelectedRole } = useContext(RegisterContext);
   const step = [
     {
       image: stepImage1,
@@ -76,13 +81,19 @@ const Steps = () => {
           </div>
         </div>
       </div>
-      <div className="rounded-[4px] border border-solid border-black 1px flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] mt-3">
+      <div
+        className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] mt-3 button-color secondary-text cursor-pointer"
+        onClick={() => {
+          setSelectedRole("company");
+          navigate("/register");
+        }}
+      >
         <p className="leading-[normal]">
           Take Your First
           <br /> Step Now
         </p>
         <div>
-          <img className="" src="../assets/img/Move Right Dark.png" />
+          <img className="" src="../assets/img/Move Right.png" />
         </div>
       </div>
     </div>
