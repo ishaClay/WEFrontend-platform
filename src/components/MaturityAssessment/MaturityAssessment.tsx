@@ -436,7 +436,7 @@ const MaturityAssessment = () => {
                     document={<AssessmentPdf data={transformData()} />}
                     fileName="Action-Items.pdf"
                   >
-                    {({ loading }) =>
+                    {({ loading }: any) =>
                       loading ? "Loading document..." : "Export"
                     }
                   </PDFDownloadLink>

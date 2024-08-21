@@ -270,8 +270,8 @@ const CourseInformation = ({
             <InputWithLabel
               label="What is the title of the course you're offering?"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              placeholder="Enter course name or title"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("title")}
               error={errors.title?.message as string}
             />
@@ -280,8 +280,8 @@ const CourseInformation = ({
             <InputWithLabel
               label="Please enter the name of the institute providing this course."
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="Atlantic Technological University"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              placeholder="Enter institute name (Training provider name should be auto populated)"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("institute")}
               error={errors.institute?.message as string}
             />
@@ -290,8 +290,8 @@ const CourseInformation = ({
             <InputWithLabel
               label="Provide a direct link to the course details on your institute's website."
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              placeholder="Enter URL"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite")}
               error={errors.instituteWebsite?.message as string}
             />
@@ -300,8 +300,8 @@ const CourseInformation = ({
             <InputWithLabel
               label="Do you have any additional links for course materials or resources? (Optional)"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              placeholder="Enter URL"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite2")}
               error={errors.instituteWebsite2?.message as string}
             />
@@ -342,15 +342,26 @@ const CourseInformation = ({
                   Course Price
                 </span>
                 <InputWithLabel
-                  placeholder="€50.00"
-                  className="sm:w-[190px] w-[170px] px-4 py-3 border border-[#D9D9D9] rounded-md "
+                  placeholder="50.00"
+                  className="sm:w-[190px] w-[170px] pl-6 pr-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
                   disabled={isFreeCourse}
-                  {...register("price")}
+                  // {...register("price")}
+                  onChange={(e: any) => {
+                    const { value } = e.target;
+
+                    if (value.match(/^[0-9]*$/)) {
+                      setValue("price", value);
+                    } else {
+                      return;
+                    }
+                  }}
+                  value={watch("price") || ""}
                   error={
                     !errors?.price?.ref?.value
                       ? (errors?.price?.message as string)
                       : ""
                   }
+                  alterText={"€"}
                 />
               </div>
               <div className="flex items-center">
@@ -358,16 +369,25 @@ const CourseInformation = ({
                   Discounted Price
                 </span>
                 <InputWithLabel
-                  placeholder="€255"
-                  className="sm:w-[190px] w-[150px] px-4 py-3 border border-[#D9D9D9] rounded-md "
+                  placeholder="255"
+                  className="sm:w-[190px] w-[150px] pl-6 pr-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
                   disabled={!provideDisc || isFreeCourse}
                   value={discount}
-                  onChange={(e) => setDiscount(e.target.value)}
+                  onChange={(e: any) => {
+                    const { value } = e.target;
+
+                    if (value.match(/^[0-9]*$/)) {
+                      setDiscount(value);
+                    } else {
+                      return;
+                    }
+                  }}
                   error={
                     +discount > +coursePrise
                       ? "Discount is greater than course price"
                       : ""
                   }
+                  alterText={"€"}
                 />
               </div>
             </div>

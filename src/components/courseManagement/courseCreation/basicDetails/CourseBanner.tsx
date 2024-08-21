@@ -52,7 +52,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     keys: zod
       .string({ required_error: "Key Outcomes is required" })
       .min(1, "Key Outcomes is required")
-      .max(250, "You can not write description more than 250 characters"),
+      .max(1000, "You can not write description more than 1000 characters"),
   });
   type FormData = zod.infer<typeof schema>;
   const {

@@ -275,7 +275,7 @@ const ModuleCreationItems = ({
                         `modules.${index}.section.${sectionindex}.youtubeUrl`
                       )
                     }
-                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
+                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]
                     ?.youtubeUrl ||

@@ -16,6 +16,7 @@ type InputWithLabelProps = InputProps & {
   icon?: React.ReactNode;
   labelClassName?: string;
   isShowErrorBorder?: boolean;
+  alterText?: string;
 };
 
 const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
@@ -32,6 +33,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
       placeholder,
       labelClassName,
       isShowErrorBorder,
+      alterText,
       ...rest
     },
     ref
@@ -52,7 +54,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
         )}
         <div
           className={cn(
-            "items-center gap-1 overflow-hidden",
+            "items-center gap-1 overflow-hidden relative",
             icon ? "flex" : ""
           )}
         >
@@ -69,6 +71,11 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
               className
             )}
           />
+          {!!alterText && (
+            <span className="absolute top-1/2 -translate-y-1/2 left-3 text-[14px] text-[#515151]">
+              {alterText}
+            </span>
+          )}
         </div>
         {error && <FormError message={error} />}
       </div>

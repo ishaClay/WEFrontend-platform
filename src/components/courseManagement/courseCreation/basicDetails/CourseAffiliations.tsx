@@ -250,7 +250,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                   setValue("instituteOther", data);
                 }}
                 value={selectAffiliations?.instituteOther || ""}
-                placeholder="select course name"
+                placeholder="Select"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors.instituteOther?.ref?.value && (
@@ -275,7 +275,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                   setValue("otherInstitutionName", data);
                 }}
                 value={selectAffiliations?.otherInstitutionName || ""}
-                placeholder="select institution / organisation name"
+                placeholder="Enter accreditor name"
                 className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors.otherInstitutionName?.ref?.value && (
