@@ -172,7 +172,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
-        setValue(key, data[key]);
+        setValue(key, data[key] || "");
         setValue("time", getSingleCourse?.data?.course?.time?.toString());
         setValue(
           "isOnline",

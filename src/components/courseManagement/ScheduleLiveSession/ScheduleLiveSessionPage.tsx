@@ -753,10 +753,7 @@ const ScheduleLiveSessionPage = () => {
                   type="submit"
                   disabled={isSaveSessionPending || isUpdateSessionPending}
                 >
-                  {isSaveSessionPending ||
-                    (isUpdateSessionPending && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    ))}
+                  {(isSaveSessionPending || isUpdateSessionPending) && <Loader2 className="h-5 w-5 animate-spin" />}
                   Save Session
                 </Button>
               </div>

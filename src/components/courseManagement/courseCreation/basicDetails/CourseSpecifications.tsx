@@ -133,7 +133,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
-        setValue(key, data[key]);
+        setValue(key, data[key] || "");
         setValue(
           "nfqLeval",
           getSingleCourse?.data?.course?.nfqLeval?.id.toString()
@@ -296,7 +296,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />
             {!errors?.certificate?.ref?.value && (
-              <ErrorMessage message={errors?.nfqLeval?.message as string} />
+              <ErrorMessage message={errors?.certificate?.message as string} />
             )}
           </div>
           <div className="sm:text-right text-center">

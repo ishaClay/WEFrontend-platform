@@ -54,10 +54,11 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               type="button"
               onClick={(e) => {
                 e.preventDefault();
-                +Number(grid?.course?.courseProgress).toFixed(0) !== 100 &&
-                  navigate(
-                    `/employee/employee-basic-course/${grid?.course?.versionId}?courseId=${grid?.course?.id}&tab=1`
-                  );
+                +Number(grid?.course?.courseProgress).toFixed(0) !== 100
+                  ? navigate(
+                      `/employee/employee-basic-course/${grid?.course?.versionId}?courseId=${grid?.course?.id}&tab=1`
+                    )
+                  : navigate(`/employee/certifications`);
               }}
               className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]"
             >
