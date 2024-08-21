@@ -248,7 +248,9 @@ function RegisterTrainer() {
       toast({
         variant: "success",
         title:
-          "Registered successfully, But you can't login. Now your account verification is pending by admin.",
+          "Thank you for registering! Your details are under review. You'll be notified once approved.",
+        // title:
+        // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
     },

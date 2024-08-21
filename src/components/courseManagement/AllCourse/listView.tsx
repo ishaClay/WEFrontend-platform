@@ -63,7 +63,7 @@ const ListView = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
-  const pathName = location?.pathname?.split("/")?.[1];
+  const pathName = location?.pathname?.split("/")?.[2];
   const allCoursePathName = location?.pathname?.split("/")?.[2];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -204,7 +204,8 @@ const ListView = ({
       mutationFn: createNewVersion,
       onSuccess: (data) => {
         navigate(
-          `/${pathName}/create_course/${data?.data?.id
+          `/${Role}/create_course/${
+            data?.data?.id
           }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
         );
       },
@@ -224,7 +225,8 @@ const ListView = ({
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | undefined, item: AllCoursesResult,
+    id: string | undefined,
+    item: AllCoursesResult,
     type?: string
   ) => {
     e.stopPropagation();
@@ -233,12 +235,13 @@ const ListView = ({
         if (type === "majorEdit") {
           if (+item?.step === 5) {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+              `/${Role}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
               }&version=${id}&type=${type}`
             );
           } else {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${
+              `/${Role}/create_course/${item?.id}?tab=${
                 +item?.tab === 4 ? 0 : item?.tab
               }&step=${
                 +item?.step === 5 ? 0 : item?.step
@@ -248,13 +251,16 @@ const ListView = ({
         } else {
           if (+item?.step === 5) {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+              `/${Role}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
               }&version=${item?.currentVersion?.id}`
             );
           } else {
             navigate(
-              `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${item?.currentVersion?.id
+              `/${Role}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
               }`
             );
           }
@@ -305,23 +311,41 @@ const ListView = ({
       )}
       <div>
         {list?.map((data: any, index: number) => {
-          const versionOption =
-            data?.version &&
-            data?.version.map((itm: any) => {
-              return {
-                label: `V-${itm?.version}`,
-                value: itm?.id.toString() || "",
-              };
-            });
+          // const versionOption =
+          //   data?.version &&
+          //   data?.version.map((itm: any) => {
+          //     return {
+          //       label: `V-${itm?.version}`,
+          //       value: itm?.id.toString() || "",
+          //     };
+          //   });
+
           const update =
             +userData?.query?.role === UserRole?.Trainer
               ? true
               : // : item?.trainerId?.id === +userData?.query?.detailsid
-              // ? true
-              permissions?.updateCourse;
+                // ? true
+                permissions?.updateCourse;
+
+          const isTrainee = +userData?.query?.role === UserRole?.Trainee;
+          const isMyCoursesPath = pathName === "mycourses";
+          const isPublished = data.status === "PUBLISHED";
+          const versionOption =
+            data?.version &&
+            data?.version
+              .filter((itm: any) => {
+                if (isTrainee && isMyCoursesPath && isPublished) {
+                  return itm.version === data?.currentVersion?.version;
+                }
+                return true;
+              })
+              .map((itm: any) => ({
+                label: `V-${itm?.version}`,
+                value: itm?.id.toString() || "",
+              }));
           return (
             <Link
-              to={`/${pathName}/employee-basic-course/${data?.currentVersion?.id}`}
+              to={`/${Role}/employee-basic-course/${data?.currentVersion?.id}`}
               key={index}
               onClick={() =>
                 dispatch(
@@ -398,10 +422,11 @@ const ListView = ({
                       (+userData?.query?.role === UserRole?.Trainee &&
                         data?.status === "READYTOPUBLISH")
                     }
-                    className={`${+userData?.query?.role === UserRole.Trainee
-                      ? "xl:min-w-auto min-w-auto"
-                      : "xl:max-w-[90px] max-w-[85px]"
-                      } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
+                    className={`${
+                      +userData?.query?.role === UserRole.Trainee
+                        ? "xl:min-w-auto min-w-auto"
+                        : "xl:max-w-auto max-w-auto"
+                    } xl:py-[6px] py-[8px]  font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto `}
                     onClick={(
                       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                     ) => {
@@ -413,8 +438,8 @@ const ListView = ({
                     {data?.status === "PUBLISHED"
                       ? "Published"
                       : data?.status === "READYTOPUBLISH"
-                        ? "Ready to Publish"
-                        : "Publish"}
+                      ? "Ready to Publish"
+                      : "Publish"}
                   </Button>
                   <Button
                     disabled={!update}
@@ -428,20 +453,20 @@ const ListView = ({
                   {!(
                     pathName === "trainee" && allCoursePathName === "allcourse"
                   ) && (
-                      <div className="">
-                        <SelectMenu
-                          option={versionOption || []}
-                          setValue={(e: string) => handleChangeVersion(e, data)}
-                          value={data?.currentVersion?.id?.toString() || ""}
-                          defaultValue={
-                            data?.currentVersion?.id?.toString() || ""
-                          }
-                          containClassName="max-w-[62px]"
-                          className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
-                          placeholder="V-01"
-                        />
-                      </div>
-                    )}
+                    <div className="">
+                      <SelectMenu
+                        option={versionOption || []}
+                        setValue={(e: string) => handleChangeVersion(e, data)}
+                        value={data?.currentVersion?.id?.toString() || ""}
+                        defaultValue={
+                          data?.currentVersion?.id?.toString() || ""
+                        }
+                        containClassName="max-w-[62px]"
+                        className="md:max-w-[62px] sm:max-w-[56px] max-w-[65px] h-auto py-[5px] px-2 font- w-full bg-[#00778B] text-white"
+                        placeholder="V-01"
+                      />
+                    </div>
+                  )}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild className="outline-none">
                       <EllipsisVertical />
@@ -449,24 +474,20 @@ const ListView = ({
                     <DropdownMenuContent className="w-30">
                       <DropdownMenuGroup>
                         {(+userData?.query?.role === UserRole.Trainee
-                          ? data?.trainerId?.id ===
-                            +userData?.query?.detailsid
+                          ? data?.trainerId?.id === +userData?.query?.detailsid
                             ? true
                             : permissions?.createCourse
                           : true) && (
-                            <DropdownMenuItem
-                              className="flex items-center gap-2 font-nunito"
-                              onClick={(e: any) =>
-                                handleCopy(
-                                  e,
-                                  data?.currentVersion?.id as number
-                                )
-                              }
-                            >
-                              <Copy className="w-4 h-4" />
-                              <span>Copy</span>
-                            </DropdownMenuItem>
-                          )}
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e: any) =>
+                              handleCopy(e, data?.currentVersion?.id as number)
+                            }
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>Copy</span>
+                          </DropdownMenuItem>
+                        )}
                         {data?.status !== "EXPIRED" &&
                           (+userData?.query?.role === UserRole.Trainee
                             ? update
@@ -474,7 +495,14 @@ const ListView = ({
                             <>
                               <DropdownMenuItem
                                 className="flex items-center gap-2 font-nunito"
-                                onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "majorEdit")}
+                                onClick={(e) =>
+                                  handleEdit(
+                                    e,
+                                    data?.currentVersion?.id?.toString(),
+                                    data,
+                                    "majorEdit"
+                                  )
+                                }
                               >
                                 <Pencil className="w-4 h-4" />
                                 <span>Major edit</span>
@@ -497,10 +525,11 @@ const ListView = ({
                           )}
                         {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${+userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                              }`}
+                            className={`items-center gap-2 font-nunito ${
+                              +userData?.query?.role === UserRole.Trainee
+                                ? "hidden"
+                                : "flex"
+                            }`}
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsOpen(data?.id);
@@ -512,10 +541,11 @@ const ListView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${+userData?.query?.role === UserRole.Trainee
-                            ? "hidden"
-                            : "flex"
-                            }`}
+                          className={`items-center gap-2 font-nunito ${
+                            +userData?.query?.role === UserRole.Trainee
+                              ? "hidden"
+                              : "flex"
+                          }`}
                           onClick={(e: any) => {
                             e.stopPropagation();
                             setIsDelete(true);

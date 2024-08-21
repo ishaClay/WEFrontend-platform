@@ -51,6 +51,7 @@ export const fetchCourseAllCourse = async (
   searchKeyword: string,
   userId?: number,
   status?: string,
+  reddyForPublish?: string
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};
@@ -59,6 +60,9 @@ export const fetchCourseAllCourse = async (
   }
   if (userId) {
     params["userid"] = userId;
+  }
+  if (reddyForPublish) {
+    params["reddyForPublish"] = reddyForPublish;
   }
   if (status) {
     params["status"] = status;

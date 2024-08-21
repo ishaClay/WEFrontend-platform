@@ -51,6 +51,7 @@ const AllCourses = () => {
       fetchCourseAllCourse(
         searchKeyword,
         +UserId,
+        "",
         status === "All" ? "" : status
       ),
     enabled: !!searchKeyword || !!status || !!UserId,
