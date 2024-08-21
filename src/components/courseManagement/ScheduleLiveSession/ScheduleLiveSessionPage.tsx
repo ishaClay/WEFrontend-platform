@@ -108,7 +108,8 @@ const ScheduleLiveSessionPage = () => {
       required_error: "Please select duration in hours",
     }),
     platform: z.boolean(),
-    zoomUrl: z.string({ required_error: "Please enter zoom url"}).regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/, "Please enter a valid zoom URL starting with http:// or https://"),
+    // zoomUrl: z.string({ required_error: "Please enter zoom url"}).regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/, "Please enter a valid zoom URL starting with http:// or https://"),
+    zoomUrl: z.string().optional(),
     selectCompany: z
       .array(z.string())
       .nonempty("Please select at least one company").optional(),
@@ -317,6 +318,12 @@ const ScheduleLiveSessionPage = () => {
     ]);
 
     useEffect(() => {
+      if(watch("platform")){
+        setValue("zoomUrl", "");
+      }
+    }, [watch("platform")])    
+
+    useEffect(() => {
       const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
       const liveSecTitle = selectLiveSessionOption?.find((item:any) => item?.label === fetchLiveSessionData?.liveSecTitle);  
       setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
@@ -324,10 +331,6 @@ const ScheduleLiveSessionPage = () => {
     }, [fetchLiveSession?.data?.data])
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    if(watch("platform")){
-      console.log("asdasdasd");
-      setValue("zoomUrl", "");
-    }
     const liveSecTitle = selectLiveSessionOption?.find((item:any) => +item?.value === +data?.selectLiveSession);
     const transformedData = {
       course: data?.selectCourse,
@@ -352,12 +355,12 @@ const ScheduleLiveSessionPage = () => {
         id: id,
       });
     } else{
-      if (traineeList) {
+      // if (traineeList) {
         await addLiveSession({
           data: transformedData,
           id: liveSecTitle?.value,
         });
-      }
+      // }
     }
   };
 
@@ -479,11 +482,11 @@ const ScheduleLiveSessionPage = () => {
             </div>
             {!watch("platform") && <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-semibold font-abhaya">
-                Zoom Base Url
+                Meeting Url
               </Label>
               <Input
                 {...register("zoomUrl")}
-                placeholder="Enter Zoom Base Url"
+                placeholder="Enter Meeting Url"
                 className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 value={watch("zoomUrl")}
               />

@@ -169,6 +169,16 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
+  useEffect(() => {
+    if(selectAffiliations?.instituteOther === "no"){
+      setSelectAffiliations({
+        instituteOther: selectAffiliations?.instituteOther,
+        otherInstitutionName: "",
+      });
+    }
+  }, [selectAffiliations])
+  
+
   const onSubmit = (data: FieldValues) => {
     const payload = {
       instituteOther: data?.instituteOther,

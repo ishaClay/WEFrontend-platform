@@ -41,6 +41,7 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
+import PhoneInput from 'react-phone-number-input'
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
@@ -49,6 +50,7 @@ function RegisterTrainer() {
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const { clientId } = useAppSelector((state) => state.user);
   const [otp, setOtp] = useState("");
+  const [phone, setPhone] = useState<string>("");
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
@@ -73,9 +75,7 @@ function RegisterTrainer() {
         .string()
         .regex(/^[0-9]*$/, {
           message: "Please enter valid phone number (1-9 digits).",
-        })
-        .max(10, { message: "Please enter valid phone number (1-9 digits)." })
-        .optional(),
+        }).optional(),
       providerAddress: z.string().optional(),
       providerCounty: z.string().optional(),
       name: z.string().optional(),
@@ -508,11 +508,15 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="0044 1234 1234567"
-                      className="h-[46px]"
-                      label="Contact Telephone No."
-                      {...register("contactTelephone")}
+                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+                      Contact Telephone No.
+                    </label>
+                    <PhoneInput
+                      placeholder="Enter phone number"
+                      value={phone}
+                      international
+                      onChange={(e:any) => {setValue("contactTelephone", e); setPhone(e)}}
+                      className="phone-input"
                     />
                     {errors.contactTelephone && (
                       <ErrorMessage

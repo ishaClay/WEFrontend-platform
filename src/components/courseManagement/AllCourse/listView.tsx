@@ -188,7 +188,7 @@ const ListView = ({
       const singleCourse = list?.find(
         (item) => item?.currentVersion?.id === +id
       );
-      if (singleCourse?.isOnline) {
+      if (singleCourse?.isOnline === 1) {
         publishCourseFun(payload);
       } else {
         toast({
@@ -231,44 +231,25 @@ const ListView = ({
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
-      if (item.status === "DRAFT") {
-        if (type === "majorEdit") {
-          if (+item?.step === 5) {
-            navigate(
-              `/${Role}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&version=${id}&type=${type}`
-            );
-          } else {
-            navigate(
-              `/${Role}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&step=${
-                +item?.step === 5 ? 0 : item?.step
-              }&version=${id}&type=${type}`
-            );
-          }
+      if (type === "editminor") {
+        if (+item?.step === 5) {
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+            }&version=${id}&type=${type}`
+          );
         } else {
-          if (+item?.step === 5) {
-            navigate(
-              `/${Role}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&version=${item?.currentVersion?.id}`
-            );
-          } else {
-            navigate(
-              `/${Role}/create_course/${item?.id}?tab=${
-                +item?.tab === 4 ? 0 : item?.tab
-              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
-                item?.currentVersion?.id
-              }`
-            );
-          }
-          createNewVersionFun({
-            courseId: item?.id,
-            version: item?.currentVersion?.version || 0,
-          });
+          navigate(
+            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id
+            }&type=${type}`
+          );
         }
+      }
+      if(type === "editWithNew"){
+        createNewVersionFun({
+          courseId: item?.id,
+          version: item?.currentVersion?.version || 0,
+        });
       }
     } else {
       if (item?.trainerId?.id) {
@@ -478,35 +459,32 @@ const ListView = ({
                             ? true
                             : permissions?.createCourse
                           : true) && (
-                          <DropdownMenuItem
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e: any) =>
+                                handleCopy(
+                                  e,
+                                  data?.currentVersion?.id as number
+                                )
+                              }
+                            >
+                              <Copy className="w-4 h-4" />
+                              <span>Copy</span>
+                            </DropdownMenuItem>
+                          )}
+                          {+userData?.query?.role !== UserRole.Trainee && <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e: any) =>
-                              handleCopy(e, data?.currentVersion?.id as number)
-                            }
+                            onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "editminor")}
                           >
-                            <Copy className="w-4 h-4" />
-                            <span>Copy</span>
+                            <Pencil className="w-4 h-4" />
+                            <span>Edit minor</span>
                           </DropdownMenuItem>
-                        )}
+                        }
                         {data?.status !== "EXPIRED" &&
                           (+userData?.query?.role === UserRole.Trainee
                             ? update
                             : true) && (
                             <>
-                              <DropdownMenuItem
-                                className="flex items-center gap-2 font-nunito"
-                                onClick={(e) =>
-                                  handleEdit(
-                                    e,
-                                    data?.currentVersion?.id?.toString(),
-                                    data,
-                                    "majorEdit"
-                                  )
-                                }
-                              >
-                                <Pencil className="w-4 h-4" />
-                                <span>Major edit</span>
-                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={(e) =>
                                   handleEdit(
@@ -541,11 +519,7 @@ const ListView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            +userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                          }`}
+                          className={`items-center gap-2 font-nunito ${pathName === "trainee" && data?.trainerId?.id === +userData?.query?.detailsid ? "flex" : ""}`}
                           onClick={(e: any) => {
                             e.stopPropagation();
                             setIsDelete(true);

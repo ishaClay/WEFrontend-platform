@@ -400,7 +400,7 @@ const CourseViewCardInner = ({
               ) : (
                 <div
                   key={index}
-                  draggable={paramsType === "majorEdit" ? false : true}
+                  draggable={paramsType === "editminor" ? false : true}
                   onDragStart={() => (dragPerson.current = index)}
                   onDragEnter={() => (draggedOverPerson.current = index)}
                   onDragEnd={handleSort}
@@ -437,7 +437,7 @@ const CourseViewCardInner = ({
                     type="button"
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
-                    disabled={paramsType === "majorEdit"}
+                    disabled={paramsType === "editminor"}
                   >
                     <CirclePlus width={18} /> Section
                   </Button>
@@ -445,7 +445,7 @@ const CourseViewCardInner = ({
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
-                    disabled={paramsType === "majorEdit" ? true : assessments?.length === 1}
+                    disabled={paramsType === "editminor" ? true : assessments?.length === 1}
                   >
                     <CirclePlus width={18} /> Add Assessment
                   </Button>

@@ -228,7 +228,7 @@ const GridView = ({
   ) => {
     e.stopPropagation();
     if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
-      if (type === "majorEdit") {
+      if (type === "editminor") {
         if (+item?.step === 5) {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
@@ -460,16 +460,23 @@ const GridView = ({
                           //   ? true
                           permissions?.createCourse
                         : true) && (
-                        <DropdownMenuItem
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e: any) =>
+                              handleCopy(e, item?.currentVersion?.id)
+                            }
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>Copy</span>
+                          </DropdownMenuItem>
+                        )}
+                        {+userData?.query?.role !== UserRole.Trainee && <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
-                          onClick={(e: any) =>
-                            handleCopy(e, item?.currentVersion?.id)
-                          }
+                          onClick={(e) => handleEdit(e, item, "editminor")}
                         >
-                          <Copy className="w-4 h-4" />
-                          <span>Copy</span>
-                        </DropdownMenuItem>
-                      )}
+                          <Pencil className="w-4 h-4" />
+                          <span>Edit minor</span>
+                        </DropdownMenuItem>}
                       {item?.status !== "EXPIRED" &&
                         (+userData?.query?.role === UserRole.Trainee
                           ? update
@@ -477,19 +484,10 @@ const GridView = ({
                           <>
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleEdit(e, item, "majorEdit")}
+                              onClick={(e) => handleEdit(e, item, "editWithNew")}
                             >
                               <Pencil className="w-4 h-4" />
-                              <span>Minor edit</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="flex items-center gap-2 font-nunito"
-                              onClick={(e) =>
-                                handleEdit(e, item, "editWithNew")
-                              }
-                            >
-                              <Pencil className="w-4 h-4" />
-                              <span>Edit with new version</span>
+                              <span>Edit new versions</span>
                             </DropdownMenuItem>
                           </>
                         )}

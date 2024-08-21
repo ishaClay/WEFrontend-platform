@@ -7,7 +7,7 @@ import api from "./api";
 // };
 
 export const scheduleLiveSession = ({ data, id }: any) => {
-  const url = `api/v1/course/module/section/update-live-section/${id}`;
+  const url = `api/v1/livesessions/liveSessionUpdate/${id}`;
 
   return api({ url, data, method: "put" });
 };
@@ -25,9 +25,14 @@ export const createLiveSection = async (data: any) => {
   return res;
 };
 
-export const getAllLiveSession = () => {
+export const getAllLiveSession = (trainerCompanyId: number) => {
   const url = `api/v1/livesessions/list`;
-  return api({ url });
+  const params:any = {};
+
+  if(trainerCompanyId){
+    params["trainerCompanyId"] = trainerCompanyId;
+  }
+  return api({ url, params });
 };
 
 export const getLiveSession = (id: string) => {

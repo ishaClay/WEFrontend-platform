@@ -210,7 +210,7 @@ const CourseInformation = ({
     };
 
     if(isDirty || provideDisc !== (getSingleCourse?.data?.course?.discout === 1 ? true : false) || isFreeCourse !== (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false)){
-      if (+courseId || paramsId) {
+      if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,

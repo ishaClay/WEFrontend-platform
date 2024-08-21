@@ -12,7 +12,7 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
   const assessmentTime = data?.assessment?.length > 0 ? data?.assessment?.[0]?.timeDuration : null;  
   const getTotalSectionsTime = (
     data?.moduleSections || data?.moduleSection
-  )?.map((it: any) => it?.readingTime);
+  )?.map((it: any) => it?.readingTime || it?.sectionTime);
   const addAssessment = [...getTotalSectionsTime, assessmentTime];
   console.log("addAssessment", addAssessment);
   

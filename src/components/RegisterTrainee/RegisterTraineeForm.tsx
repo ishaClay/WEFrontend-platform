@@ -35,7 +35,8 @@ const RegisterTraineeForm = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
   const email: string | null = params.get("email");
-  const [phone, setPhone] = useState<any>("");
+  const cName: string | null = params.get("cName");
+  const [phone, setPhone] = useState<string>("");
   const navigate = useNavigate();
   const schema = Zod.object({
     email: Zod.string()
@@ -52,12 +53,7 @@ const RegisterTraineeForm = () => {
     surname: Zod.string()
       .regex(/^[A-Za-z]+$/, { message: "Surname can only contain letters" })
       .min(1, { message: "Please enter surname" }),
-    phone: Zod.string()
-      .regex(/^\d{1,10}$/, {
-        message: "Please enter valid phone number",
-      })
-      .min(1, { message: "Please enter valid phone number" })
-      .max(10, { message: "Please enter valid phone number" }),
+    phone: Zod.string(),
     currentHighestNFQ: Zod.string()
       .regex(/^[A-Za-z\s]+$/, { message: "Please enter valid NFQ" })
       .min(1, { message: "Please enter NFQ" }),
@@ -123,12 +119,13 @@ const RegisterTraineeForm = () => {
   });
 
   useEffect(() => {
-    if (email && type) {
+    if (email && type && cName) {
       if (userData) {
         const userId = userData?.query?.id;
         mutate(userId);
       } else {
         setValue("email", email);
+        setValue("memberCompany", cName);
       }
     }
   }, [email, userData]);
@@ -203,9 +200,9 @@ const RegisterTraineeForm = () => {
       </div> */}
       <div className="mb-4 xl:mt-[49px] sm:mt-[40px] mt-[20px]">
         <span className="text-[#202020] text-2xl leading-[30px] font-bold drop-shadow-[0px_4px_4px_0px_#00000060] font-calibri">
-          Register as
+          Registration
         </span>
-        <div className="flex overflow-hidden justify-evenly border-gainsboro-100 border-solid border-[1px] rounded-[5px] sm:w-[328px] w-[300px] h-[42px] sm:text-[18px] text-base leading-[18px] font-normal text-darkslategray-100 sm:mt-[27px] mt-5 sm:mb-[33px] mb-[25px]">
+        {/* <div className="flex overflow-hidden justify-evenly border-gainsboro-100 border-solid border-[1px] rounded-[5px] sm:w-[328px] w-[300px] h-[42px] sm:text-[18px] text-base leading-[18px] font-normal text-darkslategray-100 sm:mt-[27px] mt-5 sm:mb-[33px] mb-[25px]">
           <button
             className={`w-full ${
               type === "trainer"
@@ -233,7 +230,7 @@ const RegisterTraineeForm = () => {
           >
             Trainee
           </button>
-        </div>
+        </div> */}
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 sm:gap-x-8 gap-x-[15px] text-[16px] leading-[19.53px] font-bold">
@@ -242,7 +239,7 @@ const RegisterTraineeForm = () => {
               First Name
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable className={"!w-full"} {...register("firstName")} />
+            <InputWithLable className={"!w-full font-normal"} {...register("firstName")} />
             {errors.firstName && (
               <ErrorMessage
                 message={(errors?.firstName?.message as string) || ""}
@@ -254,7 +251,7 @@ const RegisterTraineeForm = () => {
               Surname
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable className={"!w-full"} {...register("surname")} />
+            <InputWithLable className={"!w-full font-normal"} {...register("surname")} />
             {errors.surname && (
               <ErrorMessage
                 message={(errors?.surname?.message as string) || ""}
@@ -267,7 +264,7 @@ const RegisterTraineeForm = () => {
               <img src={mandatory} className="p-1" />
             </label>
             <Select onValueChange={(value) => setValue("gender", value)}>
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="Select Gender" />
               </SelectTrigger>
               <SelectContent className="w-full">
@@ -291,7 +288,7 @@ const RegisterTraineeForm = () => {
               <img src={mandatory} className="p-1" />
             </label>
             <Select onValueChange={(value) => setValue("ageRange", value)}>
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="Select Age" />
               </SelectTrigger>
               <SelectContent className="w-full">
@@ -319,7 +316,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               {...register("email")}
-              className={"!w-full disabled:opacity-100"}
+              className={"!w-full disabled:opacity-100 font-normal"}
               value={email ? email : ""}
               disable={email ? true : false}
             />
@@ -337,8 +334,9 @@ const RegisterTraineeForm = () => {
             <PhoneInput
               placeholder="Enter phone number"
               value={phone}
-              onChange={(e) => {setValue("phone", e); setPhone(e)}}
-              className="phone-input"
+              international
+              onChange={(e:any) => {setValue("phone", e); setPhone(e)}}
+              className="phone-input font-normal"
             />
             {errors.phone && (
               <ErrorMessage
@@ -352,7 +350,7 @@ const RegisterTraineeForm = () => {
               <img src={mandatory} className="p-1" />
             </label>
             <InputWithLable
-              className={"!w-full"}
+              className={"!w-full font-normal"}
               {...register("currentHighestNFQ")}
             />
             {errors.currentHighestNFQ && (
@@ -368,7 +366,7 @@ const RegisterTraineeForm = () => {
             <Select
               onValueChange={(value) => setValue("employmentStatus", value)}
             >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="select status" />
               </SelectTrigger>
               <SelectContent className="w-full">
@@ -394,8 +392,9 @@ const RegisterTraineeForm = () => {
               Member Company
             </label>
             <InputWithLable
-              className={"!w-full"}
+              className={"!w-full font-normal"}
               {...register("memberCompany")}
+              disabled={cName ? true : false}
             />
             {errors.memberCompany && (
               <ErrorMessage
@@ -410,7 +409,7 @@ const RegisterTraineeForm = () => {
             <Select
               onValueChange={(value) => setValue("occupationalCategory", value)}
             >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black text-left font-normal">
                 <SelectValue placeholder="select status" />
               </SelectTrigger>
               <SelectContent className="w-full">
@@ -440,7 +439,7 @@ const RegisterTraineeForm = () => {
             <Select
               onValueChange={(value) => setValue("unemploymentTime", value)}
             >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black">
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="select status" />
               </SelectTrigger>
               <SelectContent className="w-full">
@@ -469,7 +468,7 @@ const RegisterTraineeForm = () => {
             <SelectMenu
               option={countryOption || []}
               placeholder="Select county"
-              className=" h-[40px]"
+              className=" h-[40px] font-normal"
               setValue={(data: string) => setValue("countyOfResidence", data)}
               value={watch("countyOfResidence") || ""}
             />
@@ -484,7 +483,7 @@ const RegisterTraineeForm = () => {
               Attended Event
             </label>
             <InputWithLable
-              className={"!w-full"}
+              className={"!w-full font-normal"}
               {...register("attendedEvent")}
             />
             {errors.attendedEvent && (
