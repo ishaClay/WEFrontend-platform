@@ -56,7 +56,7 @@ const ViewSession = ({
     mutate({ data: payload, courseId: id });
   };
 
-  console.log(data, "data");
+  console.log(list, "data");
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -216,7 +216,7 @@ const ViewSession = ({
                     target="_blank"
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-nunito cursor-pointer"
                   >
-                    <Download /> Download Video
+                    <Download /> Download {documentType(documentFile)}
                   </a>
                 )}
                 <Button
@@ -232,16 +232,18 @@ const ViewSession = ({
               dangerouslySetInnerHTML={{ __html: list?.information }}
               className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%]"
             ></p>
-            <div className="flex items-center justify-center mt-[56px]">
-              <Button
-                type="button"
-                isLoading={isPending}
-                onClick={() => handleStatusChanges(2, list?.id)}
-                className="text-[14px] font-abhaya bg-[#00778B] p-[10px]"
-              >
-                Mark as Complete
-              </Button>
-            </div>
+            {list?.isStatus !== "Completed" && (
+              <div className="flex items-center justify-center mt-[56px]">
+                <Button
+                  type="button"
+                  isLoading={isPending}
+                  onClick={() => handleStatusChanges(2, list?.id)}
+                  className="text-[14px] font-abhaya bg-[#00778B] p-[10px]"
+                >
+                  Mark as Complete
+                </Button>
+              </div>
+            )}
           </div>
         </>
       )}

@@ -112,11 +112,15 @@ const ModuleCourseViewCardItems = ({
             </h6>
           </div> */}
           <div className="sm:flex block items-center">
-            <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
-              {list?.isLive === 0
-                ? documentType(list?.url ? "url" : list?.uploadContent)
-                : "Live Section"}
-            </h6>
+            {list?.url && (
+              <>
+                <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+                  {list?.isLive === 0
+                    ? documentType(list?.url ? "url" : list?.uploadContent)
+                    : "Live Section"}
+                </h6>
+              </>
+            )}
             <h6 className="text-[#747474] text-xs font-nunito">
               Duration : {getTime()}
             </h6>

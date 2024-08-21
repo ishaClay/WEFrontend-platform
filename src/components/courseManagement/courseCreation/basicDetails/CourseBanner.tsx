@@ -43,9 +43,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
 
   const schema = zod.object({
     description: zod
-      .string({ required_error: "Description is required" })
+      .string()
       .min(1, "Information is required")
-      .max(1000, "You can not write description more than 1000 characters"),
+      .max(1000, "You can not write description more than 1000 characters")
+      .nonempty("Description is required"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
       .min(1, "Banner Image is required"),
@@ -63,6 +64,11 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "all",
+    defaultValues: {
+      description: "",
+      bannerImage: "",
+      keys: "",
+    },
   });
 
   const { data: getSingleCourse } = useQuery({
@@ -75,7 +81,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
-        setValue(key, data[key]);
+        setValue(key, data[key] || "");
         setEditorData(data?.description || "");
         setKeyData(data?.keys || "");
         setImage(data?.bannerImage);
@@ -205,6 +211,8 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     }
   };
 
+  console.log("errors", errors);
+
   return (
     <>
       <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
@@ -219,7 +227,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
               </h6>
               <CKEditorComponent
                 value={editorData}
-                {...register("description")}
                 onChange={(e, data) => {
                   console.log(e);
                   setSelectBoxValue({ ...selectBoxValue, description: e });

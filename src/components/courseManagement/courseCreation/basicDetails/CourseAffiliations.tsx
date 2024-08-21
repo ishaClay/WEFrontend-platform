@@ -20,14 +20,20 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
-const schema = zod.object({
-  instituteOther: zod.string({ required_error: "Please select Affiliation" }),
-  otherInstitutionName: zod
-    .string({
-      required_error: "Please select institution / organisation name",
-    })
-    .optional(),
-});
+const schema = zod
+  .object({
+    instituteOther: zod.string({ required_error: "Please select Affiliation" }),
+    otherInstitutionName: zod.string().optional().nullable(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.instituteOther === "yes" && !data.otherInstitutionName) {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: "Please enter Institution Name",
+        path: ["otherInstitutionName"],
+      });
+    }
+  });
 
 interface SelectAffiliationsTypr {
   instituteOther: string;
@@ -48,6 +54,9 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
+    defaultValues: {
+      otherInstitutionName: "",
+    },
   });
   const navigate = useNavigate();
   const search = window.location.search;
@@ -178,14 +187,13 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   });
 
   useEffect(() => {
-    if(selectAffiliations?.instituteOther === "no"){
+    if (selectAffiliations?.instituteOther === "no") {
       setSelectAffiliations({
         instituteOther: selectAffiliations?.instituteOther,
         otherInstitutionName: "",
       });
     }
-  }, [selectAffiliations])
-  
+  }, [selectAffiliations]);
 
   const onSubmit = (data: FieldValues) => {
     const payload = {
