@@ -1,24 +1,31 @@
+import Companies from "@/assets/images/companies.svg";
+import Total_courses from "@/assets/images/total_courses.svg";
+import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
-import Trainers from "@/assets/images/trainers.svg";
-import Total_courses from "@/assets/images/total_courses.svg";
-import Companies from "@/assets/images/companies.svg";
 
+import { DataTable } from "@/components/comman/DataTable";
+import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/hooks/use-redux";
 import {
-  CategoryScale,
+  getFirstInfirgraphicChart,
+  getSmeDashboardData,
+} from "@/services/apiServices/dashboard";
+import { AssesmentDashboardData, DashboardData } from "@/types/dashboard";
+import { useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import {
   BarElement,
+  CategoryScale,
+  Chart,
+  Legend,
   LineElement,
   LinearScale,
   PointElement,
   TimeScale,
-  Legend,
   Title,
-  Chart,
   Tooltip,
 } from "chart.js";
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/comman/DataTable";
 
 Chart.register(
   CategoryScale,
@@ -77,6 +84,8 @@ const employeeData = [
 
 const Dashboard = () => {
   const [page, setPage] = useState(0);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const { clientId } = useAppSelector((state) => state.user);
   console.log("+++", page);
   const column: ColumnDef<any>[] = [
     {
@@ -183,6 +192,25 @@ const Dashboard = () => {
       },
     },
   ];
+
+  const { data: firstInfirgraphicChart } = useQuery<AssesmentDashboardData>({
+    queryKey: ["getFirstInfirgraphicChart"],
+    queryFn: () =>
+      getFirstInfirgraphicChart({
+        userId: userData?.query?.id,
+        clientId: clientId,
+      }),
+  });
+
+  const { data: smeDashboardData } = useQuery<DashboardData>({
+    queryKey: ["getSmeDashboardData"],
+    queryFn: () => getSmeDashboardData({ userId: userData?.query?.detailsid }),
+  });
+
+  console.log("firstInfirgraphicChart", {
+    smeDashboardData,
+    firstInfirgraphicChart,
+  });
 
   const data = {
     labels: [
@@ -309,7 +337,7 @@ const Dashboard = () => {
   };
   return (
     <div className="rounded-xl">
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
           onClick={() => handleClick("companies")}
@@ -318,11 +346,10 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            100
+            {firstInfirgraphicChart?.data?.avTotalpoints}/
+            {firstInfirgraphicChart?.data?.avTotalmaxpoint}
           </h2>
-          <p className="text-base text-black font-calibri">
-            Enrolled Employees
-          </p>
+          <p className="text-base text-black font-calibri">Total Point</p>
         </button>
 
         <button
@@ -333,11 +360,24 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            15
+            {firstInfirgraphicChart?.data?.avTotalquestionsattempted}/
+            {firstInfirgraphicChart?.data?.avTotalquestionsavailable}
           </h2>
-          <p className="text-base text-black font-calibri">Total Courses</p>
+          <p className="text-base text-black font-calibri">Total Quesion</p>
         </button>
 
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Companies} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData?.data?.upcomingCourses}
+          </h2>
+          <p className="text-base text-black font-calibri">Upcoming Courses</p>
+        </button>
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
           onClick={() => handleClick("companies")}
