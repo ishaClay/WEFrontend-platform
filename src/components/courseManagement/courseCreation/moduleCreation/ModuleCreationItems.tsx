@@ -27,6 +27,8 @@ interface ModuleCreationItemsProps {
   errors: any;
   setUrlError: ((e: any) => void | undefined) | any;
   urlError?: string;
+  informationError: string;
+  setInformationError: (e: any) => void;
 }
 
 const intialSectionCreation: SectionCreation = {
@@ -60,6 +62,8 @@ const ModuleCreationItems = ({
   moduleListlength,
   urlError,
   setUrlError,
+  informationError,
+  setInformationError
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -120,6 +124,12 @@ const ModuleCreationItems = ({
       setUrlError("");
       setValue(name, e);
     }
+  };
+
+  const stripHtmlTags = (html:any) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
   };
 
   return (
@@ -218,20 +228,39 @@ const ModuleCreationItems = ({
                 {...register(
                   `modules.${index}.section.${sectionindex}.information`
                 )}
-                onChange={(e, data) => {
-                  console.log("e", e);
-                  setValue(
-                    `modules.${index}.section.${sectionindex}.information`,
-                    data.getData()
-                  );
+                onChange={(event, editor) => {
+                  const data = editor.getData();
+                  const plainText = stripHtmlTags(data);
+                  console.log("event", event);
+                  
+                  if (plainText.length > 1000) {
+                    setInformationError("You can not write information more than 1000 characters")
+                    setValue(
+                      `modules.${index}.section.${sectionindex}.information`,
+                      data
+                    );
+                  } else {
+                    setInformationError("")
+                    setValue(
+                      `modules.${index}.section.${sectionindex}.information`,
+                      data
+                    );
+                  }
                 }}
-                className="w-full"
+                // onChange={(e, data) => {
+                //   console.log("e+++++", e, data.getData());
+                //   setValue(
+                //     `modules.${index}.section.${sectionindex}.information`,
+                //     data.getData()
+                //   );
+                // }}
+                className="w-full h-[190px]"
               />
-              {errors.modules?.[index]?.section?.[sectionindex]
-                ?.information && (
+              {(informationError !== "" || errors.modules?.[index]?.section?.[sectionindex]
+                ?.information) && (
                 <FormError
                   className="font-calibri not-italic"
-                  message={
+                  message={informationError ||
                     errors.modules[index].section[sectionindex].information
                       ?.message
                   }

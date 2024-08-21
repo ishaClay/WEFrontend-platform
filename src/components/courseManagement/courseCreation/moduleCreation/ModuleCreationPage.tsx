@@ -60,6 +60,7 @@ const ModuleCreationPage = () => {
   const courseEditId: string = location?.pathname?.split("/")[3];
   const [urlError, setUrlError] = useState<string>("");
   const pathName = location?.pathname?.split("/")[1];
+  const [informationError, setInformationError] = useState<string>("");
 
   const schema = z.object({
     modules: z.array(
@@ -81,11 +82,7 @@ const ModuleCreationPage = () => {
                 ),
               information: z
                 .string()
-                .min(500, "Please enter information")
-                .max(
-                  5000,
-                  "You can not write information more than 5000 characters"
-                ),
+                .min(1, "Please enter information"),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
@@ -250,6 +247,7 @@ const ModuleCreationPage = () => {
   }, [CourseModule]);
 
   const handleModuleSave = async (data: any) => {
+    if(informationError !== "") return
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
@@ -393,6 +391,8 @@ const ModuleCreationPage = () => {
               index={index}
               setUrlError={setUrlError}
               urlError={urlError}
+              informationError={informationError}
+              setInformationError={(e:string) => setInformationError(e)}
             />
           );
         })}
