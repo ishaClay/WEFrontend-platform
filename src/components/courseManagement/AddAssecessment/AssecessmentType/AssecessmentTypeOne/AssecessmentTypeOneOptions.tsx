@@ -21,7 +21,7 @@ type optionsProps = {
   setOptions: React.Dispatch<React.SetStateAction<any>>;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
   assecessmentQuestion: any;
-  answer: any
+  answer: any;
 };
 
 const AssecessmentTypeOneOptions = ({
@@ -32,7 +32,7 @@ const AssecessmentTypeOneOptions = ({
   options,
   setErrors,
   assecessmentQuestion,
-  answer
+  answer,
 }: optionsProps) => {
   const dispatch = useAppDispatch();
   const { questionOption } = useAppSelector(
@@ -40,14 +40,16 @@ const AssecessmentTypeOneOptions = ({
   );
 
   useEffect(() => {
-    dispatch(addAnswer({ answer: answer, i }));    
-  }, [answer])
+    dispatch(addAnswer({ answer: answer, i }));
+  }, [answer]);
 
   useEffect(() => {
-    if(assecessmentQuestion) {
-      dispatch(addOption({ option: assecessmentQuestion?.[iIndex], i, iIndex }));
+    if (assecessmentQuestion) {
+      dispatch(
+        addOption({ option: assecessmentQuestion?.[iIndex], i, iIndex })
+      );
     }
-  }, [assecessmentQuestion])
+  }, [assecessmentQuestion]);
 
   return (
     <div>
@@ -63,7 +65,7 @@ const AssecessmentTypeOneOptions = ({
             <div className="px-4 py-1 border border-[#D9D9D9] rounded-md w-full flex justify-between items-center">
               <input
                 placeholder={data.option}
-                className="w-full outline-none text-base font-calibri text-black"
+                className="w-full  text-base font-calibri text-black"
                 onChange={(e) => {
                   dispatch(addOption({ option: e.target.value, i, iIndex }));
                   const updatedOptions = [...options];
@@ -89,7 +91,14 @@ const AssecessmentTypeOneOptions = ({
                     (_, index) => index !== iIndex
                   );
                   setOptions(updatedOptions);
-                  dispatch(addAnswer({ answer: questionOption?.[i]?.answer?.filter((item: number) => item !== iIndex), i }));
+                  dispatch(
+                    addAnswer({
+                      answer: questionOption?.[i]?.answer?.filter(
+                        (item: number) => item !== iIndex
+                      ),
+                      i,
+                    })
+                  );
                   dispatch(
                     removeOption({
                       i,

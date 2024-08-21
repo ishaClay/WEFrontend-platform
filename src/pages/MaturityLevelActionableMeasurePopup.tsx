@@ -1,11 +1,9 @@
-import { BsFillPlusSquareFill } from "react-icons/bs";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { BsPencil } from "react-icons/bs";
-import { RxCross2 } from "react-icons/rx";
-import { BsInfoLg } from "react-icons/bs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
 import treePlantingIcon from "@/assets/images/TreePlanting.png";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { BsFillPlusSquareFill, BsInfoLg, BsPencil } from "react-icons/bs";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 
 function MaturityLevelActionableMeasurePopup() {
   return (
@@ -92,7 +90,7 @@ function MaturityLevelActionableMeasurePopup() {
                         <input
                           type="text"
                           placeholder="Action item 1"
-                          className="flex-1 border-none outline-none pl-2 pt-2"
+                          className="flex-1 border-none  pl-2 pt-2"
                         />
                       </div>
                       <button className="border-none bg-transparent text-lg cursor-pointer  ml-2 mt-2">
@@ -110,7 +108,7 @@ function MaturityLevelActionableMeasurePopup() {
                         <input
                           type="text"
                           placeholder=""
-                          className="flex-1 border-none outline-none pl-2 pt-2"
+                          className="flex-1 border-none  pl-2 pt-2"
                         />
                       </div>
                       <button className="border-none bg-transparent text-lg cursor-pointer mr-[0px] ml-2 mt-2">

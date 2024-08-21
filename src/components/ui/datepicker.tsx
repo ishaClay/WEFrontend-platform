@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Label } from "./label";
+import { useState } from "react";
 
 interface DatePickerProps {
   date: Date | undefined;
+  // () => {setDate(e)}: (date: Date | undefined) => void;
   setDate: (date: Date | undefined) => void;
   labelText?: string;
   labelClassName?: string;
@@ -34,12 +36,19 @@ export const DatePicker = ({
   disabled = false,
 }: DatePickerProps) => {
   // const [date, setDate] = React.useState<Date>();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleSelectDate = (date: Date | undefined) => {
+    setDate(date);
+    setIsOpen(false);
+  };
+
   return (
     <div className="flex flex-col">
       <Label className={cn("text-md font-normal font-calibri", labelClassName)}>
         {labelText}
       </Label>
-      <Popover>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
@@ -58,7 +67,7 @@ export const DatePicker = ({
           <Calendar
             mode="single"
             selected={date}
-            onSelect={setDate}
+            onSelect={handleSelectDate}
             fromDate={fromDate}
             initialFocus
             className="font-calibri"

@@ -2,7 +2,6 @@ import { getSingleCourseType } from "@/types/course";
 import { Star, Users } from "lucide-react";
 
 const Information = ({ data }: getSingleCourseType | any) => {
-
   return (
     <div>
       <div className="mb-5">
@@ -21,7 +20,7 @@ const Information = ({ data }: getSingleCourseType | any) => {
           </div>
           <div className="">
             <h5 className="text-base font-nunito font-bold text-black pb-1">
-              0
+              {data?.courseEnroll}
             </h5>
             <h6 className="text-xs text-black font-nunito">
               Delegates Enrolled
@@ -34,7 +33,10 @@ const Information = ({ data }: getSingleCourseType | any) => {
           </div>
           <div className="">
             <h5 className="text-base font-nunito font-bold text-black pb-1">
-              0 <span className="font-normal text-xs">(0 People like)</span>
+              {data?.feedBack?.avgRate}/5{" "}
+              <span className="font-normal text-xs">
+                ({data?.feedBack?.peopleLikeCount} People like)
+              </span>
             </h5>
             <h6 className="text-xs text-black font-nunito">
               Delegates Enrolled

@@ -25,6 +25,7 @@ type moduleCourseCardListProps = {
 
 const ModuleCourseViewCardItems = ({
   list,
+  data,
 }: moduleCourseCardListProps | any) => {
   const navigate = useNavigate();
   const queryclient = useQueryClient();
@@ -38,6 +39,9 @@ const ModuleCourseViewCardItems = ({
     onSuccess: async () => {
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       });
       setViewDocument(true);
       setDocumentFile(list?.url ? list?.url : list?.uploadContent);
@@ -55,12 +59,30 @@ const ModuleCourseViewCardItems = ({
     mutate({ data: payload, courseId: id });
   };
 
+  const getTime = () => {
+    const time = list?.isLive === 0 ? list?.readingTime : list?.sectionTime;
+    return (
+      <>
+        {time?.hour?.toString()?.padStart(2, "0")}:{" "}
+        {time?.minute?.toString()?.padStart(2, "0")}:{" "}
+        {time?.second?.toString()?.padStart(2, "0")}
+      </>
+    );
+  };
+  console.log("list?.readingTime || list?.sectionTime", list);
+
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
           <img
-            src={documentIcon(list?.url ? "url" : list?.uploadContent)}
+            src={documentIcon(
+              list?.url
+                ? "url"
+                : list?.isLive === 1
+                ? "url"
+                : list?.uploadContent
+            )}
             alt="documentIcon"
             className="max-w-[32px] w-auto h-auto"
           />
@@ -75,11 +97,13 @@ const ModuleCourseViewCardItems = ({
                 : "pointer-events-auto"
             } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
             onClick={() => {
-              setViewDocument(true);
-              setDocumentFile(list?.url ? list?.url : list?.uploadContent);
+              if (list?.isLive !== 1) {
+                setViewDocument(true);
+                setDocumentFile(list?.url ? list?.url : list?.uploadContent);
+              }
             }}
           >
-            {list?.title}
+            {list?.isLive === 0 ? list?.title : list?.liveSecTitle}
           </h5>
           {/* <div className="pb-1">
             <h6 className="text-[#747474] text-xs font-nunito">
@@ -89,12 +113,12 @@ const ModuleCourseViewCardItems = ({
           </div> */}
           <div className="sm:flex block items-center">
             <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
-              {documentType(list?.url ? "url" : list?.uploadContent)}
+              {list?.isLive === 0
+                ? documentType(list?.url ? "url" : list?.uploadContent)
+                : "Live Section"}
             </h6>
             <h6 className="text-[#747474] text-xs font-nunito">
-              Duration : {list?.readingTime?.hour?.toString()?.padStart(2, "0")}
-              : {list?.readingTime?.minute?.toString()?.padStart(2, "0")}:{" "}
-              {list?.readingTime?.second?.toString()?.padStart(2, "0")}
+              Duration : {getTime()}
             </h6>
           </div>
           {/* <div className="sm:flex block items-center">
@@ -189,6 +213,7 @@ const ModuleCourseViewCardItems = ({
           setDocumentFile={setDocumentFile}
           setViewDocument={setViewDocument}
           list={list}
+          data={data}
         />
       )}
     </div>

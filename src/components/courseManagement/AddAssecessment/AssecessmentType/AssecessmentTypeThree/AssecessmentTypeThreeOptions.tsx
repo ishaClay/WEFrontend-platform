@@ -39,7 +39,7 @@ const AssecessmentTypeThreeOptions = ({
           <div className="flex">
             <input
               placeholder={data.option}
-              className="w-full outline-none px-5 text-base font-calibri text-black"
+              className="w-full  px-5 text-base font-calibri text-black"
               type="file"
               onChange={(e) => {
                 dispatch(

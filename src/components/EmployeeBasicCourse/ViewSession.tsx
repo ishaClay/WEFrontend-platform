@@ -6,7 +6,6 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, Download, MessageSquareText } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
-import { FaStar } from "react-icons/fa6";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { TiArrowForwardOutline } from "react-icons/ti";
 import { Button } from "../ui/button";
@@ -16,11 +15,13 @@ const ViewSession = ({
   documentFile,
   setViewDocument,
   list,
+  data,
 }: {
   documentFile: string;
   setDocumentFile: Dispatch<SetStateAction<string>>;
   setViewDocument: Dispatch<SetStateAction<boolean>>;
   list: ModuleSectionsEntity;
+  data: any;
 }) => {
   const docs = [{ uri: documentFile, fileType: documentType(documentFile) }];
   const [isLike, setLike] = useState("");
@@ -33,6 +34,9 @@ const ViewSession = ({
     onSuccess: async () => {
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       });
       setDocumentFile("");
       setViewDocument(false);
@@ -51,6 +55,8 @@ const ViewSession = ({
     };
     mutate({ data: payload, courseId: id });
   };
+
+  console.log(data, "data");
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -97,30 +103,32 @@ const ViewSession = ({
               )}
             </div>
           ) : (
-            <div
-              onClick={() => setViewDoc(true)}
-              className="flex items-center py-[28px] px-5 bg-[#D9D9D9] rounded-[10px] mb-[25px]"
-            >
-              <div className="me-3">
-                <img src={documentIcon(documentFile)} alt="documentIcon" />
-              </div>
-              <div>
-                <h5 className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block">
-                  {documentFile?.split("/").pop()?.split(".")[0]}
-                </h5>
-                {/* <div className="pb-1">
+            documentFile && (
+              <div
+                onClick={() => setViewDoc(true)}
+                className="flex items-center py-[28px] px-5 bg-[#D9D9D9] rounded-[10px] mb-[25px]"
+              >
+                <div className="me-3">
+                  <img src={documentIcon(documentFile)} alt="documentIcon" />
+                </div>
+                <div>
+                  <h5 className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block">
+                    {documentFile?.split("/").pop()?.split(".")[0]}
+                  </h5>
+                  {/* <div className="pb-1">
             <h6 className="text-[#747474] text-xs font-nunito">
               {list.durationType} 
               {list.duration}
             </h6>
           </div> */}
-                <div className="sm:flex block items-center">
-                  <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
-                    {documentType(documentFile)}
-                  </h6>
+                  <div className="sm:flex block items-center">
+                    <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+                      {documentType(documentFile)}
+                    </h6>
+                  </div>
                 </div>
               </div>
-            </div>
+            )
           )}
           <div className="mt-[20px]">
             <div className="flex items-center justify-between">
@@ -129,7 +137,9 @@ const ViewSession = ({
                   Category:
                 </h3>
                 <p className="text-[12px] text-[#00778B] font-inter">
-                  Environment
+                  {data?.course?.courseData
+                    ?.map((item: any) => item?.fetchPillar?.pillarName)
+                    .join(", ")}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -166,8 +176,8 @@ const ViewSession = ({
             <h3 className="text-[20px] font-nunito font-bold mt-2 mb-3">
               {list?.title}
             </h3>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-end">
+              {/* <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-500"></div>
                 <div>
                   <h3 className="text-[16px] text-[#000] font-nunito">
@@ -190,7 +200,7 @@ const ViewSession = ({
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex items-center gap-5 ">
                 <Button
                   variant={"outline"}
@@ -199,14 +209,16 @@ const ViewSession = ({
                 >
                   <MessageSquareText /> Feedback
                 </Button>
-                <a
-                  href=""
-                  download={list?.uploadContent}
-                  target="_blank"
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-nunito cursor-pointer"
-                >
-                  <Download /> Download Video
-                </a>
+                {list?.uploadContent && (
+                  <a
+                    href=""
+                    download={list?.uploadContent}
+                    target="_blank"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-nunito cursor-pointer"
+                  >
+                    <Download /> Download Video
+                  </a>
+                )}
                 <Button
                   variant={"outline"}
                   type="button"
@@ -216,9 +228,10 @@ const ViewSession = ({
                 </Button>
               </div>
             </div>
-            <p className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%]">
-              {list?.information}
-            </p>
+            <p
+              dangerouslySetInnerHTML={{ __html: list?.information }}
+              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%]"
+            ></p>
             <div className="flex items-center justify-center mt-[56px]">
               <Button
                 type="button"

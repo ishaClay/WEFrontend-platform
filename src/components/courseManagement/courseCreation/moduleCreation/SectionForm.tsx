@@ -1,4 +1,5 @@
 import FormError from "@/components/comman/FormError";
+import CKEditorComponent from "@/components/comman/JoditEditor";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +11,6 @@ import { useMutation } from "@tanstack/react-query";
 import { CircleX, Link, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import UploadContent from "./UploadContent";
-import CKEditorComponent from "@/components/comman/JoditEditor";
 
 interface SectionFormProps {
   sectionID?: number;
@@ -108,7 +108,7 @@ const SectionForm = ({
         </div>
         <Input
           {...register("sectionTitle")}
-          className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+          className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
         />
         {errors?.sectionTitle && (
           <FormError
@@ -125,9 +125,8 @@ const SectionForm = ({
           value={watch("information")}
           {...register("information")}
           onChange={(e, data) => {
-              console.log("e", e);
-              setValue("information",data.getData()
-            );
+            console.log("e", e);
+            setValue("information", data.getData());
           }}
           className="w-full"
         />
@@ -160,7 +159,7 @@ const SectionForm = ({
             </h6>
             <Input
               {...register("youtubeUrl")}
-              className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+              className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
             />
             {errors?.youtubeUrl && (
               <FormError
@@ -191,7 +190,7 @@ const SectionForm = ({
             <div className="border border-[#D9D9D9] rounded-md px-4 py-2 w-full flex justify-between items-center">
               <input
                 placeholder={attechmentName}
-                className="border-bone w-full outline-none text-base text-[#606060] font-calibri"
+                className="border-bone w-full  text-base text-[#606060] font-calibri"
                 disabled
               />
               <Label
@@ -226,14 +225,14 @@ const SectionForm = ({
                 Section Duration (HH)
               </h6>
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
-                {/* <Textarea className="border-none w-full outline-none text-sm text-black" /> */}
+                {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
                 <Input
                   {...register(`livesessionDuration.hour`, {
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
                   type="number"
-                  className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                  className="border-none h-[20px] w-full  text-sm text-black p-0"
                 />
                 <h6 className="text-[10px] text-[#515151] font-calibri">
                   Hours
@@ -257,7 +256,7 @@ const SectionForm = ({
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                  className="border-none h-[20px] w-full  text-sm text-black p-0"
                 />
                 <h6 className="text-[10px] text-[#515151] font-calibri">
                   Minute
@@ -281,7 +280,7 @@ const SectionForm = ({
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                  className="border-none h-[20px] w-full  text-sm text-black p-0"
                 />
                 <h6 className="text-[10px] text-[#515151] font-calibri">
                   Second

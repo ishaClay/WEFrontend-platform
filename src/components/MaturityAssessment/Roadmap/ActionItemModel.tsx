@@ -318,7 +318,7 @@ const ActionItemModel = ({
                                           currentPiller
                                         )
                                       }
-                                      className="border-none outline-none px-3 py-2 w-full text-base font-calibri"
+                                      className="border-none  px-3 py-2 w-full text-base font-calibri"
                                     />
                                   </div>
                                   <div className="flex items-center gap-1">

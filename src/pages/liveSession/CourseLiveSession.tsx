@@ -16,13 +16,14 @@ const CourseLiveSession = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const dispatch = useAppDispatch();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const changeView = (id: number) => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
 
   const { data: allLiveSession } = useQuery({
     queryKey: [QUERY_KEYS.allLiveSession],
-    queryFn: () => getAllLiveSession(),
+    queryFn: () => getAllLiveSession(userData?.query?.detailsid),
   });
 
   return (

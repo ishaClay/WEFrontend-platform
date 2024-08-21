@@ -51,6 +51,7 @@ export const fetchCourseAllCourse = async (
   searchKeyword: string,
   userId?: number,
   status?: string,
+  reddyForPublish?: string
 ): Promise<AllCoursesResponse> => {
   const url = `api/v1/course/getAllCourses`;
   const params: any = {};
@@ -59,6 +60,9 @@ export const fetchCourseAllCourse = async (
   }
   if (userId) {
     params["userid"] = userId;
+  }
+  if (reddyForPublish) {
+    params["reddyForPublish"] = reddyForPublish;
   }
   if (status) {
     params["status"] = status;
@@ -88,8 +92,8 @@ export const createCourseTwoPage = ({
   return api({ url, data, method });
 };
 
-export const fetchNfqlLevel = async () => {
-  const url = `api/v1/course/nfqlevel/nfqlevellist`;
+export const fetchNfqlLevel = async ({ from, until }: { from?: string; until?: string }) => {
+  const url = `api/v1/course/nfqlevel/nfqlevellist?from=${from}&until=${until}`;
   const method = "get";
   const res = await api({ url, method });
   return res.data;

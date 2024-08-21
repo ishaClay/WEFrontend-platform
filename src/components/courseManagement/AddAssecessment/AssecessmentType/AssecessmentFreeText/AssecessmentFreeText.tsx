@@ -12,7 +12,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 interface AssecessmentTypeProps {
   i: number;
   type: string;
-  assecessmentQuestion:any;
+  assecessmentQuestion: any;
 }
 
 interface Validatable {
@@ -52,7 +52,8 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
         valid = false;
       }
       if (questionValue?.length > 250) {
-        newErrors.question = "You can not write questionValue more than 250 characters.";
+        newErrors.question =
+          "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -82,7 +83,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
 
     useEffect(() => {
       if (assecessmentQuestion !== "Free Text Response") {
-        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point })); 
+        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
         dispatch(
           addQuestion({
             index: i,
@@ -97,7 +98,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
           })
         );
       }
-    }, [assecessmentQuestion])
+    }, [assecessmentQuestion]);
 
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -115,22 +116,21 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
             <input
               placeholder="Free Text Response"
               disabled
-              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
                 Point
               </label>
               <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) =>{
-                  const {value} = e.target
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+                onChange={(e) => {
+                  const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }))                    
+                    dispatch(addPoint({ index: i, point: +e.target.value }));
                   }
-                  return
-                }
-                }
+                  return;
+                }}
                 value={questionOption[i]?.point || ""}
                 min={0}
                 max={100}
@@ -151,8 +151,8 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
           </h6>
           <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-3">
             <input
-              placeholder="How would you describe an authoritarian (or controlling) management style?"
-              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              placeholder="Enter the question"
+              className=" font-base font-calibri text-[#1D2026] w-full"
               onChange={(e) => {
                 dispatch(
                   addQuestion({
@@ -174,7 +174,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
             </label>
             <textarea
               placeholder="Keywords1, Keywords2, keywords3"
-              className="py-4 px-3 w-full border border-[#D9D9D9] placeholder:text-neutral-400 outline-none rounded-md resize-none"
+              className="py-4 px-3 w-full border border-[#D9D9D9] placeholder:text-neutral-400  rounded-md resize-none"
               rows={8}
               onChange={(e) => {
                 dispatch(

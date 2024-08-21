@@ -1,18 +1,18 @@
 import uploadImg from "@/assets/images/drop_file-img.png";
+import FormError from "@/components/comman/FormError";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
+import { fileValidation, getFileType } from "@/lib/utils";
+import { uploadFile } from "@/services/apiServices/moduleCreation";
+import { SectionCreation } from "@/types/modulecreation";
+import { useMutation } from "@tanstack/react-query";
 import { CircleX } from "lucide-react";
 import { DragEvent, useEffect, useState } from "react";
 import SelectDoumentType from "./SelectDoumentType";
-import { Input } from "@/components/ui/input";
-import { SectionCreation } from "@/types/modulecreation";
-import { Label } from "@/components/ui/label";
-import { fileValidation, getFileType } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
-import { uploadFile } from "@/services/apiServices/moduleCreation";
-import FormError from "@/components/comman/FormError";
-import { useToast } from "@/components/ui/use-toast";
 
 interface UploadContentProps {
   data: SectionCreation;
@@ -48,8 +48,12 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
-    console.log("typetypetype", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`, type);
-    
+    console.log(
+      "typetypetype",
+      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
+      type
+    );
+
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
@@ -156,7 +160,7 @@ const UploadContent = ({
   } else {
     registerkey = "";
     errorkey = errors;
-  }  
+  }
 
   return (
     <div className="">
@@ -184,17 +188,20 @@ const UploadContent = ({
       ) : (
         <div className="pb-4">
           <div className="justify-between flex align-items-center mb-1">
-          <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
-            Upload Content
-          </h6>
-          <Button
-          variant={"ghost"}
-          type="button"
-          onClick={() => {setIsOpenUploadDocumnet(true); removeFile();}}
-          className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
-        >
-          Change document type
-        </Button>
+            <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+              Upload Content
+            </h6>
+            <Button
+              variant={"ghost"}
+              type="button"
+              onClick={() => {
+                setIsOpenUploadDocumnet(true);
+                removeFile();
+              }}
+              className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
+            >
+              Change document type
+            </Button>
           </div>
           <div className="md:p-4 p-2.5 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
             <div className="flex md:flex-row flex-col items-center lg:gap-10 gap-5">
@@ -312,7 +319,7 @@ const UploadContent = ({
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           })}
-                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
+                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Hour
@@ -326,7 +333,7 @@ const UploadContent = ({
                               value === "" ? undefined : Number(value),
                           })}
                           value={data.readingTime.minute}
-                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
+                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Minute
@@ -339,7 +346,7 @@ const UploadContent = ({
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           })}
-                          className="border-none w-full outline-none p-0 text-sm text-black h-[20px]"
+                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
                         />
                         <h6 className="text-[10px] text-[#515151] font-calibri">
                           Second

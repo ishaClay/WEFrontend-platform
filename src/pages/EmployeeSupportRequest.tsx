@@ -1,3 +1,5 @@
+import person from "@/assets/images/person.png";
+import EmployeeSidebar from "@/components/EmployeeSidebar";
 import {
   Pagination,
   PaginationContent,
@@ -7,15 +9,16 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useState } from "react";
-import EmployeeSidebar from "@/components/EmployeeSidebar";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { RiArrowDownSLine } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { TbSelector } from "react-icons/tb";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdKeyboardArrowUp } from "react-icons/md";
-import { RiMenuLine, RiCloseLine } from "react-icons/ri";
-import person from "@/assets/images/person.png";
+import {
+  RiArrowDownSLine,
+  RiCloseLine,
+  RiDeleteBinLine,
+  RiMenuLine,
+} from "react-icons/ri";
+import { TbSelector } from "react-icons/tb";
 
 function EmployeeSupportRequest() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -99,7 +102,7 @@ function EmployeeSupportRequest() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
+                    className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm"
                   />
                 </div>
                 <div className="flex md:hidden justify-center items-center w-[50px] h-[50px] bg-[#F3F3F3] rounded-full text-gray-900">
@@ -184,7 +187,7 @@ function EmployeeSupportRequest() {
                 <input
                   type="text"
                   placeholder="Search by pilier, level, recommended, course name etc."
-                  className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
+                  className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm"
                 />
               </div>
             </div>

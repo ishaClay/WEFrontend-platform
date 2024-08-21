@@ -285,7 +285,7 @@ const AllocatedCertificatePage = () => {
           <Search className="text-[#A3A3A3]" width={18} />
           <input
             value={search}
-            className="outline-none text-[15px] text-[#A3A3A3] font-inter px-3"
+            className=" text-[15px] text-[#A3A3A3] font-inter px-3"
             placeholder="Search by name, course name, certificate name, etc."
             onChange={(e) => setSearch(e.target.value)}
           ></input>

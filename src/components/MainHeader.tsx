@@ -153,11 +153,14 @@ const MainHeader = () => {
               </button>
               <div className="flex items-center gap-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
+                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 ">
                     Hi,
                     {userData?.query?.fname || userData?.query?.lname
-                      ? `${userData?.query?.fname || ''} ${userData?.query?.lname || ''}`.trim()
-                      : userData?.query?.name || userData?.query?.email?.split('@')[0]}
+                      ? `${userData?.query?.fname || ""} ${
+                          userData?.query?.lname || ""
+                        }`.trim()
+                      : userData?.query?.name ||
+                        userData?.query?.email?.split("@")[0]}
                     {/* {(userData?.query?.fname || userData?.query?.lname) ? (userData?.query?.fname &&
                       userData?.query?.fname) + " " + (userData?.query?.lname &&
                       userData?.query?.lname) :
@@ -233,7 +236,7 @@ const MainHeader = () => {
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
               <div className="flex items-center gap-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 outline-none">
+                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 ">
                     Hi,{" "}
                     {userData?.query?.fname + "" + userData?.query?.lname ||
                       userData?.query?.name ||

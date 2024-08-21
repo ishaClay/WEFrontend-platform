@@ -22,9 +22,11 @@ import * as zod from "zod";
 
 const schema = zod.object({
   instituteOther: zod.string({ required_error: "Please select Affiliation" }),
-  otherInstitutionName: zod.string({
-    required_error: "Please select institution / organisation name",
-  }).optional(),
+  otherInstitutionName: zod
+    .string({
+      required_error: "Please select institution / organisation name",
+    })
+    .optional(),
 });
 
 interface SelectAffiliationsTypr {
@@ -87,11 +89,13 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
-  const { data: getSingleCourse, isPending: getSingleCoursePending } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
-  });
+  const { data: getSingleCourse, isPending: getSingleCoursePending } = useQuery(
+    {
+      queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+      queryFn: () => fetchSingleCourseById(String(paramsversion)),
+      enabled: !!paramsversion,
+    }
+  );
 
   const { data: getInstitutionsList } = useQuery({
     queryKey: [QUERY_KEYS.getInstitutions],
@@ -118,15 +122,16 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   //     };
   //   }) || [];
 
-  const organisationNameOption = 
-    [{
-      label: 'Yes',
-        value: 'yes',
-    }, {
-      label: 'No',
-        value: 'no',
-    }]
-  
+  const organisationNameOption = [
+    {
+      label: "Yes",
+      value: "yes",
+    },
+    {
+      label: "No",
+      value: "no",
+    },
+  ];
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -153,8 +158,11 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       });
       const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab
-        }&step=${updatedData?.creationCompleted ? "4" : updatedData?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          updatedData?.creationCompleted ? "0" : updatedData?.tab
+        }&step=${
+          updatedData?.creationCompleted ? "4" : updatedData?.step
+        }&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -169,15 +177,30 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
+  useEffect(() => {
+    if(selectAffiliations?.instituteOther === "no"){
+      setSelectAffiliations({
+        instituteOther: selectAffiliations?.instituteOther,
+        otherInstitutionName: "",
+      });
+    }
+  }, [selectAffiliations])
+  
+
   const onSubmit = (data: FieldValues) => {
     const payload = {
       instituteOther: data?.instituteOther,
       otherInstitutionName: data?.otherInstitutionName,
       tab: "0",
-      step: "4"
+      step: "4",
     };
 
-    if (isDirty || getSingleCourse?.data?.course?.instituteOther !== data?.instituteOther || getSingleCourse?.data?.course?.otherInstitutionName !== data?.otherInstitutionName) {
+    if (
+      isDirty ||
+      getSingleCourse?.data?.course?.instituteOther !== data?.instituteOther ||
+      getSingleCourse?.data?.course?.otherInstitutionName !==
+        data?.otherInstitutionName
+    ) {
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -193,7 +216,8 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       }
     } else {
       navigate(
-        `/${pathName}/create_course/${getSingleCourse?.data?.course?.id
+        `/${pathName}/create_course/${
+          getSingleCourse?.data?.course?.id
         }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
@@ -264,7 +288,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

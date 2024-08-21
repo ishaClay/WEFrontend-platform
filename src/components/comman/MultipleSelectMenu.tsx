@@ -44,7 +44,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
   const handleSuggestionClick = (suggestion: {
     label: string;
     value: string;
-  }) => {    
+  }) => {
     if (!selectedItems.includes(suggestion)) {
       setSelectedItems([...selectedItems, suggestion]);
       setInputValue(""); // Clear input field on selection
@@ -99,7 +99,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             onMouseUp={() => {
               handleInputChange();
             }}
-            className="flex-1 px-2 py-1 border-none focus:ring-0 focus-visible:outline-none"
+            className="flex-1 px-2 py-1 border-none focus:ring-0 focus-visible:"
             placeholder={
               selectedItems.length ? "Select More..." : "Type to search..."
             }

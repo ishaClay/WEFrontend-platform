@@ -26,7 +26,7 @@ interface ModuleCreationItemsProps {
   setValue: any;
   errors: any;
   setUrlError: ((e: any) => void | undefined) | any;
-  urlError?: string
+  urlError?: string;
 }
 
 const intialSectionCreation: SectionCreation = {
@@ -59,7 +59,7 @@ const ModuleCreationItems = ({
   watch,
   moduleListlength,
   urlError,
-  setUrlError
+  setUrlError,
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -109,14 +109,18 @@ const ModuleCreationItems = ({
     }
   };
 
-  const handleAddURL = (e:string, name: any) => {
-    if(!e.match(/^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtu(?:\.be|\.com)\/(?:(?:embed\/|e\/|v\/|watch\?v=|watch\/\S*\/)?)([\w\-]{11})(?:\S*)?$/)){
+  const handleAddURL = (e: string, name: any) => {
+    if (
+      !e.match(
+        /^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtu(?:\.be|\.com)\/(?:(?:embed\/|e\/|v\/|watch\?v=|watch\/\S*\/)?)([\w\-]{11})(?:\S*)?$/
+      )
+    ) {
       setUrlError("please enter Invalid YouTube URL");
-    }else{
+    } else {
       setUrlError("");
       setValue(name, e);
     }
-  }
+  };
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
@@ -142,7 +146,7 @@ const ModuleCreationItems = ({
           </h6>
           <Input
             {...register(`modules.${index}.moduleTitle`)}
-            className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+            className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
           />
           {errors.modules?.[index]?.moduleTitle && (
             // <span className="font-primary text-xs font-calibri text-red-500">{errors.modules[index].moduleTitle?.message}</span>
@@ -191,7 +195,7 @@ const ModuleCreationItems = ({
                 {...register(
                   `modules.${index}.section.${sectionindex}.sectionTitle`
                 )}
-                className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+                className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.sectionTitle && (
@@ -265,19 +269,25 @@ const ModuleCreationItems = ({
                     {...register(
                       `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
-                    onChange={(e:any) => handleAddURL(e?.target?.value, `modules.${index}.section.${sectionindex}.youtubeUrl`)}
-                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
+                    onChange={(e: any) =>
+                      handleAddURL(
+                        e?.target?.value,
+                        `modules.${index}.section.${sectionindex}.youtubeUrl`
+                      )
+                    }
+                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.youtubeUrl || urlError && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors?.modules?.[index]?.section?.[sectionindex]?.youtubeUrl
-                          ?.message || urlError
-                      }
-                    />
-                  )}
+                    ?.youtubeUrl ||
+                    (urlError && (
+                      <FormError
+                        className="font-calibri not-italic"
+                        message={
+                          errors?.modules?.[index]?.section?.[sectionindex]
+                            ?.youtubeUrl?.message || urlError
+                        }
+                      />
+                    ))}
                 </div>
                 <div className="">
                   <div className="flex items-center justify-between pb-2">
@@ -303,7 +313,7 @@ const ModuleCreationItems = ({
                       placeholder={sectionItem.uploadDocument
                         ?.split("/")
                         .at(-1)}
-                      className="border-bone w-full outline-none sm:text-base text-sm bg-transparent text-[#606060] font-calibri"
+                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri"
                       disabled
                     />
                     <Label
@@ -342,7 +352,7 @@ const ModuleCreationItems = ({
                     Section Duration (HH)
                   </h6>
                   <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[53px] h-9 w-full flex justify-between items-center">
-                    {/* <Textarea className="border-none w-full outline-none text-sm text-black" /> */}
+                    {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
                     <Input
                       type="number"
                       {...register(
@@ -352,7 +362,7 @@ const ModuleCreationItems = ({
                             value === "" ? undefined : Number(value),
                         }
                       )}
-                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                      className="border-none h-[20px] w-full  text-sm text-black p-0"
                     />
                     <h6 className="text-[10px] text-[#515151] font-calibri">
                       Hours
@@ -384,7 +394,7 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                      className="border-none h-[20px] w-full  text-sm text-black p-0"
                     />
                     <h6 className="text-[10px] text-[#515151] font-calibri">
                       Minute
@@ -415,7 +425,7 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full outline-none text-sm text-black p-0"
+                      className="border-none h-[20px] w-full  text-sm text-black p-0"
                     />
                     <h6 className="text-[10px] text-[#515151] font-calibri">
                       Second

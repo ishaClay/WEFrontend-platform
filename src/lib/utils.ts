@@ -558,15 +558,19 @@ export const getRandomHexColor = () => {
 
 export const getTotalDuration = (data: any) => {
   return data?.reduce((totalSeconds: any, readingTime: any) => {
+    console.log("totalSeconds", readingTime);
+
     return (
-      totalSeconds +
-      readingTime?.hour * 3600 +
-      readingTime?.minute * 60 +
-      readingTime?.second || 
-      totalSeconds +
-      readingTime?.hours * 3600 +
-      readingTime?.minutes * 60 +
-      readingTime?.seconds
+      readingTime?.hour >= 0 && readingTime?.minute >= 0 && readingTime?.second >= 0 ?
+        totalSeconds +
+        +readingTime?.hour * 3600 +
+        +readingTime?.minute * 60 +
+        +readingTime?.second
+        :
+        +totalSeconds +
+        +readingTime?.hours * 3600 +
+        +readingTime?.minutes * 60 +
+        +readingTime?.seconds
     );
   }, 0);
 };

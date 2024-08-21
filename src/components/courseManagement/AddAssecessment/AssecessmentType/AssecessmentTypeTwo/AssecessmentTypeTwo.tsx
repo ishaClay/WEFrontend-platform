@@ -69,14 +69,16 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
       setTimeout(() => {
         if (assecessmentQuestion?.option) {
           setOptions(
-            assecessmentQuestion?.option?.map((item: string, index: number) => ({
-              optionTitle: `Option ${index + 1}:`,
-              option: item,
-            }))
-          );        
-        }        
+            assecessmentQuestion?.option?.map(
+              (item: string, index: number) => ({
+                optionTitle: `Option ${index + 1}:`,
+                option: item,
+              })
+            )
+          );
+        }
       }, 50);
-    }, [assecessmentQuestion, i, dispatch]);    
+    }, [assecessmentQuestion, i, dispatch]);
 
     const [errors, setErrors] = useState({
       question: "",
@@ -113,7 +115,8 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         valid = false;
       }
       if (questionValue?.length > 250) {
-        newErrors.question = "You can not write questionValue more than 250 characters.";
+        newErrors.question =
+          "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -163,7 +166,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           <input
             placeholder="Multiple Choice Question"
             disabled
-            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 font-base font-calibri text-[#1D2026]"
           />
         </div>
         <div className="pb-8">
@@ -172,8 +175,8 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           </h6>
           <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
             <input
-              placeholder="How would you describe an authoritarian (or controlling) management style?"
-              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              placeholder="Enter the question"
+              className="font-base font-calibri text-[#1D2026] w-full"
               onChange={(e) => {
                 dispatch(
                   addQuestion({
@@ -190,7 +193,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
                 Point
               </label>
               <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9] rounded-md"
                 onChange={(e) => {
                   dispatch(addPoint({ index: i, point: +e.target.value }));
                   setErrors((prev) => ({ ...prev, point: "" }));

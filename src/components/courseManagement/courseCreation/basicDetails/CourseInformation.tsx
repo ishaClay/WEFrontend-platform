@@ -24,11 +24,29 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    title: zod.string().min(1, "Please enter title").max(250, "You can not write title more than 250 characters"),
-    institute: zod.string().min(1, "Please enter institute name").max(250, "You can not write institute more than 250 characters"),
-    instituteWebsite: zod.string().regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/, "Please enter a valid website URL starting with http:// or https://").url("Please enter valid website url"),
+    title: zod
+      .string()
+      .min(1, "Please enter title")
+      .max(250, "You can not write title more than 250 characters"),
+    institute: zod
+      .string()
+      .min(1, "Please enter institute name")
+      .max(250, "You can not write institute more than 250 characters"),
+    instituteWebsite: zod
+      .string()
+      .regex(
+        /^https?:\/\/[^\s/$.?#].[^\s]*$/,
+        "Please enter a valid website URL starting with http:// or https://"
+      )
+      .url("Please enter valid website url"),
     freeCourse: zod.boolean().optional(),
-    instituteWebsite2: zod.string().regex(/^(\s*|https?:\/\/[^\s/$.?#].[^\s]*)$/, "Please enter a valid website URL starting with http:// or https://").optional(),
+    instituteWebsite2: zod
+      .string()
+      .regex(
+        /^(\s*|https?:\/\/[^\s/$.?#].[^\s]*)$/,
+        "Please enter a valid website URL starting with http:// or https://"
+      )
+      .optional(),
     price: zod
       .string({
         errorMap: () => ({ message: "Please enter valid course price" }),
@@ -111,9 +129,7 @@ const CourseInformation = ({
       });
       setCourseById(data?.data?.data?.id);
       navigate(
-        `/${pathName}/create_course?tab=${data?.data?.data?.course?.tab}&step=${data?.data?.data?.course?.step}&id=${
-          data?.data?.data?.course?.id
-        }&version=${data?.data?.data?.id}`,
+        `/${pathName}/create_course?tab=${data?.data?.data?.course?.tab}&step=${data?.data?.data?.course?.step}&id=${data?.data?.data?.course?.id}&version=${data?.data?.data?.id}`,
         {
           replace: true,
         }
@@ -129,7 +145,7 @@ const CourseInformation = ({
   });
 
   useEffect(() => {
-    if(isFreeCourse){
+    if (isFreeCourse) {
       setValue("price", "");
       setDiscount("");
       setProvideDisc(false);
@@ -151,9 +167,9 @@ const CourseInformation = ({
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : updatedData?.id
-        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${updatedData?.creationCompleted ? "1" : updatedData?.step}&version=${
-          updatedData?.currentVersion?.id
-        }`,
+        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${
+          updatedData?.creationCompleted ? "1" : updatedData?.step
+        }&version=${updatedData?.currentVersion?.id}`,
         {
           replace: true,
         }
@@ -169,14 +185,12 @@ const CourseInformation = ({
   });
 
   console.log("isDirty", isDirty);
-  
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
-    queryFn: () =>
-      fetchSingleCourseById(String(paramsVersion)),
-      enabled: !!paramsVersion,
-  });  
+    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
+    enabled: !!paramsVersion,
+  });
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -205,12 +219,18 @@ const CourseInformation = ({
       providerName: data?.data?.id || 0,
       clientId: data?.data?.id || 0,
       userId: userID,
-      tab: "0", 
-      step: "1"
+      tab: "0",
+      step: "1",
     };
 
-    if(isDirty || provideDisc !== (getSingleCourse?.data?.course?.discout === 1 ? true : false) || isFreeCourse !== (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false)){
-      if (+courseId || paramsId) {
+    if (
+      isDirty ||
+      provideDisc !==
+        (getSingleCourse?.data?.course?.discout === 1 ? true : false) ||
+      isFreeCourse !==
+        (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false)
+    ) {
+      if (+courseId) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
@@ -221,13 +241,11 @@ const CourseInformation = ({
       }
     } else {
       console.log("payload");
-      
+
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${1}&version=${
-          getSingleCourse?.data?.id
-        }`,
+        }?tab=${0}&step=${1}&version=${getSingleCourse?.data?.id}`,
         {
           replace: true,
         }
@@ -253,7 +271,7 @@ const CourseInformation = ({
               label="What is the title of the course you're offering?"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("title")}
               error={errors.title?.message as string}
             />
@@ -263,7 +281,7 @@ const CourseInformation = ({
               label="Please enter the name of the institute providing this course."
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="Atlantic Technological University"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("institute")}
               error={errors.institute?.message as string}
             />
@@ -273,7 +291,7 @@ const CourseInformation = ({
               label="Provide a direct link to the course details on your institute's website."
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite")}
               error={errors.instituteWebsite?.message as string}
             />
@@ -283,7 +301,7 @@ const CourseInformation = ({
               label="Do you have any additional links for course materials or resources? (Optional)"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="www.atlanticTechnologicalUniversity.com"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px]  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite2")}
               error={errors.instituteWebsite2?.message as string}
             />
@@ -325,7 +343,7 @@ const CourseInformation = ({
                 </span>
                 <InputWithLabel
                   placeholder="€50.00"
-                  className="sm:w-[190px] w-[170px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
+                  className="sm:w-[190px] w-[170px] px-4 py-3 border border-[#D9D9D9] rounded-md "
                   disabled={isFreeCourse}
                   {...register("price")}
                   error={
@@ -341,7 +359,7 @@ const CourseInformation = ({
                 </span>
                 <InputWithLabel
                   placeholder="€255"
-                  className="sm:w-[190px] w-[150px] px-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
+                  className="sm:w-[190px] w-[150px] px-4 py-3 border border-[#D9D9D9] rounded-md "
                   disabled={!provideDisc || isFreeCourse}
                   value={discount}
                   onChange={(e) => setDiscount(e.target.value)}
@@ -360,7 +378,7 @@ const CourseInformation = ({
               label="Discount provided by"
               labelClassName="font-calibri !text-base text-[#000000]"
               placeholder="Select Skillnet"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px]"
+              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px]"
               disabled
               value={data?.data?.name}
             />
@@ -369,7 +387,7 @@ const CourseInformation = ({
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

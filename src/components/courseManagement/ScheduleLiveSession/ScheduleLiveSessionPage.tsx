@@ -1,13 +1,14 @@
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
-import Autocomplete from "@/components/comman/MultipleSelectMenu";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
@@ -21,16 +22,14 @@ import { ErrorType } from "@/types/Errors";
 import { TraineeCompanyDetails } from "@/types/Trainer";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
+import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { Switch } from "@/components/ui/switch";
 
 const timePeriodsOptions = [
   {
@@ -63,64 +62,72 @@ const ScheduleLiveSessionPage = () => {
   const Role = location.pathname.split("/")[1];
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const queryClient = useQueryClient();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-  const navigate = useNavigate()
-  const { UserId, CompanyId } = useAppSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  const { UserId, CompanyId } = useAppSelector(
+    (state: RootState) => state.user
+  );
 
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
-  const [selectCompany, setSelectCompany] = useState<
-    { label: string; value: string }[]
+  const [selectCompany, setSelectCompany] = useState<string[]>([]);
+  const [traineeList, setTraineeList] = useState<
+    { name: string; id: string }[]
   >([]);
-  const [traineeList, setTraineeList] = useState<{ name: string; id: string }[]>([]);
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
   // const [traineeErr, setTraineeErr] = useState(false);
-  
-  
-  console.log("selectCompany", selectCompany);
-  
 
-  const ScheduleLiveSessionSchema = z.object({
-    selectCourse: z.string({
-      required_error: "Please select course",
-    }),
-    selectLiveSession: z.string({
-      required_error: "Please select Live session",
-    }),
-    sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
-    sessionDescription: z.string().nonempty("Please enter session description"),
-    sessionDate: z.string().nonempty("Please enter session date"),
-    sessionTime: z
-      .string()
-      .min(1, "time format are reqiured")
-      .regex(/^(0[0-9]|1[0-2]):([0-5][0-9])$/, {
-        message: "Please enter valid time format",
+  console.log("selectCompany", selectCompany);
+
+  const ScheduleLiveSessionSchema = z
+    .object({
+      selectCourse: z.string({
+        required_error: "Please select course",
       }),
-    selectTimePeriods: z.string({
-      required_error: "Please select AM/PM",
-    }),
-    selectDurationInHours: z.string({
-      required_error: "Please select duration in hours",
-    }),
-    selectDurationInMinute: z.string({
-      required_error: "Please select duration in hours",
-    }),
-    platform: z.boolean(),
-    zoomUrl: z.string({ required_error: "Please enter zoom url"}).regex(/^https?:\/\/[^\s/$.?#].[^\s]*$/, "Please enter a valid zoom URL starting with http:// or https://"),
-    selectCompany: z
-      .array(z.string())
-      .nonempty("Please select at least one company").optional(),
-  }).refine(() => {
-    if(traineeList?.length === 0){
-      return true
-    }
-  }, 
-  {
-    message: "Please select at least one company",
-    path: ["selectCompany"],
-  });
+      selectLiveSession: z.string({
+        required_error: "Please select Live session",
+      }),
+      sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
+      sessionDescription: z
+        .string()
+        .nonempty("Please enter session description"),
+      sessionDate: z.string().nonempty("Please enter session date"),
+      sessionTime: z
+        .string()
+        .min(1, "time format are reqiured")
+        .regex(/^(0[0-9]|1[0-2]):([0-5][0-9])$/, {
+          message: "Please enter valid time format",
+        }),
+      selectTimePeriods: z.string({
+        required_error: "Please select AM/PM",
+      }),
+      selectDurationInHours: z.string({
+        required_error: "Please select duration in hours",
+      }),
+      selectDurationInMinute: z.string({
+        required_error: "Please select duration in hours",
+      }),
+      platform: z.boolean(),
+      zoomUrl: z.string({ required_error: "Please enter zoom url" }).optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (!data.platform) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter zoom url",
+          path: ["zoomUrl"],
+        });
+        if (data.zoomUrl?.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              "Please enter a valid zoom URL starting with http:// or https://",
+            path: ["zoomUrl"],
+          });
+        }
+      }
+    });
   type ValidationSchema = z.infer<typeof ScheduleLiveSessionSchema>;
 
   const {
@@ -136,13 +143,12 @@ const ScheduleLiveSessionPage = () => {
     resolver: zodResolver(ScheduleLiveSessionSchema),
     mode: "all",
     defaultValues: {
-      selectCompany: [],
+      // selectCompany: [],
       platform: false,
     },
   });
   console.log("watch", watch());
   console.log("errors", errors);
-  
 
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
@@ -150,11 +156,10 @@ const ScheduleLiveSessionPage = () => {
       queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
     });
 
-    useEffect(() => {
-      const companyValues: any = selectCompany.map(company => company.value);
-      setValue("selectCompany", companyValues);
-    }, [selectCompany])
-    
+  // useEffect(() => {
+  //   const companyValues: any = selectCompany.map((company) => company.value);
+  //   setValue("selectCompany", companyValues);
+  // }, [selectCompany]);
 
   const filteredAllCourseData = fetchCourseAllCourseData?.data?.filter(
     (course) =>
@@ -189,19 +194,10 @@ const ScheduleLiveSessionPage = () => {
   );
 
   const selectCompanyOptions = fetchTraineeCompany?.data
-    ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => ({
-        label: i?.name,
-        value: i?.id?.toString(),
-      }))
+    ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => i?.name)
     : [];
 
   console.log("filteredTraineeCompany", filteredTraineeCompany);
-
-  useEffect(() => {
-    queryClient.invalidateQueries({
-      queryKey: [QUERY_KEYS.fetchTrainee],
-    });
-  }, [watch("selectCompany")]);
 
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
@@ -230,7 +226,6 @@ const ScheduleLiveSessionPage = () => {
     });
 
   console.log("id+++++", id);
-  
 
   const {
     data: fetchLiveSession,
@@ -262,102 +257,125 @@ const ScheduleLiveSessionPage = () => {
       value: i?.id?.toString(),
     }));
 
-    useEffect(() => {
-      const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
-      
-      if(id !== undefined){
-        if (fetchLiveSessionData) {
-          const {
-            subtitle,
-            description,
-            date,
-            startAmPm,
-            sessionDuration,
-            employee,
-            course,
-            company,
-            startTime,
-          } = fetchLiveSessionData;
-          console.log("companycompany", company?.map((item: any) => item?.id?.toString()));
-          
-    
-          setValue("sessionSubtitle", subtitle);
-          setValue("sessionDescription", description);
-          setValue("sessionDate", date?.split("T")[0]);
-          setValue("selectTimePeriods", startAmPm);
-          setValue(
-            "selectDurationInHours",
-            Math.floor(+sessionDuration / 60)
-              .toString()
-              .padStart(2, "0")
-          );
-          setValue(
-            "selectDurationInMinute",
-            (+sessionDuration % 60).toString().padStart(2, "0")
-          );
-          setValue("selectCourse", (+course?.id)?.toString());
-          setValue("sessionTime", startTime);
-          setValue(
-            "selectCompany",
-            company?.map((item: any) => {
-              return { label: item?.name, value: item?.id?.toString()}
-            })
-          );
-          setSelectCompany(company?.map((item: any) => {
-            return { label: item?.name, value: item?.id?.toString()}
-          }))
-          setTraineeList(
-            employee?.map((item: any) => ({ id: item?.id, name: item?.name }))
-          );
-        }
-      }
-    }, [
-      fetchLiveSessionById?.data?.data, id
-      // fetchCourseAllCourseData?.data?.length,
-    ]);
+  useEffect(() => {
+    const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
 
-    useEffect(() => {
-      const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
-      const liveSecTitle = selectLiveSessionOption?.find((item:any) => item?.label === fetchLiveSessionData?.liveSecTitle);  
-      setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
-      setSelectLiveSession(liveSecTitle?.value || id?.toString());
-    }, [fetchLiveSession?.data?.data])
+    if (id !== undefined) {
+      if (fetchLiveSessionData) {
+        const {
+          subtitle,
+          description,
+          date,
+          startAmPm,
+          sessionDuration,
+          employee,
+          course,
+          company,
+          startTime,
+        } = fetchLiveSessionData;
+        console.log(
+          "companycompany",
+          company?.map((item: any) => item?.id?.toString())
+        );
+
+        setValue("sessionSubtitle", subtitle);
+        setValue("sessionDescription", description);
+        setValue("sessionDate", date?.split("T")[0]);
+        setValue("selectTimePeriods", startAmPm);
+        setValue(
+          "selectDurationInHours",
+          Math.floor(+sessionDuration / 60)
+            .toString()
+            .padStart(2, "0")
+        );
+        setValue(
+          "selectDurationInMinute",
+          (+sessionDuration % 60).toString().padStart(2, "0")
+        );
+        setValue("selectCourse", (+course?.id)?.toString());
+        setValue("sessionTime", startTime);
+        // setValue(
+        //   "selectCompany",
+        //   company?.map((item: any) => {
+        //     return { label: item?.name, value: item?.id?.toString() };
+        //   })
+        // );
+        setSelectCompany(
+          company?.map((item: any) => {
+            return { label: item?.name, value: item?.id?.toString() };
+          })
+        );
+        setTraineeList(
+          employee?.map((item: any) => ({ id: item?.id, name: item?.name }))
+        );
+      }
+    }
+  }, [
+    fetchLiveSessionById?.data?.data,
+    id,
+    // fetchCourseAllCourseData?.data?.length,
+  ]);
+
+  useEffect(() => {
+    const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
+    const liveSecTitle = selectLiveSessionOption?.find(
+      (item: any) => item?.label === fetchLiveSessionData?.liveSecTitle
+    );
+    setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
+    setSelectLiveSession(liveSecTitle?.value || id?.toString());
+  }, [fetchLiveSession?.data?.data]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
-    if(watch("platform")){
+    if (watch("platform")) {
       console.log("asdasdasd");
       setValue("zoomUrl", "");
     }
-    const liveSecTitle = selectLiveSessionOption?.find((item:any) => +item?.value === +data?.selectLiveSession);
+    const liveSecTitle = selectLiveSessionOption?.find(
+      (item: any) => +item?.value === +data?.selectLiveSession
+    );
+
+    const compnayIds = selectCompany?.flatMap((val) => {
+      return (
+        fetchTraineeCompany?.data?.map((item: any) => {
+          if (item?.name === val) {
+            return +item?.id;
+          }
+          return;
+        }) || []
+      );
+    });
+
     const transformedData = {
       course: data?.selectCourse,
       subtitle: data.sessionSubtitle,
       description: data?.sessionDescription,
-      sessionDuration: +data.selectDurationInHours * 60 + +data.selectDurationInMinute?.toString(),
+      sessionDuration:
+        +data.selectDurationInHours * 60 +
+        +data.selectDurationInMinute?.toString(),
       date: data?.sessionDate,
       liveSecTitle: liveSecTitle?.label || "",
       startTime: data?.sessionTime + data?.selectTimePeriods,
       sectionTime: {
-          hour: data?.selectDurationInHours || "0",
-          minute: data?.selectDurationInMinute ||"0"
+        hour: data?.selectDurationInHours || "0",
+        minute: data?.selectDurationInMinute || "0",
       },
-      companyId: selectCompany?.map((val) => +val?.value),
+      companyId: compnayIds?.filter((val) => !!val) || [],
       employeeId: traineeList?.map((val) => +val?.id) || [],
       platform: data?.platform,
-      zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl
+      zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
     };
-    if(id !== undefined){
+    if (id !== undefined) {
       await updateLiveSession({
         data: transformedData,
         id: id,
       });
-    } else{
-      if (traineeList) {
-        await addLiveSession({
-          data: transformedData,
-          id: liveSecTitle?.value,
-        });
-      }
+    } else {
+      // if (traineeList) {
+      await addLiveSession({
+        data: transformedData,
+        id: liveSecTitle?.value,
+      });
+      // }
     }
   };
 
@@ -371,7 +389,7 @@ const ScheduleLiveSessionPage = () => {
   }
 
   console.log("errors:", errors);
-  
+
   return (
     <>
       <Modal
@@ -422,7 +440,6 @@ const ScheduleLiveSessionPage = () => {
               </Label>
               <SelectMenu
                 option={selectCourseOption}
-                {...register("selectCourse")}
                 setValue={(e: string) => {
                   setValue("selectCourse", e);
                   clearErrors("selectCourse");
@@ -477,20 +494,24 @@ const ScheduleLiveSessionPage = () => {
                 />
               </div>
             </div>
-            {!watch("platform") && <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
-                Zoom Base Url
-              </Label>
-              <Input
-                {...register("zoomUrl")}
-                placeholder="Enter Zoom Base Url"
-                className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                value={watch("zoomUrl")}
-              />
-              {errors?.zoomUrl && (
-                <span className="text-red-500 text-sm">{errors?.zoomUrl?.message}</span>
-              )}
-            </div>}
+            {!watch("platform") && (
+              <div className="flex flex-col gap-1">
+                <Label className="text-base text-black font-semibold font-abhaya">
+                  Meeting Url
+                </Label>
+                <Input
+                  {...register("zoomUrl")}
+                  placeholder="Enter Meeting Url"
+                  className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  value={watch("zoomUrl")}
+                />
+                {errors?.zoomUrl && (
+                  <span className="text-red-500 text-sm">
+                    {errors?.zoomUrl?.message}
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-semibold font-abhaya">
                 Session Subtitle
@@ -636,7 +657,7 @@ const ScheduleLiveSessionPage = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       asChild
-                      className="outline-none w-full"
+                      className=" w-full"
                     >
                       <Button className="block text-left" variant="outline">
                         {companyLabels}
@@ -676,17 +697,22 @@ const ScheduleLiveSessionPage = () => {
               <Label className="text-base text-black font-semibold font-abhaya">
                 Select Company
               </Label>
-              <Autocomplete
-                {...register("selectCompany")}
+              {/* <Autocomplete
                 suggestions={selectCompanyOptions}
                 selectedItems={selectCompany}
                 setSelectedItems={setSelectCompany}
+              /> */}
+              <Multiselect
+                isObject={false}
+                onKeyPressFn={function noRefCheck() {}}
+                onRemove={function noRefCheck() {}}
+                onSearch={function noRefCheck() {}}
+                onSelect={(selectList) => {
+                  setSelectCompany(selectList);
+                }}
+                options={selectCompanyOptions}
+                placeholder="Select Company"
               />
-              {errors?.selectCompany && (
-                <span className="text-red-500 text-sm">
-                  {errors?.selectCompany?.message}
-                </span>
-              )}
             </div>
             {/* {traineeErr && traineeList?.length === 0 && (
               <span className="text-red-500 text-sm">
@@ -727,9 +753,10 @@ const ScheduleLiveSessionPage = () => {
                   type="submit"
                   disabled={isSaveSessionPending || isUpdateSessionPending}
                 >
-                  {isSaveSessionPending || isUpdateSessionPending && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
+                  {isSaveSessionPending ||
+                    (isUpdateSessionPending && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ))}
                   Save Session
                 </Button>
               </div>

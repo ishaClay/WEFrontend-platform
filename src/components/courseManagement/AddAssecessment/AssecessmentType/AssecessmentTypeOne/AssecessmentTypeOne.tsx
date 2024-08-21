@@ -50,25 +50,31 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
 
     useEffect(() => {
       if (assecessmentQuestion?.id) {
-        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));    
-        dispatch(addQuestion({
-          index: i,
-          question: assecessmentQuestion?.question,
-          assessmentType: assecessmentQuestion?.assessmentType,
-        }));
+        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
+        dispatch(
+          addQuestion({
+            index: i,
+            question: assecessmentQuestion?.question,
+            assessmentType: assecessmentQuestion?.assessmentType,
+          })
+        );
       }
     }, [assecessmentQuestion, questionOption]);
 
     useEffect(() => {
       setTimeout(() => {
-        if(assecessmentQuestion?.id){
-          setOptions(assecessmentQuestion?.option?.map((item: string, index: number) => ({
-            optionTitle: `Option ${index + 1}:`,
-            option: item,
-          })));
-        }        
+        if (assecessmentQuestion?.id) {
+          setOptions(
+            assecessmentQuestion?.option?.map(
+              (item: string, index: number) => ({
+                optionTitle: `Option ${index + 1}:`,
+                option: item,
+              })
+            )
+          );
+        }
       }, 50);
-    }, [assecessmentQuestion, i, dispatch])
+    }, [assecessmentQuestion, i, dispatch]);
 
     const [errors, setErrors] = useState({
       question: "",
@@ -110,7 +116,8 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
         valid = false;
       }
       if (questionValue?.length > 250) {
-        newErrors.question = "You can not write questionValue more than 250 characters.";
+        newErrors.question =
+          "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -160,7 +167,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
           <input
             placeholder="Single Choice Question"
             disabled
-            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
           />
         </div>
         <div className="pb-8">
@@ -169,8 +176,8 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
           </h6>
           <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
             <input
-              placeholder="How would you describe an authoritarian (or controlling) management style?"
-              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              placeholder="Enter the question"
+              className=" font-base font-calibri text-[#1D2026] w-full"
               onChange={(e) => {
                 dispatch(
                   addQuestion({
@@ -188,16 +195,15 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                 Point
               </label>
               <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) =>{
-                  const {value} = e.target
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+                onChange={(e) => {
+                  const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }))    
-                    setErrors((prev) => ({ ...prev, point: "" }));                
+                    dispatch(addPoint({ index: i, point: +e.target.value }));
+                    setErrors((prev) => ({ ...prev, point: "" }));
                   }
-                  return
-                }
-                }
+                  return;
+                }}
                 type="text"
                 min={0}
                 max={100}
@@ -239,7 +245,11 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     assecessmentQuestion={assecessmentQuestion?.option}
                     answer={assecessmentQuestion?.answer}
                   />
-                  <p className={`${index === options?.length - 1 ? "h-[24px]" : ""}`}>
+                  <p
+                    className={`${
+                      index === options?.length - 1 ? "h-[24px]" : ""
+                    }`}
+                  >
                     {errors.options[index] && (
                       <span className={`text-red-500 text-sm`}>
                         {errors.options[index]}
@@ -250,7 +260,9 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
               );
             })}
             {errors.answer && (
-              <p className="text-red-500 text-sm absolute bottom-0 right-0">{errors.answer}</p>
+              <p className="text-red-500 text-sm absolute bottom-0 right-0">
+                {errors.answer}
+              </p>
             )}
           </RadioGroup>
         </div>

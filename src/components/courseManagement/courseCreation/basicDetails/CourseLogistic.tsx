@@ -72,23 +72,33 @@ const durationType = [
   },
 ];
 
-const schema = zod.object({
-  time: zod
-    .string({ required_error: "Please select time" })
-    .min(1, "Please select  time"),
-  isOnline: zod
-    .string({ required_error: "Please select type" })
-    .min(1, "Please select type"),
-  universityAddress: zod.string().min(1, "Please enter university location"),
-  duration: zod
-    .string()
-    .min(1, "Please enter duration")
-    .regex(/^[0-9]/, "The duration must contain only numbers")
-    .refine((val) => {
-      return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
-    }, "Duration should be greater than 0"),
-  durationType: zod.string().min(1, "Please select duration type"),
-});
+const schema = zod
+  .object({
+    time: zod
+      .string({ required_error: "Please select time" })
+      .min(1, "Please select  time"),
+    isOnline: zod
+      .string({ required_error: "Please select type" })
+      .min(1, "Please select type"),
+    universityAddress: zod.string(),
+    duration: zod
+      .string()
+      .min(1, "Please enter duration")
+      .regex(/^[0-9]/, "The duration must contain only numbers")
+      .refine((val) => {
+        return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
+      }, "Duration should be greater than 0"),
+    durationType: zod.string().min(1, "Please select duration type"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.isOnline !== "0") {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: "Please enter university location",
+        path: ["universityAddress"],
+      });
+    }
+  });
 
 interface CourseLogisticProps {
   courseById: number | null;
@@ -272,7 +282,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                   setValue("time", data);
                 }}
                 value={selectBoxValue?.time || ""}
-                placeholder="Select Time"
+                placeholder="Select course offering mode"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors?.time?.ref?.value && (
@@ -293,7 +303,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                   setValue("isOnline", data);
                 }}
                 value={selectBoxValue?.isOnline || ""}
-                placeholder="Select Type"
+                placeholder="Select delivery mode"
                 className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors?.isOnline?.ref?.value && (
@@ -308,7 +318,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             <div className="sm:mb-[18px] mb-[15px] w-full">
               <InputWithLabel
                 type="text"
-                placeholder="Please enter the address – University or Institute address"
+                placeholder="Enter address (if the course is physically delivered)"
                 className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-black rounded-md text-base font-calibri"
                 {...register("universityAddress")}
                 value={watch("universityAddress")}
@@ -324,7 +334,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
               <div>
                 <InputWithLabel
                   type="text"
-                  placeholder={`Please enter ${watch("durationType")}`}
+                  placeholder={`Enter number / Select duration`}
                   className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
                   {...register("duration")}
                   value={watch("duration")?.split(" ")[0]}
@@ -344,6 +354,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                   value={selectBoxValue?.durationType || ""}
                   className="sm:w-[150px] w-[110px] border font-calibri border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
                   itemClassName="text-[#1D2026] font-calibri"
+                  placeholder="Select duration type"
                 />
               </div>
             </div>
@@ -351,7 +362,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

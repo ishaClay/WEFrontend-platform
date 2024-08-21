@@ -49,7 +49,11 @@ function CoursesAllocate() {
   const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
     queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
     queryFn: () =>
-      fetchAllocatedCourse(userData?.query?.id, statusFilter === 'all' ? '' : statusFilter, clientId),
+      fetchAllocatedCourse(
+        userData?.query?.id,
+        statusFilter === "all" ? "" : statusFilter,
+        clientId
+      ),
   });
 
   console.log("course", course?.data);
