@@ -29,6 +29,12 @@ export const certificateList = async (id: string): Promise<GetCertificate> => {
   return res.data;
 };
 
+export const certificateCourseList = async () => {
+  const url = `api/v1/course/get-certificate-dropdown`;
+  const res = await api({ url });
+  return res.data;
+};
+
 export const getCertifications = async (id: string) => {
   const url = `api/v1/certificate/getByEmployee/${id}`;
   const res = await api({ url });

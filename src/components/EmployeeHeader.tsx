@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Bell, ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Logo2 from "../assets/images/logo2.png";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
@@ -24,7 +25,6 @@ import {
 } from "./ui/dropdown-menu";
 import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
-import Logo2 from "../assets/images/logo2.png";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ const EmployeeHeader = () => {
               <Search className="text-[#D9D9D9]" />
               <Input
                 placeholder="Search..."
-                className="text-[15px] text-[#A3A3A3] font-inter border-none outline-none py-0 px-2 h-6 placeholder:text-[#A3A3A3]"
+                className="text-[15px] text-[#A3A3A3] font-inter border-none  py-0 px-2 h-6 placeholder:text-[#A3A3A3]"
               />
             </div>
             <div className="lg:hidden block">
@@ -133,7 +133,7 @@ const EmployeeHeader = () => {
               </div> */}
             </Link>
             <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none">
+              <DropdownMenuTrigger className="">
                 <div className="flex items-center gap-3 cursor-pointer">
                   <div className="overflow-hidden">
                     <Avatar className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full ">
@@ -175,16 +175,16 @@ const EmployeeHeader = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-        <div className="lg:block hidden">
+            <div className="lg:block hidden">
               <img
                 className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
                 src={Logo2}
                 alt="Logo 2"
               />
             </div>
-      </div>
           </div>
         </div>
+      </div>
       <Modal
         open={isOpen}
         onClose={() => setIsOpen(false)}

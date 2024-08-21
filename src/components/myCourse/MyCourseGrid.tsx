@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { CourseTime, IsOnline } from "@/types/allcourses";
 import { CourseAllotedEntity } from "@/types/courseManagement";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Progress } from "../ui/progress";
@@ -20,6 +20,7 @@ type myPagesListProps = {
 
 const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const Role = location.pathname.split("/")[1];
   console.log("grid", grid);
 
@@ -49,7 +50,17 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
             className="sm:h-[231px] h-[180px] object-cover w-full"
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
-            <Button className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]">
+            <Button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                +Number(grid?.course?.courseProgress).toFixed(0) !== 100 &&
+                  navigate(
+                    `/employee/employee-basic-course/${grid?.course?.versionId}?courseId=${grid?.course?.id}&tab=1`
+                  );
+              }}
+              className="bg-[#00778B] text-white font-bold font-calibri  text-base rounded-lg shadow py-[12px] px-[22px]"
+            >
               {+Number(grid?.course?.courseProgress).toFixed(0) === 100
                 ? "view certificate"
                 : "Continue"}
@@ -95,7 +106,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
             </div>
           </div>
           <div className="flex items-center xl:gap-5 gap-8 pt-3">
-            <div>
+            <div className="w-full">
               <div className="flex items-center">
                 <img src={SpeedImage} alt="" className="h-[16] w-[18px]" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
@@ -126,7 +137,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
                 </p>
               </div>
             </div>
-            <div>
+            <div className="w-full">
               <div className="flex items-center">
                 <img src={GraduationCapImage} alt="" />
                 <p className="text-xs font-calibri font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">

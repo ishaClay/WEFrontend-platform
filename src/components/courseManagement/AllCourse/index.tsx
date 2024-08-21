@@ -29,6 +29,7 @@ const AllCourses = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [status, setStatus] = useState("");
+  const [statusTrainee, setStatusTrainee] = useState("All");
   const search = window.location.search;
   const params = new URLSearchParams(search).get("list");
   const navigate = useNavigate();
@@ -46,13 +47,16 @@ const AllCourses = () => {
     isLoading: fetchCourseAllCoursePending,
     isFetching: fetchCourseAllCourseFetching,
   } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourse, { searchKeyword, status, UserId }],
+    queryKey: [
+      QUERY_KEYS.fetchAllCourse,
+      { searchKeyword, status, UserId, statusTrainee },
+    ],
     queryFn: () =>
       fetchCourseAllCourse(
         searchKeyword,
         +UserId,
-        "",
-        status === "All" ? "" : status
+        status === "All" ? "" : status,
+        statusTrainee === "All" ? "" : statusTrainee
       ),
     enabled: !!searchKeyword || !!status || !!UserId,
   });
@@ -149,7 +153,7 @@ const AllCourses = () => {
             <input
               type="search"
               placeholder="Search by course name, category, maturity level, course by..."
-              className="flex-1 focus:outline-none text-sm placeholder-[#D9D9D9]"
+              className="flex-1 focus: text-sm placeholder-[#D9D9D9]"
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>
@@ -174,6 +178,21 @@ const AllCourses = () => {
                   <SelectItem value="READYTOPUBLISH">
                     Ready To Publish
                   </SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+            {+userData?.query?.role === UserRole.Trainee && (
+              <Select
+                value={status}
+                defaultValue="All"
+                onValueChange={(e) => setStatusTrainee(e === "All" ? "" : e)}
+              >
+                <SelectTrigger className="sm:w-[150px] w-full">
+                  <SelectValue placeholder="All Courses" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All">All Courses</SelectItem>
+                  <SelectItem value="MyCourse">My Courses</SelectItem>
                 </SelectContent>
               </Select>
             )}

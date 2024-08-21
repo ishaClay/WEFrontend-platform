@@ -46,7 +46,7 @@ const SelectMenu: FC<IProps> = ({
       defaultValue={defaultValue}
       disabled={disabled}
     >
-      <SelectTrigger className={`bg-white outline-none ${className}`}>
+      <SelectTrigger className={`bg-white  ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent

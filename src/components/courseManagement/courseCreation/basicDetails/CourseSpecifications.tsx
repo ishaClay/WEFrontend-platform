@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { RootState } from "@/redux/store";
-import { certificateList } from "@/services/apiServices/certificate";
+import { certificateCourseList } from "@/services/apiServices/certificate";
 import {
   createCourseTwoPage,
   fetchNfqlLevel,
@@ -21,7 +20,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as zod from "zod";
 
@@ -35,24 +33,12 @@ const schema = zod.object({
     .min(1, "Please select certificate"),
   ectsCredits: zod
     .string()
-    .min(1, "Please enter ECTS credit")
-    .regex(/^[0-9]/, "The ECTS credit must contain only numbers")
-    .refine(
-      (val) => {
-        return Number(val) > 0;
-      },
-      { message: "ECTS credit must not be lesser than 0" }
-    ),
+    .regex(/^([0-9].*|)$/, "The ECTS credit must contain only numbers")
+    .optional(),
   fetCredits: zod
     .string()
-    .min(1, "Please enter ECTS credit")
-    .regex(/^[0-9]/, "The FET credit must contain only numbers")
-    .refine(
-      (val) => {
-        return Number(val) > 0;
-      },
-      { message: "FET credit must not be lesser than 0" }
-    ),
+    .regex(/^([0-9].*|)$/, "The FET credit must contain only numbers")
+    .optional(),
 });
 
 interface CourseSpecificationsProps {
@@ -70,7 +56,6 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     resolver: zodResolver(schema),
     mode: "all",
   });
-  const { UserId } = useSelector((state: RootState) => state.user);
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
@@ -85,12 +70,12 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
 
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
-    queryFn: () => certificateList(UserId),
+    queryFn: () => certificateCourseList(),
   });
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({
     queryKey: ["nfqllevel"],
-    queryFn: fetchNfqlLevel,
+    queryFn: () => fetchNfqlLevel({ from: "5", until: "10" }),
   });
 
   const { data: getSingleCourse } = useQuery({
@@ -128,10 +113,10 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
 
   const certificateOption =
     data?.data?.length &&
-    data?.data?.map((item) => {
+    data?.data?.map((item: any) => {
       return {
-        label: item.templateName,
-        value: item.id.toString(),
+        label: item,
+        value: item.toString(),
       };
     });
 
@@ -179,9 +164,11 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       });
       const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${updatedData?.creationCompleted ? "0" :
-          updatedData?.tab
-        }&step=${updatedData?.creationCompleted ? "2" : updatedData?.step}&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
+          updatedData?.creationCompleted ? "0" : updatedData?.tab
+        }&step=${
+          updatedData?.creationCompleted ? "2" : updatedData?.step
+        }&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -202,11 +189,17 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       ectsCredits: data?.ectsCredits,
       fetCredits: data?.fetCredits,
       certificate: data?.certificate,
-      tab: "0", 
-      step: "2"
+      tab: "0",
+      step: "2",
     };
 
-    if(isDirty || getSingleCourse?.data?.course?.nfqLeval?.id?.toString() !== data?.nfqLeval?.toString() || getSingleCourse?.data?.course?.certificate?.id?.toString() !== data?.certificate?.toString()){
+    if (
+      isDirty ||
+      getSingleCourse?.data?.course?.nfqLeval?.id?.toString() !==
+        data?.nfqLeval?.toString() ||
+      getSingleCourse?.data?.course?.certificate?.id?.toString() !==
+        data?.certificate?.toString()
+    ) {
       if (+courseId) {
         updateCourseFun({
           payload,
@@ -250,9 +243,13 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}
-              value={getSingleCourse?.data?.course?.nfqLeval?.id.toString() || selectBoxValue.nfqLeval || ""}
-              placeholder="Select NQF Level"
-              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
+              value={
+                getSingleCourse?.data?.course?.nfqLeval?.id.toString() ||
+                selectBoxValue.nfqLeval ||
+                ""
+              }
+              placeholder="Select NFQ level"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
             {!errors?.nfqLeval?.ref?.value && (
               <ErrorMessage message={errors?.nfqLeval?.message as string} />
@@ -262,8 +259,8 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
             <InputWithLabel
               label="How many ECTS credits does this course offer?"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="60 Credits"
-              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              placeholder="Enter credits"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
               {...register("ectsCredits")}
               error={errors.ectsCredits?.message as string}
             />
@@ -272,8 +269,8 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
             <InputWithLabel
               label="How many FET credits does this course offer?"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="60 Credits"
-              className="border border-[#D9D9D9] rounded-md w-full outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              placeholder="Enter credits"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
               {...register("fetCredits")}
               error={errors.fetCredits?.message as string}
             />
@@ -290,9 +287,13 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, certificate: e });
                 setValue("certificate", e);
               }}
-              value={getSingleCourse?.data?.course?.certificate?.id.toString() || selectBoxValue.certificate || ""}
-              placeholder="Post Graduate Degree or Diploma, Certificate, Professional Diploma"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              value={
+                getSingleCourse?.data?.course?.certificate?.id.toString() ||
+                selectBoxValue.certificate ||
+                ""
+              }
+              placeholder="Select certificate"
+              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />
             {!errors?.certificate?.ref?.value && (
               <ErrorMessage message={errors?.nfqLeval?.message as string} />
@@ -301,7 +302,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className="outline-none text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

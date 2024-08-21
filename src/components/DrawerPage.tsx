@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
@@ -5,14 +7,12 @@ import { Dispatch, useEffect, useState } from "react";
 import { HiChevronDown, HiChevronRight } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Drawer from "./comman/Drawer";
 import Loading from "./comman/Error/Loading";
+import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
-import Drawer from "./comman/Drawer";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { AlertLogOutDialog } from "./Models/AlertLogOut";
 
 interface SidebarItem {
   label: string;
@@ -99,7 +99,7 @@ const DrawerPage = ({
                   navigate("/");
                   setOpen(false);
                 }}
-                className="flex items-center gap-2 outline-none focus-visible:ring-0 hover:bg-transparent h-auto"
+                className="flex items-center gap-2  focus-visible:ring-0 hover:bg-transparent h-auto"
                 variant="ghost"
               >
                 <img src={sidebarlogo} alt="logo" width={121.17} height={80} />

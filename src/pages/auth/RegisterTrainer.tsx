@@ -39,9 +39,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import PhoneInput from "react-phone-number-input";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import PhoneInput from 'react-phone-number-input'
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
@@ -75,7 +75,8 @@ function RegisterTrainer() {
         .string()
         .regex(/^[0-9]*$/, {
           message: "Please enter valid phone number (1-9 digits).",
-        }).optional(),
+        })
+        .optional(),
       providerAddress: z.string().optional(),
       providerCounty: z.string().optional(),
       name: z.string().optional(),
@@ -100,7 +101,6 @@ function RegisterTrainer() {
         ),
     })
     .superRefine((data, ctx) => {
-      console.log("++++++++++++++++", data, ctx);
       if (data.foreignProvider === "Yes") {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -212,6 +212,8 @@ function RegisterTrainer() {
       label: item,
     };
   });
+
+  console.log("errro", errors);
 
   const countryOption =
     country?.data &&
@@ -350,7 +352,7 @@ function RegisterTrainer() {
                   <div className="col-span-2">
                     <InputWithLable
                       className="h-[46px]"
-                      placeholder="Sample Consulting Company"
+                      placeholder="Enter company name"
                       label="Provider Name"
                       isMendatory={true}
                       {...register("providerName")}
@@ -367,7 +369,7 @@ function RegisterTrainer() {
                     </Label>
                     <SelectMenu
                       option={providerTypesOption || []}
-                      placeholder="Select county"
+                      placeholder="Select company type"
                       className="h-[46px] mt-2 text-left"
                       setValue={(data: string) =>
                         setValue("providerType", data)
@@ -382,7 +384,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="221 B Baker Street"
+                      placeholder="Enter your address"
                       className="h-[46px]"
                       label="Provider Address"
                       isMendatory={true}
@@ -397,7 +399,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="London"
+                      placeholder="Enter city or town"
                       className="h-[46px]"
                       label="Provider City/Town"
                       isMendatory={true}
@@ -459,7 +461,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="Notes 1"
+                      placeholder="Enter note, if any"
                       className="h-[46px]"
                       label="Provider Notes"
                       {...register("providerNotes")}
@@ -472,7 +474,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="John"
+                      placeholder="First name"
                       className="h-[46px]"
                       label="Contact First Name"
                       {...register("name")}
@@ -483,7 +485,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="Sample"
+                      placeholder="Last name"
                       className="h-[46px]"
                       label="Contact Surname"
                       {...register("contactSurname")}
@@ -496,7 +498,7 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
-                      placeholder="john.sample@emailsample.com"
+                      placeholder="Enter email address"
                       className="h-[46px]"
                       disabled={!!defEmail}
                       label="Email Address"
@@ -515,7 +517,10 @@ function RegisterTrainer() {
                       placeholder="Enter phone number"
                       value={phone}
                       international
-                      onChange={(e:any) => {setValue("contactTelephone", e); setPhone(e)}}
+                      onChange={(e: any) => {
+                        setValue("contactTelephone", e);
+                        setPhone(e);
+                      }}
                       className="phone-input"
                     />
                     {errors.contactTelephone && (
@@ -576,7 +581,7 @@ function RegisterTrainer() {
       <Modal
         open={showOtpPopup}
         onClose={() => setShowOtpPopup(false)}
-        className="max-w-[550px] xl:left-auto xl:right-[80px]"
+        className="max-w-[550px]"
       >
         <div className="mb-[2px] mt-2 text-center font-abhaya">
           <h2 className="text-xl font-semibold">

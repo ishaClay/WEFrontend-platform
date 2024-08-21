@@ -317,8 +317,13 @@ const ModuleCreationPage = () => {
   };
 
   console.log("watchwatch", watch());
-  console.log("asdasd++++", paramsType === "editminor" , moduleList?.length > 0 ,  moduleCreationItem.length > 0);
-  
+  console.log(
+    "asdasd++++",
+    paramsType === "majorEdit",
+    moduleList?.length > 0,
+    moduleCreationItem.length > 0
+  );
+
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
@@ -336,7 +341,11 @@ const ModuleCreationPage = () => {
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
-          disabled={paramsType === "editminor" ? true : moduleList?.length > 0 && moduleCreationItem.length > 0}
+          disabled={
+            paramsType === "majorEdit"
+              ? true
+              : moduleList?.length > 0 && moduleCreationItem.length > 0
+          }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
           <CirclePlus width={18} /> Add Module
@@ -392,7 +401,7 @@ const ModuleCreationPage = () => {
           <div className="text-right">
             <Button
               isLoading={CreateModuleAsync?.isPending}
-              className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+              className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
             >
               Save
             </Button>

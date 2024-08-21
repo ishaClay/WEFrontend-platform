@@ -1,6 +1,12 @@
 import CourseList from "@/components/comman/CourseList";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { EnrolledCoursesType } from "@/types/enroll";
 import { Loader2 } from "lucide-react";
 
@@ -12,14 +18,22 @@ interface EnrolledCourseListItemProps {
   isLoading: boolean;
 }
 
-const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index, isLoading }: EnrolledCourseListItemProps) => {
+const EnrolledCourseListItem = ({
+  data,
+  selectVersion,
+  setSelectVersion,
+  index,
+  isLoading,
+}: EnrolledCourseListItemProps) => {
   const versionOption = data?.course?.version?.map((item: any) => {
     return {
       label: `V-${item?.version}`,
       value: item?.id,
-      trainercompnyId: item?.trainerCompanyId ? item?.trainerCompanyId?.id : item?.trainerId?.id
-    }
-  })
+      trainercompnyId: item?.trainerCompanyId
+        ? item?.trainerCompanyId?.id
+        : item?.trainerId?.id,
+    };
+  });
 
   return (
     <div className="flex justify-between items-center w-full">
@@ -79,16 +93,28 @@ const EnrolledCourseListItem = ({ data, selectVersion, setSelectVersion, index, 
       </div>
       <div className="mr-10">
         <Select
-          onValueChange={(e: any) => setSelectVersion(e, index, data?.course?.trainerCompanyId ? data?.course?.trainerCompanyId?.id : data?.course?.trainerId?.id)}
+          onValueChange={(e: any) =>
+            setSelectVersion(
+              e,
+              index,
+              data?.course?.trainerCompanyId
+                ? data?.course?.trainerCompanyId?.id
+                : data?.course?.trainerId?.id
+            )
+          }
           value={data?.id}
           defaultValue={data?.course?.currentVersion?.id?.toString() || ""}
         >
-          <SelectTrigger className={`bg-white outline-none flex items-center gap-2`} disabled={selectVersion?.index === index}>
-            {(selectVersion?.index === index && isLoading) && <Loader2 className="w-5 h-5 animate-spin" />}
+          <SelectTrigger
+            className={`bg-white  flex items-center gap-2`}
+            disabled={selectVersion?.index === index}
+          >
+            {selectVersion?.index === index && isLoading && (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}
             <SelectValue placeholder={"V-01"} />
           </SelectTrigger>
-          <SelectContent
-            className="bg-white max-h-[250px] w-full overflow-auto">
+          <SelectContent className="bg-white max-h-[250px] w-full overflow-auto">
             {versionOption?.map((item: any, index: number) => (
               <SelectItem
                 key={index}

@@ -56,7 +56,7 @@ function TrainingDocument() {
               <input
                 type="text"
                 placeholder="Search by pilier, level, recommended, course name etc."
-                className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
+                className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm"
               />
             </div>
           </div>

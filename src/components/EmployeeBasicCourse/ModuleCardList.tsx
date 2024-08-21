@@ -9,16 +9,19 @@ type moduleCourseCardProps = {
 };
 
 const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
-  const assessmentTime = data?.assessment?.length > 0 ? data?.assessment?.[0]?.timeDuration : null;  
+  const assessmentTime =
+    data?.assessment?.length > 0 ? data?.assessment?.[0]?.timeDuration : null;
   const getTotalSectionsTime = (
     data?.moduleSections || data?.moduleSection
   )?.map((it: any) => it?.readingTime || it?.sectionTime);
   const addAssessment = [...getTotalSectionsTime, assessmentTime];
+
+  const totalTimeInSeconds = getTotalDuration(
+    addAssessment?.filter((item) => item !== null)
+  );
   console.log("addAssessment", addAssessment);
-  
-  const totalTimeInSeconds = getTotalDuration(addAssessment?.filter(item => item !== null));
   console.log("totalTimeInSecondstotalTimeInSeconds", totalTimeInSeconds);
-  
+
   // Convert total seconds back to hours, minutes, seconds
   const hours = Math.floor(totalTimeInSeconds / 3600)
     ?.toString()

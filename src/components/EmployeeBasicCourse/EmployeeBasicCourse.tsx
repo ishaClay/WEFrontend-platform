@@ -11,7 +11,7 @@ import { SingleCourseEmployeeResponse } from "@/types/employee";
 import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
@@ -27,6 +27,7 @@ const EmployeeBasicCourse = () => {
   const { empPermissions } = useContext(PermissionContext);
   const [searchParams] = useSearchParams();
   const mainCourseId = searchParams.get("courseId");
+  const tab = searchParams.get("tab");
   const [currentTab, setCurrentTab] = useState("");
   const location = useLocation();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -65,7 +66,17 @@ const EmployeeBasicCourse = () => {
     enabled: !!mainCourseId && userData?.query?.role === "4",
   });
 
-  console.log("getModule", getModule);
+  useEffect(() => {
+    if (tab) {
+      const tabData =
+        +tab === 1 ? "module" : +tab === 0 ? "information" : "feedback";
+      console.log("getModule", tabData);
+      setCurrentTab(tabData);
+    } else {
+      setCurrentTab("information");
+    }
+  }, [tab, location]);
+
   return (
     <>
       <Modal
@@ -127,6 +138,7 @@ const EmployeeBasicCourse = () => {
               defaultValue="information"
               onValueChange={(e) => setCurrentTab(e)}
               className="w-full"
+              value={currentTab}
             >
               <TabsList className="p-0 flex justify-between sm:items-center items-start sm:flex-row flex-col h-auto border-b">
                 <div className="flex sm:order-1 order-2">
@@ -180,20 +192,11 @@ const EmployeeBasicCourse = () => {
                     <Popover>
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
                         Modules Completed -{" "}
-                        {getModule?.moduleStatuses &&
-                        getModule?.moduleStatuses?.findIndex(
-                          (item) =>
-                            item.status === "started" ||
-                            item.status === "inrogress"
-                        ) +
-                          1 !==
-                          0
-                          ? getModule?.moduleStatuses?.findIndex(
-                              (item) =>
-                                item.status === "started" ||
-                                item.status === "inrogress"
-                            ) + 1
-                          : getModule?.moduleStatuses?.length}
+                        {
+                          getModule?.moduleStatuses?.filter(
+                            (item) => item.status === "completed"
+                          )?.length
+                        }
                         /{getModule?.moduleStatuses?.length}{" "}
                         <ChevronDown width={18} />
                       </PopoverTrigger>
@@ -236,7 +239,9 @@ const EmployeeBasicCourse = () => {
                                       {item?.title}
                                     </h5>
                                     <h6 className="text-[14px] text-[#606060] font-nunito capitalize">
-                                      {item?.status}
+                                      {item?.status === "inrogress"
+                                        ? "inProgress"
+                                        : item?.status}
                                     </h6>
                                   </div>
                                   {getModule?.moduleStatuses &&

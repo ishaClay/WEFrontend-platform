@@ -69,7 +69,7 @@ const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
   const dispatch = useAppDispatch();
-  const pathName = window.location.pathname.split("/")[1];  
+  const pathName = window.location.pathname.split("/")[1];
 
   const assecessmentQuestion = useAppSelector(
     (state: RootState) => state.assessment
@@ -100,7 +100,6 @@ const AssecessmentPage = () => {
   });
 
   console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
-  
 
   const { data: moduleSection } = useQuery({
     queryKey: [QUERY_KEYS.fetchModuleSection],
@@ -121,15 +120,15 @@ const AssecessmentPage = () => {
         },
       });
     }
-  }, [assessmentData]);  
+  }, [assessmentData]);
 
   useEffect(() => {
-    if(assessmentData?.id){
-      assessmentData?.[0]?.AssessmentQuestion?.map((item:any) => {
+    if (assessmentData?.id) {
+      assessmentData?.[0]?.AssessmentQuestion?.map((item: any) => {
         dispatch(setQuestionType(item?.assessmentType));
-      })
+      });
     }
-  }, [assessmentData])  
+  }, [assessmentData]);
 
   const AssessmentTypeReverseMap: {
     [key: string]: string;
@@ -139,9 +138,10 @@ const AssecessmentPage = () => {
 
   useEffect(() => {
     if (getAssessmentByIdData?.data?.AssessmentQuestion?.length) {
-      const assessmentTypes = getAssessmentByIdData?.data?.AssessmentQuestion?.map(
-        (i) => i?.assessmentType
-      );
+      const assessmentTypes =
+        getAssessmentByIdData?.data?.AssessmentQuestion?.map(
+          (i) => i?.assessmentType
+        );
       const transformedAssessmentTypes = assessmentTypes?.map(
         (type) => AssessmentTypeReverseMap[type]
       );
@@ -176,14 +176,18 @@ const AssecessmentPage = () => {
         description: data?.data?.message,
         variant: "success",
       });
-      if(courseId){
+      if (courseId) {
         navigate(
           `/${pathName}/create_course/${courseId ? courseId : id}?tab=${
             tab || 2
           }&version=${version}`
         );
       } else {
-        navigate(`/${pathName}/create_course?tab=${tab || 2}&id=${id}&version=${version}`);
+        navigate(
+          `/${pathName}/create_course?tab=${
+            tab || 2
+          }&id=${id}&version=${version}`
+        );
       }
       dispatch(resetAssessment());
     },
@@ -211,14 +215,18 @@ const AssecessmentPage = () => {
             };
           }
         );
-        if(courseId && +courseId){
+        if (courseId && +courseId) {
           navigate(
             `/${pathName}/create_course/${courseId ? courseId : id}?tab=${
               tab || 2
             }&version=${version}`
           );
         } else {
-          navigate(`/${pathName}/create_course?tab=${tab || 2}&id=${id}&version=${version}`);
+          navigate(
+            `/${pathName}/create_course?tab=${
+              tab || 2
+            }&id=${id}&version=${version}`
+          );
         }
         createAssessmentQuestionFun(assecessmentQue);
       },
@@ -273,7 +281,8 @@ const AssecessmentPage = () => {
       valid = false;
     }
     if (createAssecessment?.title?.length > 250) {
-      newErrors.title = "You can not write Assessment Title more than 250 characters.";
+      newErrors.title =
+        "You can not write Assessment Title more than 250 characters.";
       valid = false;
     }
 
@@ -284,7 +293,8 @@ const AssecessmentPage = () => {
     }
     const passingPercentageRegex = /^[0-9]+$/;
     if (!passingPercentageRegex.test(createAssecessment?.passingPercentage)) {
-      newErrors.passingPercentage = "Passing Percentage is required and must be a number";
+      newErrors.passingPercentage =
+        "Passing Percentage is required and must be a number";
       valid = false;
     }
 
@@ -323,18 +333,22 @@ const AssecessmentPage = () => {
     e.preventDefault();
     if (validateAll() && validateAssecessmentModule()) {
       const payload = {
-        ...createAssecessment, timeDuration: {
+        ...createAssecessment,
+        timeDuration: {
           hours: +createAssecessment?.timeDuration?.hours || 0,
           minutes: +createAssecessment?.timeDuration?.minutes || 0,
-          seconds: +createAssecessment?.timeDuration?.seconds || 0
-        }
-      }
-      if(assId && +assId){
+          seconds: +createAssecessment?.timeDuration?.seconds || 0,
+        },
+      };
+      if (assId && +assId) {
         updateAssessmentFun({
-          data: {...payload, moduleSection: searchParams.get("moduleId") || ""},
+          data: {
+            ...payload,
+            moduleSection: searchParams.get("moduleId") || "",
+          },
           id: assId,
-        })
-      } else{
+        });
+      } else {
         createAssessmentFun({
           ...payload,
           module: searchParams.get("moduleId")
@@ -352,7 +366,7 @@ const AssecessmentPage = () => {
     const version = searchParams.get("version");
     const tab = searchParams.get("tab");
     dispatch(resetAssessment());
-    if(courseId && +courseId && courseId !== null){
+    if (courseId && +courseId && courseId !== null) {
       navigate(
         `/${pathName}/create_course/${
           courseId ? courseId : id
@@ -404,59 +418,83 @@ const AssecessmentPage = () => {
               moduleSectionById={moduleSection?.data?.data}
             />
 
-            {(getAssessmentByIdData?.data?.AssessmentQuestion || assecessmentQuestion?.selectedQuestionType)?.map(
-              (type: string | any, index: number) => {
-                return <Fragment key={index}>
-                {(type?.assessmentType === "Multiple Choice Question" || type === "Multiple Choice") && (
-                  <AssecessmentTypeTwo
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                    assecessmentQuestion={type}
-                  />
-                )}
-                {((type?.assessmentType === "Single Choice Question" && type?.option?.length > 0) || type === "MCQ") && (
-                  <AssecessmentTypeOne
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                    assecessmentQuestion={type}
-                  />
-                )} 
-                {(type?.assessmentType === "Free Text Response" ||type === "Free Text Response") && (
-                  <AssecessmentFreeText
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                    assecessmentQuestion={type}
-                  />
-                )}
-                {((type?.assessmentType === "Single Choice Question" && type?.option?.length === 0) || type === "True & False") && (
-                  <AssecessmentTrueFalse
-                    i={index}
-                    type={type}
-                    ref={(el: any) =>
-                      (validationRefs.current[index] = el?.validate)
-                    }
-                    assecessmentQuestion={type}
-                  />
-                )}
-              </Fragment>
-              }
-            )}
+            {(
+              getAssessmentByIdData?.data?.AssessmentQuestion ||
+              assecessmentQuestion?.selectedQuestionType
+            )?.map((type: string | any, index: number) => {
+              return (
+                <Fragment key={index}>
+                  {(type?.assessmentType === "Multiple Choice Question" ||
+                    type === "Multiple Choice") && (
+                    <AssecessmentTypeTwo
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                      assecessmentQuestion={type}
+                    />
+                  )}
+                  {((type?.assessmentType === "Single Choice Question" &&
+                    type?.option?.length > 0) ||
+                    type === "MCQ") && (
+                    <AssecessmentTypeOne
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                      assecessmentQuestion={type}
+                    />
+                  )}
+                  {(type?.assessmentType === "Free Text Response" ||
+                    type === "Free Text Response") && (
+                    <AssecessmentFreeText
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                      assecessmentQuestion={type}
+                    />
+                  )}
+                  {((type?.assessmentType === "Single Choice Question" &&
+                    type?.option?.length === 0) ||
+                    type === "True & False") && (
+                    <AssecessmentTrueFalse
+                      i={index}
+                      type={type}
+                      ref={(el: any) =>
+                        (validationRefs.current[index] = el?.validate)
+                      }
+                      assecessmentQuestion={type}
+                    />
+                  )}
+                </Fragment>
+              );
+            })}
 
-            <div className="text-right">
+            <div className="flex items-center justify-between">
+              <Button
+                type="button"
+                className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+                onClick={() => setIsOpenAssessmentModal(true)}
+              >
+                Add Question
+              </Button>
               <Button
                 type="submit"
-                disabled={createAssessmentPending || assessmentQuestionPending || isPending}
-                className="outline-none text-base font-inter text-white bg-[#58BA66] py-6 px-8"
-                isLoading={createAssessmentPending || assessmentQuestionPending || isPending}
+                disabled={
+                  createAssessmentPending ||
+                  assessmentQuestionPending ||
+                  isPending
+                }
+                className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+                isLoading={
+                  createAssessmentPending ||
+                  assessmentQuestionPending ||
+                  isPending
+                }
               >
                 Save Assessment
               </Button>

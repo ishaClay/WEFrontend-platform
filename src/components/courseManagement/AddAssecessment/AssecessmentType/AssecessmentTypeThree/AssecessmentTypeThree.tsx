@@ -49,7 +49,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
         </h6>
         <input
           placeholder="Single Choice Question"
-          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
         />
       </div>
       <div className="pb-8">
@@ -58,11 +58,15 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
         </h6>
         <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
           <input
-            placeholder="How would you describe an authoritarian (or controlling) management style?"
-            className="outline-none font-base font-calibri text-[#1D2026] w-full"
+            placeholder="Enter the question"
+            className=" font-base font-calibri text-[#1D2026] w-full"
             onChange={(e) =>
               dispatch(
-                addQuestion({ index: i, question: e.target.value, assessmentType: type })
+                addQuestion({
+                  index: i,
+                  question: e.target.value,
+                  assessmentType: type,
+                })
               )
             }
             value={questionOption[i]?.question}
@@ -72,15 +76,14 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
               Point
             </label>
             <input
-              className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-              onChange={(e) =>{
-                const {value} = e.target
+              className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+              onChange={(e) => {
+                const { value } = e.target;
                 if (value.match(/^[0-9]*$/)) {
-                  dispatch(addPoint({ index: i, point: +e.target.value }))        
+                  dispatch(addPoint({ index: i, point: +e.target.value }));
                 }
-                return
-              }
-              }
+                return;
+              }}
               type="number"
               value={questionOption[i]?.point}
             />

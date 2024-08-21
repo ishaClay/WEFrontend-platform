@@ -368,7 +368,7 @@ const MaturityAssessment = () => {
               defaultValue={selectAssessment}
             >
               <SelectTrigger
-                className={`bg-white outline-none w-[280px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0 [&>span]:w-[280px]`}
+                className={`bg-white  w-[280px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0 [&>span]:w-[280px]`}
               >
                 <SelectValue />
               </SelectTrigger>

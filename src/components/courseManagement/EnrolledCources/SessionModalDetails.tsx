@@ -2,9 +2,9 @@ import employee_face_1 from "@/assets/images/face_1.jfif";
 import employee_face_2 from "@/assets/images/face_2.jfif";
 import employee_face_3 from "@/assets/images/face_3.jfif";
 import employee_face_4 from "@/assets/images/face_4.jfif";
-import SessionEmployeeItem from "./SessionEmployeeItem";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import SessionEmployeeItem from "./SessionEmployeeItem";
 
 const SessionModalDetails = () => {
   const sessionEmpoyee = [
@@ -74,7 +74,7 @@ const SessionModalDetails = () => {
           })}
         </ScrollArea>
         <div className="mt-5 text-right">
-          <Button className="outline-none text-base font-calibri text-white bg-[#58BA66] py-6 px-8">
+          <Button className=" text-base font-calibri text-white bg-[#58BA66] py-6 px-8">
             Submit
           </Button>
         </div>

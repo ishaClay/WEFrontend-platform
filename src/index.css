@@ -325,8 +325,50 @@ input[type="radio"] {
   overflow: hidden;
 }
 
-.phone-input .PhoneInputInput{
+.phone-input .PhoneInputInput {
   border: 1px solid #e2e8f0;
   padding: 8px 12px;
   border-radius: 6px;
+}
+
+.displayBlock .highlightOption {
+  background-color: #f0f0f0 !important;
+  color: #000 !important;
+}
+
+.multiSelectContainer li:hover {
+  background-color: #f0f0f0 !important;
+  color: #000 !important;
+}
+
+.chip {
+  background-color: #adadad !important;
+  color: #000 !important;
+}
+
+.searchWrapper {
+  min-height: auto !important;
+  padding: 0 1rem !important;
+}
+
+.searchWrapper input {
+  padding: 8px 0 !important;
+  height: 2.5rem !important;
+  color: 15px !important;
+  margin-top: 0 !important;
+}
+
+@media (min-width: 640px) {
+  .searchWrapper input {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    height: 3rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+}
+@media (min-width: 768px) {
+  .searchWrapper input {
+    height: 52px !important;
+  }
 }

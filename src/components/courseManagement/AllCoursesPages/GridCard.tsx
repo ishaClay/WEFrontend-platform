@@ -295,7 +295,7 @@ const GridCard = ({
                 //     : false
                 // }
                 onClick={() => handleEnroll(allcourse?.currentVersion?.id)}
-                className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus:outline-none focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
+                className="2xl:px-[14px] px-[10px] group py-[10px] bg-[#64A70B] text-white rounded hover:bg-gray-400 focus: focus:bg-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#64A70B]"
                 isLoading={isPending}
               >
                 Enroll Now

@@ -234,18 +234,21 @@ const ListView = ({
       if (type === "editminor") {
         if (+item?.step === 5) {
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
+            `/${Role}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
             }&version=${id}&type=${type}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course/${item?.id}?tab=${+item?.tab === 4 ? 0 : item?.tab
-            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${id
-            }&type=${type}`
+            `/${Role}/create_course/${item?.id}?tab=${
+              +item?.tab === 4 ? 0 : item?.tab
+            }&step=${
+              +item?.step === 5 ? 0 : item?.step
+            }&version=${id}&type=${type}`
           );
         }
       }
-      if(type === "editWithNew"){
+      if (type === "editWithNew") {
         createNewVersionFun({
           courseId: item?.id,
           version: item?.currentVersion?.version || 0,
@@ -406,8 +409,8 @@ const ListView = ({
                     className={`${
                       +userData?.query?.role === UserRole.Trainee
                         ? "xl:min-w-auto min-w-auto"
-                        : "xl:max-w-auto max-w-auto"
-                    } xl:py-[6px] py-[8px]  font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto `}
+                        : "xl:max-w-[90px] max-w-[85px]"
+                    } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
                     onClick={(
                       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                     ) => {
@@ -449,7 +452,7 @@ const ListView = ({
                     </div>
                   )}
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="outline-none">
+                    <DropdownMenuTrigger asChild className="">
                       <EllipsisVertical />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-30">
@@ -459,27 +462,32 @@ const ListView = ({
                             ? true
                             : permissions?.createCourse
                           : true) && (
-                            <DropdownMenuItem
-                              className="flex items-center gap-2 font-nunito"
-                              onClick={(e: any) =>
-                                handleCopy(
-                                  e,
-                                  data?.currentVersion?.id as number
-                                )
-                              }
-                            >
-                              <Copy className="w-4 h-4" />
-                              <span>Copy</span>
-                            </DropdownMenuItem>
-                          )}
-                          {+userData?.query?.role !== UserRole.Trainee && <DropdownMenuItem
+                          <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data?.currentVersion?.id?.toString(), data, "editminor")}
+                            onClick={(e: any) =>
+                              handleCopy(e, data?.currentVersion?.id as number)
+                            }
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>Copy</span>
+                          </DropdownMenuItem>
+                        )}
+                        {+userData?.query?.role !== UserRole.Trainee && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) =>
+                              handleEdit(
+                                e,
+                                data?.currentVersion?.id?.toString(),
+                                data,
+                                "editminor"
+                              )
+                            }
                           >
                             <Pencil className="w-4 h-4" />
                             <span>Edit minor</span>
                           </DropdownMenuItem>
-                        }
+                        )}
                         {data?.status !== "EXPIRED" &&
                           (+userData?.query?.role === UserRole.Trainee
                             ? update
@@ -519,7 +527,12 @@ const ListView = ({
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${pathName === "trainee" && data?.trainerId?.id === +userData?.query?.detailsid ? "flex" : ""}`}
+                          className={`items-center gap-2 font-nunito ${
+                            pathName === "trainee" &&
+                            data?.trainerId?.id === +userData?.query?.detailsid
+                              ? "flex"
+                              : ""
+                          }`}
                           onClick={(e: any) => {
                             e.stopPropagation();
                             setIsDelete(true);

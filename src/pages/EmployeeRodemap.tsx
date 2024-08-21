@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import EmployeeSidebar from "@/components/EmployeeSidebar";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { RiArrowDownSLine } from "react-icons/ri";
-import { BsSearch } from "react-icons/bs";
-import { RiMenuLine, RiCloseLine } from "react-icons/ri";
-import person from "@/assets/images/person.png";
 import lightIcon from "@/assets/images/light.png";
+import person from "@/assets/images/person.png";
+import EmployeeSidebar from "@/components/EmployeeSidebar";
+import React, { useState } from "react";
+import { BsSearch } from "react-icons/bs";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { RiArrowDownSLine, RiCloseLine, RiMenuLine } from "react-icons/ri";
 
 function EmployeeRodemap() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -89,7 +88,7 @@ function EmployeeRodemap() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="flex-1 mr-2 focus:outline-none placeholder-[#A3A3A3] text-sm"
+                    className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm"
                   />
                 </div>
                 <div className="flex md:hidden justify-center items-center w-[50px] h-[50px] bg-[#F3F3F3] rounded-full text-gray-900">

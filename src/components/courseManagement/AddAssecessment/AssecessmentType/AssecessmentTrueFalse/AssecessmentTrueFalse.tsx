@@ -53,7 +53,8 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
         valid = false;
       }
       if (questionValue?.length > 250) {
-        newErrors.question = "You can not write questionValue more than 250 characters.";
+        newErrors.question =
+          "You can not write questionValue more than 250 characters.";
         valid = false;
       }
 
@@ -81,7 +82,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
     }));
 
     useEffect(() => {
-      if(assecessmentQuestion){
+      if (assecessmentQuestion) {
         dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
         dispatch(addAnswer({ answer: assecessmentQuestion?.answer, i }));
         dispatch(
@@ -92,8 +93,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
           })
         );
       }
-    }, [assecessmentQuestion])
-    
+    }, [assecessmentQuestion]);
 
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -111,23 +111,22 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
             <input
               placeholder="True Or False"
               disabled
-              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3 outline-none font-base font-calibri text-[#1D2026]"
+              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
                 Point
               </label>
               <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] outline-none rounded-md"
-                onChange={(e) =>{
-                  const {value} = e.target
+                className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+                onChange={(e) => {
+                  const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }))    
-                    setErrors((prev) => ({ ...prev, point: "" }));                
+                    dispatch(addPoint({ index: i, point: +e.target.value }));
+                    setErrors((prev) => ({ ...prev, point: "" }));
                   }
-                  return
-                }
-                }
+                  return;
+                }}
                 type="text"
                 min={0}
                 max={100}
@@ -148,8 +147,8 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
           </h6>
           <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-3">
             <input
-              placeholder="How would you describe an authoritarian (or controlling) management style?"
-              className="outline-none font-base font-calibri text-[#1D2026] w-full"
+              placeholder="Enter the question"
+              className=" font-base font-calibri text-[#1D2026] w-full"
               onChange={(e) => {
                 dispatch(
                   addQuestion({

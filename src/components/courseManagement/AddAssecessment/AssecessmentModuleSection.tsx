@@ -29,7 +29,6 @@ const AssecessmentModuleSection = ({
   setErrors,
   moduleSectionById,
 }: AssecessmentModuleSectionProps) => {
-
   const getTotalSectionsTime = moduleSectionById?.moduleSection?.map(
     (it: any) => it?.readingTime
   );
@@ -43,9 +42,8 @@ const AssecessmentModuleSection = ({
     ?.toString()
     ?.padStart(2, "0");
   const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
-console.log("errors", errors);
-console.log("datadata", createAssecessment);
-
+  console.log("errors", errors);
+  console.log("datadata", createAssecessment);
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -71,7 +69,7 @@ console.log("datadata", createAssecessment);
         </h6>
         <div className="border border-[#D9D9D9] rounded-md p-3 me-5 flex justify-between items-center">
           <input
-            className="border-none w-full outline-none text-sm text-black"
+            className="border-none w-full  text-sm text-black"
             placeholder="Assessment Title"
             type="text"
             value={createAssecessment?.title}
@@ -95,7 +93,7 @@ console.log("datadata", createAssecessment);
             </h6>
             <div className="border border-[#D9D9D9] rounded-md p-3 w-[150px] me-5 flex justify-between items-center">
               <input
-                className="border-none w-full outline-none text-sm text-black"
+                className="border-none w-full  text-sm text-black"
                 value={createAssecessment?.passingPercentage}
                 placeholder="passing percentage"
                 type="text"
@@ -166,7 +164,7 @@ console.log("datadata", createAssecessment);
             <div className="flex items-center gap-4">
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                 <input
-                  className="border-none w-full outline-none text-sm text-black"
+                  className="border-none w-full  text-sm text-black"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -181,11 +179,13 @@ console.log("datadata", createAssecessment);
                   }}
                   value={createAssecessment?.timeDuration?.hours || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Hours</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                  Hours
+                </h6>
               </div>
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                 <input
-                  className="border-none w-full outline-none text-sm text-black"
+                  className="border-none w-full  text-sm text-black"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -200,11 +200,13 @@ console.log("datadata", createAssecessment);
                   }}
                   value={createAssecessment?.timeDuration?.minutes || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Minutes</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                  Minutes
+                </h6>
               </div>
               <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
                 <input
-                  className="border-none w-full outline-none text-sm text-black"
+                  className="border-none w-full  text-sm text-black"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -219,7 +221,9 @@ console.log("datadata", createAssecessment);
                   }}
                   value={createAssecessment?.timeDuration?.seconds || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">Secound</h6>
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                  Secound
+                </h6>
               </div>
             </div>
             {errors.timeDuration && (

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
 import SelectMenu from "@/components/comman/SelectMenu";
-import { Textarea } from "@/components/ui/textarea";
-import { Image, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { setPath } from "@/redux/reducer/PathReducer";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { Image, Video } from "lucide-react";
+import { useState } from "react";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 
 const selectNameOption = [
   {
@@ -103,7 +103,7 @@ const AddNewTickets = () => {
               Ticket Subject
             </Label>
             <Input
-              className="border-[#D9D9D9] w-full outline-none xl:h-12 h-10 placeholder:text-[#A3A3A3] text-[#A3A3A3] text-base font-calibri xl:px-5 px-3"
+              className="border-[#D9D9D9] w-full  xl:h-12 h-10 placeholder:text-[#A3A3A3] text-[#A3A3A3] text-base font-calibri xl:px-5 px-3"
               placeholder="Enter ticket subject"
             />
           </div>
@@ -112,7 +112,7 @@ const AddNewTickets = () => {
               Description
             </Label>
             <Textarea
-              className="w-full border-[#D9D9D9] text-[#A3A3A3] text-base font-calibri !outline-none placeholder:text-[#A3A3A3] xl:px-5 px-3"
+              className="w-full border-[#D9D9D9] text-[#A3A3A3] text-base font-calibri ! placeholder:text-[#A3A3A3] xl:px-5 px-3"
               placeholder="Enter details"
             />
           </div>

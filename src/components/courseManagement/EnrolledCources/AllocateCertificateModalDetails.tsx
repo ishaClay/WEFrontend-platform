@@ -133,7 +133,7 @@ const AllocateCertificateModalDetails = ({
           <input type="file" id="upload" accept=".pdf" className="hidden" />
           <label
             htmlFor="upload"
-            className="outline-none text-base rounded-md font-calibri inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"
+            className=" text-base rounded-md font-calibri inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"
           >
             Browse Files
           </label>
@@ -155,7 +155,7 @@ const AllocateCertificateModalDetails = ({
         type="button"
         onClick={handleIssueCertificate}
         isLoading={isPending}
-        className="outline-none text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3"
+        className=" text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3"
       >
         Issue A Certificate
       </Button>

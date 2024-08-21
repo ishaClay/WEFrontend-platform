@@ -5,20 +5,20 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { RootState } from "@/redux/store";
 import { getTrainee } from "@/services/apiServices/trainer";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, Loader2, Search, SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { Button } from "../../ui/button";
 import { Checkbox } from "../../ui/checkbox";
 import { Input } from "../../ui/input";
 import { ScrollArea } from "../../ui/scroll-area";
 import TraineeItems from "./TraineeItems";
-import { toast } from "@/components/ui/use-toast";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
 interface TraineeModalProps {
   selectCompanyOptions: any[];
@@ -46,10 +46,15 @@ const AddTraineeModal = ({
 }: TraineeModalProps) => {
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectCompany, setSelectCompany] = useState<string>("")
-console.log("selectCompany", selectCompany);
+  const [selectCompany, setSelectCompany] = useState<string>("");
+  console.log("selectCompany", selectCompany);
 
-  const { data: fetchTrainee, isPending, isFetching, refetch } = useQuery({
+  const {
+    data: fetchTrainee,
+    isPending,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [QUERY_KEYS.fetchTrainee],
     queryFn: () => getTrainee(+CompanyId, +selectCompany, searchQuery),
   });
@@ -62,9 +67,9 @@ console.log("selectCompany", selectCompany);
       id: i?.id,
     })) || [];
 
-    useEffect(() => {
-      refetch()
-    }, [searchQuery, selectCompany])
+  useEffect(() => {
+    refetch();
+  }, [searchQuery, selectCompany]);
 
   const handleChanges = (e: boolean, data: TraineeEmployee[]) => {
     if (e) {
@@ -81,8 +86,7 @@ console.log("selectCompany", selectCompany);
 
   console.log("selectCompanyOptions", selectCompanyOptions);
   console.log("traineeList", traineeList);
-  
-  
+
   return (
     <div className="">
       <h5 className="text-[20px] text-black font-abhaya font-semibold">
@@ -111,7 +115,7 @@ console.log("selectCompany", selectCompany);
             render={({ field: { onChange, value } }) => {
               return (
                 <DropdownMenu>
-                  <DropdownMenuTrigger asChild className="outline-none">
+                  <DropdownMenuTrigger asChild className="">
                     <Button className="flex" variant="outline">
                       <SlidersHorizontal
                         width={18}
@@ -133,7 +137,7 @@ console.log("selectCompany", selectCompany);
                                 onChange(i.value);
                                 setSelectCompany(i.value);
                               } else {
-                                onChange('');
+                                onChange("");
                                 setSelectCompany("");
                               }
                             }}
@@ -175,18 +179,26 @@ console.log("selectCompany", selectCompany);
         </div>
         <div className="">
           <ScrollArea className="h-[300px]">
-            {isPending || isFetching ? <span className="flex justify-center items-center py-10">
-              <Loader2 className="w-5 h-5 animate-spin" />
-            </span> : traineeEmployee?.length > 0 ? traineeEmployee?.map((data: any, index: number) => {
-              return (
-                <TraineeItems
-                  key={index}
-                  data={data}
-                  traineeList={traineeList}
-                  setTraineeList={setTraineeList}
-                />
-              );
-            }) : <span className="flex justify-center items-center py-10">No data found</span>}
+            {isPending || isFetching ? (
+              <span className="flex justify-center items-center py-10">
+                <Loader2 className="w-5 h-5 animate-spin" />
+              </span>
+            ) : traineeEmployee?.length > 0 ? (
+              traineeEmployee?.map((data: any, index: number) => {
+                return (
+                  <TraineeItems
+                    key={index}
+                    data={data}
+                    traineeList={traineeList}
+                    setTraineeList={setTraineeList}
+                  />
+                );
+              })
+            ) : (
+              <span className="flex justify-center items-center py-10">
+                No data found
+              </span>
+            )}
           </ScrollArea>
         </div>
       </div>
@@ -195,11 +207,12 @@ console.log("selectCompany", selectCompany);
           className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
           type="button"
           onClick={() => {
-            traineeList?.length > 0 ?
-            setIsOpen(false) : toast({
-              title: "Select Atleast one trainee",
-              variant: "destructive",
-            });;
+            traineeList?.length > 0
+              ? setIsOpen(false)
+              : toast({
+                  title: "Select Atleast one trainee",
+                  variant: "destructive",
+                });
           }}
         >
           Add Trainee
