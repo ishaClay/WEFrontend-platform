@@ -12,9 +12,9 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
+  createLiveSession,
   getLiveSession,
   getLiveSessionById,
-  scheduleLiveSession,
   scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
@@ -24,23 +24,13 @@ import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
+import moment from "moment";
 import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-
-const timePeriodsOptions = [
-  {
-    label: "AM",
-    value: "AM",
-  },
-  {
-    label: "PM",
-    value: "PM",
-  },
-];
 
 const durationInHours = Array.from({ length: 24 }, (_, i) => {
   const hour = i.toString().padStart(2, "0");
@@ -78,49 +68,53 @@ const ScheduleLiveSessionPage = () => {
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
   // const [traineeErr, setTraineeErr] = useState(false);
 
-  const ScheduleLiveSessionSchema = z
-    .object({
-      selectCourse: z.string({
-        required_error: "Please select course",
-      }),
-      selectLiveSession: z.string({
-        required_error: "Please select Live session",
-      }),
-      sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
-      sessionDescription: z
-        .string()
-        .nonempty("Please enter session description"),
-      sessionDate: z.string().nonempty("Please enter session date"),
-      sessionTime: z.string().min(1, "time format are reqiured"),
-      selectTimePeriods: z.string({
-        required_error: "Please select AM/PM",
-      }),
-      selectDurationInHours: z.string({
-        required_error: "Please select duration in hours",
-      }),
-      selectDurationInMinute: z.string({
-        required_error: "Please select duration in hours",
-      }),
-      platform: z.boolean(),
-      zoomUrl: z.string({ required_error: "Please enter zoom url" }).optional(),
-    })
-    .superRefine((data, ctx) => {
-      if (!data.platform) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please enter zoom url",
-          path: ["zoomUrl"],
-        });
-        if (data.zoomUrl?.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message:
-              "Please enter a valid zoom URL starting with http:// or https://",
-            path: ["zoomUrl"],
-          });
-        }
-      }
-    });
+  const convertTo12HourFormat = (time24: string) => {
+    const [hours, minutes] = time24.split(":").map(Number);
+    const period = hours >= 12 ? "PM" : "AM";
+    const hours12 = hours % 12 || 12;
+    return `${String(hours12).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}${period}`;
+  };
+
+  const ScheduleLiveSessionSchema = z.object({
+    selectCourse: z.string({
+      required_error: "Please select course",
+    }),
+    selectLiveSession: z.string({
+      required_error: "Please select Live session",
+    }),
+    sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
+    sessionDescription: z.string().nonempty("Please enter session description"),
+    sessionDate: z.string().nonempty("Please enter session date"),
+    sessionTime: z.string().min(1, "time format are reqiured"),
+    selectDurationInHours: z.string({
+      required_error: "Please select duration in hours",
+    }),
+    selectDurationInMinute: z.string({
+      required_error: "Please select duration in hours",
+    }),
+    platform: z.boolean(),
+    zoomUrl: z.string().optional(),
+  });
+  // .superRefine((data, ctx) => {
+  //   if (!data.platform) {
+  //     ctx.addIssue({
+  //       code: z.ZodIssueCode.custom,
+  //       message: "Please enter zoom url",
+  //       path: ["zoomUrl"],
+  //     });
+  //     if (data.zoomUrl?.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
+  //       ctx.addIssue({
+  //         code: z.ZodIssueCode.custom,
+  //         message:
+  //           "Please enter a valid zoom URL starting with http:// or https://",
+  //         path: ["zoomUrl"],
+  //       });
+  //     }
+  //   }
+  // });
   type ValidationSchema = z.infer<typeof ScheduleLiveSessionSchema>;
 
   const {
@@ -155,7 +149,7 @@ const ScheduleLiveSessionPage = () => {
   const filteredAllCourseData = fetchCourseAllCourseData?.data?.filter(
     (course) =>
       course?.module?.some((module: any) =>
-        module?.moduleSections?.some((section: any) => section?.liveSecTitle)
+        module?.moduleSections?.some((section: any) => section?.isLive)
       )
   );
 
@@ -192,7 +186,7 @@ const ScheduleLiveSessionPage = () => {
 
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
-      mutationFn: scheduleLiveSession,
+      mutationFn: createLiveSession,
       onSuccess: async () => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
         setSelectCompany([]);
@@ -241,10 +235,12 @@ const ScheduleLiveSessionPage = () => {
   const selectLiveSessionOption = fetchLiveSession?.data?.data?.course?.module
     ?.flatMap((i: any) => i?.moduleSections)
     ?.filter((j: any) => +j?.isLive === 1)
-    ?.map((i: any) => ({
-      label: i?.liveSecTitle,
-      value: i?.id?.toString(),
-    }));
+    ?.map((i: any) => {
+      return {
+        label: i?.title,
+        value: i?.id?.toString(),
+      };
+    });
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
@@ -255,7 +251,6 @@ const ScheduleLiveSessionPage = () => {
           subtitle,
           description,
           date,
-          startAmPm,
           sessionDuration,
           employee,
           course,
@@ -266,7 +261,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
         setValue("sessionDate", date?.split("T")[0]);
-        setValue("selectTimePeriods", startAmPm);
+        // setValue("selectTimePeriods", startAmPm);
         setValue(
           "selectDurationInHours",
           Math.floor(+sessionDuration / 60)
@@ -278,16 +273,11 @@ const ScheduleLiveSessionPage = () => {
           (+sessionDuration % 60).toString().padStart(2, "0")
         );
         setValue("selectCourse", (+course?.id)?.toString());
-        setValue("sessionTime", startTime);
-        // setValue(
-        //   "selectCompany",
-        //   company?.map((item: any) => {
-        //     return { label: item?.name, value: item?.id?.toString() };
-        //   })
-        // );
+        setValue("sessionTime", moment(startTime).format("HH:mm"));
+
         setSelectCompany(
           company?.map((item: any) => {
-            return { label: item?.name, value: item?.id?.toString() };
+            return item?.id;
           })
         );
         setTraineeList(
@@ -304,10 +294,10 @@ const ScheduleLiveSessionPage = () => {
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
     const liveSecTitle = selectLiveSessionOption?.find(
-      (item: any) => item?.label === fetchLiveSessionData?.liveSecTitle
+      (item: any) => +item?.value === +fetchLiveSessionData?.moduleSection?.id
     );
-    setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
-    setSelectLiveSession(liveSecTitle?.value || id?.toString());
+    setValue("selectLiveSession", liveSecTitle?.value);
+    setSelectLiveSession(liveSecTitle?.value);
   }, [fetchLiveSession?.data?.data]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
@@ -337,17 +327,14 @@ const ScheduleLiveSessionPage = () => {
         +data.selectDurationInHours * 60 +
         +data.selectDurationInMinute?.toString(),
       date: data?.sessionDate,
-      liveSecTitle: liveSecTitle?.label || "",
-      startTime: data?.sessionTime + data?.selectTimePeriods,
-      sectionTime: {
-        hour: data?.selectDurationInHours || "0",
-        minute: data?.selectDurationInMinute || "0",
-      },
+      moduleSection: +liveSecTitle?.value || "",
+      startTime: convertTo12HourFormat(data?.sessionTime),
       companyId: compnayIds?.filter((val) => !!val) || [],
       employeeId: traineeList?.map((val) => +val?.id) || [],
-      platform: data?.platform,
+      platform: data?.platform ? 1 : 0,
       zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
     };
+
     if (id !== undefined) {
       await updateLiveSession({
         data: transformedData,
@@ -473,6 +460,7 @@ const ScheduleLiveSessionPage = () => {
                     setValue(`platform`, !watch("platform"));
                   }}
                   className="me-3"
+                  disabled={!!id}
                 />
               </div>
             </div>
@@ -560,7 +548,7 @@ const ScheduleLiveSessionPage = () => {
                   </span>
                 )}
               </div>
-              <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
+              {/* <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-semibold font-abhaya">
                   AM/PM
                 </Label>
@@ -581,7 +569,7 @@ const ScheduleLiveSessionPage = () => {
                     {errors.selectTimePeriods.message}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-semibold font-abhaya">
                   Duration in Hours
@@ -695,6 +683,9 @@ const ScheduleLiveSessionPage = () => {
                 }}
                 options={selectCompanyOptions}
                 placeholder="Select Company"
+                selectedValues={fetchLiveSessionById?.data?.data?.company?.map(
+                  (i: any) => i?.name
+                )}
               />
             </div>
             {/* {traineeErr && traineeList?.length === 0 && (
