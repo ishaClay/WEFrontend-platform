@@ -148,7 +148,7 @@ function CoursesAllocate() {
                           </div>
 
                           <div className="xl:mt-[18px] mt-3 font-inter sm:text-base text-sm font-medium leading-[22px] text-left">
-                            <div className="font-bold">{courseallocate?.course?.title}</div>
+                            <h1>{courseallocate?.course?.title}</h1>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:

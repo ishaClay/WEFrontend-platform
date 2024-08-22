@@ -1,13 +1,12 @@
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
-import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
+import { likeDislikeAction, updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleX, Download, MessageSquareText } from "lucide-react";
+import { CircleX, Download } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
-import { TiArrowForwardOutline } from "react-icons/ti";
 import { Button } from "../ui/button";
 
 const ViewSession = ({
@@ -48,6 +47,22 @@ const ViewSession = ({
     },
   });
 
+  const { mutate: likeDislikeActionFun } = useMutation({
+    mutationFn: likeDislikeAction,
+    onSuccess: async () => {
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
+      });
+      setLike("");
+    },
+    onError: (error) => {
+      console.error("error", error);
+    },
+  });
+
   const handleStatusChanges = (status: number, id: number) => {
     const payload = {
       employeeid: userData?.query?.detailsid,
@@ -55,6 +70,16 @@ const ViewSession = ({
     };
     mutate({ data: payload, courseId: id });
   };
+
+  const handleLikeDislike = (type: string) => {
+    setLike(type);
+    const payload = {
+      userId: userData?.query?.id,
+      isLike: type === "like" ? true : false
+    }
+    likeDislikeActionFun({sectionId: list?.id, data: payload})
+  }
+  
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -144,9 +169,7 @@ const ViewSession = ({
                 <Button
                   variant={"ghost"}
                   type="button"
-                  onClick={() =>
-                    setLike((prev) => (prev === "like" ? "" : "like"))
-                  }
+                  onClick={() => handleLikeDislike("like")}
                   className="p-0 h-auto hover:bg-transparent"
                 >
                   <IoIosThumbsUp
@@ -158,9 +181,7 @@ const ViewSession = ({
                 <Button
                   variant={"ghost"}
                   type="button"
-                  onClick={() =>
-                    setLike((prev) => (prev === "dislike" ? "" : "dislike"))
-                  }
+                  onClick={() => handleLikeDislike("dislike")}
                   className="p-0 h-auto hover:bg-transparent"
                 >
                   <IoIosThumbsDown
@@ -205,7 +226,7 @@ const ViewSession = ({
                   type="button"
                   className="text-[12px] font-nunito"
                 >
-                  <MessageSquareText /> Feedback
+                  Ask a question
                 </Button>
                 {list?.uploadContent && (
                   <a
@@ -217,13 +238,13 @@ const ViewSession = ({
                     <Download /> Download {documentType(documentFile)}
                   </a>
                 )}
-                <Button
+                {/* <Button
                   variant={"outline"}
                   type="button"
                   className="text-[12px] font-nunito p-2"
                 >
                   <TiArrowForwardOutline className="text-[24px]" />
-                </Button>
+                </Button> */}
               </div>
             </div>
             <p

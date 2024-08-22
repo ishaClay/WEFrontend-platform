@@ -38,3 +38,9 @@ export const updateEmployeeWiseCourseStatus = async ({ courseId, data }: { cours
     const method = "put";
     return api({ url, method, data });
 }
+
+export const likeDislikeAction = async ({ sectionId, data }: { sectionId: number, data: { userId: number, isLike: boolean } }) => {
+    const url = `api/v1/course/module/section/like-dislike/${sectionId}`;
+    const method = "post";
+    return api({ url, method, data });
+}

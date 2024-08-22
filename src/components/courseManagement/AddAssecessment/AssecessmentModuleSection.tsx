@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getTotalDuration } from "@/lib/utils";
 import { Dot } from "lucide-react";
@@ -65,9 +66,9 @@ const AssecessmentModuleSection = ({
         <h6 className="text-base text-[#515151] font-calibri pb-3">
           Assessment Title
         </h6>
-        <div className="border border-[#D9D9D9] rounded-md p-3 me-5 flex justify-between items-center">
-          <input
-            className="border-none w-full  text-sm text-black"
+        <div className="flex justify-between items-center">
+          <Input
+            className="w-full text-sm text-black p-3 me-5 h-auto"
             placeholder="Assessment Title"
             type="text"
             value={createAssecessment?.title}
@@ -89,9 +90,9 @@ const AssecessmentModuleSection = ({
             <h6 className="text-base text-[#515151] font-calibri pb-3">
               Passing Percentage
             </h6>
-            <div className="border border-[#D9D9D9] rounded-md p-3 w-[150px] me-5 flex justify-between items-center">
-              <input
-                className="border-none w-full  text-sm text-black"
+            <div className="w-[150px] me-5 flex justify-between items-center">
+              <Input
+                className="w-full text-sm text-black p-3 me-5 h-auto"
                 value={createAssecessment?.passingPercentage}
                 placeholder="passing percentage"
                 type="text"
@@ -160,9 +161,9 @@ const AssecessmentModuleSection = ({
               Duration
             </h6>
             <div className="flex items-center gap-4">
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
-                <input
-                  className="border-none w-full  text-sm text-black"
+              <div className="w-[145px] flex justify-between items-center relative">
+                <Input
+                  className="w-full text-sm p-3 pr-[50px] text-black h-auto"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -177,13 +178,13 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.hours || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pr-3 absolute right-0">
                   Hours
                 </h6>
               </div>
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
-                <input
-                  className="border-none w-full  text-sm text-black"
+              <div className="w-[145px] flex justify-between items-center relative">
+                <Input
+                  className="w-full p-3 pr-[65px] text-sm text-black h-auto"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -198,13 +199,13 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.minutes || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pr-3 absolute right-0">
                   Minutes
                 </h6>
               </div>
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
-                <input
-                  className="border-none w-full  text-sm text-black"
+              <div className="w-[145px] flex justify-between items-center relative">
+                <Input
+                  className="w-full p-3 pr-[65px] text-sm text-black h-auto"
                   placeholder="00"
                   disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
@@ -219,7 +220,7 @@ const AssecessmentModuleSection = ({
                   }}
                   value={createAssecessment?.timeDuration?.seconds || 0}
                 />
-                <h6 className="text-sm text-[#A3A3A3] font-calibri pl-3">
+                <h6 className="text-sm text-[#A3A3A3] font-calibri pr-3 absolute right-0">
                   Secound
                 </h6>
               </div>

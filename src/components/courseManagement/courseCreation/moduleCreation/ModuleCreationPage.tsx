@@ -246,7 +246,7 @@ const ModuleCreationPage = () => {
     });
   }, [CourseModule]);
 
-  const handleModuleSave = async (data: any) => {
+  const handleModuleSave = async (data: any) => {    
     if(informationError !== "") return
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
@@ -257,8 +257,9 @@ const ModuleCreationPage = () => {
           await createSectionAsync.mutateAsync({
             moduleId,
             sections: module.section.map((item) => {
-              const { uploadContentType, ...rest } = item;
-              return uploadContentType === 0 ? rest : item;
+              const { uploadContentType, ...rest} = item;
+              const youtubeUrl = item?.uploadContentType && item?.uploadContentType > 0 ? '' : item?.youtubeUrl;
+              return uploadContentType === 0 ? {...rest, youtubeUrl: youtubeUrl} : {...item, youtubeUrl: youtubeUrl};
             }),
           });
         }
@@ -331,7 +332,7 @@ const ModuleCreationPage = () => {
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
           disabled={
-            paramsType === "majorEdit"
+            paramsType === "editminor"
               ? true
               : moduleList?.length > 0 && moduleCreationItem.length > 0
           }

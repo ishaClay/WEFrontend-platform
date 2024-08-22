@@ -282,7 +282,7 @@ const PillerCard = ({
                                 key={`item-${index}-${subIndex}`}
                                 className=""
                               >
-                                12{measures?.measures}
+                                {measures?.measures}
                               </li>
                             )
                         )

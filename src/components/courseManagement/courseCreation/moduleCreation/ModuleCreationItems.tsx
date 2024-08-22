@@ -276,6 +276,89 @@ const ModuleCreationItems = ({
                   moduleIndex={index}
                   sectionIndex={sectionindex}
                 />
+                <div className="mb-5">
+                  <h5 className="text-[#515151] text-sm font-calibri pb-3">
+                    Reading Time
+                  </h5>
+                  <div className="flex sm:flex-row flex-col gap-5">
+                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                      <Input
+                        type="number"
+                        // {...register(`${registerkey}readingTime.hour`, {
+                        //   setValueAs: (value: string) =>
+                        //     value === "" ? undefined : Number(value),
+                        // })}
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.hour`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                        Hour
+                      </h6>
+                    </div>
+                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                      <Input
+                        type="number"
+                        // {...register(`${registerkey}readingTime.minute`, {
+                        //   setValueAs: (value: string) =>
+                        //     value === "" ? undefined : Number(value),
+                        // })}
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.minute`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        value={watch("readingTime.minute")}
+                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                        Minute
+                      </h6>
+                    </div>
+                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                      <Input
+                        type="number"
+                        // {...register(`${registerkey}readingTime.second`, {
+                        //   setValueAs: (value: string) =>
+                        //     value === "" ? undefined : Number(value),
+                        // })}
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.second`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                        Second
+                      </h6>
+                    </div>
+                  </div>
+                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.hour && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.hour?.message}
+                    />
+                  )}
+                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.minute && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.minute?.message}
+                    />
+                  )}
+                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.second && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.second?.message}
+                    />
+                  )}
+                </div>
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
                   !sectionItem.youtubeUrl &&
@@ -298,11 +381,12 @@ const ModuleCreationItems = ({
                       `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
                     onChange={(e: any) =>
-                      handleAddURL(
+                        handleAddURL(
                         e?.target?.value,
                         `modules.${index}.section.${sectionindex}.youtubeUrl`
                       )
                     }
+                    disabled={sectionItem.uploadContentType > 0}
                     className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]

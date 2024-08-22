@@ -83,6 +83,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               +formattedCurrentDate.month &&
             parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
       );
+      console.log("matchingSlotmatchingSlot", cohortData?.cohortGroups, formattedCurrentDate);
+      
 
     const findIndex =
       matchingSlot &&

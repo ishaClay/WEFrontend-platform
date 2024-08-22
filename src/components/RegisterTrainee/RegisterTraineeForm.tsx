@@ -12,7 +12,6 @@ import * as Zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
-import SelectMenu from "../comman/SelectMenu";
 import { InputWithLable } from "../ui/inputwithlable";
 import {
   Select,
@@ -27,8 +26,6 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { Loader2 } from "lucide-react";
 import PhoneInput from 'react-phone-number-input'
 
-const genderOptions = ["Male", "Female"] as const;
-
 const RegisterTraineeForm = () => {
   const search = window.location.search;
   const params = new URLSearchParams(search);
@@ -37,6 +34,14 @@ const RegisterTraineeForm = () => {
   const email: string | null = params.get("email");
   const cName: string | null = params.get("cName");
   const [phone, setPhone] = useState<string>("");
+  const [selectBoxValues, setSelectBoxValues] = useState({
+    gender: "",
+    ageRange: "",
+    employmentStatus: "",
+    occupationalCategory: "",
+    unemploymentTime: "",
+    countryOfResidence: "",
+  })
   const navigate = useNavigate();
   const schema = Zod.object({
     email: Zod.string()
@@ -44,9 +49,7 @@ const RegisterTraineeForm = () => {
       .optional(),
     ageRange: Zod.string({
       required_error: "Please select age range"}),
-    gender: Zod.enum(genderOptions, {
-      message: "Please select gender",
-    }),
+    gender: Zod.string({ required_error: "Please select gender"}),
     firstName: Zod.string()
       .regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" })
       .min(1, { message: "Please enter first name" }),
@@ -66,14 +69,14 @@ const RegisterTraineeForm = () => {
     }),
     attendedEvent: Zod.string().nullable(),
   });
+  type ValidationSchema = Zod.infer<typeof schema>;
   const {
     register,
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
-  } = useForm({
+  } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
@@ -107,7 +110,7 @@ const RegisterTraineeForm = () => {
     onSuccess: () => {
       localStorage.removeItem("user");
       localStorage.removeItem("path");
-      setValue("email", email);
+      setValue("email", email || "");
     },
     onError: (error: ResponseError) => {
       toast({
@@ -188,6 +191,8 @@ const RegisterTraineeForm = () => {
     }; // Add this log to inspect the payload
     update_Employee(payload);
   };
+  console.log("errors:", errors);
+  
   return (
     <>
       {/* <div className="flex justify-end text-color">
@@ -263,7 +268,13 @@ const RegisterTraineeForm = () => {
               Gender
               <img src={mandatory} className="p-1" />
             </label>
-            <Select onValueChange={(value) => setValue("gender", value)}>
+            <Select {...register("gender")} 
+              onValueChange={(value:string) => {
+                setSelectBoxValues({...selectBoxValues, gender: value}); 
+                setValue("gender", value);
+              }}
+              value={selectBoxValues.gender}
+              >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="Select Gender" />
               </SelectTrigger>
@@ -276,7 +287,7 @@ const RegisterTraineeForm = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
-            {errors.gender && (
+            {!errors.gender?.ref?.value && (
               <ErrorMessage
                 message={(errors?.gender?.message as string) || ""}
               />
@@ -287,7 +298,11 @@ const RegisterTraineeForm = () => {
               Age Range
               <img src={mandatory} className="p-1" />
             </label>
-            <Select onValueChange={(value) => setValue("ageRange", value)}>
+            <Select {...register("ageRange")} 
+              onValueChange={(value) => {
+                setSelectBoxValues({...selectBoxValues, ageRange: value}); 
+                setValue("ageRange", value);
+              }}>
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="Select Age" />
               </SelectTrigger>
@@ -303,7 +318,7 @@ const RegisterTraineeForm = () => {
                 }
               </SelectContent>
             </Select>
-            {errors.ageRange && (
+            {!errors.ageRange?.ref?.value && (
               <ErrorMessage
                 message={(errors?.ageRange?.message as string) || ""}
               />
@@ -364,7 +379,12 @@ const RegisterTraineeForm = () => {
               Employment Status
             </label>
             <Select
-              onValueChange={(value) => setValue("employmentStatus", value)}
+              {...register("employmentStatus")}
+              onValueChange={(value:string) => {
+                setSelectBoxValues({...selectBoxValues, employmentStatus: value}); 
+                setValue("employmentStatus", value);
+              }}
+              value={selectBoxValues.employmentStatus}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="select status" />
@@ -381,7 +401,7 @@ const RegisterTraineeForm = () => {
                 }
               </SelectContent>
             </Select>
-            {errors.employmentStatus && (
+            {!errors.employmentStatus?.ref?.value && (
               <ErrorMessage
                 message={(errors?.employmentStatus?.message as string) || ""}
               />
@@ -405,9 +425,15 @@ const RegisterTraineeForm = () => {
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Occupational Category
+            <img src={mandatory} className="p-1" />
             </label>
             <Select
-              onValueChange={(value) => setValue("occupationalCategory", value)}
+              {...register("occupationalCategory")}
+              onValueChange={(value:string) => {
+                setSelectBoxValues({...selectBoxValues, occupationalCategory: value}); 
+                setValue("occupationalCategory", value);
+              }}
+              value={selectBoxValues.occupationalCategory}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black text-left font-normal">
                 <SelectValue placeholder="select status" />
@@ -424,7 +450,7 @@ const RegisterTraineeForm = () => {
                 }
               </SelectContent>
             </Select>
-            {errors.occupationalCategory && (
+            {!errors.occupationalCategory?.ref?.value && (
               <ErrorMessage
                 message={
                   (errors?.occupationalCategory?.message as string) || ""
@@ -435,9 +461,15 @@ const RegisterTraineeForm = () => {
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Unemployment Time
+            <img src={mandatory} className="p-1" />
             </label>
             <Select
-              onValueChange={(value) => setValue("unemploymentTime", value)}
+              {...register("unemploymentTime")}
+              onValueChange={(value:string) => {
+                setSelectBoxValues({...selectBoxValues, unemploymentTime: value}); 
+                setValue("unemploymentTime", value);
+              }}
+              value={selectBoxValues.unemploymentTime}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
                 <SelectValue placeholder="select status" />
@@ -454,7 +486,7 @@ const RegisterTraineeForm = () => {
                 }
               </SelectContent>
             </Select>
-            {errors.unemploymentTime && (
+            {!errors.unemploymentTime?.ref?.value && (
               <ErrorMessage
                 message={(errors?.unemploymentTime?.message as string) || ""}
               />
@@ -465,14 +497,30 @@ const RegisterTraineeForm = () => {
               Country Of Residence
               <img src={mandatory} className="p-1" />
             </label>
-            <SelectMenu
-              option={countryOption || []}
-              placeholder="Select county"
-              className=" h-[40px] font-normal"
-              setValue={(data: string) => setValue("countyOfResidence", data)}
-              value={watch("countyOfResidence") || ""}
-            />
-            {errors.countyOfResidence && (
+            <Select
+              {...register("countyOfResidence")}
+              onValueChange={(value:string) => {
+                setSelectBoxValues({...selectBoxValues, countryOfResidence: value}); 
+                setValue("countyOfResidence", value);
+              }}
+              value={selectBoxValues.countryOfResidence}
+            >
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
+                <SelectValue placeholder="select status" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {
+                  isUnemploymentTimePending ? <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span> : countryOption && countryOption?.length > 0 ? countryOption?.map((item, index) => {
+                    return <SelectItem className="px-8" value={item?.value} key={index}>
+                    {item?.label}
+                  </SelectItem>
+                  }) : <span className="flex items-center justify-center py-5">No Data Found</span>
+                }
+              </SelectContent>
+            </Select>
+            {!errors.countyOfResidence?.ref?.value && (
               <ErrorMessage
                 message={(errors?.countyOfResidence?.message as string) || ""}
               />

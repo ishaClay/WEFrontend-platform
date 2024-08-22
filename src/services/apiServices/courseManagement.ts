@@ -146,10 +146,20 @@ export const deleteCourse = (id: number) => {
   return api({ url, method });
 };
 
-export const getAllEmployeeCourseList = async ({ id, status, categories }: { id: number, status: string, categories: string }) => {
-  const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}?status=${status}&categories=${categories}`;
+export const getAllEmployeeCourseList = async ({ id, status, categories, keyword }: { id: number, status: string, categories: string, keyword?:string }) => {
+  const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}`;
   const method = "get";
-  const res = await api({ url, method });
+  const params:any = {};
+  if (keyword) {
+    params["keyword"] = keyword;
+  }
+  if(status){
+    params["status"] = status;
+  }
+  if(categories){
+    params["categories"] = categories;
+  }
+  const res = await api({ url, method, params });
   return res.data;
 }
 export const updateVersion = (data: { mainCourseId: number, versionId: number, userId: number }): Promise<CourseByVersionType | any> => {

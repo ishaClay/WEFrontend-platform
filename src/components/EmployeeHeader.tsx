@@ -23,7 +23,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Input } from "./ui/input";
 import { toast } from "./ui/use-toast";
 
 const EmployeeHeader = () => {
@@ -111,13 +110,6 @@ const EmployeeHeader = () => {
             </h4>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">
-            <div className="hidden lg:flex items-center px-4 py-3 border border-[#D9D9D9] rounded-md">
-              <Search className="text-[#D9D9D9]" />
-              <Input
-                placeholder="Search..."
-                className="text-[15px] text-[#A3A3A3] font-inter border-none  py-0 px-2 h-6 placeholder:text-[#A3A3A3]"
-              />
-            </div>
             <div className="lg:hidden block">
               <div className="w-[40px] h-[40px] rounded-full bg-white flex justify-center items-center">
                 <Search />

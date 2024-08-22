@@ -295,7 +295,7 @@ function CompanyRegister() {
                         "Verify"
                       )
                     }
-                    disabled={watch("name")?.length === 0}
+                    disabled={isPending || watch("name")?.length === 0}
                     className="px-5 h-[46px] ml-[20px]"
                     onClick={handleVerifyId}
                   />
