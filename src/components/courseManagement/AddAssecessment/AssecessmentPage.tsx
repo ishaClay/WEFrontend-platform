@@ -99,8 +99,6 @@ const AssecessmentPage = () => {
     enabled: !!assId,
   });
 
-  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
-
   const { data: moduleSection } = useQuery({
     queryKey: [QUERY_KEYS.fetchModuleSection],
     queryFn: () => getModuleSection(searchParams.get("moduleId") as string),

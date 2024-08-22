@@ -228,8 +228,6 @@ const AllocatedCertificatePage = () => {
     }
   }, [search, Issued_Certificate?.data]);
 
-  console.log("permissions", permissions);
-
   return (
     <div className="bg-white rounded-lg">
       <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">

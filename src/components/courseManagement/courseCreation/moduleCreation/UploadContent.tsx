@@ -48,11 +48,6 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
-    console.log(
-      "typetypetype",
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
-      type
-    );
 
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {

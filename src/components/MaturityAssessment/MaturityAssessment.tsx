@@ -344,7 +344,6 @@ const MaturityAssessment = () => {
                       )?.date;
                 setSelectAssessment(e);
                 if (find) {
-                  console.log("e", find);
                 } else {
                   navigate(`/question`);
                 }

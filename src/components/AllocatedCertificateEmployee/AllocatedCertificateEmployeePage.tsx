@@ -137,8 +137,6 @@ const AllocatedCertificateEmployeePage = () => {
     }
   };
 
-  console.log("selectedCertificate", selectedCertificate);
-
   return (
     <div className="bg-white">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">

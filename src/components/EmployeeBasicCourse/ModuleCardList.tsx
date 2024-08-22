@@ -19,10 +19,6 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
   const totalTimeInSeconds = getTotalDuration(
     addAssessment?.filter((item) => item !== null)
   );
-  console.log("addAssessment", addAssessment);
-  console.log("totalTimeInSecondstotalTimeInSeconds", totalTimeInSeconds);
-
-  // Convert total seconds back to hours, minutes, seconds
   const hours = Math.floor(totalTimeInSeconds / 3600)
     ?.toString()
     ?.padStart(2, "0");

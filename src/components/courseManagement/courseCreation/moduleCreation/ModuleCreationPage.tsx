@@ -252,7 +252,6 @@ const ModuleCreationPage = () => {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
         const moduleId = response.data.data.id;
-        console.log("module", module);
 
         if (moduleId) {
           await createSectionAsync.mutateAsync({

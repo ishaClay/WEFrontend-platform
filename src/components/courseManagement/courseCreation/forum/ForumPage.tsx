@@ -29,9 +29,6 @@ const ForumPage = () => {
     queryFn: () => fetchForumQuestion(courseId),
   })
 
-  console.log("fetchForumQuestionData", fetchForumQuestionData?.data, fetchForumQuestionLoading);
-
-
   const { mutate, isPending: createForumLoading } = useMutation({
     mutationFn: createForum,
     onSuccess: () => {

@@ -70,7 +70,6 @@ const EmployeeBasicCourse = () => {
     if (tab) {
       const tabData =
         +tab === 1 ? "module" : +tab === 0 ? "information" : "feedback";
-      console.log("getModule", tabData);
       setCurrentTab(tabData);
     } else {
       setCurrentTab("information");
