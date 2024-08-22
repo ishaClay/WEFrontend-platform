@@ -21,8 +21,6 @@ const TeamProgressPage = () => {
       getEmployeeProgress({ id: companyId, keyword: search, status: "" }),
   });
 
-  console.log("data", data);
-
   const accordionItems: AccordionOption[] =
     (data?.data?.employee &&
       data?.data?.employee.map((item) => {

@@ -145,7 +145,7 @@ function CompanyRegister() {
       }
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
 
       toast({
         variant: "destructive",
@@ -185,8 +185,6 @@ function CompanyRegister() {
       navigate("/maturelevel");
     },
   });
-
-  console.log("errors", errors);
 
   // useEffect(() => {
   //   if (companydetails) {

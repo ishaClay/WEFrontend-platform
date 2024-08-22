@@ -56,8 +56,6 @@ function CoursesAllocate() {
       ),
   });
 
-  console.log("course", course?.data);
-
   return (
     <div className="bg-[#f5f3ff]">
       <div className="">
@@ -150,12 +148,13 @@ function CoursesAllocate() {
                           </div>
 
                           <div className="xl:mt-[18px] mt-3 font-inter sm:text-base text-sm font-medium leading-[22px] text-left">
+                            <div className="font-bold">{courseallocate?.course?.title}</div>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
                                   courseallocate?.course?.description || "",
                               }}
-                              className="line-clamp-2"
+                              className="line-clamp-1"
                             ></span>
                           </div>
 

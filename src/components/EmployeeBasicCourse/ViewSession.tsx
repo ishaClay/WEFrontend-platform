@@ -56,8 +56,6 @@ const ViewSession = ({
     mutate({ data: payload, courseId: id });
   };
 
-  console.log(list, "data");
-
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
       {viewDoc ? (

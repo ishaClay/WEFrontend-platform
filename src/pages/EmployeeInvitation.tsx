@@ -56,8 +56,6 @@ const EmployeeInvitation = () => {
 
   type ValidationSchema = z.infer<typeof schema>;
 
-  console.log("inviteData", inviteData);
-
   const {
     register,
     formState: { errors },
@@ -134,8 +132,6 @@ const EmployeeInvitation = () => {
       });
     });
   };
-
-  console.log("inviteData", error);
 
   return (
     <div>

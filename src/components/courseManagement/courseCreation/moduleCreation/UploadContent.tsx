@@ -82,7 +82,7 @@ const UploadContent = ({
       }
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -149,8 +149,6 @@ const UploadContent = ({
       }
     }
   };
-
-  console.log("🚀 ~ FileType:", FileType);
 
   let registerkey;
   let errorkey;

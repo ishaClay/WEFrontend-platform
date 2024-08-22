@@ -30,8 +30,6 @@ const MessageList = ({
   const UserId = useSelector((state: UserData) => state.user.UserId);
   const userId = UserId ? UserId : userData?.query?.id;
 
-  // console.log(userData, "userData:")
-
   const { mutate } = useMutation({
     mutationFn: createReply,
     onSuccess: () => {
@@ -51,7 +49,6 @@ const MessageList = ({
     },
   });
 
-  console.log(data, "data +++++");
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (replyMessage && userData?.query?.id && open) {
@@ -131,7 +128,6 @@ const MessageList = ({
         //   <Loader />
         // ) :
         data?.comments?.map((com) => {
-          // console.log(com, "comment data ===>  ");
           return (
             <>
               {/* show created commnet */}

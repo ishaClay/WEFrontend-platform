@@ -51,9 +51,6 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
   });
 
   const reading = calculateTotalReadingTime(data.section);
-  // const reading = 0;
-
-  console.log("🚀 ~ CourseViewCardList ~ data:", data.id);
 
   const { mutate: DeleteModule, isPending } = useMutation({
     mutationFn: deleteModule,

@@ -104,8 +104,6 @@ const MaturityLevel = () => {
     },
   };
 
-  console.log("fetchClientmaturitylevel", fetchClientmaturitylevel);
-
   const Labels = () => (
     <div className="left-0 top-0 h-full md:flex block items-center gap-5">
       {fetchClientmaturitylevel?.data?.map((label, index) => {

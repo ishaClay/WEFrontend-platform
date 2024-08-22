@@ -102,8 +102,6 @@ const CourseViewCardInnerList = ({
     }
   };
 
-  console.log("FileTypeData", data);
-
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">

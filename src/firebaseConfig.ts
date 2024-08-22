@@ -76,8 +76,6 @@ export const onMessageListener = async () => {
 };
 
 // messaging.onBackgroundMessage((payload) => {
-//     console.log('Received background message ', payload);
-
 //     const notificationTitle = payload.notification?.title || 'Default Title';
 //     const notificationOptions = {
 //         body: payload.notification?.body || 'Default Body',

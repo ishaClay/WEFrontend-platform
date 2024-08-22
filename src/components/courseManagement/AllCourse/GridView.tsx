@@ -476,10 +476,13 @@ const GridView = ({
                           onClick={(e) => handleEdit(e, item, "editminor")}
                         >
                           <Pencil className="w-4 h-4" />
-                          <span>Edit minor</span>
+                          <span>
+                            {item?.status === "DRAFT" ? "Edit" : "Edit minor"}
+                          </span>
                         </DropdownMenuItem>
                       )}
                       {item?.status !== "EXPIRED" &&
+                        item?.status !== "DRAFT" &&
                         (+userData?.query?.role === UserRole.Trainee
                           ? update
                           : true) && (

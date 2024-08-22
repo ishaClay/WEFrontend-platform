@@ -56,14 +56,13 @@ const DelayModel = ({
       setFile(data?.data?.data?.file);
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
   const { mutate: mark, isPending: markPending } = useMutation({
     mutationFn: markComplate,
-    onSuccess: async (data) => {
-      console.log("data", data);
+    onSuccess: async () => {
       setUploadData(null);
       setFile(null);
       if (userData?.role === "4") {
@@ -78,7 +77,7 @@ const DelayModel = ({
       handleClose();
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -195,7 +194,7 @@ const DelayModel = ({
                 onClick={handleSubmit}
                 className="xl:w-[200px] xl:h-[52px] w-[190px] sm:h-[45px] h-9 rounded-[6px] bg-[#58BA66] xl:text-base sm:text-[15px] text-sm font-nunito font-semibold"
               >
-                Mark As Completed
+                Mark As Complete
               </Button>
             </div>
           </div>

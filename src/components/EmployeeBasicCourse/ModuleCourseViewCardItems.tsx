@@ -47,7 +47,7 @@ const ModuleCourseViewCardItems = ({
       setDocumentFile(list?.url ? list?.url : list?.uploadContent);
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 

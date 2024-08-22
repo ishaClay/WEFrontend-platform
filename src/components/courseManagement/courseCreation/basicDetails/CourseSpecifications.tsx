@@ -116,7 +116,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     data?.data?.map((item: any) => {
       return {
         label: item,
-        value: item.toString(),
+        value: item?.toString(),
       };
     });
 
@@ -125,7 +125,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     nfql?.data?.map((item) => {
       return {
         label: item.leval,
-        value: item.id.toString(),
+        value: item.id?.toString(),
       };
     });
 
@@ -136,7 +136,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         setValue(key, data[key] || "");
         setValue(
           "nfqLeval",
-          getSingleCourse?.data?.course?.nfqLeval?.id.toString()
+          getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
         );
         setValue(
           "certificate",
@@ -144,9 +144,9 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         );
       });
       setSelectBoxValue({
-        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id.toString() || "",
+        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
         certificate:
-          getSingleCourse?.data?.course?.certificate?.id.toString() || "",
+          getSingleCourse?.data?.course?.certificate?.id?.toString() || "",
       });
     }
   }, [getSingleCourse]);
@@ -162,13 +162,8 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          updatedData?.creationCompleted ? "0" : updatedData?.tab
-        }&step=${
-          updatedData?.creationCompleted ? "2" : updatedData?.step
-        }&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=2&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -244,7 +239,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setValue("nfqLeval", e);
               }}
               value={
-                getSingleCourse?.data?.course?.nfqLeval?.id.toString() ||
+                getSingleCourse?.data?.course?.nfqLeval?.id?.toString() ||
                 selectBoxValue.nfqLeval ||
                 ""
               }
@@ -288,8 +283,8 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setValue("certificate", e);
               }}
               value={
-                getSingleCourse?.data?.course?.certificate?.id.toString() ||
-                selectBoxValue.certificate ||
+                getSingleCourse?.data?.course?.certificate?.id?.toString() ||
+                selectBoxValue?.certificate ||
                 ""
               }
               placeholder="Select certificate"

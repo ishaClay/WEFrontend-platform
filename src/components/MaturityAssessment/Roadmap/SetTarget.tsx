@@ -50,7 +50,6 @@ const SetTarget = ({
       enabled: !!selectAssessment,
     }
   );
-// console.log(maturitypillar, "maturitypillar")
   const path = 5 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
@@ -87,8 +86,6 @@ const SetTarget = ({
     setStep(2);
     setIsEdit(false);
   };
-
-  console.log("checkedStates", checkedStates);
 
   return (
     <div>

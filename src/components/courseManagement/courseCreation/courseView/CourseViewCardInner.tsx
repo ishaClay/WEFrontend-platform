@@ -330,7 +330,6 @@ const CourseViewCardInner = ({
   };
 
   const onSubmit = (data: FieldValues) => {
-    console.log("🚀 ~ onSubmit ~ data:", data);
     const payload = [];
     payload.push(data);
     if (payload.length > 0) {
@@ -356,13 +355,6 @@ const CourseViewCardInner = ({
       EditSection(data);
     }
   };
-
-  console.log(
-    "addsectionList",
-    addsectionList,
-    getCourseCardList,
-    CourseCardList
-  );
 
   return (
     <div

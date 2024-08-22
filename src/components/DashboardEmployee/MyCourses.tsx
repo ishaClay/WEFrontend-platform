@@ -19,7 +19,6 @@ const MyCourses = () => {
     enabled: !!userData?.query?.detailsid,
   });
 
-  console.log("+++++", data?.myCourses);
   const coursesItems = [
     {
       image: Couse_Total,

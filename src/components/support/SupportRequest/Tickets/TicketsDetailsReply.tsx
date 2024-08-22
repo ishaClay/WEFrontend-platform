@@ -91,8 +91,6 @@ const TicketsDetailsReply = () => {
 
   useEffect(() => {
     if (data?.data?.data) {
-      console.log("selectTicketStatus", data?.data?.data?.openBy?.id);
-
       setValue(
         "assignTo",
         data?.data?.data?.openBy.id === userID
@@ -174,8 +172,6 @@ const TicketsDetailsReply = () => {
     };
     updateTicket(payload);
   };
-
-  console.log("datav", video, file);
 
   return (
     <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">

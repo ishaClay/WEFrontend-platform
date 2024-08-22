@@ -167,9 +167,7 @@ const CourseInformation = ({
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : updatedData?.id
-        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${
-          updatedData?.creationCompleted ? "1" : updatedData?.step
-        }&version=${updatedData?.currentVersion?.id}`,
+        }?tab=0&step=1&version=${updatedData?.currentVersion?.id}`,
         {
           replace: true,
         }
@@ -184,7 +182,6 @@ const CourseInformation = ({
     },
   });
 
-  console.log("isDirty", isDirty);
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
@@ -240,8 +237,6 @@ const CourseInformation = ({
         mutate(payload);
       }
     } else {
-      console.log("payload");
-
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id

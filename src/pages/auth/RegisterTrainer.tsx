@@ -213,8 +213,6 @@ function RegisterTrainer() {
     };
   });
 
-  console.log("errro", errors);
-
   const countryOption =
     country?.data &&
     country?.data

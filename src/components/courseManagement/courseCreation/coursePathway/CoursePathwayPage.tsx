@@ -58,23 +58,18 @@ const CoursePathwayPage = () => {
   const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } =
     useMutation({
       mutationFn: (e: any) => pillarMaturity(e),
-      onSuccess: (data) => {
+      onSuccess: () => {
         setIsError(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.getSingleCourse],
         });
-        const updatedData = data?.data;
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${
-              updatedData?.creationCompleted ? "2" : updatedData?.tab
-            }&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=${
-              updatedData?.creationCompleted ? "2" : updatedData?.tab
-            }&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=2&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -119,7 +114,6 @@ const CoursePathwayPage = () => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
   });
-  console.log("paramsversion", paramsversion);
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -127,12 +121,6 @@ const CoursePathwayPage = () => {
       setSelectedData(data);
     }
   }, [getSingleCourse]);
-
-  console.log(
-    "selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit",
-    selectedData.length,
-    selectTargetPillarLimit?.data?.pillarLimit
-  );
 
   const updateedPillar = (selectedData: any, pillarLimit: any) => {
     if (selectedData?.length !== pillarLimit?.length) return false;

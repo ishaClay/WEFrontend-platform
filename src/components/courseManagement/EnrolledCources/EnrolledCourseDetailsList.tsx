@@ -5,7 +5,6 @@ import EnrollCourseEmployeeDetailsList from "./EnrollCourseEmployeeDetailsList";
 import EnrolledCourseDetailsItems from "./EnrolledCourseDetailsItems";
 
 const EnrolledCourseDetailsList = ({ data }: EnrolledCoursesType | any) => {
-  console.log("data", data);
 
   const accordionItems: AccordionOption[] = data?.cohortGroup?.map(
     (item: CohortGroupType) => {

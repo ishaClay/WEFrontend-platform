@@ -151,7 +151,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCohort,
     onSuccess: async (data) => {
-      console.log("data", data);
 
       toast({
         title: "Success",

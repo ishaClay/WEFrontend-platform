@@ -153,8 +153,6 @@ const Compose = () => {
     }
   };
 
-  console.log("selectToValue", selectToValue, isActive);
-
   useEffect(() => {
     fetchAssignToList(isActive);
   }, [isActive, fetchTargetUserbyList]);

@@ -130,8 +130,6 @@ const CourseGridView = ({
     handleSend(payload);
   };
 
-  console.log("recommendeddata", recommendeddata);
-
   return (
     <>
       <Modal

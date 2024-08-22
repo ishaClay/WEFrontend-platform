@@ -55,7 +55,7 @@ const SectionForm = ({
       setAttechment(filename);
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 

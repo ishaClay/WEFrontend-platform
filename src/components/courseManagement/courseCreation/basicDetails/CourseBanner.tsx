@@ -105,11 +105,8 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          updatedData?.creationCompleted ? "1" : updatedData?.tab
-        }&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=1&version=${paramsversion}`,
         {
           replace: true,
         }
@@ -135,7 +132,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       });
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 
@@ -211,8 +208,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     }
   };
 
-  console.log("errors", errors);
-
   return (
     <>
       <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
@@ -228,7 +223,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
               <CKEditorComponent
                 value={editorData}
                 onChange={(e, data) => {
-                  console.log(e);
                   setSelectBoxValue({ ...selectBoxValue, description: e });
                   setEditorData(data.getData());
                   setValue("description", data.getData());
@@ -300,7 +294,6 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 value={keyData}
                 {...register("keys")}
                 onChange={(e, data) => {
-                  console.log(e);
                   setSelectBoxValue({ ...selectBoxValue, keys: e });
                   setKeyData(data.getData());
                   setValue("keys", data.getData());

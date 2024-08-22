@@ -58,8 +58,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
-    console.log("cohortData", cohortData);
-
     const currentDate = new Date();
     const formattedCurrentDate = {
       date: String(currentDate.getDate()).padStart(2, "0"),

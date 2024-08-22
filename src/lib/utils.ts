@@ -558,7 +558,6 @@ export const getRandomHexColor = () => {
 
 export const getTotalDuration = (data: any) => {
   return data?.reduce((totalSeconds: any, readingTime: any) => {
-    console.log("totalSeconds", readingTime);
 
     return (
       readingTime?.hour >= 0 && readingTime?.minute >= 0 && readingTime?.second >= 0 ?

@@ -85,7 +85,7 @@ const ModuleCreationItems = ({
       );
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -248,7 +248,6 @@ const ModuleCreationItems = ({
                   }
                 }}
                 // onChange={(e, data) => {
-                //   console.log("e+++++", e, data.getData());
                 //   setValue(
                 //     `modules.${index}.section.${sectionindex}.information`,
                 //     data.getData()

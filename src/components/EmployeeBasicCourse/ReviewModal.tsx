@@ -2,7 +2,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { addReview } from "@/services/apiServices/review";
 import { getSingleCourseType } from "@/types/course";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Rating from "../Rating";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -14,6 +14,13 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
   const [trainerRatting, setTrainerRatting] = useState(0);
   const [review, setReview] = useState("");
   const queryClient = useQueryClient();
+
+  const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    const value = e.target.value;
+    if (value.length <= 250) {
+      setReview(value);
+    }
+  };
 
   const { mutate } = useMutation({
     mutationFn: addReview,
@@ -46,8 +53,6 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
     mutate(payload);
   };
 
-  console.log("++++++++++++++++++", course);
-
   return (
     <div>
       <h4 className="xl:text-[28px] text-[22px] font-bold font-nunito text-black pb-5 lg:text-left text-center">
@@ -79,13 +84,18 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
           />
         </div>
       </div>
-      <Textarea
-        placeholder="Leave a review...     Just a sentence or the all details of your experience!"
-        onChange={(e) => setReview(e.target.value)}
-        value={review}
-        className="lg:px-5 lg:py-4 p-3 border border-[#D9D9D9] text-[15px] text-[#A3A3A3] placeholder:text-[#A3A3A3]"
-        rows={5}
-      />
+      <div className="relative">
+        <Textarea
+          placeholder="Leave a review...     Just a sentence or the all details of your experience!"
+          onChange={handleReviewChange}
+          value={review}
+          className="lg:px-5 lg:py-4 p-3 border border-[#D9D9D9] text-[15px] text-[#A3A3A3] placeholder:text-[#A3A3A3]"
+          rows={5}
+        />
+        <div className="right-2 bottom-2 absolute text-[#A3A3A3] text-[12px]">
+          {review.length}/{250}
+        </div>
+      </div>
       <div className="grid lg:grid-cols-3 grid-cols-1 items-center mt-5">
         <div className="col-span-1 lg:flex hidden items-center">
           <Checkbox className="me-3" />
@@ -96,7 +106,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
         <div className="col-span-2 flex gap-4 items-center lg:justify-end justify-start">
           <Button
             type="button"
-            disabled={review === ""}
+            disabled={review === "" || courseRatting === 0 || trainerRatting === 0}
             onClick={handleSubmit}
             className="bg-[#64A70B] lg:text-base md:text-sm text-xs font-bold font-Poppins xl:w-[130px] w-[120px] xl:h-[48px] h-[42px]"
           >

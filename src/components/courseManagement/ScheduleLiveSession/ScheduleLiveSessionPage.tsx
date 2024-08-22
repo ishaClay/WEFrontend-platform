@@ -78,8 +78,6 @@ const ScheduleLiveSessionPage = () => {
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
   // const [traineeErr, setTraineeErr] = useState(false);
 
-  console.log("selectCompany", selectCompany);
-
   const ScheduleLiveSessionSchema = z
     .object({
       selectCourse: z.string({
@@ -142,8 +140,6 @@ const ScheduleLiveSessionPage = () => {
       platform: false,
     },
   });
-  console.log("watch", watch());
-  console.log("errors", errors);
 
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
@@ -220,8 +216,6 @@ const ScheduleLiveSessionPage = () => {
       },
     });
 
-  console.log("id+++++", id);
-
   const {
     data: fetchLiveSession,
     refetch: fetchData,
@@ -268,10 +262,6 @@ const ScheduleLiveSessionPage = () => {
           company,
           startTime,
         } = fetchLiveSessionData;
-        console.log(
-          "companycompany",
-          company?.map((item: any) => item?.id?.toString())
-        );
 
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
@@ -322,7 +312,6 @@ const ScheduleLiveSessionPage = () => {
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     if (watch("platform")) {
-      console.log("asdasdasd");
       setValue("zoomUrl", "");
     }
     const liveSecTitle = selectLiveSessionOption?.find(
@@ -382,8 +371,6 @@ const ScheduleLiveSessionPage = () => {
   ) {
     return <Loader />;
   }
-
-  console.log("errors:", errors);
 
   return (
     <>

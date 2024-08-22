@@ -314,14 +314,6 @@ const ModuleCreationPage = () => {
     setModuleList(moduleListClone);
   };
 
-  console.log("watchwatch", watch());
-  console.log(
-    "asdasd++++",
-    paramsType === "majorEdit",
-    moduleList?.length > 0,
-    moduleCreationItem.length > 0
-  );
-
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">

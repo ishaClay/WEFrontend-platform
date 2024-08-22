@@ -69,7 +69,6 @@ export function AllocatedCertificateModal({
   useEffect(() => {
     if (data?.data?.trainer) {
       data?.data?.trainer?.map((item) => {
-        console.log("data+++", item?.courseAllocated, courseId);
         if (item?.courseAllocated?.find((itm) => itm?.id === courseId)) {
           setSelectFilter((prev) => [...prev, item.id]);
         } else {

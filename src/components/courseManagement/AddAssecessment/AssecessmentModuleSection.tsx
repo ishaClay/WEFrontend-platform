@@ -42,8 +42,6 @@ const AssecessmentModuleSection = ({
     ?.toString()
     ?.padStart(2, "0");
   const seconds = (totalTimeInSeconds % 60)?.toString()?.padStart(2, "0");
-  console.log("errors", errors);
-  console.log("datadata", createAssecessment);
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">

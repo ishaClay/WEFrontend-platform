@@ -198,13 +198,8 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          updatedData?.creationCompleted ? "0" : updatedData?.tab
-        }&step=${
-          updatedData?.creationCompleted ? "3" : updatedData?.step
-        }&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=3&version=${paramsversion}`,
         {
           replace: true,
         }

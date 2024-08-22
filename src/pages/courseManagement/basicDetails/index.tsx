@@ -24,7 +24,6 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
   //   }
   // }, [courseData])
 
-  console.log("courseData", courseData);
 
   // useEffect(() => {
   //   if (!!params && !!paramsId && !!paramsversion && !!paramsTab) {

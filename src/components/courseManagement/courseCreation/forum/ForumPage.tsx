@@ -142,7 +142,6 @@ const ForumPage = () => {
         </div>
 
         {item?.forumQuestions?.map((x) => {
-          // console.log(x, "x user");
           return <div
             className="border border-[#D9D9D9] rounded-lg mb-5"
             key={x?.id}
