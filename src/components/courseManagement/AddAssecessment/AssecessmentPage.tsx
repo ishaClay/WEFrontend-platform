@@ -205,6 +205,14 @@ const AssecessmentPage = () => {
     useMutation({
       mutationFn: createAssessment,
       onSuccess: (res) => {
+        
+        const a = {
+          MCQ : "Single Choice Question",
+          ["Free Text Response"] : "Free Text Response",
+          ["True & False"] : "Single Choice Question",
+          ["Multiple Choice"] : "Multiple Choice Question",
+        }
+
         const assecessmentQue = assecessmentQuestion?.questionOption?.map(
           (item: any, i: number) => {
             return {
@@ -212,7 +220,8 @@ const AssecessmentPage = () => {
               // @ts-ignore
               assessment: res?.data?.data?.id,
               // @ts-ignore
-              assessmentType: assecessmentQuestion?.selectedQuestionType[i],
+              assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
+              // answer: item?.option[+item?.answer]
             };
           }
         );
@@ -229,7 +238,7 @@ const AssecessmentPage = () => {
             }&id=${id}&version=${version}`
           );
         }
-        console.log(assecessmentQue, "------------------------");
+        console.log(assecessmentQue, "------------------------1");
 
         createAssessmentQuestionFun(assecessmentQue);
       },
@@ -238,6 +247,13 @@ const AssecessmentPage = () => {
   const { mutate: updateAssessmentFun, isPending } = useMutation({
     mutationFn: updateAssessment,
     onSuccess: () => {
+      const a = {
+        MCQ : "Single Choice Question",
+        ["Free Text Response"] : "Free Text Response",
+        ["True & False"] : "Single Choice Question",
+        ["Multiple Choice"] : "Multiple Choice Question",
+      }
+
       const assecessmentQue = assecessmentQuestion?.questionOption?.map(
         (item: any, i: number) => {
           return {
@@ -245,11 +261,11 @@ const AssecessmentPage = () => {
             // @ts-ignore
             id: item?.id as number,
             // @ts-ignore
-            assessmentType: assecessmentQuestion?.selectedQuestionType[i],
+            assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
+            // answer: item?.option[+item?.answer]
           };
         }
       );
-      console.log(assecessmentQue, "------------------------------------");
 
       createAssessmentQuestionFun(assecessmentQue);
     },
@@ -346,7 +362,7 @@ const AssecessmentPage = () => {
           minutes: +createAssecessment?.timeDuration?.minutes || 0,
           seconds: +createAssecessment?.timeDuration?.seconds || 0,
         },
-      };
+      };      
       if (assId && +assId) {
         console.log("assId---------------->1", assId);
 
