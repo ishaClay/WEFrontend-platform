@@ -1,14 +1,16 @@
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
+import { uploadImage } from "@/services/apiServices/upload";
 import { getUserDetails, updateUserDetails } from "@/services/apiServices/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import * as zod from "zod";
 
@@ -85,6 +87,11 @@ const schema = zod.object({
   firstname: zod.string(),
   lastname: zod.string().min(1, { message: "Please Enter last name" }),
   email: zod.string(),
+  mobilenumber: zod
+    .string()
+    .min(10, { message: "Please Enter mobile number" })
+    .max(10, { message: "Please Enter valid mobile number" })
+    .optional(),
   gender: zod.string(),
 });
 
@@ -93,6 +100,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   // const [selectBirthYear, setSelectBirthYear] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [profile_image, setProfileImage] = useState<string>("");
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const {
@@ -130,14 +138,39 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       toast({ title: "Profile updated successfully", variant: "success" });
     },
   });
+
+  const { mutate: upload, isPending: isUploading } = useMutation({
+    mutationFn: uploadImage,
+    onSuccess: (data) => {
+      setProfileImage(data.data?.data?.image);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
   useEffect(() => {
     if (data) {
-      setValue("firstname", data?.data?.fname || data?.data?.name);
+      console.log("data", data);
+
+      setValue("firstname", data?.data?.fname);
       setValue("lastname", data?.data?.lname);
       setValue("email", data?.data?.email);
+      setValue("mobilenumber", data?.data?.number);
       setValue("gender", data?.data?.gender);
+      setProfileImage(data?.data?.image);
       const userData = JSON.parse(localStorage.getItem("user") as string);
-      localStorage.setItem("user", JSON.stringify({...userData, query: {...userData?.query, fname: data?.data?.fname, lname: data?.data?.lname}}));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...userData,
+          query: {
+            ...userData?.query,
+            fname: data?.data?.fname,
+            lname: data?.data?.lname,
+          },
+        })
+      );
     }
   }, [data]);
 
@@ -146,9 +179,20 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       firstName: data?.firstname,
       lastName: data?.lastname,
       gender: data?.gender,
+      number: data?.mobilenumber,
+      image: profile_image || "",
       userid: userData?.query?.id,
     };
     mutate(payload);
+  };
+
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file =
+      event.target.files?.[0] !== undefined && event.target.files?.[0];
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append("image", file);
+    upload(formData);
   };
 
   return (
@@ -158,10 +202,39 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-5">
+            <div className="col-span-full mx-auto text-center">
+              <label htmlFor="upload" className="cursor-pointer">
+                <Avatar className="w-20 h-20">
+                  <input
+                    type="file"
+                    id="upload"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleUpload}
+                  />
+                  {isUploading ? (
+                    <p className="bg-white text-center flex justify-center items-center w-full h-full">
+                      Loading...
+                    </p>
+                  ) : (
+                    <>
+                      <AvatarImage src={profile_image ? profile_image : ""} />
+                      <AvatarFallback className="uppercase shadow-lg text-[26px] font-nunito">
+                        {watch("firstname")?.[0] || watch("email")?.[0] || ""}
+                      </AvatarFallback>
+                    </>
+                  )}
+                </Avatar>
+              </label>
+            </div>
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label={currentUser === 'company' ? "SME Organisation" : "First name"}
-                placeholder={currentUser === 'company' ? "SME Organisation" : "First name"}
+                label={
+                  currentUser === "company" ? "SME Organisation" : "First name"
+                }
+                placeholder={
+                  currentUser === "company" ? "SME Organisation" : "First name"
+                }
                 {...register("firstname")}
                 error={errors?.firstname?.message as string}
               />
@@ -169,13 +242,32 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label={currentUser === 'company' ? "User Name" : "Last name"}
-                placeholder={currentUser === 'company' ? "User Name" : "Last name"}
+                label={currentUser === "company" ? "User Name" : "Last name"}
+                placeholder={
+                  currentUser === "company" ? "User Name" : "Last name"
+                }
                 {...register("lastname")}
                 error={errors?.lastname?.message as string}
               />
             </div>
           </div>
+          {+userData?.query.role !== 3 && (
+            <div className="flex flex-col gap-1">
+              <InputWithLabel
+                label="Contact Number"
+                placeholder="Enter Mobile Number"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value.match(/^[0-9]*$/)) {
+                    setValue("mobilenumber", e.target.value);
+                  }
+                  return;
+                }}
+                value={watch("mobilenumber") || ""}
+                error={errors?.mobilenumber?.message as string}
+              />
+            </div>
+          )}
           <div className="flex flex-col gap-1">
             <InputWithLabel
               label="Email"

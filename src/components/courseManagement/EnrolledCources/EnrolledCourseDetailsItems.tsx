@@ -1,5 +1,8 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { createCohortGroupUser } from "@/services/apiServices/cohort";
 import { CohortGroupType } from "@/types/enroll";
+import { useMutation } from "@tanstack/react-query";
 
 type detailsListProps = {
   data: CohortGroupType;
@@ -34,8 +37,30 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
     );
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: createCohortGroupUser,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleCreateGroup = (id: number) => {
+    if (data?.groupChat === null) {
+      mutate({
+        cohortId: id,
+      });
+    } else {
+      console.log("group already created");
+    }
+  };
+
+  console.log("data", data);
+
   return (
-    <div className="grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-2 w-full items-center">
+    <div className="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 gap-2 w-full items-center">
       <div className="col-span-1 text-left font-semibold sm:text-base text-[15px] font-calibri">
         <h5>Cohort Group:</h5>
         <h6>{data?.name}</h6>
@@ -50,6 +75,18 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
       </div>
       <div className="col-span-1 sm:text-left text-right font-semibold sm:text-base text-[15px] font-nunito">
         {getDateBadgeStatus()}
+      </div>
+      <div className="col-span-1">
+        <Button
+          type="button"
+          isLoading={isPending}
+          onClick={(e) => {
+            e.preventDefault();
+            handleCreateGroup(data?.id);
+          }}
+        >
+          Ask a Question
+        </Button>
       </div>
       <div className="sm:col-span-1 col-span-2 text-left font-semibold sm:text-base text-[15px] font-calibri">
         <span className="block">
