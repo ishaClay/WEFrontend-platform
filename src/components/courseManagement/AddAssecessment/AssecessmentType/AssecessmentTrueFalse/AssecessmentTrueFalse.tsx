@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -103,10 +104,14 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
             <h6 className="text-base text-black font-calibri pb-3">
               Assessment Type
             </h6>
-            <CircleX
+            <Button
               className="text-[#fb6262] -mt-7 cursor-pointer"
+              variant={"ghost"}
+              type="button"
               onClick={() => handleRemove(i)}
-            />
+            >
+              <CircleX />
+            </Button>
           </div>
           <div className="flex items-center gap-3">
             <input

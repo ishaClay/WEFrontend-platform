@@ -160,10 +160,11 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
             <h6 className="text-base text-black font-calibri pb-3">
               Assessment Type
             </h6>
-            <CircleX
-              className="text-[#fb6262] -mt-7 cursor-pointer"
-              onClick={() => handleRemove(i)}
-            />
+            <Button className="text-[#fb6262] -mt-7 cursor-pointer" variant={"ghost"} type="button" onClick={() => handleRemove(i)}>
+              <CircleX
+
+              />
+            </Button>
           </div>
           <input
             placeholder="Single Choice Question"
@@ -247,9 +248,8 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                     answer={assecessmentQuestion?.answer}
                   />
                   <p
-                    className={`${
-                      index === options?.length - 1 ? "h-[24px]" : ""
-                    }`}
+                    className={`${index === options?.length - 1 ? "h-[24px]" : ""
+                      }`}
                   >
                     {errors.options[index] && (
                       <span className={`text-red-500 text-sm`}>

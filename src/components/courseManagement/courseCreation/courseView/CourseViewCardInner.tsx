@@ -449,11 +449,11 @@ const CourseViewCardInner = ({
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
-                    disabled={
-                      paramsType === "editminor"
-                        ? true
-                        : assessments?.length === 1
-                    }
+                    // disabled={
+                    //   paramsType === "editminor"
+                    //     ? true
+                    //     : assessments?.length === 1
+                    // }
                   >
                     <CirclePlus width={18} /> Add Assessment
                   </Button>

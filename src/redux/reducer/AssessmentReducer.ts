@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AssessmentState {
-  selectedQuestionType: string[];
+  selectedQuestionType: any[];
   questionOption: any[];
   module: any[];
 }
@@ -99,11 +99,11 @@ const AssessmentSlice = createSlice({
         selectedQuestionType: [],
         questionOption: [],
         module: [],
-      }
+      };
     },
     setAssessment: (state, action) => {
-      state.questionOption = action.payload
-    }
+      state.questionOption = action.payload;
+    },
   },
 });
 
@@ -116,7 +116,7 @@ export const {
   removeOption,
   removeQuestion,
   resetAssessment,
-  setAssessment
+  setAssessment,
 } = AssessmentSlice.actions;
 
 export default AssessmentSlice.reducer;

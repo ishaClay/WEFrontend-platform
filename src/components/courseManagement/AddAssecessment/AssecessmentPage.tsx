@@ -106,8 +106,6 @@ const AssecessmentPage = () => {
 
   const assessmentData = moduleSection?.data?.data?.assessment;
 
-  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
-
   useEffect(() => {
     if (getAssessmentByIdData?.data) {
       setCreateAssecessment({
@@ -146,25 +144,28 @@ const AssecessmentPage = () => {
       const transformedAssessmentTypes = assessmentTypes?.map(
         (type) => AssessmentTypeReverseMap[type]
       );
-      if (transformedAssessmentTypes) {
-        transformedAssessmentTypes.forEach((type) => {
+      console.log("assessmentTypes", assessmentTypes);
+      
+      if (assessmentTypes) {
+        assessmentTypes.forEach((type) => {
+          
           if (type) {
-            dispatch(setQuestionType(type));
+            dispatch(setQuestionType(assessmentTypes));
           }
         });
 
-        const transformedAssessmentQuestions =
-          getAssessmentByIdData?.data?.AssessmentQuestion?.map((question) => ({
-            ...question,
-            assessmentType: AssessmentTypeReverseMap[question.assessmentType],
-          }));
+        // const transformedAssessmentQuestions =
+        //   getAssessmentByIdData?.data?.AssessmentQuestion?.map((question) => ({
+        //     ...question,
+        //     assessmentType: AssessmentTypeReverseMap[question.assessmentType],
+        //   }));
 
-        if (transformedAssessmentQuestions) {
-          dispatch(setAssessment(transformedAssessmentQuestions));
-        }
+        // if (transformedAssessmentQuestions) {
+        //   dispatch(setAssessment(transformedAssessmentQuestions));
+        // }
       }
     }
-  }, [getAssessmentByIdData, dispatch]);
+  }, [getAssessmentByIdData]);
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -405,7 +406,12 @@ const AssecessmentPage = () => {
     }
   };
 
+  const handleRemove = () => {
+
+  }
+
   console.log("assecessmentQuestion", assecessmentQuestion);
+  console.log("getAssessmentByIdData?.data?.AssessmentQuestion", getAssessmentByIdData?.data?.AssessmentQuestion);
 
   return (
     <div className="bg-white rounded-lg">
@@ -447,7 +453,7 @@ const AssecessmentPage = () => {
             />
 
             {(
-              getAssessmentByIdData?.data?.AssessmentQuestion ||
+              // getAssessmentByIdData?.data?.AssessmentQuestion ||
               assecessmentQuestion?.selectedQuestionType
             )?.map((type: string | any, index: number) => {
               return (
@@ -456,7 +462,7 @@ const AssecessmentPage = () => {
                     type === "Multiple Choice") && (
                     <AssecessmentTypeTwo
                       i={index}
-                      type={type}
+                      type={typeof type === "string" ? type : type?.assessmentType}
                       ref={(el: any) =>
                         (validationRefs.current[index] = el?.validate)
                       }
@@ -468,7 +474,7 @@ const AssecessmentPage = () => {
                     type === "MCQ") && (
                     <AssecessmentTypeOne
                       i={index}
-                      type={type}
+                      type={typeof type === "string" ? type : type?.assessmentType}
                       ref={(el: any) =>
                         (validationRefs.current[index] = el?.validate)
                       }
@@ -479,7 +485,7 @@ const AssecessmentPage = () => {
                     type === "Free Text Response") && (
                     <AssecessmentFreeText
                       i={index}
-                      type={type}
+                      type={typeof type === "string" ? type : type?.assessmentType}
                       ref={(el: any) =>
                         (validationRefs.current[index] = el?.validate)
                       }
@@ -491,7 +497,7 @@ const AssecessmentPage = () => {
                     type === "True & False") && (
                     <AssecessmentTrueFalse
                       i={index}
-                      type={type}
+                      type={typeof type === "string" ? type : type?.assessmentType}
                       ref={(el: any) =>
                         (validationRefs.current[index] = el?.validate)
                       }

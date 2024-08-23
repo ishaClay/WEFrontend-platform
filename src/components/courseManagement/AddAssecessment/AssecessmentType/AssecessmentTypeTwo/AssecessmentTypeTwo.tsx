@@ -159,10 +159,14 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
             <h6 className="text-base text-black font-calibri pb-3">
               Assessment Type
             </h6>
-            <CircleX
+            <Button
               className="text-[#fb6262] -mt-7 cursor-pointer"
+              variant={"ghost"}
+              type="button"
               onClick={() => handleRemove(i)}
-            />
+            >
+              <CircleX />
+            </Button>
           </div>
           <input
             placeholder="Multiple Choice Question"
