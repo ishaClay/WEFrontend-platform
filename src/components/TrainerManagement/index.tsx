@@ -7,7 +7,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Eye, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import search from "../../assets/images/search.svg";
-import Input from "../comman/Input/Input";
 import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -15,6 +14,7 @@ import { Button } from "../ui/button";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { ConfirmModal } from "../comman/ConfirmModal";
+import { Input } from "../ui/input";
 
 const TrainerManagement = () => {
   const [page, setPage] = useState(1);
@@ -299,9 +299,8 @@ const TrainerManagement = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search by name, country, provider type, etc."
-              className="py-[17px] pl-[39px] border !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[46px] placeholder:font-normal font-inter mr-[4px]"
+              className="py-[17px] pl-[39px] !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[46px] placeholder:font-normal font-inter mr-[4px]"
               name={""}
-              label={""}
             />
             <img
               src={search}

@@ -3,6 +3,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType } from "@/lib/utils";
 import { deleteAssesment } from "@/services/apiServices/assessment";
+import liveSection from "@/assets/svgs/liveSection.svg";
+import assesmentTest from "@/assets/svgs/assesmentTest.svg";
 import {
   deleteLiveSection,
   deleteSection,
@@ -47,10 +49,12 @@ const CourseViewCardInnerList = ({
   }
   const FileTypeData =
     data.isLive === 0
-      ? data?.type
+      ? data?.passingPercentage
         ? FileType.AssessmentTest
         : getFileType(data.documentType)
       : FileType.Live;
+      console.log("FileTypeData", FileTypeData);
+      
 
   const { mutate: DeleteSection, isPending } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),
@@ -101,19 +105,20 @@ const CourseViewCardInnerList = ({
       DeleteLiveSection(sectionID);
     }
   };
+console.log("datadata", data);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
           {FileTypeData ? <img
-            src={FileTypeData && FileTypeData?.listIcon}
+            src={data?.isLive === 1 ? liveSection : data?.passingPercentage ? assesmentTest : FileTypeData && FileTypeData?.listIcon}
             alt="document icon"
           /> : <Info className="w-[30px] h-[30px] text-[#696969]" />}
         </div>
         <div className="">
           <h5 className="text-sm text-black font-inter pb-2">
-            {data.isLive == 0 || !data?.isLive ? data.title : data.liveSecTitle}
+            {data.title}
           </h5>
           <div className="">
             <h6 className="text-[#747474] text-xs font-inter">
@@ -132,12 +137,9 @@ const CourseViewCardInnerList = ({
                 </>
               ) : (
                 <>
-                  {FileTypeData?.name} | Duration:{" "}
+                  {data?.timeDuration ? "" : FileTypeData?.name && FileTypeData?.name + " |"} Duration:{" "}
                   <span className="text-black">
-                    {data.isLive == 0
-                      ? formatReadingTime(data.readingTime) :
-                      data?.timeDuration ? formatReadingTime(data?.timeDuration)
-                      : formatReadingTime(data.sectionTime)}
+                    {data?.timeDuration ? formatReadingTime(data?.timeDuration) : formatReadingTime(data.readingTime)}
                   </span>
                 </>
               )}

@@ -146,7 +146,7 @@ const TrainerInvitation = () => {
               Invitation Message
             </Label>
             <Textarea
-              className="!w-full mt-2 font-nunito"
+              className="!w-full mt-2 font-nunito focus:border-[#4b4b4b] shadow-none outline-none"
               {...register("details")}
               placeholder="Enter Details"
             />

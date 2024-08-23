@@ -58,7 +58,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
         placeholder="Enter email and Press Enter"
-        className="flex-grow border-none focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+        className="flex-grow border-none shadow-none outline-none"
       />
     </div>
   );

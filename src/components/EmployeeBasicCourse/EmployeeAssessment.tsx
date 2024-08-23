@@ -195,6 +195,9 @@ const EmployeeAssessment = () => {
     createEvaluteFun(payload);
   };
 
+  console.log("error::", errors);
+  
+
   return getAssessmentSingleQuestionPending || getAssessmentQuestionPending ? (
     <span className="flex items-center justify-center py-10">
       <Loader2 className="w-5 h-5 animate-spin" />
@@ -353,7 +356,7 @@ const EmployeeAssessment = () => {
                         </div>
                         <textarea
                           placeholder="Keywords1, Keywords2, keywords3"
-                          className="py-4 px-3 w-full border border-[#D9D9D9] placeholder:text-neutral-400  rounded-md resize-none"
+                          className="py-4 px-3 w-full border border-[#D9D9D9] shadow-none outline-none focus:border-[#4b4b4b] placeholder:text-neutral-400  rounded-md resize-none"
                           rows={8}
                           {...register(`assesdmentAnswer.${index}.answer`)}
                         />

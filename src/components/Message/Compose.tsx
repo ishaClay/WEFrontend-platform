@@ -442,7 +442,7 @@ const Compose = () => {
               </Label>
               <div>
                 <Textarea
-                  className="h-[250px] px-[15px] py-[20px] resize-none bg-white border border-[#d9d9d9] placeholder:text-[#A3A3A3] text-base font-calibri"
+                  className="h-[250px] px-[15px] py-[20px] shadow-none outline-none focus:border-[#4b4b4b] resize-none bg-white border border-[#d9d9d9] placeholder:text-[#A3A3A3] text-base font-calibri"
                   placeholder="Enter message"
                   {...register("message")}
                   // onChange={(e) => setChatMessage(e.target.value)}
