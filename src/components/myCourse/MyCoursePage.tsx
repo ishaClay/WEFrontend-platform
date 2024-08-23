@@ -4,17 +4,17 @@ import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagemen
 import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import { MyCourseResponse } from "@/types/courseManagement";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Loader from "../comman/Loader";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import MyCourseGrid from "./MyCourseGrid";
 import MyCourseList from "./MyCourseList";
-import { Input } from "../ui/input";
-import { Search } from "lucide-react";
 
 const filter1Option = [
   {
@@ -59,7 +59,7 @@ const MyCoursePage = () => {
     queryFn: () => fetchClientwisePillarList(clientId?.toString()),
   });
 
-  const { data, isLoading } = useQuery<MyCourseResponse>({
+  const { data, isLoading, isRefetching } = useQuery<MyCourseResponse>({
     queryKey: [
       QUERY_KEYS?.myCourses,
       {
@@ -74,7 +74,7 @@ const MyCoursePage = () => {
         status: selectFilterByStatus,
         categories:
           selectFilterByCategory === "all" ? "" : selectFilterByCategory,
-        keyword: keyword
+        keyword: keyword,
       }),
   });
 
@@ -83,7 +83,7 @@ const MyCoursePage = () => {
       queryKey: [QUERY_KEYS.myCourses],
     });
   }, [keyword]);
-  
+
   const pillerFilterOption = [
     { label: "All", value: "all" },
     ...(clientwisePillarList?.data?.data?.map((itm) => {
@@ -146,7 +146,9 @@ const MyCoursePage = () => {
             >
               <AiOutlineAppstore
                 className={`w-8 h-8 ${
-                  params === "0" || !params ? "text-[#00778B]" : "text-[#A3A3A3]"
+                  params === "0" || !params
+                    ? "text-[#00778B]"
+                    : "text-[#A3A3A3]"
                 }`}
               />
             </Button>
@@ -166,7 +168,7 @@ const MyCoursePage = () => {
       </div>
       {params === "0" || !params ? (
         <div className="grid sm:gap-5 gap-[15px] 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 sm:p-5 p-[15px] bg-white">
-          {isLoading ? (
+          {isLoading || isRefetching ? (
             <Loader containerClassName="col-span-full" />
           ) : data?.data?.courseAlloted?.length ? (
             data?.data?.courseAlloted?.map((grid, index) => {
@@ -187,7 +189,7 @@ const MyCoursePage = () => {
       ) : (
         <>
           <div className="p-5 bg-white">
-            {isLoading ? (
+            {isLoading || isRefetching ? (
               <Loader containerClassName="col-span-full" />
             ) : data?.data?.courseAlloted?.length ? (
               data?.data?.courseAlloted.map((list, index) => {

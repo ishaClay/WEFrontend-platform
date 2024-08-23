@@ -94,7 +94,7 @@ const AssecessmentPage = () => {
   const tab = searchParams.get("tab");
 
   const { data: getAssessmentByIdData, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.getAssesmentById],
+    queryKey: [QUERY_KEYS.getAssesmentById, { assId }],
     queryFn: () => getAssessmentById(assId ? assId : ""),
     enabled: !!assId,
   });
@@ -105,6 +105,9 @@ const AssecessmentPage = () => {
   });
 
   const assessmentData = moduleSection?.data?.data?.assessment;
+
+  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
+
   useEffect(() => {
     if (getAssessmentByIdData?.data) {
       setCreateAssecessment({
@@ -118,7 +121,7 @@ const AssecessmentPage = () => {
         },
       });
     }
-  }, [assessmentData]);
+  }, [assessmentData, getAssessmentByIdData?.data]);
 
   useEffect(() => {
     if (assessmentData?.id) {
@@ -126,7 +129,7 @@ const AssecessmentPage = () => {
         dispatch(setQuestionType(item?.assessmentType));
       });
     }
-  }, [assessmentData]);
+  }, [assessmentData, dispatch]);
 
   const AssessmentTypeReverseMap: {
     [key: string]: string;
@@ -202,14 +205,23 @@ const AssecessmentPage = () => {
     useMutation({
       mutationFn: createAssessment,
       onSuccess: (res) => {
+        
+        const a = {
+          MCQ : "Single Choice Question",
+          ["Free Text Response"] : "Free Text Response",
+          ["True & False"] : "Single Choice Question",
+          ["Multiple Choice"] : "Multiple Choice Question",
+        }
+
         const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-          (item: any) => {
+          (item: any, i: number) => {
             return {
               ...item,
               // @ts-ignore
               assessment: res?.data?.data?.id,
               // @ts-ignore
-              assessmentType: AssessmentType[item.assessmentType],
+              assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
+              // answer: item?.option[+item?.answer]
             };
           }
         );
@@ -226,6 +238,8 @@ const AssecessmentPage = () => {
             }&id=${id}&version=${version}`
           );
         }
+        console.log(assecessmentQue, "------------------------1");
+
         createAssessmentQuestionFun(assecessmentQue);
       },
     });
@@ -233,17 +247,26 @@ const AssecessmentPage = () => {
   const { mutate: updateAssessmentFun, isPending } = useMutation({
     mutationFn: updateAssessment,
     onSuccess: () => {
+      const a = {
+        MCQ : "Single Choice Question",
+        ["Free Text Response"] : "Free Text Response",
+        ["True & False"] : "Single Choice Question",
+        ["Multiple Choice"] : "Multiple Choice Question",
+      }
+
       const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-        (item: any) => {
+        (item: any, i: number) => {
           return {
             ...item,
             // @ts-ignore
             id: item?.id as number,
             // @ts-ignore
-            assessmentType: AssessmentType[item.assessmentType],
+            assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
+            // answer: item?.option[+item?.answer]
           };
         }
       );
+
       createAssessmentQuestionFun(assecessmentQue);
     },
     onError: (error: ResponseError) => {
@@ -323,6 +346,8 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
+  console.log("assId", assId);
+
   useEffect(() => {
     validateAssecessmentModule();
   }, [createAssecessment]);
@@ -337,8 +362,10 @@ const AssecessmentPage = () => {
           minutes: +createAssecessment?.timeDuration?.minutes || 0,
           seconds: +createAssecessment?.timeDuration?.seconds || 0,
         },
-      };
+      };      
       if (assId && +assId) {
+        console.log("assId---------------->1", assId);
+
         updateAssessmentFun({
           data: {
             ...payload,
@@ -347,6 +374,7 @@ const AssecessmentPage = () => {
           id: assId,
         });
       } else {
+        console.log("Non---assId---------------->1", assId);
         createAssessmentFun({
           ...payload,
           module: searchParams.get("moduleId")
@@ -376,6 +404,8 @@ const AssecessmentPage = () => {
       );
     }
   };
+
+  console.log("assecessmentQuestion", assecessmentQuestion);
 
   return (
     <div className="bg-white rounded-lg">

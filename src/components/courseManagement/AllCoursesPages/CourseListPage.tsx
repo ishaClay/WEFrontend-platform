@@ -115,17 +115,17 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
     return (
       <div className="xl:col-span-5 col-span-7 sm:w-[300px] w-[270px]">
         {upcomingData !== null && (
-          <div
-            className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]"
-            onClick={() => setIsCohortShow(cohortData)}
-          >
+          <div className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between pb-[6px]">
               <p className="text-black text-xs">
                 <span className="font-medium text-xs font-inter">
                   Cohort {findIndex ? findIndex : 1} :
                 </span>{" "}
               </p>
-              <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+              <p
+                className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
+                onClick={() => setIsCohortShow(cohortData)}
+              >
                 Show all cohort
               </p>
             </div>
@@ -203,7 +203,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                     />
                     <input
                       type="checkbox"
-                      className="absolute top-[10px] right-[10px] h-[24px] w-[24px]"
+                      className="absolute top-[10px] right-[10px] h-[24px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                     />
                     <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                       <FaStar className="text-[#FD8E1F]" />

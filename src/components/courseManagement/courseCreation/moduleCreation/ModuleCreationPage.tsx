@@ -80,17 +80,18 @@ const ModuleCreationPage = () => {
                   250,
                   "You can not write section title more than 250 characters"
                 ),
-              information: z
-                .string()
-                .min(1, "Please enter information"),
+              information: z.string().min(1, "Please enter information"),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string({ required_error: "Youtube url is required" })
-                .optional(),
+                .string()
+                .regex(
+                  /^(https:\/\/youtu\.be\/[a-zA-Z0-9_-]+(\?[^\s]*)?)?$/,
+                  "Invalid Url"
+                ),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -137,7 +138,7 @@ const ModuleCreationPage = () => {
                       "youtubeUrl",
                     ],
                   });
-                }                
+                }
                 if (
                   !data.readingTime?.hour &&
                   !data.readingTime?.minute &&
@@ -246,8 +247,8 @@ const ModuleCreationPage = () => {
     });
   }, [CourseModule]);
 
-  const handleModuleSave = async (data: any) => {    
-    if(informationError !== "") return
+  const handleModuleSave = async (data: any) => {
+    if (informationError !== "") return;
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
@@ -257,16 +258,23 @@ const ModuleCreationPage = () => {
           await createSectionAsync.mutateAsync({
             moduleId,
             sections: module.section.map((item) => {
-              const { uploadContentType, ...rest} = item;
-              const youtubeUrl = item?.uploadContentType && +item?.uploadContentType > 0 ? '' : item?.youtubeUrl;
-              return uploadContentType === 0 ? {...rest, youtubeUrl: youtubeUrl, uploadContentType: null} : {...item, youtubeUrl: youtubeUrl};
+              const { uploadContentType, ...rest } = item;
+              const youtubeUrl =
+                item?.uploadContentType && +item?.uploadContentType > 0
+                  ? ""
+                  : item?.youtubeUrl;
+              return uploadContentType === 0
+                ? { ...rest, youtubeUrl: youtubeUrl, uploadContentType: null }
+                : { ...item, youtubeUrl: youtubeUrl };
             }),
           });
         }
       });
       if (+courseEditId) {
         navigate(
-          `/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}${paramsType ? `&type=${paramsType}` : ''}`
+          `/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}${
+            paramsType ? `&type=${paramsType}` : ""
+          }`
         );
       } else {
         navigate(
@@ -384,7 +392,7 @@ const ModuleCreationPage = () => {
               setUrlError={setUrlError}
               urlError={urlError}
               informationError={informationError}
-              setInformationError={(e:string) => setInformationError(e)}
+              setInformationError={(e: string) => setInformationError(e)}
             />
           );
         })}

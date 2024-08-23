@@ -83,8 +83,11 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               +formattedCurrentDate.month &&
             parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
       );
-      console.log("matchingSlotmatchingSlot", cohortData?.cohortGroups, formattedCurrentDate);
-      
+    console.log(
+      "matchingSlotmatchingSlot",
+      cohortData?.cohortGroups,
+      formattedCurrentDate
+    );
 
     const findIndex =
       matchingSlot &&
@@ -115,17 +118,17 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     return (
       <div className="xl:col-span-5 col-span-7">
         {upcomingData !== null && (
-          <div
-            className="customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]"
-            onClick={() => setIsCohortShow(cohortData)}
-          >
+          <div className="customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between">
               <p className="text-black text-xs">
                 <span className="font-medium text-xs font-inter">
                   Cohort {findIndex ? findIndex : 1} :
                 </span>{" "}
               </p>
-              <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+              <p
+                className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
+                onClick={() => setIsCohortShow(cohortData)}
+              >
                 Show all cohort
               </p>
             </div>
@@ -202,7 +205,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                   />
                   <input
                     type="checkbox"
-                    className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px]"
+                    className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                   />
                   <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                     <FaStar className="text-[#FD8E1F]" />
@@ -215,10 +218,10 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
                 <div className="">
                   <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-3 text-[#1D2026] sm:min-h-[72px] h-auto">
+                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-2 text-[#1D2026] sm:min-h-[50px] h-auto">
                       {allcourse.title}
                     </p>
-                    <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2">
+                    <div className="grid sm:grid-cols-2 grid-cols-1 items-start gap-y-2 min-h-[56px]">
                       {allcourse?.courseData?.map((item) => {
                         return (
                           <div className="flex gap-2 col-span-1 items-center">
@@ -286,7 +289,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                             src={diploma}
                             alt="Course"
                           />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                          <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                             {allcourse.otherInstitutionName || "--"}
                           </p>
                         </div>

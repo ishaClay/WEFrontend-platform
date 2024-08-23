@@ -28,6 +28,7 @@ const AssignModel = ({
     startDate: undefined,
     endDate: undefined,
   });
+  const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string).query;
 
@@ -66,7 +67,17 @@ const AssignModel = ({
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = () => {    
+    if (!date.startDate || !date.endDate) {
+      setError("Both start date and end date are required.");
+      return;
+    }
+    if (date.endDate <= date.startDate) {
+      setError("End date must be after the start date.");
+      return;
+    }
+    setError(null);
+    
     const payload = {
       employeeId: selectAsignModel,
       startDate: date?.startDate,
@@ -117,6 +128,11 @@ const AssignModel = ({
         buttonClassName="text-base font-abhaya font-medium w-[363px] h-[52px]"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />
+      {error && (
+        <div className="text-red-500 text-sm pb-3">
+          {error}
+        </div>
+      )}
       <div className="flex justify-end pt-[30px]">
         <Button
           disabled={

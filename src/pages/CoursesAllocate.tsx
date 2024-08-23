@@ -109,32 +109,30 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-2">
                                 <FaStar className="text-[#FD8E1F]" />
                                 <span className="text-[#8C94A3] font-semibold leading-[22px] text-sm mt-0.5 ml-1">
-                                  RECOMMENDED
+                                  {courseallocate?.courseReconmendedStatus}
                                 </span>
                               </div>
-                              <p className="flex items-center gap-3">
-                                <img
-                                  className="w-[18px]"
-                                  src={getImages("Social", false)}
-                                  alt="Image Alt Text"
-                                />
-                                Social
-                              </p>
-                              <p className="flex items-center gap-3">
-                                <img
-                                  className="w-[20px]"
-                                  src={getImages(
-                                    "Technology & Innovation",
-                                    false
-                                  )}
-                                  alt="Image Alt Text"
-                                />
-                                Technology & Innovation
-                              </p>
+                              {courseallocate?.course?.courseData?.map(
+                                (item: any) => {
+                                  return (
+                                    <p className="flex items-center gap-3">
+                                      <img
+                                        className="w-[18px]"
+                                        src={getImages(
+                                          item?.fetchPillar?.pillarName,
+                                          false
+                                        )}
+                                        alt="Image Alt Text"
+                                      />
+                                      {item?.fetchPillar?.pillarName}
+                                    </p>
+                                  );
+                                }
+                              )}
                               <div className="flex items-center gap-3">
                                 <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                                 <span className="text-[black] font-bold text-sm mt-0.5">
-                                  4.5
+                                  0/5
                                 </span>
                               </div>
                               <div className="flex items-center gap-3">

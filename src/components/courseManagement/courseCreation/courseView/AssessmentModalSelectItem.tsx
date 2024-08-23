@@ -19,7 +19,7 @@ const AssessmentModalSelectItem = ({
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
-  const { courseId } = useParams();
+  const { courseId, assId } = useParams();
 
   console.log("sectionIDsectionIDsectionID", sectionID);
 
@@ -67,10 +67,17 @@ const AssessmentModalSelectItem = ({
     if (moduleId) {
       queryParams["moduleId"] = moduleId;
     }
-    navigate(
-      `/${currentUser}/add_assessment?` +
-        new URLSearchParams(queryParams as any).toString()
-    );
+    if (assId) {
+      navigate(
+        `/${currentUser}/add_assessment/${assId}?` +
+          new URLSearchParams(queryParams as any).toString()
+      );
+    } else {
+      navigate(
+        `/${currentUser}/add_assessment?` +
+          new URLSearchParams(queryParams as any).toString()
+      );
+    }
   };
 
   return (

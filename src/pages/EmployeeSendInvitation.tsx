@@ -1,9 +1,9 @@
 import HeaderCourse from "@/components/HeaderCourse";
 
-import { LuMoveLeft } from "react-icons/lu";
 import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { LuMoveLeft } from "react-icons/lu";
 
 function EmployeeSendInvitation() {
   const dispatch = useAppDispatch();
@@ -56,14 +56,11 @@ function EmployeeSendInvitation() {
           </div>
 
           <div className=" p-6">
-            <h2 className="text-[16px]  mb-4 ">
-              Enter Team Member Email ID{" "}
-              <span className="text-[#A3A3A3]">(comma separated email id)</span>{" "}
-            </h2>
+            <h2 className="text-[16px]  mb-4 ">Enter Team Member Email ID </h2>
             <input
               type="text"
               placeholder="Enter email id"
-              className="border border-[#D9D9D9] rounded-sm px-4 py-2 mb-4 w-full h-[60px] placeholder-[#A3A3A3]"
+              className="border border-[#D9D9D9] rounded-sm px-4 py-2 mb-4 w-full h-[60px] placeholder-[#A3A3A3] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             />
             <div className="flex items-center mb-4">
               <p>OR</p>

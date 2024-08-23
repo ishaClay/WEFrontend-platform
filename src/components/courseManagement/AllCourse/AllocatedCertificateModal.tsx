@@ -108,12 +108,18 @@ export function AllocatedCertificateModal({
     allocate(payload);
   };
 
-  const filterCourseData = courseData?.filter((item) => item?.id !== selectedCourse?.trainerId?.id);
+  const filterCourseData = courseData?.filter(
+    (item) => item?.id !== selectedCourse?.trainerId?.id
+  );
   const handleAllCheckboxChange = () => {
     if (selectFilter?.length === filterCourseData?.length) {
       setSelectFilter([]);
-    } else {      
-      setSelectFilter(filterCourseData && filterCourseData?.map((item) => item?.id as number) || []);
+    } else {
+      setSelectFilter(
+        (filterCourseData &&
+          filterCourseData?.map((item) => item?.id as number)) ||
+          []
+      );
     }
   };
 
@@ -125,7 +131,10 @@ export function AllocatedCertificateModal({
     );
   };
 
-  const isAllSelected = filterCourseData && filterCourseData?.length > 0 && selectFilter?.length === filterCourseData?.length;  
+  const isAllSelected =
+    filterCourseData &&
+    filterCourseData?.length > 0 &&
+    selectFilter?.length === filterCourseData?.length;
 
   const handleClose = () => {
     onClose();
@@ -278,7 +287,7 @@ export function AllocatedCertificateModal({
                     <input
                       type="checkbox"
                       name="all"
-                      className="h-[18px] w-[18px] rounded"
+                      className="h-[18px] w-[18px] rounded focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       checked={isAllSelected}
                       onChange={handleAllCheckboxChange}
                     />
@@ -294,7 +303,9 @@ export function AllocatedCertificateModal({
                         <div className="flex items-center gap-[15px]">
                           <Avatar>
                             <AvatarImage src={employee.profileImage || ""} />
-                            <AvatarFallback style={{ background: chatDPColor(employee?.id) }}>
+                            <AvatarFallback
+                              style={{ background: chatDPColor(employee?.id) }}
+                            >
                               {employee.name?.charAt(0) ||
                                 employee.email?.charAt(0)?.toUpperCase()}
                             </AvatarFallback>
@@ -307,10 +318,14 @@ export function AllocatedCertificateModal({
                           key={employee?.id}
                           type="checkbox"
                           name={`employee-${employee?.id}`}
-                          className="h-[18px] w-[18px] rounded"
-                          disabled={selectedCourse?.trainerId?.id === employee?.id}
+                          className="h-[18px] w-[18px] rounded focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                          disabled={
+                            selectedCourse?.trainerId?.id === employee?.id
+                          }
                           checked={selectFilter?.includes(employee?.id)}
-                          onChange={() => handleEmployeeCheckboxChange(employee?.id)}
+                          onChange={() =>
+                            handleEmployeeCheckboxChange(employee?.id)
+                          }
                         />
                       </div>
                     ))

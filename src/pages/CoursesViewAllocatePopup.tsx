@@ -80,10 +80,10 @@ function CourseViewAllocatePopup({
       setIsInvite(false);
       reset();
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message,
+        description: error?.data?.message,
         variant: "destructive",
       });
     },

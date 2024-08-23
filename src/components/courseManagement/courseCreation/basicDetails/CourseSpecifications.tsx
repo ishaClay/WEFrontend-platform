@@ -76,7 +76,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel({ from: "5", until: "10" }),
+    queryFn: () => fetchNfqlLevel({ from: 5, until: 10 }),
   });
 
   const { data: getSingleCourse } = useQuery({
@@ -164,7 +164,11 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
+        `/${pathName}/create_course/${
+          +courseId ? courseId : params
+        }?tab=0&step=2&version=${paramsversion}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -213,7 +217,9 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${2}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
+        }?tab=${0}&step=${2}&version=${getSingleCourse?.data?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }

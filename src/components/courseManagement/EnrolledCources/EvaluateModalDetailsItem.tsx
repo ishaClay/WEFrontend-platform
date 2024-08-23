@@ -117,7 +117,7 @@ const EvaluateModalDetailsItem = ({
               {/* {data.page1} */}
               <input
                 type="text"
-                className="w-full h-full "
+                className="w-full h-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                 disabled={data?.score ? true : false}
                 defaultValue={data?.score}
                 onChange={(e) => handleAddPoints(e?.target?.value)}

@@ -251,6 +251,15 @@ const ListView = ({
           );
         }
       }
+      if (type === "edit") {
+        navigate(
+          `/${Role}/create_course/${item?.id}?tab=${
+            +item?.tab === 4 ? 0 : item?.tab
+          }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+            item?.currentVersion?.id
+          }&type=${type}`
+        );
+      }
       if (type === "editWithNew") {
         createNewVersionFun({
           courseId: item?.id,
@@ -510,14 +519,14 @@ const ListView = ({
                                 e,
                                 data?.currentVersion?.id?.toString(),
                                 data,
-                                "editminor"
+                                data?.status === "DRAFT" ? "edit" : "editminor"
                               )
                             }
                           >
                             <Pencil className="w-4 h-4" />
                             <span>
-                            {data?.status === "DRAFT" ? "Edit" : "Edit minor"}
-                          </span>
+                              {data?.status === "DRAFT" ? "Edit" : "Edit minor"}
+                            </span>
                           </DropdownMenuItem>
                         )}
                         {data?.status !== "EXPIRED" &&

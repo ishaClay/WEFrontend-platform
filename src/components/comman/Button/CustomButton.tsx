@@ -12,6 +12,7 @@ interface InputProps {
 }
 
 export const PrimaryButton: React.FC<InputProps> = ({
+  type = "submit",
   name,
   className,
   symbol,
@@ -25,6 +26,7 @@ export const PrimaryButton: React.FC<InputProps> = ({
       } ${className}`}
       disabled={disabled}
       onClick={onClick}
+      type={type}
     >
       {symbol && <span className="">{symbol}</span>}
       {name}

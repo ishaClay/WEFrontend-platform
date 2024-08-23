@@ -92,7 +92,7 @@ export const createCourseTwoPage = ({
   return api({ url, data, method });
 };
 
-export const fetchNfqlLevel = async ({ from, until }: { from?: string; until?: string }) => {
+export const fetchNfqlLevel = async ({ from, until }: { from?: number; until?: number }) => {
   const url = `api/v1/course/nfqlevel/nfqlevellist?from=${from}&until=${until}`;
   const method = "get";
   const res = await api({ url, method });
@@ -146,17 +146,17 @@ export const deleteCourse = (id: number) => {
   return api({ url, method });
 };
 
-export const getAllEmployeeCourseList = async ({ id, status, categories, keyword }: { id: number, status: string, categories: string, keyword?:string }) => {
+export const getAllEmployeeCourseList = async ({ id, status, categories, keyword }: { id: number, status: string, categories: string, keyword?: string }) => {
   const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}`;
   const method = "get";
-  const params:any = {};
+  const params: any = {};
   if (keyword) {
     params["keyword"] = keyword;
   }
-  if(status){
+  if (status) {
     params["status"] = status;
   }
-  if(categories){
+  if (categories) {
     params["categories"] = categories;
   }
   const res = await api({ url, method, params });

@@ -99,7 +99,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
             onMouseUp={() => {
               handleInputChange();
             }}
-            className="flex-1 px-2 py-1 border-none focus:ring-0 focus-visible:"
+            className="flex-1 px-2 py-1 border-none focus:ring-0 focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             placeholder={
               selectedItems.length ? "Select More..." : "Type to search..."
             }

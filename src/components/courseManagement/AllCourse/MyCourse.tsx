@@ -103,7 +103,7 @@ const MyCourse = () => {
             <input
               type="search"
               placeholder="Search by course name, category, maturity level, course by..."
-              className="flex-1 focus: text-sm placeholder-[#D9D9D9]"
+              className="flex-1 focus: text-sm placeholder-[#D9D9D9] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>

@@ -76,11 +76,17 @@ const CourseViewCardInner = ({
         .string()
         .min(1, "Please enter information")
         .max(1000, "You can not write information more than 250 characters"),
-      uploadContentType: z.number()
+      uploadContentType: z
+        .number()
         // .min(1, "Upload content type is required")
         .optional(),
       uploadedContentUrl: z.string().optional(),
-      youtubeUrl: z.string().optional(),
+      youtubeUrl: z
+        .string()
+        .regex(
+          /^(https:\/\/youtu\.be\/[a-zA-Z0-9_-]+(\?[^\s]*)?)?$/,
+          "Invalid Url"
+        ),
       readingTime: z
         .object({
           hour: z.number().min(0).max(23),
@@ -289,7 +295,7 @@ const CourseViewCardInner = ({
     if (data?.timeDuration) {
       const tab = searchParams.get("tab");
       const version = searchParams.get("version");
-      const courseId = params?.courseId;
+      const courseId = params?.courseId || searchParams.get("id");
       const pathName = window.location.pathname;
       const currentUser = pathName.split("/")[1];
       navigate(
@@ -302,7 +308,10 @@ const CourseViewCardInner = ({
         "information",
         data.isLive ? data.liveSecinformation : data.information
       );
-      setValue("uploadContentType", data.documentType === null ? 0 : data.documentType);
+      setValue(
+        "uploadContentType",
+        data.documentType === null ? 0 : data.documentType
+      );
       setValue("uploadedContentUrl", data.uploadContent);
       setValue(
         "readingTime",
@@ -351,7 +360,11 @@ const CourseViewCardInner = ({
     if (data.isLive) {
       EditLiveSection(a);
     } else {
-      EditSection({...data, uploadContentType: data.uploadContentType === 0 ? null : data.uploadContentType});
+      EditSection({
+        ...data,
+        uploadContentType:
+          data.uploadContentType === 0 ? null : data.uploadContentType,
+      });
     }
   };
 
@@ -436,7 +449,11 @@ const CourseViewCardInner = ({
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
-                    disabled={paramsType === "editminor" ? true : assessments?.length === 1}
+                    disabled={
+                      paramsType === "editminor"
+                        ? true
+                        : assessments?.length === 1
+                    }
                   >
                     <CirclePlus width={18} /> Add Assessment
                   </Button>

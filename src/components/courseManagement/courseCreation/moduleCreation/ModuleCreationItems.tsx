@@ -63,7 +63,7 @@ const ModuleCreationItems = ({
   urlError,
   setUrlError,
   informationError,
-  setInformationError
+  setInformationError,
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -126,7 +126,7 @@ const ModuleCreationItems = ({
     }
   };
 
-  const stripHtmlTags = (html:any) => {
+  const stripHtmlTags = (html: any) => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = html;
     return tempDiv.textContent || tempDiv.innerText || "";
@@ -232,15 +232,17 @@ const ModuleCreationItems = ({
                   const data = editor.getData();
                   const plainText = stripHtmlTags(data);
                   console.log("event", event);
-                  
+
                   if (plainText.length > 1000) {
-                    setInformationError("You can not write information more than 1000 characters")
+                    setInformationError(
+                      "You can not write information more than 1000 characters"
+                    );
                     setValue(
                       `modules.${index}.section.${sectionindex}.information`,
                       data
                     );
                   } else {
-                    setInformationError("")
+                    setInformationError("");
                     setValue(
                       `modules.${index}.section.${sectionindex}.information`,
                       data
@@ -255,11 +257,13 @@ const ModuleCreationItems = ({
                 // }}
                 className="w-full h-[190px]"
               />
-              {(informationError !== "" || errors.modules?.[index]?.section?.[sectionindex]
-                ?.information) && (
+              {(informationError !== "" ||
+                errors.modules?.[index]?.section?.[sectionindex]
+                  ?.information) && (
                 <FormError
                   className="font-calibri not-italic"
-                  message={informationError ||
+                  message={
+                    informationError ||
                     errors.modules[index].section[sectionindex].information
                       ?.message
                   }
@@ -285,7 +289,8 @@ const ModuleCreationItems = ({
                       <Input
                         type="number"
                         {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.hour`, {
+                          `modules.${index}.section.${sectionindex}.readingTime.hour`,
+                          {
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           }
@@ -300,7 +305,8 @@ const ModuleCreationItems = ({
                       <Input
                         type="number"
                         {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.minute`, {
+                          `modules.${index}.section.${sectionindex}.readingTime.minute`,
+                          {
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           }
@@ -316,7 +322,8 @@ const ModuleCreationItems = ({
                       <Input
                         type="number"
                         {...register(
-                          `modules.${index}.section.${sectionindex}.readingTime.second`, {
+                          `modules.${index}.section.${sectionindex}.readingTime.second`,
+                          {
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           }
@@ -328,22 +335,34 @@ const ModuleCreationItems = ({
                       </h6>
                     </div>
                   </div>
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.hour && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
+                    ?.hour && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.hour?.message}
+                      message={
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          .readingTime?.hour?.message
+                      }
                     />
                   )}
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.minute && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
+                    ?.minute && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.minute?.message}
+                      message={
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          .readingTime?.minute?.message
+                      }
                     />
                   )}
-                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.second && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
+                    ?.second && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.second?.message}
+                      message={
+                        errors.modules?.[index]?.section?.[sectionindex]
+                          .readingTime?.second?.message
+                      }
                     />
                   )}
                 </div>
@@ -369,7 +388,7 @@ const ModuleCreationItems = ({
                       `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
                     onChange={(e: any) =>
-                        handleAddURL(
+                      handleAddURL(
                         e?.target?.value,
                         `modules.${index}.section.${sectionindex}.youtubeUrl`
                       )
@@ -413,7 +432,7 @@ const ModuleCreationItems = ({
                       placeholder={sectionItem.uploadDocument
                         ?.split("/")
                         .at(-1)}
-                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri"
+                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       disabled
                     />
                     <Label

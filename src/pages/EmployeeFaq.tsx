@@ -62,7 +62,7 @@ function EmployeeFqs() {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm"
+                    className="flex-1 mr-2 focus: placeholder-[#A3A3A3] text-sm focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                   />
                 </div>
                 <div className="flex md:hidden justify-center items-center w-[50px] h-[50px] bg-[#F3F3F3] rounded-full text-gray-900">
