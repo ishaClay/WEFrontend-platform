@@ -77,43 +77,47 @@ const ScheduleLiveSessionPage = () => {
     )}${period}`;
   };
 
-  const ScheduleLiveSessionSchema = z.object({
-    selectCourse: z.string({
-      required_error: "Please select course",
-    }),
-    selectLiveSession: z.string({
-      required_error: "Please select Live session",
-    }),
-    sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
-    sessionDescription: z.string().nonempty("Please enter session description"),
-    sessionDate: z.string().nonempty("Please enter session date"),
-    sessionTime: z.string().min(1, "time format are reqiured"),
-    selectDurationInHours: z.string({
-      required_error: "Please select duration in hours",
-    }),
-    selectDurationInMinute: z.string({
-      required_error: "Please select duration in hours",
-    }),
-    platform: z.boolean(),
-    zoomUrl: z.string().optional(),
-  });
-  // .superRefine((data, ctx) => {
-  //   if (!data.platform) {
-  //     ctx.addIssue({
-  //       code: z.ZodIssueCode.custom,
-  //       message: "Please enter zoom url",
-  //       path: ["zoomUrl"],
-  //     });
-  //     if (data.zoomUrl?.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
-  //       ctx.addIssue({
-  //         code: z.ZodIssueCode.custom,
-  //         message:
-  //           "Please enter a valid zoom URL starting with http:// or https://",
-  //         path: ["zoomUrl"],
-  //       });
-  //     }
-  //   }
-  // });
+  const ScheduleLiveSessionSchema = z
+    .object({
+      selectCourse: z.string({
+        required_error: "Please select course",
+      }),
+      selectLiveSession: z.string({
+        required_error: "Please select Live session",
+      }),
+      sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
+      sessionDescription: z
+        .string()
+        .nonempty("Please enter session description"),
+      sessionDate: z.string().nonempty("Please enter session date"),
+      sessionTime: z.string().min(1, "Time format is required"),
+      selectDurationInHours: z.string({
+        required_error: "Please select duration in hours",
+      }),
+      selectDurationInMinute: z.string({
+        required_error: "Please select duration in minutes",
+      }),
+      platform: z.boolean(),
+      zoomUrl: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (!data.platform) {
+        if (!data.zoomUrl) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Please enter Zoom URL",
+            path: ["zoomUrl"],
+          });
+        } else if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/.test(data.zoomUrl)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              "Please enter a valid Zoom URL starting with http:// or https://",
+            path: ["zoomUrl"],
+          });
+        }
+      }
+    });
   type ValidationSchema = z.infer<typeof ScheduleLiveSessionSchema>;
 
   const {
