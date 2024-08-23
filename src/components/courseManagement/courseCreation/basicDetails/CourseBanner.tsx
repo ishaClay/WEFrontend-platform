@@ -32,6 +32,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   const [selectBoxValue, setSelectBoxValue] = useState<any>({
@@ -106,7 +107,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=1&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=1&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }
@@ -200,7 +201,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${1}&version=${getSingleCourse?.data?.id}`,
+        }?tab=${1}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }

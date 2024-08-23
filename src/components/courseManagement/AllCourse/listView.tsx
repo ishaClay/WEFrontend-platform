@@ -59,6 +59,7 @@ const ListView = ({
   const [selectedCourse, setSelectedCourse] = useState<AllCoursesResult | null>(
     null
   );
+  const [isStatusLoading, setIsStatusLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -106,6 +107,7 @@ const ListView = ({
     useMutation({
       mutationFn: (data: PublishCourseType) => publishCourse(data),
       onSuccess: () => {
+        setIsStatusLoading(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
@@ -118,6 +120,7 @@ const ListView = ({
         setOpen("");
       },
       onError: (error: ErrorType) => {
+        setIsStatusLoading(false);
         setCourse("");
         toast({
           title: "Error",
@@ -271,6 +274,19 @@ const ListView = ({
 
   const handleDeleteCourse = () => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
+  };
+
+  const handleChangeStatus = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    item: AllCoursesResult
+  ) => {
+    e.stopPropagation();
+    setIsStatusLoading(true);
+    const payload = {
+      status: item.status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED",
+      id: +item?.currentVersion?.id,
+    };
+    publishCourseFun(payload);
   };
 
   return list?.length > 0 && list ? (
@@ -472,6 +488,20 @@ const ListView = ({
                             <span>Copy</span>
                           </DropdownMenuItem>
                         )}
+                        {(data?.status === "PUBLISHED" ||
+                          data?.status === "UNPUBLISHED") && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleChangeStatus(e, data)}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>
+                              {data?.status === "UNPUBLISHED"
+                                ? "Re-Publish"
+                                : "Un-Publish"}
+                            </span>
+                          </DropdownMenuItem>
+                        )}
                         {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
@@ -485,7 +515,9 @@ const ListView = ({
                             }
                           >
                             <Pencil className="w-4 h-4" />
-                            <span>Edit minor</span>
+                            <span>
+                            {data?.status === "DRAFT" ? "Edit" : "Edit minor"}
+                          </span>
                           </DropdownMenuItem>
                         )}
                         {data?.status !== "EXPIRED" &&
@@ -505,7 +537,7 @@ const ListView = ({
                                 className="flex items-center gap-2 font-nunito"
                               >
                                 <Pencil className="w-4 h-4" />
-                                <span>Edit with new version</span>
+                                <span>Edit new version</span>
                               </DropdownMenuItem>
                             </>
                           )}
@@ -552,7 +584,7 @@ const ListView = ({
           );
         })}
       </div>
-      <Loading isLoading={createNewVersionPending} />
+      <Loading isLoading={createNewVersionPending || isStatusLoading} />
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}

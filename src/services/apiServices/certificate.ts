@@ -84,3 +84,9 @@ export const allocateCertificate = async (data: any) => {
   const res = await api({ url, method: "put", data });
   return res.data;
 }
+
+export const deleteAllocateCertificate = async (id: number) => {
+  const url = `api/v1/certificate/allocate-delete/${id}`;
+  const res = await api({ url, method: "delete" });
+  return res.data;
+}

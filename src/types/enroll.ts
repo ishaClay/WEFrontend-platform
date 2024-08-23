@@ -44,6 +44,7 @@ export interface CohortGroupType {
   publish: number;
   slotStartDate: SlotStartDateOrSlotEndDate;
   slotEndDate: SlotStartDateOrSlotEndDate;
+  groupChat: any;
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;

@@ -1,7 +1,10 @@
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
-import { allocateCertificate } from "@/services/apiServices/certificate";
+import {
+  allocateCertificate,
+  certificateList,
+} from "@/services/apiServices/certificate";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import { getEmployeeByCourse } from "@/services/apiServices/employee";
 import { Uploads3imagesBase64 } from "@/services/uploadImage";
@@ -9,6 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { useSearchParams } from "react-router-dom";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
@@ -21,13 +25,29 @@ const AllocatedCertificateEmployeePage = () => {
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [loading, setLoading] = useState(false);
+  const [selectCertificate, setSelectCertificate] = useState("");
   const [selectCourse, setSelectCourse] = useState("");
+  const [searchParams] = useSearchParams();
+  const courseId = searchParams?.get("courseId");
+  const trainerId = searchParams?.get("traineeId");
   const [selectTrainee, setSelectTrainee] = useState("");
   const [body, setBody] = useState("");
   const { data: fetchCourseAllCourseData } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { UserId: userData?.query?.id }],
     queryFn: () => fetchCourseAllCourse("", +userData?.query?.id, "PUBLISHED"),
     enabled: !!userData?.query?.id,
+  });
+
+  useEffect(() => {
+    if (courseId && trainerId) {
+      setSelectCourse(courseId);
+      setSelectTrainee(trainerId);
+    }
+  }, [courseId, trainerId]);
+
+  const { data: certificate_data } = useQuery({
+    queryKey: [QUERY_KEYS.getcertificate],
+    queryFn: () => certificateList(userData?.query?.id),
   });
 
   const { data: fetchEmployeeByCourse } = useQuery({
@@ -44,7 +64,20 @@ const AllocatedCertificateEmployeePage = () => {
       });
       setSelectCourse("");
       setSelectTrainee("");
+      setSelectCertificate("");
       setLoading(false);
+      dispatch(
+        setPath([
+          {
+            label: `Certificate Management`,
+            link: null,
+          },
+          {
+            label: `Issued Certificate`,
+            link: `/${Role}/allocated-certificate`,
+          },
+        ])
+      );
     },
     onError: (error: any) => {
       toast({
@@ -55,6 +88,15 @@ const AllocatedCertificateEmployeePage = () => {
     },
   });
 
+  console.log("certificate_data", certificate_data);
+
+  const certificateOption = certificate_data?.data?.map((item: any) => {
+    return {
+      label: item?.templateName,
+      value: item?.id?.toString(),
+    };
+  });
+
   const courseOptions = fetchCourseAllCourseData?.data?.map((item) => {
     return {
       label: item?.title,
@@ -62,27 +104,30 @@ const AllocatedCertificateEmployeePage = () => {
     };
   });
 
-  const selectedCertificate = fetchCourseAllCourseData?.data?.find(
-    (item) => item?.id?.toString() === selectCourse
+  const selectedCertificate: any = certificate_data?.data?.find(
+    (item: any) => item?.id?.toString() === selectCertificate
   );
 
   useEffect(() => {
     if (selectedCertificate) {
-      setBody(selectedCertificate?.certificate?.bodyText);
+      setBody(selectedCertificate?.bodyText);
     }
   }, [selectedCertificate]);
 
-  const employeeOptions = fetchEmployeeByCourse?.data?.employee?.map(
-    (item: any) => {
-      return {
-        label: item?.name || item?.email?.split("@")[0],
-        value: item?.id?.toString(),
-      };
-    }
-  );
+  console.log("++++", selectedCertificate);
+
+  const employeeOptions = fetchEmployeeByCourse?.data?.map((item: any) => {
+    return {
+      label: item?.name || item?.email?.split("@")[0],
+      value: item?.id?.toString(),
+    };
+  });
 
   const handleIssue = async () => {
     setLoading(true);
+    const selectCourseData = fetchCourseAllCourseData?.data?.find(
+      (item: any) => item?.id?.toString() === selectCourse
+    );
     const loadImage = (url: string) =>
       new Promise((resolve, reject) => {
         const img = new Image();
@@ -93,14 +138,14 @@ const AllocatedCertificateEmployeePage = () => {
       });
 
     const images = [
-      selectedCertificate?.certificate?.backgroundImage,
-      selectedCertificate?.certificate?.companyLogo1,
-      selectedCertificate?.certificate?.instructorSignature,
-      selectedCertificate?.certificate?.administratorSignature,
+      selectedCertificate?.backgroundImage,
+      selectedCertificate?.companyLogo1,
+      selectedCertificate?.instructorSignature,
+      selectedCertificate?.administratorSignature,
     ]?.filter((item) => !!item);
 
     try {
-      await Promise.all(images.map((url) => loadImage(url)));
+      await Promise.all(images.map((url) => loadImage(url as string)));
       if (captureRef.current) {
         html2canvas(captureRef.current, {
           useCORS: true,
@@ -112,12 +157,12 @@ const AllocatedCertificateEmployeePage = () => {
             const result = await Uploads3imagesBase64(imgData);
             if (result.status === 200) {
               const payload = {
-                certificate: selectedCertificate?.certificate?.id,
+                certificate: selectedCertificate?.id,
                 user: userData?.query?.id,
                 status: 1,
-                course: selectedCertificate?.currentVersion?.mainCourse?.id,
-                trainee: selectedCertificate?.trainerId?.id,
-                trainerCompany: selectedCertificate?.trainerCompanyId?.id,
+                course: selectCourseData?.currentVersion?.mainCourse?.id,
+                trainee: selectCourseData?.trainerId?.id,
+                trainerCompany: selectCourseData?.trainerCompanyId?.id,
                 employee: +selectTrainee,
                 certificatePdf: result?.data,
               };
@@ -171,13 +216,13 @@ const AllocatedCertificateEmployeePage = () => {
       <div className="sm:p-5 p-[15px]">
         <div className="grid grid-cols-12 gap-5">
           <div className="2xl:col-span-8 col-span-12">
-            {selectCourse && selectedCertificate ? (
+            {selectedCertificate ? (
               <div className="2xl:flex block gap-[30px]" ref={captureRef}>
                 <div className="relative 2xl:sticky top-0 sm:min-h-[501px] min-h-[350px] h-full 2xl:max-w-[calc(100vw-391px)] max-w-full w-full 2xl:mb-0 mb-6">
                   <div className="h-full w-full">
                     <div className="flex justify-center">
                       <img
-                        src={selectedCertificate?.certificate?.backgroundImage}
+                        src={selectedCertificate?.backgroundImage}
                         className="object-cover bg-transparent w-full max-h-[700px] h-full"
                         alt="Logo"
                       />
@@ -186,12 +231,11 @@ const AllocatedCertificateEmployeePage = () => {
                       <h4
                         className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold xl:pb-0 pb-0`}
                         style={{
-                          color: selectedCertificate?.certificate?.primaryColor,
-                          fontFamily:
-                            selectedCertificate?.certificate?.primaryFont,
+                          color: selectedCertificate?.primaryColor,
+                          fontFamily: selectedCertificate?.primaryFont,
                         }}
                       >
-                        {selectedCertificate?.certificate?.cretificateText}
+                        {selectedCertificate?.cretificateText}
                       </h4>
                       <br />
                       <br />
@@ -199,22 +243,19 @@ const AllocatedCertificateEmployeePage = () => {
                         <div
                           className="xl:pb-3 pb-1 xl:text-[30px] md:text-[26px] sm:text-[20px] text-base font-medium"
                           style={{
-                            fontFamily:
-                              selectedCertificate?.certificate?.secondaryFont,
+                            fontFamily: selectedCertificate?.secondaryFont,
                           }}
                         >
                           <h1 className="mb-2">OF PARTICIPATION</h1>
-                          <h1>{selectedCertificate?.certificate?.title}</h1>
+                          <h1>{selectedCertificate?.title}</h1>
                         </div>
 
                         <div>
                           <h1
-                            className={`!font-${selectedCertificate?.certificate?.primaryFont} font-medium lg:mt-[25px] md:mt-[10px] sm:mt-[8px] mt-[4px] xl:text-6xl md:text-5xl sm:text-3xl text-2xl`}
+                            className={`!font-${selectedCertificate?.primaryFont} font-medium lg:mt-[25px] md:mt-[10px] sm:mt-[8px] mt-[4px] xl:text-6xl md:text-5xl sm:text-3xl text-2xl`}
                             style={{
-                              color:
-                                selectedCertificate?.certificate?.primaryColor,
-                              fontFamily:
-                                selectedCertificate?.certificate?.primaryFont,
+                              color: selectedCertificate?.primaryColor,
+                              fontFamily: selectedCertificate?.primaryFont,
                             }}
                           >
                             {
@@ -229,34 +270,30 @@ const AllocatedCertificateEmployeePage = () => {
                               className={`block w-2 h-2 rounded-full`}
                               style={{
                                 backgroundColor:
-                                  selectedCertificate?.certificate
-                                    ?.primaryColor,
+                                  selectedCertificate?.primaryColor,
                               }}
                             ></span>
                             <div
                               className={`h-[2px] xl:max-w-[500px] md:max-w-[400px] sm:max-w-[280px] max-w-[220px] w-full`}
                               style={{
                                 backgroundColor:
-                                  selectedCertificate?.certificate
-                                    ?.primaryColor,
+                                  selectedCertificate?.primaryColor,
                               }}
                             ></div>
                             <span
                               className={`block w-2 h-2 rounded-full`}
                               style={{
                                 backgroundColor:
-                                  selectedCertificate?.certificate
-                                    ?.primaryColor,
+                                  selectedCertificate?.primaryColor,
                               }}
                             ></span>
                           </div>
                         </div>
                         <div className="sm:mt-5 mt-3">
                           <p
-                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.certificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5`}
+                            className={`xl:text-[24px] sm:text-[20px] text-base !font-${selectedCertificate?.secondaryFont} tracking-tight max-w-[550px] w-full m-auto xl:leading-8 sm:leading-6 leading-5`}
                             style={{
-                              fontFamily:
-                                selectedCertificate?.certificate?.secondaryFont,
+                              fontFamily: selectedCertificate?.secondaryFont,
                             }}
                           >
                             {body}
@@ -267,12 +304,10 @@ const AllocatedCertificateEmployeePage = () => {
                           <div className="flex items-end justify-between md:pt-3 pt-1 md:pr-6 pr-3">
                             <div>
                               <div className="">
-                                {selectedCertificate?.certificate
-                                  ?.administratorSignature ? (
+                                {selectedCertificate?.administratorSignature ? (
                                   <img
                                     src={
-                                      selectedCertificate?.certificate
-                                        ?.administratorSignature
+                                      selectedCertificate?.administratorSignature
                                     }
                                     alt="logo"
                                     className="max-w-[120px] w-full min-h-[80px] max-h-[80px] m-auto h-full object-contain"
@@ -285,26 +320,19 @@ const AllocatedCertificateEmployeePage = () => {
                                 className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
                                 style={{
                                   borderColor:
-                                    selectedCertificate?.certificate
-                                      ?.primaryColor,
+                                    selectedCertificate?.primaryColor,
                                 }}
                               >
                                 <h2>
-                                  {
-                                    selectedCertificate?.certificate
-                                      ?.administratorTitle
-                                  }
+                                  {selectedCertificate?.administratorTitle}
                                 </h2>
                                 <h2>Head Of Marketing</h2>
                               </div>
                             </div>
-                            {selectedCertificate?.certificate?.companyLogo && (
+                            {selectedCertificate?.companyLogo && (
                               <div className="">
                                 <img
-                                  src={
-                                    selectedCertificate?.certificate
-                                      ?.companyLogo
-                                  }
+                                  src={selectedCertificate?.companyLogo}
                                   className="md:w-full w-[80px]"
                                 />
                               </div>
@@ -314,10 +342,7 @@ const AllocatedCertificateEmployeePage = () => {
                             <div className=" md:w-[100px] md:h-[100px] w-[60px] h-[60px] overflow-hidden">
                               {
                                 <img
-                                  src={
-                                    selectedCertificate?.certificate
-                                      ?.companyLogo1
-                                  }
+                                  src={selectedCertificate?.companyLogo1}
                                   alt="logo"
                                   className="max-w-[100px] md:w-full w-[80px] min-h-[50px] md:max-h-[100px] max-h-[50px] h-full object-contain"
                                 />
@@ -325,12 +350,10 @@ const AllocatedCertificateEmployeePage = () => {
                             </div>
                             <div>
                               <div className="overflow-hidden">
-                                {selectedCertificate?.certificate
-                                  ?.instructorSignature ? (
+                                {selectedCertificate?.instructorSignature ? (
                                   <img
                                     src={
-                                      selectedCertificate?.certificate
-                                        ?.instructorSignature
+                                      selectedCertificate?.instructorSignature
                                     }
                                     alt="logo"
                                     className="max-w-[100px] w-full min-h-[80px] max-h-[80px] m-auto h-full"
@@ -339,21 +362,16 @@ const AllocatedCertificateEmployeePage = () => {
                                   <div className="max-w-[100px] w-full md:min-h-[80px] min-h-[50px] md:max-h-[80px] max-h-[50px] mx-auto h-full"></div>
                                 )}
                               </div>
-                              {selectedCertificate?.certificate
-                                ?.instructorTitle && (
+                              {selectedCertificate?.instructorTitle && (
                                 <div
                                   className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
                                   style={{
                                     borderColor:
-                                      selectedCertificate?.certificate
-                                        ?.primaryColor,
+                                      selectedCertificate?.primaryColor,
                                   }}
                                 >
                                   <h2>
-                                    {
-                                      selectedCertificate?.certificate
-                                        ?.instructorTitle
-                                    }
+                                    {selectedCertificate?.instructorTitle}
                                   </h2>
                                   <h2>Head Of Marketing</h2>
                                 </div>
@@ -380,6 +398,19 @@ const AllocatedCertificateEmployeePage = () => {
                 </h5>
               </div>
               <div className="xl:p-5 p-3">
+                <div className="pb-3 flex flex-col gap-2">
+                  <Label className="text-base text-[#515151] font-normal font-calibri">
+                    Certificate
+                  </Label>
+                  <SelectMenu
+                    option={certificateOption || []}
+                    setValue={(data: string) => setSelectCertificate(data)}
+                    value={selectCertificate}
+                    className="text-[#A3A3A3] text-base font-calibri"
+                    placeholder="Select Certificate"
+                    containClassName="max-w-[476px]"
+                  />
+                </div>
                 <div className="pb-3 flex flex-col gap-2">
                   <Label className="text-base text-[#515151] font-normal font-calibri">
                     Course Name

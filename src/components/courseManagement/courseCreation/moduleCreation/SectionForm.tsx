@@ -150,23 +150,23 @@ const SectionForm = ({
                     Reading Time
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
                         {...register(
                           `readingTime.hour`, {
                             setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(section?.readingTime.hour),
+                              value === "" ? undefined : Number(value),
                           }
                         )}
                         defaultValue={watch("readingTime.hour")}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="w-full p-3 pr-10 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-0 pr-3">
                         Hour
                       </h6>
                     </div>
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
                         {...register(
@@ -176,13 +176,13 @@ const SectionForm = ({
                           }
                         )}
                         defaultValue={watch("readingTime.minute")}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="p-3 w-full pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                         Minute
                       </h6>
                     </div>
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
                         {...register("readingTime.second", {
@@ -191,9 +191,9 @@ const SectionForm = ({
                           }
                         )}
                         defaultValue={watch("readingTime.second")}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="p-3 w-full pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                         Second
                       </h6>
                     </div>
@@ -297,7 +297,7 @@ const SectionForm = ({
               <h6 className="text-base text-[#515151] font-calibri pb-3">
                 Section Duration (HH)
               </h6>
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
+              <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
                 {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
                 <Input
                   {...register(`livesessionDuration.hour`, {
@@ -305,9 +305,9 @@ const SectionForm = ({
                       value === "" ? undefined : Number(value),
                   })}
                   type="number"
-                  className="border-none h-[20px] w-full  text-sm text-black p-0"
+                  className="w-full p-3 pr-10 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri">
+                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                   Hours
                 </h6>
               </div>
@@ -322,16 +322,16 @@ const SectionForm = ({
               <h6 className="text-base text-[#515151] font-calibri pb-3">
                 Section Minute (MM)
               </h6>
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] me-5 flex justify-between items-center">
+              <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
                 <Input
                   type="number"
                   {...register(`livesessionDuration.minute`, {
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  className="border-none h-[20px] w-full  text-sm text-black p-0"
+                  className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri">
+                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                   Minute
                 </h6>
               </div>
@@ -346,16 +346,16 @@ const SectionForm = ({
               <h6 className="text-base text-[#515151] font-calibri pb-3">
                 Section Seconds (SS)
               </h6>
-              <div className="border border-[#D9D9D9] rounded-md p-3 w-[145px] flex justify-between items-center">
+              <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
                 <Input
                   type="number"
                   {...register(`livesessionDuration.second`, {
                     setValueAs: (value: string) =>
                       value === "" ? undefined : Number(value),
                   })}
-                  className="border-none h-[20px] w-full  text-sm text-black p-0"
+                  className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri">
+                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                   Second
                 </h6>
               </div>

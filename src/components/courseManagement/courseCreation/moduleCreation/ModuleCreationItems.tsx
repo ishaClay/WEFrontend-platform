@@ -281,32 +281,24 @@ const ModuleCreationItems = ({
                     Reading Time
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
-                        // {...register(`${registerkey}readingTime.hour`, {
-                        //   setValueAs: (value: string) =>
-                        //     value === "" ? undefined : Number(value),
-                        // })}
                         {...register(
                           `modules.${index}.section.${sectionindex}.readingTime.hour`, {
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           }
                         )}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="w-full p-3 pr-10 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                         Hour
                       </h6>
                     </div>
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
-                        // {...register(`${registerkey}readingTime.minute`, {
-                        //   setValueAs: (value: string) =>
-                        //     value === "" ? undefined : Number(value),
-                        // })}
                         {...register(
                           `modules.${index}.section.${sectionindex}.readingTime.minute`, {
                             setValueAs: (value: string) =>
@@ -314,48 +306,44 @@ const ModuleCreationItems = ({
                           }
                         )}
                         value={watch("readingTime.minute")}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                         Minute
                       </h6>
                     </div>
-                    <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                       <Input
                         type="number"
-                        // {...register(`${registerkey}readingTime.second`, {
-                        //   setValueAs: (value: string) =>
-                        //     value === "" ? undefined : Number(value),
-                        // })}
                         {...register(
                           `modules.${index}.section.${sectionindex}.readingTime.second`, {
                             setValueAs: (value: string) =>
                               value === "" ? undefined : Number(value),
                           }
                         )}
-                        className="border-none w-full  p-0 text-sm text-black h-[20px]"
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri">
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                         Second
                       </h6>
                     </div>
                   </div>
-                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.hour && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.hour && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.hour?.message}
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.hour?.message}
                     />
                   )}
-                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.minute && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.minute && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.minute?.message}
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.minute?.message}
                     />
                   )}
-                  {errors.modules?.[index]?.section?.[sectionIndex]?.readingTime?.second && (
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.second && (
                     <FormError
                       className="font-calibri not-italic"
-                      message={errors.modules?.[index]?.section?.[sectionIndex].readingTime?.second?.message}
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.second?.message}
                     />
                   )}
                 </div>
@@ -463,7 +451,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Duration (HH)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[53px] h-9 w-full flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
                     <Input
                       type="number"
@@ -474,9 +462,9 @@ const ModuleCreationItems = ({
                             value === "" ? undefined : Number(value),
                         }
                       )}
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Hours
                     </h6>
                   </div>
@@ -495,7 +483,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Minute (MM)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     <Input
                       value={sectionItem.livesessionDuration?.minute}
                       {...register(
@@ -506,9 +494,9 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Minute
                     </h6>
                   </div>
@@ -527,7 +515,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Seconds (SS)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     <Input
                       {...register(
                         `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
@@ -537,9 +525,9 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Second
                     </h6>
                   </div>

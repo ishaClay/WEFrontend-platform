@@ -101,8 +101,8 @@ const UploadContent = ({
   const removeFile = () => {
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
-        `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
-        ""
+        `uploadedContentUrl`,
+        0
       );
     } else {
       setValue(`uploadedContentUrl`, "");
@@ -155,9 +155,9 @@ const UploadContent = ({
   }
 
   const removeUploadContent = () => {
-    console.log("setIsOpenUploadDocumnet", isOpenUploadDocumnet);
+    console.log("setIsOpenUploadDocumnet", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`);
     setValue(
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
+      `uploadContentType`,
       0
     );
     setValue(

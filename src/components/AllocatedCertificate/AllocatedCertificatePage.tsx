@@ -2,22 +2,28 @@ import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
-import { IssuedCertificateList } from "@/services/apiServices/certificate";
+import {
+  deleteAllocateCertificate,
+  IssuedCertificateList,
+} from "@/services/apiServices/certificate";
 import { certificateDataEntity, IssuedCertificate } from "@/types/certificate";
 import { UserRole } from "@/types/UserRole";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, FileSliders, Search, Trash2 } from "lucide-react";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
   const { permissions } = useContext(PermissionContext);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState<certificateDataEntity[]>([]);
@@ -30,6 +36,27 @@ const AllocatedCertificatePage = () => {
     queryFn: () =>
       IssuedCertificateList({ id: userData?.query?.id, page, search }),
   });
+
+  const { mutate: deleteCertificate, isPending: deletePending } = useMutation({
+    mutationFn: deleteAllocateCertificate,
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Allocate Certificate User deleted successfully",
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.issuedCertificate],
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+      });
+    },
+  });
+
   const column: ColumnDef<certificateDataEntity>[] = [
     {
       accessorKey: "id",
@@ -109,7 +136,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.certificatePdf}
+            {row.original?.course?.certificate as string}
           </h6>
         );
       },
@@ -148,7 +175,7 @@ const AllocatedCertificatePage = () => {
             {row?.original?.certificatePdf &&
             row?.original?.employee?.createdAt ? (
               <Button className="bg-[#58BA66] px-4 2xl:h-8 h-7 2xl:text-sm text-xs">
-                {row.original?.employee?.status}
+                Issued
               </Button>
             ) : (
               <Button className="bg-[#FFA25E] px-4 2xl:h-8 h-7 2xl:text-sm text-xs ">
@@ -169,40 +196,66 @@ const AllocatedCertificatePage = () => {
         );
       },
       cell: ({ row }) => {
+        console.log("row++++++++++++++++", row);
+
         return (
           <div className="flex gap-2 items-center">
-            <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
+            <Button
+              type="button"
+              variant={"ghost"}
+              onClick={() => deleteCertificate(row?.original?.id)}
+            >
+              <Trash2 className="cursor-pointer text-[#A3A3A3]" width={18} />
+            </Button>
             {row?.original?.certificatePdf && row?.original?.createdAt ? (
-              <Button
-                onClick={() =>
-                  dispatch(
-                    setPath([
-                      {
-                        label: "Certificate Management",
-                        link: null,
-                      },
-                      {
-                        label: "Certificate Allocation",
-                        link: "/allocated-certificate",
-                      },
-                      {
-                        label: "Issued Certificate",
-                        link: `allocateEmploye/${row?.original?.employee?.id}`,
-                      },
-                    ])
-                  )
-                }
-              >
+              <a href={row?.original?.certificatePdf} target="_blank">
                 <Eye
                   className="mx-2 cursor-pointer text-[#A3A3A3]"
                   width={18}
                 />
-              </Button>
+              </a>
             ) : (
-              <FileSliders
-                className="cursor-pointer text-[#A3A3A3]"
-                width={18}
-              />
+              <Button
+                variant={"ghost"}
+                onClick={() => {
+                  {
+                    navigate(
+                      `/${UserRole[
+                        userData?.query?.role
+                      ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
+                        row?.original?.course?.id
+                      }&traineeId=${row?.original?.employee?.id}`
+                    );
+                    dispatch(
+                      setPath([
+                        {
+                          label: `Certificate Management`,
+                          link: null,
+                        },
+                        {
+                          label: `Issued Certificate`,
+                          link: `/${UserRole[
+                            userData?.query?.role
+                          ]?.toLowerCase()}/allocated-certificate`,
+                        },
+                        {
+                          label: `Allocate Certificate`,
+                          link: `/${UserRole[
+                            userData?.query?.role
+                          ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
+                            row?.original?.course?.id
+                          }&traineeId=${row?.original?.employee?.id}`,
+                        },
+                      ])
+                    );
+                  }
+                }}
+              >
+                <FileSliders
+                  className="cursor-pointer text-[#A3A3A3]"
+                  width={18}
+                />
+              </Button>
             )}
           </div>
         );
@@ -307,6 +360,7 @@ const AllocatedCertificatePage = () => {
           </div>
         </>
       )}
+      <Loading isLoading={deletePending} />
     </div>
   );
 };

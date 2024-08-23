@@ -74,7 +74,6 @@ const MaturityAssessment = () => {
     const newData =
       assessmentQuestionScoreLIST?.data?.length > 0
         ? assessmentQuestionScoreLIST?.data?.map((item: any) => {
-
             return {
               label: item[0]?.assessmentName || "",
               date: item?.[0]?.createdAt
@@ -344,6 +343,7 @@ const MaturityAssessment = () => {
                       )?.date;
                 setSelectAssessment(e);
                 if (find) {
+                  console.log("e", find);
                 } else {
                   navigate(`/question`);
                 }

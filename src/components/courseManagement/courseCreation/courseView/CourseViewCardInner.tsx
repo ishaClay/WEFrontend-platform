@@ -76,8 +76,7 @@ const CourseViewCardInner = ({
         .string()
         .min(1, "Please enter information")
         .max(1000, "You can not write information more than 250 characters"),
-      uploadContentType: z
-        .number()
+      uploadContentType: z.number()
         // .min(1, "Upload content type is required")
         .optional(),
       uploadedContentUrl: z.string().optional(),
@@ -112,33 +111,33 @@ const CourseViewCardInner = ({
           });
         }
       } else {
-        if (!data.uploadedContentUrl && !data.youtubeUrl) {
+        // if (!data.uploadedContentUrl && !data.youtubeUrl) {
+        //   ctx.addIssue({
+        //     code: z.ZodIssueCode.custom,
+        //     message:
+        //       "Either uploaded content url and File or YouTube URL is required ",
+        //     path: ["uploadedContentUrl", "uploadContentType", "youtubeUrl"],
+        //   });
+        // }
+        if (
+          !data.readingTime?.hour &&
+          !data.readingTime?.minute &&
+          !data.readingTime?.second
+        ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message:
-              "Either uploaded content url and File or YouTube URL is required ",
-            path: ["uploadedContentUrl", "uploadContentType", "youtubeUrl"],
+            message: "Reading time is required",
+            path: ["readingTime.hour"],
           });
         }
         if (!data.youtubeUrl && data.uploadContentType) {
-          if (
-            !data.readingTime?.hour &&
-            !data.readingTime?.minute &&
-            !data.readingTime?.second
-          ) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: "Reading time is required",
-              path: ["readingTime.hour"],
-            });
-          }
-          if (!data.uploadContentType) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: "Upload content type is required when isLive is false",
-              path: ["uploadContentType"],
-            });
-          }
+          // if (!data.uploadContentType) {
+          //   ctx.addIssue({
+          //     code: z.ZodIssueCode.custom,
+          //     message: "Upload content type is required when isLive is false",
+          //     path: ["uploadContentType"],
+          //   });
+          // }
           if (!data.uploadedContentUrl) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
@@ -303,7 +302,7 @@ const CourseViewCardInner = ({
         "information",
         data.isLive ? data.liveSecinformation : data.information
       );
-      setValue("uploadContentType", data.documentType);
+      setValue("uploadContentType", data.documentType === null ? 0 : data.documentType);
       setValue("uploadedContentUrl", data.uploadContent);
       setValue(
         "readingTime",
@@ -352,7 +351,7 @@ const CourseViewCardInner = ({
     if (data.isLive) {
       EditLiveSection(a);
     } else {
-      EditSection(data);
+      EditSection({...data, uploadContentType: data.uploadContentType === 0 ? null : data.uploadContentType});
     }
   };
 

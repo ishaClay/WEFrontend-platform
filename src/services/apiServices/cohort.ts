@@ -38,3 +38,10 @@ export const deleteCohort = async (id: number) => {
     const res = await api({ url, method });
     return res.data
 }
+
+export const createCohortGroupUser = async ({ cohortId }: { cohortId: number }) => {
+    const url = `api/v1/group/create`;
+    const method = "post";
+    const res = await api({ url, method, data: { cohortId: cohortId } });
+    return res.data
+}
