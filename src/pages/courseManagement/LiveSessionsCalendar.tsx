@@ -76,7 +76,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     return {
       start: eventStart,
       end: eventEnd,
-      title: session?.liveSecTitle,
+      title: session?.subtitle,
       description: session?.description,
       zoomlink: session?.zoomApiBaseUrl,
     };
