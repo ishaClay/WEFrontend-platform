@@ -37,7 +37,7 @@ const Feedback = ({ data }: any) => {
           </SelectContent>
         </Select>
       </div>
-      <div className="">
+      <div className="flex flex-col w-full gap-y-4">
         {isLoading ? (
           <Loader />
         ) : feedback?.data && feedback?.data?.length > 0 ? (

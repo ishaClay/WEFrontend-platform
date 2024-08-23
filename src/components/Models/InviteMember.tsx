@@ -10,8 +10,8 @@ import ErrorMessage from "../comman/Error/ErrorMessage";
 import Modal from "../comman/Modal";
 import TextAreaWithLabel from "../comman/TextAreaWithLabel";
 import { Button } from "../ui/button";
-import { useToast } from "../ui/use-toast";
 import { Input } from "../ui/input";
+import { useToast } from "../ui/use-toast";
 
 const schema = z.object({
   invitiondetail: z.string().min(1, { message: "Email Address is required" }),
@@ -105,9 +105,6 @@ const InviteMember = ({
           <div>
             <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2">
               Enter Team Member Email ID
-              <span className="font-nunito font-normal text-[#A3A3A3] text-base ml-2">
-                (comma separated email id)
-              </span>
             </h3>
             <div className="mt-[10px]">
               <div className="flex lg:flex-nowrap flex-wrap items-center sm:gap-5 gap-3 w-full mb-2">

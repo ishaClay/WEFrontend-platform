@@ -56,10 +56,7 @@ function EmployeeSendInvitation() {
           </div>
 
           <div className=" p-6">
-            <h2 className="text-[16px]  mb-4 ">
-              Enter Team Member Email ID{" "}
-              <span className="text-[#A3A3A3]">(comma separated email id)</span>{" "}
-            </h2>
+            <h2 className="text-[16px]  mb-4 ">Enter Team Member Email ID </h2>
             <input
               type="text"
               placeholder="Enter email id"

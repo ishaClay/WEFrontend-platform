@@ -184,6 +184,9 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                 return "In Progress";
               }
             };
+
+            console.log("item", item);
+
             return (
               <>
                 <div className="sm:flex block items-center sm:px-5 p-3 sm:py-2.5 justify-between w-full border-t border-[#D9D9D9]">
@@ -225,7 +228,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                     )}
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-0 gap-2.5 sm:items-end items-center">
-                    {item.employeeId !== null && (
+                    {item.employeeId !== null && !item.evidence && (
                       <Button
                         className={`${
                           status() === "Delay"

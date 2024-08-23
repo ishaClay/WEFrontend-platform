@@ -1,6 +1,7 @@
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut } from "@/services/apiServices/authService";
 import { getCountry } from "@/services/apiServices/company";
+import { fetchNfqlLevel } from "@/services/apiServices/courseManagement";
 import {
   fetchAgeRanges,
   fetchEmploymentStatus,
@@ -47,6 +48,7 @@ const RegisterTraineeForm = () => {
     occupationalCategory: "",
     unemploymentTime: "",
     countryOfResidence: "",
+    currentHighestNFQ: "",
   });
   const navigate = useNavigate();
   const schema = Zod.object({
@@ -108,6 +110,17 @@ const RegisterTraineeForm = () => {
     queryFn: fetchEmploymentStatus,
   });
   const employmentStatusList = getEmploymentStatusList?.employmentStatus;
+
+  const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
+    queryKey: ["nfqllevel"],
+    queryFn: () => fetchNfqlLevel({ from: 1, until: 10 }),
+  });
+
+  const nfqOption: any = getNfqlLevelList?.data?.map((item: any) => {
+    return item.leval;
+  });
+
+  console.log(nfqOption);
 
   const {
     data: getOccupationalCategoriesList,
@@ -407,10 +420,44 @@ const RegisterTraineeForm = () => {
               Current Highest NFQ
               <img src={mandatory} className="p-1" />
             </label>
-            <InputWithLable
+            {/* <InputWithLable
               className={"!w-full font-normal"}
               {...register("currentHighestNFQ")}
-            />
+            /> */}
+            <Select
+              {...register("currentHighestNFQ")}
+              onValueChange={(value: string) => {
+                setSelectBoxValues({
+                  ...selectBoxValues,
+                  currentHighestNFQ: value,
+                });
+                setValue("employmentStatus", value);
+              }}
+              value={selectBoxValues?.currentHighestNFQ}
+            >
+              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
+                <SelectValue placeholder="Select Nfq" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                {nfqPending ? (
+                  <span className="flex items-center justify-center py-5">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span>
+                ) : nfqOption && nfqOption?.length > 0 ? (
+                  nfqOption?.map((item: any, index: number) => {
+                    return (
+                      <SelectItem className="px-8" value={item} key={index}>
+                        {item}
+                      </SelectItem>
+                    );
+                  })
+                ) : (
+                  <span className="flex items-center justify-center py-5">
+                    No Data Found
+                  </span>
+                )}
+              </SelectContent>
+            </Select>
             {errors.currentHighestNFQ && (
               <ErrorMessage
                 message={(errors?.currentHighestNFQ?.message as string) || ""}

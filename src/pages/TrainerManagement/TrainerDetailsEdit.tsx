@@ -108,6 +108,7 @@ const TrainerEditDetails = () => {
       name: trainerDetails?.name,
       phone: trainerDetails?.contact,
       profileImage: trainerDetails?.image,
+      employeeStatus: +trainerStatus === 1 ? "Active" : "Inactive",
     };
     mutate({ id: params?.id ? params?.id : "", data: payload });
   };
@@ -275,7 +276,7 @@ const TrainerEditDetails = () => {
                 <div className="pl-[25px] py-[20px] flex items-center gap-[59px]">
                   <RadioGroup
                     onValueChange={(value: any) => setTrainerStatus(value)}
-                    disabled={true}
+                    // disabled={true}
                     value={trainerStatus.toString()}
                     className="flex items-center gap-[34px]"
                   >

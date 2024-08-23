@@ -81,7 +81,12 @@ const CourseViewCardInner = ({
         // .min(1, "Upload content type is required")
         .optional(),
       uploadedContentUrl: z.string().optional(),
-      youtubeUrl: z.string().optional(),
+      youtubeUrl: z
+        .string()
+        .regex(
+          /^(https:\/\/youtu\.be\/[a-zA-Z0-9_-]+(\?[^\s]*)?)?$/,
+          "Invalid Url"
+        ),
       readingTime: z
         .object({
           hour: z.number().min(0).max(23),

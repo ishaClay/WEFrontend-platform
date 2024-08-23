@@ -61,30 +61,30 @@ const HistoryModel = ({
           ) : (
             data?.data?.map((items, index: number) => {
               return (
-                  <div className="flex items-center gap-2" key={index}>
-                    <div>
-                      <Avatar>
-                        {/* <AvatarImage src={items?.image} alt="Avatar" /> */}
-                        <AvatarFallback>
-                          {items.createdBy?.name.charAt(0)}
-                        </AvatarFallback>
-                      </Avatar>
+                <div className="flex items-center gap-2" key={index}>
+                  <div>
+                    <Avatar>
+                      {/* <AvatarImage src={items?.image} alt="Avatar" /> */}
+                      <AvatarFallback>
+                        {items.createdBy?.name?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div>
+                    <div className="flex items-center pb-1">
+                      <h6 className="text-base font-abhaya font-bold">
+                        {items.createdBy?.name}
+                      </h6>
+                      ,{" "}
+                      <p className="text-[12px] font-abhaya text-[#777] font-[700] ml-1">
+                        {getTimeAgo(items.createdAt)}
+                      </p>
                     </div>
-                    <div>
-                      <div className="flex items-center pb-1">
-                        <h6 className="text-base font-abhaya font-bold">
-                          {items.createdBy?.name}
-                        </h6>
-                        ,{" "}
-                        <p className="text-[12px] font-abhaya text-[#777] font-[700] ml-1">
-                          {getTimeAgo(items.createdAt)}
-                        </p>
-                      </div>
-                      <div className="text-[13px] font-abhaya font-bold text-[#000]">
-                        {items.historyName}
-                      </div>
+                    <div className="text-[13px] font-abhaya font-bold text-[#000]">
+                      {items.historyName}
                     </div>
                   </div>
+                </div>
               );
             })
           )}

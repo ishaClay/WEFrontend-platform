@@ -98,6 +98,7 @@ export interface CourseAllotedEntity {
   enroll: number;
   createdAt: string;
   updatedAt: string;
+  courseReconmendedStatus: string;
   course: Course;
   numberOfEmployee: string;
   employee: EmployeeEntity[];
@@ -131,7 +132,7 @@ export interface Course {
   description?: string;
   bannerImage?: string;
   keys?: string;
-  courseData?: (null)[] | null;
+  courseData: any;
   status: string;
   deletedAt?: null;
   createdAt: string;
