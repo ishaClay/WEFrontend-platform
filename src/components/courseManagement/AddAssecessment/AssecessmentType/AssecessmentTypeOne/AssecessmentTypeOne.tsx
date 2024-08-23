@@ -11,6 +11,7 @@ import { CircleX } from "lucide-react";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
+import { Input } from "@/components/ui/input";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -174,10 +175,10 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
           <h6 className="text-base text-black font-calibri pb-3">
             Enter Question
           </h6>
-          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
-            <input
+          <div className="flex justify-between items-center w-full">
+            <Input
               placeholder="Enter the question"
-              className=" font-base font-calibri text-[#1D2026] w-full"
+              className=" font-base font-calibri text-[#1D2026] w-full px-4 py-2 h-[42px] mr-2"
               onChange={(e) => {
                 dispatch(
                   addQuestion({
@@ -194,8 +195,8 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
               <label className="me-3 text-[#515151] text-base font-calibri">
                 Point
               </label>
-              <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+              <Input
+                className="py-2 px-3 w-[100px] rounded-md"
                 onChange={(e) => {
                   const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {

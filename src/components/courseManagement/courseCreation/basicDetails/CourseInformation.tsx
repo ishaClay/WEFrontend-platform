@@ -107,6 +107,7 @@ const CourseInformation = ({
   const search = window.location.search;
   const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const coursePrise = watch("price") || "0";
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
@@ -167,9 +168,7 @@ const CourseInformation = ({
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : updatedData?.id
-        }?tab=${updatedData?.creationCompleted ? "0" : updatedData?.tab}&step=${
-          updatedData?.creationCompleted ? "1" : updatedData?.step
-        }&version=${updatedData?.currentVersion?.id}`,
+        }?tab=0&step=1&version=${updatedData?.currentVersion?.id}${paramsType ? `&type=${paramsType}`: ''}`,
         {
           replace: true,
         }
@@ -184,7 +183,6 @@ const CourseInformation = ({
     },
   });
 
-  console.log("isDirty", isDirty);
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
@@ -240,12 +238,10 @@ const CourseInformation = ({
         mutate(payload);
       }
     } else {
-      console.log("payload");
-
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${1}&version=${getSingleCourse?.data?.id}`,
+        }?tab=${0}&step=${1}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
         {
           replace: true,
         }

@@ -194,7 +194,6 @@ function SupportAddNewTicket() {
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item) => {
-                      console.log("+++++++++", item);
 
                       return (
                         <>

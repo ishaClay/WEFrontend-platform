@@ -63,6 +63,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   const [selectAffiliations, setSelectAffiliations] =
@@ -166,13 +167,8 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      const updatedData = data?.data?.data;
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=${
-          updatedData?.creationCompleted ? "0" : updatedData?.tab
-        }&step=${
-          updatedData?.creationCompleted ? "4" : updatedData?.step
-        }&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=4&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }
@@ -227,7 +223,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}`,
+        }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }

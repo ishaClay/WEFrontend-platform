@@ -66,7 +66,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
             ref={ref}
             placeholder={placeholder}
             className={cn(
-              `h-auto`,
+              `h-auto shadow-none outline-none focus:border-[#4b4b4b]`,
               { "border-red-500": isShowErrorBorder && error },
               className
             )}

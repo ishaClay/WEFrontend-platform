@@ -72,11 +72,8 @@ function RegisterTrainer() {
         .min(1, { message: "Please select provider county" }),
       contactSurname: z.string().optional(),
       contactTelephone: z
-        .string()
-        .regex(/^[0-9]*$/, {
-          message: "Please enter valid phone number (1-9 digits).",
-        })
-        .optional(),
+        .string({ required_error: "Please enter phone number" })
+        .min(1, { message: "Please enter provider city" }),
       providerAddress: z.string().optional(),
       providerCounty: z.string().optional(),
       name: z.string().optional(),
@@ -100,20 +97,6 @@ function RegisterTrainer() {
           }
         ),
     })
-    .superRefine((data, ctx) => {
-      if (data.foreignProvider === "Yes") {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select a Address",
-          path: ["providerAddress"],
-        });
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please select a country",
-          path: ["providerCounty"],
-        });
-      }
-    });
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
     mutationFn: registerTrainee,
@@ -168,6 +151,8 @@ function RegisterTrainer() {
     mode: "all",
   });
   const email = watch("email");
+  console.log("errors:", errors);
+  
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
@@ -212,8 +197,6 @@ function RegisterTrainer() {
       label: item,
     };
   });
-
-  console.log("errro", errors);
 
   const countryOption =
     country?.data &&
@@ -388,7 +371,6 @@ function RegisterTrainer() {
                       className="h-[46px]"
                       label="Provider Address"
                       isMendatory={true}
-                      disabled={watch("foreignProvider") === "No"}
                       {...register("providerAddress")}
                     />
                     {errors.providerAddress && (
@@ -474,6 +456,19 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <InputWithLable
+                      placeholder="Enter email address"
+                      className="h-[46px]"
+                      disabled={!!defEmail}
+                      label="Email Address"
+                      isMendatory={true}
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <ErrorMessage message={errors.email.message as string} />
+                    )}
+                  </div>
+                  <div className="col-span-2">
+                    <InputWithLable
                       placeholder="First name"
                       className="h-[46px]"
                       label="Contact First Name"
@@ -487,7 +482,7 @@ function RegisterTrainer() {
                     <InputWithLable
                       placeholder="Last name"
                       className="h-[46px]"
-                      label="Contact Surname"
+                      label="Last name"
                       {...register("contactSurname")}
                     />
                     {errors.contactSurname && (
@@ -497,23 +492,11 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <InputWithLable
-                      placeholder="Enter email address"
-                      className="h-[46px]"
-                      disabled={!!defEmail}
-                      label="Email Address"
-                      isMendatory={true}
-                      {...register("email")}
-                    />
-                    {errors.email && (
-                      <ErrorMessage message={errors.email.message as string} />
-                    )}
-                  </div>
-                  <div className="col-span-2">
                     <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
-                      Contact Telephone No.
+                      Contact Telephone No. <span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
+                      {...register("contactTelephone")}
                       placeholder="Enter phone number"
                       value={phone}
                       international

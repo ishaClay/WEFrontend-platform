@@ -51,6 +51,11 @@ const ActionItemModel = ({
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isDelete, setIsDelete] = useState(false);
+  const [removeData, setRemoveData] = useState({
+    id: 0,
+    currentPiller: "",
+    index: 0,
+  });
   const userID = UserId
     ? +UserId
     : userData?.query
@@ -173,21 +178,22 @@ const ActionItemModel = ({
     }));
   };
 
-  const removeActionItem = (
-    index: number,
-    currentPiller: string,
-    measuresItemsId: number
-  ) => {
+  const handleDelete = () => {
+    setIsDelete(true);
+  };
+
+  const removeActionItem = () => {
     setPillerItems(
       (prev) =>
         ({
-          [currentPiller]: prev[currentPiller].filter((_, i) => {
-            return i !== index;
-          }),
+          [removeData?.currentPiller]: prev[removeData?.currentPiller].filter(
+            (_, i) => {
+              return i !== removeData?.index;
+            }
+          ),
         } as PillerItem)
     );
-    deleteMeasuresItemsFun(measuresItemsId);
-    setIsDelete(true);
+    deleteMeasuresItemsFun(removeData?.id);
   };
 
   const addActionItem = (currentPiller: string) => {
@@ -332,14 +338,15 @@ const ActionItemModel = ({
                                     <button
                                       type="button"
                                       className="border-none bg-transparent text-lg cursor-pointer"
-                                      onClick={() =>
-                                        removeActionItem(
+                                      onClick={() => {
+                                        setRemoveData({
+                                          // @ts-ignore
+                                          id: item?.id,
                                           index,
                                           currentPiller,
-                                          // @ts-ignore
-                                          +item?.id
-                                        )
-                                      }
+                                        });
+                                        handleDelete();
+                                      }}
                                     >
                                       <RiDeleteBin6Line className="text-[#B9B9B9]" />
                                     </button>
@@ -386,7 +393,7 @@ const ActionItemModel = ({
         <ConfirmModal
           open={isDelete}
           onClose={() => setIsDelete(false)}
-          onDelete={() => removeActionItem}
+          onDelete={() => removeActionItem()}
           value={currentPiller || ""}
           isLoading={deletePending}
         />

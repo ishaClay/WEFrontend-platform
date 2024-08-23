@@ -22,8 +22,6 @@ const EnrolledCourseList = () => {
   });
   const [coursesEnrolleList, setCoursesEnrolleList] = useState<any>([]);
 
-  console.log("coursesEnrolleList", coursesEnrolleList);
-
   const { data: enrolledCoursesData, isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
@@ -42,7 +40,6 @@ const EnrolledCourseList = () => {
   const updateData = () => {
     const indexToReplace = selectVersion?.index;
     const updatedDataA = enrolledCoursesData?.data?.map((item:any, index:number) => {
-      console.log("index === indexToReplace", index , indexToReplace);
       
       if (index === indexToReplace) {
         return fetchEnrollmentAcceptedFilterList?.data;
@@ -51,7 +48,6 @@ const EnrolledCourseList = () => {
     });
     return updatedDataA;
   };
-  console.log("setCoursesEnrolleList", coursesEnrolleList, updateData());
   
   useEffect(() => {
     if(!fetchEnrollmentAcceptedFilterPending){

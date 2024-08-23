@@ -137,7 +137,6 @@ function CourseListView({
       socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
-      console.log("data+++++error", error);
       setRecommendedCoursesById(null);
       toast({
         variant: "destructive",

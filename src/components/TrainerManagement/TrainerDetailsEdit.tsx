@@ -107,7 +107,7 @@ const TrainerDetailsEdit = () => {
       setProfileImage(data.data?.data?.image);
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
 

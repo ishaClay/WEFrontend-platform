@@ -107,8 +107,6 @@ const AssessmentResult = ({
     chnageTab("maturityAssessment");
   };
 
-  console.log("assessmentData", assessmentData);
-
   const points =
     assessmentData?.length &&
     assessmentData.reduce(
@@ -185,8 +183,6 @@ const AssessmentResult = ({
       },
     },
   };
-
-  console.log("points", points);
 
   const Labels = () => (
     <>

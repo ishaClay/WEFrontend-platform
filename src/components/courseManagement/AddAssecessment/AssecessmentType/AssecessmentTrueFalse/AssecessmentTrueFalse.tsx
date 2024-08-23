@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
@@ -117,8 +118,8 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
               <label className="me-3 text-[#515151] text-base font-calibri">
                 Point
               </label>
-              <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+              <Input
+                className="py-3 px-3 w-[100px] rounded-md h-auto"
                 onChange={(e) => {
                   const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
@@ -145,10 +146,10 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
           <h6 className="text-base text-black font-calibri pb-1">
             Enter Question
           </h6>
-          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-3">
-            <input
+          <div className="flex justify-between items-center w-full">
+            <Input
               placeholder="Enter the question"
-              className=" font-base font-calibri text-[#1D2026] w-full"
+              className="font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto"
               onChange={(e) => {
                 dispatch(
                   addQuestion({

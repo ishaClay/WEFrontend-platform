@@ -19,10 +19,10 @@ import { z } from "zod";
 import CourseViewPage from "../courseView/CourseViewPage";
 import ModuleCreationItems from "./ModuleCreationItems";
 
-export const intialSectionCreation: SectionCreation = {
+export const intialSectionCreation: SectionCreation | any = {
   sectionTitle: "",
   information: "",
-  uploadContentType: 0,
+  uploadContentType: 0 || null || undefined,
   uploadedContentUrl: "",
   readingTime: {
     hour: 0,
@@ -39,7 +39,7 @@ export const intialSectionCreation: SectionCreation = {
   },
 };
 
-export const intialModuleCreation: ModuleCreation = {
+export const intialModuleCreation: ModuleCreation | any = {
   moduleTitle: "",
   section: [intialSectionCreation],
 };
@@ -137,19 +137,19 @@ const ModuleCreationPage = () => {
                       "youtubeUrl",
                     ],
                   });
+                }                
+                if (
+                  !data.readingTime?.hour &&
+                  !data.readingTime?.minute &&
+                  !data.readingTime?.second
+                ) {
+                  ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Please enter reading time",
+                    path: ["readingTime.hour"],
+                  });
                 }
                 if (!data.youtubeUrl && data.uploadContentType) {
-                  if (
-                    !data.readingTime?.hour &&
-                    !data.readingTime?.minute &&
-                    !data.readingTime?.second
-                  ) {
-                    ctx.addIssue({
-                      code: z.ZodIssueCode.custom,
-                      message: "Please enter reading time",
-                      path: ["readingTime.hour"],
-                    });
-                  }
                   if (!data.uploadContentType) {
                     ctx.addIssue({
                       code: z.ZodIssueCode.custom,
@@ -246,27 +246,27 @@ const ModuleCreationPage = () => {
     });
   }, [CourseModule]);
 
-  const handleModuleSave = async (data: any) => {
+  const handleModuleSave = async (data: any) => {    
     if(informationError !== "") return
     try {
       const promises = data.modules.map(async (module: ModuleCreation) => {
         const response = await CreateModuleAsync.mutateAsync(module);
         const moduleId = response.data.data.id;
-        console.log("module", module);
 
         if (moduleId) {
           await createSectionAsync.mutateAsync({
             moduleId,
             sections: module.section.map((item) => {
-              const { uploadContentType, ...rest } = item;
-              return uploadContentType === 0 ? rest : item;
+              const { uploadContentType, ...rest} = item;
+              const youtubeUrl = item?.uploadContentType && +item?.uploadContentType > 0 ? '' : item?.youtubeUrl;
+              return uploadContentType === 0 ? {...rest, youtubeUrl: youtubeUrl, uploadContentType: null} : {...item, youtubeUrl: youtubeUrl};
             }),
           });
         }
       });
       if (+courseEditId) {
         navigate(
-          `/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}`
+          `/${pathName}/create_course/${courseEditId}?tab=${paramsTab}&version=${paramsVersion}${paramsType ? `&type=${paramsType}` : ''}`
         );
       } else {
         navigate(
@@ -314,14 +314,6 @@ const ModuleCreationPage = () => {
     setModuleList(moduleListClone);
   };
 
-  console.log("watchwatch", watch());
-  console.log(
-    "asdasd++++",
-    paramsType === "majorEdit",
-    moduleList?.length > 0,
-    moduleCreationItem.length > 0
-  );
-
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
@@ -340,7 +332,7 @@ const ModuleCreationPage = () => {
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
           disabled={
-            paramsType === "majorEdit"
+            paramsType === "editminor"
               ? true
               : moduleList?.length > 0 && moduleCreationItem.length > 0
           }

@@ -89,8 +89,6 @@ const TrainerInvitation = () => {
     },
   });
 
-  console.log("errors", errors);
-
   const onSubmit = (data: FieldValues) => {
     const payload = {
       email: emails,
@@ -98,7 +96,6 @@ const TrainerInvitation = () => {
       TrainerCompanyId: id,
       baseUrl: url,
     };
-    console.log("payload", payload);
 
     mutate(payload);
   };

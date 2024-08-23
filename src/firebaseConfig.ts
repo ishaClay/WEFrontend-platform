@@ -50,9 +50,6 @@ export const getDeviceToken = async () => {
         return token;
         // You can send the token to your server here
       } else {
-        console.log(
-          "No registration token available. Request permission to generate one."
-        );
       }
     } else {
       console.warn("Notification permission denied.");
@@ -76,8 +73,6 @@ export const onMessageListener = async () => {
 };
 
 // messaging.onBackgroundMessage((payload) => {
-//     console.log('Received background message ', payload);
-
 //     const notificationTitle = payload.notification?.title || 'Default Title';
 //     const notificationOptions = {
 //         body: payload.notification?.body || 'Default Body',

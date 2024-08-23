@@ -207,11 +207,6 @@ const Dashboard = () => {
     queryFn: () => getSmeDashboardData({ userId: userData?.query?.detailsid }),
   });
 
-  console.log("firstInfirgraphicChart", {
-    smeDashboardData,
-    firstInfirgraphicChart,
-  });
-
   const data = {
     labels: [
       "January",

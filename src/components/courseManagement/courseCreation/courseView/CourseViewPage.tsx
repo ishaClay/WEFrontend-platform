@@ -16,9 +16,7 @@ const CourseViewPage = ({
   currIndex: number;
 }) => {
   // @ts-ignore
-  const CourseCardList = [...data.section, ...(data?.assessment as any)];
-  console.log("CourseCardList1212", data, CourseCardList);
-  
+  const CourseCardList = [...data.section, ...(data?.assessment as any)];  
 
   return (
     <div className="pb-5">

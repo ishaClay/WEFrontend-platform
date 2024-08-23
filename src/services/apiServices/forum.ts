@@ -6,7 +6,6 @@ export const fetchAllForum = async (courseId: number):Promise<CommentFormData> =
   const url = `api/v1/forum-question/get-by-course/${courseId}`;
   const method = "get";
   const res = await api({ url, method });
-  // console.log(res, "res data of forum");
   return res.data;
 };
 
@@ -18,7 +17,6 @@ export const createForum = async (data: {question: string,
   const url = `api/v1/forum-question/create`;
   const method = "post";
   const res = await api({ url, data, method });
-  // console.log(res.data, "res.data");
   return res.data;
 };
 
@@ -51,7 +49,6 @@ export const fetchAllCommnets = async (id: number):Promise<commnets> => {
   const url = `api/v1/forum-question/get-comment-by-question/${id}`;
   const method = "get";
   const res = await api({ url, method });
-  // console.log(res, "res data of forum");
   return res.data;
 };
 

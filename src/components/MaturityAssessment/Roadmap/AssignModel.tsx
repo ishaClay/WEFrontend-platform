@@ -62,7 +62,7 @@ const AssignModel = ({
       });
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -105,7 +105,7 @@ const AssignModel = ({
         date={date.startDate}
         fromDate={new Date()}
         setDate={(e) => setDate((prev) => ({ ...prev, startDate: e }))}
-        buttonClassName="text-base font-abhaya font-medium text-[#A3A3A3] w-[363px] h-[52px] xl:mb-7 mb-6"
+        buttonClassName="text-base font-abhaya font-medium w-[363px] h-[52px] xl:mb-7 mb-6"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />
       <DatePicker
@@ -114,7 +114,7 @@ const AssignModel = ({
         date={date.endDate}
         fromDate={moment(date?.startDate).add(1, "days").toDate() || new Date()}
         setDate={(e) => setDate((prev) => ({ ...prev, endDate: e }))}
-        buttonClassName="text-base font-abhaya font-medium text-[#A3A3A3] w-[363px] h-[52px]"
+        buttonClassName="text-base font-abhaya font-medium w-[363px] h-[52px]"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />
       <div className="flex justify-end pt-[30px]">

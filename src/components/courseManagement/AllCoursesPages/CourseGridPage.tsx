@@ -58,8 +58,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   };
 
   const getUpcommingCohort = (cohortData: AllCourse) => {
-    console.log("cohortData", cohortData);
-
     const currentDate = new Date();
     const formattedCurrentDate = {
       date: String(currentDate.getDate()).padStart(2, "0"),
@@ -85,6 +83,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               +formattedCurrentDate.month &&
             parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
       );
+      console.log("matchingSlotmatchingSlot", cohortData?.cohortGroups, formattedCurrentDate);
+      
 
     const findIndex =
       matchingSlot &&

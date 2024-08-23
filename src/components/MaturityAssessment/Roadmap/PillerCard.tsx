@@ -168,8 +168,6 @@ const PillerCard = ({
     }
   };
 
-  console.log("checkedStatescheckedStates", item);
-
   return (
     <div className="pb-0 flex w-full">
       <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">
@@ -284,7 +282,7 @@ const PillerCard = ({
                                 key={`item-${index}-${subIndex}`}
                                 className=""
                               >
-                                12{measures?.measures}
+                                {measures?.measures}
                               </li>
                             )
                         )

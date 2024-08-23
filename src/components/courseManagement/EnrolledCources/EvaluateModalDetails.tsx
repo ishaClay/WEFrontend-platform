@@ -10,7 +10,6 @@ interface EvaluateModalDetailsProps {
 
 const EvaluateModalDetails = ({ data, courseId, employeeId }: EvaluateModalDetailsProps) => {
   const evaluationsData = data?.filter((item) => item?.evaluations?.length > 0);
-  console.log("datadata1234", data);
   
   return (
     <div className="">

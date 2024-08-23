@@ -156,7 +156,6 @@ const Message = () => {
     (item) => item?.id === +chatId
   );
 
-  console.log("currentChat", chatUserList);
 
   // useEffect(() => {
   //   socket = io(import.meta.env.VITE_SOCKET_URL);

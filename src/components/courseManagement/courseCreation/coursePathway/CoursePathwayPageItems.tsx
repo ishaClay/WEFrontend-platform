@@ -17,8 +17,6 @@ const CoursePathwayPageItems = ({
   handleSelected,
   selectedData,
 }: CoursePathwayPageItemsProps) => {
-  console.log("🚀 ~ CoursePathwayPageItems ~ data:", lavelData);
-
   return (
     <div className="md:h-[100px] h-auto border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
       <div className="h-full flex items-center md:col-span-3 col-span-12 sm:p-4 p-2.5 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">

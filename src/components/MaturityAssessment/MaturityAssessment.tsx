@@ -61,8 +61,6 @@ const MaturityAssessment = () => {
     // enabled: !!selectAssessment,
   });
 
-  console.log("getEmployeeWnList 1212", getCheckedmeasures);
-
   const { data: assessmentQuestionScoreLIST } = useQuery({
     queryKey: [QUERY_KEYS.assessmentQuestionScore],
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
@@ -72,14 +70,10 @@ const MaturityAssessment = () => {
     (item: any) => item?.progressPR === 100
   );
 
-  console.log("pillarCompleted", assessmentQuestionScoreLIST?.data?.at(-1));
-
   const assessmentDetailOptions = useMemo(() => {
     const newData =
       assessmentQuestionScoreLIST?.data?.length > 0
         ? assessmentQuestionScoreLIST?.data?.map((item: any) => {
-            console.log("item", item);
-
             return {
               label: item[0]?.assessmentName || "",
               date: item?.[0]?.createdAt
@@ -113,8 +107,6 @@ const MaturityAssessment = () => {
     return newData;
   }, [getCheckedmeasures, assessmentQuestionScoreLIST, pillarCompleted]);
 
-  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
-
   useEffect(() => {
     if (assessmentDetailOptions) {
       setSelectAssessment(
@@ -124,8 +116,6 @@ const MaturityAssessment = () => {
     }
   }, [assessmentQuestionScoreLIST]);
 
-  console.log("assessmentDetailOptions", assessmentDetailOptions);
-
   const assessmentData =
     (selectAssessment &&
       assessmentQuestionScoreLIST?.data?.filter(
@@ -133,7 +123,6 @@ const MaturityAssessment = () => {
       )?.[0]) ||
     [];
 
-  console.log("Sele", assessmentData);
   const showButton =
     (getCheckedmeasures?.data?.data?.length > 0 &&
       getCheckedmeasures?.data?.data.reduce((acc: number, item: any) => {
@@ -251,8 +240,6 @@ const MaturityAssessment = () => {
     return transformedData;
   };
 
-  console.log("firstgetCheckedmeasures", transformData());
-
   // const exportData = getCheckedmeasures?.data?.data?.map((item: any) => {
   //   return {
   //     "Piller Name": item?.pillarName,
@@ -296,7 +283,6 @@ const MaturityAssessment = () => {
   //   };
   // });
   // const exportFile = useCallback(() => {
-  //   console.log('firstexportData',exportData)
   //   if (exportData?.length > 0) {
   //     // const ws = utils.json_to_sheet(exportData);
   //     // const wb = utils.book_new();
@@ -317,8 +303,6 @@ const MaturityAssessment = () => {
   //     // writeFileXLSX(wb, "Action Plan.xlsx");
   //   }
   // }, [exportData]);
-
-  console.log("empPermissions", empPermissions);
 
   return (
     <div className="">

@@ -22,8 +22,6 @@ const MyAction = () => {
     enabled: !!userData?.query?.detailsid,
   });
 
-  console.log("+++++", data?.myActionItems);
-
   const actionItems: MyActionDataType[] = [
     {
       image: action_assigned,

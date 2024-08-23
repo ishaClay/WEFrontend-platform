@@ -56,7 +56,6 @@ function Auth() {
       SuperAdmin: 5,
       Client: 6,
     };
-    console.log(role, Roles.Company, "rolerolerolerole");
 
     switch (role) {
       case Roles.Company:
@@ -114,7 +113,6 @@ function Auth() {
     mutationFn: Login,
     onSuccess: (data) => {
       const user = data.data.data.query;
-      console.log(user, (window as any).gtag, "useruseruser");
       const role = trackUserLogin(+user.role);
       console.log(role, user.role, "rolerolerolerolerole");
 

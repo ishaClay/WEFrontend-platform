@@ -72,8 +72,6 @@ const MaturityLevelModel = ({
     return null;
   };
 
-  console.log("data", data);
-
   return (
     <Modal
       open={!!isOpen}

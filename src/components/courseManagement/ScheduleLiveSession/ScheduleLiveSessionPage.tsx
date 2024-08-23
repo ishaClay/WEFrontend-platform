@@ -12,9 +12,9 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
+  createLiveSession,
   getLiveSession,
   getLiveSessionById,
-  scheduleLiveSession,
   scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
@@ -24,23 +24,13 @@ import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
+import moment from "moment";
 import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-
-const timePeriodsOptions = [
-  {
-    label: "AM",
-    value: "AM",
-  },
-  {
-    label: "PM",
-    value: "PM",
-  },
-];
 
 const durationInHours = Array.from({ length: 24 }, (_, i) => {
   const hour = i.toString().padStart(2, "0");
@@ -76,9 +66,16 @@ const ScheduleLiveSessionPage = () => {
     { name: string; id: string }[]
   >([]);
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
-  // const [traineeErr, setTraineeErr] = useState(false);
 
-  console.log("selectCompany", selectCompany);
+  const convertTo12HourFormat = (time24: string) => {
+    const [hours, minutes] = time24.split(":").map(Number);
+    const period = hours >= 12 ? "PM" : "AM";
+    const hours12 = hours % 12 || 12;
+    return `${String(hours12).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}${period}`;
+  };
 
   const ScheduleLiveSessionSchema = z
     .object({
@@ -93,31 +90,29 @@ const ScheduleLiveSessionPage = () => {
         .string()
         .nonempty("Please enter session description"),
       sessionDate: z.string().nonempty("Please enter session date"),
-      sessionTime: z.string().min(1, "time format are reqiured"),
-      selectTimePeriods: z.string({
-        required_error: "Please select AM/PM",
-      }),
+      sessionTime: z.string().min(1, "Time format is required"),
       selectDurationInHours: z.string({
         required_error: "Please select duration in hours",
       }),
       selectDurationInMinute: z.string({
-        required_error: "Please select duration in hours",
+        required_error: "Please select duration in minutes",
       }),
       platform: z.boolean(),
-      zoomUrl: z.string({ required_error: "Please enter zoom url" }).optional(),
+      zoomUrl: z.string().optional(),
     })
     .superRefine((data, ctx) => {
       if (!data.platform) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please enter zoom url",
-          path: ["zoomUrl"],
-        });
-        if (data.zoomUrl?.match(/^https?:\/\/[^\s/$.?#].[^\s]*$/)) {
+        if (!data.zoomUrl) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Please enter Zoom URL",
+            path: ["zoomUrl"],
+          });
+        } else if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/.test(data.zoomUrl)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
-              "Please enter a valid zoom URL starting with http:// or https://",
+              "Please enter a valid Zoom URL starting with http:// or https://",
             path: ["zoomUrl"],
           });
         }
@@ -138,12 +133,9 @@ const ScheduleLiveSessionPage = () => {
     resolver: zodResolver(ScheduleLiveSessionSchema),
     mode: "all",
     defaultValues: {
-      // selectCompany: [],
       platform: false,
     },
   });
-  console.log("watch", watch());
-  console.log("errors", errors);
 
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
@@ -151,15 +143,10 @@ const ScheduleLiveSessionPage = () => {
       queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
     });
 
-  // useEffect(() => {
-  //   const companyValues: any = selectCompany.map((company) => company.value);
-  //   setValue("selectCompany", companyValues);
-  // }, [selectCompany]);
-
   const filteredAllCourseData = fetchCourseAllCourseData?.data?.filter(
     (course) =>
       course?.module?.some((module: any) =>
-        module?.moduleSections?.some((section: any) => section?.liveSecTitle)
+        module?.moduleSections?.some((section: any) => section?.isLive)
       )
   );
 
@@ -184,19 +171,13 @@ const ScheduleLiveSessionPage = () => {
       })
     : [];
 
-  const filteredTraineeCompany = fetchTraineeCompany?.data?.filter(
-    (i: any) => i?.trainer?.length > 0
-  );
-
   const selectCompanyOptions = fetchTraineeCompany?.data
     ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => i?.name)
     : [];
 
-  console.log("filteredTraineeCompany", filteredTraineeCompany);
-
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
-      mutationFn: scheduleLiveSession,
+      mutationFn: createLiveSession,
       onSuccess: async () => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
         setSelectCompany([]);
@@ -219,8 +200,6 @@ const ScheduleLiveSessionPage = () => {
         console.error(error);
       },
     });
-
-  console.log("id+++++", id);
 
   const {
     data: fetchLiveSession,
@@ -247,10 +226,12 @@ const ScheduleLiveSessionPage = () => {
   const selectLiveSessionOption = fetchLiveSession?.data?.data?.course?.module
     ?.flatMap((i: any) => i?.moduleSections)
     ?.filter((j: any) => +j?.isLive === 1)
-    ?.map((i: any) => ({
-      label: i?.liveSecTitle,
-      value: i?.id?.toString(),
-    }));
+    ?.map((i: any) => {
+      return {
+        label: i?.title,
+        value: i?.id?.toString(),
+      };
+    });
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
@@ -261,22 +242,17 @@ const ScheduleLiveSessionPage = () => {
           subtitle,
           description,
           date,
-          startAmPm,
           sessionDuration,
           employee,
           course,
           company,
           startTime,
+          platform
         } = fetchLiveSessionData;
-        console.log(
-          "companycompany",
-          company?.map((item: any) => item?.id?.toString())
-        );
 
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
         setValue("sessionDate", date?.split("T")[0]);
-        setValue("selectTimePeriods", startAmPm);
         setValue(
           "selectDurationInHours",
           Math.floor(+sessionDuration / 60)
@@ -288,16 +264,12 @@ const ScheduleLiveSessionPage = () => {
           (+sessionDuration % 60).toString().padStart(2, "0")
         );
         setValue("selectCourse", (+course?.id)?.toString());
-        setValue("sessionTime", startTime);
-        // setValue(
-        //   "selectCompany",
-        //   company?.map((item: any) => {
-        //     return { label: item?.name, value: item?.id?.toString() };
-        //   })
-        // );
+        setValue("sessionTime", moment(startTime).format("HH:mm"));
+        setValue("platform", !!platform);
+
         setSelectCompany(
           company?.map((item: any) => {
-            return { label: item?.name, value: item?.id?.toString() };
+            return item?.id;
           })
         );
         setTraineeList(
@@ -308,21 +280,19 @@ const ScheduleLiveSessionPage = () => {
   }, [
     fetchLiveSessionById?.data?.data,
     id,
-    // fetchCourseAllCourseData?.data?.length,
   ]);
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
     const liveSecTitle = selectLiveSessionOption?.find(
-      (item: any) => item?.label === fetchLiveSessionData?.liveSecTitle
+      (item: any) => +item?.value === +fetchLiveSessionData?.moduleSection?.id
     );
-    setValue("selectLiveSession", liveSecTitle?.value || id?.toString());
-    setSelectLiveSession(liveSecTitle?.value || id?.toString());
+    setValue("selectLiveSession", liveSecTitle?.value);
+    setSelectLiveSession(liveSecTitle?.value);
   }, [fetchLiveSession?.data?.data]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     if (watch("platform")) {
-      console.log("asdasdasd");
       setValue("zoomUrl", "");
     }
     const liveSecTitle = selectLiveSessionOption?.find(
@@ -348,29 +318,24 @@ const ScheduleLiveSessionPage = () => {
         +data.selectDurationInHours * 60 +
         +data.selectDurationInMinute?.toString(),
       date: data?.sessionDate,
-      liveSecTitle: liveSecTitle?.label || "",
-      startTime: data?.sessionTime + data?.selectTimePeriods,
-      sectionTime: {
-        hour: data?.selectDurationInHours || "0",
-        minute: data?.selectDurationInMinute || "0",
-      },
+      moduleSection: +liveSecTitle?.value || "",
+      startTime: convertTo12HourFormat(data?.sessionTime),
       companyId: compnayIds?.filter((val) => !!val) || [],
       employeeId: traineeList?.map((val) => +val?.id) || [],
-      platform: data?.platform,
+      platform: data?.platform ? 1 : 0,
       zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
     };
+
     if (id !== undefined) {
       await updateLiveSession({
         data: transformedData,
         id: id,
       });
     } else {
-      // if (traineeList) {
       await addLiveSession({
         data: transformedData,
         id: liveSecTitle?.value,
       });
-      // }
     }
   };
 
@@ -382,8 +347,6 @@ const ScheduleLiveSessionPage = () => {
   ) {
     return <Loader />;
   }
-
-  console.log("errors:", errors);
 
   return (
     <>
@@ -444,6 +407,7 @@ const ScheduleLiveSessionPage = () => {
                 className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="Select course name"
                 disabled={!!id}
+                isLoading={fetchCoursePending}
               />
               {errors?.selectCourse?.message && (
                 <span className="text-red-500 text-sm">
@@ -469,6 +433,7 @@ const ScheduleLiveSessionPage = () => {
                   className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   placeholder="Select live session name"
                   disabled={!!id}
+                  isLoading={fetchLiveSessionPending}
                 />
                 {errors.selectLiveSession && (
                   <span className="text-red-500 text-sm">
@@ -486,6 +451,7 @@ const ScheduleLiveSessionPage = () => {
                     setValue(`platform`, !watch("platform"));
                   }}
                   className="me-3"
+                  disabled={!!id}
                 />
               </div>
             </div>
@@ -575,28 +541,6 @@ const ScheduleLiveSessionPage = () => {
               </div>
               <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
                 <Label className="text-base text-black font-semibold font-abhaya">
-                  AM/PM
-                </Label>
-                <SelectMenu
-                  option={timePeriodsOptions}
-                  {...register("selectTimePeriods")}
-                  setValue={(e: string) => {
-                    setValue("selectTimePeriods", e);
-                    clearErrors("selectTimePeriods");
-                  }}
-                  value={watch("selectTimePeriods")}
-                  itemClassName="text-base"
-                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                  placeholder="AM"
-                />
-                {errors.selectTimePeriods && (
-                  <span className="text-red-500 text-sm">
-                    {errors.selectTimePeriods.message}
-                  </span>
-                )}
-              </div>
-              <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
                   Duration in Hours
                 </Label>
                 <SelectMenu
@@ -640,64 +584,10 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
             </div>
-            {/* <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
-                Select Company
-              </Label>
-
-              <Controller
-                control={control}
-                name="selectCompany"
-                defaultValue={[""]}
-                render={({ field: { onChange, value } }) => (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      asChild
-                      className=" w-full"
-                    >
-                      <Button className="block text-left" variant="outline">
-                        {companyLabels}
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-full">
-                      <div className="overflow-auto max-h-[300px]">
-                        {selectCompanyOptions?.map(
-                          (i: { value: string; label: string }) => (
-                            <DropdownMenuCheckboxItem
-                              key={i.value}
-                              checked={value.includes(i.value)}
-                              onCheckedChange={(checked) => {
-                                onChange(
-                                  checked
-                                    ? [...value, i.value].filter((item) => item)
-                                    : value.filter((item) => item !== i.value)
-                                );
-                              }}
-                            >
-                              {i.label}
-                            </DropdownMenuCheckboxItem>
-                          )
-                        )}
-                      </div>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              />
-              {errors.selectCompany && (
-                <span className="text-red-500 text-sm">
-                  {errors.selectCompany.message}
-                </span>
-              )}
-            </div> */}
             <div className="flex flex-col gap-1">
               <Label className="text-base text-black font-semibold font-abhaya">
                 Select Company
               </Label>
-              {/* <Autocomplete
-                suggestions={selectCompanyOptions}
-                selectedItems={selectCompany}
-                setSelectedItems={setSelectCompany}
-              /> */}
               <Multiselect
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
@@ -708,13 +598,11 @@ const ScheduleLiveSessionPage = () => {
                 }}
                 options={selectCompanyOptions}
                 placeholder="Select Company"
+                selectedValues={fetchLiveSessionById?.data?.data?.company?.map(
+                  (i: any) => i?.name
+                )}
               />
             </div>
-            {/* {traineeErr && traineeList?.length === 0 && (
-              <span className="text-red-500 text-sm">
-                Please select trainee list.
-              </span>
-            )} */}
             <div className="flex flex-col gap-3">
               <Button
                 className="bg-transparent text-[#4285F4] text-base font-abhaya gap-2 items-center justify-start p-0 h-auto"

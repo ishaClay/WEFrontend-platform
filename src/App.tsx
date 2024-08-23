@@ -1,6 +1,7 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
 import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
@@ -130,7 +131,6 @@ import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { changeTheme } from "./services/apiServices/theme";
-import 'react-phone-number-input/style.css'
 
 function App() {
   let socket: any;
@@ -813,10 +813,10 @@ function App() {
             path="support-request/ticket-details/:id"
             element={<TicketDetailsReplyPage />}
           />
-          {/* <Route
+          <Route
             path="allocated-certificate/allocateEmploye/:id"
             element={<AllocatedCertificateEmployee />}
-          /> */}
+          />
         </Route>
 
         <Route

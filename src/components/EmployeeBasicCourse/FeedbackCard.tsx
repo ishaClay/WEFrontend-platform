@@ -3,7 +3,6 @@ import moment from "moment";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const FeedbackCard = ({ data }: { data: DataEntity }) => {
-  console.log("data", data);
 
   return (
     <div className="flex items-center gap-5 w-full">

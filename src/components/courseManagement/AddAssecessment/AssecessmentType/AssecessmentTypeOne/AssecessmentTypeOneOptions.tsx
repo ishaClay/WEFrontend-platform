@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import {
@@ -62,10 +63,10 @@ const AssecessmentTypeOneOptions = ({
             <span className="text-sm text-black font-inter w-[80px]">
               Option {iIndex + 1}
             </span>
-            <div className="px-4 py-1 border border-[#D9D9D9] rounded-md w-full flex justify-between items-center">
-              <input
+            <div className="w-full flex justify-between items-center relative">
+              <Input
                 placeholder={data.option}
-                className="w-full  text-base font-calibri text-black"
+                className="w-full text-base font-calibri text-black h-full px-4 py-[15px] pr-[80px]"
                 onChange={(e) => {
                   dispatch(addOption({ option: e.target.value, i, iIndex }));
                   const updatedOptions = [...options];
@@ -84,7 +85,7 @@ const AssecessmentTypeOneOptions = ({
                 value={questionOption[i]?.option?.[iIndex]}
               />
               <Button
-                className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2]"
+                className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2] absolute right-4"
                 onClick={() => {
                   if (options.length <= 1) return;
                   const updatedOptions = options.filter(

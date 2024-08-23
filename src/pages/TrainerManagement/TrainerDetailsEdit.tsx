@@ -29,7 +29,6 @@ const TrainerEditDetails = () => {
     image: "",
   });
   const params = useParams();
-  console.log(params);
 
   const [trainerStatus, setTrainerStatus] = useState(1);
 
@@ -68,18 +67,15 @@ const TrainerEditDetails = () => {
   const { mutate: upload, isPending: isUploading } = useMutation({
     mutationFn: uploadImage,
     onSuccess: (data) => {
-      console.log(data);
       setTrainerDetails((prev) => ({
         ...prev,
         image: data?.data?.data?.image,
       }));
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
-
-  console.log("datadatadata", data);
 
   useEffect(() => {
     if (data) {

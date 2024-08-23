@@ -62,6 +62,7 @@ const GridView = ({
     null
   );
   const [course, setCourse] = useState<string | number>("");
+  const [isStatusLoading, setIsStatusLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
@@ -96,6 +97,7 @@ const GridView = ({
     useMutation({
       mutationFn: (data: PublishCourseType) => publishCourse(data),
       onSuccess: () => {
+        setIsStatusLoading(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
@@ -108,6 +110,7 @@ const GridView = ({
         setOpen("");
       },
       onError: (error: ErrorType) => {
+        setIsStatusLoading(false);
         setCourse("");
         toast({
           title: "Error",
@@ -268,6 +271,19 @@ const GridView = ({
 
   const handleDeleteCourse = () => {
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
+  };
+
+  const handleChangeStatus = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    item: AllCoursesResult
+  ) => {
+    e.stopPropagation();
+    setIsStatusLoading(true);
+    const payload = {
+      status: item.status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED",
+      id: +item?.currentVersion?.id,
+    };
+    publishCourseFun(payload);
   };
 
   return list?.length > 0 && list ? (
@@ -470,16 +486,33 @@ const GridView = ({
                           <span>Copy</span>
                         </DropdownMenuItem>
                       )}
+                      {(item?.status === "PUBLISHED" ||
+                        item?.status === "UNPUBLISHED") && (
+                        <DropdownMenuItem
+                          className="flex items-center gap-2 font-nunito"
+                          onClick={(e) => handleChangeStatus(e, item)}
+                        >
+                          <Pencil className="w-4 h-4" />
+                          <span>
+                            {item?.status === "UNPUBLISHED"
+                              ? "Re-Publish"
+                              : "Un-Publish"}
+                          </span>
+                        </DropdownMenuItem>
+                      )}
                       {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) => handleEdit(e, item, "editminor")}
                         >
                           <Pencil className="w-4 h-4" />
-                          <span>Edit minor</span>
+                          <span>
+                            {item?.status === "DRAFT" ? "Edit" : "Edit minor"}
+                          </span>
                         </DropdownMenuItem>
                       )}
                       {item?.status !== "EXPIRED" &&
+                        item?.status !== "DRAFT" &&
                         (+userData?.query?.role === UserRole.Trainee
                           ? update
                           : true) && (
@@ -537,7 +570,7 @@ const GridView = ({
           );
         })}
       </div>
-      <Loading isLoading={createNewVersionPending} />
+      <Loading isLoading={createNewVersionPending || isStatusLoading} />
       <ConfirmModal
         open={isDelete}
         onClose={() => setIsDelete(false)}

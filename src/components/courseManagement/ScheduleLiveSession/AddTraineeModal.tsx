@@ -47,7 +47,6 @@ const AddTraineeModal = ({
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectCompany, setSelectCompany] = useState<string>("");
-  console.log("selectCompany", selectCompany);
 
   const {
     data: fetchTrainee,
@@ -83,9 +82,6 @@ const AddTraineeModal = ({
       setTraineeList([]);
     }
   };
-
-  console.log("selectCompanyOptions", selectCompanyOptions);
-  console.log("traineeList", traineeList);
 
   return (
     <div className="">

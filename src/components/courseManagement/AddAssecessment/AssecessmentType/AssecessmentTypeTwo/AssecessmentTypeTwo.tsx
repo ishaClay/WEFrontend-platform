@@ -15,6 +15,7 @@ import {
   useState,
 } from "react";
 import AssecessmentTypeTwoOptions from "./AssecessmentTypeTwoOptions";
+import { Input } from "@/components/ui/input";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -173,10 +174,10 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           <h6 className="text-base text-black font-calibri pb-3">
             Enter Question
           </h6>
-          <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
-            <input
+          <div className="flex justify-between items-center w-full">
+            <Input
               placeholder="Enter the question"
-              className="font-base font-calibri text-[#1D2026] w-full"
+              className="font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto mr-3"
               onChange={(e) => {
                 dispatch(
                   addQuestion({
@@ -192,8 +193,8 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               <label className="me-3 text-[#515151] text-base font-calibri">
                 Point
               </label>
-              <input
-                className="py-2 px-3 w-[100px] border border-[#D9D9D9] rounded-md"
+              <Input
+                className="py-3 px-3 w-[100px] rounded-md h-auto"
                 onChange={(e) => {
                   dispatch(addPoint({ index: i, point: +e.target.value }));
                   setErrors((prev) => ({ ...prev, point: "" }));

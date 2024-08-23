@@ -30,7 +30,7 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
       });
     },
     onError: (error: ErrorType) => {
-      console.log(error);
+      console.error(error);
       toast({
         variant: "destructive",
         title: error.data.message,
@@ -39,7 +39,6 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
   });
 
   const handleDelete = (id: number) => {
-    console.log("delete");
     mutate(id);
   };
 

@@ -272,11 +272,7 @@ export const sectorOption = [
   {
     label: "Other",
     value: "Other",
-  },
-  {
-    label: "Health",
-    value: "Health",
-  },
+  }
 ];
 
 export const employeeOption = [

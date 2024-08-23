@@ -41,8 +41,6 @@ const EnrollCourseEmployeeDetailsListItem = ({
     }
   }, [isOpen]);
 
-  console.log("coursecourse", course, data);
-
   return (
     <>
       <Modal

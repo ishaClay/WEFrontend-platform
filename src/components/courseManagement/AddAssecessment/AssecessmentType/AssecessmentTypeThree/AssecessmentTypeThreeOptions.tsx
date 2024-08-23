@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { addOption, removeOption } from "@/redux/reducer/AssessmentReducer";
-import { RootState } from "@/redux/store";
 import { Trash2 } from "lucide-react";
 
 type optionsProps = {
@@ -24,10 +23,6 @@ const AssecessmentTypeThreeOptions = ({
   options,
 }: optionsProps) => {
   const dispatch = useAppDispatch();
-  const { questionOption } = useAppSelector(
-    (state: RootState) => state.assessment
-  );
-  console.log("questionOption", questionOption);
 
   return (
     <div className="space-x-2 flex items-center justify-between mb-4">

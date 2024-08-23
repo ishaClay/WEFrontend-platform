@@ -39,7 +39,6 @@ export const PermissionProvider = ({
 
   const handleEmpPermission = async () => {
     const data = await inviteSingleEmployeeDetail(userData?.query?.detailsid);
-    console.log("+++++++++++++++++", data);
 
     if (data) {
       setEmpPermissions({

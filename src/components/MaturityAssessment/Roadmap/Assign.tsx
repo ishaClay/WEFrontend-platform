@@ -49,8 +49,6 @@ const Assign = ({
     enabled: !!selectAssessment,
   });
 
-  console.log("empPermissions", getCheckedmeasures);
-
   return (
     <div className="">
       {isPending ? (

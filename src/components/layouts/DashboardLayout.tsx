@@ -23,7 +23,6 @@ const DashboardLayout = () => {
   const location = window.location.pathname;
   const Role = location.split("/")[1];
   const { sidebarOpen } = useContext(SidebarContext);
-  console.log("sidebarOpen", sidebarOpen);
 
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);

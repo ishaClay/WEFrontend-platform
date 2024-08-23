@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import {
   addAnswer,
@@ -72,10 +73,10 @@ const AssecessmentTypeTwoOptions = ({
             Option {iIndex + 1}
           </span>
           <div className="w-full">
-            <div className="px-4 py-1 border border-[#D9D9D9] rounded-md w-full flex justify-between items-center">
-              <input
+            <div className="w-full flex justify-between items-center relative">
+              <Input
                 placeholder={data.option}
-                className="w-full  text-base font-calibri text-black"
+                className="w-full px-4 py-[15px] pr-[80px] text-base font-calibri text-black h-auto"
                 onChange={(e) => {
                   dispatch(addOption({ option: e.target.value, i, iIndex }));
                   const updatedOptions = [...options];
@@ -95,7 +96,7 @@ const AssecessmentTypeTwoOptions = ({
                 value={questionOption[i]?.option?.[iIndex]}
               />
               <Button
-                className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2]"
+                className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2] absolute right-4"
                 onClick={() => {
                   if (options.length <= 1) return;
                   const updatedOptions = options.filter(

@@ -11,6 +11,11 @@ export const scheduleLiveSession = ({ data, id }: any) => {
 
   return api({ url, data, method: "put" });
 };
+export const createLiveSession = ({ data }: any) => {
+  const url = `api/v1/livesessions/create`;
+
+  return api({ url, data, method: "post" });
+};
 
 export const scheduleUpdateLiveSession = ({ data, id }: any) => {
   const url = `api/v1/livesessions/updateZoomPortal/${id}`;

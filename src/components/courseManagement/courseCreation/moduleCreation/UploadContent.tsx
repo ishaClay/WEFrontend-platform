@@ -2,7 +2,6 @@ import uploadImg from "@/assets/images/drop_file-img.png";
 import FormError from "@/components/comman/FormError";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/components/ui/use-toast";
@@ -25,7 +24,6 @@ interface UploadContentProps {
 
 const UploadContent = ({
   errors,
-  register,
   setValue,
   data,
   moduleIndex,
@@ -48,17 +46,16 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
-    console.log(
-      "typetypetype",
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
-      type
-    );
 
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
         `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
         type
+      );
+      setValue(
+        `modules.${moduleIndex}.section.${sectionIndex}.youtubeUrl`,
+        ""
       );
     } else {
       setValue(`uploadContentType`, type);
@@ -82,7 +79,7 @@ const UploadContent = ({
       }
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -104,8 +101,8 @@ const UploadContent = ({
   const removeFile = () => {
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
-        `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
-        ""
+        `uploadedContentUrl`,
+        0
       );
     } else {
       setValue(`uploadedContentUrl`, "");
@@ -150,17 +147,27 @@ const UploadContent = ({
     }
   };
 
-  console.log("🚀 ~ FileType:", FileType);
-
-  let registerkey;
   let errorkey;
   if (moduleIndex !== undefined && sectionIndex !== undefined) {
-    registerkey = `modules.${moduleIndex}.section.${sectionIndex}.`;
     errorkey = errors.modules?.[moduleIndex]?.section?.[sectionIndex];
   } else {
-    registerkey = "";
     errorkey = errors;
   }
+
+  const removeUploadContent = () => {
+    console.log("setIsOpenUploadDocumnet", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`);
+    setValue(
+      `uploadContentType`,
+      0
+    );
+    setValue(
+      `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
+      ""
+    );
+  }
+
+  console.log("data+++", data);
+  
 
   return (
     <div className="">
@@ -191,17 +198,27 @@ const UploadContent = ({
             <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
               Upload Content
             </h6>
-            <Button
-              variant={"ghost"}
-              type="button"
-              onClick={() => {
-                setIsOpenUploadDocumnet(true);
-                removeFile();
-              }}
-              className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
-            >
-              Change document type
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                onClick={removeUploadContent}
+                className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-calibri p-0 gap-1 h-auto"
+              >
+                <CircleX width={16} />
+                Remove
+              </Button>
+              <Button
+                variant={"ghost"}
+                type="button"
+                onClick={() => {
+                  setIsOpenUploadDocumnet(true);
+                  removeFile();
+                }}
+                className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
+              >
+                Change document type
+              </Button>
+            </div>
           </div>
           <div className="md:p-4 p-2.5 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
             <div className="flex md:flex-row flex-col items-center lg:gap-10 gap-5">
@@ -307,71 +324,6 @@ const UploadContent = ({
                       message={errorkey.uploadedContentUrl?.message}
                     />
                   )}
-                  <div className="">
-                    <h5 className="text-[#515151] text-sm font-calibri pb-3">
-                      Reading Time
-                    </h5>
-                    <div className="flex sm:flex-row flex-col gap-5">
-                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
-                        <Input
-                          type="number"
-                          {...register(`${registerkey}readingTime.hour`, {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
-                          })}
-                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Hour
-                        </h6>
-                      </div>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
-                        <Input
-                          type="number"
-                          {...register(`${registerkey}readingTime.minute`, {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
-                          })}
-                          value={data.readingTime.minute}
-                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Minute
-                        </h6>
-                      </div>
-                      <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center">
-                        <Input
-                          type="number"
-                          {...register(`${registerkey}readingTime.second`, {
-                            setValueAs: (value: string) =>
-                              value === "" ? undefined : Number(value),
-                          })}
-                          className="border-none w-full  p-0 text-sm text-black h-[20px]"
-                        />
-                        <h6 className="text-[10px] text-[#515151] font-calibri">
-                          Second
-                        </h6>
-                      </div>
-                    </div>
-                    {errorkey?.readingTime?.hour && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={errorkey.readingTime?.hour?.message}
-                      />
-                    )}
-                    {errorkey?.readingTime?.minute && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={errorkey.readingTime?.minute?.message}
-                      />
-                    )}
-                    {errorkey?.readingTime?.second && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={errorkey.readingTime?.minute?.second}
-                      />
-                    )}
-                  </div>
                 </div>
               </div>
             </div>

@@ -20,6 +20,7 @@ import DrawerPage from "./DrawerPage";
 import { SidebarItem } from "./layouts/DashboardLayout";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import ModalTabs from "./myCourse/ModalTab/ModalTabs";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   DropdownMenu,
@@ -154,6 +155,17 @@ const MainHeader = () => {
               <div className="flex items-center gap-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 ">
+                    <Avatar>
+                      <AvatarImage
+                        src={
+                          userData?.query?.trainerCompanyDetails?.profileImage
+                        }
+                      />
+                      <AvatarFallback>
+                        {userData?.query?.fname?.charAt(0) ||
+                          userData?.query?.email?.split("@")[0]?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>{" "}
                     Hi,
                     {userData?.query?.fname || userData?.query?.lname
                       ? `${userData?.query?.fname || ""} ${
@@ -237,9 +249,19 @@ const MainHeader = () => {
               <div className="flex items-center gap-1">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 ">
+                    <Avatar>
+                      <AvatarImage
+                        src={
+                          userData?.query?.trainerCompanyDetails?.profileImage
+                        }
+                      />
+                      <AvatarFallback>
+                        {userData?.query?.fname?.charAt(0) ||
+                          userData?.query?.email?.split("@")[0]?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>{" "}
                     Hi,{" "}
                     {userData?.query?.fname + "" + userData?.query?.lname ||
-                      userData?.query?.name ||
                       userData?.query?.email?.split("@")[0]}
                     <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>

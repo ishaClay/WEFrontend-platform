@@ -3,7 +3,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagement";
 import { fetchClientwisePillarList } from "@/services/apiServices/pillar";
 import { MyCourseResponse } from "@/types/courseManagement";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import MyCourseGrid from "./MyCourseGrid";
 import MyCourseList from "./MyCourseList";
+import { Input } from "../ui/input";
+import { Search } from "lucide-react";
 
 const filter1Option = [
   {
@@ -30,6 +32,7 @@ const filter1Option = [
 ];
 
 const MyCoursePage = () => {
+  const queryClient = useQueryClient();
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
   const [selectFilterByStatus, setSelectFilterByStatus] = useState("");
   const search = window.location.search;
@@ -37,6 +40,7 @@ const MyCoursePage = () => {
   const navigate = useNavigate();
   const { CompanyId, clientId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [keyword, setKeyword] = useState("");
   const userID = CompanyId
     ? CompanyId
     : userData?.query
@@ -70,9 +74,16 @@ const MyCoursePage = () => {
         status: selectFilterByStatus,
         categories:
           selectFilterByCategory === "all" ? "" : selectFilterByCategory,
+        keyword: keyword
       }),
   });
 
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.myCourses],
+    });
+  }, [keyword]);
+  
   const pillerFilterOption = [
     { label: "All", value: "all" },
     ...(clientwisePillarList?.data?.data?.map((itm) => {
@@ -118,29 +129,39 @@ const MyCoursePage = () => {
             />
           </div>
         </div>
-        <div className="sm:flex hidden ml-6">
-          <Button
-            type="button"
-            onClick={() => changeView(0)}
-            className="bg-transparent p-1 hover:bg-transparent"
-          >
-            <AiOutlineAppstore
-              className={`w-8 h-8 ${
-                params === "0" || !params ? "text-[#00778B]" : "text-[#A3A3A3]"
-              }`}
+        <div className="flex items-center">
+          <div className="flex items-center px-4 py-3 border border-[#D9D9D9] rounded-md">
+            <Search className="text-[#D9D9D9]" />
+            <Input
+              placeholder="Search..."
+              className="text-[15px] bg-[#F3F3F3] outline-none font-inter border-none  py-0 px-2 h-6 placeholder:text-[#A3A3A3]"
+              onChange={(e) => setKeyword(e.target.value)}
             />
-          </Button>
-          <Button
-            type="button"
-            onClick={() => changeView(1)}
-            className="bg-transparent p-1 hover:bg-transparent"
-          >
-            <AiOutlineBars
-              className={`w-8 h-8 ${
-                params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
-              }`}
-            />
-          </Button>
+          </div>
+          <div className="sm:flex hidden ml-6">
+            <Button
+              type="button"
+              onClick={() => changeView(0)}
+              className="bg-transparent p-1 hover:bg-transparent"
+            >
+              <AiOutlineAppstore
+                className={`w-8 h-8 ${
+                  params === "0" || !params ? "text-[#00778B]" : "text-[#A3A3A3]"
+                }`}
+              />
+            </Button>
+            <Button
+              type="button"
+              onClick={() => changeView(1)}
+              className="bg-transparent p-1 hover:bg-transparent"
+            >
+              <AiOutlineBars
+                className={`w-8 h-8 ${
+                  params === "1" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                }`}
+              />
+            </Button>
+          </div>
         </div>
       </div>
       {params === "0" || !params ? (

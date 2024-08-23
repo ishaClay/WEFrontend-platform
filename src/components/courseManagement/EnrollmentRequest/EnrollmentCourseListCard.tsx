@@ -81,7 +81,6 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       socket.emit("new message", res?.data);
     },
     onError: (error: ErrorType) => {
-      console.log("data+++++error", error);
       toast({
         variant: "destructive",
         title: error?.data?.message,

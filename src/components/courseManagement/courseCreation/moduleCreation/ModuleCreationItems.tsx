@@ -85,7 +85,7 @@ const ModuleCreationItems = ({
       );
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -248,7 +248,6 @@ const ModuleCreationItems = ({
                   }
                 }}
                 // onChange={(e, data) => {
-                //   console.log("e+++++", e, data.getData());
                 //   setValue(
                 //     `modules.${index}.section.${sectionindex}.information`,
                 //     data.getData()
@@ -277,6 +276,77 @@ const ModuleCreationItems = ({
                   moduleIndex={index}
                   sectionIndex={sectionindex}
                 />
+                <div className="mb-5">
+                  <h5 className="text-[#515151] text-sm font-calibri pb-3">
+                    Reading Time
+                  </h5>
+                  <div className="flex sm:flex-row flex-col gap-5">
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      <Input
+                        type="number"
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.hour`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        className="w-full p-3 pr-10 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Hour
+                      </h6>
+                    </div>
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      <Input
+                        type="number"
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.minute`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        value={watch("readingTime.minute")}
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Minute
+                      </h6>
+                    </div>
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      <Input
+                        type="number"
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.readingTime.second`, {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Second
+                      </h6>
+                    </div>
+                  </div>
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.hour && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.hour?.message}
+                    />
+                  )}
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.minute && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.minute?.message}
+                    />
+                  )}
+                  {errors.modules?.[index]?.section?.[sectionindex]?.readingTime?.second && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={errors.modules?.[index]?.section?.[sectionindex].readingTime?.second?.message}
+                    />
+                  )}
+                </div>
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.uploadedContentUrl?.uploadContentType?.youtubeUrl &&
                   !sectionItem.youtubeUrl &&
@@ -299,11 +369,12 @@ const ModuleCreationItems = ({
                       `modules.${index}.section.${sectionindex}.youtubeUrl`
                     )}
                     onChange={(e: any) =>
-                      handleAddURL(
+                        handleAddURL(
                         e?.target?.value,
                         `modules.${index}.section.${sectionindex}.youtubeUrl`
                       )
                     }
+                    disabled={sectionItem.uploadContentType > 0}
                     className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
                   />
                   {errors.modules?.[index]?.section?.[sectionindex]
@@ -380,7 +451,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Duration (HH)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] sm:h-[53px] h-9 w-full flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
                     <Input
                       type="number"
@@ -391,9 +462,9 @@ const ModuleCreationItems = ({
                             value === "" ? undefined : Number(value),
                         }
                       )}
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Hours
                     </h6>
                   </div>
@@ -412,7 +483,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Minute (MM)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     <Input
                       value={sectionItem.livesessionDuration?.minute}
                       {...register(
@@ -423,9 +494,9 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Minute
                     </h6>
                   </div>
@@ -444,7 +515,7 @@ const ModuleCreationItems = ({
                   <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
                     Section Seconds (SS)
                   </h6>
-                  <div className="border border-[#D9D9D9] rounded-md p-3 sm:w-[145px] w-full sm:h-[53px] h-9 flex justify-between items-center">
+                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
                     <Input
                       {...register(
                         `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
@@ -454,9 +525,9 @@ const ModuleCreationItems = ({
                         }
                       )}
                       type="number"
-                      className="border-none h-[20px] w-full  text-sm text-black p-0"
+                      className="w-full p-3 pr-12 text-sm text-black h-full"
                     />
-                    <h6 className="text-[10px] text-[#515151] font-calibri">
+                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
                       Second
                     </h6>
                   </div>

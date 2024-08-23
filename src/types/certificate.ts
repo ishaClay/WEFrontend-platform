@@ -317,6 +317,7 @@ export interface Course {
   instituteWebsite: string;
   instituteWebsite2: string;
   freeCourse: number;
+  certificate: any;
   discout: number;
   discountApplicable: number;
   provider: number;
@@ -396,6 +397,7 @@ export interface Course {
   instituteWebsite: string;
   instituteWebsite2: string;
   freeCourse: number;
+  certificate: any;
   discout: number;
   discountApplicable: number;
   provider: number;

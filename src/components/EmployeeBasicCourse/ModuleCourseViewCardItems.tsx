@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, MoveLeft } from "lucide-react";
 import { useState } from "react";
 import ViewSession from "./ViewSession";
+import { Badge } from "../ui/badge";
 
 type moduleCourseCardListProps = {
   list: {
@@ -47,7 +48,7 @@ const ModuleCourseViewCardItems = ({
       setDocumentFile(list?.url ? list?.url : list?.uploadContent);
     },
     onError: (error) => {
-      console.log("error", error);
+      console.error("error", error);
     },
   });
 
@@ -69,7 +70,6 @@ const ModuleCourseViewCardItems = ({
       </>
     );
   };
-  console.log("list?.readingTime || list?.sectionTime", list);
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
@@ -145,9 +145,9 @@ const ModuleCourseViewCardItems = ({
           </Button>
         )}
         {list?.isStatus === "Completed" && (
-          <Button className="bg-[#64A70B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
+          <Badge className="bg-[#64A70B] hover:bg-[#64A70B] xl:h-12 h-9 rounded-[4px] px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
             Completed
-          </Button>
+          </Badge>
         )}
         {list?.isStatus === "Progress" && (
           <Button
