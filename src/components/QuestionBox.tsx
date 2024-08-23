@@ -116,7 +116,7 @@ const QuestionBox = ({
               >
                 <input
                   type="radio"
-                  className="cursor-pointer min-w-[15px] w-[15px] h-[15px]"
+                  className="cursor-pointer min-w-[15px] w-[15px] h-[15px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                   checked={option?.checked ? true : false}
                 />
                 <span className="ml-[9px] text-sm">{option.name}</span>

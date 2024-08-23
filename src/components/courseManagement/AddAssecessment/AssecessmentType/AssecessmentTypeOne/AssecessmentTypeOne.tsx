@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import {
@@ -11,7 +12,6 @@ import { CircleX } from "lucide-react";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
-import { Input } from "@/components/ui/input";
 
 interface AssecessmentTypeProps {
   i: number;
@@ -168,7 +168,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
           <input
             placeholder="Single Choice Question"
             disabled
-            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
           />
         </div>
         <div className="pb-8">

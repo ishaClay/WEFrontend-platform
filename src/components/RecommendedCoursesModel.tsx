@@ -124,7 +124,7 @@ const RecommendedCoursesModel = ({
                       type="radio"
                       value="button"
                       name="course"
-                      className="md:w-6 w-4 md:h-6 h-4"
+                      className="md:w-6 w-4 md:h-6 h-4 focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       onChange={() => setSelectCourse(index?.toString())}
                     />
                     {courseList?.isDiscounted
@@ -177,7 +177,7 @@ const RecommendedCoursesModel = ({
                                 )
                               )
                             }
-                            className="w-[88px] h-[42px] text-center"
+                            className="w-[88px] h-[42px] text-center focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                           />
                           <Button
                             className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"

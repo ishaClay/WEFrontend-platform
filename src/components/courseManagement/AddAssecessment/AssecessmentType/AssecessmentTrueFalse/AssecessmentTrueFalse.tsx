@@ -112,7 +112,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
             <input
               placeholder="True Or False"
               disabled
-              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
+              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">

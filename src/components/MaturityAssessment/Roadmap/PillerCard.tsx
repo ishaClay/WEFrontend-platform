@@ -193,7 +193,7 @@ const PillerCard = ({
 
           <div className="mt-2.5 me-3">
             <input
-              className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] ${
+              className={`w-6 h-6 cursor-pointer border border-[#B9B9B9] focus:border focus:border-[#4b4b4b] shadow-none outline-none ${
                 item?.checked === 0
                   ? "accent-[white]"
                   : "accent-[#64A70B] text-[#FFF]"
@@ -331,7 +331,9 @@ const PillerCard = ({
               }}
               className="bg-[#64A70B] text-sm font-calibri text-white py-2 px-4 rounded-md h-[40px] w-[150px] font-bold"
             >
-              {item?.actionItem && item?.actionItem?.length > 0 ? "View Action Items" : "Define Action Items"}
+              {item?.actionItem && item?.actionItem?.length > 0
+                ? "View Action Items"
+                : "Define Action Items"}
             </Button>
             {item?.actionItem?.length > 0 && (
               <span>Action Item: {item?.actionItem?.length}</span>

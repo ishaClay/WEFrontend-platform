@@ -94,7 +94,7 @@ const AssecessmentPage = () => {
   const tab = searchParams.get("tab");
 
   const { data: getAssessmentByIdData, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.getAssesmentById],
+    queryKey: [QUERY_KEYS.getAssesmentById, { assId }],
     queryFn: () => getAssessmentById(assId ? assId : ""),
     enabled: !!assId,
   });
@@ -105,6 +105,9 @@ const AssecessmentPage = () => {
   });
 
   const assessmentData = moduleSection?.data?.data?.assessment;
+
+  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
+
   useEffect(() => {
     if (getAssessmentByIdData?.data) {
       setCreateAssecessment({
@@ -118,7 +121,7 @@ const AssecessmentPage = () => {
         },
       });
     }
-  }, [assessmentData]);
+  }, [assessmentData, getAssessmentByIdData?.data]);
 
   useEffect(() => {
     if (assessmentData?.id) {
@@ -126,7 +129,7 @@ const AssecessmentPage = () => {
         dispatch(setQuestionType(item?.assessmentType));
       });
     }
-  }, [assessmentData]);
+  }, [assessmentData, dispatch]);
 
   const AssessmentTypeReverseMap: {
     [key: string]: string;
@@ -203,13 +206,13 @@ const AssecessmentPage = () => {
       mutationFn: createAssessment,
       onSuccess: (res) => {
         const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-          (item: any) => {
+          (item: any, i: number) => {
             return {
               ...item,
               // @ts-ignore
               assessment: res?.data?.data?.id,
               // @ts-ignore
-              assessmentType: AssessmentType[item.assessmentType],
+              assessmentType: assecessmentQuestion?.selectedQuestionType[i],
             };
           }
         );
@@ -226,6 +229,8 @@ const AssecessmentPage = () => {
             }&id=${id}&version=${version}`
           );
         }
+        console.log(assecessmentQue, "------------------------");
+
         createAssessmentQuestionFun(assecessmentQue);
       },
     });
@@ -234,16 +239,18 @@ const AssecessmentPage = () => {
     mutationFn: updateAssessment,
     onSuccess: () => {
       const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-        (item: any) => {
+        (item: any, i: number) => {
           return {
             ...item,
             // @ts-ignore
             id: item?.id as number,
             // @ts-ignore
-            assessmentType: AssessmentType[item.assessmentType],
+            assessmentType: assecessmentQuestion?.selectedQuestionType[i],
           };
         }
       );
+      console.log(assecessmentQue, "------------------------------------");
+
       createAssessmentQuestionFun(assecessmentQue);
     },
     onError: (error: ResponseError) => {
@@ -323,6 +330,8 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
+  console.log("assId", assId);
+
   useEffect(() => {
     validateAssecessmentModule();
   }, [createAssecessment]);
@@ -339,6 +348,8 @@ const AssecessmentPage = () => {
         },
       };
       if (assId && +assId) {
+        console.log("assId---------------->1", assId);
+
         updateAssessmentFun({
           data: {
             ...payload,
@@ -347,6 +358,7 @@ const AssecessmentPage = () => {
           id: assId,
         });
       } else {
+        console.log("Non---assId---------------->1", assId);
         createAssessmentFun({
           ...payload,
           module: searchParams.get("moduleId")
@@ -376,6 +388,8 @@ const AssecessmentPage = () => {
       );
     }
   };
+
+  console.log("assecessmentQuestion", assecessmentQuestion);
 
   return (
     <div className="bg-white rounded-lg">

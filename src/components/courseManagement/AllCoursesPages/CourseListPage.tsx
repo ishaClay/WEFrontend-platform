@@ -203,7 +203,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                     />
                     <input
                       type="checkbox"
-                      className="absolute top-[10px] right-[10px] h-[24px] w-[24px]"
+                      className="absolute top-[10px] right-[10px] h-[24px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                     />
                     <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                       <FaStar className="text-[#FD8E1F]" />

@@ -103,7 +103,7 @@ function CoursesAllCourse() {
               <input
                 type="search"
                 placeholder="Search by course name etc."
-                className="flex-1 focus: text-sm placeholder-[#D9D9D9]"
+                className="flex-1 focus: text-sm placeholder-[#D9D9D9] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />

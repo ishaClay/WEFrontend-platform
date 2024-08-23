@@ -179,14 +179,9 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           "isOnline",
           getSingleCourse?.data?.course?.isOnline?.toString()
         );
-        setSelectBoxValue({
-          time: data?.time?.toString() || "",
-          isOnline: data?.isOnline?.toString() || "",
-          durationType: data?.duration?.split(" ")?.[1] || "",
-        });
       });
     }
-  }, [getSingleCourse]);
+  }, [getSingleCourse, setValue]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -200,7 +195,11 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=3&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
+        `/${pathName}/create_course/${
+          +courseId ? courseId : params
+        }?tab=0&step=3&version=${paramsversion}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -250,13 +249,17 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${3}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
+        }?tab=${0}&step=${3}&version=${getSingleCourse?.data?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
       );
     }
   };
+
+  console.log("selectBoxValue", selectBoxValue);
 
   return (
     <>
@@ -271,7 +274,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
               <SelectMenu
-                {...register("time")}
+                // {...register("time")}
                 option={Time}
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, time: data });
@@ -292,7 +295,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
               <SelectMenu
-                {...register("isOnline")}
+                // {...register("isOnline")}
                 option={isOnlineType}
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, isOnline: data });

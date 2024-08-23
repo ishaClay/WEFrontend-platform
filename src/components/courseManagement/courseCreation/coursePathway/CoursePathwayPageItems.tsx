@@ -91,7 +91,7 @@ const CoursePathwayPageItems = ({
                   </div>
                   <input
                     type="checkbox"
-                    className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3 hidden md:text-base text-sm"
+                    className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3 hidden md:text-base text-sm focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                     checked={selectedData.some(
                       (selectLabel: any) =>
                         selectLabel?.maturityId === item?.id &&

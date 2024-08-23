@@ -26,7 +26,7 @@ const PasswordInput: React.FC<InputProps> = ({
       <div className="relative">
         <input
           type={showPassword ? "text" : "password"}
-          className={`h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible: focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+          className={`h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 focus:border focus:border-[#4b4b4b] shadow-none outline-none ${className}`}
           placeholder={placeholder}
           {...validationHandler}
           {...rest}

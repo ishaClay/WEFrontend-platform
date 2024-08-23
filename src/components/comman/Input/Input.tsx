@@ -28,8 +28,9 @@ const Input: React.FC<InputProps> = ({
         value={value}
         placeholder={placeholder}
         disabled={disable}
-        className={`h-[46px] border-[1.53px] border-solid border-[#DFDFDF] rounded-[4px] lg:w-[180px] sm:w-[180px] md:w-[170px] p-3 font-normal placeholder-[#AEACAC] ${className || ""
-          }`}
+        className={`h-[46px] border-[1.53px] border-solid border-[#DFDFDF] rounded-[4px] lg:w-[180px] sm:w-[180px] md:w-[170px] p-3 font-normal placeholder-[#AEACAC] focus:border focus:border-[#4b4b4b] shadow-none outline-none ${
+          className || ""
+        }`}
         {...rest}
       />
     </div>

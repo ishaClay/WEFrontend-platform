@@ -49,7 +49,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
         </h6>
         <input
           placeholder="Single Choice Question"
-          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026]"
+          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
         />
       </div>
       <div className="pb-8">
@@ -59,7 +59,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
         <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
           <input
             placeholder="Enter the question"
-            className=" font-base font-calibri text-[#1D2026] w-full"
+            className=" font-base font-calibri text-[#1D2026] w-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             onChange={(e) =>
               dispatch(
                 addQuestion({
@@ -76,7 +76,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
               Point
             </label>
             <input
-              className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md"
+              className="py-2 px-3 w-[100px] border border-[#D9D9D9]  rounded-md focus:border focus:border-[#4b4b4b] shadow-none outline-none"
               onChange={(e) => {
                 const { value } = e.target;
                 if (value.match(/^[0-9]*$/)) {
