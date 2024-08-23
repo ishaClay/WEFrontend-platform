@@ -270,7 +270,7 @@ export const sidebarLayout = {
       link: "#",
       children: [
         {
-          label: "Erolled Courses",
+          label: "Enrolled Courses",
           link: "/company/allocatedcourses",
         },
         {

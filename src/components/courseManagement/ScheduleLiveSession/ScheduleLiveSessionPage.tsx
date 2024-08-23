@@ -527,7 +527,7 @@ const ScheduleLiveSessionPage = () => {
                   Session Time
                 </Label>
                 <Input
-                  className="placeholder:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="block placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   {...register("sessionTime")}
                   aria-label="Time"
                   type="time"
