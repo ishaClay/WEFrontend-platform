@@ -127,6 +127,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
   const [selectBoxValue, setSelectBoxValue] = useState<any>({
@@ -199,7 +200,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=3&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=3&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }
@@ -249,7 +250,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${3}&version=${getSingleCourse?.data?.id}`,
+        }?tab=${0}&step=${3}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
         {
           replace: true,
         }

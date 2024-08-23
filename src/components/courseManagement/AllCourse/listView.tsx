@@ -485,7 +485,9 @@ const ListView = ({
                             }
                           >
                             <Pencil className="w-4 h-4" />
-                            <span>Edit minor</span>
+                            <span>
+                            {data?.status === "DRAFT" ? "Edit" : "Edit minor"}
+                          </span>
                           </DropdownMenuItem>
                         )}
                         {data?.status !== "EXPIRED" &&
@@ -505,7 +507,7 @@ const ListView = ({
                                 className="flex items-center gap-2 font-nunito"
                               >
                                 <Pencil className="w-4 h-4" />
-                                <span>Edit with new version</span>
+                                <span>Edit new version</span>
                               </DropdownMenuItem>
                             </>
                           )}

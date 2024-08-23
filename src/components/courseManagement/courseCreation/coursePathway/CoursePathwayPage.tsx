@@ -32,6 +32,7 @@ const CoursePathwayPage = () => {
   const search = window.location.search;
   const paramsversion = new URLSearchParams(search).get("version");
   const paramsId = new URLSearchParams(search).get("id");
+  const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = location?.pathname?.split("/")[3];
   const queryClient = useQueryClient();
@@ -65,7 +66,7 @@ const CoursePathwayPage = () => {
         });
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ''}`
           );
         } else {
           navigate(
@@ -134,7 +135,7 @@ const CoursePathwayPage = () => {
         if (updateedPillar(selectedData, getPillarLimit)) {
           if (+courseId) {
             navigate(
-              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
+              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ''}`
             );
           } else {
             navigate(

@@ -59,6 +59,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   const search = window.location.search;
   const params = new URLSearchParams(search).get("id");
   const paramsversion = new URLSearchParams(search).get("version");
+  const paramsType = new URLSearchParams(search).get("type");
   const navigate = useNavigate();
   const pathName: string = location?.pathname?.split("/")[1];
   const courseId: string = location?.pathname?.split("/")[3];
@@ -140,13 +141,13 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         );
         setValue(
           "certificate",
-          getSingleCourse?.data?.course?.certificate?.id?.toString() || ""
+          getSingleCourse?.data?.course?.certificate?.toString() || ""
         );
       });
       setSelectBoxValue({
         nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
         certificate:
-          getSingleCourse?.data?.course?.certificate?.id?.toString() || "",
+          getSingleCourse?.data?.course?.certificate?.toString() || "",
       });
     }
   }, [getSingleCourse]);
@@ -163,7 +164,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=2&version=${paramsversion}`,
+        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
         {
           replace: true,
         }
@@ -192,7 +193,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       isDirty ||
       getSingleCourse?.data?.course?.nfqLeval?.id?.toString() !==
         data?.nfqLeval?.toString() ||
-      getSingleCourse?.data?.course?.certificate?.id?.toString() !==
+      getSingleCourse?.data?.course?.certificate?.toString() !==
         data?.certificate?.toString()
     ) {
       if (+courseId) {
@@ -212,7 +213,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${2}&version=${getSingleCourse?.data?.id}`,
+        }?tab=${0}&step=${2}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
         {
           replace: true,
         }
@@ -238,11 +239,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}
-              value={
-                getSingleCourse?.data?.course?.nfqLeval?.id?.toString() ||
-                selectBoxValue.nfqLeval ||
-                ""
-              }
+              value={selectBoxValue.nfqLeval}
               placeholder="Select NFQ level"
               className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
@@ -282,11 +279,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
                 setSelectBoxValue({ ...selectBoxValue, certificate: e });
                 setValue("certificate", e);
               }}
-              value={
-                getSingleCourse?.data?.course?.certificate?.id?.toString() ||
-                selectBoxValue?.certificate ||
-                ""
-              }
+              value={selectBoxValue?.certificate}
               placeholder="Select certificate"
               className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />

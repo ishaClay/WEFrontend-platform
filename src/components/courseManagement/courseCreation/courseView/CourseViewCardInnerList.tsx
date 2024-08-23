@@ -8,7 +8,7 @@ import {
   deleteSection,
 } from "@/services/apiServices/moduleCreation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FilePenLine, Trash2 } from "lucide-react";
+import { FilePenLine, Info, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const CourseViewCardInnerList = ({
@@ -106,10 +106,10 @@ const CourseViewCardInnerList = ({
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          <img
+          {FileTypeData ? <img
             src={FileTypeData && FileTypeData?.listIcon}
             alt="document icon"
-          />
+          /> : <Info className="w-[30px] h-[30px] text-[#696969]" />}
         </div>
         <div className="">
           <h5 className="text-sm text-black font-inter pb-2">

@@ -32,7 +32,7 @@ const CourseStepper = ({ currentStep, steps, onChangeStep, courseData }: Stepper
         onChangeStep?.(index?.toString());
       } else {
         if (+courseId) {
-          navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${index}&version=${paramsversion}&type=${paramsType}`);
+          navigate(`/${pathName}/create_course/${courseId}?tab=${paramsTab}&step=${index}&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ''}`);
           onChangeStep?.(index?.toString());
         } else if (paramsId && currentStep) {
           if (currentStep && +currentStep <= index) {
