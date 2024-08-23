@@ -256,12 +256,12 @@ const ScheduleLiveSessionPage = () => {
           course,
           company,
           startTime,
+          platform
         } = fetchLiveSessionData;
 
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
         setValue("sessionDate", date?.split("T")[0]);
-        // setValue("selectTimePeriods", startAmPm);
         setValue(
           "selectDurationInHours",
           Math.floor(+sessionDuration / 60)
@@ -274,6 +274,7 @@ const ScheduleLiveSessionPage = () => {
         );
         setValue("selectCourse", (+course?.id)?.toString());
         setValue("sessionTime", moment(startTime).format("HH:mm"));
+        setValue("platform", !!platform);
 
         setSelectCompany(
           company?.map((item: any) => {
