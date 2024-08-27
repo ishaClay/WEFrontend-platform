@@ -215,6 +215,9 @@ const CourseViewCardInner = ({
           variant: "success",
           title: "Section added successfully",
         });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourseModule],
+        });
       },
       onError: (error: any) => {
         toast({
@@ -337,9 +340,12 @@ const CourseViewCardInner = ({
     }
   };
 
+  console.log(errors);
   const onSubmit = (data: FieldValues) => {
     const payload = [];
     payload.push(data);
+    console.log("payload", payload);
+
     if (payload.length > 0) {
       CreateSection(payload);
     }

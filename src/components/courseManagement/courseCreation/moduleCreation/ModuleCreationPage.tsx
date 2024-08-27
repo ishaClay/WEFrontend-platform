@@ -89,7 +89,7 @@ const ModuleCreationPage = () => {
               youtubeUrl: z
                 .string()
                 .regex(
-                  /^(https:\/\/youtu\.be\/[a-zA-Z0-9_-]+(\?[^\s]*)?)?$/,
+                  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)$/,
                   "Invalid Url"
                 ),
               readingTime: z

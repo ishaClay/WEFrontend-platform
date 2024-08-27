@@ -190,6 +190,8 @@ const GridView = ({
     updateVersionFun(payload);
   };
 
+  console.log(list);
+
   const handlePublish = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string
@@ -201,7 +203,9 @@ const GridView = ({
     };
     const cohortCount =
       list?.find((item) => item?.currentVersion?.id === (+id || 0))
-        ?.cohortGroups || 0;
+        ?.currentVersion?.cohortGroup?.length || 0;
+    console.log(cohortCount);
+
     if (cohortCount > 0) {
       publishCourseFun(payload);
     } else {

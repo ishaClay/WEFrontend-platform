@@ -13,6 +13,8 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
   const assessmentData = data?.assessment?.[0];
   const courseId = searchParams.get("courseId");
 
+  console.log("data?.moduleSections", data);
+
   return (
     <div>
       {(data?.moduleSection || data?.moduleSections)
@@ -65,6 +67,9 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
             {+role === 4 && (
               <Button
                 type="button"
+                disabled={(data?.moduleSection || data?.moduleSections)?.every(
+                  (item: any) => item?.isStatus !== "Completed"
+                )}
                 onClick={() =>
                   navigate(
                     `/employee/employee-assessment/${assessmentData?.id}?moduleId=${data?.id}`,

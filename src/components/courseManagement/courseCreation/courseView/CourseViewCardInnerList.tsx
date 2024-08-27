@@ -21,7 +21,10 @@ const CourseViewCardInnerList = ({
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDelete, setIsDelete] = useState(false);
-  const [isId, setIsId] = useState<{id:string | number, type:string}>({id: "", type: ""});
+  const [isId, setIsId] = useState<{ id: string | number; type: string }>({
+    id: "",
+    type: "",
+  });
   function formatReadingTime(readingTime: any) {
     if (!readingTime) {
       return "0sec";
@@ -106,14 +109,18 @@ const CourseViewCardInnerList = ({
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
-          {FileTypeData ? <img
-            src={FileTypeData && FileTypeData?.listIcon}
-            alt="document icon"
-          /> : <Info className="w-[30px] h-[30px] text-[#696969]" />}
+          {FileTypeData ? (
+            <img
+              src={FileTypeData && FileTypeData?.listIcon}
+              alt="document icon"
+            />
+          ) : (
+            <Info className="w-[30px] h-[30px] text-[#696969]" />
+          )}
         </div>
         <div className="">
           <h5 className="text-sm text-black font-inter pb-2">
-            {data.isLive == 0 || !data?.isLive ? data.title : data.liveSecTitle}
+            {data.isLive == 1 || !data?.isLive ? data.title : data.liveSecTitle}
           </h5>
           <div className="">
             <h6 className="text-[#747474] text-xs font-inter">
@@ -121,7 +128,9 @@ const CourseViewCardInnerList = ({
                 <>
                   Duration:{" "}
                   <span className="text-black">
-                    {formatReadingTime(data?.timeDuration)}
+                    {data?.isLive == 1
+                      ? formatReadingTime(data?.readingTime)
+                      : formatReadingTime(data?.timeDuration)}
                   </span>{" "}
                   <span className="ml-2">
                     Passing Percentage:{" "}
@@ -134,9 +143,10 @@ const CourseViewCardInnerList = ({
                 <>
                   {FileTypeData?.name} | Duration:{" "}
                   <span className="text-black">
-                    {data.isLive == 0
-                      ? formatReadingTime(data.readingTime) :
-                      data?.timeDuration ? formatReadingTime(data?.timeDuration)
+                    {data.readingTime
+                      ? formatReadingTime(data.readingTime)
+                      : data?.timeDuration
+                      ? formatReadingTime(data?.timeDuration)
                       : formatReadingTime(data.sectionTime)}
                   </span>
                 </>
@@ -159,7 +169,7 @@ const CourseViewCardInnerList = ({
           className="text-[#575757] cursor-pointer"
           onClick={() => {
             setIsDelete(true);
-            setIsId({id: data?.id, type: "assesment"});
+            setIsId({ id: data?.id, type: "assesment" });
           }}
         />
       </div>
