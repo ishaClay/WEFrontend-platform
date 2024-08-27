@@ -1,20 +1,18 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import {
-  addAnswer,
-  addPoint,
-  addQuestion,
-  removeQuestion,
-} from "@/redux/reducer/AssessmentReducer";
-import { RootState } from "@/redux/store";
+import { AssesmentContext } from "@/context/assesmentContext";
 import { CircleX } from "lucide-react";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  useContext,
+  useImperativeHandle,
+  useState,
+} from "react";
 
 interface AssecessmentTypeProps {
-  i: number;
-  type: string;
   assecessmentQuestion: any;
 }
 
@@ -23,21 +21,14 @@ interface Validatable {
 }
 
 const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type, assecessmentQuestion }, ref) => {
-    const dispatch = useAppDispatch();
-
-    const { questionOption } = useAppSelector(
-      (state: RootState) => state.assessment
-    );
+  ({ assecessmentQuestion }, ref) => {
+    const { setAssesment, assesment } = useContext(AssesmentContext);
 
     const [errors, setErrors] = useState({
       question: "",
       point: "",
       answer: "",
     });
-    const handleRemove = (i: number) => {
-      dispatch(removeQuestion({ i }));
-    };
 
     const validateAssecessmentTrueFalse = () => {
       let valid = true;
@@ -48,7 +39,11 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
       };
 
       // Validate question
-      const questionValue = questionOption?.[i]?.question?.trim() || "";
+      const questionValue =
+        assesment
+          // @ts-ignore
+          ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+          ?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
         valid = false;
@@ -60,7 +55,9 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate points
-      const pointValue = questionOption?.[i]?.point;
+      const pointValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.point;
 
       if (!pointValue || pointValue <= 0) {
         newErrors.point = "Points must be a positive integer";
@@ -68,7 +65,9 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate Answer
-      const answerValue = questionOption?.[i]?.answer;
+      const answerValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
       if (!answerValue) {
         newErrors.answer = "Answer is required";
         valid = false;
@@ -82,19 +81,53 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
       validate: validateAssecessmentTrueFalse,
     }));
 
-    useEffect(() => {
-      if (assecessmentQuestion) {
-        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
-        dispatch(addAnswer({ answer: assecessmentQuestion?.answer, i }));
-        dispatch(
-          addQuestion({
-            index: i,
-            question: assecessmentQuestion?.question,
-            assessmentType: assecessmentQuestion?.assessmentType,
-          })
-        );
+    const handleRemoveQuestion = (id: number) => {
+      setAssesment((prev: any) => {
+        return prev.filter((item: any) => +item.ids !== +id);
+      });
+    };
+
+    const handleChangeValue = (
+      e: ChangeEvent<HTMLInputElement>,
+      selectName?: string
+    ) => {
+      if (selectName) {
+        setAssesment((prev) => {
+          return prev.map((item) => {
+            // @ts-ignore
+            if (+item.ids === +assecessmentQuestion?.ids) {
+              return {
+                ...item,
+                [selectName]: e,
+              };
+            }
+            return item;
+          });
+        });
+      } else {
+        const { name, value } = e.target;
+        setAssesment((prev) => {
+          return prev.map((item) => {
+            // @ts-ignore
+            if (+item.ids === +assecessmentQuestion?.ids) {
+              return {
+                ...item,
+                [name]: value,
+              };
+            }
+            return item;
+          });
+        });
       }
-    }, [assecessmentQuestion]);
+    };
+
+    console.log(
+      "+++++++++++++",
+      typeof assesment?.find(
+        // @ts-ignore
+        (item) => +item.ids === +assecessmentQuestion?.ids
+      )?.answer === "string"
+    );
 
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
@@ -105,7 +138,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
             </h6>
             <CircleX
               className="text-[#fb6262] -mt-7 cursor-pointer"
-              onClick={() => handleRemove(i)}
+              onClick={() => handleRemoveQuestion(assecessmentQuestion?.ids)}
             />
           </div>
           <div className="flex items-center gap-3">
@@ -123,15 +156,21 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
                 onChange={(e) => {
                   const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }));
+                    handleChangeValue(e);
                     setErrors((prev) => ({ ...prev, point: "" }));
                   }
                   return;
                 }}
                 type="text"
+                name="point"
                 min={0}
                 max={100}
-                value={questionOption[i]?.point || ""}
+                value={
+                  assesment?.find(
+                    // @ts-ignore
+                    (item) => +item.ids === +assecessmentQuestion?.ids
+                  )?.point || ""
+                }
               />
             </div>
           </div>
@@ -151,16 +190,16 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
               placeholder="Enter the question"
               className="font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto"
               onChange={(e) => {
-                dispatch(
-                  addQuestion({
-                    index: i,
-                    question: e.target.value,
-                    assessmentType: type,
-                  })
-                );
+                handleChangeValue(e);
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
-              value={questionOption[i]?.question}
+              name="question"
+              value={
+                assesment?.find(
+                  // @ts-ignore
+                  (item) => +item.ids === +assecessmentQuestion?.ids
+                )?.question
+              }
             />
           </div>
           {errors.question && (
@@ -168,12 +207,35 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
           )}
           <div className="mt-5">
             <RadioGroup
-              defaultValue={questionOption[i]?.answer}
+              // @ts-ignore
+              // defaultValue={
+              //   (typeof assesment?.find(
+              //     // @ts-ignore
+              //     (item) => +item.ids === +assecessmentQuestion?.ids
+              //   )?.answer === "string" &&
+              //   assesment?.find(
+              //     // @ts-ignore
+              //     (item) => +item.ids === +assecessmentQuestion?.ids
+              //   )?.answer === "1"
+              //     ? "yes"
+              //     : "no") || ""
+              // }
               onValueChange={(value: any) => {
-                dispatch(addAnswer({ answer: value, i }));
+                handleChangeValue(value, "answer");
                 setErrors((prev) => ({ ...prev, answer: "" }));
               }}
-              value={questionOption[i]?.answer}
+              // @ts-ignore
+              value={
+                typeof assesment?.find(
+                  // @ts-ignore
+                  (item) => +item.ids === +assecessmentQuestion?.ids
+                )?.answer === "string"
+                  ? assesment?.find(
+                      // @ts-ignore
+                      (item) => +item.ids === +assecessmentQuestion?.ids
+                    )?.answer
+                  : ""
+              }
             >
               <div className="flex items-center space-x-2 mb-3">
                 <RadioGroupItem

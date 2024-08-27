@@ -1,21 +1,21 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import {
-  addPoint,
-  addQuestion,
-  removeQuestion,
-} from "@/redux/reducer/AssessmentReducer";
-import { RootState } from "@/redux/store";
+import { AssesmentContext } from "@/context/assesmentContext";
 import { CircleX } from "lucide-react";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  useContext,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { Fragment } from "react/jsx-runtime";
 import AssecessmentTypeOneOptions from "./AssecessmentTypeOneOptions";
 
 interface AssecessmentTypeProps {
   i: number;
-  type: string;
   assecessmentQuestion: any;
 }
 
@@ -24,94 +24,39 @@ interface Validatable {
 }
 
 const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type, assecessmentQuestion }, ref) => {
-    const dispatch = useAppDispatch();
-
-    const { questionOption } = useAppSelector(
-      (state: RootState) => state.assessment
-    );
-
-    const [options, setOptions] = useState([
-      {
-        optionTitle: `Option 1:`,
-        option: "",
-      },
-    ]);
-
-    useEffect(() => {
-      if (questionOption[i]?.option?.length) {
-        setOptions(
-          questionOption[i]?.option?.map((item: string, index: number) => ({
-            optionTitle: `Option ${index + 1}:`,
-            option: item,
-          }))
-        );
-      }
-    }, [questionOption]);
-
-    useEffect(() => {
-      if (assecessmentQuestion?.id) {
-        dispatch(addPoint({ index: i, point: assecessmentQuestion?.point }));
-        dispatch(
-          addQuestion({
-            index: i,
-            question: assecessmentQuestion?.question,
-            assessmentType: assecessmentQuestion?.assessmentType,
-          })
-        );
-      }
-    }, [assecessmentQuestion, questionOption]);
-
-    useEffect(() => {
-      setTimeout(() => {
-        if (assecessmentQuestion?.id) {
-          setOptions(
-            assecessmentQuestion?.option?.map(
-              (item: string, index: number) => ({
-                optionTitle: `Option ${index + 1}:`,
-                option: item,
-              })
-            )
-          );
-        }
-      }, 50);
-    }, [assecessmentQuestion, i, dispatch]);
+  ({ i, assecessmentQuestion }, ref) => {
+    const { setAssesment, assesment } = useContext(AssesmentContext);
 
     const [errors, setErrors] = useState({
       question: "",
       point: "",
-      options: Array(options?.length).fill(""),
+      options: Array(
+        // @ts-ignore
+        assesment?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+          ?.options?.length
+      ).fill(""),
       answer: "",
     });
-
-    const addOption = () => {
-      const newOption = {
-        optionTitle: `Option ${options?.length + 1}:`,
-        option: "",
-      };
-
-      setOptions((prev) => {
-        // Ensure prev is an array
-        const currentOptions = Array.isArray(prev) ? prev : [];
-        return [...currentOptions, newOption];
-      });
-    };
-
-    const handleRemove = (i: number) => {
-      dispatch(removeQuestion({ i }));
-    };
 
     const validateAssecessmentTypeOne = () => {
       let valid = true;
       const newErrors = {
         question: "",
         point: "",
-        options: Array(options.length).fill(""),
+        options: Array(
+          // @ts-ignore
+          assesment?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+            ?.options.length
+        ).fill(""),
         answer: "",
       };
 
       // Validate question
-      const questionValue = questionOption?.[i]?.question?.trim() || "";
+      const questionValue =
+        assesment
+          // @ts-ignore
+          ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+          ?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
         valid = false;
@@ -123,22 +68,29 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate points
-      const pointValue = questionOption?.[i]?.point;
+      const pointValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.point;
       if (!pointValue || pointValue <= 0) {
         newErrors.point = "Points must be a positive integer";
         valid = false;
       }
 
       // Validate Answer
-      const answerValue = questionOption?.[i]?.answer;
+      const answerValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
       if (!answerValue) {
         newErrors.answer = "Answer is required";
         valid = false;
       }
 
       // Validate options
-      const currentOptions = options.map((option) => option.option.trim());
-      if (currentOptions.some((option) => !option)) {
+      const currentOptions = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+        ?.options.map((option) => option.option.trim());
+      if (currentOptions && currentOptions.some((option) => !option)) {
         newErrors.options = currentOptions.map((option) =>
           !option ? "Option is required" : ""
         );
@@ -153,6 +105,48 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
       validate: validateAssecessmentTypeOne,
     }));
 
+    const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setAssesment((prev) => {
+        return prev.map((item) => {
+          // @ts-ignore
+          if (+item.ids === +assecessmentQuestion?.ids) {
+            return {
+              ...item,
+              [name]: value,
+            };
+          }
+          return item;
+        });
+      });
+    };
+
+    const handleAddOption = () => {
+      setAssesment((prev: any) => {
+        return prev.map((item: any) => {
+          // @ts-ignore
+          if (+item.ids === +assecessmentQuestion?.ids) {
+            return {
+              ...item,
+              options: [
+                ...item.options,
+                {
+                  option: "",
+                },
+              ],
+            };
+          }
+          return item;
+        });
+      });
+    };
+
+    const handleRemoveQuestion = (id: number) => {
+      setAssesment((prev: any) => {
+        return prev.filter((item: any) => +item.ids !== +id);
+      });
+    };
+
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">
@@ -162,7 +156,7 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
             </h6>
             <CircleX
               className="text-[#fb6262] -mt-7 cursor-pointer"
-              onClick={() => handleRemove(i)}
+              onClick={() => handleRemoveQuestion(assecessmentQuestion?.ids)}
             />
           </div>
           <input
@@ -179,17 +173,17 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
             <Input
               placeholder="Enter the question"
               className=" font-base font-calibri text-[#1D2026] w-full px-4 py-2 h-[42px] mr-2"
+              name="question"
               onChange={(e) => {
-                dispatch(
-                  addQuestion({
-                    index: i,
-                    question: e.target.value,
-                    assessmentType: type,
-                  })
-                );
+                handleChangeValue(e);
                 setErrors((prev) => ({ ...prev, question: "" }));
               }}
-              value={questionOption[i]?.question}
+              value={
+                assesment
+                  // @ts-ignore
+                  ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+                  ?.question || ""
+              }
             />
             <div className="flex items-center">
               <label className="me-3 text-[#515151] text-base font-calibri">
@@ -200,15 +194,21 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                 onChange={(e) => {
                   const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }));
+                    handleChangeValue(e);
                     setErrors((prev) => ({ ...prev, point: "" }));
                   }
                   return;
                 }}
+                name="point"
                 type="text"
                 min={0}
                 max={100}
-                value={questionOption[i]?.point || ""}
+                value={
+                  assesment
+                    // @ts-ignore
+                    ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+                    ?.point || ""
+                }
               />
             </div>
           </div>
@@ -227,39 +227,50 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
             <Button
               className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
               type="button"
-              onClick={addOption}
+              onClick={handleAddOption}
             >
               + Add Option
             </Button>
           </div>
           <RadioGroup defaultValue="comfortable" className="relative">
-            {options?.map((data, index) => {
-              return (
-                <Fragment key={index}>
-                  <AssecessmentTypeOneOptions
-                    data={data}
-                    i={i}
-                    iIndex={index}
-                    options={options}
-                    setOptions={setOptions}
-                    setErrors={setErrors}
-                    assecessmentQuestion={assecessmentQuestion?.option}
-                    answer={assecessmentQuestion?.answer}
-                  />
-                  <p
-                    className={`${
-                      index === options?.length - 1 ? "h-[24px]" : ""
-                    }`}
-                  >
-                    {errors.options[index] && (
-                      <span className={`text-red-500 text-sm`}>
-                        {errors.options[index]}
-                      </span>
-                    )}
-                  </p>
-                </Fragment>
-              );
-            })}
+            {assesment
+              // @ts-ignore
+              ?.find((item) => +item?.ids === +assecessmentQuestion?.ids)
+              ?.options?.map((data, index) => {
+                return (
+                  <Fragment key={index}>
+                    <AssecessmentTypeOneOptions
+                      data={data}
+                      i={i}
+                      iIndex={index}
+                      setErrors={setErrors}
+                      id={
+                        assesment?.find(
+                          // @ts-ignore
+                          (item) => +item?.ids === +assecessmentQuestion?.ids
+                        )?.ids || 0
+                      }
+                    />
+                    <p
+                      className={`${
+                        index ===
+                          assesment?.find(
+                            // @ts-ignore
+                            (item) => +item.ids === +assecessmentQuestion?.ids
+                          )?.options?.length ?? 0 - 1
+                          ? "h-[24px]"
+                          : ""
+                      }`}
+                    >
+                      {errors.options[index] && (
+                        <span className={`text-red-500 text-sm`}>
+                          {errors.options[index]}
+                        </span>
+                      )}
+                    </p>
+                  </Fragment>
+                );
+              })}
             {errors.answer && (
               <p className="text-red-500 text-sm absolute bottom-0 right-0">
                 {errors.answer}

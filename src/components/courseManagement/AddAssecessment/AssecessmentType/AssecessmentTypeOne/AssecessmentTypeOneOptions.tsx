@@ -1,65 +1,94 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
-import {
-  addAnswer,
-  addOption,
-  removeOption,
-} from "@/redux/reducer/AssessmentReducer";
-import { RootState } from "@/redux/store";
+import { AssesmentContext } from "@/context/assesmentContext";
 import { Trash2 } from "lucide-react";
-import { useEffect } from "react";
+import { useContext } from "react";
 
 type optionsProps = {
   data: {
-    optionTitle: string;
     option: string;
   };
   i: number;
   iIndex: number;
-  options: any[];
-  setOptions: React.Dispatch<React.SetStateAction<any>>;
   setErrors: React.Dispatch<React.SetStateAction<any>>;
-  assecessmentQuestion: any;
-  answer: any;
+  id: number;
 };
 
 const AssecessmentTypeOneOptions = ({
   data,
-  i,
   iIndex,
-  setOptions,
-  options,
   setErrors,
-  assecessmentQuestion,
-  answer,
+  id,
 }: optionsProps) => {
-  const dispatch = useAppDispatch();
-  const { questionOption } = useAppSelector(
-    (state: RootState) => state.assessment
+  const { assesment, setAssesment } = useContext(AssesmentContext);
+
+  const handleCheck = (inx: number) => {
+    setAssesment((prev: any) => {
+      return prev.map((item: any) => {
+        if (item?.ids === id) {
+          return {
+            ...item,
+            answer: inx,
+          };
+        }
+        return item;
+      });
+    });
+    setErrors((prev: any) => ({
+      ...prev,
+      answer: "",
+    }));
+  };
+
+  const handleRemove = (index: number) => {
+    setAssesment((prev: any) => {
+      return prev.map((item: any) => {
+        if (item?.ids === id) {
+          return {
+            ...item,
+            options: item?.options?.filter(
+              (_: any, idx: number) => idx !== index
+            ), // Filter the options array
+          };
+        }
+        return item; // Return unchanged item
+      });
+    });
+  };
+
+  const handleChange = (e: any, i: number) => {
+    const { value } = e.target;
+    setAssesment((prev: any) => {
+      return prev.map((item: any) => {
+        if (item?.ids === id) {
+          return {
+            ...item,
+            options: item?.options?.map((option: any, index: number) => {
+              if (index === i) {
+                return { ...option, option: value }; // Update the specific option
+              }
+              return option; // Return unchanged option
+            }),
+          };
+        }
+        return item; // Return unchanged item
+      });
+    });
+  };
+
+  console.log(
+    "assesment?.[id]?.options?.[iIndex]?.option",
+    assesment?.find((item: any) => item?.ids === id)?.options?.[iIndex]?.option,
+    id
   );
-
-  useEffect(() => {
-    dispatch(addAnswer({ answer: answer, i }));
-  }, [answer]);
-
-  useEffect(() => {
-    if (assecessmentQuestion) {
-      dispatch(
-        addOption({ option: assecessmentQuestion?.[iIndex], i, iIndex })
-      );
-    }
-  }, [assecessmentQuestion]);
 
   return (
     <div>
       <div className="">
         <div className="space-x-2 flex items-center justify-between">
-          <label
-            htmlFor={data.optionTitle}
-            className="flex items-center w-[98%]"
-          >
+          <label htmlFor={data.option} className="flex items-center w-[98%]">
             <span className="text-sm text-black font-inter w-[80px]">
               Option {iIndex + 1}
             </span>
@@ -68,13 +97,7 @@ const AssecessmentTypeOneOptions = ({
                 placeholder={data.option}
                 className="w-full text-base font-calibri text-black h-full px-4 py-[15px] pr-[80px]"
                 onChange={(e) => {
-                  dispatch(addOption({ option: e.target.value, i, iIndex }));
-                  const updatedOptions = [...options];
-                  updatedOptions[iIndex] = {
-                    ...updatedOptions[iIndex],
-                    option: e.target.value,
-                  };
-                  setOptions(updatedOptions);
+                  handleChange(e, iIndex);
                   setErrors((prev: any) => ({
                     ...prev,
                     options: prev.options.map((option: string, index: number) =>
@@ -82,30 +105,16 @@ const AssecessmentTypeOneOptions = ({
                     ),
                   }));
                 }}
-                value={questionOption[i]?.option?.[iIndex]}
+                value={
+                  assesment?.find((item: any) => item?.ids === id)?.options?.[
+                    iIndex
+                  ]?.option || ""
+                }
               />
               <Button
                 className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2] absolute right-4"
                 onClick={() => {
-                  if (options.length <= 1) return;
-                  const updatedOptions = options.filter(
-                    (_, index) => index !== iIndex
-                  );
-                  setOptions(updatedOptions);
-                  dispatch(
-                    addAnswer({
-                      answer: questionOption?.[i]?.answer?.filter(
-                        (item: number) => item !== iIndex
-                      ),
-                      i,
-                    })
-                  );
-                  dispatch(
-                    removeOption({
-                      i,
-                      iIndex,
-                    })
-                  );
+                  handleRemove(iIndex);
                 }}
               >
                 <Trash2 width={18} />
@@ -114,21 +123,17 @@ const AssecessmentTypeOneOptions = ({
           </label>
           <div className="w-[2%] text-right">
             <RadioGroup
-              onValueChange={(value: any) =>
-                dispatch(
-                  addAnswer({
-                    answer: value,
-                    i,
-                  })
-                )
+              onValueChange={(value: any) => handleCheck(value)}
+              // @ts-ignore
+              value={
+                assesment?.find((item: any) => item?.ids === id)?.answer || ""
               }
-              value={questionOption[i]?.answer}
               className="flex items-center gap-[34px]"
             >
               <RadioGroupItem
                 value={iIndex.toString()}
-                id={data?.optionTitle}
-                key={data?.optionTitle}
+                id={data?.option}
+                key={data?.option}
                 className="w-[24px] h-[24px]"
               />
             </RadioGroup>
