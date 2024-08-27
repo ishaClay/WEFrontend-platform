@@ -1,18 +1,24 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Input } from "@/components/ui/input";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { AssesmentContext } from "@/context/assesmentContext";
+import { useAppDispatch } from "@/hooks/use-redux";
 import {
   addAnswer,
   addPoint,
   addQuestion,
-  removeQuestion,
 } from "@/redux/reducer/AssessmentReducer";
-import { RootState } from "@/redux/store";
 import { CircleX } from "lucide-react";
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import {
+  ChangeEvent,
+  forwardRef,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 
 interface AssecessmentTypeProps {
   i: number;
-  type: string;
   assecessmentQuestion: any;
 }
 
@@ -21,22 +27,15 @@ interface Validatable {
 }
 
 const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
-  ({ i, type, assecessmentQuestion }, ref) => {
+  ({ i, assecessmentQuestion }, ref) => {
     const dispatch = useAppDispatch();
-
-    const { questionOption } = useAppSelector(
-      (state: RootState) => state.assessment
-    );
+    const { setAssesment, assesment } = useContext(AssesmentContext);
 
     const [errors, setErrors] = useState({
       question: "",
       point: "",
       answer: "",
     });
-
-    const handleRemove = (i: number) => {
-      dispatch(removeQuestion({ i }));
-    };
 
     const validateAssecessmentFreeText = () => {
       let valid = true;
@@ -47,7 +46,11 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       };
 
       // Validate question
-      const questionValue = questionOption?.[i]?.question?.trim() || "";
+      const questionValue =
+        assesment
+          // @ts-ignore
+          ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+          ?.question?.trim() || "";
       if (!questionValue) {
         newErrors.question = "Question is required";
         valid = false;
@@ -59,7 +62,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate points
-      const pointValue = questionOption?.[i]?.point;
+      const pointValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.point;
 
       if (!pointValue || pointValue <= 0) {
         newErrors.point = "Points must be a positive integer";
@@ -67,7 +72,9 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       }
 
       // Validate Answer
-      const answerValue = questionOption?.[i]?.answer;
+      const answerValue = assesment
+        // @ts-ignore
+        ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
 
       if (!answerValue) {
         newErrors.answer = "Answer is required";
@@ -101,6 +108,30 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       }
     }, [assecessmentQuestion]);
 
+    const handleRemoveQuestion = (id: number) => {
+      setAssesment((prev: any) => {
+        return prev.filter((item: any) => +item.ids !== +id);
+      });
+    };
+
+    const handleChangeValue = (
+      e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    ) => {
+      const { name, value } = e.target;
+      setAssesment((prev) => {
+        return prev.map((item) => {
+          // @ts-ignore
+          if (+item.ids === +assecessmentQuestion?.ids) {
+            return {
+              ...item,
+              [name]: value,
+            };
+          }
+          return item;
+        });
+      });
+    };
+
     return (
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">
@@ -110,7 +141,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
             </h6>
             <CircleX
               className="text-[#fb6262] -mt-7 cursor-pointer"
-              onClick={() => handleRemove(i)}
+              onClick={() => handleRemoveQuestion(assecessmentQuestion?.ids)}
             />
           </div>
           <div className="flex items-center gap-3">
@@ -128,11 +159,17 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
                 onChange={(e) => {
                   const { value } = e.target;
                   if (value.match(/^[0-9]*$/)) {
-                    dispatch(addPoint({ index: i, point: +e.target.value }));
+                    handleChangeValue(e);
                   }
                   return;
                 }}
-                value={questionOption[i]?.point || ""}
+                name="point"
+                value={
+                  assesment
+                    // @ts-ignore
+                    ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+                    ?.point || ""
+                }
                 min={0}
                 max={100}
                 type="text"
@@ -155,15 +192,15 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
               placeholder="Enter the question"
               className=" font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto"
               onChange={(e) => {
-                dispatch(
-                  addQuestion({
-                    index: i,
-                    question: e.target.value,
-                    assessmentType: type,
-                  })
-                );
+                handleChangeValue(e);
               }}
-              value={questionOption[i]?.question}
+              name="question"
+              value={
+                assesment
+                  // @ts-ignore
+                  ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+                  ?.question || ""
+              }
             />
           </div>
           {errors.question && (
@@ -178,14 +215,16 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
               className="py-4 px-3 w-full border focus:border-[#4b4b4b] shadow-none outline-none border-[#D9D9D9] placeholder:text-neutral-400  rounded-md resize-none"
               rows={8}
               onChange={(e) => {
-                dispatch(
-                  addAnswer({
-                    answer: e?.target?.value,
-                    i,
-                  })
-                );
+                handleChangeValue(e);
               }}
-              value={questionOption[i]?.answer}
+              name="answer"
+              // @ts-ignore
+              value={
+                assesment
+                  // @ts-ignore
+                  ?.find((item) => +item.ids === +assecessmentQuestion?.ids)
+                  ?.answer || ""
+              }
             />
             {errors.answer && (
               <p className="text-red-500 text-sm">{errors.answer}</p>

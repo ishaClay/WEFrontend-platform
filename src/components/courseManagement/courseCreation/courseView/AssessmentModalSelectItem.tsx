@@ -1,5 +1,8 @@
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setQuestionType } from "@/redux/reducer/AssessmentReducer";
+import {
+  AssesmentContext,
+  intialSectionCreation,
+} from "@/context/assesmentContext";
+import { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface ModalItemProps {
@@ -15,11 +18,11 @@ const AssessmentModalSelectItem = ({
   setIsOpenAssessmentModal,
   sectionID,
 }: ModalItemProps) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const { courseId, assId } = useParams();
+  const { assesment, setAssesment } = useContext(AssesmentContext);
 
   console.log("sectionIDsectionIDsectionID", sectionID);
 
@@ -51,8 +54,15 @@ const AssessmentModalSelectItem = ({
   //   },
   // });
 
-  const handleButtonClick = () => {
-    dispatch(setQuestionType(data[0]));
+  const handleAdd = () => {
+    setAssesment([
+      ...assesment,
+      {
+        ...intialSectionCreation,
+        ids: assesment.length + 1,
+        assessmentType: data[0],
+      },
+    ]);
     setIsOpenAssessmentModal(false);
     const searchParams = new URLSearchParams(window.location.search);
     const queryParams: { [key: string]: string | null } = {};
@@ -83,7 +93,7 @@ const AssessmentModalSelectItem = ({
   return (
     <div className="">
       <div
-        onClick={handleButtonClick}
+        onClick={handleAdd}
         className="md:w-[190px] sm:w-[150px] w-[95px] sm:h-[150px] h-[95px] cursor-pointer border border-[#D9D9D9] flex justify-center items-center rounded-lg hover:border-[#64A70B] group"
       >
         <div className="text-center flex flex-col sm:gap-2 gap-1">
