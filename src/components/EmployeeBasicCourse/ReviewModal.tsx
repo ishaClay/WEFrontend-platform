@@ -33,8 +33,6 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
     queryFn: () => getOneFeedback(course?.course?.id, userData?.query?.id),
   });
 
-  console.log("data", data);
-
   useEffect(() => {
     if (data) {
       setCourseRatting(data?.data?.courseRate);
@@ -133,7 +131,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
               placeholder="Leave a review...     Just a sentence or the all details of your experience!"
               onChange={handleReviewChange}
               value={review}
-              className="lg:px-5 lg:py-4 p-3 border border-[#D9D9D9] text-[15px] text-[#A3A3A3] placeholder:text-[#A3A3A3]"
+              className="lg:px-5 lg:py-4 p-3 border border-[#D9D9D9] text-[15px] placeholder:text-[#A3A3A3]"
               rows={5}
             />
             <div className="right-2 bottom-2 absolute text-[#A3A3A3] text-[12px]">

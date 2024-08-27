@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { createCohortGroupUser } from "@/services/apiServices/cohort";
 import { CohortGroupType } from "@/types/enroll";
 import { useMutation } from "@tanstack/react-query";
@@ -9,6 +10,8 @@ type detailsListProps = {
 };
 
 const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
+  console.log("data", data);
+  
   const getDateBadgeStatus = () => {
     let statusName;
     const status = data?.employee?.every((employee) => {
@@ -42,8 +45,12 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
     onSuccess: (data) => {
       console.log(data);
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -53,7 +60,11 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
         cohortId: id,
       });
     } else {
-      console.log("group already created");
+      toast({
+        title: "Error",
+        description: "group already created",
+        variant: "destructive",
+      });
     }
   };
 

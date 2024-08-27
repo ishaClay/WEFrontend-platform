@@ -172,14 +172,14 @@ const ChangePassword = () => {
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989]">
-                  Protected by reCAPTCHA and subject to the Skillnet{" "}
-                  <Link to="/privacypolicy" className="text-color font-bold">
-                    Privacy Policy{" "}
-                  </Link>{" "}
-                  and{" "}
+                  Protected by reCAPTCHA and subject to the Skillnet
+                  <Link to="/privacypolicy" className="text-color font-bold mx-1">
+                    Privacy Policy
+                  </Link>
+                  and
                   <Link
                     to={"/termsofservices"}
-                    className="text-color font-bold"
+                    className="text-color font-bold mx-1"
                   >
                     Terms of Service.
                   </Link>

@@ -373,6 +373,7 @@ const ActionItemModel = ({
                       type="submit"
                       isLoading={createPending}
                       className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                      disabled={pillerItems[currentPiller]?.some((i: string) => !i)}
                     >
                       Save
                     </Button>

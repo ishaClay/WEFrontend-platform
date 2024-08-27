@@ -161,7 +161,7 @@ const TrainerDetailsEdit = () => {
   const handleUpdate = (data: FieldValues) => {
     const payload = {
       name: data?.name,
-      number: data?.number,
+      phone: data?.number,
       email: data?.email,
       providerName: data?.providerName,
       providerType: data?.providerType,

@@ -171,7 +171,7 @@ const ResetPassword = () => {
                 type="button"
                 variant={"ghost"}
                 onClick={() => navigate("/auth")}
-                className="text-[14px] underline font-medium mt-5 cursor-pointer hover:bg-transparent"
+                className="text-[14px] underline font-bold mt-5 cursor-pointer hover:bg-transparent"
               >
                 Login
               </Button>
