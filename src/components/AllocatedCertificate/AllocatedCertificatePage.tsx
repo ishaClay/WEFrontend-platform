@@ -20,6 +20,7 @@ import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import { Input } from "../ui/input";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
@@ -332,14 +333,14 @@ const AllocatedCertificatePage = () => {
       </div>
 
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] px-4 2xl:py-3 py-2 rounded-lg">
-          <Search className="text-[#A3A3A3]" width={18} />
-          <input
+        <div className="flex items-center 2xl:w-[550px] sm:w-[450px] w-[290px] sm:h-[52px] h-[46px] rounded-lg relative">
+          <Search className="text-[#A3A3A3] absolute left-4" width={18} />
+          <Input
             value={search}
-            className=" text-[15px] text-[#A3A3A3] font-inter px-3 w-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+            className=" text-[15px] font-inter pr-4 pl-12 h-full"
             placeholder="Search by name, course name, certificate name, etc."
             onChange={(e) => setSearch(e.target.value)}
-          ></input>
+          />
         </div>
       </div>
       {isPending ? (

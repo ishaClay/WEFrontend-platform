@@ -443,9 +443,9 @@ const AllocatedCertificateEmployeePage = () => {
               <div className="xl:p-4 p-2 border-b border-[#D9D9D9]">
                 <h5 className="text-base font-bold font-calibri">Body</h5>
               </div>
-              <div className="xl:p-5 p-3 border border-[#D9D9D9] xl:mx-4 mx-2 xl:my-3 my-2 rounded-lg">
+              <div className="xl:mx-4 mx-2 xl:my-3 my-2 rounded-lg">
                 <Textarea
-                  className="text-base text-[#A3A3A3] font-calibri line-clamp-4"
+                  className="text-base font-calibri line-clamp-4 shadow-none outline-none focus:border-[#4b4b4b]"
                   rows={5}
                   placeholder="Write here..."
                   value={body}

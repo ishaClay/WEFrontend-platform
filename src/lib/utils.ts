@@ -496,14 +496,20 @@ export const calculateTotalReadingTime = (sections: any) => {
   let totalHours = 0;
   let totalMinutes = 0;
   let totalSeconds = 0;
+  console.log("sectionssections", sections);
+  
 
   sections.forEach((section: any) => {
-    const time = section.isLive ? section.sectionTime : section.readingTime;
+    const time = section.readingTime;
+    console.log("timetimetime", time, section.isLive || section.isLive === 0);
+    
     const assessmentTime = section?.module?.assessment?.length > 0 && section?.module?.assessment?.[0]?.timeDuration;
-    totalHours += time?.hour || (assessmentTime?.hours || 0);
-    totalMinutes += time?.minute || (assessmentTime?.minutes || 0);
-    totalSeconds += time?.second || (assessmentTime?.seconds || 0);
+    totalHours += time?.hour || (assessmentTime?.hours + time?.hour || 0);
+    totalMinutes += time?.minute || (assessmentTime?.minutes + time?.minute || 0);
+    totalSeconds += time?.second || (assessmentTime?.seconds + time?.second || 0);
   });
+  console.log("sectionssections", totalHours, totalMinutes, totalSeconds);
+  
 
   // Convert total seconds to minutes and hours if necessary
   totalMinutes += Math.floor(totalSeconds / 60);

@@ -1,5 +1,6 @@
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
+import { Input } from "@/components/ui/input";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchDocument } from "@/services/apiServices/Document";
 import {
@@ -114,15 +115,15 @@ const TrainingDocument = () => {
         </p>
       </div>
       <div className="p-5">
-        <div className="border border-[#D9D9D9] flex items-center xl:w-[550px] md:w-[450px] sm:w-[350px] w-[290px] px-4 sm:h-[52px] h-[46px] rounded-lg">
-          <Search className="text-[#A3A3A3]" width={18} />
-          <input
-            className=" xl:text-[15px] text-sm text-[#A3A3A3] font-inter px-3 w-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+        <div className="flex items-center xl:w-[550px] md:w-[450px] sm:w-[350px] w-[290px] sm:h-[52px] h-[46px] rounded-lg relative">
+          <Search className="text-[#A3A3A3] absolute left-4" width={18} />
+          <Input
+            className=" xl:text-[15px] text-sm font-inter pr-4 pl-12 py-2 w-full h-full"
             placeholder="Search by name, type, target audience etc."
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setSearch(e.target.value)
             }
-          ></input>
+          />
         </div>
       </div>
       <div className="">

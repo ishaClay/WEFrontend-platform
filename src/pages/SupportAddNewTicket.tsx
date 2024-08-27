@@ -328,7 +328,7 @@ function SupportAddNewTicket() {
               Description <span className="text-red-400">*</span>
             </Label>
             <Textarea
-              className="px-[13px] py-21px] resize-none bg-white border border-solid border-[#d9d9d9]"
+              className="px-[13px] py-21px] shadow-none outline-none focus:border-[#4b4b4b] resize-none bg-white border border-solid border-[#d9d9d9]"
               placeholder="Enter details"
               rows={8}
               {...register("description")}

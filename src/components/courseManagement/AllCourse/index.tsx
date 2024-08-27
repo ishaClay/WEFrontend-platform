@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
+import { Input } from "@/components/ui/input";
 
 const AllCourses = () => {
   const { permissions } = useContext(PermissionContext);
@@ -148,12 +149,12 @@ const AllCourses = () => {
               : "sm:flex block"
           } items-center justify-between sm:py-5 sm:px-[18px] p-[15px]`}
         >
-          <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 xl:w-[550px] sm:w-[430px] min-w-[290px] sm:h-[52px] h-[46px]">
-            <BsSearch className="text-[#D9D9D9] mr-2" />
-            <input
+          <div className="flex items-center rounded-md xl:w-[550px] sm:w-[430px] min-w-[290px] sm:h-[52px] h-[46px] relative">
+            <BsSearch className="text-[#D9D9D9] mr-2 absolute left-4" />
+            <Input
               type="search"
               placeholder="Search by course name, category, maturity level, course by..."
-              className="flex-1 focus: text-sm placeholder-[#D9D9D9] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+              className="flex-1 pr-4 pl-11 focus: text-sm placeholder-[#D9D9D9] h-full w-full"
               onChange={(e) => setSearchKeyword(e.target.value)}
             />
           </div>

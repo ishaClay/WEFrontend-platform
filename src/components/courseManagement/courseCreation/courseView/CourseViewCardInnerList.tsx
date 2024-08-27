@@ -50,10 +50,11 @@ const CourseViewCardInnerList = ({
   }
   const FileTypeData =
     data.isLive === 0
-      ? data?.type
+      ? data?.passingPercentage
         ? FileType.AssessmentTest
         : getFileType(data.documentType)
       : FileType.Live;
+  console.log("FileTypeData", FileTypeData);
 
   const { mutate: DeleteSection, isPending } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),
@@ -104,6 +105,7 @@ const CourseViewCardInnerList = ({
       DeleteLiveSection(sectionID);
     }
   };
+  console.log("datadata", data);
 
   return (
     <div className="border-b border-[#D9D9D9] p-4 flex items-center justify-between">
@@ -141,7 +143,10 @@ const CourseViewCardInnerList = ({
                 </>
               ) : (
                 <>
-                  {FileTypeData?.name} | Duration:{" "}
+                  {data?.timeDuration
+                    ? ""
+                    : FileTypeData?.name && FileTypeData?.name + " |"}{" "}
+                  Duration:{" "}
                   <span className="text-black">
                     {data.readingTime
                       ? formatReadingTime(data.readingTime)

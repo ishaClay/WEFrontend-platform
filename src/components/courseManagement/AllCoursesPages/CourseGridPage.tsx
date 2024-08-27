@@ -221,117 +221,119 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                     <p className="sm:text-base text-sm font-medium font-inter line-clamp-2 text-[#1D2026] sm:min-h-[50px] h-auto">
                       {allcourse.title}
                     </p>
-                    <div className="grid sm:grid-cols-2 grid-cols-1 items-start gap-y-2 min-h-[56px]">
-                      {allcourse?.courseData?.map((item) => {
-                        return (
-                          <div className="flex gap-2 col-span-1 items-center">
-                            <img
-                              className="inline-block w-[18px] h-[24px]"
-                              src={getImages(
-                                item?.fetchPillar?.pillarName,
-                                true
-                              )}
-                              alt="Image Alt Text"
-                            />
-                            <p className="text-[#918A8A] text-base font-normal font-calibri">
-                              {item?.fetchPillar?.pillarName}
-                            </p>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <div className="grid grid-cols-4">
-                      <div className="col-span-2 flex flex-col gap-1">
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className="h-[16] w-[18px]"
-                            src={speed}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            Level-
-                            {allcourse?.courseData?.[0]?.fetchMaturity
-                              ?.maturityLevelName || "--"}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={fulltime}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            {allcourse.time === CourseTime.FullTime && (
-                              <span>Full-time</span>
-                            )}
-                            {allcourse.time === CourseTime.PartTime && (
-                              <span>Part-time</span>
-                            )}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={time}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            {allcourse.duration || "--"}
-                          </p>
-                        </div>
+                    <div className="h-[178px]">
+                      <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-y-2 mb-5">
+                        {allcourse?.courseData?.map((item) => {
+                          return (
+                            <div className="flex gap-2 col-span-1 items-center">
+                              <img
+                                className="inline-block w-[18px] h-[24px]"
+                                src={getImages(
+                                  item?.fetchPillar?.pillarName,
+                                  true
+                                )}
+                                alt="Image Alt Text"
+                              />
+                              <p className="text-[#918A8A] text-base font-normal font-calibri">
+                                {item?.fetchPillar?.pillarName}
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
 
-                      <div className="col-span-2 flex flex-col gap-1">
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className=" h-[16] w-[18px] text-black"
-                            src={diploma}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
-                            {allcourse.otherInstitutionName || "--"}
-                          </p>
+                      <div className="grid grid-cols-4">
+                        <div className="col-span-2 flex flex-col gap-1">
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className="h-[16] w-[18px]"
+                              src={speed}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                              Level-
+                              {allcourse?.courseData?.[0]?.fetchMaturity
+                                ?.maturityLevelName || "--"}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src={fulltime}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                              {allcourse.time === CourseTime.FullTime && (
+                                <span>Full-time</span>
+                              )}
+                              {allcourse.time === CourseTime.PartTime && (
+                                <span>Part-time</span>
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src={time}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                              {allcourse.duration || "--"}
+                            </p>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={online}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            {allcourse.isOnline === IsOnline.Online && (
-                              <span>Online</span>
-                            )}
-                            {allcourse.isOnline === IsOnline.InPerson && (
-                              <span>InPerson</span>
-                            )}
-                            {allcourse.isOnline === IsOnline.Hybrid && (
-                              <span>Hybrid</span>
-                            )}
-                            {allcourse.isOnline === IsOnline.Major && (
-                              <span>Major</span>
-                            )}
-                            {allcourse.isOnline === IsOnline.Offline && (
-                              <span>Offline</span>
-                            )}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-1 mb-[2px]">
-                          <img
-                            className=" h-[16] w-[18px]"
-                            src={unversity}
-                            alt="Course"
-                          />
-                          <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                            Atlantic Technological University
-                          </p>
+
+                        <div className="col-span-2 flex flex-col gap-1">
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className=" h-[16] w-[18px] text-black"
+                              src={diploma}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-2">
+                              {allcourse.otherInstitutionName || "--"}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src={online}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                              {allcourse.isOnline === IsOnline.Online && (
+                                <span>Online</span>
+                              )}
+                              {allcourse.isOnline === IsOnline.InPerson && (
+                                <span>InPerson</span>
+                              )}
+                              {allcourse.isOnline === IsOnline.Hybrid && (
+                                <span>Hybrid</span>
+                              )}
+                              {allcourse.isOnline === IsOnline.Major && (
+                                <span>Major</span>
+                              )}
+                              {allcourse.isOnline === IsOnline.Offline && (
+                                <span>Offline</span>
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-1 mb-[2px]">
+                            <img
+                              className=" h-[16] w-[18px]"
+                              src={unversity}
+                              alt="Course"
+                            />
+                            <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-2">
+                              Atlantic Technological University
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="border-t py-[13px] px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
+                  <div className="border-t py-3 px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
                     {getUpcommingCohort(allcourse)}
                     <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
                       <Button
