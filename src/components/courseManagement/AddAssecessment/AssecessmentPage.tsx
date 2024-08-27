@@ -3,13 +3,9 @@ import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { AssesmentContext } from "@/context/assesmentContext";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
-import {
-  resetAssessment,
-  setAssessment,
-  setQuestionType,
-} from "@/redux/reducer/AssessmentReducer";
 import { RootState } from "@/redux/store";
 import {
   createAssessment,
@@ -22,7 +18,7 @@ import { QuestionCreation } from "@/types/assecessment";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus } from "lucide-react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import AssessmentModal from "../courseCreation/courseView/AssessmentModal";
@@ -31,13 +27,6 @@ import AssecessmentFreeText from "./AssecessmentType/AssecessmentFreeText/Assece
 import AssecessmentTrueFalse from "./AssecessmentType/AssecessmentTrueFalse/AssecessmentTrueFalse";
 import AssecessmentTypeOne from "./AssecessmentType/AssecessmentTypeOne/AssecessmentTypeOne";
 import AssecessmentTypeTwo from "./AssecessmentType/AssecessmentTypeTwo/AssecessmentTypeTwo";
-
-enum AssessmentType {
-  SingleChoiceQuestion = "Single Choice Question",
-  FreeTextResponse = "Free Text Response",
-  TrueOrFalse = "True Or False",
-  MultipleChoiceQuestion = "Multiple Choice Question",
-}
 
 export const intialSectionCreation: QuestionCreation = {
   question: "",
@@ -48,7 +37,7 @@ export const intialSectionCreation: QuestionCreation = {
     },
   ],
   assessmentType: "",
-  answer: [""],
+  answer: [],
 };
 
 type Validatable = () => boolean;
@@ -68,7 +57,6 @@ const initialState = {
 const AssecessmentPage = () => {
   const { toast } = useToast();
   const { assId } = useParams();
-  const dispatch = useAppDispatch();
   const pathName = window.location.pathname.split("/")[1];
 
   const assecessmentQuestion = useAppSelector(
@@ -85,6 +73,9 @@ const AssecessmentPage = () => {
       seconds: number;
     };
   }>(initialState);
+  const { assesment, setAssesment } = useContext(AssesmentContext);
+
+  console.log("assesment", assesment);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -120,51 +111,37 @@ const AssecessmentPage = () => {
           seconds: getAssessmentByIdData?.data?.timeDuration?.seconds,
         },
       });
+
+      const a = {
+        "Single Choice Question": "MCQ",
+        ["Free Text Response"]: "Free Text Response",
+        ["Multiple Choice Question"]: "Multiple Choice",
+      };
+
+      const responseData = getAssessmentByIdData?.data?.AssessmentQuestion?.map(
+        (item) => {
+          const { option, ...rest } = item;
+
+          const isMCQ = option.filter((i: any) => i.option !== "").length > 0;
+          console.log(option, "rest", rest, isMCQ);
+
+          return {
+            ...item,
+            // @ts-ignore
+            assessmentType:
+              item.assessmentType === "Single Choice Question" && !isMCQ
+                ? "True & False"
+                : // @ts-ignore
+                  a[item.assessmentType],
+            ids: item?.id,
+            options: item?.option,
+          };
+        }
+      );
+
+      setAssesment(responseData);
     }
   }, [assessmentData, getAssessmentByIdData?.data]);
-
-  useEffect(() => {
-    if (assessmentData?.id) {
-      assessmentData?.[0]?.AssessmentQuestion?.map((item: any) => {
-        dispatch(setQuestionType(item?.assessmentType));
-      });
-    }
-  }, [assessmentData, dispatch]);
-
-  const AssessmentTypeReverseMap: {
-    [key: string]: string;
-  } = Object.fromEntries(
-    Object.entries(AssessmentType).map(([key, value]) => [value, key])
-  );
-
-  useEffect(() => {
-    if (getAssessmentByIdData?.data?.AssessmentQuestion?.length) {
-      const assessmentTypes =
-        getAssessmentByIdData?.data?.AssessmentQuestion?.map(
-          (i) => i?.assessmentType
-        );
-      const transformedAssessmentTypes = assessmentTypes?.map(
-        (type) => AssessmentTypeReverseMap[type]
-      );
-      if (transformedAssessmentTypes) {
-        transformedAssessmentTypes.forEach((type) => {
-          if (type) {
-            dispatch(setQuestionType(type));
-          }
-        });
-
-        const transformedAssessmentQuestions =
-          getAssessmentByIdData?.data?.AssessmentQuestion?.map((question) => ({
-            ...question,
-            assessmentType: AssessmentTypeReverseMap[question.assessmentType],
-          }));
-
-        if (transformedAssessmentQuestions) {
-          dispatch(setAssessment(transformedAssessmentQuestions));
-        }
-      }
-    }
-  }, [getAssessmentByIdData, dispatch]);
 
   const {
     mutate: createAssessmentQuestionFun,
@@ -190,7 +167,7 @@ const AssecessmentPage = () => {
           }&id=${id}&version=${version}`
         );
       }
-      dispatch(resetAssessment());
+      setAssesment([]);
     },
     onError: (error: ResponseError) => {
       toast({
@@ -205,26 +182,24 @@ const AssecessmentPage = () => {
     useMutation({
       mutationFn: createAssessment,
       onSuccess: (res) => {
-        
         const a = {
-          MCQ : "Single Choice Question",
-          ["Free Text Response"] : "Free Text Response",
-          ["True & False"] : "Single Choice Question",
-          ["Multiple Choice"] : "Multiple Choice Question",
-        }
+          MCQ: "Single Choice Question",
+          ["Free Text Response"]: "Free Text Response",
+          ["True & False"]: "Single Choice Question",
+          ["Multiple Choice"]: "Multiple Choice Question",
+        };
 
-        const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-          (item: any, i: number) => {
-            return {
-              ...item,
-              // @ts-ignore
-              assessment: res?.data?.data?.id,
-              // @ts-ignore
-              assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
-              // answer: item?.option[+item?.answer]
-            };
-          }
-        );
+        const assecessmentQue = assesment?.map((item: any) => {
+          const { id, ...rest } = item;
+          console.log("id", id, res);
+          return {
+            ...rest,
+            // @ts-ignore
+            assessment: res?.data?.data?.id,
+            // @ts-ignore
+            assessmentType: a[item.assessmentType],
+          };
+        });
         if (courseId && +courseId) {
           navigate(
             `/${pathName}/create_course/${courseId ? courseId : id}?tab=${
@@ -246,27 +221,31 @@ const AssecessmentPage = () => {
 
   const { mutate: updateAssessmentFun, isPending } = useMutation({
     mutationFn: updateAssessment,
-    onSuccess: () => {
+    onSuccess: (res) => {
       const a = {
-        MCQ : "Single Choice Question",
-        ["Free Text Response"] : "Free Text Response",
-        ["True & False"] : "Single Choice Question",
-        ["Multiple Choice"] : "Multiple Choice Question",
-      }
+        MCQ: "Single Choice Question",
+        ["Free Text Response"]: "Free Text Response",
+        ["True & False"]: "Single Choice Question",
+        ["Multiple Choice"]: "Multiple Choice Question",
+      };
 
-      const assecessmentQue = assecessmentQuestion?.questionOption?.map(
-        (item: any, i: number) => {
-          return {
-            ...item,
-            // @ts-ignore
-            id: item?.id as number,
-            // @ts-ignore
-            assessmentType: a[assecessmentQuestion?.selectedQuestionType[i]],
-            // answer: item?.option[+item?.answer]
-          };
-        }
-      );
+      console.log("res", res);
 
+      const assecessmentQue = assesment?.map((item: any) => {
+        const { options, ...rest } = item;
+        console.log(options);
+
+        return {
+          ...rest,
+          // @ts-ignore
+          assessment: res?.data?.id,
+          id: item?.id as number,
+          // @ts-ignore
+          assessmentType: a[item.assessmentType],
+          option: item?.options,
+          // answer: item?.option[+item?.answer]
+        };
+      });
       createAssessmentQuestionFun(assecessmentQue);
     },
     onError: (error: ResponseError) => {
@@ -323,8 +302,7 @@ const AssecessmentPage = () => {
     if (
       !createAssecessment?.timeDuration?.hours &&
       !createAssecessment?.timeDuration?.minutes &&
-      !createAssecessment?.timeDuration?.seconds &&
-      !!createAssecessment?.timeBound
+      !createAssecessment?.timeDuration?.seconds
     ) {
       newErrors.timeDuration = "Time Duration is required";
       valid = false;
@@ -362,7 +340,7 @@ const AssecessmentPage = () => {
           minutes: +createAssecessment?.timeDuration?.minutes || 0,
           seconds: +createAssecessment?.timeDuration?.seconds || 0,
         },
-      };      
+      };
       if (assId && +assId) {
         console.log("assId---------------->1", assId);
 
@@ -391,7 +369,7 @@ const AssecessmentPage = () => {
     const id = searchParams.get("id");
     const version = searchParams.get("version");
     const tab = searchParams.get("tab");
-    dispatch(resetAssessment());
+    setAssesment([]);
     if (courseId && +courseId && courseId !== null) {
       navigate(
         `/${pathName}/create_course/${
@@ -446,61 +424,52 @@ const AssecessmentPage = () => {
               moduleSectionById={moduleSection?.data?.data}
             />
 
-            {(
-              getAssessmentByIdData?.data?.AssessmentQuestion ||
-              assecessmentQuestion?.selectedQuestionType
-            )?.map((type: string | any, index: number) => {
-              return (
-                <Fragment key={index}>
-                  {(type?.assessmentType === "Multiple Choice Question" ||
-                    type === "Multiple Choice") && (
-                    <AssecessmentTypeTwo
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                      assecessmentQuestion={type}
-                    />
-                  )}
-                  {((type?.assessmentType === "Single Choice Question" &&
-                    type?.option?.length > 0) ||
-                    type === "MCQ") && (
-                    <AssecessmentTypeOne
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                      assecessmentQuestion={type}
-                    />
-                  )}
-                  {(type?.assessmentType === "Free Text Response" ||
-                    type === "Free Text Response") && (
-                    <AssecessmentFreeText
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                      assecessmentQuestion={type}
-                    />
-                  )}
-                  {((type?.assessmentType === "Single Choice Question" &&
-                    type?.option?.length === 0) ||
-                    type === "True & False") && (
-                    <AssecessmentTrueFalse
-                      i={index}
-                      type={type}
-                      ref={(el: any) =>
-                        (validationRefs.current[index] = el?.validate)
-                      }
-                      assecessmentQuestion={type}
-                    />
-                  )}
-                </Fragment>
-              );
-            })}
+            {assesment
+              // getAssessmentByIdData?.data?.AssessmentQuestion ||
+              // assecessmentQuestion?.selectedQuestionType
+              ?.map((type: string | any, index: number) => {
+                return (
+                  <Fragment key={index}>
+                    {(type?.assessmentType === "Multiple Choice" ||
+                      type === "Multiple Choice") && (
+                      <AssecessmentTypeTwo
+                        i={index}
+                        ref={(el: any) =>
+                          (validationRefs.current[index] = el?.validate)
+                        }
+                        assecessmentQuestion={type}
+                      />
+                    )}
+                    {type?.assessmentType === "MCQ" && (
+                      <AssecessmentTypeOne
+                        i={index}
+                        ref={(el: any) =>
+                          (validationRefs.current[index] = el?.validate)
+                        }
+                        assecessmentQuestion={type}
+                      />
+                    )}
+                    {(type?.assessmentType === "Free Text Response" ||
+                      type === "Free Text Response") && (
+                      <AssecessmentFreeText
+                        i={index}
+                        ref={(el: any) =>
+                          (validationRefs.current[index] = el?.validate)
+                        }
+                        assecessmentQuestion={type}
+                      />
+                    )}
+                    {type?.assessmentType === "True & False" && (
+                      <AssecessmentTrueFalse
+                        ref={(el: any) =>
+                          (validationRefs.current[index] = el?.validate)
+                        }
+                        assecessmentQuestion={type}
+                      />
+                    )}
+                  </Fragment>
+                );
+              })}
 
             <div className="flex items-center justify-between">
               <Button

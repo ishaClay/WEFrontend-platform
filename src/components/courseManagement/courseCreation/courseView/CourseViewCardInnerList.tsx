@@ -1,4 +1,5 @@
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Loading from "@/components/comman/Error/Loading";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType } from "@/lib/utils";
@@ -83,7 +84,7 @@ const CourseViewCardInnerList = ({
       setIsDelete(false);
     },
   });
-  const { mutate: deleteAssesments } = useMutation({
+  const { mutate: deleteAssesments, isPending: deletePending } = useMutation({
     mutationFn: deleteAssesment,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -185,6 +186,7 @@ const CourseViewCardInnerList = ({
         value={data?.title || ""}
         isLoading={isPending}
       />
+      <Loading isLoading={deletePending || isPending} />
     </div>
   );
 };

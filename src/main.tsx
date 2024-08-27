@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./App.tsx";
+import { AssessmentProvider } from "./context/assesmentContext.tsx";
 import { PermissionProvider } from "./context/PermissionContext.tsx";
 import { RegisterProvider } from "./context/RegisterContext.tsx";
 import { SidebarProvider } from "./context/Sidebarcontext.tsx";
@@ -38,17 +39,19 @@ if ("serviceWorker" in navigator) {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <PermissionProvider>
-      <SidebarProvider>
-        <RegisterProvider>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <QueryClientProvider client={queryClient}>
-                <App />
-              </QueryClientProvider>
-            </PersistGate>
-          </Provider>
-        </RegisterProvider>
-      </SidebarProvider>
+      <AssessmentProvider>
+        <SidebarProvider>
+          <RegisterProvider>
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <QueryClientProvider client={queryClient}>
+                  <App />
+                </QueryClientProvider>
+              </PersistGate>
+            </Provider>
+          </RegisterProvider>
+        </SidebarProvider>
+      </AssessmentProvider>
     </PermissionProvider>
   </BrowserRouter>
 );

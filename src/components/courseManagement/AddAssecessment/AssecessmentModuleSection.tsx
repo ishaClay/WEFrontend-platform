@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { getTotalDuration } from "@/lib/utils";
 import { Dot } from "lucide-react";
 
@@ -110,7 +109,7 @@ const AssecessmentModuleSection = ({
               />
             </div>
           </div>
-          <div className="">
+          {/* <div className="">
             <h6 className="text-base text-[#515151] font-calibri pb-3">
               Time Bound
             </h6>
@@ -155,7 +154,7 @@ const AssecessmentModuleSection = ({
                 </div>
               </RadioGroup>
             </div>
-          </div>
+          </div> */}
           <div className="">
             <h6 className="text-base text-[#515151] font-calibri pb-3">
               Duration
@@ -165,7 +164,6 @@ const AssecessmentModuleSection = ({
                 <Input
                   className="w-full text-sm p-3 pr-[50px] text-black h-auto"
                   placeholder="00"
-                  disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
                     setCreateAssecessment((prev) => ({
                       ...prev,
@@ -186,7 +184,6 @@ const AssecessmentModuleSection = ({
                 <Input
                   className="w-full p-3 pr-[65px] text-sm text-black h-auto"
                   placeholder="00"
-                  disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
                     setCreateAssecessment((prev) => ({
                       ...prev,
@@ -207,7 +204,6 @@ const AssecessmentModuleSection = ({
                 <Input
                   className="w-full p-3 pr-[65px] text-sm text-black h-auto"
                   placeholder="00"
-                  disabled={!+createAssecessment?.timeBound}
                   onChange={(e) => {
                     setCreateAssecessment((prev) => ({
                       ...prev,
