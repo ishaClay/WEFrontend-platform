@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-// import moduleZoomVideo from "@/assets/images/zoom-video.png";
+import liveSection from "@/assets/svgs/liveSection.svg";
+import infoIcon from "@/assets/svgs/infoIcon.svg";
 
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
@@ -61,7 +62,7 @@ const ModuleCourseViewCardItems = ({
   };
 
   const getTime = () => {
-    const time = list?.isLive === 0 ? list?.readingTime : list?.sectionTime;
+    const time = list?.readingTime;
     return (
       <>
         {time?.hour?.toString()?.padStart(2, "0")}:{" "}
@@ -70,19 +71,14 @@ const ModuleCourseViewCardItems = ({
       </>
     );
   };
+console.log("list?.url", list);
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
           <img
-            src={documentIcon(
-              list?.url
-                ? "url"
-                : list?.isLive === 1
-                ? "url"
-                : list?.uploadContent
-            )}
+            src={list?.isLive === 1 ? liveSection : list?.uploadContent === "" ? infoIcon : documentIcon(list?.uploadContent)}
             alt="documentIcon"
             className="max-w-[32px] w-auto h-auto"
           />
@@ -103,7 +99,7 @@ const ModuleCourseViewCardItems = ({
               }
             }}
           >
-            {list?.isLive === 0 ? list?.title : list?.liveSecTitle}
+            {list?.title}
           </h5>
           {/* <div className="pb-1">
             <h6 className="text-[#747474] text-xs font-nunito">

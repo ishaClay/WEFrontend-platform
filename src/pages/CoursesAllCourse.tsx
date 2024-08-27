@@ -2,6 +2,7 @@ import Loader from "@/components/comman/Loader";
 import CourseGridPage from "@/components/courseManagement/AllCoursesPages/CourseGridPage";
 import CourseListPage from "@/components/courseManagement/AllCoursesPages/CourseListPage";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
 import { RootState } from "@/redux/store";
@@ -98,12 +99,12 @@ function CoursesAllCourse() {
           </div>
 
           <div className="sm:flex block items-center gap-2">
-            <div className="flex items-center border border-[#D9D9D9] rounded-md px-2 xl:w-[550px] sm:w-[480px] w-[300px] sm:h-[52px] h-11">
-              <BsSearch className="text-[#D9D9D9] mr-2" />
-              <input
+            <div className="flex items-center xl:w-[550px] sm:w-[480px] w-[300px] sm:h-[52px] h-11 relative">
+              <BsSearch className="text-[#D9D9D9] absolute left-4" />
+              <Input
                 type="search"
                 placeholder="Search by course name etc."
-                className="flex-1 focus: text-sm placeholder-[#D9D9D9] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                className="pr-4 pl-10 py-2 h-full text-sm placeholder-[#D9D9D9]"
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />

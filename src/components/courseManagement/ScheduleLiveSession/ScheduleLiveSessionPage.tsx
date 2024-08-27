@@ -31,6 +31,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
+import { toast } from "@/components/ui/use-toast";
 
 const durationInHours = Array.from({ length: 24 }, (_, i) => {
   const hour = i.toString().padStart(2, "0");
@@ -178,26 +179,42 @@ const ScheduleLiveSessionPage = () => {
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
       mutationFn: createLiveSession,
-      onSuccess: async () => {
+      onSuccess: async (data) => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
         setSelectCompany([]);
         reset();
+        toast({
+          title: data?.data?.message,
+          variant: "success",
+        })
       },
       onError: (error: ErrorType) => {
         console.error(error);
+        toast({
+          title: error?.data?.message,
+          variant: "destructive",
+        })
       },
     });
 
   const { mutate: updateLiveSession, isPending: isUpdateSessionPending } =
     useMutation({
       mutationFn: scheduleUpdateLiveSession,
-      onSuccess: async () => {
+      onSuccess: async (data) => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
         setSelectCompany([]);
         reset();
+        toast({
+          title: data?.data?.message,
+          variant: "success",
+        })
       },
       onError: (error: ErrorType) => {
         console.error(error);
+        toast({
+          title: error?.data?.message,
+          variant: "destructive",
+        })
       },
     });
 
@@ -495,7 +512,7 @@ const ScheduleLiveSessionPage = () => {
               <Textarea
                 placeholder="Enter Description"
                 rows={4}
-                className="placeholder:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4"
+                className="placeholder:text-[#A3A3A3] focus:border-[#4b4b4b] shadow-none outline-none sm:text-base text-[15px] font-abhaya sm:px-5 px-4"
                 {...register("sessionDescription")}
               />
               {errors.sessionDescription && (

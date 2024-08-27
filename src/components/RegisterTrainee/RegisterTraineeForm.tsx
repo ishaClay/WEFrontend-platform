@@ -68,9 +68,7 @@ const RegisterTraineeForm = () => {
     phone: Zod.string({
       required_error: "Please select phone number",
     }),
-    currentHighestNFQ: Zod.string()
-      .regex(/^[A-Za-z\s]+$/, { message: "Please enter valid NFQ" })
-      .min(1, { message: "Please enter NFQ" }),
+    currentHighestNFQ: Zod.string().min(1, { message: "Please enter NFQ" }),
     employmentStatus: Zod.string().optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string({
@@ -431,7 +429,7 @@ const RegisterTraineeForm = () => {
                   ...selectBoxValues,
                   currentHighestNFQ: value,
                 });
-                setValue("employmentStatus", value);
+                setValue("currentHighestNFQ", value);
               }}
               value={selectBoxValues?.currentHighestNFQ}
             >

@@ -228,8 +228,8 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                     )}
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-0 gap-2.5 sm:items-end items-center">
-                    {item.employeeId !== null && !item.evidence && (
-                      <Button
+                    {item.employeeId !== null && item.iscompleted !== 1 && (
+                      status() && <Button
                         className={`${
                           status() === "Delay"
                             ? "bg-[#F63636] text-white"

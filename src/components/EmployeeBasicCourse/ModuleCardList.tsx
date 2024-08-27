@@ -13,7 +13,7 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
     data?.assessment?.length > 0 ? data?.assessment?.[0]?.timeDuration : null;
   const getTotalSectionsTime = (
     data?.moduleSections || data?.moduleSection
-  )?.map((it: any) => it?.isLive === 0 ? it?.readingTime : it?.sectionTime);
+  )?.map((it: any) => it?.readingTime);
   const addAssessment = [...getTotalSectionsTime, assessmentTime];
 
   const totalTimeInSeconds = getTotalDuration(

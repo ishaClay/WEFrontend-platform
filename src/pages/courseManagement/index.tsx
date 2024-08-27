@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
+import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/lib/constants";
-import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 
 const CourseManagement = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +24,6 @@ const CourseManagement = () => {
   const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
-
-
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -59,7 +57,7 @@ const CourseManagement = () => {
   // }, [currentTab]);
 
   const { data: getSingleCourse } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
+    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseId }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
   });
@@ -74,7 +72,7 @@ const CourseManagement = () => {
           }
         );
       } else {
-        if(+courseId){
+        if (+courseId) {
           navigate(
             `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}&type=${paramsType}`,
             {
@@ -86,7 +84,8 @@ const CourseManagement = () => {
             return null;
           } else {
             navigate(
-              `/${pathName}/create_course?tab=${tab}&step=${step}&id=${paramsId}&version=${paramsversion}`, { replace: true }
+              `/${pathName}/create_course?tab=${tab}&step=${step}&id=${paramsId}&version=${paramsversion}`,
+              { replace: true }
             );
             // setCurrentTab(tab);
           }
@@ -107,37 +106,41 @@ const CourseManagement = () => {
           <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">
             <TabsTrigger
               value="0"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 0
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 0
                   ? "cursor-pointer"
                   : "cursor-default"
-                }`}
+              }`}
             >
               Basic Details
             </TabsTrigger>
             <TabsTrigger
               value="1"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 1
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 1
                   ? "cursor-pointer"
                   : "cursor-default"
-                }`}
+              }`}
             >
               Course Pathway
             </TabsTrigger>
             <TabsTrigger
               value="2"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
                   ? "cursor-pointer"
                   : "cursor-default"
-                }`}
+              }`}
             >
               Module Creation
             </TabsTrigger>
             <TabsTrigger
               value="3"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${getSingleCourse && +getSingleCourse?.data?.course?.tab >= 3
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 3
                   ? "cursor-pointer"
                   : "cursor-default"
-                }`}
+              }`}
             >
               Forum
             </TabsTrigger>

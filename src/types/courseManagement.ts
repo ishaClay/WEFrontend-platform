@@ -213,6 +213,7 @@ export interface CurrentVersion {
   createdAt: string;
   updatedAt: string;
   mainCourse: MainCourseType;
+  cohortGroup: any;
 }
 export interface MainCourseType {
   id: number;

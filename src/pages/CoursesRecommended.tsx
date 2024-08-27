@@ -2,6 +2,7 @@ import Loader from "@/components/comman/Loader";
 import CourseGridView from "@/components/courseManagement/Recommended Courses/CourseGridView";
 import CourseListView from "@/components/courseManagement/Recommended Courses/CourseListView";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { fetchRecommendedCourses } from "@/services/apiServices/recommendedcourses";
@@ -77,13 +78,13 @@ function CoursesRecommended() {
             </div>
 
             <div className="flex sm:flex-row flex-col p-3 bg-[#FFFFFF] justify-between sm:items-center items-start sm:gap-0 gap-3">
-              <div className="flex ml-0 items-center border border-[#D9D9D9] rounded-md px-4 py-2 md:w-[550px] sm:w-[450px] w-[300px] sm:h-[52px] h-[46px] text-[#A3A3A3]">
-                <BsSearch className="text-[#D9D9D9] mr-2" />
+              <div className="flex ml-0 items-center md:w-[550px] sm:w-[450px] w-[300px] sm:h-[52px] h-[46px] text-[#A3A3A3] relative">
+                <BsSearch className="text-[#D9D9D9] absolute left-4" />
 
-                <input
+                <Input
                   type="text"
                   placeholder="Search by pillar, level, recommended, course name etc."
-                  className="flex-1 mr-2 focus: text-black placeholder-[#A3A3A3] text-sm focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                  className="pr-4 pl-10 py-2 text-black placeholder-[#A3A3A3] text-sm h-full"
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>

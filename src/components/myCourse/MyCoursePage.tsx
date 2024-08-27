@@ -130,11 +130,11 @@ const MyCoursePage = () => {
           </div>
         </div>
         <div className="flex items-center">
-          <div className="flex items-center px-4 py-3 border border-[#D9D9D9] rounded-md">
-            <Search className="text-[#D9D9D9]" />
+          <div className="flex items-center border border-[#D9D9D9] rounded-md relative h-[50px]">
+            <Search className="text-[#D9D9D9] absolute left-4" />
             <Input
               placeholder="Search..."
-              className="text-[15px] bg-[#F3F3F3] outline-none font-inter border-none  py-0 px-2 h-6 placeholder:text-[#A3A3A3]"
+              className="text-[15px] bg-[#F3F3F3] outline-none font-inter pr-4 pl-12 py-3 h-full placeholder:text-[#A3A3A3]"
               onChange={(e) => setKeyword(e.target.value)}
             />
           </div>

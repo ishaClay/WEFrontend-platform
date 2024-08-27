@@ -36,10 +36,10 @@ const TeamProgressPage = () => {
         <h4 className="text-base font-abhaya font-semibold">Team Progress</h4>
       </div>
       <div className="flex flex-col p-5 gap-5">
-        <div className="relative flex items-center gap-2 border border-[#D9D9D9] md:w-[550px] sm:w-[450px] w-[290px] rounded-lg sm:h-[52px] h-[46px] px-4 py-2">
-          <Search className="text-[#A3A3A3]" />
+        <div className="relative flex items-center gap-2 md:w-[550px] sm:w-[450px] w-[290px] rounded-lg sm:h-[52px] h-[46px]">
+          <Search className="text-[#A3A3A3] absolute left-4" />
           <Input
-            className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-abhaya font-semibold border-none"
+            className="pr-4 pl-12 py-2 text-[#A3A3A3] placeholder:text-[#A3A3A3] font-abhaya font-semibold h-full"
             placeholder="Search by name, email etc."
             onChange={(e) => setSearch(e.target.value)}
           />
