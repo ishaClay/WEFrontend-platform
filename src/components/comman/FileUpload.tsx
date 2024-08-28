@@ -1,3 +1,4 @@
+import { readCSVFile } from "@/services/apiServices/uploadServices";
 import { ErrorType } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import React, { ChangeEvent, DragEvent, forwardRef } from "react";
@@ -10,7 +11,8 @@ interface FileUploadProps {
   className?: string;
   acceptType?: string;
   isvalidation?: boolean;
-  validationValue?: validationValueType
+  validationValue?: validationValueType;
+  isCSV?: boolean;
 }
 
 interface validationValueType {
@@ -26,13 +28,18 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(({
   acceptType,
   isvalidation,
   validationValue,
+  isCSV = false,
   ...props
 }, ref) => {
   const { toast } = useToast();
   const { mutate: upload_file, isPending: FileUploadPending } = useMutation({
-    mutationFn: (file: any) => uploadFile(file),
+    mutationFn: (file: any) => isCSV ? readCSVFile(file) : uploadFile(file),
     onSuccess: (data) => {
-      handleDrop(data.data.data.file);
+      if(isCSV) {
+        handleDrop(data.data.data);
+      } else {
+        handleDrop(data.data.data.file);
+      }
     },
     onError: (error: ErrorType) => {
       toast({

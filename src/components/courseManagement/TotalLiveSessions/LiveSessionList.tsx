@@ -139,8 +139,16 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
               Start
             </Button>
             <Button
+              disabled={!data.zoomApiBaseUrl}
               className="bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
-              onClick={() => navigator.clipboard.writeText(data.zoomApiBaseUrl)}
+              onClick={() => {
+                navigator.clipboard.writeText(data.zoomApiBaseUrl);
+                toast({
+                  description: "Zoom URL Copied",
+                  variant: "success",
+                  duration: 3000,
+                });
+              }}
             >
               <Copy width={20} />
               Copy Invitation

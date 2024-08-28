@@ -84,14 +84,13 @@ import * as zod from "zod";
 // ];
 
 const schema = zod.object({
-  firstname: zod.string(),
+  firstname: zod.string().min(1, { message: "Please Enter first name" }),
   lastname: zod.string().min(1, { message: "Please Enter last name" }),
   email: zod.string(),
   mobilenumber: zod
     .string()
-    .min(10, { message: "Please Enter mobile number" })
-    .max(10, { message: "Please Enter valid mobile number" })
-    .optional(),
+    .min(1, { message: "Please Enter mobile number" })
+    .max(10, { message: "Please Enter valid mobile number" }),
   gender: zod.string(),
 });
 

@@ -66,10 +66,10 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
             </div>
             <div className="flex items-center justify-between pb-[6px]">
               <div className="text-xl font-calibri leading-6 text-[#00778B] font-bold">
-                {Number(list?.courseProgress).toFixed(0)}%
+                {Number(list?.course?.courseProgress).toFixed(0)}%
               </div>
               <div className="text-xs font-normal font-calibri leading-4">
-                {list?.completedSections} of {list?.totalSections} Completed
+                {list?.course?.completedModule} of {list?.course?.totalmodules} Completed
               </div>
             </div>
             <Progress

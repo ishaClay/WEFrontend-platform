@@ -22,7 +22,7 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    instituteOther: zod.string({ required_error: "Please select Affiliation" }),
+    instituteOther: zod.string().min(1, "Please select Affiliation"),
     otherInstitutionName: zod.string().optional().nullable(),
   })
   .superRefine((data, ctx) => {
@@ -148,10 +148,10 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       setSelectAffiliations({
-        instituteOther: data?.instituteOther,
+        instituteOther: data?.instituteOther || "",
         otherInstitutionName: data?.otherInstitutionName,
       });
-      setValue("instituteOther", data?.instituteOther);
+      setValue("instituteOther", data?.instituteOther || "");
       setValue("otherInstitutionName", data?.otherInstitutionName);
     }
   }, [getSingleCourse, getSingleCoursePending]);
@@ -186,7 +186,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   useEffect(() => {
     if (selectAffiliations?.instituteOther === "no") {
       setSelectAffiliations({
-        instituteOther: selectAffiliations?.instituteOther,
+        instituteOther: selectAffiliations?.instituteOther || "",
         otherInstitutionName: "",
       });
     }

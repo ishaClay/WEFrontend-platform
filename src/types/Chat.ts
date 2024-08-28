@@ -70,6 +70,7 @@ export interface DataEntity {
   name: string;
   email: string;
   count: number;
+  group: boolean;
   last_msg: string;
   last_msg_time: string;
   image?: null;
@@ -150,3 +151,34 @@ export interface UserImage {
   updatedAt: string;
 }
 
+export interface GroupChat {
+  id: number;
+  images?: (null)[] | null;
+  isRead?: (null)[] | null;
+  message: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  senderId: SenderIdGroup;
+}
+export interface SenderIdGroup {
+  id: number;
+  name: string;
+  fname: string;
+  lname: string;
+  gender: string;
+  email: string;
+  password: string;
+  role: number;
+  lastLogin: string;
+  isVerify: number;
+  lastLogout: string;
+  feedback: number;
+  giveFeedback?: null;
+  feedbackCreatedAt?: null;
+  pathStatus: number;
+  deviceTokens?: (string)[] | null;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}

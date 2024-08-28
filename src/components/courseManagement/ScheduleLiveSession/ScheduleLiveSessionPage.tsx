@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -20,6 +22,7 @@ import {
 import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
 import { TraineeCompanyDetails } from "@/types/Trainer";
+import { UserRole } from "@/types/UserRole";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -31,7 +34,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import AddTraineeModal from "./AddTraineeModal";
-import { toast } from "@/components/ui/use-toast";
 
 const durationInHours = Array.from({ length: 24 }, (_, i) => {
   const hour = i.toString().padStart(2, "0");
@@ -59,7 +61,7 @@ const ScheduleLiveSessionPage = () => {
   const { UserId, CompanyId } = useAppSelector(
     (state: RootState) => state.user
   );
-
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
   const [selectCompany, setSelectCompany] = useState<string[]>([]);
@@ -102,7 +104,7 @@ const ScheduleLiveSessionPage = () => {
       zoomUrl: z.string().optional(),
     })
     .superRefine((data, ctx) => {
-      if (!data.platform) {
+      if (data.platform) {
         if (!data.zoomUrl) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -186,14 +188,14 @@ const ScheduleLiveSessionPage = () => {
         toast({
           title: data?.data?.message,
           variant: "success",
-        })
+        });
       },
       onError: (error: ErrorType) => {
         console.error(error);
         toast({
           title: error?.data?.message,
           variant: "destructive",
-        })
+        });
       },
     });
 
@@ -207,14 +209,14 @@ const ScheduleLiveSessionPage = () => {
         toast({
           title: data?.data?.message,
           variant: "success",
-        })
+        });
       },
       onError: (error: ErrorType) => {
         console.error(error);
         toast({
           title: error?.data?.message,
           variant: "destructive",
-        })
+        });
       },
     });
 
@@ -252,6 +254,7 @@ const ScheduleLiveSessionPage = () => {
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
+    console.log("fetchLiveSessionData", fetchLiveSessionData);
 
     if (id !== undefined) {
       if (fetchLiveSessionData) {
@@ -264,7 +267,8 @@ const ScheduleLiveSessionPage = () => {
           course,
           company,
           startTime,
-          platform
+          platform,
+          zoomApiBaseUrl,
         } = fetchLiveSessionData;
 
         setValue("sessionSubtitle", subtitle);
@@ -283,6 +287,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("selectCourse", (+course?.id)?.toString());
         setValue("sessionTime", moment(startTime).format("HH:mm"));
         setValue("platform", !!platform);
+        setValue("zoomUrl", zoomApiBaseUrl || "");
 
         setSelectCompany(
           company?.map((item: any) => {
@@ -294,10 +299,7 @@ const ScheduleLiveSessionPage = () => {
         );
       }
     }
-  }, [
-    fetchLiveSessionById?.data?.data,
-    id,
-  ]);
+  }, [fetchLiveSessionById?.data?.data, id]);
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
@@ -340,18 +342,28 @@ const ScheduleLiveSessionPage = () => {
       companyId: compnayIds?.filter((val) => !!val) || [],
       employeeId: traineeList?.map((val) => +val?.id) || [],
       platform: data?.platform ? 1 : 0,
-      zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
+      zoomApiBaseUrl: !watch("platform") ? "" : data?.zoomUrl,
     };
 
+    if (+userData?.query?.role === UserRole.Trainer) {
+      // @ts-ignore
+      transformedData.trainerOrganiztion = userData?.query?.detailsid;
+    }
+
+    if (+userData?.query?.role === UserRole.Trainee) {
+      // @ts-ignore
+      transformedData.trainer = userData?.query?.detailsid;
+    }
+
     if (id !== undefined) {
-      await updateLiveSession({
+      updateLiveSession({
         data: transformedData,
         id: id,
       });
     } else {
-      await addLiveSession({
+      addLiveSession({
         data: transformedData,
-        id: liveSecTitle?.value,
+        id: liveSecTitle.value,
       });
     }
   };
@@ -472,7 +484,7 @@ const ScheduleLiveSessionPage = () => {
                 />
               </div>
             </div>
-            {!watch("platform") && (
+            {watch("platform") && (
               <div className="flex flex-col gap-1">
                 <Label className="text-base text-black font-semibold font-abhaya">
                   Meeting Url

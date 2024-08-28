@@ -59,7 +59,6 @@ const EmployeeInvitation = () => {
   const {
     register,
     formState: { errors },
-    setValue,
     handleSubmit,
     reset,
   } = useForm<ValidationSchema>({
@@ -224,17 +223,17 @@ const EmployeeInvitation = () => {
               </p>
             </div>
             <p className="font-bold font-abhaya text-base">
-              <a href="#" className="text-[#0E9CFF] underline">
+              <a href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv" className="text-[#0E9CFF] underline">
                 Download Sample File
               </a>
             </p>
             <div className="mt-[16px] flex items-center gap-6">
               <div className="flex items-center gap-3">
                 <FileUpload
-                  handleDrop={(e) => {
-                    setValue("file", e);
-                    setFile(e);
+                  handleDrop={(e: any) => {
+                    setInviteData(e)
                   }}
+                  isCSV
                   className="border-none cursor-pointer !p-0 justify-center"
                   acceptType=".csv"
                 >
@@ -259,7 +258,7 @@ const EmployeeInvitation = () => {
 
           <div className="mt-[20px]">
             <InputWithLabel
-              className="text-stone-400 border h-[60px] mt-[10px] text-base font-nunito"
+              className="text-[#020817] border h-[60px] mt-[10px] text-[base] font-nunito"
               label="Invitation Message"
               labelClassName="font-nunito font-semibold !text-base"
               {...register("invitiondetail")}
