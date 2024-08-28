@@ -68,7 +68,10 @@ const RegisterTraineeForm = () => {
     phone: Zod.string({
       required_error: "Please select phone number",
     }),
-    currentHighestNFQ: Zod.string().min(1, { message: "Please enter NFQ" }),
+    currentHighestNFQ: Zod.string({
+      required_error: "Please select current highest NFQ",
+    })
+      .min(1, { message: "Please enter NFQ" }),
     employmentStatus: Zod.string().optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string({
@@ -280,6 +283,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               className={"!w-full font-normal"}
+              placeholder="Enter First Name"
               {...register("firstName")}
             />
             {errors.firstName && (
@@ -295,6 +299,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               className={"!w-full font-normal"}
+              placeholder="Enter Surname"
               {...register("surname")}
             />
             {errors.surname && (
@@ -382,6 +387,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               {...register("email")}
+              placeholder="Enter Email"
               className={"!w-full disabled:opacity-100 font-normal"}
               value={email ? email : ""}
               disable={email ? true : false}
@@ -456,9 +462,11 @@ const RegisterTraineeForm = () => {
                 )}
               </SelectContent>
             </Select>
-            {errors.currentHighestNFQ && (
+             {!errors.currentHighestNFQ?.ref?.value && (
               <ErrorMessage
-                message={(errors?.currentHighestNFQ?.message as string) || ""}
+                message={
+                  (errors?.currentHighestNFQ?.message as string) || ""
+                }
               />
             )}
           </div>
@@ -512,6 +520,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               className={"!w-full font-normal"}
+              placeholder="Enter member company"
               {...register("memberCompany")}
               disabled={cName ? true : false}
             />
@@ -669,6 +678,7 @@ const RegisterTraineeForm = () => {
             </label>
             <InputWithLable
               className={"!w-full font-normal"}
+              placeholder="Enter attended event"
               {...register("attendedEvent")}
             />
             {errors.attendedEvent && (
@@ -686,12 +696,12 @@ const RegisterTraineeForm = () => {
         </button>
       </form>
       <p className="xl:mt-[39px] mt-[30px] text-[#898989] text-[12px] leading-[14.65px] w-[296px] text-center font-normal mx-auto">
-        Protected by reCAPTCHA and subject to the Skillnet{" "}
-        <Link to={"/privacypolicy"} className="text-darkslategray-200">
+        Protected by reCAPTCHA and subject to the Skillnet
+        <Link to={"/privacypolicy"} className="text-darkslategray-200 mx-1">
           Privacy Policy
         </Link>
-        and{" "}
-        <Link to={"/termsofservices"} className="text-darkslategray-200">
+        and
+        <Link to={"/termsofservices"} className="text-darkslategray-200 mx-1">
           Terms of Service.
         </Link>
       </p>

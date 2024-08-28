@@ -314,14 +314,14 @@ function Auth() {
                   Protected by reCAPTCHA and subject to the Skillnet
                   <Link
                     to="/privacypolicy"
-                    className="text-[#042937] font-bold"
+                    className="text-[#042937] font-bold mx-1"
                   >
                     Privacy Policy
                   </Link>
                   and
                   <Link
                     to={"/termsofservices"}
-                    className="text-[#042937] font-bold"
+                    className="text-[#042937] font-bold mx-1"
                   >
                     Terms of Service.
                   </Link>

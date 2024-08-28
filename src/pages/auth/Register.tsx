@@ -505,12 +505,11 @@ function Register() {
             <div className="max-w-[296px] mx-auto mb-[37px] font-[400] text-[12px] text-center text-[#898989]">
               <label>
                 Protected by reCAPTCHA and subject to the Skillnet
-                <br />
-                <Link to={"/privacypolicy"} className="text-[#042937]">
+                <Link to={"/privacypolicy"} className="text-[#042937] mx-1">
                   Privacy Policy
-                </Link>{" "}
-                and{" "}
-                <Link to={"/termsofservices"} className="text-[#042937]">
+                </Link>
+                and
+                <Link to={"/termsofservices"} className="text-[#042937] mx-1">
                   Terms of Service.
                 </Link>
               </label>

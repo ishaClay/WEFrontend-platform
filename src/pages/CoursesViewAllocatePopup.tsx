@@ -430,7 +430,7 @@ function CourseViewAllocatePopup({
                         name="all"
                         className="h-[18px] w-[18px] rounded"
                         checked={
-                          selectedEmployee.length === mergedArray?.length
+                          ((selectedEmployee.length === mergedArray?.length) && mergedArray?.length > 0 )
                         }
                         onChange={() => selectInviteEmployee("all")}
                       />

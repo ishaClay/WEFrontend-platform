@@ -495,12 +495,12 @@ function CompanyRegister() {
                 />
                 <div className="max-w-[296px] mx-auto lg:mt-[60px] sm:mt-[40px] mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>
-                    Protected by reCAPTCHA and subject to the Skillnet{" "}
-                    <Link to={"/privacypolicy"} className="text-[#042937]">
+                    Protected by reCAPTCHA and subject to the Skillnet
+                    <Link to={"/privacypolicy"} className="text-[#042937] mx-1">
                       Privacy Policy
-                    </Link>{" "}
-                    and{" "}
-                    <Link to={"/termsofservices"} className="text-[#042937]">
+                    </Link>
+                    and
+                    <Link to={"/termsofservices"} className="text-[#042937] mx-1">
                       Terms of Service.
                     </Link>
                   </label>

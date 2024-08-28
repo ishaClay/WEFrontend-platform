@@ -16,7 +16,7 @@ import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Pencil } from "lucide-react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
 
@@ -349,6 +349,21 @@ function CoursesAllocate() {
   const handleDelete = () => {
     mutate(String(openDelete?.id));
   };
+
+  useEffect(() => {
+    dispatch(
+      setPath([
+        {
+          label: "Trainer Managment",
+          link: null,
+        },
+        {
+          label: "Team List",
+          link: `/${Role}/employeelist`,
+        },
+      ])
+    );
+  }, [])
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
