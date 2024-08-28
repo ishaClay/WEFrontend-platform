@@ -75,8 +75,6 @@ const AssecessmentPage = () => {
   }>(initialState);
   const { assesment, setAssesment } = useContext(AssesmentContext);
 
-  console.log("assesment", assesment);
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const courseId = searchParams.get("courseId");
@@ -96,8 +94,6 @@ const AssecessmentPage = () => {
   });
 
   const assessmentData = moduleSection?.data?.data?.assessment;
-
-  console.log("getAssessmentByIdData", getAssessmentByIdData?.data);
 
   useEffect(() => {
     if (getAssessmentByIdData?.data) {
@@ -123,7 +119,7 @@ const AssecessmentPage = () => {
           const { option, ...rest } = item;
 
           const isMCQ = option.filter((i: any) => i.option !== "").length > 0;
-          console.log(option, "rest", rest, isMCQ);
+          console.log("rest", rest,);
 
           return {
             ...item,
@@ -191,7 +187,6 @@ const AssecessmentPage = () => {
 
         const assecessmentQue = assesment?.map((item: any) => {
           const { id, ...rest } = item;
-          console.log("id", id, res);
           return {
             ...rest,
             // @ts-ignore
@@ -213,7 +208,6 @@ const AssecessmentPage = () => {
             }&id=${id}&version=${version}`
           );
         }
-        console.log(assecessmentQue, "------------------------1");
 
         createAssessmentQuestionFun(assecessmentQue);
       },
@@ -229,11 +223,8 @@ const AssecessmentPage = () => {
         ["Multiple Choice"]: "Multiple Choice Question",
       };
 
-      console.log("res", res);
-
       const assecessmentQue = assesment?.map((item: any) => {
         const { options, ...rest } = item;
-        console.log(options);
 
         return {
           ...rest,
@@ -324,8 +315,6 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
-  console.log("assId", assId);
-
   useEffect(() => {
     validateAssecessmentModule();
   }, [createAssecessment]);
@@ -342,8 +331,6 @@ const AssecessmentPage = () => {
         },
       };
       if (assId && +assId) {
-        console.log("assId---------------->1", assId);
-
         updateAssessmentFun({
           data: {
             ...payload,
@@ -352,7 +339,6 @@ const AssecessmentPage = () => {
           id: assId,
         });
       } else {
-        console.log("Non---assId---------------->1", assId);
         createAssessmentFun({
           ...payload,
           module: searchParams.get("moduleId")

@@ -32,6 +32,7 @@ import {
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
+import Cookies from "js-cookie";
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
@@ -143,6 +144,7 @@ const RegisterTraineeForm = () => {
   const { mutate, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", email || "");

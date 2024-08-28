@@ -11,6 +11,7 @@ import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { toast } from "./ui/use-toast";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
+import Cookies from "js-cookie";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -25,11 +26,12 @@ const dispatch=useAppDispatch();
 
   const path = localStorage?.getItem("path");
   const userData = localStorage?.getItem("user");
-  const userToken = !!userData && JSON.parse(userData)?.accessToken;
+  const userToken = Cookies.get('accessToken') || "";
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));

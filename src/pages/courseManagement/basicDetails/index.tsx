@@ -81,8 +81,8 @@ const BasicDetails = ({ courseData }: BasicDetailsProps) => {
           steps={[
             "Course Information",
             "Course Details & Specifications",
-            "Course Logistic",
-            "Course Affiliations",
+            "Course Logistics",
+            "Course Accreditations",
             "Course Banner",
           ]}
           currentStep={params}

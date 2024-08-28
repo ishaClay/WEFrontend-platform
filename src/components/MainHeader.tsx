@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
+import Cookies from "js-cookie";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const MainHeader = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));

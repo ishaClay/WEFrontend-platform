@@ -80,7 +80,7 @@ const ModuleCreationPage = () => {
                   250,
                   "You can not write section title more than 250 characters"
                 ),
-              information: z.string().min(1, "Please enter information"),
+              information: z.string().min(500, "You must write at least 500 characters."),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
@@ -345,11 +345,11 @@ const ModuleCreationPage = () => {
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
-          disabled={
-            paramsType === "editminor"
-              ? true
-              : moduleList?.length > 0 && moduleCreationItem.length > 0
-          }
+          // disabled={
+          //   paramsType === "editminor"
+          //     ? true
+          //     : moduleList?.length > 0 && moduleCreationItem.length > 0
+          // }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
           <CirclePlus width={18} /> Add Module

@@ -197,8 +197,6 @@ const AllocatedCertificatePage = () => {
         );
       },
       cell: ({ row }) => {
-        console.log("row++++++++++++++++", row);
-
         return (
           <div className="flex gap-2 items-center">
             <Button

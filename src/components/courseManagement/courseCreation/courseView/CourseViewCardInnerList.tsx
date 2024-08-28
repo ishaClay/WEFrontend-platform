@@ -55,7 +55,6 @@ const CourseViewCardInnerList = ({
         ? FileType.AssessmentTest
         : getFileType(data.documentType)
       : FileType.Live;
-  console.log("FileTypeData", FileTypeData);
 
   const { mutate: DeleteSection, isPending } = useMutation({
     mutationFn: (sectionId: number) => deleteSection(sectionId),

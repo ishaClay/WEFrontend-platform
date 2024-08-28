@@ -67,6 +67,7 @@ const ModuleCreationItems = ({
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
+  const [charCount, setCharCount] = useState(0);
   const {
     fields: sections,
     append: appendSection,
@@ -221,42 +222,48 @@ const ModuleCreationItems = ({
             <div className="pb-5">
               <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
                 Information{" "}
-                <span className="text-xs">(Max 1000words only)</span>
+                <span className="text-xs">(Max 5000 words only)</span>
               </h6>
-              <CKEditorComponent
-                value={watch("information")}
-                {...register(
-                  `modules.${index}.section.${sectionindex}.information`
-                )}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  const plainText = stripHtmlTags(data);
-                  console.log("event", event);
+              <div className="relative">
+                <CKEditorComponent
+                  value={watch("information")}
+                  {...register(
+                    `modules.${index}.section.${sectionindex}.information`
+                  )}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    const plainText = stripHtmlTags(data);
+                    console.log("event", event);
+                    setCharCount(plainText.length);
 
-                  if (plainText.length > 1000) {
-                    setInformationError(
-                      "You can not write information more than 1000 characters"
-                    );
-                    setValue(
-                      `modules.${index}.section.${sectionindex}.information`,
-                      data
-                    );
-                  } else {
-                    setInformationError("");
-                    setValue(
-                      `modules.${index}.section.${sectionindex}.information`,
-                      data
-                    );
-                  }
-                }}
-                // onChange={(e, data) => {
-                //   setValue(
-                //     `modules.${index}.section.${sectionindex}.information`,
-                //     data.getData()
-                //   );
-                // }}
-                className="w-full h-[190px]"
-              />
+                    if (plainText.length > 5000) {
+                      setInformationError(
+                        "You can not write information more than 5000 characters"
+                      );
+                      setValue(
+                        `modules.${index}.section.${sectionindex}.information`,
+                        data
+                      );
+                    } else {
+                      setInformationError("");
+                      setValue(
+                        `modules.${index}.section.${sectionindex}.information`,
+                        data
+                      );
+                    }
+                  }}
+                  // onChange={(e, data) => {
+                  //   setValue(
+                  //     `modules.${index}.section.${sectionindex}.information`,
+                  //     data.getData()
+                  //   );
+                  // }}
+                  className="w-full h-[190px]"
+                />
+                <div className="absolute bottom-0 right-0 p-2 text-sm text-[#606060]">
+                  {charCount}/{5000}
+                </div>
+              </div>
               {(informationError !== "" ||
                 errors.modules?.[index]?.section?.[sectionindex]
                   ?.information) && (

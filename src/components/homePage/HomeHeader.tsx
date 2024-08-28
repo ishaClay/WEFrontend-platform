@@ -15,6 +15,7 @@ import Loading from "../comman/Error/Loading";
 import { AlertLogOutDialog } from "../Models/AlertLogOut";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import Cookies from "js-cookie";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -29,11 +30,13 @@ function HomeHeader(props: headerProps) {
     useContext(RegisterContext);
 
   const userData = localStorage?.getItem("user");
+  const userToken = Cookies.get('accessToken') || "";
   const path = JSON.parse(localStorage?.getItem("path") as string);
   const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       navigate("/");
@@ -136,7 +139,7 @@ function HomeHeader(props: headerProps) {
               </div>
               <div className="flex items-end xl:gap-7 gap-2">
                 <div className="font-bold text-lg text-color">
-                  {userData ? (
+                  {(userToken && userData) ? (
                     <div className="flex items-center xl:gap-5 gap-3">
                       {JSON.parse(userData)?.query.role === 1 &&
                         !!path &&

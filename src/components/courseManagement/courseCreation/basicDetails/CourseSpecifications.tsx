@@ -255,7 +255,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           </div>
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
-              label="How many ECTS credits does this course offer?"
+              label="How many ECTS credits does this course offer? (Optional)"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="Enter credits"
               className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
@@ -265,7 +265,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           </div>
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
-              label="How many FET credits does this course offer?"
+              label="How many FET credits does this course offer? (Optional)"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="Enter credits"
               className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
@@ -275,8 +275,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           </div>
           <div className="sm:mb-[20px] mb-[15px]">
             <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
-              What type of certificate or award will certificate receive upon
-              completion?
+              What type of certificate or award will the trainees receive upon course completion?
             </Label>
             <SelectMenu
               {...register("certificate")}

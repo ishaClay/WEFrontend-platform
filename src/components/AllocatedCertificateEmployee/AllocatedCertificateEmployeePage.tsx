@@ -88,8 +88,6 @@ const AllocatedCertificateEmployeePage = () => {
     },
   });
 
-  console.log("certificate_data", certificate_data);
-
   const certificateOption = certificate_data?.data?.map((item: any) => {
     return {
       label: item?.templateName,

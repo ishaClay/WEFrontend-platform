@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
+import Cookies from "js-cookie";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const EmployeeHeader = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
@@ -83,6 +85,7 @@ const EmployeeHeader = () => {
   };
 
   const handleConfirmLogout = () => {
+    Cookies.remove('accessToken');
     mutate(userData?.query?.id);
   };
 

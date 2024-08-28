@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import { UserRole } from "@/types/UserRole";
+import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -8,7 +9,9 @@ const AuthLayout = () => {
 
   const userData = localStorage.getItem("userData");
   const user = userData ? JSON.parse(userData) : null;
-  const userToken = user?.accessToken || "";
+  const userToken = Cookies.get('accessToken') || "";
+
+
 
   useEffect(() => {
     if (userToken) {

@@ -284,7 +284,7 @@ const CourseInformation = ({
           </div>
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
-              label="Provide a direct link to the course details on your institute's website."
+              label="Provide a direct link to the course details on your institute's website. (Optional)"
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
               placeholder="Enter URL"
               className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"

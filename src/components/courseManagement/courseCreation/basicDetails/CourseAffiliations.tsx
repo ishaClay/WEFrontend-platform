@@ -234,13 +234,13 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   return (
     <>
       <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
-        Course Affiliations
+        Course Accreditations
       </div>
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-              Is this course affiliated with any other institutes or
+              Is this course accredited by any other institutes or
               organisation?
             </h6>
             <div className="md:mb-[28px] sm:mb-5 mb-[15px]">

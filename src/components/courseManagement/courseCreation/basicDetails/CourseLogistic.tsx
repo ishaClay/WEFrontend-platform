@@ -51,6 +51,10 @@ const isOnlineType = [
     label: "Major",
     value: "4",
   },
+  {
+    label: "Self-paced Online",
+    value: "5",
+  },
 ];
 
 const durationType = [
@@ -264,7 +268,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   return (
     <>
       <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
-        Course Logistic
+        Course Logistics
       </div>
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -113,8 +113,6 @@ const Message = () => {
     },
   });
 
-  console.log("groupChat", groupChat);
-
   useEffect(() => {
     if (messageType === "group") {
       // @ts-ignore
@@ -277,8 +275,6 @@ const Message = () => {
       setOpenDrawer(false);
     }
   }, [viewType]);
-
-  console.log("currentChat", currentChat);
 
   return (
     <>
