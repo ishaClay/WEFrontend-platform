@@ -71,15 +71,19 @@ const EmployeeInvitation = () => {
     onSuccess: (data) => {
       if (data?.data?.data?.employeeExist?.length > 0) {
         toast({
-          title: "Success",
+          title: "Error",
           description: "Employee invitation Already send.",
-          variant: "success",
+          variant: "destructive",
         });
       } else {
         reset();
         setFile("");
         navigate("/company/employeelist");
-        toast({ title: "Invitation sent successfully", variant: "success" });
+        toast({
+          title: "Success",
+          description: "Invitation sent successfully",
+          variant: "success"
+        });
       }
     },
     onError: (error) => {
@@ -91,11 +95,11 @@ const EmployeeInvitation = () => {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const isCheckValid = inviteData.every(
-      (data) => data.email !== "" && data.fName !== "" && data.lName !== ""
+    const isCheckInvalid = inviteData.some(
+      (data) => !data.email || !data.fName || !data.lName
     );
 
-    if (!isCheckValid) {
+    if (isCheckInvalid) {
       setError("Please fill all the fields");
       return;
     } else {
@@ -190,13 +194,15 @@ const EmployeeInvitation = () => {
                     placeholder="Enter email id"
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />
-                  <Button
-                    variant={"ghost"}
-                    type="button"
-                    onClick={() => handleRemoveEmail(index)}
-                  >
-                    <Minus />
-                  </Button>
+                  {arr.length > 1 && (
+                    <Button
+                      variant={"ghost"}
+                      type="button"
+                      onClick={() => handleRemoveEmail(index)}
+                    >
+                      <Minus />
+                    </Button>
+                  )}
                   {arr.length - 1 === index && (
                     <Button
                       variant={"ghost"}
@@ -223,7 +229,10 @@ const EmployeeInvitation = () => {
               </p>
             </div>
             <p className="font-bold font-abhaya text-base">
-              <a href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv" className="text-[#0E9CFF] underline">
+              <a
+                href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv"
+                className="text-[#0E9CFF] underline"
+              >
                 Download Sample File
               </a>
             </p>
@@ -231,7 +240,7 @@ const EmployeeInvitation = () => {
               <div className="flex items-center gap-3">
                 <FileUpload
                   handleDrop={(e: any) => {
-                    setInviteData(e)
+                    setInviteData(e);
                   }}
                   isCSV
                   className="border-none cursor-pointer !p-0 justify-center"

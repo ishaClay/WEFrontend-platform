@@ -192,13 +192,9 @@ const CourseViewCardInner = ({
     },
   });
 
-  const section = watch();
-  console.log("🚀 ~ CourseViewCardInner ~ section:", section);
-
   useEffect(() => {
-    // This effect runs after getCourseCardList state has been updated
     if (getCourseCardList) {
-      latestCourseCardList.current = getCourseCardList; // update ref to latest state
+      latestCourseCardList.current = getCourseCardList;
       handelSectionPosition();
     }
   }, [getCourseCardList]);
@@ -340,11 +336,9 @@ const CourseViewCardInner = ({
     }
   };
 
-  console.log(errors);
   const onSubmit = (data: FieldValues) => {
     const payload = [];
     payload.push(data);
-    console.log("payload", payload);
 
     if (payload.length > 0) {
       CreateSection(payload);

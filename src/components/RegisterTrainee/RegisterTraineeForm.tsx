@@ -121,8 +121,6 @@ const RegisterTraineeForm = () => {
     return item.leval;
   });
 
-  console.log(nfqOption);
-
   const {
     data: getOccupationalCategoriesList,
     isPending: isOccupationalCategoriesPending,
@@ -175,9 +173,9 @@ const RegisterTraineeForm = () => {
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
-          title: "Success",
+          title: "Error",
           description: "Trainer invitation Already send.",
-          variant: "success",
+          variant: "destructive",
         });
       } else {
         toast({
@@ -228,7 +226,6 @@ const RegisterTraineeForm = () => {
     }; // Add this log to inspect the payload
     update_Employee(payload);
   };
-  console.log("errors:", errors);
 
   return (
     <>

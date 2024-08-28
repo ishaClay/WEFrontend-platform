@@ -56,6 +56,7 @@ const TrainerInvitation = () => {
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
+          title: "Error",
           description: "Trainer invitation Already send.",
           variant: "destructive",
         });
