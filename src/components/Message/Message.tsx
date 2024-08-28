@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,8 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import {
   fetchChat,
   fetchChatUserList,
+  fetchGroupChat,
+  sendGroupMessage,
   sendMessage,
   updateMessage,
 } from "@/services/apiServices/chatServices";
@@ -62,6 +65,7 @@ const Message = () => {
   const currentUser = pathName.split("/")[1];
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
+  const messageType = searchParams.get("messageType");
 
   const updatemessageData = (chatId: string) => {
     updatemessage({
@@ -87,12 +91,38 @@ const Message = () => {
   const { data: chatList } = useQuery({
     queryKey: [QUERY_KEYS.chatList, { userID, chatId }],
     queryFn: () => fetchChat(userID, chatId),
-    enabled: !!userID && !!chatId,
+    enabled: !!userID && !!chatId && !messageType,
   });
 
+  const { data: groupChat } = useQuery({
+    queryKey: [QUERY_KEYS.fetchGroupChat],
+    queryFn: () => fetchGroupChat(chatId),
+    enabled: !!chatId && !!messageType,
+  });
+
+  const { mutate: sendMessageMutation } = useMutation({
+    mutationFn: sendGroupMessage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
+  console.log("groupChat", groupChat);
+
   useEffect(() => {
-    setAllMsg(chatList?.data?.data || []);
-  }, [chatList?.data?.data]);
+    if (messageType === "group") {
+      // @ts-ignore
+      setAllMsg(groupChat?.data?.groupMessages || []);
+    } else {
+      setAllMsg(chatList?.data?.data || []);
+    }
+  }, [chatList?.data?.data, groupChat?.data, messageType]);
 
   const filterByName = (item: { name: string }) => {
     return (item?.name || "")
@@ -155,7 +185,6 @@ const Message = () => {
   const currentChat = chatUserList?.data?.data?.find(
     (item) => item?.id === +chatId
   );
-
 
   // useEffect(() => {
   //   socket = io(import.meta.env.VITE_SOCKET_URL);
@@ -220,6 +249,15 @@ const Message = () => {
 
   const handleSendMessage = () => {
     if (chatId && (chatMessage || images.length > 0)) {
+      if (messageType === "group") {
+        const payload = {
+          groupId: chatId,
+          senderId: userID,
+          message: chatMessage,
+          images,
+        };
+        sendMessageMutation(payload);
+      }
       handleSend({
         senderId: userID,
         receiverId: chatId,
@@ -239,6 +277,8 @@ const Message = () => {
       setOpenDrawer(false);
     }
   }, [viewType]);
+
+  console.log("currentChat", currentChat);
 
   return (
     <>
@@ -289,6 +329,8 @@ const Message = () => {
                       ? "Company Employee"
                       : currentChat?.role === UserRole.SuperAdmin
                       ? "Super Admin"
+                      : currentChat?.group
+                      ? "Group"
                       : "Client"}
                   </div>
                 </div>
@@ -605,6 +647,8 @@ const Message = () => {
                           ? "Company Employee"
                           : item?.role === UserRole.SuperAdmin
                           ? "Super Admin"
+                          : currentChat?.group
+                          ? "Group"
                           : "Client"}
                       </div>
                       <p className="text-[#606060] overflow-hidden flex justify-between items-center text-base font-calibri">
@@ -657,6 +701,8 @@ const Message = () => {
                       ? "Company Employee"
                       : currentChat?.role === UserRole.SuperAdmin
                       ? "Super Admin"
+                      : currentChat?.group
+                      ? "Group"
                       : "Client"}
                   </div>
                 </div>

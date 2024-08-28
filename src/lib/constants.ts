@@ -113,6 +113,7 @@ export const QUERY_KEYS = {
   fetchOccupationalCategories: "fetchOccupationalCategories",
   fetchUnemploymentTime: "fetchUnemploymentTime",
   fetchProviderTypes: "fetchProviderTypes",
+  fetchGroupChat: "fetchGroupChat"
 };
 
 export const urlRegex =
