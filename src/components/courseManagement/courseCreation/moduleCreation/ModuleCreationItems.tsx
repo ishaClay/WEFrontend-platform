@@ -234,9 +234,9 @@ const ModuleCreationItems = ({
                     const data = editor.getData();
                     const plainText = stripHtmlTags(data);
                     console.log("event", event);
-                    setCharCount(plainText.length);
 
                     if (plainText.length > 5000) {
+                      setCharCount(5000);
                       setInformationError(
                         "You can not write information more than 5000 characters"
                       );
@@ -245,6 +245,7 @@ const ModuleCreationItems = ({
                         data
                       );
                     } else {
+                      setCharCount(plainText.length);
                       setInformationError("");
                       setValue(
                         `modules.${index}.section.${sectionindex}.information`,
@@ -261,7 +262,7 @@ const ModuleCreationItems = ({
                   className="w-full h-[190px]"
                 />
                 <div className="absolute bottom-0 right-0 p-2 text-sm text-[#606060]">
-                  {charCount}/{5000}
+                  {charCount}/5000
                 </div>
               </div>
               {(informationError !== "" ||
