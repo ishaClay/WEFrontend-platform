@@ -1,7 +1,7 @@
 import EllipseImage from "@/assets/images/Ellipse1.png";
 import EllipseImage2 from "@/assets/images/Ellipse2.png";
 import EllipseImage3 from "@/assets/images/Ellipse3.png";
-import { Headset, MailCheck, NotebookTabs, PhoneCall } from "lucide-react";
+import { Headset, MailCheck, NotebookTabs } from "lucide-react";
 import { Link } from "react-router-dom";
 import HomeFooter from "./homePage/HomeFooter";
 import HomeHeader from "./homePage/HomeHeader";

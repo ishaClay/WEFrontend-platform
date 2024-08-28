@@ -235,9 +235,9 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                     const data = editor.getData();
                     const plainText = stripHtmlTags(data);
                     console.log("event", event);
-                    setCharCount(plainText.length);
-
+                    
                     if (plainText.length > 5000) {
+                      setCharCount(5000);
                       setInformationError(
                         "You can not write information more than 5000 characters"
                       );
@@ -246,6 +246,7 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                         data
                       );
                     } else {
+                      setCharCount(plainText.length);
                       setInformationError("");
                       setValue(
                         `modules.${index}.section.${sectionindex}.information`,
