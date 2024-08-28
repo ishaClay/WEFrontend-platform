@@ -9,6 +9,7 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
       month: String(currentDate.getMonth() + 1).padStart(2, "0"),
       year: String(currentDate.getFullYear()),
     };
+console.log("cohortDatacohortData", cohortData);
 
     const matchingSlot =
       cohortData?.cohortGroups?.length > 0 &&
@@ -35,14 +36,17 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
       <>
         {upcomingData?.length > 0 ? (
           upcomingData?.map((item, i) => {
+            console.log("itemitem", item);
+            
             return (
               <div key={i}>
                 <div className="rounded-[6px] py-[7px] px-[15px] my-[18px] border border-[#B6D8DF] bg-[#E4FBFF]">
                   <div className="pb-[6px]">
                     <p className="text-black text-xs">
                       <span className="font-medium text-base font-inter leading-5">
-                        Cohort :
-                      </span>{" "}
+                        Cohort : {item?.name}
+                      </span>
+                      
                     </p>
                   </div>
                   <div className="font-inter text-sm leading-3 text-[#000000] font-normal">

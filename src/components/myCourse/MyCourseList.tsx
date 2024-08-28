@@ -21,9 +21,11 @@ type myPagesListProps = {
 const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
+  console.log("listlist", list);
+  
   return (
     <Link
-      to={`/employee/employee-basic-course/${list?.course?.currentVersion?.id}`}
+      to={`/employee/employee-basic-course/${list?.course?.versionId}?courseId=${list?.course?.id}`}
       onClick={() =>
         dispatch(
           setPath([
@@ -76,7 +78,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
               color="#00778B"
               value={
                 list?.courseProgress
-                  ? +Number(list?.courseProgress).toFixed(0)
+                  ? +Number(list?.course?.courseProgress).toFixed(0)
                   : 0
               }
               className="rounded-full w-full h-[6px]"

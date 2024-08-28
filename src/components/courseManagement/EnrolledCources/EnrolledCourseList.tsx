@@ -12,6 +12,7 @@ import { EnrolledCoursesType } from "@/types/enroll";
 import { Loader2 } from "lucide-react";
 import { useAppSelector } from "@/hooks/use-redux";
 import { useEffect, useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 const EnrolledCourseList = () => {
   const { UserId } = useAppSelector((state) => state.user);
@@ -42,7 +43,15 @@ const EnrolledCourseList = () => {
     const updatedDataA = enrolledCoursesData?.data?.map((item:any, index:number) => {
       
       if (index === indexToReplace) {
-        return fetchEnrollmentAcceptedFilterList?.data;
+        if (!fetchEnrollmentAcceptedFilterList?.data?.id) {
+          toast({
+            title: `No any enrolled SMEcompny found for this version`,
+            variant: "destructive",
+          })
+          return item
+        }else{
+          return fetchEnrollmentAcceptedFilterList?.data;
+        }
       }
       return item;
     });

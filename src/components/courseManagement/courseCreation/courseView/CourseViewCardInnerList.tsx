@@ -70,7 +70,7 @@ const CourseViewCardInnerList = ({
     },
   });
 
-  const { mutate: DeleteLiveSection } = useMutation({
+  const { mutate: DeleteLiveSection, isPending: isDeleteLiveSection } = useMutation({
     mutationFn: (sectionId: number) => deleteLiveSection(sectionId),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -83,7 +83,7 @@ const CourseViewCardInnerList = ({
       setIsDelete(false);
     },
   });
-  const { mutate: deleteAssesments, isPending: deletePending } = useMutation({
+  const { mutate: deleteAssesments, isPending: isDeleteAssesment } = useMutation({
     mutationFn: deleteAssesment,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -97,7 +97,7 @@ const CourseViewCardInnerList = ({
   });
 
   const handleDeleteSection = (sectionID: number) => {
-    if (data?.type || isId?.type === "assesment") {
+    if (isId?.type === "assesment") {
       deleteAssesments(sectionID);
     } else if (data.isLive === 0) {
       DeleteSection(sectionID);
@@ -174,7 +174,7 @@ const CourseViewCardInnerList = ({
           className="text-[#575757] cursor-pointer"
           onClick={() => {
             setIsDelete(true);
-            setIsId({ id: data?.id, type: "assesment" });
+            setIsId({ id: data?.id, type: data?.readingTime ? "" : "assesment"});
           }}
         />
       </div>
@@ -183,9 +183,9 @@ const CourseViewCardInnerList = ({
         onClose={() => setIsDelete(false)}
         onDelete={() => handleDeleteSection(+isId?.id)}
         value={data?.title || ""}
-        isLoading={isPending}
+        isLoading={isPending || isDeleteLiveSection || isDeleteAssesment}
       />
-      <Loading isLoading={deletePending || isPending} />
+      <Loading isLoading={isDeleteAssesment || isPending} />
     </div>
   );
 };

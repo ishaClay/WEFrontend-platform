@@ -115,7 +115,7 @@ const RegisterTraineeForm = () => {
 
   const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel({ from: 1, until: 10 }),
+    queryFn: () => fetchNfqlLevel(),
   });
 
   const nfqOption: any = getNfqlLevelList?.data?.map((item: any) => {

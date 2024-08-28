@@ -575,7 +575,7 @@ const Message = () => {
           </CardHeader>
           <CardContent className="h-[700px] p-0 overflow-y-auto">
             {/* <ScrollArea className="h-full message-scroll" ref={chatContainerRef}> */}
-            {chatUserList?.data?.data
+            {chatUserList?.data?.data && chatUserList?.data?.data?.length > 0 ? chatUserList?.data?.data
               ?.filter(filterByName)
               ?.map((item: GetChatUserList | any) => {
                 return (
@@ -660,7 +660,7 @@ const Message = () => {
                     </div>
                   </div>
                 );
-              })}
+              }) : <span className="h-full flex justify-center items-center">No record found</span>}
             {/* </ScrollArea> */}
           </CardContent>
         </Card>
@@ -723,7 +723,7 @@ const Message = () => {
               <FilePenLine width={18} /> Compose
             </Button>
           </CardHeader>
-          {UserId && chatId && (
+          {UserId && chatId ? (
             <>
               <CardContent
                 className={`chatcontent pl-[15px] pr-[33px] pt-[30px] pb-3 overflow-y-auto ${
@@ -924,7 +924,7 @@ const Message = () => {
                 </Button>
               )}
             </>
-          )}
+          ) : <span className="h-[calc(100%-65px)] flex justify-center items-center">No record found</span> }
         </Card>
         {/* <Loading isLoading={userListPending} /> */}
       </div>

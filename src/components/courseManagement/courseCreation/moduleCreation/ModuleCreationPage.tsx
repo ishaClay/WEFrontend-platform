@@ -87,12 +87,7 @@ const ModuleCreationPage = () => {
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string()
-                .regex(
-                  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)*$/,
-                  "Invalid Url"
-                )
-                .optional(),
+                .string().optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -110,6 +105,14 @@ const ModuleCreationPage = () => {
                 .optional(),
             })
             .superRefine((data, ctx) => {
+              // if(!data.youtubeUrl?.match(/^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)$/)){
+              //   ctx.addIssue({
+              //     code: z.ZodIssueCode.custom,
+              //     message: "Please enter valid youtube url",
+              //     path: ["youtubeUrl"],
+              //   });
+              // }
+
               if (data.isLive) {
                 if (
                   !data.livesessionDuration?.hour &&
@@ -244,6 +247,8 @@ const ModuleCreationPage = () => {
 
   useEffect(() => {
     if (CourseModule?.data?.data?.length) {
+      console.log("CourseModule?.data.data", CourseModule?.data.data);
+      
       setModuleList(CourseModule?.data.data);
     }
     queryClient.invalidateQueries({
@@ -267,6 +272,9 @@ const ModuleCreationPage = () => {
                 item?.uploadContentType && +item?.uploadContentType > 0
                   ? ""
                   : item?.youtubeUrl;
+                  
+                  console.log("itemitemitem", item);
+              // const documentType = +item?.uploadDocument === 0 ? null : item?.uploadDocument;                
               return uploadContentType === 0
                 ? { ...rest, youtubeUrl: youtubeUrl, uploadContentType: null }
                 : { ...item, youtubeUrl: youtubeUrl };
