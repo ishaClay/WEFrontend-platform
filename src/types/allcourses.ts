@@ -54,6 +54,7 @@ export interface AllCourse {
 
 export interface CohortData {
   id: number;
+  name: string;
   slotEndDate: {
     date: string;
     month: string;

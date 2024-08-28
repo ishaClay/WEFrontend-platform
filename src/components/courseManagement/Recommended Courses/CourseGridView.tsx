@@ -130,6 +130,8 @@ const CourseGridView = ({
     handleSend(payload);
   };
 
+  console.log("recommendeddata", recommendeddata?.universityAddress);
+  
   return (
     <>
       <Modal
@@ -230,7 +232,7 @@ const CourseGridView = ({
                       alt="Course"
                     />
                     <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                      {recommendeddata.otherInstitutionName || "--"}
+                      {recommendeddata?.universityAddress || "--"}
                     </p>
                   </div>
                   <div className="flex items-center gap-1 mb-[2px]">
@@ -258,7 +260,7 @@ const CourseGridView = ({
                       alt="Course"
                     />
                     <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                      Atlantic Technological University
+                    {recommendeddata?.otherInstitutionName || "--"}
                     </p>
                   </div>
                 </div>

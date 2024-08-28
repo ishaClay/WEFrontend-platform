@@ -168,7 +168,7 @@ const MainHeader = () => {
                           userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>{" "}
-                    Hi,
+                    Hi,{" "}
                     {userData?.query?.fname || userData?.query?.lname
                       ? `${userData?.query?.fname || ""} ${
                           userData?.query?.lname || ""

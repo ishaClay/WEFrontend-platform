@@ -134,7 +134,7 @@ const TrainerInvitation = () => {
           <div className="w-full mb-[18px]">
             <Label className="text-[16px] font-nunito font-[400]">
               Enter Trainer Email ID
-              <span className="text-[#A3A3A3]">(comma separated email id)</span>
+              <span className="text-[#A3A3A3] ml-1">(comma separated email id)</span>
             </Label>
             <CustomTabInput setValue={setEmails} {...register("email")} />
             {!errors?.email?.ref?.value && (

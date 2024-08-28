@@ -421,13 +421,15 @@ const Compose = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {emailtemplateList?.data.data.map((item: any) => {
+                  {emailtemplateList?.data.data && emailtemplateList?.data.data?.length > 80 ? emailtemplateList?.data.data.map((item: any) => {
                     return (
                       <SelectItem key={item?.id} value={String(item?.id)}>
                         {item?.name}
                       </SelectItem>
                     );
-                  })}
+                  }) :  <span className="py-3 h-full block text-center text-lg text-neutral-400">
+                  No data found
+                </span>}
                 </SelectContent>
               </Select>
               {!errors?.emailTemplate?.ref?.value && (

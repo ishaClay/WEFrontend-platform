@@ -42,6 +42,7 @@ const CourseViewCardInner = ({
   const navigate = useNavigate();
   const params = useParams();
   const [searchParams] = useSearchParams();
+  const [urlError, setUrlError] = useState<string>("");
 
   useEffect(() => {
     if (CourseCardList?.length > 0) {
@@ -82,11 +83,7 @@ const CourseViewCardInner = ({
         .optional(),
       uploadedContentUrl: z.string().optional(),
       youtubeUrl: z
-        .string()
-        .regex(
-          /^(https:\/\/youtu\.be\/[a-zA-Z0-9_-]+(\?[^\s]*)?)?$/,
-          "Invalid Url"
-        ),
+        .string().optional(),
       readingTime: z
         .object({
           hour: z.number().min(0).max(23),
@@ -302,10 +299,10 @@ const CourseViewCardInner = ({
       );
     } else {
       setIsEditSection(data.id);
-      setValue("sectionTitle", data.isLive ? data.liveSecTitle : data.title);
+      setValue("sectionTitle", data.isLive ? data.title : data.title);
       setValue(
         "information",
-        data.isLive ? data.liveSecinformation : data.information
+        data.isLive ? data.information : data.information
       );
       setValue(
         "uploadContentType",
@@ -321,7 +318,7 @@ const CourseViewCardInner = ({
       setValue("isLive", data.isLive === 1 ? true : false);
       setValue(
         "livesessionDuration",
-        data.isLive ? data.sectionTime : { hour: 0, minute: 0, second: 0 }
+        data.isLive ? data.readingTime : { hour: 0, minute: 0, second: 0 }
       );
     }
   };
@@ -338,7 +335,8 @@ const CourseViewCardInner = ({
 
   const onSubmit = (data: FieldValues) => {
     const payload = [];
-    payload.push(data);
+    payload.push({...data, uploadContentType: data.uploadContentType === 0 ? null : data.uploadContentType});
+    console.log("payload", payload);
 
     if (payload.length > 0) {
       CreateSection(payload);
@@ -399,6 +397,8 @@ const CourseViewCardInner = ({
                     sectionID={isEditSection}
                     handleRemoveSection={handleRemoveSection}
                     isLoading={editSectionPending || editLiveSectionPending}
+                    urlError={urlError}
+                    setUrlError={setUrlError}
                   />
                 </form>
               ) : (
@@ -430,6 +430,8 @@ const CourseViewCardInner = ({
               getValues={getValues}
               handleRemoveSection={handleRemoveSection}
               isLoading={createSectionPending}
+              urlError={urlError}
+              setUrlError={setUrlError}
             />
           )}
 
@@ -437,14 +439,21 @@ const CourseViewCardInner = ({
             <div className="flex sm:justify-end justify-center gap-4 sm:m-5 mx-4 my-2.5">
               {!addsectionList ? (
                 <>
-                  <Button
-                    type="button"
+                  {/* <div
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     disabled={paramsType === "editminor"}
                   >
                     <CirclePlus width={18} /> Section
-                  </Button>
+                  </div> */}
+                  <button
+                    type="button"
+                    onClick={() => setAddSectionList(true)}
+                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
+                    disabled={paramsType === "editminor"}
+                  >
+                    <CirclePlus width={18} /> Section 
+                  </button>
                   <Button
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"

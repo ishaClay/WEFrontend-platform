@@ -14,48 +14,19 @@ const Contact = () => {
       <div className="lg:my-10 sm:my-5 my-0 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 min-h-[485px]">
         <div className="relative">
           <GradientHeading
-            headings="Contact us"
             blacktext="Get in"
             pinktext="Touch"
           />
         </div>
-        <div className="grid grid-cols-1 gap-[20px] lg:grid-cols-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-[20px] lg:grid-cols-3 sm:grid-cols-2">
           <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow relative">
             <NotebookTabs />
             <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
               Address
             </h1>
             <p className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]">
-              Peachtree St NW, Atlanta, GA 30309, United States
+              Main St Rush, County Dublin Rush County Dublin Ireland
             </p>
-            <img
-              src={EllipseImage}
-              alt="ellipse"
-              className="absolute bottom-0 left-0"
-            />
-            <img
-              src={EllipseImage2}
-              alt="ellipse"
-              className="absolute top-0 right-0"
-            />
-            <img
-              src={EllipseImage3}
-              alt="ellipse"
-              className="absolute top-0 right-0"
-            />
-          </div>
-
-          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow relative">
-            <PhoneCall />
-            <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
-              Cell Phone
-            </h1>
-            <Link
-              to="tel:(86) 13590328341"
-              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
-            >
-              +14704306404
-            </Link>
             <img
               src={EllipseImage}
               alt="ellipse"
@@ -79,10 +50,10 @@ const Contact = () => {
               Telephone
             </h1>
             <Link
-              to="tel:86-755-8212 4051"
+              to="tel:+353 8439314"
               className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
-              +1 (470) 919-8100
+              +353 8439314
             </Link>
             <img
               src={EllipseImage}
@@ -107,10 +78,10 @@ const Contact = () => {
               Email Id
             </h1>
             <Link
-              to="mailto:info@clay.in"
+              to="mailto:info@goinggreen.ie"
               className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
             >
-              info@clay.in
+              info@goinggreen.ie
             </Link>
             <img
               src={EllipseImage}

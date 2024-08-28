@@ -205,6 +205,15 @@ const CourseInformation = ({
   }, [getSingleCourse, setValue]);
 
   const onSubmit = (formdata: FieldValues) => {
+    if(provideDisc && discount === ""){
+      toast({
+        title: "Error",
+        description: "Please enter discount price",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const payload = {
       title: formdata?.title,
       institute: formdata?.institute,
@@ -226,7 +235,9 @@ const CourseInformation = ({
       provideDisc !==
         (getSingleCourse?.data?.course?.discout === 1 ? true : false) ||
       isFreeCourse !==
-        (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false)
+        (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false) ||
+        getSingleCourse?.data?.course?.price?.toString() !== formdata?.price?.toString() ||
+        getSingleCourse?.data?.course?.discountApplicable?.toString() !== discount?.toString()
     ) {
       if (+courseId) {
         updateCourseFun({
@@ -372,7 +383,7 @@ const CourseInformation = ({
                   onChange={(e: any) => {
                     const { value } = e.target;
 
-                    if (value.match(/^[0-9]*$/)) {
+                    if (value === '' || value.match(/^[1-9][0-9]*$/)) {
                       setDiscount(value);
                     } else {
                       return;

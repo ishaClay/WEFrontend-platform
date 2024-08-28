@@ -275,11 +275,6 @@ const GridView = ({
           title: "First Course make DRAFT Status then You Can Edit",
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Please Course make Duplicate then You Can Edit",
-          variant: "destructive",
-        });
       }
     }
   };
@@ -354,6 +349,8 @@ const GridView = ({
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               }));
+              console.log("itemitem", item);
+              
           return (
             <Link
               to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
@@ -454,7 +451,7 @@ const GridView = ({
                     : "Publish"}
                 </Button>
 
-                <Button
+                {Role !== "trainee" && <Button
                   disabled={!update}
                   onClick={(e: any) => {
                     e.preventDefault();
@@ -464,7 +461,7 @@ const GridView = ({
                   className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
                 >
                   + Cohort
-                </Button>
+                </Button>}
                 {!(Role === "trainee" && pathName === "allcourse") && (
                   <div className="">
                     <SelectMenu
@@ -501,7 +498,7 @@ const GridView = ({
                           <span>Copy</span>
                         </DropdownMenuItem>
                       )}
-                      {(item?.status === "PUBLISHED" ||
+                      {(item?.trainerId?.id === +userData?.query?.detailsid || +userData?.query?.role !== UserRole.Trainee) && (item?.status === "PUBLISHED" ||
                         item?.status === "UNPUBLISHED") && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
@@ -515,7 +512,7 @@ const GridView = ({
                           </span>
                         </DropdownMenuItem>
                       )}
-                      {+userData?.query?.role !== UserRole.Trainee && (
+                      {(userData?.editCourses || +userData?.query?.role !== UserRole.Trainee) && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
@@ -567,7 +564,7 @@ const GridView = ({
                           <span>Allocate</span>
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem
+                      {(item?.trainerId?.id === +userData?.query?.detailsid || +userData?.query?.role !== UserRole.Trainee) && <DropdownMenuItem
                         className={`items-center gap-2 font-nunito ${
                           pathName === "trainee" &&
                           item?.trainerId?.id === +userData?.query?.detailsid
@@ -582,7 +579,7 @@ const GridView = ({
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>Delete</span>
-                      </DropdownMenuItem>
+                      </DropdownMenuItem>}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

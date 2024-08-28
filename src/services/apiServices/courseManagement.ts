@@ -92,8 +92,8 @@ export const createCourseTwoPage = ({
   return api({ url, data, method });
 };
 
-export const fetchNfqlLevel = async ({ from, until }: { from?: number; until?: number }) => {
-  const url = `api/v1/course/nfqlevel/nfqlevellist?from=${from}&until=${until}`;
+export const fetchNfqlLevel = async () => {
+  const url = `api/v1/course/nfqlevel/nfqlevellist`;
   const method = "get";
   const res = await api({ url, method });
   return res.data;
