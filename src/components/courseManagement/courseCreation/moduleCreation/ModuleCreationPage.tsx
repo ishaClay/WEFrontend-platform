@@ -89,9 +89,10 @@ const ModuleCreationPage = () => {
               youtubeUrl: z
                 .string()
                 .regex(
-                  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)$/,
+                  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)*$/,
                   "Invalid Url"
-                ),
+                )
+                .optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -132,11 +133,7 @@ const ModuleCreationPage = () => {
                     code: z.ZodIssueCode.custom,
                     message:
                       "Please enter uploaded Content URL or file or youTube URL ",
-                    path: [
-                      "uploadedContentUrl",
-                      "uploadContentType",
-                      "youtubeUrl",
-                    ],
+                    path: ["uploadedContentUrl", "uploadContentType"],
                   });
                 }
                 if (
@@ -165,6 +162,13 @@ const ModuleCreationPage = () => {
                       path: ["uploadedContentUrl"],
                     });
                   }
+                }
+                if (!data.youtubeUrl && !data.uploadContentType) {
+                  ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Please select upload content type",
+                    path: ["uploadContentType"],
+                  });
                 }
               }
             })
@@ -321,6 +325,8 @@ const ModuleCreationPage = () => {
 
     setModuleList(moduleListClone);
   };
+
+  console.log("errors+++", errors);
 
   return (
     <div className="">

@@ -46,17 +46,13 @@ const UploadContent = ({
   }, [data]);
 
   const onSelectedDocumentType = (type: number) => {
-
     setIsOpenUploadDocumnet(false);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
         `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
         type
       );
-      setValue(
-        `modules.${moduleIndex}.section.${sectionIndex}.youtubeUrl`,
-        ""
-      );
+      setValue(`modules.${moduleIndex}.section.${sectionIndex}.youtubeUrl`, "");
     } else {
       setValue(`uploadContentType`, type);
     }
@@ -100,10 +96,7 @@ const UploadContent = ({
 
   const removeFile = () => {
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
-      setValue(
-        `uploadedContentUrl`,
-        0
-      );
+      setValue(`uploadedContentUrl`, 0);
     } else {
       setValue(`uploadedContentUrl`, "");
     }
@@ -155,19 +148,16 @@ const UploadContent = ({
   }
 
   const removeUploadContent = () => {
-    console.log("setIsOpenUploadDocumnet", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`);
-    setValue(
-      `uploadContentType`,
-      0
+    console.log(
+      "setIsOpenUploadDocumnet",
+      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`
     );
+    setValue(`uploadContentType`, 0);
     setValue(
       `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
       ""
     );
-  }
-
-  console.log("data+++", data);
-  
+  };
 
   return (
     <div className="">

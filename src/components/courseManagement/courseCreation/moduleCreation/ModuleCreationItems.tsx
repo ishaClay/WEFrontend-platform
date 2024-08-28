@@ -396,17 +396,17 @@ const ModuleCreationItems = ({
                     disabled={sectionItem.uploadContentType > 0}
                     className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
                   />
-                  {errors.modules?.[index]?.section?.[sectionindex]
+                  {(errors.modules?.[index]?.section?.[sectionindex]
                     ?.youtubeUrl ||
-                    (urlError && (
-                      <FormError
-                        className="font-calibri not-italic"
-                        message={
-                          errors?.modules?.[index]?.section?.[sectionindex]
-                            ?.youtubeUrl?.message || urlError
-                        }
-                      />
-                    ))}
+                    urlError) && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors?.modules?.[index]?.section?.[sectionindex]
+                          ?.youtubeUrl?.message || urlError
+                      }
+                    />
+                  )}
                 </div>
                 <div className="">
                   <div className="flex items-center justify-between pb-2">
