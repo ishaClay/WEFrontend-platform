@@ -49,7 +49,6 @@ export const getDeviceToken = async () => {
       if (token) {
         return token;
         // You can send the token to your server here
-      } else {
       }
     } else {
       console.warn("Notification permission denied.");

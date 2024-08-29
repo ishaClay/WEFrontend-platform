@@ -17,13 +17,15 @@ import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { RegisterContext } from "@/context/RegisterContext";
-import { useAppSelector } from "@/hooks/use-redux";
+import { getDeviceToken } from "@/firebaseConfig";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   setClientRole,
   setCompanyId,
   setUserData,
 } from "@/redux/reducer/CompanyReducer";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
 import { checkOTP, createCompany } from "@/services/apiServices/company";
 import { RegisterEmployee } from "@/services/apiServices/employee";
@@ -32,10 +34,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import { setPath } from "@/redux/reducer/PathReducer";
 import Cookies from "js-cookie";
 
 const schema = z
@@ -95,7 +95,7 @@ function Register() {
   const { mutate: logout, isPending: logoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       dispatch(setPath([]));
     },
@@ -260,9 +260,9 @@ function Register() {
     }
   }, [clientId]);
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     const getData = getValues();
-
+    const token: any = await getDeviceToken();
     if (searchParams.get("email") || searchParams.get("type")) {
       const payload = {
         name: getData?.name,
@@ -271,6 +271,7 @@ function Register() {
         password: getData?.password,
         cpassword: getData?.cpassword,
         otp: +otp,
+        deviceToken: token,
       };
       registerEmployee(payload);
     } else {
@@ -278,6 +279,7 @@ function Register() {
         ...getData,
         otp,
         client: clientId,
+        deviceToken: token,
       };
       createotp(payload);
     }

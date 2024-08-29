@@ -497,19 +497,19 @@ export const calculateTotalReadingTime = (sections: any) => {
   let totalMinutes = 0;
   let totalSeconds = 0;
   console.log("sectionssections", sections);
-  
+
 
   sections.forEach((section: any) => {
     const time = section.readingTime;
     console.log("timetimetime", time, section.isLive || section.isLive === 0);
-    
+
     const assessmentTime = section?.module?.assessment?.length > 0 && section?.module?.assessment?.[0]?.timeDuration;
     totalHours += time?.hour || (assessmentTime?.hours + time?.hour || 0);
     totalMinutes += time?.minute || (assessmentTime?.minutes + time?.minute || 0);
     totalSeconds += time?.second || (assessmentTime?.seconds + time?.second || 0);
   });
   console.log("sectionssections", totalHours, totalMinutes, totalSeconds);
-  
+
 
   // Convert total seconds to minutes and hours if necessary
   totalMinutes += Math.floor(totalSeconds / 60);
@@ -702,3 +702,27 @@ export function arraysAreEqual(arr1: any, arr2: any) {
   return true;
 }
 
+export const IstDate = (time: Date | string) => {
+  // Parse the input as a Date object
+  const timeUTC = new Date(time);
+
+  // Check if the date is valid
+  if (isNaN(timeUTC.getTime())) {
+    throw new Error("Invalid date provided");
+  }
+
+  // Convert the input time to UTC by removing the timezone offset
+  const utcTime = new Date(timeUTC.getTime() + timeUTC.getTimezoneOffset() * 60000);
+
+  // Format the date to IST
+  const formattedTime = utcTime.toLocaleString("en-US", {
+    timeZone: "Asia/Kolkata",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  return formattedTime;
+};

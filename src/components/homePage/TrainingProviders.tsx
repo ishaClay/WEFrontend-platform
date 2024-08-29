@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 const TrainingProviders = () => {
   const navigate = useNavigate();
   return (
-    <>
+    <div className="bg-[#F7F8FC] py-10">
       <div
         id="trainer"
         className="xl:max-w-[1172px] max-w-full w-full mx-auto xl:px-0 px-5 xl:mb-[50px] mb-[45px]"
@@ -88,7 +88,7 @@ const TrainingProviders = () => {
         <Button
           type="button"
           onClick={() => navigate("/trainer-regestration")}
-          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] sm:h-[59px] h-[44px] secondary-text xl:mt-[113px] md:mt-[80px] mt-[30px]"
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] button-color text-lg font-extrabold font-abhaya m-auto w-[278px] sm:h-[59px] h-[44px] secondary-text md:mt-[80px] mt-[30px]"
         >
           <div>Register As A Trainer Now</div>
           <div>
@@ -96,7 +96,7 @@ const TrainingProviders = () => {
           </div>
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
