@@ -7,6 +7,7 @@ import { LogOut } from "@/services/apiServices/authService";
 import { fetchNotificationCount } from "@/services/apiServices/notificationServices";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { AlignLeft } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
@@ -29,7 +30,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-import Cookies from "js-cookie";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ const MainHeader = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
@@ -97,7 +97,7 @@ const MainHeader = () => {
   };
   return (
     <>
-      <header className="sm:bg-[#FAFAFA] bg-transparent">
+      <header className="sm:bg-[#fff] bg-transparent">
         <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3">
             <li className="">
