@@ -4,23 +4,28 @@ import fulltimeImage from "@/assets/images/fulltime.png";
 import onlineImage from "@/assets/images/online.png";
 import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
-import { useNavigate } from "react-router-dom";
+import { UserRole } from "@/types/UserRole";
+import { CoursePublishAdminClientData } from "@/types/allcourses";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
 type OurCoursrseListProps = {
-  data: {
-    image: string;
-    title: string;
-    image1: string;
-  };
+  data: CoursePublishAdminClientData;
 };
 
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
-      <img src={data?.image} alt="course" className="rounded-t-lg" />
+      <div className="relative min-h-[170px] h-[170px] overflow-hidden">
+        <img
+          src={data?.bannerImage}
+          alt="course"
+          className="rounded-t-lg w-full h-full"
+        />
+      </div>
       <div className="px-4 py-[15px] border-b border-[#D9D9D9]">
         <h5 className="text-base font-bold font-inter leading-[22px] pb-3">
           {data?.title}
@@ -75,18 +80,22 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
         </div>
       </div>
       <div className="flex items-center justify-between p-[15px]">
-        <img
+        <div>
+          {/* <img
           src={data.image1}
           alt="course"
           className="xl:w-[162px] w-[140px] h-[48px]"
-        />
+        /> */}
+        </div>
         <Button
           type="button"
           onClick={() => {
             if (userData) {
-              navigate("/");
+              navigate(
+                `/${UserRole[userData?.query?.role]?.toLowerCase()}/dashboard`
+              );
             } else {
-              navigate("/register");
+              navigate("/auth");
             }
           }}
           className="bg-[#64A70B] font-abhaya text-base px-5 py-2 h-auto"

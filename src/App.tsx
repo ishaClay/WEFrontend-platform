@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
+import DashboardTrainee from "./components/DashboardTrainee";
 import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
@@ -48,6 +49,7 @@ import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
 import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
 import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
 import FaqsList from "./pages/FaqsList";
+import FeatureCourseDetailPage from "./pages/FeatureCourseDetailPage";
 import Home from "./pages/Home";
 import HomeContactPage from "./pages/HomeContactPage";
 import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
@@ -196,6 +198,7 @@ function App() {
         <Route path="/membership" element={<OurServicePage />} />
         <Route path="/contact" element={<HomeContactPage />} />
         <Route path="/our-courses" element={<HomeOurCoursesPage />} />
+        <Route path="/feature-course/:id" element={<FeatureCourseDetailPage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/blog" element={<BlogPage />} />
@@ -762,7 +765,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardTrainee />} />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="create_course" element={<CourseManagement />} />

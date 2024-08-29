@@ -2,7 +2,7 @@ import footerLogoImage from "@/assets/images/FooterLogo.png";
 import footerLogoImage1 from "@/assets/images/FooterLogo1.png";
 import homeFooterLogo from "@/assets/images/HomeFooterLogo.png";
 import homeFooterLogo1 from "@/assets/images/HomeFooterLogo1.png";
-import RoundLogoImage from "@/assets/images/RoundLogo.png";
+import RoundLogoImage from "@/assets/images/star-footer-image.svg";
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
@@ -30,7 +30,7 @@ const HomeFooter = () => {
               /> */}
               <div className="flex lg:flex-row flex-col lg:justify-center justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent xl:gap-3 sm:gap-2 gap-0 xl:w-[951px] lg:w-[850px] w-auto lg:h-[84px] h-auto lg:p-0 lg:px-5 px-0">
                 <div className="lg:order-1 order-4">
-                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[52px] sm:border-b-0 border-b border-white">
+                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[52px] sm:border-b-0 font-Droid-Regular border-b border-white">
                     Skillnet Ireland is funded from the National Training Fund
                     through the Department of Further and Higher Education,
                     Research, Innovation and Science.
@@ -49,7 +49,7 @@ const HomeFooter = () => {
                   />
                 </div>
                 <div className="secondary-text sm:flex block justify-between items-center lg:hidden lg:order-3 order-3">
-                  <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
+                  <p className="lg:block hidden no-underline text-sm leading-5 font-Droid-Regular font-bold">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
@@ -94,7 +94,7 @@ const HomeFooter = () => {
                   />
                 </div>
                 <div className="sm:block hidden lg:order-4 order-4">
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-2">
                     <div>
                       <img src={RoundLogoImage} alt="round logo" />
                     </div>

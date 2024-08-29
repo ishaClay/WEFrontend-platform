@@ -338,7 +338,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                           setRecommendedCoursesById(allcourse?.id);
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                        disabled={allcourse?.enrolled === true}
+                        disabled={allcourse?.enrolled === true || !getUpcommingCohort(allcourse)?.props?.children}
                       >
                         Enroll Now
                       </Button>

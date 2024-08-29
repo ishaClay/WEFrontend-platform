@@ -112,7 +112,6 @@ const ModuleCreationPage = () => {
               //     path: ["youtubeUrl"],
               //   });
               // }
-
               if (data.isLive) {
                 if (
                   !data.livesessionDuration?.hour &&
@@ -123,7 +122,7 @@ const ModuleCreationPage = () => {
                     code: z.ZodIssueCode.custom,
                     message:
                       "Live session duration is required when isLive is true",
-                    path: ["livesessionDuration"],
+                    path: ["livesessionDuration.hour"],
                   });
                 }
               } else {
@@ -150,29 +149,29 @@ const ModuleCreationPage = () => {
                     path: ["readingTime.hour"],
                   });
                 }
-                if (!data.youtubeUrl && data.uploadContentType) {
-                  if (!data.uploadContentType) {
-                    ctx.addIssue({
-                      code: z.ZodIssueCode.custom,
-                      message: "Please select upload content type",
-                      path: ["uploadContentType"],
-                    });
-                  }
-                  if (!data.uploadedContentUrl) {
-                    ctx.addIssue({
-                      code: z.ZodIssueCode.custom,
-                      message: "Please enter upload content url",
-                      path: ["uploadedContentUrl"],
-                    });
-                  }
-                }
-                if (!data.youtubeUrl && !data.uploadContentType) {
-                  ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "Please select upload content type",
-                    path: ["uploadContentType"],
-                  });
-                }
+                // if (!data.youtubeUrl && data.uploadContentType) {
+                //   if (!data.uploadContentType) {
+                //     ctx.addIssue({
+                //       code: z.ZodIssueCode.custom,
+                //       message: "Please select upload content type",
+                //       path: ["uploadContentType"],
+                //     });
+                //   }
+                //   if (!data.uploadedContentUrl) {
+                //     ctx.addIssue({
+                //       code: z.ZodIssueCode.custom,
+                //       message: "Please enter upload content url",
+                //       path: ["uploadedContentUrl"],
+                //     });
+                //   }
+                // }
+                // if (!data.youtubeUrl && !data.uploadContentType) {
+                //   ctx.addIssue({
+                //     code: z.ZodIssueCode.custom,
+                //     message: "Please select upload content type",
+                //     path: ["uploadContentType"],
+                //   });
+                // }
               }
             })
           // .refine(data => data.isLive ? false : true, { message: "Section is required", path: ["uploadContentType"] })

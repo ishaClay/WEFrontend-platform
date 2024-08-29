@@ -1,3 +1,5 @@
+import { Course } from "./course";
+
 export interface GetHomeBannerResponse {
   data?: DataEntity[];
   message: string;
@@ -27,7 +29,7 @@ export interface HomeCourseSlidersResponse {
 export interface DataEntity {
   id: number;
   courseType: string;
-  courseTitle: string;
+  courseTitle: Course;
   content: string;
   courseImage: string;
   buttonTitle: string;
