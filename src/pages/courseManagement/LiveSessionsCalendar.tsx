@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppDispatch } from "@/hooks/use-redux";
-import { calculateEndTime } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { AllLivesessions } from "@/types/liveSession";
 import {
@@ -56,22 +55,12 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   const events = allLiveSession?.map((session) => {
     const sessionDurationMinutes = session?.sessionDuration;
 
-    const eventStart = moment(
-      session.date + " " + session.startTime + " " + session.startAmPm,
-      "YYYY-MM-DD hh:mm A"
-    ).toDate();
+    const eventStart = moment(session.startTime, "YYYY-MM-DD hh:mm A").toDate();
 
-    const eventEnd = moment(
-      session.date +
-        " " +
-        calculateEndTime(
-          session.startTime + " " + session.startAmPm,
-          sessionDurationMinutes?.toString()
-        ) +
-        " " +
-        session.startAmPm,
-      "YYYY-MM-DD hh:mm A"
-    ).toDate();
+    const eventEnd = moment(session.startTime, "YYYY-MM-DD hh:mm A")
+      .add(sessionDurationMinutes, "minutes")
+      .toDate();
+    console.log("session", eventEnd);
 
     return {
       start: eventStart,
@@ -255,6 +244,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
       </HoverCardContent>
     </HoverCard>
   );
+
+  console.log("currentDate", currentDate);
 
   return (
     <div className="p-3 bg-white min-h-full">

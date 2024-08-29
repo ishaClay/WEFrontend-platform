@@ -44,14 +44,14 @@ const Steps = () => {
     },
   ];
   return (
-    <div className="xl:mb-[60px] sm:mb-[50px] mb-[30px]">
-      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-UniNeue text-center font-bold tracking-tighter xl:mb-[69px] md:mb-[50px] mb-[30px]">
+    <div className="xl:mb-[54px] sm:mb-[50px] mb-[30px]">
+      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-UniNeue text-center font-bold tracking-tighter xl:mb-[54px] md:mb-[50px] mb-[30px]">
         Step by Step
         <br />
         <span className="font-medium">To better days ahead of you.</span>
       </h3>
-      <div className="grid grid-cols-9">
-        <div className="sm:col-span-2 col-span-9 bg-[#64A70B] flex justify-center items-center sm:h-[259px] h-[148px]">
+      <div className="grid grid-cols-9 max-w-[1913px] mx-auto">
+        <div className="sm:col-span-2 col-span-9 bg-[#40A83E] flex justify-center items-center sm:h-[259px] h-[148px]">
           <p className="secondary-text xl:text-[28px] text-2xl font-Droid-Regular text-center font-bold">
             Why Go Sustainable
           </p>
@@ -72,7 +72,7 @@ const Steps = () => {
                       {steps.title}
                     </h6>
                   </div>
-                  <p className="text-[13px] font-Droid-Regular leading-[18px] font-extrabold">
+                  <p className="text-[15px] font-Droid-Regular leading-[18px] font-medium">
                     {steps.desc}
                   </p>
                 </div>

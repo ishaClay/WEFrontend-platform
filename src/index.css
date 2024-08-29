@@ -372,9 +372,9 @@ input[type="radio"] {
     height: 52px !important;
   }
 }
-.ckeditor .ck-rounded-corners{
+.ckeditor .ck-rounded-corners {
   height: 100% !important;
 }
-.ckeditor .ck-editor__main{
+.ckeditor .ck-editor__main {
   height: calc(100% - 38px);
 }
