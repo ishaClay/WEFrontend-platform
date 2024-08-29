@@ -6,7 +6,7 @@ import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
 import { UserRole } from "@/types/UserRole";
 import { CoursePublishAdminClientData } from "@/types/allcourses";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 
 type OurCoursrseListProps = {
@@ -16,7 +16,6 @@ type OurCoursrseListProps = {
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
-  const location = useLocation();
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
       <div className="relative min-h-[170px] h-[170px] overflow-hidden">
