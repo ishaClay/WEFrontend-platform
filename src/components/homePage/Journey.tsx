@@ -1,13 +1,13 @@
+import { RegisterContext } from "@/context/RegisterContext";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { SecondaryButton } from "../comman/Button/CustomButton";
-import { useContext } from "react";
-import { RegisterContext } from "@/context/RegisterContext";
 
 const Journey = () => {
   const navigate = useNavigate();
   const { setSelectedRole } = useContext(RegisterContext);
   return (
-    <div className="lg:flex block items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6 relative xl:mt-[59px] lg:mt-[50px] mt-6 lg:h-[350px] h-auto xl:mb-[179px] lg:mb-[80px] mb-0">
+    <div className="lg:flex block items-center justify-center xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6 relative xl:mt-[100px] lg:mt-[50px] mt-6 lg:h-[350px] h-auto xl:mb-[100px] lg:mb-[80px] mb-0">
       <div className="z-50">
         <img
           className="left-24 top-1/2 lg:-translate-y-1/2 xl:w-[400px] lg:w-[350px] sm:w-auto w-[240px] lg:absolute mx-0"

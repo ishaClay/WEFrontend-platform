@@ -107,7 +107,11 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=1&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
+        `/${pathName}/create_course/${
+          +courseId ? courseId : params
+        }?tab=1&version=${paramsversion}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -164,9 +168,38 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
   // @ts-ignore
   const handleUpload = (e) => {
     const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    mutate(formData);
+    if (!file) return;
+
+    if (!["image/jpeg", "image/jpg"].includes(file.type)) {
+      toast({
+        title: "File must be in JPG or JPEG format.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (file.size > 500 * 1024) {
+      // 500KB
+      toast({
+        title: "File size must be less than 500KB.",
+        variant: "destructive",
+      });
+      return;
+    }
+    createImageBitmap(file).then((imageBitmap) => {
+      const { width, height } = imageBitmap;
+      console.log("width, height ,", width, height);
+      if (width >= 1024 || height >= 768) {
+        toast({
+          variant: "destructive",
+          title: `Image dimensions must be 1024x768 pixels`,
+        });
+      } else {
+        const formData = new FormData();
+        formData.append("image", file);
+        mutate(formData);
+      }
+    });
   };
 
   const onSubmit = () => {
@@ -201,7 +234,9 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${1}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}` : ""}`,
+        }?tab=${1}&version=${getSingleCourse?.data?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -243,11 +278,15 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
               </h6>
               <div className="border flex items-center border-[#D9D9D9] sm:p-4 p-[10px] rounded-md">
                 <div className="">
-                  <div className="md:w-[270px] md:h-[190px] sm:w-[200px] sm:h-[150px] w-[100px] h-[100px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer">
+                  <div className="md:w-[270px] md:h-[190px] sm:w-[200px] sm:h-[150px] w-[100px] h-[100px] rounded-md bg-[#F3F3F3] flex justify-center items-center cursor-pointer aspect-video bg-[color:var(--base5-56)] relative overflow-hidden">
                     {isUploading ? (
                       <Loader />
                     ) : image ? (
-                      <img src={image} alt="banner" className="w-full h-full" />
+                      <img
+                        src={image}
+                        alt="banner"
+                        className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%];"
+                      />
                     ) : (
                       <span className="flex sm:flex-row flex-col items-center text-[#9E9E9E] gap-2 sm:text-base text-sm">
                         <Image /> Upload Image

@@ -46,7 +46,7 @@ export const SecondaryButton: React.FC<InputProps> = ({
     <>
       {isLink ? (
         <a
-          className={`button-color top-94 left-823 rounded text-color font-['D-Din-pro-Medium'] ${className}`}
+          className={`top-94 left-823 rounded text-color font-['D-Din-pro-Medium'] ${className}`}
           href={href}
           target="_blank"
         >
@@ -56,7 +56,7 @@ export const SecondaryButton: React.FC<InputProps> = ({
       ) : (
         <button
           type="button"
-          className={`button-color top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
+          className={`top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
           onClick={onClick}
         >
           {name}

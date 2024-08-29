@@ -70,7 +70,7 @@ const HomeBanner = () => {
                                 className="md:w-[26px] md:h-[26px] w-[15px] h-[15px]"
                               />
                             }
-                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#4C7D0A]"
+                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
                             isLink={!!item?.primaryButtonUrl}
                           />
                           <SecondaryButton
@@ -89,7 +89,7 @@ const HomeBanner = () => {
                                 className="md:w-[26px] md:h-[26px] w-[15px] h-[15px]"
                               />
                             }
-                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[29px] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#4C7D0A]"
+                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[40px] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
                             isLink={!!item?.secondaryButtonUrl}
                           />
                         </div>

@@ -4,9 +4,10 @@ import fulltimeImage from "@/assets/images/fulltime.png";
 import onlineImage from "@/assets/images/online.png";
 import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
+import { UserRole } from "@/types/UserRole";
+import { CoursePublishAdminClientData } from "@/types/allcourses";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { CoursePublishAdminClientData } from "@/types/allcourses";
 
 type OurCoursrseListProps = {
   data: CoursePublishAdminClientData;
@@ -89,7 +90,9 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           type="button"
           onClick={() => {
             if (userData) {
-              navigate("/");
+              navigate(
+                `/${UserRole[userData?.query?.role]?.toLowerCase()}/dashboard`
+              );
             } else {
               navigate("/auth");
             }

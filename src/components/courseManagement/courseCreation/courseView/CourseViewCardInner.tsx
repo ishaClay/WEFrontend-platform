@@ -43,6 +43,7 @@ const CourseViewCardInner = ({
   const params = useParams();
   const [searchParams] = useSearchParams();
   const [urlError, setUrlError] = useState<string>("");
+  const [informationError, setInformationError] = useState<string>("");
 
   useEffect(() => {
     if (CourseCardList?.length > 0) {
@@ -110,7 +111,7 @@ const CourseViewCardInner = ({
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "Live session duration is required when isLive is true",
-            path: ["livesessionDuration"],
+            path: ["livesessionDuration.hour"],
           });
         }
       } else {
@@ -308,13 +309,13 @@ const CourseViewCardInner = ({
         "uploadContentType",
         data.documentType === null ? 0 : data.documentType
       );
-      setValue("uploadedContentUrl", data.uploadContent);
+      setValue("uploadedContentUrl", data?.uploadContent || "");
       setValue(
         "readingTime",
         data.readingTime || { hour: 0, minute: 0, second: 0 }
       );
       setValue("youtubeUrl", data.isLive ? "" : data.url);
-      setValue("uploadDocument", data.attachment);
+      setValue("uploadDocument", data?.attachment || "");
       setValue("isLive", data.isLive === 1 ? true : false);
       setValue(
         "livesessionDuration",
@@ -334,7 +335,9 @@ const CourseViewCardInner = ({
   };
 
   const onSubmit = (data: FieldValues) => {
+    if (informationError !== "") return;
     const payload = [];
+    setUrlError("");
     payload.push({...data, uploadContentType: data.uploadContentType === 0 ? null : data.uploadContentType});
     console.log("payload", payload);
 
@@ -344,6 +347,7 @@ const CourseViewCardInner = ({
   };
 
   const onUpdate = (data: FieldValues) => {
+    if (informationError !== "") return;
     const a = {
       isLive: true,
       liveSecTitle: data.sectionTitle,
@@ -399,6 +403,8 @@ const CourseViewCardInner = ({
                     isLoading={editSectionPending || editLiveSectionPending}
                     urlError={urlError}
                     setUrlError={setUrlError}
+                    informationError={informationError}
+                    setInformationError={(e: string) => setInformationError(e)}
                   />
                 </form>
               ) : (
@@ -432,6 +438,8 @@ const CourseViewCardInner = ({
               isLoading={createSectionPending}
               urlError={urlError}
               setUrlError={setUrlError}
+              informationError={informationError}
+              setInformationError={(e: string) => setInformationError(e)}
             />
           )}
 

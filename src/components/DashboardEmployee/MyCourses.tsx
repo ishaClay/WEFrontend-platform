@@ -1,11 +1,11 @@
-import Couse_Total from "@/assets/images/couse_total.png";
 import Course_Completed from "@/assets/images/course_completed.png";
 import Course_Progress from "@/assets/images/course_progress.png";
-import MyCoursesItems from "./MyCoursesItems";
-import { useQuery } from "@tanstack/react-query";
+import Couse_Total from "@/assets/images/couse_total.png";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getDashboardEmployeeCourse } from "@/services/apiServices/employee";
+import { useQuery } from "@tanstack/react-query";
 import Loader from "../comman/Loader";
+import MyCoursesItems from "./MyCoursesItems";
 
 const MyCourses = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -22,18 +22,26 @@ const MyCourses = () => {
   const coursesItems = [
     {
       image: Couse_Total,
-      title: data?.myCourses?.completedCourses || 0,
-      subTitle: "Assigned",
+      title: data?.myCourses?.totalCourses || 0,
+      subTitle: "Total Assigned",
     },
     {
       image: Course_Completed,
-      title: data?.myCourses?.totalCourses || 0,
+      title: data?.myCourses?.inprogressCourses || 0,
       subTitle: "Open",
     },
     {
       image: Course_Progress,
-      title: data?.myCourses?.inprogressCourses || 0,
+      title:
+        data?.myCourses?.totalCourses! -
+          (data?.myCourses?.inprogressCourses! +
+            data?.myCourses?.completedCourses!) || 0,
       subTitle: "Delayed",
+    },
+    {
+      image: Course_Progress,
+      title: data?.myCourses?.completedCourses || 0,
+      subTitle: "Completed",
     },
   ];
   return (
@@ -41,7 +49,7 @@ const MyCourses = () => {
       <h5 className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold">
         My Courses
       </h5>
-      <div className="grid grid-cols-3 lg:gap-6 gap-4">
+      <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
         {isLoading ? (
           <Loader />
         ) : coursesItems.length ? (

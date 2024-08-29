@@ -1,8 +1,13 @@
+import titleCircle from "@/assets/images/title_de.svg";
 import Header from "@/components/Header";
+import Accordions from "@/components/comman/Accordions";
 import { SecondaryButton } from "@/components/comman/Button/CustomButton";
 import Loading from "@/components/comman/Error/Loading";
 import Symbol from "@/components/comman/symbol/Symbol";
-import { useAppSelector } from "@/hooks/use-redux";
+import AccordionAnswer from "@/components/homePage/AccordionAnswer";
+import AccordionQuestion from "@/components/homePage/AccordionQuestion";
+import HomeFooter from "@/components/homePage/HomeFooter";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setClientId } from "@/redux/reducer/CompanyReducer";
 import { getHomeBanner } from "@/services/apiServices/bannerSlider";
@@ -10,24 +15,18 @@ import {
   fetchDataByClientwise,
   getCourseSlider,
 } from "@/services/apiServices/courseSlider";
+import { fetchfaqdata } from "@/services/apiServices/faq";
 import {
   GetHomeBannerResponse,
   HomeCourseSlidersResponse,
 } from "@/types/banner";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import { useAppDispatch } from "@/hooks/use-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import HomeFooter from "@/components/homePage/HomeFooter";
-import Accordions from "@/components/comman/Accordions";
-import AccordionQuestion from "@/components/homePage/AccordionQuestion";
-import AccordionAnswer from "@/components/homePage/AccordionAnswer";
-import { fetchfaqdata } from "@/services/apiServices/faq";
-import titleCircle from "@/assets/images/title_de.svg";
-import { Loader } from "lucide-react";
 
 function Home() {
   const { data: getallfaq, isLoading } = useQuery({

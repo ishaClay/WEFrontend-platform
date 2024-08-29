@@ -1,7 +1,7 @@
-/* eslint-disable no-undef */
 // eslint-disable-next-line no-undef
-importScripts("https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js");
+importScripts("https://www.gstatic.com/firebasejs/8.8.0/firebase-app.js");
+// eslint-disable-next-line no-undef
+importScripts("https://www.gstatic.com/firebasejs/8.8.0/firebase-messaging.js");
 
 const firebaseConfig = {
   apiKey: "AIzaSyB_gIx9o3CEWslOdGz9P3lAbbK1mjIRLf0",
@@ -16,20 +16,39 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 // eslint-disable-next-line no-undef
-const messaging = firebase.messaging();
+const messaging = firebase.messaging.isSupported()
+  ? firebase.messaging()
+  : null;
 
-messaging.onBackgroundMessage((payload) => {
+// messaging?.onBackgroundMessage((payload) => {
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload
+//   );
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: "./logo.png",
+//     default: false,
+//   };
+
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
+
+self.addEventListener("push", (event) => {
+  const payload = event.data.json();
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload
+  );
+
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: "./favicon.ico",
-    default: false,
+    icon: "./logo.png",
   };
-  console.log(
-    "Received background message ",
-    notificationTitle,
-    notificationOptions
-  );
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  event.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions)
+  );
 });
