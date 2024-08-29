@@ -129,6 +129,7 @@ export interface Course {
   ectsCredits?: null;
   fetCredits?: null;
   time: number;
+  avgRating: number;
   isOnline: number;
   universityAddress?: null;
   duration?: null;

@@ -80,19 +80,14 @@ const ModuleCreationPage = () => {
                   250,
                   "You can not write section title more than 250 characters"
                 ),
-              information: z.string().min(1, "Please enter information"),
+              information: z.string().min(500, "You must write at least 500 characters."),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
                 .optional(),
               uploadedContentUrl: z.string().optional(),
               youtubeUrl: z
-                .string()
-                .regex(
-                  /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)*$/,
-                  "Invalid Url"
-                )
-                .optional(),
+                .string().optional(),
               readingTime: z
                 .object({
                   hour: z.number().min(0).max(23),
@@ -110,6 +105,14 @@ const ModuleCreationPage = () => {
                 .optional(),
             })
             .superRefine((data, ctx) => {
+              // if(!data.youtubeUrl?.match(/^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=[\w-]+|youtu\.be\/[\w-]+(\?si=[\w-]+)?)$/)){
+              //   ctx.addIssue({
+              //     code: z.ZodIssueCode.custom,
+              //     message: "Please enter valid youtube url",
+              //     path: ["youtubeUrl"],
+              //   });
+              // }
+
               if (data.isLive) {
                 if (
                   !data.livesessionDuration?.hour &&
@@ -244,6 +247,8 @@ const ModuleCreationPage = () => {
 
   useEffect(() => {
     if (CourseModule?.data?.data?.length) {
+      console.log("CourseModule?.data.data", CourseModule?.data.data);
+      
       setModuleList(CourseModule?.data.data);
     }
     queryClient.invalidateQueries({
@@ -267,6 +272,9 @@ const ModuleCreationPage = () => {
                 item?.uploadContentType && +item?.uploadContentType > 0
                   ? ""
                   : item?.youtubeUrl;
+                  
+                  console.log("itemitemitem", item);
+              // const documentType = +item?.uploadDocument === 0 ? null : item?.uploadDocument;                
               return uploadContentType === 0
                 ? { ...rest, youtubeUrl: youtubeUrl, uploadContentType: null }
                 : { ...item, youtubeUrl: youtubeUrl };
@@ -345,11 +353,11 @@ const ModuleCreationPage = () => {
         <Button
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
-          disabled={
-            paramsType === "editminor"
-              ? true
-              : moduleList?.length > 0 && moduleCreationItem.length > 0
-          }
+          // disabled={
+          //   paramsType === "editminor"
+          //     ? true
+          //     : moduleList?.length > 0 && moduleCreationItem.length > 0
+          // }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
           <CirclePlus width={18} /> Add Module

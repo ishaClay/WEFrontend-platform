@@ -450,7 +450,7 @@ const ListView = ({
                       ? "Ready to Publish"
                       : "Publish"}
                   </Button>
-                  <Button
+                  {Role !== "trainee" && <Button
                     disabled={!update}
                     onClick={(e: any) =>
                       handleCohort(e, data?.currentVersion?.id as number)
@@ -458,7 +458,7 @@ const ListView = ({
                     className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
                   >
                     + Cohort
-                  </Button>
+                  </Button>}
                   {!(
                     pathName === "trainee" && allCoursePathName === "allcourse"
                   ) && (
@@ -511,7 +511,7 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                        {+userData?.query?.role !== UserRole.Trainee && (
+                        {(userData?.editCourses || +userData?.query?.role !== UserRole.Trainee) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e) =>

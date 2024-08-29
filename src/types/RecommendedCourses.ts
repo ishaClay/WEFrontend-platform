@@ -45,6 +45,7 @@ export interface RecommendedCourses {
   institute: string;
   instituteWebsite: string;
   instituteWebsite2: string;
+  universityAddress: string;
   freeCourse: number;
   discout: number;
   discountApplicable: number;

@@ -22,6 +22,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const Role = location.pathname.split("/")[1];
+  console.log("listlist", grid);
 
   return (
     <Link

@@ -13,6 +13,7 @@ import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { Button } from "./ui/button";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import Cookies from "js-cookie";
 
 interface SidebarItem {
   label: string;
@@ -61,6 +62,7 @@ const DrawerPage = ({
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));

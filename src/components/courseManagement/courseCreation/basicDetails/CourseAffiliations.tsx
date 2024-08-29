@@ -2,14 +2,13 @@ import FormError from "@/components/comman/FormError";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   createCourseTwoPage,
-  // fetchgetCoursesNameList,
-  fetchgetInstitutionsList,
   fetchSingleCourseById,
-  updateCourse,
+  updateCourse
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
@@ -34,7 +33,6 @@ const schema = zod
       });
     }
   });
-
 
 interface SelectAffiliationsTypr {
   instituteOther: string;
@@ -71,6 +69,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       instituteOther: "",
       otherInstitutionName: "",
     });
+  const [charCount, setCharCount] = useState(0);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -108,17 +107,17 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     }
   );
 
-  const { data: getInstitutionsList } = useQuery({
-    queryKey: [QUERY_KEYS.getInstitutions],
-    queryFn: () => fetchgetInstitutionsList(),
-  });
-  const organisationOption =
-    getInstitutionsList?.data?.map((item) => {
-      return {
-        label: item?.name,
-        value: item?.name,
-      };
-    }) || [];
+  // const { data: getInstitutionsList } = useQuery({
+  //   queryKey: [QUERY_KEYS.getInstitutions],
+  //   queryFn: () => fetchgetInstitutionsList(),
+  // });
+  // const organisationOption =
+  //   getInstitutionsList?.data?.map((item) => {
+  //     return {
+  //       label: item?.name,
+  //       value: item?.name,
+  //     };
+  //   }) || [];
 
   // const { data: fetchgetCoursesList } = useQuery({
   //   queryKey: [QUERY_KEYS.fetchgetCoursesNameList],
@@ -168,7 +167,11 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
       navigate(
-        `/${pathName}/create_course/${+courseId ? courseId : params}?tab=0&step=4&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
+        `/${pathName}/create_course/${
+          +courseId ? courseId : params
+        }?tab=0&step=4&version=${paramsversion}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -189,6 +192,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
         instituteOther: selectAffiliations?.instituteOther || "",
         otherInstitutionName: "",
       });
+      setCharCount(0);
     }
   }, [selectAffiliations]);
 
@@ -223,7 +227,9 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}` : ""}`,
+        }?tab=${0}&step=${4}&version=${getSingleCourse?.data?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -234,14 +240,13 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
   return (
     <>
       <div className="text-base text-[#00778B] font-semibold leading-[22px] pb-2.5 sm:hidden block">
-        Course Affiliations
+        Course Accreditations
       </div>
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
             <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-              Is this course affiliated with any other institutes or
-              organisation?
+              Is this course accredited by any other institutes or organisation?
             </h6>
             <div className="md:mb-[28px] sm:mb-5 mb-[15px]">
               <SelectMenu
@@ -265,24 +270,37 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
           </div>
           <div className="">
             <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-              Provide Institution / organisation Name
+              Provide Institution / organisation Name (Max 100 words only)
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
-              <SelectMenu
-                {...register("otherInstitutionName")}
-                option={organisationOption}
-                disabled={watch("instituteOther") === "yes" ? false : true}
-                setValue={(data: string) => {
-                  setSelectAffiliations({
-                    ...selectAffiliations,
-                    otherInstitutionName: data,
-                  });
-                  setValue("otherInstitutionName", data);
-                }}
-                value={selectAffiliations?.otherInstitutionName || ""}
-                placeholder="Enter accreditor name"
-                className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
-              />
+              <div className="relative">
+                <Textarea
+                  {...register("otherInstitutionName")}
+                  disabled={watch("instituteOther") !== "yes"}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSelectAffiliations({
+                      ...selectAffiliations,
+                      otherInstitutionName: value,
+                    });
+                    setCharCount(value?.length);
+                    setValue("otherInstitutionName", value);
+                  }}
+                  value={selectAffiliations?.otherInstitutionName || ""}
+                  placeholder="Enter accreditor name"
+                  className="text-base font-calibri shadow-none outline-none focus:border-[#4b4b4b]"
+                  maxLength={100}
+                />
+                <div
+                  className={`absolute bottom-0 right-0 p-2 text-sm ${
+                    watch("instituteOther") !== "yes"
+                      ? "text-[#B1B9C5]"
+                      : "text-[#606060]"
+                  }`}
+                >
+                  {charCount}/100
+                </div>
+              </div>
               {!errors.otherInstitutionName?.ref?.value && (
                 <FormError
                   message={errors.otherInstitutionName?.message as string}

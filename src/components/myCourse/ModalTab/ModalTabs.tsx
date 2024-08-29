@@ -12,6 +12,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { AlertLogOutDialog } from "@/components/Models/AlertLogOut";
 import { useState } from "react";
+import Cookies from "js-cookie";
 
 const ModalTabs = ({
   tab = "profile",
@@ -29,6 +30,7 @@ const ModalTabs = ({
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));

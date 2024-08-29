@@ -32,6 +32,7 @@ import {
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
+import Cookies from "js-cookie";
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
@@ -114,14 +115,12 @@ const RegisterTraineeForm = () => {
 
   const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel({ from: 1, until: 10 }),
+    queryFn: () => fetchNfqlLevel(),
   });
 
   const nfqOption: any = getNfqlLevelList?.data?.map((item: any) => {
     return item.leval;
   });
-
-  console.log(nfqOption);
 
   const {
     data: getOccupationalCategoriesList,
@@ -145,6 +144,7 @@ const RegisterTraineeForm = () => {
   const { mutate, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", email || "");
@@ -175,9 +175,9 @@ const RegisterTraineeForm = () => {
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
-          title: "Success",
+          title: "Error",
           description: "Trainer invitation Already send.",
-          variant: "success",
+          variant: "destructive",
         });
       } else {
         toast({
@@ -228,7 +228,6 @@ const RegisterTraineeForm = () => {
     }; // Add this log to inspect the payload
     update_Employee(payload);
   };
-  console.log("errors:", errors);
 
   return (
     <>

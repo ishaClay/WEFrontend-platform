@@ -49,8 +49,7 @@ const AssignModel = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: assignItemForEmployee,
-    onSuccess: async (data) => {
-      console.log("data", data);
+    onSuccess: async () => {
       setIsOpenAssignModel(null);
       setDate({
         startDate: undefined,

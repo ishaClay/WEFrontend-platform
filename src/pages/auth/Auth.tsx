@@ -17,6 +17,7 @@ import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -116,6 +117,7 @@ function Auth() {
       const user = data.data.data.query;
       const role = trackUserLogin(+user.role);
       console.log(role, user.role, "rolerolerolerolerole");
+      Cookies.set('accessToken', data?.data?.data?.accessToken, { expires: 1 });
 
       if ((window as any).gtag) {
         (window as any).gtag("event", "login", {
