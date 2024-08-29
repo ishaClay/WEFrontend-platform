@@ -12,3 +12,15 @@ export const getSmeDashboardData = async ({ userId }: { userId: string }) => {
     const res = await api({ url });
     return res.data
 }
+
+export const getDashbooardSme3 = async ({ userId }: { userId: string }) => {
+    const url = `api/v1/dashboard/compnyCourseCount/${userId}`;
+    const res = await api({ url });
+    return res.data
+}
+
+export const getTraineeDashboardData = async ({ userId }: { userId: string }) => {
+    const url = `api/v1/dashboard/TrainerDashboardCountData/${userId}`;
+    const res = await api({ url });
+    return res.data
+}

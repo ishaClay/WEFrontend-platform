@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
+import DashboardTrainee from "./components/DashboardTrainee";
 import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
@@ -762,7 +763,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardTrainee />} />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="create_course" element={<CourseManagement />} />

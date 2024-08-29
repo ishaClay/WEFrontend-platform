@@ -8,6 +8,7 @@ import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { employeeOption, QUERY_KEYS, sectorOption } from "@/lib/constants";
 import {
@@ -16,7 +17,7 @@ import {
   updateCompany,
 } from "@/services/apiServices/company";
 import { enumUpadate } from "@/services/apiServices/enum";
-import { Company, CountryResponse } from "@/types/Company";
+import { CountryResponse } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -196,12 +197,14 @@ function CompanyRegister() {
   // }, [companydetails]);
 
   const onSubmit = async (data: FieldValues) => {
+    const token: any = await getDeviceToken();
     const updatedData = {
       ...data,
       companyId: companyNumberId as number,
       soleTrader: soleTrader === "true" ? true : false,
+      deviceToken: token,
     };
-    updatecompany(updatedData as Company);
+    updatecompany(updatedData as any);
   };
 
   const handleVerifyId = () => {
@@ -500,7 +503,10 @@ function CompanyRegister() {
                       Privacy Policy
                     </Link>
                     and
-                    <Link to={"/termsofservices"} className="text-[#042937] mx-1">
+                    <Link
+                      to={"/termsofservices"}
+                      className="text-[#042937] mx-1"
+                    >
                       Terms of Service.
                     </Link>
                   </label>

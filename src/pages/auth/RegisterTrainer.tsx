@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
@@ -57,47 +58,40 @@ function RegisterTrainer() {
   const [searchParams] = useSearchParams();
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
-  const schema = z
-    .object({
-      providerName: z
-        .string()
-        .min(1, { message: "Please enter provider name" }),
-      providerType: z
-        .string()
-        .min(1, { message: "Please enter provider type" }),
-      providerCity: z
-        .string()
-        .min(1, { message: "Please enter provider city" }),
-      providerCountry: z
-        .string()
-        .min(1, { message: "Please select provider county" }),
-      contactSurname: z.string().optional(),
-      contactTelephone: z
-        .string({ required_error: "Please enter phone number" })
-        .min(1, { message: "Please enter provider city" }),
-      providerAddress: z.string().optional(),
-      providerCounty: z.string().optional(),
-      name: z.string().optional(),
-      email: z
-        .string()
-        .min(1, { message: "Please enter email" })
-        .email("Please enter valid email"),
-      providerNotes: z
-        .string()
-        .max(200, {
-          message: "Provider Notes must contain at least 200 characters",
-        })
-        .optional(),
-      foreignProvider: z
-        .enum(["Yes", "No"])
-        .refine(
-          (value) => value !== undefined && (value === "Yes" || value === "No"),
-          {
-            message: "Please select a valid option for Foreign Provider",
-            path: ["foreignProvider"],
-          }
-        ),
-    })
+  const schema = z.object({
+    providerName: z.string().min(1, { message: "Please enter provider name" }),
+    providerType: z.string().min(1, { message: "Please enter provider type" }),
+    providerCity: z.string().min(1, { message: "Please enter provider city" }),
+    providerCountry: z
+      .string()
+      .min(1, { message: "Please select provider county" }),
+    contactSurname: z.string().optional(),
+    contactTelephone: z
+      .string({ required_error: "Please enter phone number" })
+      .min(1, { message: "Please enter provider city" }),
+    providerAddress: z.string().optional(),
+    providerCounty: z.string().optional(),
+    name: z.string().optional(),
+    email: z
+      .string()
+      .min(1, { message: "Please enter email" })
+      .email("Please enter valid email"),
+    providerNotes: z
+      .string()
+      .max(200, {
+        message: "Provider Notes must contain at least 200 characters",
+      })
+      .optional(),
+    foreignProvider: z
+      .enum(["Yes", "No"])
+      .refine(
+        (value) => value !== undefined && (value === "Yes" || value === "No"),
+        {
+          message: "Please select a valid option for Foreign Provider",
+          path: ["foreignProvider"],
+        }
+      ),
+  });
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
     mutationFn: registerTrainee,
@@ -153,7 +147,6 @@ function RegisterTrainer() {
   });
   const email = watch("email");
   console.log("errors:", errors);
-  
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
@@ -279,12 +272,14 @@ function RegisterTrainer() {
     }
   };
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     const getData = getValues();
+    const token: any = await getDeviceToken();
     const payload = {
       ...getData,
       clientId: clientId,
       otp,
+      deviceToken: token,
     };
     // @ts-ignore
     createtrainer(payload);
@@ -495,7 +490,8 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
-                      Contact Telephone No. <span className="text-red-500">*</span>
+                      Contact Telephone No.{" "}
+                      <span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
                       {...register("contactTelephone")}
@@ -550,7 +546,10 @@ function RegisterTrainer() {
                       Privacy Policy
                     </Link>
                     and
-                    <Link to={"/termsofservices"} className="text-[#042937] mx-1">
+                    <Link
+                      to={"/termsofservices"}
+                      className="text-[#042937] mx-1"
+                    >
                       Terms of Service.
                     </Link>
                   </label>

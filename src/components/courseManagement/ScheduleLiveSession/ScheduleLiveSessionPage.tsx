@@ -104,7 +104,7 @@ const ScheduleLiveSessionPage = () => {
       zoomUrl: z.string().optional(),
     })
     .superRefine((data, ctx) => {
-      if (data.platform) {
+      if (!data.platform) {
         if (!data.zoomUrl) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -342,7 +342,7 @@ const ScheduleLiveSessionPage = () => {
       companyId: compnayIds?.filter((val) => !!val) || [],
       employeeId: traineeList?.map((val) => +val?.id) || [],
       platform: data?.platform ? 1 : 0,
-      zoomApiBaseUrl: !watch("platform") ? "" : data?.zoomUrl,
+      zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
     };
 
     if (+userData?.query?.role === UserRole.Trainer) {
@@ -484,7 +484,7 @@ const ScheduleLiveSessionPage = () => {
                 />
               </div>
             </div>
-            {watch("platform") && (
+            {!watch("platform") && (
               <div className="flex flex-col gap-1">
                 <Label className="text-base text-black font-semibold font-abhaya">
                   Meeting Url

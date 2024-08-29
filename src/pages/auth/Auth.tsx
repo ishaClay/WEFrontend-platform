@@ -4,6 +4,7 @@ import PasswordInput from "@/components/comman/Input/Password";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
+import { getDeviceToken } from "@/firebaseConfig";
 import { useAppDispatch } from "@/hooks/use-redux";
 import {
   setClientRole,
@@ -219,7 +220,12 @@ function Auth() {
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
-    login_user(data);
+    const token: any = await getDeviceToken();
+    const payload = {
+      ...data,
+      deviceToken: token,
+    };
+    login_user(payload);
   };
 
   return (
