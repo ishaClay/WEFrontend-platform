@@ -77,7 +77,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
             <Progress
               color="#00778B"
               value={
-                list?.courseProgress
+                list?.course?.courseProgress
                   ? +Number(list?.course?.courseProgress).toFixed(0)
                   : 0
               }
@@ -144,7 +144,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
         </div>
         <div className="mr-0 ml-auto sm:mb-0 mb-4">
           <Button className="bg-[#00778B] text-white font-bold font-calibri sm:me-0 me-4 sm:text-base text-sm rounded-md shadow py-[12px] px-[24px] h-auto">
-            {+Number(list?.courseProgress).toFixed(0) === 100
+            {+Number(list?.course?.courseProgress).toFixed(0) === 100
               ? "view certificate"
               : "Continue"}
           </Button>

@@ -10,15 +10,16 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { deleteEmployee } from "@/services/apiServices/employee";
-import { getMemberlist } from "@/services/apiServices/member";
+import { emploteeResendInvitation, getMemberlist } from "@/services/apiServices/member";
 import { EmployeeEntity } from "@/types/Invition";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Pencil } from "lucide-react";
+import { Eye, Loader2, Pencil } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
+import { toast } from "@/components/ui/use-toast";
 
 // import { useSelector } from "react-redux";
 
@@ -36,8 +37,21 @@ function CoursesAllocate() {
     : userData?.query
     ? userData?.query?.companyDetails?.id
     : userData?.companyDetails?.id;
+  const [rowId, setRowId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+
+  const {mutate: emploteeResendInvitationFun , isPending: resendInvitationPending } = useMutation({
+    mutationFn: emploteeResendInvitation,
+    onSuccess: (data) => {
+      console.log("data123123", data);
+      setRowId(null);
+      toast({
+        description: data?.message,
+        variant: "success",
+      })
+    }
+  })
 
   const column: ColumnDef<EmployeeEntity>[] = [
     {
@@ -182,7 +196,6 @@ function CoursesAllocate() {
         );
       },
     },
-
     {
       accessorKey: "status",
       header: ({ column }) => {
@@ -261,7 +274,26 @@ function CoursesAllocate() {
         );
       },
     },
-
+    {
+      accessorKey: "resend",
+      header: () => {
+        return (
+          <Button
+            variant="ghost"
+            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+          >
+            Resend
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          row.original.employeeStatus === "IsNew" && <Button disabled={resendInvitationPending && rowId === +row?.original?.id} className="bg-[#00778b] w-[110px]" onClick={() => handleResendInvite(row?.original)}>
+           {(resendInvitationPending && rowId === +row?.original?.id) && <Loader2 className="w-5 h-5 animate-spin" /> } Resend
+          </Button>
+        );
+      },
+    },
     {
       accessorKey: "action",
       header: "",
@@ -331,6 +363,16 @@ function CoursesAllocate() {
       },
     },
   ];
+
+  const handleResendInvite = (data: EmployeeEntity) => {
+    setRowId(+data?.id)
+    const payload ={
+      email:data?.email,
+      companyId: userData?.query?.detailsid,
+    }
+    emploteeResendInvitationFun(payload)
+  }
+
   const { data, isPending: employeDataPending } = useQuery({
     queryKey: [QUERY_KEYS.MemberList, { page, search }],
     queryFn: () => getMemberlist(page.toString(), "10", companyId, search),

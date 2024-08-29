@@ -86,6 +86,7 @@ import * as zod from "zod";
 const schema = zod.object({
   firstname: zod.string().min(1, { message: "Please Enter first name" }),
   lastname: zod.string().min(1, { message: "Please Enter last name" }),
+  smeOrganisation: zod.string().min(1, { message: "Please Enter SME Organisation name" }),
   email: zod.string(),
   mobilenumber: zod
     .string()
@@ -154,6 +155,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
       setValue("firstname", data?.data?.fname);
       setValue("lastname", data?.data?.lname);
+      setValue("smeOrganisation", data?.data?.name || data?.data?.smeOrganisation);
       setValue("email", data?.data?.email);
       setValue("mobilenumber", data?.data?.number);
       setValue("gender", data?.data?.gender);
@@ -178,6 +180,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       firstName: data?.firstname,
       lastName: data?.lastname,
       gender: data?.gender,
+      smeOrganisation: data?.smeOrganisation,
       number: data?.mobilenumber,
       image: profile_image || "",
       userid: userData?.query?.id,
@@ -200,7 +203,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 gap-x-5">
             <div className="col-span-full mx-auto text-center">
               <label htmlFor="upload" className="cursor-pointer">
                 <Avatar className="w-20 h-20">
@@ -228,12 +231,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             </div>
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label={
-                  currentUser === "company" ? "SME Organisation" : "First name"
-                }
-                placeholder={
-                  currentUser === "company" ? "SME Organisation" : "First name"
-                }
+                label={"First name"}
+                placeholder={"First name"}
                 {...register("firstname")}
                 error={errors?.firstname?.message as string}
               />
@@ -241,15 +240,21 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
             <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
-                label={currentUser === "company" ? "User Name" : "Last name"}
-                placeholder={
-                  currentUser === "company" ? "User Name" : "Last name"
-                }
+                label={"Last name"}
+                placeholder={"Last name"}
                 {...register("lastname")}
                 error={errors?.lastname?.message as string}
               />
             </div>
           </div>
+          {currentUser === "company" && <div className="col-span-1 flex flex-col gap-1">
+              <InputWithLabel
+                label={"SME Organisation"}
+                placeholder={"SME Organisation"}
+                {...register("smeOrganisation")}
+                error={errors?.smeOrganisation?.message as string}
+              />
+            </div>}
           {+userData?.query.role !== 3 && (
             <div className="flex flex-col gap-1">
               <InputWithLabel

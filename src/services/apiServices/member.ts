@@ -32,3 +32,10 @@ export const getEmployeeProgress = async ({
   const res = await api({ url });
   return res.data;
 };
+
+export const emploteeResendInvitation = async (data: { email: string, companyId: number }) => {
+  const url = `api/v1/employee/resend-invitation`;
+  const method = "post";
+  const res = await api({ url, data, method });
+  return res.data;
+}
