@@ -723,7 +723,7 @@ function App() {
           />
           <Route path="mycourses" element={<MyCoursesList />} />
           <Route path="certifications" element={<CertificationsPage />} />
-          <Route path="my-accomplishments" element={<Accomplishments />} />
+          <Route path="my-accomplishments/:id" element={<Accomplishments />} />
           <Route path="faqslist" element={<FaqsListPage />} />
           <Route path="usermenual" element={<UserManualPage />} />
           <Route
