@@ -290,8 +290,93 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                   sectionIndex={sectionindex}
                   setUrlError={setUrlError}
                 />
-                <div className="mb-5">
-                  <h5 className="text-[#515151] text-sm font-calibri pb-3">
+                <div className="pb-5">
+                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+                    OR Enter Youtube Video URL
+                  </h6>
+                  <Input
+                    {...register(
+                      `modules.${index}.section.${sectionindex}.youtubeUrl`
+                    )}
+                    onChange={(e: any) =>
+                      handleAddURL(
+                        e?.target?.value,
+                        `modules.${index}.section.${sectionindex}.youtubeUrl`
+                      )
+                    }
+                    disabled={sectionItem.uploadContentType > 0}
+                    className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri 
+                      ${sectionItem.uploadContentType > 0 ? "bg-[#FBFBFB] border-[#d7d7d7]" : ""}`}
+                  />
+                  {(errors.modules?.[index]?.section?.[sectionindex]
+                    ?.youtubeUrl ||
+                    urlError) && (
+                    <FormError
+                      className="font-calibri not-italic"
+                      message={
+                        errors?.modules?.[index]?.section?.[sectionindex]
+                          ?.youtubeUrl?.message || urlError
+                      }
+                    />
+                  )}
+                </div>
+                <div className="">
+                  <div className="flex items-center justify-between pb-2">
+                    <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+                      Upload Related Document to Download
+                      <span className="text-xs">
+                        (Supported File:- .Pdf, .Ppt, docx)
+                      </span>
+                    </h6>
+                    {sectionItem.uploadDocument && (
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        onClick={() => handleRemoveFile(sectionindex)}
+                        className="p-0 h-auto hover:bg-transparent text-[#ff0000]"
+                      >
+                        Remove File
+                      </Button>
+                    )}
+                  </div>
+                  <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full flex justify-between items-center">
+                    <input
+                      placeholder={sectionItem.uploadDocument
+                        ?.split("/")
+                        .at(-1)}
+                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                      disabled
+                    />
+                    <Label
+                      htmlFor={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
+                      className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
+                    >
+                      {" "}
+                      <Link width={18} className="me-2" />
+                      Upload Attachment
+                      <input
+                        type="file"
+                        className="hidden"
+                        id={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
+                        accept=".pdf,.ppt,.docx,.pptx"
+                        onChange={(e) => handleFileSelect(e, sectionindex)}
+                      />
+                    </Label>
+                    {isPending && <Loader containerClassName="h-auto ml-3" />}
+                  </div>
+                </div>
+                {errors.modules?.[index]?.section?.[sectionindex]
+                  ?.uploadDocument && (
+                  <FormError
+                    className="font-calibri not-italic"
+                    message={
+                      errors.modules[index].section[sectionindex].uploadDocument
+                        ?.message
+                    }
+                  />
+                )}
+                <div className="mb-5 pt-5">
+                  <h5 className="text-[#515151] text-sm font-calibri pb-2">
                     Reading Time
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
@@ -389,90 +474,6 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                       }
                     />
                   )}
-                <div className="pb-5">
-                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
-                    OR Enter Youtube Video URL
-                  </h6>
-                  <Input
-                    {...register(
-                      `modules.${index}.section.${sectionindex}.youtubeUrl`
-                    )}
-                    onChange={(e: any) =>
-                      handleAddURL(
-                        e?.target?.value,
-                        `modules.${index}.section.${sectionindex}.youtubeUrl`
-                      )
-                    }
-                    disabled={sectionItem.uploadContentType > 0}
-                    className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri"
-                  />
-                  {(errors.modules?.[index]?.section?.[sectionindex]
-                    ?.youtubeUrl ||
-                    urlError) && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors?.modules?.[index]?.section?.[sectionindex]
-                          ?.youtubeUrl?.message || urlError
-                      }
-                    />
-                  )}
-                </div>
-                <div className="">
-                  <div className="flex items-center justify-between pb-2">
-                    <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
-                      Upload Related Document to Download
-                      <span className="text-xs">
-                        (Supported File:- .Pdf, .Ppt, docx)
-                      </span>
-                    </h6>
-                    {sectionItem.uploadDocument && (
-                      <Button
-                        type="button"
-                        variant={"ghost"}
-                        onClick={() => handleRemoveFile(sectionindex)}
-                        className="p-0 h-auto hover:bg-transparent text-[#ff0000]"
-                      >
-                        Remove File
-                      </Button>
-                    )}
-                  </div>
-                  <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full flex justify-between items-center">
-                    <input
-                      placeholder={sectionItem.uploadDocument
-                        ?.split("/")
-                        .at(-1)}
-                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
-                      disabled
-                    />
-                    <Label
-                      htmlFor={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
-                      className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
-                    >
-                      {" "}
-                      <Link width={18} className="me-2" />
-                      Upload Attachment
-                      <input
-                        type="file"
-                        className="hidden"
-                        id={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
-                        accept=".pdf,.ppt,.docx,.pptx"
-                        onChange={(e) => handleFileSelect(e, sectionindex)}
-                      />
-                    </Label>
-                    {isPending && <Loader containerClassName="h-auto ml-3" />}
-                  </div>
-                </div>
-                {errors.modules?.[index]?.section?.[sectionindex]
-                  ?.uploadDocument && (
-                  <FormError
-                    className="font-calibri not-italic"
-                    message={
-                      errors.modules[index].section[sectionindex].uploadDocument
-                        ?.message
-                    }
-                  />
-                )}
               </>
             ) : (
               <div className="flex sm:flex-row flex-col gap-5">
