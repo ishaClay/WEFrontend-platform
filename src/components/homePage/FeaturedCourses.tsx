@@ -24,7 +24,7 @@ const FeaturedCourses = () => {
   });
 
   console.log("clientwiseCourseslider?.data", clientwiseCourseslider?.data);
-  
+
   const settings = {
     dots: true,
     infinite: true,
@@ -104,15 +104,20 @@ const FeaturedCourses = () => {
                           <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-Droid-Regular line-clamp-3">
                             {item.content}
                           </p>
-
-                          <SecondaryButton
-                            name={item.buttonTitle}
-                            symbol={<img src="../assets/img/Move Right.png" />}
-                            className="sm:w-[195px] w-full xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
-                            onClick={() => {
-                              navigate("/our-courses");
-                            }}
-                          ></SecondaryButton>
+                          {item?.courseTitle?.id && (
+                            <SecondaryButton
+                              name={item.buttonTitle}
+                              symbol={
+                                <img src="../assets/img/Move Right.png" />
+                              }
+                              className="sm:w-[195px] w-full xl:h-[62px] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
+                              onClick={() => {
+                                navigate(
+                                  `/feature-course/${item?.courseTitle?.id}`
+                                );
+                              }}
+                            ></SecondaryButton>
+                          )}
                         </div>
 
                         <div className="sm:order-2 order-1">
