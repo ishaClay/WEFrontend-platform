@@ -8,11 +8,11 @@ const Information = ({data}: any) => {
       <div className="mb-5">
         <span
           className="xl:text-base md:text-sm text-xs text-black font-nunito"
-          dangerouslySetInnerHTML={{ __html: data?.course?.description }}
+          dangerouslySetInnerHTML={{ __html: data?.description }}
         ></span>
         <span
           className="xl:text-base md:text-sm text-xs text-black font-nunito mt-4 block"
-          dangerouslySetInnerHTML={{ __html: data?.course?.keys }}
+          dangerouslySetInnerHTML={{ __html: data?.keys }}
         ></span>
       </div>
       <div className="md:flex block items-center md:gap-8 gap-0">

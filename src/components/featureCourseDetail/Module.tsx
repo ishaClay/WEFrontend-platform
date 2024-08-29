@@ -5,7 +5,7 @@ import ModuleCourseViewCard from "../EmployeeBasicCourse/ModuleCourseViewCard";
 
 const Module = ({ data }: any) => {
 
-  const accordionItems: AccordionOption[] = data?.course?.module?.map(
+  const accordionItems: AccordionOption[] = data?.module?.map(
     (item: any) => {
       return {
         title: <ModuleCardList data={item} />,
