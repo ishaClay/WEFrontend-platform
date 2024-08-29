@@ -1,6 +1,5 @@
 import Loading from "@/components/comman/Error/Loading";
 import Information from "@/components/featureCourseDetail/Information";
-import Module from "@/components/featureCourseDetail/Module";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -23,11 +22,11 @@ const FeatureCourseDetailPage = () => {
     });
 
   return (
-    <div className="">
+    <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-6 bg-white">
       <HomeHeader />
-      <div className="bg-[#F5F7FF] p-5">
-        <div className="bg-white p-5 h-[calc(100vh-210px)] overflow-y-auto rounded-b-xl">
-          <div className="flex justify-between items-center bg-white p-5">
+      <div className="">
+        <div className="bg-white h-[calc(100vh-210px)] overflow-y-auto rounded-b-xl">
+          <div className="flex justify-between items-center bg-white py-5">
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
               {getSingleCourse?.data?.title}
             </h4>
@@ -39,7 +38,7 @@ const FeatureCourseDetailPage = () => {
               <span className="text-base font-semibold pl-4">Back</span>
             </div>
           </div>
-          <div className="bg-white">
+          <div className="py-5">
             <Tabs
               defaultValue="information"
               onValueChange={(e) => setCurrentTab(e)}
@@ -54,12 +53,6 @@ const FeatureCourseDetailPage = () => {
                   >
                     Information
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="module"
-                    className="text-base font-nunito text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
-                  >
-                    Module
-                  </TabsTrigger>
                 </div>
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
                   <div
@@ -71,11 +64,8 @@ const FeatureCourseDetailPage = () => {
                   </div>
                 </div>
               </TabsList>
-              <TabsContent value="information" className="p-5">
+              <TabsContent value="information" className="">
                 <Information data={getSingleCourse?.data} />
-              </TabsContent>
-              <TabsContent value="module" className="p-5">
-                <Module data={getSingleCourse?.data} />
               </TabsContent>
             </Tabs>
           </div>
