@@ -326,7 +326,7 @@ function Home() {
                       <div className="w-[697px] h-[357px] flex justify-between items-center">
                         <div className="w-full">
                           <h2 className="w-[413px] min-h-[40px] leading-7 xl:text-2xl text-xl font-bold text-color font-UniNeue pb-7">
-                            {item.courseTitle}
+                            {item?.courseTitle?.title}
                           </h2>
 
                           <p className="xl:w-[413px] mb-8 text-lg text-color leading-5 pr-4 font-calibri line-clamp-3">

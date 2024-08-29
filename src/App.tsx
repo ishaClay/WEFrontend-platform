@@ -49,6 +49,7 @@ import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
 import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
 import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
 import FaqsList from "./pages/FaqsList";
+import FeatureCourseDetailPage from "./pages/FeatureCourseDetailPage";
 import Home from "./pages/Home";
 import HomeContactPage from "./pages/HomeContactPage";
 import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
@@ -197,6 +198,7 @@ function App() {
         <Route path="/membership" element={<OurServicePage />} />
         <Route path="/contact" element={<HomeContactPage />} />
         <Route path="/our-courses" element={<HomeOurCoursesPage />} />
+        <Route path="/feature-course/:id" element={<FeatureCourseDetailPage />} />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/blog" element={<BlogPage />} />

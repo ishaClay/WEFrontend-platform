@@ -1,34 +1,23 @@
-import courseImage from "@/assets/images/Course_image.png";
-import atuImage from "@/assets/images/atu.png";
-import HomeHeader from "../homePage/HomeHeader";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchCoursePublishAdminClient } from "@/services/apiServices/courseManagement";
+import { useQuery } from "@tanstack/react-query";
 import HomeFooter from "../homePage/HomeFooter";
+import HomeHeader from "../homePage/HomeHeader";
 import OurCourseList from "./OurCourseList";
+import { useAppSelector } from "@/hooks/use-redux";
+import { RootState } from "@/redux/store";
 const OurCourses = () => {
-  const course = [
-    {
-      image: courseImage,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      image1: atuImage,
-    },
-    {
-      image: courseImage,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      image1: atuImage,
-    },
-    {
-      image: courseImage,
-      title:
-        "Certificate in the Sustainable Development Goals, Partnership, People, Planet and Prosperity",
-      image1: atuImage,
-    },
-  ];
+  const { clientId } = useAppSelector((state: RootState) => state.user);
+
+  const { data: course } = useQuery({
+    queryKey: [QUERY_KEYS.coursePublishAdminClient],
+    queryFn: () => fetchCoursePublishAdminClient(+clientId),
+  });
   return (
     <>
       <HomeHeader />
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 md:px-3 px-4 py-7">
-        {course.map((data: any, index: number) => {
+        {course?.data?.map((data: any, index: number) => {
           return <OurCourseList key={index} data={data} />;
         })}
       </div>

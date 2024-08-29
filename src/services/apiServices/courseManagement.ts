@@ -107,6 +107,14 @@ export const fetchSingleCourseById = async (
   return res.data;
 };
 
+export const fetchFeatureCourseById = async (
+  id?: string
+): Promise<GetSingleCourseByIdType> => {
+  const url = `api/v1/course/getOne/${id}`;
+  const res = await api({ url });
+  return res.data;
+};
+
 export const updateCourse = (data: {
   payload: courseRequest;
   id: string;
@@ -192,3 +200,9 @@ export const createInquiry = async (data: { courseId: number, userId: number }) 
   const res = await api({ url, data, method });
   return res.data;
 }
+
+export const fetchCoursePublishAdminClient = async (id: number) => {
+  const url = `api/v1/client/coursePublishAdminClient/?clientId=${id}`;
+  const res = await api({ url });
+  return res?.data
+};

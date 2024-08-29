@@ -22,6 +22,9 @@ const FeaturedCourses = () => {
     queryFn: () => getCourseSlider(clientId.toString(), "Active"),
     enabled: !!clientId,
   });
+
+  console.log("clientwiseCourseslider?.data", clientwiseCourseslider?.data);
+
   const settings = {
     dots:
       clientwiseCourseslider && clientwiseCourseslider?.data!.length > 1
