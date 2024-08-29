@@ -39,7 +39,7 @@ const AccordionHome = () => {
         {isLoading ? (
           <Loader className="h-10 w-10" />
         ) : (
-          <div className="md:flex block xl:gap-[60px] gap-[40px] xl:mt-[50px] mt-[25px]">
+          <div className="md:flex block xl:gap-[60px] gap-[40px] xl:mt-[40px] mt-[25px]">
             <div className="w-full">
               <Accordions
                 items={accordionItems?.slice(0, 3)}

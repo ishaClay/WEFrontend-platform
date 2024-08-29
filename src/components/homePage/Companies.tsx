@@ -18,7 +18,7 @@ const Companies = () => {
             means—it’s a tall demand to expect you to take the steadfast
             journey.
             <br />
-            <span className="text-[#479D5A]">
+            <span className="text-[#75BD43]">
               But with the right support? We’d think it’d be a different story
               for you…
             </span>

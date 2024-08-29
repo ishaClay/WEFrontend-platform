@@ -1,20 +1,29 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar, Doughnut, Line } from "react-chartjs-2";
 
 import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import {
+  getDashbooardSme3,
+  getEnrolledCourses,
   getFirstInfirgraphicChart,
   getSmeDashboardData,
 } from "@/services/apiServices/dashboard";
-import { AssesmentDashboardData, DashboardData } from "@/types/dashboard";
+import {
+  AssesmentDashboardData,
+  DashboardData,
+  SMEDashboard3Response,
+  SMEEnrollDashboardResponse,
+} from "@/types/dashboard";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+  ArcElement,
   BarElement,
   CategoryScale,
   Chart,
@@ -26,6 +35,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import Loading from "./comman/Error/Loading";
 
 Chart.register(
   CategoryScale,
@@ -36,7 +46,8 @@ Chart.register(
   Title,
   TimeScale,
   Legend,
-  Tooltip
+  Tooltip,
+  ArcElement
 );
 
 const employeeData = [
@@ -100,7 +111,7 @@ const Dashboard = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-[15px] text-xs font-inter text-black">
-            {row.original?.ID}
+            {row.index + 1}
           </h6>
         );
       },
@@ -120,7 +131,7 @@ const Dashboard = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
-            {row.original?.CourseName}
+            {row.original?.title}
           </h6>
         );
       },
@@ -129,18 +140,18 @@ const Dashboard = () => {
       },
     },
     {
-      accessorKey: "Category",
+      accessorKey: "duration",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Category
+            Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.Category}
+            {row.original?.duration}
           </h6>
         );
       },
@@ -149,41 +160,18 @@ const Dashboard = () => {
       },
     },
     {
-      accessorKey: "Level",
+      accessorKey: "status",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Level
-          </h5>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center">
-            <div className="w-3.5 h-3.5 bg-[#FFD56A] rounded-sm me-2"></div>
-            <h6 className="text-xs font-inter text-black">
-              {row.original?.Level}
-            </h6>
-          </div>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
-      },
-    },
-    {
-      accessorKey: "Rating",
-      header: () => {
-        return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Rating
+            Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.Rating}
+            {row.original?.status}
           </h6>
         );
       },
@@ -193,19 +181,43 @@ const Dashboard = () => {
     },
   ];
 
-  const { data: firstInfirgraphicChart } = useQuery<AssesmentDashboardData>({
-    queryKey: ["getFirstInfirgraphicChart"],
-    queryFn: () =>
-      getFirstInfirgraphicChart({
-        userId: userData?.query?.id,
-        clientId: clientId,
-      }),
-  });
+  const { data: firstInfirgraphicChart, isLoading } =
+    useQuery<AssesmentDashboardData>({
+      queryKey: ["getFirstInfirgraphicChart"],
+      queryFn: () =>
+        getFirstInfirgraphicChart({
+          userId: userData?.query?.id,
+          clientId: clientId,
+        }),
+    });
 
-  const { data: smeDashboardData } = useQuery<DashboardData>({
-    queryKey: ["getSmeDashboardData"],
-    queryFn: () => getSmeDashboardData({ userId: userData?.query?.detailsid }),
-  });
+  const { data: smeDashboardData, isLoading: smeLoading } =
+    useQuery<DashboardData>({
+      queryKey: ["getSmeDashboardData"],
+      queryFn: () =>
+        getSmeDashboardData({ userId: userData?.query?.detailsid }),
+    });
+
+  const { data: smeDashboardData3, isLoading: smeLoading3 } =
+    useQuery<SMEDashboard3Response>({
+      queryKey: ["getDashbooardSme3"],
+      // queryFn: () => getDashbooardSme3({ userId: 441 }),
+      queryFn: () => getDashbooardSme3({ userId: userData?.query?.detailsid }),
+    });
+
+  const { data: getEnrolledCoursesData, isLoading: smeLoading4 } =
+    useQuery<SMEEnrollDashboardResponse>({
+      queryKey: ["getEnrolledCourses"],
+      // queryFn: () => getDashbooardSme3({ userId: 441 }),
+      queryFn: () => getEnrolledCourses(),
+    });
+
+  const currentYear = new Date().getFullYear();
+  const currentYearData = getEnrolledCoursesData?.data
+    ?.filter((item) => item.month.startsWith(currentYear.toString()))
+    .map((item) => item.enrollmentsCount);
+
+  console.log("smeDashboardData", currentYearData);
 
   const data = {
     labels: [
@@ -279,30 +291,30 @@ const Dashboard = () => {
     ],
     datasets: [
       {
-        label: "My First Dataset",
-        data: [50, 25, 37, 50, 15, 75, 90, 60, 30, 20, 60, 30],
+        label: "Enroll Course",
+        data: currentYearData,
         backgroundColor: [
           "#0263FF",
-          "#FF7723",
-          "#8E30FF",
+          "#0263FF",
+          "#0263FF",
 
-          "#A446AA",
-          "#A98D46",
-          "#7884FE",
-          "#96E6E3",
-          "#5EA9D6",
-          "#4B16FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
         ],
         borderColor: [
           "#0263FF",
-          "#FF7723",
-          "#8E30FF",
-          "#A446AA",
-          "#A98D46",
-          "#7884FE",
-          "#96E6E3",
-          "#5EA9D6",
-          "#4B16FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
+          "#0263FF",
         ],
         borderWidth: 1,
       },
@@ -325,14 +337,101 @@ const Dashboard = () => {
     },
   };
 
+  const data3 = {
+    labels: ["Total Course", "Total Completed Course"],
+    datasets: [
+      {
+        label: "Poll",
+        data: [
+          smeDashboardData3?.data?.overView?.completedCourse,
+          // @ts-ignore
+          100 - smeDashboardData3?.data?.overView?.completedCourse,
+        ],
+        backgroundColor: ["#63B32E", "#E8E8E8"],
+      },
+    ],
+  };
+
+  const data4 = {
+    labels: ["Total Course", "Total Completed Course"],
+    datasets: [
+      {
+        label: "Poll",
+        data: [
+          smeDashboardData3?.data?.employeePerformanceOverview
+            ?.coursesCompletion,
+          100 -
+            // @ts-ignore
+            smeDashboardData3?.data?.employeePerformanceOverview
+              ?.coursesCompletion,
+        ],
+        backgroundColor: ["#63B32E", "#E8E8E8"],
+      },
+    ],
+  };
+
+  const textCenter = {
+    id: "textCenter",
+    beforeDatasetDraw(chart: any) {
+      const { ctx, data } = chart;
+      ctx.save();
+      ctx.font = "bold 25px sans-serif";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(
+        `${Math.round(data.datasets[0].data[0])}%`,
+        chart.getDatasetMeta(0).data[0].x,
+        chart.getDatasetMeta(0).data[0].y
+      );
+      ctx.restore();
+    },
+  };
+
+  const options = {
+    cutout: "80%",
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            let label = context.label || "";
+            if (label) {
+              label += ": ";
+            }
+            label += Math.round(context.parsed) + "%";
+            return label;
+          },
+        },
+      },
+    },
+  };
+
   const [activeButton, setActiveButton] = useState(null);
   console.log(activeButton);
   const handleClick = (buttonName: any) => {
     setActiveButton(buttonName);
   };
+
+  const openSupportTicket =
+    smeDashboardData?.data?.supportTickets?.open &&
+    Object.values(smeDashboardData?.data?.supportTickets?.open).reduce(
+      (a: number, b: number) => a + b,
+      0
+    );
+
+  const resolveSupportTicket =
+    smeDashboardData?.data?.supportTickets?.resolved &&
+    Object.values(smeDashboardData?.data?.supportTickets?.resolved).reduce(
+      (a: number, b: number) => a + b,
+      0
+    );
+
   return (
     <div className="rounded-xl">
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-6">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
           onClick={() => handleClick("companies")}
@@ -373,7 +472,7 @@ const Dashboard = () => {
           </h2>
           <p className="text-base text-black font-calibri">Upcoming Courses</p>
         </button>
-        <button
+        {/* <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
           onClick={() => handleClick("companies")}
         >
@@ -384,6 +483,246 @@ const Dashboard = () => {
             30
           </h2>
           <p className="text-base text-black font-calibri">Completed Courses</p>
+        </button> */}
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">Action Items</h3>
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Trainers} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData?.data?.totalActionItems?.metric}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Action Items
+          </p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Total_courses} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData?.data?.pendingActionItems}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Pending Items
+          </p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Companies} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData?.data?.totalActionItems?.report?.delayed}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Delayed Action Items
+          </p>
+        </button>
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Companies} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData?.data?.totalActionItems?.report?.completed}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Completed Action Items
+          </p>
+        </button>
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Support Ticket
+      </h3>
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Trainers} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {openSupportTicket + resolveSupportTicket}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Support Ticket
+          </p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Total_courses} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {openSupportTicket}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Open Support Ticket
+          </p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Companies} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {resolveSupportTicket}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Resolve Support Ticket
+          </p>
+        </button>
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Course OverView
+      </h3>
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Trainers} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData3?.data?.overView?.totalCourse}
+          </h2>
+          <p className="text-base text-black font-calibri">Total Course</p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Total_courses} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData3?.data?.overView?.onGoingCourse}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Ongoing Course
+          </p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Companies} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData3?.data?.overView?.completedCourse}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Complated Course
+          </p>
+        </button>
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Employee Performance OverView
+      </h3>
+      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+        <div className="col-span-2 bg-[#FFFFFF] rounded-lg shadow-sm p-5 flex items-center justify-around">
+          <div className="w-60 text-center">
+            <p className="text-[16px] font-nunito font-bold mb-4">
+              Course Complation Rate
+            </p>
+            <div className="w-40 h-40 mt-0 relative mx-auto">
+              <Doughnut data={data3} options={options} plugins={[textCenter]} />
+            </div>
+            <div className="flex items-center gap-6 justify-center mt-4">
+              <div className="text-center">
+                <h3>{smeDashboardData3?.data?.overView?.totalCourse}</h3>
+                <p className="font-nunito font-bold text-slate-600">Course</p>
+              </div>
+              <div className="text-center">
+                <h3>{smeDashboardData3?.data?.overView?.completedCourse}</h3>
+                <p className="font-nunito font-bold text-slate-600">
+                  Complations
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="w-60 text-center">
+            <p className="text-[16px] font-nunito font-bold mb-4">
+              Employee Complation Rate
+            </p>
+            <div className="w-40 h-40 mt-0 relative mx-auto">
+              <Doughnut data={data4} options={options} plugins={[textCenter]} />
+            </div>
+            <div className="flex items-center gap-6 justify-center mt-4">
+              <div className="text-center">
+                <h3>
+                  {
+                    smeDashboardData3?.data?.employeePerformanceOverview
+                      ?.totalCourse
+                  }
+                </h3>
+                <p className="font-nunito font-bold text-slate-600">Course</p>
+              </div>
+              <div className="text-center">
+                <h3>
+                  {smeDashboardData3?.data?.employeePerformanceOverview
+                    ?.coursesCompletion || 0}
+                </h3>
+                <p className="font-nunito font-bold text-slate-600">
+                  Complations
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Trainers} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse}
+          </h2>
+          <p className="text-base text-black font-calibri">Total Course</p>
+        </button>
+
+        <button
+          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
+          onClick={() => handleClick("companies")}
+        >
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={Total_courses} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
+            {smeDashboardData3?.data?.employeePerformanceOverview
+              ?.coursesCompletion || 0}
+          </h2>
+          <p className="text-base text-black font-calibri">
+            Total Complation Course
+          </p>
         </button>
       </div>
 
@@ -435,7 +774,7 @@ const Dashboard = () => {
             <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                data={employeeData}
+                data={smeDashboardData?.data?.upcomingCoursesList || []}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
@@ -444,6 +783,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Loading
+        isLoading={isLoading || smeLoading || smeLoading3 || smeLoading4}
+      />
     </div>
   );
 };

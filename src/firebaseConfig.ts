@@ -35,48 +35,47 @@ export const getDeviceToken = async () => {
 
   // if (permission === "granted") {
   // }
-
   try {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      console.log("Notification permission granted.");
-      // Get the registration token
-      const message = await messaging();
-      if (!message) return;
-      const token = await getToken(message, {
-        vapidKey: import.meta.env.VITE_CLOUD_MESSAGE_VAPIDKEY,
-      });
-      if (token) {
-        return token;
-        // You can send the token to your server here
-      }
-    } else {
-      console.warn("Notification permission denied.");
-    }
+    const message = await messaging();
+    if (!message) return;
+
+    const token = await getToken(message, {
+      vapidKey: import.meta.env.VITE_CLOUD_MESSAGE_VAPIDKEY,
+    });
+
+    return token;
   } catch (error) {
-    console.error(
-      "Error requesting notification permission or getting token",
-      error
-    );
+    console.error("Error: ", error);
   }
 };
-
 export const onMessageListener = async () => {
   const message = await messaging();
   if (!message) return;
   return new Promise((resolve) => {
-    onMessage(message, (payload: any) => {
+    onMessage(message, (payload) => {
       resolve(payload);
     });
   });
 };
 
-// messaging.onBackgroundMessage((payload) => {
-//     const notificationTitle = payload.notification?.title || 'Default Title';
-//     const notificationOptions = {
-//         body: payload.notification?.body || 'Default Body',
-//         icon: './favicon.ico',
-//     };
+async function requestPermission() {
+  try {
+    await Notification.requestPermission();
+    console.log('Notification permission granted.');
+  } catch (error) {
+    console.error('Error requesting notification permission', error);
+  }
+}
 
-//     self.registration.showNotification(notificationTitle, notificationOptions);
-// });
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../public/firebase-messaging-sw.js')
+    .then((registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch((error) => {
+      console.error('Service Worker registration failed:', error);
+    });
+}
+
+// Call function to request permission
+requestPermission();

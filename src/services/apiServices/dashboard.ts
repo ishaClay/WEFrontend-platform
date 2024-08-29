@@ -19,8 +19,15 @@ export const getDashbooardSme3 = async ({ userId }: { userId: string }) => {
     return res.data
 }
 
-export const getTraineeDashboardData = async ({ userId }: { userId: string }) => {
-    const url = `api/v1/dashboard/TrainerDashboardCountData/${userId}`;
+export const getEnrolledCourses = async () => {
+    const url = `api/v1/course/enroll/trend`;
+    const res = await api({ url });
+    return res.data
+}
+
+
+export const getUpcommingLiveSession = async ({ userId }: { userId: string }) => {
+    const url = `api/v1/dashboard/getemployeeLiveSession/${userId}`;
     const res = await api({ url });
     return res.data
 }
