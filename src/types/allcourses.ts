@@ -166,3 +166,40 @@ export interface Pillarcourse {
   id: number;
   pillarName: string;
 }
+
+export interface CoursePublishAdminClientData {
+  id: number;
+  title: string;
+  institute: string;
+  instituteWebsite: string;
+  instituteWebsite2: string;
+  freeCourse: number;
+  discout: number;
+  discountApplicable: number;
+  provider: number;
+  ectsCredits: string;
+  fetCredits: string;
+  certificate: string | null;
+  time: number;
+  isOnline: number;
+  universityAddress: string;
+  duration: string;
+  price: number;
+  instituteOther: string;
+  otherInstitutionName: string | null;
+  description: string;
+  bannerImage: string;
+  keys: string;
+  courseData: Array<{
+    pillarId: number;
+    maturityId: number;
+  }>;
+  status: string;
+  publishDate: string;
+  step: string;
+  tab: string;
+  creationCompleted: boolean;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

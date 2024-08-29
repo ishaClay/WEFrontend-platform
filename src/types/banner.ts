@@ -27,7 +27,7 @@ export interface HomeCourseSlidersResponse {
 export interface DataEntity {
   id: number;
   courseType: string;
-  courseTitle: string;
+  courseTitle: any;
   content: string;
   courseImage: string;
   buttonTitle: string;
