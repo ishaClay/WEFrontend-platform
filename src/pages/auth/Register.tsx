@@ -36,6 +36,7 @@ import { useAppDispatch } from "@/hooks/use-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { setPath } from "@/redux/reducer/PathReducer";
+import Cookies from "js-cookie";
 
 const schema = z
   .object({
@@ -94,6 +95,7 @@ function Register() {
   const { mutate: logout, isPending: logoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       dispatch(setPath([]));
     },

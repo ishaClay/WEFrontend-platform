@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 interface textProps {
-  headings: string;
+  headings?: string;
   blacktext: string;
   pinktext: string;
 }

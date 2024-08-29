@@ -37,6 +37,7 @@ import { CountryResponse } from "@/types/Company";
 import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
@@ -157,6 +158,7 @@ function RegisterTrainer() {
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", defEmail || "");

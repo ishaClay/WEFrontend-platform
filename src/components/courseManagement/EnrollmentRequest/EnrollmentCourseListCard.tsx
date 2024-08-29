@@ -94,7 +94,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       senderId: UserId,
       receiverId: company,
       message: data?.title,
-      images: [data?.course?.bannerImage],
+      images: [],
     };
     handleSend(payload);
   };

@@ -21,6 +21,8 @@ interface SectionFormProps {
   watch: any;
   setValue: any;
   isLoading: boolean;
+  urlError: string;
+  setUrlError: (e: any) => void;
 }
 
 const SectionForm = ({
@@ -30,6 +32,8 @@ const SectionForm = ({
   register,
   sectionID,
   isLoading,
+  urlError,
+  setUrlError,
   handleRemoveSection,
 }: SectionFormProps) => {
   const [attechmentName, setAttechment] = useState("");
@@ -77,6 +81,23 @@ const SectionForm = ({
       });
     }
   };
+
+  const handleAddURL = (e: string, name: any) => {
+    if (
+      !e.match(
+        /^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtu(?:\.be|\.com)\/(?:(?:embed\/|e\/|v\/|watch\?v=|watch\/\S*\/)?)([\w\-]{11})(?:\S*)?$/
+      )
+    ) {
+      setUrlError("please enter Invalid YouTube URL");
+    } else {
+      setUrlError("");
+      setValue(name, e);
+    }
+  };
+
+  console.log("watchwatch", watch());
+  
+console.log("errorserrors", errors?.sectionTitle);
 
   return (
     <div className="p-5 border-t border-[#D9D9D9]">
@@ -144,6 +165,7 @@ const SectionForm = ({
             register={register}
             setValue={setValue}
             data={section}
+            setUrlError={setUrlError}
           />
           <div className="mb-5">
             <h5 className="text-[#515151] text-sm font-calibri pb-3">
@@ -226,13 +248,19 @@ const SectionForm = ({
             </h6>
             <Input
               {...register("youtubeUrl")}
+              onChange={(e: any) =>
+                handleAddURL(
+                  e?.target?.value,
+                  `youtubeUrl`
+                )
+              }
               disabled={section?.uploadContentType > 0}
               className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
             />
-            {errors?.youtubeUrl && (
+            {errors?.youtubeUrl || urlError && (
               <FormError
                 className="font-calibri not-italic"
-                message={errors?.youtubeUrl?.message}
+                message={errors?.youtubeUrl?.message || urlError}
               />
             )}
           </div>

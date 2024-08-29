@@ -20,6 +20,7 @@ interface UploadContentProps {
   register: any;
   setValue: any;
   errors: any;
+  setUrlError: (e: any) => void;
 }
 
 const UploadContent = ({
@@ -28,6 +29,7 @@ const UploadContent = ({
   data,
   moduleIndex,
   sectionIndex,
+  setUrlError
 }: UploadContentProps) => {
   const [isOpenUploadDocumnet, setIsOpenUploadDocumnet] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -44,6 +46,7 @@ const UploadContent = ({
       setUploadProgress(100);
     }
   }, [data]);
+console.log("data++++", data);
 
   const onSelectedDocumentType = (type: number) => {
     setIsOpenUploadDocumnet(false);
@@ -53,8 +56,14 @@ const UploadContent = ({
         type
       );
       setValue(`modules.${moduleIndex}.section.${sectionIndex}.youtubeUrl`, "");
+      setUrlError("")
     } else {
       setValue(`uploadContentType`, type);
+      setValue(
+        `youtubeUrl`,
+        ""
+      );
+      setUrlError("")
     }
   };
 
@@ -98,11 +107,17 @@ const UploadContent = ({
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(`uploadedContentUrl`, 0);
     } else {
+      const fileInput = document.getElementById(`modules.${moduleIndex}.section.${sectionIndex}`) as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Clear the file input value
+      }
       setValue(`uploadedContentUrl`, "");
     }
     setFileName("");
     setUploadProgress(0);
   };
+  console.log("data1234", data);
+  
 
   const handleDropEvent = (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -148,16 +163,20 @@ const UploadContent = ({
   }
 
   const removeUploadContent = () => {
-    console.log(
-      "setIsOpenUploadDocumnet",
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`
-    );
-    setValue(`uploadContentType`, 0);
-    setValue(
-      `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
-      ""
-    );
-  };
+    console.log("setIsOpenUploadDocumnet", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`);
+    if (moduleIndex !== undefined && sectionIndex !== undefined) {
+      setValue(`modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`, 0);
+      setValue(`modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`, "");
+    } else{
+      setValue(`uploadContentType`, 0);
+      setValue(`uploadedContentUrl`, "");
+    }
+    setUploadProgress(0);
+    setFileName("");
+  }
+
+  console.log("data+++", data);
+  
 
   return (
     <div className="">

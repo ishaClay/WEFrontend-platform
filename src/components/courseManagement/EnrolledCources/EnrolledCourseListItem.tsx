@@ -64,11 +64,11 @@ const EnrolledCourseListItem = ({
             </div>
           </div>
           <h5 className="text-[#1D2026] text-left font-bold text-base sm:pb-4 pb-3">
-            {data?.course.title}
+            {data?.course?.title}
           </h5>
           <h6 className="flex font-calibri md:text-base text-sm text-[#1D2026] pb-2">
             <span>Trainer :</span>
-            {data?.course.trainerCompanyId?.providerName ||
+            {data?.course?.trainerCompanyId?.providerName ||
               data?.course?.trainerId?.providerName}
           </h6>
           <div className="flex sm:flex-row flex-col flex-wrap sm:items-center items-start sm:gap-[19px] gap-2">

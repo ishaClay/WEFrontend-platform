@@ -158,10 +158,10 @@ const HomeFooter = () => {
                   Our Courses
                 </Link>
                 <Link
-                  to={"/membership"}
+                  to={"/register"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
-                  Membership
+                  Join Us
                 </Link>
                 <Link
                   to={"/blog"}

@@ -18,6 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
 import { setPath } from "@/redux/reducer/PathReducer";
+import Cookies from "js-cookie";
 
 interface SidebarItem {
   label: string;
@@ -67,6 +68,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
+      Cookies.remove('accessToken');
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));

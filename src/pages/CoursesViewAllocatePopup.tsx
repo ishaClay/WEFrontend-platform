@@ -201,6 +201,9 @@ function CourseViewAllocatePopup({
     }
   };
 
+  console.log("courseData", courseData);
+  
+
   return (
     <Modal
       open={isOpen}
@@ -246,26 +249,27 @@ function CourseViewAllocatePopup({
                         </div>
                       );
                     })} */}
-                      <p className="flex items-center gap-2">
-                        <img
-                          className="w-[18px]"
-                          src={getImages("Social", false)}
-                          alt="Image Alt Text"
-                        />
-                        Social
-                      </p>
-                      <p className="flex items-center gap-2">
-                        <img
-                          className="w-[20px]"
-                          src={getImages("Technology & Innovation", false)}
-                          alt="Image Alt Text"
-                        />
-                        Technology & Innovation
-                      </p>
+                    {courseData?.course?.courseData?.map(
+                        (item: any) => {
+                          return (
+                            <p className="flex items-center gap-3">
+                              <img
+                                className="w-[18px]"
+                                src={getImages(
+                                  item?.fetchPillar?.pillarName,
+                                  false
+                                )}
+                                alt="Image Alt Text"
+                              />
+                              {item?.fetchPillar?.pillarName}
+                            </p>
+                          );
+                        }
+                      )}
                       <div className="flex items-center gap-2">
                         <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                         <span className="text-[black] font-bold text-base mt-0.5">
-                          4.5
+                          {courseData?.course?.avgRating || 0}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">

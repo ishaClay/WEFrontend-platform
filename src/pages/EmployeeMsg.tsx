@@ -82,7 +82,7 @@ function EmployeeMsg() {
                 <input
                   type="text"
                   placeholder="Search by name"
-                  className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus: focus:border-[#D9D9D9] w-full md:w-[298px] placeholder-[#D9D9D9]"
+                  className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus: focus:border-[#4b4b4b] w-full md:w-[298px] placeholder-[#D9D9D9]"
                 />
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <BsSearch className="text-[#D9D9D9]" />

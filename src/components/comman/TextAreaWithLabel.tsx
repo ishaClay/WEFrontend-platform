@@ -71,7 +71,7 @@ const TextAreaWithLabel = forwardRef<HTMLTextAreaElement, InputWithLabelProps>(
             ref={ref}
             value={value}
             maxLength={maxLength}
-            className={`resize-none overflow-hidden ${className}`}
+            className={`resize-none overflow-hidden focus:border-[#4b4b4b] shadow-none outline-none ${className}`}
             onChange={handleInputChange}
             {...rest}
           />

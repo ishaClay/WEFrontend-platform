@@ -245,7 +245,7 @@ function CourseListView({
                       src={diploma}
                       alt="diploma"
                     />
-                    <p className="text-xs">Post Graduate Diploma</p>
+                    <p className="text-xs">{recommendeddata?.universityAddress || "--"}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     <img
@@ -290,7 +290,7 @@ function CourseListView({
                       src={unversity}
                       alt="unversity"
                     />
-                    <p className="text-xs">Atlantic Technological University</p>
+                    <p className="text-xs">{recommendeddata?.otherInstitutionName || "--"}</p>
                   </div>
                 </div>
               </div>

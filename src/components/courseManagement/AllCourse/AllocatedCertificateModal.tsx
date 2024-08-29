@@ -147,9 +147,9 @@ export function AllocatedCertificateModal({
     onSuccess: (data) => {
       if (data?.data?.trainerExist?.length > 0) {
         toast({
-          title: "Success",
+          title: "Error",
           description: "Trainer invitation Already send.",
-          variant: "success",
+          variant: "destructive",
         });
       } else {
         toast({

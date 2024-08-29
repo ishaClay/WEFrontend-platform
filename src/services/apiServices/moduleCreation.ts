@@ -149,7 +149,7 @@ export const deleteSection = async (sectionId: any) => {
   return res
 }
 export const deleteLiveSection = async (sectionId: any) => {
-  const url = `/api/v1/course/module/section/deletelive/${sectionId}`,
+  const url = `/api/v1/course/module/section/delete/${sectionId}`,
     method = "delete";
   const res = await api({ url, method });
   return res

@@ -11,6 +11,7 @@ import { TfiBook } from "react-icons/tfi";
 import { Link } from "react-router-dom";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import Cookies from "js-cookie";
 
 const EmployeeListSidebar = () => {
   const [isOpen1, setIsOpen1] = useState(false);
@@ -159,7 +160,7 @@ const EmployeeListSidebar = () => {
       <AlertLogOutDialog
         isOpen={isAlertOpen}
         onClose={() => setIsAlertOpen(false)}
-        onConfirm={() => localStorage.clear()}
+        onConfirm={() => {localStorage.clear(); Cookies.remove('accessToken');}}
       />
     </>
   );

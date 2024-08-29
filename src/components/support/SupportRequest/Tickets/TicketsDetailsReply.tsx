@@ -230,7 +230,7 @@ const TicketsDetailsReply = () => {
             <div className="flex gap-[28px]">
               <div className="flex items-center gap-[9px]">
                 <span>Status: </span>
-                <Button
+                {data?.data?.data?.status && <Button
                   type="button"
                   className={`rounded-[15px] bg-transparent p-0 h-auto ${
                     data?.data?.data?.status === "Open"
@@ -241,11 +241,11 @@ const TicketsDetailsReply = () => {
                   }`}
                 >
                   {data?.data?.data?.status}
-                </Button>
+                </Button>}
               </div>
               <div className="flex items-center gap-[9px]">
                 <span>Priority: </span>
-                <Button
+                {data?.data?.data?.priority &&<Button
                   type="button"
                   className={`rounded-[15px] px-[10px] py-[2px] h-auto ${
                     data?.data?.data?.priority === "Medium"
@@ -256,7 +256,7 @@ const TicketsDetailsReply = () => {
                   }`}
                 >
                   {data?.data?.data?.priority}
-                </Button>
+                </Button>}
               </div>
             </div>
           </div>
@@ -378,7 +378,7 @@ const TicketsDetailsReply = () => {
                 value={String(selectAssingValue)}
               >
                 <SelectGroup>
-                  <SelectLabel className="text-[16px] font-[400]">
+                  <SelectLabel className="text-[16px] font-[400] mt-0">
                     Assign To
                   </SelectLabel>
 
@@ -500,7 +500,7 @@ const TicketsDetailsReply = () => {
           <textarea
             placeholder="Enter Details"
             {...register("details")}
-            className="w-full h-[200px] border solid 1px gray rounded-[10px] sm:mt-[34px] mt-5 p-[17px]"
+            className="w-full h-[200px] border solid 1px gray focus:border-[#4b4b4b] shadow-none outline-none rounded-[10px] sm:mt-[34px] mt-5 p-[17px]"
           />
           {errors?.details && (
             <ErrorMessage message={errors?.details?.message as string} />
