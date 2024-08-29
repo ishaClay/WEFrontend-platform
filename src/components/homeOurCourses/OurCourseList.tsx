@@ -4,9 +4,10 @@ import fulltimeImage from "@/assets/images/fulltime.png";
 import onlineImage from "@/assets/images/online.png";
 import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
-import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { UserRole } from "@/types/UserRole";
 import { CoursePublishAdminClientData } from "@/types/allcourses";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 type OurCoursrseListProps = {
   data: CoursePublishAdminClientData;
@@ -15,6 +16,7 @@ type OurCoursrseListProps = {
 const OurCourseList = ({ data }: OurCoursrseListProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
       <div className="relative min-h-[170px] h-[170px] overflow-hidden">
@@ -89,7 +91,9 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           type="button"
           onClick={() => {
             if (userData) {
-              navigate("/");
+              navigate(
+                `/${UserRole[userData?.query?.role]?.toLowerCase()}/dashboard`
+              );
             } else {
               navigate("/auth");
             }
