@@ -78,7 +78,7 @@ const employeeData = [
 
 const DashboardTrainee = () => {
   const [page, setPage] = useState(0);
-  const userData = JSON.parse(localStorage.getItem("user") as string);
+  // const userData = JSON.parse(localStorage.getItem("user") as string);
   console.log("+++", page);
   const column: ColumnDef<any>[] = [
     {
@@ -191,7 +191,7 @@ const DashboardTrainee = () => {
   //   queryFn: () => getTraineeDashboardData({ userId: userData?.query?.id }),
   // });
 
-  console.log("smeDashboardData", smeDashboardData);
+  // console.log("smeDashboardData", smeDashboardData);
 
   const data = {
     labels: [
@@ -328,7 +328,7 @@ const DashboardTrainee = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.metric}
+            {/* {smeDashboardData?.data?.totalActionItems?.metric} */}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Action Items
@@ -343,7 +343,7 @@ const DashboardTrainee = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.pendingActionItems}
+            {/* {smeDashboardData?.data?.pendingActionItems} */}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Pending Items
@@ -358,7 +358,7 @@ const DashboardTrainee = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.report?.delayed}
+            {/* {smeDashboardData?.data?.totalActionItems?.report?.delayed} */}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Delayed Action Items
@@ -372,7 +372,7 @@ const DashboardTrainee = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.report?.completed}
+            {/* {smeDashboardData?.data?.totalActionItems?.report?.completed} */}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Completed Action Items
