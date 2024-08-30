@@ -196,23 +196,23 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           "isOnline",
           getSingleCourse?.data?.course?.isOnline?.toString()
         );
-        setSelectBoxValue({
-          ...selectBoxValue,
+        setSelectBoxValue((prev: any) => ({
+          ...prev,
           durationType: data?.duration?.split(" ")?.[1]?.toString(),
           time: getSingleCourse?.data?.course?.time?.toString(),
           isOnline: getSingleCourse?.data?.course?.isOnline?.toString(),
-        });
+        }));
         setValue("durationType", data?.duration?.split(" ")?.[1]?.toString());
       });
     } else {
       setValue("time", "");
       setValue("isOnline", "");
-      setSelectBoxValue({
-        ...selectBoxValue,
+      setSelectBoxValue((prev: any) => ({
+        ...prev,
         time: "",
         isOnline: "",
         durationType: "",
-      });
+      }));
     }
   }, [getSingleCourse, setValue]);
 
