@@ -120,7 +120,7 @@ const ModuleCreationItems = ({
         /^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtu(?:\.be|\.com)\/(?:(?:embed\/|e\/|v\/|watch\?v=|watch\/\S*\/)?)([\w\-]{11})(?:\S*)?$/
       )
     ) {
-      setUrlError("please enter Invalid YouTube URL");
+      setUrlError("please enter valid YouTube URL");
     } else {
       setUrlError("");
       setValue(name, e);
@@ -132,7 +132,7 @@ const ModuleCreationItems = ({
     tempDiv.innerHTML = html;
     return tempDiv.textContent || tempDiv.innerText || "";
   };
-console.log("watch+++++", watch(`modules.${index}.section`));
+  console.log("watch+++++", watch(`modules.${index}.section`));
 
   return (
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
@@ -235,7 +235,7 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                     const data = editor.getData();
                     const plainText = stripHtmlTags(data);
                     console.log("event", event);
-                    
+
                     if (plainText.length > 5000) {
                       setCharCount(5000);
                       setInformationError(
@@ -305,8 +305,12 @@ console.log("watch+++++", watch(`modules.${index}.section`));
                       )
                     }
                     disabled={sectionItem.uploadContentType > 0}
-                    className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri 
-                      ${sectionItem.uploadContentType > 0 ? "bg-[#FBFBFB] border-[#d7d7d7]" : ""}`}
+                    className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri disabled:bg-[#e7e6e6] 
+                      ${
+                        sectionItem.uploadContentType > 0
+                          ? "bg-[#e7e6e6] border-[#d7d7d7]"
+                          : ""
+                      }`}
                   />
                   {(errors.modules?.[index]?.section?.[sectionindex]
                     ?.youtubeUrl ||
@@ -586,13 +590,15 @@ console.log("watch+++++", watch(`modules.${index}.section`));
         >
           <CirclePlus width={18} /> Add Assessment
         </Button>
-        {watch(`modules.${index}.section`)?.length < 5 && <Button
-          type="button"
-          onClick={() => appendSection({ ...intialSectionCreation })}
-          className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[147px] w-[133px] h-9"
-        >
-          <CirclePlus width={18} /> Add More Section
-        </Button>}
+        {watch(`modules.${index}.section`)?.length < 5 && (
+          <Button
+            type="button"
+            onClick={() => appendSection({ ...intialSectionCreation })}
+            className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[147px] w-[133px] h-9"
+          >
+            <CirclePlus width={18} /> Add More Section
+          </Button>
+        )}
       </div>
       <Modal
         open={isOpenAssessmentModal}

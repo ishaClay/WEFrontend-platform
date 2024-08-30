@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { markComplate } from "@/services/apiServices/pillar";
 import { uploadFile } from "@/services/apiServices/uploadServices";
@@ -25,6 +26,7 @@ const DelayModel = ({
   const userData = JSON.parse(localStorage.getItem("user") as string).query;
   const [file, setFile] = useState<string | null>(null);
   const queryClient = useQueryClient();
+  const { clientId } = useAppSelector((state) => state.user);
   const status = () => {
     if (
       moment(new Date(uploadData?.startDate), "YYYY-MM-DD").isSameOrBefore(
@@ -92,6 +94,7 @@ const DelayModel = ({
       iscomplete: 1,
       evidence: file,
       userId: userData?.id,
+      clientId: clientId,
     };
     mark({ data: payload, id: uploadData?.id });
   };

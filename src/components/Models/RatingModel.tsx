@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { addFeedback } from "@/services/apiServices/feedback";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
@@ -21,6 +23,13 @@ const RatingModel = ({
   // const handleMouseLeave = () => {
   //   setRating(0);
   // };
+
+  const {} = useMutation({
+    mutationFn: addFeedback,
+    onSuccess: () => {
+      setIsOpen(false);
+    },
+  });
 
   const handleClick = (value: number) => {
     setRating(value);
@@ -90,8 +99,10 @@ const RatingModel = ({
           })}
         </div>
       </div>
-      <div className="">
-        <Button>Submit</Button>
+      <div className="flex items-center justify-end">
+        <Button className="bg-[#64A70B] text-sm font-calibri text-white py-2 px-4 rounded-md h-[40px] w-[100px] font-bold outline-none">
+          Submit
+        </Button>
       </div>
     </Modal>
   );

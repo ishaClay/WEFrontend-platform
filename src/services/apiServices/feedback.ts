@@ -12,3 +12,9 @@ export const updateFeedback = async ({ id, data }: { id: number, data: any }) =>
     const res = await api({ url, method: "put", data })
     return res.data
 }
+
+export const addFeedback = async ({ data }: { data: any }) => {
+    const url = `api/v1/platformFeedback/create`
+    const res = await api({ url, method: "post", data })
+    return res.data
+}
