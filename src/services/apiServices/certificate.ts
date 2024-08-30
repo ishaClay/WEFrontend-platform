@@ -1,4 +1,4 @@
-import { FetchEnrolledCourseType, GetCertificate } from "@/types/certificate";
+import { GetCertificate } from "@/types/certificate";
 import api from "./api";
 
 interface CertificateUpdate {
@@ -40,10 +40,10 @@ export const getCertifications = async (id: string) => {
   const res = await api({ url });
   return res.data;
 };
-export const fetchCourseEnroll = async (courseId: string, employeeId: number, certificateId: string): Promise<FetchEnrolledCourseType | any> => {
+export const fetchCourseEnroll = async (courseId: string, employeeId: number, certificateId: string): Promise<any> => {
   const url = `api/v1/course/get-enrolled-course/${courseId}/${employeeId}`;
-  const params:any = {};
-  if(certificateId){
+  const params: any = {};
+  if (certificateId) {
     params["certificateId"] = certificateId;
   }
   const res = await api({ url, params });
