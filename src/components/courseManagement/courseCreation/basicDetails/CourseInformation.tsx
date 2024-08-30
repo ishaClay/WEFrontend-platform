@@ -1,6 +1,13 @@
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -56,6 +63,9 @@ const schema = zod
         "Please enter valid course price"
       ),
     discountApplicable: zod.number().optional(),
+    discountProvider: zod
+      .string({ required_error: "Please select Discount Provider" })
+      .min(1, "Please select a discount provider"),
   })
   .refine(
     (data) => {
@@ -85,6 +95,8 @@ const CourseInformation = ({
   const [isFreeCourse, setIsFreeCourse] = React.useState(false);
   const [provideDisc, setProvideDisc] = React.useState(false);
   const [discount, setDiscount] = React.useState("");
+  const [discountProvider, setDiscountProvider] = React.useState("");
+
   const { clientId, UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
@@ -104,6 +116,8 @@ const CourseInformation = ({
       freeCourse: false,
     },
   });
+  console.log("errors", errors);
+
   const search = window.location.search;
   const paramsId = new URLSearchParams(search).get("id");
   const paramsVersion = new URLSearchParams(search).get("version");
@@ -168,7 +182,9 @@ const CourseInformation = ({
       navigate(
         `/${pathName}/create_course/${
           +courseId ? courseId : updatedData?.id
-        }?tab=0&step=1&version=${updatedData?.currentVersion?.id}${paramsType ? `&type=${paramsType}`: ''}`,
+        }?tab=0&step=1&version=${updatedData?.currentVersion?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -182,7 +198,6 @@ const CourseInformation = ({
       });
     },
   });
-
 
   const { data: getSingleCourse } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
@@ -201,11 +216,12 @@ const CourseInformation = ({
       setDiscount(data?.discountApplicable);
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
+      setDiscountProvider(data?.providerName?.id);
     }
   }, [getSingleCourse, setValue]);
 
   const onSubmit = (formdata: FieldValues) => {
-    if(provideDisc && discount === ""){
+    if (provideDisc && discount === "") {
       toast({
         title: "Error",
         description: "Please enter discount price",
@@ -223,7 +239,7 @@ const CourseInformation = ({
       price: formdata?.price ? formdata?.price?.toString() : "0",
       discountApplicable: discount ? discount?.toString() : "0",
       discout: provideDisc ? "1" : "0",
-      providerName: data?.data?.id || 0,
+      providerName: +discountProvider || 0,
       clientId: data?.data?.id || 0,
       userId: userID,
       tab: "0",
@@ -236,8 +252,10 @@ const CourseInformation = ({
         (getSingleCourse?.data?.course?.discout === 1 ? true : false) ||
       isFreeCourse !==
         (getSingleCourse?.data?.course?.freeCourse === 1 ? true : false) ||
-        getSingleCourse?.data?.course?.price?.toString() !== formdata?.price?.toString() ||
-        getSingleCourse?.data?.course?.discountApplicable?.toString() !== discount?.toString()
+      getSingleCourse?.data?.course?.price?.toString() !==
+        formdata?.price?.toString() ||
+      getSingleCourse?.data?.course?.discountApplicable?.toString() !==
+        discount?.toString()
     ) {
       if (+courseId) {
         updateCourseFun({
@@ -252,7 +270,9 @@ const CourseInformation = ({
       navigate(
         `/${pathName}/create_course/${
           getSingleCourse?.data?.course?.id
-        }?tab=${0}&step=${1}&version=${getSingleCourse?.data?.id}${paramsType ? `&type=${paramsType}`: ''}`,
+        }?tab=${0}&step=${1}&version=${getSingleCourse?.data?.id}${
+          paramsType ? `&type=${paramsType}` : ""
+        }`,
         {
           replace: true,
         }
@@ -383,7 +403,7 @@ const CourseInformation = ({
                   onChange={(e: any) => {
                     const { value } = e.target;
 
-                    if (value === '' || value.match(/^[1-9][0-9]*$/)) {
+                    if (value === "" || value.match(/^[1-9][0-9]*$/)) {
                       setDiscount(value);
                     } else {
                       return;
@@ -401,14 +421,30 @@ const CourseInformation = ({
           </div>
 
           <div className="md:pb-8 sm:pb-6 pb-[15px]">
-            <InputWithLabel
-              label="Discount provided by"
-              labelClassName="font-calibri !text-base text-[#000000]"
-              placeholder="Select Skillnet"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px]"
-              disabled
-              value={data?.data?.name}
-            />
+            <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-calibri sm:text-base text-sm text-[#515151]">
+              Discount provided by
+            </h6>
+            <Select
+              value={discountProvider}
+              onValueChange={(e) => {
+                setDiscountProvider(e);
+                setValue("discountProvider", e);
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Skillnet" />
+              </SelectTrigger>
+              <SelectContent>
+                {data?.data && (
+                  <SelectItem value={data?.data?.id?.toString() || ""}>
+                    {data?.data?.name}
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+            <span className="font-primary font-calibri text-sm text-red-400 undefined">
+              {errors?.discountProvider?.message}
+            </span>
           </div>
 
           <div className="sm:text-right text-center">

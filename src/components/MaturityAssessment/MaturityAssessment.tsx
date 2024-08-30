@@ -29,6 +29,8 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
+import { fetchAssessment } from "@/services/apiServices/assessment";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -115,6 +117,42 @@ const MaturityAssessment = () => {
       );
     }
   }, [assessmentQuestionScoreLIST]);
+
+  const { data: assessmant } = useQuery({
+    queryKey: [QUERY_KEYS.assessment],
+    queryFn: () => fetchAssessment(userID, clientId),
+  });
+
+  const { data: fetchClientmaturitylevel } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+    queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+  });
+
+  const getMaturityLevel = (percentage: number) => {
+    return (
+      fetchClientmaturitylevel?.data?.find(
+        (level) =>
+          +percentage >= +level.rangeStart && +percentage <= level.rangeEnd
+      )?.maturityLevelName || "Unknown"
+    );
+  };
+
+  const selfAssData: any = {
+    Introductory: [],
+    Intermediate: [],
+    Advanced: [],
+  };
+
+  assessmant?.data?.data?.forEach((pillar: any) => {
+    const totalPoints = parseFloat(pillar.totalpoints);
+    const totalMaxPoint = parseFloat(pillar.totalmaxpoint);
+    const percentage = (totalPoints / totalMaxPoint) * 100;
+    const level = getMaturityLevel(percentage);
+    
+    if (selfAssData[level] !== undefined) {
+      selfAssData[level].push(pillar);
+    }
+  });
 
   const assessmentData =
     (selectAssessment &&
@@ -417,7 +455,13 @@ const MaturityAssessment = () => {
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
                 <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
                   <PDFDownloadLink
-                    document={<AssessmentPdf data={transformData()} />}
+                    document={
+                      <AssessmentPdf
+                        data={transformData()}
+                        companyName={userData?.query?.name}
+                        assessmentData={selfAssData}
+                      />
+                    }
                     fileName="Action-Items.pdf"
                   >
                     {({ loading }: any) =>

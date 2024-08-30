@@ -29,6 +29,7 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
+import { Loader2 } from "lucide-react";
 type RouteParams = {
   id: string;
 };
@@ -206,8 +207,12 @@ const Addcertificate = () => {
           logging: true,
         }).then(async (canvas) => {
           const imgData = canvas.toDataURL("image/png");
+          console.log("imgData", imgData);
+          
           if (imgData) {
             const result = await Uploads3imagesBase64(imgData);
+            console.log("result", result);
+            
             if (result.status === 200) {
               const payload = {
                 user: userData?.query?.id,
@@ -589,12 +594,14 @@ const Addcertificate = () => {
                             label="Employee Name"
                             type="text"
                             onChange={(e) => {
-                              setEmpName(e.target.value);
+                              if (e.target.value?.length <= 50) {
+                                setEmpName(e.target.value);
+                              }
                             }}
                             value={empName}
                             labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             className="mt-2 p-[11px] font-abhaya"
-                            placeholder="0"
+                            placeholder="Employee Name"
                           />
                         </AccordionContent>
                       </AccordionItem>
@@ -756,10 +763,14 @@ const Addcertificate = () => {
                     <Button
                       type="submit"
                       disabled={update_Panding || loading}
-                      isLoading={update_Panding || loading}
-                      className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm inline-block lg:mt-0 w-full"
+                      className="bg-[#58BA66] text-white w-full"
                     >
-                      SAVE CERTIFICATE
+                      {(update_Panding || loading) && (
+                        <Loader2
+                          className={"h-5 w-5 animate-spin text-white"}
+                        />
+                      )}
+                      <span>SAVE CERTIFICATE</span>
                     </Button>
                   </div>
                 </div>

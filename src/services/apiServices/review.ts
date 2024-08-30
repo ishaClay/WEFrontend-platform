@@ -8,7 +8,12 @@ export const addReview = async (data: any) => {
 }
 
 export const getFeedback = async (id: number, filter: string) => {
-    const url = `api/v1/feedback/list/${id}?filter=${filter}`;
-    const res = await api({ url });
-    return res.data
+    const url = `api/v1/feedback/list/${id}`;
+    const params:any = {}
+
+    if(filter){
+        params["filter"] = filter;
+    }
+    const res = await api({ url, params });
+    return res.data;
 }

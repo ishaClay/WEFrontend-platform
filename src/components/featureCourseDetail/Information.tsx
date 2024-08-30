@@ -5,7 +5,7 @@ const Information = ({data}: any) => {
     
   return (
     <div>
-      <div className="mb-5">
+      <div className="mb-5 py-5">
         <span
           className="xl:text-base md:text-sm text-xs text-black font-nunito"
           dangerouslySetInnerHTML={{ __html: data?.description }}

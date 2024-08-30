@@ -173,8 +173,7 @@ const MainHeader = () => {
                       ? `${userData?.query?.fname || ""} ${
                           userData?.query?.lname || ""
                         }`.trim()
-                      : userData?.query?.name ||
-                        userData?.query?.email?.split("@")[0]}
+                      : userData?.query?.email?.split("@")[0]}
                     {/* {(userData?.query?.fname || userData?.query?.lname) ? (userData?.query?.fname &&
                       userData?.query?.fname) + " " + (userData?.query?.lname &&
                       userData?.query?.lname) :

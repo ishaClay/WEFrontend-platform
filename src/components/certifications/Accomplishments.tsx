@@ -1,55 +1,108 @@
-import image from "@/assets/images/EmillaAnderson.png";
-import frameImage from "@/assets/images/Frame.png";
 import { Button } from "../ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchCourseEnroll } from "@/services/apiServices/certificate";
+import { useLocation, useParams } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { chatDPColor } from "@/lib/utils";
+import moment from "moment";
+import { Loader2, MoveLeft } from "lucide-react";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 const Accomplishments = () => {
+  const params = useParams();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
+  const maturityLevelName = JSON.parse(localStorage.getItem("maturityLevelName") as string);  
+  const localtion = useLocation();
+
+  const { data: getEnrolledCourse, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.getenrolledcourse],
+    queryFn: () => fetchCourseEnroll(String(localtion?.state) || "", userData?.query?.detailsid, params?.id || "")
+  })
+  const employeeData = getEnrolledCourse?.data?.employee?.[0];
+  const employeeUserData = getEnrolledCourse?.data?.employee?.[0]?.userDetails;
+  const startDate = getEnrolledCourse?.data?.cohortGroup?.slotStartDate;
+  const endDate = getEnrolledCourse?.data?.cohortGroup?.slotEndDate;
+  const sData = startDate?.month + "/" + startDate?.date + "/" + startDate?.year;
+  const eData = endDate?.month + "/" + endDate?.date + "/" + endDate?.year;
+  const dispatch = useAppDispatch();
+  const pathName = location?.pathname?.split("/")[1];
+
+  const handleDownload = () => {
+    const pdfUrl = getEnrolledCourse?.data?.certificate?.title;
+    const anchor = document.createElement("a");
+    anchor.href = pdfUrl;
+    anchor.download = "certificate.pdf";
+    anchor.click();
+  };
   return (
     <>
-      <div className="lg:bg-white bg-transparent rounded-xl">
+      <div className="bg-white flex justify-end p-7 border-b broder-[#dddddd33]">
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={() =>
+            dispatch(
+              setPath([
+                { label: "Certifications", link: `/${pathName}/certifications` },
+              ])
+            )
+          }
+          className="p-0 h-auto hover:bg-transparent text-black"
+        >
+          <MoveLeft /> Back
+        </Button>
+      </div>
+
+      {isLoading ? <span className="flex items-center justify-center bg-white h-full">
+        <Loader2 className="w-5 h-5 animate-spin" />
+      </span> : getEnrolledCourse?.data ? <div className="lg:bg-white bg-transparent rounded-xl">
         <div className="grid grid-cols-9 bg-white sm:p-5 p-[15px] rounded-lg sm:gap-5 gap-[15px]">
           <div className="xl:col-span-4 col-span-9">
             <div className="flex shadow rounded-lg border border-[#dddddd33] xl:p-5 sm:p-4 p-2.5">
               <div className="sm:min-w-[100px] sm:w-[100px] sm:min-h-[100px] sm:h-[100px] min-w-[50px] min-h-[50px] w-[50px] h-[50px]">
-                <img src={image} alt="" className="w-full h-full" />
+                <Avatar className="w-full h-full">
+                  <AvatarImage src={employeeData?.profileImage} />
+                  <AvatarFallback className="rounded-[6px] text-[30px]" style={{ background: chatDPColor(employeeData?.[0]?.id) }}>
+                    {employeeData?.[0]?.name ? employeeData?.[0]?.name?.charAt(0) : employeeUserData?.name ?
+                      employeeUserData?.name?.charAt(0) : (employeeUserData?.fname || employeeUserData?.lname) ?
+                        employeeUserData?.fname.charAt(0) + employeeUserData?.lname?.charAt(0) :
+                        userData?.query?.email?.split("@")[0]?.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
               </div>
               <div className="sm:pl-[15px] pl-[10px]">
                 <h5 className="xl:text-lg md:text-base text-sm font-semibold font-inter leading-[22px]">
-                  Emilla Anderson
+                  {employeeData?.[0]?.name ? employeeData?.[0]?.name : employeeUserData?.name ?
+                    employeeUserData?.name : (employeeUserData?.fname || employeeUserData?.lname) ?
+                      employeeUserData?.fname.charAt(0) + employeeUserData?.lname :
+                      userData?.query?.email?.split("@")[0]}
                 </h5>
                 <p className="sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
-                  Certificate in the Sustainable Development Goals, Partnership,
-                  People, Planet and Prosperity
+                  {getEnrolledCourse?.data?.course?.title}
                 </p>
                 <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
                   <p>Started : </p>
-                  <span>1 Mar, 2024</span>
+                  <span>{moment(new Date(sData)).format("DD MMM, YYYY")}</span>
                 </div>
                 <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
                   <p>Completed : </p>
-                  <span>15 Apr, 2024</span>
+                  <span>{moment(new Date(eData)).format("DD MMM, YYYY")}</span>
                 </div>
                 <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
                   <p>Sustainability Level : </p>
-                  <span className="font-semibold">Intermediate</span>
+                  <span className="font-semibold ml-2">{maturityLevelName}</span>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="xl:col-span-5 col-span-9 ml-auto mr-0 w-full">
-            <div className="xl:h-[400px] md:h-[320px] h-[200px] flex justify-center items-center bg-[#F5F5F5] rounded-lg">
-              <img
-                src={frameImage}
-                alt=""
-                className="sm:w-[70px] w-[48px] sm:h-[70px] h-[48px]"
-              />
-            </div>
-            <div className="md:text-right text-center sm:pt-5 pt-[15px]">
-              <Button className="sm:uppercase capitalize bg-[#00778B] sm:text-base text-sm font-normal font-calibri leading-5 py-[8px] h-auto w-auto sm:px-[19px] px-[12px]">
-                download certificate
-              </Button>
-            </div>
+
+            <Button className="sm:uppercase capitalize bg-[#00778B] sm:text-base mt-10 text-sm font-normal font-calibri leading-5 py-[8px] h-auto w-auto sm:px-[19px] px-[12px]"
+              onClick={handleDownload}>
+              download certificate
+            </Button>
           </div>
         </div>
-      </div>
+      </div> : <span className="flex items-center justify-center bg-white h-full">No Certification Found</span>}
     </>
   );
 };

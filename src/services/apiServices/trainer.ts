@@ -60,7 +60,7 @@ export const updateTrainerStatusById = async ({
 export const trainerInvitation = async (data: {
   email: string[];
   invitationDetails: string;
-  TrainerCompanyId?: string;
+  TrainerCompanyId?: number;
 }) => {
   const url = `api/v1/trainer-company/send-invitation`;
   const response = await api({ url, data, method: "post" });
@@ -114,6 +114,13 @@ export const getTrainee = async (trainerCompanyID: number, companyId: number, se
 export const registerTrainee = async ({ email, data }: { email: string, data: any }) => {
   const url = `api/v1/trainer/update-email/${email}`;
   const method = "put";
+  const res = await api({ url, data, method });
+  return res.data;
+}
+
+export const resendInvitation = async (data: { email: string, TrainerCompanyId: number, baseUrl: string }) => {
+  const url = `api/v1/trainer-company/resend-invitation`;
+  const method = "post";
   const res = await api({ url, data, method });
   return res.data;
 }

@@ -107,6 +107,7 @@ const MaturityLevel = () => {
   const Labels = () => (
     <div className="left-0 top-0 h-full md:flex block items-center gap-5">
       {fetchClientmaturitylevel?.data?.map((label, index) => {
+        localStorage.setItem("maturityLevelName", JSON.stringify(label?.maturityLevelName));
         return (
           <div key={index} className="flex items-center relative mt-4">
             <div

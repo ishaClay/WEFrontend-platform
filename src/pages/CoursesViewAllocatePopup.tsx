@@ -183,12 +183,20 @@ function CourseViewAllocatePopup({
   };
 
   const selectInviteEmployee = (employeeId: any) => {
+    const numberOfEmployee: any = courseData && +courseData?.numberOfEmployee;
     if (employeeId === "all") {
       if (selectedEmployee.length === mergedArray?.length) {
         setSelectedEmployee([]);
       } else {
         const allEmployeeIds = mergedArray?.map((employee: any) => employee.id);
-        setSelectedEmployee(allEmployeeIds || []);
+        if (allEmployeeIds && allEmployeeIds?.length < numberOfEmployee ) {
+          setSelectedEmployee(allEmployeeIds || []);
+        } else {
+          toast({
+            description: "Invitation limit exceeded, you can invite only " + numberOfEmployee + " trainee.",
+            variant: "destructive",
+          })
+        }
       }
     } else {
       if (selectedEmployee?.includes(employeeId)) {
@@ -196,7 +204,14 @@ function CourseViewAllocatePopup({
           selectedEmployee?.filter((id) => id !== employeeId)
         );
       } else {
-        setSelectedEmployee([...selectedEmployee, employeeId]);
+        if (selectedEmployee.length < numberOfEmployee) {
+          setSelectedEmployee([...selectedEmployee, employeeId]);
+        } else {
+          toast({
+            description: "Invitation limit exceeded, you can invite only " + numberOfEmployee + " trainee.",
+            variant: "destructive",
+          })
+        }
       }
     }
   };
@@ -436,6 +451,7 @@ function CourseViewAllocatePopup({
                         checked={
                           ((selectedEmployee.length === mergedArray?.length) && mergedArray?.length > 0 )
                         }
+                        disabled={mergedArray && mergedArray?.length > (courseData && +courseData?.numberOfEmployee)}
                         onChange={() => selectInviteEmployee("all")}
                       />
                     </div>
