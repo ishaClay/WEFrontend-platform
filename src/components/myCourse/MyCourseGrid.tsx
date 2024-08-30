@@ -43,11 +43,11 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
       }
     >
       <div className="border border-solid border-[#D9D9D9] rounded-lg col-span-1 group">
-        <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg">
+        <div className="relative overflow-hidden sm:rounded-t-lg rounded-lg aspect-video bg-[color:var(--base5-56)] justify-center items-center flex">
           <img
             src={grid.course?.bannerImage}
             alt="img"
-            className="sm:h-[231px] h-[180px] object-cover w-full"
+            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />
           <div className="absolute bottom-4 right-4 rounded-full lg:invisible visible group-hover:visible">
             <Button
