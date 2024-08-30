@@ -6,6 +6,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { Menu } from "lucide-react";
 import { useContext, useState } from "react";
 import ClickAwayListener from "react-click-away-listener";
@@ -15,7 +16,6 @@ import Loading from "../comman/Error/Loading";
 import { AlertLogOutDialog } from "../Models/AlertLogOut";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import Cookies from "js-cookie";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -30,13 +30,13 @@ function HomeHeader(props: headerProps) {
     useContext(RegisterContext);
 
   const userData = localStorage?.getItem("user");
-  const userToken = Cookies.get('accessToken') || "";
+  const userToken = Cookies.get("accessToken") || "";
   const path = JSON.parse(localStorage?.getItem("path") as string);
   const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       navigate("/");
@@ -94,7 +94,7 @@ function HomeHeader(props: headerProps) {
   return (
     // Note : This below code is for backup
     <>
-      <div className=" sticky top-0 h-full z-[50] lg:shadow-none shadow-md bg-white">
+      <div className=" sticky top-0 h-full z-[60] lg:shadow-none shadow-md bg-white">
         <header
           className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
             props.hasDiffHeader ? "mx-7" : ""
@@ -139,7 +139,7 @@ function HomeHeader(props: headerProps) {
               </div>
               <div className="flex items-end xl:gap-7 gap-2">
                 <div className="font-bold text-lg text-color">
-                  {(userToken && userData) ? (
+                  {userToken && userData ? (
                     <div className="flex items-center xl:gap-5 gap-3">
                       {JSON.parse(userData)?.query.role === 1 &&
                         !!path &&

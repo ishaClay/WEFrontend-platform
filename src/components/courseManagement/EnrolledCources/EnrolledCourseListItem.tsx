@@ -38,11 +38,11 @@ const EnrolledCourseListItem = ({
   return (
     <div className="flex justify-between items-center w-full">
       <div className="flex sm:flex-row flex-col items-center sm:gap-6 gap-2.5 sm:border-0 border rounded-[6px]">
-        <div className="sm:min-w-[140px] sm:w-[140px] sm:min-h-[148px] sm:h-[148px] w-full rounded-md overflow-hidden">
+        <div className="sm:min-w-[140px] sm:w-[140px] sm:min-h-[140px] sm:h-[140px] w-full rounded-md overflow-hidden">
           <img
             src={data?.course?.bannerImage}
             alt="bannerImage"
-            className="w-full h-full"
+            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />
         </div>
         <div className="w-full items-start sm:px-0 px-[15px] pb-[15px]">

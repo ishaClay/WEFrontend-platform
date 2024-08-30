@@ -67,7 +67,6 @@ const ModuleCreationItems = ({
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
-  const [charCount, setCharCount] = useState(0);
   const {
     fields: sections,
     append: appendSection,
@@ -237,7 +236,6 @@ const ModuleCreationItems = ({
                     console.log("event", event);
 
                     if (plainText.length > 5000) {
-                      setCharCount(5000);
                       setInformationError(
                         "You can not write information more than 5000 characters"
                       );
@@ -246,7 +244,6 @@ const ModuleCreationItems = ({
                         data
                       );
                     } else {
-                      setCharCount(plainText.length);
                       setInformationError("");
                       setValue(
                         `modules.${index}.section.${sectionindex}.information`,
@@ -262,9 +259,9 @@ const ModuleCreationItems = ({
                   // }}
                   className="w-full h-[190px]"
                 />
-                <div className="absolute bottom-0 right-0 p-2 text-sm text-[#606060]">
+                {/* <div className="absolute bottom-0 right-0 p-2 text-sm text-[#606060]">
                   {charCount}/5000
-                </div>
+                </div> */}
               </div>
               {(informationError !== "" ||
                 errors.modules?.[index]?.section?.[sectionindex]

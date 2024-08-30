@@ -36,7 +36,7 @@ const isOnlineType = [
     value: "0",
   },
   {
-    label: "Offline",
+    label: "Self-paced Online",
     value: "1",
   },
   {
@@ -51,10 +51,10 @@ const isOnlineType = [
     label: "Major",
     value: "4",
   },
-  {
-    label: "Self-paced Online",
-    value: "5",
-  },
+  // {
+  //   label: "Self-paced Online",
+  //   value: "5",
+  // },
 ];
 
 const durationType = [
@@ -92,10 +92,10 @@ const schema = zod
       .refine((val) => {
         return !isNaN(parseFloat(val)) && parseFloat(val) > 0;
       }, "Duration should be greater than 0"),
-    durationType: zod.string().min(1, "Please select duration type"),
+    durationType: zod.string().min(2, "Please select duration type"),
   })
   .superRefine((data, ctx) => {
-    if (data.isOnline !== "0") {
+    if (data.isOnline === "0") {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
         message: "Please enter university location",
@@ -124,7 +124,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       isOnline: "",
       universityAddress: "",
       duration: "",
-      durationType: durationType[0].value,
+      durationType: "",
     },
   });
   const navigate = useNavigate();
@@ -174,7 +174,14 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   });
 
   useEffect(() => {
-    if (getSingleCourse && getSingleCourse?.data?.course) {
+    console.log("getSingleCourse", getSingleCourse);
+
+    if (
+      getSingleCourse &&
+      getSingleCourse?.data?.course &&
+      // @ts-ignore
+      getSingleCourse?.data?.course?.step !== "2"
+    ) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key] || "");
@@ -186,6 +193,8 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
         setSelectBoxValue({
           ...selectBoxValue,
           durationType: data?.duration?.split(" ")?.[1]?.toString(),
+          time: getSingleCourse?.data?.course?.time?.toString(),
+          isOnline: getSingleCourse?.data?.course?.isOnline?.toString(),
         });
         setValue("durationType", data?.duration?.split(" ")?.[1]?.toString());
       });
@@ -365,6 +374,11 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                   itemClassName="text-[#1D2026] font-calibri"
                   placeholder="Select duration type"
                 />
+                {!errors?.durationType?.ref?.value && (
+                  <ErrorMessage
+                    message={errors?.durationType?.message as string}
+                  />
+                )}
               </div>
             </div>
           </div>

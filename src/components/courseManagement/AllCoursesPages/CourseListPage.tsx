@@ -197,7 +197,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                 <div className="xl:col-span-2 sm:col-span-3 col-span-8">
                   <div className="relative overflow-hidden sm:max-h-[221px] sm:max-w-[356px] w-full">
                     <img
-                      className="object-cover object-center w-full h-full"
+                      className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                       src={allcourse?.bannerImage}
                       alt="Course"
                     />
@@ -338,7 +338,10 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                           setRecommendedCoursesById(allcourse?.id);
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                        disabled={allcourse?.enrolled === true || !getUpcommingCohort(allcourse)?.props?.children}
+                        disabled={
+                          allcourse?.enrolled === true ||
+                          !getUpcommingCohort(allcourse)?.props?.children
+                        }
                       >
                         Enroll Now
                       </Button>

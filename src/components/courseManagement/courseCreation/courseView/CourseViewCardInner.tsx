@@ -83,8 +83,7 @@ const CourseViewCardInner = ({
         // .min(1, "Upload content type is required")
         .optional(),
       uploadedContentUrl: z.string().optional(),
-      youtubeUrl: z
-        .string().optional(),
+      youtubeUrl: z.string().optional(),
       readingTime: z
         .object({
           hour: z.number().min(0).max(23),
@@ -338,7 +337,11 @@ const CourseViewCardInner = ({
     if (informationError !== "") return;
     const payload = [];
     setUrlError("");
-    payload.push({...data, uploadContentType: data.uploadContentType === 0 ? null : data.uploadContentType});
+    payload.push({
+      ...data,
+      uploadContentType:
+        data.uploadContentType === 0 ? null : data.uploadContentType,
+    });
     console.log("payload", payload);
 
     if (payload.length > 0) {
@@ -454,14 +457,14 @@ const CourseViewCardInner = ({
                   >
                     <CirclePlus width={18} /> Section
                   </div> */}
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
                     disabled={paramsType === "editminor"}
                   >
-                    <CirclePlus width={18} /> Section 
-                  </button>
+                    <CirclePlus width={18} /> Section
+                  </Button>
                   <Button
                     type="button"
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"

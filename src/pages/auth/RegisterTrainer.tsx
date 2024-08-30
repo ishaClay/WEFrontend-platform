@@ -65,13 +65,13 @@ function RegisterTrainer() {
     providerCountry: z
       .string()
       .min(1, { message: "Please select provider county" }),
-    contactSurname: z.string().optional(),
+    contactSurname: z.string().min(3, { message: "Please enter lastname" }),
     contactTelephone: z
       .string({ required_error: "Please enter phone number" })
-      .min(1, { message: "Please enter provider city" }),
+      .min(1, { message: "Please enter phone number" }),
     providerAddress: z.string().optional(),
     providerCounty: z.string().optional(),
-    name: z.string().optional(),
+    name: z.string().min(3, { message: "Please enter  firstname" }),
     email: z
       .string()
       .min(1, { message: "Please enter email" })
@@ -151,7 +151,7 @@ function RegisterTrainer() {
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", defEmail || "");

@@ -119,7 +119,7 @@ const AssecessmentPage = () => {
           const { option, ...rest } = item;
 
           const isMCQ = option.filter((i: any) => i.option !== "").length > 0;
-          console.log("rest", rest,);
+          console.log("rest", rest);
 
           return {
             ...item,
@@ -186,13 +186,35 @@ const AssecessmentPage = () => {
         };
 
         const assecessmentQue = assesment?.map((item: any) => {
-          const { id, ...rest } = item;
+          const { id, options, ...rest } = item;
+
+          const getAnswer = () => {
+            if (
+              item?.options?.length > 0 &&
+              item?.options?.some((opt: any) => opt?.option !== "") &&
+              rest?.assessmentType !== "Multiple Choice"
+            ) {
+              const arr = [];
+              console.log("item", item?.answer);
+
+              // If there are options, at least one non-empty option, and the assessment type is not "Multiple Choice"
+              arr.push(item?.answer);
+              return typeof item?.answer === "object" ? item?.answer : arr;
+            }
+
+            // Default case
+            return item?.answer || [];
+          };
+
+          const answer = getAnswer();
           return {
             ...rest,
             // @ts-ignore
             assessment: res?.data?.data?.id,
             // @ts-ignore
             assessmentType: a[item.assessmentType],
+            option: item?.options,
+            answer: answer,
           };
         });
         if (courseId && +courseId) {
@@ -226,6 +248,26 @@ const AssecessmentPage = () => {
       const assecessmentQue = assesment?.map((item: any) => {
         const { options, ...rest } = item;
 
+        const getAnswer = () => {
+          if (
+            item?.options?.length > 0 &&
+            item?.options?.some((opt: any) => opt?.option !== "") &&
+            rest?.assessmentType !== "Multiple Choice"
+          ) {
+            const arr = [];
+            console.log("item", item?.answer);
+
+            // If there are options, at least one non-empty option, and the assessment type is not "Multiple Choice"
+            arr.push(item?.answer);
+            return typeof item?.answer === "object" ? item?.answer : arr;
+          }
+
+          // Default case
+          return item?.answer || [];
+        };
+
+        const answer = getAnswer();
+
         return {
           ...rest,
           // @ts-ignore
@@ -234,12 +276,16 @@ const AssecessmentPage = () => {
           // @ts-ignore
           assessmentType: a[item.assessmentType],
           option: item?.options,
-          // answer: item?.option[+item?.answer]
+          answer: answer,
         };
       });
+
+      console.log("assecessmentQue+++++++++++++++++++", assecessmentQue);
+
       createAssessmentQuestionFun(assecessmentQue);
     },
     onError: (error: ResponseError) => {
+      console.log("error", error);
       toast({
         title: "Error",
         description: error?.data?.message || "Internal server error",
@@ -315,9 +361,9 @@ const AssecessmentPage = () => {
     return isValid;
   };
 
-  useEffect(() => {
-    validateAssecessmentModule();
-  }, [createAssecessment]);
+  // useEffect(() => {
+  //   validateAssecessmentModule();
+  // }, [createAssecessment]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -347,6 +393,8 @@ const AssecessmentPage = () => {
         });
       }
     }
+    validateAssecessmentModule();
+    validateAll();
     return;
   };
 
@@ -389,6 +437,7 @@ const AssecessmentPage = () => {
             Back
           </div>
           <Button
+            type="button"
             className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
             onClick={() => setIsOpenAssessmentModal(true)}
           >

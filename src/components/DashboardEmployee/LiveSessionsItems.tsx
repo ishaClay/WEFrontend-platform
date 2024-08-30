@@ -17,7 +17,7 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
             <img
               src={data.course?.bannerImage}
               alt="img"
-              className="h-full object-cover"
+              className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />
           </div>
           <a

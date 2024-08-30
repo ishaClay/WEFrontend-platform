@@ -1,4 +1,6 @@
 import starImage from "@/assets/images/Vector.png";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import {
   getTrainerById,
   updateTrainerStatusById,
@@ -16,8 +18,6 @@ import { Label } from "../ui/label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 const TrainerDetails = () => {
   const params = useParams();
@@ -330,11 +330,11 @@ const TrainerDetails = () => {
                       className="border border-[#D9D9D9] rounded-[6px] xl:col-span-2 col-span-4 sm:py-[14px] sm:px-[19px] p-[15px]"
                     >
                       <div className="sm:flex block items-start gap-[22px]">
-                        <div className="sm:max-w-[164px] w-full sm:h-[180px] h-auto rounded-[5px] bg-slate-400">
+                        <div className="aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden bg-slate-400">
                           <img
                             src={course?.bannerImage}
                             alt="bannerImage"
-                            className="w-full h-full object-cover rounded-[5px]"
+                            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                           />
                         </div>
                         <div>

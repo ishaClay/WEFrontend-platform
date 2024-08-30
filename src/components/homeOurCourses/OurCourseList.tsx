@@ -18,11 +18,11 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
   const navigate = useNavigate();
   return (
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
-      <div className="relative min-h-[170px] h-[170px] overflow-hidden">
+      <div className="relative min-h-[170px] h-[170px] overflow-hidden rounded-lg">
         <img
           src={data?.bannerImage}
           alt="course"
-          className="rounded-t-lg w-full h-full"
+          className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
         />
       </div>
       <div className="px-4 py-[15px] border-b border-[#D9D9D9]">

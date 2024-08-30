@@ -189,13 +189,16 @@ function CourseViewAllocatePopup({
         setSelectedEmployee([]);
       } else {
         const allEmployeeIds = mergedArray?.map((employee: any) => employee.id);
-        if (allEmployeeIds && allEmployeeIds?.length < numberOfEmployee ) {
+        if (allEmployeeIds && allEmployeeIds?.length < numberOfEmployee) {
           setSelectedEmployee(allEmployeeIds || []);
         } else {
           toast({
-            description: "Invitation limit exceeded, you can invite only " + numberOfEmployee + " trainee.",
+            description:
+              "Invitation limit exceeded, you can invite only " +
+              numberOfEmployee +
+              " trainee.",
             variant: "destructive",
-          })
+          });
         }
       }
     } else {
@@ -208,16 +211,18 @@ function CourseViewAllocatePopup({
           setSelectedEmployee([...selectedEmployee, employeeId]);
         } else {
           toast({
-            description: "Invitation limit exceeded, you can invite only " + numberOfEmployee + " trainee.",
+            description:
+              "Invitation limit exceeded, you can invite only " +
+              numberOfEmployee +
+              " trainee.",
             variant: "destructive",
-          })
+          });
         }
       }
     }
   };
 
   console.log("courseData", courseData);
-  
 
   return (
     <Modal
@@ -232,11 +237,13 @@ function CourseViewAllocatePopup({
           <div className="bg-white rounded-lg">
             <div className="border-b-2 pb-[10px]">
               <div className="sm:flex block overflow-hidden rounded">
-                <img
-                  className="md:w-[204px] md:h-[192px] sm:w-[190px] sm:h-[170px] w-full h-[250px] rounded object-cover object-center"
-                  src={courseData?.course?.bannerImage}
-                  alt="Course"
-                />
+                <div className="md:w-[204px] md:h-[192px] sm:w-[190px] sm:h-[170px] w-full h-[250px] aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden">
+                  <img
+                    className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
+                    src={courseData?.course?.bannerImage}
+                    alt="Course"
+                  />
+                </div>
 
                 <div className="flex flex-col sm:ml-[15px] sm:mt-0 mt-3">
                   <div className="flex items-start justify-between">
@@ -264,23 +271,21 @@ function CourseViewAllocatePopup({
                         </div>
                       );
                     })} */}
-                    {courseData?.course?.courseData?.map(
-                        (item: any) => {
-                          return (
-                            <p className="flex items-center gap-3">
-                              <img
-                                className="w-[18px]"
-                                src={getImages(
-                                  item?.fetchPillar?.pillarName,
-                                  false
-                                )}
-                                alt="Image Alt Text"
-                              />
-                              {item?.fetchPillar?.pillarName}
-                            </p>
-                          );
-                        }
-                      )}
+                      {courseData?.course?.courseData?.map((item: any) => {
+                        return (
+                          <p className="flex items-center gap-3">
+                            <img
+                              className="w-[18px]"
+                              src={getImages(
+                                item?.fetchPillar?.pillarName,
+                                false
+                              )}
+                              alt="Image Alt Text"
+                            />
+                            {item?.fetchPillar?.pillarName}
+                          </p>
+                        );
+                      })}
                       <div className="flex items-center gap-2">
                         <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                         <span className="text-[black] font-bold text-base mt-0.5">
@@ -449,9 +454,14 @@ function CourseViewAllocatePopup({
                         name="all"
                         className="h-[18px] w-[18px] rounded"
                         checked={
-                          ((selectedEmployee.length === mergedArray?.length) && mergedArray?.length > 0 )
+                          selectedEmployee.length === mergedArray?.length &&
+                          mergedArray?.length > 0
                         }
-                        disabled={mergedArray && mergedArray?.length > (courseData && +courseData?.numberOfEmployee)}
+                        disabled={
+                          mergedArray &&
+                          mergedArray?.length >
+                            (courseData && +courseData?.numberOfEmployee)
+                        }
                         onChange={() => selectInviteEmployee("all")}
                       />
                     </div>

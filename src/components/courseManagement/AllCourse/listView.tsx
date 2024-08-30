@@ -367,12 +367,12 @@ const ListView = ({
               }
               className="border rounded overflow-hidden grid grid-cols-9 mb-5"
             >
-              <div className="2xl:col-span-6 xl:col-span-6 col-span-9 sm:flex block items-center">
-                <div className="sm:min-w-[267px] sm:w-[267px] sm:min-h-[220px] sm:h-[220px] w-full col-span-1">
+              <div className="2xl:col-span-6 xl:col-span-6 col-span-9 sm:flex block items-center p-4">
+                <div className="sm:min-w-[140px] sm:w-[140px] sm:min-h-[140px] sm:h-[140px] w-full rounded-md overflow-hidden col-span-1">
                   <img
                     src={data?.bannerImage || Course_image}
                     alt=""
-                    className="w-full h-full"
+                    className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                   />
                 </div>
                 <div className="col-span-3 xl:pl-4 p-3">
@@ -450,15 +450,17 @@ const ListView = ({
                       ? "Ready to Publish"
                       : "Publish"}
                   </Button>
-                  {Role !== "trainee" && <Button
-                    disabled={!update}
-                    onClick={(e: any) =>
-                      handleCohort(e, data?.currentVersion?.id as number)
-                    }
-                    className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
-                  >
-                    + Cohort
-                  </Button>}
+                  {Role !== "trainee" && (
+                    <Button
+                      disabled={!update}
+                      onClick={(e: any) =>
+                        handleCohort(e, data?.currentVersion?.id as number)
+                      }
+                      className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
+                    >
+                      + Cohort
+                    </Button>
+                  )}
                   {!(
                     pathName === "trainee" && allCoursePathName === "allcourse"
                   ) && (
@@ -511,7 +513,8 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                        {(userData?.editCourses || +userData?.query?.role !== UserRole.Trainee) && (
+                        {(userData?.editCourses ||
+                          +userData?.query?.role !== UserRole.Trainee) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e) =>
