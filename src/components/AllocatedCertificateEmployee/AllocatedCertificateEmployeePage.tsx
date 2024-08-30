@@ -30,8 +30,11 @@ const AllocatedCertificateEmployeePage = () => {
   const [searchParams] = useSearchParams();
   const courseId = searchParams?.get("courseId");
   const trainerId = searchParams?.get("traineeId");
+  const courseName = searchParams?.get("courseName");
   const [selectTrainee, setSelectTrainee] = useState("");
   const [body, setBody] = useState("");
+  console.log("selectTrainee+++", selectTrainee);
+
   const { data: fetchCourseAllCourseData } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourse, { UserId: userData?.query?.id }],
     queryFn: () => fetchCourseAllCourse("", +userData?.query?.id, "PUBLISHED"),
@@ -94,13 +97,21 @@ const AllocatedCertificateEmployeePage = () => {
       value: item?.id?.toString(),
     };
   });
+  console.log(
+    "fetchCourseAllCourseDatafetchCourseAllCourseData",
+    fetchCourseAllCourseData
+  );
 
-  const courseOptions = fetchCourseAllCourseData?.data?.map((item) => {
-    return {
-      label: item?.title,
-      value: item?.id?.toString(),
-    };
-  });
+  const courseOptions = fetchCourseAllCourseData?.data
+    ? fetchCourseAllCourseData?.data
+        ?.filter((item) => !!item)
+        ?.map((item) => {
+          return {
+            label: item?.title,
+            value: item?.id?.toString(),
+          };
+        })
+    : [];
 
   const selectedCertificate: any = certificate_data?.data?.find(
     (item: any) => item?.id?.toString() === selectCertificate
@@ -112,14 +123,13 @@ const AllocatedCertificateEmployeePage = () => {
     }
   }, [selectedCertificate]);
 
-  console.log("++++", selectedCertificate);
-
   const employeeOptions = fetchEmployeeByCourse?.data?.map((item: any) => {
     return {
       label: item?.name || item?.email?.split("@")[0],
       value: item?.id?.toString(),
     };
   });
+  console.log("employeeOptions++++", employeeOptions);
 
   const handleIssue = async () => {
     setLoading(true);
@@ -414,7 +424,15 @@ const AllocatedCertificateEmployeePage = () => {
                     Course Name
                   </Label>
                   <SelectMenu
-                    option={courseOptions || []}
+                    option={
+                      courseName
+                        ? [
+                            ...courseOptions,
+                            { label: courseName || "", value: courseId || "" },
+                          ]
+                        : courseOptions
+                    }
+                    disabled={!!courseName || !!courseId || !!trainerId}
                     setValue={(data: string) => setSelectCourse(data)}
                     value={selectCourse}
                     className="text-[#A3A3A3] text-base font-calibri"
@@ -431,6 +449,7 @@ const AllocatedCertificateEmployeePage = () => {
                     option={employeeOptions || []}
                     setValue={(data: string) => setSelectTrainee(data)}
                     value={selectTrainee}
+                    disabled={!!courseName || !!courseId || !!trainerId}
                     className="text-[#A3A3A3] text-base font-calibri"
                     placeholder="Select Trainee"
                   />

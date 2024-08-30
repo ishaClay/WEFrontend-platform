@@ -3,8 +3,11 @@ import Accordions from "../comman/Accordions";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import EmployeeMessagView from "./EmployeeMessagView";
 import EmployeeMessagViewList from "./EmployeeMessagViewList";
+import { useChatBotContext } from "@/context/chatBotContext";
 
 const EmployeeMessaging = () => {
+  const { open } = useChatBotContext();
+
   const accData: AccordionOption[] = [
     {
       title: <EmployeeMessagView />,
@@ -22,6 +25,7 @@ const EmployeeMessaging = () => {
           className="mt-0"
           itemsClass="p-0"
           contentClassName="p-0"
+          value={open ? "message__chat" : undefined}
         />
       </div>
       <div className="lg:hidden block">

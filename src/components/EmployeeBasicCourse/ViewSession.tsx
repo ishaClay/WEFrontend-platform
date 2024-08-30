@@ -1,6 +1,9 @@
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
-import { likeDislikeAction, updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
+import {
+  likeDislikeAction,
+  updateEmployeeWiseCourseStatus,
+} from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,6 +11,10 @@ import { CircleX, Download } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
+import { createCohortGroupUser } from "@/services/apiServices/cohort";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useChatBotContext } from "@/context/chatBotContext";
 
 const ViewSession = ({
   setDocumentFile,
@@ -27,6 +34,12 @@ const ViewSession = ({
   const [viewDoc, setViewDoc] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const queryclient = useQueryClient();
+  const pathname = useLocation();
+  const navigate = useNavigate();
+
+  const { setOpen } = useChatBotContext();
+
+  console.log("listlistlist++", list);
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
@@ -44,6 +57,24 @@ const ViewSession = ({
     },
     onError: (error) => {
       console.error("error", error);
+    },
+  });
+
+  const { mutate: createCohortGroupUserMutate } = useMutation({
+    mutationFn: createCohortGroupUser,
+    onSuccess: (data) => {
+      const userRole = pathname.pathname.split("/")[1];
+      console.log(data);
+      navigate(
+        `/${userRole}/message?chatId=${data?.data?.id}&messageType=group`
+      );
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -67,6 +98,10 @@ const ViewSession = ({
     const payload = {
       employeeid: userData?.query?.detailsid,
       status: status,
+      trainerCompany:
+        data?.course?.trainerCompanyId?.id || data?.course?.trainerId,
+      user: userData.query.id,
+      isTrainerCompany: data?.course?.trainerCompanyId?.id ? true : false,
     };
     mutate({ data: payload, courseId: id });
   };
@@ -75,11 +110,27 @@ const ViewSession = ({
     setLike(type);
     const payload = {
       userId: userData?.query?.id,
-      isLike: type === "like" ? true : false
+      isLike: type === "like" ? true : false,
+    };
+    likeDislikeActionFun({ sectionId: list?.id, data: payload });
+  };
+
+  const handleCreateGroup = (id: number) => {
+    if (!data?.groupChat) {
+      createCohortGroupUserMutate({
+        cohortId: id,
+      });
+    } else {
+      setOpen(true);
+      // toast({
+      //   title: "Error",
+      //   description: "group already created",
+      //   variant: "destructive",
+      // });
     }
-    likeDislikeActionFun({sectionId: list?.id, data: payload})
-  }
-  
+  };
+
+  console.log("data?.groupChat", data);
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -225,8 +276,11 @@ const ViewSession = ({
                   variant={"outline"}
                   type="button"
                   className="text-[12px] font-nunito"
+                  onClick={() => {
+                    handleCreateGroup(list?.id);
+                  }}
                 >
-                  Ask a question
+                  {data?.groupChat ? "Show Message" : "Ask a question"}
                 </Button>
                 {list?.attachment && (
                   <a
@@ -235,7 +289,7 @@ const ViewSession = ({
                     target="_blank"
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-nunito cursor-pointer"
                   >
-                    <Download /> Download 
+                    <Download /> Download
                     {/* {documentType(documentFile)} */}
                   </a>
                 )}

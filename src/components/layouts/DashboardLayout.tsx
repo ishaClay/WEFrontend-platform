@@ -10,6 +10,7 @@ import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
 import Loading from "../comman/Error/Loading";
+import { ChatBotProvider } from "@/context/chatBotContext";
 
 export interface SidebarItem {
   label: string;
@@ -70,37 +71,39 @@ const DashboardLayout = () => {
   }, [userRole]);
 
   return (
-    <div className="lg:flex bg-[#F5F7FF] overflow-hidden">
-      <div className="lg:block hidden">
-        <Sidebar sidebarItems={data} />
-      </div>
-      <div
-        className={`relative ${
-          sidebarOpen
-            ? "2xl:w-[calc(100%-260px)] lg:w-[calc(100%-235px)]"
-            : "lg:w-[calc(100%-60px)]"
-        }`}
-      >
-        <HeaderCourse />
-        <div>
-          <div
-            className={`${
-              Role === "employee"
-                ? "h-[calc(100vh-130px)]"
-                : "sm:h-[calc(100vh-120px)] h-[calc(100vh-144px)]"
-            } overflow-auto p-5`}
-          >
-            <Outlet />
-          </div>
+    <ChatBotProvider>
+      <div className="lg:flex bg-[#F5F7FF] overflow-hidden">
+        <div className="lg:block hidden">
+          <Sidebar sidebarItems={data} />
         </div>
-        {Role === "employee" && (
-          <div className="absolute lg:bottom-0 lg:right-5 bottom-[20px] right-[20px] lg:bg-white bg-transparent z-[50]">
-            <EmployeeMessaging />
+        <div
+          className={`relative ${
+            sidebarOpen
+              ? "2xl:w-[calc(100%-260px)] lg:w-[calc(100%-235px)]"
+              : "lg:w-[calc(100%-60px)]"
+          }`}
+        >
+          <HeaderCourse />
+          <div>
+            <div
+              className={`${
+                Role === "employee"
+                  ? "h-[calc(100vh-130px)]"
+                  : "sm:h-[calc(100vh-120px)] h-[calc(100vh-144px)]"
+              } overflow-auto p-5`}
+            >
+              <Outlet />
+            </div>
           </div>
-        )}
+          {Role === "employee" && (
+            <div className="absolute lg:bottom-0 lg:right-5 bottom-[20px] right-[20px] lg:bg-white bg-transparent z-[50]">
+              <EmployeeMessaging />
+            </div>
+          )}
+        </div>
       </div>
       <Loading isLoading={isLoading} />
-    </div>
+    </ChatBotProvider>
   );
 };
 

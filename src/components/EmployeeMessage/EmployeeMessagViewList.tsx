@@ -73,7 +73,7 @@ const EmployeeMessagViewList = () => {
                       key={index}
                       onClick={async () => {
                         setEmpId(data);
-                        await updatemessage({
+                        updatemessage({
                           userId1: userID,
                           userId2: data?.id,
                           isRead: true,

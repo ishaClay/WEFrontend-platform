@@ -12,7 +12,7 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
   const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
   const courseId = searchParams.get("courseId");
-  console.log("data", data);
+  console.log("data++++123", data);
 
   return (
     <div>
@@ -66,7 +66,7 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
             {+role === 4 && (
               <Button
                 type="button"
-                disabled={(data?.moduleSection || data?.moduleSections)?.every(
+                disabled={(data?.moduleSection || data?.moduleSections)?.some(
                   (item: any) => item?.isStatus !== "Completed"
                 )}
                 onClick={() =>
@@ -76,6 +76,7 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
                       state: {
                         versionId: versionId,
                         courseId: courseId,
+                        isCompleted: data?.assessment?.[0]?.isCompleted,
                       },
                     }
                   )
@@ -84,7 +85,7 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
                 className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
                 // disabled={assessmentData?.isCompleted}
               >
-                Start
+                {data?.assessment?.[0]?.isCompleted ? "View" : "Start"}
               </Button>
             )}
           </div>
