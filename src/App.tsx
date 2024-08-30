@@ -5,6 +5,7 @@ import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
 import DashboardTrainee from "./components/DashboardTrainee";
+import DashboardTrainer from "./components/DashboardTrainer";
 import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
@@ -198,7 +199,10 @@ function App() {
         <Route path="/membership" element={<OurServicePage />} />
         <Route path="/contact" element={<HomeContactPage />} />
         <Route path="/our-courses" element={<HomeOurCoursesPage />} />
-        <Route path="/feature-course/:id" element={<FeatureCourseDetailPage />} />
+        <Route
+          path="/feature-course/:id"
+          element={<FeatureCourseDetailPage />}
+        />
         <Route path="/landing" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/blog" element={<BlogPage />} />
@@ -830,7 +834,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="dashboard" element={<DashboardTrainer />} />
           <Route path="allcourse" element={<AllCoursesPage />} />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />

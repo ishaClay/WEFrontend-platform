@@ -293,7 +293,7 @@ export interface EmployeeCertificationResult {
   updatedAt: string;
   deletedAt?: null;
   certificate: Certificate;
-  course: Course | any;
+  course: Course;
 }
 export interface Certificate {
   id: number;
@@ -317,7 +317,7 @@ export interface Course {
   instituteWebsite: string;
   instituteWebsite2: string;
   freeCourse: number;
-  certificate?: any;
+  // certificate: any;
   discout: number;
   discountApplicable: number;
   provider: number;
@@ -374,7 +374,7 @@ export interface certificateDataEntity {
   updatedAt: string;
   deletedAt?: null;
   employee: Employee;
-  course: Course | any;
+  course: Course;
 }
 export interface Employee {
   id: number;
@@ -397,7 +397,7 @@ export interface Course {
   instituteWebsite: string;
   instituteWebsite2: string;
   freeCourse: number;
-  certificate: any;
+  certificate?: any;
   discout: number;
   discountApplicable: number;
   provider: number;
@@ -422,132 +422,4 @@ export interface Course {
 export interface CourseDataEntity {
   pillarId: number;
   maturityId: number;
-}
-
-
-export interface FetchEnrolledCourseType {
-  data: Data;
-  message: string;
-}
-export interface Data {
-  id: number;
-  numberOfEmployee: string;
-  price: number;
-  request: number;
-  isdiscounted: number;
-  enroll: number;
-  createdAt: string;
-  deletedAt?: null;
-  updatedAt: string;
-  cohortGroup: CohortGroup;
-  course: Course | any;
-  employee?: (EmployeeEntity)[] | null;
-  certificate: Certificate;
-}
-export interface CohortGroup {
-  id: number;
-  name: string;
-  publish: number;
-  slotStartDate: SlotStartDateOrSlotEndDate;
-  slotEndDate: SlotStartDateOrSlotEndDate;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface SlotStartDateOrSlotEndDate {
-  date: string;
-  month: string;
-  year: string;
-}
-// export interface Course {
-//   id: number;
-//   title: string;
-//   institute: string;
-//   instituteWebsite: string;
-//   instituteWebsite2: string;
-//   freeCourse: number;
-//   discout: number;
-//   discountApplicable: number;
-//   provider: number;
-//   ectsCredits: string;
-//   fetCredits: string;
-//   certificate?: string;
-//   time: number;
-//   isOnline: number;
-//   universityAddress: string;
-//   duration: string;
-//   price: number;
-//   instituteOther: string;
-//   otherInstitutionName: string;
-//   description: string;
-//   bannerImage: string;
-//   keys: string;
-//   courseData?: (CourseDataEntity)[] | null;
-//   status: string;
-//   publishDate: string;
-//   step: string;
-//   tab: string;
-//   creationCompleted: boolean;
-//   deletedAt?: null;
-//   createdAt: string;
-//   updatedAt: string;
-// }
-export interface CourseDataEntity {
-  pillarId: number;
-  maturityId: number;
-}
-export interface EmployeeEntity {
-  id: number;
-  name?: null;
-  email: string;
-  status: string;
-  employeeStatus: string;
-  gender?: null;
-  ageRange?: null;
-  phone?: null;
-  nFQ?: null;
-  employmentStatus?: null;
-  memberCompany?: null;
-  occupationalCategory?: null;
-  unemploymentTime?: null;
-  countyOfResidence?: null;
-  attendedEvent?: null;
-  profileImage?: null;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
-  editActionItem: boolean;
-  retakeSelfAssessment: boolean;
-  shareFeedback: boolean;
-  userDetails: UserDetails;
-}
-export interface UserDetails {
-  id: number;
-  name?: null;
-  fname?: null;
-  lname?: null;
-  gender?: null;
-  email: string;
-  password: string;
-  role: number;
-  lastLogin: string;
-  isVerify: number;
-  lastLogout?: null;
-  feedback: number;
-  giveFeedback?: null;
-  feedbackCreatedAt?: null;
-  pathStatus: number;
-  deviceTokens?: (null)[] | null;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
-}
-export interface Certificate {
-  id: number;
-  certificatePdf: string;
-  status: number;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: null;
-  certificate?: null;
 }
