@@ -139,6 +139,7 @@ function App() {
   let socket: any;
   const queryClient = useQueryClient();
   const { clientId } = useAppSelector((state) => state.user);
+  // const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: themes } = useQuery({
     queryKey: [QUERY_KEYS.themeChanges],

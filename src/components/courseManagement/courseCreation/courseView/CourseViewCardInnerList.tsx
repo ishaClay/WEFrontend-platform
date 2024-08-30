@@ -1,5 +1,6 @@
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loading from "@/components/comman/Error/Loading";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { FileType, QUERY_KEYS } from "@/lib/constants";
 import { getFileType } from "@/lib/utils";
@@ -15,9 +16,11 @@ import { useState } from "react";
 const CourseViewCardInnerList = ({
   data,
   handelEditSection,
+  selectTargetPillarLimit,
 }: {
   data: any;
   handelEditSection: (data: any) => void;
+  selectTargetPillarLimit: any;
 }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -70,31 +73,33 @@ const CourseViewCardInnerList = ({
     },
   });
 
-  const { mutate: DeleteLiveSection, isPending: isDeleteLiveSection } = useMutation({
-    mutationFn: (sectionId: number) => deleteLiveSection(sectionId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      });
-      toast({
-        variant: "success",
-        title: "Section deleted successfully",
-      });
-      setIsDelete(false);
-    },
-  });
-  const { mutate: deleteAssesments, isPending: isDeleteAssesment } = useMutation({
-    mutationFn: deleteAssesment,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchAllCourseModule],
-      });
-      toast({
-        variant: "success",
-        title: "Section deleted successfully",
-      });
-    },
-  });
+  const { mutate: DeleteLiveSection, isPending: isDeleteLiveSection } =
+    useMutation({
+      mutationFn: (sectionId: number) => deleteLiveSection(sectionId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourseModule],
+        });
+        toast({
+          variant: "success",
+          title: "Section deleted successfully",
+        });
+        setIsDelete(false);
+      },
+    });
+  const { mutate: deleteAssesments, isPending: isDeleteAssesment } =
+    useMutation({
+      mutationFn: deleteAssesment,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.fetchAllCourseModule],
+        });
+        toast({
+          variant: "success",
+          title: "Section deleted successfully",
+        });
+      },
+    });
 
   const handleDeleteSection = (sectionID: number) => {
     if (isId?.type === "assesment") {
@@ -164,19 +169,28 @@ const CourseViewCardInnerList = ({
         className="flex gap-3 items-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <FilePenLine
-          width={18}
-          className="text-[#575757] cursor-pointer"
+        <Button
+          type="button"
+          variant={"ghost"}
           onClick={() => handelEditSection(data)}
-        />
-        <Trash2
-          width={18}
-          className="text-[#575757] cursor-pointer"
+          disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+        >
+          <FilePenLine width={18} className="text-[#575757] cursor-pointer" />
+        </Button>
+        <Button
+          type="button"
+          variant={"ghost"}
           onClick={() => {
             setIsDelete(true);
-            setIsId({ id: data?.id, type: data?.readingTime ? "" : "assesment"});
+            setIsId({
+              id: data?.id,
+              type: data?.readingTime ? "" : "assesment",
+            });
           }}
-        />
+          disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+        >
+          <Trash2 width={18} className="text-[#575757] cursor-pointer" />
+        </Button>
       </div>
       <ConfirmModal
         open={isDelete}

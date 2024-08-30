@@ -24,8 +24,13 @@ type CourseViewCardProps = {
     id: number;
   };
   currIndex: number;
+  selectTargetPillarLimit: any;
 };
-const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
+const CourseViewCardList = ({
+  data,
+  currIndex,
+  selectTargetPillarLimit,
+}: CourseViewCardProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -151,16 +156,28 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
               className="flex items-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <FilePenLine
-                width={18}
-                className="me-3 text-[#575757] cursor-pointer"
+              <Button
+                type="button"
+                variant={"ghost"}
                 onClick={() => onEditModule()}
-              />
-              <Trash2
-                width={18}
-                className="me-3 text-[#575757] cursor-pointer"
+                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+              >
+                <FilePenLine
+                  width={18}
+                  className="me-3 text-[#575757] cursor-pointer"
+                />
+              </Button>
+              <Button
+                type="button"
+                variant={"ghost"}
                 onClick={() => setIsDelete(true)}
-              />
+                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+              >
+                <Trash2
+                  width={18}
+                  className="me-3 text-[#575757] cursor-pointer"
+                />
+              </Button>
             </div>
           ) : (
             <div
@@ -170,6 +187,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
               <Button
                 type="submit"
                 isLoading={isLoadingModule}
+                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
                 className="text-sm font-nunito"
               >
                 Save
@@ -180,6 +198,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
                   setIsEdit(false);
                   reset();
                 }}
+                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
                 className="text-sm font-nunito"
                 variant="outline"
               >

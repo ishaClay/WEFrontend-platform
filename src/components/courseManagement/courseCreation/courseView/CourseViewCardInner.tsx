@@ -24,10 +24,12 @@ const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
   assessments,
+  selectTargetPillarLimit,
 }: {
   CourseCardList: any;
   moduleId: string;
   assessments: any;
+  selectTargetPillarLimit: any;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -243,8 +245,7 @@ const CourseViewCardInner = ({
 
   const { mutate: EditLiveSection, isPending: editLiveSectionPending } =
     useMutation({
-      mutationFn: (data: any) =>
-        liveSessionUpdate({ data, id: isEditSection }),
+      mutationFn: (data: any) => liveSessionUpdate({ data, id: isEditSection }),
       onSuccess: () => {
         setIsEditSection(null);
         reset({ ...intialSectionCreation });
@@ -423,6 +424,7 @@ const CourseViewCardInner = ({
                     key={index}
                     data={data}
                     handelEditSection={handelEditSection}
+                    selectTargetPillarLimit={selectTargetPillarLimit}
                   />
                 </div>
               )}
@@ -461,7 +463,10 @@ const CourseViewCardInner = ({
                     type="button"
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
-                    disabled={paramsType === "editminor"}
+                    disabled={
+                      paramsType === "editminor" ||
+                      selectTargetPillarLimit?.data?.LMSaccess !== 1
+                    }
                   >
                     <CirclePlus width={18} /> Section
                   </Button>
@@ -472,7 +477,8 @@ const CourseViewCardInner = ({
                     disabled={
                       paramsType === "editminor"
                         ? true
-                        : assessments?.length === 1
+                        : assessments?.length === 1 ||
+                          selectTargetPillarLimit?.data?.LMSaccess !== 1
                     }
                   >
                     <CirclePlus width={18} /> Add Assessment
@@ -483,7 +489,10 @@ const CourseViewCardInner = ({
                   type="submit"
                   // onClick={handleSectionSave}
                   className="bg-[#58BA66] px-5 py-3 font-inter text-md"
-                  disabled={createSectionPending}
+                  disabled={
+                    createSectionPending ||
+                    selectTargetPillarLimit?.data?.LMSaccess !== 1
+                  }
                 >
                   {createSectionPending && (
                     <Loader2 className="w-5 h-5 animate-spin" />

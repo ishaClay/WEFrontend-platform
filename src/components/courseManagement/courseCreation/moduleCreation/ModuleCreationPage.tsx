@@ -1,3 +1,4 @@
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -8,6 +9,7 @@ import {
   createSection,
   getModuleData,
 } from "@/services/apiServices/moduleCreation";
+import { pillarLimit } from "@/services/apiServices/pillar";
 import { ModuleCreation, SectionCreation } from "@/types/modulecreation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -206,6 +208,7 @@ const ModuleCreationPage = () => {
     name: "modules",
     control,
   });
+  const userData = JSON.parse(localStorage.getItem("userData") as string);
 
   useEffect(() => {
     if (moduleList?.length > 0) {
@@ -336,6 +339,12 @@ const ModuleCreationPage = () => {
 
   console.log("errors+++", errors);
 
+  const { data: selectTargetPillarLimit, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => pillarLimit(userData?.query?.detailsid as string),
+    enabled: !!userData,
+  });
+
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
@@ -356,7 +365,8 @@ const ModuleCreationPage = () => {
           disabled={
             paramsType === "editminor"
               ? true
-              : moduleList?.length > 0 && moduleCreationItem.length > 0
+              : (moduleList?.length > 0 && moduleCreationItem.length > 0) ||
+                +selectTargetPillarLimit?.data?.LMSaccess !== 1
           }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >
@@ -379,7 +389,11 @@ const ModuleCreationPage = () => {
                     onDragEnd={handleSort}
                     onDragOver={(e) => e.preventDefault()}
                   >
-                    <CourseViewPage data={data} currIndex={index} />
+                    <CourseViewPage
+                      data={data}
+                      currIndex={index}
+                      selectTargetPillarLimit={selectTargetPillarLimit}
+                    />
                   </div>
                 );
               })
@@ -422,6 +436,7 @@ const ModuleCreationPage = () => {
           </div>
         )}
       </form>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

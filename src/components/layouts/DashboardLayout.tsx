@@ -1,11 +1,15 @@
+import { SidebarContext } from "@/context/Sidebarcontext";
+import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
+import { pillarLimit } from "@/services/apiServices/pillar";
+import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
 import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
-import { SidebarContext } from "@/context/Sidebarcontext";
+import Loading from "../comman/Error/Loading";
 
 export interface SidebarItem {
   label: string;
@@ -20,19 +24,41 @@ export interface SidebarItem {
 const DashboardLayout = () => {
   const userData = localStorage.getItem("user");
   const userRole = userData ? JSON.parse(userData)?.query?.role : null;
+  const user = userData ? JSON.parse(userData) : null;
   const location = window.location.pathname;
   const Role = location.split("/")[1];
   const { sidebarOpen } = useContext(SidebarContext);
 
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
+
+  const { data: selectTargetPillarLimit, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => pillarLimit(user?.query?.detailsid as string),
+    enabled: !!user,
+  });
+
+  console.log(
+    "selectTargetPillarLimit++++++++++++",
+    selectTargetPillarLimit,
+    sidebarLayout.TarinerSidebar
+  );
+
+  const TrainerPermission =
+    selectTargetPillarLimit &&
+    +selectTargetPillarLimit?.data?.certificationAccess === 1
+      ? sidebarLayout.TarinerSidebar
+      : sidebarLayout.TarinerSidebar?.filter(
+          (item) => item?.label !== "Certificate Management"
+        );
+
   useEffect(() => {
     switch (+userRole) {
       case 1:
         setData(sidebarLayout.companySidebar);
         break;
       case 2:
-        setData(sidebarLayout.TarinerSidebar);
+        setData(TrainerPermission);
         break;
       case 3:
         setData(sidebarLayout.TarineeSidebar);
@@ -73,6 +99,7 @@ const DashboardLayout = () => {
           </div>
         )}
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };
