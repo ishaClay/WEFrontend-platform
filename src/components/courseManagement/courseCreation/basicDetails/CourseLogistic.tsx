@@ -312,6 +312,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, time: data });
                   setValue("time", data);
+                  // @ts-ignore
                   setError("time", "");
                 }}
                 value={selectBoxValue?.time || ""}
@@ -334,6 +335,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, isOnline: data });
                   setValue("isOnline", data);
+                  // @ts-ignore
                   setError("isOnline", "");
                 }}
                 value={selectBoxValue?.isOnline || ""}
@@ -385,6 +387,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                       durationType: data,
                     });
                     setValue("durationType", data);
+                    // @ts-ignore
                     setError("durationType", "");
                   }}
                   value={selectBoxValue?.durationType || ""}
