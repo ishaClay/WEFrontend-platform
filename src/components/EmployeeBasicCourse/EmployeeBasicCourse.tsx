@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
+import Loading from "../comman/Error/Loading";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -34,22 +35,24 @@ const EmployeeBasicCourse = () => {
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
   const dispatch = useAppDispatch();
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () => fetchSingleCourse(courseById),
     enabled: !!courseById,
   });
 
-  const { data: fetchEmployeeSingeCourse } =
-    useQuery<SingleCourseEmployeeResponse>({
-      queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
-      queryFn: () =>
-        getEmployeeSingeCourse({
-          courseId: courseById,
-          userId: userData?.query?.detailsid,
-        }),
-      enabled: userData?.query?.role === "4",
-    });
+  const {
+    data: fetchEmployeeSingeCourse,
+    isLoading: fetchEmployeeSingeCourseLoading,
+  } = useQuery<SingleCourseEmployeeResponse>({
+    queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
+    queryFn: () =>
+      getEmployeeSingeCourse({
+        courseId: courseById,
+        userId: userData?.query?.detailsid,
+      }),
+    enabled: userData?.query?.role === "4",
+  });
 
   const course =
     userData?.query?.role !== "4"
@@ -269,6 +272,7 @@ const EmployeeBasicCourse = () => {
             </Tabs>
           </div>
         </div>
+        <Loading isLoading={isLoading || fetchEmployeeSingeCourseLoading} />
       </div>
     </>
   );
