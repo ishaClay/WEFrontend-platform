@@ -265,7 +265,7 @@ const DashboardTrainee = () => {
   };
   return (
     <div className="rounded-xl">
-      <RatingModel isOpen={true} setIsOpen={() => {}} />
+      <RatingModel isOpen={false} setIsOpen={() => {}} />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
