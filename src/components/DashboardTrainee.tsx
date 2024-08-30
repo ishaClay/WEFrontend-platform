@@ -2,11 +2,13 @@ import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
-import { Bar, Line } from "react-chartjs-2";
 
 import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
+import { getTraineeData } from "@/services/apiServices/dashboard";
+import { TraineeEnrollDashboardResponse } from "@/types/dashboard";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   BarElement,
@@ -20,6 +22,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import CustomCarousel from "./comman/CustomCarousel";
+import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
+import RatingModel from "./Models/RatingModel";
 
 Chart.register(
   CategoryScale,
@@ -78,9 +83,9 @@ const employeeData = [
 
 const DashboardTrainee = () => {
   const [page, setPage] = useState(0);
-  // const userData = JSON.parse(localStorage.getItem("user") as string);
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   console.log("+++", page);
-  const column: ColumnDef<any>[] = [
+  const column1: ColumnDef<any>[] = [
     {
       accessorKey: "ID",
       header: () => {
@@ -93,7 +98,7 @@ const DashboardTrainee = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-[15px] text-xs font-inter text-black">
-            {row.original?.ID}
+            {row.index + 1}
           </h6>
         );
       },
@@ -113,7 +118,7 @@ const DashboardTrainee = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
-            {row.original?.CourseName}
+            {row.original?.title}
           </h6>
         );
       },
@@ -122,18 +127,18 @@ const DashboardTrainee = () => {
       },
     },
     {
-      accessorKey: "Category",
+      accessorKey: "duration",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Category
+            Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.Category}
+            {row.original?.duration}
           </h6>
         );
       },
@@ -142,41 +147,18 @@ const DashboardTrainee = () => {
       },
     },
     {
-      accessorKey: "Level",
+      accessorKey: "status",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Level
-          </h5>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="flex items-center">
-            <div className="w-3.5 h-3.5 bg-[#FFD56A] rounded-sm me-2"></div>
-            <h6 className="text-xs font-inter text-black">
-              {row.original?.Level}
-            </h6>
-          </div>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
-      },
-    },
-    {
-      accessorKey: "Rating",
-      header: () => {
-        return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Rating
+            Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.Rating}
+            {row.original?.status}
           </h6>
         );
       },
@@ -186,130 +168,95 @@ const DashboardTrainee = () => {
     },
   ];
 
-  // const { data: smeDashboardData } = useQuery<DashboardData>({
-  //   queryKey: ["getTraineeDashboardData"],
-  //   queryFn: () => getTraineeDashboardData({ userId: userData?.query?.id }),
-  // });
-
-  // console.log("smeDashboardData", smeDashboardData);
-
-  const data = {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    datasets: [
-      {
-        data: [50, 25, 37, 50, 15, 75, 90, 60, 30, 40, 50, 20],
-        fill: false,
-        borderColor: "rgba(14, 156, 255, 1)",
-        tension: 0.1,
+  const column: ColumnDef<any>[] = [
+    {
+      accessorKey: "ID",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+            ID
+          </h5>
+        );
       },
-    ],
-  };
-  const config: any = {
-    type: "line",
-    data: data,
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
+      cell: ({ row }) => {
+        return (
+          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+            {row.index + 1}
+          </h6>
+        );
       },
-
-      layout: {
-        padding: {
-          top: 20,
-          bottom: 0,
-        },
-      },
-      scales: {
-        y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          ticks: {
-            stepSize: 25,
-          },
-        },
+      meta: {
+        className: "py-[15px]",
       },
     },
-  };
-
-  //secont bar graph
-
-  const data1 = {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [50, 25, 37, 50, 15, 75, 90, 60, 30, 20, 60, 30],
-        backgroundColor: [
-          "#0263FF",
-          "#FF7723",
-          "#8E30FF",
-
-          "#A446AA",
-          "#A98D46",
-          "#7884FE",
-          "#96E6E3",
-          "#5EA9D6",
-          "#4B16FF",
-        ],
-        borderColor: [
-          "#0263FF",
-          "#FF7723",
-          "#8E30FF",
-          "#A446AA",
-          "#A98D46",
-          "#7884FE",
-          "#96E6E3",
-          "#5EA9D6",
-          "#4B16FF",
-        ],
-        borderWidth: 1,
+    {
+      accessorKey: "CourseName",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+            Course Name
+          </h5>
+        );
       },
-    ],
-  };
-
-  const config1 = {
-    type: "bar",
-    data: data1,
-    options: {
-      scales: {
-        y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          ticks: {
-            stepSize: 25,
-          },
-        },
+      cell: ({ row }) => {
+        return (
+          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+            {row.original?.title}
+          </h6>
+        );
+      },
+      meta: {
+        className: "py-[15px]",
       },
     },
-  };
+    {
+      accessorKey: "duration",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+            Course Duration
+          </h5>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <h6 className="text-xs font-inter text-black">
+            {row.original?.duration}
+          </h6>
+        );
+      },
+      meta: {
+        className: "py-[15px]",
+      },
+    },
+    {
+      accessorKey: "status",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+            Status
+          </h5>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <h6 className="text-xs font-inter text-black">
+            {row.original?.status}
+          </h6>
+        );
+      },
+      meta: {
+        className: "py-[15px]",
+      },
+    },
+  ];
+
+  const { data: smeDashboardData } = useQuery<TraineeEnrollDashboardResponse>({
+    queryKey: ["getTraineeDashboardData"],
+    queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
+  });
+
+  console.log("smeDashboardData", smeDashboardData);
 
   const [activeButton, setActiveButton] = useState(null);
   console.log(activeButton);
@@ -318,7 +265,7 @@ const DashboardTrainee = () => {
   };
   return (
     <div className="rounded-xl">
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">Action Items</h3>
+      <RatingModel isOpen={false} setIsOpen={() => {}} />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
@@ -328,10 +275,10 @@ const DashboardTrainee = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {smeDashboardData?.data?.totalActionItems?.metric} */}
+            {smeDashboardData?.trainerCourseCount}
           </h2>
           <p className="text-base text-black font-calibri">
-            Total Action Items
+            Total Assign Course
           </p>
         </button>
 
@@ -343,11 +290,9 @@ const DashboardTrainee = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {smeDashboardData?.data?.pendingActionItems} */}
+            {smeDashboardData?.discussionForumActivity?.posts}
           </h2>
-          <p className="text-base text-black font-calibri">
-            Total Pending Items
-          </p>
+          <p className="text-base text-black font-calibri">Total Post</p>
         </button>
 
         <button
@@ -358,11 +303,9 @@ const DashboardTrainee = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {smeDashboardData?.data?.totalActionItems?.report?.delayed} */}
+            {smeDashboardData?.discussionForumActivity?.replies}
           </h2>
-          <p className="text-base text-black font-calibri">
-            Total Delayed Action Items
-          </p>
+          <p className="text-base text-black font-calibri">Total Replies</p>
         </button>
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
@@ -372,111 +315,20 @@ const DashboardTrainee = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {smeDashboardData?.data?.totalActionItems?.report?.completed} */}
+            {smeDashboardData?.discussionForumActivity?.activeUsers}
           </h2>
           <p className="text-base text-black font-calibri">
-            Total Completed Action Items
-          </p>
-        </button>
-      </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
-        Support Ticket
-      </h3>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Trainers} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {+smeDashboardData?.data?.supportTickets?.open?.high +
-              +smeDashboardData?.data?.supportTickets?.open?.medium +
-              +smeDashboardData?.data?.supportTickets?.open?.low +
-              +smeDashboardData?.data?.supportTickets?.resolved?.high +
-              +smeDashboardData?.data?.supportTickets?.resolved?.medium +
-              +smeDashboardData?.data?.supportTickets?.resolved?.low} */}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Support Ticket
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Total_courses} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {+smeDashboardData?.data?.supportTickets?.open?.high +
-              +smeDashboardData?.data?.supportTickets?.open?.medium +
-              +smeDashboardData?.data?.supportTickets?.open?.low} */}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Open Support Ticket
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {/* {+smeDashboardData?.data?.supportTickets?.resolved?.high +
-              +smeDashboardData?.data?.supportTickets?.resolved?.medium +
-              +smeDashboardData?.data?.supportTickets?.resolved?.low} */}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Resolve Support Ticket
+            Total Active Users
           </p>
         </button>
       </div>
 
-      <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm">
-        <div className="flex w-full">
-          <div className=" w-full  m-4 bg-[#FFFFFF]">
-            <div className="sm:flex block justify-between items-center">
-              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
-                Course Completion Trend
-              </h5>
-              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm">
-                Export Report
-              </Button>
-            </div>
-
-            <div className="">
-              <Line className="!h-auto" data={data} options={config.options} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
-        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
-          <div className="pt-6 px-4 pb-4">
-            <div className="sm:flex block justify-between items-center">
-              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
-                Course Enrollment Trends Over Time
-              </h5>
-              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm">
-                Export Report
-              </Button>
-            </div>
-
-            <div className=" mt-[20px] ">
-              <Bar data={data1} options={config1.options} />
-            </div>
-          </div>
-        </div>
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
-            <h5 className="  text-base font-nunito font-bold">Top 5 Courses</h5>
+            <h5 className="  text-base font-nunito font-bold">
+              Top 5 Ongoing Courses
+            </h5>
             <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
               View All
             </Button>
@@ -486,7 +338,7 @@ const DashboardTrainee = () => {
             <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                data={employeeData}
+                data={smeDashboardData?.trainerEnrollCourse || []}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
@@ -494,6 +346,52 @@ const DashboardTrainee = () => {
             </div>
           </div>
         </div>
+        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
+          <div className="flex justify-between items-center px-5 py-6">
+            <h5 className="  text-base font-nunito font-bold">
+              Top 5 Upcoming Courses
+            </h5>
+            <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+              View All
+            </Button>
+          </div>
+
+          <div className="">
+            <div className="overflow-x-auto">
+              <DataTable
+                columns={column1}
+                data={smeDashboardData?.trainerUpcommingCourse || []}
+                totalPages={employeeData?.length}
+                setPage={setPage}
+                rounded={false}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Upcoming Live Session
+      </h3>
+      <div className="sm:block hidden bg-white p-5 rounded">
+        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 xl:min-h-[150px] items-center">
+          {smeDashboardData?.UpcomingSessions &&
+          smeDashboardData?.UpcomingSessions?.length > 0 ? (
+            smeDashboardData?.UpcomingSessions!.map((data, index) => {
+              return <LiveSessionsItems data={data} key={index} />;
+            })
+          ) : (
+            <p className="text-base text-black font-calibri col-span-full text-center">
+              No Data
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="sm:hidden block bg-white p-5 rounded">
+        <CustomCarousel containerClassName="">
+          {(smeDashboardData?.UpcomingSessions || [])?.map((data, index) => {
+            return <LiveSessionsItems data={data} key={index} />;
+          })}
+        </CustomCarousel>
       </div>
     </div>
   );

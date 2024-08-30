@@ -31,3 +31,15 @@ export const getUpcommingLiveSession = async ({ userId }: { userId: string }) =>
     const res = await api({ url });
     return res.data
 }
+
+export const getTraineeData = async ({ userId }: { userId: string }) => {
+    const url = `api/v1/dashboard/getTrainerDashboardCountData/${userId}`;
+    const res = await api({ url });
+    return res.data
+}
+
+export const getTrainerData = async ({ userId, contentType }: { userId: string, contentType: string }) => {
+    const url = `api/v1/dashboard/trainerCompanyCourseCount/${userId}?contentRequest=${contentType}`;
+    const res = await api({ url });
+    return res.data
+}

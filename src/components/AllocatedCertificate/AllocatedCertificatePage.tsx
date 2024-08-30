@@ -19,8 +19,8 @@ import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
+import { toast } from "../ui/use-toast";
 
 const AllocatedCertificatePage = () => {
   const dispatch = useAppDispatch();
@@ -137,7 +137,7 @@ const AllocatedCertificatePage = () => {
       cell: ({ row }) => {
         return (
           <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
-            {row.original?.course?.certificate as string}
+            {row.original?.course?.certificate as any}
           </h6>
         );
       },
