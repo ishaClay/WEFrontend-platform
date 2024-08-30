@@ -337,7 +337,8 @@ export interface Course {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  module: number;
+  universityAddress?: string;
+  module?: number;
 }
 export interface CourseDataEntity {
   pillarId: number;
@@ -389,35 +390,6 @@ export interface Employee {
   editActionItem: boolean;
   retakeSelfAssessment: boolean;
   shareFeedback: boolean;
-}
-export interface Course {
-  id: number;
-  title: string;
-  institute: string;
-  instituteWebsite: string;
-  instituteWebsite2: string;
-  freeCourse: number;
-  certificate: any;
-  discout: number;
-  discountApplicable: number;
-  provider: number;
-  ectsCredits: string;
-  fetCredits: string;
-  time: number;
-  isOnline: number;
-  universityAddress: string;
-  duration: string;
-  price: number;
-  instituteOther: string;
-  otherInstitutionName: string;
-  description: string;
-  bannerImage: string;
-  keys: string;
-  courseData?: CourseDataEntity[] | null;
-  status: string;
-  deletedAt?: null;
-  createdAt: string;
-  updatedAt: string;
 }
 export interface CourseDataEntity {
   pillarId: number;
