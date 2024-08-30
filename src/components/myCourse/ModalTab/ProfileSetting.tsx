@@ -84,9 +84,11 @@ import * as zod from "zod";
 // ];
 
 const schema = zod.object({
-  firstname: zod.string().min(1, { message: "Please Enter first name" }),
-  lastname: zod.string().min(1, { message: "Please Enter last name" }),
-  smeOrganisation: zod.string().min(1, { message: "Please Enter SME Organisation name" }),
+  firstname: zod.string().nonempty("Please Enter first name"),
+  lastname: zod.string().nonempty("Please Enter last name"),
+  smeOrganisation: zod
+    .string()
+    .min(1, { message: "Please Enter SME Organisation name" }),
   email: zod.string(),
   mobilenumber: zod
     .string()
@@ -153,9 +155,12 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     if (data) {
       console.log("data", data);
 
-      setValue("firstname", data?.data?.fname);
-      setValue("lastname", data?.data?.lname);
-      setValue("smeOrganisation", data?.data?.name || data?.data?.smeOrganisation);
+      setValue("firstname", data?.data?.fname || "");
+      setValue("lastname", data?.data?.lname || "");
+      setValue(
+        "smeOrganisation",
+        data?.data?.name || data?.data?.smeOrganisation
+      );
       setValue("email", data?.data?.email);
       setValue("mobilenumber", data?.data?.number);
       setValue("gender", data?.data?.gender);
@@ -247,19 +252,22 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               />
             </div>
           </div>
-          {currentUser === "company" && <div className="col-span-1 flex flex-col gap-1">
+          {currentUser === "company" && (
+            <div className="col-span-1 flex flex-col gap-1">
               <InputWithLabel
                 label={"SME Organisation"}
                 placeholder={"SME Organisation"}
                 {...register("smeOrganisation")}
                 error={errors?.smeOrganisation?.message as string}
               />
-            </div>}
+            </div>
+          )}
           {+userData?.query.role !== 3 && (
             <div className="flex flex-col gap-1">
               <InputWithLabel
                 label="Contact Number"
                 placeholder="Enter Mobile Number"
+                disabled={!!data?.data?.number}
                 onChange={(e) => {
                   const value = e.target.value;
                   if (value.match(/^[0-9]*$/)) {

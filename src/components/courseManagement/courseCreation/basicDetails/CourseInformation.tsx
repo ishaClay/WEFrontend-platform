@@ -42,10 +42,10 @@ const schema = zod
     instituteWebsite: zod
       .string()
       .regex(
-        /^https?:\/\/[^\s/$.?#].[^\s]*$/,
+        /^(\s*|https?:\/\/[^\s/$.?#].[^\s]*)$/,
         "Please enter a valid website URL starting with http:// or https://"
       )
-      .url("Please enter valid website url"),
+      .optional(),
     freeCourse: zod.boolean().optional(),
     instituteWebsite2: zod
       .string()

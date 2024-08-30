@@ -108,7 +108,7 @@ const DashboardTrainer = () => {
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Enroll Companys
+            Enroll Company
           </h5>
         );
       },

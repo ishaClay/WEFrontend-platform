@@ -3,6 +3,7 @@ import footerLogoImage1 from "@/assets/images/FooterLogo1.png";
 import homeFooterLogo from "@/assets/images/HomeFooterLogo.png";
 import homeFooterLogo1 from "@/assets/images/HomeFooterLogo1.png";
 import RoundLogoImage from "@/assets/images/star-footer-image.svg";
+import { UserRole } from "@/types/UserRole";
 import { BsInstagram } from "react-icons/bs";
 import { FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import { IoLogoYoutube } from "react-icons/io5";
@@ -11,6 +12,7 @@ import { Button } from "../ui/button";
 
 const HomeFooter = () => {
   const location = useLocation();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const isHomePage = () => {
     return location.pathname === "/";
@@ -158,17 +160,23 @@ const HomeFooter = () => {
                   Our Courses
                 </Link>
                 <Link
-                  to={"/register"}
+                  to={
+                    userData
+                      ? `/${UserRole[
+                          userData?.query?.role
+                        ]?.toLowerCase()}/dashboard`
+                      : "/register"
+                  }
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
                   Join Us
                 </Link>
-                <Link
+                {/* <Link
                   to={"/blog"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"
                 >
                   News
-                </Link>
+                </Link> */}
                 <Link
                   to={"/contact"}
                   className="font-abhaya text-base font-bold cursor-pointer leading-5"

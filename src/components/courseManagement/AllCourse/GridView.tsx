@@ -349,8 +349,8 @@ const GridView = ({
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               }));
-              console.log("itemitem", item);
-              
+          console.log("itemitem", item);
+
           return (
             <Link
               to={`/${Role}/employee-basic-course/${item?.currentVersion?.id}`}
@@ -370,7 +370,7 @@ const GridView = ({
                 <img
                   src={item?.bannerImage || Course_image}
                   alt={"bannerImage"}
-                  className="w-full h-full"
+                  className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
                 <div className="absolute right-2 bottom-2">
                   <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
@@ -451,17 +451,19 @@ const GridView = ({
                     : "Publish"}
                 </Button>
 
-                {Role !== "trainee" && <Button
-                  disabled={!update}
-                  onClick={(e: any) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleCohort(e, item?.currentVersion?.id as number);
-                  }}
-                  className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
-                >
-                  + Cohort
-                </Button>}
+                {Role !== "trainee" && (
+                  <Button
+                    disabled={!update}
+                    onClick={(e: any) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleCohort(e, item?.currentVersion?.id as number);
+                    }}
+                    className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
+                  >
+                    + Cohort
+                  </Button>
+                )}
                 {!(Role === "trainee" && pathName === "allcourse") && (
                   <div className="">
                     <SelectMenu
@@ -498,21 +500,24 @@ const GridView = ({
                           <span>Copy</span>
                         </DropdownMenuItem>
                       )}
-                      {(item?.trainerId?.id === +userData?.query?.detailsid || +userData?.query?.role !== UserRole.Trainee) && (item?.status === "PUBLISHED" ||
-                        item?.status === "UNPUBLISHED") && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleChangeStatus(e, item)}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>
-                            {item?.status === "UNPUBLISHED"
-                              ? "Re-Publish"
-                              : "Un-Publish"}
-                          </span>
-                        </DropdownMenuItem>
-                      )}
-                      {(userData?.editCourses || +userData?.query?.role !== UserRole.Trainee) && (
+                      {(item?.trainerId?.id === +userData?.query?.detailsid ||
+                        +userData?.query?.role !== UserRole.Trainee) &&
+                        (item?.status === "PUBLISHED" ||
+                          item?.status === "UNPUBLISHED") && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleChangeStatus(e, item)}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>
+                              {item?.status === "UNPUBLISHED"
+                                ? "Re-Publish"
+                                : "Un-Publish"}
+                            </span>
+                          </DropdownMenuItem>
+                        )}
+                      {(userData?.editCourses ||
+                        +userData?.query?.role !== UserRole.Trainee) && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
@@ -564,22 +569,25 @@ const GridView = ({
                           <span>Allocate</span>
                         </DropdownMenuItem>
                       )}
-                      {(item?.trainerId?.id === +userData?.query?.detailsid || +userData?.query?.role !== UserRole.Trainee) && <DropdownMenuItem
-                        className={`items-center gap-2 font-nunito ${
-                          pathName === "trainee" &&
-                          item?.trainerId?.id === +userData?.query?.detailsid
-                            ? "flex"
-                            : ""
-                        }`}
-                        onClick={(e: any) => {
-                          e.stopPropagation();
-                          setIsDelete(true);
-                          setSingleCourse(item);
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                        <span>Delete</span>
-                      </DropdownMenuItem>}
+                      {(item?.trainerId?.id === +userData?.query?.detailsid ||
+                        +userData?.query?.role !== UserRole.Trainee) && (
+                        <DropdownMenuItem
+                          className={`items-center gap-2 font-nunito ${
+                            pathName === "trainee" &&
+                            item?.trainerId?.id === +userData?.query?.detailsid
+                              ? "flex"
+                              : ""
+                          }`}
+                          onClick={(e: any) => {
+                            e.stopPropagation();
+                            setIsDelete(true);
+                            setSingleCourse(item);
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          <span>Delete</span>
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

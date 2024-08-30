@@ -1,9 +1,9 @@
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Label } from "@/components/ui/label";
+import { isSessionOngoingAtTime } from "@/lib/utils";
 import { AllLivesessions } from "@/types/liveSession";
 import { useState } from "react";
 import LiveSessionList from "./LiveSessionList";
-import { isSessionOngoingAtTime } from "@/lib/utils";
 
 const filter = [
   {
@@ -15,7 +15,7 @@ const filter = [
     value: "starting",
   },
   {
-    label: "Ending Sessions",
+    label: "Completed Sessions",
     value: "ending",
   },
 ];

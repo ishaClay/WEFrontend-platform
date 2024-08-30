@@ -23,6 +23,7 @@ const AssecessmentTypeOneOptions = ({
   id,
 }: optionsProps) => {
   const { assesment, setAssesment } = useContext(AssesmentContext);
+  console.log("data++", data?.option);
 
   const handleCheck = (inx: number) => {
     setAssesment((prev: any) => {
@@ -80,8 +81,7 @@ const AssecessmentTypeOneOptions = ({
 
   console.log(
     "assesment?.[id]?.options?.[iIndex]?.option",
-    assesment?.find((item: any) => item?.ids === id)?.options?.[iIndex]?.option,
-    id
+    typeof assesment?.find((item: any) => item?.ids === id)?.answer
   );
 
   return (
@@ -126,12 +126,24 @@ const AssecessmentTypeOneOptions = ({
               onValueChange={(value: any) => handleCheck(value)}
               // @ts-ignore
               value={
-                assesment?.find((item: any) => item?.ids === id)?.answer || ""
+                // options
+                //   .findIndex((item: any) =>
+                //     assesment
+                //       ?.find((item: any) => item?.ids === id)
+                //       // @ts-ignore
+                //       ?.answer.includes(item.option)
+                //   )
+                //   ?.toString() ||
+                typeof assesment?.find((item: any) => item?.ids === id)
+                  ?.answer === "object"
+                  ? assesment?.find((item: any) => item?.ids === id)?.answer[0]
+                  : assesment?.find((item: any) => item?.ids === id)?.answer ||
+                    ""
               }
               className="flex items-center gap-[34px]"
             >
               <RadioGroupItem
-                value={iIndex.toString()}
+                value={data?.option?.toString()}
                 id={data?.option}
                 key={data?.option}
                 className="w-[24px] h-[24px]"

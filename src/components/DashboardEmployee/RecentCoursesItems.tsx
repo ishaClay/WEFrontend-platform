@@ -13,7 +13,7 @@ const RecentCoursesItems = ({ data }: recentCourseItemProps) => {
           <img
             src={data.courseVersion?.course?.bannerImage}
             alt="img"
-            className="h-full"
+            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />
         </div>
         <div className="sm:ps-5 sm:p-0 p-4 w-full">

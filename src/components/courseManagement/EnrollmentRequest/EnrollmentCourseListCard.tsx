@@ -106,7 +106,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
           <img
             src={data?.course?.bannerImage}
             alt="img"
-            className="w-full h-full rounded-md"
+            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
           />
         </div>
         <div className="sm:pl-[23px] px-3 pt-3">

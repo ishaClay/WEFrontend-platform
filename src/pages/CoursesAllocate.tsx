@@ -99,7 +99,7 @@ function CoursesAllocate() {
                           <img
                             src={courseallocate?.course?.bannerImage}
                             alt="img"
-                            className="w-full h-full rounded-md"
+                            className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                           />
                         </div>
 

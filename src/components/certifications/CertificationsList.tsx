@@ -16,7 +16,7 @@ const CertificationsList = ({ data }: certificationListProps) => {
             <img
               src={data?.course?.bannerImage}
               alt=""
-              className="w-full h-full object-cover rounded-lg"
+              className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />
           </div>
           <div>
@@ -24,9 +24,9 @@ const CertificationsList = ({ data }: certificationListProps) => {
               {data.course.title}
             </p>
             <h6 className="sm:text-sm text-xs font-normal font-nunito leading-5 text-[#000000] sm:pb-2 pb-[6px]">
-              {data?.course?.courseData?.map(
-                (item: any) => item?.fetchPillar?.pillarName
-              )?.join(" | ")}{" "}
+              {data?.course?.courseData
+                ?.map((item: any) => item?.fetchPillar?.pillarName)
+                ?.join(" | ")}{" "}
               <br />
               {/* {data?.course?.module} modules */}
             </h6>
@@ -35,7 +35,11 @@ const CertificationsList = ({ data }: certificationListProps) => {
         <div className="sm:col-span-3 col-span-2 text-right">
           <Button
             className="sm:w-20 sm:h-10 w-[52px] h-9 rounded-md bg-[#00778B] sm:text-base text-sm sm:font-normal font-bold sm:uppercase font-calibri leading-5"
-            onClick={() => navigate(`/employee/my-accomplishments/${data.id}`, { state: data?.course?.id})}
+            onClick={() =>
+              navigate(`/employee/my-accomplishments/${data.id}`, {
+                state: data?.course?.id,
+              })
+            }
             disabled={!data?.certificatePdf}
           >
             View

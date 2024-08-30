@@ -288,9 +288,9 @@ function CoursesAllocate() {
       },
       cell: ({ row }) => {
         return (
-          row.original.employeeStatus === "IsNew" && <Button disabled={resendInvitationPending && rowId === +row?.original?.id} className="bg-[#00778b] w-[110px]" onClick={() => handleResendInvite(row?.original)}>
+          row.original.employeeStatus === "IsNew" ? <Button disabled={resendInvitationPending && rowId === +row?.original?.id} className="bg-[#00778b] w-[110px]" onClick={() => handleResendInvite(row?.original)}>
            {(resendInvitationPending && rowId === +row?.original?.id) && <Loader2 className="w-5 h-5 animate-spin" /> } Resend
-          </Button>
+          </Button> : <span className="text-center w-[110px] block">-</span>
         );
       },
     },
@@ -368,9 +368,9 @@ function CoursesAllocate() {
     setRowId(+data?.id)
     const payload ={
       email:data?.email,
-      companyId: userData?.query?.detailsid,
+      companyId: companyId,
     }
-    emploteeResendInvitationFun(payload)
+    emploteeResendInvitationFun(payload, userData)
   }
 
   const { data, isPending: employeDataPending } = useQuery({

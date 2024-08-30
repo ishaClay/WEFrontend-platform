@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { addFeedback } from "@/services/apiServices/feedback";
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
+import { ErrorResponse } from "react-router-dom";
+import { useToast } from "../ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { addFeedback } from "@/services/apiServices/feedback";
+import { Loader2 } from "lucide-react";
 
 const RatingModel = ({
   isOpen,
@@ -14,7 +17,31 @@ const RatingModel = ({
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { toast } = useToast();
+  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [rating, setRating] = useState<number | null>(null);
+
+  const { mutate: addFeedbackFun, isPending } = useMutation({
+    mutationFn: addFeedback,
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data?.message,
+        variant: "success",
+      });
+      localStorage.setItem("user", JSON.stringify({...userData, query: {...userData?.query, feedback: data?.data?.feedback}}));
+      setIsOpen(false);
+    },
+    onError: (error: ErrorResponse) => {
+      console.log("data++++", error);
+      
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleMouseEnter = (value: number) => {
     setRating(value);
@@ -24,21 +51,12 @@ const RatingModel = ({
   //   setRating(0);
   // };
 
-  const {} = useMutation({
-    mutationFn: addFeedback,
-    onSuccess: () => {
-      setIsOpen(false);
-    },
-  });
-
   const handleClick = (value: number) => {
     setRating(value);
     // if (onRate) {
     //   onRate(value);
     // }
   };
-
-  console.log("rating", rating);
 
   const handleEmoji = (index: number) => {
     switch (index) {
@@ -62,9 +80,18 @@ const RatingModel = ({
     }
   };
 
+  const handleSubmit = () => {
+    const payload:any = {
+      userId: userData?.query?.id,
+      feedback: rating
+    }
+    console.log("payload", payload);
+    addFeedbackFun(payload);
+  }
+
   return (
     <Modal
-      open={!!isOpen}
+      open={isOpen}
       header="Feedback"
       className="max-w-[515px] w-full gap-0"
       onClose={() => {
@@ -99,10 +126,8 @@ const RatingModel = ({
           })}
         </div>
       </div>
-      <div className="flex items-center justify-end">
-        <Button className="bg-[#64A70B] text-sm font-calibri text-white py-2 px-4 rounded-md h-[40px] w-[100px] font-bold outline-none">
-          Submit
-        </Button>
+      <div className="flex justify-end">
+        <Button onClick={handleSubmit} disabled={isPending} className="bg-[#00778b]" >{isPending && <Loader2 className="w-4 h-4 animate-spin" />} Submit</Button>
       </div>
     </Modal>
   );

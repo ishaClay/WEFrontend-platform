@@ -48,7 +48,8 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
       toast({ title: "Password updated successfully", variant: "success" });
     },
     onError: (error: any) => {
-      toast({ title: error?.response?.data?.message, variant: "destructive" });
+      console.error(error);
+      toast({ title: error?.data?.message, variant: "destructive" });
     },
   });
 

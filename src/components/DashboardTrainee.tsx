@@ -1,7 +1,7 @@
 import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
@@ -84,6 +84,7 @@ const employeeData = [
 const DashboardTrainee = () => {
   const [page, setPage] = useState(0);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [isFeedbackModelOpen, setIsFeedbackModelOpen] = useState(false);
   console.log("+++", page);
   const column1: ColumnDef<any>[] = [
     {
@@ -256,6 +257,13 @@ const DashboardTrainee = () => {
     queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
   });
 
+  useEffect(() => {
+    if(!userData?.query?.lastLogin || !userData?.query?.feedback){
+      setIsFeedbackModelOpen(true);
+    }
+  }, [userData])
+  
+
   console.log("smeDashboardData", smeDashboardData);
 
   const [activeButton, setActiveButton] = useState(null);
@@ -265,7 +273,7 @@ const DashboardTrainee = () => {
   };
   return (
     <div className="rounded-xl">
-      <RatingModel isOpen={false} setIsOpen={() => {}} />
+      <RatingModel isOpen={isFeedbackModelOpen} setIsOpen={setIsFeedbackModelOpen} />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
           className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"

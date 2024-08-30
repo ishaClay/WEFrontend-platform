@@ -25,6 +25,7 @@ import {
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
 import Cookies from "js-cookie";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -135,13 +136,16 @@ const EmployeeHeader = () => {
                       </AvatarFallback>
                     </Avatar>
                   </div>
-                  <div className="lg:block hidden text-left">
-                    <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
-                      {userName}
-                    </h5>
-                    <h6 className="xl:text-base text-sm font-nunito text-black">
-                      {+userRole === 4 && "Employee"}
-                    </h6>
+                  <div className="flex items-center">
+                    <div className="lg:block hidden text-left">
+                      <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
+                        Hi, {userName}
+                      </h5>
+                      <h6 className="xl:text-base text-sm font-nunito text-black">
+                        {+userRole === 4 && "Employee"}
+                      </h6>
+                    </div>
+                    <IoMdArrowDropdown className="w-[20px] h-[20px] ml-2" />
                   </div>
                 </div>
               </DropdownMenuTrigger>

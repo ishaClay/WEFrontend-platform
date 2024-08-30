@@ -270,8 +270,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
           </div>
           <div className="">
             <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-              Provide Institution or Organisation Name (Change this to free
-              text. Mention char size - 100)
+              Provide Institution or Organisation Name
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
               <div className="relative">
