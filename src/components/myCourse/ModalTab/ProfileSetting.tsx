@@ -90,10 +90,7 @@ const schema = zod.object({
     .string()
     .min(1, { message: "Please Enter SME Organisation name" }),
   email: zod.string(),
-  mobilenumber: zod
-    .string()
-    .min(1, { message: "Please Enter mobile number" })
-    .max(10, { message: "Please Enter valid mobile number" }),
+  mobilenumber: zod.string().min(1, { message: "Please Enter mobile number" }),
   gender: zod.string(),
 });
 
