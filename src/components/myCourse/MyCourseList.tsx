@@ -43,7 +43,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
     >
       <div className="border border-solid gap-1 border-[#D9D9D9] rounded-lg group flex items-end sm:justify-between justify-center xl:p-5 sm:p-4 p-0 mb-5 xl:flex-nowrap flex-wrap">
         <div className="flex sm:flex-nowrap flex-wrap sm:justify-start justify-center items-center xl:gap-5 gap-3">
-          <div className="aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden">
+          <div className="overflow-hidden rounded-lg sm:min-h-[152px] sm:min-w-[152px] sm:w-[152px] sm:h-[152px] w-full">
             <img
               src={list.course?.bannerImage}
               alt=""
