@@ -160,7 +160,7 @@ const CourseViewCardList = ({
                 type="button"
                 variant={"ghost"}
                 onClick={() => onEditModule()}
-                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+                disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
               >
                 <FilePenLine
                   width={18}
@@ -171,7 +171,7 @@ const CourseViewCardList = ({
                 type="button"
                 variant={"ghost"}
                 onClick={() => setIsDelete(true)}
-                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+                disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
               >
                 <Trash2
                   width={18}

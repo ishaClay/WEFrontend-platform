@@ -464,8 +464,8 @@ const CourseViewCardInner = ({
                     onClick={() => setAddSectionList(true)}
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
                     disabled={
-                      paramsType === "editminor" ||
-                      selectTargetPillarLimit?.data?.LMSaccess !== 1
+                      +selectTargetPillarLimit?.data?.LMSaccess === 0 ||
+                      paramsType === "editminor"
                     }
                   >
                     <CirclePlus width={18} /> Section
@@ -475,10 +475,10 @@ const CourseViewCardInner = ({
                     className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
                     disabled={
+                      +selectTargetPillarLimit?.data?.LMSaccess === 0 ||
                       paramsType === "editminor"
                         ? true
-                        : assessments?.length === 1 ||
-                          selectTargetPillarLimit?.data?.LMSaccess !== 1
+                        : assessments?.length === 1
                     }
                   >
                     <CirclePlus width={18} /> Add Assessment

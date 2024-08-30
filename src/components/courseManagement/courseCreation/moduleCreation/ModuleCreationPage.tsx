@@ -337,14 +337,13 @@ const ModuleCreationPage = () => {
     setModuleList(moduleListClone);
   };
 
-  console.log("errors+++", errors);
-
   const { data: selectTargetPillarLimit, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
     enabled: !!userData,
   });
 
+  console.log("errors+++", +selectTargetPillarLimit?.data?.LMSaccess === 0);
   return (
     <div className="">
       <div className="flex sm:flex-row flex-col justify-between sm:gap-0 gap-3 items-center sm:pb-10 pb-5">
@@ -363,10 +362,10 @@ const ModuleCreationPage = () => {
           type="button"
           onClick={() => appendModule({ ...intialModuleCreation })}
           disabled={
+            +selectTargetPillarLimit?.data?.LMSaccess === 0 ||
             paramsType === "editminor"
               ? true
-              : (moduleList?.length > 0 && moduleCreationItem.length > 0) ||
-                +selectTargetPillarLimit?.data?.LMSaccess !== 1
+              : moduleList?.length > 0 && moduleCreationItem.length > 0
           }
           className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
         >

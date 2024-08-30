@@ -173,7 +173,7 @@ const CourseViewCardInnerList = ({
           type="button"
           variant={"ghost"}
           onClick={() => handelEditSection(data)}
-          disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+          disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
         >
           <FilePenLine width={18} className="text-[#575757] cursor-pointer" />
         </Button>
@@ -187,7 +187,7 @@ const CourseViewCardInnerList = ({
               type: data?.readingTime ? "" : "assesment",
             });
           }}
-          disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
+          disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
         >
           <Trash2 width={18} className="text-[#575757] cursor-pointer" />
         </Button>

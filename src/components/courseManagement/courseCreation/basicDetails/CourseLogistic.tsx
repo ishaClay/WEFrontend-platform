@@ -95,7 +95,7 @@ const schema = zod
     durationType: zod.string().min(2, "Please select duration type"),
   })
   .superRefine((data, ctx) => {
-    if (data.isOnline === "0") {
+    if (data.isOnline === "0" && !data.universityAddress) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
         message: "Please enter university location",
@@ -115,6 +115,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
     handleSubmit,
     setValue,
     watch,
+    setError,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -174,13 +175,18 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   });
 
   useEffect(() => {
-    console.log("getSingleCourse", getSingleCourse);
-
+    console.log(
+      "getSingleCourse++++++++++++++++",
+      getSingleCourse &&
+        getSingleCourse?.data?.course &&
+        // @ts-ignore
+        +getSingleCourse?.data?.course?.step !== 2
+    );
     if (
       getSingleCourse &&
       getSingleCourse?.data?.course &&
       // @ts-ignore
-      getSingleCourse?.data?.course?.step !== "2"
+      +getSingleCourse?.data?.course?.step !== 2
     ) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
@@ -197,6 +203,15 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           isOnline: getSingleCourse?.data?.course?.isOnline?.toString(),
         });
         setValue("durationType", data?.duration?.split(" ")?.[1]?.toString());
+      });
+    } else {
+      setValue("time", "");
+      setValue("isOnline", "");
+      setSelectBoxValue({
+        ...selectBoxValue,
+        time: "",
+        isOnline: "",
+        durationType: "",
       });
     }
   }, [getSingleCourse, setValue]);
@@ -297,6 +312,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, time: data });
                   setValue("time", data);
+                  setError("time", "");
                 }}
                 value={selectBoxValue?.time || ""}
                 placeholder="Select course offering mode"
@@ -318,6 +334,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 setValue={(data: string) => {
                   setSelectBoxValue({ ...selectBoxValue, isOnline: data });
                   setValue("isOnline", data);
+                  setError("isOnline", "");
                 }}
                 value={selectBoxValue?.isOnline || ""}
                 placeholder="Select delivery mode"
@@ -368,6 +385,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                       durationType: data,
                     });
                     setValue("durationType", data);
+                    setError("durationType", "");
                   }}
                   value={selectBoxValue?.durationType || ""}
                   className="sm:w-[150px] w-[110px] border font-calibri border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
