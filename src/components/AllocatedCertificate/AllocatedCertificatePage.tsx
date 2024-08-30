@@ -217,37 +217,39 @@ const AllocatedCertificatePage = () => {
               <Button
                 variant={"ghost"}
                 onClick={() => {
-                  {
-                    navigate(
-                      `/${UserRole[
-                        userData?.query?.role
-                      ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
-                        row?.original?.course?.id
-                      }&traineeId=${row?.original?.employee?.id}`
-                    );
-                    dispatch(
-                      setPath([
-                        {
-                          label: `Certificate Management`,
-                          link: null,
-                        },
-                        {
-                          label: `Issued Certificate`,
-                          link: `/${UserRole[
-                            userData?.query?.role
-                          ]?.toLowerCase()}/allocated-certificate`,
-                        },
-                        {
-                          label: `Allocate Certificate`,
-                          link: `/${UserRole[
-                            userData?.query?.role
-                          ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
-                            row?.original?.course?.id
-                          }&traineeId=${row?.original?.employee?.id}`,
-                        },
-                      ])
-                    );
-                  }
+                  dispatch(
+                    setPath([
+                      {
+                        label: `Certificate Management`,
+                        link: null,
+                      },
+                      {
+                        label: `Issued Certificate`,
+                        link: `/${UserRole[
+                          userData?.query?.role
+                        ]?.toLowerCase()}/allocated-certificate`,
+                      },
+                      {
+                        label: `Allocate Certificate`,
+                        link: `/${UserRole[
+                          userData?.query?.role
+                        ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
+                          row?.original?.course?.id
+                        }&traineeId=${row?.original?.employee?.id}&courseName=${
+                          row?.original?.course?.title
+                        }`,
+                      },
+                    ])
+                  );
+                  navigate(
+                    `/${UserRole[
+                      userData?.query?.role
+                    ]?.toLowerCase()}/allocated-certificate-employee?courseId=${
+                      row?.original?.course?.id
+                    }&traineeId=${row?.original?.employee?.id}&courseName=${
+                      row?.original?.course?.title
+                    }`
+                  );
                 }}
               >
                 <FileSliders

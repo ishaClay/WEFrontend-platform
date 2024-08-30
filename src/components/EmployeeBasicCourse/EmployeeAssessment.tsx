@@ -9,7 +9,7 @@ import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { FieldValues, useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -48,6 +48,14 @@ const EmployeeAssessment = () => {
   const search = window.location.search;
   const moduleId = new URLSearchParams(search).get("moduleId");
   const [showAssessmentScore, setShowAssessmentScore] = useState(false);
+  const location = useLocation();
+  console.log("location", location);
+
+  useEffect(() => {
+    if (location.state?.isCompleted) {
+      setShowAssessmentScore(true);
+    }
+  }, [location.state?.isCompleted]);
 
   const {
     data: getAssessmentQuestion,
@@ -196,7 +204,6 @@ const EmployeeAssessment = () => {
   };
 
   console.log("error::", errors);
-  
 
   return getAssessmentSingleQuestionPending || getAssessmentQuestionPending ? (
     <span className="flex items-center justify-center py-10">
@@ -273,7 +280,7 @@ const EmployeeAssessment = () => {
               className="text-[#4285F4] cursor-pointer"
               onClick={() =>
                 navigate(
-                  `/employee/employee-basic-course/${state?.versionId}?courseId=${state?.courseId}`
+                  `/employee/employee-basic-course/${state?.versionId}?courseId=${state?.courseId}&tab=1`
                 )
               }
             >
@@ -286,10 +293,13 @@ const EmployeeAssessment = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               {assessmentQuestion?.map((data, index) => {
+                console.log("data++++", data.option);
+
                 return (
                   <Fragment key={index}>
                     {data?.assessmentType === "Single Choice Question" &&
-                      data?.option?.length > 0 && (
+                      data?.option?.filter((i: any) => i.option)?.length >
+                        0 && (
                         <div className="mb-10">
                           <div className="gap-5 flex items-center justify-between mb-[8px]">
                             <p className="w-[calc(100%_-_102px)]">
@@ -314,19 +324,19 @@ const EmployeeAssessment = () => {
                           >
                             {data?.option?.map((option: any) => (
                               <div
-                                key={option}
+                                key={option.option}
                                 className="flex items-center space-x-2 mb-3"
                               >
                                 <RadioGroupItem
-                                  value={option}
-                                  id={`option-${index}-${option}`}
+                                  value={option.option}
+                                  id={`option-${index}-${option.option}`}
                                   className="border-[#9B9B9B] w-5 h-5"
                                 />
                                 <Label
-                                  htmlFor={`option-${index}-${option}`}
+                                  htmlFor={`option-${index}-${option.option}`}
                                   className="text-sm font-sans"
                                 >
-                                  {option}
+                                  {option.option}
                                 </Label>
                               </div>
                             ))}
@@ -372,7 +382,8 @@ const EmployeeAssessment = () => {
                     )}
 
                     {data?.assessmentType === "Single Choice Question" &&
-                      data?.option?.length === 0 && (
+                      data?.option.filter((i: any) => i.option)?.length ===
+                        0 && (
                         <div className="mb-10">
                           <div className="gap-5 flex items-center justify-between mb-[8px]">
                             <p className="w-[calc(100%_-_102px)]">
@@ -455,12 +466,12 @@ const EmployeeAssessment = () => {
                             className="flex items-center space-x-2 mb-3"
                           >
                             <Checkbox
-                              id={`checkbox-${index}-${option}`}
+                              id={`checkbox-${index}-${option.option}`}
                               checked={watch(
                                 `assesdmentAnswer.${index}.answer`
-                              )?.includes(option)}
+                              )?.includes(option.option)}
                               onCheckedChange={() =>
-                                handleCheckboxChange(index, option)
+                                handleCheckboxChange(index, option.option)
                               }
                               className="border-[#9B9B9B] w-5 h-5"
                             />
@@ -469,7 +480,7 @@ const EmployeeAssessment = () => {
                               className="text-sm font-sans"
                               {...register(`assesdmentAnswer.${index}.answer`)}
                             >
-                              {option}
+                              {option.option}
                             </Label>
                           </div>
                         ))}

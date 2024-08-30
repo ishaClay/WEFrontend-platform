@@ -7,6 +7,7 @@ import {
 import { cn } from "@/lib/utils";
 import { AccordionOption } from "@/types";
 import { Separator } from "../ui/separator";
+import { useChatBotContext } from "@/context/chatBotContext";
 
 type AccordionsProps = {
   type?: "single" | "multiple";
@@ -22,6 +23,7 @@ type AccordionsProps = {
   isPlusIcon?: boolean;
   customIconClassName?: string;
   contentClassName?: string;
+  value?: string | undefined;
 };
 
 const Accordions = ({
@@ -38,10 +40,13 @@ const Accordions = ({
   isPlusIcon,
   customIconClassName,
   contentClassName,
+  value,
 }: AccordionsProps) => {
+  const { setOpen } = useChatBotContext();
   return (
     // <DragDropContext onDragEnd={onDragEnd}>
-    <Accordion type={type} collapsible>
+    // @ts-expect-error-next-line
+    <Accordion type={type} value={value} collapsible>
       <div className={cn("space-y-[24px] relative mt-0", className)}>
         {items?.map((item, index) => {
           return (
@@ -57,9 +62,10 @@ const Accordions = ({
                 itemsClass)
               }
               key={index}
-              value={`item-${index + 1}`}
+              value={value || `item-${index + 1}`}
             >
               <AccordionTrigger
+                onClick={() => setOpen(false)}
                 className={cn(
                   `${background ? "p-5 bg-[#F8F8F8]" : "p-0"} items-center`,
                   triggerClassName

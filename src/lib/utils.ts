@@ -33,6 +33,7 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType } from "./constants";
+import InfoIcon from "@/assets/svgs/infoIcon.svg";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -502,18 +503,18 @@ export const calculateTotalReadingTime = (sections: any) => {
   let totalSeconds = 0;
   console.log("sectionssections", sections);
 
-
   sections.forEach((section: any) => {
     const time = section.readingTime;
     console.log("timetimetime", time, section.isLive || section.isLive === 0);
 
-    const assessmentTime = section?.module?.assessment?.length > 0 && section?.module?.assessment?.[0]?.timeDuration;
-    totalHours += time?.hour || (assessmentTime?.hours + time?.hour || 0);
-    totalMinutes += time?.minute || (assessmentTime?.minutes + time?.minute || 0);
-    totalSeconds += time?.second || (assessmentTime?.seconds + time?.second || 0);
+    const assessmentTime =
+      section?.module?.assessment?.length > 0 &&
+      section?.module?.assessment?.[0]?.timeDuration;
+    totalHours += time?.hour || assessmentTime?.hours + time?.hour || 0;
+    totalMinutes += time?.minute || assessmentTime?.minutes + time?.minute || 0;
+    totalSeconds += time?.second || assessmentTime?.seconds + time?.second || 0;
   });
   console.log("sectionssections", totalHours, totalMinutes, totalSeconds);
-
 
   // Convert total seconds to minutes and hours if necessary
   totalMinutes += Math.floor(totalSeconds / 60);
@@ -568,19 +569,17 @@ export const getRandomHexColor = () => {
 
 export const getTotalDuration = (data: any) => {
   return data?.reduce((totalSeconds: any, readingTime: any) => {
-
-    return (
-      readingTime?.hour >= 0 && readingTime?.minute >= 0 && readingTime?.second >= 0 ?
-        totalSeconds +
-        +readingTime?.hour * 3600 +
-        +readingTime?.minute * 60 +
-        +readingTime?.second
-        :
-        +totalSeconds +
-        +readingTime?.hours * 3600 +
-        +readingTime?.minutes * 60 +
-        +readingTime?.seconds
-    );
+    return readingTime?.hour >= 0 &&
+      readingTime?.minute >= 0 &&
+      readingTime?.second >= 0
+      ? totalSeconds +
+          +readingTime?.hour * 3600 +
+          +readingTime?.minute * 60 +
+          +readingTime?.second
+      : +totalSeconds +
+          +readingTime?.hours * 3600 +
+          +readingTime?.minutes * 60 +
+          +readingTime?.seconds;
   }, 0);
 };
 
@@ -647,6 +646,8 @@ export const documentIcon = (type: string) => {
     return xlsxFileIcon;
   } else if (type?.split("/")?.[3]?.includes("doc")) {
     return wordFile;
+  } else {
+    return InfoIcon;
   }
 };
 
@@ -656,9 +657,9 @@ export const isSessionOngoingAtTime = (
   sessionDuration: number
 ): boolean => {
   const targetDate = moment();
-  const sessionStart = moment(`${date} ${startTime}`, 'YYYY-MM-DD hh:mm A');
-  const sessionEnd = sessionStart.clone().add(sessionDuration, 'minutes');
-  return targetDate.isBetween(sessionStart, sessionEnd, null, '[)');
+  const sessionStart = moment(`${date} ${startTime}`, "YYYY-MM-DD hh:mm A");
+  const sessionEnd = sessionStart.clone().add(sessionDuration, "minutes");
+  return targetDate.isBetween(sessionStart, sessionEnd, null, "[)");
 };
 
 export const calculateEndTime = (
@@ -716,7 +717,9 @@ export const IstDate = (time: Date | string) => {
   }
 
   // Convert the input time to UTC by removing the timezone offset
-  const utcTime = new Date(timeUTC.getTime() + timeUTC.getTimezoneOffset() * 60000);
+  const utcTime = new Date(
+    timeUTC.getTime() + timeUTC.getTimezoneOffset() * 60000
+  );
 
   // Format the date to IST
   const formattedTime = utcTime.toLocaleString("en-US", {

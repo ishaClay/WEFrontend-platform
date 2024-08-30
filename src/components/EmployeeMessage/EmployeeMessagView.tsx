@@ -12,6 +12,10 @@ const EmployeeMessagView = () => {
     : userData?.query
     ? userData?.query?.id
     : userData?.id;
+  // const { data: chatUserList } = useQuery({
+  //   queryKey: [QUERY_KEYS.chatUserList],
+  //   queryFn: () => fetchChatUserList(userID.toString() as string),
+  // });
   const { data: chatUserList } = useQuery({
     queryKey: [QUERY_KEYS.chatUserList],
     queryFn: () => fetchChatUserList(userID.toString() as string),

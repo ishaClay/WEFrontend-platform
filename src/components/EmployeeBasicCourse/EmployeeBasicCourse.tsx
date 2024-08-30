@@ -26,7 +26,7 @@ import ReviewModal from "./ReviewModal";
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
   const { empPermissions } = useContext(PermissionContext);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const mainCourseId = searchParams.get("courseId");
   const tab = searchParams.get("tab");
   const [currentTab, setCurrentTab] = useState("");
@@ -138,7 +138,16 @@ const EmployeeBasicCourse = () => {
           <div className="">
             <Tabs
               defaultValue="information"
-              onValueChange={(e) => setCurrentTab(e)}
+              onValueChange={(e) => {
+                if (searchParams.has("module")) {
+                  const token = searchParams.get("module");
+                  if (token) {
+                    searchParams.delete("module");
+                    setSearchParams(searchParams);
+                  }
+                }
+                setCurrentTab(e);
+              }}
               className="w-full"
               value={currentTab}
             >

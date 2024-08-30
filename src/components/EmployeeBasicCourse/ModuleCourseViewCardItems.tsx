@@ -8,10 +8,9 @@ import { documentIcon, documentType } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleX, MoveLeft } from "lucide-react";
+import { CircleCheck, CircleX, MoveLeft } from "lucide-react";
 import { useState } from "react";
 import ViewSession from "./ViewSession";
-import { Badge } from "../ui/badge";
 
 type moduleCourseCardListProps = {
   list: {
@@ -71,14 +70,20 @@ const ModuleCourseViewCardItems = ({
       </>
     );
   };
-console.log("list?.url", list);
+  console.log("list?.url", list);
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
         <div className="me-3">
           <img
-            src={list?.isLive === 1 ? liveSection : list?.uploadContent === "" ? infoIcon : documentIcon(list?.uploadContent)}
+            src={
+              list?.isLive === 1
+                ? liveSection
+                : list?.uploadContent === ""
+                ? infoIcon
+                : documentIcon(list?.uploadContent)
+            }
             alt="documentIcon"
             className="max-w-[32px] w-auto h-auto"
           />
@@ -141,9 +146,9 @@ console.log("list?.url", list);
           </Button>
         )}
         {list?.isStatus === "Completed" && (
-          <Badge className="bg-[#64A70B] hover:bg-[#64A70B] xl:h-12 h-9 rounded-[4px] px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
-            Completed
-          </Badge>
+          <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-nunito font-semibold flex items-center sm:px-2.5 px-0">
+            <CircleCheck width={20} /> Completed
+          </Button>
         )}
         {list?.isStatus === "Progress" && (
           <Button

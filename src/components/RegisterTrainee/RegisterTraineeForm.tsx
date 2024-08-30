@@ -71,8 +71,7 @@ const RegisterTraineeForm = () => {
     }),
     currentHighestNFQ: Zod.string({
       required_error: "Please select current highest NFQ",
-    })
-      .min(1, { message: "Please enter NFQ" }),
+    }).min(1, { message: "Please enter NFQ" }),
     employmentStatus: Zod.string().optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string({
@@ -144,7 +143,7 @@ const RegisterTraineeForm = () => {
   const { mutate, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       localStorage.removeItem("path");
       setValue("email", email || "");
@@ -439,7 +438,7 @@ const RegisterTraineeForm = () => {
               value={selectBoxValues?.currentHighestNFQ}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select Nfq" />
+                <SelectValue placeholder="Select NFQ" />
               </SelectTrigger>
               <SelectContent className="w-full">
                 {nfqPending ? (
@@ -461,11 +460,9 @@ const RegisterTraineeForm = () => {
                 )}
               </SelectContent>
             </Select>
-             {!errors.currentHighestNFQ?.ref?.value && (
+            {!errors.currentHighestNFQ?.ref?.value && (
               <ErrorMessage
-                message={
-                  (errors?.currentHighestNFQ?.message as string) || ""
-                }
+                message={(errors?.currentHighestNFQ?.message as string) || ""}
               />
             )}
           </div>
