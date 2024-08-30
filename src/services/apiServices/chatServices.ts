@@ -2,7 +2,9 @@ import { ChatDataList, ChatDetailsListResponse, GroupChat } from "@/types/Chat";
 import { AxiosResponse } from "axios";
 import api from "./api";
 
-export const fetchChatUserList = (id: string): Promise<AxiosResponse<ChatDataList>> => {
+export const fetchChatUserList = (
+  id: string
+): Promise<AxiosResponse<ChatDataList>> => {
   const url = `api/v1/message/list/${id}`;
   return api({ url });
 };
@@ -19,13 +21,13 @@ export const fetchGroupChat = async (
 ): Promise<AxiosResponse<GroupChat>> => {
   const url = `api/v1/group/message/get/${id}`;
   const res = await api({ url });
-  return res.data
+  return res.data;
 };
 
 export const sendGroupMessage = async (data: any) => {
   const url = `api/v1/group/message/send`;
   const res = await api({ url, method: "post", data });
-  return res?.data
+  return res?.data;
 };
 
 export const sendMessage = (data: any) => {
