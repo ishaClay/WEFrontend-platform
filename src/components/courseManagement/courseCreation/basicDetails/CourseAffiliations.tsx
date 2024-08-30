@@ -8,7 +8,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import {
   createCourseTwoPage,
   fetchSingleCourseById,
-  updateCourse
+  updateCourse,
 } from "@/services/apiServices/courseManagement";
 import { ResponseError } from "@/types/Errors";
 import { CourseData } from "@/types/course";
@@ -270,7 +270,8 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
           </div>
           <div className="">
             <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-              Provide Institution / organisation Name (Max 100 words only)
+              Provide Institution or Organisation Name (Change this to free
+              text. Mention char size - 100)
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
               <div className="relative">

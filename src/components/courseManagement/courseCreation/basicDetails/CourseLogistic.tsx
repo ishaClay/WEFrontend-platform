@@ -185,12 +185,9 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
         );
         setSelectBoxValue({
           ...selectBoxValue,
-          durationType: data?.duration?.split(" ")?.[1]?.toString()
-        })
-        setValue(
-          "durationType",
-          data?.duration?.split(" ")?.[1]?.toString()
-        );
+          durationType: data?.duration?.split(" ")?.[1]?.toString(),
+        });
+        setValue("durationType", data?.duration?.split(" ")?.[1]?.toString());
       });
     }
   }, [getSingleCourse, setValue]);
@@ -339,7 +336,8 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           </div>
           <div className="">
             <h6 className="text-base text-[#515151] font-calibri sm:pb-3 pb-2">
-              What is the duration of the course? (e.g., 6 months, 1 year)
+              What is the duration of the course? ( in days, weeks, months or
+              years )
             </h6>
             <div className="flex sm:mb-5 mb-[15px] gap-5">
               <div>
