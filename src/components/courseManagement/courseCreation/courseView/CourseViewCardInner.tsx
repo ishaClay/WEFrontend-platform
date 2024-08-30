@@ -2,7 +2,7 @@ import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { scheduleLiveSession } from "@/services/apiServices/liveSession";
+import { liveSessionUpdate } from "@/services/apiServices/liveSession";
 import {
   changeSectionPostion,
   createSection,
@@ -245,7 +245,7 @@ const CourseViewCardInner = ({
   const { mutate: EditLiveSection, isPending: editLiveSectionPending } =
     useMutation({
       mutationFn: (data: any) =>
-        scheduleLiveSession({ data, id: isEditSection }),
+        liveSessionUpdate({ data, id: isEditSection }),
       onSuccess: () => {
         setIsEditSection(null);
         reset({ ...intialSectionCreation });
@@ -350,8 +350,8 @@ const CourseViewCardInner = ({
     if (informationError !== "") return;
     const a = {
       isLive: true,
-      liveSecTitle: data.sectionTitle,
-      liveSecinformation: data.information,
+      title: data.sectionTitle,
+      information: data.information,
       sectionTime: {
         hour: +data.livesessionDuration.hour,
         minute: +data.livesessionDuration.minute,

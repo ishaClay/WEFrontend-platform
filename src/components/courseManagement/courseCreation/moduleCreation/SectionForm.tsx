@@ -131,6 +131,7 @@ const SectionForm = ({
                   setValue(`isLive`, !section.isLive);
                 }}
                 className="me-3"
+                disabled={!!sectionID}
               />
               Live Session
             </h6>

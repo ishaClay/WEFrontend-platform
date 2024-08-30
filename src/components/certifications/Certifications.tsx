@@ -15,7 +15,8 @@ const Certifications = () => {
   return (
     <>
       <div className="lg:bg-white bg-transparent rounded-xl">
-        <div className="grid xl:grid-cols-2 grid-cols-1 sm:gap-5 gap-4 bg-white sm:p-5 p-[15px] rounded-lg">
+        <div className={`grid sm:gap-5 gap-4 bg-white sm:p-5 p-[15px] rounded-lg 
+          ${isLoading ? "grid-cols-1" : "xl:grid-cols-2 grid-cols-1"}`}>
           {isLoading ? (
             <Loader />
           ) : data?.data?.length ? (
