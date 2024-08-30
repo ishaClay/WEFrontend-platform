@@ -22,7 +22,7 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
   console.log("listlist", list);
-  
+
   return (
     <Link
       to={`/employee/employee-basic-course/${list?.course?.versionId}?courseId=${list?.course?.id}`}
@@ -43,11 +43,11 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
     >
       <div className="border border-solid gap-1 border-[#D9D9D9] rounded-lg group flex items-end sm:justify-between justify-center xl:p-5 sm:p-4 p-0 mb-5 xl:flex-nowrap flex-wrap">
         <div className="flex sm:flex-nowrap flex-wrap sm:justify-start justify-center items-center xl:gap-5 gap-3">
-          <div className="overflow-hidden rounded-lg sm:min-h-[152px] sm:min-w-[152px] sm:w-[152px] sm:h-[152px] w-full">
+          <div className="aspect-video bg-[color:var(--base5-56)] justify-center items-center flex relative overflow-hidden">
             <img
               src={list.course?.bannerImage}
               alt=""
-              className="w-full h-full"
+              className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
             />
           </div>
           <div className="w-full sm:p-0 px-4">
@@ -71,7 +71,8 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
                 {Number(list?.course?.courseProgress).toFixed(0)}%
               </div>
               <div className="text-xs font-normal font-calibri leading-4">
-                {list?.course?.completedModule} of {list?.course?.totalmodules} Completed
+                {list?.course?.completedModule} of {list?.course?.totalmodules}{" "}
+                Completed
               </div>
             </div>
             <Progress

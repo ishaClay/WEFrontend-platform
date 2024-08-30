@@ -18,6 +18,10 @@ import MyCourseList from "./MyCourseList";
 
 const filter1Option = [
   {
+    label: "All",
+    value: "all",
+  },
+  {
     label: "In Progress",
     value: "In Progress",
   },
@@ -64,7 +68,7 @@ const MyCoursePage = () => {
       QUERY_KEYS?.myCourses,
       {
         id: userID,
-        status: selectFilterByStatus,
+        status: selectFilterByStatus === "all" ? "" : selectFilterByStatus,
         categories: selectFilterByCategory,
       },
     ],
@@ -106,7 +110,7 @@ const MyCoursePage = () => {
         <div className="flex items-center sm:gap-8 gap-[10px]">
           <div>
             <Label className="text-xs font-normal font-Poppins mt-0">
-              Filter By
+              Filter By Piller
             </Label>
             <SelectMenu
               option={pillerFilterOption || []}
@@ -118,7 +122,7 @@ const MyCoursePage = () => {
           </div>
           <div>
             <Label className="text-xs font-normal font-Poppins mt-0">
-              Filter By
+              Filter By Status
             </Label>
             <SelectMenu
               option={filter1Option}
