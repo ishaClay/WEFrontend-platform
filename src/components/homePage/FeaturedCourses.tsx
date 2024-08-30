@@ -26,10 +26,7 @@ const FeaturedCourses = () => {
   console.log("clientwiseCourseslider?.data", clientwiseCourseslider?.data);
 
   const settings = {
-    dots:
-      clientwiseCourseslider && clientwiseCourseslider?.data!.length > 1
-        ? true
-        : false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -66,11 +63,9 @@ const FeaturedCourses = () => {
     ],
   };
 
-  console.log("clientwiseCourseslider", clientwiseCourseslider);
-
   return (
     <div className="">
-      <div className="xl:max-w-[1160px] max-w-full mx-auto my-[40px] xl:px-0 px-5 2xl:py-[30px] py-[24px]">
+      <div className="xl:max-w-[1160px] max-w-full mx-auto my-[40px] xl:px-0 px-5 2xl:py-[30px] py-[24px] 2xl:pb-[100px] xl:pb-[100px] pb-[90px]">
         <div>
           <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
             {title || "Featured Courses"}
@@ -94,6 +89,7 @@ const FeaturedCourses = () => {
             ) : (
               <Slider {...settings}>
                 {clientwiseCourseslider?.data?.map((item) => {
+                  
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
@@ -109,15 +105,20 @@ const FeaturedCourses = () => {
                           <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-Droid-Regular line-clamp-3">
                             {item.content}
                           </p>
-
-                          <SecondaryButton
-                            name={item.buttonTitle}
-                            symbol={<img src="../assets/img/Move Right.png" />}
-                            className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
-                            onClick={() => {
-                              navigate("/our-courses");
-                            }}
-                          ></SecondaryButton>
+                          {item?.courseTitle?.id && (
+                            <SecondaryButton
+                              name={item.buttonTitle}
+                              symbol={
+                                <img src="../assets/img/Move Right.png" />
+                              }
+                              className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
+                              onClick={() => {
+                                navigate(
+                                  `/feature-course/${item?.courseTitle?.id}`
+                                );
+                              }}
+                            ></SecondaryButton>
+                          )}
                         </div>
 
                         <div className="sm:order-2 order-1">
