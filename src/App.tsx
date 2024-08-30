@@ -769,6 +769,15 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="CourseLiveSession" element={<CourseLiveSession />} />
+          <Route
+            path="schedule-live-session"
+            element={<ScheduleLiveSession />}
+          />
+          <Route
+            path="schedule-live-session/edit/:id"
+            element={<ScheduleLiveSession />}
+          />
           <Route path="dashboard" element={<DashboardTrainee />} />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />

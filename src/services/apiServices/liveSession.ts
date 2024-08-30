@@ -36,12 +36,12 @@ export const createLiveSection = async (data: any) => {
   return res;
 };
 
-export const getAllLiveSession = (trainerCompanyId: number) => {
+export const getAllLiveSession = (trainerCompanyId: number, para: string) => {
   const url = `api/v1/livesessions/list`;
   const params:any = {};
 
   if(trainerCompanyId){
-    params["trainerCompanyId"] = trainerCompanyId;
+    params[para] = trainerCompanyId;
   }
   return api({ url, params });
 };

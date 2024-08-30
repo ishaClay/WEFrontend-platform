@@ -290,7 +290,7 @@ const GridView = ({
     e.stopPropagation();
     setIsStatusLoading(true);
     const payload = {
-      status: item.status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED",
+      status: item?.status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED",
       id: +item?.currentVersion?.id,
     };
     publishCourseFun(payload);
@@ -334,7 +334,7 @@ const GridView = ({
           //   });
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
           const isMyCoursesPath = pathName === "mycourses";
-          const isPublished = item.status === "PUBLISHED";
+          const isPublished = item?.status === "PUBLISHED";
 
           const versionOption =
             item?.version &&
@@ -378,7 +378,7 @@ const GridView = ({
                       ? "DRAFT"
                       : item?.status === "READYTOPUBLISH"
                       ? "Ready to Publish"
-                      : item.status || item.status}
+                      : item?.status || item?.status}
                   </Badge>
                 </div>
               </div>
@@ -442,9 +442,9 @@ const GridView = ({
                     setCourse(item?.id);
                   }}
                 >
-                  {item.status === "PUBLISHED"
+                  {item?.status === "PUBLISHED"
                     ? "Published"
-                    : item.status === "READYTOPUBLISH"
+                    : item?.status === "READYTOPUBLISH"
                     ? userData?.query?.role === "2"
                       ? "Publish"
                       : "Ready to Publish"
