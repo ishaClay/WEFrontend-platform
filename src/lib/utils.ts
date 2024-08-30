@@ -196,6 +196,10 @@ export const sidebarLayout = {
           label: "Enrolled Courses",
           link: "/trainee/enrolledcourses",
         },
+        {
+          label: "Live Sessions",
+          link: "/trainee/CourseLiveSession",
+        },
       ],
     },
     {

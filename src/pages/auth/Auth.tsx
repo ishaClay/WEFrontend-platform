@@ -114,18 +114,17 @@ function Auth() {
   const { mutate: login_user, isPending: loginPanding } = useMutation({
     mutationFn: Login,
     onSuccess: (data) => {
-      const user = data.data.data.query;
-      const role = trackUserLogin(+user.role);
-      console.log(role, user.role, "rolerolerolerolerole");
-      Cookies.set('accessToken', data?.data?.data?.accessToken, { expires: 1 });
-
+      const user = data?.data?.data?.query;
+      const role = trackUserLogin(+user?.role);
+      console.log(role, user?.role, "rolerolerolerolerole");
+      Cookies.set("accessToken", data?.data?.data?.accessToken, { expires: 1 });
       if ((window as any).gtag) {
         (window as any).gtag("event", "login", {
-          user_id: user.id,
-          user_role: trackUserLogin(+user.role),
-          user_name: user.name,
-          user_email: user.email,
-          gender: user.gender,
+          user_id: user?.id,
+          user_role: trackUserLogin(+user?.role),
+          user_name: user?.name,
+          user_email: user?.email,
+          gender: user?.gender,
         });
       }
 

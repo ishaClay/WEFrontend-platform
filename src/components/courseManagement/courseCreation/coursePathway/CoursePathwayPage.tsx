@@ -32,7 +32,6 @@ const CoursePathwayPage = () => {
   const search = window.location.search;
   const paramsversion = new URLSearchParams(search).get("version");
   const paramsId = new URLSearchParams(search).get("id");
-  const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = location?.pathname?.split("/")[3];
   const queryClient = useQueryClient();
@@ -59,18 +58,23 @@ const CoursePathwayPage = () => {
   const { mutate: pillarMaturityFun, isPending: pillarMaturityLoading } =
     useMutation({
       mutationFn: (e: any) => pillarMaturity(e),
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsError(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.getSingleCourse],
         });
+        const updatedData = data?.data;
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ''}`
+            `/${pathName}/create_course/${courseId}?tab=${
+              updatedData?.creationCompleted ? "2" : updatedData?.tab
+            }&version=${paramsversion}`
           );
         } else {
           navigate(
-            `/${pathName}/create_course?tab=2&id=${paramsId}&version=${paramsversion}`
+            `/${pathName}/create_course?tab=${
+              updatedData?.creationCompleted ? "2" : updatedData?.tab
+            }&id=${paramsId}&version=${paramsversion}`
           );
         }
         toast({
@@ -115,6 +119,7 @@ const CoursePathwayPage = () => {
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
   });
+  console.log("paramsversion", paramsversion);
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -122,6 +127,12 @@ const CoursePathwayPage = () => {
       setSelectedData(data);
     }
   }, [getSingleCourse]);
+
+  console.log(
+    "selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit",
+    selectedData.length,
+    selectTargetPillarLimit?.data?.pillarLimit
+  );
 
   const updateedPillar = (selectedData: any, pillarLimit: any) => {
     if (selectedData?.length !== pillarLimit?.length) return false;
@@ -135,7 +146,7 @@ const CoursePathwayPage = () => {
         if (updateedPillar(selectedData, getPillarLimit)) {
           if (+courseId) {
             navigate(
-              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ''}`
+              `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
             );
           } else {
             navigate(
@@ -202,7 +213,7 @@ const CoursePathwayPage = () => {
           <div className="flex items-center gap-3">
             <img src={CloseIcon} alt="close" />
             <span className="text-[#842029] text-base font-calibri">
-              You can tag up to {selectTargetPillarLimit?.data?.pillarLimit || 0} pillars per course. If your course targets
+              You can tag up to 3 pillars per course. If your course targets
               additional pillars, please reach out to your Skillnet admin to
               request more tags.
             </span>
@@ -222,7 +233,7 @@ const CoursePathwayPage = () => {
         <Button
           type="button"
           onClick={handleSubmit}
-          className="outline-none text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
+          className=" text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
           disabled={pillarMaturityLoading}
         >
           {pillarMaturityLoading ? (

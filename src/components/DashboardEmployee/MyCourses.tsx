@@ -51,7 +51,7 @@ const MyCourses = () => {
       </h5>
       <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
         {isLoading ? (
-          <Loader />
+          <Loader containerClassName="col-span-full" />
         ) : coursesItems.length ? (
           coursesItems.map((data, index) => {
             return <MyCoursesItems data={data} key={index} />;

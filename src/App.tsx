@@ -139,6 +139,7 @@ function App() {
   let socket: any;
   const queryClient = useQueryClient();
   const { clientId } = useAppSelector((state) => state.user);
+  // const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: themes } = useQuery({
     queryKey: [QUERY_KEYS.themeChanges],
@@ -769,6 +770,15 @@ function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="CourseLiveSession" element={<CourseLiveSession />} />
+          <Route
+            path="schedule-live-session"
+            element={<ScheduleLiveSession />}
+          />
+          <Route
+            path="schedule-live-session/edit/:id"
+            element={<ScheduleLiveSession />}
+          />
           <Route path="dashboard" element={<DashboardTrainee />} />
           <Route path="mycourses" element={<MyCourse />} />
           <Route path="allcourse" element={<AllCoursesPage />} />

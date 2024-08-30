@@ -21,9 +21,17 @@ const CourseLiveSession = () => {
     navigate(`${location?.pathname}?view=${id}`, { replace: true });
   };
 
+  const Role = location.pathname.split("/")[1];
+  let para;
+  if (Role === "trainee") {
+    para = "trainerId";
+  } else {
+    para = "trainerCompanyId";
+  }
+
   const { data: allLiveSession } = useQuery({
     queryKey: [QUERY_KEYS.allLiveSession],
-    queryFn: () => getAllLiveSession(userData?.query?.detailsid),
+    queryFn: () => getAllLiveSession(userData?.query?.detailsid, para),
   });
 
   return (

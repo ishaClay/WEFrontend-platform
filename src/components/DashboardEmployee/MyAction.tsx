@@ -1,14 +1,14 @@
-import MyActionItems from "./MyActionItems";
-import CustomCarousel from "../comman/CustomCarousel";
-import { useQuery } from "@tanstack/react-query";
+import action_assigned from "@/assets/images/action_assigned.png";
+import Action_Completed from "@/assets/images/action_completed.png";
+import Action_Display from "@/assets/images/action_display.png";
+import Action_Open from "@/assets/images/action_open.png";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getDashboardEmployeeCourse } from "@/services/apiServices/employee";
-import Loader from "../comman/Loader";
-import action_assigned from "@/assets/images/action_assigned.png";
-import Action_Open from "@/assets/images/action_open.png";
-import Action_Display from "@/assets/images/action_display.png";
-import Action_Completed from "@/assets/images/action_completed.png";
 import { MyActionDataType } from "@/types/common";
+import { useQuery } from "@tanstack/react-query";
+import CustomCarousel from "../comman/CustomCarousel";
+import Loader from "../comman/Loader";
+import MyActionItems from "./MyActionItems";
 
 const MyAction = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -53,7 +53,7 @@ const MyAction = () => {
       <div className="lg:block hidden">
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
           {isLoading ? (
-            <Loader />
+            <Loader containerClassName="col-span-full" />
           ) : actionItems?.length ? (
             actionItems?.map((data, index) => {
               return <MyActionItems data={data} key={index} />;

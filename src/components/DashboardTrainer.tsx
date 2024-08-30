@@ -233,7 +233,7 @@ const DashboardTrainer = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.publishedCoursesCount}
+            {smeDashboardData?.data?.publishedCoursesCount || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Publish Course
@@ -248,7 +248,7 @@ const DashboardTrainer = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainingProviderEnrollmentRequests}
+            {smeDashboardData?.data?.trainingProviderEnrollmentRequests || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Enrollment Request
@@ -263,7 +263,7 @@ const DashboardTrainer = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.pendingEnrollmentRequestsCount}
+            {smeDashboardData?.data?.pendingEnrollmentRequestsCount || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Approve Enrollment
@@ -277,7 +277,7 @@ const DashboardTrainer = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainersCount}
+            {smeDashboardData?.data?.trainersCount || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Active Trainers
@@ -293,7 +293,7 @@ const DashboardTrainer = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.courseContentApprovalRequest}
+            {smeDashboardData?.data?.courseContentApprovalRequest || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Recent Update Course
@@ -308,7 +308,7 @@ const DashboardTrainer = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainerCompanyFeedbacksCount?.toFixed(2)}
+            {smeDashboardData?.data?.trainerCompanyFeedbacksCount?.toFixed(2) || 0}
           </h2>
           <p className="text-base text-black font-calibri">Trainer Feedback</p>
         </button>
@@ -321,7 +321,7 @@ const DashboardTrainer = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2)}
+            {smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
           </h2>
           <p className="text-base text-black font-calibri">Course Feedback</p>
         </button>
@@ -335,7 +335,7 @@ const DashboardTrainer = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {openSupportTicket + resolveSupportTicket}
+            {(openSupportTicket + resolveSupportTicket) || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Support Ticket
@@ -350,7 +350,7 @@ const DashboardTrainer = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {openSupportTicket}
+            {openSupportTicket || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Open Support Ticket
@@ -365,7 +365,7 @@ const DashboardTrainer = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {resolveSupportTicket}
+            {resolveSupportTicket || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Resolve Support Ticket
@@ -381,7 +381,7 @@ const DashboardTrainer = () => {
             <Button
               type="button"
               onClick={handleExport}
-              className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6"
+              className="bg-[#00778B] font-nunito h-8"
             >
               Export
             </Button>

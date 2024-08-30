@@ -36,12 +36,12 @@ export const createLiveSection = async (data: any) => {
   return res;
 };
 
-export const getAllLiveSession = (trainerCompanyId: number) => {
+export const getAllLiveSession = (trainerCompanyId: number, para: string) => {
   const url = `api/v1/livesessions/list`;
-  const params:any = {};
+  const params: any = {};
 
-  if(trainerCompanyId){
-    params["trainerCompanyId"] = trainerCompanyId;
+  if (trainerCompanyId) {
+    params[para] = trainerCompanyId;
   }
   return api({ url, params });
 };
@@ -59,6 +59,12 @@ export const deleteLiveSessions = (id: string) => {
 };
 
 export const getLiveSessionById = (id: string) => {
-    const url = `api/v1/livesessions/get/${id}`;
-    return api({ url });
-  };
+  const url = `api/v1/livesessions/get/${id}`;
+  return api({ url });
+};
+
+export const getZoomSetting = async () => {
+  const url = `api/v1/globalsetting/zoom-permission`
+  const res = await api({ url })
+  return res.data
+}

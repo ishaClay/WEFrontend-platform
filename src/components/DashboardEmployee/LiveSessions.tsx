@@ -37,16 +37,28 @@ const LiveSessions = () => {
       </div>
       <div className="sm:block hidden">
         <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
-          {data?.sessions!.map((data, index) => {
-            return <LiveSessionsItems data={data} key={index} />;
-          })}
+          {data?.sessions && data?.sessions?.length > 0 ? (
+            data?.sessions!.map((data, index) => {
+              return <LiveSessionsItems data={data} key={index} />;
+            })
+          ) : (
+            <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
+              No Course Data Found
+            </p>
+          )}
         </div>
       </div>
       <div className="sm:hidden block">
         <CustomCarousel containerClassName="">
-          {(data?.sessions || [])?.map((data, index) => {
-            return <LiveSessionsItems data={data} key={index} />;
-          })}
+          {data?.sessions && data?.sessions?.length > 0 ? (
+            (data?.sessions || [])?.map((data, index) => {
+              return <LiveSessionsItems data={data} key={index} />;
+            })
+          ) : (
+            <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
+              No Course Data Found
+            </p>
+          )}
         </CustomCarousel>
       </div>
     </div>

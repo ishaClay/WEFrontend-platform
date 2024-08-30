@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -17,13 +18,16 @@ import {
   createLiveSession,
   getLiveSession,
   getLiveSessionById,
+  getZoomSetting,
   scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
+import { pillarLimit } from "@/services/apiServices/pillar";
 import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
 import { TraineeCompanyDetails } from "@/types/Trainer";
 import { UserRole } from "@/types/UserRole";
 import { AllCoursesResult } from "@/types/courseManagement";
+import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
@@ -152,6 +156,25 @@ const ScheduleLiveSessionPage = () => {
         module?.moduleSections?.some((section: any) => section?.isLive)
       )
   );
+
+  const { data: selectTargetPillarLimit } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => pillarLimit(userData?.query?.detailsid as string),
+    enabled: !!userData,
+  });
+
+  console.log(
+    "selectTargetPillarLimit",
+    selectTargetPillarLimit?.data?.videoDonferencingAccess
+  );
+
+  const { data: fetchZoomSetting, isLoading: fetchZoomSettingLoading } =
+    useQuery<PermissionResponse>({
+      queryKey: ["getZoomSetting"],
+      queryFn: getZoomSetting,
+    });
+
+  console.log("fetchZoomSetting", fetchZoomSetting);
 
   const { data: fetchTraineeCompany } = useQuery({
     queryKey: [QUERY_KEYS.fetchTraineeCompany],
@@ -470,19 +493,23 @@ const ScheduleLiveSessionPage = () => {
                   </span>
                 )}
               </div>
-              <div className="flex flex-row gap-3 items-center">
-                <Label className="text-base text-black font-semibold font-abhaya">
-                  Use Platform
-                </Label>
-                <Switch
-                  checked={watch("platform")}
-                  onCheckedChange={() => {
-                    setValue(`platform`, !watch("platform"));
-                  }}
-                  className="me-3"
-                  disabled={!!id}
-                />
-              </div>
+              {+fetchZoomSetting?.data?.zoomPortal! === 1 &&
+                +selectTargetPillarLimit?.data?.videoDonferencingAccess ===
+                  1 && (
+                  <div className="flex flex-row gap-3 items-center">
+                    <Label className="text-base text-black font-semibold font-abhaya">
+                      Use Platform
+                    </Label>
+                    <Switch
+                      checked={watch("platform")}
+                      onCheckedChange={() => {
+                        setValue(`platform`, !watch("platform"));
+                      }}
+                      className="me-3"
+                      disabled={!!id}
+                    />
+                  </div>
+                )}
             </div>
             {!watch("platform") && (
               <div className="flex flex-col gap-1">
@@ -676,6 +703,7 @@ const ScheduleLiveSessionPage = () => {
           </div>
         </div>
       </form>
+      <Loading isLoading={fetchZoomSettingLoading} />
     </>
   );
 };

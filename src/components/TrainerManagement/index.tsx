@@ -1,5 +1,9 @@
 import star from "@/assets/images/Vector.png";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { pillarLimit } from "@/services/apiServices/pillar";
 import { getTrainer, resendInvitation } from "@/services/apiServices/trainer";
 import { DataEntity, TrainerStatus } from "@/types/Trainer";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -7,13 +11,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Eye, Loader2, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import search from "../../assets/images/search.svg";
+import { ConfirmModal } from "../comman/ConfirmModal";
 import Loader from "../comman/Loader";
 import { NewDataTable } from "../comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { ConfirmModal } from "../comman/ConfirmModal";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 
@@ -28,17 +30,18 @@ const TrainerManagement = () => {
   const [rowId, setRowId] = useState<number | null>(null);
   const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
 
-  const {mutate: resendInvitationFun , isPending: resendInvitationPending } = useMutation({
-    mutationFn: resendInvitation,
-    onSuccess: (data) => {
-      console.log("data123123", data);
-      setRowId(null);
-      toast({
-        description: data?.message,
-        variant: "success",
-      })
-    }
-  })
+  const { mutate: resendInvitationFun, isPending: resendInvitationPending } =
+    useMutation({
+      mutationFn: resendInvitation,
+      onSuccess: (data) => {
+        console.log("data123123", data);
+        setRowId(null);
+        toast({
+          description: data?.message,
+          variant: "success",
+        });
+      },
+    });
 
   const colums: ColumnDef<DataEntity>[] = [
     {
@@ -118,8 +121,8 @@ const TrainerManagement = () => {
       },
       cell: ({ row }) => {
         const providerCounty = row?.original?.providerCounty;
-        return <p>{providerCounty ?? "-"}</p>
-      }
+        return <p>{providerCounty ?? "-"}</p>;
+      },
     },
     {
       accessorKey: "providerName",
@@ -139,8 +142,8 @@ const TrainerManagement = () => {
       },
       cell: ({ row }) => {
         const providerName = row?.original?.providerName;
-        return <p>{providerName ?? "-"}</p>
-      }
+        return <p>{providerName ?? "-"}</p>;
+      },
     },
     {
       accessorKey: "rating",
@@ -216,10 +219,19 @@ const TrainerManagement = () => {
         );
       },
       cell: ({ row }) => {
-        return (
-          row?.original?.status === 2 ? <Button disabled={resendInvitationPending && rowId === row?.original?.id} className="bg-[#00778b] w-[110px]" onClick={() => handleResendInvite(row?.original)}>
-           {(resendInvitationPending && rowId === row?.original?.id) && <Loader2 className="w-5 h-5 animate-spin" /> } Resend
-          </Button> : <span className="text-center w-[110px] block">-</span>
+        return row?.original?.status === 2 ? (
+          <Button
+            disabled={resendInvitationPending && rowId === row?.original?.id}
+            className="bg-[#00778b] w-[110px]"
+            onClick={() => handleResendInvite(row?.original)}
+          >
+            {resendInvitationPending && rowId === row?.original?.id && (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}{" "}
+            Resend
+          </Button>
+        ) : (
+          <span className="text-center w-[110px] block">-</span>
         );
       },
     },
@@ -286,16 +298,15 @@ const TrainerManagement = () => {
     },
   ];
 
-
   const handleResendInvite = (data: DataEntity) => {
     setRowId(data?.id);
-    const payload ={
-      email:data?.email,
+    const payload = {
+      email: data?.email,
       TrainerCompanyId: userData?.query?.detailsid,
-      baseUrl:location?.origin
-    }
-    resendInvitationFun(payload)
-  }
+      baseUrl: location?.origin,
+    };
+    resendInvitationFun(payload);
+  };
 
   const { data, isPending } = useQuery({
     queryKey: ["trainer", { page, limit, searchValue, id }],
@@ -304,6 +315,17 @@ const TrainerManagement = () => {
   const handleDelete = () => {
     data(openDelete?.id);
   };
+
+  const { data: selectTargetPillarLimit } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => pillarLimit(userData?.query?.detailsid as string),
+    enabled: !!userData,
+  });
+
+  const invitePermission =
+    data?.data?.length === selectTargetPillarLimit?.data?.maxTrainerLimit;
+
+  console.log("selectTargetPillarLimit", invitePermission);
   return (
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
@@ -318,6 +340,7 @@ const TrainerManagement = () => {
         </div>
         <Button
           type="button"
+          disabled={!invitePermission}
           onClick={() => {
             dispatch(
               setPath([

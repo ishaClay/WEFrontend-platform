@@ -440,8 +440,8 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {firstInfirgraphicChart?.data?.avTotalpoints}/
-            {firstInfirgraphicChart?.data?.avTotalmaxpoint}
+            {firstInfirgraphicChart?.data?.avTotalpoints || 0}/
+            {firstInfirgraphicChart?.data?.avTotalmaxpoint || 0}
           </h2>
           <p className="text-base text-black font-calibri">Total Point</p>
         </button>
@@ -454,8 +454,8 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {firstInfirgraphicChart?.data?.avTotalquestionsattempted}/
-            {firstInfirgraphicChart?.data?.avTotalquestionsavailable}
+            {firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0}/
+            {firstInfirgraphicChart?.data?.avTotalquestionsavailable || 0}
           </h2>
           <p className="text-base text-black font-calibri">Total Quesion</p>
         </button>
@@ -495,7 +495,7 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.metric}
+            {smeDashboardData?.data?.totalActionItems?.metric || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Action Items
@@ -510,7 +510,7 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.pendingActionItems}
+            {smeDashboardData?.data?.pendingActionItems || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Pending Items
@@ -525,7 +525,7 @@ const Dashboard = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.report?.delayed}
+            {smeDashboardData?.data?.totalActionItems?.report?.delayed || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Delayed Action Items
@@ -539,7 +539,7 @@ const Dashboard = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.totalActionItems?.report?.completed}
+            {smeDashboardData?.data?.totalActionItems?.report?.completed || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Completed Action Items
@@ -558,7 +558,7 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {openSupportTicket + resolveSupportTicket}
+            {(openSupportTicket + resolveSupportTicket || 0)}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Support Ticket
@@ -573,7 +573,7 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {openSupportTicket}
+            {(openSupportTicket || 0)}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Open Support Ticket
@@ -588,7 +588,7 @@ const Dashboard = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {resolveSupportTicket}
+            {(resolveSupportTicket || 0)}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Resolve Support Ticket
@@ -607,7 +607,7 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData3?.data?.overView?.totalCourse}
+            {smeDashboardData3?.data?.overView?.totalCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">Total Course</p>
         </button>
@@ -620,7 +620,7 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData3?.data?.overView?.onGoingCourse}
+            {smeDashboardData3?.data?.overView?.onGoingCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Ongoing Course
@@ -635,7 +635,7 @@ const Dashboard = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData3?.data?.overView?.completedCourse}
+            {smeDashboardData3?.data?.overView?.completedCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Complated Course
@@ -704,7 +704,7 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse}
+            {smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">Total Course</p>
         </button>

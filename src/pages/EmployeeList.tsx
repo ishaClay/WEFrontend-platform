@@ -1,25 +1,30 @@
 import delet from "@/assets/images/delet.svg";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { NewDataTable } from "@/components/comman/NewDataTable";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
+import { getOneCompany } from "@/services/apiServices/company";
 import { deleteEmployee } from "@/services/apiServices/employee";
-import { emploteeResendInvitation, getMemberlist } from "@/services/apiServices/member";
+import {
+  emploteeResendInvitation,
+  getMemberlist,
+} from "@/services/apiServices/member";
 import { EmployeeEntity } from "@/types/Invition";
 import { TriangleDownIcon, TriangleUpIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye, Loader2, Pencil } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
-import { toast } from "@/components/ui/use-toast";
 
 // import { useSelector } from "react-redux";
 
@@ -41,7 +46,10 @@ function CoursesAllocate() {
 
   const navigate = useNavigate();
 
-  const {mutate: emploteeResendInvitationFun , isPending: resendInvitationPending } = useMutation({
+  const {
+    mutate: emploteeResendInvitationFun,
+    isPending: resendInvitationPending,
+  } = useMutation({
     mutationFn: emploteeResendInvitation,
     onSuccess: (data) => {
       console.log("data123123", data);
@@ -49,9 +57,9 @@ function CoursesAllocate() {
       toast({
         description: data?.message,
         variant: "success",
-      })
-    }
-  })
+      });
+    },
+  });
 
   const column: ColumnDef<EmployeeEntity>[] = [
     {
@@ -287,10 +295,19 @@ function CoursesAllocate() {
         );
       },
       cell: ({ row }) => {
-        return (
-          row.original.employeeStatus === "IsNew" ? <Button disabled={resendInvitationPending && rowId === +row?.original?.id} className="bg-[#00778b] w-[110px]" onClick={() => handleResendInvite(row?.original)}>
-           {(resendInvitationPending && rowId === +row?.original?.id) && <Loader2 className="w-5 h-5 animate-spin" /> } Resend
-          </Button> : <span className="text-center w-[110px] block">-</span>
+        return row.original.employeeStatus === "IsNew" ? (
+          <Button
+            disabled={resendInvitationPending && rowId === +row?.original?.id}
+            className="bg-[#00778b] w-[110px]"
+            onClick={() => handleResendInvite(row?.original)}
+          >
+            {resendInvitationPending && rowId === +row?.original?.id && (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            )}{" "}
+            Resend
+          </Button>
+        ) : (
+          <span className="text-center w-[110px] block">-</span>
         );
       },
     },
@@ -365,13 +382,13 @@ function CoursesAllocate() {
   ];
 
   const handleResendInvite = (data: EmployeeEntity) => {
-    setRowId(+data?.id)
-    const payload ={
-      email:data?.email,
+    setRowId(+data?.id);
+    const payload = {
+      email: data?.email,
       companyId: companyId,
-    }
-    emploteeResendInvitationFun(payload, userData)
-  }
+    };
+    emploteeResendInvitationFun(payload, userData);
+  };
 
   const { data, isPending: employeDataPending } = useQuery({
     queryKey: [QUERY_KEYS.MemberList, { page, search }],
@@ -387,6 +404,17 @@ function CoursesAllocate() {
       setOpenDelete(null);
     },
   });
+
+  const { data: selectTargetPillarLimitData, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => getOneCompany(companyId),
+  });
+
+  console.log(
+    "selectTargetPillarLimitData",
+    selectTargetPillarLimitData?.data?.data?.maxEmployeeLimit,
+    data
+  );
 
   const handleDelete = () => {
     mutate(String(openDelete?.id));
@@ -405,7 +433,8 @@ function CoursesAllocate() {
         },
       ])
     );
-  }, [])
+  }, []);
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
@@ -419,9 +448,13 @@ function CoursesAllocate() {
             </p>
           </div>
           <div className="block sm:mt-0 mt-4">
-            <Link
-              to="employeeinvition"
-              onClick={() =>
+            <Button
+              type="button"
+              disabled={
+                data?.data?.length ===
+                selectTargetPillarLimitData?.data?.maxEmployeeLimit
+              }
+              onClick={() => {
                 dispatch(
                   setPath([
                     {
@@ -437,12 +470,13 @@ function CoursesAllocate() {
                       link: null,
                     },
                   ])
-                )
-              }
+                );
+                navigate(`/${Role}/employeelist/employeeinvition`);
+              }}
               className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
             >
               Invite Team-members
-            </Link>
+            </Button>
           </div>
         </div>
 
@@ -485,7 +519,7 @@ function CoursesAllocate() {
         value={openDelete?.name || ""}
         isLoading={isPending}
       />
-      {/* <Loading isLoading={isPending} /> */}
+      <Loading isLoading={isLoading} />
     </div>
   );
 }

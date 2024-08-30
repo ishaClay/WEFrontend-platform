@@ -83,3 +83,14 @@ export interface LiveSessionTrainer {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface PermissionResponse {
+  data: Data;
+  message: string;
+}
+export interface Data {
+  id: number;
+  zoomPortal: number;
+  createdAt: string;
+  updatedAt: string;
+}
