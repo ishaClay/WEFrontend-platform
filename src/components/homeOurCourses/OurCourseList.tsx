@@ -1,3 +1,4 @@
+import Course_image from "@/assets/images/Course_image.png";
 import clockImage from "@/assets/images/Speed.png";
 import organisationImage from "@/assets/images/diploma.png";
 import fulltimeImage from "@/assets/images/fulltime.png";
@@ -20,7 +21,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
     <div className="sm:m-3 mb-5 border border-[#ddd] rounded-lg">
       <div className="relative min-h-[170px] h-[170px] overflow-hidden rounded-lg">
         <img
-          src={data?.bannerImage}
+          src={data?.bannerImage || Course_image}
           alt="course"
           className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
         />
