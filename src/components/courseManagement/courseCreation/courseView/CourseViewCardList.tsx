@@ -24,13 +24,8 @@ type CourseViewCardProps = {
     id: number;
   };
   currIndex: number;
-  selectTargetPillarLimit: any;
 };
-const CourseViewCardList = ({
-  data,
-  currIndex,
-  selectTargetPillarLimit,
-}: CourseViewCardProps) => {
+const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -160,7 +155,6 @@ const CourseViewCardList = ({
                 type="button"
                 variant={"ghost"}
                 onClick={() => onEditModule()}
-                disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
               >
                 <FilePenLine
                   width={18}
@@ -171,7 +165,6 @@ const CourseViewCardList = ({
                 type="button"
                 variant={"ghost"}
                 onClick={() => setIsDelete(true)}
-                disabled={+selectTargetPillarLimit?.data?.LMSaccess === 0}
               >
                 <Trash2
                   width={18}
@@ -187,7 +180,6 @@ const CourseViewCardList = ({
               <Button
                 type="submit"
                 isLoading={isLoadingModule}
-                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
                 className="text-sm font-nunito"
               >
                 Save
@@ -198,7 +190,6 @@ const CourseViewCardList = ({
                   setIsEdit(false);
                   reset();
                 }}
-                disabled={selectTargetPillarLimit?.data?.LMSaccess !== 1}
                 className="text-sm font-nunito"
                 variant="outline"
               >

@@ -5,7 +5,7 @@ import { sidebarLayout } from "@/lib/utils";
 import { pillarLimit } from "@/services/apiServices/pillar";
 import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
 import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
@@ -37,16 +37,22 @@ const DashboardLayout = () => {
   const { data: selectTargetPillarLimit, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(user?.query?.detailsid as string),
-    enabled: !!user && +user?.query?.role === UserRole.Trainer,
+    enabled: (!!user && +user?.query?.role === UserRole.Trainer) || !!location,
   });
 
-  const TrainerPermission =
-    selectTargetPillarLimit &&
-    +selectTargetPillarLimit?.data?.certificationAccess === 1
+  console.log(
+    "selectTargetPillarLimit?.data?.certificationAccess === 1",
+    selectTargetPillarLimit?.data?.certificationAccess === 1
+  );
+
+  const TrainerPermission = useMemo(() => {
+    return selectTargetPillarLimit &&
+      +selectTargetPillarLimit?.data?.certificationAccess === 1
       ? sidebarLayout.TarinerSidebar
       : sidebarLayout.TarinerSidebar?.filter(
           (item) => item?.label !== "Certificate Management"
         );
+  }, [selectTargetPillarLimit]);
 
   useEffect(() => {
     switch (+userRole) {
@@ -63,7 +69,7 @@ const DashboardLayout = () => {
         setData(sidebarLayout.companyEmployeeSidebar);
         break;
     }
-  }, [userRole]);
+  }, [userRole, TrainerPermission]);
 
   return (
     <ChatBotProvider>

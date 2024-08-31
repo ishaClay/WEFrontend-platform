@@ -323,9 +323,12 @@ const TrainerManagement = () => {
   });
 
   const invitePermission =
-    data?.data?.length === selectTargetPillarLimit?.data?.maxTrainerLimit;
+    +data?.data?.length === +selectTargetPillarLimit?.data?.maxTrainerLimit;
 
-  console.log("selectTargetPillarLimit", invitePermission);
+  console.log(
+    "selectTargetPillarLimit",
+    +selectTargetPillarLimit?.data?.maxTrainerLimit === +data?.data?.length
+  );
   return (
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
@@ -340,7 +343,7 @@ const TrainerManagement = () => {
         </div>
         <Button
           type="button"
-          disabled={!invitePermission}
+          disabled={invitePermission}
           onClick={() => {
             dispatch(
               setPath([
