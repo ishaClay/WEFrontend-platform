@@ -60,7 +60,6 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
     const eventEnd = moment(session.startTime, "YYYY-MM-DD hh:mm A")
       .add(sessionDurationMinutes, "minutes")
       .toDate();
-    console.log("session", eventEnd);
 
     return {
       start: eventStart,
@@ -244,8 +243,6 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
       </HoverCardContent>
     </HoverCard>
   );
-
-  console.log("currentDate", currentDate);
 
   return (
     <div className="p-3 bg-white min-h-full">

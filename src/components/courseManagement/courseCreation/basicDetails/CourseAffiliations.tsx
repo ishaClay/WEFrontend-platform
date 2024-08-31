@@ -1,3 +1,4 @@
+import Loading from "@/components/comman/Error/Loading";
 import FormError from "@/components/comman/FormError";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -99,7 +100,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
-  const { data: getSingleCourse, isPending: getSingleCoursePending } = useQuery(
+  const { data: getSingleCourse, isFetching: getSingleCoursePending } = useQuery(
     {
       queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
       queryFn: () => fetchSingleCourseById(String(paramsversion)),
@@ -322,6 +323,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
             </Button>
           </div>
         </form>
+      <Loading isLoading={getSingleCoursePending} />
       </div>
     </>
   );

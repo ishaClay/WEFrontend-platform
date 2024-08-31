@@ -41,6 +41,7 @@ const ForumPage = () => {
     useQuery({
       queryKey: [QUERY_KEYS.fetchModuleForumQuestion, courseId],
       queryFn: () => fetchForumQuestion(courseId),
+      enabled: !!courseId,
     });
 
   const { mutate, isPending: createForumLoading } = useMutation({

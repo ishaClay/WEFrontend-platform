@@ -146,7 +146,6 @@ function RegisterTrainer() {
     mode: "all",
   });
   const email = watch("email");
-  console.log("errors:", errors);
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,

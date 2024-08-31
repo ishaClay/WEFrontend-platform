@@ -1,4 +1,5 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -140,7 +141,11 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
     isOnline: "",
     durationType: "",
   });
-  const { data: getSingleCourse } = useQuery({
+  const {
+    data: getSingleCourse,
+    isFetching: getSingleCourseFetching,
+    isRefetching,
+  } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
@@ -175,20 +180,15 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
   });
 
   useEffect(() => {
-    console.log(
-      "getSingleCourse++++++++++++++++",
-      getSingleCourse &&
-        getSingleCourse?.data?.course &&
-        // @ts-ignore
-        +getSingleCourse?.data?.course?.step !== 2
-    );
     if (
       getSingleCourse &&
       getSingleCourse?.data?.course &&
       // @ts-ignore
-      +getSingleCourse?.data?.course?.step !== 2
+      +getSingleCourse?.data?.course?.step !== 2 &&
+      !isRefetching
     ) {
       const data: CourseData | any = getSingleCourse?.data?.course;
+
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key] || "");
         setValue("time", getSingleCourse?.data?.course?.time?.toString());
@@ -214,7 +214,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
         durationType: "",
       }));
     }
-  }, [getSingleCourse, setValue]);
+  }, [getSingleCourse, setValue, isRefetching]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -292,7 +292,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
     }
   };
 
-  console.log("selectBoxValue", selectBoxValue);
+  console.log("selectBoxValue+++", selectBoxValue);
 
   return (
     <>
@@ -310,7 +310,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 // {...register("time")}
                 option={Time}
                 setValue={(data: string) => {
-                  setSelectBoxValue({ ...selectBoxValue, time: data });
+                  setSelectBoxValue((prev: any) => ({ ...prev, time: data }));
                   setValue("time", data);
                   // @ts-ignore
                   setError("time", "");
@@ -333,7 +333,10 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 // {...register("isOnline")}
                 option={isOnlineType}
                 setValue={(data: string) => {
-                  setSelectBoxValue({ ...selectBoxValue, isOnline: data });
+                  setSelectBoxValue((prev: any) => ({
+                    ...prev,
+                    isOnline: data,
+                  }));
                   setValue("isOnline", data);
                   // @ts-ignore
                   setError("isOnline", "");
@@ -382,10 +385,10 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 <SelectMenu
                   option={durationType}
                   setValue={(data: string) => {
-                    setSelectBoxValue({
-                      ...selectBoxValue,
+                    setSelectBoxValue((prev: any) => ({
+                      ...prev,
                       durationType: data,
-                    });
+                    }));
                     setValue("durationType", data);
                     // @ts-ignore
                     setError("durationType", "");
@@ -417,6 +420,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </Button>
           </div>
         </form>
+        <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );

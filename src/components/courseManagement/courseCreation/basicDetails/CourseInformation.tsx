@@ -1,3 +1,4 @@
+import Loading from "@/components/comman/Error/Loading";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
@@ -199,7 +200,7 @@ const CourseInformation = ({
     },
   });
 
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isFetching : getSingleCourseFetching } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
     queryFn: () => fetchSingleCourseById(String(paramsVersion)),
     enabled: !!paramsVersion,
@@ -461,6 +462,7 @@ const CourseInformation = ({
             </Button>
           </div>
         </form>
+      <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );
