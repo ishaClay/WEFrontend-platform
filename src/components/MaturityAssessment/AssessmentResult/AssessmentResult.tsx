@@ -17,36 +17,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction } from "react";
 import { Doughnut } from "react-chartjs-2";
 
-const maturityLevel = [
-  {
-    maturityLevelName: "Introductory",
-    rangeStart: 0,
-    rangeEnd: 39.9,
-    color: "#C92C35",
-  },
-  {
-    maturityLevelName: "Intermediate",
-    rangeStart: 40,
-    rangeEnd: 69.9,
-    color: "#FFD56A",
-  },
-  {
-    maturityLevelName: "Advanced",
-    rangeStart: 70,
-    rangeEnd: 100,
-    color: "#258483",
-  },
-];
-
-const findMaturityLevel = (score: number) => {
-  for (const level of maturityLevel) {
-    if (score >= level.rangeStart && score <= level.rangeEnd) {
-      return level;
-    }
-  }
-  return null;
-};
-
 type AssessmentResultProps = {
   chnageTab: (val: MaturityAssessmentTabs) => void;
   assessmentData: any;
@@ -95,10 +65,20 @@ const AssessmentResult = ({
       });
     },
   });
-  const { data: fetchClientmaturitylevel } = useQuery({
+  const { data: fetchClientmaturitylevel } = useQuery<any>({
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
+
+  const findMaturityLevel = (score: number) => {
+    if (!score) return
+    for (const level of fetchClientmaturitylevel?.data || []) {
+      if (score >= level?.rangeStart && score <= level?.rangeEnd) {
+        return level;
+      }
+    }
+    return null;
+  };
 
   const handleMaturity = () => {
     EnumUpadate(path);
@@ -132,7 +112,7 @@ const AssessmentResult = ({
         ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
-  const currentLavel = findMaturityLevel(Number(setScore));
+  const currentLavel = findMaturityLevel(Number(setScore));  
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -187,19 +167,20 @@ const AssessmentResult = ({
   const Labels = () => (
     <>
       {fetchClientmaturitylevel &&
-        fetchClientmaturitylevel?.data?.map((label, index) => {
+        fetchClientmaturitylevel?.data?.map((label: any, index: number) => {
+          
           let colorClass, opacityClass;
           if (index === 0) {
             colorClass =
-              "bg-gradient-to-r from-[#C92C35] from-10% via-[#C92C35] via-10% to-transparent to-80%";
+              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-25";
           } else if (index === 1) {
             colorClass =
-              "bg-gradient-to-r from-[#FFD56A] from-10% via-[#FFD56A] via-10% to-transparent to-80%";
+              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-50";
           } else {
             colorClass =
-              "bg-gradient-to-r from-[#258483] from-10% via-[#258483] via-10% to-transparent to-80%";
+              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-75";
           }
           return (
@@ -209,6 +190,8 @@ const AssessmentResult = ({
             >
               <div
                 className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
+                style={{ background: `linear-gradient(to right, ${label
+                  ?.color} 10%, #ffffff)` }}
               ></div>
               <div className="sm:text-base text-sm text-black font-nunito rounded-r-lg ms-[-30px]">
                 {label?.maturityLevelName}

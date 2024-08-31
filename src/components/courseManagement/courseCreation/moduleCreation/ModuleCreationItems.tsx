@@ -29,6 +29,7 @@ interface ModuleCreationItemsProps {
   urlError?: string;
   informationError: string;
   setInformationError: (e: any) => void;
+  setIsUploading: any
 }
 
 const intialSectionCreation: SectionCreation = {
@@ -64,6 +65,7 @@ const ModuleCreationItems = ({
   setUrlError,
   informationError,
   setInformationError,
+  setIsUploading
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -286,6 +288,7 @@ const ModuleCreationItems = ({
                   moduleIndex={index}
                   sectionIndex={sectionindex}
                   setUrlError={setUrlError}
+                  setIsUploading={setIsUploading}
                 />
                 <div className="pb-5">
                   <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">

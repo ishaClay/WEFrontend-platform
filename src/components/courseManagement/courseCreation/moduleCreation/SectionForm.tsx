@@ -42,6 +42,9 @@ const SectionForm = ({
 }: SectionFormProps) => {
   const [attechmentName, setAttechment] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [isUpload, setIsUploading] = useState(false);
+  console.log("isUpload", isUpload);
+  
   const section = watch();
   useEffect(() => {
     if (sectionID) {
@@ -195,6 +198,7 @@ const SectionForm = ({
             setValue={setValue}
             data={section}
             setUrlError={setUrlError}
+            setIsUploading={setIsUploading}
           />
           <div className="pb-5">
             <h6 className="text-base font-calibri text-[#515151] pb-2">

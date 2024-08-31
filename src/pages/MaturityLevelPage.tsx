@@ -18,36 +18,6 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const maturityLevel = [
-  {
-    maturityLevelName: "Introductory",
-    rangeStart: 0,
-    rangeEnd: 39.9,
-    color: "#C92C35",
-  },
-  {
-    maturityLevelName: "Intermediate",
-    rangeStart: 40,
-    rangeEnd: 69.9,
-    color: "#FFD56A",
-  },
-  {
-    maturityLevelName: "Advanced",
-    rangeStart: 70,
-    rangeEnd: 100,
-    color: "#258483",
-  },
-];
-
-const findMaturityLevel = (score: number) => {
-  for (const level of maturityLevel) {
-    if (score >= level.rangeStart && score <= level.rangeEnd) {
-      return level;
-    }
-  }
-  return null;
-};
-
 const MaturityLevelPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,6 +57,16 @@ const MaturityLevelPage = () => {
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
+
+  const findMaturityLevel = (score: any) => {
+    for (const level of fetchClientmaturitylevel?.data || []) {
+      if (score >= level.rangeStart && score <= level.rangeEnd) {
+        return level;
+      }
+    }
+    return null;
+  };
+
   const handleMaturity = () => {
     EnumUpadate(path);
     navigate("/selectlevel");
@@ -176,6 +156,8 @@ const MaturityLevelPage = () => {
             >
               <div
                 className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
+                style={{ background: `linear-gradient(to right, ${label
+                  ?.color} 10%, #ffffff)` }}
               ></div>
               <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
                 {label?.maturityLevelName}
