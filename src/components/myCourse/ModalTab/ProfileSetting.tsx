@@ -284,11 +284,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 placeholder="Enter phone number"
                 international
                 onChange={(e: any) => {
-                  const value = e.target.value;
-                  if (value.match(/^[0-9]*$/)) {
-                    setValue("mobilenumber", e.target.value);
-                  }
-                  return;
+                  setValue("mobilenumber", e);
                 }}
                 disabled={watch("mobilenumber") ? true : false}
                 value={watch("mobilenumber") || ""}
