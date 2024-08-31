@@ -21,6 +21,8 @@ export const PrimaryButton: React.FC<InputProps> = ({
   auth = false,
   disabled = false,
 }) => {
+  console.log("auth", auth);
+
   return (
     <button
       className={`button-color top-94 left-823 text-color rounded hover:bg-[#489db0] font-d-din-pro ${
