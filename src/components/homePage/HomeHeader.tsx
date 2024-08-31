@@ -1,5 +1,7 @@
 import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
+import headerlogo from "@/assets/images/Going.png";
+import headerlogo2 from "@/assets/images/Green.png";
 import { RegisterContext } from "@/context/RegisterContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -96,28 +98,31 @@ function HomeHeader(props: headerProps) {
     <>
       <div className=" sticky top-0 h-full z-[60] lg:shadow-none shadow-md bg-white">
         <header
-          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 ${
+          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[20px] py-[22px] ${
             props.hasDiffHeader ? "mx-7" : ""
           }`}
         >
           <div className="lg:block hidden">
             <div className="flex justify-between gap-4">
-              <div className="flex items-end">
-                <div
-                  className={` ${
-                    !props.hasDiffHeader ? "xl:mr-[22px] mr-2" : ""
-                  }`}
-                >
+              <div className="flex items-center">
+                <div className={` ${!props.hasDiffHeader ? "mr-2" : ""}`}>
                   <img
                     onClick={() => {
                       navigate("/");
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer xl:w-[131px] w-[108px]"
                     src={main_logo}
                   />
                 </div>
+                <img className=" xl:w-[136px] w-[110px]" src={SideHeaderLogo} />
+              </div>
+              <div className="flex flex-col justify-end">
+                <div className="flex gap-[22px] pb-2.5">
+                  <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
+                  <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
+                </div>
                 <div className="text-[#1f1313]">
-                  <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
+                  <ul className="flex justify-between font-normal text-base leading-5 font-calibri mb-3">
                     <li className="group flex items-center gap-[5px]">
                       <Link to={`/our-courses`} className="cursor-pointer">
                         Our Courses
@@ -137,7 +142,7 @@ function HomeHeader(props: headerProps) {
                   </ul>
                 </div>
               </div>
-              <div className="flex items-end xl:gap-7 gap-2">
+              <div className="flex items-center xl:gap-7 gap-2">
                 <div className="font-bold text-lg text-color">
                   {userToken && userData ? (
                     <div className="flex items-center xl:gap-5 gap-3">
@@ -168,36 +173,38 @@ function HomeHeader(props: headerProps) {
                       <PrimaryButton
                         onClick={handleClickRegister}
                         name="Register"
-                        className="xl:px-[39px] px-[30px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                        className="w-[139px] h-[41px] py-2 primary-background text-lg !font-abhaya font-semibold"
                       />
                       <PrimaryButton
                         onClick={() => {
                           navigate("/auth");
                         }}
                         name="Login"
-                        className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold"
+                        className="w-[139px] h-[41px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold"
                       />
                     </>
                   )}
                 </div>
-                <img className="" src={SideHeaderLogo} />
               </div>
             </div>
           </div>
           <div className="lg:hidden block">
             <div className="flex justify-between items-center relative">
-              <div
-                className={` ${
-                  !props.hasDiffHeader ? "xl:mr-[22px] mr-2" : ""
-                }`}
-              >
-                <img
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                  className="cursor-pointer w-[108px] h-[71px]"
-                  src={main_logo}
-                />
+              <div className="flex items-center">
+                <div
+                  className={` ${
+                    !props.hasDiffHeader ? "xl:mr-[22px] mr-2" : ""
+                  }`}
+                >
+                  <img
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    className="cursor-pointer w-[108px] h-[71px]"
+                    src={main_logo}
+                  />
+                </div>
+                <img className=" xl:w-[136px] w-[108px]" src={SideHeaderLogo} />
               </div>
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <div className="">
@@ -247,7 +254,7 @@ function HomeHeader(props: headerProps) {
                               <PrimaryButton
                                 onClick={handleLogout}
                                 name="Logout"
-                                className="xl:px-[60px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
+                                className="py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
                               />
                             </div>
                           ) : (
@@ -255,14 +262,14 @@ function HomeHeader(props: headerProps) {
                               <PrimaryButton
                                 onClick={handleClickRegister}
                                 name="Register"
-                                className="xl:px-[39px] px-[30px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
+                                className="py-2 primary-background !font-calibri text-lg font-bold sm:w-[139px] w-full"
                               />
                               <PrimaryButton
                                 onClick={() => {
                                   navigate("/auth");
                                 }}
                                 name="Login"
-                                className="xl:px-[39px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
+                                className="xl:px-[39px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-[139px] w-full"
                               />
                             </div>
                           )}
