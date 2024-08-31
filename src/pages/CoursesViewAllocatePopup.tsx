@@ -33,6 +33,7 @@ interface CourseViewAllocatePopupProps {
   isOpen: boolean;
   onClose: () => void;
   openId: number | null;
+  isReadOnly: boolean;
 }
 
 const schema = zod.object({
@@ -46,6 +47,7 @@ function CourseViewAllocatePopup({
   isOpen,
   onClose,
   openId,
+  isReadOnly,
 }: CourseViewAllocatePopupProps) {
   const [isInvite, setIsInvite] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<number[]>([]);
@@ -118,6 +120,8 @@ function CourseViewAllocatePopup({
   const showInviteForm = () => {
     setIsInvite(true);
   };
+
+  console.log("isReadOnly", isReadOnly);
 
   function mergeArraysWithUniqueness(
     arr1: EmployeeEntity[],
@@ -458,9 +462,10 @@ function CourseViewAllocatePopup({
                           mergedArray?.length > 0
                         }
                         disabled={
-                          mergedArray &&
-                          mergedArray?.length >
-                            (courseData && +courseData?.numberOfEmployee)
+                          isReadOnly ||
+                          (mergedArray &&
+                            mergedArray?.length >
+                              (courseData && +courseData?.numberOfEmployee))
                         }
                         onChange={() => selectInviteEmployee("all")}
                       />
@@ -488,6 +493,7 @@ function CourseViewAllocatePopup({
                           <input
                             type="checkbox"
                             name="employee"
+                            disabled={isReadOnly}
                             checked={selectedEmployee?.includes(employee?.id)}
                             onChange={() => selectInviteEmployee(employee?.id)}
                             className="h-[18px] w-[18px] rounded"
@@ -501,6 +507,7 @@ function CourseViewAllocatePopup({
                   <div className="w-full flex items-center justify-between mt-2">
                     <Button
                       type="button"
+                      disabled={isReadOnly}
                       className="bg-[#00778B] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                       onClick={showInviteForm}
                     >
@@ -508,6 +515,7 @@ function CourseViewAllocatePopup({
                     </Button>
                     <Button
                       type="button"
+                      disabled={isReadOnly}
                       className="bg-[#58BA66] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                       onClick={handleAllocation}
                     >

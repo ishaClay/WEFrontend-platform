@@ -11,7 +11,7 @@ const filter = [
     value: "upcoming",
   },
   {
-    label: "Starting Sessions",
+    label: "Ongoing Sessions",
     value: "starting",
   },
   {

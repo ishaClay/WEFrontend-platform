@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
 // import { Course } from "@/types/Course";
@@ -13,6 +14,7 @@ import duration from "@/assets/svgs/duration.svg";
 import institute from "@/assets/svgs/institute.svg";
 import online from "@/assets/svgs/online.svg";
 import time from "@/assets/svgs/time.svg";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -43,18 +45,36 @@ import { useState } from "react";
 function CoursesAllocate() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const { clientId } = useAppSelector((state) => state?.user);
   const [openId, setOpenId] = useState<number | null>(null);
-  const { data: course, isPending } = useQuery<EnrollmentRequestsResponse>({
-    queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
-    queryFn: () =>
-      fetchAllocatedCourse(
-        userData?.query?.id,
-        statusFilter === "all" ? "" : statusFilter,
-        clientId
-      ),
-  });
+  const { data: course, isLoading: isPending } =
+    useQuery<EnrollmentRequestsResponse>({
+      queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
+      queryFn: () =>
+        fetchAllocatedCourse(
+          userData?.query?.id,
+          statusFilter === "all" ? "" : statusFilter,
+          clientId
+        ),
+    });
+
+  const handleCheckUpcomingData = (slotStartDate: any) => {
+    const { date, month, year } = slotStartDate;
+    const newDate = new Date(`${year}-${month}-${date}`);
+
+    const now = new Date();
+    const currentDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    const isUpcomingDate = newDate > currentDate;
+
+    return !isUpcomingDate;
+  };
 
   return (
     <div className="bg-[#f5f3ff]">
@@ -90,6 +110,14 @@ function CoursesAllocate() {
           ) : course?.data?.courseAlloted &&
             course?.data?.courseAlloted?.length > 0 ? (
             course?.data?.courseAlloted?.map((courseallocate) => {
+              const isRead =
+                +courseallocate?.employee?.length ===
+                  +courseallocate?.numberOfEmployee ||
+                handleCheckUpcomingData(
+                  // @ts-ignore
+                  courseallocate?.cohortGroup?.slotStartDate
+                );
+
               return (
                 <>
                   <div key={courseallocate.id} className="p-4">
@@ -294,6 +322,7 @@ function CoursesAllocate() {
                             onClick={() => {
                               setPopupOpen(true);
                               setOpenId(courseallocate?.id);
+                              setIsReadOnly(isRead);
                             }}
                           >
                             View Allocation
@@ -353,7 +382,9 @@ function CoursesAllocate() {
           setOpenId(null);
         }}
         openId={openId}
+        isReadOnly={isReadOnly}
       />
+      <Loading isLoading={isPending} />
     </div>
   );
 }
