@@ -11,7 +11,7 @@ const Contact = () => {
   return (
     <>
       <HomeHeader />
-      <div className="lg:my-10 sm:my-5 my-0 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 min-h-[485px]">
+      <div className="lg:my-10 sm:my-5 my-0 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 lg:h-[calc(100vh-436px)]">
         <div className="relative">
           <GradientHeading
             blacktext="Get in"

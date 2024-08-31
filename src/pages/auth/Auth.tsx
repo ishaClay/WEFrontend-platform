@@ -287,7 +287,7 @@ function Auth() {
                 </ul>
                 <button
                   type="submit"
-                  className="primary-background rounded sm:w-[370px] w-full sm:h-[48px] h-[44px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
+                  className="primary-background rounded sm:w-[370px] w-full sm:h-[48px] h-[44px] secondary-text mt-[32px] text-lg !font-abhaya font-semibold"
                 >
                   Login
                 </button>

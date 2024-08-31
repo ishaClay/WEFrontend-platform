@@ -11,8 +11,8 @@ import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { Menu } from "lucide-react";
 import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ClickAwayListener from "react-click-away-listener";
-import { Link, useNavigate } from "react-router-dom";
 import { PrimaryButton } from "../comman/Button/CustomButton";
 import Loading from "../comman/Error/Loading";
 import { AlertLogOutDialog } from "../Models/AlertLogOut";
@@ -26,7 +26,7 @@ interface headerProps {
 function HomeHeader(props: headerProps) {
   const [open, setOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-
+  const location = useLocation()
   const navigate = useNavigate();
   const { setSelectedRole, setShowRegistrationForm } =
     useContext(RegisterContext);
@@ -94,11 +94,10 @@ function HomeHeader(props: headerProps) {
   };
 
   return (
-    // Note : This below code is for backup
-    <>
-      <div className=" sticky top-0 h-full z-[60] lg:shadow-none shadow-md bg-white">
+    <div className="py-2 shadow-[0_-13px_50px_-15px_rgba(0,0,0,0.3)]" style={{}}>
+      <div className="sticky top-0 h-full z-[60] lg:shadow-none shadow-md bg-white">
         <header
-          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[20px] py-[22px] ${
+          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-5 ${
             props.hasDiffHeader ? "mx-7" : ""
           }`}
         >
@@ -124,18 +123,18 @@ function HomeHeader(props: headerProps) {
                 <div className="text-[#1f1313]">
                   <ul className="flex justify-between font-normal text-base leading-5 font-calibri mb-3">
                     <li className="group flex items-center gap-[5px]">
-                      <Link to={`/our-courses`} className="cursor-pointer">
+                      <Link to={`/our-courses`} className={`cursor-pointer ${location.pathname === '/our-courses' && 'font-[600]'}`}>
                         Our Courses
                       </Link>
                       {/* <img className="w-[6px] h-[6px]" src={vector} /> */}
                     </li>
                     <li className="cursor-pointer">
-                      <Link to={`/blog`} className="cursor-pointer">
+                      <Link to={`/blog`} className={`cursor-pointer ${location.pathname === '/blog' && 'font-[600]'}`}>
                         Blogs
                       </Link>
                     </li>
                     <li className="cursor-pointer">
-                      <Link to={`/contact`} className="cursor-pointer">
+                      <Link to={`/contact`} className={`cursor-pointer ${location.pathname === '/contact' && 'font-[600]'}`}>
                         Contact Us
                       </Link>
                     </li>
@@ -173,14 +172,14 @@ function HomeHeader(props: headerProps) {
                       <PrimaryButton
                         onClick={handleClickRegister}
                         name="Register"
-                        className="w-[139px] h-[41px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                        className="xl:px-[39px] px-[30px] py-2 primary-background text-lg !font-abhaya font-semibold w-[140px]"
                       />
                       <PrimaryButton
                         onClick={() => {
                           navigate("/auth");
                         }}
                         name="Login"
-                        className="w-[139px] h-[41px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold"
+                        className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold w-[140px]"
                       />
                     </>
                   )}
@@ -289,7 +288,7 @@ function HomeHeader(props: headerProps) {
         onClose={() => setIsAlertOpen(false)}
         onConfirm={handleConfirmLogout}
       />
-    </>
+    </div>
   );
 }
 

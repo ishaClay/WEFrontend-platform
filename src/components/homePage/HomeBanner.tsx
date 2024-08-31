@@ -51,7 +51,7 @@ const HomeBanner = () => {
                           <h6 className="text-[36px] font-bold secondary-text font-UniNeue xl:mb-5 sm:mb-4 mb-2.5 sm:w-[428px] w-full break-all leading-10">
                             {item.title}
                           </h6>
-                          <p className="sm:w-[500px] w-full font-medium secondary-text md:text-lg text-base font-Droid-Regular line-clamp-3 leading-5 xl:mb-10 sm:mb-[35px] mb-2.5">
+                          <p className="sm:w-[500px] w-full font-medium secondary-text md:text-lg text-base font-Droid-Regular line-clamp-3 leading-5 xl:mb-10 sm:mb-5 mb-2.5">
                             {item.content}
                           </p>
                           <SecondaryButton
@@ -89,7 +89,7 @@ const HomeBanner = () => {
                                 className="md:w-[26px] md:h-[26px] w-[15px] h-[15px]"
                               />
                             }
-                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[40px] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
+                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[2.5rem] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
                             isLink={!!item?.secondaryButtonUrl}
                           />
                         </div>
