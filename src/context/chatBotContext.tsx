@@ -10,7 +10,7 @@ export const ChatBotContext = createContext<ChatBotContextType>({
   open: false,
   setOpen: () => {},
   group: null,
-  setGroupData: (grp: any) => {},
+  setGroupData: () => {},
 });
 
 export const ChatBotProvider = ({
