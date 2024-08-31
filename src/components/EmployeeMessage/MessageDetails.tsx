@@ -115,19 +115,19 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
 
   return (
     <div>
-      <div className="flex gap-3 items-center border-b pb-3">
-        <div className="relative">
-          <Avatar className="min-w-10 min-h-10 w-10 h-10 rounded-full">
-            <AvatarImage src="" />
-            <AvatarFallback>{empId.name?.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <span
-            className={`absolute top-0 right-0 ${
-              empId?.isOnline ? "bg-[#72CC79]" : "bg-[#D9D9D9]"
-            } z-[9] w-3 h-3 rounded-full`}
-          ></span>
-        </div>
-        <div className="">
+      <div className="flex justify-between  gap-3 items-center border-b pb-3">
+        <div className="flex gap-2 items-center">
+          <div className="relative">
+            <Avatar className="min-w-10 min-h-10 w-10 h-10 rounded-full">
+              <AvatarImage src="" />
+              <AvatarFallback>{empId.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <span
+              className={`absolute top-0 right-0 ${
+                empId?.isOnline ? "bg-[#72CC79]" : "bg-[#D9D9D9]"
+              } z-[9] w-3 h-3 rounded-full`}
+            ></span>
+          </div>
           <h5 className="text-[16px] font-abhaya font-semibold text-black">
             {empId.name}
           </h5>

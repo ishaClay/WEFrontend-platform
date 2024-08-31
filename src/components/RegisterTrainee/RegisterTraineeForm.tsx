@@ -61,10 +61,14 @@ const RegisterTraineeForm = () => {
     }),
     gender: Zod.string({ required_error: "Please select gender" }),
     firstName: Zod.string()
-      .regex(/^[A-Za-z]+$/, { message: "First name can only contain letters" })
+      .regex(/^[A-Za-z ]+$/, {
+        message: "Please enter valid first name",
+      })
       .min(1, { message: "Please enter first name" }),
     surname: Zod.string()
-      .regex(/^[A-Za-z]+$/, { message: "Surname can only contain letters" })
+      .regex(/^[A-Za-z ]+$/, {
+        message: "Please enter valid surname",
+      })
       .min(1, { message: "Please enter surname" }),
     phone: Zod.string({
       required_error: "Please select phone number",
@@ -162,6 +166,9 @@ const RegisterTraineeForm = () => {
       if (userData) {
         const userId = userData?.query?.id;
         mutate(userId);
+        Cookies.remove("accessToken");
+        localStorage.removeItem("user");
+        localStorage.removeItem("path");
       } else {
         setValue("email", email);
         setValue("memberCompany", cName);

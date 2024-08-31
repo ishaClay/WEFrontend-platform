@@ -72,6 +72,7 @@ export interface CourseAllotedEntity {
   updatedAt: string;
   courseProgress: number;
   courseVersion: CourseVersion;
+  courseReconmendedStatus: string;
 }
 export interface CourseVersion {
   id: number;

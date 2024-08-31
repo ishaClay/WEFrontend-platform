@@ -30,9 +30,9 @@ const initialData = {
 
 const schema = Zod.object({
   file: Zod.string().optional(),
-  invitiondetail: Zod
-    .string()
-    .min(1, { message: "Please Enter Invition Detail" }),
+  invitiondetail: Zod.string().min(1, {
+    message: "Please Enter Invition Detail",
+  }),
 });
 const TrainerInvitation = () => {
   const Role = location.pathname.split("/")[1];
@@ -57,7 +57,10 @@ const TrainerInvitation = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: trainerInvitation,
     onSuccess: (data) => {
-      if(data?.data?.trainerExist?.length === 0 && data?.data?.trainerInvited?.length === 0){
+      if (
+        data?.data?.trainerExist?.length === 0 &&
+        data?.data?.trainerInvited?.length === 0
+      ) {
         toast({
           description: data?.message,
           variant: "destructive",
@@ -72,32 +75,32 @@ const TrainerInvitation = () => {
             },
           ])
         );
-      }else{
-      if (data?.data?.trainerExist?.length > 0) {
-        toast({
-          title: "Error",
-          description: "Trainer invitation Already send.",
-          variant: "destructive",
-        });
       } else {
-        toast({
-          title: "Success",
-          description: data?.message,
-          variant: "success",
-        });
+        if (data?.data?.trainerExist?.length > 0) {
+          toast({
+            title: "Error",
+            description: "Trainer invitation Already send.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Success",
+            description: data?.message,
+            variant: "success",
+          });
+          reset();
+          setFile("");
+          dispatch(
+            setPath([
+              {
+                label: "Trainer Management",
+                link: `/${Role}/trainer-management`,
+              },
+            ])
+          );
+        }
         reset();
-        setFile("");
-        dispatch(
-          setPath([
-            {
-              label: "Trainer Management",
-              link: `/${Role}/trainer-management`,
-            },
-          ])
-        );
       }
-      reset();
-    }
     },
     onError: (error) => {
       toast({
@@ -118,10 +121,11 @@ const TrainerInvitation = () => {
       return;
     } else {
       setError("");
-      const payload:any = {
+      const payload: any = {
         email: inviteData,
         invitationDetails: data?.details,
         TrainerCompanyId: id,
+        baseUrl: location?.origin,
       };
       mutate(payload);
     }
@@ -181,13 +185,13 @@ const TrainerInvitation = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="py-6 px-5 bg-white rounded-lg">
-            <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
+          <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
             Enter Trainer Email ID
             <span className="font-nunito font-normal text-[#A3A3A3] text-base">
               (comma separated email id)
             </span>
           </h3>
-            {inviteData?.map((data, index, arr) => (
+          {inviteData?.map((data, index, arr) => (
             <div>
               <div className="flex lg:flex-nowrap flex-wrap items-center sm:gap-5 gap-3 w-full mb-2">
                 <Input
@@ -317,17 +321,12 @@ const TrainerInvitation = () => {
           )}
         </div> */}
 
-
         <div className="text-right mt-[30px]">
           <Button
             type="submit"
             className="text-[16px] font-semibold min-w-[98px] font-nunito py-[14px] px-[8px] h-auto bg-[#58BA66]"
           >
-            {isPending ? (
-              <Loader containerClassName="h-auto" />
-            ) : (
-              "Send Invite"
-            )}
+            {isPending ? <Loader containerClassName="h-auto" /> : "Send Invite"}
           </Button>
         </div>
       </form>

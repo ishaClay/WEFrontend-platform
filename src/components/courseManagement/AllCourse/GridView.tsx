@@ -295,6 +295,7 @@ const GridView = ({
     };
     publishCourseFun(payload);
   };
+  console.log("listlistlist", list);
 
   return list?.length > 0 && list ? (
     <>
@@ -391,9 +392,13 @@ const GridView = ({
                     <h6 className="text-sm leading-5 font-normal font-nunito capitalize">
                       Created By :{" "}
                       {item?.trainerId
-                        ? item?.trainerId?.name ||
+                        ? (item?.trainerId?.contactFirstName || "") +
+                            " " +
+                            item?.trainerId?.contactSurname ||
                           item?.trainerId?.email?.split("@")[0]
-                        : item?.trainerCompanyId?.providerName ||
+                        : (item?.trainerCompanyId?.contactFirstName || "") +
+                            " " +
+                            item?.trainerCompanyId?.contactSurname ||
                           item?.trainerCompanyId?.email?.split("@")[0]}
                     </h6>
                   </div>

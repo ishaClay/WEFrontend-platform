@@ -1,5 +1,7 @@
+import { useChatBotContext } from "@/context/chatBotContext";
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
+import { createCohortGroupUser } from "@/services/apiServices/cohort";
 import {
   likeDislikeAction,
   updateEmployeeWiseCourseStatus,
@@ -8,13 +10,16 @@ import { ModuleSectionsEntity } from "@/types/employee";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, Download } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+<<<<<<< Updated upstream
 import { createCohortGroupUser } from "@/services/apiServices/cohort";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useChatBotContext } from "@/context/chatBotContext";
+=======
+>>>>>>> Stashed changes
 
 const ViewSession = ({
   setDocumentFile,
@@ -22,24 +27,34 @@ const ViewSession = ({
   setViewDocument,
   list,
   data,
+  enrollData,
 }: {
   documentFile: string;
   setDocumentFile: Dispatch<SetStateAction<string>>;
   setViewDocument: Dispatch<SetStateAction<boolean>>;
   list: ModuleSectionsEntity;
   data: any;
+  enrollData: any;
 }) => {
   const docs = [{ uri: documentFile, fileType: documentType(documentFile) }];
   const [isLike, setLike] = useState("");
   const [viewDoc, setViewDoc] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const queryclient = useQueryClient();
-  const pathname = useLocation();
-  const navigate = useNavigate();
 
-  const { setOpen } = useChatBotContext();
+  const { setOpen, setGroupData } = useChatBotContext();
 
-  console.log("listlistlist++", list);
+  useEffect(() => {
+    const loginUserData = JSON.parse(localStorage.getItem("user") as string);
+    if (list?.like?.find((item: any) => item.id === loginUserData?.query?.id)) {
+      setLike("like");
+    }
+    if (
+      list?.unlike?.find((item: any) => item.id === loginUserData?.query?.id)
+    ) {
+      setLike("dislike");
+    }
+  }, [list]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
@@ -53,7 +68,7 @@ const ViewSession = ({
       setDocumentFile("");
       setViewDocument(false);
       setViewDoc(false);
-      setLike("");
+      // setLike("");
     },
     onError: (error) => {
       console.error("error", error);
@@ -63,11 +78,16 @@ const ViewSession = ({
   const { mutate: createCohortGroupUserMutate } = useMutation({
     mutationFn: createCohortGroupUser,
     onSuccess: (data) => {
-      const userRole = pathname.pathname.split("/")[1];
-      console.log(data);
-      navigate(
-        `/${userRole}/message?chatId=${data?.data?.id}&messageType=group`
-      );
+      const group = {
+        id: data.data.id,
+        name: data.data.name,
+        deletedAt: null,
+        createdAt: data.data.createdAt,
+        updatedAt: data.data.updatedAt,
+      };
+
+      setOpen(true);
+      setGroupData(group);
     },
     onError: (error: any) => {
       toast({
@@ -87,7 +107,7 @@ const ViewSession = ({
       await queryclient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       });
-      setLike("");
+      // setLike("");
     },
     onError: (error) => {
       console.error("error", error);
@@ -115,22 +135,16 @@ const ViewSession = ({
     likeDislikeActionFun({ sectionId: list?.id, data: payload });
   };
 
-  const handleCreateGroup = (id: number) => {
-    if (!data?.groupChat) {
+  const handleCreateGroup = () => {
+    if (!enrollData?.cohortGroup?.groupChat) {
       createCohortGroupUserMutate({
-        cohortId: id,
+        cohortId: enrollData?.cohortGroup?.id,
       });
     } else {
       setOpen(true);
-      // toast({
-      //   title: "Error",
-      //   description: "group already created",
-      //   variant: "destructive",
-      // });
+      setGroupData(enrollData?.cohortGroup?.groupChat);
     }
   };
-
-  console.log("data?.groupChat", data);
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -276,11 +290,11 @@ const ViewSession = ({
                   variant={"outline"}
                   type="button"
                   className="text-[12px] font-nunito"
-                  onClick={() => {
-                    handleCreateGroup(list?.id);
-                  }}
+                  onClick={handleCreateGroup}
                 >
-                  {data?.groupChat ? "Show Message" : "Ask a question"}
+                  {enrollData?.cohortGroup?.groupChat
+                    ? "Show Message"
+                    : "Ask a question"}
                 </Button>
                 {list?.attachment && (
                   <a
@@ -304,7 +318,7 @@ const ViewSession = ({
             </div>
             <p
               dangerouslySetInnerHTML={{ __html: list?.information }}
-              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%]"
+              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%] break-all"
             ></p>
             {list?.isStatus !== "Completed" && (
               <div className="flex items-center justify-center mt-[56px]">

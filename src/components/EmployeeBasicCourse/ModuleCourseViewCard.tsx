@@ -5,14 +5,14 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
 
-const ModuleCourseViewCard = ({ data, allData }: any) => {
+const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const { role } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const { versionId } = useParams();
   const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
   const courseId = searchParams.get("courseId");
-  console.log("data++++123", data);
+  console.log("data++++123", allData);
 
   return (
     <div>
@@ -24,6 +24,7 @@ const ModuleCourseViewCard = ({ data, allData }: any) => {
               key={index}
               list={data1}
               data={allData}
+              enrollData={enrollData}
             />
           );
         })}

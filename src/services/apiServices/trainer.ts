@@ -50,7 +50,12 @@ export const updateTrainerStatusById = async ({
   data,
 }: {
   id: string;
-  data: { status?: string; approved: string; editCourses?: string; assignCertificate?: string };
+  data: {
+    status?: string;
+    approved: string;
+    editCourses?: string;
+    assignCertificate?: string;
+  };
 }) => {
   const url = `api/v1/trainer/update-status/${id}`;
   const response = await api({ url, data, method: "put" });
@@ -61,6 +66,7 @@ export const trainerInvitation = async (data: {
   email: string[];
   invitationDetails: string;
   TrainerCompanyId?: number;
+  baseUrl?: string;
 }) => {
   const url = `api/v1/trainer-company/send-invitation`;
   const response = await api({ url, data, method: "post" });
@@ -97,30 +103,44 @@ export const getTraineeCompany = async (id: number) => {
   return res.data;
 };
 
-export const getTrainee = async (trainerCompanyID: number, companyId: number, searchQuery: string) => {
+export const getTrainee = async (
+  trainerCompanyID: number,
+  companyId: number,
+  searchQuery: string
+) => {
   const url = `api/v1/livesessions/employee-trainerCompany/${trainerCompanyID}`;
-  const params:any = {};
+  const params: any = {};
 
-  if(companyId){
+  if (companyId) {
     params["companyId"] = companyId;
   }
-  if(searchQuery){
+  if (searchQuery) {
     params["keyword"] = searchQuery;
   }
   const res = await api({ url, params });
   return res.data;
 };
 
-export const registerTrainee = async ({ email, data }: { email: string, data: any }) => {
+export const registerTrainee = async ({
+  email,
+  data,
+}: {
+  email: string;
+  data: any;
+}) => {
   const url = `api/v1/trainer/update-email/${email}`;
   const method = "put";
   const res = await api({ url, data, method });
   return res.data;
-}
+};
 
-export const resendInvitation = async (data: { email: string, TrainerCompanyId: number, baseUrl: string }) => {
+export const resendInvitation = async (data: {
+  email: string;
+  TrainerCompanyId: number;
+  baseUrl: string;
+}) => {
   const url = `api/v1/trainer-company/resend-invitation`;
   const method = "post";
   const res = await api({ url, data, method });
   return res.data;
-}
+};

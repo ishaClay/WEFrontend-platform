@@ -4,12 +4,18 @@ import Accordions from "../comman/Accordions";
 import ModuleCardList from "./ModuleCardList";
 import ModuleCourseViewCard from "./ModuleCourseViewCard";
 
-const Module = ({ data }: getSingleCourseType | any) => {
+const Module = ({ data, enrollData }: getSingleCourseType | any) => {
   const accordionItems: AccordionOption[] = data?.course?.module?.map(
     (item: any) => {
       return {
         title: <ModuleCardList data={item} />,
-        content: <ModuleCourseViewCard data={item} allData={data} />,
+        content: (
+          <ModuleCourseViewCard
+            data={item}
+            allData={data}
+            enrollData={enrollData}
+          />
+        ),
       };
     }
   );

@@ -137,6 +137,7 @@ export interface Course {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  avgRating?: any
 }
 export interface EmployeeEntity {
   id: number;

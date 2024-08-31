@@ -42,6 +42,9 @@ const SectionForm = ({
 }: SectionFormProps) => {
   const [attechmentName, setAttechment] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [isUpload, setIsUploading] = useState(false);
+  console.log("isUpload", isUpload);
+  
   const section = watch();
   useEffect(() => {
     if (sectionID) {
@@ -160,15 +163,17 @@ const SectionForm = ({
               const data = editor.getData();
               const plainText = stripHtmlTags(data);
               console.log("event", event);
-              
+
               if (plainText.length > 5000) {
                 setCharCount(5000);
-                setInformationError("You can not write information more than 5000 characters");
-                setValue(`information`,data);
+                setInformationError(
+                  "You can not write information more than 5000 characters"
+                );
+                setValue(`information`, data);
               } else {
                 setCharCount(plainText.length);
                 setInformationError("");
-                setValue(`information`,data);
+                setValue(`information`, data);
               }
             }}
             className="w-full"
@@ -177,12 +182,13 @@ const SectionForm = ({
             {charCount}/5000
           </div>
         </div>
-        {informationError !== "" || errors?.information && (
-          <FormError
-            className="font-calibri not-italic"
-            message={informationError || errors.information?.message}
-          />
-        )}
+        {informationError !== "" ||
+          (errors?.information && (
+            <FormError
+              className="font-calibri not-italic"
+              message={informationError || errors.information?.message}
+            />
+          ))}
       </div>
       {!section.isLive ? (
         <>
@@ -192,6 +198,7 @@ const SectionForm = ({
             setValue={setValue}
             data={section}
             setUrlError={setUrlError}
+            setIsUploading={setIsUploading}
           />
           <div className="pb-5">
             <h6 className="text-base font-calibri text-[#515151] pb-2">
@@ -200,21 +207,23 @@ const SectionForm = ({
             <Input
               {...register("youtubeUrl")}
               onChange={(e: any) =>
-                handleAddURL(
-                  e?.target?.value,
-                  `youtubeUrl`
-                )
+                handleAddURL(e?.target?.value, `youtubeUrl`)
               }
               disabled={section?.uploadContentType > 0}
               className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri
-                ${section?.uploadContentType > 0 ? "bg-[#FBFBFB] border-[#d7d7d7]" : ""}`}
+                ${
+                  section?.uploadContentType > 0
+                    ? "bg-[#FBFBFB] border-[#d7d7d7]"
+                    : ""
+                }`}
             />
-            {errors?.youtubeUrl || urlError && (
-              <FormError
-                className="font-calibri not-italic"
-                message={errors?.youtubeUrl?.message || urlError}
-              />
-            )}
+            {errors?.youtubeUrl ||
+              (urlError && (
+                <FormError
+                  className="font-calibri not-italic"
+                  message={errors?.youtubeUrl?.message || urlError}
+                />
+              ))}
           </div>
           <div className="pb-5">
             <div className="flex items-center justify-between">

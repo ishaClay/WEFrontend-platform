@@ -20,6 +20,7 @@ interface MyDocumentProps {
   companyName: string;
   assessmentData?: any;
   allassessmantData?: any;
+  fetchClientmaturitylevel?: any;
 }
 
 // Create styles for the PDF
@@ -65,32 +66,12 @@ const styles = StyleSheet.create({
 
 });
 
-const maturityLevel = [
-  {
-    maturityLevelName: "Introductory",
-    rangeStart: 0,
-    rangeEnd: 39.9,
-    color: "#C92C35",
-  },
-  {
-    maturityLevelName: "Intermediate",
-    rangeStart: 40,
-    rangeEnd: 69.9,
-    color: "#FFD56A",
-  },
-  {
-    maturityLevelName: "Advanced",
-    rangeStart: 70,
-    rangeEnd: 100,
-    color: "#258483",
-  },
-];
-
 // Create Document Component
 const AssessmentPdf: React.FC<MyDocumentProps> = ({
   data,
   companyName,
   assessmentData,
+  fetchClientmaturitylevel
 }) => {
   const calculatePercentage = (
     totalPoints: string,
@@ -104,7 +85,7 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
   };
 
   const findMaturityLevel = (score: number) => {
-    for (const level of maturityLevel) {
+    for (const level of fetchClientmaturitylevel || []) {
       if (score >= level.rangeStart && score <= level.rangeEnd) {
         return level;
       }

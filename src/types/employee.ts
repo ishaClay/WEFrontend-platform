@@ -113,6 +113,8 @@ export interface ModuleSectionsEntity {
   createdAt: string;
   updatedAt: string;
   isStatus: string;
+  like?: any[];
+  unlike?: any[];
 }
 export interface ReadingTime {
   hour: number;
@@ -137,21 +139,21 @@ export interface MyCourses {
 }
 
 export interface AgeRangesType {
-  AgeRanges?: (string)[] | null;
+  AgeRanges?: string[] | null;
   message: string;
 }
 
 export interface EmploymentStatusType {
-  employmentStatus?: (string)[] | null;
+  employmentStatus?: string[] | null;
   message: string;
 }
 
 export interface OccupationalCategoriesType {
-  occupationalCategories?: (string)[] | null;
+  occupationalCategories?: string[] | null;
   message: string;
 }
 
 export interface UnemploymentTimeType {
-  unemploymentTime?: (string)[] | null;
+  unemploymentTime?: string[] | null;
   message: string;
 }

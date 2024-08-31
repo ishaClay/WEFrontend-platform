@@ -27,6 +27,7 @@ type moduleCourseCardListProps = {
 const ModuleCourseViewCardItems = ({
   list,
   data,
+  enrollData,
 }: moduleCourseCardListProps | any) => {
   const navigate = useNavigate();
   const queryclient = useQueryClient();
@@ -219,6 +220,7 @@ const ModuleCourseViewCardItems = ({
           setViewDocument={setViewDocument}
           list={list}
           data={data}
+          enrollData={enrollData}
         />
       )}
     </div>

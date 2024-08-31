@@ -32,48 +32,72 @@ const EnrolledCourseList = () => {
     setCoursesEnrolleList(enrolledCoursesData?.data || []);
   }, [enrolledCoursesData]);
 
-  const { data: fetchEnrollmentAcceptedFilterList, isPending: fetchEnrollmentAcceptedFilterPending } = useQuery({
-    queryKey: [QUERY_KEYS.fetchEnrollmentAcceptedFilter, {id:  selectVersion?.versionId}],
-    queryFn: () => fetchEnrollmentAcceptedFilterData(+UserId, +selectVersion?.versionId),
+  const {
+    data: fetchEnrollmentAcceptedFilterList,
+    isPending: fetchEnrollmentAcceptedFilterPending,
+  } = useQuery({
+    queryKey: [
+      QUERY_KEYS.fetchEnrollmentAcceptedFilter,
+      { id: selectVersion?.versionId },
+    ],
+    queryFn: () =>
+      fetchEnrollmentAcceptedFilterData(+UserId, +selectVersion?.versionId),
     enabled: !!selectVersion?.versionId && +selectVersion?.versionId !== 0,
-    
   });
   const updateData = () => {
     const indexToReplace = selectVersion?.index;
-    const updatedDataA = enrolledCoursesData?.data?.map((item:any, index:number) => {
-      
-      if (index === indexToReplace) {
-        if (!fetchEnrollmentAcceptedFilterList?.data?.id) {
-          toast({
-            title: `No any enrolled SMEcompny found for this version`,
-            variant: "destructive",
-          })
-          return item
-        }else{
-          return fetchEnrollmentAcceptedFilterList?.data;
+    const updatedDataA = enrolledCoursesData?.data?.map(
+      (item: any, index: number) => {
+        if (index === indexToReplace) {
+          if (!fetchEnrollmentAcceptedFilterList?.data?.id) {
+            toast({
+              title: `No any enrolled SMEcompny found for this version`,
+              variant: "destructive",
+            });
+            return item;
+          } else {
+            return fetchEnrollmentAcceptedFilterList?.data;
+          }
         }
+        return item;
       }
-      return item;
-    });
+    );
     return updatedDataA;
   };
-  
+
   useEffect(() => {
-    if(!fetchEnrollmentAcceptedFilterPending){
+    if (!fetchEnrollmentAcceptedFilterPending) {
       setCoursesEnrolleList(updateData());
       setSelectVersion({
         versionId: "",
         trainercompnyId: "",
-        index: '',
-      })
+        index: "",
+      });
     }
-  }, [fetchEnrollmentAcceptedFilterList, fetchEnrollmentAcceptedFilterPending])
+  }, [fetchEnrollmentAcceptedFilterList, fetchEnrollmentAcceptedFilterPending]);
 
   const accordionItems: AccordionOption[] = coursesEnrolleList?.map(
-    (item: EnrolledCoursesType, index:number) => {
+    (item: EnrolledCoursesType, index: number) => {
       return {
-        title: <EnrolledCourseListItem data={item} index={index} selectVersion={selectVersion} isLoading={fetchEnrollmentAcceptedFilterPending}
-        setSelectVersion={(e: number, inx:number, trainercompnyId: number) =>setSelectVersion({versionId: e, index: inx, trainercompnyId: trainercompnyId})} />,
+        title: (
+          <EnrolledCourseListItem
+            data={item}
+            index={index}
+            selectVersion={selectVersion}
+            isLoading={fetchEnrollmentAcceptedFilterPending}
+            setSelectVersion={(
+              e: number,
+              inx: number,
+              trainercompnyId: number
+            ) =>
+              setSelectVersion({
+                versionId: e,
+                index: inx,
+                trainercompnyId: trainercompnyId,
+              })
+            }
+          />
+        ),
         content: <EnrolledCourseDetailsList data={item} />,
       };
     }

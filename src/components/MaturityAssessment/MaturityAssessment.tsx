@@ -460,6 +460,7 @@ const MaturityAssessment = () => {
                         data={transformData()}
                         companyName={userData?.query?.name}
                         assessmentData={selfAssData}
+                        fetchClientmaturitylevel={fetchClientmaturitylevel?.data}
                       />
                     }
                     fileName="Action-Items.pdf"

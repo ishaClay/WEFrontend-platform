@@ -383,8 +383,14 @@ const ListView = ({
                     <p className="text-sm font-normal font-nunito xl:pr-[61px] pr-[35px] text-[#000000]">
                       Created By :{" "}
                       {data?.trainerId
-                        ? data?.trainerId?.name
-                        : data?.trainerCompanyId?.providerName || "--"}
+                        ? (data?.trainerId?.contactFirstName || "") +
+                            " " +
+                            data?.trainerId?.contactSurname ||
+                          data?.trainerId?.email?.split("@")[0]
+                        : (data?.trainerCompanyId?.contactFirstName || "") +
+                            " " +
+                            data?.trainerCompanyId?.contactSurname ||
+                          data?.trainerCompanyId?.email?.split("@")[0]}
                     </p>
                     <div className="flex items-center">
                       <img
