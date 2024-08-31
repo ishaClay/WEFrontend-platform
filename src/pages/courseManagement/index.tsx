@@ -1,9 +1,11 @@
+import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
+import { pillarLimit } from "@/services/apiServices/pillar";
 import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -24,6 +26,7 @@ const CourseManagement = () => {
   const paramsType = new URLSearchParams(search).get("type");
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -94,6 +97,14 @@ const CourseManagement = () => {
     }
   };
 
+  const { data: selectTargetPillarLimit, isLoading } = useQuery({
+    queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
+    queryFn: () => pillarLimit(userData?.query?.detailsid as string),
+    enabled: !!userData,
+  });
+
+  console.log("errors+++", +selectTargetPillarLimit?.data?.LMSaccess === 0);
+
   return (
     <div className="bg-white p-0">
       <Tabs
@@ -124,16 +135,18 @@ const CourseManagement = () => {
             >
               Course Pathway
             </TabsTrigger>
-            <TabsTrigger
-              value="2"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
-                getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
-                  ? "cursor-pointer"
-                  : "cursor-default"
-              }`}
-            >
-              Module Creation
-            </TabsTrigger>
+            {+selectTargetPillarLimit?.data?.LMSaccess !== 0 && (
+              <TabsTrigger
+                value="2"
+                className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                  getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
+                    ? "cursor-pointer"
+                    : "cursor-default"
+                }`}
+              >
+                Module Creation
+              </TabsTrigger>
+            )}
             <TabsTrigger
               value="3"
               className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
@@ -173,6 +186,7 @@ const CourseManagement = () => {
           <Forum />
         </TabsContent>
       </Tabs>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };

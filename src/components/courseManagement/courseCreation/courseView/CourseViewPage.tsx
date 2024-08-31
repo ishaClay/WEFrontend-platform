@@ -11,11 +11,9 @@ import CourseViewCardList from "./CourseViewCardList";
 const CourseViewPage = ({
   data,
   currIndex,
-  selectTargetPillarLimit,
 }: {
   data: any;
   currIndex: number;
-  selectTargetPillarLimit: any;
 }) => {
   // @ts-ignore
   const CourseCardList = [...data.section, ...(data?.assessment as any)];
@@ -31,18 +29,13 @@ const CourseViewPage = ({
             <AccordionTrigger
               className={`sm:px-5 px-4 py-2.5 bg-[#F8F8F8] border-b border-[#D9D9D9]`}
             >
-              <CourseViewCardList
-                data={data}
-                currIndex={currIndex}
-                selectTargetPillarLimit={selectTargetPillarLimit}
-              />
+              <CourseViewCardList data={data} currIndex={currIndex} />
             </AccordionTrigger>
             <AccordionContent>
               <CourseViewCardInner
                 CourseCardList={CourseCardList}
                 moduleId={data.id}
                 assessments={data?.assessment}
-                selectTargetPillarLimit={selectTargetPillarLimit}
               />
             </AccordionContent>
           </AccordionItem>
