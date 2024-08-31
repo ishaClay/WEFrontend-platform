@@ -17,6 +17,7 @@ import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import sidebarlogo2 from "@/assets/images/logo2.png";
 import { setPath } from "@/redux/reducer/PathReducer";
 import Cookies from "js-cookie";
 
@@ -104,9 +105,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     >
       <div className="h-screen overflow-auto">
         {sidebarOpen ? (
-          <div className="ml-[40px] mt-[20px]">
+          <div className="ml-[20px] mt-[20px] flex items-center">
             <Link to={"/"}>
               <img src={sidebarlogo} alt="logo" width={121.17} height={80} />
+            </Link>
+            <Link to={"/"}>
+              <img src={sidebarlogo2} alt="logo" width={121.17} height={80} />
             </Link>
           </div>
         ) : (

@@ -97,7 +97,7 @@ function HomeHeader(props: headerProps) {
     <div className="py-2 shadow-[0_-13px_50px_-15px_rgba(0,0,0,0.3)]" style={{}}>
       <div className="sticky top-0 h-full z-[60] lg:shadow-none shadow-md bg-white">
         <header
-          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-5 ${
+          className={`xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[20px] md:pt-[42px] pt-[18px] pb-[18px] ${
             props.hasDiffHeader ? "mx-7" : ""
           }`}
         >
@@ -121,7 +121,7 @@ function HomeHeader(props: headerProps) {
                   <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
                 </div>
                 <div className="text-[#1f1313]">
-                  <ul className="flex justify-between font-normal text-base leading-5 font-calibri mb-3">
+                  <ul className="flex justify-between font-normal text-base leading-5 font-calibri mb-4">
                     <li className="group flex items-center gap-[5px]">
                       <Link to={`/our-courses`} className={`cursor-pointer ${location.pathname === '/our-courses' && 'font-[600]'}`}>
                         Our Courses

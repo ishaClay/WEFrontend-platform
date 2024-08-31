@@ -51,7 +51,7 @@ const Steps = () => {
         <span className="font-medium">To better days ahead of you.</span>
       </h3>
       <div className="grid grid-cols-9 max-w-[1913px] mx-auto">
-        <div className="sm:col-span-2 col-span-9 bg-[#75BD43] flex justify-center items-center sm:h-[259px] h-[148px]">
+        <div className="sm:col-span-2 col-span-9 bg-[#75BD43] flex justify-center items-center sm:h-[259px] h-[80px]">
           <p className="secondary-text xl:text-[28px] text-2xl font-Droid-Regular text-center font-bold">
             Why Go Sustainable
           </p>

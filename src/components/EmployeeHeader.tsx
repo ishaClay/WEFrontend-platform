@@ -7,7 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import { Bell, ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo2 from "../assets/images/logo2.png";
+import headerlogo from "@/assets/images/Going.png";
+import headerlogo2 from "@/assets/images/Green.png";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
@@ -90,7 +91,7 @@ const EmployeeHeader = () => {
   return (
     <>
       <div className="lg:bg-white bg-transparent rounded-t-xl">
-        <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] lg:pb-[11px] px-5 ">
+        <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] px-5 sm:h-[130px] h-[70px]">
           <div className="flex items-center gap-1">
             <Button
               type="button"
@@ -109,6 +110,16 @@ const EmployeeHeader = () => {
               </h3>
               <BreadcrumbWithCustomSeparator />
             </h4>
+          </div>
+          <div className="flex-col justify-end md:flex hidden">
+            <div className="flex gap-[22px] pb-2.5">
+            <Link to={"/"}>
+              <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
+            </Link>
+            <Link to={"/"}>
+              <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
+            </Link>
+            </div>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">
             <div className="lg:hidden block">
@@ -171,13 +182,13 @@ const EmployeeHeader = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <div className="lg:block hidden">
+            {/* <div className="lg:block hidden">
               <img
                 className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
                 src={Logo2}
                 alt="Logo 2"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
