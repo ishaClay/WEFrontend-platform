@@ -1,5 +1,7 @@
+import { useChatBotContext } from "@/context/chatBotContext";
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
+import { createCohortGroupUser } from "@/services/apiServices/cohort";
 import {
   likeDislikeAction,
   updateEmployeeWiseCourseStatus,
@@ -10,10 +12,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, Download } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+<<<<<<< Updated upstream
 import { createCohortGroupUser } from "@/services/apiServices/cohort";
 import { useChatBotContext } from "@/context/chatBotContext";
+=======
+>>>>>>> Stashed changes
 
 const ViewSession = ({
   setDocumentFile,
@@ -312,7 +318,7 @@ const ViewSession = ({
             </div>
             <p
               dangerouslySetInnerHTML={{ __html: list?.information }}
-              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%]"
+              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%] break-all"
             ></p>
             {list?.isStatus !== "Completed" && (
               <div className="flex items-center justify-center mt-[56px]">

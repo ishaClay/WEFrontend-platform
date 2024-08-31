@@ -302,6 +302,8 @@ const AssecessmentPage = () => {
     timeDuration: "",
   });
 
+  console.log("createAssecessment++++++++++++++++++++++++++", assesment);
+
   const validateAssecessmentModule = () => {
     let valid = true;
     const newErrors = {

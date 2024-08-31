@@ -83,6 +83,8 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
       const answerValue = assesment
         // @ts-ignore
         ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
+      console.log("+++++++++++++++answerValue", answerValue);
+
       if (!answerValue?.length) {
         newErrors.answer = "Answer is required";
         valid = false;
