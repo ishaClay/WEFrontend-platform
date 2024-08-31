@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import uploadImg from "@/assets/images/drop_file-img.png";
 import FormError from "@/components/comman/FormError";
 import Modal from "@/components/comman/Modal";
@@ -21,7 +22,7 @@ interface UploadContentProps {
   setValue: any;
   errors: any;
   setUrlError: (e: any) => void;
-  setIsUploading?: any
+  setIsUploading?: any;
 }
 
 const UploadContent = ({
@@ -31,7 +32,7 @@ const UploadContent = ({
   moduleIndex,
   sectionIndex,
   setUrlError,
-  setIsUploading
+  setIsUploading,
 }: UploadContentProps) => {
   const [isOpenUploadDocumnet, setIsOpenUploadDocumnet] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -73,7 +74,7 @@ const UploadContent = ({
   const { mutate: FileUpload } = useMutation({
     mutationFn: (data: any) => uploadFile(data, progress),
     onSuccess: (data) => {
-      setIsUploading(false)
+      setIsUploading(false);
       if (moduleIndex !== undefined && sectionIndex !== undefined) {
         setValue(
           `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
@@ -144,7 +145,7 @@ const UploadContent = ({
     if (file) {
       const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
-        setIsUploading(true)
+        setIsUploading(true);
         setFileName(file.name);
         setUploadProgress(0);
         FileUpload(file);
@@ -153,7 +154,7 @@ const UploadContent = ({
           variant: "destructive",
           title: `Only ${FileType?.fileType.join(", ")} files are allowed.`,
         });
-        setIsUploading(false)
+        setIsUploading(false);
       }
     }
   };
@@ -174,7 +175,7 @@ const UploadContent = ({
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(
         `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
-        ""
+        0
       );
       setValue(
         `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
@@ -184,6 +185,7 @@ const UploadContent = ({
       setValue(`uploadContentType`, 0);
       setValue(`uploadedContentUrl`, "");
     }
+
     setUploadProgress(0);
     setFileName("");
   };

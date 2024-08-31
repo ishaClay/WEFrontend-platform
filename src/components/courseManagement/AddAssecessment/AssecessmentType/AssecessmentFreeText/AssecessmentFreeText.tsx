@@ -76,7 +76,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
         // @ts-ignore
         ?.find((item) => +item.ids === +assecessmentQuestion?.ids)?.answer;
 
-      if (!answerValue) {
+      if (answerValue?.length === 0) {
         newErrors.answer = "Answer is required";
         valid = false;
       }
