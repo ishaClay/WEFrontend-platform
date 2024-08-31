@@ -12,14 +12,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, Download } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-<<<<<<< Updated upstream
-import { createCohortGroupUser } from "@/services/apiServices/cohort";
-import { useChatBotContext } from "@/context/chatBotContext";
-=======
->>>>>>> Stashed changes
 
 const ViewSession = ({
   setDocumentFile,

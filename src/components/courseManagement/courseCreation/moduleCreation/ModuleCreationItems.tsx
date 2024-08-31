@@ -29,7 +29,7 @@ interface ModuleCreationItemsProps {
   urlError?: string;
   informationError: string;
   setInformationError: (e: any) => void;
-  setIsUploading: any
+  setIsUploading?: any;
 }
 
 const intialSectionCreation: SectionCreation = {
@@ -65,7 +65,7 @@ const ModuleCreationItems = ({
   setUrlError,
   informationError,
   setInformationError,
-  setIsUploading
+  setIsUploading,
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
