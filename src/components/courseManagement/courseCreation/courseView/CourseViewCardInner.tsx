@@ -160,6 +160,7 @@ const CourseViewCardInner = ({
     watch,
     setValue,
     reset,
+    setError,
     getValues,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -440,6 +441,7 @@ const CourseViewCardInner = ({
               isLoading={createSectionPending}
               urlError={urlError}
               setUrlError={setUrlError}
+              setError={setError}
               informationError={informationError}
               setInformationError={(e: string) => setInformationError(e)}
             />

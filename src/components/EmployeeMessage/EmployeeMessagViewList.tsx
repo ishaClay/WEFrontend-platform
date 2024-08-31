@@ -9,17 +9,20 @@ import { DataEntity } from "@/types/Chat";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
 import MessageDetails from "./MessageDetails";
+import { useChatBotContext } from "@/context/chatBotContext";
 
 const EmployeeMessagViewList = () => {
   const [empId, setEmpId] = useState<null | DataEntity>(null);
   const queryClient = useQueryClient();
   const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+
+  const { group } = useChatBotContext();
   const userID = UserId
     ? UserId
     : userData?.query
@@ -40,6 +43,14 @@ const EmployeeMessagViewList = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.chatUserList] });
     },
   });
+
+  useEffect(() => {
+    if (group) {
+      setEmpId(group);
+    }
+  }, [group]);
+
+  console.log("empIdempId", empId);
 
   return (
     <div className="lg:border-t border-t-none border-[#E5E5E5] pt-4 lg:min-h-[500px] flex flex-col gap-4 p-[15px]">

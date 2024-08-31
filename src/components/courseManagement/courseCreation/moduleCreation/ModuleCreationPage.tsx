@@ -190,6 +190,7 @@ const ModuleCreationPage = () => {
     watch,
     setValue,
     reset,
+    setError,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",

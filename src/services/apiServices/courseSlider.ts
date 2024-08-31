@@ -21,21 +21,30 @@ export const getCourseSlider = async (id: string, type: string) => {
   return res.data;
 };
 
-export const fetchSingleCourse = async (id: string) => {
+export const fetchSingleCourse = async (id: string, companyId?: string) => {
   const url = `api/v1/course/get/${id}`;
-  const res = await api({ url });
+  const params = {
+    companyId: companyId || "",
+  };
+  const res = await api({ url, params });
   return res.data;
 };
 
 export const getEmployeeSingeCourse = async ({
   courseId,
   userId,
+  companyId,
 }: {
   courseId: string;
   userId: string;
+  companyId?: string;
 }) => {
   const url = `api/v1/course/get-by-employee/${courseId}/${userId}`;
-  const res = await api({ url });
+  const params = {
+    companyId: companyId || "",
+  };
+
+  const res = await api({ url, params });
   return res.data;
 };
 

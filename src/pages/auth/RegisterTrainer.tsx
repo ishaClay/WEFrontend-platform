@@ -71,7 +71,7 @@ function RegisterTrainer() {
       .min(1, { message: "Please enter phone number" }),
     providerAddress: z.string().optional(),
     providerCounty: z.string().optional(),
-    name: z.string().min(3, { message: "Please enter  firstname" }),
+    contactFirstName: z.string().min(3, { message: "Please enter  firstname" }),
     email: z
       .string()
       .min(1, { message: "Please enter email" })
@@ -468,10 +468,12 @@ function RegisterTrainer() {
                       placeholder="First name"
                       className="h-[46px]"
                       label="Contact First Name"
-                      {...register("name")}
+                      {...register("contactFirstName")}
                     />
-                    {errors.name && (
-                      <ErrorMessage message={errors.name.message as string} />
+                    {errors.contactFirstName && (
+                      <ErrorMessage
+                        message={errors.contactFirstName.message as string}
+                      />
                     )}
                   </div>
                   <div className="col-span-2">
@@ -557,7 +559,9 @@ function RegisterTrainer() {
             </div>
           </div>
           <Loading
-            isLoading={createPending || registerPending || isLogoutPending}
+            isLoading={
+              createPending || registerPending || isLogoutPending || isPending
+            }
           />
         </div>
       </div>

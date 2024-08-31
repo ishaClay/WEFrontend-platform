@@ -20,6 +20,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
   const [trainerRatting, setTrainerRatting] = useState(0);
   const [review, setReview] = useState("");
   const queryClient = useQueryClient();
+  const [shareFeedback, setShareFeedback] = useState(false);
 
   const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     const value = e.target.value;
@@ -74,6 +75,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
         courseRate: courseRatting,
         trainerRate: trainerRatting,
         discription: review,
+        shareFeedback: shareFeedback,
       };
       update({ id: data?.data?.id, data: payload });
     } else {
@@ -142,7 +144,10 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
       )}
       <div className="grid lg:grid-cols-3 grid-cols-1 items-center mt-5">
         <div className="col-span-1 lg:flex hidden items-center">
-          <Checkbox className="me-3" />
+          <Checkbox
+            className="me-3"
+            onChange={() => setShareFeedback(!shareFeedback)}
+          />
           <h5 className="text-[#888888] font-inter text-sm">
             I’m totally fine with my review to be shared on social media.
           </h5>

@@ -37,7 +37,8 @@ const EmployeeBasicCourse = () => {
   const dispatch = useAppDispatch();
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
-    queryFn: () => fetchSingleCourse(courseById),
+    queryFn: () =>
+      fetchSingleCourse(courseById, userData?.company?.userDetails?.id),
     enabled: !!courseById,
   });
 
@@ -50,14 +51,13 @@ const EmployeeBasicCourse = () => {
       getEmployeeSingeCourse({
         courseId: courseById,
         userId: userData?.query?.detailsid,
+        companyId: userData?.company?.userDetails?.id,
       }),
     enabled: userData?.query?.role === "4",
   });
 
   const course =
-    userData?.query?.role !== "4"
-      ? getSingleCourse?.data
-      : fetchEmployeeSingeCourse?.data;
+    userData?.query?.role !== "4" ? getSingleCourse : fetchEmployeeSingeCourse;
 
   const { data: getModule } = useQuery<ModuleStatusResponse>({
     queryKey: [QUERY_KEYS.getSingleCourse, mainCourseId],
@@ -79,6 +79,7 @@ const EmployeeBasicCourse = () => {
     }
   }, [tab, location]);
 
+  console.log("🚀 ~ EmployeeBasicCourse ~ course:", course);
   return (
     <>
       <Modal
@@ -87,7 +88,7 @@ const EmployeeBasicCourse = () => {
         className="lg:max-w-[610px] sm:max-w-[550px] max-w-[335px] lg:p-6 p-4 rounded-xl"
       >
         <ReviewModal
-          course={course}
+          course={course?.data}
           onClose={() => setIsOpenReviewModal(false)}
         />
       </Modal>
@@ -95,7 +96,7 @@ const EmployeeBasicCourse = () => {
         <div className="">
           <div className="flex justify-between items-center px-5 py-5">
             <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
-              {course?.course?.title}
+              {course?.data?.course?.title}
             </h4>
             <div
               className="flex pr-5 cursor-pointer text-black md:hidden"
@@ -270,13 +271,13 @@ const EmployeeBasicCourse = () => {
                 </div>
               </TabsList>
               <TabsContent value="information" className="p-5">
-                <Information data={course} />
+                <Information data={course?.data} />
               </TabsContent>
               <TabsContent value="module" className="p-5">
-                <Module data={course} />
+                <Module data={course?.data} enrollData={course?.enroll} />
               </TabsContent>
               <TabsContent value="feedback" className="p-5">
-                <Feedback data={course} />
+                <Feedback data={course?.data} />
               </TabsContent>
             </Tabs>
           </div>

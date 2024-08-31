@@ -47,7 +47,7 @@ const EnrolledCourseListItem = ({
         </div>
         <div className="w-full items-start sm:px-0 px-[15px] pb-[15px]">
           <div className="flex items-center flex-wrap xl:gap-4 gap-2 pb-2.5">
-            <CourseList rating={data?.rating} />
+            <CourseList rating={data?.course?.feedBack?.avgRate} />
             <div className="flex items-center flex-wrap gap-[7px]">
               {data?.course?.courseData?.map((item: any) => {
                 const pillarName = item.fetchPillar?.pillarName;
@@ -67,9 +67,14 @@ const EnrolledCourseListItem = ({
             {data?.course?.title}
           </h5>
           <h6 className="flex font-calibri md:text-base text-sm text-[#1D2026] pb-2">
-            <span>Trainer :</span>
-            {data?.course?.trainerCompanyId?.providerName ||
-              data?.course?.trainerId?.providerName}
+            <span className="mr-2">Trainer :</span>
+            {data?.course?.trainerId
+              ? (data?.course?.trainerId?.contactFirstName || "") +
+                " " +
+                data?.course?.trainerId?.contactSurname
+              : (data?.course?.trainerCompanyId?.contactFirstName || "") +
+                " " +
+                data?.course?.trainerCompanyId?.contactSurname}
           </h6>
           <div className="flex sm:flex-row flex-col flex-wrap sm:items-center items-start sm:gap-[19px] gap-2">
             <div className="flex flex-wrap gap-1">

@@ -29,7 +29,7 @@ const UploadContent = ({
   data,
   moduleIndex,
   sectionIndex,
-  setUrlError
+  setUrlError,
 }: UploadContentProps) => {
   const [isOpenUploadDocumnet, setIsOpenUploadDocumnet] = useState(false);
   const [fileName, setFileName] = useState("");
@@ -46,7 +46,7 @@ const UploadContent = ({
       setUploadProgress(100);
     }
   }, [data]);
-console.log("data++++", data);
+  console.log("data++++", data);
 
   const onSelectedDocumentType = (type: number) => {
     setIsOpenUploadDocumnet(false);
@@ -56,14 +56,11 @@ console.log("data++++", data);
         type
       );
       setValue(`modules.${moduleIndex}.section.${sectionIndex}.youtubeUrl`, "");
-      setUrlError("")
+      setUrlError("");
     } else {
       setValue(`uploadContentType`, type);
-      setValue(
-        `youtubeUrl`,
-        ""
-      );
-      setUrlError("")
+      setValue(`youtubeUrl`, "");
+      setUrlError("");
     }
   };
 
@@ -107,9 +104,11 @@ console.log("data++++", data);
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
       setValue(`uploadedContentUrl`, 0);
     } else {
-      const fileInput = document.getElementById(`modules.${moduleIndex}.section.${sectionIndex}`) as HTMLInputElement;
+      const fileInput = document.getElementById(
+        `modules.${moduleIndex}.section.${sectionIndex}`
+      ) as HTMLInputElement;
       if (fileInput) {
-        fileInput.value = ''; // Clear the file input value
+        fileInput.value = ""; // Clear the file input value
       }
       setValue(`uploadedContentUrl`, "");
     }
@@ -117,7 +116,6 @@ console.log("data++++", data);
     setUploadProgress(0);
   };
   console.log("data1234", data);
-  
 
   const handleDropEvent = (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -158,25 +156,34 @@ console.log("data++++", data);
   let errorkey;
   if (moduleIndex !== undefined && sectionIndex !== undefined) {
     errorkey = errors.modules?.[moduleIndex]?.section?.[sectionIndex];
+    console.log("🚀 ~ errorkey:", errorkey);
   } else {
     errorkey = errors;
   }
 
   const removeUploadContent = () => {
-    console.log("setIsOpenUploadDocumnet", `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`);
+    console.log(
+      "setIsOpenUploadDocumnet",
+      `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`
+    );
     if (moduleIndex !== undefined && sectionIndex !== undefined) {
-      setValue(`modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`, 0);
-      setValue(`modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`, "");
-    } else{
+      setValue(
+        `modules.${moduleIndex}.section.${sectionIndex}.uploadContentType`,
+        ""
+      );
+      setValue(
+        `modules.${moduleIndex}.section.${sectionIndex}.uploadedContentUrl`,
+        ""
+      );
+    } else {
       setValue(`uploadContentType`, 0);
       setValue(`uploadedContentUrl`, "");
     }
     setUploadProgress(0);
     setFileName("");
-  }
+  };
 
   console.log("data+++", data);
-  
 
   return (
     <div className="">
@@ -337,6 +344,12 @@ console.log("data++++", data);
               </div>
             </div>
           </div>
+          {errorkey?.uploadedContentUrl?.uploadContentType && (
+            <FormError
+              className="font-calibri not-italic"
+              message={errorkey?.uploadedContentUrl?.uploadContentType?.message}
+            />
+          )}
         </div>
       )}
 
