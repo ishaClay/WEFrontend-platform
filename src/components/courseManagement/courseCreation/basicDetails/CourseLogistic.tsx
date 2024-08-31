@@ -1,4 +1,5 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
@@ -140,7 +141,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
     isOnline: "",
     durationType: "",
   });
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isFetching : getSingleCourseFetching } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
@@ -417,6 +418,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </Button>
           </div>
         </form>
+        <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );

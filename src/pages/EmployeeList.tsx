@@ -410,12 +410,6 @@ function CoursesAllocate() {
     queryFn: () => getOneCompany(companyId),
   });
 
-  console.log(
-    "selectTargetPillarLimitData",
-    selectTargetPillarLimitData?.data?.data?.maxEmployeeLimit,
-    data
-  );
-
   const handleDelete = () => {
     mutate(String(openDelete?.id));
   };

@@ -1,4 +1,5 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
+import Loading from "@/components/comman/Error/Loading";
 import CKEditorComponent from "@/components/comman/JoditEditor";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
@@ -72,7 +73,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     },
   });
 
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: !!paramsversion,
@@ -359,6 +360,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
             </div>
           </form>
         </div>
+      <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );

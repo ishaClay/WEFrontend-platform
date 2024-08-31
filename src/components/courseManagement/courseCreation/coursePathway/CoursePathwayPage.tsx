@@ -16,6 +16,7 @@ import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
+import Loading from "@/components/comman/Error/Loading";
 
 interface SelectedData {
   pillarId: string;
@@ -114,7 +115,7 @@ const CoursePathwayPage = () => {
     });
   };
 
-  const { data: getSingleCourse } = useQuery({
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
     queryFn: () => fetchSingleCourseById(String(paramsversion)),
     enabled: +courseId ? !!paramsversion : false,
@@ -243,6 +244,7 @@ const CoursePathwayPage = () => {
           )}
         </Button>
       </div>
+      <Loading isLoading={getSingleCourseFetching} />
     </div>
   );
 };
