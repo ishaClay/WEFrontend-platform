@@ -106,7 +106,7 @@ const MyCoursePage = () => {
 
   return (
     <div className="lg:bg-white bg-transparent rounded-b-xl">
-      <div className="flex items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3] rounded-lg">
+      <div className="flex flex-wrap gap-2 items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3] rounded-lg">
         <div className="flex items-center sm:gap-8 gap-[10px]">
           <div>
             <Label className="text-xs font-normal font-Poppins mt-0">

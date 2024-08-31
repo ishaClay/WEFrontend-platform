@@ -12,7 +12,7 @@ import { AlignLeft } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
 import { VscBellDot } from "react-icons/vsc";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo2 from "../assets/images/logo2.png";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
@@ -30,6 +30,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
+import headerlogo from "@/assets/images/Going.png";
+import headerlogo2 from "@/assets/images/Green.png";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -98,8 +100,8 @@ const MainHeader = () => {
   return (
     <>
       <header className="sm:bg-[#fff] bg-transparent">
-        <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
-          <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3">
+        <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
+          <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
             <li className="">
               <Button
                 type="button"
@@ -121,13 +123,23 @@ const MainHeader = () => {
 
             <li className="">
               {/* {title} */}
-              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
+              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome{" "}
                 {userData?.query?.name || userData?.query?.email?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
           </ul>
+          <div className="flex-col justify-end md:flex hidden">
+            <div className="flex gap-[22px] pb-2.5">
+            <Link to={"/"}>
+              <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
+            </Link>
+            <Link to={"/"}>
+              <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
+            </Link>
+            </div>
+          </div>
 
           <div className="flex xl:gap-4 sm:gap-3 gap-1">
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
@@ -205,13 +217,13 @@ const MainHeader = () => {
                 </DropdownMenu>
               </div>
             </div>
-            <div className="lg:block hidden">
+            {/* <div className="lg:block hidden">
               <img
                 className="md:w-[136px] md:h-[105px] w-[100px] h-[75px]"
                 src={Logo2}
                 alt="Logo 2"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="sm:p-5 px-5 pt-5 pb-0 text-[#3A3A3A] font-[calibri] items-center justify-between w-full sm:hidden block">
