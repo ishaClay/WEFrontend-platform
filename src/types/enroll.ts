@@ -122,6 +122,7 @@ export interface Course {
   institute: string;
   instituteWebsite: string;
   instituteWebsite2: string;
+  courseReconmendedStatus?: string;
   freeCourse: number;
   discout: number;
   discountApplicable: number;

@@ -261,7 +261,7 @@ function CourseViewAllocatePopup({
                       <div className="flex items-center gap-2">
                         <FaStar className="text-[#FD8E1F]" />
                         <span className="text-[#8C94A3] leading-[22px] text-sm">
-                          RECOMMENDED
+                          {courseData?.course?.courseReconmendedStatus}
                         </span>
                       </div>
                       {/* {courseData?.course?.courseData?.map((item) => {
@@ -315,14 +315,14 @@ function CourseViewAllocatePopup({
                       <p className="text-xs">Level- Advanced</p>
                     </div>
 
-                    <div className="flex items-center gap-1">
+                    {courseData?.course?.otherInstitutionName && <div className="flex items-center gap-1">
                       <img
                         className=" h-[16] w-[18px] text-black"
                         src={course}
                         alt="Course"
                       />
-                      <p className="text-xs">Post Graduate Diploma</p>
-                    </div>
+                      <p className="text-xs">{courseData?.course?.otherInstitutionName}</p>
+                    </div>}
                     <div className="flex items-center gap-1">
                       <img className=" h-[16] w-[18px]" src={time} alt="time" />
                       <p className="text-xs">
