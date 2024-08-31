@@ -244,7 +244,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
                   className="w-[24px] h-[24px]"
                 />
                 <Label htmlFor="yes" className="text-base">
-                  Yes
+                  True
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
@@ -254,7 +254,7 @@ const AssecessmentTrueFalse = forwardRef<Validatable, AssecessmentTypeProps>(
                   className="w-[24px] h-[24px]"
                 />
                 <Label htmlFor="no" className="text-base">
-                  No
+                  False
                 </Label>
               </div>
             </RadioGroup>

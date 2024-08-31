@@ -8,6 +8,7 @@ interface InputProps {
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean;
   isLink?: boolean;
+  auth?: boolean;
   href?: string;
 }
 
@@ -17,6 +18,7 @@ export const PrimaryButton: React.FC<InputProps> = ({
   className,
   symbol,
   onClick,
+  auth = false,
   disabled = false,
 }) => {
   return (
