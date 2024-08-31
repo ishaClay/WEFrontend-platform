@@ -30,8 +30,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-import headerlogo from "@/assets/images/Going.png";
-import headerlogo2 from "@/assets/images/Green.png";
 
 const MainHeader = () => {
   const navigate = useNavigate();
@@ -130,18 +128,18 @@ const MainHeader = () => {
               <BreadcrumbWithCustomSeparator />
             </li>
           </ul>
-          <div className="flex-col justify-end md:flex hidden">
-            <div className="flex gap-[22px] pb-2.5">
-            <Link to={"/"}>
-              <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
-            </Link>
-            <Link to={"/"}>
-              <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
-            </Link>
-            </div>
+          <div className="flex-col justify-end md:flex hidden w-[33%]">
+          <div className="flex gap-[22px] justify-center">
+                <Link to={`/`} className='cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold'>
+                    G O I N G
+                </Link>
+                <Link to={`/`} className='cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold'>
+                    G R E E N
+                </Link>
+                </div>
           </div>
 
-          <div className="flex xl:gap-4 sm:gap-3 gap-1">
+          <div className="flex xl:gap-4 sm:gap-3 gap-1 w-[33%] justify-end">
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
               <button
                 type="button"
