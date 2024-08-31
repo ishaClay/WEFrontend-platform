@@ -1,7 +1,9 @@
 import { SidebarContext } from "@/context/Sidebarcontext";
+import { ChatBotProvider } from "@/context/chatBotContext";
 import { QUERY_KEYS } from "@/lib/constants";
 import { sidebarLayout } from "@/lib/utils";
 import { pillarLimit } from "@/services/apiServices/pillar";
+import { UserRole } from "@/types/UserRole";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { IconType } from "react-icons/lib";
@@ -10,7 +12,6 @@ import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
 import Loading from "../comman/Error/Loading";
-import { ChatBotProvider } from "@/context/chatBotContext";
 
 export interface SidebarItem {
   label: string;
@@ -36,14 +37,8 @@ const DashboardLayout = () => {
   const { data: selectTargetPillarLimit, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(user?.query?.detailsid as string),
-    enabled: !!user,
+    enabled: !!user && +user?.query?.role === UserRole.Trainer,
   });
-
-  console.log(
-    "selectTargetPillarLimit++++++++++++",
-    selectTargetPillarLimit,
-    sidebarLayout.TarinerSidebar
-  );
 
   const TrainerPermission =
     selectTargetPillarLimit &&

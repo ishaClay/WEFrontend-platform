@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 import * as zod from "zod";
 
 // const birthMonth = [
@@ -260,8 +262,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             </div>
           )}
           {+userData?.query.role !== 3 && (
-            <div className="flex flex-col gap-1">
-              <InputWithLabel
+            <div className="flex flex-col gap-1 py-2">
+              {/* <InputWithLabel
                 label="Contact Number"
                 placeholder="Enter Mobile Number"
                 disabled={!!data?.data?.number}
@@ -274,7 +276,27 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 }}
                 value={watch("mobilenumber") || ""}
                 error={errors?.mobilenumber?.message as string}
+              /> */}
+              <label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
+                Contact Number <span className="text-red-500">*</span>
+              </label>
+              <PhoneInputWithCountrySelect
+                placeholder="Enter phone number"
+                international
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.match(/^[0-9]*$/)) {
+                    setValue("mobilenumber", e.target.value);
+                  }
+                  return;
+                }}
+                disabled={watch("mobilenumber") ? true : false}
+                value={watch("mobilenumber") || ""}
+                className="phone-input"
               />
+              {errors.mobilenumber && (
+                <ErrorMessage message={errors.mobilenumber.message as string} />
+              )}
             </div>
           )}
           <div className="flex flex-col gap-1">

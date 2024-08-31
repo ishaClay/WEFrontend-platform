@@ -193,6 +193,8 @@ export interface CoursePublishAdminClientData {
   courseData: Array<{
     pillarId: number;
     maturityId: number;
+    fetchMaturity: FetchMaturity;
+  fetchPillar: FetchPillar;
   }>;
   status: string;
   publishDate: string;
@@ -200,6 +202,25 @@ export interface CoursePublishAdminClientData {
   tab: string;
   creationCompleted: boolean;
   deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FetchMaturity {
+  id: number;
+  maturityLevelName: string;
+  rangeStart: number;
+  rangeEnd: number;
+  color: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface FetchPillar {
+  id: number;
+  pillarName: string;
+  checked: number;
+  deletedAt?: null;
   createdAt: string;
   updatedAt: string;
 }
