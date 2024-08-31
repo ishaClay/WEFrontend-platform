@@ -7,8 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import { Bell, ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import headerlogo from "@/assets/images/Going.png";
-import headerlogo2 from "@/assets/images/Green.png";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
 import Modal from "./comman/Modal";
@@ -112,14 +110,14 @@ const EmployeeHeader = () => {
             </h4>
           </div>
           <div className="flex-col justify-end md:flex hidden">
-            <div className="flex gap-[22px] pb-2.5">
-            <Link to={"/"}>
-              <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
-            </Link>
-            <Link to={"/"}>
-              <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
-            </Link>
-            </div>
+          <div className="flex gap-[22px]">
+                <Link to={`/`} className='cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold'>
+                    G O I N G
+                </Link>
+                <Link to={`/`} className='cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold'>
+                    G R E E N
+                </Link>
+                </div>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">
             <div className="lg:hidden block">

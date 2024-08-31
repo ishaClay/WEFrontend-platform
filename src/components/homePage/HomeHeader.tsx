@@ -1,7 +1,5 @@
 import main_logo from "@/assets/images/logo.png";
 import SideHeaderLogo from "@/assets/images/logo2.png";
-import headerlogo from "@/assets/images/Going.png";
-import headerlogo2 from "@/assets/images/Green.png";
 import { RegisterContext } from "@/context/RegisterContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -113,23 +111,35 @@ function HomeHeader(props: headerProps) {
                     src={main_logo}
                   />
                 </div>
-                <img className=" xl:w-[136px] w-[110px]" src={SideHeaderLogo} />
+                <div className={` ${!props.hasDiffHeader ? "mr-2" : ""}`}>
+                  <img
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    className="cursor-pointer xl:w-[131px] w-[108px]"
+                    src={SideHeaderLogo}
+                  />
+                </div>
               </div>
               <div className="flex flex-col justify-end">
-                <div className="flex gap-[22px] pb-2.5">
-                  <img className="xl:w-[136px] w-[110px]" src={headerlogo} />
-                  <img className="xl:w-[137px] w-[110px]" src={headerlogo2} />
+                <div className="flex gap-[22px]">
+                <Link to={`/`} className='cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold'>
+                    G O I N G
+                </Link>
+                <Link to={`/`} className='cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold'>
+                    G R E E N
+                </Link>
                 </div>
                 <div className="text-[#1f1313]">
-                  <ul className="flex justify-between font-normal text-base leading-5 font-calibri mb-4">
+                  <ul className="flex font-normal justify-center text-base leading-5 font-calibri mb-4">
                     <li className="group flex items-center gap-[5px]">
-                      <Link to={`/our-courses`} className={`cursor-pointer ${location.pathname === '/our-courses' && 'font-[600]'}`}>
+                      <Link to={`/our-courses`} className={`pr-[44px] cursor-pointer ${location.pathname === '/our-courses' && 'font-[600]'}`}>
                         Our Courses
                       </Link>
                       {/* <img className="w-[6px] h-[6px]" src={vector} /> */}
                     </li>
                     <li className="cursor-pointer">
-                      <Link to={`/blog`} className={`cursor-pointer ${location.pathname === '/blog' && 'font-[600]'}`}>
+                      <Link to={`/blog`} className={`pr-[33px] cursor-pointer ${location.pathname === '/blog' && 'font-[600]'}`}>
                         Blogs
                       </Link>
                     </li>
