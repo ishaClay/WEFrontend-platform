@@ -81,12 +81,13 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
           (parseInt(slot?.slotStartDate?.year) ===
             +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) >
+            parseInt(slot?.slotStartDate?.month) >
               +formattedCurrentDate?.month) ||
-          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) ===
+          (parseInt(slot?.slotStartDate?.year) ===
+            +formattedCurrentDate?.year &&
+            parseInt(slot?.slotStartDate?.month) ===
               +formattedCurrentDate?.month &&
-            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
+            parseInt(slot?.slotStartDate?.date) > +formattedCurrentDate?.date)
       );
     console.log(
       "matchingSlotmatchingSlot",
