@@ -531,8 +531,8 @@ const GridView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                      {(userData?.editCourses ||
-                        +userData?.query?.role !== UserRole.Trainee) && (
+                      {(userData?.editCourses &&
+                        +userData?.query?.role !== UserRole.Trainee) || (item?.trainerId?.id === +userData?.query?.detailsid) &&  (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>

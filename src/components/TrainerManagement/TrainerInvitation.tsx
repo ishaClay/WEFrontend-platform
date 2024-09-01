@@ -111,6 +111,11 @@ const TrainerInvitation = () => {
     },
   });
 
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const onSubmit = (data: FieldValues) => {
     const isCheckInvalid = inviteData.some(
       (data) => !data.email || !data.name || !data.surname
@@ -119,17 +124,27 @@ const TrainerInvitation = () => {
     if (isCheckInvalid) {
       setError("Please fill all the fields");
       return;
-    } else {
-      setError("");
-      const payload: any = {
-        email: inviteData,
-        invitationDetails: data?.details,
-        TrainerCompanyId: id,
-        baseUrl: location?.origin,
-      };
-      mutate(payload);
     }
-  };
+
+    const isEmailInvalid = inviteData.some(
+      (data) => !isValidEmail(data.email)
+    );
+
+    if (isEmailInvalid) {
+      setError("Enter valid email addresses");
+      return;
+    }
+
+    setError("");
+
+    const payload: any = {
+      email: inviteData,
+      invitationDetails: data?.details,
+      TrainerCompanyId: id,
+      baseUrl: location?.origin,
+    };
+    mutate(payload);
+  }
 
   const handleAddEmail = () => {
     setInviteData((prevData) => [...prevData, initialData]);
