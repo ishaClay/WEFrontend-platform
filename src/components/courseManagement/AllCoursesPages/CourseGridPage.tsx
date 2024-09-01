@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
 
 type dataGridProps = {
@@ -29,6 +30,8 @@ type dataGridProps = {
 };
 
 const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
+  const Role = location?.pathname?.split("/")[1];
+  const navigate = useNavigate();
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
@@ -75,13 +78,15 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       cohortData?.cohortGroups?.length > 0 &&
       cohortData?.cohortGroups?.find(
         (slot) =>
-          parseInt(slot.slotStartDate.year) > +formattedCurrentDate.year ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) > +formattedCurrentDate.month) ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) ===
-              +formattedCurrentDate.month &&
-            parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
+          parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
+          (parseInt(slot?.slotStartDate?.year) ===
+            +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) >
+              +formattedCurrentDate?.month) ||
+          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) ===
+              +formattedCurrentDate?.month &&
+            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
       );
     console.log(
       "matchingSlotmatchingSlot",
@@ -127,7 +132,10 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               </p>
               <p
                 className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
-                onClick={() => setIsCohortShow(cohortData)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsCohortShow(cohortData);
+                }}
               >
                 Show all cohort
               </p>
@@ -191,10 +199,16 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
               (item) =>
                 item.fetchPillar?.pillarName === selectedCourse?.pillarName
             );
+
           return (
             <>
               <div
-                className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1"
+                className="h-full w-full border border-solid border-[#D9D9D9] cursor-pointer rounded col-span-1"
+                onClick={() =>
+                  navigate(
+                    `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
+                  )
+                }
                 key={allcourse.id}
               >
                 <div className="relative overflow-hidden">
@@ -337,7 +351,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                     {getUpcommingCohort(allcourse)}
                     <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
                       <Button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setIsRecommendedCourseShow(true);
                           setRecommendedCoursesById(allcourse?.id);
                         }}

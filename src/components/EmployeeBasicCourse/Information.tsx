@@ -5,15 +5,18 @@ const Information = ({ data }: getSingleCourseType | any) => {
   return (
     <div>
       <div className="mb-5">
-        {/* <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
-          {data?.course?.institute}
-        </h5> */}
+        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
+          Information
+        </h5>
         <span
           className="xl:text-base md:text-sm text-xs text-black font-nunito"
           dangerouslySetInnerHTML={{ __html: data?.course?.description }}
         ></span>
+        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black py-2 ">
+          Key Outcomes
+        </h5>
         <span
-          className="xl:text-base md:text-sm text-xs text-black font-nunito mt-4 block"
+          className="xl:text-base md:text-sm text-xs text-black font-nunito block"
           dangerouslySetInnerHTML={{ __html: data?.course?.keys }}
         ></span>
       </div>

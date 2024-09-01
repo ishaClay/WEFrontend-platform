@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import atu from "@/assets/images/atu.png";
 import diploma from "@/assets/images/diploma.png";
 import fulltime from "@/assets/images/fulltime.png";
@@ -35,6 +36,7 @@ const CourseGridView = ({
   const userID = UserId ? UserId : userData?.query?.id;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const Role = location?.pathname?.split("/")[1];
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
   >();
@@ -130,8 +132,8 @@ const CourseGridView = ({
     handleSend(payload);
   };
 
-  console.log("recommendeddata", recommendeddata?.universityAddress);
-  
+  console.log("recommendeddata", recommendeddata);
+
   return (
     <>
       <Modal
@@ -154,6 +156,12 @@ const CourseGridView = ({
       </Modal>
       <div
         className="w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
+        onClick={() =>
+          navigate(
+            // @ts-ignore
+            `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+          )
+        }
         key={recommendeddata.id}
       >
         <div className="relative overflow-hidden h-[231px]">
@@ -260,7 +268,7 @@ const CourseGridView = ({
                       alt="Course"
                     />
                     <p className="text-xs leading-[22px] text-[#3A3A3A]">
-                    {recommendeddata?.otherInstitutionName || "--"}
+                      {recommendeddata?.otherInstitutionName || "--"}
                     </p>
                   </div>
                 </div>

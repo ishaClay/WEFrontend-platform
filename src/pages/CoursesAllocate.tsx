@@ -161,7 +161,11 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-3">
                                 <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                                 <span className="text-[black] font-bold text-sm mt-0.5">
-                                  {courseallocate?.course?.avgRating}/5
+                                  {
+                                    courseallocate?.course?.avgRating
+                                      ?.avgcourseRate
+                                  }
+                                  /5
                                 </span>
                               </div>
                               <div className="flex items-center gap-3">

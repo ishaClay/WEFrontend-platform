@@ -183,17 +183,21 @@ const ActionItemModel = ({
   };
 
   const removeActionItem = () => {
-    setPillerItems(
-      (prev) =>
-        ({
-          [removeData?.currentPiller]: prev[removeData?.currentPiller].filter(
-            (_, i) => {
-              return i !== removeData?.index;
-            }
-          ),
-        } as PillerItem)
-    );
-    deleteMeasuresItemsFun(removeData?.id);
+    if (removeData?.id) {
+      deleteMeasuresItemsFun(removeData?.id);
+    } else {
+      setPillerItems(
+        (prev) =>
+          ({
+            [removeData?.currentPiller]: prev[removeData?.currentPiller].filter(
+              (_, i) => {
+                return i !== removeData?.index;
+              }
+            ),
+          } as PillerItem)
+      );
+      setIsDelete(false);
+    }
   };
 
   const addActionItem = (currentPiller: string) => {
@@ -373,7 +377,9 @@ const ActionItemModel = ({
                       type="submit"
                       isLoading={createPending}
                       className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
-                      disabled={pillerItems[currentPiller]?.some((i: string) => !i)}
+                      disabled={pillerItems[currentPiller]?.some(
+                        (i: string) => !i
+                      )}
                     >
                       Save
                     </Button>

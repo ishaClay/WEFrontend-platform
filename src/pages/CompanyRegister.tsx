@@ -137,6 +137,7 @@ function CompanyRegister() {
           getData?.company_addr_4;
         setIsAble(false);
         setValue("address", add);
+        setValue("name", getData?.company_name);
       } else {
         setIsAble(true);
         toast({
@@ -208,9 +209,8 @@ function CompanyRegister() {
   };
 
   const handleVerifyId = () => {
-    const companyName = watch("name");
-    if (companyName) {
-      mutate({ company_num: companyNumberId || 0, companyName: companyName });
+    if (companyNumberId) {
+      mutate({ company_num: companyNumberId || 0 });
     } else {
       toast({ variant: "destructive", title: "Please Enter Company Name" });
     }
@@ -259,18 +259,6 @@ function CompanyRegister() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
-                <div className="w-full">
-                  <InputWithLable
-                    className="w-full h-[46px]"
-                    placeholder="Company Name"
-                    label="Company Name"
-                    {...register("name")}
-                    isMendatory={true}
-                  />
-                  {errors.name && (
-                    <ErrorMessage message={errors.name.message as string} />
-                  )}
-                </div>
                 <div className="w-full flex items-end">
                   <div className="w-full">
                     <InputWithLable
@@ -298,10 +286,22 @@ function CompanyRegister() {
                         "Verify"
                       )
                     }
-                    disabled={isPending || watch("name")?.length === 0}
+                    disabled={isPending || !companyNumberId}
                     className="px-5 h-[46px] ml-[20px]"
                     onClick={handleVerifyId}
                   />
+                </div>
+                <div className="w-full">
+                  <InputWithLable
+                    className="w-full h-[46px]"
+                    placeholder="Company Name"
+                    label="Company Name"
+                    {...register("name")}
+                    isMendatory={true}
+                  />
+                  {errors.name && (
+                    <ErrorMessage message={errors.name.message as string} />
+                  )}
                 </div>
                 <div className="sm:w-[241px] w-full">
                   <InputWithLable

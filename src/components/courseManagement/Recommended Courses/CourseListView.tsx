@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import speed from "@/assets/images/Speed.png";
 import atu from "@/assets/images/atu.png";
 import diploma from "@/assets/images/diploma.png";
@@ -45,6 +46,7 @@ function CourseListView({
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const Role = location?.pathname?.split("/")[1];
   const queryClient = useQueryClient();
   // const [recommendedCoursesById, setRecommendedCoursesById] = useState<number | null>()
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
@@ -183,6 +185,12 @@ function CourseListView({
           className={`bg-[#FFFFFF] pr-4 border border-[#D9D9D9] lg:p-5 p-4 rounded-md shadow-sm ${
             totalData && totalData - 1 === currentIndex ? "mb-0" : "mb-5"
           }`}
+          onClick={() =>
+            navigate(
+              // @ts-ignore
+              `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+            )
+          }
         >
           <div className="grid grid-cols-12 gap-4">
             <div className="sm:col-span-10 col-span-12 flex sm:flex-row flex-col xl:gap-5 gap-3">
@@ -245,7 +253,9 @@ function CourseListView({
                       src={diploma}
                       alt="diploma"
                     />
-                    <p className="text-xs">{recommendeddata?.universityAddress || "--"}</p>
+                    <p className="text-xs">
+                      {recommendeddata?.universityAddress || "--"}
+                    </p>
                   </div>
                   <div className="flex items-center gap-1">
                     <img
@@ -290,7 +300,9 @@ function CourseListView({
                       src={unversity}
                       alt="unversity"
                     />
-                    <p className="text-xs">{recommendeddata?.otherInstitutionName || "--"}</p>
+                    <p className="text-xs">
+                      {recommendeddata?.otherInstitutionName || "--"}
+                    </p>
                   </div>
                 </div>
               </div>

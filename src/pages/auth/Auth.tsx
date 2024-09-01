@@ -117,7 +117,6 @@ function Auth() {
       const user = data?.data?.data?.query;
       const role = trackUserLogin(+user?.role);
       console.log(role, user?.role, "rolerolerolerolerole");
-      Cookies.set("accessToken", data?.data?.data?.accessToken, { expires: 1 });
       if ((window as any).gtag) {
         (window as any).gtag("event", "login", {
           user_id: user?.id,
@@ -155,6 +154,12 @@ function Auth() {
         dispatch(setUserData(user.id));
         dispatch(setClientRole(+user.role));
         localStorage.setItem("user", JSON.stringify(data.data.data));
+        const expiresIn24Hours = new Date(
+          new Date().getTime() + 24 * 60 * 60 * 1000
+        );
+        Cookies.set("accessToken", data?.data?.data?.accessToken, {
+          expires: expiresIn24Hours,
+        });
         localStorage.setItem(
           "path",
           JSON.stringify(data.data.data?.query?.pathstatus)
