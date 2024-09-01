@@ -341,13 +341,10 @@ const GridView = ({
 
           console.log(
             "++++++++++++++++++++",
-            item?.status !== "EXPIRED" &&
-              item?.status !== "DRAFT" &&
-              (+userData?.query?.role === UserRole.Trainee &&
-              item?.trainerId &&
-              +item?.trainerId?.id !== +userData?.query?.trainerDetails?.id
-                ? update
-                : true)
+            item?.status !== "EXPIRED" && item?.status !== "DRAFT",
+            +userData?.query?.role === UserRole.Trainee,
+            item?.trainerId,
+            +item?.trainerId?.id !== +userData?.query?.trainerDetails?.id
           );
 
           const versionOption =
@@ -550,6 +547,17 @@ const GridView = ({
                           <span>
                             {item?.status === "DRAFT" ? "Edit" : "Edit minor"}
                           </span>
+                        </DropdownMenuItem>
+                      )}
+                      {(userData?.editCourses ||
+                        (+userData?.query?.role === UserRole.Trainee &&
+                          item?.status === "DRAFT")) && (
+                        <DropdownMenuItem
+                          className="flex items-center gap-2 font-nunito"
+                          onClick={(e) => handleEdit(e, item, "edit")}
+                        >
+                          <Pencil className="w-4 h-4" />
+                          <span>{"Edit"}</span>
                         </DropdownMenuItem>
                       )}
                       {item?.status !== "EXPIRED" &&
