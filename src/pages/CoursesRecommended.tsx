@@ -26,7 +26,7 @@ function CoursesRecommended() {
     : usersData?.id;
 
   const [search, setSearch] = useState("");
-  const { data: recommendedcourses, isPending: pending } = useQuery({
+  const { data: recommendedcourses, isFetching: pending } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyrecommendedcourse, { search }],
     queryFn: () =>
       fetchRecommendedCourses({
@@ -126,7 +126,7 @@ function CoursesRecommended() {
                 } grid gap-4`}
               >
                 {pending ? (
-                  <Loader />
+                  <Loader containerClassName="col-span-full" />
                 ) : recommendedcourses?.data &&
                   recommendedcourses?.data?.length > 0 ? (
                   recommendedcourses?.data?.map((recommendeddata) => (

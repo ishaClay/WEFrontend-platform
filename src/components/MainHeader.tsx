@@ -123,9 +123,12 @@ const MainHeader = () => {
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome{" "}
-                {`${userData?.query?.fname ? userData?.query?.fname : ""} ${
-                  userData?.query?.lname ? userData?.query?.lname : ""
-                }` || userData?.query?.email?.split("@")[0]}
+                {+userData?.query?.role === 1
+                  ? userData?.query?.name ||
+                    userData?.query?.email?.split("@")[0]
+                  : `${userData?.query?.fname ? userData?.query?.fname : ""} ${
+                      userData?.query?.lname ? userData?.query?.lname : ""
+                    }` || userData?.query?.email?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>

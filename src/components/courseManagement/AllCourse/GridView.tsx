@@ -120,7 +120,7 @@ const GridView = ({
       },
     });
   const { mutate: copyCourseFun, isPending: copyCoursePending } = useMutation({
-    mutationFn: (id: number) => copyCourse(id),
+    mutationFn: copyCourse,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
@@ -225,7 +225,7 @@ const GridView = ({
 
   const handleCopy = (e: Event, id: number) => {
     e.stopPropagation();
-    copyCourseFun(id);
+    copyCourseFun({ id, userId: userData?.query?.id });
   };
 
   const handleEdit = (
@@ -336,6 +336,17 @@ const GridView = ({
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
           const isMyCoursesPath = pathName === "mycourses";
           const isPublished = item?.status === "PUBLISHED";
+
+          console.log(
+            "++++++++++++++++++++",
+            item?.status !== "EXPIRED" &&
+              item?.status !== "DRAFT" &&
+              (+userData?.query?.role === UserRole.Trainee &&
+              item?.trainerId &&
+              +item?.trainerId?.id !== +userData?.query?.trainerDetails?.id
+                ? update
+                : true)
+          );
 
           const versionOption =
             item?.version &&
@@ -541,7 +552,10 @@ const GridView = ({
                       )}
                       {item?.status !== "EXPIRED" &&
                         item?.status !== "DRAFT" &&
-                        (+userData?.query?.role === UserRole.Trainee
+                        (+userData?.query?.role === UserRole.Trainee &&
+                        item?.trainerId &&
+                        +item?.trainerId?.id !==
+                          +userData?.query?.trainerDetails?.id
                           ? update
                           : true) && (
                           <>

@@ -62,10 +62,13 @@ export const fetchCourseAllCourse = async (
     params["userid"] = userId;
   }
   if (reddyForPublish) {
-    params["reddyForPublish"] = reddyForPublish;
+    params["course"] = reddyForPublish;
   }
   if (status) {
     params["status"] = status;
+  }
+  if (status) {
+    params["reddyForPublish"] = status;
   }
   const res = await api({ url, params });
 
@@ -131,8 +134,8 @@ export const publishCourse = (data: { status: string; id: number }) => {
   return api({ url, data: { status: data?.status }, method });
 };
 
-export const copyCourse = (id: number) => {
-  const url = `api/v1/course/copy-course/${id}`;
+export const copyCourse = ({ id, userId }: { id: number, userId: number }) => {
+  const url = `api/v1/course/copy-course/${id}?userId=${userId}`;
   const method = "put";
   return api({ url, method });
 };

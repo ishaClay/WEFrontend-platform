@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Course_image from "@/assets/images/Course_image.png";
 import starImage from "@/assets/images/Vector.png";
 import { ConfirmModal } from "@/components/comman/ConfirmModal";
@@ -131,7 +132,7 @@ const ListView = ({
     });
 
   const { mutate: copyCourseFun, isPending: copyCoursePending } = useMutation({
-    mutationFn: (id: number) => copyCourse(id),
+    mutationFn: copyCourse,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchAllCourse] });
       toast({
@@ -223,7 +224,8 @@ const ListView = ({
 
   const handleCopy = (e: Event, id: number) => {
     e.stopPropagation();
-    copyCourseFun(id);
+    // @ts-ignore
+    copyCourseFun({ id, userId: userData?.query?.id || 0 });
   };
 
   const handleEdit = (

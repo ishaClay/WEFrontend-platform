@@ -1,5 +1,6 @@
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -23,7 +24,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "./CohortModal";
 import GridView from "./GridView";
 import ListView from "./listView";
-import { Input } from "@/components/ui/input";
 
 const AllCourses = () => {
   const { permissions } = useContext(PermissionContext);
@@ -184,7 +184,7 @@ const AllCourses = () => {
             )}
             {+userData?.query?.role === UserRole.Trainee && (
               <Select
-                value={status}
+                value={statusTrainee}
                 defaultValue="All"
                 onValueChange={(e) => setStatusTrainee(e === "All" ? "" : e)}
               >
