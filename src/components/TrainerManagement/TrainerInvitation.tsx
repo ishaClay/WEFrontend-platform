@@ -18,14 +18,14 @@ import InputWithLabel from "../comman/InputWithLabel";
 
 interface InviteData {
   email: string;
-  fName: string;
-  lName: string;
+  name: string;
+  surname: string;
 }
 
 const initialData = {
   email: "",
-  fName: "",
-  lName: "",
+  name: "",
+  surname: "",
 };
 
 const schema = Zod.object({
@@ -113,7 +113,7 @@ const TrainerInvitation = () => {
 
   const onSubmit = (data: FieldValues) => {
     const isCheckInvalid = inviteData.some(
-      (data) => !data.email || !data.fName || !data.lName
+      (data) => !data.email || !data.name || !data.surname
     );
 
     if (isCheckInvalid) {
@@ -194,16 +194,16 @@ const TrainerInvitation = () => {
                 <Input
                   type="text"
                   placeholder="First Name"
-                  value={data?.fName}
-                  name="fName"
+                  value={data?.name}
+                  name="name"
                   onChange={(e) => handleChange(e, index)}
                   className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                 />
                 <Input
                   type="text"
                   placeholder="Last Name"
-                  name="lName"
-                  value={data?.lName}
+                  name="surname"
+                  value={data?.surname}
                   onChange={(e) => handleChange(e, index)}
                   className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                 />

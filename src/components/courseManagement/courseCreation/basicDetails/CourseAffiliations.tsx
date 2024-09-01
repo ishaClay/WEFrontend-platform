@@ -50,6 +50,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     handleSubmit,
     setValue,
     watch,
+    setError,
     formState: { errors, isDirty },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -259,6 +260,8 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                     instituteOther: data,
                   });
                   setValue("instituteOther", data);
+                  // @ts-ignore
+                  setError("otherInstitutionName", "");
                 }}
                 value={selectAffiliations?.instituteOther || ""}
                 placeholder="Select"

@@ -151,16 +151,15 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
               className="flex items-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <Button
+              <button
                 type="button"
-                variant={"ghost"}
                 onClick={() => onEditModule()}
               >
                 <FilePenLine
                   width={18}
                   className="me-3 text-[#575757] cursor-pointer"
                 />
-              </Button>
+              </button>
               <Button
                 type="button"
                 variant={"ghost"}
