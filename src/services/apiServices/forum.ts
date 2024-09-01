@@ -20,6 +20,14 @@ export const createForum = async (data: {question: string,
   return res.data;
 };
 
+
+export const likeDislikeForum = async (data: any) => {  
+  const url = `api/v1/forum-question/like-question?isLike=${data.isLike}`;
+  const method = "post";
+  const res = await api({ url, data: data.data, method });
+  return res.data;
+};
+
 export const createReply = async (data: {reply: string,
   userId: number,
   commentId: number,

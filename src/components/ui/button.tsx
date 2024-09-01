@@ -41,6 +41,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
+  loaderClassName?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -53,6 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading,
       children,
       disabled,
+      loaderClassName,
       ...props
     },
     ref
@@ -66,7 +68,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading ? (
-          <Loader2 className=" h-4 w-4 animate-spin text-white" />
+          <Loader2
+            className={cn("h-4 w-4 animate-spin text-white", loaderClassName)}
+          />
         ) : null}
         {children}
       </Comp>

@@ -67,9 +67,7 @@ const CoursePathwayPage = () => {
         const updatedData = data?.data;
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${
-              updatedData?.creationCompleted ? "2" : updatedData?.tab
-            }&version=${paramsversion}`
+            `/${pathName}/create_course/${courseId}?tab=2&version=${paramsversion}`
           );
         } else {
           navigate(
@@ -143,7 +141,7 @@ const CoursePathwayPage = () => {
 
   const handleSubmit = () => {
     if (selectedData?.length > 0) {
-      if (selectedData.length <= selectTargetPillarLimit?.data?.pillarLimit) {
+      if (selectedData.length <= +selectTargetPillarLimit?.data?.pillarLimit) {
         if (updateedPillar(selectedData, getPillarLimit)) {
           if (+courseId) {
             navigate(

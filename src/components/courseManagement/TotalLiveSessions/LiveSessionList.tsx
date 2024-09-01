@@ -94,8 +94,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
-            {data?.startTime}&nbsp;
-            {data?.startAmPm}
+            {moment(data?.startTime).format('hh:mm A')}
           </h6>
           <h6 className="text-base text-black font-abhaya font-semibold">
             <span className="text-[#606060]">Duration: </span>

@@ -71,7 +71,6 @@ const ModuleCourseViewCardItems = ({
       </>
     );
   };
-  console.log("list?.url", list);
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">

@@ -111,7 +111,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
         </div>
         <div className="sm:pl-[23px] px-3 pt-3">
           <div className="flex xl:flex-nowrap flex-wrap items-center xl:pb-[22px] pb-3 gap-3">
-            <CourseList rating={0} />
+            <CourseList rating={data?.course?.feedBack?.[0]?.courseRate || 0} />
             <div className="flex xl:flex-nowrap flex-wrap gap-[11px]">
               {data?.course?.courseData?.map((item) => {
                 const pillarName = item.fetchPillar?.pillarName;

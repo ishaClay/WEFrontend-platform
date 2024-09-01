@@ -12,7 +12,6 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
   const courseId = searchParams.get("courseId");
-  console.log("data++++123", allData);
 
   return (
     <div>

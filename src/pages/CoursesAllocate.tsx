@@ -14,7 +14,6 @@ import duration from "@/assets/svgs/duration.svg";
 import institute from "@/assets/svgs/institute.svg";
 import online from "@/assets/svgs/online.svg";
 import time from "@/assets/svgs/time.svg";
-import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -389,7 +388,6 @@ function CoursesAllocate() {
         openId={openId}
         isReadOnly={isReadOnly}
       />
-      <Loading isLoading={isPending} />
     </div>
   );
 }

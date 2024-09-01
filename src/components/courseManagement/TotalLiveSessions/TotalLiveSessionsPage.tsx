@@ -51,7 +51,7 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
       default:
         return true;
     }
-  });
+  }) || [];
 
   return (
     <div className="rounded-xl bg-white sm:p-5 p-4">
@@ -72,9 +72,9 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        {filteredSessions?.map((data, index) => {
+        {filteredSessions?.length > 0 ? filteredSessions?.map((data, index) => {
           return <LiveSessionList data={data} key={index} />;
-        })}
+        }) : <div className="sm:px-5 sm:py-20 p-[15px] text-center">No Data Found</div>}
       </div>
     </div>
   );

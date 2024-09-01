@@ -40,11 +40,6 @@ const DashboardLayout = () => {
     enabled: !!user && +user?.query?.role === UserRole.Trainer,
   });
 
-  console.log(
-    "selectTargetPillarLimit?.data?.certificationAccess === 1",
-    selectTargetPillarLimit?.data?.certificationAccess === 1
-  );
-
   const TrainerPermission = useMemo(() => {
     return selectTargetPillarLimit &&
       +selectTargetPillarLimit?.data?.certificationAccess === 1
