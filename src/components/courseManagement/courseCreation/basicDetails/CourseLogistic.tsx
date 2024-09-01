@@ -48,10 +48,10 @@ const isOnlineType = [
     label: "Hybrid",
     value: "3",
   },
-  {
-    label: "Major",
-    value: "4",
-  },
+  // {
+  //   label: "Major",
+  //   value: "4",
+  // },
   // {
   //   label: "Self-paced Online",
   //   value: "5",
@@ -96,7 +96,7 @@ const schema = zod
     durationType: zod.string().min(2, "Please select duration type"),
   })
   .superRefine((data, ctx) => {
-    if (data.isOnline === "0" && !data.universityAddress) {
+    if (data.isOnline === "2" && !data.universityAddress) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
         message: "Please enter university location",

@@ -69,7 +69,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
@@ -143,11 +143,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         }}
                         className={`relative group flex items-center ${
                           sidebarOpen ? "justify-between" : "justify-center"
-                        } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
+                        } text-[16px] leading-5 font-[400] p-[10px] rounded-md text-[#606060] font-calibri ${
                           item.children.find(
-                            (child) =>
-                              child.link === location.pathname ||
-                              isOpen?.[`bar${index + 1}`]
+                            (child) => child.link === location.pathname
                           ) || location.pathname.includes(item.link)
                             ? "bg-[#00778B] text-white"
                             : "bg-[#fff]"

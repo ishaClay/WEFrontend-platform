@@ -134,7 +134,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
             }}
           >
             <CirclePlus width={16} />
-            Add New
+            ADD NEW
           </Button>
           <div className="flex items-center md:gap-5 gap-3">
             <Button
@@ -170,13 +170,17 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         </div>
         <div className="flex items-center gap-[20px]">
           <Select value={view} onValueChange={handleViewChange}>
-            <SelectTrigger className="w-[100px]">
-              <SelectValue className="w-[100px]" />
+            <SelectTrigger className="w-[100px] capitalize">
+              <SelectValue className="w-[100px] " />
             </SelectTrigger>
             <SelectContent className="w-[100px]">
               <SelectGroup>
                 {viewOptions?.map((viewOption: string) => (
-                  <SelectItem key={viewOption} value={viewOption}>
+                  <SelectItem
+                    key={viewOption}
+                    value={viewOption}
+                    className="capitalize"
+                  >
                     {viewOption}
                   </SelectItem>
                 ))}

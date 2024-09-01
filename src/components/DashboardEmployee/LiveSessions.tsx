@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CustomCarousel from "../comman/CustomCarousel";
 import { Button } from "../ui/button";
 import LiveSessionsItems from "./LiveSessionsItems";
+import NoDataText from "../comman/NoDataText";
 
 const LiveSessions = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -42,9 +43,7 @@ const LiveSessions = () => {
               return <LiveSessionsItems data={data} key={index} />;
             })
           ) : (
-            <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
-              No Course Data Found
-            </p>
+            <NoDataText message="No Course Data Found" />
           )}
         </div>
       </div>
@@ -55,9 +54,7 @@ const LiveSessions = () => {
               return <LiveSessionsItems data={data} key={index} />;
             })
           ) : (
-            <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
-              No Course Data Found
-            </p>
+            <NoDataText message="No Course Data Found" />
           )}
         </CustomCarousel>
       </div>

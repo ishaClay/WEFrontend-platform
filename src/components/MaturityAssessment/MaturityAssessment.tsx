@@ -31,6 +31,7 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
+import Loading from "../comman/Error/Loading";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -52,7 +53,7 @@ const MaturityAssessment = () => {
       ? userData?.query?.id
       : userData?.id;
 
-  const { data: getCheckedmeasures } = useQuery({
+  const { data: getCheckedmeasures, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment, { selectAssessment }],
     queryFn: () =>
       getCheckedMeasuresByAssessment({
@@ -529,6 +530,7 @@ const MaturityAssessment = () => {
           </Tabs>
         </div>
       </div>
+      <Loading isLoading={isFetching} />
     </div>
   );
 };

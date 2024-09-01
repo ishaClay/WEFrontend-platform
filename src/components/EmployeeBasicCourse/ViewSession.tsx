@@ -69,7 +69,10 @@ const ViewSession = ({
     },
   });
 
-  const { mutate: createCohortGroupUserMutate } = useMutation({
+  const {
+    mutate: createCohortGroupUserMutate,
+    isPending: creatingCohortGroup,
+  } = useMutation({
     mutationFn: createCohortGroupUser,
     onSuccess: (data) => {
       const group = {
@@ -285,6 +288,7 @@ const ViewSession = ({
                   type="button"
                   className="text-[12px] font-nunito"
                   onClick={handleCreateGroup}
+                  isLoading={creatingCohortGroup}
                 >
                   {enrollData?.cohortGroup?.groupChat
                     ? "Show Message"

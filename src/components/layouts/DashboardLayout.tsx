@@ -37,7 +37,7 @@ const DashboardLayout = () => {
   const { data: selectTargetPillarLimit, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(user?.query?.detailsid as string),
-    enabled: (!!user && +user?.query?.role === UserRole.Trainer) || !!location,
+    enabled: !!user && +user?.query?.role === UserRole.Trainer,
   });
 
   console.log(

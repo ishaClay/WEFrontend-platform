@@ -161,7 +161,7 @@ const TrainerInvitation = () => {
             Trainer Management
           </h3>
           <p className="text-[#606060] text-[15px]">
-            Choose a trainer to invite onto this platform!
+            Choose a trainer to invite into this platform!
           </p>
         </div>
         <Button
@@ -187,9 +187,6 @@ const TrainerInvitation = () => {
         <div className="py-6 px-5 bg-white rounded-lg">
           <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
             Enter Trainer Email ID
-            <span className="font-nunito font-normal text-[#A3A3A3] text-base">
-              (comma separated email id)
-            </span>
           </h3>
           {inviteData?.map((data, index, arr) => (
             <div>

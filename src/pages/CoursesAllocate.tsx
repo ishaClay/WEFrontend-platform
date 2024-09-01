@@ -49,7 +49,7 @@ function CoursesAllocate() {
   const [statusFilter, setStatusFilter] = useState("all");
   const { clientId } = useAppSelector((state) => state?.user);
   const [openId, setOpenId] = useState<number | null>(null);
-  const { data: course, isLoading: isPending } =
+  const { data: course, isFetching: isPending } =
     useQuery<EnrollmentRequestsResponse>({
       queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
       queryFn: () =>
