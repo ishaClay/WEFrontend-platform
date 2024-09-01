@@ -161,6 +161,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
                     setIsOpen(true);
                     setEmpId(data?.id);
                   }}
+                  disabled={!data?.evalute}
                   // disabled={
                   //   progress?.[0] !== "100"
                   //     ? true
