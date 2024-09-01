@@ -39,6 +39,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
       setCourseRatting(data?.data?.courseRate);
       setTrainerRatting(data?.data?.trainerRate);
       setReview(data?.data?.discription);
+      setShareFeedback(!!data?.data?.shareFeedback)
     }
   }, [data]);
 
@@ -146,7 +147,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
         <div className="col-span-1 lg:flex hidden items-center">
           <Checkbox
             className="me-3"
-            onChange={() => setShareFeedback(!shareFeedback)}
+            onCheckedChange={() => setShareFeedback(!shareFeedback)}
           />
           <h5 className="text-[#888888] font-inter text-sm">
             I’m totally fine with my review to be shared on social media.

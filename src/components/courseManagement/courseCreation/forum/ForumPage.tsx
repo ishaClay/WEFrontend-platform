@@ -8,9 +8,13 @@ import {
   chatDPColor,
   getTimeAgo,
 } from "@/lib/utils";
-import { createForum, fetchForumQuestion } from "@/services/apiServices/forum";
+import {
+  createForum,
+  fetchForumQuestion,
+  likeDislikeForum,
+} from "@/services/apiServices/forum";
 import { UserData } from "@/types/auth";
-import { ErrorType } from "@/types/Errors";
+import { ErrorType, ResponseError } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -24,6 +28,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import MessageList from "./MessageList";
+import HandsUp from "/assets/icons/handup.svg";
+import HandsDown from "/assets/icons/handdown.svg";
 
 const ForumPage = () => {
   const queryClient = useQueryClient();
@@ -69,6 +75,28 @@ const ForumPage = () => {
       });
     },
   });
+
+  const { mutate: likeDislike } = useMutation({
+    mutationFn: (data: any) => likeDislikeForum(data),
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
+      });
+      toast({
+        title: "Success",
+        description: data.message,
+        variant: "success",
+      });
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Something went wrong",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (forumquestion && courseId && userId) {
@@ -110,7 +138,7 @@ const ForumPage = () => {
               </h5>
             </div>
           </div>
-          <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:py-5 py-3 rounded-lg">
+          <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:py-5 py-3 rounded-lg mb-5">
             <div className="flex gap-4 items-center">
               <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
                 <Avatar className="w-full h-full">
@@ -119,7 +147,7 @@ const ForumPage = () => {
                     className="text-white text-xl"
                     style={{ background: chatDPColor(userData?.query?.id) }}
                   >
-                    {userData?.query?.name?.charAt(0)?.toUpperCase() ||
+                    {userData?.query?.fname?.charAt(0)?.toUpperCase() ||
                       userData?.query?.email?.charAt(0)?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -127,7 +155,7 @@ const ForumPage = () => {
 
               <div className="">
                 <h5 className="text-black text-base font-abhaya">
-                  {userData?.query?.name}
+                  {userData?.query?.fname + userData?.query?.lname}
                 </h5>
                 <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
                   {userData?.role === UserRole.Company
@@ -149,7 +177,7 @@ const ForumPage = () => {
               <Textarea
                 placeholder="Post Your Question"
                 rows={5}
-                className="w-full border-border-[#D9D9D9] text-[#A3A3A3] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
+                className="w-full border-border-[#D9D9D9] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
                 onChange={(e) =>
                   setforumquestion({
                     moduleId: item?.id,
@@ -177,6 +205,9 @@ const ForumPage = () => {
           </div>
 
           {item?.forumQuestions?.map((x) => {
+            const hasLiked = x?.like?.some((i: any) => i?.id === +userId);
+            const hasDisliked = x?.unlike?.some((i: any) => i?.id === +userId);
+
             return (
               <div
                 className="border border-[#D9D9D9] rounded-lg mb-5"
@@ -197,14 +228,14 @@ const ForumPage = () => {
                             background: chatDPColor(x?.user?.id),
                           }}
                         >
-                          {x?.user?.name?.charAt(0)?.toUpperCase() ||
+                          {x?.user?.fname?.charAt(0)?.toUpperCase() ||
                             x?.user?.email?.charAt(0)?.toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </div>
                     <div className="">
                       <h5 className="text-black text-base font-abhaya">
-                        {x?.user?.name}
+                        {x?.user?.fname + x?.user?.lname}
                       </h5>
                       <div className="flex gap-2.5">
                         <h6 className="text-[#5B5B5B] text-xs font-inter">
@@ -229,12 +260,53 @@ const ForumPage = () => {
                 </div>
                 <div className="px-6 py-3 border-b border-[#D9D9D9]">
                   <ul className="flex items-center gap-7">
-                    <li className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group">
-                      <ThumbsUp className="group-hover:text-[#00778B] text-[#A3A3A3]" />{" "}
+                    <li
+                      onClick={() => {
+                        likeDislike({
+                          data: {
+                            ForumQuestionId: x?.id,
+                            userId: +userId,
+                          },
+                          isLike: true,
+                        });
+                      }}
+                      className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
+                    >
+                      {hasLiked ? (
+                        <img src={HandsUp} alt="Like" width={24} height={24} />
+                      ) : (
+                        <ThumbsUp
+                          style={hasLiked ? { color: "#00778B" } : {}}
+                          className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
+                        />
+                      )}
                       Like ({x?.like?.length})
                     </li>
-                    <li className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group">
-                      <ThumbsDown className="group-hover:text-[#00778B] text-[#A3A3A3]" />
+                    <li
+                      onClick={() => {
+                        likeDislike({
+                          data: {
+                            ForumQuestionId: x?.id,
+                            userId: +userId,
+                          },
+                          isLike: false,
+                        });
+                      }}
+                      className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
+                    >
+                      {hasDisliked ? (
+                        <img
+                          src={HandsDown}
+                          alt="Dislike"
+                          width={24}
+                          height={24}
+                        />
+                      ) : (
+                        <ThumbsDown
+                          style={hasDisliked ? { color: "#00778B" } : {}}
+                          className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
+                        />
+                      )}
                       Dislike ({x?.unlike?.length})
                     </li>
                     <li

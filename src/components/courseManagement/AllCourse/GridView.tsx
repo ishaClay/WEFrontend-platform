@@ -319,6 +319,8 @@ const GridView = ({
       )}
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item: any, i: number) => {
+          console.log("+++item+++", item?.status);
+
           const update =
             +userData?.query?.role === UserRole?.Trainer
               ? true
@@ -385,13 +387,13 @@ const GridView = ({
                   className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
                 <div className="absolute right-2 bottom-2">
-                  <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item?.status === "COPY"
-                      ? "DRAFT"
-                      : item?.status === "READYTOPUBLISH"
-                      ? "Ready to Publish"
-                      : item?.status || item?.status}
-                  </Badge>
+                  {item?.status !== "DRAFT" && item?.status !== "COPY" && (
+                    <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                      {item?.status === "READYTOPUBLISH"
+                        ? "Ready to Publish"
+                        : item?.status || item?.status}
+                    </Badge>
+                  )}
                 </div>
               </div>
               <div className="p-2 h-[calc(100%-220px)]">
@@ -415,7 +417,7 @@ const GridView = ({
                   </div>
                   <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
                     <img src={StarImage} alt="" className="pb-1" />
-                    0/5
+                    {item?.feedBack?.avgRate}/5
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">

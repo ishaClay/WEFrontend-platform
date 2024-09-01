@@ -147,6 +147,7 @@ export interface Course {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
+  feedBack?: any[];
 }
 
 export interface EnrolledCoursesType {

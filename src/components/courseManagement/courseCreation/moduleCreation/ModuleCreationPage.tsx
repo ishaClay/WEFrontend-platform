@@ -61,6 +61,7 @@ const ModuleCreationPage = () => {
   const [urlError, setUrlError] = useState<string>("");
   const pathName = location?.pathname?.split("/")[1];
   const [informationError, setInformationError] = useState<string>("");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const schema = z.object({
     modules: z.array(
@@ -407,6 +408,7 @@ const ModuleCreationPage = () => {
               urlError={urlError}
               informationError={informationError}
               setInformationError={(e: string) => setInformationError(e)}
+              setIsUploading={setIsUploading}
             />
           );
         })}
@@ -416,6 +418,7 @@ const ModuleCreationPage = () => {
             <Button
               isLoading={CreateModuleAsync?.isPending}
               className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+              disabled={isUploading}
             >
               Save
             </Button>

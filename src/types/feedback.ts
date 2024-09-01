@@ -10,4 +10,5 @@ export interface Data {
     deletedAt?: null;
     createdAt: string;
     updatedAt: string;
+    shareFeedback?: boolean; 
 }

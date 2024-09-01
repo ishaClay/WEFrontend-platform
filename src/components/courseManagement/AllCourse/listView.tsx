@@ -401,7 +401,7 @@ const ListView = ({
                         className="w-[16px] h-[16px]"
                       />
                       <p className="pl-1 font-semibold font-nunito text-sm mt-1">
-                        0/5
+                        {data?.feedBack?.avgRate}/5
                       </p>
                     </div>
                   </div>
