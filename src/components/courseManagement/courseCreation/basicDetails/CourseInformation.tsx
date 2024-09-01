@@ -258,7 +258,7 @@ const CourseInformation = ({
       getSingleCourse?.data?.course?.discountApplicable?.toString() !==
         discount?.toString()
     ) {
-      if (+courseId) {
+      if (+courseId || getSingleCourse?.data?.course?.id) {
         updateCourseFun({
           payload,
           id: getSingleCourse?.data?.course?.id,
