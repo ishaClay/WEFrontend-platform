@@ -76,8 +76,8 @@ const CourseViewCardInner = ({
         .max(250, "You can not write section title more than 250 characters"),
       information: z
         .string()
-        .min(1, "Please enter information")
-        .max(1000, "You can not write information more than 250 characters"),
+        .min(500, "Please enter information")
+        .max(5000, "You can not write information more than 250 characters"),
       uploadContentType: z
         .number()
         // .min(1, "Upload content type is required")

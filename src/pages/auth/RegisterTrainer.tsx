@@ -48,7 +48,6 @@ import { z } from "zod";
 function RegisterTrainer() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const { clientId } = useAppSelector((state) => state.user);
   const [otp, setOtp] = useState("");
@@ -166,6 +165,7 @@ function RegisterTrainer() {
 
   useEffect(() => {
     if (defEmail) {
+      const userData = JSON.parse(localStorage.getItem("user") as string);
       if (userData) {
         const userId = userData?.query?.id;
         logout(userId);
@@ -173,7 +173,7 @@ function RegisterTrainer() {
         setValue("email", defEmail);
       }
     }
-  }, [defEmail, logout, setValue, userData]);
+  }, [defEmail, logout, setValue]);
 
   const { data: country } = useQuery<CountryResponse>({
     queryKey: ["CountryData"],
