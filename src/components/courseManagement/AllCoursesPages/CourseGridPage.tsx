@@ -81,12 +81,13 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
           (parseInt(slot?.slotStartDate?.year) ===
             +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) >
+            parseInt(slot?.slotStartDate?.month) >
               +formattedCurrentDate?.month) ||
-          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
-            parseInt(slot.slotStartDate?.month) ===
+          (parseInt(slot?.slotStartDate?.year) ===
+            +formattedCurrentDate?.year &&
+            parseInt(slot?.slotStartDate?.month) ===
               +formattedCurrentDate?.month &&
-            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
+            parseInt(slot?.slotStartDate?.date) > +formattedCurrentDate?.date)
       );
     console.log(
       "matchingSlotmatchingSlot",
@@ -358,7 +359,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
                         disabled={
-                          allcourse?.enrolled === true ||
+                          allcourse?.enrolled ||
                           !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >

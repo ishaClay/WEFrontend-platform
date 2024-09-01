@@ -71,7 +71,6 @@ function CourseListView({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchCourseDiscountEnroll],
       });
-      navigate(`/${pathName}/message`);
     },
     onError: (error: ErrorType) => {
       toast({
@@ -120,6 +119,8 @@ function CourseListView({
   const { mutate: handleSend } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
+      console.log("data", data);
+
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.chatList],
       });
@@ -135,6 +136,8 @@ function CourseListView({
         variant: "success",
         title: data?.data?.message,
       });
+
+      navigate(`/${pathName}/message?chatId=${data?.data?.receiverId}`);
 
       socket.emit("new message", data?.data);
     },
@@ -314,7 +317,8 @@ function CourseListView({
                 </h3>
 
                 <Button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setIsRecommendedCourseShow(true);
                     setRecommendedCoursesById(recommendeddata?.id);
                   }}
@@ -326,22 +330,24 @@ function CourseListView({
                 {recommendeddata?.inquire ? (
                   <Button
                     className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
-                    onClick={() =>
+                    onClick={(e) => {
+                      e.stopPropagation();
                       navigate(
                         `/${pathName}/message?chatId=${
                           recommendeddata?.trainerCompanyId
                             ? recommendeddata?.trainerCompanyId?.userDetails?.id
                             : recommendeddata?.trainerId?.userDetails?.id
                         }`
-                      )
-                    }
+                      );
+                    }}
                   >
                     Show Message
                   </Button>
                 ) : (
                   <Button
                     className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       handleInquire(recommendeddata || []);
                       setRecommendedCoursesById(recommendeddata?.id);
                     }}

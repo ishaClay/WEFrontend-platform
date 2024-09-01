@@ -19,6 +19,7 @@ import { toast } from "../ui/use-toast";
 
 interface headerProps {
   hasDiffHeader?: boolean;
+  type?: string | null;
 }
 
 function HomeHeader(props: headerProps) {
@@ -178,7 +179,7 @@ function HomeHeader(props: headerProps) {
                       />
                     </div>
                   ) : (
-                    <>
+                    props?.type !== "trainee" && <>
                       <PrimaryButton
                         onClick={handleClickRegister}
                         name="Register"
@@ -267,7 +268,7 @@ function HomeHeader(props: headerProps) {
                               />
                             </div>
                           ) : (
-                            <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
+                            props?.type !== "trainee" && <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
                               <PrimaryButton
                                 onClick={handleClickRegister}
                                 name="Register"

@@ -48,14 +48,16 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     index: number
   ) => {
     if (children?.length > 0) {
-      setIsOpen({ ...isOpen, [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
+      // setIsOpen({ ...isOpen, [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
+      setIsOpen({[`bar${index + 1}`]: !isOpen[`bar${index + 1}`]});
     }
   };
 
   useEffect(() => {
     sidebarItems.forEach((item, index) => {
       if (item?.children?.length > 0) {
-        setIsOpen({ ...isOpen, [`bar${index + 1}`]: false });
+        // setIsOpen({ ...isOpen, [`bar${index + 1}`]: false });
+        setIsOpen({[`bar${index + 1}`]: false });
       }
     });
   }, []);
@@ -96,6 +98,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     queryFn: () => fetchChatUserList(userID as string),
   });
   const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
+console.log("isOpenisOpen", isOpen);
 
   return (
     <div
@@ -134,6 +137,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           toggleDropdown(item.children, index);
                           {
                             item?.children.length === 0 &&
+                              setIsOpen({});
                               dispatch(
                                 setPath([
                                   { label: `${item.label}`, link: null },
@@ -145,7 +149,9 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           sidebarOpen ? "justify-between" : "justify-center"
                         } text-[16px] leading-5 font-[400] p-[10px] rounded-md text-[#606060] font-calibri ${
                           item.children.find(
-                            (child) => child.link === location.pathname
+                            (child) =>
+                              child.link === location.pathname 
+                            // || isOpen?.[`bar${index + 1}`]
                           ) || location.pathname.includes(item.link)
                             ? "bg-[#00778B] text-white"
                             : "bg-[#fff]"

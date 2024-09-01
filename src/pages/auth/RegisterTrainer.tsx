@@ -28,7 +28,7 @@ import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
-import { fetchProviderTypes, getCountry } from "@/services/apiServices/company";
+import { fetchProviderTypes, fetchTrainerByEmailDataQuery, getCountry } from "@/services/apiServices/company";
 import {
   registerTrainee,
   registerTrainer,
@@ -193,6 +193,31 @@ function RegisterTrainer() {
     queryKey: [QUERY_KEYS.fetchProviderTypes],
     queryFn: fetchProviderTypes,
   });
+
+  const { data: fetchTrainerByEmailData } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTrainerByEmailType],
+    queryFn: () => fetchTrainerByEmailDataQuery(defEmail || ""),
+    enabled: type === "trainee",
+  });
+
+  useEffect(() => {
+    if(fetchTrainerByEmailData?.data){
+      const traineeData = fetchTrainerByEmailData?.data?.trainerDetails;
+      const trainerData = fetchTrainerByEmailData?.data?.trainerDetails?.trainerCompany;
+      setValue("contactFirstName", traineeData?.name);
+      setValue("contactSurname", traineeData?.surname);
+      setValue("providerName", trainerData?.providerName);
+      setValue("providerType", trainerData?.providerType);
+      setValue("providerAddress", trainerData?.providerAddress);
+      setValue("providerCity", trainerData?.providerCity);
+      setValue("providerCountry", trainerData?.providerCountry);
+      setValue("providerNotes", trainerData?.providerNotes);
+      setValue("providerNotes", trainerData?.providerNotes);
+      setValue("foreignProvider", trainerData?.foreignProvider ? "Yes" : "No");
+    }
+  }, [fetchTrainerByEmailData])
+  
+
   const providerTypesList = getProviderTypes?.providerTypes;
   const providerTypesOption = providerTypesList?.map((item) => {
     return {
@@ -298,7 +323,7 @@ function RegisterTrainer() {
   };
   return (
     <div className="">
-      <HomeHeader />
+      <HomeHeader type={type} />
       <div className="mainContailner">
         <div className="flex relative mt-[40px]">
           <div>
@@ -317,16 +342,16 @@ function RegisterTrainer() {
           </div>
 
           <div className="2xl:px-0 px-5 lg:max-w-[550px] w-full mx-auto">
-            <div className="flex justify-end">
+            {type !== "trainee" && <div className="flex justify-end">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
                   Sign In
                 </Link>
               </label>
-            </div>
+            </div>}
             {/* max-w-[707px]  */}
-            <div className="mt-[30px]">
+            <div className={type !== "trainee" ? "mt-[30px]" : ""}>
               <div className="flex gap-x-[8px] items-end">
                 <h3 className="text-[24px]">Complete your registration</h3>
                 <img

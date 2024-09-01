@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -575,92 +576,99 @@ const Message = () => {
           </CardHeader>
           <CardContent className="h-[700px] p-0 overflow-y-auto">
             {/* <ScrollArea className="h-full message-scroll" ref={chatContainerRef}> */}
-            {chatUserList?.data?.data && chatUserList?.data?.data?.length > 0 ? chatUserList?.data?.data
-              ?.filter(filterByName)
-              ?.map((item: GetChatUserList | any) => {
-                return (
-                  <div
-                    key={item.id}
-                    className="flex pl-5 pr-[17px] pt-[15px] pb-3 cursor-pointer hover:bg-[#EDEFF9]"
-                    style={{
-                      backgroundColor:
-                        chatId === item?.id || item?.count > 0
-                          ? "#EDEFF9"
-                          : "white",
-                    }}
-                    onClick={async () => {
-                      if (["mobile", "sm"].includes(viewType)) {
-                        setOpenDrawer(true);
-                      }
-                      setChatId(item?.id);
-                      await updatemessage({
-                        userId1: userID,
-                        userId2: item?.id,
-                        isRead: true,
-                      });
-                      await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.chatList],
-                      });
-                      await queryClient.invalidateQueries({
-                        queryKey: [QUERY_KEYS.notificationCount],
-                      });
-                    }}
-                  >
-                    <div className="relative h-[42px] w-[42px]">
-                      <Avatar className="w-full h-full static">
-                        <AvatarImage src={item?.image} />
-                        <AvatarFallback
-                          className="text-white text-xl"
-                          style={{ backgroundColor: chatDPColor(item?.id) }}
-                        >
-                          {item?.name?.[0]?.toUpperCase() ||
-                            item?.email?.[0]?.toUpperCase()}
-                        </AvatarFallback>
-                        <div
-                          className={`w-3 h-3 bg-[${
-                            item?.isOnline ? "#72CC79" : "#D9D9D9"
-                          }] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}
-                        ></div>
-                      </Avatar>
-                    </div>
-                    <div className="ml-[15px] w-[calc(100%-57px)]">
-                      <div className="flex justify-between mb-0.5">
-                        <div className="leading-[19.53px] text-[black] text-base font-calibri">
-                          {item?.name || item?.email?.split("@")?.[0]}
-                        </div>
-                        <div className="text-xs font-inter leading-[15.6px] text-[black]">
-                          {TimeFormatter(item?.last_msg_time)}
-                        </div>
+            {chatUserList?.data?.data &&
+            chatUserList?.data?.data?.length > 0 ? (
+              chatUserList?.data?.data
+                ?.filter(filterByName)
+                ?.map((item: GetChatUserList | any) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex pl-5 pr-[17px] pt-[15px] pb-3 cursor-pointer hover:bg-[#EDEFF9]"
+                      style={{
+                        backgroundColor:
+                          chatId === item?.id || item?.count > 0
+                            ? "#EDEFF9"
+                            : "white",
+                      }}
+                      onClick={async () => {
+                        if (["mobile", "sm"].includes(viewType)) {
+                          setOpenDrawer(true);
+                        }
+                        setChatId(item?.id);
+                        await updatemessage({
+                          userId1: userID,
+                          userId2: item?.id,
+                          isRead: true,
+                        });
+                        await queryClient.invalidateQueries({
+                          queryKey: [QUERY_KEYS.chatList],
+                        });
+                        await queryClient.invalidateQueries({
+                          queryKey: [QUERY_KEYS.notificationCount],
+                        });
+                      }}
+                    >
+                      <div className="relative h-[42px] w-[42px]">
+                        <Avatar className="w-full h-full static">
+                          <AvatarImage src={item?.image} />
+                          <AvatarFallback
+                            className="text-white text-xl"
+                            style={{ backgroundColor: chatDPColor(item?.id) }}
+                          >
+                            {item?.name?.[0]?.toUpperCase() ||
+                              item?.email?.[0]?.toUpperCase()}
+                          </AvatarFallback>
+                          <div
+                            className={`w-3 h-3 bg-[${
+                              item?.isOnline ? "#72CC79" : "#D9D9D9"
+                            }] absolute z-[1] rounded-[50%] top-0 right-0 border border-solid border-white`}
+                          ></div>
+                        </Avatar>
                       </div>
-                      <div className="text-xs font-calibri text-[#A3A3A3] mb-[5px] leading-[15.6px]">
-                        {item?.role === UserRole.Company
-                          ? "Company"
-                          : item?.role === UserRole.Trainer
-                          ? "Trainer Company"
-                          : item?.role === UserRole.Trainee
-                          ? "Trainee"
-                          : item?.role === UserRole.Employee
-                          ? "Company Employee"
-                          : item?.role === UserRole.SuperAdmin
-                          ? "Super Admin"
-                          : currentChat?.group
-                          ? "Group"
-                          : "Client"}
+                      <div className="ml-[15px] w-[calc(100%-57px)]">
+                        <div className="flex justify-between mb-0.5">
+                          <div className="leading-[19.53px] text-[black] text-base font-calibri">
+                            {item?.name || item?.email?.split("@")?.[0]}
+                          </div>
+                          <div className="text-xs font-inter leading-[15.6px] text-[black]">
+                            {TimeFormatter(item?.last_msg_time)}
+                          </div>
+                        </div>
+                        <div className="text-xs font-calibri text-[#A3A3A3] mb-[5px] leading-[15.6px]">
+                          {item?.role === UserRole.Company
+                            ? "Company"
+                            : item?.role === UserRole.Trainer
+                            ? "Trainer Company"
+                            : item?.role === UserRole.Trainee
+                            ? "Trainee"
+                            : item?.role === UserRole.Employee
+                            ? "Company Employee"
+                            : item?.role === UserRole.SuperAdmin
+                            ? "Super Admin"
+                            : currentChat?.group
+                            ? "Group"
+                            : "Client"}
+                        </div>
+                        <p className="text-[#606060] overflow-hidden flex justify-between items-center text-base font-calibri">
+                          <span className="w-[80%] text-sm overflow-hidden whitespace-nowrap text-ellipsis line-clamp-1">
+                            {item?.last_msg}
+                          </span>
+                          {item.count > 0 && (
+                            <Badge className="p-0 w-[21px] h-[21px] justify-center items-center rounded-[50%] font-medium text-[8px] bg-[#D9D9D9] text-[#000]">
+                              {item.count}
+                            </Badge>
+                          )}
+                        </p>
                       </div>
-                      <p className="text-[#606060] overflow-hidden flex justify-between items-center text-base font-calibri">
-                        <span className="w-[80%] text-sm overflow-hidden whitespace-nowrap text-ellipsis line-clamp-1">
-                          {item?.last_msg}
-                        </span>
-                        {item.count > 0 && (
-                          <Badge className="p-0 w-[21px] h-[21px] justify-center items-center rounded-[50%] font-medium text-[8px] bg-[#D9D9D9] text-[#000]">
-                            {item.count}
-                          </Badge>
-                        )}
-                      </p>
                     </div>
-                  </div>
-                );
-              }) : <span className="h-full flex justify-center items-center">No record found</span>}
+                  );
+                })
+            ) : (
+              <span className="h-full flex justify-center items-center">
+                No record found
+              </span>
+            )}
             {/* </ScrollArea> */}
           </CardContent>
         </Card>
@@ -924,7 +932,11 @@ const Message = () => {
                 </Button>
               )}
             </>
-          ) : <span className="h-[calc(100%-65px)] flex justify-center items-center">No record found</span> }
+          ) : (
+            <span className="h-[calc(100%-65px)] flex justify-center items-center">
+              No record found
+            </span>
+          )}
         </Card>
         {/* <Loading isLoading={userListPending} /> */}
       </div>
