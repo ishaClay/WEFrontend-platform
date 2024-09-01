@@ -142,6 +142,8 @@ const UploadContent = ({
 
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
+    console.log("file", file);
+
     if (file) {
       const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
