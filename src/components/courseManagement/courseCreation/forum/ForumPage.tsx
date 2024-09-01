@@ -42,6 +42,8 @@ const ForumPage = () => {
   const userId = UserId ? UserId : userData?.query?.id;
   const { courseId } = useParams();
   const [openCommnet, setopenCommnet] = useState<number>(0);
+  const [a, setA] = useState<any>({"key1" : "", "key2": "", "key3" : ""})
+
 
   const { data: fetchForumQuestionData, isPending: fetchForumQuestionLoading } =
     useQuery({
@@ -76,12 +78,13 @@ const ForumPage = () => {
     },
   });
 
-  const { mutate: likeDislike } = useMutation({
+  const { mutate: likeDislike,isPending : likeDislikeLoading } = useMutation({
     mutationFn: (data: any) => likeDislikeForum(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
       });
+      setA({"key1" : "", "key2": "", "key3" : ""})
       toast({
         title: "Success",
         description: data.message,
@@ -204,7 +207,7 @@ const ForumPage = () => {
             </form>
           </div>
 
-          {item?.forumQuestions?.map((x) => {
+          {item?.forumQuestions?.map((x, i) => {
             const hasLiked = x?.like?.some((i: any) => i?.id === +userId);
             const hasDisliked = x?.unlike?.some((i: any) => i?.id === +userId);
 
@@ -262,6 +265,7 @@ const ForumPage = () => {
                   <ul className="flex items-center gap-7">
                     <li
                       onClick={() => {
+                        setA({"key1" : index, "key2": i, "key3" : "like"})
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
@@ -272,6 +276,7 @@ const ForumPage = () => {
                       }}
                       className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
                     >
+                      <>{likeDislikeLoading && a.key1 === index && a.key2 === i && a.key3==="like" && <Loader2 className="w-4 h-4 animate-spin" />}</>
                       {hasLiked ? (
                         <img src={HandsUp} alt="Like" width={24} height={24} />
                       ) : (
@@ -281,9 +286,11 @@ const ForumPage = () => {
                         />
                       )}
                       Like ({x?.like?.length})
+                      
                     </li>
                     <li
                       onClick={() => {
+                        setA({"key1" : index, "key2": i, "key3" : "dislike"})
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
@@ -294,6 +301,7 @@ const ForumPage = () => {
                       }}
                       className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
                     >
+                      <>{likeDislikeLoading && a.key1 === index && a.key2 === i && a.key3==="dislike" && <Loader2 className="w-4 h-4 animate-spin" />}</>
                       {hasDisliked ? (
                         <img
                           src={HandsDown}
