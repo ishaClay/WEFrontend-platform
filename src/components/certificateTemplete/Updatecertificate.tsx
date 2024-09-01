@@ -55,7 +55,7 @@ const Addcertificate = () => {
     title: z.string({ required_error: "Please enter certificate title" }),
     bodyText: z
       .string({ required_error: "Please enter body text" })
-      .max(250, { message: "Body text must contain at least 100 characters" }),
+      .max(100, { message: "Body text must contain at least 100 characters" }),
 
     administratorTitle: z.string({
       required_error: "Please enter administrator title",
@@ -208,11 +208,11 @@ const Addcertificate = () => {
         }).then(async (canvas) => {
           const imgData = canvas.toDataURL("image/png");
           console.log("imgData", imgData);
-          
+
           if (imgData) {
             const result = await Uploads3imagesBase64(imgData);
             console.log("result", result);
-            
+
             if (result.status === 200) {
               const payload = {
                 user: userData?.query?.id,
@@ -622,6 +622,7 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Enter certificate body text"
                             type="text"
+                            maxLength={100}
                             className="mt-2 p-[11px] font-abhaya"
                             labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
                             placeholder="[name] [course] Lorem ipsum dolor sit amet, consectetur adipiscing elit. A id amet metus pellentesque ac diam feugiat. Proin neque, enim sit tellus enim. Sed in nulla feugiat enim est lobortis euismod neque in."

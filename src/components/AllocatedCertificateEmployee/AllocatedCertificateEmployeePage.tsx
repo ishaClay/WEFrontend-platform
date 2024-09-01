@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 
 const AllocatedCertificateEmployeePage = () => {
   const captureRef = useRef(null);
@@ -84,7 +85,7 @@ const AllocatedCertificateEmployeePage = () => {
     },
     onError: (error: any) => {
       toast({
-        description: error?.message,
+        description: error?.message || error?.data?.message,
         variant: "destructive",
       });
       setLoading(false);
@@ -159,34 +160,44 @@ const AllocatedCertificateEmployeePage = () => {
           useCORS: true,
           allowTaint: false,
           logging: true,
-        }).then(async (canvas) => {
-          const imgData = canvas.toDataURL("image/png");
-          if (imgData) {
-            const result = await Uploads3imagesBase64(imgData);
-            if (result.status === 200) {
-              const payload = {
-                certificate: selectedCertificate?.id,
-                user: userData?.query?.id,
-                status: 1,
-                course: selectCourseData?.currentVersion?.mainCourse?.id,
-                trainee: selectCourseData?.trainerId?.id,
-                trainerCompany: selectCourseData?.trainerCompanyId?.id,
-                employee: +selectTrainee,
-                certificatePdf: result?.data,
-              };
+        })
+          .then(async (canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            if (imgData) {
+              const result = await Uploads3imagesBase64(imgData);
+              if (result.status === 200) {
+                const payload = {
+                  certificate: selectedCertificate?.id,
+                  user: userData?.query?.id,
+                  status: 1,
+                  course: selectCourseData?.currentVersion?.mainCourse?.id,
+                  trainee: selectCourseData?.trainerId?.id,
+                  trainerCompany: selectCourseData?.trainerCompanyId?.id,
+                  employee: +selectTrainee,
+                  certificatePdf: result?.data,
+                };
+                console.log(
+                  "🚀 ~ .then ~ payload.selectCourseData:",
+                  selectCourseData
+                );
 
-              allocate(payload);
-            } else {
-              toast({
-                description: `Upload failed: ${result.data}`,
-                variant: "destructive",
-              });
+                allocate(payload);
+              } else {
+                toast({
+                  description: `Upload failed: ${result.data}`,
+                  variant: "destructive",
+                });
+              }
             }
-          }
-        });
+          })
+          .catch((error) => {
+            console.error("Error capturing canvas:", error);
+          });
       }
     } catch (error) {
       console.error("Error loading images or capturing canvas:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -466,10 +477,16 @@ const AllocatedCertificateEmployeePage = () => {
                   rows={5}
                   placeholder="Write here..."
                   value={body}
+                  maxLength={100}
                   onChange={(e) => setBody(e.target.value)}
                 >
                   Desription..
                 </Textarea>
+                {body.length > 100 && (
+                  <ErrorMessage
+                    message={"Body text must contain at least 100 characters"}
+                  />
+                )}
               </div>
             </div>
             <div className="">

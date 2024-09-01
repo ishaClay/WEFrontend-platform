@@ -49,7 +49,7 @@ function CoursesAllocate() {
   const [statusFilter, setStatusFilter] = useState("all");
   const { clientId } = useAppSelector((state) => state?.user);
   const [openId, setOpenId] = useState<number | null>(null);
-  const { data: course, isLoading: isPending } =
+  const { data: course, isFetching: isPending } =
     useQuery<EnrollmentRequestsResponse>({
       queryKey: [QUERY_KEYS.fetchbycourseallocate, { statusFilter }],
       queryFn: () =>
@@ -161,7 +161,11 @@ function CoursesAllocate() {
                               <div className="flex items-center gap-3">
                                 <FaStar className="text-[#FBBC04] w-[12px] h-[11px]" />
                                 <span className="text-[black] font-bold text-sm mt-0.5">
-                                  {courseallocate?.course?.avgRating}/5
+                                  {
+                                    courseallocate?.course?.avgRating
+                                      ?.avgcourseRate
+                                  }
+                                  /5
                                 </span>
                               </div>
                               <div className="flex items-center gap-3">

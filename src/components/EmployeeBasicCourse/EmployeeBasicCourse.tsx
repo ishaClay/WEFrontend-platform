@@ -1,5 +1,5 @@
 import { PermissionContext } from "@/context/PermissionContext";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import {
@@ -12,7 +12,7 @@ import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../comman/Error/Loading";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
@@ -25,6 +25,7 @@ import ReviewModal from "./ReviewModal";
 
 const EmployeeBasicCourse = () => {
   const [isOpenReviewModal, setIsOpenReviewModal] = useState(false);
+  const { paths } = useAppSelector((state) => state.path);
   const { empPermissions } = useContext(PermissionContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const mainCourseId = searchParams.get("courseId");
@@ -35,12 +36,15 @@ const EmployeeBasicCourse = () => {
   const pathName = location?.pathname?.split("/")[1];
   const courseById = location?.pathname?.split("/")[3];
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () =>
       fetchSingleCourse(courseById, userData?.company?.userDetails?.id),
     enabled: !!courseById,
   });
+
+  console.log("paths", paths.at(-1));
 
   const {
     data: fetchEmployeeSingeCourse,
@@ -178,15 +182,18 @@ const EmployeeBasicCourse = () => {
                     className="md:flex hidden pr-5 cursor-pointer text-black"
                     onClick={() =>
                       pathName !== "employee"
-                        ? dispatch(
-                            setPath([
-                              { label: "Course Management", link: null },
-                              {
-                                label: "All Course",
-                                link: `/${pathName}/allcourse`,
-                              },
-                            ])
-                          )
+                        ? pathName === "company"
+                          ? (dispatch(setPath(paths)),
+                            navigate(paths?.at(-1)?.link || ""))
+                          : dispatch(
+                              setPath([
+                                { label: "Course Management", link: null },
+                                {
+                                  label: "All Course",
+                                  link: `/${pathName}/allcourse`,
+                                },
+                              ])
+                            )
                         : dispatch(
                             setPath([
                               {
@@ -200,7 +207,7 @@ const EmployeeBasicCourse = () => {
                     <MoveLeft />
                     <span className="text-base font-semibold pl-4">Back</span>
                   </div>
-                  {pathName !== "trainer" && pathName !== "trainee" && (
+                  {pathName === "employee" && (
                     <Popover>
                       <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
                         Modules Completed -{" "}

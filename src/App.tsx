@@ -704,6 +704,10 @@ function App() {
             path="employeelist/employeeinvition"
             element={<EmployeeInvitation />}
           />
+          <Route
+            path="employee-basic-course/:courseId"
+            element={<BasicCoursePage />}
+          />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
           <Route path="notification-list" element={<NotificationListPage />} />

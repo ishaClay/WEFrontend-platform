@@ -82,7 +82,7 @@ const EmployeeInvitation = () => {
         toast({
           title: "Success",
           description: "Invitation sent successfully",
-          variant: "success"
+          variant: "success",
         });
       }
     },
@@ -99,8 +99,17 @@ const EmployeeInvitation = () => {
       (data) => !data.email || !data.fName || !data.lName
     );
 
+    const isEmailCheck = inviteData.every((data) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
+    );
+
+    console.log("isEmailCheck", isEmailCheck);
+
     if (isCheckInvalid) {
       setError("Please fill all the fields");
+      return;
+    } else if (!isEmailCheck) {
+      setError("Please Check the Email Format");
       return;
     } else {
       setError("");
@@ -164,9 +173,6 @@ const EmployeeInvitation = () => {
           <div className="py-6 px-5 bg-white rounded-lg">
             <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
               Enter Team Member Name & Email ID
-              <span className="font-nunito font-normal text-[#A3A3A3] text-base">
-                (comma separated email id)
-              </span>
             </h3>
             {inviteData?.map((data, index, arr) => (
               <div>
@@ -190,6 +196,7 @@ const EmployeeInvitation = () => {
                   <Input
                     value={data?.email}
                     name="email"
+                    // type="email"
                     onChange={(e) => handleChange(e, index)}
                     placeholder="Enter email id"
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"

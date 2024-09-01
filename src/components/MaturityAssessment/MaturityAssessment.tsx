@@ -14,6 +14,8 @@ import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
+import { fetchAssessment } from "@/services/apiServices/assessment";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Button } from "../ui/button";
 import {
@@ -29,8 +31,7 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
-import { fetchAssessment } from "@/services/apiServices/assessment";
-import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import Loading from "../comman/Error/Loading";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -52,7 +53,7 @@ const MaturityAssessment = () => {
       ? userData?.query?.id
       : userData?.id;
 
-  const { data: getCheckedmeasures } = useQuery({
+  const { data: getCheckedmeasures, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment, { selectAssessment }],
     queryFn: () =>
       getCheckedMeasuresByAssessment({
@@ -63,14 +64,14 @@ const MaturityAssessment = () => {
     // enabled: !!selectAssessment,
   });
 
-  const { data: assessmentQuestionScoreLIST } = useQuery({
-    queryKey: [QUERY_KEYS.assessmentQuestionScore],
-    queryFn: () => assessmentQuestionScore(+userID, +clientId),
-  });
-
   const pillarCompleted = getCheckedmeasures?.data?.data?.find(
     (item: any) => item?.progressPR === 100
   );
+
+  const { data: assessmentQuestionScoreLIST } = useQuery({
+    queryKey: [QUERY_KEYS.assessmentQuestionScore, { pillarCompleted }],
+    queryFn: () => assessmentQuestionScore(+userID, +clientId),
+  });
 
   const assessmentDetailOptions = useMemo(() => {
     const newData =
@@ -148,7 +149,7 @@ const MaturityAssessment = () => {
     const totalMaxPoint = parseFloat(pillar.totalmaxpoint);
     const percentage = (totalPoints / totalMaxPoint) * 100;
     const level = getMaturityLevel(percentage);
-    
+
     if (selfAssData[level] !== undefined) {
       selfAssData[level].push(pillar);
     }
@@ -342,6 +343,8 @@ const MaturityAssessment = () => {
   //   }
   // }, [exportData]);
 
+  console.log("assessmentDetailOptions", assessmentDetailOptions);
+
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
@@ -460,7 +463,9 @@ const MaturityAssessment = () => {
                         data={transformData()}
                         companyName={userData?.query?.name}
                         assessmentData={selfAssData}
-                        fetchClientmaturitylevel={fetchClientmaturitylevel?.data}
+                        fetchClientmaturitylevel={
+                          fetchClientmaturitylevel?.data
+                        }
                       />
                     }
                     fileName="Action-Items.pdf"
@@ -525,6 +530,7 @@ const MaturityAssessment = () => {
           </Tabs>
         </div>
       </div>
+      <Loading isLoading={isFetching} />
     </div>
   );
 };

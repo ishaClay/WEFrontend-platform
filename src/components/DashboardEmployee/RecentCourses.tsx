@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import CustomCarousel from "../comman/CustomCarousel";
 import { Button } from "../ui/button";
 import RecentCoursesItems from "./RecentCoursesItems";
+import NoDataText from "../comman/NoDataText";
 
 const RecentCourses = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
@@ -52,9 +53,7 @@ const RecentCourses = () => {
               return <RecentCoursesItems data={data} key={index} />;
             })
           ) : (
-            <p className="text-[20px] font-calibri font-[500] h-[200px] flex items-center justify-center col-span-full">
-              No Course Data Found
-            </p>
+            <NoDataText message="No Course Data Found" />
           )}
         </div>
       </div>
@@ -67,9 +66,7 @@ const RecentCourses = () => {
             }) || []}
           </CustomCarousel>
         ) : (
-          <p className="text-[16px] font-calibri font-[500] h-[100px] flex items-center justify-center col-span-full">
-            No Course Data Found
-          </p>
+          <NoDataText message="No Course Data Found" />
         )}
       </div>
     </div>

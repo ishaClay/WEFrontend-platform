@@ -22,6 +22,7 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
 
 type dataGridProps = {
@@ -33,6 +34,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
   >();
+  const Role = location?.pathname?.split("/")[1];
+  const navigate = useNavigate();
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
 
@@ -77,13 +80,15 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
       cohortData?.cohortGroups?.length > 0 &&
       cohortData?.cohortGroups?.find(
         (slot) =>
-          parseInt(slot.slotStartDate.year) > +formattedCurrentDate.year ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) > +formattedCurrentDate.month) ||
-          (parseInt(slot.slotStartDate.year) === +formattedCurrentDate.year &&
-            parseInt(slot.slotStartDate.month) ===
-              +formattedCurrentDate.month &&
-            parseInt(slot.slotStartDate.date) > +formattedCurrentDate.date)
+          parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
+          (parseInt(slot?.slotStartDate?.year) ===
+            +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) >
+              +formattedCurrentDate?.month) ||
+          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) ===
+              +formattedCurrentDate?.month &&
+            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
       );
 
     const findIndex =
@@ -124,7 +129,10 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
               </p>
               <p
                 className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
-                onClick={() => setIsCohortShow(cohortData)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsCohortShow(cohortData);
+                }}
               >
                 Show all cohort
               </p>
@@ -191,7 +199,12 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
           return (
             <>
               <div
-                className="border border-[#D9D9D9] rounded-lg overflow-hidden grid grid-cols-8 items-center xl:gap-5 gap-4"
+                className="border border-[#D9D9D9] rounded-lg overflow-hidden grid grid-cols-8  cursor-pointer items-center xl:gap-5 gap-4"
+                onClick={() =>
+                  navigate(
+                    `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
+                  )
+                }
                 key={allcourse.id}
               >
                 <div className="xl:col-span-2 sm:col-span-3 col-span-8">
@@ -333,7 +346,8 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                     {getUpcommingCohort(allcourse)}
                     <div className="xl:text-right text-left">
                       <Button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setIsRecommendedCourseShow(true);
                           setRecommendedCoursesById(allcourse?.id);
                         }}

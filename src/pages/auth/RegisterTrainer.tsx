@@ -48,7 +48,6 @@ import { z } from "zod";
 function RegisterTrainer() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const userData = JSON.parse(localStorage.getItem("user") as string);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const { clientId } = useAppSelector((state) => state.user);
   const [otp, setOtp] = useState("");
@@ -59,38 +58,47 @@ function RegisterTrainer() {
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
   const schema = z.object({
-    providerName: z.string().min(1, { message: "Please enter provider name" }),
-    providerType: z.string().min(1, { message: "Please enter provider type" }),
-    providerCity: z.string().min(1, { message: "Please enter provider city" }),
+    providerName: z.string().min(1, { message: "Please Enter Provider Name" }),
+    providerType: z
+      .string({
+        required_error: "Please Select Provider Type",
+      })
+      .min(1, { message: "Please Enter Provider Type" }),
+    providerCity: z.string().min(1, { message: "Please Enter Provider City" }),
     providerCountry: z
-      .string()
-      .min(1, { message: "Please select provider county" }),
-    contactSurname: z.string().min(3, { message: "Please enter lastname" }),
+      .string({
+        required_error: "Please Select Provider Country",
+      })
+      .min(1, { message: "Please Select Provider County" }),
+    contactSurname: z.string().min(3, { message: "Please Enter Last Name" }),
     contactTelephone: z
-      .string({ required_error: "Please enter phone number" })
-      .min(1, { message: "Please enter phone number" }),
-    providerAddress: z.string().optional(),
+      .string({ required_error: "Please Enter Phone Number" })
+      .min(1, { message: "Please Enter Phone Number" }),
+    providerAddress: z
+      .string({
+        required_error: "Please Enter Provider Address",
+      })
+      .min(1, { message: "Please Enter Provider Address" }),
     providerCounty: z.string().optional(),
-    contactFirstName: z.string().min(3, { message: "Please enter  firstname" }),
+    contactFirstName: z.string().min(3, { message: "Please Enter First Name" }),
     email: z
       .string()
-      .min(1, { message: "Please enter email" })
-      .email("Please enter valid email"),
+      .min(1, { message: "Please Enter Email" })
+      .email("Please Enter Valid Email"),
     providerNotes: z
       .string()
       .max(200, {
-        message: "Provider Notes must contain at least 200 characters",
+        message: "Provider Notes must contain at least 200 Characters",
       })
       .optional(),
     foreignProvider: z
-      .enum(["Yes", "No"])
-      .refine(
-        (value) => value !== undefined && (value === "Yes" || value === "No"),
-        {
-          message: "Please select a valid option for Foreign Provider",
-          path: ["foreignProvider"],
-        }
-      ),
+      .string({
+        message: "Please select Foreign Provider",
+      })
+      .refine((value) => value === "Yes" || value === "No", {
+        message: "Please select Foreign Provider",
+        path: ["foreignProvider"],
+      }),
   });
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
@@ -166,6 +174,7 @@ function RegisterTrainer() {
 
   useEffect(() => {
     if (defEmail) {
+      const userData = JSON.parse(localStorage.getItem("user") as string);
       if (userData) {
         const userId = userData?.query?.id;
         logout(userId);
@@ -173,7 +182,7 @@ function RegisterTrainer() {
         setValue("email", defEmail);
       }
     }
-  }, [defEmail, logout, setValue, userData]);
+  }, [defEmail, logout, setValue]);
 
   const { data: country } = useQuery<CountryResponse>({
     queryKey: ["CountryData"],

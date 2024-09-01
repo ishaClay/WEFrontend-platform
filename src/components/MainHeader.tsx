@@ -123,20 +123,28 @@ const MainHeader = () => {
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome{" "}
-                {userData?.query?.name || userData?.query?.email?.split("@")[0]}
+                {`${userData?.query?.fname ? userData?.query?.fname : ""} ${
+                  userData?.query?.lname ? userData?.query?.lname : ""
+                }` || userData?.query?.email?.split("@")[0]}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
           </ul>
           <div className="flex-col justify-end md:flex hidden w-[33%]">
-          <div className="flex gap-[22px] justify-center">
-                <Link to={`/`} className='cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold'>
-                    G O I N G
-                </Link>
-                <Link to={`/`} className='cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold'>
-                    G R E E N
-                </Link>
-                </div>
+            <div className="flex gap-[22px] justify-center">
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+              >
+                G O I N G
+              </Link>
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+              >
+                G R E E N
+              </Link>
+            </div>
           </div>
 
           <div className="flex xl:gap-4 sm:gap-3 gap-1 w-[33%] justify-end">

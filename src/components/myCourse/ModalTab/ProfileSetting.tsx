@@ -9,6 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { uploadImage } from "@/services/apiServices/upload";
 import { getUserDetails, updateUserDetails } from "@/services/apiServices/user";
+import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -85,17 +86,6 @@ import * as zod from "zod";
 //   },
 // ];
 
-const schema = zod.object({
-  firstname: zod.string().nonempty("Please Enter first name"),
-  lastname: zod.string().nonempty("Please Enter last name"),
-  smeOrganisation: zod
-    .string()
-    .min(1, { message: "Please Enter SME Organisation name" }),
-  email: zod.string(),
-  mobilenumber: zod.string().min(1, { message: "Please Enter mobile number" }),
-  gender: zod.string(),
-});
-
 const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
@@ -104,6 +94,39 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   const [profile_image, setProfileImage] = useState<string>("");
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
+
+  const schema = zod
+    .object({
+      firstname: zod.string().nonempty("Please Enter first name"),
+      lastname: zod.string().nonempty("Please Enter last name"),
+      smeOrganisation: zod.string().optional(),
+      email: zod.string(),
+      mobilenumber: zod.string().optional(),
+      gender: zod.string(),
+    })
+    .superRefine((_, ctx) => {
+      if (
+        Number(userData!.query?.role) !== UserRole.Company &&
+        !_.mobilenumber
+      ) {
+        return ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: "Please Enter mobile number",
+          path: ["mobilenumber"],
+        });
+      }
+      if (
+        Number(userData!.query?.role) === UserRole.Company &&
+        !_.smeOrganisation
+      ) {
+        return ctx.addIssue({
+          code: zod.ZodIssueCode.custom,
+          message: "Please Enter SME Organisation name 123",
+          path: ["smeOrganisation"],
+        });
+      }
+    });
+
   const {
     register,
     formState: { errors },
@@ -115,6 +138,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     resolver: zodResolver(schema),
     mode: "all",
   });
+  console.log("🚀 ~ ProfileSetting ~ errors:", errors);
 
   const { data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.userDetails, { id: userData?.query?.id }],
@@ -158,7 +182,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       setValue("lastname", data?.data?.lname || "");
       setValue(
         "smeOrganisation",
-        data?.data?.name || data?.data?.smeOrganisation
+        data?.data?.name || data?.data?.smeOrganisation || ""
       );
       setValue("email", data?.data?.email);
       setValue("mobilenumber", data?.data?.number);
@@ -261,7 +285,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               />
             </div>
           )}
-          {+userData?.query.role !== 3 && (
+          {+userData?.query.role !== UserRole.Company && (
             <div className="flex flex-col gap-1 py-2">
               {/* <InputWithLabel
                 label="Contact Number"
@@ -286,7 +310,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 onChange={(e: any) => {
                   setValue("mobilenumber", e);
                 }}
-                disabled={watch("mobilenumber") ? true : false}
+                disabled={data?.data?.number ? true : false}
                 value={watch("mobilenumber") || ""}
                 className="phone-input"
               />
@@ -301,6 +325,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               disabled={watch("email") ? true : false}
               placeholder="Email"
               {...register("email")}
+              className="disabled:opacity-100"
               error={errors?.email?.message as string}
             />
           </div>

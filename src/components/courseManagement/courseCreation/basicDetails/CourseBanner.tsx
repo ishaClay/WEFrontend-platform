@@ -73,11 +73,12 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
     },
   });
 
-  const { data: getSingleCourse, isFetching: getSingleCourseFetching } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion,
-  });
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+      queryFn: () => fetchSingleCourseById(String(paramsversion)),
+      enabled: !!paramsversion,
+    });
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -323,9 +324,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                   </div>
                 </div>
               </div>
-              {image === "" && errors?.bannerImage && (
-                <ErrorMessage message={"Banner image is required"} />
-              )}
+              {image === "" ||
+                (errors?.bannerImage && (
+                  <ErrorMessage message={"Banner image is required"} />
+                ))}
             </div>
             <div className="">
               <h6 className="text-[#515151] font-calibri text-base pb-3">
@@ -360,7 +362,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
             </div>
           </form>
         </div>
-      <Loading isLoading={getSingleCourseFetching} />
+        <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );
