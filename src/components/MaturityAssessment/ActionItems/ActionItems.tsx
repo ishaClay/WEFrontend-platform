@@ -3,12 +3,14 @@ import { getEmployeeWiseAction } from "@/services/apiServices/employee";
 import { EmployeeActionResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
 import ActionItemsList from "./ActionItemsList";
+import Loading from "@/components/comman/Error/Loading";
+import NoDataText from "@/components/comman/NoDataText";
 
 const ActionItems = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = userData?.query.detailsid;
 
-  const { data } = useQuery<EmployeeActionResponse>({
+  const { data, isLoading } = useQuery<EmployeeActionResponse>({
     queryKey: [QUERY_KEYS.getEmployeeWiseAcion],
     queryFn: () => getEmployeeWiseAction(userID),
   });
@@ -41,10 +43,15 @@ const ActionItems = () => {
         </ul>
       </div>
       <div className="border border-[#D9D9D9] rounded-xl">
-        {data?.data?.measureData?.map((data, index) => {
-          return <ActionItemsList data={data} key={index} />;
-        })}
+        {data?.data?.measureData?.length ? (
+          data?.data?.measureData?.map((data, index) => {
+            return <ActionItemsList data={data} key={index} />;
+          })
+        ) : (
+          <NoDataText message="No Data Found" />
+        )}
       </div>
+      <Loading isLoading={isLoading} />
     </div>
   );
 };
