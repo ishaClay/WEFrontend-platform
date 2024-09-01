@@ -184,8 +184,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
         "smeOrganisation",
         data?.data?.name || data?.data?.smeOrganisation || ""
       );
-      setValue("email", data?.data?.email);
-      setValue("mobilenumber", data?.data?.number);
+      setValue("email", data?.data?.email || "");
+      setValue("mobilenumber", data?.data?.number || "");
       setValue("gender", data?.data?.gender);
       setProfileImage(data?.data?.image);
       const userData = JSON.parse(localStorage.getItem("user") as string);

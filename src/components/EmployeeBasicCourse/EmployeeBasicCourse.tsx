@@ -44,8 +44,6 @@ const EmployeeBasicCourse = () => {
     enabled: !!courseById,
   });
 
-  console.log("paths", paths.at(-1));
-
   const {
     data: fetchEmployeeSingeCourse,
     isLoading: fetchEmployeeSingeCourseLoading,
@@ -83,7 +81,7 @@ const EmployeeBasicCourse = () => {
     }
   }, [tab, location]);
 
-  console.log("🚀 ~ EmployeeBasicCourse ~ course:", course);
+  console.log("🚀 ~ EmployeeBasicCourse ~ course:", getModule);
   return (
     <>
       <Modal

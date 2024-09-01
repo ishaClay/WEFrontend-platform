@@ -69,7 +69,10 @@ const ViewSession = ({
     },
   });
 
-  const { mutate: createCohortGroupUserMutate } = useMutation({
+  const {
+    mutate: createCohortGroupUserMutate,
+    isPending: creatingCohortGroup,
+  } = useMutation({
     mutationFn: createCohortGroupUser,
     onSuccess: (data) => {
       const group = {
@@ -79,6 +82,12 @@ const ViewSession = ({
         createdAt: data.data.createdAt,
         updatedAt: data.data.updatedAt,
       };
+      queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
+      });
       setOpen(true);
       setGroupData(group);
     },
@@ -282,8 +291,10 @@ const ViewSession = ({
                 <Button
                   variant={"outline"}
                   type="button"
-                  className="text-[12px] font-nunito"
+                  className="text-[12px] font-nunito "
                   onClick={handleCreateGroup}
+                  isLoading={creatingCohortGroup}
+                  loaderClassName={"text-stone-700"}
                 >
                   {enrollData?.cohortGroup?.groupChat
                     ? "Show Message"
