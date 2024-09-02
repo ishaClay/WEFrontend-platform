@@ -28,8 +28,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import MessageList from "./MessageList";
-import HandsUp from "/assets/icons/handup.svg";
 import HandsDown from "/assets/icons/handdown.svg";
+import HandsUp from "/assets/icons/handup.svg";
 
 const ForumPage = () => {
   const queryClient = useQueryClient();
@@ -42,8 +42,7 @@ const ForumPage = () => {
   const userId = UserId ? UserId : userData?.query?.id;
   const { courseId } = useParams();
   const [openCommnet, setopenCommnet] = useState<number>(0);
-  const [a, setA] = useState<any>({"key1" : "", "key2": "", "key3" : ""})
-
+  const [a, setA] = useState<any>({ key1: "", key2: "", key3: "" });
 
   const { data: fetchForumQuestionData, isPending: fetchForumQuestionLoading } =
     useQuery({
@@ -78,13 +77,13 @@ const ForumPage = () => {
     },
   });
 
-  const { mutate: likeDislike,isPending : likeDislikeLoading } = useMutation({
+  const { mutate: likeDislike, isPending: likeDislikeLoading } = useMutation({
     mutationFn: (data: any) => likeDislikeForum(data),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchModuleForumQuestion],
       });
-      setA({"key1" : "", "key2": "", "key3" : ""})
+      setA({ key1: "", key2: "", key3: "" });
       toast({
         title: "Success",
         description: data.message,
@@ -158,7 +157,8 @@ const ForumPage = () => {
 
               <div className="">
                 <h5 className="text-black text-base font-abhaya">
-                  {userData?.query?.fname + userData?.query?.lname}
+                  {userData?.query?.fname + userData?.query?.lname ||
+                    userData?.query?.email?.split("@")[0]}
                 </h5>
                 <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
                   {userData?.role === UserRole.Company
@@ -187,7 +187,7 @@ const ForumPage = () => {
                     question: e.target.value,
                   })
                 }
-                // value={forumquestion?.question ?? ""}
+                value={forumquestion?.question || ""}
               />
               <div className="text-right pt-5">
                 <Button
@@ -238,7 +238,8 @@ const ForumPage = () => {
                     </div>
                     <div className="">
                       <h5 className="text-black text-base font-abhaya">
-                        {x?.user?.fname + x?.user?.lname}
+                        {x?.user?.fname + x?.user?.lname ||
+                          x?.user?.email?.split("@")[0]}
                       </h5>
                       <div className="flex gap-2.5">
                         <h6 className="text-[#5B5B5B] text-xs font-inter">
@@ -265,7 +266,7 @@ const ForumPage = () => {
                   <ul className="flex items-center gap-7">
                     <li
                       onClick={() => {
-                        setA({"key1" : index, "key2": i, "key3" : "like"})
+                        setA({ key1: index, key2: i, key3: "like" });
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
@@ -276,21 +277,35 @@ const ForumPage = () => {
                       }}
                       className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
                     >
-                      <>{likeDislikeLoading && a.key1 === index && a.key2 === i && a.key3==="like" && <Loader2 className="w-4 h-4 animate-spin" />}</>
-                      {hasLiked ? (
-                        <img src={HandsUp} alt="Like" width={24} height={24} />
-                      ) : (
-                        <ThumbsUp
-                          style={hasLiked ? { color: "#00778B" } : {}}
-                          className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
-                        />
-                      )}
+                      <>
+                        {likeDislikeLoading &&
+                        a.key1 === index &&
+                        a.key2 === i &&
+                        a.key3 === "like" ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            {hasLiked ? (
+                              <img
+                                src={HandsUp}
+                                alt="Like"
+                                width={24}
+                                height={24}
+                              />
+                            ) : (
+                              <ThumbsUp
+                                style={hasLiked ? { color: "#00778B" } : {}}
+                                className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
+                              />
+                            )}
+                          </>
+                        )}
+                      </>
                       Like ({x?.like?.length})
-                      
                     </li>
                     <li
                       onClick={() => {
-                        setA({"key1" : index, "key2": i, "key3" : "dislike"})
+                        setA({ key1: index, key2: i, key3: "dislike" });
                         likeDislike({
                           data: {
                             ForumQuestionId: x?.id,
@@ -301,20 +316,30 @@ const ForumPage = () => {
                       }}
                       className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
                     >
-                      <>{likeDislikeLoading && a.key1 === index && a.key2 === i && a.key3==="dislike" && <Loader2 className="w-4 h-4 animate-spin" />}</>
-                      {hasDisliked ? (
-                        <img
-                          src={HandsDown}
-                          alt="Dislike"
-                          width={24}
-                          height={24}
-                        />
-                      ) : (
-                        <ThumbsDown
-                          style={hasDisliked ? { color: "#00778B" } : {}}
-                          className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
-                        />
-                      )}
+                      <>
+                        {likeDislikeLoading &&
+                        a.key1 === index &&
+                        a.key2 === i &&
+                        a.key3 === "dislike" ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            {hasDisliked ? (
+                              <img
+                                src={HandsDown}
+                                alt="Dislike"
+                                width={24}
+                                height={24}
+                              />
+                            ) : (
+                              <ThumbsDown
+                                style={hasDisliked ? { color: "#00778B" } : {}}
+                                className={`group-hover:text-[#00778B] text-[#A3A3A3]`}
+                              />
+                            )}
+                          </>
+                        )}
+                      </>
                       Dislike ({x?.unlike?.length})
                     </li>
                     <li

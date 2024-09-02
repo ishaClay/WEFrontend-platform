@@ -230,7 +230,6 @@ const ListView = ({
 
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    id: string | undefined,
     item: AllCoursesResult,
     type?: string
   ) => {
@@ -241,18 +240,19 @@ const ListView = ({
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
               +item?.tab === 4 ? 0 : item?.tab
-            }&version=${id}&type=${type}`
+            }&version=${item?.currentVersion?.id}&type=${type}`
           );
         } else {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
               +item?.tab === 4 ? 0 : item?.tab
-            }&step=${
-              +item?.step === 5 ? 0 : item?.step
-            }&version=${id}&type=${type}`
+            }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+              item?.currentVersion?.id
+            }&type=${type}`
           );
         }
       }
+
       if (type === "edit") {
         navigate(
           `/${Role}/create_course/${item?.id}?tab=${
@@ -262,6 +262,7 @@ const ListView = ({
           }&type=${type}`
         );
       }
+
       if (type === "editWithNew") {
         createNewVersionFun({
           courseId: item?.id,
@@ -272,11 +273,6 @@ const ListView = ({
       if (item?.trainerId?.id) {
         toast({
           title: "First Course make DRAFT Status then You Can Edit",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Please Course make Duplicate then You Can Edit",
           variant: "destructive",
         });
       }
@@ -521,14 +517,12 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                        {(userData?.editCourses ||
-                          +userData?.query?.role !== UserRole.Trainee) && (
+                        {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e) =>
                               handleEdit(
                                 e,
-                                data?.currentVersion?.id?.toString(),
                                 data,
                                 data?.status === "DRAFT" ? "edit" : "editminor"
                               )
@@ -540,24 +534,34 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
+                        {(userData?.editCourses ||
+                          (+userData?.query?.role === UserRole.Trainee &&
+                            data?.status === "DRAFT")) && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleEdit(e, data, "edit")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>{"Edit"}</span>
+                          </DropdownMenuItem>
+                        )}
                         {data?.status !== "EXPIRED" &&
-                          (+userData?.query?.role === UserRole.Trainee
+                          data?.status !== "DRAFT" &&
+                          (+userData?.query?.role === UserRole.Trainee &&
+                          data?.trainerId &&
+                          +data?.trainerId?.id !==
+                            +userData?.query?.trainerDetails?.id
                             ? update
                             : true) && (
                             <>
                               <DropdownMenuItem
-                                onClick={(e) =>
-                                  handleEdit(
-                                    e,
-                                    data?.currentVersion?.id?.toString(),
-                                    data,
-                                    "editWithNew"
-                                  )
-                                }
                                 className="flex items-center gap-2 font-nunito"
+                                onClick={(e) =>
+                                  handleEdit(e, data, "editWithNew")
+                                }
                               >
                                 <Pencil className="w-4 h-4" />
-                                <span>Edit new version</span>
+                                <span>Edit new versions</span>
                               </DropdownMenuItem>
                             </>
                           )}
@@ -568,6 +572,7 @@ const ListView = ({
                                 ? "hidden"
                                 : "flex"
                             }`}
+                            disabled={data?.status !== "PUBLISHED"}
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsOpen(data?.id);

@@ -384,13 +384,11 @@ const GridView = ({
                   className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
                 <div className="absolute right-2 bottom-2">
-                  {item?.status !== "DRAFT" && item?.status !== "COPY" && (
-                    <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                      {item?.status === "READYTOPUBLISH"
-                        ? "Ready to Publish"
-                        : item?.status || item?.status}
-                    </Badge>
-                  )}
+                  <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                    {item?.status === "READYTOPUBLISH"
+                      ? "Ready to Publish"
+                      : item?.status || item?.status}
+                  </Badge>
                 </div>
               </div>
               <div className="p-2 h-[calc(100%-220px)]">
@@ -531,8 +529,7 @@ const GridView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                      {(userData?.editCourses &&
-                        +userData?.query?.role !== UserRole.Trainee) || (item?.trainerId?.id === +userData?.query?.detailsid) &&  (
+                      {+userData?.query?.role !== UserRole.Trainee && (
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
