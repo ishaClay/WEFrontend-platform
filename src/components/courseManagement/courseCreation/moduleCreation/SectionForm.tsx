@@ -133,8 +133,7 @@ const SectionForm = ({
                 onCheckedChange={() => {
                   setValue(`isLive`, !section.isLive);
                 }}
-                className="me-3"
-                disabled={!!sectionID}
+                className={`me-3 text-[#0F172A] ${!!sectionID ? "pointer-events-none" : ""}`}
               />
               Live Session
             </h6>

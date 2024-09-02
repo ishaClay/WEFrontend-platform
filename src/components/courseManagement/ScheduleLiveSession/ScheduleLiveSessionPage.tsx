@@ -29,7 +29,7 @@ import { UserRole } from "@/types/UserRole";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
 import moment from "moment";
 import Multiselect from "multiselect-react-dropdown";
@@ -62,7 +62,9 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate();
-  const { UserId } = useAppSelector((state: RootState) => state.user);
+  const { UserId, CompanyId } = useAppSelector(
+    (state: RootState) => state.user
+  );
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
@@ -71,6 +73,7 @@ const ScheduleLiveSessionPage = () => {
     { name: string; id: string }[]
   >([]);
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
+  const queryclient = useQueryClient();
 
   const convertTo12HourFormat = (time24: string) => {
     const [hours, minutes] = time24.split(":").map(Number);
@@ -155,24 +158,20 @@ const ScheduleLiveSessionPage = () => {
       )
   );
 
-  const { data: selectTargetPillarLimit } = useQuery({
+  const {
+    data: selectTargetPillarLimit,
+    isPending: fetchselectTargetPillarLimit,
+  } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
     enabled: !!userData,
   });
-
-  console.log(
-    "selectTargetPillarLimit",
-    selectTargetPillarLimit?.data?.videoDonferencingAccess
-  );
 
   const { data: fetchZoomSetting, isLoading: fetchZoomSettingLoading } =
     useQuery<PermissionResponse>({
       queryKey: ["getZoomSetting"],
       queryFn: getZoomSetting,
     });
-
-  console.log("fetchZoomSetting", fetchZoomSetting);
 
   const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
     useQuery({
@@ -181,13 +180,18 @@ const ScheduleLiveSessionPage = () => {
       enabled: !!id,
     });
 
-  const { data: fetchTraineeCompany } = useQuery({
-    queryKey: [QUERY_KEYS.fetchTraineeCompany, fetchLiveSessionById],
-    queryFn: () => getTraineeCompany(+fetchLiveSessionById?.data?.data?.id),
-    enabled: !!fetchLiveSessionById,
-  });
+  const { data: fetchTraineeCompany, isPending: fetchTraineeCompanyPending } =
+    useQuery({
+      queryKey: [QUERY_KEYS.fetchTraineeCompany],
+      queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse")),
+      enabled: !!CompanyId && !!watch("selectCourse"),
+    });
 
-  console.log("fetchLiveSessionById", fetchLiveSessionById?.data?.data?.id);
+  useEffect(() => {
+    queryclient.invalidateQueries({
+      queryKey: [QUERY_KEYS.fetchTraineeCompany],
+    });
+  }, [CompanyId, watch("selectCourse")]);
 
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
@@ -396,7 +400,8 @@ const ScheduleLiveSessionPage = () => {
   };
 
   if (
-    (fetchCoursePending ||
+    (fetchZoomSettingLoading ||
+      fetchCoursePending ||
       fetchLiveSessionPending ||
       fetchLiveSessionByIdPending) &&
     !!id
@@ -414,10 +419,10 @@ const ScheduleLiveSessionPage = () => {
         <AddTraineeModal
           traineeList={traineeList}
           setTraineeList={setTraineeList}
-          selectCompanyOptions={selectCompanyOptions}
           setIsOpen={setIsOpen}
           watch={watch}
           control={control}
+          fetchTraineeCompany={fetchTraineeCompany}
         />
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -707,7 +712,15 @@ const ScheduleLiveSessionPage = () => {
           </div>
         </div>
       </form>
-      <Loading isLoading={fetchZoomSettingLoading} />
+      <Loading
+        isLoading={
+          fetchZoomSettingLoading ||
+          fetchCoursePending ||
+          fetchselectTargetPillarLimit ||
+          fetchLiveSessionByIdPending ||
+          fetchTraineeCompanyPending
+        }
+      />
     </>
   );
 };
