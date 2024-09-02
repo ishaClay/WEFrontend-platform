@@ -169,7 +169,7 @@ const AddTraineeModal = ({
             <Checkbox
               className="ms-3 border-[#D9D9D9] w-6 h-6"
               onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
-              checked={traineeList?.length === traineeEmployee?.length}
+              checked={traineeEmployee?.length > 0 && traineeList?.length === traineeEmployee?.length}
             />
           </span>
         </div>

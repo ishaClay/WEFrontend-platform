@@ -251,7 +251,7 @@ const ScheduleLiveSessionPage = () => {
   const {
     data: fetchLiveSession,
     refetch: fetchData,
-    isPending: fetchLiveSessionPending,
+    isFetching: fetchLiveSessionPending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchLiveSession],
     queryFn: () => (courseVersion ? getLiveSession(courseVersion) : null),
