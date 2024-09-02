@@ -206,7 +206,10 @@ const GridView = ({
         ?.currentVersion?.cohortGroup?.length || 0;
     console.log(cohortCount);
 
-    if (cohortCount > 0) {
+    if (
+      +userData?.query?.role === UserRole?.Trainee ||
+      (cohortCount > 0 && +userData?.query?.role === UserRole?.Trainer)
+    ) {
       publishCourseFun(payload);
     } else {
       const singleCourse = list?.find(
@@ -546,23 +549,19 @@ const GridView = ({
                           </span>
                         </DropdownMenuItem>
                       )}
-                      {(userData?.editCourses ||
-                        (+userData?.query?.role === UserRole.Trainee &&
-                          item?.status === "DRAFT")) && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "edit")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>{"Edit"}</span>
-                        </DropdownMenuItem>
-                      )}
+                      {+userData?.query?.role === UserRole.Trainee &&
+                        item?.status === "DRAFT" && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleEdit(e, item, "edit")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>{"Edit"}</span>
+                          </DropdownMenuItem>
+                        )}
                       {item?.status !== "EXPIRED" &&
                         item?.status !== "DRAFT" &&
-                        (+userData?.query?.role === UserRole.Trainee &&
-                        item?.trainerId &&
-                        +item?.trainerId?.id !==
-                          +userData?.query?.trainerDetails?.id
+                        (+userData?.query?.role === UserRole.Trainee
                           ? update
                           : true) && (
                           <>

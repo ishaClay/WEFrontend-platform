@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
-import liveSection from "@/assets/svgs/liveSection.svg";
 import infoIcon from "@/assets/svgs/infoIcon.svg";
+import liveSection from "@/assets/svgs/liveSection.svg";
+import { Button } from "../ui/button";
 
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
@@ -10,6 +9,7 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleCheck, CircleX, MoveLeft } from "lucide-react";
 import { useState } from "react";
+import LiveSession from "./LiveSession";
 import ViewSession from "./ViewSession";
 
 type moduleCourseCardListProps = {
@@ -29,7 +29,6 @@ const ModuleCourseViewCardItems = ({
   data,
   enrollData,
 }: moduleCourseCardListProps | any) => {
-  const navigate = useNavigate();
   const queryclient = useQueryClient();
   const [viewDocument, setViewDocument] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -71,6 +70,8 @@ const ModuleCourseViewCardItems = ({
       </>
     );
   };
+
+  console.log("++++++++++++++++", list);
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
@@ -137,10 +138,12 @@ const ModuleCourseViewCardItems = ({
         </div>
       </div>
       <div className="">
-        {list.status === "live" && (
+        {+list.isLive === 1 && list?.isStatus === "Started" && (
           <Button
             className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
-            onClick={() => navigate("/employee/live-session")}
+            // onClick={() => navigate("/employee/live-session")}
+            onClick={() => handleStatusChanges(1, list?.id)}
+            isLoading={isPending}
           >
             Join
           </Button>
@@ -162,7 +165,7 @@ const ModuleCourseViewCardItems = ({
             In Progress
           </Button>
         )}
-        {list?.isStatus === "Started" && (
+        {list?.isStatus === "Started" && +list?.isLive !== 1 && (
           <Button
             type="button"
             onClick={() => handleStatusChanges(1, list?.id)}
@@ -212,6 +215,8 @@ const ModuleCourseViewCardItems = ({
             )}
           </>
         </>
+      ) : list?.isLive === 1 ? (
+        <LiveSession list={list} />
       ) : (
         <ViewSession
           documentFile={documentFile}

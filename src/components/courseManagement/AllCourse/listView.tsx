@@ -186,7 +186,10 @@ const ListView = ({
     const cohortCount =
       list?.find((item) => item?.currentVersion?.id === (+id || 0))
         ?.cohortGroups || 0;
-    if (cohortCount > 0) {
+    if (
+      +userData?.query?.role === UserRole?.Trainee ||
+      (cohortCount > 0 && +userData?.query?.role === UserRole?.Trainer)
+    ) {
       publishCourseFun(payload);
     } else {
       const singleCourse = list?.find(
@@ -534,23 +537,19 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                        {(userData?.editCourses ||
-                          (+userData?.query?.role === UserRole.Trainee &&
-                            data?.status === "DRAFT")) && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data, "edit")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>{"Edit"}</span>
-                          </DropdownMenuItem>
-                        )}
+                        {+userData?.query?.role === UserRole.Trainee &&
+                          data?.status === "DRAFT" && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleEdit(e, data, "edit")}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>{"Edit"}</span>
+                            </DropdownMenuItem>
+                          )}
                         {data?.status !== "EXPIRED" &&
                           data?.status !== "DRAFT" &&
-                          (+userData?.query?.role === UserRole.Trainee &&
-                          data?.trainerId &&
-                          +data?.trainerId?.id !==
-                            +userData?.query?.trainerDetails?.id
+                          (+userData?.query?.role === UserRole.Trainee
                             ? update
                             : true) && (
                             <>
