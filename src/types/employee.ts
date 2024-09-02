@@ -86,6 +86,7 @@ export interface SingleCourseEmployee {
   createdAt: string;
   updatedAt: string;
   module?: ModuleEntity[] | null;
+  feedBack: any;
 }
 export interface ModuleEntity {
   id: number;
