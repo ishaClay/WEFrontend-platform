@@ -354,13 +354,13 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               }));
 
-          const editOption =
-            data?.trainerId?.id === +userData?.query?.detailsid
-              ? (userData?.editCourses &&
-                  +userData?.query?.role !== UserRole.Trainee) ||
-                data?.trainerId?.id === +userData?.query?.detailsid
-              : userData?.editCourses ||
-                +userData?.query?.role !== UserRole.Trainee;
+          // const editOption =
+          //   data?.trainerId?.id === +userData?.query?.detailsid
+          //     ? (userData?.editCourses &&
+          //         +userData?.query?.role !== UserRole.Trainee) ||
+          //       data?.trainerId?.id === +userData?.query?.detailsid
+          //     : userData?.editCourses ||
+          //       +userData?.query?.role !== UserRole.Trainee;
 
           return (
             <Link

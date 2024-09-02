@@ -356,13 +356,13 @@ const GridView = ({
                 value: itm?.id.toString() || "",
               }));
 
-          const editOption =
-            item?.trainerId?.id === +userData?.query?.detailsid
-              ? (userData?.editCourses &&
-                  +userData?.query?.role !== UserRole.Trainee) ||
-                item?.trainerId?.id === +userData?.query?.detailsid
-              : userData?.editCourses ||
-                +userData?.query?.role !== UserRole.Trainee;
+          // const editOption =
+          //   item?.trainerId?.id === +userData?.query?.detailsid
+          //     ? (userData?.editCourses &&
+          //         +userData?.query?.role !== UserRole.Trainee) ||
+          //       item?.trainerId?.id === +userData?.query?.detailsid
+          //     : userData?.editCourses ||
+          //       +userData?.query?.role !== UserRole.Trainee;
 
           return (
             <Link
