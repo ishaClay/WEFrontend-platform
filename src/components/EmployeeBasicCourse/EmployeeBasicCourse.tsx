@@ -68,7 +68,7 @@ const EmployeeBasicCourse = () => {
         userId: userData?.query?.detailsid,
         courseId: (mainCourseId && +mainCourseId) || 0,
       }),
-    enabled: !!mainCourseId && userData?.query?.role === "4",
+    enabled: userData?.query?.role === "4",
   });
 
   useEffect(() => {

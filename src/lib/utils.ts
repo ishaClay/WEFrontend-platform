@@ -32,7 +32,7 @@ import GreenTech from "../assets/images/GreenTech.svg";
 import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
-import { FileType } from "./constants";
+import { FileType, youtubeRegex } from "./constants";
 import InfoIcon from "@/assets/svgs/infoIcon.svg";
 
 export function cn(...inputs: ClassValue[]) {
@@ -626,7 +626,11 @@ export const fetchMessageRoles = (role: number) => {
 export const documentType = (type: string) => {
   if (type?.split("/")?.[3]?.includes("pdf")) {
     return "pdf";
-  } else if (type?.split("/")?.[3]?.includes("mp4") || type === "url") {
+  } else if (
+    type?.split("/")?.[3]?.includes("mp4") ||
+    type === "url" ||
+    youtubeRegex.test(type)
+  ) {
     return "mp4";
   } else if (type?.split("/")?.[3]?.includes("xlsx")) {
     return "xlsx";

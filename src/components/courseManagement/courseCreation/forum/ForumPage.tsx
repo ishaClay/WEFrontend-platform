@@ -24,7 +24,7 @@ import {
   ThumbsDown,
   ThumbsUp,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import MessageList from "./MessageList";
@@ -33,23 +33,38 @@ import HandsUp from "/assets/icons/handup.svg";
 
 const ForumPage = () => {
   const queryClient = useQueryClient();
-  const [forumquestion, setforumquestion] = useState<{
-    moduleId: number | string;
-    question: string;
-  }>({ moduleId: "", question: "" });
+  const [forumquestion, setforumquestion] = useState<
+    {
+      moduleId: number | string;
+      question: string;
+    }[]
+  >([]);
+  const [loadingID, setLoadingID] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const UserId = useSelector((state: UserData) => state.user.UserId);
   const userId = UserId ? UserId : userData?.query?.id;
   const { courseId } = useParams();
+  const courseParamsId = new URLSearchParams(window.location.search).get("id");
   const [openCommnet, setopenCommnet] = useState<number>(0);
   const [a, setA] = useState<any>({ key1: "", key2: "", key3: "" });
 
   const { data: fetchForumQuestionData, isPending: fetchForumQuestionLoading } =
     useQuery({
-      queryKey: [QUERY_KEYS.fetchModuleForumQuestion, courseId],
-      queryFn: () => fetchForumQuestion(courseId),
-      enabled: !!courseId,
+      queryKey: [QUERY_KEYS.fetchModuleForumQuestion, courseId, courseParamsId],
+      queryFn: () => fetchForumQuestion(courseId || courseParamsId),
+      enabled: !!courseId || !!courseParamsId,
     });
+
+  useEffect(() => {
+    if (fetchForumQuestionData?.data?.module?.length) {
+      setforumquestion(
+        fetchForumQuestionData?.data?.module?.map((item) => ({
+          moduleId: item.id,
+          question: "",
+        }))
+      );
+    }
+  }, [fetchForumQuestionData?.data?.module]);
 
   const { mutate, isPending: createForumLoading } = useMutation({
     mutationFn: createForum,
@@ -58,15 +73,22 @@ const ForumPage = () => {
         queryKey: [QUERY_KEYS.fetchforumquestion],
       });
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchModuleForumQuestion, courseId],
+        queryKey: [
+          QUERY_KEYS.fetchModuleForumQuestion,
+          courseId,
+          courseParamsId,
+        ],
       });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      setforumquestion({
-        moduleId: "",
-        question: "",
-      });
+      setforumquestion(
+        fetchForumQuestionData?.data?.module?.map((item) => ({
+          moduleId: item.id,
+          question: "",
+        })) || []
+      );
+      setLoadingID("");
     },
     onError: (error: ErrorType) => {
       toast({
@@ -99,14 +121,20 @@ const ForumPage = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (moduleID: number, e: React.FormEvent) => {
     e.preventDefault();
-    if (forumquestion && courseId && userId) {
+    if (
+      forumquestion.find((it) => it.moduleId === moduleID)?.question &&
+      (courseId || courseParamsId) &&
+      userId
+    ) {
+      setLoadingID(moduleID.toString());
       mutate({
-        question: forumquestion?.question,
+        question:
+          forumquestion.find((it) => it.moduleId === moduleID)?.question || "",
         userId: +userId,
-        courseId: +courseId,
-        moduleId: +forumquestion?.moduleId,
+        courseId: courseId ? +courseId : +courseParamsId!,
+        moduleId: +moduleID,
         tab: "4",
       });
     }
@@ -176,31 +204,33 @@ const ForumPage = () => {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit.bind(null, item?.id)}>
               <Textarea
                 placeholder="Post Your Question"
                 rows={5}
                 className="w-full border-border-[#D9D9D9] py-5 px-4 placeholder:text-[#A3A3A3] rounded-lg text-base"
                 onChange={(e) =>
-                  setforumquestion({
-                    moduleId: item?.id,
-                    question: e.target.value,
-                  })
+                  setforumquestion((prev) =>
+                    prev.map((it) =>
+                      it.moduleId === item?.id
+                        ? { ...it, question: e.target.value }
+                        : it
+                    )
+                  )
                 }
-                value={forumquestion?.question || ""}
+                value={
+                  forumquestion.find((it) => it.moduleId === item?.id)?.question
+                }
               />
               <div className="text-right pt-5">
                 <Button
                   className="bg-[#42A7C3] text-xs md:text:md"
                   type="submit"
-                  disabled={
-                    createForumLoading && item?.id === forumquestion?.moduleId
-                  }
+                  disabled={createForumLoading && +loadingID === item?.id}
                 >
-                  {createForumLoading &&
-                    item?.id === forumquestion?.moduleId && (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    )}
+                  {createForumLoading && +loadingID === item?.id && (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  )}
                   Post Question
                 </Button>
               </div>
