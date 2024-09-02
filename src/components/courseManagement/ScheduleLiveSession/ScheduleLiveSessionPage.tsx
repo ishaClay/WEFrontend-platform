@@ -160,7 +160,6 @@ const ScheduleLiveSessionPage = () => {
 
   const {
     data: selectTargetPillarLimit,
-    isPending: fetchselectTargetPillarLimit,
   } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
@@ -180,7 +179,7 @@ const ScheduleLiveSessionPage = () => {
       enabled: !!id,
     });
 
-  const { data: fetchTraineeCompany, isPending: fetchTraineeCompanyPending } =
+  const { data: fetchTraineeCompany } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchTraineeCompany],
       queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse")),
@@ -715,10 +714,7 @@ const ScheduleLiveSessionPage = () => {
       <Loading
         isLoading={
           fetchZoomSettingLoading ||
-          fetchCoursePending ||
-          fetchselectTargetPillarLimit ||
-          fetchLiveSessionByIdPending ||
-          fetchTraineeCompanyPending
+          fetchCoursePending
         }
       />
     </>
