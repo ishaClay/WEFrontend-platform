@@ -228,17 +228,19 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                     )}
                   </div>
                   <div className="flex sm:flex-col flex-row sm:gap-0 gap-2.5 sm:items-end items-center">
-                    {item.employeeId !== null && item.iscompleted !== 1 && (
-                      status() && <Button
-                        className={`${
-                          status() === "Delay"
-                            ? "bg-[#F63636] text-white"
-                            : "bg-[#FFD56A] text-black"
-                        } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
-                      >
-                        {status()}
-                      </Button>
-                    )}
+                    {item.employeeId !== null &&
+                      item.iscompleted !== 1 &&
+                      status() && (
+                        <Button
+                          className={`${
+                            status() === "Delay"
+                              ? "bg-[#F63636] text-white"
+                              : "bg-[#FFD56A] text-black"
+                          } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
+                        >
+                          {status()}
+                        </Button>
+                      )}
                     <div className="flex gap-3 items-center">
                       <Button
                         className="text-base text-[#4285F4] underline bg-transparent font-abhaya font-semibold p-0"
@@ -262,14 +264,16 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                       )}
                       {item.iscompleted === 1 && (
                         <div className="flex items-center gap-3">
-                          <a
-                            href={item.evidence}
-                            target="_blank"
-                            className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
-                          >
-                            <Eye width={18} />
-                            view
-                          </a>
+                          {item.evidence && (
+                            <a
+                              href={item.evidence}
+                              target="_blank"
+                              className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
+                            >
+                              <Eye width={18} />
+                              view
+                            </a>
+                          )}
 
                           <Button className="bg-transparent text-[#58BA66] text-base font-nunito font-semibold flex items-center px-2.5">
                             <CircleCheck width={20} /> Completed

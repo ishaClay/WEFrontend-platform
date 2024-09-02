@@ -252,19 +252,18 @@ const DashboardTrainee = () => {
     },
   ];
 
-  const { data: smeDashboardData } = useQuery<TraineeEnrollDashboardResponse>({
+  const { data: smeDashboardData, isPending: isSmeDashboardPending } = useQuery<TraineeEnrollDashboardResponse>({
     queryKey: ["getTraineeDashboardData"],
     queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
   });
 
   useEffect(() => {
-    if(!userData?.query?.lastLogin || !userData?.query?.feedback){
-      setIsFeedbackModelOpen(true);
+    if(!isSmeDashboardPending){
+      if(!userData?.query?.lastLogin || !userData?.query?.feedback){
+        setIsFeedbackModelOpen(true);
+      }
     }
   }, [userData])
-  
-
-  console.log("smeDashboardData", smeDashboardData);
 
   const [activeButton, setActiveButton] = useState(null);
   console.log(activeButton);

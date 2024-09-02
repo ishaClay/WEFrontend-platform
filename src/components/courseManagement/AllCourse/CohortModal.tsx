@@ -3,7 +3,6 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { DatePicker } from "@/components/ui/datepicker";
 import { Input } from "@/components/ui/input";
 import {
@@ -178,9 +177,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           description: data?.message,
           variant: "success",
         });
-        await queryClient.invalidateQueries({
-          queryKey: [QUERY_KEYS.fetchAllCourse],
-        });
+        // await queryClient.invalidateQueries({
+        //   queryKey: [QUERY_KEYS.fetchAllCourse],
+        // });
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.getCohortsByCourse],
         });
@@ -202,7 +201,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       if (item.cohortName !== "") {
         return {
           name: item.cohortName,
-          publish: item.publish ? 1 : 0,
+          publish: 1,
           slotStartDate: {
             date: moment(item.startDate).format("DD"),
             month: moment(item.startDate).format("MM"),
@@ -275,8 +274,17 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   };
 
   const handleDeleteCohort = () => {
-    const cohortId = isDeleteCohort?.data && isDeleteCohort?.data?.id;
-    deleteCohortFun(+cohortId);
+    const deleteCohortData:any = isDeleteCohort?.data;
+    if(data?.data?.find((item) => item?.id === deleteCohortData?.id)){
+      const cohortId = isDeleteCohort?.data && deleteCohortData?.id;
+      deleteCohortFun(+cohortId);
+    } else{
+      setCohortData(cohortData?.filter((item:any) => item?.id !== deleteCohortData?.id));
+      setIsDeleteCohort({
+        type: false,
+        data: "",
+      })
+    }
   };
 
   function isDateBetween(startDate: Date | undefined) {
@@ -322,9 +330,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
               <Table mainClassName="lg:w-full lg:min-w-full lg:max-w-full min-w-[calc(750px-50px)] max-w-[calc(750px-50px)] overflow-auto">
                 <TableHeader className="border-t">
                   <TableRow>
-                    <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                    {/* <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
                       Publish
-                    </TableHead>
+                    </TableHead> */}
                     <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
                       Cohort Name
                     </TableHead>
@@ -345,7 +353,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
 
                     return (
                       <TableRow key={item.id} className="border-0 py-[9px]">
-                        <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
+                        {/* <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
                           <Checkbox
                             checked={item?.publish}
                             disabled={
@@ -356,7 +364,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             }
                             className="w-6 h-6 border border-[#A3A3A3]"
                           />
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
                           <Input
                             value={item?.cohortName}
@@ -416,21 +424,20 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             >
                               <Pencil className="w-4 h-4 text-[#606060]" />
                             </Button>
-                            {!item.publish && (
-                              <Button
-                                variant={"secondary"}
-                                type="button"
-                                disabled={
-                                  +userData?.query?.role === UserRole.Trainee
-                                }
-                                onClick={() =>
-                                  setIsDeleteCohort({ type: true, data: item })
-                                }
-                                className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
-                              >
-                                <Trash2 className="w-4 h-4 text-[#606060]" />
-                              </Button>
-                            )}
+                            <Button
+                              variant={"secondary"}
+                              type="button"
+                              disabled={
+                                +userData?.query?.role === UserRole.Trainee ||
+                                !isEditeble
+                              }
+                              onClick={() =>
+                                setIsDeleteCohort({ type: true, data: item })
+                              }
+                              className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
+                            >
+                              <Trash2 className="w-4 h-4 text-[#606060]" />
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>

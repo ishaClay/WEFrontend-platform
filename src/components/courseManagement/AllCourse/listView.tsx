@@ -354,10 +354,14 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               }));
 
-          const editOption = data?.trainerId?.id === +userData?.query?.detailsid ? 
-            (userData?.editCourses && +userData?.query?.role !== UserRole.Trainee) || (data?.trainerId?.id === +userData?.query?.detailsid) :
-            (userData?.editCourses || +userData?.query?.role !== UserRole.Trainee)
-          
+          // const editOption =
+          //   data?.trainerId?.id === +userData?.query?.detailsid
+          //     ? (userData?.editCourses &&
+          //         +userData?.query?.role !== UserRole.Trainee) ||
+          //       data?.trainerId?.id === +userData?.query?.detailsid
+          //     : userData?.editCourses ||
+          //       +userData?.query?.role !== UserRole.Trainee;
+
           return (
             <Link
               to={`/${Role}/employee-basic-course/${data?.currentVersion?.id}`}
@@ -511,21 +515,23 @@ const ListView = ({
                             <span>Copy</span>
                           </DropdownMenuItem>
                         )}
-                        {(data?.status === "PUBLISHED" ||
-                          data?.status === "UNPUBLISHED") && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleChangeStatus(e, data)}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>
-                              {data?.status === "UNPUBLISHED"
-                                ? "Re-Publish"
-                                : "Un-Publish"}
-                            </span>
-                          </DropdownMenuItem>
-                        )}
-                        {editOption && (
+                        {(data?.trainerId?.id === +userData?.query?.detailsid ||
+                          +userData?.query?.role !== UserRole.Trainee) &&
+                          (data?.status === "PUBLISHED" ||
+                            data?.status === "UNPUBLISHED") && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleChangeStatus(e, data)}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>
+                                {data?.status === "UNPUBLISHED"
+                                  ? "Re-Publish"
+                                  : "Un-Publish"}
+                              </span>
+                            </DropdownMenuItem>
+                          )}
+                        {+userData?.query?.role !== UserRole.Trainee && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
                             onClick={(e) =>
@@ -542,6 +548,16 @@ const ListView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
+                        {+userData?.query?.role === UserRole.Trainee &&
+                          data?.status === "DRAFT" && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleEdit(e, data, "edit")}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>Edit</span>
+                            </DropdownMenuItem>
+                          )}
                         {data?.status !== "EXPIRED" &&
                           data?.status !== "DRAFT" &&
                           (+userData?.query?.role === UserRole.Trainee

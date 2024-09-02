@@ -62,7 +62,7 @@ const EmployeeBasicCourse = () => {
     userData?.query?.role !== "4" ? getSingleCourse : fetchEmployeeSingeCourse;
 
   const { data: getModule } = useQuery<ModuleStatusResponse>({
-    queryKey: [QUERY_KEYS.getSingleCourse, mainCourseId],
+    queryKey: [QUERY_KEYS.getSingleCourse, { mainCourseId, userData }],
     queryFn: () =>
       getModuleById({
         userId: userData?.query?.detailsid,
@@ -82,6 +82,24 @@ const EmployeeBasicCourse = () => {
   }, [tab, location]);
 
   console.log("🚀 ~ EmployeeBasicCourse ~ course:", getModule);
+  const assessment = fetchEmployeeSingeCourse?.data?.course?.module?.filter((item:any) => item?.assessment.length > 0).map((item:any) => item?.assessment?.[0]?.isCompleted);
+  const assessmentStatus = assessment?.filter((item) => item === true)?.length === assessment?.length;
+  const sessionCompleted = getModule?.moduleStatuses?.filter((item) => item.status === "completed")?.length;
+  const courseFeedBack:any = fetchEmployeeSingeCourse?.data?.course?.feedBack?.find((item:any) => item?.user?.id);
+  
+
+  console.log("asdasd+++", (assessmentStatus && sessionCompleted === getModule?.moduleStatuses?.length) && !courseFeedBack?.id);
+  
+
+  useEffect(() => {
+    if(!courseFeedBack?.id){
+      if((assessmentStatus && sessionCompleted === getModule?.moduleStatuses?.length)){
+        setIsOpenReviewModal(true)
+      }
+    }
+  }, [fetchEmployeeSingeCourse, getModule?.moduleStatuses]);
+  
+  
   return (
     <>
       <Modal

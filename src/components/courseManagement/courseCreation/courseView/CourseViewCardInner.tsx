@@ -305,13 +305,15 @@ const CourseViewCardInner = ({
       );
       setValue(
         "uploadContentType",
-        data.documentType === null ? 0 : data.documentType
+        data.documentType === null ? 0 : !data.url ? data.documentType : !data.url && data.documentType === 4 ? data.documentType : 0
       );
       setValue("uploadedContentUrl", data?.uploadContent || "");
       setValue(
         "readingTime",
         data.readingTime || { hour: 0, minute: 0, second: 0 }
       );
+      console.log("data?.attachment", data.url, data?.attachment, data?.uploadContent, !data.documentType);
+      
       setValue("youtubeUrl", data.isLive ? "" : data.url);
       setValue("uploadDocument", data?.attachment || "");
       setValue("isLive", data.isLive === 1 ? true : false);

@@ -36,7 +36,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
         moment(new Date(), "YYYY-MM-DD")
       )
     ) {
-      return "In Progress";
+      return "On time";
     }
   };
   return (
@@ -64,16 +64,16 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
         </h6>
       </div>
       <div className="sm:text-right text-left sm:block flex sm:gap-0 gap-2.5 items-center">
-      {!data.iscompleted && (
-        <Button
-          className={`${
-            status() === "Delay"
-              ? "bg-[#F63636] text-white"
-              : "bg-[#FFD56A] text-black"
-          } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
-        >
-          {status()}
-        </Button>
+        {!data.iscompleted && (
+          <Button
+            className={`${
+              status() === "Delay"
+                ? "bg-[#F63636] text-white"
+                : "bg-[#FFD56A] text-black"
+            } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
+          >
+            {status()}
+          </Button>
         )}
 
         {!data.iscompleted && (
@@ -91,14 +91,16 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
 
         {!!data?.iscompleted && (
           <div className="flex gap-3 items-center">
-            <a
-              href={data.evidence ? data.evidence : ""}
-              target="_blank"
-              className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
-            >
-              <Eye width={18} />
-              view
-            </a>
+            {data?.evidence && (
+              <a
+                href={data.evidence ? data.evidence : ""}
+                target="_blank"
+                className="gap-2 bg-[#00778B] text-white rounded-md flex items-center text-sm h-[32px] px-2 w-[75px]"
+              >
+                <Eye width={18} />
+                view
+              </a>
+            )}
 
             <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-nunito font-semibold flex items-center sm:px-2.5 px-0">
               <CircleCheck width={20} /> Completed

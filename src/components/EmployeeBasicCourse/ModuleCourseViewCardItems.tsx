@@ -7,7 +7,7 @@ import { documentIcon, documentType } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircleCheck, CircleX, MoveLeft } from "lucide-react";
+import { CircleCheck, MoveLeft } from "lucide-react";
 import { useState } from "react";
 import LiveSession from "./LiveSession";
 import ViewSession from "./ViewSession";
@@ -71,7 +71,9 @@ const ModuleCourseViewCardItems = ({
     );
   };
 
-  console.log("++++++++++++++++", list);
+  console.log("++++++++++++++++", data);
+  console.log("list?.prevStatus", list?.isStatus);
+  
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
@@ -92,14 +94,14 @@ const ModuleCourseViewCardItems = ({
         <div className="">
           <h5
             className={`${
-              list?.prevStatus !== "Completed"
+              ((list?.prevStatus || list?.isStatus) && list?.prevStatus !== "Completed"
                 ? "pointer-events-none"
                 : list?.isStatus === "Started"
                 ? "pointer-events-none"
-                : "pointer-events-auto"
+                : userData?.query?.role === "1" ? "pointer-events-none" : list?.url ? "pointer-events-auto" : list?.uploadContent === "" ? "pointer-events-none" : "pointer-events-auto")
             } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
             onClick={() => {
-              if (list?.isLive !== 1) {
+              if (list?.isLive !== 1) {                
                 setViewDocument(true);
                 setDocumentFile(list?.url ? list?.url : list?.uploadContent);
               }
@@ -181,25 +183,25 @@ const ModuleCourseViewCardItems = ({
   ) : (
     <div className="absolute top-0 left-0 w-full bg-white z-50">
       <div className="flex justify-end items-center text-[#64748b] px-4">
-        <MoveLeft />
         <Button
           type="button"
           variant={"ghost"}
           onClick={() => setViewDocument(false)}
           className="cursor-pointer hover:bg-transparent text-base font-semibold hover:text-[#64748b]"
         >
+          <MoveLeft />
           Back
         </Button>
       </div>
       {userData?.query?.role !== "4" ? (
         <>
-          <CircleX
+          {/* <CircleX
             className="absolute -top-[25px] right-0 cursor-pointer"
             onClick={() => {
               setViewDocument(false);
               setDocumentFile("");
             }}
-          />
+          /> */}
           <>
             {documentType(documentFile) === "pdf" ? (
               <iframe
