@@ -153,6 +153,7 @@ const AllocateCertificateModalDetails = ({
         type="button"
         onClick={handleIssueCertificate}
         isLoading={isPending}
+        disabled={!upload}
         className=" text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3"
       >
         Issue A Certificate

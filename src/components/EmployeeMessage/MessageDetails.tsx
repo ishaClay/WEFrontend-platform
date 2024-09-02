@@ -1,8 +1,15 @@
+import { useChatBotContext } from "@/context/chatBotContext";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor, TimesFormatter } from "@/lib/utils";
-import { fetchChat, sendMessage } from "@/services/apiServices/chatServices";
+import {
+  fetchChat,
+  fetchGroupChat,
+  sendGroupMessage,
+  sendMessage,
+} from "@/services/apiServices/chatServices";
 import { ChatDetailsList, DataEntity } from "@/types/Chat";
+import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MoveLeft, SendHorizontal } from "lucide-react";
@@ -14,6 +21,7 @@ import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { toast } from "../ui/use-toast";
 
 interface MessageDetailsProps {
   empId: DataEntity;
@@ -31,6 +39,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   const [allMsg, setAllMsg] = useState<ChatDetailsList[]>([]);
   const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const { group } = useChatBotContext();
   const userID = UserId
     ? UserId
     : userData?.query
@@ -76,6 +85,12 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     enabled: !!userID && !!empId?.id,
   });
 
+  const { data: groupChat } = useQuery({
+    queryKey: [QUERY_KEYS.fetchGroupChat],
+    queryFn: () => fetchGroupChat(group?.id),
+    enabled: !!group,
+  });
+
   const { mutate: Send, isPending: sendPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
@@ -87,19 +102,44 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     },
   });
 
+  const { mutate: sendMessageMutation } = useMutation({
+    mutationFn: sendGroupMessage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
+    },
+    onError: (error: ErrorType) => {
+      toast({
+        variant: "destructive",
+        title: error.data.message,
+      });
+    },
+  });
+
   const handleSend = (data: FieldValues) => {
-    Send({
-      senderId: userID,
-      receiverId: empId.id,
-      message: data?.message,
-    });
+    if (group) {
+      const payload = {
+        groupId: group?.id,
+        senderId: userID,
+        message: data?.message,
+      };
+      sendMessageMutation(payload);
+    } else {
+      Send({
+        senderId: userID,
+        receiverId: empId.id,
+        message: data?.message,
+      });
+    }
   };
 
   useEffect(() => {
-    if (chatList?.data?.data) {
-      setAllMsg(chatList?.data?.data);
+    if (group) {
+      // @ts-ignore
+      setAllMsg(groupChat?.data?.groupMessages || []);
+    } else {
+      setAllMsg(chatList?.data?.data || []);
     }
-  }, [chatList]);
+  }, [chatList, group]);
 
   useEffect(() => {
     if (allMsg) {

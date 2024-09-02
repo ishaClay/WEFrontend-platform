@@ -1,8 +1,8 @@
+import Arrow_Right from "@/assets/images/Arrow_Right.png";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { getImages } from "@/lib/utils";
-import Arrow_Right from "@/assets/images/Arrow_Right.png";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Eye } from "lucide-react";
 import moment from "moment";
 
@@ -147,7 +147,7 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                       </div>
                     </div>
                     <div>
-                      {item?.iscompleted === 1 && (
+                      {item?.iscompleted === 1 && item?.evidence && (
                         <a
                           href={item?.evidence}
                           target="_blank"
