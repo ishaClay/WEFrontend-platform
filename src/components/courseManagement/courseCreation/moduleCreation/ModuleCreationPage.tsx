@@ -242,7 +242,9 @@ const ModuleCreationPage = () => {
       changeModulePostion(data, courseEditId || courseID),
   });
 
-  const { data: CourseModule, isLoading: courseLoading } = useQuery({
+  console.log("courseEditId || courseID", courseEditId, courseID);
+
+  const { data: CourseModule, isFetching: courseLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
     queryFn: () => getModuleData(+courseEditId || +courseID),
     enabled: !!courseID || !!courseEditId,

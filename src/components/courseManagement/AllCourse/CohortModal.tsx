@@ -47,7 +47,7 @@ interface CohortDataType {
 
 const InitialData = {
   id: 1,
-  publish: false,
+  publish: true,
   cohortName: "",
   startDate: undefined,
   endDate: undefined,
@@ -123,7 +123,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       ...prev,
       {
         id: cohortData?.length + 1,
-        publish: false,
+        publish: true,
         cohortName: "",
         startDate: undefined,
         endDate: undefined,
@@ -151,7 +151,6 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: createCohort,
     onSuccess: async (data) => {
-
       toast({
         title: "Success",
         description: data?.message,

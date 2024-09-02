@@ -68,12 +68,11 @@ const CourseManagement = () => {
   const handleChangeTab = (tab: string) => {
     if (getSingleCourse && +getSingleCourse?.data?.course?.tab >= +tab) {
       if (!+courseId) {
-        navigate(
-          `/${pathName}/create_course?tab=${tab}&version=${paramsversion}`,
-          {
-            replace: true,
-          }
-        );
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("tab", tab);
+        navigate(`/${pathName}/create_course?${searchParams.toString()}`, {
+          replace: true,
+        });
       } else {
         if (+courseId) {
           navigate(

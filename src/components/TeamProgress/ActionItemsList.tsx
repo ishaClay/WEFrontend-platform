@@ -56,13 +56,13 @@ const ActionItemsList = ({ data }: ActionItems) => {
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Target Completion Date :{" "}
                 <span className="text-black">
-                  {moment(data.startDate).format("DD/MM/YYYY")}
+                  {data?.endDate?.replace("-", "/")}
                 </span>
               </h6>
               <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
                 Actual Completion Date :{" "}
-                <span className="text-black">
-                  {moment(data.endDate).format("DD/MM/YYYY")}
+                <span className="text-black ml-2">
+                  -
                 </span>
               </h6>
             </div>

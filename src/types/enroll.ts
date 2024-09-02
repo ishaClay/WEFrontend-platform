@@ -200,6 +200,7 @@ export interface EmployeeType {
   shareFeedback: boolean;
   certificate: boolean;
   progress: number;
+  evalute: boolean;
   company: EmployeeCompanyEntity | null;
 }
 

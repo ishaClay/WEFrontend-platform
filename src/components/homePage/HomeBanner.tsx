@@ -48,7 +48,7 @@ const HomeBanner = () => {
                     <div className="flex items-center justify-around md:flex-row flex-col w-full">
                       <div className="xl:max-w-[650px] md:max-w-[450px] max-w-full w-full flex flex-col md:gap-y-10 gap-y-10">
                         <div className="md:bg-transparent bg-[#1a5762] md:shadow-none rounded-lg shadow-md md:py-0 md:px-0 py-5 px-4 md:m-0 m-5 mt-0">
-                          <h6 className="md:text-[36px] text-[24px] font-bold secondary-text font-UniNeue xl:mb-5 sm:mb-4 mb-2.5 sm:w-[428px] w-full break-all md:leading-10 leading-8">
+                          <h6 className="md:text-[36px] text-[24px] font-bold secondary-text font-UniNeue xl:mb-5 sm:mb-4 mb-2.5 sm:max-w-[450px] w-full md:leading-10 leading-8">
                             {item.title}
                           </h6>
                           <p className="sm:w-[500px] w-full font-medium secondary-text md:text-lg text-base font-Droid-Regular line-clamp-3 leading-5 xl:mb-10 sm:mb-5 mb-2.5">

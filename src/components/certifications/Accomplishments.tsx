@@ -1,15 +1,15 @@
-import { Button } from "../ui/button";
-import { useQuery } from "@tanstack/react-query";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { chatDPColor } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseEnroll } from "@/services/apiServices/certificate";
+import { useQuery } from "@tanstack/react-query";
+import { jsPDF } from "jspdf";
+import { Loader2, MoveLeft } from "lucide-react";
+import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { chatDPColor } from "@/lib/utils";
-import moment from "moment";
-import { Loader2, MoveLeft } from "lucide-react";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { jsPDF } from "jspdf";
+import { Button } from "../ui/button";
 
 const Accomplishments = () => {
   const params = useParams();
@@ -30,11 +30,10 @@ const Accomplishments = () => {
   });
   const employeeData = getEnrolledCourse?.data?.employee?.[0];
   const employeeUserData = getEnrolledCourse?.data?.employee?.[0]?.userDetails;
-  const startDate = getEnrolledCourse?.data?.cohortGroup?.slotStartDate;
-  const endDate = getEnrolledCourse?.data?.cohortGroup?.slotEndDate;
   const sData =
-    startDate?.month + "/" + startDate?.date + "/" + startDate?.year;
-  const eData = endDate?.month + "/" + endDate?.date + "/" + endDate?.year;
+    getEnrolledCourse?.data?.course?.courseEmployeeStatus?.courseStartedDate;
+  const eData =
+    getEnrolledCourse?.data?.course?.courseEmployeeStatus?.courseCompletionDate;
   const dispatch = useAppDispatch();
   const pathName = location?.pathname?.split("/")[1];
   console.log("🚀 getEnrolledCourse?.data?.cohortGroup", getEnrolledCourse);
@@ -92,7 +91,7 @@ const Accomplishments = () => {
                   <Avatar className="w-full h-full">
                     <AvatarImage src={employeeData?.profileImage} />
                     <AvatarFallback
-                      className="rounded-[6px] text-[30px]"
+                      className="rounded-[6px] text-[30px] capitalize"
                       style={{ background: chatDPColor(employeeData?.[0]?.id) }}
                     >
                       {employeeData?.[0]?.name
@@ -107,14 +106,13 @@ const Accomplishments = () => {
                   </Avatar>
                 </div>
                 <div className="sm:pl-[15px] pl-[10px]">
-                  <h5 className="xl:text-lg md:text-base text-sm font-semibold font-inter leading-[22px]">
+                  <h5 className="xl:text-lg md:text-base text-sm font-semibold capitalize font-inter leading-[22px]">
                     {employeeData?.[0]?.name
                       ? employeeData?.[0]?.name
                       : employeeUserData?.name
                       ? employeeUserData?.name
                       : employeeUserData?.fname || employeeUserData?.lname
-                      ? employeeUserData?.fname.charAt(0) +
-                        employeeUserData?.lname
+                      ? employeeUserData?.fname + " " + employeeUserData?.lname
                       : userData?.query?.email?.split("@")[0]}
                   </h5>
                   <p className="sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">

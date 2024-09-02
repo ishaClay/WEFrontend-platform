@@ -1,16 +1,14 @@
-import { CalendarDays, Clock } from "lucide-react";
 import Zoom_Video from "@/assets/images/zoom-video.png";
+import { ModuleSectionsEntity } from "@/types/employee";
+import { CalendarDays, Clock } from "lucide-react";
 import { Button } from "../ui/button";
 
-const LiveSession = () => {
+const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
+  console.log(list, "+++++++++++++++++++++++");
+
   return (
     <div className="bg-white min-h-[calc(100vh_-_130px)]">
       <div className="md:p-5 p-4">
-        <div className="md:pb-5 pb-4">
-          <h4 className="xl:text-[28px] md:text-[22px] text-[18px] font-bold font-nunito text-black">
-            Wind energy basic course
-          </h4>
-        </div>
         <div className="border-b border-t border-[#D9D9D9] md:py-5 py-4 mb-5">
           <div className="flex items-center md:gap-5 gap-4">
             <div className="md:w-[50px] w-[40px] md:h-[50px] h-[40px] rounded-full">
@@ -19,7 +17,7 @@ const LiveSession = () => {
             <div className="md:flex block items-center justify-between w-full">
               <div className="">
                 <h5 className="md:text-base text-sm text-black font-bold font-nunito pb-1.5">
-                  Live Session(session title)
+                  Live Session({list?.title})
                 </h5>
                 <div className="sm:flex block items-center gap-5 md:mb-0 mb-2">
                   <h6 className="flex items-center gap-2 text-xs text-[#777] sm:mb-0 mb-2">
@@ -51,7 +49,10 @@ const LiveSession = () => {
               The meeting link will be enabled 15 minutes <br />
               before the scheduled time.
             </p>
-            <Button className="bg-[#00778B] text-sm font-inter px-10 sm:h-[42px] h-[36px]">
+            <Button
+              disabled
+              className="bg-[#00778B] text-sm font-inter px-10 sm:h-[42px] h-[36px]"
+            >
               Join
             </Button>
           </div>

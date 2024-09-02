@@ -14,6 +14,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
+import ReactPlayer from "react-player";
 
 const ViewSession = ({
   setDocumentFile,
@@ -148,6 +149,8 @@ const ViewSession = ({
     }
   };
 
+  console.log("🚀 ~ documentFile:", documentFile);
+
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
       {viewDoc ? (
@@ -178,7 +181,12 @@ const ViewSession = ({
             <div className="">
               {documentType(documentFile) === "mp4" ||
               documentType(documentFile) === "video" ? (
-                <video src={docs[0]?.uri} className="w-full" controls></video>
+                <ReactPlayer
+                  url={docs[0]?.uri}
+                  controls
+                  width="100%"
+                  height={600}
+                />
               ) : documentType(documentFile) === "pdf" ? (
                 <iframe
                   src={documentFile}

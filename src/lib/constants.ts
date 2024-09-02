@@ -115,12 +115,16 @@ export const QUERY_KEYS = {
   fetchProviderTypes: "fetchProviderTypes",
   fetchGroupChat: "fetchGroupChat",
   coursePublishAdminClient: "coursePublishAdminClient",
-  getenrolledcourse: "getenrolledcourse", 
+  getenrolledcourse: "getenrolledcourse",
   fetchTrainerByEmailType: "fetchTrainerByEmailType",
 };
 
 export const urlRegex =
   "/((([A-Za-z]{3,9}:(?://)?)(?:[-;:&=+$,w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,w]+@)[A-Za-z0-9.-]+)((?:/[+~%/.w-_]*)???(?:[-+=&;%@.w_]*)#?(?:[w]*))?)/";
+
+export const youtubeRegex =
+  /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+
 export const FileType = {
   Document: {
     name: "Document",
@@ -276,7 +280,7 @@ export const sectorOption = [
   {
     label: "Other",
     value: "Other",
-  }
+  },
 ];
 
 export const employeeOption = [

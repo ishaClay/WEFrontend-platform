@@ -3,10 +3,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { createEvaluationScore } from "@/services/apiServices/enroll";
 import { EvaluteDataEntity } from "@/types/enroll";
 import { ErrorType } from "@/types/Errors";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
+import { QUERY_KEYS } from "@/lib/constants";
 
 type evaluteModalProps = {
   data: EvaluteDataEntity;
@@ -30,6 +31,7 @@ const EvaluateModalDetailsItem = ({
   const totalPoints = data?.evaluations?.reduce((sum: any, evaluation: any) => {
     return sum + evaluation?.question?.point;
   }, 0);
+  const queryClient = useQueryClient();
 
   const handleAddPoints = (value: string) => {
     if (!value?.match(/^[0-9]*$/)) {
@@ -57,6 +59,9 @@ const EvaluateModalDetailsItem = ({
       });
       setModuleId("");
       setAddTotalPoints("");
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEvalute],
+      });
     },
     onError: (error: ErrorType) => {
       toast({
@@ -113,11 +118,11 @@ const EvaluateModalDetailsItem = ({
         </div>
         <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <p className="px-3 py-2 w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px]">
+            <p className="w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px]">
               {/* {data.page1} */}
               <input
                 type="text"
-                className="w-full h-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                className="w-full h-full px-3 py-2 rounded-sm focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                 disabled={data?.score ? true : false}
                 defaultValue={data?.score}
                 onChange={(e) => handleAddPoints(e?.target?.value)}
@@ -130,9 +135,7 @@ const EvaluateModalDetailsItem = ({
           <div className="">
             <Button
               className=" sm:text-base text-sm font-calibri text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]"
-              disabled={
-                (errors?.type || isPending) && data?.score ? true : false
-              }
+              disabled={!!errors?.message || isPending || !!data?.score}
               onClick={() => {
                 onSubmit(data?.id);
                 setModuleId(data?.id);

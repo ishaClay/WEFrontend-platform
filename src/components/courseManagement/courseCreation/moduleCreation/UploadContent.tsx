@@ -193,6 +193,8 @@ const UploadContent = ({
   };
 
   console.log("data+++", data);
+  console.log("FileType", FileType);
+  
 
   return (
     <div className="">

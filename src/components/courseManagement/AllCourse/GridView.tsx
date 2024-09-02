@@ -206,7 +206,10 @@ const GridView = ({
         ?.currentVersion?.cohortGroup?.length || 0;
     console.log(cohortCount);
 
-    if (cohortCount > 0) {
+    if (
+      +userData?.query?.role === UserRole?.Trainee ||
+      (cohortCount > 0 && +userData?.query?.role === UserRole?.Trainer)
+    ) {
       publishCourseFun(payload);
     } else {
       const singleCourse = list?.find(
@@ -339,13 +342,6 @@ const GridView = ({
           const isMyCoursesPath = pathName === "mycourses";
           const isPublished = item?.status === "PUBLISHED";
 
-          console.log(
-            "++++++++++++++++++++",
-            item?.status !== "EXPIRED" && item?.status !== "DRAFT",
-            +userData?.query?.role === UserRole.Trainee,
-            item?.trainerId,
-            +item?.trainerId?.id !== +userData?.query?.trainerDetails?.id
-          );
 
           const versionOption =
             item?.version &&
@@ -360,7 +356,10 @@ const GridView = ({
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               }));
-          console.log("itemitem", item);
+
+          const editOption = item?.trainerId?.id === +userData?.query?.detailsid ? 
+          (userData?.editCourses && +userData?.query?.role !== UserRole.Trainee) || (item?.trainerId?.id === +userData?.query?.detailsid) :
+          (userData?.editCourses || +userData?.query?.role !== UserRole.Trainee);
 
           return (
             <Link
@@ -384,13 +383,11 @@ const GridView = ({
                   className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
                 <div className="absolute right-2 bottom-2">
-                  {item?.status !== "DRAFT" && item?.status !== "COPY" && (
-                    <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                      {item?.status === "READYTOPUBLISH"
-                        ? "Ready to Publish"
-                        : item?.status || item?.status}
-                    </Badge>
-                  )}
+                  <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                    {item?.status === "READYTOPUBLISH"
+                      ? "Ready to Publish"
+                      : item?.status || item?.status}
+                  </Badge>
                 </div>
               </div>
               <div className="p-2 h-[calc(100%-220px)]">
@@ -531,8 +528,7 @@ const GridView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                      {(userData?.editCourses &&
-                        +userData?.query?.role !== UserRole.Trainee) || (item?.trainerId?.id === +userData?.query?.detailsid) &&  (
+                      {editOption && ( 
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
@@ -549,23 +545,9 @@ const GridView = ({
                           </span>
                         </DropdownMenuItem>
                       )}
-                      {(userData?.editCourses ||
-                        (+userData?.query?.role === UserRole.Trainee &&
-                          item?.status === "DRAFT")) && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "edit")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>{"Edit"}</span>
-                        </DropdownMenuItem>
-                      )}
                       {item?.status !== "EXPIRED" &&
                         item?.status !== "DRAFT" &&
-                        (+userData?.query?.role === UserRole.Trainee &&
-                        item?.trainerId &&
-                        +item?.trainerId?.id !==
-                          +userData?.query?.trainerDetails?.id
+                        (+userData?.query?.role === UserRole.Trainee
                           ? update
                           : true) && (
                           <>

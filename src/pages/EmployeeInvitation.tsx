@@ -114,7 +114,10 @@ const EmployeeInvitation = () => {
     } else {
       setError("");
       const payload: EmployeePayload = {
-        email: inviteData,
+        email: inviteData.map((item) => ({
+          ...item,
+          email: item.email.trim(),
+        })),
         csvUrl: data?.file,
         invitationDetails: data?.invitiondetail,
         companyId: CompanyID,
@@ -182,7 +185,10 @@ const EmployeeInvitation = () => {
                     placeholder="First Name"
                     value={data?.fName}
                     name="fName"
-                    onChange={(e) => handleChange(e, index)}
+                    onChange={(e) => {
+                      if (/^[A-Za-z ]*$/.test(e.target.value))
+                        handleChange(e, index);
+                    }}
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />
                   <Input
@@ -190,7 +196,10 @@ const EmployeeInvitation = () => {
                     placeholder="Last Name"
                     name="lName"
                     value={data?.lName}
-                    onChange={(e) => handleChange(e, index)}
+                    onChange={(e) => {
+                      if (/^[A-Za-z ]*$/.test(e.target.value))
+                        handleChange(e, index);
+                    }}
                     className="border rounded p-3 lg:w-[320px] w-[200px] h-[52px]"
                   />
                   <Input

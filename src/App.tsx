@@ -120,7 +120,6 @@ import ScheduleLiveSession from "./pages/courseManagement/ScheduleLiveSession";
 import DashboardEmployeePage from "./pages/dashboard/DashboardEmployeePage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import BasicCoursePage from "./pages/employeeBasicCourse/BasicCoursePage";
-import LiveSessionPage from "./pages/employeeBasicCourse/LiveSessionPage";
 import CourseLiveSession from "./pages/liveSession/CourseLiveSession";
 import MaturityAssessmentPage from "./pages/maturityAssessment/MaturityAssessmentPage";
 import ComposePage from "./pages/message/ComposePage";
@@ -763,7 +762,6 @@ function App() {
             path="employee-assessment/:assessmentId"
             element={<EmployeeAssessment />}
           />
-          <Route path="live-session" element={<LiveSessionPage />} />
         </Route>
 
         <Route

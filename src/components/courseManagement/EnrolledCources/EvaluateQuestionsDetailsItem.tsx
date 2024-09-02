@@ -1,5 +1,4 @@
 import { EvaluationsEntity } from "@/types/enroll";
-import { useState } from "react";
 
 interface EvaluateQuestionsDetailsItemProps {
   item: EvaluationsEntity | null;
@@ -7,7 +6,9 @@ interface EvaluateQuestionsDetailsItemProps {
 }
 
 const EvaluateQuestionsDetailsItem = ({ item, index }: EvaluateQuestionsDetailsItemProps) => {
-  const [showAll, setShowAll] = useState(false);
+  const answer:any = item?.answer;
+  const machedKeyword = item?.machedKeyword?.filter(
+    machText => answer?.split(", ")?.includes(machText));
   return (
     <div className="border border-solid border-[#D9D9D9] rounded-sm sm:p-5 p-3">
       <div className="flex items-center pb-3">
@@ -31,22 +32,20 @@ const EvaluateQuestionsDetailsItem = ({ item, index }: EvaluateQuestionsDetailsI
         <h6 className="text-[#606060] text-xs font-calibri">
           <p className="sm:text-base text-sm font-bold">KeyWords (Matched 
             <span className="ml-1">{item?.machedKeyword?.length}</span>, Unmatched 
-            <span className="ml-1">{(item?.question?.option?.length || 0) - (item?.machedKeyword?.length || 0)}</span> )
+            <span className="ml-1">{machedKeyword?.length || 0}</span> )
           </p>
         </h6>
       </div>
       <div className="">
         <ul className="flex flex-wrap flex-row md:gap-4 gap-2.5 items-center font-calibri font-base">
           {
-            item?.question?.option?.slice(0, showAll ? item?.question?.option?.length : 5)?.map((option, optionIndex) => {
-              return <li key={optionIndex} className={`text-${item?.machedKeyword?.includes(option) ? "white" : "black"} py-1.5 text-center bg-[${item?.machedKeyword?.includes(option) ? "#58BA66" : "#EDF0F4"}] px-5 rounded-full sm:text-base text-sm md:min-w-[104px] min-w-[95px]`}>
-              {option}
-            </li>
+            item?.machedKeyword?.map((qItem, index) => {
+              // @ ts-ignore
+              return <li key={index} className={`text-${answer?.split(", ")?.includes(qItem) ? "white" : "black"} py-1.5 text-center bg-[${answer?.split(", ")?.includes(qItem) ? "#58BA66" : "#EDF0F4"}] px-5 rounded-full sm:text-base text-sm md:min-w-[104px] min-w-[95px]`}>
+                {qItem}
+              </li>
             })
           }
-          {item?.question?.option && item?.question?.option?.length > 5 && <li className="text-[#4285F4] cursor-pointer sm:text-base text-sm" onClick={() => setShowAll(!showAll)}>
-            {showAll ? "Show less" : "Show all"}
-          </li>}
         </ul>
       </div>
     </div>
