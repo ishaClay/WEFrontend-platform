@@ -62,7 +62,7 @@ const EmployeeBasicCourse = () => {
     userData?.query?.role !== "4" ? getSingleCourse : fetchEmployeeSingeCourse;
 
   const { data: getModule } = useQuery<ModuleStatusResponse>({
-    queryKey: [QUERY_KEYS.getSingleCourse, mainCourseId],
+    queryKey: [QUERY_KEYS.getSingleCourse, { mainCourseId, userData }],
     queryFn: () =>
       getModuleById({
         userId: userData?.query?.detailsid,

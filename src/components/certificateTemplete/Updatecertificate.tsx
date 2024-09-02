@@ -12,6 +12,7 @@ import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
+import { Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
@@ -29,7 +30,6 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useToast } from "../ui/use-toast";
-import { Loader2 } from "lucide-react";
 type RouteParams = {
   id: string;
 };
@@ -287,7 +287,7 @@ const Addcertificate = () => {
                   <div className="flex justify-center">
                     <img
                       src={watch("backgroundImage")}
-                      className="object-cover bg-transparent w-full max-h-[700px] h-full"
+                      className="bg-transparent w-full max-h-[700px] h-full"
                       alt="Logo"
                     />
                   </div>

@@ -22,7 +22,7 @@ export const getCourseSlider = async (id: string, type: string) => {
 };
 
 export const fetchSingleCourse = async (id: string, companyId?: string, empId?: string) => {
-  const url = `api/v1/course/get/${id}?empid=${empId || ""}`;
+  const url = `api/v1/course/get/${id}?empid=${empId}`;
   const params = {
     companyId: companyId || "",
   };

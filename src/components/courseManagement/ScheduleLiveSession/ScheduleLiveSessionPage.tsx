@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loading from "@/components/comman/Error/Loading";
-import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
@@ -142,7 +142,7 @@ const ScheduleLiveSessionPage = () => {
     },
   });
 
-  const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
+  const { data: fetchCourseAllCourseData, isFetching: fetchCoursePending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchAllCourse],
       queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
@@ -166,20 +166,21 @@ const ScheduleLiveSessionPage = () => {
     selectTargetPillarLimit?.data?.videoDonferencingAccess
   );
 
-  const { data: fetchZoomSetting, isLoading: fetchZoomSettingLoading } =
+  const { data: fetchZoomSetting, isFetching: fetchZoomSettingLoading } =
     useQuery<PermissionResponse>({
       queryKey: ["getZoomSetting"],
       queryFn: getZoomSetting,
     });
 
-  console.log("fetchZoomSetting", fetchZoomSetting);
-
-  const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchLiveSessionById],
-      queryFn: () => getLiveSessionById(id?.toString() || ""),
-      enabled: !!id,
-    });
+  const {
+    data: fetchLiveSessionById,
+    isFetching: fetchLiveSessionByIdPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.fetchLiveSessionById, { id }],
+    queryFn: () => getLiveSessionById(id?.toString() || ""),
+    enabled: !!id,
+  });
+  console.log("fetchZoomSetting", fetchLiveSessionById);
 
   const { data: fetchTraineeCompany } = useQuery({
     queryKey: [QUERY_KEYS.fetchTraineeCompany, fetchLiveSessionById],
@@ -394,15 +395,6 @@ const ScheduleLiveSessionPage = () => {
       });
     }
   };
-
-  if (
-    (fetchCoursePending ||
-      fetchLiveSessionPending ||
-      fetchLiveSessionByIdPending) &&
-    !!id
-  ) {
-    return <Loader />;
-  }
 
   return (
     <>
@@ -707,7 +699,14 @@ const ScheduleLiveSessionPage = () => {
           </div>
         </div>
       </form>
-      <Loading isLoading={fetchZoomSettingLoading} />
+      <Loading
+        isLoading={
+          fetchZoomSettingLoading ||
+          fetchCoursePending ||
+          fetchLiveSessionPending ||
+          fetchLiveSessionByIdPending
+        }
+      />
     </>
   );
 };

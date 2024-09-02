@@ -1,18 +1,18 @@
-import EnrolledCourseListItem from "./EnrolledCourseListItem";
-import { AccordionOption } from "@/types";
 import Accordions from "@/components/comman/Accordions";
-import EnrolledCourseDetailsList from "./EnrolledCourseDetailsList";
-import { useQuery } from "@tanstack/react-query";
+import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   fetchEnrollmentAccepted,
   fetchEnrollmentAcceptedFilterData,
 } from "@/services/apiServices/enroll";
+import { AccordionOption } from "@/types";
 import { EnrolledCoursesType } from "@/types/enroll";
+import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useAppSelector } from "@/hooks/use-redux";
 import { useEffect, useState } from "react";
-import { toast } from "@/components/ui/use-toast";
+import EnrolledCourseDetailsList from "./EnrolledCourseDetailsList";
+import EnrolledCourseListItem from "./EnrolledCourseListItem";
 
 const EnrolledCourseList = () => {
   const { UserId } = useAppSelector((state) => state.user);
@@ -23,7 +23,7 @@ const EnrolledCourseList = () => {
   });
   const [coursesEnrolleList, setCoursesEnrolleList] = useState<any>([]);
 
-  const { data: enrolledCoursesData, isPending } = useQuery({
+  const { data: enrolledCoursesData, isFetching: isPending } = useQuery({
     queryKey: [QUERY_KEYS.enrolledCourses],
     queryFn: () => fetchEnrollmentAccepted(UserId),
   });
