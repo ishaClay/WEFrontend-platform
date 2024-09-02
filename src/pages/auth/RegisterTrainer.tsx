@@ -28,7 +28,11 @@ import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
-import { fetchProviderTypes, fetchTrainerByEmailDataQuery, getCountry } from "@/services/apiServices/company";
+import {
+  fetchProviderTypes,
+  fetchTrainerByEmailDataQuery,
+  getCountry,
+} from "@/services/apiServices/company";
 import {
   registerTrainee,
   registerTrainer,
@@ -201,9 +205,10 @@ function RegisterTrainer() {
   });
 
   useEffect(() => {
-    if(fetchTrainerByEmailData?.data){
+    if (fetchTrainerByEmailData?.data) {
       const traineeData = fetchTrainerByEmailData?.data?.trainerDetails;
-      const trainerData = fetchTrainerByEmailData?.data?.trainerDetails?.trainerCompany;
+      const trainerData =
+        fetchTrainerByEmailData?.data?.trainerDetails?.trainerCompany;
       setValue("contactFirstName", traineeData?.name);
       setValue("contactSurname", traineeData?.surname);
       setValue("providerName", trainerData?.providerName);
@@ -215,8 +220,7 @@ function RegisterTrainer() {
       setValue("providerNotes", trainerData?.providerNotes);
       setValue("foreignProvider", trainerData?.foreignProvider ? "Yes" : "No");
     }
-  }, [fetchTrainerByEmailData])
-  
+  }, [fetchTrainerByEmailData]);
 
   const providerTypesList = getProviderTypes?.providerTypes;
   const providerTypesOption = providerTypesList?.map((item) => {
@@ -342,14 +346,16 @@ function RegisterTrainer() {
           </div>
 
           <div className="2xl:px-0 px-5 lg:max-w-[550px] w-full mx-auto">
-            {type !== "trainee" && <div className="flex justify-end">
-              <label>
-                Already have an account?{" "}
-                <Link to={"/auth"} className="font-[700] text-[#042937]">
-                  Sign In
-                </Link>
-              </label>
-            </div>}
+            {type !== "trainee" && (
+              <div className="flex justify-end">
+                <label>
+                  Already have an account?{" "}
+                  <Link to={"/auth"} className="font-[700] text-[#042937]">
+                    Sign In
+                  </Link>
+                </label>
+              </div>
+            )}
             {/* max-w-[707px]  */}
             <div className={type !== "trainee" ? "mt-[30px]" : ""}>
               <div className="flex gap-x-[8px] items-end">
@@ -514,7 +520,7 @@ function RegisterTrainer() {
                     <InputWithLable
                       placeholder="Last name"
                       className="h-[46px]"
-                      label="Last name"
+                      label="Contact Last Name"
                       {...register("contactSurname")}
                     />
                     {errors.contactSurname && (

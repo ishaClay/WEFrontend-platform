@@ -49,7 +49,10 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
               The meeting link will be enabled 15 minutes <br />
               before the scheduled time.
             </p>
-            <Button className="bg-[#00778B] text-sm font-inter px-10 sm:h-[42px] h-[36px]">
+            <Button
+              disabled
+              className="bg-[#00778B] text-sm font-inter px-10 sm:h-[42px] h-[36px]"
+            >
               Join
             </Button>
           </div>

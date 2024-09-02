@@ -200,11 +200,12 @@ const CourseInformation = ({
     },
   });
 
-  const { data: getSingleCourse, isFetching : getSingleCourseFetching } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
-    queryFn: () => fetchSingleCourseById(String(paramsVersion)),
-    enabled: !!paramsVersion,
-  });
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getSingleCourse, { paramsVersion, paramsId }],
+      queryFn: () => fetchSingleCourseById(String(paramsVersion)),
+      enabled: !!paramsVersion,
+    });
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -218,8 +219,11 @@ const CourseInformation = ({
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
       setDiscountProvider(data?.providerName?.id);
+    } else {
+      setDiscountProvider(data?.data?.id?.toString() || "");
+      setValue("discountProvider", data?.data?.id?.toString() || "");
     }
-  }, [getSingleCourse, setValue]);
+  }, [getSingleCourse, setValue, data?.data]);
 
   const onSubmit = (formdata: FieldValues) => {
     if (provideDisc && discount === "") {
@@ -462,7 +466,7 @@ const CourseInformation = ({
             </Button>
           </div>
         </form>
-      <Loading isLoading={getSingleCourseFetching} />
+        <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );

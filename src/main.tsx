@@ -18,7 +18,13 @@ ReactGA.send({
   page: window.location.pathname,
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

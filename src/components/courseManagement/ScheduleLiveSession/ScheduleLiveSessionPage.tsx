@@ -62,9 +62,7 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate();
-  const { UserId, CompanyId } = useAppSelector(
-    (state: RootState) => state.user
-  );
+  const { UserId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
@@ -176,17 +174,20 @@ const ScheduleLiveSessionPage = () => {
 
   console.log("fetchZoomSetting", fetchZoomSetting);
 
-  const { data: fetchTraineeCompany } = useQuery({
-    queryKey: [QUERY_KEYS.fetchTraineeCompany],
-    queryFn: () => getTraineeCompany(+CompanyId),
-  });
-
   const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchLiveSessionById],
       queryFn: () => getLiveSessionById(id?.toString() || ""),
       enabled: !!id,
     });
+
+  const { data: fetchTraineeCompany } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTraineeCompany, fetchLiveSessionById],
+    queryFn: () => getTraineeCompany(+fetchLiveSessionById?.data?.data?.id),
+    enabled: !!fetchLiveSessionById,
+  });
+
+  console.log("fetchLiveSessionById", fetchLiveSessionById?.data?.data?.id);
 
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
@@ -197,9 +198,10 @@ const ScheduleLiveSessionPage = () => {
       })
     : [];
 
-  const selectCompanyOptions = fetchTraineeCompany?.data
-    ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => i?.name)
-    : [];
+  const selectCompanyOptions =
+    fetchTraineeCompany?.data?.length > 0
+      ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => i?.name)
+      : [];
 
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
@@ -343,12 +345,14 @@ const ScheduleLiveSessionPage = () => {
 
     const compnayIds = selectCompany?.flatMap((val) => {
       return (
-        fetchTraineeCompany?.data?.map((item: any) => {
-          if (item?.name === val) {
-            return +item?.id;
-          }
-          return;
-        }) || []
+        (fetchTraineeCompany?.data?.length > 0 &&
+          fetchTraineeCompany?.data?.map((item: any) => {
+            if (item?.name === val) {
+              return +item?.id;
+            }
+            return;
+          })) ||
+        []
       );
     });
 

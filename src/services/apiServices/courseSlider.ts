@@ -21,8 +21,8 @@ export const getCourseSlider = async (id: string, type: string) => {
   return res.data;
 };
 
-export const fetchSingleCourse = async (id: string, companyId?: string) => {
-  const url = `api/v1/course/get/${id}`;
+export const fetchSingleCourse = async (id: string, companyId?: string, empId?: string) => {
+  const url = `api/v1/course/get/${id}?empid=${empId || ""}`;
   const params = {
     companyId: companyId || "",
   };
