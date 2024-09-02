@@ -89,13 +89,12 @@ const FeaturedCourses = () => {
             ) : (
               <Slider {...settings}>
                 {clientwiseCourseslider?.data?.map((item) => {
-                  
                   return (
                     // <div>
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
                     // </div>
 
-                    <div className="relative">
+                    <div className="relative" key={item.id}>
                       <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
                         <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
                           <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-UniNeue pb-4">
@@ -105,7 +104,7 @@ const FeaturedCourses = () => {
                           <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-Droid-Regular line-clamp-3">
                             {item.content}
                           </p>
-                          {item?.courseTitle?.id && (
+                          {item?.courseTitle?.id && item.buttonTitle && (
                             <SecondaryButton
                               name={item.buttonTitle}
                               symbol={

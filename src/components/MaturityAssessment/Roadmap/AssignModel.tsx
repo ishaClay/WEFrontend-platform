@@ -37,7 +37,7 @@ const AssignModel = ({
     : userData?.companyDetails?.id;
   const { data } = useQuery<MeasuresItemsResponse>({
     queryKey: [QUERY_KEYS.getEmployeeList, { companyId }],
-    queryFn: () => EmployeeList(companyId, ""),
+    queryFn: () => EmployeeList(companyId, "Active"),
   });
 
   const empOption = data?.data?.map((item) => {
@@ -66,7 +66,7 @@ const AssignModel = ({
     },
   });
 
-  const handleSubmit = () => {    
+  const handleSubmit = () => {
     if (!date.startDate || !date.endDate) {
       setError("Both start date and end date are required.");
       return;
@@ -76,7 +76,7 @@ const AssignModel = ({
       return;
     }
     setError(null);
-    
+
     const payload = {
       employeeId: selectAsignModel,
       startDate: date?.startDate,
@@ -127,11 +127,7 @@ const AssignModel = ({
         buttonClassName="text-base font-abhaya font-medium w-[363px] h-[52px]"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />
-      {error && (
-        <div className="text-red-500 text-sm pb-3">
-          {error}
-        </div>
-      )}
+      {error && <div className="text-red-500 text-sm pb-3">{error}</div>}
       <div className="flex justify-end pt-[30px]">
         <Button
           disabled={

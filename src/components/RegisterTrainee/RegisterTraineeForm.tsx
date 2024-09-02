@@ -41,6 +41,8 @@ const RegisterTraineeForm = () => {
   const type = params.get("type");
   const email: string | null = params.get("email");
   const cName: string | null = params.get("cName");
+  const fName: string | null = params.get("fName");
+  const lName: string | null = params.get("lName");
   const [phone, setPhone] = useState<string>("");
   const [selectBoxValues, setSelectBoxValues] = useState({
     gender: "",
@@ -62,14 +64,14 @@ const RegisterTraineeForm = () => {
     gender: Zod.string({ required_error: "Please select gender" }),
     firstName: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid first name",
+        message: "Please enter valid Contact First Name",
       })
-      .min(1, { message: "Please enter first name" }),
+      .min(1, { message: "Please enter Contact First Name" }),
     surname: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid surname",
+        message: "Please enter valid Contact Last Name",
       })
-      .min(1, { message: "Please enter surname" }),
+      .min(1, { message: "Please enter Contact Last Name" }),
     phone: Zod.string({
       required_error: "Please select phone number",
     }),
@@ -172,9 +174,11 @@ const RegisterTraineeForm = () => {
       } else {
         setValue("email", email);
         setValue("memberCompany", cName);
+        setValue("firstName", fName || "");
+        setValue("surname", lName || "");
       }
     }
-  }, [email, userData]);
+  }, [email, userData, fName, lName]);
 
   const { mutate: update_Employee, isPending } = useMutation({
     mutationFn: updateEmployeeEmail,
@@ -283,7 +287,7 @@ const RegisterTraineeForm = () => {
         <div className="grid grid-cols-2 sm:gap-x-8 gap-x-[15px] text-[16px] leading-[19.53px] font-bold">
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
-              First Name
+              Contact First Name
               <img src={mandatory} className="p-1" />
             </label>
             <InputWithLable
@@ -299,7 +303,7 @@ const RegisterTraineeForm = () => {
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
-              Surname
+              Contact Last Name
               <img src={mandatory} className="p-1" />
             </label>
             <InputWithLable
