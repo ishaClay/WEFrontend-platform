@@ -342,13 +342,6 @@ const GridView = ({
           const isMyCoursesPath = pathName === "mycourses";
           const isPublished = item?.status === "PUBLISHED";
 
-          console.log(
-            "++++++++++++++++++++",
-            item?.status !== "EXPIRED" && item?.status !== "DRAFT",
-            +userData?.query?.role === UserRole.Trainee,
-            item?.trainerId,
-            +item?.trainerId?.id !== +userData?.query?.trainerDetails?.id
-          );
 
           const versionOption =
             item?.version &&
@@ -363,7 +356,10 @@ const GridView = ({
                 label: `V-${itm?.version}`,
                 value: itm?.id.toString() || "",
               }));
-          console.log("itemitem", item);
+
+          const editOption = item?.trainerId?.id === +userData?.query?.detailsid ? 
+          (userData?.editCourses && +userData?.query?.role !== UserRole.Trainee) || (item?.trainerId?.id === +userData?.query?.detailsid) :
+          (userData?.editCourses || +userData?.query?.role !== UserRole.Trainee);
 
           return (
             <Link
@@ -532,7 +528,7 @@ const GridView = ({
                             </span>
                           </DropdownMenuItem>
                         )}
-                      {+userData?.query?.role !== UserRole.Trainee && (
+                      {editOption && ( 
                         <DropdownMenuItem
                           className="flex items-center gap-2 font-nunito"
                           onClick={(e) =>
@@ -549,16 +545,6 @@ const GridView = ({
                           </span>
                         </DropdownMenuItem>
                       )}
-                      {+userData?.query?.role === UserRole.Trainee &&
-                        item?.status === "DRAFT" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, item, "edit")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>{"Edit"}</span>
-                          </DropdownMenuItem>
-                        )}
                       {item?.status !== "EXPIRED" &&
                         item?.status !== "DRAFT" &&
                         (+userData?.query?.role === UserRole.Trainee
