@@ -9,6 +9,8 @@ import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import {
+  fetchTopCourseList,
+  getCourseCompletionData,
   getDashbooardSme3,
   getEnrolledCourses,
   getFirstInfirgraphicChart,
@@ -36,6 +38,7 @@ import {
   Tooltip,
 } from "chart.js";
 import Loading from "./comman/Error/Loading";
+import { QUERY_KEYS } from "@/lib/constants";
 
 Chart.register(
   CategoryScale,
@@ -131,7 +134,7 @@ const Dashboard = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
-            {row.original?.title}
+            {row.original?.course?.title}
           </h6>
         );
       },
@@ -151,7 +154,7 @@ const Dashboard = () => {
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.duration}
+            {row.original?.course?.duration}
           </h6>
         );
       },
@@ -171,7 +174,7 @@ const Dashboard = () => {
       cell: ({ row }) => {
         return (
           <h6 className="text-xs font-inter text-black">
-            {row.original?.status}
+            {row.original?.course?.status}
           </h6>
         );
       },
@@ -198,6 +201,11 @@ const Dashboard = () => {
         getSmeDashboardData({ userId: userData?.query?.detailsid }),
     });
 
+  const { data: getTopCourseList } = useQuery({
+      queryKey: [QUERY_KEYS.topCourses],
+      queryFn: fetchTopCourseList,
+    });
+
   const { data: smeDashboardData3, isLoading: smeLoading3 } =
     useQuery<SMEDashboard3Response>({
       queryKey: ["getDashbooardSme3"],
@@ -210,6 +218,11 @@ const Dashboard = () => {
       queryKey: ["getEnrolledCourses"],
       // queryFn: () => getDashbooardSme3({ userId: 441 }),
       queryFn: () => getEnrolledCourses(),
+    });
+
+  const { data: getCourseCompletion } = useQuery({
+      queryKey: [QUERY_KEYS.courseCompletion],
+      queryFn: () => getCourseCompletionData(userData?.query?.id),
     });
 
   const currentYear = new Date().getFullYear();
@@ -236,7 +249,7 @@ const Dashboard = () => {
     ],
     datasets: [
       {
-        data: [50, 25, 37, 50, 15, 75, 90, 60, 30, 40, 50, 20],
+        data: getCourseCompletion?.data,
         fill: false,
         borderColor: "rgba(14, 156, 255, 1)",
         tension: 0.1,
@@ -251,6 +264,7 @@ const Dashboard = () => {
       plugins: {
         legend: {
           position: "top",
+          display: false,
         },
       },
 
@@ -765,16 +779,16 @@ const Dashboard = () => {
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-nunito font-bold">Top 5 Courses</h5>
-            <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
               View All
-            </Button>
+            </Button> */}
           </div>
 
           <div className="">
             <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                data={smeDashboardData?.data?.upcomingCoursesList || []}
+                data={getTopCourseList?.data || []}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
