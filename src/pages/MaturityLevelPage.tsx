@@ -2,6 +2,7 @@ import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -117,13 +118,14 @@ const MaturityLevelPage = () => {
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";
             if (label) {
               label += ": ";
             }
-            label += Math.round(context.parsed * 100) + "%";
+            label += Math.round(context.parsed)?.toFixed(0) + "%";
             return label;
           },
         },
@@ -156,8 +158,9 @@ const MaturityLevelPage = () => {
             >
               <div
                 className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
-                style={{ background: `linear-gradient(to right, ${label
-                  ?.color} 10%, #ffffff)` }}
+                style={{
+                  background: `linear-gradient(to right, ${label?.color} 10%, #ffffff)`,
+                }}
               ></div>
               <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
                 {label?.maturityLevelName}
@@ -166,7 +169,7 @@ const MaturityLevelPage = () => {
             </div>
           );
         })}
-      <div className="sm:mb-[35px] mb-5">
+      {/* <div className="sm:mb-[35px] mb-5">
         <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
           Total Score -
           <div className="flex items-center">
@@ -178,7 +181,7 @@ const MaturityLevelPage = () => {
             </span>
           </div>
         </p>
-      </div>
+      </div> */}
     </>
   );
 
@@ -248,12 +251,14 @@ const MaturityLevelPage = () => {
                 </div>
               </div>
               <div className="">
-                <p className="inline font-calibri text-base text-black">
+                <p className="inline font-calibri text-[18px] text-black">
                   Your overall sustainability level -
                 </p>{" "}
-                <span className="font-bold text-base text-[#000000] leading-6 font-calibri">
+                <Badge
+                  className={`font-semibold text-[18px] bg-[${currentLavel?.color}] text-[#000] leading-6 font-calibri hover:bg-[${currentLavel?.color}] hover:text-[#000]`}
+                >
                   {currentLavel?.maturityLevelName}
-                </span>
+                </Badge>
               </div>
             </div>
           </div>

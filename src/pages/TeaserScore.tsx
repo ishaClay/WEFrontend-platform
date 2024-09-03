@@ -125,7 +125,7 @@ const TeaserScore = () => {
   };
 
   const Labels = () => (
-    <div className="flex flex-col justify-center h-fulzl w-[200px]">
+    <div className="flex flex-col justify-center h-fulzl w-[100px]">
       {fetchClientmaturitylevel?.data &&
         fetchClientmaturitylevel?.data?.length > 0 &&
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -145,9 +145,9 @@ const TeaserScore = () => {
               <div className="rounded-r-lg mt-[2px] pl-2 z-50">
                 {label.maturityLevelName}
               </div>
-              <div className="rounded-r-lg pl-2 ">
+              {/* <div className="rounded-r-lg pl-2 ">
                 {label?.rangeStart} to {label?.rangeEnd}
-              </div>
+              </div> */}
             </div>
           );
         })}

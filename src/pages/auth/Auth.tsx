@@ -92,7 +92,7 @@ function Auth() {
         navigate("/savedassesment");
         break;
       case 2:
-        navigate("/teaserscore");
+        navigate("/score");
         navigate("/companyregister");
         break;
       case 3:

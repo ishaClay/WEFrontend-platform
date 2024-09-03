@@ -9,8 +9,6 @@ import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import {
-  fetchTopCourseList,
-  getCourseCompletionData,
   getDashbooardSme3,
   getEnrolledCourses,
   getFirstInfirgraphicChart,
@@ -38,7 +36,6 @@ import {
   Tooltip,
 } from "chart.js";
 import Loading from "./comman/Error/Loading";
-import { QUERY_KEYS } from "@/lib/constants";
 
 Chart.register(
   CategoryScale,
@@ -201,10 +198,10 @@ const Dashboard = () => {
         getSmeDashboardData({ userId: userData?.query?.detailsid }),
     });
 
-  const { data: getTopCourseList } = useQuery({
-      queryKey: [QUERY_KEYS.topCourses],
-      queryFn: fetchTopCourseList,
-    });
+  // const { data: getTopCourseList } = useQuery({
+  //   queryKey: [QUERY_KEYS.topCourses],
+  //   queryFn: fetchTopCourseList,
+  // });
 
   const { data: smeDashboardData3, isLoading: smeLoading3 } =
     useQuery<SMEDashboard3Response>({
@@ -220,10 +217,10 @@ const Dashboard = () => {
       queryFn: () => getEnrolledCourses(),
     });
 
-  const { data: getCourseCompletion } = useQuery({
-      queryKey: [QUERY_KEYS.courseCompletion],
-      queryFn: () => getCourseCompletionData(userData?.query?.id),
-    });
+  // const { data: getCourseCompletion } = useQuery({
+  //   queryKey: ["courseCompletion"],
+  //   queryFn: () => getCourseCompletionData(userData?.query?.id),
+  // });
 
   const currentYear = new Date().getFullYear();
   const currentYearData = getEnrolledCoursesData?.data
@@ -249,7 +246,7 @@ const Dashboard = () => {
     ],
     datasets: [
       {
-        data: getCourseCompletion?.data,
+        data: [],
         fill: false,
         borderColor: "rgba(14, 156, 255, 1)",
         tension: 0.1,
@@ -471,7 +468,7 @@ const Dashboard = () => {
             {firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0}/
             {firstInfirgraphicChart?.data?.avTotalquestionsavailable || 0}
           </h2>
-          <p className="text-base text-black font-calibri">Total Quesion</p>
+          <p className="text-base text-black font-calibri">Total Question</p>
         </button>
 
         <button
@@ -572,7 +569,7 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {(openSupportTicket + resolveSupportTicket || 0)}
+            {openSupportTicket + resolveSupportTicket || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Support Ticket
@@ -587,7 +584,7 @@ const Dashboard = () => {
             <img src={Total_courses} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {(openSupportTicket || 0)}
+            {openSupportTicket || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Open Support Ticket
@@ -602,7 +599,7 @@ const Dashboard = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {(resolveSupportTicket || 0)}
+            {resolveSupportTicket || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Resolve Support Ticket
@@ -610,7 +607,7 @@ const Dashboard = () => {
         </button>
       </div>
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
-        Course OverView
+        Course Overview
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <button
@@ -652,18 +649,18 @@ const Dashboard = () => {
             {smeDashboardData3?.data?.overView?.completedCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">
-            Total Complated Course
+            Total Completed Course
           </p>
         </button>
       </div>
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
-        Employee Performance OverView
+        Overview of Employee Performance
       </h3>
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <div className="col-span-2 bg-[#FFFFFF] rounded-lg shadow-sm p-5 flex items-center justify-around">
           <div className="w-60 text-center">
             <p className="text-[16px] font-nunito font-bold mb-4">
-              Course Complation Rate
+              Course Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
               <Doughnut data={data3} options={options} plugins={[textCenter]} />
@@ -676,14 +673,14 @@ const Dashboard = () => {
               <div className="text-center">
                 <h3>{smeDashboardData3?.data?.overView?.completedCourse}</h3>
                 <p className="font-nunito font-bold text-slate-600">
-                  Complations
+                  Completions
                 </p>
               </div>
             </div>
           </div>
           <div className="w-60 text-center">
             <p className="text-[16px] font-nunito font-bold mb-4">
-              Employee Complation Rate
+              Employee Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
               <Doughnut data={data4} options={options} plugins={[textCenter]} />
@@ -704,7 +701,7 @@ const Dashboard = () => {
                     ?.coursesCompletion || 0}
                 </h3>
                 <p className="font-nunito font-bold text-slate-600">
-                  Complations
+                  Completions
                 </p>
               </div>
             </div>
@@ -718,7 +715,8 @@ const Dashboard = () => {
             <img src={Trainers} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse || 0}
+            {smeDashboardData3?.data?.employeePerformanceOverview
+              ?.totalCourse || 0}
           </h2>
           <p className="text-base text-black font-calibri">Total Course</p>
         </button>
@@ -735,7 +733,7 @@ const Dashboard = () => {
               ?.coursesCompletion || 0}
           </h2>
           <p className="text-base text-black font-calibri">
-            Total Complation Course
+            Total Completion Course
           </p>
         </button>
       </div>
@@ -788,7 +786,9 @@ const Dashboard = () => {
             <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                data={getTopCourseList?.data || []}
+                // @ts-ignore
+                // data={getTopCourseList?.data || []}
+                data={[]}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}

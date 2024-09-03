@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
@@ -32,11 +33,11 @@ import { RegisterEmployee } from "@/services/apiServices/employee";
 import { ErrorType, ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import Cookies from "js-cookie";
 
 const schema = z
   .object({
@@ -66,6 +67,7 @@ function Register() {
   const [time, setTime] = useState<number>(0);
   const [showOtpPopup, setShowOtpPopup] = useState(false);
   const [otp, setOtp] = useState("");
+  const [deviceToken, setDeviceToken] = useState("");
   const {
     selectedRole,
     setSelectedRole,
@@ -260,10 +262,24 @@ function Register() {
     }
   }, [clientId]);
 
-  const handleVerifyOtp = async () => {
+  const getToken = async () => {
+    const token = await getDeviceToken();
+    setDeviceToken(token || "");
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  console.log(deviceToken, "deviceToken++++++++++++++++++++");
+
+  const handleVerifyOtp = async (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     const getData = getValues();
-    const token: any = await getDeviceToken();
+    console.log("I am Called................");
     if (searchParams.get("email") || searchParams.get("type")) {
+      console.log(getData, "getData+++++++++++++++++02");
       const payload = {
         name: getData?.name,
         email:
@@ -271,15 +287,17 @@ function Register() {
         password: getData?.password,
         cpassword: getData?.cpassword,
         otp: +otp,
-        deviceToken: token,
+        deviceToken: deviceToken,
       };
       registerEmployee(payload);
     } else {
+      console.log(getData, "getData");
+
       const payload = {
         ...getData,
         otp,
         client: clientId,
-        deviceToken: token,
+        deviceToken: deviceToken,
       };
       createotp(payload);
     }
@@ -554,9 +572,13 @@ function Register() {
           </div>
           <div className="flex justify-center">
             <Button
+              type="button"
               isLoading={registerPending}
               className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
-              onClick={() => handleVerifyOtp()}
+              onClick={(e) => {
+                console.log("Called");
+                handleVerifyOtp(e);
+              }}
             >
               Submit
             </Button>

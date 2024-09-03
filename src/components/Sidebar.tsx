@@ -1,10 +1,13 @@
+import sidebarlogo2 from "@/assets/images/logo2.png";
 import { SidebarContext } from "@/context/Sidebarcontext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { fetchChatUserList } from "@/services/apiServices/chatServices";
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useContext, useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 import { HiChevronDown, HiChevronRight } from "react-icons/hi";
@@ -17,9 +20,6 @@ import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
-import sidebarlogo2 from "@/assets/images/logo2.png";
-import { setPath } from "@/redux/reducer/PathReducer";
-import Cookies from "js-cookie";
 
 interface SidebarItem {
   label: string;
@@ -49,7 +49,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   ) => {
     if (children?.length > 0) {
       // setIsOpen({ ...isOpen, [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
-      setIsOpen({[`bar${index + 1}`]: !isOpen[`bar${index + 1}`]});
+      setIsOpen({ [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
     }
   };
 
@@ -57,7 +57,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     sidebarItems.forEach((item, index) => {
       if (item?.children?.length > 0) {
         // setIsOpen({ ...isOpen, [`bar${index + 1}`]: false });
-        setIsOpen({[`bar${index + 1}`]: false });
+        setIsOpen({ [`bar${index + 1}`]: false });
       }
     });
   }, []);
@@ -98,12 +98,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     queryFn: () => fetchChatUserList(userID as string),
   });
   const newMessage = chatUserList?.data?.data?.some((item) => item?.count > 0);
-console.log("isOpenisOpen", isOpen);
+  console.log("isOpenisOpen", isOpen);
 
   return (
     <div
       className={`top-0 left-0 lg:flex flex-col justify-between ${
-        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "2xl:w-[60px] w-[235px]"
+        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "w-[60px]"
       } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
       <div className="h-screen overflow-auto">
@@ -136,21 +136,17 @@ console.log("isOpenisOpen", isOpen);
                         onClick={() => {
                           toggleDropdown(item.children, index);
                           {
-                            item?.children.length === 0 &&
-                              setIsOpen({});
-                              dispatch(
-                                setPath([
-                                  { label: `${item.label}`, link: null },
-                                ])
-                              );
+                            item?.children.length === 0 && setIsOpen({});
+                            dispatch(
+                              setPath([{ label: `${item.label}`, link: null }])
+                            );
                           }
                         }}
                         className={`relative group flex items-center ${
                           sidebarOpen ? "justify-between" : "justify-center"
                         } text-[16px] leading-5 font-[400] p-[10px] rounded-md text-[#606060] font-calibri ${
                           item.children.find(
-                            (child) =>
-                              child.link === location.pathname 
+                            (child) => child.link === location.pathname
                             // || isOpen?.[`bar${index + 1}`]
                           ) || location.pathname.includes(item.link)
                             ? "bg-[#00778B] text-white"

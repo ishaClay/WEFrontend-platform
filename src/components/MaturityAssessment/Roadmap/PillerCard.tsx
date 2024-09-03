@@ -168,6 +168,10 @@ const PillerCard = ({
     }
   };
 
+  const levels = ["Introductory", "Intermediate", "Advanced"];
+
+  // console.log("item", currentLevel, currentRecommendedLevel);
+
   return (
     <div className="pb-0 flex w-full">
       <div className="border border-solid border-[#D9D9D9] h-max-content rounded-xl flex flex-col w-full mb-6 bg-white">
@@ -235,9 +239,21 @@ const PillerCard = ({
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Introductory">Introductory</SelectItem>
-                  <SelectItem value="Intermediate">Intermediate</SelectItem>
-                  <SelectItem value="Advanced">Advanced</SelectItem>
+                  {levels?.map((itm, index) => {
+                    const findIndex = levels.findIndex(
+                      (lev) => lev === item.maturityLevelName
+                    );
+
+                    return (
+                      <SelectItem
+                        key={index}
+                        disabled={findIndex > index}
+                        value={itm}
+                      >
+                        {itm}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </SelectGroup>
             </Select>

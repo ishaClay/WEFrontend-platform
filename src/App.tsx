@@ -218,7 +218,7 @@ function App() {
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/maturelevel" element={<MaturityLevelPage />} />
-        <Route path="/teaserscore" element={<TeaserScore />} />
+        <Route path="/score" element={<TeaserScore />} />
         <Route path="/selectlevel" element={<SelectLevel />} />
         <Route path="/termsofservices" element={<TermsOfServices />} />
         <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />

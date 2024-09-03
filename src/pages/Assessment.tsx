@@ -100,10 +100,10 @@ function Assessment() {
                     <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         className=""
-                        src={getImages("Economic", false)}
-                        alt="Economic"
+                        src={getImages("Governance", false)}
+                        alt="Governance"
                       />
-                      <p className="sm:text-base text-sm">Economic</p>
+                      <p className="sm:text-base text-sm">Governance</p>
                     </div>
                   </div>
 
@@ -127,14 +127,13 @@ function Assessment() {
                         Technology & Innovation
                       </p>
                     </div>
-
                     <div className="flex gap-x-[10px] items-center font-abhaya">
                       <img
                         className=""
-                        src={getImages("Governance", false)}
-                        alt="Governance"
+                        src={getImages("Economic", false)}
+                        alt="Economic"
                       />
-                      <p className="sm:text-base text-sm">Governance</p>
+                      <p className="sm:text-base text-sm">Economic</p>
                     </div>
                   </div>
                 </div>
