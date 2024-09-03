@@ -86,6 +86,7 @@ export interface SingleCourseEmployee {
   createdAt: string;
   updatedAt: string;
   module?: ModuleEntity[] | null;
+  feedBack: any;
 }
 export interface ModuleEntity {
   id: number;
@@ -107,6 +108,7 @@ export interface ModuleSectionsEntity {
   duration?: null;
   formate?: null;
   position: number;
+  liveSection: any;
   readingTime: ReadingTime;
   isLive: number;
   deletedAt?: null;

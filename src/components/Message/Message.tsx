@@ -629,7 +629,11 @@ const Message = () => {
                       <div className="ml-[15px] w-[calc(100%-57px)]">
                         <div className="flex justify-between mb-0.5">
                           <div className="leading-[19.53px] text-[black] text-base font-calibri">
-                            {item?.name || item?.email?.split("@")?.[0]}
+                            {item?.group
+                              ? item?.name
+                              : (item?.fname && item?.lname)
+                              ? item?.fname + " " + item?.lname
+                              : item?.name || item?.email?.split("@")?.[0]}
                           </div>
                           <div className="text-xs font-inter leading-[15.6px] text-[black]">
                             {TimeFormatter(item?.last_msg_time)}

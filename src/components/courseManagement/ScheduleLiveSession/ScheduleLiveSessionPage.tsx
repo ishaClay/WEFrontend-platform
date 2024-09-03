@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loading from "@/components/comman/Error/Loading";
+import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ import { UserRole } from "@/types/UserRole";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
 import moment from "moment";
 import Multiselect from "multiselect-react-dropdown";
@@ -62,7 +62,9 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate();
-  const { UserId } = useAppSelector((state: RootState) => state.user);
+  const { UserId, CompanyId } = useAppSelector(
+    (state: RootState) => state.user
+  );
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
@@ -71,6 +73,7 @@ const ScheduleLiveSessionPage = () => {
     { name: string; id: string }[]
   >([]);
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
+  const queryclient = useQueryClient();
 
   const convertTo12HourFormat = (time24: string) => {
     const [hours, minutes] = time24.split(":").map(Number);
@@ -142,7 +145,7 @@ const ScheduleLiveSessionPage = () => {
     },
   });
 
-  const { data: fetchCourseAllCourseData, isFetching: fetchCoursePending } =
+  const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchAllCourse],
       queryFn: () => fetchCourseAllCourse("", +UserId, "PUBLISHED"),
@@ -155,40 +158,39 @@ const ScheduleLiveSessionPage = () => {
       )
   );
 
-  const { data: selectTargetPillarLimit } = useQuery({
+  const {
+    data: selectTargetPillarLimit,
+  } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
     enabled: !!userData,
   });
 
-  console.log(
-    "selectTargetPillarLimit",
-    selectTargetPillarLimit?.data?.videoDonferencingAccess
-  );
-
-  const { data: fetchZoomSetting, isFetching: fetchZoomSettingLoading } =
+  const { data: fetchZoomSetting, isLoading: fetchZoomSettingLoading } =
     useQuery<PermissionResponse>({
       queryKey: ["getZoomSetting"],
       queryFn: getZoomSetting,
     });
 
-  const {
-    data: fetchLiveSessionById,
-    isFetching: fetchLiveSessionByIdPending,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.fetchLiveSessionById, { id }],
-    queryFn: () => getLiveSessionById(id?.toString() || ""),
-    enabled: !!id,
-  });
-  console.log("fetchZoomSetting", fetchLiveSessionById);
+  const { data: fetchLiveSessionById, isPending: fetchLiveSessionByIdPending } =
+    useQuery({
+      queryKey: [QUERY_KEYS.fetchLiveSessionById],
+      queryFn: () => getLiveSessionById(id?.toString() || ""),
+      enabled: !!id,
+    });
 
-  const { data: fetchTraineeCompany } = useQuery({
-    queryKey: [QUERY_KEYS.fetchTraineeCompany, fetchLiveSessionById],
-    queryFn: () => getTraineeCompany(+fetchLiveSessionById?.data?.data?.id),
-    enabled: !!fetchLiveSessionById,
-  });
+  const { data: fetchTraineeCompany } =
+    useQuery({
+      queryKey: [QUERY_KEYS.fetchTraineeCompany],
+      queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse")),
+      enabled: !!CompanyId && !!watch("selectCourse"),
+    });
 
-  console.log("fetchLiveSessionById", fetchLiveSessionById?.data?.data?.id);
+  useEffect(() => {
+    queryclient.invalidateQueries({
+      queryKey: [QUERY_KEYS.fetchTraineeCompany],
+    });
+  }, [CompanyId, watch("selectCourse")]);
 
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
@@ -249,7 +251,7 @@ const ScheduleLiveSessionPage = () => {
   const {
     data: fetchLiveSession,
     refetch: fetchData,
-    isPending: fetchLiveSessionPending,
+    isFetching: fetchLiveSessionPending,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchLiveSession],
     queryFn: () => (courseVersion ? getLiveSession(courseVersion) : null),
@@ -396,6 +398,16 @@ const ScheduleLiveSessionPage = () => {
     }
   };
 
+  if (
+    (fetchZoomSettingLoading ||
+      fetchCoursePending ||
+      fetchLiveSessionPending ||
+      fetchLiveSessionByIdPending) &&
+    !!id
+  ) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Modal
@@ -406,10 +418,10 @@ const ScheduleLiveSessionPage = () => {
         <AddTraineeModal
           traineeList={traineeList}
           setTraineeList={setTraineeList}
-          selectCompanyOptions={selectCompanyOptions}
           setIsOpen={setIsOpen}
           watch={watch}
           control={control}
+          fetchTraineeCompany={fetchTraineeCompany}
         />
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -702,9 +714,7 @@ const ScheduleLiveSessionPage = () => {
       <Loading
         isLoading={
           fetchZoomSettingLoading ||
-          fetchCoursePending ||
-          fetchLiveSessionPending ||
-          fetchLiveSessionByIdPending
+          fetchCoursePending
         }
       />
     </>

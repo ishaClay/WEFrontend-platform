@@ -32,7 +32,10 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
   const { data, isLoading } = useQuery<FeedbackSingleResponse>({
     queryKey: ["feedback"],
     queryFn: () => getOneFeedback(course?.course?.id, userData?.query?.id),
+    enabled: !!course?.course?.id || !!userData?.query?.id,
   });
+  console.log("data", data);
+  
 
   useEffect(() => {
     if (data) {

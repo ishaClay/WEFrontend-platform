@@ -21,12 +21,12 @@ import { ScrollArea } from "../../ui/scroll-area";
 import TraineeItems from "./TraineeItems";
 
 interface TraineeModalProps {
-  selectCompanyOptions: any[];
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   watch: any;
   control: any;
   setTraineeList: React.Dispatch<React.SetStateAction<any>>;
   traineeList: any;
+  fetchTraineeCompany: any;
 }
 
 interface TraineeEmployee {
@@ -38,11 +38,11 @@ interface TraineeEmployee {
 }
 
 const AddTraineeModal = ({
-  selectCompanyOptions,
   setIsOpen,
   control,
   setTraineeList,
   traineeList,
+  fetchTraineeCompany,
 }: TraineeModalProps) => {
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
@@ -123,15 +123,15 @@ const AddTraineeModal = ({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-full">
                     <div className="overflow-auto max-h-[300px]">
-                      {selectCompanyOptions?.map(
-                        (i: { value: string; label: string }) => (
+                      {fetchTraineeCompany?.data?.map(
+                        (i: { id: string; name: string }) => (
                           <DropdownMenuCheckboxItem
-                            key={i.value}
-                            checked={value.includes(i.value)}
+                            key={i.id}
+                            checked={value === i.id}
                             onCheckedChange={(checked) => {
                               if (checked) {
-                                onChange(i.value);
-                                setSelectCompany(i.value);
+                                onChange(i.id);
+                                setSelectCompany(i.id);
                               } else {
                                 onChange("");
                                 setSelectCompany("");
@@ -147,7 +147,7 @@ const AddTraineeModal = ({
                             //   );
                             // }}
                           >
-                            {i.label}
+                            {i.name}
                           </DropdownMenuCheckboxItem>
                         )
                       )}
@@ -169,7 +169,7 @@ const AddTraineeModal = ({
             <Checkbox
               className="ms-3 border-[#D9D9D9] w-6 h-6"
               onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
-              checked={traineeList?.length === traineeEmployee?.length}
+              checked={traineeEmployee?.length > 0 && traineeList?.length === traineeEmployee?.length}
             />
           </span>
         </div>

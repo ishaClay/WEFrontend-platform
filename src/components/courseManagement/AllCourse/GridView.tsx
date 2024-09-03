@@ -414,7 +414,7 @@ const GridView = ({
                   </div>
                   <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
                     <img src={StarImage} alt="" className="pb-1" />
-                    {item?.feedBack?.avgRate}/5
+                    {item?.feedBack?.avgRate || 0}/5
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">
