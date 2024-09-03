@@ -58,6 +58,7 @@ function CompanyRegister() {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [soleTrader, setSoleTrader] = useState("");
+  const [soleTraderError, setSoleTraderError] = useState("");
   const userID = UserId
     ? UserId
     : userData?.query
@@ -67,17 +68,31 @@ function CompanyRegister() {
   const schema = z.object({
     name: z.string().min(1, { message: "Please enter name" }),
     address: z.string().min(1, { message: "Please enter address" }),
-    county: z.string().min(1, { message: "Please select county" }),
+    county: z
+      .string({
+        required_error: "Please Select County",
+      })
+      .nonempty("Please Select County"),
     averageNumberOfEmployees: z
-      .string()
-      .min(1, { message: "Average Number Of Employees is required" }),
-    sector: z.string().min(1, { message: "Sector is required" }),
+      .string({
+        required_error: "Please Select Employees",
+      })
+      .min(1, { message: "Please Select Employees" }),
+    sector: z
+      .string({
+        required_error: "Please Select Sector",
+      })
+      .min(1, { message: "Please Select Sector" }),
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Please enter email" }),
     parentCompanyCounty: z.string().nullable().optional(),
-    contactFirstName: z.string().min(1, { message: "Please Enter First name" }),
-    contactLastName: z.string().min(1, { message: "Please Enter Last name" }),
+    contactFirstName: z
+      .string()
+      .min(1, { message: "Please Enter Contact First Name" }),
+    contactLastName: z
+      .string()
+      .min(1, { message: "Please Enter Contact Last Name" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -85,6 +100,7 @@ function CompanyRegister() {
     register,
     handleSubmit,
     setValue,
+    setError,
     watch,
     formState: { errors },
   } = useForm<ValidationSchema>({
@@ -199,13 +215,18 @@ function CompanyRegister() {
 
   const onSubmit = async (data: FieldValues) => {
     const token: any = await getDeviceToken();
-    const updatedData = {
-      ...data,
-      companyId: companyNumberId as number,
-      soleTrader: soleTrader === "true" ? true : false,
-      deviceToken: token,
-    };
-    updatecompany(updatedData as any);
+    if (!soleTrader) {
+      setSoleTraderError("Please Select Sole Trader");
+    } else {
+      const updatedData = {
+        ...data,
+        companyId: companyNumberId as number,
+        soleTrader: soleTrader === "true" ? true : false,
+        deviceToken: token,
+      };
+      updatecompany(updatedData as any);
+      setSoleTraderError("");
+    }
   };
 
   const handleVerifyId = () => {
@@ -305,7 +326,7 @@ function CompanyRegister() {
                 </div>
                 <div className="sm:w-[241px] w-full">
                   <InputWithLable
-                    placeholder="Enter your contact first name"
+                    placeholder="Enter Your Contact First Name"
                     className="w-full h-[46px]"
                     label="Contact First Name"
                     {...register("contactFirstName")}
@@ -319,7 +340,7 @@ function CompanyRegister() {
                 </div>
                 <div className="sm:w-[241px] w-full">
                   <InputWithLable
-                    placeholder="Enter your contact last name"
+                    placeholder="Enter Your Contact Last Name"
                     className="w-full h-[46px]"
                     label="Contact Last Name"
                     {...register("contactLastName")}
@@ -351,8 +372,11 @@ function CompanyRegister() {
                   <SelectMenu
                     option={countryOption || []}
                     placeholder="Select county"
-                    className="sm:w-[241px] w-full h-[46px] mt-2"
-                    setValue={(data: string) => setValue("county", data)}
+                    className="sm:w-[241px] w-full h-[46px] mt-2 placeholder:text-[#A3A3A3]"
+                    setValue={(data: string) => {
+                      setValue("county", data);
+                      setError("county", { message: "" });
+                    }}
                     value={watch("county") || ""}
                   />
                   {errors.county && (
@@ -361,16 +385,16 @@ function CompanyRegister() {
                 </div>
                 <div className="sm:w-[241px] w-full">
                   <Label className="mb-[8px]  font-bold text-[16px]">
-                    Average Number Of Employees{" "}
-                    <span className="text-[#FF0000]">*</span>
+                    Employees <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
                     option={employeeOption || []}
                     placeholder="Number of employees"
-                    className="sm:w-[241px] w-full h-[46px] mt-2"
-                    setValue={(data: string) =>
-                      setValue("averageNumberOfEmployees", data)
-                    }
+                    className="sm:w-[241px] w-full h-[46px] mt-2 placeholder:text-[#A3A3A3]"
+                    setValue={(data: string) => {
+                      setValue("averageNumberOfEmployees", data);
+                      setError("averageNumberOfEmployees", { message: "" });
+                    }}
                     value={watch("averageNumberOfEmployees") || ""}
                   />
                   {errors.averageNumberOfEmployees && (
@@ -389,39 +413,15 @@ function CompanyRegister() {
                   <SelectMenu
                     option={sectorOption || []}
                     placeholder="Select Sector"
-                    className="sm:w-[241px] w-full h-[46px] mt-2"
-                    setValue={(data: string) => setValue("sector", data)}
+                    className="sm:w-[241px] w-full h-[46px] mt-2 placeholder:text-[#A3A3A3]"
+                    setValue={(data: string) => {
+                      setValue("sector", data);
+                      setError("sector", { message: "" });
+                    }}
                     value={watch("sector") || ""}
                   />
                   {errors.sector && (
                     <ErrorMessage message={errors.sector.message as string} />
-                  )}
-                </div>
-                <div className="sm:w-[241px] w-full">
-                  <InputWithLable
-                    placeholder="Parent Company Address."
-                    className="sm:w-[241px] w-full h-[46px]"
-                    label="Parent Company Address."
-                    {...register("parentCompanyAddress")}
-                  />
-                  {errors.parentCompanyAddress && (
-                    <ErrorMessage
-                      message={errors.parentCompanyAddress.message as string}
-                    />
-                  )}
-                </div>
-
-                <div className="sm:w-[241px] w-full">
-                  <InputWithLable
-                    placeholder="221 B Baker Street"
-                    className="sm:w-[241px] w-full h-[46px]"
-                    label="Parent Company Name"
-                    {...register("parentCompanyName")}
-                  />
-                  {errors.parentCompanyName && (
-                    <ErrorMessage
-                      message={errors.parentCompanyName.message as string}
-                    />
                   )}
                 </div>
                 <div className="sm:w-[241px] w-full">
@@ -435,6 +435,32 @@ function CompanyRegister() {
                   />
                   {errors.email && (
                     <ErrorMessage message={errors.email.message as string} />
+                  )}
+                </div>
+                <div className="sm:w-[241px] w-full">
+                  <InputWithLable
+                    placeholder="Enter Parent Company Name"
+                    className="sm:w-[241px] w-full h-[46px]"
+                    label="Parent Company Name"
+                    {...register("parentCompanyName")}
+                  />
+                  {errors.parentCompanyName && (
+                    <ErrorMessage
+                      message={errors.parentCompanyName.message as string}
+                    />
+                  )}
+                </div>
+                <div className="sm:w-[241px] w-full">
+                  <InputWithLable
+                    placeholder="Parent Company Address"
+                    className="sm:w-[241px] w-full h-[46px]"
+                    label="Parent Company Address"
+                    {...register("parentCompanyAddress")}
+                  />
+                  {errors.parentCompanyAddress && (
+                    <ErrorMessage
+                      message={errors.parentCompanyAddress.message as string}
+                    />
                   )}
                 </div>
                 {/* <InputWithLable
@@ -455,10 +481,17 @@ function CompanyRegister() {
                   <SelectMenu
                     option={countryOption || []}
                     placeholder="Select county"
-                    className="sm:w-[241px] w-full h-[46px] mt-2"
-                    setValue={(data: string) =>
-                      setValue("parentCompanyCounty", data)
+                    disabled={
+                      !watch("parentCompanyName") ||
+                      !watch("parentCompanyAddress")
+                        ? true
+                        : false
                     }
+                    className="sm:w-[241px] w-full h-[46px] mt-2 placeholder:text-[#A3A3A3]"
+                    setValue={(data: string) => {
+                      setValue("parentCompanyCounty", data);
+                      setError("parentCompanyCounty", { message: "" });
+                    }}
                     value={watch("parentCompanyCounty") || ""}
                   />
                   {errors.parentCompanyCounty && (
@@ -478,17 +511,26 @@ function CompanyRegister() {
                       className="w-[24px] h-[24px] bf-[green] accent-[#00778B]"
                       type="checkbox"
                       checked={soleTrader == "true"}
-                      onChange={() => handleCheckboxChange("true")}
+                      onChange={() => {
+                        handleCheckboxChange("true");
+                        setSoleTraderError("");
+                      }}
                     />
                     <label>Yes</label>
                     <input
                       className="w-[24px] h-[24px] pl-[23px] accent-[#00778B]"
                       type="checkbox"
                       checked={soleTrader == "false"}
-                      onChange={() => handleCheckboxChange("false")}
+                      onChange={() => {
+                        handleCheckboxChange("false");
+                        setSoleTraderError("");
+                      }}
                     />
                     <label> No </label>
                   </div>
+                  {soleTraderError && (
+                    <ErrorMessage message={soleTraderError as string} />
+                  )}
                 </div>
                 <PrimaryButton
                   type="submit"

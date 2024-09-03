@@ -20,7 +20,6 @@ import { MeasuresItemsResponse } from "@/types/Pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import React, { Dispatch, useEffect, useState } from "react";
-import { BsPencil } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 interface PillerItem {
@@ -311,7 +310,7 @@ const ActionItemModel = ({
                                   key={index}
                                   className="flex items-center justify-between"
                                 >
-                                  <div className="border border-[#EBEAEA] rounded lg:w-[270px] md:[250px] w-[190px] overflow-hidden">
+                                  <div className="border border-[#EBEAEA] rounded lg:w-[300px] md:[250px] w-[190px] overflow-hidden">
                                     <input
                                       type="text"
                                       placeholder="Action item"
@@ -332,13 +331,13 @@ const ActionItemModel = ({
                                     />
                                   </div>
                                   <div className="flex items-center gap-1">
-                                    <button
+                                    {/* <button
                                       type="button"
                                       className="border-none bg-transparent text-lg cursor-pointer"
                                       // onClick={() => setEditId(index)}
                                     >
                                       <BsPencil className="text-[#B9B9B9]" />
-                                    </button>
+                                    </button> */}
                                     <button
                                       type="button"
                                       className="border-none bg-transparent text-lg cursor-pointer"

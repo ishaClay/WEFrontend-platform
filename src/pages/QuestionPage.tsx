@@ -123,7 +123,7 @@ const QuestionPage = () => {
             ]?.toLowerCase()}/maturityassessment`
           );
         } else {
-          navigate("/teaserscore");
+          navigate("/score");
         }
       },
     });
@@ -552,7 +552,7 @@ const QuestionPage = () => {
                 </div>
 
                 <Button
-                  className="bg-[#335561] hover:bg-[#335561] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+                  className="bg-[#64A70B] hover:bg-[#64A70B] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
                   onClick={handleSubmit}
                   isLoading={isPending1}
                   disabled={

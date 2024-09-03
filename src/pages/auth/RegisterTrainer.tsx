@@ -389,7 +389,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={providerTypesOption || []}
                       placeholder="Select company type"
-                      className="h-[46px] mt-2 text-left"
+                      className="h-[46px] mt-2 text-left placeholder:text-[#A3A3A3]"
                       setValue={(data: string) =>
                         setValue("providerType", data)
                       }
@@ -436,7 +436,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={countryOption || []}
                       placeholder="Select county"
-                      className="h-[46px] mt-2"
+                      className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
                       setValue={(data: string) =>
                         setValue("providerCountry", data)
                       }
@@ -536,7 +536,7 @@ function RegisterTrainer() {
                     </label>
                     <PhoneInput
                       {...register("contactTelephone")}
-                      placeholder="Enter phone number"
+                      placeholder="Country calling code (select from dropdown) + Number"
                       value={phone}
                       international
                       onChange={(e: any) => {

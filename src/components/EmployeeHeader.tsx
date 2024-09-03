@@ -4,8 +4,10 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { Bell, ChevronLeft, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { IoMdArrowDropdown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
 import Loading from "./comman/Error/Loading";
@@ -23,8 +25,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
-import Cookies from "js-cookie";
-import { IoMdArrowDropdown } from "react-icons/io";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const EmployeeHeader = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
@@ -75,14 +75,15 @@ const EmployeeHeader = () => {
   const userName =
     userData &&
     (userData?.query?.fname && userData?.query?.lname
-      ? userData?.query?.fname + "" + userData?.query?.lname : userData?.query?.email?.split("@")[0]);
+      ? userData?.query?.fname + " " + userData?.query?.lname
+      : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
     setIsAlertOpen(true);
   };
 
   const handleConfirmLogout = () => {
-    Cookies.remove('accessToken');
+    Cookies.remove("accessToken");
     mutate(userData?.query?.id);
   };
 
@@ -110,14 +111,20 @@ const EmployeeHeader = () => {
             </h4>
           </div>
           <div className="flex-col justify-end md:flex hidden">
-          <div className="flex gap-[22px]">
-                <Link to={`/`} className='cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold'>
-                    G O I N G
-                </Link>
-                <Link to={`/`} className='cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold'>
-                    G R E E N
-                </Link>
-                </div>
+            <div className="flex gap-[22px]">
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+              >
+                G O I N G
+              </Link>
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+              >
+                G R E E N
+              </Link>
+            </div>
           </div>
           <div className="flex items-center lg:gap-4 gap-2.5">
             <div className="lg:hidden block">

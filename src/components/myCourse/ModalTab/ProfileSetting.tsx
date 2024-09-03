@@ -225,6 +225,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     upload(formData);
   };
 
+  console.log("data?.data", data?.data?.companyDetails?.companyId);
+
   return (
     <div className="flex flex-col gap-5">
       {isPending ? (
@@ -276,31 +278,31 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             </div>
           </div>
           {currentUser === "company" && (
-            <div className="col-span-1 flex flex-col gap-1">
-              <InputWithLabel
-                label={"SME Organisation"}
-                placeholder={"SME Organisation"}
-                {...register("smeOrganisation")}
-                error={errors?.smeOrganisation?.message as string}
-              />
-            </div>
+            <>
+              <div className="col-span-1 flex flex-col gap-1">
+                <InputWithLabel
+                  label={"SME Organisation"}
+                  placeholder={"SME Organisation"}
+                  {...register("smeOrganisation")}
+                  className="font-bold text-slate-900"
+                  disabled
+                  error={errors?.smeOrganisation?.message as string}
+                />
+              </div>
+              <div className="col-span-1 flex flex-col gap-1">
+                <InputWithLabel
+                  label={"Company Id"}
+                  placeholder={"Company Id"}
+                  disabled
+                  className="font-bold text-slate-900"
+                  value={data?.data?.companyDetails?.companyId}
+                  error={errors?.smeOrganisation?.message as string}
+                />
+              </div>
+            </>
           )}
           {+userData?.query.role !== UserRole.Company && (
             <div className="flex flex-col gap-1 py-2">
-              {/* <InputWithLabel
-                label="Contact Number"
-                placeholder="Enter Mobile Number"
-                disabled={!!data?.data?.number}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value.match(/^[0-9]*$/)) {
-                    setValue("mobilenumber", e.target.value);
-                  }
-                  return;
-                }}
-                value={watch("mobilenumber") || ""}
-                error={errors?.mobilenumber?.message as string}
-              /> */}
               <label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
                 Contact Number <span className="text-red-500">*</span>
               </label>
@@ -325,7 +327,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               disabled={watch("email") ? true : false}
               placeholder="Email"
               {...register("email")}
-              className="disabled:opacity-100"
+              className="font-bold text-slate-900"
               error={errors?.email?.message as string}
             />
           </div>

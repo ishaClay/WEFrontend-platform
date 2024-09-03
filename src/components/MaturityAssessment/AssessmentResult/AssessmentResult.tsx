@@ -1,5 +1,6 @@
 import MaturityLevelModel from "@/components/Models/MaturityLevelModel";
 import Loading from "@/components/comman/Error/Loading";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -71,7 +72,7 @@ const AssessmentResult = ({
   });
 
   const findMaturityLevel = (score: number) => {
-    if (!score) return
+    if (!score) return;
     for (const level of fetchClientmaturitylevel?.data || []) {
       if (score >= level?.rangeStart && score <= level?.rangeEnd) {
         return level;
@@ -112,7 +113,7 @@ const AssessmentResult = ({
         ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
-  const currentLavel = findMaturityLevel(Number(setScore));  
+  const currentLavel = findMaturityLevel(Number(setScore));
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -150,13 +151,14 @@ const AssessmentResult = ({
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";
             if (label) {
               label += ": ";
             }
-            label += Math.round(context.parsed * 100) + "%";
+            label += Math.round(context.parsed) + "%";
             return label;
           },
         },
@@ -168,19 +170,15 @@ const AssessmentResult = ({
     <>
       {fetchClientmaturitylevel &&
         fetchClientmaturitylevel?.data?.map((label: any, index: number) => {
-          
           let colorClass, opacityClass;
           if (index === 0) {
-            colorClass =
-              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
+            colorClass = `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-25";
           } else if (index === 1) {
-            colorClass =
-              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
+            colorClass = `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-50";
           } else {
-            colorClass =
-              `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
+            colorClass = `bg-gradient-to-r from-[${label?.color}] from-10% via-[${label?.color}] via-10% to-transparent to-80%`;
             opacityClass = "bg-opacity-75";
           }
           return (
@@ -190,8 +188,9 @@ const AssessmentResult = ({
             >
               <div
                 className={`w-[60px] h-[25px] left-0 top-0 ${colorClass} ${opacityClass} rounded-l-lg rounded-r-none`}
-                style={{ background: `linear-gradient(to right, ${label
-                  ?.color} 10%, #ffffff)` }}
+                style={{
+                  background: `linear-gradient(to right, ${label?.color} 10%, #ffffff)`,
+                }}
               ></div>
               <div className="sm:text-base text-sm text-black font-nunito rounded-r-lg ms-[-30px]">
                 {label?.maturityLevelName}
@@ -203,7 +202,7 @@ const AssessmentResult = ({
       <div className="sm:mb-[35px] mb-5">
         <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px]">
           {/* Total Score - */}
-          <span className="font-calibri font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
+          {/* <span className="font-calibri font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
             {assessmentData?.length > 0
               ? points?.totalPoint
               : allassessmant?.data?.data?.avTotalpoints}
@@ -213,7 +212,7 @@ const AssessmentResult = ({
             {assessmentData?.length > 0
               ? points?.maxPoint
               : allassessmant?.data?.data?.avTotalmaxpoint}
-          </span>
+          </span> */}
         </p>
       </div>
     </>
@@ -226,7 +225,7 @@ const AssessmentResult = ({
           Self Assessment Details
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
-          <div className="xxl:col-span-8 lg:col-span-6 col-span-12 lg:mb-0 sm:mb-10 mb-5">
+          <div className="xxl:col-span-8 xl:col-span-7 col-span-12 xl:mb-0 sm:mb-10 mb-5">
             <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
               Where {userData?.query?.name}'s <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
@@ -251,7 +250,7 @@ const AssessmentResult = ({
               </p>
             </div>
           </div>
-          <div className="2xl:col-span-4 lg:col-span-6 sm:col-span-8 col-span-12">
+          <div className="2xl:col-span-4 xl:col-span-5 sm:col-span-8 col-span-12">
             <div className="flex justify-between">
               <div className="">
                 <Labels />
@@ -267,12 +266,14 @@ const AssessmentResult = ({
               </div>
             </div>
             <div className="">
-              <p className="inline font-calibri text-base text-black">
+              <p className="inline font-calibri text-[18px] text-black">
                 Your overall sustainability level -
               </p>{" "}
-              <span className="font-bold text-base text-[#000000] leading-6 font-calibri">
+              <Badge
+                className={`font-semibold text-[18px] bg-[${currentLavel?.color}] text-[#000] leading-6 font-calibri hover:bg-[${currentLavel?.color}] hover:text-[#000]`}
+              >
                 {currentLavel?.maturityLevelName}
-              </span>
+              </Badge>
             </div>
           </div>
         </div>

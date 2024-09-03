@@ -56,7 +56,7 @@ function SavedAssesment() {
         navigate("/question");
         break;
       case 2:
-        navigate("/teaserscore");
+        navigate("/score");
         break;
       case 3:
         navigate("/companyregister");

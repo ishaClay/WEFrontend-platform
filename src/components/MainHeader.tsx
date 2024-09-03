@@ -137,13 +137,13 @@ const MainHeader = () => {
             <div className="flex gap-[22px] justify-center">
               <Link
                 to={`/`}
-                className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+                className="cursor-pointer text-[#63953B] 2xl:text-[48px] xl:text-[30px] text-[24px] font-abhaya font-bold"
               >
                 G O I N G
               </Link>
               <Link
                 to={`/`}
-                className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+                className="cursor-pointer text-[#376513] 2xl:text-[48px] xl:text-[30px] text-[24px] font-abhaya font-bold"
               >
                 G R E E N
               </Link>
