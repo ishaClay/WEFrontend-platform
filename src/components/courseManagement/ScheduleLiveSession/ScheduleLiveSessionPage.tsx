@@ -182,15 +182,15 @@ const ScheduleLiveSessionPage = () => {
   const { data: fetchTraineeCompany } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchTraineeCompany],
-      queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse")),
-      enabled: !!CompanyId && !!watch("selectCourse"),
+      queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse"), selectLiveSession),
+      enabled: !!CompanyId && !!watch("selectCourse") && !!selectLiveSession,
     });
 
   useEffect(() => {
     queryclient.invalidateQueries({
       queryKey: [QUERY_KEYS.fetchTraineeCompany],
     });
-  }, [CompanyId, watch("selectCourse")]);
+  }, [CompanyId, watch("selectCourse"), selectLiveSession]);
 
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
@@ -422,6 +422,7 @@ const ScheduleLiveSessionPage = () => {
           watch={watch}
           control={control}
           fetchTraineeCompany={fetchTraineeCompany}
+          sessionId={selectLiveSession}
         />
       </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -292,7 +292,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                   }}
                   value={selectAffiliations?.otherInstitutionName || ""}
                   placeholder="Enter accreditor name"
-                  className="text-base font-calibri shadow-none outline-none focus:border-[#4b4b4b]"
+                  className="text-base font-calibri  shadow-none outline-none focus:border-[#4b4b4b] disabled:cursor-default"
                   maxLength={100}
                 />
                 <div

@@ -117,7 +117,8 @@ export const QUERY_KEYS = {
   coursePublishAdminClient: "coursePublishAdminClient",
   getenrolledcourse: "getenrolledcourse",
   fetchTrainerByEmailType: "fetchTrainerByEmailType",
-  topCourses: "topCourses"
+  topCourses: "topCourses",
+  courseCompletion: "courseCompletion",
 };
 
 export const urlRegex =

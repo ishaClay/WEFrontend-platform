@@ -68,7 +68,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             ID
@@ -104,7 +104,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Team Member
@@ -123,7 +123,7 @@ function CoursesAllocate() {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex items-center font-bold px-3">
+          <div className="flex items-center px-3">
             <Avatar>
               <AvatarImage src={row.original.profileImage} alt="Img" />
               <AvatarFallback>
@@ -133,7 +133,7 @@ function CoursesAllocate() {
                   : row.original.email?.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <p className={`font-bold px-3`}>
+            <p className={`px-3 text-[15px]`}>
               {row.original.name || row.original.email?.split("@")[0]}
             </p>
           </div>
@@ -146,7 +146,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Email ID
@@ -178,7 +178,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Mobile Number
@@ -210,7 +210,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0 font-inter text-[15px] font-semibold"
+            className="px-0 font-inter text-[15px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -247,7 +247,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Activity
@@ -288,7 +288,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
           >
             Resend
           </Button>
@@ -434,7 +434,7 @@ function CoursesAllocate() {
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="p-4 bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] sm:flex block items-center justify-between">
           <div>
-            <p className="text-[#000000] font-abhaya font-bold text-base pb-2.5">
+            <p className="text-[#000000] font-calibri font-bold text-base pb-2">
               Team List
             </p>
             <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] font-bold">

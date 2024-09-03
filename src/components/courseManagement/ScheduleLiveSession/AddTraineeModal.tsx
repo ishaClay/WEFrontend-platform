@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { getTrainee } from "@/services/apiServices/trainer";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, Loader2, Search, SlidersHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
@@ -27,6 +27,7 @@ interface TraineeModalProps {
   setTraineeList: React.Dispatch<React.SetStateAction<any>>;
   traineeList: any;
   fetchTraineeCompany: any;
+  sessionId: string;
 }
 
 interface TraineeEmployee {
@@ -43,10 +44,12 @@ const AddTraineeModal = ({
   setTraineeList,
   traineeList,
   fetchTraineeCompany,
+  sessionId
 }: TraineeModalProps) => {
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectCompany, setSelectCompany] = useState<string>("");
+  const queryclient = useQueryClient();
 
   const {
     data: fetchTrainee,
@@ -55,8 +58,17 @@ const AddTraineeModal = ({
     refetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchTrainee],
-    queryFn: () => getTrainee(+CompanyId, +selectCompany, searchQuery),
+    queryFn: () => getTrainee(+CompanyId, +selectCompany, searchQuery, sessionId),
   });
+
+  useEffect(() => {
+    if(sessionId){
+      queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchTrainee]
+      })
+    }
+  }, [sessionId])
+  
 
   const traineeEmployee =
     fetchTrainee?.data?.map((i: TraineeEmployee) => ({

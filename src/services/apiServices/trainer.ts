@@ -103,19 +103,27 @@ export const trainerDetailsUpdate = async ({
 //   return res.data;
 // };
 
-export const getTraineeCompany = async (id: number, courseId: number) => {
+export const getTraineeCompany = async (id: number, courseId: number, sessionId: string) => {
   console.log("courseId", courseId);
   
-  const url = `api/v1/livesessions/company-trainerCompany/${id}?courseId=${courseId}`,
-    method = "get";
-  const res = await api({ url, method });
+  const url = `api/v1/livesessions/company-trainerCompany/${id}`,
+  method = "get";
+  const params: any = {};
+  if (courseId) {
+    params["courseId"] = courseId;
+  }
+  if (sessionId) {
+    params["sessionId"] = sessionId;
+  }
+  const res = await api({ url, method, params });
   return res.data;
 };
 
 export const getTrainee = async (
   trainerCompanyID: number,
   companyId: number,
-  searchQuery: string
+  searchQuery: string,
+  sessionId: string
 ) => {
   const url = `api/v1/livesessions/employee-trainerCompany/${trainerCompanyID}`;
   const params: any = {};
@@ -125,6 +133,9 @@ export const getTrainee = async (
   }
   if (searchQuery) {
     params["keyword"] = searchQuery;
+  }
+  if (sessionId) {
+    params["sessionId"] = sessionId;
   }
   const res = await api({ url, params });
   return res.data;

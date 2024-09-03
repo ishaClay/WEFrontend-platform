@@ -120,8 +120,8 @@ const TrainerManagement = () => {
         );
       },
       cell: ({ row }) => {
-        const providerCounty = row?.original?.providerCounty;
-        return <p>{providerCounty ?? "-"}</p>;
+        const providerCountry = row?.original?.providerCountry;
+        return <p>{providerCountry ?? "-"}</p>;
       },
     },
     {
@@ -212,7 +212,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] font-semibold h-[52px]"
+            className="p-0 font-inter text-[15px] h-[52px]"
           >
             Resend
           </Button>

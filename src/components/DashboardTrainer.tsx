@@ -263,7 +263,7 @@ const DashboardTrainer = () => {
             <img src={Companies} alt="" />
           </div>
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.pendingEnrollmentRequestsCount || 0}
+            {smeDashboardData?.data?.approvedEnrollmentRequests || 0}
           </h2>
           <p className="text-base text-black font-calibri">
             Total Approve Enrollment
