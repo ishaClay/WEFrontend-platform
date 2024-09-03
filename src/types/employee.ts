@@ -108,6 +108,7 @@ export interface ModuleSectionsEntity {
   duration?: null;
   formate?: null;
   position: number;
+  liveSection: any;
   readingTime: ReadingTime;
   isLive: number;
   deletedAt?: null;
