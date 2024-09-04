@@ -77,87 +77,90 @@ function SavedAssesment() {
   };
 
   return (
-    <div className="mainContailner w-full m-auto">
+    <>
       <HomeHeader />
-      <div className="flex flex-row xl:gap-[48px] gap-5">
-        <div>
-          {/* <img
-            className="xl:min-w-[590px] min-w-[490px] object-cover w-full h-full"
-            src="../assets/img/Group 1000001826.png"
-          /> */}
-          <img
-            src={RegisterSideImage}
-            className="xl:min-w-[590px] min-w-[490px] w-full h-full"
-            alt="RegisterSideImage"
-            loading="lazy"
-          />
-        </div>
-        <div className="w-full xl:mb-[100px] mb-0">
-          <div className="xl:mt-[100px] xl:mb-0 mb-[30px]">
-            <div className=" w-[430px] ">
-              <div className="flex items-end justify-between gap-x-[14px]">
-                <h3 className="font-abhaya text-[24px] font-[400]">
-                  Why, nice to have you back
-                </h3>
-                <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
+      <div className="mainContailner w-full m-auto !my-4">
+        <div className="flex flex-row xl:gap-[48px] gap-5">
+          <div>
+            <img
+              src={RegisterSideImage}
+              className="xl:min-w-[590px] min-w-[490px] w-full h-auto"
+              alt="RegisterSideImage"
+              loading="lazy"
+            />
+          </div>
+          <div className="w-full xl:mb-[40px] mb-0">
+            <div className="xl:mt-[40px] xl:mb-0 mb-[30px]">
+              <div className=" w-[430px] ">
+                <div className="flex items-end justify-between gap-x-[14px]">
+                  <h3 className="font-abhaya text-[24px] font-[400]">
+                    Why, nice to have you back
+                  </h3>
+                  <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
+                </div>
+                <img src="../assets/img/Line 23.png" />
               </div>
-              <img src="../assets/img/Line 23.png" />
-            </div>
 
-            <p className="mt-[20px] w-[430px]">
-              There's just some quenstions lefts to get your Sustainability
-              Score. but you're merrily on the way there...
-            </p>
-            <p className="text-[Calibri] font-abhaya text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
-              {" "}
-              What's left for you to complete:
-            </p>
-            <div className="xl:pt-8 pt-4 pl-[px] pb-5 flex flex-wrap gap-5">
-              {isPending ? (
-                <Loader />
-              ) : (
-                data?.data &&
-                data?.data?.length > 0 &&
-                data?.data.map((category, index: number) => {
-                  return (
-                    <div className="">
-                      <div
-                        key={index}
-                        className="border border-solid border-[#D9D9D9] xl:w-[223.4px] w-[150px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
-                      >
-                        <div>
-                          <img
-                            src={getImages(category.pillarName)}
-                            alt="img"
-                            className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
-                          />
+              <p className="mt-[20px] w-[430px]">
+                There's just some quenstions lefts to get your Sustainability
+                Score. but you're merrily on the way there...
+              </p>
+              <p className="text-[Calibri] font-abhaya text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
+                {" "}
+                What's left for you to complete:
+              </p>
+              <div className="xl:pt-8 pt-4 pl-[px] pb-5 flex flex-wrap gap-5">
+                {isPending ? (
+                  <Loader />
+                ) : (
+                  data?.data &&
+                  data?.data?.length > 0 &&
+                  data?.data
+                    .sort((a, b) => {
+                      if (a.pillarName < b.pillarName) return -1;
+                      if (a.pillarName > b.pillarName) return 1;
+                      return 0;
+                    })
+                    .map((category, index: number) => {
+                      return (
+                        <div className="">
+                          <div
+                            key={index}
+                            className="border border-solid border-[#D9D9D9] xl:w-[223.4px] w-[150px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                          >
+                            <div>
+                              <img
+                                src={getImages(category.pillarName)}
+                                alt="img"
+                                className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
+                              />
+                            </div>
+                            <h4 className="xl:text-[16px] text-[14px] mt-3 text-center xl:min-h-[auto] min-h-[42px]">
+                              {category.pillarName}
+                            </h4>
+
+                            <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
+                              {category?.progress.toFixed()} %
+                            </span>
+                          </div>
                         </div>
-                        <h4 className="xl:text-[16px] text-[14px] mt-3 text-center xl:min-h-[auto] min-h-[42px]">
-                          {category.pillarName}
-                        </h4>
+                      );
+                    })
+                )}
+              </div>
 
-                        <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                          {category?.progress.toFixed()} %
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
+              <Button
+                onClick={handleAssesment}
+                className="bg-[#64A70B] w-[266px] h-[50px]  text-[20px] mt-[20px]"
+              >
+                Continue My Assessment
+              </Button>
             </div>
-
-            <Button
-              onClick={handleAssesment}
-              className="bg-[#64A70B] w-[266px] h-[50px]  text-[20px] mt-[20px]"
-            >
-              Continue My Assessment
-            </Button>
           </div>
         </div>
       </div>
-
       <HomeFooter />
-    </div>
+    </>
   );
 }
 

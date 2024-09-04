@@ -347,7 +347,7 @@ function RegisterTrainer() {
 
           <div className="2xl:px-0 px-5 lg:max-w-[550px] w-full mx-auto">
             {type !== "trainee" && (
-              <div className="flex justify-end">
+              <div className="flex justify-end text-[#000]">
                 <label>
                   Already have an account?{" "}
                   <Link to={"/auth"} className="font-[700] text-[#042937]">

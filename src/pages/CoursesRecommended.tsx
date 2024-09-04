@@ -1,4 +1,5 @@
 import Loader from "@/components/comman/Loader";
+import NoDataText from "@/components/comman/NoDataText";
 import CourseGridView from "@/components/courseManagement/Recommended Courses/CourseGridView";
 import CourseListView from "@/components/courseManagement/Recommended Courses/CourseListView";
 import { Button } from "@/components/ui/button";
@@ -135,9 +136,7 @@ function CoursesRecommended() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center col-span-full">
-                    No Reccomanded Data Found
-                  </p>
+                  <NoDataText message="No course available" />
                 )}
               </div>
             ) : (
@@ -156,9 +155,7 @@ function CoursesRecommended() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center">
-                    No Reccomanded Data Found
-                  </p>
+                  <NoDataText message="No course available" />
                 )}
               </div>
             )}

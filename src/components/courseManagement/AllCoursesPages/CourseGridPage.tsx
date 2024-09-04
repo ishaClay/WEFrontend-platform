@@ -7,6 +7,7 @@ import time from "@/assets/images/time.png";
 import unversity from "@/assets/images/unversity.png";
 import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Modal from "@/components/comman/Modal";
+import NoDataText from "@/components/comman/NoDataText";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
@@ -373,9 +374,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           );
         })
       ) : (
-        <p className="text-[20px] font-calibri font-[500] h-[300px] flex items-center justify-center col-span-full">
-          No Course Data Found
-        </p>
+        <NoDataText message="No Course Data Found" />
       )}
     </>
   );

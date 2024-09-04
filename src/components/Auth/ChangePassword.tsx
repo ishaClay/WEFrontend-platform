@@ -9,8 +9,8 @@ import * as zod from "zod";
 import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import PasswordInputWithLabel from "../comman/PasswordInputWithLabel";
-import { toast } from "../ui/use-toast";
 import HomeHeader from "../homePage/HomeHeader";
+import { toast } from "../ui/use-toast";
 
 const schema = zod
   .object({
@@ -19,7 +19,7 @@ const schema = zod
       .string()
       .regex(
         /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
-        "Password must contain at least one uppercase letter, one Number letter, and one special character and Minimum 8 characters"
+        "Password must contain at least one uppercase letter, one number, one special character, and a minimum of 8 characters"
       ),
     confirmPassword: zod.string().min(1, "Please enter Confirm password"),
   })
@@ -111,7 +111,7 @@ const ChangePassword = () => {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end text-color">
+            <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
@@ -173,7 +173,10 @@ const ChangePassword = () => {
               <ul className="max-w-[370px] mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989]">
                   Protected by reCAPTCHA and subject to the Skillnet
-                  <Link to="/privacypolicy" className="text-color font-bold mx-1">
+                  <Link
+                    to="/privacypolicy"
+                    className="text-color font-bold mx-1"
+                  >
                     Privacy Policy
                   </Link>
                   and

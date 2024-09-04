@@ -15,6 +15,7 @@ import institute from "@/assets/svgs/institute.svg";
 import online from "@/assets/svgs/online.svg";
 import time from "@/assets/svgs/time.svg";
 import Loader from "@/components/comman/Loader";
+import NoDataText from "@/components/comman/NoDataText";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -373,9 +374,7 @@ function CoursesAllocate() {
               );
             })
           ) : (
-            <span className="text-center h-[calc(100vh-250px)] flex items-center justify-center text-xl text-neutral-400">
-              No data found
-            </span>
+            <NoDataText message="No data found" />
           )}
         </div>
       </div>

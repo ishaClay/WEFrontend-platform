@@ -133,7 +133,7 @@ function SelectLevel() {
             onClick={() => navigate("/company/allcourses")}
             className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
           >
-            Go to All Course
+            Go to All Courses
           </Button>
         </div>
       </div>

@@ -7,6 +7,7 @@ import PendingTicketIcon from "@/assets/images/ticket_star.png";
 import xlsxFileIcon from "@/assets/images/upload_option_2.png";
 import ModuleVideoPlay from "@/assets/images/video-play.png";
 import wordFile from "@/assets/images/word_file.png";
+import InfoIcon from "@/assets/svgs/infoIcon.svg";
 import { UserRole } from "@/types/UserRole";
 import { clsx, type ClassValue } from "clsx";
 import moment from "moment";
@@ -33,7 +34,6 @@ import SocialGray from "../assets/images/Social.svg";
 import StrategicIntegrationGray from "../assets/images/Stratagic.svg";
 import Tech from "../assets/images/Tech.svg";
 import { FileType, youtubeRegex } from "./constants";
-import InfoIcon from "@/assets/svgs/infoIcon.svg";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -573,13 +573,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-          +readingTime?.hour * 3600 +
-          +readingTime?.minute * 60 +
-          +readingTime?.second
+      +readingTime?.hour * 3600 +
+      +readingTime?.minute * 60 +
+      +readingTime?.second
       : +totalSeconds +
-          +readingTime?.hours * 3600 +
-          +readingTime?.minutes * 60 +
-          +readingTime?.seconds;
+      +readingTime?.hours * 3600 +
+      +readingTime?.minutes * 60 +
+      +readingTime?.seconds;
   }, 0);
 };
 
@@ -612,13 +612,13 @@ export function getTimeAgo(time: Date | string) {
 export const fetchMessageRoles = (role: number) => {
   let MessageRoles: any = [];
   if (role === UserRole.Trainer) {
-    MessageRoles = ["client", "employee", "company", "trainee"];
+    MessageRoles = ["client", "employee", "company", "trainer"];
   } else if (role === UserRole.Company) {
-    MessageRoles = ["client", "employee", "trainee", "trainer Company"];
+    MessageRoles = ["client", "employee", "trainer", "trainer Company"];
   } else if (role === UserRole.Trainee) {
     MessageRoles = ["client", "employee", "company"];
   } else if (role === UserRole.Employee) {
-    MessageRoles = ["company", "trainee", "trainer Company"];
+    MessageRoles = ["company", "trainer", "trainer Company"];
   }
   return MessageRoles;
 };
