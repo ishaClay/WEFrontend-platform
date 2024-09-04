@@ -20,13 +20,17 @@ const Roadmap = ({
   const [step, setStep] = React.useState(3);
 
   useEffect(() => {
+    console.log("+++++++++++++ I Called +++++++++++++++");
+
     if (
       !isEdit &&
-      ((userData?.query?.role === UserRole.Company && pathStatus > 5) ||
+      ((+userData?.query?.role === UserRole.Company && pathStatus > 5) ||
         showButton !== 0)
     ) {
+      console.log("+++++++++++++ I Called +++++++++++++++ 1");
       setStep(2);
     } else {
+      console.log("+++++++++++++ I Called +++++++++++++++ 2");
       setStep(0);
     }
   }, [isEdit, pathStatus, showButton, userData]);

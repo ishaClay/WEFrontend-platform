@@ -14,7 +14,7 @@ const schema = zod
       .string()
       .min(1, { message: "Please enter password" })
       .regex(
-        /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`|-]).{8,}$/,
         "Password must contain at least one uppercase letter, one number, one special character, and a minimum of 8 characters"
       ),
     confirmPassword: zod.string(),

@@ -91,8 +91,10 @@ const ActionItemModel = ({
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.maturitypillar],
         });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.getActionItems],
+        });
         setIsDelete(false);
-        handleClose();
       },
       onError: (error: ErrorType) => {
         toast({

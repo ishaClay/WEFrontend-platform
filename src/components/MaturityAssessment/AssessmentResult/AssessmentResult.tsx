@@ -194,7 +194,7 @@ const AssessmentResult = ({
               ></div>
               <div className="sm:text-base text-sm text-black font-nunito rounded-r-lg ms-[-30px]">
                 {label?.maturityLevelName}
-                <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span>
+                {/* <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span> */}
               </div>
             </div>
           );
@@ -225,8 +225,8 @@ const AssessmentResult = ({
           Self Assessment Details
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
-          <div className="xxl:col-span-8 xl:col-span-7 col-span-12 xl:mb-0 sm:mb-10 mb-5">
-            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4">
+          <div className="xxl:col-span-9 xl:col-span-7 col-span-12 xl:mb-0 sm:mb-10 mb-5">
+            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4 max-w-[600px]">
               Where {userData?.query?.name}'s <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
             </h3>
@@ -250,7 +250,7 @@ const AssessmentResult = ({
               </p>
             </div>
           </div>
-          <div className="2xl:col-span-4 xl:col-span-5 sm:col-span-8 col-span-12">
+          <div className="2xl:col-span-3 xl:col-span-5 sm:col-span-8 col-span-12">
             <div className="flex justify-between">
               <div className="">
                 <Labels />
@@ -270,7 +270,7 @@ const AssessmentResult = ({
                 Your overall sustainability level -
               </p>{" "}
               <Badge
-                className={`font-semibold text-[18px] bg-[${currentLavel?.color}] text-[#000] leading-6 font-calibri hover:bg-[${currentLavel?.color}] hover:text-[#000]`}
+                className={`font-semibold text-[18px] text-[#000] leading-6 font-calibri bg-gradient-to-r from-[${currentLavel?.color}] from-10% via-[${currentLavel?.color}] via-10% to-transparent to-80% hover:bg-[#fff] border-0 bg-transparent`}
               >
                 {currentLavel?.maturityLevelName}
               </Badge>
@@ -288,7 +288,7 @@ const AssessmentResult = ({
         <div className="flex flex-col gap-[26px]  mb-[60px]">
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="bg-[#F63636] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
+              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold bg-gradient-to-r from-[#F63636] from-25% via-[#F63636] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
                 Introductory
               </Button>
             </div>
@@ -311,9 +311,13 @@ const AssessmentResult = ({
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[0]?.rangeStart &&
+                        fetchClientmaturitylevel?.data[0]?.rangeStart?.toFixed(
+                          0
+                        ) &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[0]?.rangeEnd && (
+                        fetchClientmaturitylevel?.data[0]?.rangeEnd?.toFixed(
+                          0
+                        ) && (
                         <Button
                           type="button"
                           variant={"ghost"}
@@ -351,7 +355,7 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="bg-[#FFD56A] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black">
+              <Button className="font-abhaya md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
                 Intermediate
               </Button>
             </div>
@@ -373,9 +377,13 @@ const AssessmentResult = ({
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[1]?.rangeStart &&
+                        fetchClientmaturitylevel?.data[1]?.rangeStart?.toFixed(
+                          0
+                        ) &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[1]?.rangeEnd && (
+                        fetchClientmaturitylevel?.data[1]?.rangeEnd?.toFixed(
+                          0
+                        ) && (
                         <Button
                           type="button"
                           variant={"ghost"}
@@ -413,7 +421,7 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="bg-[#64A70B] md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold">
+              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-abhaya bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
                 Advanced
               </Button>
             </div>
@@ -435,9 +443,13 @@ const AssessmentResult = ({
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[2]?.rangeStart &&
+                        fetchClientmaturitylevel?.data[2]?.rangeStart?.toFixed(
+                          0
+                        ) &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[2]?.rangeEnd && (
+                        fetchClientmaturitylevel?.data[2]?.rangeEnd?.toFixed(
+                          0
+                        ) && (
                         <Button
                           type="button"
                           variant={"ghost"}
