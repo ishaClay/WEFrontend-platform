@@ -13,6 +13,7 @@ import { CountryResponse } from "@/types/Company";
 import { ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -32,7 +33,6 @@ import {
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
-import Cookies from "js-cookie";
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
@@ -697,7 +697,7 @@ const RegisterTraineeForm = () => {
         </div>
         <button
           type="submit"
-          className="xl:mt-12 sm:mt-6 mt-4 bg-primary-button rounded sm:w-[370px] w-[300px] h-12 text-white text-lg shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-abhaya font-bold"
+          className="xl:mt-4 sm:mt-6 mt-4 bg-primary-button rounded sm:w-[370px] w-[300px] h-12 text-white text-lg shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-abhaya font-bold"
         >
           {isPending ? <Loader containerClassName="h-auto" /> : "Submit"}
         </button>

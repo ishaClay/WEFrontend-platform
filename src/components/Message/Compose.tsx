@@ -412,7 +412,9 @@ const Compose = () => {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] p-0 text-base font-calibri font-normal">
-                    {role === UserRole?.SuperAdmin ? 'Email Templates' : 'Message Templates'}
+                    {role === UserRole?.SuperAdmin
+                      ? "Email Templates"
+                      : "Message Templates"}
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-calibri`}
@@ -421,15 +423,20 @@ const Compose = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {emailtemplateList?.data.data && emailtemplateList?.data.data?.length > 80 ? emailtemplateList?.data.data.map((item: any) => {
-                    return (
-                      <SelectItem key={item?.id} value={String(item?.id)}>
-                        {item?.name}
-                      </SelectItem>
-                    );
-                  }) :  <span className="py-3 h-full block text-center text-lg text-neutral-400">
-                  No data found
-                </span>}
+                  {emailtemplateList?.data.data &&
+                  emailtemplateList?.data.data?.length > 80 ? (
+                    emailtemplateList?.data.data.map((item: any) => {
+                      return (
+                        <SelectItem key={item?.id} value={String(item?.id)}>
+                          {item?.name}
+                        </SelectItem>
+                      );
+                    })
+                  ) : (
+                    <span className="py-3 h-full block text-center text-lg text-neutral-400">
+                      No data found
+                    </span>
+                  )}
                 </SelectContent>
               </Select>
               {!errors?.emailTemplate?.ref?.value && (

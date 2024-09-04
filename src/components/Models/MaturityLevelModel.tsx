@@ -75,8 +75,6 @@ const MaturityLevelModel = ({
   return (
     <Modal
       open={!!isOpen}
-      title="Have you identified actionable items on provided
-                            measures?"
       className="max-w-[815px] w-full gap-0 h-[800px]"
       onClose={() => {
         setIsOpen(null);

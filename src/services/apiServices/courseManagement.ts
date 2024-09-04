@@ -11,7 +11,7 @@ export interface courseRequest {
   price: string;
   discout: string;
   discountApplicable: string;
-  providerName: number;
+  providerName: number | string;
   clientId: number;
 }
 

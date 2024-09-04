@@ -185,19 +185,22 @@ const ForumPage = () => {
 
               <div className="">
                 <h5 className="text-black text-base font-abhaya">
-                  {userData?.query?.fname + userData?.query?.lname ||
-                    userData?.query?.email?.split("@")[0]}
+                  {userData?.query?.fname || userData?.query?.lname
+                      ? `${userData?.query?.fname || ""} ${
+                          userData?.query?.lname || ""
+                        }`.trim()
+                      : userData?.query?.email?.split("@")[0]}
                 </h5>
                 <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
-                  {userData?.role === UserRole.Company
+                  {+userData?.query?.role === UserRole.Company
                     ? "Company"
-                    : userData?.role === UserRole.Trainer
+                    : +userData?.query?.role === UserRole.Trainer
                     ? "Trainer Company"
-                    : userData?.role === UserRole.Trainee
+                    : +userData?.query?.role === UserRole.Trainee
                     ? "Trainer"
-                    : userData?.role === UserRole.Employee
+                    : +userData?.query?.role === UserRole.Employee
                     ? "Company Employee"
-                    : userData?.role === UserRole.SuperAdmin
+                    : +userData?.query?.role === UserRole.SuperAdmin
                     ? "Super Admin"
                     : "Client"}
                 </h6>

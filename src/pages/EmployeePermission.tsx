@@ -208,7 +208,7 @@ function EmployeePermission() {
     <div className="bg-[#FFFFFF] rounded-xl sm:mt-5 mt-0">
       <div className="rounded-[10px]">
         <div className="p-5 border-b border-[#D9D9D9]">
-          <p className="text-[#000000] font-abhaya font-bold">Team Settings</p>
+          <p className="text-[#000000] font-calibri font-bold">Team Settings</p>
         </div>
 
         <div className="flex bg-[#FFFFFF] ">

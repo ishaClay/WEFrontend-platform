@@ -9,6 +9,7 @@ import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import {
+  fetchTopCourseList,
   getDashbooardSme3,
   getEnrolledCourses,
   getFirstInfirgraphicChart,
@@ -36,6 +37,7 @@ import {
   Tooltip,
 } from "chart.js";
 import Loading from "./comman/Error/Loading";
+import { QUERY_KEYS } from "@/lib/constants";
 
 Chart.register(
   CategoryScale,
@@ -49,49 +51,6 @@ Chart.register(
   Tooltip,
   ArcElement
 );
-
-const employeeData = [
-  {
-    ID: 1,
-    CourseName:
-      "Greening the emerald isle: Ireland's journey to carbon neutrality",
-    Category: "Economics",
-    Level: "Intermediate ",
-    Rating: "5/5 ",
-  },
-  {
-    ID: 2,
-    CourseName:
-      "Greening the emerald isle: Ireland's journey to carbon neutrality",
-    Category: "Economics",
-    Level: "Intermediate ",
-    Rating: "5/5 ",
-  },
-  {
-    ID: 3,
-    CourseName:
-      "Greening the emerald isle: Ireland's journey to carbon neutrality",
-    Category: "Economics",
-    Level: "Intermediate ",
-    Rating: "5/5 ",
-  },
-  {
-    ID: 4,
-    CourseName:
-      "Greening the emerald isle: Ireland's journey to carbon neutrality",
-    Category: "Economics",
-    Level: "Intermediate ",
-    Rating: "5/5 ",
-  },
-  {
-    ID: 5,
-    CourseName:
-      "Greening the emerald isle: Ireland's journey to carbon neutrality",
-    Category: "Economics",
-    Level: "Intermediate ",
-    Rating: "5/5 ",
-  },
-];
 
 const Dashboard = () => {
   const [page, setPage] = useState(0);
@@ -198,10 +157,10 @@ const Dashboard = () => {
         getSmeDashboardData({ userId: userData?.query?.detailsid }),
     });
 
-  // const { data: getTopCourseList } = useQuery({
-  //   queryKey: [QUERY_KEYS.topCourses],
-  //   queryFn: fetchTopCourseList,
-  // });
+  const { data: getTopCourseList } = useQuery({
+    queryKey: [QUERY_KEYS.topCourses],
+    queryFn: fetchTopCourseList,
+  });
 
   const { data: smeDashboardData3, isLoading: smeLoading3 } =
     useQuery<SMEDashboard3Response>({
@@ -786,10 +745,7 @@ const Dashboard = () => {
             <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                // @ts-ignore
-                // data={getTopCourseList?.data || []}
-                data={[]}
-                totalPages={employeeData?.length}
+                data={getTopCourseList?.data || []}
                 setPage={setPage}
                 rounded={false}
               />

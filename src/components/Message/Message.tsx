@@ -551,7 +551,7 @@ const Message = () => {
               />
               <Input
                 type="text"
-                placeholder="Search by employee name"
+                placeholder="Show Search by Name"
                 className="h-[42px] md:w-full sm:w-[400px] w-full border text-[15px] leading-[19.5] bg-[white] pl-[39px] pr-4 py-[13px] border-solid border-[#D9D9D9] font-inter"
                 value={searchChat}
                 onChange={(e) => setSearchChat(e.target.value)}
@@ -631,7 +631,7 @@ const Message = () => {
                           <div className="leading-[19.53px] text-[black] text-base font-calibri">
                             {item?.group
                               ? item?.name
-                              : (item?.fname && item?.lname)
+                              : item?.fname && item?.lname
                               ? item?.fname + " " + item?.lname
                               : item?.name || item?.email?.split("@")?.[0]}
                           </div>

@@ -204,8 +204,8 @@ const AssessmentResult = ({
           {/* Total Score - */}
           {/* <span className="font-calibri font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
             {assessmentData?.length > 0
-              ? points?.totalPoint
-              : allassessmant?.data?.data?.avTotalpoints}
+              ? points?.totalPoint || 0
+              : allassessmant?.data?.data?.avTotalpoints || 0}
           </span>
           <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
             /

@@ -43,3 +43,15 @@ export const getTrainerData = async ({ userId, contentType }: { userId: string, 
     const res = await api({ url });
     return res.data
 }
+
+export const getCourseCompletionData = async (companyId: number) => {
+    const url = `api/v1/dashboard/course-completion?companyId=${companyId}`;
+    const res = await api({ url });
+    return res.data
+}
+
+export const fetchTopCourseList = async () => {
+    const url = `api/v1/course/top/list`;
+    const res = await api({ url });
+    return res.data
+}

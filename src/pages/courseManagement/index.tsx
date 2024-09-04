@@ -76,7 +76,7 @@ const CourseManagement = () => {
       } else {
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}&type=${paramsType}`,
+            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
             {
               replace: true,
             }

@@ -26,7 +26,7 @@ import { UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiImage, FiVideo } from "react-icons/fi";
@@ -58,7 +58,8 @@ function SupportAddNewTicket() {
     }),
     ticketSubject: z
       .string({ required_error: "Please enter ticket subject" })
-      .min(1, { message: "Please enter ticket subject" }),
+      .min(1, { message: "Please enter ticket subject" })
+      .max(200, { message: "Ticket subject cannot exceed 200 characters" }),
     description: z
       .string({ required_error: "Please enter description" })
       .min(1, { message: "Please enter description" }),
@@ -99,7 +100,7 @@ function SupportAddNewTicket() {
         setVideo(undefined);
         setSelectAssignTo("");
         setSelectTicketPriority("");
-        toast({ title: "Ticket created Successfully", variant: "default" });
+        toast({ title: "Ticket Created Successfully", variant: "default" });
         dispatch(
           setPath([
             {
@@ -194,7 +195,6 @@ function SupportAddNewTicket() {
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item) => {
-
                       return (
                         <>
                           <SelectItem
@@ -347,20 +347,35 @@ function SupportAddNewTicket() {
                 className="border-none cursor-pointer !p-0 w-[200px]"
                 acceptType=".pdf"
               >
-                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
-                  <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
-                    <FiImage className="w-6 h-6" />
+                <div className="flex items-center justify-between sm:mb-0 mb-3">
+                  <div className="flex items-center gap-[10px]">
+                    <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
+                      <FiImage className="w-6 h-6" />
+                    </div>
+                    <span>Upload Document</span>
                   </div>
-                  <span>Upload Document</span>
+                  {file && (
+                    <Button
+                      type="button"
+                      variant={"ghost"}
+                      className="p-0 h-auto hover:bg-transparent"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFile("");
+                      }}
+                    >
+                      <X />
+                    </Button>
+                  )}
                 </div>
                 {file && (
                   <a
                     href={file}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-3 w-full overflow-hidden text-ellipsis"
+                    className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
                   >
-                    {file}
+                    View
                   </a>
                 )}
               </FileUpload>
@@ -372,17 +387,36 @@ function SupportAddNewTicket() {
                 className="border-none cursor-pointer !p-0 w-[200px]"
                 acceptType=".mp4"
               >
-                <div className="flex items-center gap-[17px] sm:mb-0 mb-3">
-                  <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
-                    <FiVideo className="w-6 h-6" />
+                <div className="flex items-center justify-between sm:mb-0 mb-3">
+                  <div className="flex items-center gap-[10px]">
+                    <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
+                      <FiVideo className="w-6 h-6" />
+                    </div>
+                    <span>Upload Video</span>
                   </div>
-                  <span>Upload Video</span>
+                  {video && (
+                    <Button
+                      type="button"
+                      variant={"ghost"}
+                      className="p-0 h-auto hover:bg-transparent"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setVideo(null);
+                      }}
+                    >
+                      <X />
+                    </Button>
+                  )}
                 </div>
                 {video && (
-                  <video
-                    src={video}
-                    className="w-full h-[100px] rounded-sm mt-3 object-cover"
-                  ></video>
+                  <a
+                    href={video}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
+                  >
+                    View
+                  </a>
                 )}
               </FileUpload>
             </div>

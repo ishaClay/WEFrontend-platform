@@ -110,6 +110,7 @@ const TeaserScore = () => {
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";

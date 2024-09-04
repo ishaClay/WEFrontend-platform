@@ -7,8 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import * as z from "zod";
 import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
-import { toast } from "../ui/use-toast";
 import HomeHeader from "../homePage/HomeHeader";
+import { toast } from "../ui/use-toast";
 
 const schema = z.object({
   email: z
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end ">
+            <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
@@ -112,7 +112,10 @@ const ForgotPassword = () => {
               <ul className="sm:max-w-[370px] w-full mx-auto h-[30px] text-[12px] font-[400] ">
                 <li className="text-[#898989]">
                   Protected by reCAPTCHA and subject to the Skillnet
-                  <Link to="/privacypolicy" className="text-color font-bold mx-1">
+                  <Link
+                    to="/privacypolicy"
+                    className="text-color font-bold mx-1"
+                  >
                     Privacy Policy
                   </Link>
                   and

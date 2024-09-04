@@ -240,6 +240,7 @@ export interface Data {
     courseFeedbacksCount: number;
     courseContentApprovalRequest: number;
     supportTicketsCount: SupportTicketsCount;
+    approvedEnrollmentRequests: number;
 }
 export interface EnrollmentsRequestsFiguresEntity {
     course: Course;

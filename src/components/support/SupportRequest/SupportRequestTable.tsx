@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { deleteSupportTicket } from "@/services/apiServices/supportRequestServices";
 import { ErrorType } from "@/types/Errors";
 import { DataEntity, SupportTicketListType } from "@/types/SupportRequest";
@@ -17,8 +19,6 @@ import moment from "moment";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import searchIcon from "/assets/icons/search.svg";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 interface SupportRequestTableProps {
   data?: SupportTicketListType;
@@ -174,6 +174,11 @@ const SupportRequestTable = ({
           </Button>
         );
       },
+      cell: ({ row }) => {
+        return (
+          <p className="line-clamp-1 max-w-[400px]">{row?.original?.subject}</p>
+        );
+      },
     },
     {
       accessorKey: "status",
@@ -238,11 +243,7 @@ const SupportRequestTable = ({
         );
       },
       cell: ({ row }) => {
-        return (
-          <div>
-            {row.original?.assignTo?.name ?? "-"}
-          </div>
-        );
+        return <div>{row.original?.assignTo?.name ?? "-"}</div>;
       },
       meta: {
         className: "sm:table-cell hidden",

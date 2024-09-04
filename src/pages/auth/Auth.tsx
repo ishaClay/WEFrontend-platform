@@ -1,6 +1,7 @@
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import PasswordInput from "@/components/comman/Input/Password";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { useToast } from "@/components/ui/use-toast";
@@ -236,18 +237,18 @@ function Auth() {
     <>
       <HomeHeader />
       <div className="mainContailner">
-        <div className="flex mt-[26px]">
+        <div className="flex my-[26px]">
           <div className="relative">
             <img
-              className="max-w-full lg:block hidden"
+              className="max-w-full lg:block hidden xl:h-[750px] h-[980px]"
               src="../assets/img/Image.png"
             />
 
             <img
-              className="absolute top-[137px] left-1/2 -translate-x-1/2 max-h-[365px] h-auto"
+              className="absolute top-[60px] left-1/2 -translate-x-1/2 max-h-[365px] h-auto"
               src="../assets/img/pngwing.png"
             />
-            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[36px] text-[26px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full lg:block hidden">
+            <h2 className="absolute xl:bottom-[90px] bottom-[40px] left-1/2 -translate-x-1/2 text-white xl:text-[30px] text-[28px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full lg:block hidden">
               Quite literally:{" "}
               <span className="text-[#73AF26]">you’ll be the bridge</span> for
               companies across Ireland to upskill their teams, and{" "}
@@ -256,7 +257,7 @@ function Auth() {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] lg:h-auto sm:h-[580px] h-[530px] mx-auto relative">
-            <div className="flex justify-end">
+            <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/register"} className="font-[700] text-[#042937]">
@@ -344,6 +345,7 @@ function Auth() {
           <Loading isLoading={loginPanding} />
         </div>
       </div>
+      <HomeFooter />
     </>
   );
 }

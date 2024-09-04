@@ -36,110 +36,104 @@ function Assessment() {
   };
 
   return (
-    <div className="mainContailner w-full m-auto">
+    <>
       <HomeHeader />
+      <div className="mainContailner w-full m-auto !mt-4">
+        <div className="flex flex-row lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]">
+          <div>
+            <img
+              src={RegisterSideImage}
+              className="xl:min-w-[590px] min-w-full w-full h-full object-cover lg:block hidden"
+              alt="RegisterSideImage"
+              loading="lazy"
+            />
+          </div>
 
-      <div className="flex flex-row lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]">
-        <div>
-          {/* <img
-            className="xl:min-w-[590px] min-w-full w-full h-full object-cover"
-            src="../assets/img/Group 1000001826.png"
-            alt="img"
-            loading="lazy"
-          /> */}
-          <img
-            src={RegisterSideImage}
-            className="xl:min-w-[590px] min-w-full w-full h-full object-cover lg:block hidden"
-            alt="RegisterSideImage"
-            loading="lazy"
-          />
-        </div>
+          <div className="w-full ">
+            <div className="lg:my-[100px] sm:my-[60px] my-[30px] xl:mb-0">
+              <div className="flex items-end gap-x-[14px]">
+                <h3 className="font-abhaya sm:text-[24px] text-[22px] font-[400]">
+                  Perfect. Now to jump right in…
+                </h3>
+                <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
+              </div>
 
-        <div className="w-full ">
-          <div className="lg:my-[100px] sm:my-[60px] my-[30px] xl:mb-0">
-            <div className="flex items-end gap-x-[14px]">
-              <h3 className="font-abhaya sm:text-[24px] text-[22px] font-[400]">
-                Perfect. Now to jump right in…
-              </h3>
-              <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
-            </div>
+              <img className="w-[380px]" src="../assets/img/Line 23.png" />
 
-            <img className="w-[380px]" src="../assets/img/Line 23.png" />
+              <p className="sm:w-[525px] w-full text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
+                Find how you score across 6 sustainability pillars with 30
+                questions.
+              </p>
 
-            <p className="sm:w-[525px] w-full text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
-              Find how you score across 6 sustainability pillars with 30
-              questions.
-            </p>
+              <h2 className="font-[700] sm:text-[24px] text-[22px] font-abhaya lg:mt-[63px] sm:mt-[40px] mt-[25px]">
+                The 6 sustainability pillars you’ll be assessed by:
+              </h2>
+              {/* flex-col 2xl:flex-row gap-8 2xl: */}
+              <div className="font-calibri flex items-center justify-between">
+                <div>
+                  <div className="flex 2xl:gap-x-[42px] gap-x-[24px] items-center mt-[24px]">
+                    <div className="flex flex-col gap-y-[16px]">
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          src={getImages("Environment", false)}
+                          className=""
+                          alt="Environment"
+                        />
+                        <p className="sm:text-base text-sm">Environment</p>
+                      </div>
 
-            <h2 className="font-[700] sm:text-[24px] text-[22px] font-abhaya lg:mt-[63px] sm:mt-[40px] mt-[25px]">
-              The 6 sustainability pillars you’ll be assessed by:
-            </h2>
-            {/* flex-col 2xl:flex-row gap-8 2xl: */}
-            <div className="font-calibri flex items-center justify-between">
-              <div>
-                <div className="flex 2xl:gap-x-[42px] gap-x-[24px] items-center mt-[24px]">
-                  <div className="flex flex-col gap-y-[16px]">
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        src={getImages("Environment", false)}
-                        className=""
-                        alt="Environment"
-                      />
-                      <p className="sm:text-base text-sm">Environment</p>
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          className=""
+                          src={getImages("Social", false)}
+                          alt="Social"
+                        />
+                        <p className="sm:text-base text-sm">Social</p>
+                      </div>
+
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          className=""
+                          src={getImages("Governance", false)}
+                          alt="Governance"
+                        />
+                        <p className="sm:text-base text-sm">Governance</p>
+                      </div>
                     </div>
 
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        className=""
-                        src={getImages("Social", false)}
-                        alt="Social"
-                      />
-                      <p className="sm:text-base text-sm">Social</p>
-                    </div>
+                    <div className="flex flex-col gap-y-[16px]">
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          className=""
+                          src={getImages("Strategic Intergration", false)}
+                          alt="Strategy"
+                        />
+                        <p className="sm:text-base text-sm">Strategy</p>
+                      </div>
 
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        className=""
-                        src={getImages("Governance", false)}
-                        alt="Governance"
-                      />
-                      <p className="sm:text-base text-sm">Governance</p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-y-[16px]">
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        className=""
-                        src={getImages("Strategic Intergration", false)}
-                        alt="Strategy"
-                      />
-                      <p className="sm:text-base text-sm">Strategy</p>
-                    </div>
-
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        className=""
-                        src={getImages("Technology & Innovation", false)}
-                        alt="Technology & Innovation"
-                      />
-                      <p className="sm:text-base text-sm">
-                        Technology & Innovation
-                      </p>
-                    </div>
-                    <div className="flex gap-x-[10px] items-center font-abhaya">
-                      <img
-                        className=""
-                        src={getImages("Economic", false)}
-                        alt="Economic"
-                      />
-                      <p className="sm:text-base text-sm">Economic</p>
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          className=""
+                          src={getImages("Technology & Innovation", false)}
+                          alt="Technology & Innovation"
+                        />
+                        <p className="sm:text-base text-sm">
+                          Technology & Innovation
+                        </p>
+                      </div>
+                      <div className="flex gap-x-[10px] items-center font-abhaya">
+                        <img
+                          className=""
+                          src={getImages("Economic", false)}
+                          alt="Economic"
+                        />
+                        <p className="sm:text-base text-sm">Economic</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* <div>
+                {/* <div>
                 <img
                   src="../assets/img/Group 60.png"
                   className="w-full"
@@ -147,19 +141,19 @@ function Assessment() {
                   loading="lazy"
                 />
               </div> */}
-            </div>
+              </div>
 
-            <PrimaryButton
-              onClick={handleAssesment}
-              name="Start Now"
-              className="sm:w-[266px] w-[200px] primary-background  sm:h-[55px] h-[50px] md:mt-[57px] sm:mt-[45px] mt-[35px] sm:text-[20px] text-lg !font-abhaya"
-            />
+              <PrimaryButton
+                onClick={handleAssesment}
+                name="Start Now"
+                className="sm:w-[266px] w-[200px] primary-background  sm:h-[55px] h-[50px] md:mt-[57px] sm:mt-[45px] mt-[35px] sm:text-[20px] text-lg !font-abhaya"
+              />
+            </div>
           </div>
         </div>
       </div>
-
       <HomeFooter />
-    </div>
+    </>
   );
 }
 

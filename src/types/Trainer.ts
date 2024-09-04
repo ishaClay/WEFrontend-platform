@@ -39,6 +39,7 @@ export interface DataEntity {
   providerAddress?: string | null;
   providerCity: string;
   providerCounty: string;
+  providerCountry: string;
   providerNotes: string;
   approved: boolean;
   assignCertificate: boolean;

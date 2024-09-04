@@ -75,8 +75,7 @@ const EmployeeHeader = () => {
   const userName =
     userData &&
     (userData?.query?.fname && userData?.query?.lname
-      ? userData?.query?.fname + " " + userData?.query?.lname
-      : userData?.query?.email?.split("@")[0]);
+      ? userData?.query?.fname + " " + userData?.query?.lname : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
     setIsAlertOpen(true);

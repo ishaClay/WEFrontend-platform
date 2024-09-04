@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
-import SideImage from "@/assets/images/AuthSide.svg";
 import RegisterSideImage from "@/assets/images/RegisterSideImage.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { useToast } from "@/components/ui/use-toast";
 import { RegisterContext } from "@/context/RegisterContext";
@@ -53,7 +53,7 @@ const schema = z
       .min(1, { message: "Please enter password" })
       .regex(
         /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
-        "Password must contain at least one uppercase letter, one Number letter, and one special character and Minimum 8 characters"
+        "Password must contain at least one uppercase letter, one number, one special character, and a minimum of 8 characters"
       ),
     cpassword: z.string().min(1, { message: "Please enter confirm password" }),
   })
@@ -311,7 +311,7 @@ function Register() {
     <div className="">
       <HomeHeader />
       <div className="mainContailner">
-        <div className="flex justify-center mt-[26px]">
+        <div className="flex justify-center my-[26px]">
           {showRegistrationForm || selectedRole === "company" ? (
             <>
               <img
@@ -322,19 +322,27 @@ function Register() {
               />
             </>
           ) : (
-            <>
+            <div className="relative lg:block hidden">
               <img
-                src={SideImage}
-                className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
-                alt="LandingPageBuildImage"
-                loading="lazy"
+                className="max-w-full w-full xl:h-[750px] h-[650px]"
+                src="../assets/img/Image.png"
               />
-            </>
+
+              <h2 className="absolute top-[60px] left-1/2 -translate-x-1/2 text-white xl:text-[30px] text-[28px] xl:max-w-[505px] max-w-[400px] xl:leading-[46px] leading-[36px] w-full font-d-din-pro">
+                <span className="text-[#73AF26]">Empower</span> your potential
+                through our comprehensive training programs, where knowledge
+                meets innovation
+              </h2>
+              <img
+                className="absolute xl:bottom-[80px] bottom-[100px] left-1/2 -translate-x-1/2 max-h-[365px] h-auto"
+                src="../assets/img/pngwing.png"
+              />
+            </div>
           )}
 
           <div className="w-full 2xl:px-0 px-5 sm:mt-[33px] mt-[20px] sm:max-w-[515px] max-w-[450px] mx-auto flex flex-col justify-between">
             <div>
-              <div className="flex justify-end">
+              <div className="flex justify-end text-[#000]">
                 <label>
                   Already have an account?{" "}
                   <Link to={"/auth"} className="font-[700] text-[#042937]">
@@ -425,7 +433,7 @@ function Register() {
                       </div>
                       <div className="mb-2">
                         <PasswordInputWithLabel
-                          label="Set a password"
+                          label="Set a Password"
                           className="h-[46px] border solid 1.5px"
                           placeholder="Enter Password"
                           {...register("password")}
@@ -612,6 +620,7 @@ function Register() {
           </div>
         </Modal>
       </div>
+      <HomeFooter />
 
       <Loading isLoading={createPending || createOtp || logoutPending} />
     </div>
