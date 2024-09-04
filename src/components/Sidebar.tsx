@@ -20,6 +20,7 @@ import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { toast } from "./ui/use-toast";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SidebarItem {
   label: string;
@@ -38,7 +39,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({});
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const { sidebarOpen } = useContext(SidebarContext);
+  const { sidebarOpen, setSidebarOpen } = useContext(SidebarContext);
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
@@ -102,10 +103,22 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
 
   return (
     <div
-      className={`top-0 left-0 lg:flex flex-col justify-between ${
-        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "w-[60px]"
+      className={`relative lg:flex flex-col justify-between ${
+        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "2xl:w-[60px] w-[235px]"
       } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
+      <Button
+        variant={"ghost"}
+        type="button"
+        className="absolute shadow-xl p-1 rounded-lg -right-[10px] top-10 z-20 bg-white lg:block hidden h-auto"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        {sidebarOpen ? (
+          <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+        ) : (
+          <ChevronRight className="sm:w-8 sm:h-8 h-6 w-6" />
+        )}
+      </Button>
       <div className="h-screen overflow-auto">
         {sidebarOpen ? (
           <div className="ml-[20px] mt-[20px] flex items-center">

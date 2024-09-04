@@ -97,38 +97,30 @@ const MainHeader = () => {
   };
   return (
     <>
-      <header className="sm:bg-[#fff] bg-transparent">
+      <header className="sm:bg-[#fff] bg-transparent z-10">
         <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
             <li className="">
-              <Button
-                type="button"
-                variant={"ghost"}
-                onClick={() => setOpen(true)}
-                className="lg:hidden block h-auto hover:bg-transparent"
-              >
-                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
-              </Button>
-              <Button
+              {/* <Button
                 variant={"ghost"}
                 type="button"
                 className="lg:block hidden h-auto hover:bg-transparent"
                 onClick={() => setSidebarOpen(!sidebarOpen)}
               >
-                <AlignLeft className="sm:w-8 sm:h-8 h-6 w-6" />
-              </Button>
+                <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+              </Button> */}
             </li>
 
             <li className="">
               {/* {title} */}
-              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
+              <h3 className="xl:text-2xl text-lg font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome{" "}
-                {+userData?.query?.role === 1
+                {/* {+userData?.query?.role === 1
                   ? userData?.query?.name ||
                     userData?.query?.email?.split("@")[0]
                   : `${userData?.query?.fname ? userData?.query?.fname : ""} ${
                       userData?.query?.lname ? userData?.query?.lname : ""
-                    }` || userData?.query?.email?.split("@")[0]}
+                    }` || userData?.query?.email?.split("@")[0]} */}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
