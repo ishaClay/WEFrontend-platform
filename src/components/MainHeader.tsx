@@ -8,7 +8,7 @@ import { fetchNotificationCount } from "@/services/apiServices/notificationServi
 import { ResponseError } from "@/types/Errors";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { AlignLeft } from "lucide-react";
+import { AlignLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { IoIosNotificationsOutline, IoMdArrowDropdown } from "react-icons/io";
 import { VscBellDot } from "react-icons/vsc";
@@ -98,20 +98,21 @@ const MainHeader = () => {
   return (
     <>
       <header className="sm:bg-[#fff] bg-transparent z-10">
+        <Button
+          variant={"ghost"}
+          type="button"
+          className="lg:block hidden h-auto shadow-xl p-1 top-8 bg-white rounded-lg rounded-tl-none rounded-bl-none hover:bg-white absolute left-0 "
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? (
+            <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+          ) : (
+            <ChevronRight className="sm:w-8 sm:h-8 h-6 w-6" />
+          )}
+        </Button>
         <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
-            <li className="">
-              {/* <Button
-                variant={"ghost"}
-                type="button"
-                className="lg:block hidden h-auto hover:bg-transparent"
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-              >
-                <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
-              </Button> */}
-            </li>
-
-            <li className="">
+            <li className="pl-8">
               {/* {title} */}
               <h3 className="xl:text-2xl text-lg font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome{" "}

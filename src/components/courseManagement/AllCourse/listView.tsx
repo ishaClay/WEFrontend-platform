@@ -494,124 +494,146 @@ const ListView = ({
                       />
                     </div>
                   )}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="">
-                      <EllipsisVertical />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-30">
-                      <DropdownMenuGroup>
-                        {(+userData?.query?.role === UserRole.Trainee
-                          ? data?.trainerId?.id === +userData?.query?.detailsid
-                            ? true
-                            : permissions?.createCourse
-                          : true) && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e: any) =>
-                              handleCopy(e, data?.currentVersion?.id as number)
-                            }
-                          >
-                            <Copy className="w-4 h-4" />
-                            <span>Copy</span>
-                          </DropdownMenuItem>
-                        )}
-                        {(data?.trainerId?.id === +userData?.query?.detailsid ||
-                          +userData?.query?.role !== UserRole.Trainee) &&
-                          (data?.status === "PUBLISHED" ||
-                            data?.status === "UNPUBLISHED") && (
+                  {!(
+                    data?.status === "PUBLISHED" &&
+                    +userData?.query?.role === UserRole.Trainee
+                  ) && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild className="">
+                        <EllipsisVertical />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-30">
+                        <DropdownMenuGroup>
+                          {(+userData?.query?.role === UserRole.Trainee
+                            ? data?.trainerId?.id ===
+                              +userData?.query?.detailsid
+                              ? true
+                              : permissions?.createCourse
+                            : true) && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleChangeStatus(e, data)}
+                              onClick={(e: any) =>
+                                handleCopy(
+                                  e,
+                                  data?.currentVersion?.id as number
+                                )
+                              }
+                            >
+                              <Copy className="w-4 h-4" />
+                              <span>Copy</span>
+                            </DropdownMenuItem>
+                          )}
+                          {(data?.trainerId?.id ===
+                            +userData?.query?.detailsid ||
+                            +userData?.query?.role !== UserRole.Trainee) &&
+                            (data?.status === "PUBLISHED" ||
+                              data?.status === "UNPUBLISHED") && (
+                              <DropdownMenuItem
+                                className="flex items-center gap-2 font-nunito"
+                                onClick={(e) => handleChangeStatus(e, data)}
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>
+                                  {data?.status === "UNPUBLISHED"
+                                    ? "Re-Publish"
+                                    : "Un-Publish"}
+                                </span>
+                              </DropdownMenuItem>
+                            )}
+                          {+userData?.query?.role !== UserRole.Trainee && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) =>
+                                handleEdit(
+                                  e,
+                                  data,
+                                  data?.status === "DRAFT"
+                                    ? "edit"
+                                    : "editminor"
+                                )
+                              }
                             >
                               <Pencil className="w-4 h-4" />
                               <span>
-                                {data?.status === "UNPUBLISHED"
-                                  ? "Re-Publish"
-                                  : "Un-Publish"}
+                                {data?.status === "DRAFT"
+                                  ? "Edit"
+                                  : "Edit minor"}
                               </span>
                             </DropdownMenuItem>
                           )}
-                        {+userData?.query?.role !== UserRole.Trainee && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) =>
-                              handleEdit(
-                                e,
-                                data,
-                                data?.status === "DRAFT" ? "edit" : "editminor"
-                              )
-                            }
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>
-                              {data?.status === "DRAFT" ? "Edit" : "Edit minor"}
-                            </span>
-                          </DropdownMenuItem>
-                        )}
-                        {+userData?.query?.role === UserRole.Trainee &&
-                          data?.status === "DRAFT" && (
-                            <DropdownMenuItem
-                              className="flex items-center gap-2 font-nunito"
-                              onClick={(e) => handleEdit(e, data, "edit")}
-                            >
-                              <Pencil className="w-4 h-4" />
-                              <span>Edit</span>
-                            </DropdownMenuItem>
-                          )}
-                        {data?.status !== "EXPIRED" &&
-                          data?.status !== "DRAFT" &&
-                          (+userData?.query?.role === UserRole.Trainee
-                            ? update
-                            : true) && (
-                            <>
+                          {+userData?.query?.role === UserRole.Trainee &&
+                            data?.status === "DRAFT" && (
                               <DropdownMenuItem
                                 className="flex items-center gap-2 font-nunito"
-                                onClick={(e) =>
-                                  handleEdit(e, data, "editWithNew")
-                                }
+                                onClick={(e) => handleEdit(e, data, "edit")}
                               >
                                 <Pencil className="w-4 h-4" />
-                                <span>Edit new versions</span>
+                                <span>Edit</span>
                               </DropdownMenuItem>
-                            </>
+                            )}
+                          {data?.status !== "EXPIRED" &&
+                            data?.status !== "DRAFT" &&
+                            (+userData?.query?.role === UserRole.Trainee
+                              ? update
+                              : true) && (
+                              <>
+                                <DropdownMenuItem
+                                  className="flex items-center gap-2 font-nunito"
+                                  onClick={(e) =>
+                                    handleEdit(e, data, "editWithNew")
+                                  }
+                                >
+                                  <Pencil className="w-4 h-4" />
+                                  <span>Edit new versions</span>
+                                </DropdownMenuItem>
+                              </>
+                            )}
+                          {+userData?.query?.role !== UserRole.Trainee && (
+                            <DropdownMenuItem
+                              className={`items-center gap-2 font-nunito ${
+                                +userData?.query?.role === UserRole.Trainee
+                                  ? "hidden"
+                                  : "flex"
+                              }`}
+                              disabled={data?.status !== "PUBLISHED"}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(data?.id);
+                                setSelectedCourse(data);
+                              }}
+                            >
+                              <Combine className="w-4 h-4" />
+                              <span>Allocate</span>
+                            </DropdownMenuItem>
                           )}
-                        {+userData?.query?.role !== UserRole.Trainee && (
-                          <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${
-                              +userData?.query?.role === UserRole.Trainee
-                                ? "hidden"
-                                : "flex"
-                            }`}
-                            disabled={data?.status !== "PUBLISHED"}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsOpen(data?.id);
-                              setSelectedCourse(data);
-                            }}
-                          >
-                            <Combine className="w-4 h-4" />
-                            <span>Allocate</span>
-                          </DropdownMenuItem>
-                        )}
-                        <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            pathName === "trainee" &&
-                            data?.trainerId?.id === +userData?.query?.detailsid
-                              ? "flex"
-                              : ""
-                          }`}
-                          onClick={(e: any) => {
-                            e.stopPropagation();
-                            setIsDelete(true);
-                            setSingleCourse(data);
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Delete</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                          {(data?.trainerId?.id ===
+                            +userData?.query?.detailsid ||
+                            +userData?.query?.role !== UserRole.Trainee) &&
+                            ["DRAFT", "READYTOPUBLISH"].includes(
+                              data?.status
+                            ) && (
+                              <DropdownMenuItem
+                                className={`items-center gap-2 font-nunito ${
+                                  pathName === "trainee" &&
+                                  data?.trainerId?.id ===
+                                    +userData?.query?.detailsid
+                                    ? "flex"
+                                    : ""
+                                }`}
+                                onClick={(e: any) => {
+                                  e.stopPropagation();
+                                  setIsDelete(true);
+                                  setSingleCourse(data);
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                                <span>Delete</span>
+                              </DropdownMenuItem>
+                            )}
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                 </div>
                 <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto xl:block hidden"></div>
               </div>

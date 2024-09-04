@@ -67,6 +67,7 @@ const GridView = ({
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
   const pathName = location?.pathname?.split("/")?.[2];
+  console.log("🚀 ~ pathName:", pathName);
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -204,7 +205,6 @@ const GridView = ({
     const cohortCount =
       list?.find((item) => item?.currentVersion?.id === (+id || 0))
         ?.currentVersion?.cohortGroup?.length || 0;
-    console.log(cohortCount);
 
     if (
       +userData?.query?.role === UserRole?.Trainee ||
@@ -322,8 +322,6 @@ const GridView = ({
       )}
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item: any, i: number) => {
-          console.log("+++item+++", item?.status);
-
           const update =
             +userData?.query?.role === UserRole?.Trainer
               ? true
@@ -385,13 +383,11 @@ const GridView = ({
                   alt={"bannerImage"}
                   className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
-                <div className="absolute right-2 bottom-2">
-                  <Badge className="bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
-                    {item?.status === "READYTOPUBLISH"
-                      ? "Ready to Publish"
-                      : item?.status || item?.status}
-                  </Badge>
-                </div>
+                <Badge className="absolute right-2 bottom-2 bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                  {item?.status === "READYTOPUBLISH"
+                    ? "Ready to Publish"
+                    : item?.status || item?.status}
+                </Badge>
               </div>
               <div className="p-2 h-[calc(100%-220px)]">
                 <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
@@ -428,14 +424,13 @@ const GridView = ({
                 <div className="flex items-center gap-2 flex-wrap">
                   {item?.courseData?.map((item: CourseDataEntity) => {
                     return (
-                      <div className="" key={item?.pillarId}>
-                        <Badge
-                          variant="outline"
-                          className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
-                        >
-                          {item?.fetchPillar?.pillarName}
-                        </Badge>
-                      </div>
+                      <Badge
+                        variant="outline"
+                        key={item?.pillarId}
+                        className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                      >
+                        {item?.fetchPillar?.pillarName}
+                      </Badge>
                     );
                   })}
                 </div>
@@ -494,127 +489,136 @@ const GridView = ({
                     />
                   </div>
                 )}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild className="outline-none">
-                    <EllipsisVertical className="w-8" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-30">
-                    <DropdownMenuGroup>
-                      {(+userData?.query?.role === UserRole.Trainee
-                        ? // ? item?.trainerId?.id === +userData?.query?.detailsid
-                          //   ? true
-                          permissions?.createCourse
-                        : true) && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e: any) =>
-                            handleCopy(e, item?.currentVersion?.id)
-                          }
-                        >
-                          <Copy className="w-4 h-4" />
-                          <span>Copy</span>
-                        </DropdownMenuItem>
-                      )}
-                      {(item?.trainerId?.id === +userData?.query?.detailsid ||
-                        +userData?.query?.role !== UserRole.Trainee) &&
-                        (item?.status === "PUBLISHED" ||
-                          item?.status === "UNPUBLISHED") && (
+                {!(
+                  (item?.status === "PUBLISHED" || pathName === "allcourse") &&
+                  +userData?.query?.role === UserRole.Trainee
+                ) && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="outline-none">
+                      <EllipsisVertical className="w-8" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-30">
+                      <DropdownMenuGroup>
+                        {(+userData?.query?.role === UserRole.Trainee
+                          ? // ? item?.trainerId?.id === +userData?.query?.detailsid
+                            //   ? true
+                            permissions?.createCourse
+                          : true) && (
                           <DropdownMenuItem
                             className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleChangeStatus(e, item)}
+                            onClick={(e: any) =>
+                              handleCopy(e, item?.currentVersion?.id)
+                            }
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>Copy</span>
+                          </DropdownMenuItem>
+                        )}
+                        {(item?.trainerId?.id === +userData?.query?.detailsid ||
+                          +userData?.query?.role !== UserRole.Trainee) &&
+                          (item?.status === "PUBLISHED" ||
+                            item?.status === "UNPUBLISHED") && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleChangeStatus(e, item)}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>
+                                {item?.status === "UNPUBLISHED"
+                                  ? "Re-Publish"
+                                  : "Un-Publish"}
+                              </span>
+                            </DropdownMenuItem>
+                          )}
+                        {+userData?.query?.role !== UserRole.Trainee && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) =>
+                              handleEdit(
+                                e,
+                                item,
+                                item?.status === "DRAFT" ? "edit" : "editminor"
+                              )
+                            }
                           >
                             <Pencil className="w-4 h-4" />
                             <span>
-                              {item?.status === "UNPUBLISHED"
-                                ? "Re-Publish"
-                                : "Un-Publish"}
+                              {item?.status === "DRAFT" ? "Edit" : "Edit minor"}
                             </span>
                           </DropdownMenuItem>
                         )}
-                      {+userData?.query?.role !== UserRole.Trainee && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) =>
-                            handleEdit(
-                              e,
-                              item,
-                              item?.status === "DRAFT" ? "edit" : "editminor"
-                            )
-                          }
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>
-                            {item?.status === "DRAFT" ? "Edit" : "Edit minor"}
-                          </span>
-                        </DropdownMenuItem>
-                      )}
-                      {+userData?.query?.role === UserRole.Trainee &&
-                        item?.status === "DRAFT" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, item, "edit")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Edit</span>
-                          </DropdownMenuItem>
-                        )}
-                      {item?.status !== "EXPIRED" &&
-                        item?.status !== "DRAFT" &&
-                        (+userData?.query?.role === UserRole.Trainee
-                          ? true
-                          : update) && (
-                          <>
+                        {+userData?.query?.role === UserRole.Trainee &&
+                          item?.status === "DRAFT" && (
                             <DropdownMenuItem
                               className="flex items-center gap-2 font-nunito"
-                              onClick={(e) =>
-                                handleEdit(e, item, "editWithNew")
-                              }
+                              onClick={(e) => handleEdit(e, item, "edit")}
                             >
                               <Pencil className="w-4 h-4" />
-                              <span>Edit new versions</span>
+                              <span>Edit</span>
                             </DropdownMenuItem>
-                          </>
+                          )}
+                        {item?.status !== "EXPIRED" &&
+                          item?.status !== "DRAFT" &&
+                          (+userData?.query?.role === UserRole.Trainee
+                            ? true
+                            : update) && (
+                            <>
+                              <DropdownMenuItem
+                                className="flex items-center gap-2 font-nunito"
+                                onClick={(e) =>
+                                  handleEdit(e, item, "editWithNew")
+                                }
+                              >
+                                <Pencil className="w-4 h-4" />
+                                <span>Edit new versions</span>
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                        {+userData?.query?.role !== UserRole.Trainee && (
+                          <DropdownMenuItem
+                            className={`flex items-center gap-2 font-nunito ${
+                              +userData?.query?.role === UserRole.Trainee
+                                ? "hidden"
+                                : "flex"
+                            }`}
+                            disabled={item?.status !== "PUBLISHED"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsOpen(item?.currentVersion?.mainCourse?.id);
+                              setSelectedCourse(item);
+                            }}
+                          >
+                            <Combine className="w-4 h-4" />
+                            <span>Allocate</span>
+                          </DropdownMenuItem>
                         )}
-                      {+userData?.query?.role !== UserRole.Trainee && (
-                        <DropdownMenuItem
-                          className={`flex items-center gap-2 font-nunito ${
-                            +userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                          }`}
-                          disabled={item?.status !== "PUBLISHED"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsOpen(item?.currentVersion?.mainCourse?.id);
-                            setSelectedCourse(item);
-                          }}
-                        >
-                          <Combine className="w-4 h-4" />
-                          <span>Allocate</span>
-                        </DropdownMenuItem>
-                      )}
-                      {(item?.trainerId?.id === +userData?.query?.detailsid ||
-                        +userData?.query?.role !== UserRole.Trainee) && (
-                        <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            pathName === "trainee" &&
-                            item?.trainerId?.id === +userData?.query?.detailsid
-                              ? "flex"
-                              : ""
-                          }`}
-                          onClick={(e: any) => {
-                            e.stopPropagation();
-                            setIsDelete(true);
-                            setSingleCourse(item);
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Delete</span>
-                        </DropdownMenuItem>
-                      )}
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                        {(item?.trainerId?.id === +userData?.query?.detailsid ||
+                          +userData?.query?.role !== UserRole.Trainee) &&
+                          ["DRAFT", "READYTOPUBLISH"].includes(
+                            item?.status
+                          ) && (
+                            <DropdownMenuItem
+                              className={`items-center gap-2 font-nunito ${
+                                pathName === "trainee" &&
+                                item?.trainerId?.id ===
+                                  +userData?.query?.detailsid
+                                  ? "flex"
+                                  : ""
+                              }`}
+                              onClick={(e: any) => {
+                                e.stopPropagation();
+                                setIsDelete(true);
+                                setSingleCourse(item);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              <span>Delete</span>
+                            </DropdownMenuItem>
+                          )}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             </Link>
           );

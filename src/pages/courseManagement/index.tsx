@@ -13,6 +13,7 @@ import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
+import React, { useEffect } from "react";
 
 const CourseManagement = () => {
   const dispatch = useAppDispatch();
@@ -27,6 +28,7 @@ const CourseManagement = () => {
   const pathName = location?.pathname?.split("/")[1];
   const courseId = +location?.pathname?.split("/")[3];
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [currentTab, setCurrentTab] = React.useState<string>("0");
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -102,13 +104,24 @@ const CourseManagement = () => {
     enabled: !!userData,
   });
 
+  useEffect(() => {
+    if (paramsTab) {
+      if (+selectTargetPillarLimit?.data?.LMSaccess !== 0) {
+        setCurrentTab(paramsTab);
+      } else {
+        const tab = +paramsTab === 2 ? "1" : paramsTab;
+        setCurrentTab(tab);
+      }
+    }
+  }, [paramsTab, selectTargetPillarLimit?.data?.LMSaccess]);
+
   console.log("errors+++", +selectTargetPillarLimit?.data?.LMSaccess === 0);
 
   return (
     <div className="bg-white p-0">
       <Tabs
-        defaultValue={paramsTab}
-        value={paramsTab}
+        defaultValue={currentTab}
+        value={currentTab}
         className=""
         onValueChange={(e) => handleChangeTab(e)}
       >

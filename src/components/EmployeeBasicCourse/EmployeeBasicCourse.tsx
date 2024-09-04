@@ -82,24 +82,39 @@ const EmployeeBasicCourse = () => {
   }, [tab, location]);
 
   console.log("🚀 ~ EmployeeBasicCourse ~ course:", getModule);
-  const assessment = fetchEmployeeSingeCourse?.data?.course?.module?.filter((item:any) => item?.assessment.length > 0).map((item:any) => item?.assessment?.[0]?.isCompleted);
-  const assessmentStatus = assessment?.filter((item) => item === true)?.length === assessment?.length;
-  const sessionCompleted = getModule?.moduleStatuses?.filter((item) => item.status === "completed")?.length;
-  const courseFeedBack:any = fetchEmployeeSingeCourse?.data?.course?.feedBack?.find((item:any) => item?.user?.id);
-  
+  const assessment = fetchEmployeeSingeCourse?.data?.course?.module
+    ?.filter((item: any) => item?.assessment.length > 0)
+    .map((item: any) => item?.assessment?.[0]?.isCompleted);
 
-  console.log("asdasd+++", (assessmentStatus && sessionCompleted === getModule?.moduleStatuses?.length) && !courseFeedBack?.id);
-  
+  const assessmentStatus =
+    assessment?.filter((item) => item === true)?.length === assessment?.length;
+
+  const sessionCompleted = getModule?.moduleStatuses?.filter(
+    (item) => item.status === "completed"
+  )?.length;
+
+  const courseFeedBack: any =
+    fetchEmployeeSingeCourse?.data?.course?.feedBack?.find(
+      (item: any) => item?.user?.id
+    );
 
   useEffect(() => {
-    if(!courseFeedBack?.id){
-      if((assessmentStatus && sessionCompleted === getModule?.moduleStatuses?.length)){
-        setIsOpenReviewModal(true)
+    if (!courseFeedBack?.id) {
+      if (
+        assessmentStatus &&
+        sessionCompleted === getModule?.moduleStatuses?.length
+      ) {
+        setIsOpenReviewModal(true);
       }
     }
-  }, [fetchEmployeeSingeCourse, getModule?.moduleStatuses]);
-  
-  
+  }, [
+    fetchEmployeeSingeCourse,
+    assessmentStatus,
+    getModule?.moduleStatuses,
+    courseFeedBack?.id,
+    sessionCompleted,
+  ]);
+
   return (
     <>
       <Modal
