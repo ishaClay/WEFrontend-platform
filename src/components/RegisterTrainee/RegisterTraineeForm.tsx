@@ -704,11 +704,17 @@ const RegisterTraineeForm = () => {
       </form>
       <p className="xl:mt-[39px] mt-[30px] text-[#898989] text-[12px] leading-[14.65px] w-[296px] text-center font-normal mx-auto">
         Protected by reCAPTCHA and subject to the Skillnet
-        <Link to={"/privacypolicy"} className="text-darkslategray-200 mx-1">
+        <Link
+          to={"/privacypolicy"}
+          className="text-darkslategray-200 font-bold mx-1"
+        >
           Privacy Policy
         </Link>
         and
-        <Link to={"/termsofservices"} className="text-darkslategray-200 mx-1">
+        <Link
+          to={"/termsofservices"}
+          className="text-darkslategray-200 font-bold mx-1"
+        >
           Terms of Service.
         </Link>
       </p>

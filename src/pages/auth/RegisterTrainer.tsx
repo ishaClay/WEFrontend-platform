@@ -583,13 +583,16 @@ function RegisterTrainer() {
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet
-                    <Link to="/privacypolicy" className="text-[#042937] mx-1">
+                    <Link
+                      to="/privacypolicy"
+                      className="text-[#042937] font-bold mx-1"
+                    >
                       Privacy Policy
                     </Link>
                     and
                     <Link
                       to={"/termsofservices"}
-                      className="text-[#042937] mx-1"
+                      className="text-[#042937] font-bold mx-1"
                     >
                       Terms of Service.
                     </Link>
