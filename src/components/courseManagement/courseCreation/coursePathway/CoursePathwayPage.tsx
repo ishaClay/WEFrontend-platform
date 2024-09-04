@@ -113,12 +113,12 @@ const CoursePathwayPage = () => {
     });
   };
 
-  const { data: getSingleCourse, isFetching: getSingleCourseFetching } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: +courseId ? !!paramsversion : false,
-  });
-  console.log("paramsversion", paramsversion);
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion }],
+      queryFn: () => fetchSingleCourseById(String(paramsversion)),
+      enabled: +courseId ? !!paramsversion : false,
+    });
 
   useEffect(() => {
     if (getSingleCourse) {
@@ -126,12 +126,6 @@ const CoursePathwayPage = () => {
       setSelectedData(data);
     }
   }, [getSingleCourse]);
-
-  console.log(
-    "selectedData.length >= selectTargetPillarLimit?.data?.pillarLimit",
-    selectedData.length,
-    selectTargetPillarLimit?.data?.pillarLimit
-  );
 
   const updateedPillar = (selectedData: any, pillarLimit: any) => {
     if (selectedData?.length !== pillarLimit?.length) return false;
@@ -212,9 +206,9 @@ const CoursePathwayPage = () => {
           <div className="flex items-center gap-3">
             <img src={CloseIcon} alt="close" />
             <span className="text-[#842029] text-base font-calibri">
-              You can tag up to 3 pillars per course. If your course targets
-              additional pillars, please reach out to your Skillnet admin to
-              request more tags.
+              You can tag up to {selectTargetPillarLimit?.data?.pillarLimit}{" "}
+              pillars per course. If your course targets additional pillars,
+              please reach out to your Skillnet admin to request more tags.
             </span>
           </div>
           <Button

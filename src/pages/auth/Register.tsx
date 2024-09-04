@@ -52,7 +52,7 @@ const schema = z
       .string()
       .min(1, { message: "Please enter password" })
       .regex(
-        /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d)(.{8,})$/,
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`|-]).{8,}$/,
         "Password must contain at least one uppercase letter, one number, one special character, and a minimum of 8 characters"
       ),
     cpassword: z.string().min(1, { message: "Please enter confirm password" }),
@@ -342,26 +342,24 @@ function Register() {
 
           <div className="w-full 2xl:px-0 px-5 sm:mt-[33px] mt-[20px] sm:max-w-[515px] max-w-[450px] mx-auto flex flex-col justify-between">
             <div>
-              <div className="flex justify-end text-[#000]">
+              {/* <div className="flex justify-end text-[#000]">
                 <label>
                   Already have an account?{" "}
                   <Link to={"/auth"} className="font-[700] text-[#042937]">
                     Sign In
                   </Link>
                 </label>
-              </div>
+              </div> */}
 
               {selectedRole !== "company" ? (
                 <div className="lg:h-[524px] h-[350px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
                   <div className="">
-                    <h3 className="sm:text-[24px] text-[22px] font-[700] sm:mb-[40px] mb-[32px] font-abhaya">
-                      Which best describes you?
-                    </h3>
-                    <img
-                      className="absolute right-[5px] top-[15px]"
-                      src={RunnerIcon}
-                      alt="RunnerIcon"
-                    />
+                    <div className="flex items-center justify-between">
+                      <h3 className="sm:text-[24px] text-[22px] font-[700]  font-abhaya">
+                        Which best describes you?
+                      </h3>
+                      <img className="" src={RunnerIcon} alt="RunnerIcon" />
+                    </div>
                     <img className="" src="../assets/img/Line 23.png" />
                     <p className="text-[16px] font-[400] mt-3 font-abhaya">
                       Select your role so we can get you to the right place.

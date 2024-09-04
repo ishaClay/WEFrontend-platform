@@ -57,6 +57,8 @@ const SetTarget = ({
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.enumUpadateList],
       });
+      setStep(2);
+      setIsEdit(false);
       localStorage.setItem("path", JSON.stringify(data.data.data?.pathStatus));
     },
   });
@@ -83,8 +85,6 @@ const SetTarget = ({
 
   const handleSelect = () => {
     EnumUpadate();
-    setStep(2);
-    setIsEdit(false);
   };
 
   return (
