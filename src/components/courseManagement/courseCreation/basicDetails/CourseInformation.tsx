@@ -65,7 +65,7 @@ const schema = zod
       ),
     discountApplicable: zod.number().optional(),
     discountProvider: zod
-      .string({ required_error: "Please select Discount Provider" })
+      .string({ required_error: "Please select discount provider" })
       .min(1, "Please select a discount provider")
       .optional(),
   })
@@ -78,7 +78,7 @@ const schema = zod
       return true;
     },
     {
-      message: "Course Price is required",
+      message: "Course price is required",
       path: ["price", "freeCourse"],
     }
   )
@@ -98,7 +98,7 @@ const schema = zod
       if (data.price === undefined || data.price === "") {
         ctx.addIssue({
           code: zod.ZodIssueCode.custom,
-          message: "Course Price is required 123",
+          message: "Course price is required",
           path: ["price"],
         });
       }

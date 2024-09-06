@@ -22,14 +22,14 @@ import * as zod from "zod";
 
 const schema = zod
   .object({
-    instituteOther: zod.string().min(1, "Please select Affiliation"),
+    instituteOther: zod.string().min(1, "Please select affiliation"),
     otherInstitutionName: zod.string().optional().nullable(),
   })
   .superRefine((data, ctx) => {
     if (data.instituteOther === "yes" && !data.otherInstitutionName) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
-        message: "Please enter Institution Name",
+        message: "Please enter institution name",
         path: ["otherInstitutionName"],
       });
     }
@@ -101,13 +101,12 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
     },
   });
 
-  const { data: getSingleCourse, isFetching: getSingleCoursePending } = useQuery(
-    {
+  const { data: getSingleCourse, isFetching: getSingleCoursePending } =
+    useQuery({
       queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
       queryFn: () => fetchSingleCourseById(String(paramsversion)),
       enabled: !!paramsversion,
-    }
-  );
+    });
 
   // const { data: getInstitutionsList } = useQuery({
   //   queryKey: [QUERY_KEYS.getInstitutions],
@@ -326,7 +325,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
             </Button>
           </div>
         </form>
-      <Loading isLoading={getSingleCoursePending} />
+        <Loading isLoading={getSingleCoursePending} />
       </div>
     </>
   );

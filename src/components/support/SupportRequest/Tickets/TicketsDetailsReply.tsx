@@ -127,7 +127,7 @@ const TicketsDetailsReply = () => {
       });
       toast({
         variant: "default",
-        title: "Ticket Updated Successfully",
+        title: "Ticket updated successfully",
       });
       dispatch(
         setPath([

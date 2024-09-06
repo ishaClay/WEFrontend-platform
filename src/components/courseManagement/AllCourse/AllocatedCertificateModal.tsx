@@ -31,8 +31,8 @@ interface CourseViewAllocatePopupProps {
 }
 
 const schema = zod.object({
-  fname: zod.string().min(1, { message: "First Name is required" }),
-  lname: zod.string().min(1, { message: "Last Name is required" }),
+  fname: zod.string().min(1, { message: "First name is required" }),
+  lname: zod.string().min(1, { message: "Last name is required" }),
   email: zod.string().email({ message: "Please enter valid email" }),
   message: zod.string().optional(),
 });
@@ -148,7 +148,7 @@ export function AllocatedCertificateModal({
       if (data?.data?.trainerExist?.length > 0) {
         toast({
           title: "Error",
-          description: "Trainer invitation Already send.",
+          description: "Trainer invitation already send.",
           variant: "destructive",
         });
       } else {

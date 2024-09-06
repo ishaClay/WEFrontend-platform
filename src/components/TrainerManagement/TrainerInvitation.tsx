@@ -31,7 +31,7 @@ const initialData = {
 const schema = Zod.object({
   file: Zod.string().optional(),
   invitiondetail: Zod.string().min(1, {
-    message: "Please Enter Invition Detail",
+    message: "Please enter invition detail",
   }),
 });
 const TrainerInvitation = () => {
@@ -79,7 +79,7 @@ const TrainerInvitation = () => {
         if (data?.data?.trainerExist?.length > 0) {
           toast({
             title: "Error",
-            description: "Trainer invitation Already send.",
+            description: "Trainer invitation already send.",
             variant: "destructive",
           });
         } else {

@@ -14,7 +14,7 @@ import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 
 const schema = z.object({
-  invitiondetail: z.string().min(1, { message: "Email Address is required" }),
+  invitiondetail: z.string().min(1, { message: "Email address is required" }),
 });
 const InviteMember = ({
   isOpen,
@@ -63,7 +63,7 @@ const InviteMember = ({
         lName: "",
       });
       setIsOpen(false);
-      toast({ title: "Invitation Sent Successfully", variant: "success" });
+      toast({ title: "Invitation sent successfully", variant: "success" });
     },
     onError: (error) => {
       toast({

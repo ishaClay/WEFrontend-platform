@@ -91,7 +91,7 @@ const ScheduleLiveSessionPage = () => {
         required_error: "Please select course",
       }),
       selectLiveSession: z.string({
-        required_error: "Please select Live session",
+        required_error: "Please select live session",
       }),
       sessionSubtitle: z.string().nonempty("Please enter session subtitle"),
       sessionDescription: z
@@ -113,14 +113,14 @@ const ScheduleLiveSessionPage = () => {
         if (!data.zoomUrl) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Please enter Zoom URL",
+            message: "Please enter zoom URL",
             path: ["zoomUrl"],
           });
         } else if (!/^https?:\/\/[^\s/$.?#].[^\s]*$/.test(data.zoomUrl)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message:
-              "Please enter a valid Zoom URL starting with http:// or https://",
+              "Please enter a valid zoom URL starting with http:// or https://",
             path: ["zoomUrl"],
           });
         }
@@ -158,9 +158,7 @@ const ScheduleLiveSessionPage = () => {
       )
   );
 
-  const {
-    data: selectTargetPillarLimit,
-  } = useQuery({
+  const { data: selectTargetPillarLimit } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(userData?.query?.detailsid as string),
     enabled: !!userData,
@@ -179,12 +177,12 @@ const ScheduleLiveSessionPage = () => {
       enabled: !!id,
     });
 
-  const { data: fetchTraineeCompany } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchTraineeCompany],
-      queryFn: () => getTraineeCompany(+CompanyId, +watch("selectCourse"), selectLiveSession),
-      enabled: !!CompanyId && !!watch("selectCourse") && !!selectLiveSession,
-    });
+  const { data: fetchTraineeCompany } = useQuery({
+    queryKey: [QUERY_KEYS.fetchTraineeCompany],
+    queryFn: () =>
+      getTraineeCompany(+CompanyId, +watch("selectCourse"), selectLiveSession),
+    enabled: !!CompanyId && !!watch("selectCourse") && !!selectLiveSession,
+  });
 
   useEffect(() => {
     queryclient.invalidateQueries({
@@ -712,12 +710,7 @@ const ScheduleLiveSessionPage = () => {
           </div>
         </div>
       </form>
-      <Loading
-        isLoading={
-          fetchZoomSettingLoading ||
-          fetchCoursePending
-        }
-      />
+      <Loading isLoading={fetchZoomSettingLoading || fetchCoursePending} />
     </>
   );
 };

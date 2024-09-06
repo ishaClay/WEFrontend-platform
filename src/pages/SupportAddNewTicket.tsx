@@ -49,7 +49,7 @@ function SupportAddNewTicket() {
   const user = userData ? JSON.parse(userData) : null;
 
   const schema = z.object({
-    assignTo: z.string({ required_error: "Please select Assigned To" }),
+    assignTo: z.string({ required_error: "Please select assigned to" }),
     ticketPriority: z.string({
       required_error: "Please select ticket priority",
     }),
