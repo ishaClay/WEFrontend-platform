@@ -15,7 +15,7 @@ import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLev
 import { UserRole } from "@/types/UserRole";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 
 type AssessmentResultProps = {
@@ -23,6 +23,7 @@ type AssessmentResultProps = {
   assessmentData: any;
   showButton: number;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
+  setAssessmentPercentage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const AssessmentResult = ({
@@ -30,6 +31,7 @@ const AssessmentResult = ({
   assessmentData,
   showButton,
   setIsEdit,
+  setAssessmentPercentage
 }: AssessmentResultProps) => {
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -114,6 +116,10 @@ const AssessmentResult = ({
 
   const setScore = isNaN(Number(score)) ? 0 : score;
   const currentLavel = findMaturityLevel(Number(setScore));
+
+  useEffect(() => {
+    setAssessmentPercentage(+setScore)
+  }, [setScore])  
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
