@@ -1,6 +1,7 @@
 // MyDocument.tsx
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import moment from "moment";
 
 interface DataItem {
   "Piller Name": string;
@@ -21,6 +22,8 @@ interface MyDocumentProps {
   assessmentData?: any;
   allassessmantData?: any;
   fetchClientmaturitylevel?: any;
+  assessmentPercentage: number;
+  completionDate: string;
 }
 
 // Create styles for the PDF
@@ -31,15 +34,21 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 15,
+    border: 1,
+    borderStyle: "solid",
+    borderRadius: 6,
   },
   pillarSectionView: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     width: "100%",
-    columnGap: 10
+    borderRight: 1,
+    marginBottom: 20,
   },
   pillarSection: {
-    marginBottom: 10,
-    width: "33.33%"
+    width: "33.33%",
+    borderWidth: 1,
+    borderRight: 0,
+    borderStyle: "solid",
   },
   pillarSectionCard: {
     marginBottom: 10,
@@ -65,11 +74,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    marginBottom: 6,
   },
   mainSectionContent: {
-    fontSize: 10,
-    marginBottom: 6
+    fontSize: 18,
+    marginBottom: 6,
+    fontWeight: "bold",
   },
   sectionContent: {
     fontSize: 14,
@@ -91,10 +100,43 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   overallLevelTitle: {
-    padding: 3,
+    padding: 4,
     borderRadius: 6,
+    fontSize: 10,
   },
-
+  table: {
+    width: 'auto',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    borderBottom: 1
+  },
+  tablecol2: {
+    width: '12%',
+  },
+  tableCell: {
+    width: '100%',
+    padding: 5,
+    fontSize: 10,
+  },
+  heavyText: {
+    fontWeight: "ultrabold"
+  },
+  tableCol: {
+    width: '100%',
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderRight: 1
+  },
+  tableCol1: {
+    width: '41%',
+  },
+  tableCol2: {
+    width: '16%',
+  },
+  tableCol3: {
+    width: '13%',
+  },
 });
 
 // Create Document Component
@@ -102,7 +144,9 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
   data,
   companyName,
   assessmentData,
-  fetchClientmaturitylevel
+  fetchClientmaturitylevel,
+  assessmentPercentage,
+  completionDate
 }) => {
   const calculatePercentage = (
     totalPoints: string,
@@ -123,22 +167,22 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
     }
     return null;
   };
-  
+
   const calculateTotalsAndLevel = (data: any) => {
     const levels = ["Introductory", "Intermediate", "Advanced"];
     let totalPoints = 0;
     let totalMaxPoints = 0;
-  
+
     levels.forEach(level => {
       data[level].forEach((pillar: any) => {
         totalPoints += parseFloat(pillar.totalpoints);
         totalMaxPoints += parseFloat(pillar.totalmaxpoint);
       });
     });
-  
+
     const overallPercentage = (totalPoints / totalMaxPoints) * 100;
     const maturity = findMaturityLevel(overallPercentage);
-  
+
     return {
       totalPoints: `${totalPoints}/${totalMaxPoints}`,
       overallLevel: maturity ? maturity.maturityLevelName : "Unknown",
@@ -148,20 +192,24 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
 
   const renderAssessmentSection = (title: string, pillars: any) => (
     <View style={styles.pillarSection}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+      <Text style={[styles.sectionTitle, { textAlign: "center", marginBottom: 10, paddingBottom: 10, paddingTop: 10, borderBottomWidth: 1, }]}>{title}</Text>
       {pillars.length === 0 ? (
         <Text style={styles.sectionContent}>---</Text>
-      ) : (
-        pillars.map((item: any, index: number) => (
-          <View key={index} style={{...styles.pillarSectionCard, backgroundColor: title === "Introductory" ? "#F63636" : title === "Intermediate" ? "#FFD56A" : "#64A70B"}}>
-            <Text style={{...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF"}}>Pillar: {item.pillarname}</Text>
-            <Text style={{...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF"}}>
-              Percentage:{" "}
-              {calculatePercentage(item.totalpoints, item.totalmaxpoint)}
-            </Text>
-          </View>
-        ))
-      )}
+      ) :
+        <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+          {
+            pillars.map((item: any, index: number) => (
+              <View key={index} style={{ ...styles.pillarSectionCard, backgroundColor: title === "Introductory" ? "#F63636" : title === "Intermediate" ? "#FFD56A" : "#64A70B" }}>
+                <Text style={{ ...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF" }}>{item.pillarname}</Text>
+                <Text style={{ ...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF" }}>
+                  Percentage:{" "}
+                  {calculatePercentage(item.totalpoints, item.totalmaxpoint)}
+                </Text>
+              </View>
+            ))
+          }
+        </View>
+      }
     </View>
   );
   const totalsAndLevel = assessmentData ? calculateTotalsAndLevel(assessmentData) : { totalPoints: "", overallLevel: "", color: "" };
@@ -173,44 +221,90 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
       <Page style={styles.page}>
         {companyName && (
           <View style={styles.companySection}>
-            <Text style={styles.sectionTitle}>Company Organization Name :-</Text>
             <Text style={styles.mainSectionContent}>{companyName}</Text>
           </View>
         )}
         <View style={styles.overallSection}>
-          <Text style={styles.overallTitle}>Overall Assessment :- </Text>
-          <Text style={styles.overallContent}>Total Score: {totalsAndLevel.totalPoints}</Text>
-          <Text style={styles.overallContent}>Your Overall Sustainability Level : 
-            <Text style={[styles.overallLevelTitle, {color: overallLevelTextColor, backgroundColor: overallLevelBGColor}]}> {totalsAndLevel.overallLevel}</Text>
-          </Text>
-        </View>
-        <View style={styles.pillarSectionView}>
-          {assessmentData && (
-            <View style={styles.pillarSectionView}>
-              {renderAssessmentSection(
-                "Introductory",
-                assessmentData.Introductory
-              )}
-              {renderAssessmentSection(
-                "Intermediate",
-                assessmentData.Intermediate
-              )}
-              {renderAssessmentSection("Advanced", assessmentData.Advanced)}
+          <Text style={styles.overallTitle}>Overall Assessment </Text>
+          <View style={[styles.overallContent, { flexDirection: "row", marginTop: 2 }]}>
+            <Text>Total Points : </Text>
+            <Text style={{ fontSize: 12, fontWeight: "bold" }}>{totalsAndLevel.totalPoints}</Text>
+          </View>
+          <View style={[styles.overallContent, { flexDirection: "row", marginTop: 2 }]}>
+            <Text>Your Overall Sustainability Assessment Percentage : </Text>
+            <Text style={{ fontSize: 12, fontWeight: "bold" }}>{assessmentPercentage}%</Text>
+          </View>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.overallContent}>Your Overall Sustainability Level : </Text>
+            <View style={{ ...styles.overallLevelTitle, marginLeft: 3, color: overallLevelTextColor, backgroundColor: overallLevelBGColor }}>
+              <Text>{totalsAndLevel.overallLevel}</Text>
             </View>
-          )}
+          </View>
+          <View style={[styles.overallContent, { flexDirection: "row", marginTop: 2 }]}>
+            <Text>Assesment completion date : </Text>
+            <Text style={{ fontSize: 12, fontWeight: "bold" }}>{completionDate}</Text>
+          </View>
         </View>
-        {data?.map((item, index) => (
+        {assessmentData && (
+          <View style={styles.pillarSectionView}>
+            {renderAssessmentSection(
+              "Introductory",
+              assessmentData.Introductory
+            )}
+            {renderAssessmentSection(
+              "Intermediate",
+              assessmentData.Intermediate
+            )}
+            {renderAssessmentSection("Advanced", assessmentData.Advanced)}
+          </View>
+        )}
+        
+        {data?.map((item: any, index) => (
           <View key={index} style={styles.section}>
-            <Text style={styles.title}>Piller Name: {item["Piller Name"]}</Text>
-            <Text style={styles.pillerItem}>Percentage: {item["Percentage"]}</Text>
-            <Text style={styles.pillerItem}>Your Level: {item["Your Leval"]}</Text>
-            <Text style={styles.pillerItem}>Selected Level: {item["Selected Leval"]}</Text>
-            <Text style={styles.pillerItem}>Action Name: {item["Action Name"]}</Text>
-            <Text style={styles.pillerItem}>Assign Name: {item["Assing Name"]}</Text>
-            <Text style={styles.pillerItem}>Action Status: {item["Action Status"]}</Text>
-            <Text style={styles.pillerItem}>Start Date: {item["Start Date"]}</Text>
-            <Text style={styles.pillerItem}>End Date: {item["End Date"]}</Text>
-            <Text style={styles.pillerItem}>Document Link: {item["Document Link"]}</Text>
+            <View style={{ padding: 10, borderBottom: 1, flexDirection: "row", alignItems: "center", rowGap: 10 }}>
+              <Text style={[styles.title, { marginBottom: 0 }]}>{item.pillarName}</Text>
+            </View>
+
+            <View style={[styles.table, { width: '100%' }]}>
+              <View style={[styles.tableRow, { backgroundColor: "#ebebeb" }]}>
+                <View style={[styles.tableCol, styles.tableCol1]} key={index}>
+                  <Text style={[styles.tableCell, styles.heavyText]}>Action items</Text>
+                </View>
+                <View style={[styles.tableCol, styles.tableCol2]} key={index}>
+                  <Text style={[styles.tableCell, styles.heavyText]}>Assignd to</Text>
+                </View>
+                <View style={[styles.tableCol, styles.tableCol3]} key={index}>
+                  <Text style={[styles.tableCell, styles.heavyText]}>Status</Text>
+                </View>
+                <View style={[styles.tableCol, styles.tableCol3]} key={index}>
+                  <Text style={[styles.tableCell, styles.heavyText]}>Start date</Text>
+                </View>
+                <View style={[styles.tableCol, styles.tableCol3, { borderRight: 0 }]} key={index}>
+                  <Text style={[styles.tableCell, styles.heavyText]}>End date</Text>
+                </View>
+              </View>
+              {
+                item?.measures?.map((measuresItem: any, index: number) => (
+                  <View style={[styles.tableRow, { borderBottom:  item?.measures?.length - 1 === index ? 0 : 1 }]}>
+                    <View style={[styles.tableCol, styles.tableCol1]} key={index}>
+                      <Text style={[styles.tableCell, styles.heavyText]}>{measuresItem?.measure || "-"}</Text>
+                    </View>
+                    <View style={[styles.tableCol, styles.tableCol2]} key={index}>
+                      <Text style={[styles.tableCell, styles.heavyText]}>{measuresItem?.employeeId?.name || measuresItem?.employeeId?.email?.split("@")[0] || "-"}</Text>
+                    </View>
+                    <View style={[styles.tableCol, styles.tableCol3]} key={index}>
+                      <Text style={[styles.tableCell, styles.heavyText]}>{measuresItem?.iscompleted === 1 ? "Completed" : "On time"}</Text>
+                    </View>
+                    <View style={[styles.tableCol, styles.tableCol3]} key={index}>
+                      <Text style={[styles.tableCell, styles.heavyText]}>{measuresItem?.startDate ? moment(measuresItem?.startDate).format("DD-MM-YYYY") : "-"}</Text>
+                    </View>
+                    <View style={[styles.tableCol, styles.tableCol3, { borderRight: 0 }]} key={index}>
+                      <Text style={[styles.tableCell, styles.heavyText]}>{measuresItem?.endDate ? moment(measuresItem?.endDate).format("DD-MM-YYYY") : "-"}</Text>
+                    </View>
+                  </View>
+                ))
+              }
+            </View>
           </View>
         ))}
       </Page>

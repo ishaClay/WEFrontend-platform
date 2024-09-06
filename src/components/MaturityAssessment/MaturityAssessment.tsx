@@ -42,6 +42,7 @@ const MaturityAssessment = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { empPermissions } = useContext(PermissionContext);
   const [isEdit, setIsEdit] = useState(false);
+  const [assessmentPercentage, setAssessmentPercentage] = useState(0);
   const [activeTab, setActiveTab] =
     useState<MaturityAssessmentTabs>("assessmentresult");
   const userID =
@@ -171,181 +172,16 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
-  const getStatus = (startDate: string, endDate: string) => {
-    if (
-      moment(new Date(startDate), "YYYY-MM-DD").isSameOrBefore(
-        moment(new Date(), "YYYY-MM-DD")
-      ) &&
-      moment(new Date(endDate), "YYYY-MM-DD").isSameOrAfter(
-        moment(new Date(), "YYYY-MM-DD")
-      )
-    ) {
-      return "On time";
-    } else if (
-      moment(new Date(), "YYYY-MM-DD").isAfter(
-        moment(new Date(endDate), "YYYY-MM-DD")
-      )
-    ) {
-      return "Delay";
-    } else if (
-      moment(new Date(startDate), "YYYY-MM-DD").isAfter(
-        moment(new Date(), "YYYY-MM-DD")
-      )
-    ) {
-      return "In Progress";
-    }
-  };
-
-  const transformData = (): {
-    "Piller Name": string;
-    Percentage: number;
-    "Your Leval": string;
-    "Selected Leval": string;
-    "Action Name": string;
-    "Assing Name": string;
-    "Action Status": string | any;
-    "Start Date": string;
-    "End Date": string;
-    "Document Link": string;
-  }[] => {
-    // Prepare the transformed data array
-    const transformedData: {
-      "Piller Name": string;
-      Percentage: number;
-      "Your Leval": string;
-      "Selected Leval": string;
-      "Action Name": string;
-      "Assing Name": string;
-      "Action Status": string | any;
-      "Start Date": string;
-      "End Date": string;
-      "Document Link": string;
-    }[] = [];
-
-    // Iterate over each pillar
-    getCheckedmeasures?.data?.data.forEach((pillar: any) => {
-      // Extract pillar details
-      const pillarName = pillar.pillarName;
-      const percentage = pillar.progressPR;
-      const yourLeval = pillar.userMaturityLevel[0]?.level || "";
-      const selectedLeval = pillar.userMaturityLevel[0]?.nextLevel || "";
-
-      // Iterate over each measure
-      pillar.measures.forEach((measure: any) => {
-        // Extract measure details
-        const actionName = measure.measure;
-        const actionStatus = getStatus(measure?.startDate, measure?.endDate);
-        const assingName = measure.measureHistory.employeeId
-          ? measure.measureHistory.employeeId.name
-          : "";
-        const startDate = measure?.startDate
-          ? moment(new Date(measure?.startDate)).format("DD/MM/YYYY")
-          : "";
-        const endDate = measure?.endDate
-          ? moment(new Date(measure?.endDate)).format("DD/MM/YYYY")
-          : "";
-        const documentLink = measure?.evidence || "";
-
-        // Push transformed item to the result array
-        transformedData.push({
-          "Piller Name": pillarName,
-          Percentage: percentage,
-          "Your Leval": yourLeval,
-          "Selected Leval": selectedLeval,
-          "Action Name": actionName,
-          "Assing Name": assingName,
-          "Action Status": actionStatus,
-          "Start Date": startDate,
-          "End Date": endDate,
-          "Document Link": documentLink,
-        });
-      });
-
-      // Handle case for measures with empty names
-      if (pillar.measures.length === 0) {
-        transformedData.push({
-          "Piller Name": pillarName,
-          Percentage: percentage,
-          "Your Leval": yourLeval,
-          "Selected Leval": selectedLeval,
-          "Action Name": "",
-          "Assing Name": "",
-          "Action Status": "",
-          "Start Date": "",
-          "End Date": "",
-          "Document Link": "",
-        });
-      }
-    });
-
-    return transformedData;
-  };
-
-  // const exportData = getCheckedmeasures?.data?.data?.map((item: any) => {
-  //   return {
-  //     "Piller Name": item?.pillarName,
-  //     Percentage: item?.progressPR,
-  //     "Your Leval": item?.userMaturityLevel?.[0]?.level,
-  //     "Selected Leval": item?.userMaturityLevel?.[0]?.nextLevel,
-  //     "Action Name": item?.measures
-  //       ?.filter((measuresData: any) => measuresData?.measure)
-  //       ?.map((measures: any) => measures?.measure)
-  //       .join(", "),
-  //     "Assing Name": item?.measures
-  //       ?.filter((measuresData: any) => measuresData?.employeeId?.name)
-  //       ?.map((measures: any) => measures?.employeeId?.name)
-  //       .join(", "),
-  //     "Action Status":
-  //       item?.measures
-  //         ?.filter((measuresData: any) =>
-  //           getStatus(measuresData?.startDate, measuresData?.endDate)
-  //         )
-  //         ?.map((measures: any) =>
-  //           getStatus(measures?.startDate, measures?.endDate)
-  //         )
-  //         .join(", ") || "",
-  //     "Start Date":
-  //       item?.measures
-  //         ?.filter((measuresData: any) => measuresData?.startDate)
-  //         ?.map((measures: any) =>
-  //           moment(new Date(measures?.startDate)).format("DD/MM/YYYY")
-  //         )
-  //         .join(", ") || "",
-  //     "End Date": item?.measures
-  //       ?.filter((measuresData: any) => measuresData?.endDate)
-  //       ?.map((measures: any) =>
-  //         moment(new Date(measures?.endDate)).format("DD/MM/YYYY")
-  //       )
-  //       .join(", "),
-  //     "Document Link": item?.measures
-  //       ?.filter((measuresData: any) => measuresData?.evidence)
-  //       ?.map((measures: any) => measures?.evidence)
-  //       .join(", "),
-  //   };
-  // });
-  // const exportFile = useCallback(() => {
-  //   if (exportData?.length > 0) {
-  //     // const ws = utils.json_to_sheet(exportData);
-  //     // const wb = utils.book_new();
-  //     // utils.book_append_sheet(wb, ws, "Sheet1");
-  //     // const columnWidths = [
-  //     //   { wch: 25 },
-  //     //   { wch: 10 },
-  //     //   { wch: 15 },
-  //     //   { wch: 15 },
-  //     //   { wch: 50 },
-  //     //   { wch: 30 },
-  //     //   { wch: 30 },
-  //     //   { wch: 25 },
-  //     //   { wch: 25 },
-  //     //   { wch: 50 },
-  //     // ];
-  //     // ws["!cols"] = columnWidths;
-  //     // writeFileXLSX(wb, "Action Plan.xlsx");
-  //   }
-  // }, [exportData]);
-
   console.log("assessmentDetailOptions", assessmentDetailOptions);
+  const completionDate = assessmentData?.length > 0
+  ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
+      "DD/MM/YYYY"
+    )
+  : moment(
+      new Date(
+        getCheckedmeasures?.data?.data?.[0]?.createdAt || ""
+      )
+    ).format("DD/MM/YYYY")
 
   return (
     <div className="">
@@ -357,15 +193,7 @@ const MaturityAssessment = () => {
           {getCheckedmeasures?.data?.data?.length > 0 && (
             <h6 className="text-xs text-[#606060] font-bold font-calibri">
               Completion Date :{" "}
-              {assessmentData?.length > 0
-                ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
-                    "DD/MM/YYYY"
-                  )
-                : moment(
-                    new Date(
-                      getCheckedmeasures?.data?.data?.[0]?.createdAt || ""
-                    )
-                  ).format("DD/MM/YYYY")}
+              {completionDate}
             </h6>
           )}
         </div>
@@ -457,30 +285,31 @@ const MaturityAssessment = () => {
                   </TabsTrigger>
                 )}
               </div>
-              {activeTab !== "actionitems" && (
-                <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                  <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
-                    <PDFDownloadLink
-                      document={
-                        <AssessmentPdf
-                          data={transformData()}
-                          companyName={userData?.query?.name}
-                          assessmentData={selfAssData}
-                          fetchClientmaturitylevel={
-                            fetchClientmaturitylevel?.data
-                          }
-                        />
-                      }
-                      fileName="Action-Items.pdf"
-                    >
-                      {({ loading }: any) =>
-                        loading ? "Loading document..." : "Export"
-                      }
-                    </PDFDownloadLink>
-                    {/* Export */}
-                  </Button>
-                </div>
-              )}
+              <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
+                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                  <PDFDownloadLink
+                    document={
+                      <AssessmentPdf
+                        // data={transformData()}
+                        data={getCheckedmeasures?.data?.data}
+                        companyName={userData?.query?.name}
+                        assessmentData={selfAssData}
+                        fetchClientmaturitylevel={
+                          fetchClientmaturitylevel?.data
+                        }
+                        assessmentPercentage={assessmentPercentage}
+                        completionDate={completionDate}
+                      />
+                    }
+                    fileName="Action-Items.pdf"
+                  >
+                    {({ loading }: any) =>
+                      loading ? "Loading document..." : "Export"
+                    }
+                  </PDFDownloadLink>
+                  {/* Export */}
+                </Button>
+              </div>
             </TabsList>
             {/* {openPdf && <PDFViewer
               width="100%"
@@ -507,6 +336,7 @@ const MaturityAssessment = () => {
                 chnageTab={setActiveTab}
                 showButton={showButton}
                 setIsEdit={setIsEdit}
+                setAssessmentPercentage={setAssessmentPercentage}
               />
             </TabsContent>
             <TabsContent
