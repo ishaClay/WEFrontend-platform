@@ -123,10 +123,11 @@ const Message = () => {
     }
   }, [chatList?.data?.data, groupChat?.data, messageType]);
 
-  const filterByName = (item: { name: string }) => {
-    return (item?.name || "")
-      ?.toLowerCase()
-      ?.includes(searchChat?.toLowerCase());
+  const filterByName = (item: any) => {
+    return (
+      item.fname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim()) ||
+      item.lname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
+    );
   };
 
   const { mutate: upload_file, isPending: FileUploadPending } = useMutation({
@@ -277,6 +278,8 @@ const Message = () => {
     }
   }, [viewType]);
 
+  console.log("chatUserList?.data?.data", chatUserList?.data?.data);
+
   return (
     <>
       <Drawer
@@ -392,7 +395,7 @@ const Message = () => {
                               {item?.senderId?.name ||
                                 item?.senderId?.email?.split("@")?.[0]}
                             </div>
-                            <div className="text-[#606060] leading-[14.65px] text-xs mb-4">
+                            <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
                               {moment(item?.createdAt).format("h:mmA")}
                             </div>
                             <p className="text-black leading-[19.53px] break-all">
@@ -789,7 +792,7 @@ const Message = () => {
                               {item?.senderId?.name ||
                                 item?.senderId?.email?.split("@")?.[0]}
                             </div>
-                            <div className="text-[#606060] leading-[14.65px] text-xs mb-4">
+                            <div className="text-[#606060] leading-[14.65px] text-xs mb-1">
                               {moment(item?.createdAt).format("h:mmA")}
                             </div>
                             <p className="text-black leading-[19.53px] break-all	">

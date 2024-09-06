@@ -17,11 +17,12 @@ const schema = zod
     email: zod.string().email("Please enter valid email"),
     password: zod
       .string()
+      .min(1, { message: "Please enter password" })
       .regex(
         /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~`|-]).{8,}$/,
         "Password must contain at least one uppercase letter, one number, one special character, and a minimum of 8 characters"
       ),
-    confirmPassword: zod.string().min(1, "Please enter Confirm password"),
+    confirmPassword: zod.string().min(1, "Please enter confirm password"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password don't match",

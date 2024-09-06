@@ -230,33 +230,37 @@ const TicketsDetailsReply = () => {
             <div className="flex gap-[28px]">
               <div className="flex items-center gap-[9px]">
                 <span>Status: </span>
-                {data?.data?.data?.status && <Button
-                  type="button"
-                  className={`rounded-[15px] bg-transparent p-0 h-auto ${
-                    data?.data?.data?.status === "Open"
-                      ? "text-[#FFA25E]"
-                      : data?.data?.data?.status === "Answered"
-                      ? "text-[#58BA66]"
-                      : "text-[#0E9CFF]"
-                  }`}
-                >
-                  {data?.data?.data?.status}
-                </Button>}
+                {data?.data?.data?.status && (
+                  <Button
+                    type="button"
+                    className={`rounded-[15px] bg-transparent p-0 h-auto ${
+                      data?.data?.data?.status === "Open"
+                        ? "text-[#FFA25E]"
+                        : data?.data?.data?.status === "Answered"
+                        ? "text-[#58BA66]"
+                        : "text-[#0E9CFF]"
+                    }`}
+                  >
+                    {data?.data?.data?.status}
+                  </Button>
+                )}
               </div>
               <div className="flex items-center gap-[9px]">
                 <span>Priority: </span>
-                {data?.data?.data?.priority &&<Button
-                  type="button"
-                  className={`rounded-[15px] px-[10px] py-[2px] h-auto ${
-                    data?.data?.data?.priority === "Medium"
-                      ? "bg-[#58BA66]"
-                      : data?.data?.data?.priority === "High"
-                      ? "bg-[#FF5252]"
-                      : "bg-[#FFD56A]"
-                  }`}
-                >
-                  {data?.data?.data?.priority}
-                </Button>}
+                {data?.data?.data?.priority && (
+                  <Button
+                    type="button"
+                    className={`rounded-[15px] px-[10px] py-[2px] h-auto ${
+                      data?.data?.data?.priority === "Medium"
+                        ? "bg-[#58BA66]"
+                        : data?.data?.data?.priority === "High"
+                        ? "bg-[#FF5252]"
+                        : "bg-[#FFD56A]"
+                    }`}
+                  >
+                    {data?.data?.data?.priority}
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -561,11 +565,10 @@ const TicketsDetailsReply = () => {
             </div>
             <Button
               type="submit"
-              variant="secondary"
-              className="w-[120px] h-[48px]"
+              className="w-[120px] h-[48px] bg-primary-button text-white"
               isLoading={updatePanding}
             >
-              Submit
+              SUBMIT
             </Button>
           </div>
         </form>

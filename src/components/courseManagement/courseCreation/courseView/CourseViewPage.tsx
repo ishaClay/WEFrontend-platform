@@ -7,16 +7,22 @@ import {
 import { AccordionContent } from "@radix-ui/react-accordion";
 import CourseViewCardInner from "./CourseViewCardInner";
 import CourseViewCardList from "./CourseViewCardList";
+import { useMemo } from "react";
 
 const CourseViewPage = ({
   data,
   currIndex,
+  moduleLength,
 }: {
   data: any;
   currIndex: number;
+  moduleLength: number;
 }) => {
   // @ts-ignore
-  const CourseCardList = [...data.section, ...(data?.assessment as any)];
+  const CourseCardList = useMemo(
+    () => [...data.section, ...(data?.assessment as any)],
+    [data]
+  );
 
   return (
     <div className="pb-5">
@@ -36,6 +42,7 @@ const CourseViewPage = ({
                 CourseCardList={CourseCardList}
                 moduleId={data.id}
                 assessments={data?.assessment}
+                moduleLength={moduleLength}
               />
             </AccordionContent>
           </AccordionItem>

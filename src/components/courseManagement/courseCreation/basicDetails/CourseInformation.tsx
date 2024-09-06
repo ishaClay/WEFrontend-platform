@@ -66,7 +66,8 @@ const schema = zod
     discountApplicable: zod.number().optional(),
     discountProvider: zod
       .string({ required_error: "Please select Discount Provider" })
-      .min(1, "Please select a discount provider").optional(),
+      .min(1, "Please select a discount provider")
+      .optional(),
   })
   .refine(
     (data) => {
@@ -80,9 +81,10 @@ const schema = zod
       message: "Course Price is required",
       path: ["price", "freeCourse"],
     }
-  ).superRefine((data, ctx) => {
+  )
+  .superRefine((data, ctx) => {
     console.log("data.discountApplicable", data.discountApplicable);
-    
+
     if (data.freeCourse && data.discountApplicable === undefined) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
@@ -91,9 +93,9 @@ const schema = zod
       });
     }
     console.log("data.freeCourse", !data.freeCourse);
-    
-    if(!data.freeCourse){
-      if(data.price === undefined || data.price === ""){
+
+    if (!data.freeCourse) {
+      if (data.price === undefined || data.price === "") {
         ctx.addIssue({
           code: zod.ZodIssueCode.custom,
           message: "Course Price is required 123",
@@ -191,11 +193,10 @@ const CourseInformation = ({
   }, [isFreeCourse]);
 
   useEffect(() => {
-    if(isFreeCourse){
+    if (isFreeCourse) {
       setValue("discountApplicable", data?.data?.id);
     }
-  }, [isFreeCourse])
-  
+  }, [isFreeCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -273,7 +274,7 @@ const CourseInformation = ({
       price: formdata?.price ? formdata?.price?.toString() : "0",
       discountApplicable: discount ? discount?.toString() : "0",
       discout: provideDisc ? "1" : "0",
-      providerName: isFreeCourse ? "" : +discountProvider || 0,
+      providerName: isFreeCourse ? null : +discountProvider || 0,
       clientId: data?.data?.id || 0,
       userId: userID,
       tab: "0",
@@ -456,32 +457,34 @@ const CourseInformation = ({
             </div>
           </div>
 
-          {!watch("freeCourse") && <div className="md:pb-8 sm:pb-6 pb-[15px]">
-            <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-calibri sm:text-base text-sm text-[#515151]">
-              Discount provided by
-            </h6>
-            <Select
-              value={discountProvider}
-              onValueChange={(e) => {
-                setDiscountProvider(e);
-                setValue("discountProvider", e);
-              }}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Skillnet" />
-              </SelectTrigger>
-              <SelectContent>
-                {data?.data && (
-                  <SelectItem value={data?.data?.id?.toString() || ""}>
-                    {data?.data?.name}
-                  </SelectItem>
-                )}
-              </SelectContent>
-            </Select>
-            <span className="font-primary font-calibri text-sm text-red-400 undefined">
-              {errors?.discountProvider?.message}
-            </span>
-          </div>}
+          {!watch("freeCourse") && (
+            <div className="md:pb-8 sm:pb-6 pb-[15px]">
+              <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-calibri sm:text-base text-sm text-[#515151]">
+                Discount provided by
+              </h6>
+              <Select
+                value={discountProvider}
+                onValueChange={(e) => {
+                  setDiscountProvider(e);
+                  setValue("discountProvider", e);
+                }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Skillnet" />
+                </SelectTrigger>
+                <SelectContent>
+                  {data?.data && (
+                    <SelectItem value={data?.data?.id?.toString() || ""}>
+                      {data?.data?.name}
+                    </SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
+              <span className="font-primary font-calibri text-sm text-red-400 undefined">
+                {errors?.discountProvider?.message}
+              </span>
+            </div>
+          )}
 
           <div className="sm:text-right text-center">
             <Button

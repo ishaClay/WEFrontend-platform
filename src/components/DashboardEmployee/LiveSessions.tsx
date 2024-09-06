@@ -24,7 +24,7 @@ const LiveSessions = () => {
       <div className="mb-5 flex justify-between items-center">
         <h3 className="font-bold font-nunito xl:text-[22px] text-lg relative pb-1">
           Upcoming live sessions
-          <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
+          <div className="bg-[#75BD43] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
         {data && data?.sessions?.length > 2 && (
           <Button

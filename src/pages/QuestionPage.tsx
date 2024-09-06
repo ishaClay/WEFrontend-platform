@@ -552,7 +552,7 @@ const QuestionPage = () => {
                 </div>
 
                 <Button
-                  className="bg-[#64A70B] hover:bg-[#64A70B] text-white rounded text-[21px] leading-[25.63px] w-full mt-[18px]"
+                  className="bg-[#64A70B] hover:bg-[#64A70B] text-white rounded text-base font-calibri w-full mt-[18px]"
                   onClick={handleSubmit}
                   isLoading={isPending1}
                   disabled={

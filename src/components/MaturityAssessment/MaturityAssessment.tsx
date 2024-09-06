@@ -144,6 +144,8 @@ const MaturityAssessment = () => {
     Advanced: [],
   };
 
+  console.log("assessmant", assessmant);
+
   assessmant?.data?.data?.forEach((pillar: any) => {
     const totalPoints = parseFloat(pillar.totalpoints);
     const totalMaxPoint = parseFloat(pillar.totalmaxpoint);

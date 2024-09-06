@@ -535,7 +535,7 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !primary-background"
+                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !font-calibri !primary-background"
                   disabled={isAble}
                 />
                 <div className="max-w-[296px] mx-auto lg:mt-[60px] sm:mt-[40px] mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">

@@ -73,7 +73,6 @@ const ModuleCourseViewCardItems = ({
 
   console.log("++++++++++++++++", data);
   console.log("list?.prevStatus", list?.isStatus);
-  
 
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
@@ -94,14 +93,21 @@ const ModuleCourseViewCardItems = ({
         <div className="">
           <h5
             className={`${
-              ((list?.prevStatus || list?.isStatus) && list?.prevStatus !== "Completed"
+              (list?.prevStatus || list?.isStatus) &&
+              list?.prevStatus !== "Completed"
                 ? "pointer-events-none"
                 : list?.isStatus === "Started"
                 ? "pointer-events-none"
-                : userData?.query?.role === "1" ? "pointer-events-none" : list?.url ? "pointer-events-auto" : list?.uploadContent === "" ? "pointer-events-none" : "pointer-events-auto")
+                : userData?.query?.role === "1"
+                ? "pointer-events-none"
+                : list?.url
+                ? "pointer-events-auto"
+                : list?.uploadContent === ""
+                ? "pointer-events-none"
+                : "pointer-events-auto"
             } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
             onClick={() => {
-              if (list?.isLive !== 1) {                
+              if (list?.isLive !== 1) {
                 setViewDocument(true);
                 setDocumentFile(list?.url ? list?.url : list?.uploadContent);
               }

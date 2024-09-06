@@ -253,62 +253,87 @@ const DashboardTrainee = () => {
     },
   ];
 
-  const { data: smeDashboardData, isPending: isSmeDashboardPending } = useQuery<TraineeEnrollDashboardResponse>({
-    queryKey: ["getTraineeDashboardData"],
-    queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
-  });
+  const { data: smeDashboardData, isPending: isSmeDashboardPending } =
+    useQuery<TraineeEnrollDashboardResponse>({
+      queryKey: ["getTraineeDashboardData"],
+      queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
+    });
 
   useEffect(() => {
-    if(!isSmeDashboardPending){
-      if(!userData?.query?.lastLogin || !userData?.query?.feedback){
+    if (!isSmeDashboardPending) {
+      if (!userData?.query?.lastLogin || !userData?.query?.feedback) {
         setIsFeedbackModelOpen(true);
       }
     }
-  }, [userData])
+  }, [userData]);
 
-  const DashboardTotalListCard = ({isLoading, icon, value, title, className}: {isLoading: boolean, icon: string, value: number, title: string, className?: string}) => {
-    return <div className={cn("col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl", className)}>
-      {
-        isLoading ? <span className="flex justify-center py-[68px]">
-          <Loader2 className="w-6 h-6 animate-spin" />
-        </span> : <>
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={icon} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
-            {value}
-          </h2>
-          <p className="text-base text-black font-calibri text-center">
-            {title}
-          </p>
-        </>
-      }
-    </div>
-  }
+  const DashboardTotalListCard = ({
+    isLoading,
+    icon,
+    value,
+    title,
+    className,
+  }: {
+    isLoading: boolean;
+    icon: string;
+    value: number;
+    title: string;
+    className?: string;
+  }) => {
+    return (
+      <div
+        className={cn(
+          "col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl",
+          className
+        )}
+      >
+        {isLoading ? (
+          <span className="flex justify-center py-[68px]">
+            <Loader2 className="w-6 h-6 animate-spin" />
+          </span>
+        ) : (
+          <>
+            <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+              <img src={icon} alt="" />
+            </div>
+            <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
+              {value}
+            </h2>
+            <p className="text-base text-black font-calibri text-center">
+              {title}
+            </p>
+          </>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="rounded-xl">
-      <RatingModel isOpen={isFeedbackModelOpen} setIsOpen={setIsFeedbackModelOpen} />
+      <RatingModel
+        isOpen={isFeedbackModelOpen}
+        setIsOpen={setIsFeedbackModelOpen}
+      />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardTotalListCard 
+        <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
           icon={Trainers}
           value={smeDashboardData?.trainerCourseCount || 0}
-          title="Total Assign Course"
+          title="Total Assigned Courses"
         />
-        <DashboardTotalListCard 
+        <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
           icon={Total_courses}
           value={smeDashboardData?.discussionForumActivity?.posts || 0}
-          title="Total Post"
+          title="Total Posts"
         />
-        <DashboardTotalListCard 
+        <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
           icon={Companies}
           value={smeDashboardData?.discussionForumActivity?.replies || 0}
           title="Total Replies"
         />
-        <DashboardTotalListCard 
+        <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
           icon={Companies}
           value={smeDashboardData?.discussionForumActivity?.activeUsers || 0}
@@ -328,17 +353,23 @@ const DashboardTrainee = () => {
           </div>
 
           <div className="">
-            {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
+            {isSmeDashboardPending ? (
+              <span className="flex justify-center items-center h-[300px]">
                 <Loader2 className="w-6 h-6 animate-spin" />
-              </span> : <div className="overflow-x-auto">
-              <DataTable
-                columns={column}
-                data={smeDashboardData?.trainerEnrollCourse?.slice(0, 5) || []}
-                totalPages={employeeData?.length}
-                setPage={setPage}
-                rounded={false}
-              />
-            </div>}
+              </span>
+            ) : (
+              <div className="overflow-x-auto">
+                <DataTable
+                  columns={column}
+                  data={
+                    smeDashboardData?.trainerEnrollCourse?.slice(0, 5) || []
+                  }
+                  totalPages={employeeData?.length}
+                  setPage={setPage}
+                  rounded={false}
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -352,17 +383,23 @@ const DashboardTrainee = () => {
           </div>
 
           <div className="">
-            {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
+            {isSmeDashboardPending ? (
+              <span className="flex justify-center items-center h-[300px]">
                 <Loader2 className="w-6 h-6 animate-spin" />
-              </span> : <div className="overflow-x-auto">
-              <DataTable
-                columns={column1}
-                data={smeDashboardData?.trainerUpcommingCourse?.slice(0, 5) || []}
-                totalPages={employeeData?.length}
-                setPage={setPage}
-                rounded={false}
-              />
-            </div>}
+              </span>
+            ) : (
+              <div className="overflow-x-auto">
+                <DataTable
+                  columns={column1}
+                  data={
+                    smeDashboardData?.trainerUpcommingCourse?.slice(0, 5) || []
+                  }
+                  totalPages={employeeData?.length}
+                  setPage={setPage}
+                  rounded={false}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -370,11 +407,19 @@ const DashboardTrainee = () => {
         Upcoming Live Session
       </h3>
       <div className="sm:block hidden bg-white p-5 rounded">
-        <div className={`grid gap-6 xl:min-h-[150px] items-center ${isSmeDashboardPending ? "grid-cols-1" : "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1"}`}>
-        {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
-                <Loader2 className="w-6 h-6 animate-spin" />
-              </span> : smeDashboardData?.UpcomingSessions &&
-          smeDashboardData?.UpcomingSessions?.length > 0 ? (
+        <div
+          className={`grid gap-6 xl:min-h-[150px] items-center ${
+            isSmeDashboardPending
+              ? "grid-cols-1"
+              : "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1"
+          }`}
+        >
+          {isSmeDashboardPending ? (
+            <span className="flex justify-center items-center h-[300px]">
+              <Loader2 className="w-6 h-6 animate-spin" />
+            </span>
+          ) : smeDashboardData?.UpcomingSessions &&
+            smeDashboardData?.UpcomingSessions?.length > 0 ? (
             smeDashboardData?.UpcomingSessions!.map((data, index) => {
               return <LiveSessionsItems data={data} key={index} />;
             })

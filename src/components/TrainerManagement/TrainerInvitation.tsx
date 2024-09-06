@@ -126,9 +126,7 @@ const TrainerInvitation = () => {
       return;
     }
 
-    const isEmailInvalid = inviteData.some(
-      (data) => !isValidEmail(data.email)
-    );
+    const isEmailInvalid = inviteData.some((data) => !isValidEmail(data.email));
 
     if (isEmailInvalid) {
       setError("Enter valid email addresses");
@@ -144,7 +142,7 @@ const TrainerInvitation = () => {
       baseUrl: location?.origin,
     };
     mutate(payload);
-  }
+  };
 
   const handleAddEmail = () => {
     setInviteData((prevData) => [...prevData, initialData]);
@@ -275,7 +273,12 @@ const TrainerInvitation = () => {
             <div className="flex items-center gap-3">
               <FileUpload
                 handleDrop={(e: any) => {
-                  setInviteData(e);
+                  const excelData = e.map((item: any) => ({
+                    name: item.fName,
+                    email: item.email,
+                    surname: item.lName,
+                  }));
+                  setInviteData(excelData);
                 }}
                 isCSV
                 className="border-none cursor-pointer !p-0 justify-center"

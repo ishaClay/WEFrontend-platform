@@ -25,7 +25,9 @@ const TrainerSetting = () => {
 
   const { data, isPending } = useQuery<TrainersResponse>({
     queryKey: ["trainer", { page, search, id }],
-    queryFn: () => getTrainer({ page, limit: 10, keyword: search, id }),
+
+    queryFn: () =>
+      getTrainer({ page, limit: 10, keyword: search, id, status: "Active" }),
   });
 
   const { mutate, isPending: isPendingUpdate } = useMutation({
@@ -175,7 +177,7 @@ const TrainerSetting = () => {
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
-            Assing Certificate
+            Assign Certificate
           </h5>
         );
       },

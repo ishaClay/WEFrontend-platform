@@ -10,15 +10,22 @@ export const getTrainer = async ({
   keyword,
   limit,
   page,
+  status = "",
 }: {
   id: string;
   keyword: string;
+  status?: string;
   limit: number;
   page: number;
 }) => {
-  const url = `api/v1/trainer/list?trainerCompanyId=${id}&keyword=${keyword}&limit=${limit}&page=${page}`;
+  const url = `api/v1/trainer/list?trainerCompanyId=${id}&keyword=${keyword}&limit=${limit}&page=${page}&status=${status}`;
   const response = await api({ url });
   return response.data;
+};
+
+export const deleteTrainerInvitation = async (id: number) => {
+  const url = `api/v1/trainer/delete/${id}?status=pending`;
+  return api({ url, method: "delete" });
 };
 
 export const sendOtp = async ({ email }: { email: string }) => {
@@ -103,11 +110,15 @@ export const trainerDetailsUpdate = async ({
 //   return res.data;
 // };
 
-export const getTraineeCompany = async (id: number, courseId: number, sessionId: string) => {
+export const getTraineeCompany = async (
+  id: number,
+  courseId: number,
+  sessionId: string
+) => {
   console.log("courseId", courseId);
-  
+
   const url = `api/v1/livesessions/company-trainerCompany/${id}`,
-  method = "get";
+    method = "get";
   const params: any = {};
   if (courseId) {
     params["courseId"] = courseId;

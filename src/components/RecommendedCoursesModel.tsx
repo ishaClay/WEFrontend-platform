@@ -159,10 +159,10 @@ const RecommendedCoursesModel = ({
                         </p>
                         <div className="inline-flex items-center border border-[#D9D9D9]">
                           <Button
-                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r border-[#D9D9D9]"
-                            onClick={() => handleIncrement(index)}
+                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r  border-[#D9D9D9]"
+                            onClick={() => handleDecrement(index)}
                           >
-                            <Plus />
+                            <Minus />
                           </Button>
                           <input
                             type="number"
@@ -181,9 +181,9 @@ const RecommendedCoursesModel = ({
                           />
                           <Button
                             className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"
-                            onClick={() => handleDecrement(index)}
+                            onClick={() => handleIncrement(index)}
                           >
-                            <Minus />
+                            <Plus />
                           </Button>
                         </div>
                       </div>
@@ -213,7 +213,7 @@ const RecommendedCoursesModel = ({
           placeholder="Select Cohort"
         />
         <Button
-          className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
+          className="bg-[#64A70B] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
           onClick={handleEnrollementRequest}
           disabled={data?.[0]?.isOnline === 1 ? false || !selectCourse || isPending  : isPending || !selectCourse || !selectFilterByCategory}
         >

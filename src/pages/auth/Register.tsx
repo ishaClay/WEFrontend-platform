@@ -476,7 +476,7 @@ function Register() {
                       sustainability journey.
                     </p>
 
-                    <div className="mt-[20px] flex gap-x-[40px] font-[700]">
+                    <div className="mt-[20px] flex gap-x-[40px] ">
                       <button
                         className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
                         onClick={handleLaunchJourney}
@@ -586,7 +586,7 @@ function Register() {
             <Button
               type="button"
               isLoading={registerPending}
-              className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
+              className="text-white w-[181px] text-base font-normal p-3 bg-[#64A70B] h-[48px] rounded-[9px]"
               onClick={(e) => {
                 console.log("Called");
                 handleVerifyOtp(e);

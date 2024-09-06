@@ -161,11 +161,13 @@ const Dashboard = () => {
         getSmeDashboardData({ userId: userData?.query?.detailsid }),
     });
 
-  const { data: fetchCourseCompletionData, isPending: isCourseCompletionPending } = useQuery({
-      queryKey: [QUERY_KEYS.courseCompletion],
-      queryFn: () =>
-        getCourseCompletionData(userData?.query?.id),
-    });    
+  const {
+    data: fetchCourseCompletionData,
+    isPending: isCourseCompletionPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.courseCompletion],
+    queryFn: () => getCourseCompletionData(userData?.query?.id),
+  });
 
   const { data: getTopCourseList, isPending: isTopCoursePending } = useQuery({
     queryKey: [QUERY_KEYS.topCourses],
@@ -393,34 +395,36 @@ const Dashboard = () => {
 
   const enrollCoursesData = {
     labels: months,
-    datasets: currentYearData
-  }
+    datasets: currentYearData,
+  };
   const completionCoursesData = {
     labels: months,
-    datasets: months.map(label => fetchCourseCompletionData?.data[label])
-  }  
+    datasets: months.map((label) => fetchCourseCompletionData?.data[label]),
+  };
 
   return (
     <div className="rounded-xl">
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-6">
-        <DashboardCard 
+        <DashboardCard
           isLoading={isLoading}
           icon={Trainers}
-          title="Total Points"
+          title="Total points"
           value={`${firstInfirgraphicChart?.data?.avTotalpoints || 0}/
           ${firstInfirgraphicChart?.data?.avTotalmaxpoint || 0}`}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={isLoading}
           icon={Total_courses}
-          title="Total Questions"
-          value={`${firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0}/
+          title="Total questions"
+          value={`${
+            firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0
+          }/
           ${firstInfirgraphicChart?.data?.avTotalquestionsavailable || 0}`}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Companies}
-          title="Upcoming Courses"
+          title="Upcoming courses"
           value={smeDashboardData?.data?.upcomingCourses || 0}
         />
         {/* <button
@@ -436,53 +440,57 @@ const Dashboard = () => {
           <p className="text-base text-black font-calibri">Completed Courses</p>
         </button> */}
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">Action Items</h3>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Total action items
+      </h3>
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Trainers}
-          title="Total Action Items"
+          title="Total action items"
           value={smeDashboardData?.data?.totalActionItems?.metric || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Total_courses}
-          title="Total Pending Items"
+          title="Total pending action items"
           value={smeDashboardData?.data?.pendingActionItems || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Companies}
-          title="Total Delayed Action Items"
+          title="Total delayed action items"
           value={smeDashboardData?.data?.totalActionItems?.report?.delayed || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Companies}
-          title="Total Completed Action Items"
-          value={smeDashboardData?.data?.totalActionItems?.report?.completed || 0}
+          title="Total completed action items"
+          value={
+            smeDashboardData?.data?.totalActionItems?.report?.completed || 0
+          }
         />
       </div>
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
         Support Tickets
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Trainers}
-          title="Total Support Tickets"
+          title="Total support tickets"
           value={openSupportTicket + resolveSupportTicket || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Total_courses}
-          title="Total Open Support Tickets"
+          title="Total open support tickets"
           value={openSupportTicket || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Companies}
-          title="Total Resolve Support Tickets"
+          title="Total resolved support tickets"
           value={resolveSupportTicket || 0}
         />
       </div>
@@ -490,22 +498,22 @@ const Dashboard = () => {
         Course Overview
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Trainers}
-          title="Total Courses"
+          title="Total courses"
           value={smeDashboardData3?.data?.overView?.totalCourse || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Total_courses}
-          title="Total Ongoing Courses"
+          title="Total ongoing courses"
           value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Companies}
-          title="Total Completed Courses"
+          title="Total completed courses"
           value={smeDashboardData3?.data?.overView?.completedCourse || 0}
         />
       </div>
@@ -519,11 +527,17 @@ const Dashboard = () => {
               Course Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
-              {
-                smeLoading3 ? <span className="flex justify-center items-center h-[160px]">
+              {smeLoading3 ? (
+                <span className="flex justify-center items-center h-[160px]">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                </span> : <Doughnut data={data3} options={options} plugins={[textCenter]} />
-              }
+                </span>
+              ) : (
+                <Doughnut
+                  data={data3}
+                  options={options}
+                  plugins={[textCenter]}
+                />
+              )}
             </div>
             <div className="flex items-center gap-6 justify-center mt-4">
               <div className="text-center">
@@ -543,19 +557,31 @@ const Dashboard = () => {
               Employee Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
-              {
-                smeLoading3 ? <span className="flex justify-center items-center h-[160px]">
+              {smeLoading3 ? (
+                <span className="flex justify-center items-center h-[160px]">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                </span> : <Doughnut data={data4} options={options} plugins={[textCenter]} />
-              }              
+                </span>
+              ) : (
+                <Doughnut
+                  data={data4}
+                  options={options}
+                  plugins={[textCenter]}
+                />
+              )}
             </div>
             <div className="flex items-center gap-6 justify-center mt-4">
               <div className="text-center">
-                <h3>{smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse || 0}</h3>
+                <h3>
+                  {smeDashboardData3?.data?.employeePerformanceOverview
+                    ?.totalCourse || 0}
+                </h3>
                 <p className="font-nunito font-bold text-slate-600">Courses</p>
               </div>
               <div className="text-center">
-                <h3>{smeDashboardData3?.data?.employeePerformanceOverview?.coursesCompletion || 0}</h3>
+                <h3>
+                  {smeDashboardData3?.data?.employeePerformanceOverview
+                    ?.coursesCompletion || 0}
+                </h3>
                 <p className="font-nunito font-bold text-slate-600">
                   Completions
                 </p>
@@ -564,18 +590,24 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Trainers}
           title="Total Courses"
-          value={smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse || 0}
+          value={
+            smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse ||
+            0
+          }
           className="flex flex-col justify-center"
         />
-        <DashboardCard 
+        <DashboardCard
           isLoading={smeLoading}
           icon={Total_courses}
           title="Total Completed Courses"
-          value={smeDashboardData3?.data?.employeePerformanceOverview?.coursesCompletion || 0}
+          value={
+            smeDashboardData3?.data?.employeePerformanceOverview
+              ?.coursesCompletion || 0
+          }
           className="flex flex-col justify-center"
         />
       </div>
@@ -587,31 +619,35 @@ const Dashboard = () => {
               <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
                 Course Completion Trend
               </h5>
-              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
+              <Button
+                className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
                 disabled={isCourseCompletionPending}
               >
                 <PDFDownloadLink
                   document={
-                    <CourseEnrollmentChart
-                      data={completionCoursesData}
-                    />
+                    <CourseEnrollmentChart data={completionCoursesData} />
                   }
                   fileName="completion-course-report.pdf"
                 >
-                  
                   {({ loading }: any) =>
                     loading ? "Loading document..." : "Export Report"
-                }
+                  }
                 </PDFDownloadLink>
               </Button>
             </div>
 
             <div className="">
-              {
-                isCourseCompletionPending ? <span className="flex justify-center items-center h-[300px]">
+              {isCourseCompletionPending ? (
+                <span className="flex justify-center items-center h-[300px]">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                </span> : <Line className="!h-auto" data={data} options={config.options} />
-              }              
+                </span>
+              ) : (
+                <Line
+                  className="!h-auto"
+                  data={data}
+                  options={config.options}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -624,31 +660,29 @@ const Dashboard = () => {
               <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
                 Course Enrollment Trend Over Time
               </h5>
-              <Button className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
+              <Button
+                className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
                 disabled={smeLoading4}
               >
                 <PDFDownloadLink
-                  document={
-                    <CourseEnrollmentChart
-                      data={enrollCoursesData}
-                    />
-                  }
+                  document={<CourseEnrollmentChart data={enrollCoursesData} />}
                   fileName="Enroll-course-report.pdf"
                 >
-                  
                   {({ loading }: any) =>
                     loading ? "Loading document..." : "Export Report"
-                }
+                  }
                 </PDFDownloadLink>
               </Button>
             </div>
 
             <div className=" mt-[20px] ">
-              {
-                smeLoading4 ? <span className="flex justify-center items-center h-[300px]">
+              {smeLoading4 ? (
+                <span className="flex justify-center items-center h-[300px]">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                </span> : <Bar data={data1} options={config1.options} />
-              }
+                </span>
+              ) : (
+                <Bar data={data1} options={config1.options} />
+              )}
             </div>
           </div>
         </div>
@@ -661,18 +695,24 @@ const Dashboard = () => {
           </div>
 
           <div className="">
-            {
-              isTopCoursePending ? <span className="flex justify-center items-center h-[300px]">
-              <Loader2 className="w-5 h-5 animate-spin" />
-            </span> : getTopCourseList?.data?.length > 0 ? <div className="overflow-x-auto">
-              <DataTable
-                columns={column}
-                data={getTopCourseList?.data || []}
-                setPage={setPage}
-                rounded={false}
-              />
-            </div> : <span className="flex justify-center items-center h-[300px]">No Data Found</span>
-            }
+            {isTopCoursePending ? (
+              <span className="flex justify-center items-center h-[300px]">
+                <Loader2 className="w-5 h-5 animate-spin" />
+              </span>
+            ) : getTopCourseList?.data?.length > 0 ? (
+              <div className="overflow-x-auto">
+                <DataTable
+                  columns={column}
+                  data={getTopCourseList?.data || []}
+                  setPage={setPage}
+                  rounded={false}
+                />
+              </div>
+            ) : (
+              <span className="flex justify-center items-center h-[300px]">
+                No Data Found
+              </span>
+            )}
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ interface AreYouSureModalProps extends PropsWithChildren {
   onDelete: () => void;
   value: string;
   isLoading?: boolean;
+  message?: string;
 }
 
 export const ConfirmModal = ({
@@ -19,6 +20,7 @@ export const ConfirmModal = ({
   value,
   isLoading,
   children,
+  message,
 }: AreYouSureModalProps) => {
   return (
     <Modal open={open} onClose={onClose}>
@@ -28,8 +30,9 @@ export const ConfirmModal = ({
         </div>
         <h2 className="mt-[26px] text-[24px] font-bold">Are you sure</h2>
         <p className="mt-[19px] text-[16px]">
-          Do you want to delete <span className="font-bold">{value}</span> {""}
-          Action Item?
+          {message
+            ? message
+            : `Do you want to delete ${value || "this"} Record?`}
         </p>
         <div className="mt-[49px] flex justify-center gap-[14px]">
           <Button

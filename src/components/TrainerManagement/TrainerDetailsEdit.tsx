@@ -36,13 +36,11 @@ import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { useAppDispatch } from "@/hooks/use-redux";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 
 const schema = zod.object({
   name: zod.string(),
-  number: zod
-    .string()
-    .regex(/^(\d{10})?$/, { message: "Please enter valid phone number" })
-    .optional(),
+  number: zod.string().min(1, { message: "Please enter phone number" }),
   email: zod.string().email({ message: "Please enter valid email" }),
   providerName: zod.string(),
   providerType: zod.string(),
@@ -140,6 +138,11 @@ const TrainerDetailsEdit = () => {
     },
   });
 
+  console.log(
+    "🚀 ~ useEffect ~ clientDetails:",
+    watch("providerCounty"),
+    clientDetails?.data
+  );
   useEffect(() => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
@@ -301,7 +304,7 @@ const TrainerDetailsEdit = () => {
                   )}
                 </div>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
-                  <InputWithLable
+                  {/* <InputWithLable
                     placeholder="0044 1234 1234567"
                     className="h-[46px]"
                     label="Mobile No."
@@ -314,10 +317,25 @@ const TrainerDetailsEdit = () => {
                     // }}
                     // value={watch("number") || ""}
                     {...register("number")}
-                  />
-                  {errors.number && (
-                    <ErrorMessage message={errors.number.message as string} />
-                  )}
+                  /> */}
+                  <div className="flex flex-col gap-1">
+                    <label className="mb-[8px]  font-bold text-[16px]">
+                      Phone No.
+                      <span className="text-red-500">*</span>{" "}
+                    </label>
+                    <PhoneInputWithCountrySelect
+                      placeholder="Enter phone number"
+                      international
+                      onChange={(e: any) => {
+                        setValue("number", e);
+                      }}
+                      value={watch("number") || ""}
+                      className="phone-input"
+                    />
+                    {errors.number && (
+                      <ErrorMessage message={errors.number.message as string} />
+                    )}
+                  </div>
                 </div>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
                   <InputWithLable

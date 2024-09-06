@@ -43,6 +43,7 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
+import { TrainerStatus } from "@/types/Trainer";
 
 interface SendMessagePayload {
   senderId: string;
@@ -136,7 +137,7 @@ const Compose = () => {
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
           selectedType
-        ]
+        ]?.filter((item: any) => item.status === TrainerStatus.Active)
       );
     } else if (role === UserRole?.Company) {
       setSelectToValue(
@@ -285,7 +286,7 @@ const Compose = () => {
               {fetchMessageRoles(role)?.map((item: string) => {
                 return (
                   <div
-                    className={`inline-flex px-[15px] py-2 border border-solid rounded-md mr-6 cursor-pointer xl:my-0 my-2 ${
+                    className={`inline-flex px-[15px] items-center py-2 border border-solid rounded-md mr-6 cursor-pointer xl:my-0 my-2 ${
                       isActive === item ? "border-[#00778B]" : ""
                     }`}
                     onClick={() => setIsActive(item)}
@@ -296,12 +297,12 @@ const Compose = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="ml-3">
-                      <div className="leading-[19.53px] mb-px text-[black] capitalize">
+                      <h6 className="leading-[19.53px] mb-px text-[black] capitalize">
                         {item}
-                      </div>
-                      <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
+                      </h6>
+                      {/* <div className="text-neutral-400 leading-[15.6px] text-xs capitalize">
                         {item} Name
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 );
@@ -419,7 +420,7 @@ const Compose = () => {
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-calibri`}
                   >
-                    <SelectValue placeholder="Select Templates" />
+                    <SelectValue placeholder="Select template" />
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>

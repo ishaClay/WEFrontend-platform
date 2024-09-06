@@ -404,6 +404,9 @@ const ActionItemModel = ({
           onDelete={() => removeActionItem()}
           value={currentPiller || ""}
           isLoading={deletePending}
+          message={`Do you want to delete ${
+            currentPiller || "this"
+          } Action Item?`}
         />
       </div>
       {/* <Loading isLoading={deletePending} /> */}

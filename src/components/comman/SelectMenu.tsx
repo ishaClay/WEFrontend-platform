@@ -46,8 +46,12 @@ const SelectMenu: FC<IProps> = ({
       defaultValue={defaultValue}
       disabled={disabled}
     >
-      <SelectTrigger className={`bg-white  ${className}`}>
-        <SelectValue placeholder={placeholder} />
+      <SelectTrigger
+        className={cn("bg-white", className, {
+          "text-[#A3A3A3]": !value,
+        })}
+      >
+        <SelectValue className="text-[#A3A3A3]" placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent
         className={cn(
