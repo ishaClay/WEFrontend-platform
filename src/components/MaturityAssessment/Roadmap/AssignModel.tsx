@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
@@ -79,11 +80,12 @@ const AssignModel = ({
 
     const payload = {
       employeeId: selectAsignModel,
-      startDate: moment(date?.startDate).toString(),
-      endDate: moment(date?.endDate).toString(),
+      startDate: moment(date?.startDate).toString() as string,
+      endDate: moment(date?.endDate).toString() as string,
       userId: userData?.id,
     };
     if (id) {
+      // @ts-ignore
       mutate({ data: payload, masureId: +id });
     }
   };
