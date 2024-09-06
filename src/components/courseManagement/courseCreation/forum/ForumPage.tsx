@@ -168,7 +168,7 @@ const ForumPage = () => {
               </h5>
             </div>
           </div>
-          <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:py-5 py-3 rounded-lg mb-5">
+          <div className="flex flex-col gap-5 shadow xl:px-6 px-4 xl:pb-5 pb-3 rounded-lg mb-5">
             <div className="flex gap-4 items-center">
               <div className="w-[42px] h-[42px] rounded-full overflow-hidden">
                 <Avatar className="w-full h-full">
@@ -186,10 +186,10 @@ const ForumPage = () => {
               <div className="">
                 <h5 className="text-black text-base font-abhaya">
                   {userData?.query?.fname || userData?.query?.lname
-                      ? `${userData?.query?.fname || ""} ${
-                          userData?.query?.lname || ""
-                        }`.trim()
-                      : userData?.query?.email?.split("@")[0]}
+                    ? `${userData?.query?.fname || ""} ${
+                        userData?.query?.lname || ""
+                      }`.trim()
+                    : userData?.query?.email?.split("@")[0]}
                 </h5>
                 <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
                   {+userData?.query?.role === UserRole.Company

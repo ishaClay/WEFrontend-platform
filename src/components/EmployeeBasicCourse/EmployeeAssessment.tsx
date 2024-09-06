@@ -12,6 +12,7 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { FieldValues, useForm } from "react-hook-form";
+import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import { z } from "zod";
@@ -211,6 +212,11 @@ const EmployeeAssessment = () => {
     </span>
   ) : (
     <div className="lg:bg-white bg-transparent rounded-xl border border-[#D9D9D9] overflow-hidden">
+      <div className="text-right">
+        <Button variant={"ghost"} onClick={() => navigate(-1)} className="p-3">
+          <HiOutlineArrowNarrowLeft className="w-5 h-5" /> Back
+        </Button>
+      </div>
       <div className="flex items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3] border-b border-[#D9D9D9]">
         <div>
           <h4 className="text-[20px] font-[Calibri] text-[#000000] mb-[6px]">
@@ -314,6 +320,7 @@ const EmployeeAssessment = () => {
                           <RadioGroup
                             // value={watch(`assesdmentAnswer.${index}.answer`)}
                             {...register(`assesdmentAnswer.${index}.answer`)}
+                            disabled={+userData?.query?.role !== 4}
                             onValueChange={(value) =>
                               setValue(
                                 `assesdmentAnswer.${index}.answer`,
@@ -368,6 +375,7 @@ const EmployeeAssessment = () => {
                           placeholder="Keywords1, Keywords2, keywords3"
                           className="py-4 px-3 w-full border border-[#D9D9D9] shadow-none outline-none focus:border-[#4b4b4b] placeholder:text-neutral-400  rounded-md resize-none"
                           rows={8}
+                          disabled={+userData?.query?.role !== 4}
                           {...register(`assesdmentAnswer.${index}.answer`)}
                         />
                         {errors.assesdmentAnswer?.[index]?.answer && (
@@ -397,6 +405,7 @@ const EmployeeAssessment = () => {
                           </div>
                           <RadioGroup
                             {...register(`assesdmentAnswer.${index}.answer`)}
+                            disabled={+userData?.query?.role !== 4}
                             onValueChange={(value) =>
                               setValue(
                                 `assesdmentAnswer.${index}.answer`,
@@ -470,6 +479,7 @@ const EmployeeAssessment = () => {
                               checked={watch(
                                 `assesdmentAnswer.${index}.answer`
                               )?.includes(option.option)}
+                              disabled={+userData?.query?.role !== 4}
                               onCheckedChange={() =>
                                 handleCheckboxChange(index, option.option)
                               }
@@ -498,16 +508,18 @@ const EmployeeAssessment = () => {
                 );
               })}
             </div>
-            <div className="mt-5 text-end">
-              <Button
-                type="submit"
-                className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm"
-                disabled={isPending}
-              >
-                {isPending && <Loader2 className="w-5 h-5 animate-spin" />}{" "}
-                Submit Assessment
-              </Button>
-            </div>
+            {+userData?.query?.role === 4 && (
+              <div className="mt-5 text-end">
+                <Button
+                  type="submit"
+                  className="py-[10px] px-[30px] bg-[#58BA66] text-color rounded-sm"
+                  disabled={isPending}
+                >
+                  {isPending && <Loader2 className="w-5 h-5 animate-spin" />}{" "}
+                  Submit Assessment
+                </Button>
+              </div>
+            )}
           </form>
         </div>
       )}

@@ -8,6 +8,7 @@ import { Bar, Doughnut, Line } from "react-chartjs-2";
 import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
 import {
   fetchTopCourseList,
   getCourseCompletionData,
@@ -22,6 +23,7 @@ import {
   SMEDashboard3Response,
   SMEEnrollDashboardResponse,
 } from "@/types/dashboard";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -37,11 +39,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { QUERY_KEYS } from "@/lib/constants";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Loader2 } from "lucide-react";
 import CourseEnrollmentChart from "./CourseEnrollmentChart";
 import DashboardCard from "./comman/DashboardCard";
-import { Loader2 } from "lucide-react";
 
 Chart.register(
   CategoryScale,
@@ -520,7 +520,7 @@ const Dashboard = () => {
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
         Overview of Employee Performance
       </h3>
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+      <div className="grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <div className="col-span-2 bg-[#FFFFFF] rounded-lg shadow-sm p-5 flex items-center justify-around">
           <div className="w-60 text-center">
             <p className="text-[16px] font-nunito font-bold mb-4">
@@ -594,21 +594,22 @@ const Dashboard = () => {
           isLoading={smeLoading}
           icon={Trainers}
           title="Total Courses"
-          value={
-            smeDashboardData3?.data?.employeePerformanceOverview?.totalCourse ||
-            0
-          }
-          className="flex flex-col justify-center"
+          className="flex items-center justify-center flex-col"
+          value={smeDashboardData3?.data?.overView?.totalCourse || 0}
         />
         <DashboardCard
           isLoading={smeLoading}
           icon={Total_courses}
+          title="Total Ongoing Courses"
+          className="flex items-center justify-center flex-col"
+          value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
+        />
+        <DashboardCard
+          isLoading={smeLoading}
+          icon={Companies}
           title="Total Completed Courses"
-          value={
-            smeDashboardData3?.data?.employeePerformanceOverview
-              ?.coursesCompletion || 0
-          }
-          className="flex flex-col justify-center"
+          className="flex items-center justify-center flex-col"
+          value={smeDashboardData3?.data?.overView?.completedCourse || 0}
         />
       </div>
 

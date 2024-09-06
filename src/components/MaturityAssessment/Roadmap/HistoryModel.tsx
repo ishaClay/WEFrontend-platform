@@ -52,7 +52,7 @@ const HistoryModel = ({
         <p className="text-base font-nunito font-bold text-[#000]">
           Action Item History
         </p>
-        <h5 className="font-abhaya text-xl font-semibold text-[#000] leading-6 pt-[30px]">
+        <h5 className="font-abhaya text-[22px] font-semibold text-[#000] leading-6 pt-[30px]">
           {historyMasure}
         </h5>
         <div className="pt-4 flex flex-col gap-5">
@@ -72,15 +72,15 @@ const HistoryModel = ({
                   </div>
                   <div>
                     <div className="flex items-center pb-1">
-                      <h6 className="text-base font-abhaya font-bold">
+                      <h6 className="text-[18px] font-abhaya font-bold">
                         {items.createdBy?.name}
                       </h6>
                       ,{" "}
-                      <p className="text-[12px] font-abhaya text-[#777] font-[700] ml-1">
+                      <p className="text-[14px] font-abhaya text-[#777] font-[700] ml-1">
                         {getTimeAgo(items.createdAt)}
                       </p>
                     </div>
-                    <div className="text-[13px] font-abhaya font-bold text-[#000]">
+                    <div className="text-[15px] font-abhaya font-bold text-[#000]">
                       {items.historyName}
                     </div>
                   </div>

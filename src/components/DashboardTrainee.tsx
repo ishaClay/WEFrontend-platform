@@ -1,10 +1,11 @@
 import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { DataTable } from "@/components/comman/DataTable";
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
+import { cn } from "@/lib/utils";
 import { getTraineeData } from "@/services/apiServices/dashboard";
 import { TraineeEnrollDashboardResponse } from "@/types/dashboard";
 import { useQuery } from "@tanstack/react-query";
@@ -21,11 +22,9 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { Loader2 } from "lucide-react";
 import CustomCarousel from "./comman/CustomCarousel";
 import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
-import RatingModel from "./Models/RatingModel";
-import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 Chart.register(
   CategoryScale,
@@ -85,7 +84,6 @@ const employeeData = [
 const DashboardTrainee = () => {
   const [page, setPage] = useState(0);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [isFeedbackModelOpen, setIsFeedbackModelOpen] = useState(false);
   console.log("+++", page);
   const column1: ColumnDef<any>[] = [
     {
@@ -259,14 +257,6 @@ const DashboardTrainee = () => {
       queryFn: () => getTraineeData({ userId: userData?.query?.detailsid }),
     });
 
-  useEffect(() => {
-    if (!isSmeDashboardPending) {
-      if (!userData?.query?.lastLogin || !userData?.query?.feedback) {
-        setIsFeedbackModelOpen(true);
-      }
-    }
-  }, [userData]);
-
   const DashboardTotalListCard = ({
     isLoading,
     icon,
@@ -310,10 +300,6 @@ const DashboardTrainee = () => {
 
   return (
     <div className="rounded-xl">
-      <RatingModel
-        isOpen={isFeedbackModelOpen}
-        setIsOpen={setIsFeedbackModelOpen}
-      />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardTotalListCard
           isLoading={isSmeDashboardPending}

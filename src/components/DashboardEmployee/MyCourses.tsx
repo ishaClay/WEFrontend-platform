@@ -22,7 +22,7 @@ const MyCourses = () => {
     {
       image: Couse_Total,
       title: data?.myCourses?.totalCourses || 0,
-      subTitle: "Total Assigned",
+      subTitle: "Assigned",
     },
     {
       image: Course_Completed,
@@ -51,7 +51,9 @@ const MyCourses = () => {
       <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
         {coursesItems.length ? (
           coursesItems.map((data, index) => {
-            return <MyCoursesItems data={data} key={index} isLoading={isLoading} />;
+            return (
+              <MyCoursesItems data={data} key={index} isLoading={isLoading} />
+            );
           })
         ) : (
           <p className="col-span-full flex items-center justify-center h-[300px]">

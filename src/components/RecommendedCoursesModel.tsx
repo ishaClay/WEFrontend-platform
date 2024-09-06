@@ -107,6 +107,12 @@ const RecommendedCoursesModel = ({
     });
   };
 
+  useEffect(() => {
+    if (data?.length === 1) {
+      setSelectCourse("0");
+    }
+  }, [data]);
+
   return isLoading ? (
     <span className="h-full flex items-center justify-center">
       <Loader2 className="w-7 h-7 animate-spin" />
@@ -126,6 +132,7 @@ const RecommendedCoursesModel = ({
                       name="course"
                       className="md:w-6 w-4 md:h-6 h-4 focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       onChange={() => setSelectCourse(index?.toString())}
+                      checked={selectCourse === index?.toString()}
                     />
                     {courseList?.isDiscounted
                       ? "With Discount"

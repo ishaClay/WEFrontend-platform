@@ -10,6 +10,7 @@ import { IconType } from "react-icons/lib";
 import { Outlet } from "react-router-dom";
 import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
+import RatingModel from "../Models/RatingModel";
 import Sidebar from "../Sidebar";
 
 export interface SidebarItem {
@@ -28,6 +29,7 @@ const DashboardLayout = () => {
   const user = userData ? JSON.parse(userData) : null;
   const location = window.location.pathname;
   const Role = location.split("/")[1];
+  const [isFeedbackModelOpen, setIsFeedbackModelOpen] = useState(false);
   const { sidebarOpen } = useContext(SidebarContext);
 
   // const userRole = 4;
@@ -47,6 +49,17 @@ const DashboardLayout = () => {
           (item) => item?.label !== "Certificate Management"
         );
   }, [selectTargetPillarLimit]);
+
+  console.log("userData", user?.query?.lastlogout, user?.query?.givefeedback);
+
+  useEffect(() => {
+    if (
+      user?.query?.lastlogout !== null &&
+      user?.query?.givefeedback === null
+    ) {
+      setIsFeedbackModelOpen(true);
+    }
+  }, [user?.query?.lastlogout, user?.query?.givefeedback]);
 
   useEffect(() => {
     switch (+userRole) {
@@ -97,7 +110,10 @@ const DashboardLayout = () => {
           )}
         </div>
       </div>
-      {/* <Loading isLoading={isLoading} /> */}
+      <RatingModel
+        isOpen={isFeedbackModelOpen}
+        setIsOpen={setIsFeedbackModelOpen}
+      />
     </ChatBotProvider>
   );
 };

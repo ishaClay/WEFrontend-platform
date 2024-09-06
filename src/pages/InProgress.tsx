@@ -156,13 +156,13 @@ function InProgress() {
                     Partnership, People, Planet and Prosperity
                   </p>
                   <div className="flex gap-2 mt-3 flex-wrap">
-                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4">
+                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
                       Environmental
                     </button>
-                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4">
+                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
                       Governance
                     </button>
-                    <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] px-4">
+                    <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
                       Social
                     </button>
                   </div>
@@ -235,7 +235,7 @@ function InProgress() {
                 </div>
               </div>
               <div className="rounded-full py-1 px-2 mb-4 md:mb-0 md:ml-auto mt-4 md:mt-[120px]">
-                <button className="bg-[#00778B] text-white font-medium py-2 px-4 rounded-lg shadow h-[50px] w-[105px]">
+                <button className="bg-[#00778B] text-white font-medium py-2 px-4 rounded-lg shadow h-[50px] w-[105px] font-abhaya">
                   Continue
                 </button>
               </div>

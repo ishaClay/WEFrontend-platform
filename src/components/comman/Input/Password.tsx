@@ -34,7 +34,7 @@ const PasswordInput: React.FC<InputProps> = ({
         <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute inset-y-0 right-0 px-3 mt-2 flex items-center"
+          className="absolute inset-y-0 right-0 px-3 mt-2 flex items-center !font-abhaya"
         >
           {showPassword ? <FaEye /> : <FaEyeSlash />}
         </button>

@@ -4,10 +4,10 @@ import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagemen
 import { MyCourseResponse } from "@/types/courseManagement";
 import { useQuery } from "@tanstack/react-query";
 import CustomCarousel from "../comman/CustomCarousel";
+import Loader from "../comman/Loader";
+import NoDataText from "../comman/NoDataText";
 import { Button } from "../ui/button";
 import RecentCoursesItems from "./RecentCoursesItems";
-import NoDataText from "../comman/NoDataText";
-import { Loader2 } from "lucide-react";
 
 const RecentCourses = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
@@ -47,31 +47,40 @@ const RecentCourses = () => {
         )}
       </div>
       <div className="sm:block hidden">
-        <div className={`grid gap-6 ${isLoading ? "grid-cols-1" : "xl:grid-cols-2 grid-cols-1"}`}>
-          {isLoading ? <span className="py-14 flex justify-center">
-            <Loader2 className="w-5 h-5 animate-spin" />
-          </span> : data?.data?.courseAlloted &&
-          data?.data?.courseAlloted?.length < 0 ? (
+        <div
+          className={`grid gap-6 ${
+            isLoading ? "grid-cols-1" : "xl:grid-cols-2 grid-cols-1"
+          }`}
+        >
+          {isLoading ? (
+            <span className="py-14 flex justify-center">
+              <Loader />
+            </span>
+          ) : data?.data?.courseAlloted &&
+            data?.data?.courseAlloted?.length < 0 ? (
             data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
               return <RecentCoursesItems data={data} key={index} />;
             })
           ) : (
-            <NoDataText message="No Course Data Found" />
+            <NoDataText message="No records found" />
           )}
         </div>
       </div>
 
       <div className="sm:hidden block">
-        {isLoading ? <span className="py-14 flex justify-center">
-          <Loader2 className="w-5 h-5 animate-spin" />
-        </span> : data?.data?.courseAlloted && data?.data?.courseAlloted?.length > 0 ? (
+        {isLoading ? (
+          <span className="py-14 flex justify-center">
+            <Loader />
+          </span>
+        ) : data?.data?.courseAlloted &&
+          data?.data?.courseAlloted?.length > 0 ? (
           <CustomCarousel containerClassName="">
             {data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
               return <RecentCoursesItems data={data} key={index} />;
             }) || []}
           </CustomCarousel>
         ) : (
-          <NoDataText message="No Course Data Found" />
+          <NoDataText message="No records found" />
         )}
       </div>
     </div>

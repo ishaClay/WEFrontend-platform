@@ -15,7 +15,7 @@ const TeamProgressPage = () => {
   const [search, setSearch] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const companyId = userData?.query?.detailsid;
-  const { data, isPending } = useQuery<EmployeeProgreeResponse>({
+  const { data, isFetching } = useQuery<EmployeeProgreeResponse>({
     queryKey: [QUERY_KEYS.getEmployeeProgress, { search }],
     queryFn: () =>
       getEmployeeProgress({ id: companyId, keyword: search, status: "" }),
@@ -44,7 +44,7 @@ const TeamProgressPage = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        {isPending ? (
+        {isFetching ? (
           <Loader />
         ) : accordionItems?.length > 0 ? (
           <Accordions items={accordionItems} rounded={false} />

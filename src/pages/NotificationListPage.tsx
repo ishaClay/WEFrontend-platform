@@ -167,7 +167,10 @@ const NotificationListPage = () => {
                     >
                       {notification.title}
                     </h3>
-                    <p className="text-[16px]">{notification.content}</p>
+                    <p
+                      className="text-[16px]"
+                      dangerouslySetInnerHTML={{ __html: notification.content }}
+                    ></p>
                   </div>
                   <button onClick={() => delete_notification(notification.id)}>
                     <img src={delet} alt="" className="w-[14px] h-[17px]" />

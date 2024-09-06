@@ -123,6 +123,9 @@ const TeaserScore = () => {
         },
       },
     },
+    hover: {
+      mode: undefined,
+    },
   };
 
   const Labels = () => (

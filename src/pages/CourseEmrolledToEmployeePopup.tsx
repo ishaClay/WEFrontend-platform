@@ -217,13 +217,13 @@ function CourseEmrolledToEmployeePopup() {
           </div>
         </ScrollArea>
         <button
-          className="bg-[#00778B] text-white px-4 py-2 rounded mr-[495px] mt-[5px]"
+          className="bg-[#00778B] text-white px-4 py-2 rounded mr-[495px] mt-[5px] font-abhaya"
           onClick={handleInviteEmployee}
         >
           Invite Employee
         </button>
         <button
-          className="bg-[#58BA66] text-white px-4  rounded w-[100px] h-[40px] "
+          className="bg-[#58BA66] text-white px-4  rounded w-[100px] h-[40px] font-abhaya"
           onClick={handleAllocate}
         >
           Allocate

@@ -8,11 +8,13 @@ import EnrollmentCourseListCard from "./EnrollmentCourseListCard";
 const EnrollmentCourseList = ({ status }: { status: string }) => {
   const statusparams = status === "0" ? "" : status === "3" ? "0" : status;
   const { UserId } = useAppSelector((state) => state?.user);
-  const { data: fetchEnrollRequestData, isPending: fetchEnrollRequestPending } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
-      queryFn: () => fetchEnrollmentRequest(UserId, statusparams),
-    });
+  const {
+    data: fetchEnrollRequestData,
+    isFetching: fetchEnrollRequestPending,
+  } = useQuery({
+    queryKey: [QUERY_KEYS.fetchEnrollmentRequestBytrainer, status],
+    queryFn: () => fetchEnrollmentRequest(UserId, statusparams),
+  });
 
   return (
     <>

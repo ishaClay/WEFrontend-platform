@@ -257,14 +257,14 @@ function Auth() {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] lg:h-auto sm:h-[580px] h-[530px] mx-auto relative">
-            <div className="flex justify-end text-[#000]">
+            {/* <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/register"} className="font-[700] text-[#042937]">
                   Sign In
                 </Link>
               </label>
-            </div>
+            </div> */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative LoginBox max-w-[418px] mx-auto  mt-[40px] rounded-[10px] shadow-[_0px_0px_4px_0px_rgba(0,0,0,0.25)] p-[24px]">
                 <p className="text-[24px] font-[700] mb-5">

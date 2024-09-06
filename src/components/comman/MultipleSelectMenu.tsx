@@ -84,7 +84,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
               <button
                 type="button"
                 onClick={() => handleRemoveItem(item?.label)}
-                className="ml-2 text-black hover:text-gray-200"
+                className="ml-2 text-black hover:text-gray-200 font-abhaya"
               >
                 &times;
               </button>

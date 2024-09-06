@@ -2,6 +2,7 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getTimeAgo } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -14,7 +15,6 @@ import { ErrorType } from "@/types/Errors";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 function Notification() {
@@ -109,9 +109,10 @@ function Notification() {
         <h3 className="text-[16px] font-[700] leading-[21px] mt-[9px]">
           {notificationDetails?.title}
         </h3>
-        <h3 className="mt-[9px] text-[12px] md:text-[16px] md:leading-[22px] leading-[14px] h-[auto]">
-          {notificationDetails?.content}
-        </h3>
+        <p
+          className="mt-[9px] text-[12px] md:text-[16px] md:leading-[22px] leading-[14px] h-[auto]"
+          dangerouslySetInnerHTML={{ __html: notificationDetails?.content }}
+        ></p>
 
         <div className="mt-[40px] w-full md:block flex justify-center flex-wrap gap-[10px]">
           <Button

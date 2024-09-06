@@ -5,7 +5,6 @@ import { Button } from "../ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { documentIcon, documentType } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleCheck, MoveLeft } from "lucide-react";
 import { useState } from "react";
@@ -33,7 +32,7 @@ const ModuleCourseViewCardItems = ({
   const [viewDocument, setViewDocument] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [documentFile, setDocumentFile] = useState("");
-  const docs = [{ uri: documentFile, fileType: documentType(documentFile) }];
+  // const docs = [{ uri: documentFile, fileType: documentType(documentFile) }];
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
@@ -93,21 +92,26 @@ const ModuleCourseViewCardItems = ({
         <div className="">
           <h5
             className={`${
-              (list?.prevStatus || list?.isStatus) &&
-              list?.prevStatus !== "Completed"
-                ? "pointer-events-none"
-                : list?.isStatus === "Started"
-                ? "pointer-events-none"
-                : userData?.query?.role === "1"
-                ? "pointer-events-none"
-                : list?.url
-                ? "pointer-events-auto"
-                : list?.uploadContent === ""
-                ? "pointer-events-none"
+              +userData?.query?.role === 4
+                ? (list?.prevStatus || list?.isStatus) &&
+                  list?.prevStatus !== "Completed"
+                  ? "pointer-events-none"
+                  : list?.isStatus === "Started"
+                  ? "pointer-events-none"
+                  : userData?.query?.role === "1"
+                  ? "pointer-events-none"
+                  : list?.url
+                  ? "pointer-events-auto"
+                  : list?.uploadContent === ""
+                  ? "pointer-events-none"
+                  : "pointer-events-auto"
                 : "pointer-events-auto"
             } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
             onClick={() => {
               if (list?.isLive !== 1) {
+                setViewDocument(true);
+                setDocumentFile(list?.url ? list?.url : list?.uploadContent);
+              } else {
                 setViewDocument(true);
                 setDocumentFile(list?.url ? list?.url : list?.uploadContent);
               }
@@ -152,6 +156,7 @@ const ModuleCourseViewCardItems = ({
             // onClick={() => navigate("/employee/live-session")}
             onClick={() => handleStatusChanges(1, list?.id)}
             isLoading={isPending}
+            disabled={list?.prevStatus === "Completed" ? false : true}
           >
             Join
           </Button>
@@ -199,31 +204,7 @@ const ModuleCourseViewCardItems = ({
           Back
         </Button>
       </div>
-      {userData?.query?.role !== "4" ? (
-        <>
-          {/* <CircleX
-            className="absolute -top-[25px] right-0 cursor-pointer"
-            onClick={() => {
-              setViewDocument(false);
-              setDocumentFile("");
-            }}
-          /> */}
-          <>
-            {documentType(documentFile) === "pdf" ? (
-              <iframe
-                src={documentFile}
-                style={{ height: "600px", width: "100%" }}
-              />
-            ) : (
-              <DocViewer
-                documents={docs}
-                pluginRenderers={DocViewerRenderers}
-                style={{ height: "600px" }}
-              />
-            )}
-          </>
-        </>
-      ) : list?.isLive === 1 ? (
+      {list?.isLive === 1 ? (
         <LiveSession list={list} />
       ) : (
         <ViewSession

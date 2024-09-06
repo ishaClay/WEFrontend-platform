@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { BsPencilFill } from "react-icons/bs";
-import { MdOutlineCalendarMonth } from "react-icons/md";
-import { BiCheckCircle, BiShow } from "react-icons/bi";
-import MaturityLevelPage from "./MaturityLevelPage";
-import HomeFooter from "@/components/homePage/HomeFooter";
-import treePlantingIcon from "@/assets/images/TreePlanting.png";
 import moralesIcon from "@/assets/images/Morales.png";
 import person from "@/assets/images/person.png";
+import treePlantingIcon from "@/assets/images/TreePlanting.png";
+import HomeFooter from "@/components/homePage/HomeFooter";
+import { useState } from "react";
+import { BiCheckCircle, BiShow } from "react-icons/bi";
+import { BsPencilFill } from "react-icons/bs";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import MaturityLevelPage from "./MaturityLevelPage";
 
 function MaturityAssessmentRoadmapAfterbuild() {
   const [activeTab, setActiveTab] = useState("Assessment Result");
@@ -29,7 +29,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                 activeTab === "Assessment Result"
                   ? "text-[#00778B] font-semibold border-b border-[#00778B]"
                   : "text-[#000000]"
-              } py-2 px-4 text-[16px] h-[49px]`}
+              } py-2 px-4 text-[16px] h-[49px] font-abhaya`}
               onClick={() => handleTabChange("Assessment Result")}
             >
               Assessment Result
@@ -39,12 +39,12 @@ function MaturityAssessmentRoadmapAfterbuild() {
                 activeTab === "Roadmap"
                   ? "text-[#00778B] font-semibold border-b border-[#00778B]"
                   : "text-[#000000]"
-              } py-2 px-4 text-[16px] h-[49px]`}
+              } py-2 px-4 text-[16px] h-[49px] font-abhaya`}
               onClick={() => handleTabChange("Roadmap")}
             >
               Roadmap
             </button>
-            <button className="bg-[#00778B] text-white font-semibold w-[78px] h-[37px] rounded ml-[880px]">
+            <button className="bg-[#00778B] text-white font-semibold w-[78px] h-[37px] rounded ml-[880px] font-abhaya">
               Export
             </button>
           </div>
@@ -94,10 +94,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                     <div className="pb-2 pt-2 flex gap-5 h-[70px] w-[1200px]">
                       <div className="flex w-full">
                         <div className="ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2">
-                          <img
-                            src={treePlantingIcon}
-                            alt="treePlantingIcon"
-                          />
+                          <img src={treePlantingIcon} alt="treePlantingIcon" />
                         </div>
                         <div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold">
                           Environmental
@@ -147,7 +144,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       >
                         History
                       </a>
-                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px]">
+                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-abhaya">
                         Assign
                       </button>
                     </div>
@@ -193,10 +190,10 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="flex flex-col ml-[200px] gap-2 mt-6">
-                      <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs">
+                      <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-abhaya">
                         On time
                       </button>
-                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex">
+                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-abhaya">
                         <BsPencilFill className="mr-2 mt-2 ml-4" />
                         <div className="mt-1">Edit</div>
                       </button>
@@ -243,10 +240,10 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="ml-[200px] flex flex-col gap-2 mt-6">
-                      <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs">
+                      <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
                         Dealy
                       </button>
-                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex">
+                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-abhaya">
                         <BsPencilFill className="mr-2 mt-2 ml-4" />
                         <div className="mt-1">Edit</div>
                       </button>
@@ -295,13 +292,13 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="flex ml-[40px] gap-16 mt-6">
-                      <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-9 ml-6">
+                      <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-9 ml-6 font-abhaya">
                         <BiShow className="mt-2 ml-3" />
                         <div className="mt-1">Edit</div>
                       </button>
                       <div className="flex flex-col">
                         <div>
-                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs">
+                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
                             Dealy
                           </button>
                         </div>
@@ -318,10 +315,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                     <div className=" pb-2 pt-2 flex  gap-5  h-[70px] w-[1200px]">
                       <div className="flex w-full ">
                         <div className=" ml-4 bg-white rounded-full drop-shadow-md w-14 h-14 p-4 mb-2 ">
-                          <img
-                            src={moralesIcon}
-                            alt="moralesIcon"
-                          />
+                          <img src={moralesIcon} alt="moralesIcon" />
                         </div>
 
                         <div className="ml-6 mt-4 text-[#1D2026] font-Calibri font-bold ">
@@ -376,7 +370,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       >
                         History
                       </a>
-                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px]">
+                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-abhaya">
                         Assign
                       </button>
                     </div>

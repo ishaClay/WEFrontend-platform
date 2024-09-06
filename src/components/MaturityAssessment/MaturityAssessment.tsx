@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAssessment } from "@/services/apiServices/assessment";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import Loading from "../comman/Error/Loading";
 import { Button } from "../ui/button";
 import {
   Select,
@@ -31,7 +32,6 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
-import Loading from "../comman/Error/Loading";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -457,28 +457,30 @@ const MaturityAssessment = () => {
                   </TabsTrigger>
                 )}
               </div>
-              <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
-                  <PDFDownloadLink
-                    document={
-                      <AssessmentPdf
-                        data={transformData()}
-                        companyName={userData?.query?.name}
-                        assessmentData={selfAssData}
-                        fetchClientmaturitylevel={
-                          fetchClientmaturitylevel?.data
-                        }
-                      />
-                    }
-                    fileName="Action-Items.pdf"
-                  >
-                    {({ loading }: any) =>
-                      loading ? "Loading document..." : "Export"
-                    }
-                  </PDFDownloadLink>
-                  {/* Export */}
-                </Button>
-              </div>
+              {activeTab !== "actionitems" && (
+                <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
+                  <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                    <PDFDownloadLink
+                      document={
+                        <AssessmentPdf
+                          data={transformData()}
+                          companyName={userData?.query?.name}
+                          assessmentData={selfAssData}
+                          fetchClientmaturitylevel={
+                            fetchClientmaturitylevel?.data
+                          }
+                        />
+                      }
+                      fileName="Action-Items.pdf"
+                    >
+                      {({ loading }: any) =>
+                        loading ? "Loading document..." : "Export"
+                      }
+                    </PDFDownloadLink>
+                    {/* Export */}
+                  </Button>
+                </div>
+              )}
             </TabsList>
             {/* {openPdf && <PDFViewer
               width="100%"

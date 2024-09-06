@@ -164,6 +164,9 @@ const AssessmentResult = ({
         },
       },
     },
+    hover: {
+      mode: undefined,
+    },
   };
 
   const Labels = () => (
@@ -226,13 +229,14 @@ const AssessmentResult = ({
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
           <div className="xxl:col-span-9 xl:col-span-7 col-span-12 xl:mb-0 sm:mb-10 mb-5">
-            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative lg:pb-4 pb-1 mb-4 max-w-[600px]">
+            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative  mb-4 max-w-[600px] line-clamp-2">
               Where {userData?.query?.name}'s <br /> Green Feet are now...
-              <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0"></div>
+              <div className="w-[117px] h-[2px] bg-[#64A70B] lg:mt-4 mt-1 absolute bottom-0 left-0"></div>
             </h3>
             <div className="max-w-[602.78px]">
               <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
-                Here’s how you performed across the six pillars of sustainability as a business!
+                Here’s how you performed across the six pillars of
+                sustainability as a business!
               </p>
               <div className="pb-5">
                 <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
@@ -243,9 +247,9 @@ const AssessmentResult = ({
                 </h6>
               </div>
               <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs">
-                Now that you know where you stand, it’s time to develop an action 
-                plan based on personalized insights to advance your company to its 
-                next green stage.
+                Now that you know where you stand, it’s time to develop an
+                action plan based on personalized insights to advance your
+                company to its next green stage.
               </p>
             </div>
           </div>

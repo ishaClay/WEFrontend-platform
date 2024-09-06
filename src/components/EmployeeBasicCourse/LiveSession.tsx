@@ -2,6 +2,7 @@ import Zoom_Video from "@/assets/images/zoom-video.png";
 import { ModuleSectionsEntity } from "@/types/employee";
 import { CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
+import { Button } from "../ui/button";
 
 const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
   console.log(list, "+++++++++++++++++++++++");
@@ -36,10 +37,14 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
   );
 
   const isButtonPermission =
-    isEmployee &&
-    (timeRemaining?.days !== 0 ||
-      timeRemaining?.hours !== 0 ||
-      timeRemaining?.minutes !== 0);
+    +userData?.query?.role === 4
+      ? isEmployee &&
+        (timeRemaining?.days !== 0 ||
+          timeRemaining?.hours !== 0 ||
+          timeRemaining?.minutes !== 0)
+      : true;
+
+  console.log("isButtonPermission", isButtonPermission);
 
   return (
     <div className="bg-white min-h-[calc(100vh_-_130px)]">
@@ -105,12 +110,10 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
             </p>
             <a
               target="_blank"
-              href={
-                isButtonPermission ? "" : list?.liveSection[0]?.zoomApiBaseUrl
-              }
+              href={list?.liveSection[0]?.zoomApiBaseUrl}
               className={`bg-[#00778B] text-sm font-inter px-10 py-3 text-white rounded-[6px] sm:h-[42px] h-[36px] ${
                 isButtonPermission
-                  ? "pointer-events-none opacity-50"
+                  ? "pointer-events-none opacity-40"
                   : "pointer-events-auto opacity-100"
               }`}
             >
@@ -119,6 +122,12 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
           </div>
         </div>
       </div>
+
+      {+userData?.query?.role === 4 && (
+        <Button className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
+          Mark As Completed
+        </Button>
+      )}
     </div>
   );
 };

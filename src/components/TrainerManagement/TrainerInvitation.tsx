@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { trainerInvitation } from "@/services/apiServices/trainer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -6,15 +8,13 @@ import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import * as Zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
+import FileUpload from "../comman/FileUpload";
+import FormError from "../comman/FormError";
+import InputWithLabel from "../comman/InputWithLabel";
 import Loader from "../comman/Loader";
 import { Button } from "../ui/button";
-import { toast } from "../ui/use-toast";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
 import { Input } from "../ui/input";
-import FormError from "../comman/FormError";
-import FileUpload from "../comman/FileUpload";
-import InputWithLabel from "../comman/InputWithLabel";
+import { toast } from "../ui/use-toast";
 
 interface InviteData {
   email: string;
@@ -129,7 +129,7 @@ const TrainerInvitation = () => {
     const isEmailInvalid = inviteData.some((data) => !isValidEmail(data.email));
 
     if (isEmailInvalid) {
-      setError("Enter valid email addresses");
+      setError("Enter valid email address");
       return;
     }
 

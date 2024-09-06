@@ -266,7 +266,7 @@ const Addcertificate = () => {
                 ])
               );
             }}
-            className="text-[16px] flex font-semibold items-center gap-[15px]"
+            className="text-[16px] flex font-semibold items-center gap-[15px] font-abhaya"
           >
             <HiOutlineArrowNarrowLeft />
             Back

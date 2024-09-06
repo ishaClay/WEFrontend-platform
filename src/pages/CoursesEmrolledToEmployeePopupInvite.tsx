@@ -218,7 +218,7 @@ function CoursesEmrolledToEmployeeInvitePopup() {
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 ml-[630px]"
+            className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 ml-[630px] font-abhaya"
           >
             Send Invite
           </button>

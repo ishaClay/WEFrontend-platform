@@ -91,6 +91,7 @@ const MaturityLevel = () => {
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";
@@ -102,6 +103,9 @@ const MaturityLevel = () => {
           },
         },
       },
+    },
+    hover: {
+      mode: undefined,
     },
   };
 

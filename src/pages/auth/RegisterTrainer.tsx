@@ -78,7 +78,8 @@ function RegisterTrainer() {
     contactSurname: z.string().min(3, { message: "Please enter last name" }),
     contactTelephone: z
       .string({ required_error: "Please enter phone number" })
-      .min(1, { message: "Please enter phone number" }),
+      .min(8, { message: "Please enter valid phone number" })
+      .max(15, { message: "Please enter valid phone number" }),
     providerAddress: z
       .string({
         required_error: "Please enter provider address",
@@ -265,7 +266,7 @@ function RegisterTrainer() {
       reset();
       toast({
         variant: "success",
-        title: data.data.message
+        title: data.data.message,
         // title:
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });

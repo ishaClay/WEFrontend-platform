@@ -21,6 +21,7 @@ import { CountryResponse } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -180,6 +181,12 @@ function CompanyRegister() {
       });
 
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
+      const expiresIn24Hours = new Date(
+        new Date().getTime() + 24 * 60 * 60 * 1000
+      );
+      Cookies.set("accessToken", data?.data?.data?.accessToken, {
+        expires: expiresIn24Hours,
+      });
 
       toast({ title: "Company updated Successfully" });
       EnumUpadate();
@@ -274,7 +281,7 @@ function CompanyRegister() {
                 then.
               </h2>
 
-              <p className="font-abhaya mt-[10px]">
+              <p className="font-abhaya mt-[10px] text-[#000]">
                 Fill in your details to start your self-assessment in a jiff.
               </p>
             </div>

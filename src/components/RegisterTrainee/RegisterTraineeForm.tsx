@@ -74,7 +74,11 @@ const RegisterTraineeForm = () => {
       .min(1, { message: "Please enter Contact Last Name" }),
     phone: Zod.string({
       required_error: "Please select phone number",
-    }),
+    })
+      .min(8, { message: "Please enter valid phone number" })
+      .max(15, {
+        message: "Please enter valid phone number",
+      }),
     currentHighestNFQ: Zod.string({
       required_error: "Please select current highest NFQ",
     }).min(1, { message: "Please enter NFQ" }),

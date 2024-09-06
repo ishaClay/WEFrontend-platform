@@ -342,7 +342,7 @@ const ActionItemModel = ({
                                     </button> */}
                                     <button
                                       type="button"
-                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      className="border-none bg-transparent text-lg cursor-pointer font-abhaya"
                                       onClick={() => {
                                         setRemoveData({
                                           // @ts-ignore

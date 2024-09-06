@@ -115,8 +115,8 @@ const MainHeader = () => {
             <li className="pl-8">
               {/* {title} */}
               <h3 className="xl:text-[20px] text-lg font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
-                Welcome,{" "}
-                <span className="text-[14px]">
+                Welcome
+                {/* <span className="text-[14px]">
                   {+userData?.query?.role === 1
                     ? userData?.query?.name ||
                       userData?.query?.email?.split("@")[0]
@@ -125,7 +125,7 @@ const MainHeader = () => {
                       } ${
                         userData?.query?.lname ? userData?.query?.lname : ""
                       }` || userData?.query?.email?.split("@")[0]}
-                </span>
+                </span> */}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </li>
@@ -151,7 +151,7 @@ const MainHeader = () => {
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
               <button
                 type="button"
-                className="relative inline-flex items-center justify-center w-[45px] h-[45px] text-sm  text-center bg-[#F5F5F5] rounded-[50%] focus:ring-4"
+                className="relative inline-flex items-center justify-center w-[45px] h-[45px] text-sm  text-center bg-[#F5F5F5] rounded-[50%] focus:ring-4 font-abhaya"
               >
                 <IoIosNotificationsOutline
                   className="text-[30px]"

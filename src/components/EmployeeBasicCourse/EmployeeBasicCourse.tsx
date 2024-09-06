@@ -40,9 +40,15 @@ const EmployeeBasicCourse = () => {
   const { data: getSingleCourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.getSingleCourse, courseById],
     queryFn: () =>
-      fetchSingleCourse(courseById, userData?.company?.userDetails?.id),
+      fetchSingleCourse(
+        courseById,
+        userData?.company?.id,
+        userData?.query?.detailsid
+      ),
     enabled: !!courseById,
   });
+
+  console.log("userData", userData);
 
   const {
     data: fetchEmployeeSingeCourse,
@@ -81,39 +87,22 @@ const EmployeeBasicCourse = () => {
     }
   }, [tab, location]);
 
-  console.log("🚀 ~ EmployeeBasicCourse ~ course:", getModule);
-  const assessment = fetchEmployeeSingeCourse?.data?.course?.module
-    ?.filter((item: any) => item?.assessment.length > 0)
-    .map((item: any) => item?.assessment?.[0]?.isCompleted);
-
-  const assessmentStatus =
-    assessment?.filter((item) => item === true)?.length === assessment?.length;
-
-  const sessionCompleted = getModule?.moduleStatuses?.filter(
-    (item) => item.status === "completed"
-  )?.length;
-
-  const courseFeedBack: any =
-    fetchEmployeeSingeCourse?.data?.course?.feedBack?.find(
-      (item: any) => item?.user?.id
-    );
-
   useEffect(() => {
-    if (!courseFeedBack?.id) {
-      if (
-        assessmentStatus &&
-        sessionCompleted === getModule?.moduleStatuses?.length
-      ) {
+    if (+userData?.query?.role === 4) {
+      const check = getModule?.moduleStatuses?.every(
+        (item) => item.status === "completed"
+      );
+
+      const isFeedback = course?.data?.course?.feedBack?.find(
+        (item: any) => item?.user?.id === userData?.query?.id
+      );
+      console.log("check", !isFeedback);
+
+      if (check && !isFeedback) {
         setIsOpenReviewModal(true);
       }
     }
-  }, [
-    fetchEmployeeSingeCourse,
-    assessmentStatus,
-    getModule?.moduleStatuses,
-    courseFeedBack?.id,
-    sessionCompleted,
-  ]);
+  }, [getModule?.moduleStatuses, userData?.query?.role]);
 
   return (
     <>
@@ -258,7 +247,7 @@ const EmployeeBasicCourse = () => {
                                 getModule?.moduleStatuses?.findIndex(
                                   (item) =>
                                     item.status === "started" ||
-                                    item.status === "inrogress"
+                                    item.status === "inProgress"
                                 );
                               return (
                                 <li

@@ -151,7 +151,7 @@ export const sidebarLayout = {
       ],
     },
     {
-      label: "Settings",
+      label: "Setting",
       Icon: FiSettings,
       link: "/trainer/setting",
       children: [],

@@ -25,7 +25,7 @@ export const PrimaryButton: React.FC<InputProps> = ({
 
   return (
     <button
-      className={`button-color top-94 left-823 text-color rounded hover:bg-[#489db0] font-d-din-pro ${
+      className={`button-color top-94 left-823 text-color rounded hover:bg-[#489db0] !font-abhaya ${
         disabled ? "cursor-not-allowed opacity-80" : ""
       } ${className}`}
       disabled={disabled}
@@ -50,7 +50,7 @@ export const SecondaryButton: React.FC<InputProps> = ({
     <>
       {isLink ? (
         <a
-          className={`top-94 left-823 rounded text-color font-['D-Din-pro-Medium'] ${className}`}
+          className={`top-94 left-823 rounded text-color !font-abhaya ${className}`}
           href={href}
           target="_blank"
         >
@@ -60,7 +60,7 @@ export const SecondaryButton: React.FC<InputProps> = ({
       ) : (
         <button
           type="button"
-          className={`top-94 left-823 rounded secondary-text font-['D-Din-pro-Medium'] ${className}`}
+          className={`top-94 left-823 rounded secondary-text !font-abhaya ${className}`}
           onClick={onClick}
         >
           {name}

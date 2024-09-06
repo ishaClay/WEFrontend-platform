@@ -8,6 +8,10 @@ type EnrolledCourses = {
 };
 
 const EnrolledCourses = ({ data }: EnrolledCourses) => {
+  const progressColor =
+    Number(data?.courseProgress) && data?.getFeedback === "true"
+      ? "#58BA66"
+      : "#FFD56A";
   return (
     <div className="sm:px-6 sm:py-5 p-[15px] sm:shadow-2xl shadow-none border border-[#ddd] flex flex-col gap-3">
       <div className="sm:flex block gap-4 items-center">
@@ -42,7 +46,7 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
       </div>
       <Progress
         value={Number(data?.courseProgress)}
-        color="#58BA66"
+        color={progressColor}
         className="w-full rounded-full"
       />
     </div>

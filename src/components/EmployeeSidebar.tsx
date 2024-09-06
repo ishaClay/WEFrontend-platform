@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { BsTicketPerforated } from "react-icons/bs";
 import { GrCertificate } from "react-icons/gr";
@@ -9,7 +10,6 @@ import { RxDashboard } from "react-icons/rx";
 import { TfiBook } from "react-icons/tfi";
 import { Link } from "react-router-dom";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
-import Cookies from "js-cookie";
 
 const EmployeeSidebar = () => {
   const [isOpen1, setIsOpen1] = useState(false);
@@ -33,7 +33,7 @@ const EmployeeSidebar = () => {
             </h1>
 
             <div className="absolute mt-[60px] -top-2 -right-[14px] flex items-center justify-center  ">
-              <button className=" h-[30px] w-[30px] bg-[#FFFFFF] border border-[#E5E7EE] rounded-full  inline-flex items-center justify-center ">
+              <button className=" h-[30px] w-[30px] bg-[#FFFFFF] border border-[#E5E7EE] rounded-full  inline-flex items-center justify-center font-abhaya">
                 <MdOutlineKeyboardArrowLeft className="h-[20px] w-[20px] text-[#606060]" />
               </button>
             </div>
@@ -112,7 +112,10 @@ const EmployeeSidebar = () => {
       <AlertLogOutDialog
         isOpen={isAlertOpen}
         onClose={() => setIsAlertOpen(false)}
-        onConfirm={() => {localStorage.clear(); Cookies.remove('accessToken');}}
+        onConfirm={() => {
+          localStorage.clear();
+          Cookies.remove("accessToken");
+        }}
       />
     </>
   );

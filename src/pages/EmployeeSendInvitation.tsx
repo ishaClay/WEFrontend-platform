@@ -35,7 +35,7 @@ function EmployeeSendInvitation() {
                 Send Invitation
               </p>
               <button
-                className="flex items-center mr-4 rounded gap-2"
+                className="flex items-center mr-4 rounded gap-2 font-abhaya"
                 onClick={() =>
                   dispatch(
                     setPath([
@@ -111,7 +111,7 @@ function EmployeeSendInvitation() {
             />
 
             <div className="flex justify-end">
-              <button className="bg-[#58BA66] hover:bg-[#58BA66] text-white  py-2 px-4 rounded">
+              <button className="bg-[#58BA66] hover:bg-[#58BA66] text-white  py-2 px-4 rounded font-abhaya">
                 Send Invite
               </button>
             </div>

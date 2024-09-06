@@ -160,7 +160,7 @@ const ChangePassword = () => {
                 </div>
                 <button
                   type="submit"
-                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px]"
+                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] font-abhaya"
                 >
                   {isPending ? (
                     <Loader containerClassName="h-auto" />
