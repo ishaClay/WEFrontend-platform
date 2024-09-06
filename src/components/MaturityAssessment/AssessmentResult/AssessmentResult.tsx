@@ -232,20 +232,19 @@ const AssessmentResult = ({
             </h3>
             <div className="max-w-[602.78px]">
               <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
-                Here’s how you did across the 6 pillars of sustainability as a
-                business! 
+                Here’s how you performed across the six pillars of sustainability as a business!
               </p>
               <div className="pb-5">
                 <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
-                  But what your score really means?{" "}
+                  But what does your score really mean?{" "}
                 </h6>
                 <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
-                  This is where your journey starts. 
+                  This is where your journey begins.
                 </h6>
               </div>
               <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs">
-                Now that you know where you are, it’s time to get an action plan
-                built from personalised insights to advance your company to its
+                Now that you know where you stand, it’s time to develop an action 
+                plan based on personalized insights to advance your company to its 
                 next green stage.
               </p>
             </div>
@@ -282,7 +281,7 @@ const AssessmentResult = ({
       <div className="sm:block hidden">
         <div className="flex justify-between items-center mb-5">
           <h2 className="lg:text-xl sm:text-lg text-base font-calibri font-bold">
-            How you fare across the Maturity levels
+            How you fared across the maturity levels
           </h2>
         </div>
         <div className="flex flex-col gap-[26px]  mb-[60px]">

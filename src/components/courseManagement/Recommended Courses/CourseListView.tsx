@@ -312,7 +312,7 @@ function CourseListView({
             </div>
             <div className="sm:col-span-2 col-span-12">
               <div className="flex sm:flex-col flex-row gap-2 sm:items-end items-center">
-                <h3 className="text-[#000000] text-[font-calibri-bold] sm:w-[100px] w-[80px]">
+                <h3 className="text-[#000000] text-[font-calibri-bold] sm:w-[143px] w-[80px]">
                   €{recommendeddata.price}
                 </h3>
 
@@ -322,14 +322,14 @@ function CourseListView({
                     setIsRecommendedCourseShow(true);
                     setRecommendedCoursesById(recommendeddata?.id);
                   }}
-                  className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
+                  className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
                   disabled={recommendeddata?.enrolled}
                 >
-                  Enroll Now
+                  {recommendeddata?.enrolled ? recommendeddata?.enrolledStatus === 1 ? "Enrolled" : recommendeddata?.enrolledStatus === 0 ? "Pending Enrollment": " " : "Enroll Now"}
                 </Button>
                 {recommendeddata?.inquire ? (
                   <Button
-                    className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
+                    className="bg-[#00778B] sm:w-[125px] sm:h-[43px] sm:text-base text-sm !w-[143px]"
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(
@@ -345,7 +345,7 @@ function CourseListView({
                   </Button>
                 ) : (
                   <Button
-                    className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                    className=" h-[42px] bg-[#00778B] text-white font-semibold px-4 py-2 rounded w-[143px]"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleInquire(recommendeddata || []);

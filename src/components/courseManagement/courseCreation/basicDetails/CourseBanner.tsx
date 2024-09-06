@@ -245,6 +245,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       );
     }
   };
+console.log("editorData", editorData);
 
   return (
     <>

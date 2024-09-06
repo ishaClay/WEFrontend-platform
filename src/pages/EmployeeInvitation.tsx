@@ -152,8 +152,8 @@ const EmployeeInvitation = () => {
     <div>
       <div className="rounded-xl">
         <div className="bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between pb-[5px] p-5">
-          <div className="md:flex block items-center gap-3">
-            <p className="text-[#000000] font-abhaya text-base font-semibold">
+          <div className="">
+            <p className="text-[#000000] font-calibri font-bold text-base pb-2">
               Send Invitation
             </p>
             <p className="text-[15px] font-abhaya text-[#606060] font-semibold">

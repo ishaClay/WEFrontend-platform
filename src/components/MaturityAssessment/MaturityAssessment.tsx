@@ -354,7 +354,7 @@ const MaturityAssessment = () => {
           </h5>
           {getCheckedmeasures?.data?.data?.length > 0 && (
             <h6 className="text-xs text-[#606060] font-bold font-calibri">
-              Completed Date :{" "}
+              Completion Date :{" "}
               {assessmentData?.length > 0
                 ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
                     "DD/MM/YYYY"

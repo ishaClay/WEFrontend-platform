@@ -4,7 +4,6 @@ import Trainers from "@/assets/images/trainers.svg";
 import { useEffect, useState } from "react";
 
 import { DataTable } from "@/components/comman/DataTable";
-import { Button } from "@/components/ui/button";
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
 import { getTraineeData } from "@/services/apiServices/dashboard";
 import { TraineeEnrollDashboardResponse } from "@/types/dashboard";
@@ -25,6 +24,8 @@ import {
 import CustomCarousel from "./comman/CustomCarousel";
 import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
 import RatingModel from "./Models/RatingModel";
+import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 Chart.register(
   CategoryScale,
@@ -265,69 +266,54 @@ const DashboardTrainee = () => {
     }
   }, [userData])
 
-  const [activeButton, setActiveButton] = useState(null);
-  console.log(activeButton);
-  const handleClick = (buttonName: any) => {
-    setActiveButton(buttonName);
-  };
+  const DashboardTotalListCard = ({isLoading, icon, value, title, className}: {isLoading: boolean, icon: string, value: number, title: string, className?: string}) => {
+    return <div className={cn("col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl", className)}>
+      {
+        isLoading ? <span className="flex justify-center py-[68px]">
+          <Loader2 className="w-6 h-6 animate-spin" />
+        </span> : <>
+          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={icon} alt="" />
+          </div>
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
+            {value}
+          </h2>
+          <p className="text-base text-black font-calibri text-center">
+            {title}
+          </p>
+        </>
+      }
+    </div>
+  }
+
   return (
     <div className="rounded-xl">
       <RatingModel isOpen={isFeedbackModelOpen} setIsOpen={setIsFeedbackModelOpen} />
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Trainers} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.trainerCourseCount}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Assign Course
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Total_courses} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.discussionForumActivity?.posts}
-          </h2>
-          <p className="text-base text-black font-calibri">Total Post</p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.discussionForumActivity?.replies}
-          </h2>
-          <p className="text-base text-black font-calibri">Total Replies</p>
-        </button>
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.discussionForumActivity?.activeUsers}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Active Users
-          </p>
-        </button>
+        <DashboardTotalListCard 
+          isLoading={isSmeDashboardPending}
+          icon={Trainers}
+          value={smeDashboardData?.trainerCourseCount || 0}
+          title="Total Assign Course"
+        />
+        <DashboardTotalListCard 
+          isLoading={isSmeDashboardPending}
+          icon={Total_courses}
+          value={smeDashboardData?.discussionForumActivity?.posts || 0}
+          title="Total Post"
+        />
+        <DashboardTotalListCard 
+          isLoading={isSmeDashboardPending}
+          icon={Companies}
+          value={smeDashboardData?.discussionForumActivity?.replies || 0}
+          title="Total Replies"
+        />
+        <DashboardTotalListCard 
+          isLoading={isSmeDashboardPending}
+          icon={Companies}
+          value={smeDashboardData?.discussionForumActivity?.activeUsers || 0}
+          title="Total Active Users"
+        />
       </div>
 
       <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -336,21 +322,23 @@ const DashboardTrainee = () => {
             <h5 className="  text-base font-nunito font-bold">
               Top 5 Ongoing Courses
             </h5>
-            <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
               View All
-            </Button>
+            </Button> */}
           </div>
 
           <div className="">
-            <div className="overflow-x-auto">
+            {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
+                <Loader2 className="w-6 h-6 animate-spin" />
+              </span> : <div className="overflow-x-auto">
               <DataTable
                 columns={column}
-                data={smeDashboardData?.trainerEnrollCourse || []}
+                data={smeDashboardData?.trainerEnrollCourse?.slice(0, 5) || []}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
               />
-            </div>
+            </div>}
           </div>
         </div>
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
@@ -358,21 +346,23 @@ const DashboardTrainee = () => {
             <h5 className="  text-base font-nunito font-bold">
               Top 5 Upcoming Courses
             </h5>
-            <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
               View All
-            </Button>
+            </Button> */}
           </div>
 
           <div className="">
-            <div className="overflow-x-auto">
+            {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
+                <Loader2 className="w-6 h-6 animate-spin" />
+              </span> : <div className="overflow-x-auto">
               <DataTable
                 columns={column1}
-                data={smeDashboardData?.trainerUpcommingCourse || []}
+                data={smeDashboardData?.trainerUpcommingCourse?.slice(0, 5) || []}
                 totalPages={employeeData?.length}
                 setPage={setPage}
                 rounded={false}
               />
-            </div>
+            </div>}
           </div>
         </div>
       </div>
@@ -380,8 +370,10 @@ const DashboardTrainee = () => {
         Upcoming Live Session
       </h3>
       <div className="sm:block hidden bg-white p-5 rounded">
-        <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 xl:min-h-[150px] items-center">
-          {smeDashboardData?.UpcomingSessions &&
+        <div className={`grid gap-6 xl:min-h-[150px] items-center ${isSmeDashboardPending ? "grid-cols-1" : "xl:grid-cols-3 sm:grid-cols-2 grid-cols-1"}`}>
+        {isSmeDashboardPending ? <span className="flex justify-center items-center h-[300px]">
+                <Loader2 className="w-6 h-6 animate-spin" />
+              </span> : smeDashboardData?.UpcomingSessions &&
           smeDashboardData?.UpcomingSessions?.length > 0 ? (
             smeDashboardData?.UpcomingSessions!.map((data, index) => {
               return <LiveSessionsItems data={data} key={index} />;

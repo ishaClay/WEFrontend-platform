@@ -190,7 +190,7 @@ export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
   const res = await api({ url });
   return res?.data
 };
-export const createNewVersion = async (data: { courseId: number, version: number }) => {
+export const createNewVersion = async (data: { courseId: number, version: number, userId: number }) => {
   const url = `api/v1/course/createCourseWithNewVersion`;
   const method = "post";
   const res = await api({ url, data, method });

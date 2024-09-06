@@ -7,7 +7,7 @@ export interface GetSingleCourseEntity {
   createdAt: string;
   updatedAt: string;
   course: CourseData;
-  cohortGroups?: (CohortGroupsEntity)[] | null;
+  cohortGroup?: (CohortGroupEntity)[] | null;
 }
 export interface CourseData {
   id: number;
@@ -70,7 +70,7 @@ export interface NfqLeval {
   createdAt: string;
   updatedAt: string;
 }
-export interface CohortGroupsEntity {
+export interface CohortGroupEntity {
   id: number;
   slotStartDate: SlotStartDateOrSlotEndDate;
   slotEndDate: SlotStartDateOrSlotEndDate;

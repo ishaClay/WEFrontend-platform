@@ -257,15 +257,14 @@ function RegisterTrainer() {
 
   const { mutate: createtrainer, isPending: createPending } = useMutation({
     mutationFn: (question) => registerTrainer(question),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
       reset();
       toast({
         variant: "success",
-        title:
-          "Thank you for registering! Your details are under review. You'll be notified once approved.",
+        title: data.data.message
         // title:
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });

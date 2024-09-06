@@ -4,7 +4,6 @@ import Couse_Total from "@/assets/images/couse_total.png";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getDashboardEmployeeCourse } from "@/services/apiServices/employee";
 import { useQuery } from "@tanstack/react-query";
-import Loader from "../comman/Loader";
 import MyCoursesItems from "./MyCoursesItems";
 
 const MyCourses = () => {
@@ -50,11 +49,9 @@ const MyCourses = () => {
         My Courses
       </h5>
       <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">
-        {isLoading ? (
-          <Loader containerClassName="col-span-full" />
-        ) : coursesItems.length ? (
+        {coursesItems.length ? (
           coursesItems.map((data, index) => {
-            return <MyCoursesItems data={data} key={index} />;
+            return <MyCoursesItems data={data} key={index} isLoading={isLoading} />;
           })
         ) : (
           <p className="col-span-full flex items-center justify-center h-[300px]">

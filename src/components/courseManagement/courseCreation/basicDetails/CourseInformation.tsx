@@ -403,7 +403,7 @@ const CourseInformation = ({
                   Course Price
                 </span>
                 <InputWithLabel
-                  placeholder="50.00"
+                  placeholder="Enter price (€)"
                   className="sm:w-[190px] w-[170px] pl-6 pr-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
                   disabled={isFreeCourse}
                   // {...register("price")}
@@ -432,7 +432,7 @@ const CourseInformation = ({
                   Discounted Price
                 </span>
                 <InputWithLabel
-                  placeholder="255"
+                  placeholder="Enter price (€)"
                   className="sm:w-[190px] w-[150px] pl-6 pr-4 py-3 border border-[#D9D9D9] rounded-md outline-none"
                   disabled={!provideDisc || isFreeCourse}
                   value={discount}

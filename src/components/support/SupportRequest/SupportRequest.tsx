@@ -27,7 +27,7 @@ const SupportRequest = () => {
     <div className="bg-white">
       <div className="md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div>
-          <h6 className="font-calibri text-lg font-bold pb-2">
+          <h6 className="font-calibri text-base font-bold pb-2">
             Support Request
           </h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">

@@ -11,7 +11,6 @@ import { Outlet } from "react-router-dom";
 import EmployeeMessaging from "../EmployeeMessage/EmployeeMessaging";
 import HeaderCourse from "../HeaderCourse";
 import Sidebar from "../Sidebar";
-import Loading from "../comman/Error/Loading";
 
 export interface SidebarItem {
   label: string;
@@ -34,7 +33,7 @@ const DashboardLayout = () => {
   // const userRole = 4;
   const [data, setData] = useState<SidebarItem[]>([]);
 
-  const { data: selectTargetPillarLimit, isLoading } = useQuery({
+  const { data: selectTargetPillarLimit } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
     queryFn: () => pillarLimit(user?.query?.detailsid as string),
     enabled: !!user && +user?.query?.role === UserRole.Trainer,
@@ -98,7 +97,7 @@ const DashboardLayout = () => {
           )}
         </div>
       </div>
-      <Loading isLoading={isLoading} />
+      {/* <Loading isLoading={isLoading} /> */}
     </ChatBotProvider>
   );
 };

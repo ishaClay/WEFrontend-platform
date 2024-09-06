@@ -194,7 +194,8 @@ function SupportAddNewTicket() {
                       <Loader2 className="w-5 h-5 animate-spin" />
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
-                    assigToUserList?.map((item) => {
+                    assigToUserList?.map((item:any) => {
+
                       return (
                         <>
                           <SelectItem
@@ -202,8 +203,8 @@ function SupportAddNewTicket() {
                             value={String(item?.userDetails?.id)}
                             className="w-full"
                           >
-                            <div className="flex items-center sm:gap-5 gap-2">
-                              <p className="text-neutral-400 text-left">
+                            <div className="flex items-center sm:gap-5 gap-3">
+                              <p className="text-neutral-400 w-[120px] text-left">
                                 {item?.userDetails?.role === UserRole?.Employee
                                   ? "Employee"
                                   : item?.userDetails?.role ===
@@ -217,11 +218,11 @@ function SupportAddNewTicket() {
                                   ? "Trainer"
                                   : "Client Admin"}
                               </p>{" "}
-                              <p className="xl:mx-10 mx-0 text-neutral-400">
+                              <p className="text-neutral-400">
                                 --
                               </p>{" "}
                               <p className="max-w-[220px] break-all	">
-                                {item?.name || item?.email?.split("@")?.[0]}
+                                {item?.userDetails?.role === UserRole?.Trainer ? item?.providerName : item?.name || item?.email?.split("@")?.[0]}
                               </p>
                             </div>
                             {/* {!!item?.userDetails
