@@ -270,6 +270,7 @@ const ListView = ({
         createNewVersionFun({
           courseId: item?.id,
           version: item?.currentVersion?.version || 0,
+          userId: +userData?.query?.id,
         });
       }
     } else {
