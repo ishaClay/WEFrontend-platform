@@ -70,7 +70,10 @@ const MaturityAssessment = () => {
   );
 
   const { data: assessmentQuestionScoreLIST } = useQuery({
-    queryKey: [QUERY_KEYS.assessmentQuestionScore, { pillarCompleted }],
+    queryKey: [
+      QUERY_KEYS.assessmentQuestionScore,
+      { pillarCompleted, userID, clientId },
+    ],
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
 
@@ -198,9 +201,8 @@ const MaturityAssessment = () => {
           )}
         </div>
         {((pillarCompleted && Role !== "employee") ||
-          (assessmentQuestionScoreLIST?.data?.length > 1 &&
-            Role !== "employee") ||
-          (assessmentQuestionScoreLIST?.data?.length > 1 &&
+          (assessmentDetailOptions?.length > 1 && Role !== "employee") ||
+          (assessmentDetailOptions?.length > 1 &&
             Role === "employee" &&
             empPermissions?.retakeSelfAssessment)) && (
           <div className="">

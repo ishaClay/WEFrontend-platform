@@ -196,7 +196,7 @@ const CourseInformation = ({
     if (isFreeCourse) {
       setValue("discountApplicable", data?.data?.id);
     }
-  }, [isFreeCourse]);
+  }, [isFreeCourse, data]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),

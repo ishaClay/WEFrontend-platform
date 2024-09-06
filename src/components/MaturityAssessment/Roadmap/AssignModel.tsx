@@ -79,14 +79,16 @@ const AssignModel = ({
 
     const payload = {
       employeeId: selectAsignModel,
-      startDate: date?.startDate,
-      endDate: date?.endDate,
+      startDate: moment(date?.startDate).toString(),
+      endDate: moment(date?.endDate).toString(),
       userId: userData?.id,
     };
     if (id) {
       mutate({ data: payload, masureId: +id });
     }
   };
+
+  console.log("date?.startDate", moment(date?.startDate).toString());
 
   return (
     <div className="">
@@ -114,7 +116,10 @@ const AssignModel = ({
         labelText="Start Date"
         date={date.startDate}
         fromDate={new Date()}
-        setDate={(e) => setDate((prev) => ({ ...prev, startDate: e }))}
+        setDate={(e) => {
+          setDate((prev) => ({ ...prev, startDate: e }));
+          console.log("Data+++++++++++++", e);
+        }}
         buttonClassName="text-base font-abhaya font-medium w-[363px] h-[52px] xl:mb-7 mb-6"
         labelClassName="text-base font-abhaya font-semibold text-[#000] pb-1"
       />

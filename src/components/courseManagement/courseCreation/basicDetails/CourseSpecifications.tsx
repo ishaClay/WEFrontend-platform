@@ -80,11 +80,12 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     queryFn: () => fetchNfqlLevel(),
   });
 
-  const { data: getSingleCourse, isFetching: getSingleCourseFetching } = useQuery({
-    queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
-    queryFn: () => fetchSingleCourseById(String(paramsversion)),
-    enabled: !!paramsversion || !!courseById,
-  });
+  const { data: getSingleCourse, isFetching: getSingleCourseFetching } =
+    useQuery({
+      queryKey: [QUERY_KEYS.getSingleCourse, { paramsversion, courseById }],
+      queryFn: () => fetchSingleCourseById(String(paramsversion)),
+      enabled: !!paramsversion || !!courseById,
+    });
 
   const { mutate, isPending } = useMutation({
     mutationFn: createCourseTwoPage,
@@ -151,7 +152,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           getSingleCourse?.data?.course?.certificate?.toString() || "",
       });
     }
-  }, [getSingleCourse]);
+  }, [getSingleCourse, setValue, nfqlLevelOption]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -276,7 +277,8 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           </div>
           <div className="sm:mb-[20px] mb-[15px]">
             <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
-              What type of certificate or award will the trainees receive upon course completion?
+              What type of certificate or award will the trainees receive upon
+              course completion?
             </Label>
             <SelectMenu
               {...register("certificate")}
@@ -307,7 +309,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
             </Button>
           </div>
         </form>
-      <Loading isLoading={getSingleCourseFetching} />
+        <Loading isLoading={getSingleCourseFetching} />
       </div>
     </>
   );
