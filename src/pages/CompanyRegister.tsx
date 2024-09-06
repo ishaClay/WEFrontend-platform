@@ -71,29 +71,29 @@ function CompanyRegister() {
     address: z.string().min(1, { message: "Please enter address" }),
     county: z
       .string({
-        required_error: "Please Select County",
+        required_error: "Please select county",
       })
-      .nonempty("Please Select County"),
+      .nonempty("Please select county"),
     averageNumberOfEmployees: z
       .string({
-        required_error: "Please Select Employees",
+        required_error: "Please select employees",
       })
-      .min(1, { message: "Please Select Employees" }),
+      .min(1, { message: "Please select employees" }),
     sector: z
       .string({
-        required_error: "Please Select Sector",
+        required_error: "Please select sector",
       })
-      .min(1, { message: "Please Select Sector" }),
+      .min(1, { message: "Please select sector" }),
     parentCompanyAddress: z.string().nullable(),
     parentCompanyName: z.string().nullable(),
     email: z.string().min(1, { message: "Please enter email" }),
     parentCompanyCounty: z.string().nullable().optional(),
     contactFirstName: z
       .string()
-      .min(1, { message: "Please Enter Contact First Name" }),
+      .min(1, { message: "Please enter contact first name" }),
     contactLastName: z
       .string()
-      .min(1, { message: "Please Enter Contact Last Name" }),
+      .min(1, { message: "Please enter contact last name" }),
   });
 
   type ValidationSchema = z.infer<typeof schema>;
@@ -188,7 +188,7 @@ function CompanyRegister() {
         expires: expiresIn24Hours,
       });
 
-      toast({ title: "Company updated Successfully" });
+      toast({ title: "Company updated successfully" });
       EnumUpadate();
     },
     onError: (error: ErrorType) => {
@@ -223,7 +223,7 @@ function CompanyRegister() {
   const onSubmit = async (data: FieldValues) => {
     const token: any = await getDeviceToken();
     if (!soleTrader) {
-      setSoleTraderError("Please Select Sole Trader");
+      setSoleTraderError("Please select sole trader");
     } else {
       const updatedData = {
         ...data,
@@ -240,7 +240,7 @@ function CompanyRegister() {
     if (companyNumberId) {
       mutate({ company_num: companyNumberId || 0 });
     } else {
-      toast({ variant: "destructive", title: "Please Enter Company Name" });
+      toast({ variant: "destructive", title: "Please enter company name" });
     }
   };
 

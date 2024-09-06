@@ -34,7 +34,7 @@ const schema = z.object({
   file: z.string().optional(),
   invitiondetail: z
     .string()
-    .min(1, { message: "Please Enter Invition Detail" }),
+    .min(1, { message: "Please enter invition detail" }),
 });
 
 const EmployeeInvitation = () => {
@@ -72,7 +72,7 @@ const EmployeeInvitation = () => {
       if (data?.data?.data?.employeeExist?.length > 0) {
         toast({
           title: "Error",
-          description: "Employee invitation Already send.",
+          description: "Employee invitation already send.",
           variant: "destructive",
         });
       } else {

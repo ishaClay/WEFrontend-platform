@@ -52,7 +52,7 @@ const schema = zod.object({
     .refine(
       (value) => value !== undefined && (value === "Yes" || value === "No"),
       {
-        message: "Please select Foreign Provider",
+        message: "Please select foreign provider",
         path: ["foreignProvider"],
       }
     ),

@@ -51,10 +51,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       .nonempty("Description is required"),
     bannerImage: zod
       .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner Image is required"),
+      .min(1, "Banner image is required"),
     keys: zod
-      .string({ required_error: "Key Outcomes is required" })
-      .min(1, "Key Outcomes is required")
+      .string({ required_error: "Key outcomes is required" })
+      .min(1, "Key outcomes is required")
       .max(1000, "You can not write description more than 1000 characters"),
   });
   type FormData = zod.infer<typeof schema>;
@@ -245,7 +245,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       );
     }
   };
-console.log("editorData", editorData);
+  console.log("editorData", editorData);
 
   return (
     <>

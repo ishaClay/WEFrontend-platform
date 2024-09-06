@@ -58,7 +58,7 @@ const ResetPassword = () => {
     mutationFn: ResetPasswordApi,
     onSuccess: () => {
       toast({
-        title: "Password Reset Successfully",
+        title: "Password reset successfully",
       });
       navigate("/auth");
     },

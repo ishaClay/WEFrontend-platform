@@ -64,14 +64,14 @@ const RegisterTraineeForm = () => {
     gender: Zod.string({ required_error: "Please select gender" }),
     firstName: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid Contact First Name",
+        message: "Please enter valid contact first name",
       })
-      .min(1, { message: "Please enter Contact First Name" }),
+      .min(1, { message: "Please enter contact first name" }),
     surname: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid Contact Last Name",
+        message: "Please enter valid contact last name",
       })
-      .min(1, { message: "Please enter Contact Last Name" }),
+      .min(1, { message: "Please enter contact last name" }),
     phone: Zod.string({
       required_error: "Please select phone number",
     })
@@ -101,6 +101,7 @@ const RegisterTraineeForm = () => {
     handleSubmit,
     reset,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -177,7 +178,7 @@ const RegisterTraineeForm = () => {
         localStorage.removeItem("path");
       } else {
         setValue("email", email);
-        setValue("memberCompany", cName);
+        setValue("memberCompany", decodeURI(cName));
         setValue("firstName", fName || "");
         setValue("surname", lName || "");
       }
@@ -423,6 +424,15 @@ const RegisterTraineeForm = () => {
               onChange={(e: any) => {
                 setValue("phone", e);
                 setPhone(e);
+                if (e?.length < 8 || e?.length > 15) {
+                  setError("phone", {
+                    message: "Please enter valid phone number",
+                  });
+                } else {
+                  setError("phone", {
+                    message: "",
+                  });
+                }
               }}
               className="phone-input font-normal"
             />
