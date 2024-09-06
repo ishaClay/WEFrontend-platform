@@ -30,7 +30,7 @@ const AssignModel = ({
   });
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const userData = JSON.parse(localStorage.getItem("user") as string).query;
+  const userData = JSON?.parse(localStorage.getItem("user") as string)?.query;
 
   const companyId = userData?.detailsid
     ? userData?.detailsid

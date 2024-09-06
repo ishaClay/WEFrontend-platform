@@ -1,16 +1,16 @@
-import HeaderCourse from "@/components/HeaderCourse";
-import EmployeeListSidebar from "@/components/EmployeeListSidebar";
-import { useState } from "react";
-import { IoChevronDownSharp } from "react-icons/io5";
-import { Button } from "@/components/ui/button";
-import { Doughnut } from "react-chartjs-2";
-import GovernanceGray from "@/assets/images/GovernanceGray.png";
-import StrategicIntegrationGray from "@/assets/images/StrategicIntegrationGray.png";
-import TechInnovationGray from "@/assets/images/Tech&InnovationGray.png";
 import EconomicsGray from "@/assets/images/EconomicsGray.png";
 import EnvironmentalGray from "@/assets/images/Environmental.svg";
+import GovernanceGray from "@/assets/images/GovernanceGray.png";
 import SocialGray from "@/assets/images/SocialGray.png";
+import StrategicIntegrationGray from "@/assets/images/StrategicIntegrationGray.png";
+import TechInnovationGray from "@/assets/images/Tech&InnovationGray.png";
+import EmployeeListSidebar from "@/components/EmployeeListSidebar";
+import HeaderCourse from "@/components/HeaderCourse";
 import HomeFooter from "@/components/homePage/HomeFooter";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Doughnut } from "react-chartjs-2";
+import { IoChevronDownSharp } from "react-icons/io5";
 
 function MaturityAssessmentResult() {
   const [isOpen, setIsOpen] = useState(false);
@@ -142,7 +142,7 @@ function MaturityAssessmentResult() {
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2"
+                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2 font-abhaya"
               >
                 <span className="text-[12px] font-semibold">
                   Previous Assessment Details
@@ -183,7 +183,7 @@ function MaturityAssessmentResult() {
                   activeTab === "Assessment Result"
                     ? "  text-[#00778B]  font-semibold border-b border-[#00778B]"
                     : " text-[#000000] "
-                }  py-2 px-4  text-[16px] h-[49px]  `}
+                }  py-2 px-4  text-[16px] h-[49px]  font-abhaya`}
                 onClick={() => handleTabChange("Assessment Result")}
               >
                 Assessment Result
@@ -193,12 +193,12 @@ function MaturityAssessmentResult() {
                   activeTab === "Roadmap"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] `}
+                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
                 onClick={() => handleTabChange("Roadmap")}
               >
                 Roadmap
               </button>
-              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[880px] ">
+              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[880px] font-abhaya">
                 Export
               </button>
             </div>

@@ -342,7 +342,7 @@ const ActionItemModel = ({
                                     </button> */}
                                     <button
                                       type="button"
-                                      className="border-none bg-transparent text-lg cursor-pointer"
+                                      className="border-none bg-transparent text-lg cursor-pointer font-abhaya"
                                       onClick={() => {
                                         setRemoveData({
                                           // @ts-ignore
@@ -404,6 +404,9 @@ const ActionItemModel = ({
           onDelete={() => removeActionItem()}
           value={currentPiller || ""}
           isLoading={deletePending}
+          message={`Do you want to delete ${
+            currentPiller || "this"
+          } Action Item?`}
         />
       </div>
       {/* <Loading isLoading={deletePending} /> */}

@@ -78,14 +78,14 @@ const ForgotPassword = () => {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end text-[#000]">
+            {/* <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
                   Sign In
                 </Link>
               </label>
-            </div>
+            </div> */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative max-w-[418px] lg:h-auto md:h-[400px] sm:h-[350px] h-[330px] mx-auto md:mt-[80px] sm:mt-[50px] mt-[20px]">
                 <p className="text-[24px] font-[700] mb-4 text-color">

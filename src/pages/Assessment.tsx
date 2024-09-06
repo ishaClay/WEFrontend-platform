@@ -146,7 +146,7 @@ function Assessment() {
               <PrimaryButton
                 onClick={handleAssesment}
                 name="Start Now"
-                className="sm:w-[266px] w-[200px] primary-background  sm:h-[55px] h-[50px] md:mt-[57px] sm:mt-[45px] mt-[35px] sm:text-[20px] text-lg !font-abhaya"
+                className="sm:w-[266px] w-[200px] primary-background  sm:h-[55px] h-[50px] md:mt-[57px] sm:mt-[45px] mt-[35px] sm:text-[20px] text-lg !font-calibri"
               />
             </div>
           </div>

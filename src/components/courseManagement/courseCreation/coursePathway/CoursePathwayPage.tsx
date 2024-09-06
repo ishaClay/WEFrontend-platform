@@ -1,4 +1,5 @@
 import CloseIcon from "@/assets/images/close_img.png";
+import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,7 +17,6 @@ import { CircleX } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CoursePathwayPageItems from "./CoursePathwayPageItems";
-import Loading from "@/components/comman/Error/Loading";
 
 interface SelectedData {
   pillarId: string;

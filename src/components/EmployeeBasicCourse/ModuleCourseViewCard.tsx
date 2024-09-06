@@ -1,5 +1,6 @@
-import ModuleVideoPlay from "@/assets/images/video-play.png";
+import ModuleVideoPlay from "@/assets/images/assesment_test.png";
 import { RootState } from "@/redux/store";
+import { UserRole } from "@/types/UserRole";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -12,6 +13,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const [searchParams] = useSearchParams();
   const assessmentData = data?.assessment?.[0];
   const courseId = searchParams.get("courseId");
+  const userData = JSON.parse(localStorage.getItem("user") as string);
 
   return (
     <div>
@@ -40,6 +42,22 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
             <div>
               <h5
                 className={`sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
+                onClick={() =>
+                  navigate(
+                    `/${UserRole[
+                      +userData?.query?.role
+                    ]?.toLowerCase()}/employee-assessment/${
+                      assessmentData?.id
+                    }?moduleId=${data?.id}`,
+                    {
+                      state: {
+                        versionId: versionId,
+                        courseId: courseId,
+                        isCompleted: data?.assessment?.[0]?.isCompleted,
+                      },
+                    }
+                  )
+                }
               >
                 {assessmentData?.title}
               </h5>

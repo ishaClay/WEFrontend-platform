@@ -27,6 +27,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import { LogOut, ResendOtp } from "@/services/apiServices/authService";
 import {
   fetchProviderTypes,
@@ -62,45 +63,46 @@ function RegisterTrainer() {
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
   const schema = z.object({
-    providerName: z.string().min(1, { message: "Please Enter Provider Name" }),
+    providerName: z.string().min(1, { message: "Please enter provider name" }),
     providerType: z
       .string({
-        required_error: "Please Select Provider Type",
+        required_error: "Please select provider type",
       })
-      .min(1, { message: "Please Enter Provider Type" }),
-    providerCity: z.string().min(1, { message: "Please Enter Provider City" }),
+      .min(1, { message: "Please enter provider type" }),
+    providerCity: z.string().min(1, { message: "Please enter provider city" }),
     providerCountry: z
       .string({
-        required_error: "Please Select Provider Country",
+        required_error: "Please select provider country",
       })
-      .min(1, { message: "Please Select Provider County" }),
-    contactSurname: z.string().min(3, { message: "Please Enter Last Name" }),
+      .min(1, { message: "Please select provider county" }),
+    contactSurname: z.string().min(3, { message: "Please enter last name" }),
     contactTelephone: z
-      .string({ required_error: "Please Enter Phone Number" })
-      .min(1, { message: "Please Enter Phone Number" }),
+      .string({ required_error: "Please enter phone number" })
+      .min(8, { message: "Please enter valid phone number" })
+      .max(15, { message: "Please enter valid phone number" }),
     providerAddress: z
       .string({
-        required_error: "Please Enter Provider Address",
+        required_error: "Please enter provider address",
       })
-      .min(1, { message: "Please Enter Provider Address" }),
+      .min(1, { message: "Please enter provider address" }),
     providerCounty: z.string().optional(),
-    contactFirstName: z.string().min(3, { message: "Please Enter First Name" }),
+    contactFirstName: z.string().min(3, { message: "Please enter first name" }),
     email: z
       .string()
-      .min(1, { message: "Please Enter Email" })
-      .email("Please Enter Valid Email"),
+      .min(1, { message: "Please enter email address" })
+      .email("Please enter valid email address"),
     providerNotes: z
       .string()
       .max(200, {
-        message: "Provider Notes must contain at least 200 Characters",
+        message: "Provider notes must contain at least 200 characters",
       })
       .optional(),
     foreignProvider: z
       .string({
-        message: "Please select Foreign Provider",
+        message: "Please select foreign provider",
       })
       .refine((value) => value === "Yes" || value === "No", {
-        message: "Please select Foreign Provider",
+        message: "Please select foreign provider",
         path: ["foreignProvider"],
       }),
   });
@@ -222,7 +224,7 @@ function RegisterTrainer() {
     }
   }, [fetchTrainerByEmailData]);
 
-  const providerTypesList = getProviderTypes?.providerTypes;
+  const providerTypesList = getProviderTypes?.providerTypes || [];
   const providerTypesOption = providerTypesList?.map((item) => {
     return {
       value: item,
@@ -257,15 +259,14 @@ function RegisterTrainer() {
 
   const { mutate: createtrainer, isPending: createPending } = useMutation({
     mutationFn: (question) => registerTrainer(question),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
       reset();
       toast({
         variant: "success",
-        title:
-          "Thank you for registering! Your details are under review. You'll be notified once approved.",
+        title: data.data.message,
         // title:
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
@@ -389,7 +390,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={providerTypesOption || []}
                       placeholder="Select company type"
-                      className="h-[46px] mt-2 text-left placeholder:text-[#A3A3A3]"
+                      className="h-[46px] mt-2 text-left"
                       setValue={(data: string) =>
                         setValue("providerType", data)
                       }
@@ -438,13 +439,13 @@ function RegisterTrainer() {
                       placeholder="Select county"
                       className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
                       setValue={(data: string) =>
-                        setValue("providerCountry", data)
+                        setValue("providerCounty", data)
                       }
-                      value={watch("providerCountry") || ""}
+                      value={watch("providerCounty") || ""}
                     />
                     {errors.providerCountry && (
                       <ErrorMessage
-                        message={errors.providerCountry.message as string}
+                        message={errors.providerCounty?.message as string}
                       />
                     )}
                   </div>
@@ -462,7 +463,11 @@ function RegisterTrainer() {
                           <span className="text-red-500">*</span>
                         </SelectLabel>
 
-                        <SelectTrigger className="h-[46px] text-[gray]">
+                        <SelectTrigger
+                          className={cn("h-[46px] ", {
+                            "text-[#A3A3A3]": !watch("foreignProvider"),
+                          })}
+                        >
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
                       </SelectGroup>
@@ -508,6 +513,7 @@ function RegisterTrainer() {
                       placeholder="First name"
                       className="h-[46px]"
                       label="Contact First Name"
+                      isMendatory
                       {...register("contactFirstName")}
                     />
                     {errors.contactFirstName && (
@@ -521,6 +527,7 @@ function RegisterTrainer() {
                       placeholder="Last name"
                       className="h-[46px]"
                       label="Contact Last Name"
+                      isMendatory
                       {...register("contactSurname")}
                     />
                     {errors.contactSurname && (

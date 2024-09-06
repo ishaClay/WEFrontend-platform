@@ -123,6 +123,9 @@ const TeaserScore = () => {
         },
       },
     },
+    hover: {
+      mode: undefined,
+    },
   };
 
   const Labels = () => (
@@ -192,7 +195,7 @@ const TeaserScore = () => {
                       recommendations!), register to get inside.
                     </p>
                     <button
-                      className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 font-semibold"
+                      className="bg-[#00778B] text-white py-2 px-4 rounded-md ml-0 mt-4 "
                       onClick={handleScore}
                     >
                       Complete your Registration

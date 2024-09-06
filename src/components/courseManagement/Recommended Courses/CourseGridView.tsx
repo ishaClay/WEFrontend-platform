@@ -290,7 +290,7 @@ const CourseGridView = ({
             <div className="2xl:col-span-5 col-span-4 xl:mr-0 ml-auto m-0 flex items-center 2xl:flex-row flex-col 2xl:gap-4 gap-2">
               {recommendeddata?.inquire ? (
                 <Button
-                  className="bg-[#00778B] sm:w-[125px] sm:h-[43px] w-[87px] h-[31px] sm:text-base text-sm"
+                  className="bg-[#00778B] sm:w-[125px] sm:h-[43px] px-4 sm:text-base text-sm w-[143px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(
@@ -306,7 +306,7 @@ const CourseGridView = ({
                 </Button>
               ) : (
                 <Button
-                  className=" h-[42px] bg-[#00778B] text-white font-semibold w-[100px] px-4 py-2 rounded"
+                  className=" h-[42px] bg-[#00778B] text-white font-semibold px-4 py-2 w-[143px] rounded"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleInquire(recommendeddata || []);
@@ -330,10 +330,10 @@ const CourseGridView = ({
                   setIsRecommendedCourseShow(true);
                   setRecommendedCoursesById(recommendeddata?.id);
                 }}
-                className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] w-auto"
+                className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
                 disabled={recommendeddata?.enrolled}
               >
-                {recommendeddata?.enrolled ? "Pending Enrollment" : "Enroll Now"}
+                {recommendeddata?.enrolled ? recommendeddata?.enrolledStatus === 1 ? "Enrolled" : recommendeddata?.enrolledStatus === 0 ? "Pending Enrollment": " " : "Enroll Now"}
               </Button>
             </div>
           </div>

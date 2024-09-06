@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import CustomCarousel from "../comman/CustomCarousel";
+import NoDataText from "../comman/NoDataText";
 import ActionItemsList from "./ActionItemsList";
 import EnrolledCourses from "./EnrolledCourses";
 
@@ -13,11 +14,13 @@ const TeamProgresslistInner = ({ data }: any) => {
           </h5>
         </div>
         <div id="scrollStyle" className="max-h-[344px] overflow-auto">
-          {(data?.measure?.length > 0)
-            ? data?.measure?.map((itm: any, index: number) => {
-                return <ActionItemsList key={index} data={itm} />;
-              })
-            : <div className="sm:px-5 sm:py-20 p-[15px] text-center">No Action Item Found</div>}
+          {data?.measure?.length > 0 ? (
+            data?.measure?.map((itm: any, index: number) => {
+              return <ActionItemsList key={index} data={itm} />;
+            })
+          ) : (
+            <NoDataText message="No Action Item Found" className="h-[190px]" />
+          )}
         </div>
       </div>
       <div className="col-span-1 rounded-xl border border-[#D9D9D9]">
@@ -27,13 +30,17 @@ const TeamProgresslistInner = ({ data }: any) => {
           </h5>
         </div>
         <div className="sm:px-5 sm:py-20 p-[15px]">
-          <CustomCarousel containerClassName="">
-            {(data?.courseAlloted ? data?.courseAlloted : []).map(
-              (data: any, index: number) => {
-                return <EnrolledCourses key={index} data={data} />;
-              }
-            )}
-          </CustomCarousel>
+          {data?.courseAlloted?.length > 0 ? (
+            <CustomCarousel containerClassName="">
+              {(data?.courseAlloted && data?.courseAlloted).map(
+                (data: any, index: number) => {
+                  return <EnrolledCourses key={index} data={data} />;
+                }
+              )}
+            </CustomCarousel>
+          ) : (
+            <NoDataText message="No data found" className="h-auto" />
+          )}
         </div>
       </div>
     </div>

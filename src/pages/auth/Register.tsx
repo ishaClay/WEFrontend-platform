@@ -342,14 +342,16 @@ function Register() {
 
           <div className="w-full 2xl:px-0 px-5 sm:mt-[33px] mt-[20px] sm:max-w-[515px] max-w-[450px] mx-auto flex flex-col justify-between">
             <div>
-              {/* <div className="flex justify-end text-[#000]">
-                <label>
-                  Already have an account?{" "}
-                  <Link to={"/auth"} className="font-[700] text-[#042937]">
-                    Sign In
-                  </Link>
-                </label>
-              </div> */}
+              {!selectedRole && (
+                <div className="flex justify-end text-[#000]">
+                  <label>
+                    Already have an account?{" "}
+                    <Link to={"/auth"} className="font-[700] text-[#042937]">
+                      Sign In
+                    </Link>
+                  </label>
+                </div>
+              )}
 
               {selectedRole !== "company" ? (
                 <div className="lg:h-[524px] h-[350px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
@@ -361,7 +363,7 @@ function Register() {
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
-                    <p className="text-[16px] font-[400] mt-3 font-abhaya">
+                    <p className="text-[16px] font-[400] mt-3 font-abhaya text-[#000]">
                       Select your role so we can get you to the right place.
                     </p>
                     <div className="flex sm:flex-nowrap flex-wrap sm:gap-[40px] gap-[20px] mt-[40px]">
@@ -395,7 +397,7 @@ function Register() {
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
-                    <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400]">
+                    <p className="2xl:w-[530px] xl:w-[500px] w-[400px] h-[80px] text-[16px] font-[400] text-[#000]">
                       Simply fill in your company name, email, create a
                       password—and you’ll be sent a one-time password to get
                       directly in.
@@ -419,7 +421,7 @@ function Register() {
                         <InputWithLable
                           label="Email"
                           className="h-[46px] border solid 1.5px"
-                          placeholder="Enter Email Address"
+                          placeholder="Enter Email"
                           disabled={!!searchParams.get("email")}
                           {...register("email")}
                         />
@@ -470,13 +472,13 @@ function Register() {
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
 
-                    <p className="sm:w-[450px] w-full xl:w-full">
+                    <p className="sm:w-[450px] w-full xl:w-full text-[#000]">
                       Just a few details to fill in, and you’ll be able to
                       self-assess where your company is now on their
                       sustainability journey.
                     </p>
 
-                    <div className="mt-[20px] flex gap-x-[40px] font-[700]">
+                    <div className="mt-[20px] flex gap-x-[40px] ">
                       <button
                         className="w-[300px] h-[40px] bg-[#00778B] rounded-[4px] text-white"
                         onClick={handleLaunchJourney}
@@ -586,7 +588,7 @@ function Register() {
             <Button
               type="button"
               isLoading={registerPending}
-              className="text-white w-[181px] p-[13px] bg-[#64A70B] h-[50px] rounded-[9px]"
+              className="text-white w-[181px] text-base font-normal p-3 bg-[#64A70B] h-[48px] rounded-[9px]"
               onClick={(e) => {
                 console.log("Called");
                 handleVerifyOtp(e);

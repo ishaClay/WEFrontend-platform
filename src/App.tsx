@@ -4,102 +4,54 @@ import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
+import AuthLayout from "./Layout/AuthLayout";
+import ProtectedRoute from "./Layout/ProtectedRoute";
 import DashboardTrainee from "./components/DashboardTrainee";
 import DashboardTrainer from "./components/DashboardTrainer";
 import EmployeeAssessment from "./components/EmployeeBasicCourse/EmployeeAssessment";
-import ProtectedRoute from "./components/ProtectedRoute";
 import TrainerDetails from "./components/TrainerManagement/TrainerDetails";
 import TrainerDetailsEdit from "./components/TrainerManagement/TrainerDetailsEdit";
 import TrainerInvitation from "./components/TrainerManagement/TrainerInvitation";
 import Updatecertificate from "./components/certificateTemplete/Updatecertificate";
 import Accomplishments from "./components/certifications/Accomplishments";
+import Loading from "./components/comman/Error/Loading";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
 import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
 import { getDeviceToken } from "./firebaseConfig";
-import { useAppSelector } from "./hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "./hooks/use-redux";
 import { QUERY_KEYS } from "./lib/constants";
 import Assessment from "./pages/Assessment";
-import AssessmentResult from "./pages/AssessmentResult";
 import CertificationsPage from "./pages/CertificationsPage";
 import CompanyRegister from "./pages/CompanyRegister";
-import Compose from "./pages/Compose";
-import CourseEmrolledToEmployeePopup from "./pages/CourseEmrolledToEmployeePopup";
 import CoursesAllCourse from "./pages/CoursesAllCourse";
 import CoursesAllocate from "./pages/CoursesAllocate";
-import CoursesEmrolledToEmployeeInvitePopup from "./pages/CoursesEmrolledToEmployeePopupInvite";
 import CoursesRecommended from "./pages/CoursesRecommended";
-import Dashbord from "./pages/Dashbord";
-import EmployeeAssessmentResult from "./pages/EmployeeAssessmentResult";
-import EmployeeAssessmentResultFirst from "./pages/EmployeeAssessmentResultFirst";
-import EmployeeAssessmentResultPopup from "./pages/EmployeeAssessmentResultPopup";
-import EmployeeCompleted from "./pages/EmployeeCompleted";
-import EmployeeCompletedSecond from "./pages/EmployeeCompletedSecond";
-import EmployeeDashbord from "./pages/EmployeeDashbord";
 import EmployeeDetailsPage from "./pages/EmployeeDetailsPage";
-import EmployeeFqs from "./pages/EmployeeFaq";
 import EmployeeInvitation from "./pages/EmployeeInvitation";
 import EmployeeList from "./pages/EmployeeList";
-import EmployeeMsg from "./pages/EmployeeMsg";
 import EmployeePermission from "./pages/EmployeePermission";
-import EmployeeRodemap from "./pages/EmployeeRodemap";
-import EmployeeSendInvitation from "./pages/EmployeeSendInvitation";
-import EmployeeSupportRequest from "./pages/EmployeeSupportRequest";
-import EmployeeSupportRequestFirst from "./pages/EmployeeSupportRequestFirst";
-import EmployeeSupportRequestSecond from "./pages/EmployeeSupportRequestSecond";
-import FaqsList from "./pages/FaqsList";
 import FeatureCourseDetailPage from "./pages/FeatureCourseDetailPage";
 import Home from "./pages/Home";
 import HomeContactPage from "./pages/HomeContactPage";
 import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 import HomePage from "./pages/HomePage";
-import InProgress from "./pages/InProgress";
-import IndividualEmployee from "./pages/IndividualEmployee";
-import LiveSession from "./pages/LiveSession";
-import MaturityAssessmentResult from "./pages/MaturityAssessmentResult";
-import MaturityAssessmentRoadmapAfterbuild from "./pages/MaturityAssessmentRoadmapAfterbuild";
-import MaturityAssessmentRoadmapAssignActionItem from "./pages/MaturityAssessmentRoadmapAssignActionItem";
-import MaturityAssessmentRoadmapHistory from "./pages/MaturityAssessmentRoadmapHistory";
-import MaturityAssessmentRoadmapSetTarget from "./pages/MaturityAssessmentRoadmapSetTarget";
 import MaturityLevelActionItem from "./pages/MaturityLevelActionItem";
-import MaturityLevelActionableMeasurePopup from "./pages/MaturityLevelActionableMeasurePopup";
-import MaturityLevelAnswersPopup from "./pages/MaturityLevelAnswersPopup";
 import MaturityLevelPage from "./pages/MaturityLevelPage";
-import MessagePopup from "./pages/MessagePopup";
-import Module from "./pages/Module";
-import ModuleFrist from "./pages/ModuleFrist";
-import ModulePdf from "./pages/ModulePdf";
-import ModulePdfDetail from "./pages/ModulePdfDetail";
-import ModuleVideo from "./pages/ModuleVideo";
-import MyAccomplishments from "./pages/MyAccomplishments";
-import MyAccomplishmentsCertifications from "./pages/MyAccomplishmentsCertifications";
-import MyCourses from "./pages/MyCourses";
-import MyCoursesAll from "./pages/MyCoursesAll";
-import MyCoursesAllSecond from "./pages/MyCoursesAllSecond";
-import MyCoursesInformaction from "./pages/MyCoursesInformaction";
-import MyCoursesSocial from "./pages/MyCoursesSocial";
 import Notification from "./pages/Notification";
 import NotificationListPage from "./pages/NotificationListPage";
 import OurServicePage from "./pages/OurServicePage";
-import ProfileSetting from "./pages/ProfileSetting";
 import QuestionPage from "./pages/QuestionPage";
-import RatingPopup from "./pages/RatingPopup";
 import SavedAssesment from "./pages/SavedAssesment";
 import SelectLevel from "./pages/SelectLevel";
-import SmeAdminDropdonw from "./pages/SmeAdminDropdonw";
 import SupportAddNewTicket from "./pages/SupportAddNewTicket";
-import SupportAnswer from "./pages/SupportAnswer";
-import SupportDetails from "./pages/SupportDetails";
-import TeamMemberDropdown from "./pages/TeamMemberDropdown";
 import TeaserScore from "./pages/TeaserScore";
 import TermsOfServices from "./pages/TermsOfServices";
 import TrainerManagementPage from "./pages/TrainerManagement";
 import TrainerEditDetails from "./pages/TrainerManagement/TrainerDetailsEdit";
 import TrainerSettingPage from "./pages/TrainerSettingPage";
-import TrainingDocument from "./pages/TrainingDocument";
-import UserManual from "./pages/UserManual";
 import AllocatedCertificate from "./pages/allocatedCertificate";
 import AllocatedCertificateEmployee from "./pages/allocatedCertificateEmployee";
 import Auth from "./pages/auth/Auth";
@@ -132,18 +84,43 @@ import TicketDetailsReplyPage from "./pages/support/TicketDetailsReplyPage";
 import TrainingDocumentPage from "./pages/support/TrainingDocumentPage";
 import UserManualPage from "./pages/support/UserManualPage";
 import TeamProgress from "./pages/teamProgress/TeamProgress";
+import { setClientId } from "./redux/reducer/CompanyReducer";
+import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
 
 function App() {
   let socket: any;
+  const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
+  const domain = document.location.origin;
   const { clientId } = useAppSelector((state) => state.user);
   // const userData = JSON.parse(localStorage.getItem("user") as string);
 
+  const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
+    useQuery({
+      queryKey: [QUERY_KEYS.fetchDataByClientwise],
+      queryFn: () => fetchDataByClientwise(domain),
+      // queryFn: () => fetchDataByClientwise("weidev.clay.in"),
+    });
+
   const { data: themes } = useQuery({
-    queryKey: [QUERY_KEYS.themeChanges],
-    queryFn: () => changeTheme(clientId as string),
+    queryKey: [QUERY_KEYS.themeChanges, { fetchByClientwise, clientId }],
+    queryFn: () =>
+      changeTheme(fetchByClientwise?.data?.data?.id || (clientId as string)),
   });
+
+  useEffect(() => {
+    if (fetchByClientwise?.data?.data) {
+      dispatch(setClientId(fetchByClientwise?.data?.data?.id));
+    }
+  }, [dispatch, fetchByClientwise?.data?.data]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   document.documentElement.style.setProperty(
     "--rkp-button-color",
@@ -204,17 +181,32 @@ function App() {
           element={<FeatureCourseDetailPage />}
         />
         <Route path="/landing" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blogDetails" element={<BlogDetailsPage />} />
+        <Route
+          path="/auth"
+          element={
+            <AuthLayout>
+              <Auth />
+            </AuthLayout>
+          }
+        />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/change-password" element={<ChangePasswordPage />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={
+            <AuthLayout>
+              <Register />
+            </AuthLayout>
+          }
+        />
         <Route path="/employee_register" element={<RegisterTrainee />} />
         <Route path="/inviteRegister" element={<RegisterTrainer />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
+
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/blogDetails" element={<BlogDetailsPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/assessment" element={<Assessment />} />
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/maturelevel" element={<MaturityLevelPage />} />
@@ -228,440 +220,6 @@ function App() {
         />
 
         <Route path="/savedassesment" element={<SavedAssesment />} />
-        <Route
-          path="/maturitylevelactionablepopup"
-          element={
-            <ProtectedRoute>
-              <MaturityLevelActionableMeasurePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturitylevelanswerspopup"
-          element={
-            <ProtectedRoute>
-              <MaturityLevelAnswersPopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/courseemrolledemployeepopup"
-          element={
-            <ProtectedRoute>
-              <CourseEmrolledToEmployeePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/coursesemrolledtoemployeeinvitepopup"
-          element={
-            <ProtectedRoute>
-              <CoursesEmrolledToEmployeeInvitePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeelist"
-          element={
-            <ProtectedRoute>
-              <EmployeeList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/faqslist"
-          element={
-            <ProtectedRoute>
-              <FaqsList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeesendinvitation"
-          element={
-            <ProtectedRoute>
-              <EmployeeSendInvitation />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/trainingdocument"
-          element={
-            <ProtectedRoute>
-              <TrainingDocument />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/supportticket"
-          element={
-            <ProtectedRoute>
-              <SupportAddNewTicket />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/supportdetails"
-          element={
-            <ProtectedRoute>
-              <SupportDetails />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/supportanswer"
-          element={
-            <ProtectedRoute>
-              <SupportAnswer />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/supportaddnewticket"
-          element={
-            <ProtectedRoute>
-              <SupportAddNewTicket />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeepermission"
-          element={
-            <ProtectedRoute>
-              <EmployeePermission />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/individualemployee"
-          element={
-            <ProtectedRoute>
-              <IndividualEmployee />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/compose"
-          element={
-            <ProtectedRoute>
-              <Compose />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/smeadmindropdonw"
-          element={
-            <ProtectedRoute>
-              <SmeAdminDropdonw />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmap"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapAfterbuild />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmaphistory"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapHistory />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmapassignactionitem"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapAssignActionItem />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashbord"
-          element={
-            <ProtectedRoute>
-              <Dashbord />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentroadmapsettarget"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentRoadmapSetTarget />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/maturityassessmentresult"
-          element={
-            <ProtectedRoute>
-              <MaturityAssessmentResult />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/employeedashbord"
-          element={
-            <ProtectedRoute>
-              <EmployeeDashbord />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mycourses"
-          element={
-            <ProtectedRoute>
-              <MyCourses />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/inprogress"
-          element={
-            <ProtectedRoute>
-              <InProgress />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeecompleted"
-          element={
-            <ProtectedRoute>
-              <EmployeeCompleted />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeecompletedsecond"
-          element={
-            <ProtectedRoute>
-              <EmployeeCompletedSecond />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mycoursesall"
-          element={
-            <ProtectedRoute>
-              <MyCoursesAll />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mycoursesallsecond"
-          element={
-            <ProtectedRoute>
-              <MyCoursesAllSecond />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/teammemberdropdown"
-          element={
-            <ProtectedRoute>
-              <TeamMemberDropdown />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mycoursesinformaction"
-          element={
-            <ProtectedRoute>
-              <MyCoursesInformaction />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mycoursessocial"
-          element={
-            <ProtectedRoute>
-              <MyCoursesSocial />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/module"
-          element={
-            <ProtectedRoute>
-              <Module />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/modulefrist"
-          element={
-            <ProtectedRoute>
-              <ModuleFrist />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/modulepdf"
-          element={
-            <ProtectedRoute>
-              <ModulePdf />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/modulevideo"
-          element={
-            <ProtectedRoute>
-              <ModuleVideo />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/modulepdfdetail"
-          element={
-            <ProtectedRoute>
-              <ModulePdfDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/livesession"
-          element={
-            <ProtectedRoute>
-              <LiveSession />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/ratingpopup"
-          element={
-            <ProtectedRoute>
-              <RatingPopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeefaq"
-          element={
-            <ProtectedRoute>
-              <EmployeeFqs />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/usermanual"
-          element={
-            <ProtectedRoute>
-              <UserManual />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeesupportrequest"
-          element={
-            <ProtectedRoute>
-              <EmployeeSupportRequest />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeesupportrequestfirst"
-          element={
-            <ProtectedRoute>
-              <EmployeeSupportRequestFirst />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeesupportrequestsecond"
-          element={
-            <ProtectedRoute>
-              <EmployeeSupportRequestSecond />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeemsg"
-          element={
-            <ProtectedRoute>
-              <EmployeeMsg />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/messagepopup"
-          element={
-            <ProtectedRoute>
-              <MessagePopup />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/myaccomplishmentscertifications"
-          element={
-            <ProtectedRoute>
-              <MyAccomplishmentsCertifications />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/myaccomplishments"
-          element={
-            <ProtectedRoute>
-              <MyAccomplishments />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/assessmentresult"
-          element={
-            <ProtectedRoute>
-              <AssessmentResult />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profilesetting"
-          element={
-            <ProtectedRoute>
-              <ProfileSetting />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeeassessmentresult"
-          element={
-            <ProtectedRoute>
-              <EmployeeAssessmentResult />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeeassessmentresultfirst"
-          element={
-            <ProtectedRoute>
-              <EmployeeAssessmentResultFirst />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeerodemap"
-          element={
-            <ProtectedRoute>
-              <EmployeeRodemap />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/employeeassessmentresultpopup"
-          element={
-            <ProtectedRoute>
-              <EmployeeAssessmentResultPopup />
-            </ProtectedRoute>
-          }
-        />
 
         <Route
           path="/company"
@@ -706,6 +264,10 @@ function App() {
           <Route
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
+          />
+          <Route
+            path="employee-assessment/:assessmentId"
+            element={<EmployeeAssessment />}
           />
           <Route path="message" element={<MessagePage />} />
           <Route path="message/compose" element={<ComposePage />} />
@@ -793,6 +355,10 @@ function App() {
           <Route
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
+          />
+          <Route
+            path="employee-assessment/:assessmentId"
+            element={<EmployeeAssessment />}
           />
           <Route path="enrolledrequest" element={<EnrollmentRequest />} />
           <Route path="enrolledcourses" element={<EnrolledCourse />} />
@@ -927,9 +493,14 @@ function App() {
             path="employee-basic-course/:courseId"
             element={<BasicCoursePage />}
           />
+          <Route
+            path="employee-assessment/:assessmentId"
+            element={<EmployeeAssessment />}
+          />
           <Route path="setting" element={<TrainerSettingPage />} />
         </Route>
       </Routes>
+      <Loading isLoading={fetchByClientwisePending} />
     </div>
   );
 }

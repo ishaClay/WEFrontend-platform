@@ -86,7 +86,7 @@ function Compose() {
                   <MdOutlineAttachFile size={30} />
                 </div>
               </div>
-              <button className="bg-[#58BA66] text-[#FFFFFF] px-6 py-3 rounded-md border border-[#58BA66] ">
+              <button className="bg-[#58BA66] text-[#FFFFFF] px-6 py-3 rounded-md border border-[#58BA66] font-abhaya">
                 SEND
               </button>
             </div>

@@ -1,5 +1,9 @@
 import { CourseByVersionType, GetSingleCourseByIdType } from "@/types/course";
-import { AllCoursesResponse, CoursesNameType, InstitutionsListType } from "@/types/courseManagement";
+import {
+  AllCoursesResponse,
+  CoursesNameType,
+  InstitutionsListType,
+} from "@/types/courseManagement";
 import api from "./api";
 
 export interface courseRequest {
@@ -11,7 +15,7 @@ export interface courseRequest {
   price: string;
   discout: string;
   discountApplicable: string;
-  providerName: number | string;
+  providerName: number | string | null;
   clientId: number;
 }
 
@@ -134,7 +138,7 @@ export const publishCourse = (data: { status: string; id: number }) => {
   return api({ url, data: { status: data?.status }, method });
 };
 
-export const copyCourse = ({ id, userId }: { id: number, userId: number }) => {
+export const copyCourse = ({ id, userId }: { id: number; userId: number }) => {
   const url = `api/v1/course/copy-course/${id}?userId=${userId}`;
   const method = "put";
   return api({ url, method });
@@ -157,7 +161,17 @@ export const deleteCourse = (id: number) => {
   return api({ url, method });
 };
 
-export const getAllEmployeeCourseList = async ({ id, status, categories, keyword }: { id: number, status: string, categories: string, keyword?: string }) => {
+export const getAllEmployeeCourseList = async ({
+  id,
+  status,
+  categories,
+  keyword,
+}: {
+  id: number;
+  status: string;
+  categories: string;
+  keyword?: string;
+}) => {
   const url = `api/v1/employee/getCourseEnrollOneEmployee/${id}`;
   const method = "get";
   const params: any = {};
@@ -172,40 +186,48 @@ export const getAllEmployeeCourseList = async ({ id, status, categories, keyword
   }
   const res = await api({ url, method, params });
   return res.data;
-}
-export const updateVersion = (data: { mainCourseId: number, versionId: number, userId: number }): Promise<CourseByVersionType | any> => {
+};
+export const updateVersion = (data: {
+  mainCourseId: number;
+  versionId: number;
+  userId: number;
+}): Promise<CourseByVersionType | any> => {
   const url = `api/v1/course/change-course-version`;
   const method = "post";
   return api({ url, data, method });
 };
 
-export const fetchgetInstitutionsList = async (): Promise<InstitutionsListType> => {
-  const url = `api/v1/thirdparty/getInstitutionsName`;
-  const res = await api({ url });
-  return res?.data
-};
+export const fetchgetInstitutionsList =
+  async (): Promise<InstitutionsListType> => {
+    const url = `api/v1/thirdparty/getInstitutionsName`;
+    const res = await api({ url });
+    return res?.data;
+  };
 
 export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
   const url = `api/v1/thirdparty/getCoursesName`;
   const res = await api({ url });
-  return res?.data
+  return res?.data;
 };
 export const createNewVersion = async (data: { courseId: number, version: number, userId: number }) => {
   const url = `api/v1/course/createCourseWithNewVersion`;
   const method = "post";
   const res = await api({ url, data, method });
   return res.data;
-}
+};
 
-export const createInquiry = async (data: { courseId: number, userId: number }) => {
+export const createInquiry = async (data: {
+  courseId: number;
+  userId: number;
+}) => {
   const url = `api/v1/inquire/create`;
   const method = "post";
   const res = await api({ url, data, method });
   return res.data;
-}
+};
 
 export const fetchCoursePublishAdminClient = async (id: number) => {
   const url = `api/v1/client/coursePublishAdminClient/?clientId=${id}`;
   const res = await api({ url });
-  return res?.data
+  return res?.data;
 };

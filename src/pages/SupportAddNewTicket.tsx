@@ -49,7 +49,7 @@ function SupportAddNewTicket() {
   const user = userData ? JSON.parse(userData) : null;
 
   const schema = z.object({
-    assignTo: z.string({ required_error: "Please select Assign To" }),
+    assignTo: z.string({ required_error: "Please select Assigned To" }),
     ticketPriority: z.string({
       required_error: "Please select ticket priority",
     }),
@@ -180,7 +180,7 @@ function SupportAddNewTicket() {
               >
                 <SelectGroup>
                   <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
-                    Assign To <span className="text-red-400">*</span>
+                    Assigned To <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
@@ -194,7 +194,7 @@ function SupportAddNewTicket() {
                       <Loader2 className="w-5 h-5 animate-spin" />
                     </span>
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
-                    assigToUserList?.map((item) => {
+                    assigToUserList?.map((item: any) => {
                       return (
                         <>
                           <SelectItem
@@ -203,7 +203,7 @@ function SupportAddNewTicket() {
                             className="w-full"
                           >
                             <div className="flex items-center sm:gap-5 gap-2">
-                              <p className="text-neutral-400 text-left">
+                              <p className="text-left">
                                 {item?.userDetails?.role === UserRole?.Employee
                                   ? "Employee"
                                   : item?.userDetails?.role ===
@@ -217,11 +217,11 @@ function SupportAddNewTicket() {
                                   ? "Trainer"
                                   : "Client Admin"}
                               </p>{" "}
-                              <p className="xl:mx-10 mx-0 text-neutral-400">
-                                --
-                              </p>{" "}
+                              <p className="text-neutral-400">--</p>{" "}
                               <p className="max-w-[220px] break-all	">
-                                {item?.name || item?.email?.split("@")?.[0]}
+                                {item?.userDetails?.role === UserRole?.Trainer
+                                  ? item?.providerName
+                                  : item?.name || item?.email?.split("@")?.[0]}
                               </p>
                             </div>
                             {/* {!!item?.userDetails
@@ -258,7 +258,7 @@ function SupportAddNewTicket() {
                   <SelectTrigger
                     className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
                   >
-                    <SelectValue placeholder={`Select Name`} />
+                    <SelectValue placeholder={`Select ticket prority`} />
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
@@ -421,7 +421,9 @@ function SupportAddNewTicket() {
               </FileUpload>
             </div>
             <div>
-              <Button className="py-[15px] px-[30px]">SUBMIT</Button>
+              <Button className="py-[15px] px-[30px] bg-primary-button">
+                SUBMIT
+              </Button>
             </div>
           </div>
         </form>

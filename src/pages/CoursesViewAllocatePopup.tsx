@@ -226,8 +226,6 @@ function CourseViewAllocatePopup({
     }
   };
 
-  console.log("courseData", courseData);
-
   return (
     <Modal
       open={isOpen}
@@ -466,6 +464,7 @@ function CourseViewAllocatePopup({
                           mergedArray?.length > 0
                         }
                         disabled={
+                          (mergedArray && mergedArray?.length === 0) ||
                           isReadOnly ||
                           (mergedArray &&
                             mergedArray?.length >

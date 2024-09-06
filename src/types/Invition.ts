@@ -70,6 +70,7 @@ export interface CourseAllotedEntity {
   createdAt: string;
   deletedAt?: null;
   updatedAt: string;
+  getFeedback: string;
   courseProgress: number;
   courseVersion: CourseVersion;
   courseReconmendedStatus: string;

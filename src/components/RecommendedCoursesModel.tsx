@@ -107,6 +107,12 @@ const RecommendedCoursesModel = ({
     });
   };
 
+  useEffect(() => {
+    if (data?.length === 1) {
+      setSelectCourse("0");
+    }
+  }, [data]);
+
   return isLoading ? (
     <span className="h-full flex items-center justify-center">
       <Loader2 className="w-7 h-7 animate-spin" />
@@ -126,6 +132,7 @@ const RecommendedCoursesModel = ({
                       name="course"
                       className="md:w-6 w-4 md:h-6 h-4 focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       onChange={() => setSelectCourse(index?.toString())}
+                      checked={selectCourse === index?.toString()}
                     />
                     {courseList?.isDiscounted
                       ? "With Discount"
@@ -159,10 +166,10 @@ const RecommendedCoursesModel = ({
                         </p>
                         <div className="inline-flex items-center border border-[#D9D9D9]">
                           <Button
-                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r border-[#D9D9D9]"
-                            onClick={() => handleIncrement(index)}
+                            className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r  border-[#D9D9D9]"
+                            onClick={() => handleDecrement(index)}
                           >
-                            <Plus />
+                            <Minus />
                           </Button>
                           <input
                             type="number"
@@ -181,9 +188,9 @@ const RecommendedCoursesModel = ({
                           />
                           <Button
                             className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-l border-[#D9D9D9]"
-                            onClick={() => handleDecrement(index)}
+                            onClick={() => handleIncrement(index)}
                           >
-                            <Minus />
+                            <Plus />
                           </Button>
                         </div>
                       </div>
@@ -213,9 +220,9 @@ const RecommendedCoursesModel = ({
           placeholder="Select Cohort"
         />
         <Button
-          className="bg-[#58BA66] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
+          className="bg-[#64A70B] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
           onClick={handleEnrollementRequest}
-          disabled={isPending || !selectCourse || !selectFilterByCategory}
+          disabled={data?.[0]?.isOnline === 1 ? false || !selectCourse || isPending  : isPending || !selectCourse || !selectFilterByCategory}
         >
           {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
         </Button>

@@ -75,7 +75,8 @@ const EmployeeHeader = () => {
   const userName =
     userData &&
     (userData?.query?.fname && userData?.query?.lname
-      ? userData?.query?.fname + " " + userData?.query?.lname : userData?.query?.email?.split("@")[0]);
+      ? userData?.query?.fname + " " + userData?.query?.lname
+      : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
     setIsAlertOpen(true);
@@ -104,7 +105,8 @@ const EmployeeHeader = () => {
             >
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
-                Welcome {userData?.query?.name?.split("@")[0]}
+                Welcome
+                {/* {userData?.query?.name?.split("@")[0]} */}
               </h3>
               <BreadcrumbWithCustomSeparator />
             </h4>

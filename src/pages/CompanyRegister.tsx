@@ -21,6 +21,7 @@ import { CountryResponse } from "@/types/Company";
 import { ErrorType } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -180,6 +181,12 @@ function CompanyRegister() {
       });
 
       localStorage.setItem("user", JSON.stringify(data?.data?.data));
+      const expiresIn24Hours = new Date(
+        new Date().getTime() + 24 * 60 * 60 * 1000
+      );
+      Cookies.set("accessToken", data?.data?.data?.accessToken, {
+        expires: expiresIn24Hours,
+      });
 
       toast({ title: "Company updated Successfully" });
       EnumUpadate();
@@ -274,7 +281,7 @@ function CompanyRegister() {
                 then.
               </h2>
 
-              <p className="font-abhaya mt-[10px]">
+              <p className="font-abhaya mt-[10px] text-[#000]">
                 Fill in your details to start your self-assessment in a jiff.
               </p>
             </div>
@@ -535,7 +542,7 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !primary-background"
+                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !font-calibri !primary-background"
                   disabled={isAble}
                 />
                 <div className="max-w-[296px] mx-auto lg:mt-[60px] sm:mt-[40px] mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">

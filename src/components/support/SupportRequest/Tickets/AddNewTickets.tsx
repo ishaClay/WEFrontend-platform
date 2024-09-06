@@ -63,7 +63,7 @@ const AddNewTickets = () => {
                 ])
               )
             }
-            className="text-[16px] font-[600] flex items-center gap-[15px] "
+            className="text-[16px] font-[600] flex items-center gap-[15px] font-abhaya"
           >
             <HiOutlineArrowNarrowLeft />
             Back

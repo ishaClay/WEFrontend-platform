@@ -36,7 +36,7 @@ const FaqsList = () => {
         <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] font-bold">
           {userRole === 2
             ? "Here’s the full list of FAQs related to all your courses"
-            : "Have common questions asked by trainees? Get a step ahead and answer them below"}
+            : "Find answers to common questions below"}
         </p>
       </div>
       <div className="p-5">

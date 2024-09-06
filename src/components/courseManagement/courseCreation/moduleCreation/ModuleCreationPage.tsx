@@ -382,7 +382,11 @@ const ModuleCreationPage = () => {
                     onDragEnd={handleSort}
                     onDragOver={(e) => e.preventDefault()}
                   >
-                    <CourseViewPage data={data} currIndex={index} />
+                    <CourseViewPage
+                      data={data}
+                      currIndex={index}
+                      moduleLength={moduleList.length}
+                    />
                   </div>
                 );
               })

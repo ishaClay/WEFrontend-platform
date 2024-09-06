@@ -13,12 +13,12 @@ import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useSearchParams } from "react-router-dom";
+import ErrorMessage from "../comman/Error/ErrorMessage";
 import SelectMenu from "../comman/SelectMenu";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import ErrorMessage from "../comman/Error/ErrorMessage";
 
 const AllocatedCertificateEmployeePage = () => {
   const captureRef = useRef(null);
@@ -225,7 +225,7 @@ const AllocatedCertificateEmployeePage = () => {
                 ])
               );
             }}
-            className="text-[16px] flex font-semibold items-center gap-[15px]"
+            className="text-[16px] flex font-semibold items-center gap-[15px] font-abhaya"
           >
             <HiOutlineArrowNarrowLeft />
             Back

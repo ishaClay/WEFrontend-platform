@@ -24,10 +24,12 @@ const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
   assessments,
+  moduleLength,
 }: {
   CourseCardList: any;
   moduleId: string;
   assessments: any;
+  moduleLength: number;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -47,6 +49,7 @@ const CourseViewCardInner = ({
 
   useEffect(() => {
     if (CourseCardList?.length > 0) {
+      console.log("🚀 ~ useEffect ~ CourseCardList:", CourseCardList);
       const updateCouresListSection = [...CourseCardList];
 
       CourseCardList?.map((item: any) => {
@@ -190,11 +193,11 @@ const CourseViewCardInner = ({
   });
 
   useEffect(() => {
-    if (getCourseCardList) {
+    if (getCourseCardList && moduleLength > 1) {
       latestCourseCardList.current = getCourseCardList;
       handelSectionPosition();
     }
-  }, [getCourseCardList]);
+  }, [getCourseCardList, moduleLength]);
 
   const { mutate: CreateSection, isPending: createSectionPending } =
     useMutation({
@@ -305,15 +308,27 @@ const CourseViewCardInner = ({
       );
       setValue(
         "uploadContentType",
-        data.documentType === null ? 0 : !data.url ? data.documentType : !data.url && data.documentType === 4 ? data.documentType : 0
+        data.documentType === null
+          ? 0
+          : !data.url
+          ? data.documentType
+          : !data.url && data.documentType === 4
+          ? data.documentType
+          : 0
       );
       setValue("uploadedContentUrl", data?.uploadContent || "");
       setValue(
         "readingTime",
         data.readingTime || { hour: 0, minute: 0, second: 0 }
       );
-      console.log("data?.attachment", data.url, data?.attachment, data?.uploadContent, !data.documentType);
-      
+      console.log(
+        "data?.attachment",
+        data.url,
+        data?.attachment,
+        data?.uploadContent,
+        !data.documentType
+      );
+
       setValue("youtubeUrl", data.isLive ? "" : data.url);
       setValue("uploadDocument", data?.attachment || "");
       setValue("isLive", data.isLive === 1 ? true : false);

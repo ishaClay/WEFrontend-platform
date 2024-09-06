@@ -7,7 +7,6 @@ import { getDashboardEmployeeCourse } from "@/services/apiServices/employee";
 import { MyActionDataType } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import CustomCarousel from "../comman/CustomCarousel";
-import Loader from "../comman/Loader";
 import MyActionItems from "./MyActionItems";
 
 const MyAction = () => {
@@ -46,17 +45,15 @@ const MyAction = () => {
   ];
 
   return (
-    <div className="mb-8">
+    <div className="mb-6">
       <h5 className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold">
         My Action Items
       </h5>
       <div className="lg:block hidden">
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
-          {isLoading ? (
-            <Loader containerClassName="col-span-full" />
-          ) : actionItems?.length ? (
+          {actionItems?.length ? (
             actionItems?.map((data, index) => {
-              return <MyActionItems data={data} key={index} />;
+              return <MyActionItems data={data} key={index} isLoading={isLoading} />;
             })
           ) : (
             <p className="col-span-full flex items-center justify-center h-[300px]">
@@ -67,11 +64,9 @@ const MyAction = () => {
       </div>
       <div className="lg:hidden block">
         <CustomCarousel dots={false} className="basis-1/3">
-          {isLoading ? (
-            <Loader />
-          ) : actionItems.length ? (
+          {actionItems.length ? (
             actionItems?.map((data: any, index: number) => {
-              return <MyActionItems data={data} key={index} />;
+              return <MyActionItems data={data} key={index} isLoading={isLoading} />;
             })
           ) : (
             <p className="col-span-full flex items-center justify-center h-[300px]">

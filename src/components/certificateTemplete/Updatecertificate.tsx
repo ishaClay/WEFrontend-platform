@@ -266,7 +266,7 @@ const Addcertificate = () => {
                 ])
               );
             }}
-            className="text-[16px] flex font-semibold items-center gap-[15px]"
+            className="text-[16px] flex font-semibold items-center gap-[15px] font-abhaya"
           >
             <HiOutlineArrowNarrowLeft />
             Back
@@ -390,7 +390,7 @@ const Addcertificate = () => {
                               }}
                             >
                               <h2>{watch("administratorTitle")}</h2>
-                              <h2>Head Of Marketing</h2>
+                              {/* <h2>Head Of Marketing</h2> */}
                             </div>
                           )}
                         </div>
@@ -434,7 +434,7 @@ const Addcertificate = () => {
                               }}
                             >
                               <h2>{watch("instructorTitle")}</h2>
-                              <h2>Head Of Marketing</h2>
+                              {/* <h2>Head Of Marketing</h2> */}
                             </div>
                           )}
                         </div>
@@ -492,6 +492,9 @@ const Addcertificate = () => {
                           }}
                           acceptType=".jpg,.png"
                           className=" cursor-pointer p-[11px] "
+                          isvalidation
+                          isExactDimension
+                          validationValue={{ width: 1030, height: 734 }}
                         >
                           <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
                             <span className="border p-1 rounded-md text-[#515151]">

@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { fetchAssessment } from "@/services/apiServices/assessment";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import Loading from "../comman/Error/Loading";
 import { Button } from "../ui/button";
 import {
   Select,
@@ -31,7 +32,6 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
-import Loading from "../comman/Error/Loading";
 
 const MaturityAssessment = () => {
   const location = useLocation();
@@ -143,6 +143,8 @@ const MaturityAssessment = () => {
     Intermediate: [],
     Advanced: [],
   };
+
+  console.log("assessmant", assessmant);
 
   assessmant?.data?.data?.forEach((pillar: any) => {
     const totalPoints = parseFloat(pillar.totalpoints);
@@ -354,7 +356,7 @@ const MaturityAssessment = () => {
           </h5>
           {getCheckedmeasures?.data?.data?.length > 0 && (
             <h6 className="text-xs text-[#606060] font-bold font-calibri">
-              Completed Date :{" "}
+              Completion Date :{" "}
               {assessmentData?.length > 0
                 ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
                     "DD/MM/YYYY"
@@ -436,47 +438,49 @@ const MaturityAssessment = () => {
               <div className="flex items-center sm:order-1 order-2">
                 <TabsTrigger
                   value="assessmentresult"
-                  className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                  className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
                   Assessment Result
                 </TabsTrigger>
                 <TabsTrigger
                   value="maturityAssessment"
-                  className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                  className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
                   {Role === "employee" ? "Action Plan" : "My Action Plan"}
                 </TabsTrigger>
                 {Role !== "company" && (
                   <TabsTrigger
                     value="actionitems"
-                    className="sm:text-base text-xs sm:px-6 px-2 font-nunito font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                    className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                   >
                     My Action Items
                   </TabsTrigger>
                 )}
               </div>
-              <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
-                  <PDFDownloadLink
-                    document={
-                      <AssessmentPdf
-                        data={transformData()}
-                        companyName={userData?.query?.name}
-                        assessmentData={selfAssData}
-                        fetchClientmaturitylevel={
-                          fetchClientmaturitylevel?.data
-                        }
-                      />
-                    }
-                    fileName="Action-Items.pdf"
-                  >
-                    {({ loading }: any) =>
-                      loading ? "Loading document..." : "Export"
-                    }
-                  </PDFDownloadLink>
-                  {/* Export */}
-                </Button>
-              </div>
+              {activeTab !== "actionitems" && (
+                <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
+                  <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                    <PDFDownloadLink
+                      document={
+                        <AssessmentPdf
+                          data={transformData()}
+                          companyName={userData?.query?.name}
+                          assessmentData={selfAssData}
+                          fetchClientmaturitylevel={
+                            fetchClientmaturitylevel?.data
+                          }
+                        />
+                      }
+                      fileName="Action-Items.pdf"
+                    >
+                      {({ loading }: any) =>
+                        loading ? "Loading document..." : "Export"
+                      }
+                    </PDFDownloadLink>
+                    {/* Export */}
+                  </Button>
+                </div>
+              )}
             </TabsList>
             {/* {openPdf && <PDFViewer
               width="100%"

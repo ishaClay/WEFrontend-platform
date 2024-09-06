@@ -219,7 +219,7 @@ function AssessmentResult() {
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2"
+                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2 font-abhaya"
               >
                 <span className="text-[12px] font-semibold">
                   Previous Assessment Details
@@ -260,7 +260,7 @@ function AssessmentResult() {
                   activeTab === "Assessment Result"
                     ? "  text-[#00778B]  font-semibold border-b border-[#00778B]"
                     : " text-[#000000] "
-                }  py-2 px-4  text-[16px] h-[49px]  `}
+                }  py-2 px-4  text-[16px] h-[49px] font-abhaya `}
                 onClick={() => handleTabChange("Assessment Result")}
               >
                 Assessment Result
@@ -270,7 +270,7 @@ function AssessmentResult() {
                   activeTab === "Roadmap"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] `}
+                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
                 onClick={() => handleTabChange("Roadmap")}
               >
                 Roadmap
@@ -281,13 +281,13 @@ function AssessmentResult() {
                   activeTab === "My Action Items"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] `}
+                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
                 onClick={() => handleTabChange("My Action Items")}
               >
                 My Action Items
               </button>
 
-              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px]">
+              <button className="bg-[#00778B] text-white font-semibold w-[78px] font-abhaya h-[37px] rounded md:ml-[720px]">
                 Export
               </button>
             </div>

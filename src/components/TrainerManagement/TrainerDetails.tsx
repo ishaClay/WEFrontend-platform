@@ -28,6 +28,8 @@ const TrainerDetails = () => {
   const [trainerPermission, setTrainerPermission] = useState<boolean>(false);
   const [trainerEditPermission, setTrainerEditPermission] =
     useState<boolean>(false);
+  const [assignCertificatePermission, setAssignCertificatePermission] =
+    useState<boolean>(false);
   const { data: clientDetails, isPending } = useQuery<TrainersByIdResponse>({
     queryKey: ["trainerDetails", params.id],
     queryFn: () => getTrainerById({ id: params.id || "" }),
@@ -64,6 +66,7 @@ const TrainerDetails = () => {
     if (clientDetails?.data) {
       setTrainerStatus(clientDetails?.data?.status.toString() || "");
       setTrainerPermission(clientDetails?.data?.approved);
+      setAssignCertificatePermission(clientDetails?.data?.assignCertificate);
     }
   }, [clientDetails]);
 
@@ -187,7 +190,7 @@ const TrainerDetails = () => {
                 <p>{clientDetails?.data?.providerType || "--"}</p>
               </div>
               <div className="md:col-span-1 col-span-2 font-nunito">
-                <h3 className="text-[#A3A3A3] ">Country</h3>
+                <h3 className="text-[#A3A3A3] ">County</h3>
                 <p>{clientDetails?.data?.providerCounty || "--"}</p>
               </div>
               <div className="md:col-span-1 col-span-2 font-nunito">
@@ -300,6 +303,28 @@ const TrainerDetails = () => {
                     className="text-[16px] font-nunito"
                   >
                     Edit Course Permission
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="airplane-mode"
+                    defaultChecked={assignCertificatePermission}
+                    checked={assignCertificatePermission}
+                    onCheckedChange={() =>
+                      setAssignCertificatePermission(
+                        !assignCertificatePermission
+                      )
+                    }
+                    switchClassName={
+                      "w-[12px] h-[12px] data-[state=checked]:translate-x-6 data-[state=unchecked]:translate-x-0.5"
+                    }
+                    className="h-[21px] w-[42px] data-[state=checked]:bg-[#00778B] data-[state=unchecked]:bg-input"
+                  />
+                  <Label
+                    htmlFor="airplane-mode"
+                    className="text-[16px] font-nunito"
+                  >
+                    Assign Certificate Permission
                   </Label>
                 </div>
               </div>

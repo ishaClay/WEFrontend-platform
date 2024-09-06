@@ -649,6 +649,9 @@ const ListView = ({
         onDelete={handleDeleteCourse}
         value={singleCourse?.title || ""}
         isLoading={deleteCoursePending}
+        message={`Do you want to delete ${
+          singleCourse?.title || "this course"
+        }?`}
       />
       {publishCoursePending ||
         (copyCoursePending && (

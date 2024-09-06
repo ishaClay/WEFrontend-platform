@@ -4,9 +4,13 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { pillarLimit } from "@/services/apiServices/pillar";
-import { getTrainer, resendInvitation } from "@/services/apiServices/trainer";
+import {
+  deleteTrainerInvitation,
+  getTrainer,
+  resendInvitation,
+} from "@/services/apiServices/trainer";
 import { DataEntity, TrainerStatus } from "@/types/Trainer";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChevronsUpDown, Eye, Loader2, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -29,6 +33,8 @@ const TrainerManagement = () => {
   const id = userData?.query?.detailsid;
   const [rowId, setRowId] = useState<number | null>(null);
   const [openDelete, setOpenDelete] = useState<DataEntity | null>(null);
+  const queryClient = useQueryClient();
+  console.log("🚀 ~ TrainerManagement ~ openDelete:", openDelete);
 
   const { mutate: resendInvitationFun, isPending: resendInvitationPending } =
     useMutation({
@@ -112,7 +118,7 @@ const TrainerManagement = () => {
             className="p-0 gap-1 text-[15px] font-medium font-inter h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Country
+            County
             <div className="flex flex-col">
               <ChevronsUpDown className="w-4 h-4 text-[#A3A3A3]" />
             </div>
@@ -120,8 +126,8 @@ const TrainerManagement = () => {
         );
       },
       cell: ({ row }) => {
-        const providerCountry = row?.original?.providerCountry;
-        return <p>{providerCountry ?? "-"}</p>;
+        const providerCounty = row?.original?.providerCounty;
+        return <p>{providerCounty ?? "-"}</p>;
       },
     },
     {
@@ -198,7 +204,9 @@ const TrainerManagement = () => {
                 : "bg-[#FFA25E] text-white"
             )}
           >
-            {TrainerStatus[row.original.status] || "N/A"}
+            {(TrainerStatus[row.original.status] === "IsNew"
+              ? "Pending"
+              : TrainerStatus[row.original.status]) || "N/A"}
           </div>
         );
       },
@@ -282,13 +290,17 @@ const TrainerManagement = () => {
             >
               <Pencil className="text-[#A3A3A3] w-4 h-4" />
             </Button>
-            <Button
-              onClick={() => setOpenDelete(row?.original)}
-              variant={"ghost"}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
-            >
-              <Trash2 className="text-[#A3A3A3] w-4 h-4" />
-            </Button>
+            {[TrainerStatus.Pending, TrainerStatus.IsNew].includes(
+              row.original.status
+            ) && (
+              <Button
+                onClick={() => setOpenDelete(row?.original)}
+                variant={"ghost"}
+                className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
+              >
+                <Trash2 className="text-[#A3A3A3] w-4 h-4" />
+              </Button>
+            )}
           </div>
         );
       },
@@ -312,9 +324,33 @@ const TrainerManagement = () => {
     queryKey: ["trainer", { page, limit, searchValue, id }],
     queryFn: () => getTrainer({ page, limit, keyword: searchValue, id }),
   });
+
+  const { mutate: deleteInvitation, isPending: deletingTrainerInvitation } =
+    useMutation({
+      mutationFn: deleteTrainerInvitation,
+      onSuccess: (res) => {
+        console.log("🚀 ~ TrainerManagement ~ res:", res);
+        queryClient.invalidateQueries({ queryKey: ["trainer"] });
+        toast({
+          variant: "success",
+          title: "Invitation deleted successfully.",
+        });
+      },
+      onError: (error: any) => {
+        console.log("🚀 ~ TrainerManagement ~ error:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: error?.data?.message,
+        });
+      },
+    });
   const handleDelete = () => {
-    data(openDelete?.id);
+    if (openDelete?.id) {
+      deleteInvitation(openDelete?.id);
+    }
   };
+  console.log("🚀 ~ handleDelete ~ openDelete:", openDelete);
 
   const { data: selectTargetPillarLimit } = useQuery({
     queryKey: [QUERY_KEYS.selectTargetPillarLimit, userData],
@@ -398,9 +434,12 @@ const TrainerManagement = () => {
       <ConfirmModal
         open={!!openDelete}
         onClose={() => setOpenDelete(null)}
-        onDelete={() => handleDelete}
+        onDelete={() => handleDelete()}
         value={openDelete?.name || ""}
-        isLoading={isPending}
+        isLoading={deletingTrainerInvitation}
+        message={`Do you want to delete ${
+          openDelete?.name || openDelete?.email?.split("@")?.[0] || "this"
+        } trainer invitation?`}
       />
     </div>
   );

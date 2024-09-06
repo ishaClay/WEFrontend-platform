@@ -97,11 +97,15 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   const schema = zod
     .object({
-      firstname: zod.string().nonempty("Please Enter first name"),
-      lastname: zod.string().nonempty("Please Enter last name"),
+      firstname: zod.string().nonempty("Please enter first name"),
+      lastname: zod.string().nonempty("Please enter last name"),
       smeOrganisation: zod.string().optional(),
       email: zod.string(),
-      mobilenumber: zod.string().optional(),
+      mobilenumber: zod
+        .string()
+        .min(8, { message: "Please enter mobile number" })
+        .max(15, { message: "Please enter valid mobile number" })
+        .optional(),
       gender: zod.string(),
     })
     .superRefine((_, ctx) => {
@@ -111,7 +115,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       ) {
         return ctx.addIssue({
           code: zod.ZodIssueCode.custom,
-          message: "Please Enter mobile number",
+          message: "Please enter mobile number",
           path: ["mobilenumber"],
         });
       }
@@ -121,7 +125,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       ) {
         return ctx.addIssue({
           code: zod.ZodIssueCode.custom,
-          message: "Please Enter SME Organisation name 123",
+          message: "Please enter SME organisation name",
           path: ["smeOrganisation"],
         });
       }

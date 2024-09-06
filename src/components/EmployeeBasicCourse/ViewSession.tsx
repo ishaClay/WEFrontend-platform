@@ -12,9 +12,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleX, Download } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosThumbsDown, IoIosThumbsUp } from "react-icons/io";
+import ReactPlayer from "react-player";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import ReactPlayer from "react-player";
 
 const ViewSession = ({
   setDocumentFile,
@@ -149,7 +149,7 @@ const ViewSession = ({
     }
   };
 
-  console.log("🚀 ~ documentFile:", documentFile);
+  console.log("🚀 ~ documentFile:", data?.course);
 
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
@@ -240,32 +240,36 @@ const ViewSession = ({
                     .join(", ")}
                 </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant={"ghost"}
-                  type="button"
-                  onClick={() => handleLikeDislike("like")}
-                  className="p-0 h-auto hover:bg-transparent"
-                >
-                  <IoIosThumbsUp
-                    className={`${
-                      isLike === "like" ? "text-[#00778B]" : "text-[#A3A3A3]"
-                    } text-[20px]`}
-                  />
-                </Button>
-                <Button
-                  variant={"ghost"}
-                  type="button"
-                  onClick={() => handleLikeDislike("dislike")}
-                  className="p-0 h-auto hover:bg-transparent"
-                >
-                  <IoIosThumbsDown
-                    className={`${
-                      isLike === "dislike" ? "text-[#00778B]" : "text-[#A3A3A3]"
-                    } text-[20px]`}
-                  />
-                </Button>
-              </div>
+              {+userData?.query?.role === 4 && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={"ghost"}
+                    type="button"
+                    onClick={() => handleLikeDislike("like")}
+                    className="p-0 h-auto hover:bg-transparent"
+                  >
+                    <IoIosThumbsUp
+                      className={`${
+                        isLike === "like" ? "text-[#00778B]" : "text-[#A3A3A3]"
+                      } text-[20px]`}
+                    />
+                  </Button>
+                  <Button
+                    variant={"ghost"}
+                    type="button"
+                    onClick={() => handleLikeDislike("dislike")}
+                    className="p-0 h-auto hover:bg-transparent"
+                  >
+                    <IoIosThumbsDown
+                      className={`${
+                        isLike === "dislike"
+                          ? "text-[#00778B]"
+                          : "text-[#A3A3A3]"
+                      } text-[20px]`}
+                    />
+                  </Button>
+                </div>
+              )}
             </div>
             <h3 className="text-[20px] font-nunito font-bold mt-2 mb-3">
               {list?.title}
@@ -296,18 +300,20 @@ const ViewSession = ({
                 </div>
               </div> */}
               <div className="flex items-center gap-5 ">
-                <Button
-                  variant={"outline"}
-                  type="button"
-                  className="text-[12px] font-nunito "
-                  onClick={handleCreateGroup}
-                  isLoading={creatingCohortGroup}
-                  loaderClassName={"text-stone-700"}
-                >
-                  {enrollData?.cohortGroup?.groupChat
-                    ? "Show Message"
-                    : "Ask a question"}
-                </Button>
+                {+userData?.query?.role === 4 && (
+                  <Button
+                    variant={"outline"}
+                    type="button"
+                    className="text-[12px] font-nunito "
+                    onClick={handleCreateGroup}
+                    isLoading={creatingCohortGroup}
+                    loaderClassName={"text-stone-700"}
+                  >
+                    {enrollData?.cohortGroup?.groupChat
+                      ? "Show Message"
+                      : "Ask a question"}
+                  </Button>
+                )}
                 {list?.attachment && (
                   <a
                     href=""
@@ -332,7 +338,7 @@ const ViewSession = ({
               dangerouslySetInnerHTML={{ __html: list?.information }}
               className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%] break-all"
             ></p>
-            {list?.isStatus !== "Completed" && (
+            {list?.isStatus !== "Completed" && +userData?.query?.role === 4 && (
               <div className="flex items-center justify-center mt-[56px]">
                 <Button
                   type="button"

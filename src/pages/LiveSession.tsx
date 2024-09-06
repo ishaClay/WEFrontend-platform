@@ -147,7 +147,7 @@ function LiveSession() {
               The meeting link will be enabled 15 minutes before the scheduled
               time.
             </p>
-            <button className="bg-[#00778B] h-[42px] w-[110px] text-white py-2 px-4 rounded">
+            <button className="bg-[#00778B] h-[42px] w-[110px] text-white py-2 px-4 rounded font-abhaya">
               Join
             </button>
           </div>

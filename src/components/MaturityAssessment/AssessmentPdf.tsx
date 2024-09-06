@@ -30,38 +30,69 @@ const styles = StyleSheet.create({
     // fontFamily: 'Helvetica',
   },
   section: {
+    marginBottom: 15,
+  },
+  pillarSectionView: {
+    flexDirection: 'row', 
+    width: "100%",
+    columnGap: 10
+  },
+  pillarSection: {
     marginBottom: 10,
+    width: "33.33%"
+  },
+  pillarSectionCard: {
+    marginBottom: 10,
+    borderRadius: 6,
+    padding: 10,
+  },
+  companySection: {
+    marginBottom: 15,
   },
   title: {
     fontSize: 12,
-    marginBottom: 4,
+    marginBottom: 5,
     fontWeight: "bold",
   },
   item: {
     fontSize: 10,
     marginBottom: 2,
   },
+  pillerItem: {
+    fontSize: 10,
+    marginBottom: 3,
+  },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 6,
   },
-  sectionContent: {
+  mainSectionContent: {
     fontSize: 10,
+    marginBottom: 6
+  },
+  sectionContent: {
+    fontSize: 14,
+    fontWeight: "bold",
     marginBottom: 6,
+    marginTop: 90,
+    textAlign: "center",
   },
   overallSection: {
-    marginTop: 20,
     marginBottom: 20,
   },
   overallTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    marginBottom: 6,
+    marginBottom: 3,
   },
   overallContent: {
-    fontSize: 12,
-    marginBottom: 6,
+    fontSize: 10,
+    marginBottom: 3,
+  },
+  overallLevelTitle: {
+    padding: 3,
+    borderRadius: 6,
   },
 
 });
@@ -116,15 +147,15 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
   };
 
   const renderAssessmentSection = (title: string, pillars: any) => (
-    <View style={styles.section}>
+    <View style={styles.pillarSection}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {pillars.length === 0 ? (
         <Text style={styles.sectionContent}>---</Text>
       ) : (
         pillars.map((item: any, index: number) => (
-          <View key={index} style={styles.section}>
-            <Text style={styles.item}>Pillar: {item.pillarname}</Text>
-            <Text style={styles.item}>
+          <View key={index} style={{...styles.pillarSectionCard, backgroundColor: title === "Introductory" ? "#F63636" : title === "Intermediate" ? "#FFD56A" : "#64A70B"}}>
+            <Text style={{...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF"}}>Pillar: {item.pillarname}</Text>
+            <Text style={{...styles.item, color: title === "Introductory" ? "#FFFFFF" : title === "Intermediate" ? "#000000" : "#FFFFFF"}}>
               Percentage:{" "}
               {calculatePercentage(item.totalpoints, item.totalmaxpoint)}
             </Text>
@@ -134,52 +165,52 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
     </View>
   );
   const totalsAndLevel = assessmentData ? calculateTotalsAndLevel(assessmentData) : { totalPoints: "", overallLevel: "", color: "" };
+  const overallLevelBGColor = totalsAndLevel.overallLevel === "Introductory" ? "#F63636" : totalsAndLevel.overallLevel === "Intermediate" ? "#FFD56A" : "#64A70B";
+  const overallLevelTextColor = totalsAndLevel.overallLevel === "Introductory" ? "#FFFFFF" : totalsAndLevel.overallLevel === "Intermediate" ? "#000000" : "#FFFFFF";
 
   return (
     <Document>
       <Page style={styles.page}>
         {companyName && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Company/Organization</Text>
-            <Text style={styles.sectionContent}>{companyName}</Text>
+          <View style={styles.companySection}>
+            <Text style={styles.sectionTitle}>Company Organization Name :-</Text>
+            <Text style={styles.mainSectionContent}>{companyName}</Text>
           </View>
         )}
-        {assessmentData && (
-          <>
-            {renderAssessmentSection(
-              "Introductory",
-              assessmentData.Introductory
-            )}
-            {renderAssessmentSection(
-              "Intermediate",
-              assessmentData.Intermediate
-            )}
-            {renderAssessmentSection("Advanced", assessmentData.Advanced)}
-          </>
-        )}
-         <View style={styles.overallSection}>
-              <Text style={styles.overallTitle}>Overall Assessment</Text>
-              <Text style={styles.overallContent}>Total Score: {totalsAndLevel.totalPoints}</Text>
-              <Text style={styles.overallContent}>Your Overall Sustainability Level: {totalsAndLevel.overallLevel}</Text>
+        <View style={styles.overallSection}>
+          <Text style={styles.overallTitle}>Overall Assessment :- </Text>
+          <Text style={styles.overallContent}>Total Score: {totalsAndLevel.totalPoints}</Text>
+          <Text style={styles.overallContent}>Your Overall Sustainability Level : 
+            <Text style={[styles.overallLevelTitle, {color: overallLevelTextColor, backgroundColor: overallLevelBGColor}]}> {totalsAndLevel.overallLevel}</Text>
+          </Text>
+        </View>
+        <View style={styles.pillarSectionView}>
+          {assessmentData && (
+            <View style={styles.pillarSectionView}>
+              {renderAssessmentSection(
+                "Introductory",
+                assessmentData.Introductory
+              )}
+              {renderAssessmentSection(
+                "Intermediate",
+                assessmentData.Intermediate
+              )}
+              {renderAssessmentSection("Advanced", assessmentData.Advanced)}
             </View>
+          )}
+        </View>
         {data?.map((item, index) => (
           <View key={index} style={styles.section}>
             <Text style={styles.title}>Piller Name: {item["Piller Name"]}</Text>
-            <Text style={styles.item}>Percentage: {item["Percentage"]}</Text>
-            <Text style={styles.item}>Your Level: {item["Your Leval"]}</Text>
-            <Text style={styles.item}>
-              Selected Level: {item["Selected Leval"]}
-            </Text>
-            <Text style={styles.item}>Action Name: {item["Action Name"]}</Text>
-            <Text style={styles.item}>Assign Name: {item["Assing Name"]}</Text>
-            <Text style={styles.item}>
-              Action Status: {item["Action Status"]}
-            </Text>
-            <Text style={styles.item}>Start Date: {item["Start Date"]}</Text>
-            <Text style={styles.item}>End Date: {item["End Date"]}</Text>
-            <Text style={styles.item}>
-              Document Link: {item["Document Link"]}
-            </Text>
+            <Text style={styles.pillerItem}>Percentage: {item["Percentage"]}</Text>
+            <Text style={styles.pillerItem}>Your Level: {item["Your Leval"]}</Text>
+            <Text style={styles.pillerItem}>Selected Level: {item["Selected Leval"]}</Text>
+            <Text style={styles.pillerItem}>Action Name: {item["Action Name"]}</Text>
+            <Text style={styles.pillerItem}>Assign Name: {item["Assing Name"]}</Text>
+            <Text style={styles.pillerItem}>Action Status: {item["Action Status"]}</Text>
+            <Text style={styles.pillerItem}>Start Date: {item["Start Date"]}</Text>
+            <Text style={styles.pillerItem}>End Date: {item["End Date"]}</Text>
+            <Text style={styles.pillerItem}>Document Link: {item["Document Link"]}</Text>
           </View>
         ))}
       </Page>

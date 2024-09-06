@@ -119,7 +119,7 @@ const TrainingDocument = () => {
           <Search className="text-[#A3A3A3] absolute left-4" width={18} />
           <Input
             className=" xl:text-[15px] text-sm font-inter pr-4 pl-12 py-2 w-full h-full"
-            placeholder="Search by name, type, target audience etc."
+            placeholder="Search by name and type"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setSearch(e.target.value)
             }

@@ -21,9 +21,11 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { Loader2 } from "lucide-react";
+import moment from "moment";
 import * as XLSX from "xlsx";
+import DashboardCard from "./comman/DashboardCard";
 import { DataTable } from "./comman/DataTable";
-import Loading from "./comman/Error/Loading";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -49,18 +51,15 @@ const DashboardTrainer = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [contentType, setContentType] = useState("today");
 
-  const {
-    data: smeDashboardData,
-    isLoading,
-    isRefetching,
-  } = useQuery<TrainerEnrollDashboardResponse>({
-    queryKey: ["getTrainerDashboardData", { contentType }],
-    queryFn: () =>
-      getTrainerData({
-        userId: userData?.query?.detailsid,
-        contentType: contentType,
-      }),
-  });
+  const { data: smeDashboardData, isLoading } =
+    useQuery<TrainerEnrollDashboardResponse>({
+      queryKey: ["getTrainerDashboardData", { contentType }],
+      queryFn: () =>
+        getTrainerData({
+          userId: userData?.query?.detailsid,
+          contentType: contentType,
+        }),
+    });
 
   const column: ColumnDef<any>[] = [
     {
@@ -167,12 +166,6 @@ const DashboardTrainer = () => {
 
   console.log("smeDashboardData", smeDashboardData);
 
-  const [activeButton, setActiveButton] = useState(null);
-  console.log(activeButton);
-  const handleClick = (buttonName: any) => {
-    setActiveButton(buttonName);
-  };
-
   const openSupportTicket =
     smeDashboardData?.data?.supportTicketsCount?.open &&
     Object.values(smeDashboardData?.data?.supportTicketsCount?.open).reduce(
@@ -198,6 +191,17 @@ const DashboardTrainer = () => {
           EnrolledCompanies: enrolledCompanies!
             .map((company: any) => company.name)
             .join(", "),
+          description: rest?.course?.description
+            ?.replace(/<\/?[^>]+(>|$)/g, "")
+            ?.replace(/\s+/g, " ")
+            ?.trim(),
+          keys: rest?.course?.keys
+            ?.replace(/<\/?[^>]+(>|$)/g, "")
+            ?.replace(/\s+/g, " ")
+            ?.trim(),
+          publishDate: moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
+          createdAt: moment(rest?.course?.createdAt).format("DD-MM-YYYY"),
+          updatedAt: moment(rest?.course?.updatedAt).format("DD-MM-YYYY"),
         };
       });
 
@@ -225,180 +229,111 @@ const DashboardTrainer = () => {
         </Select>
       </div>
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Trainers} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.publishedCoursesCount || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Publish Course
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Total_courses} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainingProviderEnrollmentRequests || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Enrollment Request
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.approvedEnrollmentRequests || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Approve Enrollment
-          </p>
-        </button>
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainersCount || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Active Trainers
-          </p>
-        </button>
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Trainers}
+          value={smeDashboardData?.data?.publishedCoursesCount || 0}
+          title="Total published courses"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Total_courses}
+          value={
+            smeDashboardData?.data?.trainingProviderEnrollmentRequests || 0
+          }
+          title="Total enrollment requests"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Companies}
+          value={smeDashboardData?.data?.approvedEnrollmentRequests || 0}
+          title="Total approved enrollments"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Companies}
+          value={smeDashboardData?.data?.trainersCount || 0}
+          title="Total active trainers"
+        />
       </div>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Trainers} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.courseContentApprovalRequest || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Recent Update Course
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Total_courses} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.trainerCompanyFeedbacksCount?.toFixed(2) || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">Trainer Feedback</p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">Course Feedback</p>
-        </button>
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Trainers}
+          value={smeDashboardData?.data?.courseContentApprovalRequest || 0}
+          title="Total recently updated courses"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Total_courses}
+          value={
+            smeDashboardData?.data?.trainerCompanyFeedbacksCount?.toFixed(2) ||
+            0
+          }
+          title="Trainers feedback"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Companies}
+          value={smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
+          title="Courses feedback"
+        />
       </div>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Trainers} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {(openSupportTicket + resolveSupportTicket) || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Support Ticket
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Total_courses} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {openSupportTicket || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Open Support Ticket
-          </p>
-        </button>
-
-        <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            {resolveSupportTicket || 0}
-          </h2>
-          <p className="text-base text-black font-calibri">
-            Total Resolve Support Ticket
-          </p>
-        </button>
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Trainers}
+          value={openSupportTicket + resolveSupportTicket || 0}
+          title="Total support tickets"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Total_courses}
+          value={openSupportTicket || 0}
+          title="Total open support tickets"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Companies}
+          value={resolveSupportTicket || 0}
+          title="Total resolved support tickets"
+        />
       </div>
       <div className="grid xl:grid-cols-1 grid-cols-1 gap-5">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-nunito font-bold">
-              Enrollments Requests Figures
+              Enrollment Request Figures
             </h5>
             <Button
               type="button"
               onClick={handleExport}
               className="bg-[#00778B] font-nunito h-8"
+              disabled={isLoading}
             >
               Export
             </Button>
           </div>
 
           <div className="">
-            <div className="overflow-x-auto">
-              <DataTable
-                columns={column}
-                data={smeDashboardData?.data?.enrollmentsRequestsFigures || []}
-                rounded={false}
-              />
-            </div>
+            {isLoading ? (
+              <span className="flex justify-center py-[68px]">
+                <Loader2 className="w-5 h-5 animate-spin" />
+              </span>
+            ) : (
+              <div className="overflow-x-auto">
+                <DataTable
+                  columns={column}
+                  data={
+                    smeDashboardData?.data?.enrollmentsRequestsFigures || []
+                  }
+                  rounded={false}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <Loading isLoading={isLoading || isRefetching} />
     </div>
   );
 };

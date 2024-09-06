@@ -61,6 +61,7 @@ const MaturityLevel = () => {
         data: [setScore, 100 - Number(setScore)],
         backgroundColor: [currentLavel?.color, "#D1D1D1"],
         borderColor: [currentLavel?.color, "#D1D1D1"],
+        hoverColor: [currentLavel?.color, "#D1D1D1"],
       },
     ],
   };
@@ -90,6 +91,7 @@ const MaturityLevel = () => {
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";
@@ -102,12 +104,18 @@ const MaturityLevel = () => {
         },
       },
     },
+    hover: {
+      mode: undefined,
+    },
   };
 
   const Labels = () => (
     <div className="left-0 top-0 h-full md:flex block items-center gap-5">
       {fetchClientmaturitylevel?.data?.map((label, index) => {
-        localStorage.setItem("maturityLevelName", JSON.stringify(label?.maturityLevelName));
+        localStorage.setItem(
+          "maturityLevelName",
+          JSON.stringify(label?.maturityLevelName)
+        );
         return (
           <div key={index} className="flex items-center relative mt-4">
             <div
@@ -129,7 +137,7 @@ const MaturityLevel = () => {
       <div className="mb-5">
         <h3 className="font-bold font-nunito xl:text-[22px] text-[18px] relative pb-1">
           Our Sustainability Level
-          <div className="bg-[#64A70B] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
+          <div className="bg-[#75BD43] w-[115px] h-[2px] absolute left-0 bottom-0"></div>
         </h3>
       </div>
       <Link

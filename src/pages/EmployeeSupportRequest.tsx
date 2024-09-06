@@ -192,7 +192,7 @@ function EmployeeSupportRequest() {
               </div>
             </div>
             <div className="mr-[10px] mt-[10px] md:mt-[15px] h-[40px] w-full md:w-[153px]">
-              <button className="bg-[#00778B] text-white px-4 py-2 rounded w-full md:w-auto">
+              <button className="bg-[#00778B] text-white px-4 py-2 rounded w-full md:w-auto font-abhaya">
                 Add New Ticket
               </button>
             </div>
@@ -280,7 +280,7 @@ function EmployeeSupportRequest() {
                     </td>
                     <td className="border-b px-4 py-2">
                       <button
-                        className={`text-xs rounded ${
+                        className={`text-xs rounded font-abhaya ${
                           employee.status === "Open"
                             ? " text-[#FEA77C] font-semibold h-[32px] w-[80px]"
                             : employee.status === "In Process"
@@ -296,7 +296,7 @@ function EmployeeSupportRequest() {
                     </td>
                     <td className="border-b px-4 py-2">
                       <button
-                        className={`text-xs rounded ${
+                        className={`text-xs rounded font-abhaya ${
                           employee.priority === "High"
                             ? "bg-[#FF5252] text-white h-[32px] w-[80px]"
                             : employee.priority === "Medium"
