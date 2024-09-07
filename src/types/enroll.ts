@@ -1,4 +1,3 @@
-
 export interface enroll {
   versionId?: number;
   companyId?: number;
@@ -28,7 +27,7 @@ export interface Data {
   numberOfEmployee: string;
   course: Course;
   company: Company;
-  employee: (EmployeeEntity)[];
+  employee: EmployeeEntity[];
 }
 export interface CourseVersion {
   id: number;
@@ -101,7 +100,7 @@ export interface Company {
   deletedAt?: null;
   createdAt: string;
   updatedAt: string;
-  employee: (EmployeeEntity)[];
+  employee: EmployeeEntity[];
   userDetails: any;
 }
 export interface EmployeeEntity {
@@ -130,9 +129,11 @@ export interface Course {
   ectsCredits?: null;
   fetCredits?: null;
   time: number;
-  avgRating: {
-    avgcourseRate: number;
-  };
+  avgRating:
+    | {
+        avgcourseRate: number;
+      }
+    | number;
   isOnline: number;
   universityAddress?: null;
   duration?: null;
@@ -142,7 +143,7 @@ export interface Course {
   description?: null;
   bannerImage: string;
   keys?: null;
-  courseData?: (CourseDataEntity)[] | null;
+  courseData?: CourseDataEntity[] | null;
   status: string;
   deletedAt?: null;
   createdAt: string;
@@ -242,7 +243,6 @@ export interface EnrollRequestCompany {
   updatedAt: string;
 }
 
-
 export interface EvaluteType {
   data?: EvaluteDataEntity[] | null;
   message: string;
@@ -259,7 +259,7 @@ export interface EvaluteDataEntity {
 }
 export interface EvaluationsEntity {
   id: number;
-  answer?: (string)[] | null;
+  answer?: string[] | null;
   machedKeyword?: (string | null)[] | null | undefined;
   deletedAt?: null;
   createdAt: string;

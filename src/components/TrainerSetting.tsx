@@ -200,7 +200,7 @@ const TrainerSetting = () => {
   return (
     <div className="bg-white rounded-b-xl">
       <h3 className="px-[19px] py-[22px] text-[16px] font-abhaya font-semibold border-b">
-        Team Settings
+        Settings
       </h3>
       <div className="px-[19px] py-[22px]">
         <div className="flex bg-[#FFFFFF] ">

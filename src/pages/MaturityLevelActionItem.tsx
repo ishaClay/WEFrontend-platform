@@ -17,7 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import InviteMember from "@/components/Models/InviteMember";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function MaturityLevelActionItem() {
   const dispatch = useAppDispatch();
@@ -93,6 +93,14 @@ function MaturityLevelActionItem() {
       status: "pending",
     },
   ];
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <div>
       <Header />
@@ -177,9 +185,11 @@ function MaturityLevelActionItem() {
             </button>
           </div>
         </div>
-          <div className="mb-5">
-            <h4 className="font-abhaya text-[30px] font-bold text-center">My Action Items</h4>
-          </div>
+        <div className="mb-5">
+          <h4 className="font-abhaya text-[30px] font-bold text-center">
+            My Action Items
+          </h4>
+        </div>
         {isPending ? (
           <Loader />
         ) : (
@@ -187,16 +197,19 @@ function MaturityLevelActionItem() {
             return <AssignCard data={item} />;
           })
         )}
-          <h5 className="font-abhaya text-[20px] font-bold text-center">Please ensure that Employees/Delegates are added or invited first before assigning Action Items. To do so, please click here.</h5>
-            <div className="my-5 text-center">
-              <Button
-                type="button"
-                onClick={() => setIsOpen(true)}
-                className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
-              >
-                Invite Team Members
-              </Button>
-            </div>
+        <h5 className="font-abhaya text-[20px] font-bold text-center">
+          Please ensure that Employees/Delegates are added or invited first
+          before assigning Action Items. To do so, please click here.
+        </h5>
+        <div className="my-5 text-center">
+          <Button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="bg-[#00778B] text-white rounded-sm lg:w-[223px] w-[200px] h-12 lg:text-base text-sm"
+          >
+            Invite Team Members
+          </Button>
+        </div>
 
         {/* <div className="flex flex-col h-full w-full mt-2">
 				<div className="ml-[180px]   h-[390px] w-[1126px]">

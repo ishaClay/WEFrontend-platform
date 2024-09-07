@@ -78,6 +78,13 @@ function SelectLevel() {
     EnumUpadate();
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <div>
       <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">

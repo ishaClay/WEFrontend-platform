@@ -196,7 +196,9 @@ function CoursesAllocate() {
                                 src={speed}
                                 alt="Course"
                               />
-                              <p className="text-xs">Level- Advanced</p>
+                              <p className="text-xs">
+                                Level- {courseallocate?.courseReconmendedStatus}
+                              </p>
                             </div>
 
                             <div className="flex items-center gap-1">
@@ -205,7 +207,9 @@ function CoursesAllocate() {
                                 src={courseIcon}
                                 alt="Course"
                               />
-                              <p className="text-xs">Post Graduate Diploma</p>
+                              <p className="text-xs">
+                                {courseallocate?.course?.otherInstitutionName}
+                              </p>
                             </div>
                             <div className="flex items-center gap-1">
                               <img

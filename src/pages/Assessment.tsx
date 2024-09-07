@@ -8,6 +8,7 @@ import { getImages } from "@/lib/utils";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { UserData } from "@/types/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +35,13 @@ function Assessment() {
     EnumUpadate();
     navigate("/question");
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <>

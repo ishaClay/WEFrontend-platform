@@ -74,7 +74,9 @@ const EmployeeDetailsPage = () => {
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Contact number
                     </h6>
-                    <p className="text-base font-nunito">{"-"}</p>
+                    <p className="text-base font-nunito">
+                      {data?.phone || "-"}
+                    </p>
                   </div>
                   <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">

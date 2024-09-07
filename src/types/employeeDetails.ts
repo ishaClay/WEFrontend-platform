@@ -1,6 +1,7 @@
 export interface EmployeeDetailsResponse {
   id: number;
   name: string;
+  phone: string;
   email: string;
   status: string;
   employeeStatus: string;
@@ -29,13 +30,13 @@ export interface EmployeeDetails {
 }
 
 export interface EmployeeResult {
-  data?: (EmployeeResponse)[];
+  data?: EmployeeResponse[];
   metadata: {
-    currentPage: number
-    totalCount: number
-    totalItems: number
-    totalPages: number
-  }
+    currentPage: number;
+    totalCount: number;
+    totalItems: number;
+    totalPages: number;
+  };
 }
 
 export interface EmployeeResponse {
