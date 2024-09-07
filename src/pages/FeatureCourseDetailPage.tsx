@@ -7,7 +7,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { fetchFeatureCourseById } from "@/services/apiServices/courseManagement";
 import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const FeatureCourseDetailPage = () => {
@@ -21,6 +21,13 @@ const FeatureCourseDetailPage = () => {
       queryKey: [QUERY_KEYS.getSingleCourse],
       queryFn: () => fetchFeatureCourseById(String(id)),
     });
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <>

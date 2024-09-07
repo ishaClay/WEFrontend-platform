@@ -115,13 +115,6 @@ function App() {
     }
   }, [dispatch, fetchByClientwise?.data?.data]);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
-
   document.documentElement.style.setProperty(
     "--rkp-button-color",
     themes?.data?.data?.buttonColor

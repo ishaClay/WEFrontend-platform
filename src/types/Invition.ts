@@ -21,6 +21,7 @@ export interface EmployeeEntity {
   name?: null;
   email: string;
   status: string;
+  phone: string;
   employeeStatus: string;
   profileImage?: string;
   deletedAt?: null;

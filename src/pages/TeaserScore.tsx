@@ -9,6 +9,7 @@ import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import { useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 
@@ -127,6 +128,13 @@ const TeaserScore = () => {
       mode: undefined,
     },
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const Labels = () => (
     <div className="flex flex-col justify-center h-fulzl w-[100px]">

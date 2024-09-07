@@ -18,6 +18,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Pencil, Upload } from "lucide-react";
 import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
 
 const TrainerEditDetails = () => {
@@ -211,12 +212,21 @@ const TrainerEditDetails = () => {
                     <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
                       Contact number
                     </h6>
-                    <InputWithLabel
+                    {/* <InputWithLabel
                       placeholder="Contact Number"
                       className="h-[46px]"
                       name="contact"
                       onChange={handleChanges}
                       value={trainerDetails?.contact || ""}
+                    /> */}
+                    <PhoneInputWithCountrySelect
+                      placeholder="Enter phone number"
+                      value={trainerDetails?.contact || ""}
+                      international
+                      onChange={(e: any) => {
+                        setTrainerDetails((prev) => ({ ...prev, contact: e }));
+                      }}
+                      className="phone-input font-normal"
                     />
                     {/* <p className="text-base font-nunito">{"-"}</p> */}
                   </div>

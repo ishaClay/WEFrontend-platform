@@ -56,7 +56,7 @@ export function BreadcrumbWithCustomSeparator() {
                 <BreadcrumbItem
                   className={`${
                     index === paths?.length - 1 && index > 0
-                      ? "text-[#00778B] font-medium"
+                      ? "text-[#64748B] font-medium"
                       : "text-[#000000]"
                   } font-Nunito font-sans capitalize font-medium`}
                 >

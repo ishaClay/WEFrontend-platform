@@ -14,6 +14,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     "UserRole[+user?.query?.role]",
     UserRole[+user?.query?.role]?.toLowerCase()
   );
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   useEffect(() => {
     if (userToken) {

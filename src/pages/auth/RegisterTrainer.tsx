@@ -326,6 +326,14 @@ function RegisterTrainer() {
   const handleResendOtp = (email: string) => {
     ReSendOTP({ email: email });
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <div className="">
       <HomeHeader type={type} />

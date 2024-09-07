@@ -196,10 +196,10 @@ function CoursesAllocate() {
         );
       },
 
-      cell: () => {
+      cell: ({ row }) => {
         return (
           <p className={`font-normal font-inter text-[15px] px-3`}>
-            {/* {row.original.number} */}
+            {row.original.phone}
           </p>
         );
       },

@@ -2,8 +2,15 @@ import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import RegisterBanner from "@/components/RegisterTrainee/RegisterBanner";
 import RegisterTraineeForm from "@/components/RegisterTrainee/RegisterTraineeForm";
+import { useEffect } from "react";
 
 const RegisterTrainee = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <>
       <HomeHeader />

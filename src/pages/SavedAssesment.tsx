@@ -1,4 +1,4 @@
-import RegisterSideImage from "@/assets/images/RegisterSideImage.png";
+import RegisterSideImage from "@/assets/images/Landingapage_build--.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import Loader from "@/components/comman/Loader";
 import HomeFooter from "@/components/homePage/HomeFooter";
@@ -11,6 +11,7 @@ import { enumApi } from "@/services/apiServices/enum";
 import { getPillerWiseProgress } from "@/services/apiServices/pillar";
 import { PillerWiseProgressResponse } from "@/types/Pillar";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SavedAssesment() {
@@ -75,6 +76,13 @@ function SavedAssesment() {
         break;
     }
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <>

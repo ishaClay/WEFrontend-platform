@@ -66,7 +66,6 @@ const ListView = ({
   const queryClient = useQueryClient();
   const Role = location?.pathname?.split("/")?.[1];
   const pathName = location?.pathname?.split("/")?.[2];
-  const allCoursePathName = location?.pathname?.split("/")?.[2];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const handleCohort = (e: Event, id: number) => {
@@ -478,9 +477,7 @@ const ListView = ({
                       + Cohort
                     </Button>
                   )}
-                  {!(
-                    pathName === "trainee" && allCoursePathName === "allcourse"
-                  ) && (
+                  {!(Role === "trainee" && pathName === "allcourse") && (
                     <div className="">
                       <SelectMenu
                         option={versionOption || []}

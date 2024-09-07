@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { addFeedback } from "@/services/apiServices/feedback";
+import { useMutation } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { ErrorResponse } from "react-router-dom";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
-import { ErrorResponse } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { addFeedback } from "@/services/apiServices/feedback";
-import { Loader2 } from "lucide-react";
 
 const RatingModel = ({
   isOpen,
@@ -29,12 +29,21 @@ const RatingModel = ({
         description: data?.message,
         variant: "success",
       });
-      localStorage.setItem("user", JSON.stringify({...userData, query: {...userData?.query, feedback: data?.data?.feedback}}));
+
+      console.log("data++++", data);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...userData,
+          query: { ...userData?.query, givefeedback: data?.data?.giveFeedback },
+        })
+      );
       setIsOpen(false);
     },
     onError: (error: ErrorResponse) => {
       console.log("data++++", error);
-      
+
       toast({
         title: "Error",
         description: error?.data?.message || "Internal server error",
@@ -81,13 +90,13 @@ const RatingModel = ({
   };
 
   const handleSubmit = () => {
-    const payload:any = {
+    const payload: any = {
       userId: userData?.query?.id,
-      feedback: rating
-    }
+      feedback: rating,
+    };
     console.log("payload", payload);
     addFeedbackFun(payload);
-  }
+  };
 
   return (
     <Modal
@@ -127,7 +136,13 @@ const RatingModel = ({
         </div>
       </div>
       <div className="flex justify-end">
-        <Button onClick={handleSubmit} disabled={isPending} className="bg-[#00778b]" >{isPending && <Loader2 className="w-4 h-4 animate-spin" />} Submit</Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={isPending}
+          className="bg-[#00778b]"
+        >
+          {isPending && <Loader2 className="w-4 h-4 animate-spin" />} Submit
+        </Button>
       </div>
     </Modal>
   );

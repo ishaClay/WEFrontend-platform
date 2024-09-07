@@ -81,6 +81,13 @@ const ResetPassword = () => {
     resetPasswordData(resetPassword);
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <>
       <div className="flex h-screen 2xl:w-full">
