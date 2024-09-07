@@ -1,4 +1,4 @@
-import RegisterSideImage from "@/assets/images/RegisterSideImage.png";
+import RegisterSideImage from "@/assets/images/Landingapage_build--.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import HomeFooter from "@/components/homePage/HomeFooter";
@@ -39,8 +39,9 @@ function Assessment() {
     <>
       <HomeHeader />
       <div className="mainContailner w-full m-auto !mt-4">
-        <div className="flex flex-row lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]">
-          <div>
+        <div className="grid grid-cols-2 lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]">
+          {/* <div className="flex flex-row lg:gap-[48px] gap-0 lg:px-0 px-5 sm:pb-[60px] pb-[30px]"> */}
+          <div className="col-span-1">
             <img
               src={RegisterSideImage}
               className="xl:min-w-[590px] min-w-full w-full h-full object-cover lg:block hidden"
@@ -49,7 +50,7 @@ function Assessment() {
             />
           </div>
 
-          <div className="w-full ">
+          <div className="w-full lg:col-span-1 col-span-full lg:block flex items-center justify-center">
             <div className="lg:my-[100px] sm:my-[60px] my-[30px] xl:mb-0">
               <div className="flex items-end gap-x-[14px]">
                 <h3 className="font-abhaya sm:text-[24px] text-[22px] font-[400]">
@@ -60,7 +61,7 @@ function Assessment() {
 
               <img className="w-[380px]" src="../assets/img/Line 23.png" />
 
-              <p className="sm:w-[525px] w-full text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
+              <p className="sm:max-w-[525px] w-full text-[16px] font-[400] font-abhaya text-[#332626] leading-[17px] mt-[22px]">
                 Find how you score across 6 sustainability pillars with 30
                 questions.
               </p>

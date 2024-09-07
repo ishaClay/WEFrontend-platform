@@ -478,9 +478,7 @@ const ListView = ({
                       + Cohort
                     </Button>
                   )}
-                  {!(
-                    pathName === "trainee" && allCoursePathName === "allcourse"
-                  ) && (
+                  {!(Role === "trainee" && pathName === "allcourse") && (
                     <div className="">
                       <SelectMenu
                         option={versionOption || []}

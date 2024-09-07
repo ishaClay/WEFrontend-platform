@@ -1,9 +1,10 @@
-import CompanyRegisterSideImage from "@/assets/images/RegisterSideImage.png";
+import CompanyRegisterSideImage from "@/assets/images/Landingapage_build--.png";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
@@ -247,12 +248,9 @@ function CompanyRegister() {
   return (
     <>
       <HomeHeader />
-      <div className="w-full flex relative mt-[34px] mx-auto mainContailner">
+      <div className="w-full flex relative !mt-[34px] mx-auto mainContailner">
         <div className="lg:block hidden">
-          <img
-            className="xl:min-w-[590px] lg:min-w-[500px] min-w-full w-full h-full object-cover"
-            src={CompanyRegisterSideImage}
-          />
+          <img className="" src={CompanyRegisterSideImage} />
           {/* <img
             src={RegisterSideImage}
             className="xl:w-auto min-w-[530px] w-[530px] h-full lg:block hidden"
@@ -542,10 +540,10 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] lg:mt-[107px] sm:mt-[50px] mt-[30px] mx-auto !font-calibri !primary-background"
+                  className="w-[370px] h-[48px] mt-[30px] mx-auto !font-calibri !primary-background"
                   disabled={isAble}
                 />
-                <div className="max-w-[296px] mx-auto lg:mt-[60px] sm:mt-[40px] mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
+                <div className="max-w-[296px] mx-auto  mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>
                     Protected by reCAPTCHA and subject to the Skillnet
                     <Link to={"/privacypolicy"} className="text-[#042937] mx-1">
@@ -566,6 +564,7 @@ function CompanyRegister() {
         </div>
         <Loading isLoading={updatePanding} />
       </div>
+      <HomeFooter />
     </>
   );
 }

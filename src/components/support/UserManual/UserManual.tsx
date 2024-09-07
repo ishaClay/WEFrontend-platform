@@ -46,7 +46,7 @@ const UserManual = () => {
           <Loader />
         ) : userManual_List?.data && userManual_List?.data?.length > 0 ? (
           userManual_List?.data?.map((user, index: number) => {
-            return <UserManualList list={user} key={index} />;
+            return <UserManualList list={user} index={index + 1} key={index} />;
           })
         ) : (
           <span className="py-10 flex justify-center">No data</span>

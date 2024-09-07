@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -54,20 +55,27 @@ const MaturityAssessment = () => {
       ? userData?.query?.id
       : userData?.id;
 
+  // @ts-ignore
   const { data: getCheckedmeasures, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment, { selectAssessment }],
+    // @ts-ignore
     queryFn: () =>
       getCheckedMeasuresByAssessment({
         userId: userID,
         clientId,
-        assNumber: selectAssessment || "1",
+        assNumber:
+          assessmentQuestionScoreLIST?.findIndex(
+            (item: any) => item?.assessmentName === selectAssessment
+          ) + 1?.toString() || "1",
       }),
-    // enabled: !!selectAssessment,
   });
 
-  const pillarCompleted = getCheckedmeasures?.data?.data?.find(
-    (item: any) => item?.progressPR === 100
-  );
+  // @ts-ignore
+  const pillarCompleted = useMemo(() => {
+    return getCheckedmeasures?.data?.data?.find(
+      (item: any) => +item?.progressPR === 100
+    );
+  }, [getCheckedmeasures]);
 
   const { data: assessmentQuestionScoreLIST } = useQuery({
     queryKey: [
@@ -77,51 +85,15 @@ const MaturityAssessment = () => {
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
 
-  const assessmentDetailOptions = useMemo(() => {
-    const newData =
-      assessmentQuestionScoreLIST?.data?.length > 0
-        ? assessmentQuestionScoreLIST?.data?.map((item: any) => {
-            return {
-              label: item[0]?.assessmentName || "",
-              date: item?.[0]?.createdAt
-                ? moment(new Date(item?.[0]?.createdAt || "")).format(
-                    "DD/MM/YYYY"
-                  )
-                : "",
-              value: item[0]?.assessmentNumber?.toString() || "",
-            };
-          })
-        : [
-            {
-              label: "Re-assessment 1",
-              date: "",
-              value: "1",
-            },
-          ];
-
-    if (assessmentQuestionScoreLIST) {
-      const checkData = assessmentQuestionScoreLIST?.data
-        ?.at(-1)
-        ?.filter((item: any) => item?.pillarProgress === 100);
-      if (checkData?.length > 0) {
-        newData.push({
-          label: `Re-assessment ${assessmentQuestionScoreLIST?.data?.length}`,
-          date: "",
-          value: `${assessmentQuestionScoreLIST?.data?.length + 1}`,
-        });
-      }
-    }
-    return newData;
-  }, [getCheckedmeasures, assessmentQuestionScoreLIST, pillarCompleted]);
-
   useEffect(() => {
-    if (assessmentDetailOptions) {
+    if (assessmentQuestionScoreLIST) {
       setSelectAssessment(
-        assessmentDetailOptions[assessmentQuestionScoreLIST?.data?.length - 1]
-          ?.value
+        assessmentQuestionScoreLIST?.data?.[0]?.assessmentName
       );
     }
-  }, [assessmentQuestionScoreLIST]);
+  }, []);
+
+  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -175,16 +147,14 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
-  console.log("assessmentDetailOptions", assessmentDetailOptions);
-  const completionDate = assessmentData?.length > 0
-  ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
-      "DD/MM/YYYY"
-    )
-  : moment(
-      new Date(
-        getCheckedmeasures?.data?.data?.[0]?.createdAt || ""
-      )
-    ).format("DD/MM/YYYY")
+  const completionDate =
+    assessmentData?.length > 0
+      ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
+          "DD/MM/YYYY"
+        )
+      : moment(
+          new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")
+        ).format("DD/MM/YYYY");
 
   return (
     <div className="">
@@ -195,14 +165,14 @@ const MaturityAssessment = () => {
           </h5>
           {getCheckedmeasures?.data?.data?.length > 0 && (
             <h6 className="text-xs text-[#606060] font-bold font-calibri">
-              Completion Date :{" "}
-              {completionDate}
+              Completion Date : {completionDate}
             </h6>
           )}
         </div>
         {((pillarCompleted && Role !== "employee") ||
-          (assessmentDetailOptions?.length > 1 && Role !== "employee") ||
-          (assessmentDetailOptions?.length > 1 &&
+          (assessmentQuestionScoreLIST?.data?.length > 1 &&
+            Role !== "employee") ||
+          (assessmentQuestionScoreLIST?.data?.length > 1 &&
             Role === "employee" &&
             empPermissions?.retakeSelfAssessment)) && (
           <div className="">
@@ -211,9 +181,9 @@ const MaturityAssessment = () => {
                 const find =
                   e === "baseline self assessment"
                     ? true
-                    : !!assessmentDetailOptions?.find(
+                    : !!assessmentQuestionScoreLIST?.data?.find(
                         (item: any) => item.value === e
-                      )?.date;
+                      )?.completedAssessmentDate;
                 setSelectAssessment(e);
                 if (find) {
                   console.log("e", find);
@@ -240,17 +210,25 @@ const MaturityAssessment = () => {
                     ).format("DD/MM/YYYY")}
                   </p>
                 </SelectItem> */}
-                {assessmentDetailOptions &&
-                  assessmentDetailOptions?.map((item: any, index: number) => (
-                    <SelectItem
-                      key={index}
-                      value={item.value}
-                      className={`text-base font-medium font-abhaya bg-transparent`}
-                    >
-                      {item.label}
-                      {item.date && <p>{item.date}</p>}
-                    </SelectItem>
-                  ))}
+                {assessmentQuestionScoreLIST?.data &&
+                  assessmentQuestionScoreLIST?.data?.map(
+                    (item: any, index: number) => (
+                      <SelectItem
+                        key={index}
+                        value={item.assessmentName}
+                        className={`text-base font-medium font-abhaya bg-transparent`}
+                      >
+                        {item.assessmentName}
+                        {item.completedAssessmentDate && (
+                          <p>
+                            {moment(item.completedAssessmentDate).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </p>
+                        )}
+                      </SelectItem>
+                    )
+                  )}
               </SelectContent>
             </Select>
           </div>

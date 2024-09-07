@@ -339,6 +339,8 @@ const GridView = ({
           //   });
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
           const isMyCoursesPath = pathName === "mycourses";
+          const CoursesPath =
+            pathName === "mycourses" ? "My Courses" : pathName;
           const isPublished = item?.status === "PUBLISHED";
 
           const versionOption =
@@ -370,7 +372,7 @@ const GridView = ({
                 dispatch(
                   setPath([
                     { label: "Course Management", link: null },
-                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                    { label: `${CoursesPath}`, link: `/${Role}/${pathName}` },
                     { label: "Employee Basic Course", link: null },
                   ])
                 )

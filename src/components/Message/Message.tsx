@@ -103,8 +103,19 @@ const Message = () => {
 
   const { mutate: sendMessageMutation } = useMutation({
     mutationFn: sendGroupMessage,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
+
+      setChatMessage("");
+      setImages([]);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatList],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.chatUserList],
+      });
+
+      socket.emit("new message", data?.data);
     },
     onError: (error: ErrorType) => {
       toast({

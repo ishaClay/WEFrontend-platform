@@ -99,8 +99,9 @@ const MyCoursePage = () => {
   ];
 
   useEffect(() => {
-    if (pillerFilterOption) {
+    if (pillerFilterOption && filter1Option) {
       setSelectFilterByCategory(pillerFilterOption[0]?.value);
+      setSelectFilterByStatus(filter1Option[0]?.value);
     }
   }, []);
 
