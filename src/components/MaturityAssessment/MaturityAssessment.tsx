@@ -63,10 +63,7 @@ const MaturityAssessment = () => {
       getCheckedMeasuresByAssessment({
         userId: userID,
         clientId,
-        assNumber:
-          assessmentQuestionScoreLIST?.findIndex(
-            (item: any) => item?.assessmentName === selectAssessment
-          ) + 1?.toString() || "1",
+        assNumber: selectAssessment || "1",
       }),
   });
 
@@ -87,9 +84,7 @@ const MaturityAssessment = () => {
 
   useEffect(() => {
     if (assessmentQuestionScoreLIST) {
-      setSelectAssessment(
-        assessmentQuestionScoreLIST?.data?.[0]?.assessmentName
-      );
+      setSelectAssessment("1");
     }
   }, []);
 
@@ -184,7 +179,10 @@ const MaturityAssessment = () => {
                     : !!assessmentQuestionScoreLIST?.data?.find(
                         (item: any) => item.value === e
                       )?.completedAssessmentDate;
-                setSelectAssessment(e);
+                const data = assessmentQuestionScoreLIST?.data?.findIndex(
+                  (item: any) => item.value === e
+                );
+                setSelectAssessment((data + 1).toString());
                 if (find) {
                   console.log("e", find);
                 } else {
@@ -266,29 +264,31 @@ const MaturityAssessment = () => {
                 )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
-                <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
-                  <PDFDownloadLink
-                    document={
-                      <AssessmentPdf
-                        // data={transformData()}
-                        data={getCheckedmeasures?.data?.data}
-                        companyName={userData?.query?.name}
-                        assessmentData={selfAssData}
-                        fetchClientmaturitylevel={
-                          fetchClientmaturitylevel?.data
-                        }
-                        assessmentPercentage={assessmentPercentage}
-                        completionDate={completionDate}
-                      />
-                    }
-                    fileName="Action-Items.pdf"
-                  >
-                    {({ loading }: any) =>
-                      loading ? "Loading document..." : "Export"
-                    }
-                  </PDFDownloadLink>
-                  {/* Export */}
-                </Button>
+                {activeTab !== "actionitems" && (
+                  <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                    <PDFDownloadLink
+                      document={
+                        <AssessmentPdf
+                          // data={transformData()}
+                          data={getCheckedmeasures?.data?.data}
+                          companyName={userData?.query?.name}
+                          assessmentData={selfAssData}
+                          fetchClientmaturitylevel={
+                            fetchClientmaturitylevel?.data
+                          }
+                          assessmentPercentage={assessmentPercentage}
+                          completionDate={completionDate}
+                        />
+                      }
+                      fileName="Action-Items.pdf"
+                    >
+                      {({ loading }: any) =>
+                        loading ? "Loading document..." : "Export"
+                      }
+                    </PDFDownloadLink>
+                    {/* Export */}
+                  </Button>
+                )}
               </div>
             </TabsList>
             {/* {openPdf && <PDFViewer

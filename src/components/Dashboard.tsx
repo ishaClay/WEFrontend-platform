@@ -494,7 +494,7 @@ const Dashboard = () => {
           value={resolveSupportTicket || 0}
         />
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      {/* <h3 className="text-[22px] font-calibri font-[500] mb-2">
         Course Overview
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -516,7 +516,7 @@ const Dashboard = () => {
           title="Total completed courses"
           value={smeDashboardData3?.data?.overView?.completedCourse || 0}
         />
-      </div>
+      </div> */}
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
         Overview of Employee Performance
       </h3>

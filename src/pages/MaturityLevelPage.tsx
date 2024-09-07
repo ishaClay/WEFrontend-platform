@@ -15,7 +15,7 @@ import {
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useLocation, useNavigate } from "react-router-dom";
 
