@@ -3,6 +3,7 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getAllEmployeeCourseList } from "@/services/apiServices/courseManagement";
 import { MyCourseResponse } from "@/types/courseManagement";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import CustomCarousel from "../comman/CustomCarousel";
 import Loader from "../comman/Loader";
 import NoDataText from "../comman/NoDataText";
@@ -12,6 +13,7 @@ import RecentCoursesItems from "./RecentCoursesItems";
 const RecentCourses = () => {
   const { CompanyId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
   const userID = CompanyId
     ? CompanyId
     : userData?.query
@@ -41,7 +43,13 @@ const RecentCourses = () => {
           {/* <div className="bg-[#75BD43] w-[115px] h-[2px] absolute left-0 bottom-0"></div> */}
         </h3>
         {data?.data?.courseAlloted && data?.data?.courseAlloted.length > 2 && (
-          <Button className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-nunito">
+          <Button
+            type="button"
+            onClick={() => {
+              navigate(`${location?.pathname?.split("/")[1]}/mycourses`);
+            }}
+            className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-nunito"
+          >
             View all
           </Button>
         )}
