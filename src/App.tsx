@@ -87,6 +87,7 @@ import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import CompanyProtectedRoute from "./Layout/CompanyProtectedRoute";
 
 function App() {
   let socket: any;
@@ -185,17 +186,72 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/blogDetails" element={<BlogDetailsPage />} />
+        <Route path="/termsofservices" element={<TermsOfServices />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
 
-        <Route path="/change-password" element={<ChangePasswordPage />} />
-        <Route path="/assessment" element={<Assessment />} />
-        <Route path="/savedassesment" element={<SavedAssesment />} />
-        <Route path="/question" element={<QuestionPage />} />
-        <Route path="/maturelevel" element={<MaturityLevelPage />} />
-        <Route path="/score" element={<TeaserScore />} />
-        <Route path="/selectlevel" element={<SelectLevel />} />
+        <Route
+          path="/change-password"
+          element={
+            <CompanyProtectedRoute>
+              <ChangePasswordPage />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/assessment"
+          element={
+            <CompanyProtectedRoute>
+              <Assessment />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/savedassesment"
+          element={
+            <CompanyProtectedRoute>
+              <SavedAssesment />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/question"
+          element={
+            <CompanyProtectedRoute>
+              <QuestionPage />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/maturelevel"
+          element={
+            <CompanyProtectedRoute>
+              <MaturityLevelPage />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/score"
+          element={
+            <CompanyProtectedRoute>
+              <TeaserScore />
+            </CompanyProtectedRoute>
+          }
+        />
+        <Route
+          path="/selectlevel"
+          element={
+            <CompanyProtectedRoute>
+              <SelectLevel />
+            </CompanyProtectedRoute>
+          }
+        />
         <Route
           path="/maturitylevelactionitem"
-          element={<MaturityLevelActionItem />}
+          element={
+            <CompanyProtectedRoute>
+              <MaturityLevelActionItem />
+            </CompanyProtectedRoute>
+          }
         />
 
         <Route

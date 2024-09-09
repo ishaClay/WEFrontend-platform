@@ -31,7 +31,7 @@ const AssessmentResult = ({
   assessmentData,
   showButton,
   setIsEdit,
-  setAssessmentPercentage
+  setAssessmentPercentage,
 }: AssessmentResultProps) => {
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -118,8 +118,8 @@ const AssessmentResult = ({
   const currentLavel = findMaturityLevel(Number(setScore));
 
   useEffect(() => {
-    setAssessmentPercentage(+setScore)
-  }, [setScore])  
+    setAssessmentPercentage(+setScore);
+  }, [setScore]);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],

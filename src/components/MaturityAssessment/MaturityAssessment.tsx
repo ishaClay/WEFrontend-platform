@@ -282,9 +282,7 @@ const MaturityAssessment = () => {
                       }
                       fileName="Action-Items.pdf"
                     >
-                      {({ loading }: any) =>
-                        loading ? "Loading document..." : "Export"
-                      }
+                      Export
                     </PDFDownloadLink>
                     {/* Export */}
                   </Button>
