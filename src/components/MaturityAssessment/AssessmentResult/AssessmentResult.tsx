@@ -115,6 +115,8 @@ const AssessmentResult = ({
         ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
+  console.log("🚀 ~ assessmentData:", assessmentData);
+  console.log("🚀 ~ setScore:", setScore);
   const currentLavel = findMaturityLevel(Number(setScore));
 
   useEffect(() => {

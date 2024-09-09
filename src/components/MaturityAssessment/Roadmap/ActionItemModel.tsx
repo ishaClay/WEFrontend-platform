@@ -105,13 +105,14 @@ const ActionItemModel = ({
     });
 
   const { data: getActionItems, isLoading } = useQuery<MeasuresItemsResponse>({
-    queryKey: [QUERY_KEYS.getActionItems, { pid, userID }],
+    queryKey: [QUERY_KEYS.getActionItems, { pid, userID, selectAssessment }],
     queryFn: () =>
       getActionItembyPiller(
         pid ? +pid : 0,
         userData?.query?.role === "4"
           ? userData?.company?.userDetails?.id
-          : userID
+          : userID,
+        selectAssessment || "1"
       ),
     enabled: !!pid && !!userID,
     // enabled: open && !!pid && !!userID,
