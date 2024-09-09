@@ -71,8 +71,8 @@ const FeaturedCourses = () => {
             {title || "Featured Courses"}
           </h5>
         </div>
-        <div className="max-w-full grid grid-cols-5 items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
-          <div className="relative col-span-1">
+        <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
+          <div className="relative">
             <img
               className="w-[332px] h-[357px]"
               src="../assets/img/Group 1000001820.png"
@@ -83,7 +83,7 @@ const FeaturedCourses = () => {
             />
           </div>
 
-          <div className="md:max-w-[697px] w-full col-span-2">
+          <div className="md:max-w-[697px] w-full">
             {clientwiseCoursesliderPending ? (
               <Loader />
             ) : (
