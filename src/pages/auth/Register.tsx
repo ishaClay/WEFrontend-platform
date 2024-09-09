@@ -206,6 +206,7 @@ function Register() {
         "path",
         JSON.stringify(data.data.data?.query?.pathStatus)
       );
+      Cookies.set("accessToken", data?.data?.data?.accessToken);
       navigate("/assessment");
     },
     onError: (error: ErrorType) => {

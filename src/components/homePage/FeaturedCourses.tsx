@@ -71,8 +71,8 @@ const FeaturedCourses = () => {
             {title || "Featured Courses"}
           </h5>
         </div>
-        <div className="max-w-full flex items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
-          <div className="relative">
+        <div className="max-w-full grid grid-cols-5 items-center justify-between xl:flex-row flex-col xl:gap-0 sm:gap-10 gap-[42px]">
+          <div className="relative col-span-1">
             <img
               className="w-[332px] h-[357px]"
               src="../assets/img/Group 1000001820.png"
@@ -83,7 +83,7 @@ const FeaturedCourses = () => {
             />
           </div>
 
-          <div className="md:max-w-[697px] w-full">
+          <div className="md:max-w-[697px] w-full col-span-2">
             {clientwiseCoursesliderPending ? (
               <Loader />
             ) : (
@@ -94,7 +94,7 @@ const FeaturedCourses = () => {
                     // 	<SliderData courseImage={item.courseImage} buttonTitle={item.buttonTitle} content={item.content} courseTitle={item.courseTitle} courseType ={item.courseType} />
                     // </div>
 
-                    <div className="relative" key={item.id}>
+                    <div className="relative">
                       <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
                         <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
                           <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-UniNeue pb-4">

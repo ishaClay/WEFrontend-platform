@@ -369,7 +369,7 @@ const TrainerManagement = () => {
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
         <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+          <h3 className="text-[16px] font-semibold font-calibri mb-1">
             Trainer Management
           </h3>
           <p className="text-[#606060] text-[15px]">

@@ -568,7 +568,7 @@ const RegisterTraineeForm = () => {
               value={selectBoxValues.occupationalCategory}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black text-left font-normal">
-                <SelectValue placeholder="select status" />
+                <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent className="w-full">
                 {isOccupationalCategoriesPending ? (
@@ -616,7 +616,7 @@ const RegisterTraineeForm = () => {
               value={selectBoxValues.unemploymentTime}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="select status" />
+                <SelectValue placeholder="Select time" />
               </SelectTrigger>
               <SelectContent className="w-full">
                 {isUnemploymentTimePending ? (
@@ -646,7 +646,7 @@ const RegisterTraineeForm = () => {
           </div>
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
-              Country Of Residence
+              County Of Residence
               <img src={mandatory} className="p-1" />
             </label>
             <Select
@@ -661,7 +661,7 @@ const RegisterTraineeForm = () => {
               value={selectBoxValues.countryOfResidence}
             >
               <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="select status" />
+                <SelectValue placeholder="Select county" />
               </SelectTrigger>
               <SelectContent className="w-full">
                 {isUnemploymentTimePending ? (

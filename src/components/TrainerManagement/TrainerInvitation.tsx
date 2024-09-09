@@ -31,7 +31,7 @@ const initialData = {
 const schema = Zod.object({
   file: Zod.string().optional(),
   invitiondetail: Zod.string().min(1, {
-    message: "Please enter invition detail",
+    message: "Please enter invitation detail",
   }),
 });
 const TrainerInvitation = () => {

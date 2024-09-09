@@ -144,7 +144,7 @@ const InviteMember = ({
 
           <div className="mt-[33px]">
             <TextAreaWithLabel
-              className="text-stone-400 text-base font-nunito"
+              className=" text-base font-nunito"
               label="Invitation Details"
               labelClassName="font-nunito font-semibold !text-base"
               {...register("invitiondetail")}

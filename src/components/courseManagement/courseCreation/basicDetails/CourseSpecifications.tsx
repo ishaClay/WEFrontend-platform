@@ -70,6 +70,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   });
   const queryClient = useQueryClient();
 
+  console.log("🚀 ~ CourseSpecifications ~ selectBoxValue:", selectBoxValue);
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
     queryFn: () => certificateCourseList(),
@@ -123,36 +124,51 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       };
     });
 
+  console.log("data?.data", data?.data);
+
   const nfqlLevelOption =
     nfql?.data?.length &&
     nfql?.data?.map((item) => {
       return {
-        label: item.leval,
         value: item.id?.toString(),
+        label: item.leval,
       };
     });
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ useEffect ~ getSingleCourse?.data?.course:",
+      getSingleCourse?.data?.course
+    );
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key] || "");
-        setValue(
-          "nfqLeval",
-          getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
-        );
-        setValue(
-          "certificate",
-          getSingleCourse?.data?.course?.certificate?.toString() || ""
-        );
       });
+      setValue(
+        "certificate",
+        getSingleCourse?.data?.course?.certificate?.toString() || ""
+      );
       setSelectBoxValue({
         nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
         certificate:
           getSingleCourse?.data?.course?.certificate?.toString() || "",
       });
     }
-  }, [getSingleCourse, setValue, nfqlLevelOption]);
+  }, [getSingleCourse, setValue]);
+
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      setValue(
+        "nfqLeval",
+        getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
+      );
+      setSelectBoxValue((prev) => ({
+        ...prev,
+        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
+      }));
+    }
+  }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),

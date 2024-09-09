@@ -378,3 +378,21 @@ input[type="radio"] {
 .ckeditor .ck-editor__main {
   height: calc(100% - 38px);
 }
+
+@media (max-width: 768px) {
+  .going_green_logo {
+    display: none;
+  }
+  .going_green_logo_mobile {
+    display: flex;
+  }
+  .going_green_logo_mobile a{
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .going_green_logo_mobile a{
+    font-size: 35px;
+  }
+}

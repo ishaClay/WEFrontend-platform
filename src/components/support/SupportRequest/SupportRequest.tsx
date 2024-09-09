@@ -1,14 +1,14 @@
-import SupportRequestDetails from "./SupportRequestDetails";
-import SupportRequestTable from "./SupportRequestTable";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { RootState } from "@/redux/store";
 import { fetchSupportTicketList } from "@/services/apiServices/supportRequestServices";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import { Link } from "react-router-dom";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
+import SupportRequestDetails from "./SupportRequestDetails";
+import SupportRequestTable from "./SupportRequestTable";
 const SupportRequest = () => {
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
@@ -27,7 +27,7 @@ const SupportRequest = () => {
     <div className="bg-white">
       <div className="md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div>
-          <h6 className="font-calibri text-base font-bold pb-2">
+          <h6 className="font-calibri text-base font-bold pb-1">
             Support Request
           </h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">

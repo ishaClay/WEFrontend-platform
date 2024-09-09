@@ -7,12 +7,13 @@ import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import {
   assessmentQuestionScore,
+  fetchMaturityPillarAssessmentWise,
   getCheckedMeasuresByAssessment,
 } from "@/services/apiServices/pillar";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
 import { fetchAssessment } from "@/services/apiServices/assessment";
@@ -33,13 +34,14 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
+import { AllActionDataPillerWise } from "@/types/MaturityLavel";
 
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
-  const [selectAssessment, setSelectAssessment] = useState<string>();
+  const [selectAssessment, setSelectAssessment] = useState<string>("1");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { empPermissions } = useContext(PermissionContext);
   const [isEdit, setIsEdit] = useState(false);
@@ -82,13 +84,21 @@ const MaturityAssessment = () => {
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
 
-  useEffect(() => {
-    if (assessmentQuestionScoreLIST) {
-      setSelectAssessment("1");
-    }
-  }, []);
+  // const { data: assessmentQuestionScoreLIST1 } = useQuery({
+  //   queryKey: [
+  //     QUERY_KEYS.assessmentQuestionScore,
+  //     { pillarCompleted, userID, clientId, selectAssessment },
+  //   ],
+  //   queryFn: () => assessmentQuestionScore1(+userID, +clientId),
+  // });
 
-  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
+  // useEffect(() => {
+  //   if (assessmentQuestionScoreLIST?.data?.length) {
+  //     setSelectAssessment(
+  //       assessmentQuestionScoreLIST?.data[0]?.assessmentNumber
+  //     );
+  //   }
+  // }, [assessmentQuestionScoreLIST]);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -98,6 +108,13 @@ const MaturityAssessment = () => {
   const { data: fetchClientmaturitylevel } = useQuery({
     queryKey: [QUERY_KEYS.fetchbyclientMaturity],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+  });
+
+  const { data: maturitypillar } = useQuery<AllActionDataPillerWise>({
+    queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+    queryFn: () =>
+      fetchMaturityPillarAssessmentWise(userID, selectAssessment || "1"),
+    enabled: !!selectAssessment,
   });
 
   const getMaturityLevel = (percentage: number) => {
@@ -115,8 +132,6 @@ const MaturityAssessment = () => {
     Advanced: [],
   };
 
-  console.log("assessmant", assessmant);
-
   assessmant?.data?.data?.forEach((pillar: any) => {
     const totalPoints = parseFloat(pillar.totalpoints);
     const totalMaxPoint = parseFloat(pillar.totalmaxpoint);
@@ -128,12 +143,7 @@ const MaturityAssessment = () => {
     }
   });
 
-  const assessmentData =
-    (selectAssessment &&
-      assessmentQuestionScoreLIST?.data?.filter(
-        (_: any, i: number) => i + 1 == +selectAssessment
-      )?.[0]) ||
-    [];
+  const assessmentData = (selectAssessment && maturitypillar?.data) || [];
 
   const showButton =
     (getCheckedmeasures?.data?.data?.length > 0 &&
@@ -144,7 +154,8 @@ const MaturityAssessment = () => {
 
   const completionDate =
     assessmentData?.length > 0
-      ? moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
+      ? // @ts-ignore
+        moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
           "DD/MM/YYYY"
         )
       : moment(
@@ -177,12 +188,10 @@ const MaturityAssessment = () => {
                   e === "baseline self assessment"
                     ? true
                     : !!assessmentQuestionScoreLIST?.data?.find(
-                        (item: any) => item.value === e
+                        (item: any) => item.assessmentNumber?.toString() === e
                       )?.completedAssessmentDate;
-                const data = assessmentQuestionScoreLIST?.data?.findIndex(
-                  (item: any) => item.value === e
-                );
-                setSelectAssessment((data + 1).toString());
+
+                setSelectAssessment(e);
                 if (find) {
                   console.log("e", find);
                 } else {
@@ -190,7 +199,6 @@ const MaturityAssessment = () => {
                 }
               }}
               value={selectAssessment}
-              defaultValue={selectAssessment}
             >
               <SelectTrigger
                 className={`bg-white  w-[280px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0 [&>span]:w-[280px]`}
@@ -213,7 +221,7 @@ const MaturityAssessment = () => {
                     (item: any, index: number) => (
                       <SelectItem
                         key={index}
-                        value={item.assessmentName}
+                        value={item.assessmentNumber?.toString()}
                         className={`text-base font-medium font-abhaya bg-transparent`}
                       >
                         {item.assessmentName}
@@ -282,9 +290,7 @@ const MaturityAssessment = () => {
                       }
                       fileName="Action-Items.pdf"
                     >
-                      {({ loading }: any) =>
-                        loading ? "Loading document..." : "Export"
-                      }
+                      Export
                     </PDFDownloadLink>
                     {/* Export */}
                   </Button>

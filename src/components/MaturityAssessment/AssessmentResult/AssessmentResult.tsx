@@ -31,7 +31,7 @@ const AssessmentResult = ({
   assessmentData,
   showButton,
   setIsEdit,
-  setAssessmentPercentage
+  setAssessmentPercentage,
 }: AssessmentResultProps) => {
   const queryClient = useQueryClient();
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -115,11 +115,13 @@ const AssessmentResult = ({
         ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
+  console.log("🚀 ~ assessmentData:", assessmentData);
+  console.log("🚀 ~ setScore:", setScore);
   const currentLavel = findMaturityLevel(Number(setScore));
 
   useEffect(() => {
-    setAssessmentPercentage(+setScore)
-  }, [setScore])  
+    setAssessmentPercentage(+setScore);
+  }, [setScore]);
 
   const data = {
     labels: ["Introductory", "Intermediate", "Advanced"],
@@ -235,8 +237,12 @@ const AssessmentResult = ({
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
           <div className="xxl:col-span-9 xl:col-span-7 col-span-12 xl:mb-0 sm:mb-10 mb-5">
-            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative  mb-4 max-w-[600px] line-clamp-2">
-              Where {userData?.query?.name}'s <br /> Green Feet are now...
+            <h3 className="xl:text-2xl lg:text-xl sm:text-lg text-base text-[#3A3A3A] font-bold leading-[29.3px] relative  mb-4 max-w-[600px] line-clamp-3">
+              Where{" "}
+              {+userData?.query?.role !== 1
+                ? userData?.company?.userDetails?.name
+                : userData?.query?.name}
+              's <br /> Green Feet are now...
               <div className="w-[117px] h-[2px] bg-[#64A70B] lg:mt-4 mt-1 absolute bottom-0 left-0"></div>
             </h3>
             <div className="max-w-[602.78px]">
