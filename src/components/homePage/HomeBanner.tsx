@@ -16,6 +16,19 @@ const HomeBanner = () => {
       queryFn: () => getHomeBanner(clientId?.toString(), "Active"),
       enabled: !!clientId,
     });
+
+  function scrollToTargetAdjusted() {
+    var element = document.getElementById("targetElement");
+    var headerOffset = 45;
+    var elementPosition = element.getBoundingClientRect().top;
+    var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <>
       <div>
@@ -60,7 +73,17 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("company");
-                              element?.scrollIntoView({
+                              var headerOffset = 168;
+                              var elementPosition =
+                                // @ts-ignore
+                                element.getBoundingClientRect().top;
+                              var offsetPosition =
+                                elementPosition +
+                                window.pageYOffset -
+                                headerOffset;
+
+                              window.scrollTo({
+                                top: offsetPosition,
                                 behavior: "smooth",
                               });
                             }}
@@ -71,7 +94,7 @@ const HomeBanner = () => {
                               />
                             }
                             className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
-                            isLink={!!item?.primaryButtonUrl}
+                            // isLink={!!item?.primaryButtonUrl}
                           />
                           <SecondaryButton
                             name={item.secondaryButtonTitle}
@@ -79,7 +102,17 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("trainer");
-                              element?.scrollIntoView({
+                              var headerOffset = 168;
+                              var elementPosition =
+                                // @ts-ignore
+                                element.getBoundingClientRect().top;
+                              var offsetPosition =
+                                elementPosition +
+                                window.pageYOffset -
+                                headerOffset;
+
+                              window.scrollTo({
+                                top: offsetPosition,
                                 behavior: "smooth",
                               });
                             }}
@@ -90,7 +123,7 @@ const HomeBanner = () => {
                               />
                             }
                             className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[2.5rem] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
-                            isLink={!!item?.secondaryButtonUrl}
+                            // isLink={!!item?.secondaryButtonUrl}
                           />
                         </div>
                         <div className="sm:hidden block">

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import LandingPageBuildImage from "@/assets/images/Landingapage_build.png";
+import LandingPageBuildImage from "@/assets/images/LandingapageTrainer.png";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
+import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,11 +71,6 @@ function RegisterTrainer() {
       })
       .min(1, { message: "Please enter provider type" }),
     providerCity: z.string().min(1, { message: "Please enter provider city" }),
-    providerCountry: z
-      .string({
-        required_error: "Please select provider country",
-      })
-      .min(1, { message: "Please select provider county" }),
     contactSurname: z.string().min(3, { message: "Please enter last name" }),
     contactTelephone: z
       .string({ required_error: "Please enter phone number" })
@@ -161,6 +157,8 @@ function RegisterTrainer() {
   });
   const email = watch("email");
 
+  console.log("errors+++++++++++++++", errors);
+
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
@@ -217,7 +215,7 @@ function RegisterTrainer() {
       setValue("providerType", trainerData?.providerType);
       setValue("providerAddress", trainerData?.providerAddress);
       setValue("providerCity", trainerData?.providerCity);
-      setValue("providerCountry", trainerData?.providerCountry);
+      setValue("providerCounty", trainerData?.providerCounty || "");
       setValue("providerNotes", trainerData?.providerNotes);
       setValue("providerNotes", trainerData?.providerNotes);
       setValue("foreignProvider", trainerData?.foreignProvider ? "Yes" : "No");
@@ -337,7 +335,7 @@ function RegisterTrainer() {
   return (
     <div className="">
       <HomeHeader type={type} />
-      <div className="mainContailner">
+      <div className="mainContailner !mb-[40px]">
         <div className="flex relative mt-[40px]">
           <div>
             {/* <img
@@ -451,7 +449,7 @@ function RegisterTrainer() {
                       }
                       value={watch("providerCounty") || ""}
                     />
-                    {errors.providerCountry && (
+                    {errors.providerCounty && (
                       <ErrorMessage
                         message={errors.providerCounty?.message as string}
                       />
@@ -623,6 +621,7 @@ function RegisterTrainer() {
           />
         </div>
       </div>
+      <HomeFooter />
       <Modal
         open={showOtpPopup}
         onClose={() => setShowOtpPopup(false)}

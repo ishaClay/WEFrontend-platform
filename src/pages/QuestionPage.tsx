@@ -350,7 +350,7 @@ const QuestionPage = () => {
               </div>
             );
           })}
-          <div className="absolute top-[35px] left-0 w-[900px] right-0 mx-auto border-2 border-dashed border-[#585858] -z-10"></div>
+          <div className="absolute top-1/2 -translate-Y-1/2 left-0 w-[900px] right-0 mx-auto border-2 border-dashed border-[#585858] -z-10"></div>
         </div>
       </div>
       <div

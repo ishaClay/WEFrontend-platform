@@ -49,6 +49,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
     };
     if (!userToken) {
       handleLogout();
+      return;
     } else if (
       UserRole[user?.query?.role].toLowerCase() !== routeUser.toLowerCase()
     ) {

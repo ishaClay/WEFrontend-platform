@@ -21,6 +21,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
+  console.log("+++++++++++++++++", UserRole[+user?.query?.role]);
+
   useEffect(() => {
     if (userToken) {
       navigate(`/${UserRole[+user?.query?.role]?.toLowerCase()}/dashboard`);
