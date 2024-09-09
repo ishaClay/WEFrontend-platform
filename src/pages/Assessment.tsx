@@ -1,4 +1,4 @@
-import RegisterSideImage from "@/assets/images/Landingapage_build--.png";
+import RegisterSideImage from "@/assets/images/LandingapageCompany.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import { PrimaryButton } from "@/components/comman/Button/CustomButton";
 import HomeFooter from "@/components/homePage/HomeFooter";

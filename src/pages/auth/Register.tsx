@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/input-otp";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 // import { ToastAction } from "@/components/ui/toast";
-import RegisterSideImage from "@/assets/images/Landingapage_build--.png";
+import RegisterSideImage from "@/assets/images/LandingapageCompany.png";
 import RunnerIcon from "@/assets/images/RunnerIcon.svg";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
