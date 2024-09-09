@@ -124,12 +124,14 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       };
     });
 
+  console.log("data?.data", data?.data);
+
   const nfqlLevelOption =
     nfql?.data?.length &&
     nfql?.data?.map((item) => {
       return {
+        value: item.id?.toString(),
         label: item.leval,
-        value: item.id.toString(),
       };
     });
 

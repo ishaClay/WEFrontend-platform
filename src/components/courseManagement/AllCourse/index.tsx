@@ -71,7 +71,7 @@ const AllCourses = () => {
       <div className="bg-[#FFFFFF] rounded-[10px] w-full">
         <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] sm:px-5 sm:py-3 p-[15px]">
           <div className="bg-white sm:pb-0 pb-3">
-            <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            <h3 className="text-[16px] font-semibold font-calibri mb-1">
               Course Management
             </h3>
             <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">

@@ -103,15 +103,16 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       email: zod.string(),
       mobilenumber: zod
         .string()
-        .min(8, { message: "Please enter mobile number" })
         .max(15, { message: "Please enter valid mobile number" })
         .optional(),
       gender: zod.string(),
     })
     .superRefine((_, ctx) => {
       if (
-        Number(userData!.query?.role) !== UserRole.Company &&
-        !_.mobilenumber
+        +userData!.query?.role !== UserRole.Company &&
+        !_.mobilenumber &&
+        _.mobilenumber &&
+        _.mobilenumber?.length < 8
       ) {
         return ctx.addIssue({
           code: zod.ZodIssueCode.custom,
@@ -119,10 +120,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
           path: ["mobilenumber"],
         });
       }
-      if (
-        Number(userData!.query?.role) === UserRole.Company &&
-        !_.smeOrganisation
-      ) {
+      if (+userData!.query?.role === UserRole.Company && !_.smeOrganisation) {
         return ctx.addIssue({
           code: zod.ZodIssueCode.custom,
           message: "Please enter SME organisation name",
@@ -361,7 +359,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 <RadioGroupItem
                   value="female"
                   id="option-two"
-                  className="border-[#9B9B9B] w-5 h-5"
+                  className="border-[#9B9B9B] w-6 h-6"
                 />
                 <Label
                   htmlFor="option-two"

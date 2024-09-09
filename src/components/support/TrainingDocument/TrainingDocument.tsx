@@ -107,7 +107,7 @@ const TrainingDocument = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="border-b border-[#D9D9D9] p-4">
-        <h6 className="font-nunito text-base font-bold pb-2">
+        <h6 className="text-[16px] text-[#000000] font-calibri font-semibold pb-2">
           Training Document
         </h6>
         <p className="text-[#606060] text-[15px] font-abhaya sm:leading-[16px] leading-5">

@@ -106,17 +106,25 @@ const ListView = ({
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
     useMutation({
       mutationFn: (data: PublishCourseType) => publishCourse(data),
-      onSuccess: () => {
+      onSuccess: (data) => {
         setIsStatusLoading(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
         setCourse("");
-        toast({
-          title: "Success",
-          description: "Course Published Successfully",
-          variant: "success",
-        });
+        if (data?.data?.data?.status === "UNPUBLISHED") {
+          toast({
+            title: "Success",
+            description: "Course unplished successfully",
+            variant: "success",
+          });
+        } else {
+          toast({
+            title: "Success",
+            description: "Course published successfully",
+            variant: "success",
+          });
+        }
         setOpen("");
       },
       onError: (error: ErrorType) => {

@@ -43,8 +43,8 @@ const SectionForm = ({
   const [attechmentName, setAttechment] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [isUpload, setIsUploading] = useState(false);
-  console.log("isUpload", isUpload);
-  
+  console.log("isUpload", informationError, isUpload);
+
   const section = watch();
   useEffect(() => {
     if (sectionID) {
@@ -133,7 +133,9 @@ const SectionForm = ({
                 onCheckedChange={() => {
                   setValue(`isLive`, !section.isLive);
                 }}
-                className={`me-3 text-[#0F172A] ${!!sectionID ? "pointer-events-none" : ""}`}
+                className={`me-3 text-[#0F172A] ${
+                  !!sectionID ? "pointer-events-none" : ""
+                }`}
               />
               Live Session
             </h6>
@@ -175,19 +177,18 @@ const SectionForm = ({
                 setValue(`information`, data);
               }
             }}
-            className="w-full"
+            className="w-full h-[190px]"
           />
           <div className="absolute bottom-0 right-0 p-2 text-sm text-[#606060]">
             {charCount}/5000
           </div>
         </div>
-        {informationError !== "" ||
-          (errors?.information && (
-            <FormError
-              className="font-calibri not-italic"
-              message={informationError || errors.information?.message}
-            />
-          ))}
+        {errors?.information && (
+          <FormError
+            className="font-calibri not-italic"
+            message={errors.information?.message}
+          />
+        )}
       </div>
       {!section.isLive ? (
         <>

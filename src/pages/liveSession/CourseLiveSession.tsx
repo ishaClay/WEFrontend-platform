@@ -1,13 +1,13 @@
 import TotalLiveSessionsPage from "@/components/courseManagement/TotalLiveSessions/TotalLiveSessionsPage";
 import { Button } from "@/components/ui/button";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { getAllLiveSession } from "@/services/apiServices/liveSession";
 import { useQuery } from "@tanstack/react-query";
 import { List, NotepadText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LiveSessionsCalendar from "../courseManagement/LiveSessionsCalendar";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 const CourseLiveSession = () => {
   const search = window.location.search;
@@ -36,9 +36,9 @@ const CourseLiveSession = () => {
 
   return (
     <div className="rounded-xl bg-white">
-      {(params === "1") && (
+      {params === "1" && (
         <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start sm:gap-0 gap-3 sm:px-6 p-4 sm:py-5 border-b border-[#D9D9D9]">
-          <h5 className="text-base font-abhaya text-black font-bold">
+          <h5 className="text-[16px] font-semibold font-calibri">
             Schedule Live Session
           </h5>
 
@@ -49,7 +49,10 @@ const CourseLiveSession = () => {
                 dispatch(
                   setPath([
                     { label: "Course Managment", link: null },
-                    { label: "Live Session", link: `/${currentUser}/CourseLiveSession` },
+                    {
+                      label: "Live Session",
+                      link: `/${currentUser}/CourseLiveSession`,
+                    },
                     {
                       label: "schedule-live-session",
                       link: `/${currentUser}/schedule-live-session`,
@@ -81,7 +84,6 @@ const CourseLiveSession = () => {
       )}
 
       {params === "0" || !params ? (
-        
         <div className="">
           <LiveSessionsCalendar allLiveSession={allLiveSession?.data?.data} />
         </div>

@@ -27,31 +27,32 @@ interface AllLiveSessionsProps {
 const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
   const [selectFilter, setSelectFilter] = useState("upcoming");
 
-  const filteredSessions = allLiveSession?.filter((session) => {
-    const now = new Date();
+  const filteredSessions =
+    allLiveSession?.filter((session) => {
+      const now = new Date();
 
-    switch (selectFilter) {
-      case "upcoming":
-        return new Date(session.date) > now;
-      case "starting":
-        return isSessionOngoingAtTime(
-          session.date,
-          session.startTime + " " + session.startAmPm,
-          session?.sessionDuration
-        );
-      case "ending":
-        return (
-          new Date(session.date) <= now &&
-          !isSessionOngoingAtTime(
+      switch (selectFilter) {
+        case "upcoming":
+          return new Date(session.date) > now;
+        case "starting":
+          return isSessionOngoingAtTime(
             session.date,
             session.startTime + " " + session.startAmPm,
             session?.sessionDuration
-          )
-        );
-      default:
-        return true;
-    }
-  }) || [];
+          );
+        case "ending":
+          return (
+            new Date(session.date) <= now &&
+            !isSessionOngoingAtTime(
+              session.date,
+              session.startTime + " " + session.startAmPm,
+              session?.sessionDuration
+            )
+          );
+        default:
+          return true;
+      }
+    }) || [];
 
   return (
     <div className="rounded-xl bg-white sm:p-5 p-4">
@@ -72,9 +73,15 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-5">
-        {filteredSessions?.length > 0 ? filteredSessions?.map((data, index) => {
-          return <LiveSessionList data={data} key={index} />;
-        }) : <div className="sm:px-5 sm:py-20 p-[15px] text-center">No Data Found</div>}
+        {filteredSessions?.length > 0 ? (
+          filteredSessions?.map((data, index) => {
+            return <LiveSessionList data={data} key={index} />;
+          })
+        ) : (
+          <div className="sm:px-5 sm:py-20 p-[15px] text-center">
+            No Data Found
+          </div>
+        )}
       </div>
     </div>
   );

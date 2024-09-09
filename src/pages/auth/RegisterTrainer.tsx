@@ -63,45 +63,64 @@ function RegisterTrainer() {
   const [searchParams] = useSearchParams();
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
-  const schema = z.object({
-    providerName: z.string().min(1, { message: "Please enter provider name" }),
-    providerType: z
-      .string({
-        required_error: "Please select provider type",
-      })
-      .min(1, { message: "Please enter provider type" }),
-    providerCity: z.string().min(1, { message: "Please enter provider city" }),
-    contactSurname: z.string().min(3, { message: "Please enter last name" }),
-    contactTelephone: z
-      .string({ required_error: "Please enter phone number" })
-      .min(8, { message: "Please enter valid phone number" })
-      .max(15, { message: "Please enter valid phone number" }),
-    providerAddress: z
-      .string({
-        required_error: "Please enter provider address",
-      })
-      .min(1, { message: "Please enter provider address" }),
-    providerCounty: z.string().optional(),
-    contactFirstName: z.string().min(3, { message: "Please enter first name" }),
-    email: z
-      .string()
-      .min(1, { message: "Please enter email address" })
-      .email("Please enter valid email address"),
-    providerNotes: z
-      .string()
-      .max(200, {
-        message: "Provider notes must contain at least 200 characters",
-      })
-      .optional(),
-    foreignProvider: z
-      .string({
-        message: "Please select foreign provider",
-      })
-      .refine((value) => value === "Yes" || value === "No", {
-        message: "Please select foreign provider",
-        path: ["foreignProvider"],
-      }),
-  });
+  const schema = z
+    .object({
+      providerName: z
+        .string()
+        .min(1, { message: "Please enter provider name" }),
+      providerType: z
+        .string({
+          required_error: "Please select provider type",
+        })
+        .min(1, { message: "Please enter provider type" }),
+      providerCity: z
+        .string()
+        .min(1, { message: "Please enter provider city" }),
+      contactSurname: z.string().min(3, { message: "Please enter last name" }),
+      contactTelephone: z
+        .string({ required_error: "Please enter phone number" })
+        .max(15, { message: "Please enter valid phone number" })
+        .optional(),
+      providerAddress: z
+        .string({
+          required_error: "Please enter provider address",
+        })
+        .min(1, { message: "Please enter provider address" }),
+      providerCounty: z.string().optional(),
+      contactFirstName: z
+        .string()
+        .min(3, { message: "Please enter first name" }),
+      email: z
+        .string()
+        .min(1, { message: "Please enter email address" })
+        .email("Please enter valid email address"),
+      providerNotes: z
+        .string()
+        .max(200, {
+          message: "Provider notes must contain at least 200 characters",
+        })
+        .optional(),
+      foreignProvider: z
+        .string({
+          message: "Please select foreign provider",
+        })
+        .refine((value) => value === "Yes" || value === "No", {
+          message: "Please select foreign provider",
+          path: ["foreignProvider"],
+        }),
+    })
+    .superRefine((_, ctx) => {
+      if (!pathName?.includes("trainer-regestration")) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter phone number",
+          path: ["contactTelephone"],
+        });
+      }
+    });
+  const pathName = location?.pathname?.split("/");
+
+  console.log("+++++++++++", !pathName?.includes("trainer-regestration"));
 
   const { mutate: registerTrainees, isPending: registerPending } = useMutation({
     mutationFn: registerTrainee,
@@ -150,6 +169,7 @@ function RegisterTrainer() {
     reset,
     setValue,
     watch,
+    setError,
     getValues,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -397,9 +417,10 @@ function RegisterTrainer() {
                       option={providerTypesOption || []}
                       placeholder="Select company type"
                       className="h-[46px] mt-2 text-left"
-                      setValue={(data: string) =>
-                        setValue("providerType", data)
-                      }
+                      setValue={(data: string) => {
+                        setValue("providerType", data);
+                        setError("providerType", { message: "" });
+                      }}
                       value={watch("providerType") || ""}
                     />
                     {errors.providerType && (
@@ -444,9 +465,10 @@ function RegisterTrainer() {
                       option={countryOption || []}
                       placeholder="Select county"
                       className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
-                      setValue={(data: string) =>
-                        setValue("providerCounty", data)
-                      }
+                      setValue={(data: string) => {
+                        setValue("providerCounty", data);
+                        setError("providerCounty", { message: "" });
+                      }}
                       value={watch("providerCounty") || ""}
                     />
                     {errors.providerCounty && (
@@ -457,10 +479,11 @@ function RegisterTrainer() {
                   </div>
                   <div className="col-span-2">
                     <Select
-                      onValueChange={(data: any) =>
+                      onValueChange={(data: any) => {
                         // @ts-ignore
-                        setValue("foreignProvider", data)
-                      }
+                        setValue("foreignProvider", data);
+                        setError("foreignProvider", { message: "" });
+                      }}
                       value={watch("foreignProvider") || ""}
                     >
                       <SelectGroup>

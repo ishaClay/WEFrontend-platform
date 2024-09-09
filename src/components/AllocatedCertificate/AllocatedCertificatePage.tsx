@@ -286,7 +286,7 @@ const AllocatedCertificatePage = () => {
     <div className="bg-white rounded-lg">
       <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
-          <h6 className="font-calibri text-base font-bold pb-3">
+          <h6 className="text-[16px] font-semibold font-calibri pb-1">
             Issued Certificate
           </h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
