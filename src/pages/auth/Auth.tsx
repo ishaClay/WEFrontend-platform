@@ -94,7 +94,6 @@ function Auth() {
         break;
       case 2:
         navigate("/score");
-        navigate("/companyregister");
         break;
       case 3:
         navigate("/companyregister");

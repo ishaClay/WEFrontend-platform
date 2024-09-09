@@ -157,8 +157,7 @@ const Dashboard = () => {
   const { data: smeDashboardData, isLoading: smeLoading } =
     useQuery<DashboardData>({
       queryKey: ["getSmeDashboardData"],
-      queryFn: () =>
-        getSmeDashboardData({ userId: userData?.query?.detailsid }),
+      queryFn: () => getSmeDashboardData({ userId: userData?.company?.id }),
     });
 
   const {
@@ -178,7 +177,7 @@ const Dashboard = () => {
     useQuery<SMEDashboard3Response>({
       queryKey: ["getDashbooardSme3"],
       // queryFn: () => getDashbooardSme3({ userId: 441 }),
-      queryFn: () => getDashbooardSme3({ userId: userData?.query?.detailsid }),
+      queryFn: () => getDashbooardSme3({ userId: userData?.company?.id }),
     });
 
   const { data: getEnrolledCoursesData, isLoading: smeLoading4 } =
@@ -365,6 +364,7 @@ const Dashboard = () => {
         display: false,
       },
       tooltip: {
+        enabled: false,
         callbacks: {
           label: function (context: any) {
             let label = context.label || "";

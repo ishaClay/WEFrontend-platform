@@ -13,13 +13,10 @@ const Contact = () => {
       <HomeHeader />
       <div className="lg:my-10 sm:my-5 my-0 xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 py-7 lg:h-[calc(100vh-436px)]">
         <div className="relative">
-          <GradientHeading
-            blacktext="Get in"
-            pinktext="Touch"
-          />
+          <GradientHeading blacktext="Get in" pinktext="Touch" />
         </div>
         <div className="grid grid-cols-1 gap-[20px] lg:grid-cols-3 sm:grid-cols-2">
-          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow relative">
+          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <NotebookTabs />
             <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
               Address
@@ -44,7 +41,7 @@ const Contact = () => {
             />
           </div>
 
-          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow relative">
+          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <Headset />
             <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
               Telephone
@@ -72,7 +69,7 @@ const Contact = () => {
             />
           </div>
 
-          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow relative">
+          <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <MailCheck />
             <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
               Email Id

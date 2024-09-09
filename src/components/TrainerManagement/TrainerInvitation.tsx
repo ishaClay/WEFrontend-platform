@@ -79,7 +79,7 @@ const TrainerInvitation = () => {
         if (data?.data?.trainerExist?.length > 0) {
           toast({
             title: "Error",
-            description: "Trainer invitation already send.",
+            description: data?.data?.message,
             variant: "destructive",
           });
         } else {
@@ -100,6 +100,7 @@ const TrainerInvitation = () => {
           );
         }
         reset();
+        setInviteData([initialData]);
       }
     },
     onError: (error) => {

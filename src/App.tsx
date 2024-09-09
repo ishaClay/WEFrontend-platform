@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
 import { io } from "socket.io-client";
-import AuthLayout from "./Layout/AuthLayout";
 import ProtectedRoute from "./Layout/ProtectedRoute";
 import DashboardTrainee from "./components/DashboardTrainee";
 import DashboardTrainer from "./components/DashboardTrainer";
@@ -34,7 +33,6 @@ import EmployeeInvitation from "./pages/EmployeeInvitation";
 import EmployeeList from "./pages/EmployeeList";
 import EmployeePermission from "./pages/EmployeePermission";
 import FeatureCourseDetailPage from "./pages/FeatureCourseDetailPage";
-import Home from "./pages/Home";
 import HomeContactPage from "./pages/HomeContactPage";
 import HomeOurCoursesPage from "./pages/HomeOurCoursesPage";
 import HomePage from "./pages/HomePage";
@@ -173,46 +171,30 @@ function App() {
           path="/feature-course/:id"
           element={<FeatureCourseDetailPage />}
         />
-        <Route path="/landing" element={<Home />} />
-        <Route
-          path="/auth"
-          element={
-            <AuthLayout>
-              <Auth />
-            </AuthLayout>
-          }
-        />
+        <Route path="/auth" element={<Auth />} />
         <Route path="/trainer-regestration" element={<RegisterTrainer />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route
-          path="/register"
-          element={
-            <AuthLayout>
-              <Register />
-            </AuthLayout>
-          }
-        />
+        <Route path="/register" element={<Register />} />
         <Route path="/employee_register" element={<RegisterTrainee />} />
         <Route path="/inviteRegister" element={<RegisterTrainer />} />
         <Route path="/companyregister" element={<CompanyRegister />} />
-
+        <Route path="/termsofservices" element={<TermsOfServices />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/blogDetails" element={<BlogDetailsPage />} />
+
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/assessment" element={<Assessment />} />
+        <Route path="/savedassesment" element={<SavedAssesment />} />
         <Route path="/question" element={<QuestionPage />} />
         <Route path="/maturelevel" element={<MaturityLevelPage />} />
         <Route path="/score" element={<TeaserScore />} />
         <Route path="/selectlevel" element={<SelectLevel />} />
-        <Route path="/termsofservices" element={<TermsOfServices />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
         <Route
           path="/maturitylevelactionitem"
           element={<MaturityLevelActionItem />}
         />
-
-        <Route path="/savedassesment" element={<SavedAssesment />} />
 
         <Route
           path="/company"
