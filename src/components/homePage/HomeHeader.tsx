@@ -245,6 +245,22 @@ function HomeHeader(props: headerProps) {
                 </div>
                 <img className=" xl:w-[136px] w-[108px]" src={SideHeaderLogo} />
               </div>
+              <div className="flex flex-col justify-end going_green_logo">
+                <div className="flex gap-[22px]">
+                  <Link
+                    to={`/`}
+                    className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+                  >
+                    G O I N G
+                  </Link>
+                  <Link
+                    to={`/`}
+                    className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+                  >
+                    G R E E N
+                  </Link>
+                </div>
+              </div>
               <ClickAwayListener onClickAway={() => setOpen(false)}>
                 <div className="">
                   <Button
@@ -320,6 +336,22 @@ function HomeHeader(props: headerProps) {
                   </div>
                 </div>
               </ClickAwayListener>
+            </div>
+          </div>
+          <div className="hidden justify-center mt-1 going_green_logo_mobile">
+            <div className="flex gap-[22px]">
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+              >
+                G O I N G
+              </Link>
+              <Link
+                to={`/`}
+                className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+              >
+                G R E E N
+              </Link>
             </div>
           </div>
           <Loading isLoading={isPending} />

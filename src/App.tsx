@@ -85,6 +85,8 @@ import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 function App() {
   let socket: any;

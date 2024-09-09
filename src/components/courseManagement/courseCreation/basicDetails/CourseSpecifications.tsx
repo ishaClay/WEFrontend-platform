@@ -128,7 +128,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     nfql?.data?.map((item) => {
       return {
         label: item.leval,
-        value: item.id?.toString(),
+        value: item.leval,
       };
     });
 
@@ -138,21 +138,31 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key] || "");
         setValue(
-          "nfqLeval",
-          getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
-        );
-        setValue(
           "certificate",
           getSingleCourse?.data?.course?.certificate?.toString() || ""
         );
       });
+      // setSelectBoxValue({
+      //   nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
+      //   certificate:
+      //     getSingleCourse?.data?.course?.certificate?.toString() || "",
+      // });
+    }
+  }, [getSingleCourse, setValue]);
+
+  useEffect(() => {
+    if (getSingleCourse && getSingleCourse?.data?.course) {
+      console.log("getSingleCourse?.data?.course", getSingleCourse?.data?.course);
+      setValue(
+        "nfqLeval",
+        getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
+      );
       setSelectBoxValue({
-        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
-        certificate:
-          getSingleCourse?.data?.course?.certificate?.toString() || "",
+        ...selectBoxValue,
+        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.toString() || ""
       });
     }
-  }, [getSingleCourse, setValue, nfqlLevelOption]);
+  }, [getSingleCourse])
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),

@@ -25,8 +25,6 @@ import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 
 function Home() {
   const { data: getallfaq, isLoading } = useQuery({
