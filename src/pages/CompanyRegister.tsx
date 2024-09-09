@@ -267,14 +267,14 @@ function CompanyRegister() {
         </div>
 
         <div className="w-full xl:px-0 px-5 lg:max-w-[515px] max-w-[600px] mx-auto lg:mt-0 mt-5">
-          <div className="flex justify-end text-[#000]">
+          {/* <div className="flex justify-end text-[#000]">
             <label>
               Already have an account?{" "}
               <Link to={"/auth"} className="font-[700] text-[#042937]">
                 Sign In
               </Link>
             </label>
-          </div>
+          </div> */}
           <div className="mt-[20px] ">
             <div>
               <h2 className="text-[25px] font-abhaya">Got it! </h2>

@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import CustomCarousel from "../comman/CustomCarousel";
 import Loader from "../comman/Loader";
 import NoDataText from "../comman/NoDataText";
-import { Button } from "../ui/button";
 import RecentCoursesItems from "./RecentCoursesItems";
 
 const RecentCourses = () => {
@@ -40,11 +39,11 @@ const RecentCourses = () => {
           Recent Courses
           {/* <div className="bg-[#75BD43] w-[115px] h-[2px] absolute left-0 bottom-0"></div> */}
         </h3>
-        {data?.data?.courseAlloted && data?.data?.courseAlloted.length > 2 && (
+        {/* {data?.data?.courseAlloted && data?.data?.courseAlloted.length > 2 && (
           <Button className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-nunito">
             View all
           </Button>
-        )}
+        )} */}
       </div>
       <div className="sm:block hidden">
         <div
