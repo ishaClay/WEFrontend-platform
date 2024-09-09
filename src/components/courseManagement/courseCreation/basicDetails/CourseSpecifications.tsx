@@ -70,6 +70,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
   });
   const queryClient = useQueryClient();
 
+  console.log("🚀 ~ CourseSpecifications ~ selectBoxValue:", selectBoxValue);
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.getcertificate],
     queryFn: () => certificateCourseList(),
@@ -128,41 +129,44 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     nfql?.data?.map((item) => {
       return {
         label: item.leval,
-        value: item.leval,
+        value: item.id.toString(),
       };
     });
 
   useEffect(() => {
+    console.log(
+      "🚀 ~ useEffect ~ getSingleCourse?.data?.course:",
+      getSingleCourse?.data?.course
+    );
     if (getSingleCourse && getSingleCourse?.data?.course) {
       const data: CourseData | any = getSingleCourse?.data?.course;
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key] || "");
-        setValue(
-          "certificate",
-          getSingleCourse?.data?.course?.certificate?.toString() || ""
-        );
       });
-      // setSelectBoxValue({
-      //   nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
-      //   certificate:
-      //     getSingleCourse?.data?.course?.certificate?.toString() || "",
-      // });
+      setValue(
+        "certificate",
+        getSingleCourse?.data?.course?.certificate?.toString() || ""
+      );
+      setSelectBoxValue({
+        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
+        certificate:
+          getSingleCourse?.data?.course?.certificate?.toString() || "",
+      });
     }
   }, [getSingleCourse, setValue]);
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
-      console.log("getSingleCourse?.data?.course", getSingleCourse?.data?.course);
       setValue(
         "nfqLeval",
         getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
       );
-      setSelectBoxValue({
-        ...selectBoxValue,
-        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.toString() || ""
-      });
+      setSelectBoxValue((prev) => ({
+        ...prev,
+        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
+      }));
     }
-  }, [getSingleCourse])
+  }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
