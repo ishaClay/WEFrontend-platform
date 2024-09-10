@@ -79,6 +79,7 @@ function RegisterTrainer() {
       contactSurname: z.string().min(3, { message: "Please enter last name" }),
       contactTelephone: z
         .string({ required_error: "Please enter phone number" })
+        .min(8, { message: "Please enter valid phone number" })
         .max(15, { message: "Please enter valid phone number" })
         .optional(),
       providerAddress: z
