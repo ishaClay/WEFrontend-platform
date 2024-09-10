@@ -29,6 +29,7 @@ import { fetchEmails } from "@/services/apiServices/emailTemplate";
 import { uploadFile } from "@/services/apiServices/upload";
 import { ErrorType } from "@/types/Errors";
 import { EmailTemplateType } from "@/types/message";
+import { TrainerStatus } from "@/types/Trainer";
 import { MessageUserRole, UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -43,7 +44,6 @@ import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { z } from "zod";
 import Loading from "../comman/Error/Loading";
-import { TrainerStatus } from "@/types/Trainer";
 
 interface SendMessagePayload {
   senderId: string;
@@ -424,9 +424,9 @@ const Compose = () => {
                   </SelectTrigger>
                 </SelectGroup>
                 <SelectContent>
-                  {emailtemplateList?.data.data &&
-                  emailtemplateList?.data.data?.length > 80 ? (
-                    emailtemplateList?.data.data.map((item: any) => {
+                  {emailtemplateList?.data?.data &&
+                  emailtemplateList?.data?.data?.length > 80 ? (
+                    emailtemplateList?.data?.data?.map((item: any) => {
                       return (
                         <SelectItem key={item?.id} value={String(item?.id)}>
                           {item?.name}

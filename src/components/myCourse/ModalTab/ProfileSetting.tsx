@@ -329,7 +329,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               disabled={watch("email") ? true : false}
               placeholder="Email"
               {...register("email")}
-              className="font-bold text-slate-900"
+              className="font-bold text-slate-900 disabled:text-[#000] disabled:opacity-90 disabled:font-medium"
               error={errors?.email?.message as string}
             />
           </div>
@@ -359,7 +359,8 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 <RadioGroupItem
                   value="female"
                   id="option-two"
-                  className="border-[#9B9B9B] w-6 h-6"
+                  className="border-[#9B9B9B] w-6 h-6
+                  "
                 />
                 <Label
                   htmlFor="option-two"

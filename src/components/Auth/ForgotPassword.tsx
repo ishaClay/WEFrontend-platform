@@ -88,7 +88,7 @@ const ForgotPassword = () => {
             </div> */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative max-w-[418px] lg:h-auto md:h-[400px] sm:h-[350px] h-[330px] mx-auto md:mt-[80px] sm:mt-[50px] mt-[20px]">
-                <p className="text-[24px] font-[700] mb-4 text-color">
+                <p className="text-[24px] font-[700] mb-4 text-[#000]">
                   Forgot Password
                 </p>
                 <InputWithLabel
@@ -114,14 +114,14 @@ const ForgotPassword = () => {
                   Protected by reCAPTCHA and subject to the Skillnet
                   <Link
                     to="/privacypolicy"
-                    className="text-color font-bold mx-1"
+                    className="text-[#000] font-bold mx-1"
                   >
                     Privacy Policy
                   </Link>
                   and
                   <Link
                     to={"/termsofservices"}
-                    className="text-color font-bold mx-1"
+                    className="text-[#000] font-bold mx-1"
                   >
                     Terms of Service.
                   </Link>

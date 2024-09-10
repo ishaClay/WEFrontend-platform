@@ -1,5 +1,6 @@
 import { DataEntity } from "@/types/review";
 import moment from "moment";
+import { FaStar } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const FeedbackCard = ({ data }: { data: DataEntity }) => {
@@ -20,7 +21,14 @@ const FeedbackCard = ({ data }: { data: DataEntity }) => {
             <h4 className="text-[16px] font-[600] font-nunito">
               {data?.user?.name || data?.user?.email?.split("@")[0]}Bloker
             </h4>
-            <span>{data?.courseRate || 0}/5</span>
+            <span className="flex items-center">
+              {Array.from({ length: data?.courseRate }, (_: any) => (
+                <FaStar className="text-[#FD8E1F]" />
+              )) || 0}
+              {Array.from({ length: 5 - +data?.courseRate }, (_: any) => (
+                <FaStar className="text-slate-300" />
+              )) || 0}
+            </span>
           </div>
           <p className="text-[14px] font-[400] font-nunito">
             {moment(new Date(data?.createdAt))?.format("DD/MM/YYYY")}

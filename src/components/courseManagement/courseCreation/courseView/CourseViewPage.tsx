@@ -5,18 +5,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
+import { useMemo } from "react";
 import CourseViewCardInner from "./CourseViewCardInner";
 import CourseViewCardList from "./CourseViewCardList";
-import { useMemo } from "react";
 
 const CourseViewPage = ({
   data,
   currIndex,
-  moduleLength,
 }: {
   data: any;
   currIndex: number;
-  moduleLength: number;
 }) => {
   // @ts-ignore
   const CourseCardList = useMemo(
@@ -42,7 +40,6 @@ const CourseViewPage = ({
                 CourseCardList={CourseCardList}
                 moduleId={data.id}
                 assessments={data?.assessment}
-                moduleLength={moduleLength}
               />
             </AccordionContent>
           </AccordionItem>

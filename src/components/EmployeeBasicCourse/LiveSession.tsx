@@ -1,11 +1,20 @@
 import Zoom_Video from "@/assets/images/zoom-video.png";
+import { QUERY_KEYS } from "@/lib/constants";
+import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
 import { Button } from "../ui/button";
 
-const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
-  console.log(list, "+++++++++++++++++++++++");
+const LiveSession = ({
+  list,
+  data,
+}: {
+  list: ModuleSectionsEntity;
+  data: any;
+}) => {
+  const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   function getTimeRemaining(startTime: string): any {
     // Parse the start time as a Date object
@@ -30,6 +39,8 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
     return { days, hours, minutes };
   }
 
+  console.log("list", list);
+
   const timeRemaining = getTimeRemaining(list?.liveSection[0]?.startTime);
 
   const isEmployee = !!list?.liveSection[0]?.employee?.find(
@@ -42,9 +53,35 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
         (timeRemaining?.days !== 0 ||
           timeRemaining?.hours !== 0 ||
           timeRemaining?.minutes !== 0)
-      : true;
+      : false;
 
-  console.log("isButtonPermission", isButtonPermission);
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateEmployeeWiseCourseStatus,
+    onSuccess: async () => {
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.getSingleCourse],
+      });
+      await queryclient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
+      });
+      // setLike("");
+    },
+    onError: (error: any) => {
+      console.error("error", error);
+    },
+  });
+
+  const handleStatusChanges = (status: number, id: number) => {
+    const payload = {
+      employeeid: userData?.query?.detailsid,
+      status: status,
+      trainerCompany:
+        data?.course?.trainerCompanyId?.id || data?.course?.trainerId,
+      user: userData.query.id,
+      isTrainerCompany: data?.course?.trainerCompanyId?.id ? true : false,
+    };
+    mutate({ data: payload, courseId: id });
+  };
 
   return (
     <div className="bg-white min-h-[calc(100vh_-_130px)]">
@@ -100,10 +137,12 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
           <div className="text-center">
             <p className="text-[#313131] sm:text-sm text-xs font-inter mb-5">
               The meeting link will be enabled{" "}
-              {`${timeRemaining?.days.toString().padStart(2, "0") ?? 0} days, ${
-                timeRemaining?.hours.toString().padStart(2, "0") ?? 0
+              {`${
+                timeRemaining?.days?.toString()?.padStart(2, "0") ?? 0
+              } days, ${
+                timeRemaining?.hours?.toString()?.padStart(2, "0") ?? 0
               } hours, ${
-                timeRemaining?.minutes.toString().padStart(2, "0") ?? 0
+                timeRemaining?.minutes?.toString()?.padStart(2, "0") ?? 0
               } minutes`}{" "}
               <br />
               before the scheduled time.
@@ -112,9 +151,9 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
               target="_blank"
               href={list?.liveSection[0]?.zoomApiBaseUrl}
               className={`bg-[#00778B] text-sm font-inter px-10 py-3 text-white rounded-[6px] sm:h-[42px] h-[36px] ${
-                isButtonPermission
-                  ? "pointer-events-none opacity-40"
-                  : "pointer-events-auto opacity-100"
+                !isButtonPermission
+                  ? "!pointer-events-none opacity-50"
+                  : "!pointer-events-auto opacity-100"
               }`}
             >
               Join
@@ -124,9 +163,17 @@ const LiveSession = ({ list }: { list: ModuleSectionsEntity }) => {
       </div>
 
       {+userData?.query?.role === 4 && (
-        <Button className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm">
-          Mark As Completed
-        </Button>
+        <div className="text-center">
+          <Button
+            type="button"
+            isLoading={isPending}
+            disabled={!isButtonPermission}
+            onClick={() => handleStatusChanges(2, list?.id)}
+            className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:text-base text-sm"
+          >
+            Mark As Completed
+          </Button>
+        </div>
       )}
     </div>
   );

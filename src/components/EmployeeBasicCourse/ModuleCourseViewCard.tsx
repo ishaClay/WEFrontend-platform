@@ -25,6 +25,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
               key={index}
               list={data1}
               data={allData}
+              currentData={data?.moduleSection || data?.moduleSections}
               enrollData={enrollData}
             />
           );
@@ -42,22 +43,24 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
             <div>
               <h5
                 className={`sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
-                onClick={() =>
-                  navigate(
-                    `/${UserRole[
-                      +userData?.query?.role
-                    ]?.toLowerCase()}/employee-assessment/${
-                      assessmentData?.id
-                    }?moduleId=${data?.id}`,
-                    {
-                      state: {
-                        versionId: versionId,
-                        courseId: courseId,
-                        isCompleted: data?.assessment?.[0]?.isCompleted,
-                      },
-                    }
-                  )
-                }
+                onClick={() => {
+                  if (+userData?.query?.role !== 1) {
+                    navigate(
+                      `/${UserRole[
+                        +userData?.query?.role
+                      ]?.toLowerCase()}/employee-assessment/${
+                        assessmentData?.id
+                      }?moduleId=${data?.id}`,
+                      {
+                        state: {
+                          versionId: versionId,
+                          courseId: courseId,
+                          isCompleted: data?.assessment?.[0]?.isCompleted,
+                        },
+                      }
+                    );
+                  }
+                }}
               >
                 {assessmentData?.title}
               </h5>
