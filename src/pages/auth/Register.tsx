@@ -201,6 +201,12 @@ function Register() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
+      const expiresIn24Hours = new Date(
+        new Date().getTime() + 24 * 60 * 60 * 1000
+      );
+      Cookies.set("accessToken", data?.data?.data?.accessToken, {
+        expires: expiresIn24Hours,
+      });
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       localStorage.setItem(
         "path",
