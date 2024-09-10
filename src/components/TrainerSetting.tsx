@@ -27,7 +27,7 @@ const TrainerSetting = () => {
     queryKey: ["trainer", { page, search, id }],
 
     queryFn: () =>
-      getTrainer({ page, limit: 10, keyword: search, id, status: "Active" }),
+      getTrainer({ page, limit: 10, keyword: search, id, status: "1" }),
   });
 
   const { mutate, isPending: isPendingUpdate } = useMutation({

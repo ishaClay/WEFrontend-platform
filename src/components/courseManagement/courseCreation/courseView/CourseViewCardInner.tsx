@@ -24,12 +24,10 @@ const CourseViewCardInner = ({
   CourseCardList,
   moduleId,
   assessments,
-  moduleLength,
 }: {
   CourseCardList: any;
   moduleId: string;
   assessments: any;
-  moduleLength: number;
 }) => {
   const [getCourseCardList, setGetCourseCardList] =
     useState<any[]>(CourseCardList);
@@ -38,7 +36,6 @@ const CourseViewCardInner = ({
   const search = window.location.search;
   const paramsType = new URLSearchParams(search).get("type") || "";
   const [addsectionList, setAddSectionList] = useState<boolean>(false);
-  const latestCourseCardList = useRef(getCourseCardList);
   const [isEditSection, setIsEditSection] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -192,13 +189,6 @@ const CourseViewCardInner = ({
     },
   });
 
-  useEffect(() => {
-    if (getCourseCardList && moduleLength > 1) {
-      latestCourseCardList.current = getCourseCardList;
-      handelSectionPosition();
-    }
-  }, [getCourseCardList, moduleLength]);
-
   const { mutate: CreateSection, isPending: createSectionPending } =
     useMutation({
       mutationFn: (data: any) => createSection(data, moduleId),
@@ -274,18 +264,17 @@ const CourseViewCardInner = ({
     moduleListClone.splice(draggedOverPerson.current, 0, draggedElement);
 
     setGetCourseCardList(moduleListClone);
+    handelSectionPosition(moduleListClone);
   };
 
-  const handelSectionPosition = async () => {
-    const payload = await getCourseCardList.map(
-      (section: any, index: number) => {
-        return {
-          section: section.id,
-          position: index + 1,
-          isLive: section.isLive == 0 ? false : true,
-        };
-      }
-    );
+  const handelSectionPosition = (data: any) => {
+    const payload = data.map((section: any, index: number) => {
+      return {
+        section: section.id,
+        position: index + 1,
+        isLive: section.isLive == 0 ? false : true,
+      };
+    });
     ChangeSectionPosition(payload);
   };
 
@@ -388,6 +377,8 @@ const CourseViewCardInner = ({
       });
     }
   };
+
+  console.log("getCourseCardList", getCourseCardList);
 
   return (
     <div

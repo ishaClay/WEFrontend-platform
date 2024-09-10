@@ -56,7 +56,6 @@ const ModuleCreationPage = () => {
   const [moduleList, setModuleList] = useState<any>([]);
   const dragPerson = useRef<number>(0);
   const draggedOverPerson = useRef<number>(0);
-  const latestModuleList = useRef(moduleList);
   const courseEditId: string = location?.pathname?.split("/")[3];
   const [urlError, setUrlError] = useState<string>("");
   const pathName = location?.pathname?.split("/")[1];
@@ -210,15 +209,15 @@ const ModuleCreationPage = () => {
   });
   // const userData = JSON.parse(localStorage.getItem("userData") as string);
 
-  useEffect(() => {
-    if (moduleList?.length > 0) {
-      latestModuleList.current = moduleList; // update ref to latest state
-      if (+paramsVersion) {
-        handleModulePosition();
-      }
-      reset({ modules: [] });
-    }
-  }, [moduleList]);
+  // useEffect(() => {
+  //   if (moduleList?.length > 0) {
+  //     latestModuleList.current = moduleList; // update ref to latest state
+  //     if (+paramsVersion) {
+  //       handleModulePosition();
+  //     }
+  //     reset({ modules: [] });
+  //   }
+  // }, [moduleList, paramsVersion, reset]);
 
   const CreateModuleAsync = useMutation({
     mutationFn: async (data: ModuleCreation) =>
@@ -318,8 +317,8 @@ const ModuleCreationPage = () => {
     }
   };
 
-  const handleModulePosition = async () => {
-    const payload = moduleList.map((module: any, index: number) => {
+  const handleModulePosition = (data: any) => {
+    const payload = data.map((module: any, index: number) => {
       return {
         Module: module.id,
         position: index + 1,
@@ -337,6 +336,7 @@ const ModuleCreationPage = () => {
     moduleListClone.splice(draggedOverPerson.current, 0, draggedElement);
 
     setModuleList(moduleListClone);
+    handleModulePosition(moduleListClone);
   };
 
   return (
@@ -382,11 +382,7 @@ const ModuleCreationPage = () => {
                     onDragEnd={handleSort}
                     onDragOver={(e) => e.preventDefault()}
                   >
-                    <CourseViewPage
-                      data={data}
-                      currIndex={index}
-                      moduleLength={moduleList.length}
-                    />
+                    <CourseViewPage data={data} currIndex={index} />
                   </div>
                 );
               })

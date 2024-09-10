@@ -247,7 +247,11 @@ const GridView = ({
     type?: string
   ) => {
     e.stopPropagation();
-    if (item?.status === "DRAFT" || item?.status === "PUBLISHED") {
+    if (
+      item?.status === "DRAFT" ||
+      item?.status === "PUBLISHED" ||
+      item?.status === "UNPUBLISHED"
+    ) {
       if (type === "editminor") {
         if (+item?.step === 5) {
           navigate(

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useChatBotContext } from "@/context/chatBotContext";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -79,6 +80,8 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     };
   }, [empId, UserId]);
 
+  console.log("group", group);
+
   const { data: chatList, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.chatList],
     queryFn: () => fetchChat(userID, empId.id),
@@ -116,9 +119,9 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   });
 
   const handleSend = (data: FieldValues) => {
-    if (group) {
+    if (group || empId?.group) {
       const payload = {
-        groupId: group?.id,
+        groupId: group?.id || empId?.id,
         senderId: userID,
         message: data?.message,
       };
@@ -133,7 +136,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   };
 
   useEffect(() => {
-    if (group) {
+    if (group || empId?.group) {
       // @ts-ignore
       setAllMsg(groupChat?.data?.groupMessages || []);
     } else {

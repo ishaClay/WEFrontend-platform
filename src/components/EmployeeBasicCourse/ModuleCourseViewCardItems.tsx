@@ -3,7 +3,7 @@ import liveSection from "@/assets/svgs/liveSection.svg";
 import { Button } from "../ui/button";
 
 import { QUERY_KEYS } from "@/lib/constants";
-import { documentIcon, documentType } from "@/lib/utils";
+import { cn, documentIcon, documentType } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircleCheck, MoveLeft } from "lucide-react";
@@ -28,6 +28,7 @@ const ModuleCourseViewCardItems = ({
   data,
   enrollData,
 }: moduleCourseCardListProps | any) => {
+  console.log("🚀 ~ list:", list);
   const queryclient = useQueryClient();
   const [viewDocument, setViewDocument] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -91,27 +92,40 @@ const ModuleCourseViewCardItems = ({
         </div>
         <div className="">
           <h5
-            className={`${
-              +userData?.query?.role === 4
-                ? (list?.prevStatus || list?.isStatus) &&
-                  list?.prevStatus !== "Completed"
-                  ? "pointer-events-none"
-                  : list?.isStatus === "Started"
-                  ? "pointer-events-none"
-                  : userData?.query?.role === "1"
-                  ? "pointer-events-none"
-                  : list?.url
-                  ? "pointer-events-auto"
-                  : list?.uploadContent === ""
-                  ? "pointer-events-none"
-                  : "pointer-events-auto"
-                : "pointer-events-auto"
-            } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
+            // className={`${
+            //   +userData?.query?.role === 4
+            //     ? (list?.prevStatus || list?.isStatus) &&
+            //       list?.prevStatus !== "Completed"
+            //       ? "pointer-events-none"
+            //       : list?.isStatus === "Started"
+            //       ? "pointer-events-none"
+            //       : +userData?.query?.role === 1
+            //       ? "pointer-events-none"
+            //       : list?.url
+            //       ? "pointer-events-auto"
+            //       : list?.uploadContent === ""
+            //       ? "pointer-events-none"
+            //       : "pointer-events-auto"
+            //     : +userData?.query?.role === 1
+            //     ? "pointer-events-none"
+            //     : "pointer-events-auto"
+            // } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
+            className={cn(
+              "sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block",
+              {
+                "pointer-events-none":
+                  +userData?.query?.role === 4
+                    ? list?.prevStatus !== "Completed" ||
+                      list?.isStatus === "Started"
+                    : +userData?.query?.role === 1,
+                "pointer-events-auto": list?.url,
+              }
+            )}
             onClick={() => {
-              if (list?.isLive !== 1) {
+              if (list?.isLive !== 1 && +userData?.query?.role !== 1) {
                 setViewDocument(true);
                 setDocumentFile(list?.url ? list?.url : list?.uploadContent);
-              } else {
+              } else if (+userData?.query?.role !== 1) {
                 setViewDocument(true);
                 setDocumentFile(list?.url ? list?.url : list?.uploadContent);
               }
@@ -205,7 +219,7 @@ const ModuleCourseViewCardItems = ({
         </Button>
       </div>
       {list?.isLive === 1 ? (
-        <LiveSession list={list} />
+        <LiveSession list={list} data={data} />
       ) : (
         <ViewSession
           documentFile={documentFile}

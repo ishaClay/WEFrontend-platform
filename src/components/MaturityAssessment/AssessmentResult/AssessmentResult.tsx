@@ -695,7 +695,7 @@ const AssessmentResult = ({
         </Tabs>
       </div>
 
-      {((userData?.query?.role === UserRole.Company && pathStatus <= "5") ||
+      {((userData?.query?.role === UserRole.Company && +pathStatus <= 5) ||
         showButton === 0) && (
         <div className="text-center">
           <Button

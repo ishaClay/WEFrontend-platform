@@ -35,6 +35,8 @@ const RecentCourses = () => {
       }),
   });
 
+  console.log("data", data);
+
   return (
     <div className="mb-8">
       <div className="mb-5 flex justify-between items-center">
@@ -65,7 +67,7 @@ const RecentCourses = () => {
               <Loader />
             </span>
           ) : data?.data?.courseAlloted &&
-            data?.data?.courseAlloted?.length < 0 ? (
+            data?.data?.courseAlloted?.length > 0 ? (
             data?.data?.courseAlloted?.splice(0, 2)?.map((data, index) => {
               return <RecentCoursesItems data={data} key={index} />;
             })

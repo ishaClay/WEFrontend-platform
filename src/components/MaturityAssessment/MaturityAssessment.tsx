@@ -13,7 +13,7 @@ import {
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
 import { fetchAssessment } from "@/services/apiServices/assessment";
@@ -36,12 +36,13 @@ import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
 import { AllActionDataPillerWise } from "@/types/MaturityLavel";
 
+let isFirstTime = true;
 const MaturityAssessment = () => {
   const location = useLocation();
   const Role = location?.pathname?.split("/")[1];
   const navigate = useNavigate();
   const { clientId, UserId } = useAppSelector((state) => state.user);
-  const [selectAssessment, setSelectAssessment] = useState<string>("1");
+  const [selectAssessment, setSelectAssessment] = useState<string>("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { empPermissions } = useContext(PermissionContext);
   const [isEdit, setIsEdit] = useState(false);
@@ -65,7 +66,7 @@ const MaturityAssessment = () => {
       getCheckedMeasuresByAssessment({
         userId: userID,
         clientId,
-        assNumber: selectAssessment || "1",
+        assNumber: selectAssessment,
       }),
   });
 
@@ -76,10 +77,10 @@ const MaturityAssessment = () => {
     );
   }, [getCheckedmeasures]);
 
-  const { data: assessmentQuestionScoreLIST } = useQuery({
+  const { data: assessmentQuestionScoreLIST, isLoading } = useQuery({
     queryKey: [
       QUERY_KEYS.assessmentQuestionScore,
-      { pillarCompleted, userID, clientId },
+      { pillarCompleted: pillarCompleted?.id, userID, clientId },
     ],
     queryFn: () => assessmentQuestionScore(+userID, +clientId),
   });
@@ -92,13 +93,18 @@ const MaturityAssessment = () => {
   //   queryFn: () => assessmentQuestionScore1(+userID, +clientId),
   // });
 
-  // useEffect(() => {
-  //   if (assessmentQuestionScoreLIST?.data?.length) {
-  //     setSelectAssessment(
-  //       assessmentQuestionScoreLIST?.data[0]?.assessmentNumber
-  //     );
-  //   }
-  // }, [assessmentQuestionScoreLIST]);
+  useEffect(() => {
+    if (isLoading || !isFirstTime) return;
+
+    if (assessmentQuestionScoreLIST?.data?.length) {
+      setSelectAssessment(
+        assessmentQuestionScoreLIST?.data?.at(-1)?.assessmentNumber?.toString()
+      );
+    } else {
+      setSelectAssessment("1");
+    }
+    isFirstTime = false;
+  }, [assessmentQuestionScoreLIST]);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],

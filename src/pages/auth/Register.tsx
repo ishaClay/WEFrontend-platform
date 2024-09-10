@@ -201,6 +201,12 @@ function Register() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.companyList],
       });
+      const expiresIn24Hours = new Date(
+        new Date().getTime() + 24 * 60 * 60 * 1000
+      );
+      Cookies.set("accessToken", data?.data?.data?.accessToken, {
+        expires: expiresIn24Hours,
+      });
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       localStorage.setItem(
         "path",
@@ -307,6 +313,13 @@ function Register() {
   const handleResendOtp = (email: string) => {
     mutate({ email: email });
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <div className="">
@@ -562,7 +575,7 @@ function Register() {
             <h2 className="text-xl font-semibold">
               Please verify the one-time password in your inbox
             </h2>
-            <p className="text-[#848181] text-[16px] font-abhaya">
+            <p className="text-[#121212] text-[16px] font-abhaya">
               A one- time password has been sent to {email}
             </p>
           </div>
@@ -575,12 +588,12 @@ function Register() {
             >
               <InputOTPGroup>
                 <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
+                  <InputOTPSlot className="text-[#000]" index={0} />
+                  <InputOTPSlot className="text-[#000]" index={1} />
+                  <InputOTPSlot className="text-[#000]" index={2} />
+                  <InputOTPSlot className="text-[#000]" index={3} />
+                  <InputOTPSlot className="text-[#000]" index={4} />
+                  <InputOTPSlot className="text-[#000]" index={5} />
                 </InputOTPGroup>
               </InputOTPGroup>
             </InputOTP>
@@ -604,12 +617,12 @@ function Register() {
                 variant={"ghost"}
                 disabled={time !== 0 || isPending}
                 onClick={() => handleResendOtp(email)}
-                className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
+                className="text-[#121212] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
               >
                 Resend OTP
               </Button>
               {time !== 0 && (
-                <p className="text-[#848181] text-[16px] font-[700]">
+                <p className="text-[#121212] text-[16px] font-[700]">
                   {formatTime(time)}
                 </p>
               )}

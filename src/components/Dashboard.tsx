@@ -157,7 +157,10 @@ const Dashboard = () => {
   const { data: smeDashboardData, isLoading: smeLoading } =
     useQuery<DashboardData>({
       queryKey: ["getSmeDashboardData"],
-      queryFn: () => getSmeDashboardData({ userId: userData?.company?.id }),
+      queryFn: () =>
+        getSmeDashboardData({
+          userId: userData?.query?.detailsid || userData?.company?.id,
+        }),
     });
 
   const {
@@ -177,7 +180,10 @@ const Dashboard = () => {
     useQuery<SMEDashboard3Response>({
       queryKey: ["getDashbooardSme3"],
       // queryFn: () => getDashbooardSme3({ userId: 441 }),
-      queryFn: () => getDashbooardSme3({ userId: userData?.company?.id }),
+      queryFn: () =>
+        getDashbooardSme3({
+          userId: userData?.query?.detailsid || userData?.company?.id,
+        }),
     });
 
   const { data: getEnrolledCoursesData, isLoading: smeLoading4 } =

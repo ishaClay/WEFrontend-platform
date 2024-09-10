@@ -69,13 +69,14 @@ const MyCoursePage = () => {
       {
         id: userID,
         status: selectFilterByStatus === "all" ? "" : selectFilterByStatus,
-        categories: selectFilterByCategory,
+        categories:
+          selectFilterByCategory === "all" ? "" : selectFilterByCategory,
       },
     ],
     queryFn: () =>
       getAllEmployeeCourseList({
         id: userID,
-        status: selectFilterByStatus,
+        status: selectFilterByStatus === "all" ? "" : selectFilterByStatus,
         categories:
           selectFilterByCategory === "all" ? "" : selectFilterByCategory,
         keyword: keyword,
