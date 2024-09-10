@@ -110,7 +110,7 @@ function RegisterTrainer() {
         }),
     })
     .superRefine((_, ctx) => {
-      if (!pathName?.includes("trainer-regestration")) {
+      if (!pathName?.includes("trainer-regestration") && !_.contactTelephone) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please enter phone number",
