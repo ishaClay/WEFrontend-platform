@@ -25,7 +25,6 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
               key={index}
               list={data1}
               data={allData}
-              currentData={data?.moduleSection || data?.moduleSections}
               enrollData={enrollData}
             />
           );

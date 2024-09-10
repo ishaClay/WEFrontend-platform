@@ -58,10 +58,10 @@ const LiveSession = ({
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
     onSuccess: async () => {
-      await queryclient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
-      await queryclient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       });
       // setLike("");
