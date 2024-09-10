@@ -650,11 +650,11 @@ function RegisterTrainer() {
         onClose={() => setShowOtpPopup(false)}
         className="max-w-[550px]"
       >
-        <div className="mb-[2px] mt-2 text-center font-abhaya">
+        <div className="mb-[2px] mt-2 text-center font-calibri">
           <h2 className="text-xl font-semibold">
             If you can verify the one-time password emailed to you
           </h2>
-          <p className="text-[#848181] text-[16px] font-abhaya">
+          <p className="text-[#121212] text-[16px] font-calibri">
             A one- time password has been sent to {email}
           </p>
         </div>
@@ -667,12 +667,12 @@ function RegisterTrainer() {
           >
             <InputOTPGroup>
               <InputOTPGroup>
-                <InputOTPSlot index={0} />
-                <InputOTPSlot index={1} />
-                <InputOTPSlot index={2} />
-                <InputOTPSlot index={3} />
-                <InputOTPSlot index={4} />
-                <InputOTPSlot index={5} />
+                <InputOTPSlot className="text-[#000]" index={0} />
+                <InputOTPSlot className="text-[#000]" index={1} />
+                <InputOTPSlot className="text-[#000]" index={2} />
+                <InputOTPSlot className="text-[#000]" index={3} />
+                <InputOTPSlot className="text-[#000]" index={4} />
+                <InputOTPSlot className="text-[#000]" index={5} />
               </InputOTPGroup>
             </InputOTPGroup>
           </InputOTP>
@@ -691,12 +691,12 @@ function RegisterTrainer() {
               variant={"ghost"}
               disabled={time !== 0 || isPending}
               onClick={() => handleResendOtp(email)}
-              className="text-[#848181] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
+              className="text-[#121212] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
             >
               Resend OTP
             </Button>
             {time !== 0 && (
-              <p className="text-[#848181] text-[16px] font-[700]">
+              <p className="text-[#121212] text-[16px] font-[700]">
                 {formatTime(time)}
               </p>
             )}
@@ -707,7 +707,7 @@ function RegisterTrainer() {
               setShowOtpPopup(false);
               setTime(0);
             }}
-            className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-abhaya"
+            className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-calibri"
           >
             Send a different email?
           </Button>
