@@ -3,7 +3,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import "react-phone-number-input/style.css";
 import { Route, Routes } from "react-router-dom";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import { io } from "socket.io-client";
+import CompanyProtectedRoute from "./Layout/CompanyProtectedRoute";
 import ProtectedRoute from "./Layout/ProtectedRoute";
 import DashboardTrainee from "./components/DashboardTrainee";
 import DashboardTrainer from "./components/DashboardTrainer";
@@ -85,9 +88,6 @@ import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import CompanyProtectedRoute from "./Layout/CompanyProtectedRoute";
 
 function App() {
   let socket: any;
@@ -189,14 +189,7 @@ function App() {
         <Route path="/termsofservices" element={<TermsOfServices />} />
         <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
 
-        <Route
-          path="/change-password"
-          element={
-            <CompanyProtectedRoute>
-              <ChangePasswordPage />
-            </CompanyProtectedRoute>
-          }
-        />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route
           path="/assessment"
           element={

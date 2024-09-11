@@ -325,3 +325,26 @@ export interface OpenOrResolved {
     medium: number;
     low: number;
 }
+
+export interface UpcommingLiveSessionResponse {
+    ongoingSessions?: (SessionsEntity)[] | null;
+    upcomingSessions?: (SessionsEntity)[] | null;
+    upcomingSessionsCount: number;
+}
+export interface SessionsEntity {
+    id: number;
+    platform: number;
+    zoomApiBaseUrl: string;
+    subtitle: string;
+    description: string;
+    date: string;
+    startTime: string;
+    startAmPm?: null;
+    sessionDuration: number;
+    position?: null;
+    liveSecinformation: string;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+}
+

@@ -1,9 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -213,13 +209,13 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
   };
 
   const CustomEvent = ({ event }: { event: any }) => (
-    <HoverCard openDelay={300} closeDelay={300}>
-      <HoverCardTrigger asChild className="relative">
-        <p className="cursor-pointer max-w-[150px] w-full line-clamp-1">
+    <Dialog>
+      <DialogTrigger className="w-full text-left h-full">
+        <p className="cursor-pointer max-w-[200px] w-full line-clamp-1">
           {event.title}
         </p>
-      </HoverCardTrigger>
-      <HoverCardContent className="w-80 z-50">
+      </DialogTrigger>
+      <DialogContent>
         <h3 className="mb-2 text-wrap">
           <strong>Title:</strong> {event?.title}
         </h3>
@@ -244,8 +240,8 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
         >
           Join Meeting
         </Button>
-      </HoverCardContent>
-    </HoverCard>
+      </DialogContent>
+    </Dialog>
   );
 
   return (

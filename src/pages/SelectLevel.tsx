@@ -92,13 +92,15 @@ function SelectLevel() {
       </div>
       <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 py-3">
         <div className="my-6">
-          <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-abhaya">
+          <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-calibri">
             Select the sustainability pillars you want to progress on most—then
-            choose an action item(s) for each of them. (Not sure what actions to
-            take? Head to your dashboard and view ‘Recommended Courses’ to see
-            what training is available to specifically help you advance your
-            green.)
+            choose an action item(s) for each of them.{" "}
           </h1>
+          <span className="text-[18px] leading-4 font-calibri">
+            (Not sure what actions to take? Head to your dashboard and view
+            ‘Recommended Courses’ to see what training is available to
+            specifically help you advance your green.)
+          </span>
         </div>
         {isPending || isPendingPillar ? (
           <Loader className="w-8 h-8" />

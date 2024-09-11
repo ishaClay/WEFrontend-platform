@@ -13,6 +13,12 @@ export const getSmeDashboardData = async ({ userId }: { userId: string }) => {
     return res.data
 }
 
+export const getSmeUpcomingLiveSession = async ({ userId }: { userId: string }) => {
+    const url = `api/v1/livesessions/getCompanyupcomingLiveSession/${userId}`;
+    const res = await api({ url });
+    return res.data
+}
+
 export const getDashbooardSme3 = async ({ userId }: { userId: string }) => {
     const url = `api/v1/dashboard/compnyCourseCount/${userId}`;
     const res = await api({ url });

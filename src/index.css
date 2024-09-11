@@ -386,13 +386,24 @@ input[type="radio"] {
   .going_green_logo_mobile {
     display: flex;
   }
-  .going_green_logo_mobile a{
+  .going_green_logo_mobile a {
     font-size: 40px;
   }
 }
 
 @media (max-width: 576px) {
-  .going_green_logo_mobile a{
+  .going_green_logo_mobile a {
     font-size: 35px;
   }
+}
+
+.rbc-ellipsis,
+.rbc-show-more,
+.rbc-row-segment .rbc-event-content,
+.rbc-event-label {
+  height: 24px;
+}
+
+.rbc-event-label {
+  display: none;
 }
