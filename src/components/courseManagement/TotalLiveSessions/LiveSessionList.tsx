@@ -47,13 +47,9 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
     deleteLiveSession(data?.id);
   };
 
-  const isCompleted =
-    moment(data.date).isBefore(new Date()) &&
-    !isSessionOngoingAtTime(
-      data.startTime,
-      // @ts-ignore
-      data?.sessionDuration
-    );
+  const isCompleted = moment(data.startTime)
+    .add(data.sessionDuration, "minutes")
+    .isBefore(new Date());
 
   console.log("isCompleted0", isCompleted);
 

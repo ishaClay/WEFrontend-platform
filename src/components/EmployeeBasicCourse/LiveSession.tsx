@@ -7,13 +7,16 @@ import { CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
 import { Button } from "../ui/button";
 import { isSessionOngoingAtTime } from "@/lib/utils";
+import { Dispatch, SetStateAction } from "react";
 
 const LiveSession = ({
   list,
   data,
+  setViewDocument,
 }: {
   list: ModuleSectionsEntity;
   data: any;
+  setViewDocument: Dispatch<SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
   const userData = JSON.parse(localStorage.getItem("user") as string);
@@ -77,6 +80,7 @@ const LiveSession = ({
         queryKey: [QUERY_KEYS.fetchEmployeeSingeCourse],
       });
       // setLike("");
+      setViewDocument(false);
     },
     onError: (error: any) => {
       console.error("error", error);
