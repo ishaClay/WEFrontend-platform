@@ -196,8 +196,6 @@ const AllocatedCertificateEmployeePage = () => {
       }
     } catch (error) {
       console.error("Error loading images or capturing canvas:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
