@@ -8,8 +8,6 @@ import HomeHeader from "@/components/homePage/HomeHeader";
 import Journey from "@/components/homePage/Journey";
 import Steps from "@/components/homePage/Steps";
 import TrainingProviders from "@/components/homePage/TrainingProviders";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
 
 const HomePage = () => {
@@ -22,7 +20,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Button onClick={() => toast({ title: "test" })}>test</Button>
       <HomeHeader />
       <HomeBanner />
       <Companies />
