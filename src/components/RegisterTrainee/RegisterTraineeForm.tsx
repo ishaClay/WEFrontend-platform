@@ -14,7 +14,6 @@ import { ResponseError } from "@/types/Errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
@@ -24,15 +23,27 @@ import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
 import { InputWithLable } from "../ui/inputwithlable";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
+import SelectMenu from "../comman/SelectMenu";
+
+const genderOptions: {
+  label: string;
+  value: string;
+}[] = [
+  {
+    label: "Male",
+    value: "Male",
+  },
+  {
+    label: "Female",
+    value: "Female",
+  },
+  {
+    label: "Other",
+    value: "Other",
+  },
+];
 
 const RegisterTraineeForm = () => {
   const search = window.location.search;
@@ -40,6 +51,7 @@ const RegisterTraineeForm = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
   const email: string | null = params.get("email");
+  console.log("🚀 ~ RegisterTraineeForm ~ email:", email);
   const cName: string | null = params.get("cName");
   const fName: string | null = params.get("fName");
   const lName: string | null = params.get("lName");
@@ -87,13 +99,19 @@ const RegisterTraineeForm = () => {
     occupationalCategory: Zod.string({
       required_error: "Please select occupational category",
     }),
-    unemploymentTime: Zod.string({
-      required_error: "Please select unemployment time",
-    }),
+    unemploymentTime: Zod.string().optional(),
     countyOfResidence: Zod.string({
       required_error: "Please select county of residence",
     }),
     attendedEvent: Zod.string().nullable(),
+  }).superRefine((data, ctx) => {
+    if (data.employmentStatus === "Unemployed") {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please select unemployment time",
+        path: ["unemploymentTime"],
+      });
+    }
   });
   type ValidationSchema = Zod.infer<typeof schema>;
   const {
@@ -113,6 +131,9 @@ const RegisterTraineeForm = () => {
     queryFn: fetchAgeRanges,
   });
   const ageRangesList = getAgeRangesList?.AgeRanges;
+  const ageOptions = ageRangesList
+    ? ageRangesList.map((item) => ({ label: item, value: item }))
+    : [];
 
   const {
     data: getEmploymentStatusList,
@@ -122,15 +143,20 @@ const RegisterTraineeForm = () => {
     queryFn: fetchEmploymentStatus,
   });
   const employmentStatusList = getEmploymentStatusList?.employmentStatus;
+  const employmentStatusListOptions = employmentStatusList
+    ? employmentStatusList.map((item) => ({ label: item, value: item }))
+    : [];
 
   const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
     queryKey: ["nfqllevel"],
     queryFn: () => fetchNfqlLevel(),
   });
 
-  const nfqOption: any = getNfqlLevelList?.data?.map((item: any) => {
-    return item.leval;
-  });
+  const nfqOption = getNfqlLevelList?.data
+    ? getNfqlLevelList?.data?.map((item: any) => {
+        return { label: item.leval, value: item.leval };
+      })
+    : [];
 
   const {
     data: getOccupationalCategoriesList,
@@ -142,6 +168,10 @@ const RegisterTraineeForm = () => {
   const occupationalCategoriesList =
     getOccupationalCategoriesList?.occupationalCategories;
 
+  const occupationalCategoriesListOptions = occupationalCategoriesList
+    ? occupationalCategoriesList.map((item) => ({ label: item, value: item }))
+    : [];
+
   const {
     data: getUnemploymentTimeList,
     isPending: isUnemploymentTimePending,
@@ -150,7 +180,9 @@ const RegisterTraineeForm = () => {
     queryFn: fetchUnemploymentTime,
   });
   const unemploymentTimeList = getUnemploymentTimeList?.unemploymentTime;
-
+  const unemploymentTimeListOptions = unemploymentTimeList
+    ? unemploymentTimeList.map((item) => ({ label: item, value: item }))
+    : [];
   const { mutate, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
@@ -217,17 +249,17 @@ const RegisterTraineeForm = () => {
     queryFn: getCountry,
   });
 
-  const countryOption =
-    country?.data &&
-    country?.data
-      ?.map((item) => {
-        return { value: item?.name, label: item?.name };
-      })
-      .sort((a, b) => a.label.localeCompare(b.label));
+  const countryOption = country?.data
+    ? country?.data
+        ?.map((item) => {
+          return { value: item?.name, label: item?.name };
+        })
+        .sort((a, b) => a.label.localeCompare(b.label))
+    : [];
   const onSubmit = async (data: FieldValues) => {
     const payload = {
       email: email,
-      ageRange: +data.ageRange,
+      ageRange: data.ageRange,
       gender: data.gender,
       name: data.firstName,
       surname: data.surname,
@@ -327,26 +359,15 @@ const RegisterTraineeForm = () => {
               Gender
               <img src={mandatory} className="p-1" />
             </label>
-            <Select
-              {...register("gender")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={genderOptions}
+              setValue={(value: string) => {
                 setSelectBoxValues({ ...selectBoxValues, gender: value });
                 setValue("gender", value);
               }}
               value={selectBoxValues.gender}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select Gender" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                <SelectItem className="px-8" value="Male">
-                  Male
-                </SelectItem>
-                <SelectItem className="px-8" value="Female">
-                  Female
-                </SelectItem>
-              </SelectContent>
-            </Select>
+              placeholder="Gender - Select"
+            />
             {!errors.gender?.ref?.value && (
               <ErrorMessage
                 message={(errors?.gender?.message as string) || ""}
@@ -358,36 +379,16 @@ const RegisterTraineeForm = () => {
               Age Range
               <img src={mandatory} className="p-1" />
             </label>
-            <Select
-              {...register("ageRange")}
-              onValueChange={(value) => {
+            <SelectMenu
+              option={ageOptions}
+              setValue={(value: string) => {
                 setSelectBoxValues({ ...selectBoxValues, ageRange: value });
                 setValue("ageRange", value);
               }}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select Age" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {isAgeRangesPending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : ageRangesList && ageRangesList?.length > 0 ? (
-                  ageRangesList?.map((item, index) => {
-                    return (
-                      <SelectItem className="px-8" value={item} key={index}>
-                        {item}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              value={selectBoxValues.ageRange}
+              placeholder="Age Range - Select"
+              isLoading={isAgeRangesPending}
+            />
             {!errors.ageRange?.ref?.value && (
               <ErrorMessage
                 message={(errors?.ageRange?.message as string) || ""}
@@ -403,7 +404,7 @@ const RegisterTraineeForm = () => {
               {...register("email")}
               placeholder="Enter Email"
               className={"!w-full disabled:opacity-100 font-normal"}
-              value={email ? email : ""}
+              // value={email ? email : ""}
               disable={email ? true : false}
             />
             {errors.email && (
@@ -451,9 +452,9 @@ const RegisterTraineeForm = () => {
               className={"!w-full font-normal"}
               {...register("currentHighestNFQ")}
             /> */}
-            <Select
-              {...register("currentHighestNFQ")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={nfqOption}
+              setValue={(value: string) => {
                 setSelectBoxValues({
                   ...selectBoxValues,
                   currentHighestNFQ: value,
@@ -461,30 +462,9 @@ const RegisterTraineeForm = () => {
                 setValue("currentHighestNFQ", value);
               }}
               value={selectBoxValues?.currentHighestNFQ}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select NFQ" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {nfqPending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : nfqOption && nfqOption?.length > 0 ? (
-                  nfqOption?.map((item: any, index: number) => {
-                    return (
-                      <SelectItem className="px-8" value={item} key={index}>
-                        {item}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              placeholder="Current Highest NFQ - Select"
+              isLoading={nfqPending}
+            />
             {!errors.currentHighestNFQ?.ref?.value && (
               <ErrorMessage
                 message={(errors?.currentHighestNFQ?.message as string) || ""}
@@ -495,9 +475,9 @@ const RegisterTraineeForm = () => {
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Employment Status
             </label>
-            <Select
-              {...register("employmentStatus")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={employmentStatusListOptions}
+              setValue={(value: string) => {
                 setSelectBoxValues({
                   ...selectBoxValues,
                   employmentStatus: value,
@@ -505,30 +485,9 @@ const RegisterTraineeForm = () => {
                 setValue("employmentStatus", value);
               }}
               value={selectBoxValues.employmentStatus}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="select status" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {isEmploymentStatusPending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : employmentStatusList && employmentStatusList?.length > 0 ? (
-                  employmentStatusList?.map((item, index) => {
-                    return (
-                      <SelectItem className="px-8" value={item} key={index}>
-                        {item}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              placeholder="Employment Status - Select"
+              isLoading={isEmploymentStatusPending}
+            />
             {!errors.employmentStatus?.ref?.value && (
               <ErrorMessage
                 message={(errors?.employmentStatus?.message as string) || ""}
@@ -556,9 +515,9 @@ const RegisterTraineeForm = () => {
               Occupational Category
               <img src={mandatory} className="p-1" />
             </label>
-            <Select
-              {...register("occupationalCategory")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={occupationalCategoriesListOptions}
+              setValue={(value: string) => {
                 setSelectBoxValues({
                   ...selectBoxValues,
                   occupationalCategory: value,
@@ -566,31 +525,9 @@ const RegisterTraineeForm = () => {
                 setValue("occupationalCategory", value);
               }}
               value={selectBoxValues.occupationalCategory}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black text-left font-normal">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {isOccupationalCategoriesPending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : occupationalCategoriesList &&
-                  occupationalCategoriesList?.length > 0 ? (
-                  occupationalCategoriesList?.map((item, index) => {
-                    return (
-                      <SelectItem className="px-8" value={item} key={index}>
-                        {item}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              placeholder="Occupational Category - Select"
+              isLoading={isOccupationalCategoriesPending}
+            />
             {!errors.occupationalCategory?.ref?.value && (
               <ErrorMessage
                 message={
@@ -602,11 +539,10 @@ const RegisterTraineeForm = () => {
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Unemployment Time
-              <img src={mandatory} className="p-1" />
             </label>
-            <Select
-              {...register("unemploymentTime")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={unemploymentTimeListOptions}
+              setValue={(value: string) => {
                 setSelectBoxValues({
                   ...selectBoxValues,
                   unemploymentTime: value,
@@ -614,30 +550,9 @@ const RegisterTraineeForm = () => {
                 setValue("unemploymentTime", value);
               }}
               value={selectBoxValues.unemploymentTime}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select time" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {isUnemploymentTimePending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : unemploymentTimeList && unemploymentTimeList?.length > 0 ? (
-                  unemploymentTimeList?.map((item, index) => {
-                    return (
-                      <SelectItem className="px-8" value={item} key={index}>
-                        {item}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              placeholder="Unemployment Time - Select"
+              isLoading={isUnemploymentTimePending}
+            />
             {!errors.unemploymentTime?.ref?.value && (
               <ErrorMessage
                 message={(errors?.unemploymentTime?.message as string) || ""}
@@ -649,9 +564,9 @@ const RegisterTraineeForm = () => {
               County Of Residence
               <img src={mandatory} className="p-1" />
             </label>
-            <Select
-              {...register("countyOfResidence")}
-              onValueChange={(value: string) => {
+            <SelectMenu
+              option={countryOption}
+              setValue={(value: string) => {
                 setSelectBoxValues({
                   ...selectBoxValues,
                   countryOfResidence: value,
@@ -659,34 +574,10 @@ const RegisterTraineeForm = () => {
                 setValue("countyOfResidence", value);
               }}
               value={selectBoxValues.countryOfResidence}
-            >
-              <SelectTrigger className="w-full py-[5px] h-10 px-2 bg-white text-black font-normal">
-                <SelectValue placeholder="Select county" />
-              </SelectTrigger>
-              <SelectContent className="w-full">
-                {isUnemploymentTimePending ? (
-                  <span className="flex items-center justify-center py-5">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </span>
-                ) : countryOption && countryOption?.length > 0 ? (
-                  countryOption?.map((item, index) => {
-                    return (
-                      <SelectItem
-                        className="px-8"
-                        value={item?.value}
-                        key={index}
-                      >
-                        {item?.label}
-                      </SelectItem>
-                    );
-                  })
-                ) : (
-                  <span className="flex items-center justify-center py-5">
-                    No Data Found
-                  </span>
-                )}
-              </SelectContent>
-            </Select>
+              placeholder="County Of Residence - Select"
+              isLoading={isUnemploymentTimePending}
+            />
+
             {!errors.countyOfResidence?.ref?.value && (
               <ErrorMessage
                 message={(errors?.countyOfResidence?.message as string) || ""}

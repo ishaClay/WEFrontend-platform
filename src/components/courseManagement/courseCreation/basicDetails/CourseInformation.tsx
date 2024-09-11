@@ -411,12 +411,13 @@ const CourseInformation = ({
                   onChange={(e: any) => {
                     const { value } = e.target;
 
-                    if (value.match(/^[0-9]*$/)) {
+                    if (
+                      value.match(/^[0-9]*$/) &&
+                      (value > 0 || value === "")
+                    ) {
                       setValue("price", value);
                       // @ts-ignore
                       setError("price", "");
-                    } else {
-                      return;
                     }
                   }}
                   value={watch("price") || ""}
@@ -440,10 +441,11 @@ const CourseInformation = ({
                   onChange={(e: any) => {
                     const { value } = e.target;
 
-                    if (value === "" || value.match(/^[1-9][0-9]*$/)) {
+                    if (
+                      value.match(/^[0-9]*$/) &&
+                      (value > 0 || value === "")
+                    ) {
                       setDiscount(value);
-                    } else {
-                      return;
                     }
                   }}
                   error={

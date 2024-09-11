@@ -222,7 +222,11 @@ const RecommendedCoursesModel = ({
         <Button
           className="bg-[#64A70B] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
           onClick={handleEnrollementRequest}
-          disabled={data?.[0]?.isOnline === 1 ? false || !selectCourse || isPending  : isPending || !selectCourse || !selectFilterByCategory}
+          disabled={
+            data?.[0]?.isOnline === 1
+              ? false || !selectCourse || isPending
+              : isPending || !selectCourse || !selectFilterByCategory
+          }
         >
           {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select
         </Button>

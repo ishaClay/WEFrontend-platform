@@ -573,13 +573,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-      +readingTime?.hour * 3600 +
-      +readingTime?.minute * 60 +
-      +readingTime?.second
+          +readingTime?.hour * 3600 +
+          +readingTime?.minute * 60 +
+          +readingTime?.second
       : +totalSeconds +
-      +readingTime?.hours * 3600 +
-      +readingTime?.minutes * 60 +
-      +readingTime?.seconds;
+          +readingTime?.hours * 3600 +
+          +readingTime?.minutes * 60 +
+          +readingTime?.seconds;
   }, 0);
 };
 
@@ -656,13 +656,13 @@ export const documentIcon = (type: string) => {
 };
 
 export const isSessionOngoingAtTime = (
-  date: string,
   startTime: string,
   sessionDuration: number
 ): boolean => {
   const targetDate = moment();
-  const sessionStart = moment(`${date} ${startTime}`, "YYYY-MM-DD hh:mm A");
+  const sessionStart = moment(startTime);
   const sessionEnd = sessionStart.clone().add(sessionDuration, "minutes");
+  console.log("🚀 ~ targetDate:", { targetDate, sessionStart, sessionEnd });
   return targetDate.isBetween(sessionStart, sessionEnd, null, "[)");
 };
 
