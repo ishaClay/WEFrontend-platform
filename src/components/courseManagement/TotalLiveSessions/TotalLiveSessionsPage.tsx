@@ -38,17 +38,16 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
 
       switch (selectFilter) {
         case "upcoming":
-          return moment(session.date).isAfter(now);
+          return moment(session.startTime).isAfter(now);
         case "starting":
           return isSessionOngoingAtTime(
             session.startTime,
             session?.sessionDuration
           );
         case "ending":
-          return (
-            moment(session.date).isBefore(now) &&
-            !isSessionOngoingAtTime(session.startTime, session?.sessionDuration)
-          );
+          return moment(session.startTime)
+            .add(session.sessionDuration, "minutes")
+            .isBefore(now);
         default:
           return false;
       }

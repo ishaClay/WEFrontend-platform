@@ -219,7 +219,11 @@ const ModuleCourseViewCardItems = ({
         </Button>
       </div>
       {list?.isLive === 1 ? (
-        <LiveSession list={list} data={data} />
+        <LiveSession
+          list={list}
+          data={data}
+          setViewDocument={setViewDocument}
+        />
       ) : (
         <ViewSession
           documentFile={documentFile}
