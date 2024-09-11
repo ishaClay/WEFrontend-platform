@@ -3,7 +3,7 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { calculateEndTime, isSessionOngoingAtTime } from "@/lib/utils";
+import { calculateEndTime } from "@/lib/utils";
 import { deleteLiveSessions } from "@/services/apiServices/liveSession";
 import { AllLivesessions } from "@/types/liveSession";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
