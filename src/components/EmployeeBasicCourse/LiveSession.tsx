@@ -51,6 +51,7 @@ const LiveSession = ({
   const isButtonPermission =
     +userData?.query?.role === 4 &&
     isEmployee &&
+    moment(liveSessionData?.startTime).isAfter(new Date()) &&
     !isSessionOngoingAtTime(
       liveSessionData?.startTime,
       liveSessionData?.sessionDuration
