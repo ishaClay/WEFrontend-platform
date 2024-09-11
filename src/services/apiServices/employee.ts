@@ -137,3 +137,9 @@ export const fetchUnemploymentTime = async (): Promise<UnemploymentTimeType> => 
   const res = await api({ url });
   return res.data;
 }
+
+export const employeeRegister = async (email: string) => {
+  const url = `api/v1/employee/get-one-employee?email=${email}`;
+  const res = await api({ url });
+  return res.data;
+}

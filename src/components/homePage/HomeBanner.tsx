@@ -61,7 +61,7 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("company");
-                              var headerOffset = 168;
+                              var headerOffset = 60;
                               var elementPosition =
                                 // @ts-ignore
                                 element.getBoundingClientRect().top;
@@ -90,7 +90,7 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("trainer");
-                              var headerOffset = 168;
+                              var headerOffset = 60;
                               var elementPosition =
                                 // @ts-ignore
                                 element.getBoundingClientRect().top;
@@ -130,7 +130,7 @@ const HomeBanner = () => {
                               />
                             </div>
 
-                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5">
+                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5 text-nowrap	">
                               One Platform To Advance Sustainability
                             </h3>
                           </div>
@@ -142,7 +142,7 @@ const HomeBanner = () => {
                               />
                             </div>
 
-                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5">
+                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5 text-nowrap	">
                               Get The Guidance You Need
                             </h3>
                           </div>
@@ -154,7 +154,7 @@ const HomeBanner = () => {
                               />
                             </div>
 
-                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5">
+                            <h3 className="text-[14px] font-medium font-d-din-pro leading-5 text-nowrap	">
                               Achieve Your Green Aspirations
                             </h3>
                           </div>

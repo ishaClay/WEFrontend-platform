@@ -237,8 +237,6 @@ function RegisterTrainer() {
       setValue("providerAddress", trainerData?.providerAddress);
       setValue("providerCity", trainerData?.providerCity);
       setValue("providerCounty", trainerData?.providerCounty || "");
-      setValue("providerNotes", trainerData?.providerNotes);
-      setValue("providerNotes", trainerData?.providerNotes);
       setValue("foreignProvider", trainerData?.foreignProvider ? "Yes" : "No");
     }
   }, [fetchTrainerByEmailData]);
@@ -416,7 +414,7 @@ function RegisterTrainer() {
                     </Label>
                     <SelectMenu
                       option={providerTypesOption || []}
-                      placeholder="Select company type"
+                      placeholder="Please select company type"
                       className="h-[46px] mt-2 text-left"
                       setValue={(data: string) => {
                         setValue("providerType", data);
@@ -464,7 +462,7 @@ function RegisterTrainer() {
                     </Label>
                     <SelectMenu
                       option={countryOption || []}
-                      placeholder="Select county"
+                      placeholder="Please select county"
                       className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
                       setValue={(data: string) => {
                         setValue("providerCounty", data);
@@ -498,7 +496,7 @@ function RegisterTrainer() {
                             "text-[#A3A3A3]": !watch("foreignProvider"),
                           })}
                         >
-                          <SelectValue placeholder="Select" />
+                          <SelectValue placeholder="Please select" />
                         </SelectTrigger>
                       </SelectGroup>
                       <SelectContent>
@@ -569,7 +567,6 @@ function RegisterTrainer() {
                   <div className="col-span-2">
                     <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
                       Contact Telephone No.{" "}
-                      <span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
                       {...register("contactTelephone")}

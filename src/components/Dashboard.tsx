@@ -16,12 +16,14 @@ import {
   getEnrolledCourses,
   getFirstInfirgraphicChart,
   getSmeDashboardData,
+  getSmeUpcomingLiveSession,
 } from "@/services/apiServices/dashboard";
 import {
   AssesmentDashboardData,
   DashboardData,
   SMEDashboard3Response,
   SMEEnrollDashboardResponse,
+  UpcommingLiveSessionResponse,
 } from "@/types/dashboard";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
@@ -41,7 +43,10 @@ import {
 } from "chart.js";
 import { Loader2 } from "lucide-react";
 import CourseEnrollmentChart from "./CourseEnrollmentChart";
+import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
+import CustomCarousel from "./comman/CustomCarousel";
 import DashboardCard from "./comman/DashboardCard";
+import NoDataText from "./comman/NoDataText";
 
 Chart.register(
   CategoryScale,
@@ -162,6 +167,15 @@ const Dashboard = () => {
           userId: userData?.query?.detailsid || userData?.company?.id,
         }),
     });
+
+  const { data: smeUpcomingLiveSession } =
+    useQuery<UpcommingLiveSessionResponse>({
+      queryKey: ["getSmeUpcomingLiveSession"],
+      queryFn: () =>
+        getSmeUpcomingLiveSession({ userId: userData?.query?.detailsid }),
+    });
+
+  console.log("smeUpcomingLiveSession", smeUpcomingLiveSession);
 
   const {
     data: fetchCourseCompletionData,
@@ -500,29 +514,6 @@ const Dashboard = () => {
           value={resolveSupportTicket || 0}
         />
       </div>
-      {/* <h3 className="text-[22px] font-calibri font-[500] mb-2">
-        Course Overview
-      </h3>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Trainers}
-          title="Total courses"
-          value={smeDashboardData3?.data?.overView?.totalCourse || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Total_courses}
-          title="Total ongoing courses"
-          value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Total completed courses"
-          value={smeDashboardData3?.data?.overView?.completedCourse || 0}
-        />
-      </div> */}
       <h3 className="text-[22px] font-calibri font-[500] mb-2">
         Overview of Employee Performance
       </h3>
@@ -617,6 +608,45 @@ const Dashboard = () => {
           className="flex items-center justify-center flex-col"
           value={smeDashboardData3?.data?.overView?.completedCourse || 0}
         />
+      </div>
+
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Upcoming Live Sessions
+      </h3>
+      <div className="">
+        {isLoading ? (
+          <span className="py-14 flex justify-center">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </span>
+        ) : smeUpcomingLiveSession?.upcomingSessions &&
+          smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
+          <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
+            {smeUpcomingLiveSession?.upcomingSessions?.map((data, index) => {
+              return <LiveSessionsItems data={data} key={index} />;
+            }) || []}
+          </CustomCarousel>
+        ) : (
+          <NoDataText message="No records found" />
+        )}
+      </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Ongoing Live Sessions
+      </h3>
+      <div className="">
+        {isLoading ? (
+          <span className="py-14 flex justify-center">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </span>
+        ) : smeUpcomingLiveSession?.ongoingSessions &&
+          smeUpcomingLiveSession?.ongoingSessions?.length > 0 ? (
+          <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
+            {smeUpcomingLiveSession?.ongoingSessions?.map((data, index) => {
+              return <LiveSessionsItems data={data} key={index} />;
+            }) || []}
+          </CustomCarousel>
+        ) : (
+          <NoDataText message="No records found" />
+        )}
       </div>
 
       <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm">

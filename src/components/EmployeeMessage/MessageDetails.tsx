@@ -109,6 +109,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     mutationFn: sendGroupMessage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
+      reset();
     },
     onError: (error: ErrorType) => {
       toast({
@@ -142,7 +143,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     } else {
       setAllMsg(chatList?.data?.data || []);
     }
-  }, [chatList, group]);
+  }, [chatList, group, groupChat]);
 
   useEffect(() => {
     if (allMsg) {

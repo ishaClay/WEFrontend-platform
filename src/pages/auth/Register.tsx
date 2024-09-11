@@ -377,10 +377,10 @@ function Register() {
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
-                    <p className="text-[16px] font-[400] mt-3 font-abhaya text-[#000]">
+                    <p className="text-[16px] font-[400] font-calibri text-[#000]">
                       Select your role so we can get you to the right place.
                     </p>
-                    <div className="flex sm:flex-nowrap flex-wrap sm:gap-[40px] gap-[20px] mt-[40px]">
+                    <div className="flex sm:flex-nowrap flex-wrap sm:gap-[40px] gap-[20px] mt-[20px]">
                       <PrimaryButton
                         name="I’m A Trainer"
                         onClick={() => {

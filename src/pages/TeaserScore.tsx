@@ -1,6 +1,7 @@
 import Loading from "@/components/comman/Error/Loading";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
+import { Badge } from "@/components/ui/badge";
 import { CardTitle } from "@/components/ui/card";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -228,12 +229,13 @@ const TeaserScore = () => {
                         />
                       </div>
                       <div>
-                        <button
+                        <Badge
                           style={{ backgroundColor: currentLavel?.color }}
-                          className="text-black font-bold py-1 px-4 mt-3 rounded"
+                          // color={currentLavel?.color}
+                          className="text-black text-base font-calibri font-bold py-1 px-4 mt-3 rounded"
                         >
                           {currentLavel?.maturityLevelName}
-                        </button>
+                        </Badge>
                       </div>
                     </div>
                   </div>

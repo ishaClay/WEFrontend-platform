@@ -4,6 +4,7 @@ import { isSessionOngoingAtTime } from "@/lib/utils";
 import { AllLivesessions } from "@/types/liveSession";
 import { useState } from "react";
 import LiveSessionList from "./LiveSessionList";
+import moment from "moment";
 
 const filter = [
   {
@@ -29,28 +30,27 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
 
   const filteredSessions =
     allLiveSession?.filter((session) => {
+      console.log(
+        "🚀 ~ allLiveSession?.filter ~ session:",
+        isSessionOngoingAtTime(session.startTime, session?.sessionDuration)
+      );
       const now = new Date();
 
       switch (selectFilter) {
         case "upcoming":
-          return new Date(session.date) > now;
+          return moment(session.date).isAfter(now);
         case "starting":
           return isSessionOngoingAtTime(
-            session.date,
-            session.startTime + " " + session.startAmPm,
+            session.startTime,
             session?.sessionDuration
           );
         case "ending":
           return (
-            new Date(session.date) <= now &&
-            !isSessionOngoingAtTime(
-              session.date,
-              session.startTime + " " + session.startAmPm,
-              session?.sessionDuration
-            )
+            moment(session.date).isBefore(now) &&
+            !isSessionOngoingAtTime(session.startTime, session?.sessionDuration)
           );
         default:
-          return true;
+          return false;
       }
     }) || [];
 

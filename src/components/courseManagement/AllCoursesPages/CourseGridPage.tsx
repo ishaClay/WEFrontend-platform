@@ -61,6 +61,66 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     setRecommendedCoursesById(null);
   };
 
+  const findMatchingSlot = (cohortData: any, formattedCurrentDate: any) => {
+    if (!cohortData?.cohortGroups?.length || !formattedCurrentDate) {
+      return null; // No cohort groups present or formattedCurrentDate is missing
+    }
+
+    // Convert formattedCurrentDate to Date object
+    const currentDate = new Date(
+      +formattedCurrentDate.year || 0,
+      (+formattedCurrentDate.month || 1) - 1,
+      +formattedCurrentDate.date || 1
+    );
+
+    // Function to convert date parts to Date object
+    const toDate = (dateParts: any) => {
+      if (
+        !dateParts ||
+        !dateParts.year ||
+        !dateParts.month ||
+        !dateParts.date
+      ) {
+        return null; // Return null if dateParts are missing
+      }
+      return new Date(
+        +dateParts.year || 0,
+        (+dateParts.month || 1) - 1,
+        +dateParts.date || 1
+      );
+    };
+
+    // Function to check if a slot is ongoing
+    const isOngoing = (startDate: any, endDate: any) => {
+      const start = toDate(startDate);
+      const end = toDate(endDate);
+      return start && end && currentDate >= start && currentDate <= end;
+    };
+
+    // Function to check if a slot is upcoming
+    const isUpcoming = (startDate: any) => {
+      const start = toDate(startDate);
+      return start && currentDate < start;
+    };
+
+    // Find ongoing slot
+    const ongoingSlot = cohortData.cohortGroups.find((slot: any) =>
+      isOngoing(slot.slotStartDate, slot.slotEndDate)
+    );
+
+    // If an ongoing slot is found, return it
+    if (ongoingSlot) {
+      return ongoingSlot;
+    }
+
+    // If no ongoing slot is found, find the next upcoming slot
+    const upcomingSlot = cohortData.cohortGroups.find((slot: any) =>
+      isUpcoming(slot.slotStartDate)
+    );
+
+    return upcomingSlot || null; // Return the upcoming slot or null if none found
+  };
+
   const getUpcommingCohort = (cohortData: AllCourse) => {
     const currentDate = new Date();
     const formattedCurrentDate = {
@@ -75,25 +135,11 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     // @ts-ignore
     const courseEndDate = moment(currentDate).add(number, unit);
 
-    const matchingSlot =
-      cohortData?.cohortGroups?.length > 0 &&
-      cohortData?.cohortGroups?.find(
-        (slot) =>
-          parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
-          (parseInt(slot?.slotStartDate?.year) ===
-            +formattedCurrentDate?.year &&
-            parseInt(slot?.slotStartDate?.month) >
-              +formattedCurrentDate?.month) ||
-          (parseInt(slot?.slotStartDate?.year) ===
-            +formattedCurrentDate?.year &&
-            parseInt(slot?.slotStartDate?.month) ===
-              +formattedCurrentDate?.month &&
-            parseInt(slot?.slotStartDate?.date) > +formattedCurrentDate?.date)
-      );
+    const matchingSlot = findMatchingSlot(cohortData, formattedCurrentDate);
     console.log(
       "matchingSlotmatchingSlot",
       cohortData?.cohortGroups,
-      formattedCurrentDate
+      matchingSlot
     );
 
     const findIndex =
@@ -359,9 +405,11 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                           setRecommendedCoursesById(allcourse?.id);
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px] h-[42px]"
-                        disabled={allcourse?.isOnline === 1 ? false :
-                          allcourse?.enrolled ||
-                          !getUpcommingCohort(allcourse)?.props?.children
+                        disabled={
+                          allcourse?.isOnline === 1
+                            ? false
+                            : allcourse?.enrolled ||
+                              !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >
                         Enroll Now

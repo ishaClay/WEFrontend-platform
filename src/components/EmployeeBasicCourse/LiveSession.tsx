@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
 import { Button } from "../ui/button";
+import { isSessionOngoingAtTime } from "@/lib/utils";
 
 const LiveSession = ({
   list,
@@ -39,22 +40,32 @@ const LiveSession = ({
     return { days, hours, minutes };
   }
 
-  console.log("list", list);
-
   const timeRemaining = getTimeRemaining(list?.liveSection[0]?.startTime);
+
+  const liveSessionData = list?.liveSection?.[0];
 
   const isEmployee = !!list?.liveSection[0]?.employee?.find(
     (item: any) => item.id === userData?.query?.detailsid
   );
 
   const isButtonPermission =
-    +userData?.query?.role === 4
-      ? isEmployee &&
-        (timeRemaining?.days !== 0 ||
-          timeRemaining?.hours !== 0 ||
-          timeRemaining?.minutes !== 0)
-      : false;
+    +userData?.query?.role === 4 &&
+    isEmployee &&
+    !isSessionOngoingAtTime(
+      liveSessionData?.startTime,
+      liveSessionData?.sessionDuration
+    );
 
+  const joinButtonPermission =
+    +userData?.query?.role === 4 &&
+    isEmployee &&
+    isSessionOngoingAtTime(
+      liveSessionData?.startTime,
+      liveSessionData?.sessionDuration
+    );
+  console.log("🚀 ~ joinButtonPermission:", joinButtonPermission);
+
+  console.log("🚀 ~ list?.liveSection:", list?.liveSection);
   const { mutate, isPending } = useMutation({
     mutationFn: updateEmployeeWiseCourseStatus,
     onSuccess: async () => {
@@ -151,7 +162,7 @@ const LiveSession = ({
               target="_blank"
               href={list?.liveSection[0]?.zoomApiBaseUrl}
               className={`bg-[#00778B] text-sm font-inter px-10 py-3 text-white rounded-[6px] sm:h-[42px] h-[36px] ${
-                !isButtonPermission
+                !joinButtonPermission
                   ? "!pointer-events-none opacity-50"
                   : "!pointer-events-auto opacity-100"
               }`}

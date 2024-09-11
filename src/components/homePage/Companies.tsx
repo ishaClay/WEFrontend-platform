@@ -1,11 +1,11 @@
 const Companies = () => {
   return (
     <div id="company">
-      <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 md:my-[67px] my-0">
+      <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 md:my-[40px] my-0">
         {/* <p className="button-color text-color inline-block xl:text-2xl text-xl rounded-[6px] font-bold font-abhaya h-[47px] !leading-7 p-[10px]">
           For Companies
         </p> */}
-        <div className="lg:w-[70%] sm:w-[90%] w-full m-auto text-center xl:py-[42px] py-9 text-[#3A3A3A]">
+        <div className="lg:w-[70%] sm:w-[90%] w-full m-auto text-center xl:py-0 py-9 text-[#3A3A3A]">
           <h6 className="md:text-4xl sm:text-3xl text-2xl font-medium font-UniNeue md:leading-10 sm:leading-8">
             There’s never been
             <br />
