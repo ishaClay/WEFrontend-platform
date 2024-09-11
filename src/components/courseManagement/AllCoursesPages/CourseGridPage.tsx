@@ -61,7 +61,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     setRecommendedCoursesById(null);
   };
 
-  const findMatchingSlot = (cohortData, formattedCurrentDate) => {
+  const findMatchingSlot = (cohortData: any, formattedCurrentDate: any) => {
     if (!cohortData?.cohortGroups?.length || !formattedCurrentDate) {
       return null; // No cohort groups present or formattedCurrentDate is missing
     }
@@ -74,7 +74,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     );
 
     // Function to convert date parts to Date object
-    const toDate = (dateParts) => {
+    const toDate = (dateParts: any) => {
       if (
         !dateParts ||
         !dateParts.year ||
@@ -91,20 +91,20 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     };
 
     // Function to check if a slot is ongoing
-    const isOngoing = (startDate, endDate) => {
+    const isOngoing = (startDate: any, endDate: any) => {
       const start = toDate(startDate);
       const end = toDate(endDate);
       return start && end && currentDate >= start && currentDate <= end;
     };
 
     // Function to check if a slot is upcoming
-    const isUpcoming = (startDate) => {
+    const isUpcoming = (startDate: any) => {
       const start = toDate(startDate);
       return start && currentDate < start;
     };
 
     // Find ongoing slot
-    const ongoingSlot = cohortData.cohortGroups.find((slot) =>
+    const ongoingSlot = cohortData.cohortGroups.find((slot: any) =>
       isOngoing(slot.slotStartDate, slot.slotEndDate)
     );
 
@@ -114,7 +114,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     }
 
     // If no ongoing slot is found, find the next upcoming slot
-    const upcomingSlot = cohortData.cohortGroups.find((slot) =>
+    const upcomingSlot = cohortData.cohortGroups.find((slot: any) =>
       isUpcoming(slot.slotStartDate)
     );
 
