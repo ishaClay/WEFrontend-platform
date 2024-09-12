@@ -26,11 +26,11 @@ const RegisterTrainee = () => {
     enabled: !!email,
   });
 
-  useEffect(() => {
-    if (!!data) {
-      navigate("/auth");
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (!!data) {
+  //     navigate("/auth");
+  //   }
+  // }, [data, email]);
 
   return (
     <>
