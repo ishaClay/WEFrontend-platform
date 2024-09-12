@@ -6,8 +6,8 @@ import { useEffect } from "react";
 
 const RegisterTrainee = () => {
   // const navigate = useNavigate();
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
+  // const search = window.location.search;
+  // const params = new URLSearchParams(search);
   // const email: string | null = params.get("email");
   useEffect(() => {
     window.scrollTo({
