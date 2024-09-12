@@ -186,7 +186,7 @@ const ForumPage = () => {
               <div className="">
                 <h5 className="text-black text-base font-abhaya">
                   {userData?.query?.fname || userData?.query?.lname
-                    ? `${userData?.query?.fname || ""} ${
+                    ? `${userData?.query?.fname || ""} ${" "} ${
                         userData?.query?.lname || ""
                       }`.trim()
                     : userData?.query?.email?.split("@")[0]}
@@ -271,7 +271,7 @@ const ForumPage = () => {
                     </div>
                     <div className="">
                       <h5 className="text-black text-base font-abhaya">
-                        {x?.user?.fname + x?.user?.lname ||
+                        {x?.user?.fname+ " " + x?.user?.lname ||
                           x?.user?.email?.split("@")[0]}
                       </h5>
                       <div className="flex gap-2.5">

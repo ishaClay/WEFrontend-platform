@@ -63,7 +63,7 @@ const RecommendedCoursesModel = ({
       );
     }
   };
-
+  console.log("index === selectCourseByIndex", itemList);
   const filterOption =
     data?.[0]?.currentVersion?.cohortGroup?.map((item, index) => {
       return {
@@ -168,18 +168,19 @@ const RecommendedCoursesModel = ({
                           <Button
                             className="w-[50px] h-[42px] rounded-none bg-white hover:bg-white text-black border-r  border-[#D9D9D9]"
                             onClick={() => handleDecrement(index)}
+                            disabled={itemList[index] === 1}
                           >
                             <Minus />
                           </Button>
                           <input
-                            type="number"
+                            type="text"
                             value={itemList[index]}
                             min={0}
                             onChange={(e) =>
                               setItemList((prevItemList) =>
                                 prevItemList?.map((item: any, idx: number) =>
                                   idx === index
-                                    ? parseInt(e.target.value) || 0
+                                    ? parseInt(e.target.value) || 1
                                     : item
                                 )
                               )

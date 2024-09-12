@@ -403,7 +403,7 @@ const AllocatedCertificateEmployeePage = () => {
               </div>
             ) : (
               <p className="flex items-center justify-center h-[200px] font-medium">
-                Select Course
+                Select certificate
               </p>
             )}
           </div>

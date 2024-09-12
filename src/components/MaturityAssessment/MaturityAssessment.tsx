@@ -350,7 +350,7 @@ const MaturityAssessment = () => {
                 />
               )}
             </TabsContent>
-            <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0">
+            <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0 mb-[50px]">
               <ActionItems />
             </TabsContent>
           </Tabs>

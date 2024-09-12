@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "@/components/ui/use-toast";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { markComplate } from "@/services/apiServices/pillar";
@@ -86,6 +87,14 @@ const DelayModel = ({
   const handleChanges = (e: any) => {
     const { files } = e.target;
 
+    if(!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
+    setFile(files);
     mutate(files[0]);
   };
 
@@ -195,6 +204,7 @@ const DelayModel = ({
                 type="button"
                 isLoading={markPending}
                 onClick={handleSubmit}
+                disabled={!file}
                 className="xl:w-[200px] xl:h-[52px] w-[190px] sm:h-[45px] h-9 rounded-[6px] bg-[#58BA66] xl:text-base sm:text-[15px] text-sm font-nunito font-semibold"
               >
                 Mark As Complete

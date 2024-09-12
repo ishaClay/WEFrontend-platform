@@ -250,9 +250,10 @@ const GridView = ({
     if (
       item?.status === "DRAFT" ||
       item?.status === "PUBLISHED" ||
-      item?.status === "UNPUBLISHED"
+      item?.status === "UNPUBLISHED" ||
+      item?.status === "READYTOPUBLISH"
     ) {
-      if (type === "editminor") {
+      if (type === "editminor" && item?.status !== "READYTOPUBLISH") {
         if (+item?.step === 5) {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${

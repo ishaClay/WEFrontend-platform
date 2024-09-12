@@ -125,6 +125,15 @@ const UploadContent = ({
     event.preventDefault();
     setDragging(false);
     const file = event.dataTransfer.files[0];
+
+    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
+
     if (file) {
       const validate = fileValidation(file.name, FileType?.fileType);
       if (validate) {
@@ -143,6 +152,14 @@ const UploadContent = ({
   const handleFileSelect = (event: any) => {
     const file = event.target.files[0];
     console.log("file", file);
+
+    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
 
     if (file) {
       const validate = fileValidation(file.name, FileType?.fileType);

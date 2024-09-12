@@ -77,8 +77,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
         variant: "success",
         title: res?.message,
       });
-
-      navigate(`/${pathName}/message?chatId=${res?.data?.id}`);
+      navigate(`/${pathName}/message?chatId=${res?.data?.receiverId}`);
       socket.emit("new message", res?.data);
     },
     onError: (error: ErrorType) => {

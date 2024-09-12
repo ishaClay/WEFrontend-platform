@@ -331,6 +331,7 @@ const TrainerManagement = () => {
       onSuccess: (res) => {
         console.log("🚀 ~ TrainerManagement ~ res:", res);
         queryClient.invalidateQueries({ queryKey: ["trainer"] });
+        setOpenDelete(null);
         toast({
           variant: "success",
           title: "Invitation deleted successfully.",

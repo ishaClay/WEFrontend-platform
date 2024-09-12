@@ -73,6 +73,13 @@ const SectionForm = ({
 
   const handleFileSelect = (e: any) => {
     const file = e.target.files[0];
+    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
     if (
       file.name?.split(".").pop() === "pdf" ||
       file.name?.split(".").pop() === "docx" ||

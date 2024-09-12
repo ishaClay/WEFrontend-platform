@@ -20,7 +20,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
   const [trainerRatting, setTrainerRatting] = useState(0);
   const [review, setReview] = useState("");
   const queryClient = useQueryClient();
-  const [shareFeedback, setShareFeedback] = useState(false);
+  const [shareFeedback, setShareFeedback] = useState<any>(false);
 
   const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     const value = e.target.value;
@@ -42,7 +42,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
       setCourseRatting(data?.data?.courseRate);
       setTrainerRatting(data?.data?.trainerRate);
       setReview(data?.data?.discription);
-      setShareFeedback(!!data?.data?.shareFeedback)
+      setShareFeedback(data?.data?.shareFeedback)
     }
   }, [data]);
 
@@ -89,6 +89,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
         discription: review,
         user: userData?.query?.id,
         course: course?.course?.id,
+        shareFeedback: shareFeedback,
         trainerCompany: course?.course?.trainerId
           ? course?.course?.trainerId?.trainerCompany?.id
           : course?.course?.trainerCompanyId?.id,
@@ -151,6 +152,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
           <Checkbox
             className="me-3"
             onCheckedChange={() => setShareFeedback(!shareFeedback)}
+            defaultChecked={data?.data?.shareFeedback}
           />
           <h5 className="text-[#888888] font-inter text-sm">
             I’m totally fine with my review to be shared on social media.

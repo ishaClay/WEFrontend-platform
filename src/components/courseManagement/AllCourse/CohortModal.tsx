@@ -268,7 +268,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     } else {
       toast({
         variant: "destructive",
-        title: "Please add atleast one cohort",
+        title: "Please enter cohort name",
       });
     }
   };

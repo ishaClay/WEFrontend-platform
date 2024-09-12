@@ -35,6 +35,8 @@ const EnrollCourseEmployeeDetailsListItem = ({
     enabled: !!course?.course?.id && !!empId,
   });
 
+  console.log("datadatadata121312", data, course);
+  
   useEffect(() => {
     if (!isOpen) {
       setEmpId("");
