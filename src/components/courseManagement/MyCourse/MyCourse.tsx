@@ -18,9 +18,9 @@ import { useContext, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
-import CohortModal from "./CohortModal";
-import GridView from "./GridView";
-import ListView from "./listView";
+import CohortModal from "../AllCourse/CohortModal";
+import GridView from "../AllCourse/GridView";
+import ListView from "../AllCourse/listView";
 
 const MyCourse = () => {
   const dispatch = useAppDispatch();

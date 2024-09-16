@@ -18,7 +18,7 @@ import Updatecertificate from "./components/certificateTemplete/Updatecertificat
 import Accomplishments from "./components/certifications/Accomplishments";
 import Loading from "./components/comman/Error/Loading";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
-import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
+import MyCourse from "./components/courseManagement/MyCourse/MyCourse";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
@@ -170,6 +170,7 @@ function App() {
         <Route path="/membership" element={<OurServicePage />} />
         <Route path="/contact" element={<HomeContactPage />} />
         <Route path="/our-courses" element={<HomeOurCoursesPage />} />
+        <Route path="/our-courses/:id" element={<FeatureCourseDetailPage />} />
         <Route
           path="/feature-course/:id"
           element={<FeatureCourseDetailPage />}
@@ -187,7 +188,6 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/blogDetails" element={<BlogDetailsPage />} />
         <Route path="/termsofservices" element={<TermsOfServices />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
 
         <Route path="/reset-password" element={<ChangePasswordPage />} />
         <Route

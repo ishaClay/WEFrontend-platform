@@ -228,13 +228,32 @@ const DashboardTrainer = () => {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Course overview
+      </h3>
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
           icon={Trainers}
           value={smeDashboardData?.data?.publishedCoursesCount || 0}
           title="Total published courses"
         />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Trainers}
+          value={smeDashboardData?.data?.courseContentApprovalRequest || 0}
+          title="Total recently updated courses"
+        />
+        <DashboardCard
+          isLoading={isLoading}
+          icon={Companies}
+          value={smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
+          title="Courses feedback"
+        />
+      </div>
+
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">Enrollments</h3>
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
           icon={Total_courses}
@@ -249,19 +268,15 @@ const DashboardTrainer = () => {
           value={smeDashboardData?.data?.approvedEnrollmentRequests || 0}
           title="Total approved enrollments"
         />
+      </div>
+
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">Trainers</h3>
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
           icon={Companies}
           value={smeDashboardData?.data?.trainersCount || 0}
           title="Total active trainers"
-        />
-      </div>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          value={smeDashboardData?.data?.courseContentApprovalRequest || 0}
-          title="Total recently updated courses"
         />
         <DashboardCard
           isLoading={isLoading}
@@ -272,13 +287,10 @@ const DashboardTrainer = () => {
           }
           title="Trainers feedback"
         />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Companies}
-          value={smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
-          title="Courses feedback"
-        />
       </div>
+      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+        Support tickets
+      </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}

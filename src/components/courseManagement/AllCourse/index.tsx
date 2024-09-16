@@ -79,9 +79,7 @@ const AllCourses = () => {
             </p>
           </div>
           <div className="flex justify-between items-center">
-            {(+userData?.query?.role === UserRole.Trainee
-              ? permissions?.createCourse
-              : true) && (
+            {+userData?.query?.role !== UserRole.Trainee && (
               <div>
                 <Button
                   type="button"

@@ -24,6 +24,8 @@ import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
+import { setPath } from "@/redux/reducer/PathReducer";
+import { useDispatch } from "react-redux";
 
 type dataGridProps = {
   data: AllCourse[];
@@ -33,6 +35,7 @@ type dataGridProps = {
 const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   const Role = location?.pathname?.split("/")[1];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
@@ -252,11 +255,27 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
             <>
               <div
                 className="h-full w-full border border-solid border-[#D9D9D9] cursor-pointer rounded col-span-1"
-                onClick={() =>
+                onClick={() => {
                   navigate(
                     `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
-                  )
-                }
+                  );
+                  dispatch(
+                    setPath([
+                      {
+                        label: `Course Management`,
+                        link: null,
+                      },
+                      {
+                        label: `All Courses`,
+                        link: `/company/allcourses`,
+                      },
+                      {
+                        label: allcourse.title,
+                        link: null,
+                      },
+                    ])
+                  );
+                }}
                 key={allcourse.id}
               >
                 <div className="relative overflow-hidden">

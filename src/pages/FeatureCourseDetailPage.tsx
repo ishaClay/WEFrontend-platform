@@ -8,18 +8,20 @@ import { fetchFeatureCourseById } from "@/services/apiServices/courseManagement"
 import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const FeatureCourseDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [currentTab, setCurrentTab] = useState("information");
 
   const { data: getSingleCourse, isPending: getSingleCoursePending } =
     useQuery<any>({
-      queryKey: [QUERY_KEYS.getSingleCourse],
+      queryKey: [QUERY_KEYS.getSingleCourse, { id }],
       queryFn: () => fetchFeatureCourseById(String(id)),
+      staleTime: 0,
     });
 
   useEffect(() => {
@@ -41,7 +43,9 @@ const FeatureCourseDetailPage = () => {
               </h4>
               <div
                 className="flex pr-5 cursor-pointer text-black md:hidden"
-                onClick={() => navigate("/")}
+                onClick={() => {
+                  navigate(-1);
+                }}
               >
                 <MoveLeft />
                 <span className="text-base font-semibold pl-4">Back</span>
@@ -66,7 +70,9 @@ const FeatureCourseDetailPage = () => {
                   <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
                     <div
                       className="md:flex hidden pr-5 cursor-pointer text-black"
-                      onClick={() => navigate("/")}
+                      onClick={() => {
+                        navigate(-1);
+                      }}
                     >
                       <MoveLeft />
                       <span className="text-base font-semibold pl-4">Back</span>

@@ -20,7 +20,7 @@ export interface AllCourse {
   description: string;
   bannerImage: string;
   page: number;
-  cohortGroups: CohortData[],
+  cohortGroups: CohortData[];
   courseAlloted: courseAlloted[];
   currentVersion: CurrentVersionType;
   enrolled: boolean;
@@ -96,7 +96,7 @@ export interface Data {
   description: string;
   bannerImage: string;
   keys: string;
-  courseData?: (null)[] | null;
+  courseData?: null[] | null;
   status: string;
   deletedAt?: null;
   createdAt: string;
@@ -114,7 +114,7 @@ export interface courseAlloted {
   user: UserData;
   course: {
     id: number;
-  }
+  };
 }
 export interface UserData {
   id: number;
@@ -129,7 +129,6 @@ export interface UserData {
   createdAt: string;
   updatedAt: string;
 }
-
 
 // export enum CourseStatus {
 //   Published = "PUBLISHED",
@@ -182,6 +181,7 @@ export interface CoursePublishAdminClientData {
   certificate: string | null;
   time: number;
   isOnline: number;
+  currentVersion: CurrentVersionType;
   universityAddress: string;
   duration: string;
   price: number;

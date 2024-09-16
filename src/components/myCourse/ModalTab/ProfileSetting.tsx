@@ -102,10 +102,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       lastname: zod.string().nonempty("Please enter last name"),
       smeOrganisation: zod.string().optional(),
       email: zod.string(),
-      mobilenumber: zod
-        .string()
-        .max(15, { message: "Please enter valid mobile number" })
-        .optional(),
+      mobilenumber: zod.string().optional(),
       gender: zod.string(),
     })
     .superRefine((_, ctx) => {
@@ -134,6 +131,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     register,
     formState: { errors },
     setValue,
+    setError,
     watch,
     handleSubmit,
     reset,
@@ -315,13 +313,22 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
           {+userData?.query.role !== UserRole.Company && (
             <div className="flex flex-col gap-1 py-2">
               <label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
-                Contact Number <span className="text-red-500">*</span>
+                Contact Number
               </label>
               <PhoneInputWithCountrySelect
                 placeholder="Enter phone number"
                 international
                 onChange={(e: any) => {
                   setValue("mobilenumber", e);
+                  if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                    setError("mobilenumber", {
+                      message: "Please enter valid phone number",
+                    });
+                  } else {
+                    setError("mobilenumber", {
+                      message: "",
+                    });
+                  }
                 }}
                 disabled={data?.data?.number ? true : false}
                 value={watch("mobilenumber") || ""}
