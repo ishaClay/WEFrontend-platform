@@ -8,8 +8,8 @@ import { getImages } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { fetchAllCourse, fetchPillar } from "@/services/apiServices/allcourse";
 import { Pillarcourse } from "@/types/allcourses";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -17,9 +17,7 @@ import { useNavigate } from "react-router-dom";
 
 function CoursesAllCourse() {
   const user = useSelector((state: RootState) => state.user);
-  const [selectedCourse, setSelectedCourse] = useState<Pillarcourse | null>(
-    null
-  );
+  const [selectedCourse, setSelectedCourse] = useState<Pillarcourse[]>([]);
   const [search, setSearch] = useState("");
   const usersData = JSON.parse(localStorage.getItem("user") as string);
   const userID = user?.UserId
@@ -28,16 +26,25 @@ function CoursesAllCourse() {
     ? usersData?.query?.id
     : usersData?.id;
 
-  const { data: allcourse, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
-    queryFn: () =>
-      fetchAllCourse(
-        selectedCourse?.id?.toString() || "",
-        search,
-        user?.clientId,
-        userID,
-        user?.CompanyId
-      ),
+  // const { data: allcourse, isLoading } = useQuery({
+  //   queryKey: [QUERY_KEYS.fetchbycourse, { selectedCourse, search }],
+  //   queryFn: () =>
+  //     fetchAllCourse(
+  //       selectedCourse?.id?.toString() || "",
+  //       search,
+  //       user?.clientId,
+  //       userID,
+  //       user?.CompanyId
+  //     ),
+  // });
+
+  const {
+    mutate: getAllCourses,
+    isPending,
+    data: allcourse,
+  } = useMutation({
+    mutationFn: (payload: { pillarid: number[] }) =>
+      fetchAllCourse(search, user?.clientId, userID, user?.CompanyId, payload),
   });
   const searchUrl = window.location.search;
   const params = new URLSearchParams(searchUrl).get("view");
@@ -52,9 +59,31 @@ function CoursesAllCourse() {
     queryFn: () => fetchPillar(user?.clientId),
   });
 
-  const handleCourseClick = (course: Pillarcourse | null) => {
-    setSelectedCourse(course);
+  const handleCourseClick = (course: Pillarcourse) => {
+    setSelectedCourse((prev: Pillarcourse[]) => {
+      const existing = prev.find((item: Pillarcourse) => item.id === course.id);
+      if (existing && prev.length === 1) return prev;
+      if (existing) {
+        return prev.filter((item: Pillarcourse) => item.id !== course.id);
+      }
+      return prev.concat(course);
+    });
   };
+
+  useEffect(() => {
+    if (selectedCourse.length) {
+      const payload: { pillarid: number[] } = {
+        pillarid: selectedCourse.map((item) => item.id),
+      };
+      getAllCourses(payload);
+    }
+  }, [selectedCourse, getAllCourses]);
+
+  useEffect(() => {
+    if (pillarcourse) {
+      setSelectedCourse([pillarcourse?.data?.data?.[0]]);
+    }
+  }, [pillarcourse]);
 
   return (
     <div className="bg-[#f5f3ff]">
@@ -139,7 +168,7 @@ function CoursesAllCourse() {
           className="overflow-y-hidden overflow-x-auto bg-[#E7E7E8] flex xl:gap-8 gap-5 items-center py-4 xl:px-10 px-5 lg:w-[calc(100vw-305px)]"
           id="scrollStyle"
         >
-          <div
+          {/* <div
             className={`flex justify-center self-stretch py-2 gap-x-[10px] items-center min-w-[156px] w-[156px] rounded-[9px] px-2 shadow-b shadow-lg hover:bg-[#64A70B] ${
               !selectedCourse
                 ? "bg-[#64A70B] !text-white"
@@ -150,12 +179,12 @@ function CoursesAllCourse() {
             }}
           >
             <p className="">All</p>
-          </div>
+          </div> */}
           {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
             return (
               <div
                 className={`flex justify-center self-stretch py-2 gap-x-[10px] items-center min-w-[156px] w-[156px] rounded-[9px] px-2 shadow-b shadow-lg hover:bg-[#64A70B] ${
-                  selectedCourse === pillarcourse
+                  selectedCourse.find((it) => it.id === pillarcourse.id)
                     ? "bg-[#64A70B] !text-white"
                     : "bg-[#EDF0F4] text-[#3A3A3A]"
                 }`}
@@ -168,7 +197,7 @@ function CoursesAllCourse() {
                   className="w-[30px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
                   src={getImages(
                     pillarcourse.pillarName,
-                    selectedCourse !== pillarcourse
+                    !selectedCourse.find((it) => it.id === pillarcourse.id)
                   )}
                   alt={pillarcourse.pillarName} // Add alt text for accessibility
                 />
@@ -180,7 +209,7 @@ function CoursesAllCourse() {
         </div>
 
         <>
-          {isLoading ? (
+          {isPending ? (
             <Loader className="h-10 w-10" />
           ) : (
             <>

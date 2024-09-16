@@ -44,6 +44,7 @@ const AllocatedCertificatePage = () => {
       toast({
         title: "Success",
         description: "Allocate Certificate User deleted successfully",
+        variant: "success",
       });
 
       queryClient.invalidateQueries({
@@ -54,6 +55,7 @@ const AllocatedCertificatePage = () => {
       toast({
         title: "Error",
         description: error?.data?.message || "Internal server error",
+        variant: "destructive",
       });
     },
   });

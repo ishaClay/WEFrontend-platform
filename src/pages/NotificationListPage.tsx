@@ -43,7 +43,10 @@ const NotificationListPage = () => {
       mutationFn: (notificationId: string) =>
         deleteNotificationById(notificationId),
       onSuccess: () => {
-        toast({ title: "Notification deleted Successfully" });
+        toast({
+          title: "Notification deleted Successfully",
+          variant: "success",
+        });
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.notificationList],
         });
@@ -65,7 +68,10 @@ const NotificationListPage = () => {
       mutationFn: (notificationIds: string[]) =>
         deleteMultipleNotification(notificationIds),
       onSuccess: () => {
-        toast({ title: "Notifications delete Successfully" });
+        toast({
+          title: "Notifications delete Successfully",
+          variant: "success",
+        });
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.notificationList],
         });

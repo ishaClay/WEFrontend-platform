@@ -126,7 +126,7 @@ const TicketsDetailsReply = () => {
         queryKey: [QUERY_KEYS.getSingleSupportTicket],
       });
       toast({
-        variant: "default",
+        variant: "success",
         title: "Ticket updated successfully",
       });
       dispatch(

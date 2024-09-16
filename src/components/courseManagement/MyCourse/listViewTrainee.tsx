@@ -36,11 +36,11 @@ import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
-import CohortModal from "./CohortModal";
-import ConfirmationModel from "./ConfirmationModel";
+import { AllocatedCertificateModal } from "../AllCourse/AllocatedCertificateModal";
+import ConfirmationModel from "../AllCourse/ConfirmationModel";
+import CohortModal from "../AllCourse/CohortModal";
 
-const ListView = ({
+const ListViewTrainee = ({
   list,
   isLoading,
 }: {
@@ -333,14 +333,13 @@ const ListView = ({
       )}
       <div>
         {list?.map((data: any, index: number) => {
-          // const versionOption =
-          //   data?.version &&
-          //   data?.version.map((itm: any) => {
-          //     return {
-          //       label: `V-${itm?.version}`,
-          //       value: itm?.id.toString() || "",
-          //     };
-          //   });
+          const isAllocated =
+            (data?.trainerId?.id
+              ? data?.trainerId?.id
+              : data?.trainerCompanyId?.id) !== +userData?.query?.detailsid;
+
+          const isSelfCreated =
+            +userData?.query?.detailsid === +data?.trainerId?.id;
 
           const update =
             +userData?.query?.role === UserRole?.Trainer
@@ -366,13 +365,24 @@ const ListView = ({
                 value: itm?.id.toString() || "",
               }));
 
-          // const editOption =
-          //   data?.trainerId?.id === +userData?.query?.detailsid
-          //     ? (userData?.editCourses &&
-          //         +userData?.query?.role !== UserRole.Trainee) ||
-          //       data?.trainerId?.id === +userData?.query?.detailsid
-          //     : userData?.editCourses ||
-          //       +userData?.query?.role !== UserRole.Trainee;
+          const showCopy =
+            pathName === "allcourse"
+              ? permissions?.createCourse
+              : isAllocated
+              ? permissions?.createCourse
+              : isSelfCreated;
+
+          const showEditWithNew =
+            pathName === "mycourses" &&
+            (isAllocated
+              ? permissions?.updateCourse
+              : data.status === "PUBLISHED" && isSelfCreated);
+
+          const showEdit = pathName === "mycourses" && data.status === "DRAFT";
+          const showDelete =
+            pathName === "mycourses" &&
+            data.status !== "PUBLISHED" &&
+            isSelfCreated;
 
           return (
             <Link
@@ -475,9 +485,7 @@ const ListView = ({
                     {data?.status === "PUBLISHED"
                       ? "Published"
                       : data?.status === "READYTOPUBLISH"
-                      ? userData?.query?.role === "2"
-                        ? "Publish"
-                        : "Ready to Publish"
+                      ? "Ready to Publish"
                       : "Publish"}
                   </Button>
                   {Role !== "trainee" && (
@@ -506,110 +514,70 @@ const ListView = ({
                       />
                     </div>
                   )}
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild className="">
-                      <EllipsisVertical />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-30">
-                      <DropdownMenuGroup>
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e: any) =>
-                            handleCopy(e, data?.currentVersion?.id)
-                          }
-                        >
-                          <Copy className="w-4 h-4" />
-                          <span>Copy</span>
-                        </DropdownMenuItem>
-                        {data.status === "PUBLISHED" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleChangeStatus(e, data)}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>
-                              {data?.status === "UNPUBLISHED"
-                                ? "Re-Publish"
-                                : "Un-Publish"}
-                            </span>
-                          </DropdownMenuItem>
-                        )}
-                        {data.status === "READYTOPUBLISH" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleChangeStatus(e, data)}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Reject</span>
-                          </DropdownMenuItem>
-                        )}
-                        {data.status === "PUBLISHED" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data, "editminor")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Edit minor</span>
-                          </DropdownMenuItem>
-                        )}
-                        {["READYTOPUBLISH", "DRAFT"].includes(data.status) && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data, "edit")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Edit</span>
-                          </DropdownMenuItem>
-                        )}
-                        {data.status === "PUBLISHED" && (
-                          <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
-                            onClick={(e) => handleEdit(e, data, "editWithNew")}
-                          >
-                            <Pencil className="w-4 h-4" />
-                            <span>Edit new versions</span>
-                          </DropdownMenuItem>
-                        )}
-                        {data.status === "PUBLISHED" && (
-                          <DropdownMenuItem
-                            className={`flex items-center gap-2 font-nunito ${
-                              +userData?.query?.role === UserRole.Trainee
-                                ? "hidden"
-                                : "flex"
-                            }`}
-                            disabled={data?.status !== "PUBLISHED"}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsOpen(data?.currentVersion?.mainCourse?.id);
-                              setSelectedCourse(data);
-                            }}
-                          >
-                            <Combine className="w-4 h-4" />
-                            <span>Allocate</span>
-                          </DropdownMenuItem>
-                        )}
-                        {data.status !== "PUBLISHED" && (
-                          <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${
-                              pathName === "trainee" &&
-                              data?.trainerId?.id ===
-                                +userData?.query?.detailsid
-                                ? "flex"
-                                : ""
-                            }`}
-                            onClick={(e: any) => {
-                              e.stopPropagation();
-                              setIsDelete(true);
-                              setSingleCourse(data);
-                            }}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            <span>Delete</span>
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {(showCopy || showEditWithNew || showEdit || showDelete) && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild className="">
+                        <EllipsisVertical />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-30">
+                        <DropdownMenuGroup>
+                          {showCopy && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e: any) =>
+                                handleCopy(
+                                  e,
+                                  data?.currentVersion?.id as number
+                                )
+                              }
+                            >
+                              <Copy className="w-4 h-4" />
+                              <span>Copy</span>
+                            </DropdownMenuItem>
+                          )}
+                          {showEdit && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) => handleEdit(e, data, "edit")}
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>Edit</span>
+                            </DropdownMenuItem>
+                          )}
+                          {showEditWithNew && (
+                            <DropdownMenuItem
+                              className="flex items-center gap-2 font-nunito"
+                              onClick={(e) =>
+                                handleEdit(e, data, "editWithNew")
+                              }
+                            >
+                              <Pencil className="w-4 h-4" />
+                              <span>Edit new versions</span>
+                            </DropdownMenuItem>
+                          )}
+                          {showDelete && (
+                            <DropdownMenuItem
+                              className={`items-center gap-2 font-nunito ${
+                                pathName === "trainee" &&
+                                data?.trainerId?.id ===
+                                  +userData?.query?.detailsid
+                                  ? "flex"
+                                  : ""
+                              }`}
+                              onClick={(e: any) => {
+                                e.stopPropagation();
+                                setIsDelete(true);
+                                setSingleCourse(data);
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              <span>Delete</span>
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                 </div>
                 <div className="absolute w-[1px] h-32 left-0 top-0 bottom-0 bg-[#DDD] m-auto xl:block hidden"></div>
               </div>
@@ -640,4 +608,4 @@ const ListView = ({
   );
 };
 
-export default ListView;
+export default ListViewTrainee;

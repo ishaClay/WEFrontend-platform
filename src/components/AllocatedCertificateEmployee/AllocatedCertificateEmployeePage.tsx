@@ -64,7 +64,9 @@ const AllocatedCertificateEmployeePage = () => {
     mutationFn: allocateCertificate,
     onSuccess: () => {
       toast({
+        title: "Success",
         description: "Certificate issued successfully",
+        variant: "success",
       });
       setSelectCourse("");
       setSelectTrainee("");
@@ -85,6 +87,7 @@ const AllocatedCertificateEmployeePage = () => {
     },
     onError: (error: any) => {
       toast({
+        title: "Error",
         description: error?.message || error?.data?.message,
         variant: "destructive",
       });
@@ -184,6 +187,7 @@ const AllocatedCertificateEmployeePage = () => {
                 allocate(payload);
               } else {
                 toast({
+                  title: "Error",
                   description: `Upload failed: ${result.data}`,
                   variant: "destructive",
                 });

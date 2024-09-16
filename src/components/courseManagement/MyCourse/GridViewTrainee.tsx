@@ -31,15 +31,15 @@ import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AllocatedCertificateModal } from "./AllocatedCertificateModal";
-import CohortModal from "./CohortModal";
-import ConfirmationModel from "./ConfirmationModel";
+import { AllocatedCertificateModal } from "../AllCourse/AllocatedCertificateModal";
+import ConfirmationModel from "../AllCourse/ConfirmationModel";
+import CohortModal from "../AllCourse/CohortModal";
 
-const GridView = ({
+const GridViewTrainee = ({
   list,
   isLoading,
 }: {
@@ -98,26 +98,19 @@ const GridView = ({
   const { mutate: publishCourseFun, isPending: publishCoursePending } =
     useMutation({
       mutationFn: (data: PublishCourseType) => publishCourse(data),
-      onSuccess: (data) => {
+      onSuccess: () => {
         setIsStatusLoading(false);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.fetchAllCourse],
         });
         setCourse("");
 
-        if (data?.data?.data?.status === "UNPUBLISHED") {
-          toast({
-            title: "Success",
-            description: "Course unplished successfully",
-            variant: "success",
-          });
-        } else {
-          toast({
-            title: "Success",
-            description: "Course published successfully",
-            variant: "success",
-          });
-        }
+        toast({
+          title: "Success",
+          description:
+            "Your course has been successfully forwarded to the admin for review before it is published.",
+          variant: "success",
+        });
 
         setOpen("");
       },
@@ -213,14 +206,11 @@ const GridView = ({
       status: userData?.query?.role === "3" ? "READYTOPUBLISH" : "PUBLISHED",
       id: +id,
     };
-    const cohortCount =
-      list?.find((item) => item?.currentVersion?.id === (+id || 0))
-        ?.currentVersion?.cohortGroup?.length || 0;
+    const module =
+      list?.find((item) => item?.currentVersion?.id === (+id || 0))?.module
+        ?.length || 0;
 
-    if (
-      +userData?.query?.role === UserRole?.Trainee ||
-      (cohortCount > 0 && +userData?.query?.role === UserRole?.Trainer)
-    ) {
+    if (+userData?.query?.role === UserRole?.Trainee && module > 0) {
       publishCourseFun(payload);
     } else {
       const singleCourse = list?.find(
@@ -230,7 +220,7 @@ const GridView = ({
         publishCourseFun(payload);
       } else {
         toast({
-          title: "Please Create Cohort Group",
+          title: "Please Create Module and Sections",
           variant: "destructive",
         });
       }
@@ -251,10 +241,9 @@ const GridView = ({
     if (
       item?.status === "DRAFT" ||
       item?.status === "PUBLISHED" ||
-      item?.status === "UNPUBLISHED" ||
-      item?.status === "READYTOPUBLISH"
+      item?.status === "UNPUBLISHED"
     ) {
-      if (type === "editminor" && item?.status !== "READYTOPUBLISH") {
+      if (type === "editminor") {
         if (+item?.step === 5) {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
@@ -303,21 +292,6 @@ const GridView = ({
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  const handleChangeStatus = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: AllCoursesResult,
-    status: string
-  ) => {
-    e.stopPropagation();
-    setIsStatusLoading(true);
-    const payload = {
-      status: status,
-      id: +item?.currentVersion?.id,
-    };
-    publishCourseFun(payload);
-  };
-  console.log("listlistlist", list);
-
   return list?.length > 0 && list ? (
     <>
       <AllocatedCertificateModal
@@ -340,22 +314,21 @@ const GridView = ({
       )}
       <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
         {list?.map((item: any, i: number) => {
-          const update =
-            +userData?.query?.role === UserRole?.Trainer
-              ? true
-              : // : item?.trainerId?.id === +userData?.query?.detailsid
-                // ? true
-                permissions?.updateCourse;
-          // const versionOption =
-          //   item?.version &&
-          //   item?.version.map((itm: any) => {
-          //     return {
-          //       label: `V-${itm?.version}`,
-          //       value: itm?.id.toString() || "",
-          //     };
-          //   });
+          const isAllocated =
+            (item?.trainerId?.id
+              ? item?.trainerId?.id
+              : item?.trainerCompanyId?.id) !== +userData?.query?.detailsid;
+
+          const isSelfCreated =
+            +userData?.query?.detailsid === +item?.trainerId?.id;
+          const update = isAllocated
+            ? permissions?.updateCourse
+            : item.status === "PUBLISHED";
+
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
+
           const isMyCoursesPath = pathName === "mycourses";
+
           const CoursesPath =
             pathName === "mycourses" ? "My Courses" : pathName;
           const isPublished = item?.status === "PUBLISHED";
@@ -364,7 +337,11 @@ const GridView = ({
             item?.version &&
             item?.version
               .filter((itm: any) => {
-                if (isTrainee && isMyCoursesPath && isPublished) {
+                if (
+                  isMyCoursesPath &&
+                  isPublished &&
+                  userData?.query?.detailsid === itm
+                ) {
                   return itm.version === item?.currentVersion?.version;
                 }
                 return true;
@@ -374,13 +351,24 @@ const GridView = ({
                 value: itm?.id.toString() || "",
               }));
 
-          // const editOption =
-          //   item?.trainerId?.id === +userData?.query?.detailsid
-          //     ? (userData?.editCourses &&
-          //         +userData?.query?.role !== UserRole.Trainee) ||
-          //       item?.trainerId?.id === +userData?.query?.detailsid
-          //     : userData?.editCourses ||
-          //       +userData?.query?.role !== UserRole.Trainee;
+          const showCopy =
+            pathName === "allcourse"
+              ? permissions?.createCourse
+              : isAllocated
+              ? permissions?.createCourse
+              : isSelfCreated;
+
+          const showEditWithNew =
+            pathName === "mycourses" &&
+            (isAllocated
+              ? permissions?.updateCourse
+              : item.status === "PUBLISHED" && isSelfCreated);
+
+          const showEdit = pathName === "mycourses" && item.status === "DRAFT";
+          const showDelete =
+            pathName === "mycourses" &&
+            item.status !== "PUBLISHED" &&
+            isSelfCreated;
 
           return (
             <Link
@@ -509,122 +497,66 @@ const GridView = ({
                     />
                   </div>
                 )}
-                {/* {(+userData?.query?.role === UserRole.Trainee
-                  ? item?.status === "PUBLISHED" &&
-                    userData?.query?.detailsid === item?.trainerId?.id
-                  : true) && (
-                )} */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild className="outline-none">
-                    <EllipsisVertical className="w-8" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-30">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        className="flex items-center gap-2 font-nunito"
-                        onClick={(e: any) =>
-                          handleCopy(e, item?.currentVersion?.id)
-                        }
-                      >
-                        <Copy className="w-4 h-4" />
-                        <span>Copy</span>
-                      </DropdownMenuItem>
-                      {item.status === "PUBLISHED" && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) =>
-                            handleChangeStatus(
-                              e,
-                              item,
-                              item?.status === "PUBLISHED"
-                                ? "UNPUBLISHED"
-                                : "PUBLISHED"
-                            )
-                          }
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>
-                            {item?.status === "UNPUBLISHED"
-                              ? "Re-Publish"
-                              : "Un-Publish"}
-                          </span>
-                        </DropdownMenuItem>
-                      )}
-                      {item.status === "READYTOPUBLISH" && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleChangeStatus(e, item, "DRAFT")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Reject</span>
-                        </DropdownMenuItem>
-                      )}
-                      {item.status === "PUBLISHED" && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "editminor")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Edit minor</span>
-                        </DropdownMenuItem>
-                      )}
-                      {["READYTOPUBLISH", "DRAFT"].includes(item.status) && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "edit")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Edit</span>
-                        </DropdownMenuItem>
-                      )}
-                      {item.status === "PUBLISHED" && (
-                        <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
-                          onClick={(e) => handleEdit(e, item, "editWithNew")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                          <span>Edit new versions</span>
-                        </DropdownMenuItem>
-                      )}
-                      {item.status === "PUBLISHED" && (
-                        <DropdownMenuItem
-                          className={`flex items-center gap-2 font-nunito ${
-                            +userData?.query?.role === UserRole.Trainee
-                              ? "hidden"
-                              : "flex"
-                          }`}
-                          disabled={item?.status !== "PUBLISHED"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsOpen(item?.currentVersion?.mainCourse?.id);
-                            setSelectedCourse(item);
-                          }}
-                        >
-                          <Combine className="w-4 h-4" />
-                          <span>Allocate</span>
-                        </DropdownMenuItem>
-                      )}
-                      {item.status !== "PUBLISHED" && (
-                        <DropdownMenuItem
-                          className={`items-center gap-2 font-nunito ${
-                            pathName === "trainee" &&
-                            item?.trainerId?.id === +userData?.query?.detailsid
-                              ? "flex"
-                              : ""
-                          }`}
-                          onClick={(e: any) => {
-                            e.stopPropagation();
-                            setIsDelete(true);
-                            setSingleCourse(item);
-                          }}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Delete</span>
-                        </DropdownMenuItem>
-                      )}
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {(showCopy || showEditWithNew || showEdit || showDelete) && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="outline-none">
+                      <EllipsisVertical className="w-8" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-30">
+                      <DropdownMenuGroup>
+                        {showCopy && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e: any) =>
+                              handleCopy(e, item?.currentVersion?.id)
+                            }
+                          >
+                            <Copy className="w-4 h-4" />
+                            <span>Copy</span>
+                          </DropdownMenuItem>
+                        )}
+
+                        {showEdit && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleEdit(e, item, "edit")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>Edit</span>
+                          </DropdownMenuItem>
+                        )}
+                        {showEditWithNew && (
+                          <DropdownMenuItem
+                            className="flex items-center gap-2 font-nunito"
+                            onClick={(e) => handleEdit(e, item, "editWithNew")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                            <span>Edit new versions</span>
+                          </DropdownMenuItem>
+                        )}
+
+                        {showDelete && (
+                          <DropdownMenuItem
+                            className={`items-center gap-2 font-nunito ${
+                              item?.trainerId?.id ===
+                              +userData?.query?.detailsid
+                                ? "flex"
+                                : ""
+                            }`}
+                            onClick={(e: any) => {
+                              e.stopPropagation();
+                              setIsDelete(true);
+                              setSingleCourse(item);
+                            }}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            <span>Delete</span>
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             </Link>
           );
@@ -653,4 +585,4 @@ const GridView = ({
   );
 };
 
-export default GridView;
+export default GridViewTrainee;

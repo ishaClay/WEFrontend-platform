@@ -28,7 +28,7 @@ import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  selectedCourse: Pillarcourse | null;
+  selectedCourse: Pillarcourse[];
 };
 
 const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
@@ -192,11 +192,13 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
       {data?.length > 0 ? (
         data?.map((allcourse: AllCourse) => {
           const maturityLevel =
-            selectedCourse &&
-            allcourse?.courseData?.find(
-              (item) =>
-                item.fetchPillar?.pillarName === selectedCourse?.pillarName
-            );
+            selectedCourse?.length > 0
+              ? allcourse?.courseData?.find((item) =>
+                  selectedCourse.find(
+                    (it) => it.pillarName === item.fetchPillar?.pillarName
+                  )
+                )
+              : null;
           return (
             <>
               <div

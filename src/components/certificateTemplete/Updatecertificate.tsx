@@ -116,7 +116,7 @@ const Addcertificate = () => {
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
-      toast({ title: "Image Uploaded Successfully", variant: "default" });
+      toast({ title: "Image Uploaded Successfully", variant: "success" });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
@@ -164,7 +164,7 @@ const Addcertificate = () => {
           ])
         );
         toast({
-          variant: "default",
+          variant: "success",
           title: "Certificate Update Successfully",
         });
         setLoading(false);

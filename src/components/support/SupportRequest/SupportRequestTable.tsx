@@ -319,7 +319,7 @@ const SupportRequestTable = ({
     useMutation({
       mutationFn: (id: string) => deleteSupportTicket(id),
       onSuccess: () => {
-        toast({ title: "Ticket delete Successfully" });
+        toast({ title: "Ticket delete Successfully", variant: "success" });
         setOpenDelete(null);
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.supportTicketList],
