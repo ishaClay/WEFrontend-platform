@@ -32,13 +32,12 @@ import { AllCoursesResult, CourseDataEntity } from "@/types/courseManagement";
 import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Combine, Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AllocatedCertificateModal } from "../AllCourse/AllocatedCertificateModal";
-import ConfirmationModel from "../AllCourse/ConfirmationModel";
 import CohortModal from "../AllCourse/CohortModal";
+import ConfirmationModel from "../AllCourse/ConfirmationModel";
 
 const ListViewTrainee = ({
   list,
@@ -53,13 +52,10 @@ const ListViewTrainee = ({
   const [course, setCourse] = useState<string | number>("");
   const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
-  const [isOpen, setIsOpen] = useState<string>("");
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
-  const [selectedCourse, setSelectedCourse] = useState<AllCoursesResult | null>(
-    null
-  );
+
   const [isStatusLoading, setIsStatusLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -298,27 +294,8 @@ const ListViewTrainee = ({
     deleteCourseFun(singleCourse ? singleCourse?.id : 0);
   };
 
-  const handleChangeStatus = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: AllCoursesResult
-  ) => {
-    e.stopPropagation();
-    setIsStatusLoading(true);
-    const payload = {
-      status: item.status === "PUBLISHED" ? "UNPUBLISHED" : "PUBLISHED",
-      id: +item?.currentVersion?.id,
-    };
-    publishCourseFun(payload);
-  };
-
   return list?.length > 0 && list ? (
     <div>
-      <AllocatedCertificateModal
-        isOpen={!!isOpen}
-        onClose={() => setIsOpen("")}
-        courseId={+isOpen}
-        selectedCourse={selectedCourse}
-      />
       <ConfirmationModel
         open={open}
         setOpen={setOpen}
@@ -558,9 +535,8 @@ const ListViewTrainee = ({
                           {showDelete && (
                             <DropdownMenuItem
                               className={`items-center gap-2 font-nunito ${
-                                pathName === "trainee" &&
                                 data?.trainerId?.id ===
-                                  +userData?.query?.detailsid
+                                +userData?.query?.detailsid
                                   ? "flex"
                                   : ""
                               }`}

@@ -218,7 +218,7 @@ const MaturityLevelPage = () => {
                 </p>
                 <div className="sm:pb-5 pb-3">
                   <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
-                    But what your score really means?{" "}
+                    But what does your score really mean?{" "}
                   </h6>
                   <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
                     This is where your journey starts. 

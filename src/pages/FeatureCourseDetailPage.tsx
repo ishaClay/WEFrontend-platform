@@ -8,12 +8,11 @@ import { fetchFeatureCourseById } from "@/services/apiServices/courseManagement"
 import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const FeatureCourseDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [currentTab, setCurrentTab] = useState("information");
 

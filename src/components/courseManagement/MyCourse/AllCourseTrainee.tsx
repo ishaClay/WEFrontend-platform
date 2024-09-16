@@ -8,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
@@ -22,8 +21,8 @@ import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "../AllCourse/CohortModal";
-import ListViewTrainee from "./listViewTrainee";
 import GridViewTrainee from "./GridViewTrainee";
+import ListViewTrainee from "./listViewTrainee";
 
 const AllCourseTrainee = () => {
   const { UserId } = useSelector((state: RootState) => state.user);

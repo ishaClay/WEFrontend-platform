@@ -35,9 +35,8 @@ import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { AllocatedCertificateModal } from "../AllCourse/AllocatedCertificateModal";
-import ConfirmationModel from "../AllCourse/ConfirmationModel";
 import CohortModal from "../AllCourse/CohortModal";
+import ConfirmationModel from "../AllCourse/ConfirmationModel";
 
 const GridViewTrainee = ({
   list,
@@ -53,15 +52,12 @@ const GridViewTrainee = ({
   const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
-  const [isOpen, setIsOpen] = useState<string>("");
   const [open, setOpen] = useState<string>("");
   const [isDelete, setIsDelete] = useState(false);
   const [singleCourse, setSingleCourse] = useState<AllCoursesResult | null>(
     null
   );
-  const [selectedCourse, setSelectedCourse] = useState<AllCoursesResult | null>(
-    null
-  );
+
   const [course, setCourse] = useState<string | number>("");
   const [isStatusLoading, setIsStatusLoading] = useState(false);
   const navigate = useNavigate();
@@ -294,12 +290,6 @@ const GridViewTrainee = ({
 
   return list?.length > 0 && list ? (
     <>
-      <AllocatedCertificateModal
-        isOpen={!!isOpen}
-        onClose={() => setIsOpen("")}
-        courseId={+isOpen}
-        selectedCourse={selectedCourse}
-      />
       <ConfirmationModel
         open={open}
         setOpen={setOpen}
@@ -324,8 +314,6 @@ const GridViewTrainee = ({
           const update = isAllocated
             ? permissions?.updateCourse
             : item.status === "PUBLISHED";
-
-          const isTrainee = +userData?.query?.role === UserRole?.Trainee;
 
           const isMyCoursesPath = pathName === "mycourses";
 

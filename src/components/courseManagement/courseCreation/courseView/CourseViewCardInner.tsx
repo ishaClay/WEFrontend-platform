@@ -172,7 +172,6 @@ const CourseViewCardInner = ({
     reset,
     getValues,
     setError,
-    clearErrors,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",

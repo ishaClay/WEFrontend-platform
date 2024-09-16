@@ -1,4 +1,11 @@
+import { RegisterContext } from "@/context/RegisterContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+
 const Companies = () => {
+  const navigate = useNavigate();
+  const { setSelectedRole } = useContext(RegisterContext);
   return (
     <div id="company">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-5 md:my-[40px] my-0">
@@ -24,6 +31,20 @@ const Companies = () => {
             </span>
           </p>
         </div>
+        <Button
+          type="button"
+          variant={"default"}
+          onClick={() => {
+            setSelectedRole("company");
+            navigate("/register");
+          }}
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[278px] sm:h-[59px] h-[44px] bg-[#75BD43] secondary-text md:mt-8 mt-6"
+        >
+          <div>Register As A Company Now</div>
+          <div>
+            <img className="" src="../assets/img/Move Right.png" />
+          </div>
+        </Button>
       </div>
     </div>
   );
