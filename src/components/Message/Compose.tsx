@@ -118,16 +118,12 @@ const Compose = () => {
     }
   }, [isActive]);
 
-  const { data: fetchTargetUserbyList, refetch: refetchTargetUserby } =
-    useQuery({
-      queryKey: [QUERY_KEYS.getTargetUserby, targetAudienceId],
-      queryFn: () => getTargetUserby(userID as string),
-    });
+  const { data: fetchTargetUserbyList } = useQuery({
+    queryKey: [QUERY_KEYS.getTargetUserby, { targetAudienceId, selectTab }],
+    queryFn: () => getTargetUserby(userID as string),
+  });
 
-  useEffect(() => {
-    refetchTargetUserby();
-  }, [selectTab]);
-console.log("images", images);
+  console.log("images", images);
 
   const fetchAssignToList = (selectType: string) => {
     const selectedType =
@@ -139,7 +135,11 @@ console.log("images", images);
       //     selectedType
       //   ]?.filter((item: any) => item?.status === TrainerStatus?.Active)
       // );
-      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[selectedType]);      
+      setSelectToValue(
+        fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
+          selectedType
+        ]
+      );
     } else if (role === UserRole?.Company) {
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectedType]
@@ -154,25 +154,16 @@ console.log("images", images);
       );
     }
   };
-  console.log("isActive", fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails, isActive);
-    
+  console.log("isActive", fetchTargetUserbyList, isActive);
 
   useEffect(() => {
     fetchAssignToList(isActive);
   }, [isActive, fetchTargetUserbyList]);
 
-  const {
-    data: emailtemplateList,
-    isPending,
-    refetch: refetchEmailtemplateList,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.emailTemplate],
+  const { data: emailtemplateList, isPending } = useQuery({
+    queryKey: [QUERY_KEYS.emailTemplate, { selectTab }],
     queryFn: () => fetchEmails(selectTab),
   });
-
-  useEffect(() => {
-    refetchEmailtemplateList();
-  }, [selectTab]);
 
   const schema = z.object({
     to: z
@@ -242,13 +233,14 @@ console.log("images", images);
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
-        if(!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+        if (!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
           toast({
             variant: "destructive",
-            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+            title:
+              "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
           });
           return;
-        } else{
+        } else {
           upload_file(file);
         }
       });
@@ -288,6 +280,8 @@ console.log("images", images);
       images: images,
     });
   };
+
+  console.log("selectToValue", selectToValue);
 
   return (
     <>
@@ -373,6 +367,10 @@ console.log("images", images);
                         <SelectItem
                           value={String(selectToValue?.userDetails?.id)}
                         >
+                          {console.log(
+                            "selectToValue?.userDetailsselectToValue?.userDetails",
+                            selectToValue?.userDetails
+                          )}
                           {selectToValue?.userDetails?.name ||
                             selectToValue?.userDetails?.email?.split("@")[0]}
                         </SelectItem>

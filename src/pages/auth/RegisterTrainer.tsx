@@ -63,62 +63,42 @@ function RegisterTrainer() {
   const [searchParams] = useSearchParams();
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
-  const schema = z
-    .object({
-      providerName: z
-        .string()
-        .min(1, { message: "Please enter provider name" }),
-      providerType: z
-        .string({
-          required_error: "Please select provider type",
-        })
-        .min(1, { message: "Please enter provider type" }),
-      providerCity: z
-        .string()
-        .min(1, { message: "Please enter provider city" }),
-      contactSurname: z.string().min(3, { message: "Please enter last name" }),
-      contactTelephone: z
-        .string({ required_error: "Please enter phone number" })
-        .min(10, { message: "Please enter valid phone number" })
-        .max(15, { message: "Please enter valid phone number" })
-        .optional(),
-      providerAddress: z
-        .string({
-          required_error: "Please enter provider address",
-        })
-        .min(1, { message: "Please enter provider address" }),
-      providerCounty: z.string().optional(),
-      contactFirstName: z
-        .string()
-        .min(3, { message: "Please enter first name" }),
-      email: z
-        .string()
-        .min(1, { message: "Please enter email address" })
-        .email("Please enter valid email address"),
-      providerNotes: z
-        .string()
-        .max(200, {
-          message: "Provider notes must contain at least 200 characters",
-        })
-        .optional(),
-      foreignProvider: z
-        .string({
-          message: "Please select foreign provider",
-        })
-        .refine((value) => value === "Yes" || value === "No", {
-          message: "Please select foreign provider",
-          path: ["foreignProvider"],
-        }),
-    })
-    .superRefine((_, ctx) => {
-      if (!pathName?.includes("trainer-regestration") && !_.contactTelephone) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Please enter phone number",
-          path: ["contactTelephone"],
-        });
-      }
-    });
+  const schema = z.object({
+    providerName: z.string().min(1, { message: "Please enter provider name" }),
+    providerType: z
+      .string({
+        required_error: "Please select provider type",
+      })
+      .min(1, { message: "Please enter provider type" }),
+    providerCity: z.string().min(1, { message: "Please enter provider city" }),
+    contactSurname: z.string().min(3, { message: "Please enter last name" }),
+    contactTelephone: z.string().optional(),
+    providerAddress: z
+      .string({
+        required_error: "Please enter provider address",
+      })
+      .min(1, { message: "Please enter provider address" }),
+    providerCounty: z.string().optional(),
+    contactFirstName: z.string().min(3, { message: "Please enter first name" }),
+    email: z
+      .string()
+      .min(1, { message: "Please enter email address" })
+      .email("Please enter valid email address"),
+    providerNotes: z
+      .string()
+      .max(200, {
+        message: "Provider notes must contain at least 200 characters",
+      })
+      .optional(),
+    foreignProvider: z
+      .string({
+        message: "Please select foreign provider",
+      })
+      .refine((value) => value === "Yes" || value === "No", {
+        message: "Please select foreign provider",
+        path: ["foreignProvider"],
+      }),
+  });
   const pathName = location?.pathname?.split("/");
 
   console.log("+++++++++++", !pathName?.includes("trainer-regestration"));
@@ -177,8 +157,6 @@ function RegisterTrainer() {
     mode: "all",
   });
   const email = watch("email");
-
-  console.log("errors+++++++++++++++", errors);
 
   const { mutate: logout, isPending: isLogoutPending } = useMutation({
     mutationFn: LogOut,
@@ -576,6 +554,15 @@ function RegisterTrainer() {
                       onChange={(e: any) => {
                         setValue("contactTelephone", e);
                         setPhone(e);
+                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                          setError("contactTelephone", {
+                            message: "Please enter valid phone number",
+                          });
+                        } else {
+                          setError("contactTelephone", {
+                            message: "",
+                          });
+                        }
                       }}
                       className="phone-input"
                     />

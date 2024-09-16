@@ -28,7 +28,7 @@ import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  selectedCourse: Pillarcourse | null;
+  selectedCourse: Pillarcourse[];
 };
 
 const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
@@ -135,7 +135,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                   setIsCohortShow(cohortData);
                 }}
               >
-                Show all cohort
+                Show all cohorts
               </p>
             </div>
             <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
@@ -192,11 +192,13 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
       {data?.length > 0 ? (
         data?.map((allcourse: AllCourse) => {
           const maturityLevel =
-            selectedCourse &&
-            allcourse?.courseData?.find(
-              (item) =>
-                item.fetchPillar?.pillarName === selectedCourse?.pillarName
-            );
+            selectedCourse?.length > 0
+              ? allcourse?.courseData?.find((item) =>
+                  selectedCourse.find(
+                    (it) => it.pillarName === item.fetchPillar?.pillarName
+                  )
+                )
+              : null;
           return (
             <>
               <div
@@ -353,9 +355,11 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                           setRecommendedCoursesById(allcourse?.id);
                         }}
                         className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[100px]"
-                        disabled={allcourse?.isOnline === 1 ? false :
-                          allcourse?.enrolled ||
-                          !getUpcommingCohort(allcourse)?.props?.children
+                        disabled={
+                          allcourse?.isOnline === 1
+                            ? false
+                            : allcourse?.enrolled ||
+                              !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >
                         Enroll Now

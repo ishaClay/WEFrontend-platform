@@ -200,6 +200,7 @@ const ModuleCreationPage = () => {
     formState: { errors },
     watch,
     setValue,
+    setError,
     reset,
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
@@ -417,6 +418,7 @@ const ModuleCreationPage = () => {
               moduleListlength={moduleList?.length}
               index={index}
               setUrlError={setUrlError}
+              setErrors={setError}
               urlError={urlError}
               informationError={informationError}
               setInformationError={(e: string) => setInformationError(e)}

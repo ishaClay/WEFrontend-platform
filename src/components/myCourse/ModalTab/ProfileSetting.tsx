@@ -102,10 +102,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
       lastname: zod.string().nonempty("Please enter last name"),
       smeOrganisation: zod.string().optional(),
       email: zod.string(),
-      mobilenumber: zod
-        .string()
-        .max(15, { message: "Please enter valid mobile number" })
-        .optional(),
+      mobilenumber: zod.string().optional(),
       gender: zod.string(),
     })
     .superRefine((_, ctx) => {
@@ -132,8 +129,9 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isDirty },
     setValue,
+    setError,
     watch,
     handleSubmit,
     reset,
@@ -141,7 +139,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     resolver: zodResolver(schema),
     mode: "all",
   });
-  console.log("🚀 ~ ProfileSetting ~ errors:", errors);
+  console.log("🚀 ~ ProfileSetting ~ isDirty:", isDirty);
 
   const { data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.userDetails, { id: userData?.query?.id }],
@@ -226,10 +224,11 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     // @ts-ignore
     formData.append("image", file);
     // @ts-ignore
-    if(!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -295,7 +294,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"SME Organisation"}
                   placeholder={"SME Organisation"}
                   {...register("smeOrganisation")}
-                  className="font-bold text-slate-900 disabled:opacity-90 disabled:font-normal disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:font-normal disabled:text-[#000]"
                   disabled
                   error={errors?.smeOrganisation?.message as string}
                 />
@@ -305,7 +304,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"Company Id"}
                   placeholder={"Company Id"}
                   disabled
-                  className="font-bold text-slate-900 disabled:opacity-90 disabled:font-normal disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:font-normal disabled:text-[#000]"
                   value={data?.data?.companyDetails?.companyId}
                   error={errors?.smeOrganisation?.message as string}
                 />
@@ -315,13 +314,22 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
           {+userData?.query.role !== UserRole.Company && (
             <div className="flex flex-col gap-1 py-2">
               <label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
-                Contact Number <span className="text-red-500">*</span>
+                Contact Number
               </label>
               <PhoneInputWithCountrySelect
                 placeholder="Enter phone number"
                 international
                 onChange={(e: any) => {
                   setValue("mobilenumber", e);
+                  if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                    setError("mobilenumber", {
+                      message: "Please enter valid phone number",
+                    });
+                  } else {
+                    setError("mobilenumber", {
+                      message: "",
+                    });
+                  }
                 }}
                 disabled={data?.data?.number ? true : false}
                 value={watch("mobilenumber") || ""}
@@ -338,7 +346,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               disabled={watch("email") ? true : false}
               placeholder="Email"
               {...register("email")}
-              className="font-bold text-slate-900 disabled:text-[#000] disabled:opacity-90 disabled:font-medium"
+              className="font-bold text-slate-900 disabled:text-[#000] disabled:opacity-100 disabled:font-medium"
               error={errors?.email?.message as string}
             />
           </div>
@@ -356,11 +364,11 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 <RadioGroupItem
                   value="male"
                   id="option-one"
-                  className="border-[#9B9B9B] w-6 h-6"
+                  className="border-[#000] w-6 h-6"
                 />
                 <Label
                   htmlFor="option-one"
-                  className="text-[#9B9B9B] text-sm font-sans"
+                  className="text-[#000] text-sm font-sans peer-disabled:cursor-default"
                 >
                   Male
                 </Label>
@@ -369,12 +377,12 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 <RadioGroupItem
                   value="female"
                   id="option-two"
-                  className="border-[#9B9B9B] w-6 h-6
+                  className="border-[#000] w-6 h-6
                   "
                 />
                 <Label
                   htmlFor="option-two"
-                  className="text-[#9B9B9B] text-sm font-sans"
+                  className="text-[#000] text-sm font-sans peer-disabled:cursor-default"
                 >
                   Female
                 </Label>
@@ -412,6 +420,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               <Button
                 type="submit"
                 isLoading={isPendingMutation}
+                disabled={!isDirty}
                 className="bg-[#00778B] font-calibri text-base px-7"
               >
                 Save

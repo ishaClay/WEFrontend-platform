@@ -18,7 +18,7 @@ import Updatecertificate from "./components/certificateTemplete/Updatecertificat
 import Accomplishments from "./components/certifications/Accomplishments";
 import Loading from "./components/comman/Error/Loading";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
-import MyCourse from "./components/courseManagement/AllCourse/MyCourse";
+import MyCourseTrainee from "./components/courseManagement/MyCourse/MyCourseTrainee";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
 import { Toaster } from "./components/ui/toaster";
@@ -88,6 +88,7 @@ import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
+import AllCourseTrainee from "./components/courseManagement/MyCourse/AllCourseTrainee";
 
 function App() {
   let socket: any;
@@ -170,6 +171,7 @@ function App() {
         <Route path="/membership" element={<OurServicePage />} />
         <Route path="/contact" element={<HomeContactPage />} />
         <Route path="/our-courses" element={<HomeOurCoursesPage />} />
+        <Route path="/our-courses/:id" element={<FeatureCourseDetailPage />} />
         <Route
           path="/feature-course/:id"
           element={<FeatureCourseDetailPage />}
@@ -187,7 +189,6 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/blogDetails" element={<BlogDetailsPage />} />
         <Route path="/termsofservices" element={<TermsOfServices />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
 
         <Route path="/reset-password" element={<ChangePasswordPage />} />
         <Route
@@ -370,8 +371,8 @@ function App() {
             element={<ScheduleLiveSession />}
           />
           <Route path="dashboard" element={<DashboardTrainee />} />
-          <Route path="mycourses" element={<MyCourse />} />
-          <Route path="allcourse" element={<AllCoursesPage />} />
+          <Route path="mycourses" element={<MyCourseTrainee />} />
+          <Route path="allcourse" element={<AllCourseTrainee />} />
           <Route path="create_course" element={<CourseManagement />} />
           <Route
             path="create_course/:courseId"

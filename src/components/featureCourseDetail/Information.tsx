@@ -1,17 +1,21 @@
-import { Star, Users } from "lucide-react"
+import { Star, Users } from "lucide-react";
 
-const Information = ({data}: any) => {
-    console.log("data", data);
-    
+const Information = ({ data }: any) => {
   return (
     <div>
       <div className="mb-5 py-5">
+        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
+          Information
+        </h5>
         <span
           className="xl:text-base md:text-sm text-xs text-black font-nunito"
           dangerouslySetInnerHTML={{ __html: data?.description }}
         ></span>
+        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black py-2 ">
+          Key Outcomes
+        </h5>
         <span
-          className="xl:text-base md:text-sm text-xs text-black font-nunito mt-4 block"
+          className="xl:text-base md:text-sm text-xs text-black font-nunito block"
           dangerouslySetInnerHTML={{ __html: data?.keys }}
         ></span>
       </div>
@@ -47,7 +51,7 @@ const Information = ({data}: any) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Information
+export default Information;

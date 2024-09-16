@@ -64,7 +64,9 @@ const AllocatedCertificateEmployeePage = () => {
     mutationFn: allocateCertificate,
     onSuccess: () => {
       toast({
+        title: "Success",
         description: "Certificate issued successfully",
+        variant: "success",
       });
       setSelectCourse("");
       setSelectTrainee("");
@@ -85,6 +87,7 @@ const AllocatedCertificateEmployeePage = () => {
     },
     onError: (error: any) => {
       toast({
+        title: "Error",
         description: error?.message || error?.data?.message,
         variant: "destructive",
       });
@@ -184,6 +187,7 @@ const AllocatedCertificateEmployeePage = () => {
                 allocate(payload);
               } else {
                 toast({
+                  title: "Error",
                   description: `Upload failed: ${result.data}`,
                   variant: "destructive",
                 });
@@ -204,7 +208,7 @@ const AllocatedCertificateEmployeePage = () => {
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
           <h6 className="font-calibri text-base font-bold">
-            Allocated Certificate
+            Allocate Certificate
           </h6>
         </div>
         <div className="">
@@ -263,7 +267,7 @@ const AllocatedCertificateEmployeePage = () => {
                             fontFamily: selectedCertificate?.secondaryFont,
                           }}
                         >
-                          <h1 className="mb-2">OF PARTICIPATION</h1>
+                          {/* <h1 className="mb-2">OF PARTICIPATION</h1> */}
                           <h1>{selectedCertificate?.title}</h1>
                         </div>
 
@@ -403,7 +407,7 @@ const AllocatedCertificateEmployeePage = () => {
               </div>
             ) : (
               <p className="flex items-center justify-center h-[200px] font-medium">
-                Select certificate
+                Select Certificate Template
               </p>
             )}
           </div>
@@ -417,14 +421,14 @@ const AllocatedCertificateEmployeePage = () => {
               <div className="xl:p-5 p-3">
                 <div className="pb-3 flex flex-col gap-2">
                   <Label className="text-base text-[#515151] font-normal font-calibri">
-                    Certificate
+                    Certificate Template
                   </Label>
                   <SelectMenu
                     option={certificateOption || []}
                     setValue={(data: string) => setSelectCertificate(data)}
                     value={selectCertificate}
                     className="text-[#A3A3A3] text-base font-calibri"
-                    placeholder="Select Certificate"
+                    placeholder="Select Certificate Template"
                     containClassName="max-w-[476px]"
                   />
                 </div>

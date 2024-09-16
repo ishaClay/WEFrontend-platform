@@ -104,7 +104,7 @@ const InviteMember = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
             <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2">
-              Enter Team Member Email ID
+              Enter Team Member Details
             </h3>
             <div className="mt-[10px]">
               <div className="flex lg:flex-nowrap flex-wrap items-center sm:gap-5 gap-3 w-full mb-2">

@@ -20,11 +20,11 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import CohortModal from "./CohortModal";
-import GridView from "./GridView";
-import ListView from "./listView";
+import CohortModal from "../AllCourse/CohortModal";
+import GridViewTrainee from "./GridViewTrainee";
+import ListViewTrainee from "./listViewTrainee";
 
-const AllCourses = () => {
+const AllCourseTrainee = () => {
   const { UserId } = useSelector((state: RootState) => state.user);
   const [cohort, setCohort] = useState(false);
   const [status, setStatus] = useState("");
@@ -90,7 +90,7 @@ const AllCourses = () => {
                             link: null,
                           },
                           {
-                            label: "All Courses",
+                            label: "All Course",
                             link: `/${Role}/allcourse`,
                           },
                           {
@@ -225,9 +225,9 @@ const AllCourses = () => {
           {fetchCourseAllCoursePending || fetchCourseAllCourseFetching ? (
             <Loader />
           ) : params === "0" || !params ? (
-            <GridView list={getAllCourseList || []} />
+            <GridViewTrainee list={getAllCourseList || []} />
           ) : (
-            <ListView list={getAllCourseList || []} />
+            <ListViewTrainee list={getAllCourseList || []} />
           )}
         </div>
       </div>
@@ -235,4 +235,4 @@ const AllCourses = () => {
   );
 };
 
-export default AllCourses;
+export default AllCourseTrainee;

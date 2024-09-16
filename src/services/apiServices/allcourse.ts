@@ -1,11 +1,11 @@
 import api from "./api";
 
 export const fetchAllCourse = (
-  pillerId: string,
   search: string,
   client: string,
   userId: string,
-  companyId: string
+  companyId: string,
+  data: { pillarid: number[] }
 ) => {
   // const url = `api/v1/course/list?keyword=${search}&pillarid=${pillerId}`;
   const url = `api/v1/course/list`;
@@ -14,9 +14,9 @@ export const fetchAllCourse = (
   if (search) {
     params["keyword"] = search;
   }
-  if (pillerId) {
-    params["pillarid"] = pillerId;
-  }
+  // if (pillerId) {
+  //   params["pillarid"] = pillerId;
+  // }
   if (client) {
     params["client"] = client;
   }
@@ -27,7 +27,7 @@ export const fetchAllCourse = (
     params["companyId"] = companyId;
   }
 
-  return api({ url, params });
+  return api({ url, params, data, method: "post" });
 };
 
 export const fetchPillar = (id: string) => {

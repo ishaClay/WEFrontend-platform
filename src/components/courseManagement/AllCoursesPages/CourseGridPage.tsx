@@ -11,6 +11,7 @@ import NoDataText from "@/components/comman/NoDataText";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getImages } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
 import {
   AllCourse,
@@ -22,17 +23,19 @@ import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  selectedCourse: Pillarcourse | null;
+  selectedCourse: Pillarcourse[];
 };
 
 const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
   const Role = location?.pathname?.split("/")[1];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isCohortShow, setIsCohortShow] = useState<null | AllCourse>(null);
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
     number | null
@@ -169,7 +172,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       : null;
 
     return (
-      <div className="xl:col-span-5 col-span-7">
+      <div className="2xl:col-span-5 xl:col-span-4 col-span-7">
         {upcomingData !== null && (
           <div className="customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between">
@@ -185,7 +188,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                   setIsCohortShow(cohortData);
                 }}
               >
-                Show all cohort
+                Show all cohorts
               </p>
             </div>
             <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
@@ -242,21 +245,39 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       {data?.length > 0 ? (
         data?.map((allcourse: AllCourse) => {
           const maturityLevel =
-            selectedCourse &&
-            allcourse?.courseData?.find(
-              (item) =>
-                item.fetchPillar?.pillarName === selectedCourse?.pillarName
-            );
+            selectedCourse.length > 0
+              ? allcourse?.courseData?.find((item) =>
+                  selectedCourse.find(
+                    (it) => it.pillarName === item.fetchPillar?.pillarName
+                  )
+                )
+              : null;
 
           return (
             <>
               <div
                 className="h-full w-full border border-solid border-[#D9D9D9] cursor-pointer rounded col-span-1"
-                onClick={() =>
+                onClick={() => {
                   navigate(
                     `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
-                  )
-                }
+                  );
+                  dispatch(
+                    setPath([
+                      {
+                        label: `Course Management`,
+                        link: null,
+                      },
+                      {
+                        label: `All Courses`,
+                        link: `/company/allcourses`,
+                      },
+                      {
+                        label: allcourse.title,
+                        link: null,
+                      },
+                    ])
+                  );
+                }}
                 key={allcourse.id}
               >
                 <div className="relative overflow-hidden">
@@ -397,7 +418,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
                   <div className="border-t py-3 px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
                     {getUpcommingCohort(allcourse)}
-                    <div className="xl:col-span-2 col-span-5 xl:mr-0 xl:ml-auto m-0">
+                    <div className="2xl:col-span-2 xl:col-span-3 col-span-5 xl:mr-0 xl:ml-auto m-0">
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();

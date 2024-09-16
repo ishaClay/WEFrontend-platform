@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,6 +23,7 @@ import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
 
 const TrainerEditDetails = () => {
+  const [phoneError, setPhoneError] = useState("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [trainerDetails, setTrainerDetails] = useState({
@@ -102,10 +104,11 @@ const TrainerEditDetails = () => {
     // @ts-ignore
     formData.append("image", file);
     // @ts-ignore
-    if(!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -113,6 +116,7 @@ const TrainerEditDetails = () => {
   };
 
   const handleSubmit = () => {
+    if (phoneError) return;
     const payload = {
       name: trainerDetails?.name,
       phone: trainerDetails?.contact,
@@ -233,9 +237,18 @@ const TrainerEditDetails = () => {
                       international
                       onChange={(e: any) => {
                         setTrainerDetails((prev) => ({ ...prev, contact: e }));
+                        if (
+                          e &&
+                          (e?.trim()?.length < 10 || e?.trim()?.length > 15)
+                        ) {
+                          setPhoneError("Please enter valid phone number");
+                        } else {
+                          setPhoneError("");
+                        }
                       }}
                       className="phone-input font-normal"
                     />
+                    {phoneError && <ErrorMessage message={phoneError} />}
                     {/* <p className="text-base font-nunito">{"-"}</p> */}
                   </div>
                   <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">

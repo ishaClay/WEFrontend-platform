@@ -22,6 +22,7 @@ const AllocateCertificateModalDetails = ({
     onSuccess: () => {
       toast({
         description: "Certificate issued successfully",
+        variant: "success",
       });
       setIsOpenAllocate(false);
       setUpload("");
@@ -58,10 +59,11 @@ const AllocateCertificateModalDetails = ({
 
     const files = e.dataTransfer.files;
 
-    if(!files?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!files?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -74,7 +76,7 @@ const AllocateCertificateModalDetails = ({
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
-      toast({ title: "Image Uploaded Successfully", variant: "default" });
+      toast({ title: "Image Uploaded Successfully", variant: "success" });
       setUpload(data?.data?.data?.file);
     },
     onError: () => {
@@ -88,13 +90,14 @@ const AllocateCertificateModalDetails = ({
   const handaleUpload = (e: any, name?: string) => {
     const files = name === "isDrag" ? e : e.target.files;
 
-    if(!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
-    }    
+    }
     createImageUpload(files[0]);
   };
 
@@ -144,7 +147,13 @@ const AllocateCertificateModalDetails = ({
               <h5 className="uppercase text-[#9E9E9E] pb-6 font-inter">-OR-</h5>
             </>
           )}
-          <input type="file" id="upload" accept=".pdf" className="hidden" onChange={(e) => handaleUpload(e)} />
+          <input
+            type="file"
+            id="upload"
+            accept=".pdf"
+            className="hidden"
+            onChange={(e) => handaleUpload(e)}
+          />
           <label
             htmlFor="upload"
             className=" text-base rounded-md font-calibri inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"

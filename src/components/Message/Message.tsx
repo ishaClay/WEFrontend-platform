@@ -136,8 +136,12 @@ const Message = () => {
 
   const filterByName = (item: any) => {
     return (
-      item.fname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim()) ||
-      item.lname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
+      (item.fname
+        ? item.fname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
+        : true) ||
+      (item.lname
+        ? item.lname?.toLowerCase()?.includes(searchChat?.toLowerCase()?.trim())
+        : true)
     );
   };
 
@@ -179,13 +183,14 @@ const Message = () => {
     if (fileList) {
       Array.from(fileList).map((file) => {
         const filename = file.name;
-        if(!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+        if (!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
           toast({
             variant: "destructive",
-            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+            title:
+              "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
           });
           return;
-        } else{
+        } else {
           upload_file(file);
         }
       });

@@ -198,13 +198,14 @@ function Auth() {
 
         if (user.role == UserRole.Client) {
           toast({
-            variant: "default",
+            variant: "destructive",
             title: "Only Company, Trainer Company and Trainee can login",
           });
         }
 
         if (user.role == UserRole.Company) {
           toast({
+            variant: "success",
             title: data.data.message,
           });
 

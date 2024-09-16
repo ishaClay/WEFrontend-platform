@@ -481,7 +481,7 @@ const QuestionPage = () => {
             <div
               className={`w-full bg-white ${
                 isHide ? "sm:h-[calc(100vh-249px)]" : "sm:h-[calc(100vh-293px)]"
-              } text-[18px] font-normal sm:m-0 m-auto sticky ${
+              } text-[18px] font-normal sm:m-0 m-auto 2xl:sticky relative ${
                 isHide
                   ? "top-[146px] xl:col-span-2 sm:col-span-5 col-span-8"
                   : "top-[190px] md:col-span-2 sm:col-span-4 col-span-7"

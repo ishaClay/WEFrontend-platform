@@ -2,7 +2,6 @@ import DocImage from "@/assets/images/pdf.png";
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import Loading from "@/components/comman/Error/Loading";
 import FileUpload from "@/components/comman/FileUpload";
-import Loader from "@/components/comman/Loader";
 import Modal from "@/components/comman/Modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,15 +53,18 @@ const TicketsDetailsReply = () => {
   const [file, setFile] = useState("");
   const [video, setVideo] = useState<any>(undefined);
 
-  const { data: fetchAssigToUserList, isPending: assigToUserListPending } =
-    useQuery({
-      queryKey: [QUERY_KEYS.fetchAssigToUserList],
-      queryFn: () => fetchAssigToUser(userID),
-      enabled: !!userID,
-    });
+  const { data: fetchAssigToUserList } = useQuery({
+    queryKey: [QUERY_KEYS.fetchAssigToUserList],
+    queryFn: () => fetchAssigToUser(userID),
+    enabled: !!userID,
+  });
 
   const assigToUserList = fetchAssigToUserList?.data?.filter(
     (item) => item !== null
+  );
+  console.log(
+    "🚀 ~ TicketsDetailsReply ~ fetchAssigToUserList:",
+    fetchAssigToUserList
   );
   const schema = z.object({
     assignTo: z.string({ required_error: "Please select this field" }),
@@ -89,8 +91,16 @@ const TicketsDetailsReply = () => {
     mode: "all",
   });
 
+  console.log("++++++++++++++++++++++", selectAssingValue);
+
   useEffect(() => {
     if (data?.data?.data) {
+      console.log(
+        " data?.data?.data?.openBy.id === userID",
+        data?.data?.data,
+        userID
+      );
+
       setValue(
         "assignTo",
         data?.data?.data?.openBy.id === userID
@@ -104,17 +114,18 @@ const TicketsDetailsReply = () => {
           : String(data?.data.data?.status)
       );
       setValue("ticketType", String(data?.data.data?.type));
-      setValue("details", String(data?.data.data?.description));
+      // setValue("details", String(data?.data.data?.description));
       setSelectAssingValue(
         data?.data?.data?.openBy.id === userID
-          ? String(data?.data?.data?.assignTo.id)
-          : String(data?.data?.data?.openBy.id)
+          ? String(data?.data?.data?.assignTo.name)
+          : String(data?.data?.data?.openBy.name)
       );
-      setSelectTicketStatus(
-        data?.data.data?.status === "Open"
-          ? "Answered"
-          : String(data?.data.data?.status)
-      );
+      setSelectTicketStatus(data?.data.data?.status);
+      // setSelectTicketStatus(
+      //   data?.data.data?.status === "Open"
+      //     ? "Answered"
+      //     : String(data?.data.data?.status)
+      // );
       setSelectTicketType(data?.data.data?.type);
     }
   }, [data, setValue]);
@@ -126,7 +137,7 @@ const TicketsDetailsReply = () => {
         queryKey: [QUERY_KEYS.getSingleSupportTicket],
       });
       toast({
-        variant: "default",
+        variant: "success",
         title: "Ticket updated successfully",
       });
       dispatch(
@@ -172,6 +183,8 @@ const TicketsDetailsReply = () => {
     };
     updateTicket(payload);
   };
+
+  console.log("assigToUserList", assigToUserList);
 
   return (
     <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">
@@ -377,9 +390,14 @@ const TicketsDetailsReply = () => {
           <div className="grid grid-cols-3 lg:gap-[36px] sm:gap-[20px] gap-[10px] md:mt-[29px] mt-0">
             {/* <InputWithLable label="Assign To" /> */}
             <div className="md:col-span-1 col-span-3">
-              <Select
+              <h3 className="py-1.5 text-[16px] font-[400]"> Assign To</h3>
+              <h3 className="py-2 px-3 max-w-full w-full h-[52px] flex items-center border rounded">
+                {selectAssingValue}
+              </h3>
+              {/* <Select
                 onValueChange={(e) => setValue("assignTo", e)}
-                value={String(selectAssingValue)}
+                value={selectAssingValue}
+                disabled
               >
                 <SelectGroup>
                   <SelectLabel className="text-[16px] font-[400] mt-0">
@@ -425,7 +443,7 @@ const TicketsDetailsReply = () => {
                     <span>No data found</span>
                   )}
                 </SelectContent>
-              </Select>
+              </Select> */}
               {!errors?.assignTo?.ref?.value && (
                 <ErrorMessage message={errors?.assignTo?.message as string} />
               )}

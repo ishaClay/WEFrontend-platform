@@ -29,7 +29,7 @@ function EmployeePermission() {
       {
         page,
         search,
-        id: !!userData?.query?.companyDetails
+        id: userData?.query?.companyDetails
           ? userData?.query?.companyDetails?.id
           : userData?.query?.detailsid,
       },
@@ -38,7 +38,7 @@ function EmployeePermission() {
       employeeList(
         page.toString(),
         "10",
-        !!userData?.query?.companyDetails
+        userData?.query?.companyDetails
           ? userData?.query?.companyDetails?.id
           : userData?.query?.detailsid,
         search
@@ -48,7 +48,7 @@ function EmployeePermission() {
   const { mutate: update_employee, isPending: updatePending } = useMutation({
     mutationFn: updateEmployeeList,
     onSuccess: () => {
-      toast({ title: "Permission Updated Successfully" });
+      toast({ title: "Permission Updated Successfully", variant: "success" });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getEmployeeList],
       });
@@ -208,7 +208,7 @@ function EmployeePermission() {
     <div className="bg-[#FFFFFF] rounded-xl sm:mt-5 mt-0">
       <div className="rounded-[10px]">
         <div className="p-5 border-b border-[#D9D9D9]">
-          <p className="text-[#000000] font-calibri font-bold">Settings</p>
+          <p className="text-[#000000] font-calibri font-bold">Setting</p>
         </div>
 
         <div className="flex bg-[#FFFFFF] ">

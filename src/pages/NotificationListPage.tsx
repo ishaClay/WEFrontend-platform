@@ -43,7 +43,10 @@ const NotificationListPage = () => {
       mutationFn: (notificationId: string) =>
         deleteNotificationById(notificationId),
       onSuccess: () => {
-        toast({ title: "Notification deleted Successfully" });
+        toast({
+          title: "Notification deleted Successfully",
+          variant: "success",
+        });
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.notificationList],
         });
@@ -65,7 +68,10 @@ const NotificationListPage = () => {
       mutationFn: (notificationIds: string[]) =>
         deleteMultipleNotification(notificationIds),
       onSuccess: () => {
-        toast({ title: "Notifications delete Successfully" });
+        toast({
+          title: "Notifications delete Successfully",
+          variant: "success",
+        });
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.notificationList],
         });
@@ -144,7 +150,12 @@ const NotificationListPage = () => {
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px]"
+                  className={`flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px] cursor-pointer ${
+                    notification?.read && "opacity-90"
+                  } `}
+                  onClick={() =>
+                    navigate(`/${currentUser}/notification/${notification.id}`)
+                  }
                 >
                   <Checkbox
                     checked={notificationIds.includes(notification.id)}
@@ -157,14 +168,7 @@ const NotificationListPage = () => {
                     <p className="text-[12px] text-[#A3A3A3] max-w-[1250px]">
                       {getTimeAgo(notification.createdAt)}
                     </p>
-                    <h3
-                      className="text-[16px] font-bold"
-                      onClick={() =>
-                        navigate(
-                          `/${currentUser}/notification/${notification.id}`
-                        )
-                      }
-                    >
+                    <h3 className="text-[16px] font-bold">
                       {notification.title}
                     </h3>
                     <p

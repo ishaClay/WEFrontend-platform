@@ -6,6 +6,7 @@ import Loader from "@/components/comman/Loader";
 import SelectMenu from "@/components/comman/SelectMenu";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
+import CompanyDetails from "@/components/Models/CompanyDetails";
 import { InputWithLable } from "@/components/ui/inputwithlable";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
@@ -55,47 +56,98 @@ interface DataEntity {
 
 function CompanyRegister() {
   const navigate = useNavigate();
-  const [isAble, setIsAble] = useState(true);
   const UserId = useAppSelector((state) => state.user.UserId);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
-  const [soleTrader, setSoleTrader] = useState("");
-  const [soleTraderError, setSoleTraderError] = useState("");
+  const [companyData, setCompanyData] = useState<any | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const userID = UserId
     ? UserId
     : userData?.query
     ? userData?.query?.id
     : userData?.id;
 
-  const schema = z.object({
-    name: z.string().min(1, { message: "Please enter name" }),
-    address: z.string().min(1, { message: "Please enter address" }),
-    county: z
-      .string({
-        required_error: "Please select county",
-      })
-      .nonempty("Please select county"),
-    averageNumberOfEmployees: z
-      .string({
-        required_error: "Please select employees",
-      })
-      .min(1, { message: "Please select employees" }),
-    sector: z
-      .string({
-        required_error: "Please select sector",
-      })
-      .min(1, { message: "Please select sector" }),
-    parentCompanyAddress: z.string().nullable(),
-    parentCompanyName: z.string().nullable(),
-    email: z.string().min(1, { message: "Please enter email" }),
-    parentCompanyCounty: z.string().nullable().optional(),
-    contactFirstName: z
-      .string()
-      .min(1, { message: "Please enter contact first name" }),
-    contactLastName: z
-      .string()
-      .min(1, { message: "Please enter contact last name" }),
-  });
+  const schema = z
+    .object({
+      name: z.string().optional(),
+      address: z.string().optional(),
+      county: z
+        .string({
+          required_error: "Please select county",
+        })
+        .nonempty("Please select county"),
+      averageNumberOfEmployees: z
+        .string({
+          required_error: "Please select employees",
+        })
+        .min(1, { message: "Please select employees" }),
+      sector: z
+        .string({
+          required_error: "Please select sector",
+        })
+        .min(1, { message: "Please select sector" }),
+      parentCompanyAddress: z.string().nullable(),
+      parentCompanyName: z.string().nullable(),
+      email: z.string().min(1, { message: "Please enter email" }),
+      parentCompanyCounty: z.string().nullable().optional(),
+      contactFirstName: z
+        .string()
+        .min(1, { message: "Please enter contact first name" }),
+      contactLastName: z
+        .string()
+        .min(1, { message: "Please enter contact last name" }),
+      soleTrader: z.string({ required_error: "Please select sole trader" }),
+      companyNumberId: z.number().nullable().optional(),
+      isRegister: z.boolean(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.isRegister) {
+        if (
+          data.companyNumberId === null ||
+          data.companyNumberId === undefined
+        ) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Please verify company number",
+            path: ["companyNumberId"],
+          });
+        } else {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "",
+            path: ["companyNumberId"],
+          });
+        }
+
+        if (!data.name || data.name.trim().length === 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Please enter name",
+            path: ["name"],
+          });
+        } else {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "",
+            path: ["name"],
+          });
+        }
+
+        if (!data.address || data.address.trim().length === 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Please enter address",
+            path: ["address"],
+          });
+        } else {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "",
+            path: ["address"],
+          });
+        }
+      }
+    });
 
   type ValidationSchema = z.infer<typeof schema>;
   const {
@@ -108,7 +160,12 @@ function CompanyRegister() {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
+    defaultValues: {
+      isRegister: false,
+    },
   });
+
+  console.log("+++++++++++", errors);
 
   useEffect(() => {
     if (userData) {
@@ -118,10 +175,6 @@ function CompanyRegister() {
       setValue("email", userEmail);
     }
   }, [setValue, userData]);
-
-  const handleCheckboxChange = (value: string) => {
-    setSoleTrader(value);
-  };
 
   const { toast } = useToast();
 
@@ -144,20 +197,9 @@ function CompanyRegister() {
     mutationFn: getCompanyDetailsById,
     onSuccess: async (data: CompanyResponse) => {
       if (!!data?.data && data?.data?.length > 0) {
-        const getData = data?.data?.[0];
-        const add =
-          getData?.company_addr_1 +
-          ", " +
-          getData?.company_addr_2 +
-          ", " +
-          getData?.company_addr_3 +
-          ", " +
-          getData?.company_addr_4;
-        setIsAble(false);
-        setValue("address", add);
-        setValue("name", getData?.company_name);
+        setCompanyData(data?.data?.[0]);
+        setIsOpen(true);
       } else {
-        setIsAble(true);
         toast({
           variant: "destructive",
           title: data?.message,
@@ -189,7 +231,7 @@ function CompanyRegister() {
         expires: expiresIn24Hours,
       });
 
-      toast({ title: "Company updated successfully" });
+      toast({ variant: "success", title: "Company updated successfully" });
       EnumUpadate();
     },
     onError: (error: ErrorType) => {
@@ -212,37 +254,57 @@ function CompanyRegister() {
     },
   });
 
-  // useEffect(() => {
-  //   if (companydetails) {
-  //     const data = companydetails.data.data.client;
-  //     Object.keys(data).forEach((key: any) => {
-  //       setValue(key, data[key]);
-  //     });
-  //   }
-  // }, [companydetails]);
-
   const onSubmit = async (data: FieldValues) => {
     const token: any = await getDeviceToken();
-    if (!soleTrader) {
-      setSoleTraderError("Please select sole trader");
-    } else {
-      const updatedData = {
-        ...data,
-        companyId: companyNumberId as number,
-        soleTrader: soleTrader === "true" ? true : false,
-        deviceToken: token,
-      };
-      updatecompany(updatedData as any);
-      setSoleTraderError("");
-    }
+    const updatedData = {
+      ...data,
+      companyId: companyNumberId as number,
+      soleTrader: data?.soleTrader === "Yes" ? true : false,
+      deviceToken: token,
+      name:
+        data?.name === undefined
+          ? `${data?.contactFirstName} ${data?.contactLastName}`
+          : data?.name,
+      address: data?.address ? data?.address : "",
+    };
+    updatecompany(updatedData as any);
   };
 
   const handleVerifyId = () => {
-    if (companyNumberId) {
-      mutate({ company_num: companyNumberId || 0 });
+    const companyName = watch("name");
+    if (companyName && companyNumberId) {
+      mutate({ company_num: companyNumberId || 0, companyName: companyName });
     } else {
-      toast({ variant: "destructive", title: "Please enter company name" });
+      toast({ variant: "destructive", title: "Please Enter Company Name" });
     }
+  };
+
+  const handleAccept = () => {
+    const getData = companyData;
+    const addressParts = [
+      getData?.company_addr_1,
+      getData?.company_addr_2,
+      getData?.company_addr_3,
+      getData?.company_addr_4,
+    ].filter((part) => part != null && part.trim() !== "");
+
+    const add = addressParts.join(", ");
+    console.log("++++++++++++++++", add);
+
+    setValue("address", add);
+    setValue("name", getData?.company_name);
+    setIsOpen(false);
+  };
+
+  const handleReject = () => {
+    setValue("name", "");
+    setValue("address", "");
+    setValue("companyNumberId", null);
+    setIsOpen(false);
+    toast({
+      variant: "destructive",
+      title: "Please Enter Valid Company Details",
+    });
   };
 
   useEffect(() => {
@@ -255,7 +317,7 @@ function CompanyRegister() {
   return (
     <>
       <HomeHeader />
-      <div className="w-full flex relative !mt-[34px] mx-auto mainContailner">
+      <div className="w-full flex relative !my-[34px] mx-auto mainContailner">
         <div className="lg:block hidden">
           <img className="" src={CompanyRegisterSideImage} />
           {/* <img
@@ -292,50 +354,146 @@ function CompanyRegister() {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
-                <div className="w-full flex items-end">
-                  <div className="w-full">
-                    <InputWithLable
-                      className="w-full h-[46px]"
-                      placeholder="Company Number"
-                      label="Company Number"
-                      onChange={(e) => {
-                        const { value } = e.target;
-
-                        if (value.match(/^[0-9]*$/)) {
-                          setCompanyNumberId(+e?.target?.value as number);
-                        }
-                        return;
-                      }}
-                      value={companyNumberId || ""}
-                      isMendatory={true}
-                    />
-                  </div>
-                  <PrimaryButton
-                    type="button"
-                    name={
-                      isPending ? (
-                        <Loader containerClassName="h-auto" />
-                      ) : (
-                        "Verify"
-                      )
-                    }
-                    disabled={isPending || !companyNumberId}
-                    className="px-5 h-[46px] ml-[20px]"
-                    onClick={handleVerifyId}
-                  />
-                </div>
                 <div className="w-full">
-                  <InputWithLable
-                    className="w-full h-[46px]"
-                    placeholder="Company Name"
-                    label="Company Name"
-                    {...register("name")}
-                    isMendatory={true}
+                  <Label className="mb-[8px]  font-bold text-[16px]">
+                    Sole Trader <span className="text-[#FF0000]">*</span>
+                  </Label>
+                  <SelectMenu
+                    option={[
+                      {
+                        label: "Yes",
+                        value: "Yes",
+                      },
+                      {
+                        label: "No",
+                        value: "No",
+                      },
+                    ]}
+                    placeholder="Please Select"
+                    className="sm:w-[241px] w-full h-[46px] mt-2 placeholder:text-[#A3A3A3]"
+                    setValue={(data: string) => {
+                      setValue("soleTrader", data);
+                      setError("soleTrader", { message: "" });
+                    }}
+                    value={watch("soleTrader") || ""}
                   />
-                  {errors.name && (
-                    <ErrorMessage message={errors.name.message as string} />
+                  {errors.soleTrader && (
+                    <ErrorMessage
+                      message={errors.soleTrader.message as string}
+                    />
                   )}
                 </div>
+                {watch("soleTrader") === "Yes" && (
+                  <div className="flex items-center w-full gap-2">
+                    <input
+                      className="w-[16px] h-[16px] bf-[green] accent-[#00778B]"
+                      type="checkbox"
+                      id="isRegister"
+                      onChange={(e) => {
+                        setValue("isRegister", e.target.checked);
+                        if (e.target.checked) {
+                          setError("isRegister", { message: "" });
+                          if (!watch("companyNumberId")) {
+                            setError("companyNumberId", {
+                              message: "Please enter company number",
+                            });
+                          }
+                          if (!watch("name")) {
+                            setError("name", {
+                              message: "Please enter comapny name",
+                            });
+                          }
+                          if (!watch("address")) {
+                            setError("address", {
+                              message: "Please enter company address",
+                            });
+                          }
+                        }
+                      }}
+                      checked={watch("isRegister") || false}
+                    />
+                    <Label
+                      htmlFor="isRegister"
+                      className="font-bold text-[16px]"
+                    >
+                      Is Register
+                    </Label>
+                  </div>
+                )}
+                {watch("soleTrader") === "Yes" && watch("isRegister") && (
+                  <>
+                    <div className="w-full">
+                      <InputWithLable
+                        className="w-full h-[46px]"
+                        placeholder="Company Name"
+                        label="Company Name"
+                        {...register("name")}
+                        isMendatory={true}
+                      />
+                      {errors.name && (
+                        <ErrorMessage message={errors.name.message as string} />
+                      )}
+                    </div>
+                    <div className="w-full">
+                      <div className="w-full flex items-end">
+                        <div className="w-full">
+                          <InputWithLable
+                            className="w-full h-[46px]"
+                            placeholder="Company Number"
+                            label="Company Number"
+                            name="companyNumberId"
+                            onChange={(e) => {
+                              const { value } = e.target;
+
+                              if (value.match(/^[0-9]*$/)) {
+                                setCompanyNumberId(+e?.target?.value as number);
+                                setValue("companyNumberId", +e?.target?.value);
+                                setError("companyNumberId", { message: "" });
+                              }
+                              return;
+                            }}
+                            value={companyNumberId || ""}
+                            isMendatory={
+                              watch("soleTrader") === "No" ? false : true
+                            }
+                          />
+                        </div>
+                        <PrimaryButton
+                          type="button"
+                          name={
+                            isPending ? (
+                              <Loader containerClassName="h-auto" />
+                            ) : (
+                              "Verify"
+                            )
+                          }
+                          disabled={isPending || !companyNumberId}
+                          className="px-5 h-[46px] ml-[20px]"
+                          onClick={handleVerifyId}
+                        />
+                      </div>
+                      {errors?.companyNumberId && (
+                        <ErrorMessage
+                          message={errors?.companyNumberId?.message as string}
+                        />
+                      )}
+                    </div>
+                    <div className="w-full">
+                      <InputWithLable
+                        placeholder="Address"
+                        className="w-full h-[46px]"
+                        label="Address"
+                        {...register("address")}
+                        isMendatory={true}
+                      />
+                      {errors.address && (
+                        <ErrorMessage
+                          message={errors.address.message as string}
+                        />
+                      )}
+                    </div>
+                  </>
+                )}
                 <div className="sm:w-[241px] w-full">
                   <InputWithLable
                     placeholder="Enter Your Contact First Name"
@@ -364,19 +522,6 @@ function CompanyRegister() {
                     />
                   )}
                 </div>
-                <div className="w-full">
-                  <InputWithLable
-                    placeholder="Address"
-                    className="w-full h-[46px]"
-                    label="Address"
-                    {...register("address")}
-                    isMendatory={true}
-                  />
-                  {errors.address && (
-                    <ErrorMessage message={errors.address.message as string} />
-                  )}
-                </div>
-
                 <div className="sm:w-[241px] w-full">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     County <span className="text-[#FF0000]">*</span>
@@ -513,42 +658,10 @@ function CompanyRegister() {
                   )}
                 </div>
 
-                <div className="w-[241px] ">
-                  <label className="block font-bold text-[16px] mt-[2px] pb-[5px]">
-                    Sole Trader <span className="text-[#FF0000]">*</span>
-                  </label>
-
-                  <div className="flex items-center gap-[10px] h-[52px]">
-                    <input
-                      className="w-[24px] h-[24px] bf-[green] accent-[#00778B]"
-                      type="checkbox"
-                      checked={soleTrader == "true"}
-                      onChange={() => {
-                        handleCheckboxChange("true");
-                        setSoleTraderError("");
-                      }}
-                    />
-                    <label>Yes</label>
-                    <input
-                      className="w-[24px] h-[24px] pl-[23px] accent-[#00778B]"
-                      type="checkbox"
-                      checked={soleTrader == "false"}
-                      onChange={() => {
-                        handleCheckboxChange("false");
-                        setSoleTraderError("");
-                      }}
-                    />
-                    <label> No </label>
-                  </div>
-                  {soleTraderError && (
-                    <ErrorMessage message={soleTraderError as string} />
-                  )}
-                </div>
                 <PrimaryButton
                   type="submit"
                   name="Submit"
                   className="w-[370px] h-[48px] mt-[30px] mx-auto !font-calibri !primary-background"
-                  disabled={isAble}
                 />
                 <div className="max-w-[296px] mx-auto  mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>
@@ -572,6 +685,13 @@ function CompanyRegister() {
         <Loading isLoading={updatePanding} />
       </div>
       <HomeFooter />
+      <CompanyDetails
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        companyData={companyData}
+        handleReject={handleReject}
+        handleAccept={handleAccept}
+      />
     </>
   );
 }

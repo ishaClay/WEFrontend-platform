@@ -13,7 +13,7 @@ import {
 } from "@/services/apiServices/notificationServices";
 import { ErrorType } from "@/types/Errors";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -38,7 +38,6 @@ function Notification() {
         read: true,
       }),
     onSuccess: () => {
-      toast({ title: "Notification read Successfully" });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.notificationList],
       });
@@ -53,6 +52,11 @@ function Notification() {
       });
     },
   });
+
+  useEffect(() => {
+    mark_as_read();
+  }, []);
+
   const { mutate: delete_notification, isPending: deletePanding } = useMutation(
     {
       mutationFn: () => deleteNotificationById(notificationId as string),
@@ -65,7 +69,10 @@ function Notification() {
         });
         setIsDelete(false);
         navigate(`/${currentUser}/notification-list`);
-        toast({ title: "Notification deleted Successfully" });
+        toast({
+          title: "Notification deleted Successfully",
+          variant: "success",
+        });
       },
       onError: (error: ErrorType) => {
         toast({
@@ -121,12 +128,12 @@ function Notification() {
           >
             DELETE
           </Button>
-          <Button
+          {/* <Button
             className="py-[10px] px-[20px] h-[42px] text-[16px] ml-[21px]"
             onClick={() => mark_as_read()}
           >
             MARK AS READ
-          </Button>
+          </Button> */}
         </div>
       </div>
       <ConfirmModal

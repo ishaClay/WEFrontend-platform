@@ -18,11 +18,11 @@ import { useContext, useState } from "react";
 import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
-import CohortModal from "./CohortModal";
-import GridView from "./GridView";
-import ListView from "./listView";
+import CohortModal from "../AllCourse/CohortModal";
+import GridViewTrainee from "./GridViewTrainee";
+import ListViewTrainee from "./listViewTrainee";
 
-const MyCourse = () => {
+const MyCourseTrainee = () => {
   const dispatch = useAppDispatch();
   const { permissions } = useContext(PermissionContext);
   const [cohort, setCohort] = useState(false);
@@ -159,9 +159,9 @@ const MyCourse = () => {
               No course
             </p>
           ) : params === "0" || !params ? (
-            <GridView list={fetchCourseAllCourseData?.data || []} />
+            <GridViewTrainee list={fetchCourseAllCourseData?.data || []} />
           ) : (
-            <ListView list={fetchCourseAllCourseData?.data || []} />
+            <ListViewTrainee list={fetchCourseAllCourseData?.data || []} />
           )}
         </div>
       </div>
@@ -169,4 +169,4 @@ const MyCourse = () => {
   );
 };
 
-export default MyCourse;
+export default MyCourseTrainee;

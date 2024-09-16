@@ -116,7 +116,7 @@ const Addcertificate = () => {
   const { mutate: createImageUpload, isPending: imagepending } = useMutation({
     mutationFn: uploadFile,
     onSuccess: (data) => {
-      toast({ title: "Image Uploaded Successfully", variant: "default" });
+      toast({ title: "Image Uploaded Successfully", variant: "success" });
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.getSingleCourse],
       });
@@ -164,7 +164,7 @@ const Addcertificate = () => {
           ])
         );
         toast({
-          variant: "default",
+          variant: "success",
           title: "Certificate Update Successfully",
         });
         setLoading(false);
@@ -314,7 +314,7 @@ const Addcertificate = () => {
                           fontFamily: Single_certificate?.data?.secondaryFont,
                         }}
                       >
-                        <h1 className="mb-2">OF PARTICIPATION</h1>
+                        {/* <h1 className="mb-2">OF PARTICIPATION</h1> */}
                         <h1>{watch("title")}</h1>
                       </div>
                     )}

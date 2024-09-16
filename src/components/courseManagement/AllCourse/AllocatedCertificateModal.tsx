@@ -60,7 +60,8 @@ export function AllocatedCertificateModal({
 
   const { data, isPending } = useQuery<AllocatedTraineeListResponse>({
     queryKey: ["trainer", { id }],
-    queryFn: () => getTrainerByCompanyId({ id, courseId: courseId.toString() }),
+    queryFn: () =>
+      getTrainerByCompanyId({ id, courseId: courseId.toString(), status: 1 }),
     enabled: !!id && !!courseId,
   });
 
@@ -281,7 +282,7 @@ export function AllocatedCertificateModal({
             ) : (
               <>
                 <div className="flex items-center justify-between p-4 pb-0">
-                  <h2 className="text-base font-bold">Trainee</h2>
+                  <h2 className="text-base font-bold">Trainer</h2>
                   <div className="flex items-center">
                     <label className="font-bold mr-[10px]">Select All</label>
                     <input
@@ -311,7 +312,9 @@ export function AllocatedCertificateModal({
                             </AvatarFallback>
                           </Avatar>
                           <span>
-                            {employee.name || employee.email.split("@")?.[0]}
+                            {`${employee.name && employee.name + " "}${
+                              employee.surname && employee.surname
+                            }` || employee.email.split("@")?.[0]}
                           </span>
                         </div>
                         <input
@@ -351,7 +354,7 @@ export function AllocatedCertificateModal({
                     {isLoadingAllocate ? (
                       <Loader containerClassName="h-auto" />
                     ) : (
-                      "Edit Allocation"
+                      "Save"
                     )}
                   </Button>
                 </div>

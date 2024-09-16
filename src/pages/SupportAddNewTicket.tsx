@@ -100,7 +100,7 @@ function SupportAddNewTicket() {
         setVideo(undefined);
         setSelectAssignTo("");
         setSelectTicketPriority("");
-        toast({ title: "Ticket Created Successfully", variant: "default" });
+        toast({ title: "Ticket Created Successfully", variant: "success" });
         dispatch(
           setPath([
             {
@@ -375,7 +375,7 @@ function SupportAddNewTicket() {
                     rel="noreferrer"
                     className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
                   >
-                    View
+                    View attachment
                   </a>
                 )}
               </FileUpload>
@@ -415,7 +415,7 @@ function SupportAddNewTicket() {
                     rel="noreferrer"
                     className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
                   >
-                    View
+                    View attachment
                   </a>
                 )}
               </FileUpload>

@@ -8,12 +8,12 @@ import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
 import { pillarLimit } from "@/services/apiServices/pillar";
 import { useQuery } from "@tanstack/react-query";
 import { MoveLeft } from "lucide-react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BasicDetails from "./basicDetails";
 import CoursePathway from "./CoursePathway";
 import Forum from "./Forum";
 import ModuleCreation from "./ModuleCreation";
-import React, { useEffect } from "react";
 
 const CourseManagement = () => {
   const dispatch = useAppDispatch();
@@ -78,7 +78,9 @@ const CourseManagement = () => {
       } else {
         if (+courseId) {
           navigate(
-            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}${paramsType ? `&type=${paramsType}` : ""}`,
+            `/${pathName}/create_course/${courseId}?tab=${tab}&version=${paramsversion}${
+              paramsType ? `&type=${paramsType}` : ""
+            }`,
             {
               replace: true,
             }
@@ -176,7 +178,7 @@ const CourseManagement = () => {
               dispatch(
                 setPath([
                   { label: "Course Management", link: null },
-                  { label: "All Course", link: `/${pathName}/allcourse` },
+                  { label: "All Courses", link: `/${pathName}/allcourse` },
                 ])
               );
             }}

@@ -82,12 +82,8 @@ const RegisterTraineeForm = () => {
       .regex(/^[A-Za-z ]+$/, {
         message: "Please enter a valid contact last name",
       })
-      .min(1, { message: "Please enter a contact last name" }),
-    phone: Zod.string({
-      required_error: "Please enter a phone number",
-    })
-      .min(8, { message: "Please enter a valid phone number" })
-      .max(15, { message: "Phone number must be between 8 and 15 characters" }),
+      .min(1, { message: "Please enter contact last name" }),
+    phone: Zod.string().optional(),
     currentHighestNFQ: Zod.string({
       required_error: "Please select the current highest NFQ",
     }).min(1, { message: "Please enter the NFQ" }),
@@ -418,7 +414,6 @@ const RegisterTraineeForm = () => {
           <div className="mb-4 col-span-1">
             <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
               Phone
-              <img src={mandatory} className="p-1" />
             </label>
             <PhoneInput
               placeholder="Enter phone number"
@@ -427,7 +422,7 @@ const RegisterTraineeForm = () => {
               onChange={(e: any) => {
                 setValue("phone", e);
                 setPhone(e);
-                if (e?.length < 8 || e?.length > 15) {
+                if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
                   setError("phone", {
                     message: "Please enter valid phone number",
                   });

@@ -103,7 +103,7 @@ const EmployeeBasicCourse = () => {
       }
     }
   }, [getModule?.moduleStatuses, userData?.query?.role]);
-console.log("course?.datacourse?.data", course?.data?.course);
+  console.log("course?.datacourse?.data", course?.data?.course);
 
   return (
     <>
@@ -131,7 +131,7 @@ console.log("course?.datacourse?.data", course?.data?.course);
                       setPath([
                         { label: "Course Management", link: null },
                         {
-                          label: "All Course",
+                          label: "All Courses",
                           link: `/${pathName}/allcourse`,
                         },
                       ])
@@ -210,7 +210,7 @@ console.log("course?.datacourse?.data", course?.data?.course);
                               setPath([
                                 { label: "Course Management", link: null },
                                 {
-                                  label: "All Course",
+                                  label: "All Courses",
                                   link: `/${pathName}/allcourse`,
                                 },
                               ])

@@ -40,7 +40,7 @@ import PhoneInputWithCountrySelect from "react-phone-number-input";
 
 const schema = zod.object({
   name: zod.string(),
-  number: zod.string().min(1, { message: "Please enter phone number" }),
+  number: zod.string().optional(),
   email: zod.string().email({ message: "Please enter valid email" }),
   providerName: zod.string(),
   providerType: zod.string(),
@@ -76,6 +76,7 @@ const TrainerDetailsEdit = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
     watch,
     reset,
   } = useForm<ValidationSchema>({
@@ -329,13 +330,21 @@ const TrainerDetailsEdit = () => {
                   <div className="flex flex-col gap-1">
                     <label className="mb-[8px]  font-bold text-[16px]">
                       Phone No.
-                      <span className="text-red-500">*</span>{" "}
                     </label>
                     <PhoneInputWithCountrySelect
                       placeholder="Enter phone number"
                       international
                       onChange={(e: any) => {
                         setValue("number", e);
+                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                          setError("number", {
+                            message: "Please enter valid phone number",
+                          });
+                        } else {
+                          setError("number", {
+                            message: "",
+                          });
+                        }
                       }}
                       value={watch("number") || ""}
                       className="phone-input"

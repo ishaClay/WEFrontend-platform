@@ -149,9 +149,12 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           toggleDropdown(item.children, index);
                           {
                             item?.children.length === 0 && setIsOpen({});
-                            dispatch(
-                              setPath([{ label: `${item.label}`, link: null }])
-                            );
+                            item?.children.length === 0 &&
+                              dispatch(
+                                setPath([
+                                  { label: `${item.label}`, link: null },
+                                ])
+                              );
                           }
                         }}
                         className={`relative group flex items-center ${
