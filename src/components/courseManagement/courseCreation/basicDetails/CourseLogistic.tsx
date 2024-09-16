@@ -60,19 +60,19 @@ const isOnlineType = [
 
 const durationType = [
   {
-    label: "Days",
+    label: "Day/s",
     value: "Days",
   },
   {
-    label: "Weeks",
+    label: "Week/s",
     value: "Weeks",
   },
   {
-    label: "Months",
+    label: "Month/s",
     value: "Months",
   },
   {
-    label: "Year",
+    label: "Year/s",
     value: "Year",
   },
 ];

@@ -73,6 +73,13 @@ const SectionForm = ({
 
   const handleFileSelect = (e: any) => {
     const file = e.target.files[0];
+    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
     if (
       file.name?.split(".").pop() === "pdf" ||
       file.name?.split(".").pop() === "docx" ||
@@ -125,7 +132,7 @@ const SectionForm = ({
               className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
             >
               <CircleX className="me-1" width={18} />
-              {sectionID ? "Cancel Editing" : "Add Remove"}
+              {sectionID ? "Cancel Editing" : "Remove"}
             </Button>
             <h6 className="text-base flex items-center font-calibri text-[#515151]">
               <Switch

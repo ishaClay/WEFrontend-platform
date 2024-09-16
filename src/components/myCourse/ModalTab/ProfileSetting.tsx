@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ErrorMessage from "@/components/comman/Error/ErrorMessage";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
@@ -224,6 +225,14 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     const formData = new FormData();
     // @ts-ignore
     formData.append("image", file);
+    // @ts-ignore
+    if(!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
     upload(formData);
   };
 
@@ -286,7 +295,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"SME Organisation"}
                   placeholder={"SME Organisation"}
                   {...register("smeOrganisation")}
-                  className="font-bold text-slate-900 disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:opacity-90 disabled:font-normal disabled:text-[#000]"
                   disabled
                   error={errors?.smeOrganisation?.message as string}
                 />
@@ -296,7 +305,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"Company Id"}
                   placeholder={"Company Id"}
                   disabled
-                  className="font-bold text-slate-900 disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:opacity-90 disabled:font-normal disabled:text-[#000]"
                   value={data?.data?.companyDetails?.companyId}
                   error={errors?.smeOrganisation?.message as string}
                 />
@@ -340,6 +349,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             <RadioGroup
               onValueChange={(data) => setValue("gender", data)}
               value={watch("gender")}
+              disabled={data?.data?.gender ? true : false}
               className="flex gap-4"
             >
               <div className="flex items-center space-x-2">
@@ -402,9 +412,9 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               <Button
                 type="submit"
                 isLoading={isPendingMutation}
-                className="bg-[#00778B] font-abhaya text-base px-7"
+                className="bg-[#00778B] font-calibri text-base px-7"
               >
-                Edit
+                Save
               </Button>
             </div>
           </div>

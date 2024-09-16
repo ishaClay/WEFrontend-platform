@@ -342,7 +342,7 @@ const CourseInformation = ({
             <InputWithLabel
               label="Please enter the name of the institute providing this course."
               labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
-              placeholder="Enter institute name (Training provider name should be auto populated)"
+              placeholder="Enter institute name"
               className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("institute")}
               error={errors.institute?.message as string}

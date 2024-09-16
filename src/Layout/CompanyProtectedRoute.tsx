@@ -10,10 +10,11 @@ const CompanyProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   console.log(
     "!userToken || +user?.query?.role !== 1",
     !userToken,
-    +user?.query?.role !== 1
+    +user?.query?.role !== 1,
+    +user?.query?.role !== 4
   );
 
-  if (!userToken || +user?.query?.role !== 1) {
+  if (!userToken && (+user?.query?.role !== 1 || +user?.query?.role !== 4)) {
     return <Navigate to={"/auth"} />;
   }
   return <>{children}</>;

@@ -14,10 +14,11 @@ import { MaturityAssessmentTabs } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 // import { utils, writeFileXLSX } from "xlsx";
 import { fetchAssessment } from "@/services/apiServices/assessment";
 import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import { AllActionDataPillerWise } from "@/types/MaturityLavel";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Loading from "../comman/Error/Loading";
 import { Button } from "../ui/button";
@@ -34,7 +35,6 @@ import AssessmentPdf from "./AssessmentPdf";
 import AssessmentResult from "./AssessmentResult/AssessmentResult";
 import Assign from "./Roadmap/Assign";
 import Roadmap from "./Roadmap/Roadmap";
-import { AllActionDataPillerWise } from "@/types/MaturityLavel";
 
 let isFirstTime = true;
 const MaturityAssessment = () => {
@@ -57,6 +57,19 @@ const MaturityAssessment = () => {
       : userData?.query
       ? userData?.query?.id
       : userData?.id;
+
+  const [searchParams] = useSearchParams();
+
+  const selectPillar = searchParams.get("actionItem");
+  console.log("🚀 ~ MaturityAssessment ~ selectPillar:", selectPillar);
+
+  useEffect(() => {
+    if (selectPillar === "2") {
+      setActiveTab("actionitems");
+    } else {
+      setActiveTab("assessmentresult");
+    }
+  }, [selectPillar]);
 
   // @ts-ignore
   const { data: getCheckedmeasures, isFetching } = useQuery({
@@ -97,14 +110,19 @@ const MaturityAssessment = () => {
     if (isLoading || !isFirstTime) return;
 
     if (assessmentQuestionScoreLIST?.data?.length) {
+      const lastAssessmentNumber = assessmentQuestionScoreLIST?.data.filter(
+        (a: any) => a.completedAssessmentDate
+      ); // Filter out assessments with no completed date
       setSelectAssessment(
-        assessmentQuestionScoreLIST?.data?.at(-1)?.assessmentNumber?.toString()
+        lastAssessmentNumber?.at(-1)?.assessmentNumber?.toString()
       );
     } else {
       setSelectAssessment("1");
     }
     isFirstTime = false;
   }, [assessmentQuestionScoreLIST]);
+
+  console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -167,6 +185,12 @@ const MaturityAssessment = () => {
       : moment(
           new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")
         ).format("DD/MM/YYYY");
+
+  console.log(
+    "++++++++++++++++++++++++++++++++++",
+    Role === "employee",
+    empPermissions?.retakeSelfAssessment
+  );
 
   return (
     <div className="">
@@ -351,7 +375,7 @@ const MaturityAssessment = () => {
               )}
             </TabsContent>
             <TabsContent value="actionitems" className="lg:p-5 p-[15px] mt-0">
-              <ActionItems />
+              <ActionItems selectAssessment={selectAssessment || "1"} />
             </TabsContent>
           </Tabs>
         </div>

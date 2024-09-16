@@ -103,7 +103,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
   return (
     <div
       className={`relative lg:flex flex-col justify-between ${
-        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "2xl:w-[60px] w-[235px]"
+        sidebarOpen ? "2xl:w-[260px] w-[235px]" : "w-[60px]"
       } duration-500 bg-[#FFFFFF] overflow-hidden`}
     >
       {/* <Button
@@ -320,7 +320,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                     onClick={handleLogout}
                     className={`group flex items-center ${
                       sidebarOpen ? "justify-start" : "justify-center"
-                    } text-[16px] leading-5 gap-2 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri w-full text-left`}
+                    } text-[16px] leading-5 gap-2 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] !font-calibri w-full text-left`}
                   >
                     <Icon size={22} />
                     {sidebarOpen && <h2>{item.label}</h2>}

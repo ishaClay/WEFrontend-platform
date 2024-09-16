@@ -56,11 +56,14 @@ const PillerCard = ({
   const [open, setOpen] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const queryClient = useQueryClient();
-  const userID = UserId
-    ? +UserId
-    : userData?.query
-    ? userData?.query?.id
-    : userData?.id;
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
 
   // Api Calling......
 

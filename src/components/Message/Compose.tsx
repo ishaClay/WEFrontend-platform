@@ -29,7 +29,6 @@ import { fetchEmails } from "@/services/apiServices/emailTemplate";
 import { uploadFile } from "@/services/apiServices/upload";
 import { ErrorType } from "@/types/Errors";
 import { EmailTemplateType } from "@/types/message";
-import { TrainerStatus } from "@/types/Trainer";
 import { MessageUserRole, UserRole } from "@/types/UserRole";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -128,17 +127,19 @@ const Compose = () => {
   useEffect(() => {
     refetchTargetUserby();
   }, [selectTab]);
+console.log("images", images);
 
   const fetchAssignToList = (selectType: string) => {
     const selectedType =
       selectType === "client" ? "admin" : selectType.replace(/ /g, "");
 
     if (role === UserRole?.Trainer) {
-      setSelectToValue(
-        fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
-          selectedType
-        ]?.filter((item: any) => item.status === TrainerStatus.Active)
-      );
+      // setSelectToValue(
+      //   fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[
+      //     selectedType
+      //   ]?.filter((item: any) => item?.status === TrainerStatus?.Active)
+      // );
+      setSelectToValue(fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails?.[selectedType]);      
     } else if (role === UserRole?.Company) {
       setSelectToValue(
         fetchTargetUserbyList?.data?.data?.[0]?.companyDetails?.[selectedType]
@@ -153,6 +154,8 @@ const Compose = () => {
       );
     }
   };
+  console.log("isActive", fetchTargetUserbyList?.data?.data?.[0]?.trainerCompanyDetails, isActive);
+    
 
   useEffect(() => {
     fetchAssignToList(isActive);
@@ -238,7 +241,16 @@ const Compose = () => {
     const fileList = event.target.files;
     if (fileList) {
       Array.from(fileList).map((file) => {
-        upload_file(file);
+        const filename = file.name;
+        if(!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+          toast({
+            variant: "destructive",
+            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+          });
+          return;
+        } else{
+          upload_file(file);
+        }
       });
     }
 

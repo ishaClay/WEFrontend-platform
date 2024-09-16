@@ -57,6 +57,15 @@ const AllocateCertificateModalDetails = ({
     setIsDragging(false);
 
     const files = e.dataTransfer.files;
+
+    if(!files?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
+
     if (files.length > 0) {
       handaleUpload(files, "isDrag");
     }
@@ -79,6 +88,13 @@ const AllocateCertificateModalDetails = ({
   const handaleUpload = (e: any, name?: string) => {
     const files = name === "isDrag" ? e : e.target.files;
 
+    if(!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }    
     createImageUpload(files[0]);
   };
 
@@ -128,7 +144,7 @@ const AllocateCertificateModalDetails = ({
               <h5 className="uppercase text-[#9E9E9E] pb-6 font-inter">-OR-</h5>
             </>
           )}
-          <input type="file" id="upload" accept=".pdf" className="hidden" />
+          <input type="file" id="upload" accept=".pdf" className="hidden" onChange={(e) => handaleUpload(e)} />
           <label
             htmlFor="upload"
             className=" text-base rounded-md font-calibri inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"

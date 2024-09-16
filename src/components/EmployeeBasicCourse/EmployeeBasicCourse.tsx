@@ -103,6 +103,7 @@ const EmployeeBasicCourse = () => {
       }
     }
   }, [getModule?.moduleStatuses, userData?.query?.role]);
+console.log("course?.datacourse?.data", course?.data?.course);
 
   return (
     <>

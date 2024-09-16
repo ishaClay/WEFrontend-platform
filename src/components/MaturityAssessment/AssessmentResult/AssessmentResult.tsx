@@ -317,22 +317,15 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[0]?.rangeStart?.toFixed(
-                          0
-                        ) &&
+                        fetchClientmaturitylevel?.data[0]?.rangeStart &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[0]?.rangeEnd?.toFixed(
-                          0
-                        ) && (
+                        fetchClientmaturitylevel?.data[0]?.rangeEnd && (
                         <Button
                           type="button"
                           variant={"ghost"}
@@ -356,7 +349,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {persantage}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>
@@ -383,22 +376,15 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[1]?.rangeStart?.toFixed(
-                          0
-                        ) &&
+                        fetchClientmaturitylevel?.data[1]?.rangeStart &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[1]?.rangeEnd?.toFixed(
-                          0
-                        ) && (
+                        fetchClientmaturitylevel?.data[1]?.rangeEnd && (
                         <Button
                           type="button"
                           variant={"ghost"}
@@ -422,7 +408,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {persantage}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>
@@ -449,22 +435,15 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
                     {fetchClientmaturitylevel?.data &&
                       +persantage >=
-                        fetchClientmaturitylevel?.data[2]?.rangeStart?.toFixed(
-                          0
-                        ) &&
+                        fetchClientmaturitylevel?.data[2]?.rangeStart &&
                       +persantage <=
-                        fetchClientmaturitylevel?.data[2]?.rangeEnd?.toFixed(
-                          0
-                        ) && (
+                        fetchClientmaturitylevel?.data[2]?.rangeEnd && (
                         <Button
                           type="button"
                           variant={"ghost"}
@@ -488,7 +467,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {persantage}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>
@@ -534,10 +513,7 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
@@ -569,7 +545,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {item?.totalpoints}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>
@@ -590,10 +566,7 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
@@ -625,7 +598,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {item?.totalpoints}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>
@@ -646,10 +619,7 @@ const AssessmentResult = ({
                   ((+item?.totalpoints * 100) / +item?.totalmaxpoint)?.toFixed(
                     0
                   ) !== "NaN"
-                    ? (
-                        (+item?.totalpoints * 100) /
-                        +item?.totalmaxpoint
-                      )?.toFixed(0)
+                    ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
                     : 0;
                 return (
                   <>
@@ -681,7 +651,7 @@ const AssessmentResult = ({
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                {item?.totalpoints}%
+                                {persantage?.toFixed(0)}%
                               </span>
                             </div>
                           </div>

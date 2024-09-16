@@ -188,6 +188,14 @@ const TrainerDetailsEdit = () => {
     const formData = new FormData();
     // @ts-ignore
     formData.append("image", file);
+    // @ts-ignore
+    if(!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
     upload(formData);
   };
 

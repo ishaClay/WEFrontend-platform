@@ -80,10 +80,7 @@ const ModuleCreationPage = () => {
                   250,
                   "You can not write section title more than 250 characters"
                 ),
-              information: z
-                .string()
-                .min(500, "You must write at least 500 characters.")
-                .max(5000, "You can not write more than 5000 characters"),
+              information: z.string().optional(),
               uploadContentType: z
                 .number()
                 // .min(1, "Upload content type is required")
@@ -128,6 +125,19 @@ const ModuleCreationPage = () => {
                   });
                 }
               } else {
+                if (!data.information || data.information.trim().length < 500) {
+                  ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Information must be at least 500 characters",
+                    path: ["information"],
+                  });
+                } else if (data.information.trim().length > 5000) {
+                  ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Information can not be more than 5000 characters",
+                    path: ["information"],
+                  });
+                }
                 if (
                   data?.uploadContentType &&
                   !data.uploadedContentUrl &&

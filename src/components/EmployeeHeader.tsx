@@ -30,6 +30,7 @@ const EmployeeHeader = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
+  console.log("🚀 ~ EmployeeHeader ~ userData:", userData);
 
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -158,9 +159,10 @@ const EmployeeHeader = () => {
                       <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
                         Hi, {userName}
                       </h5>
-                      <h6 className="xl:text-base text-sm font-nunito text-black">
+                      <h6 className="xl:text-base text-sm font-calibri leading-1 text-black">
                         {+userRole === 4 && "Employee"}
                       </h6>
+                      <p>{userData?.company?.userDetails?.name}</p>
                     </div>
                     <IoMdArrowDropdown className="w-[20px] h-[20px] ml-2" />
                   </div>

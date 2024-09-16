@@ -1,18 +1,18 @@
+import Loading from "@/components/comman/Error/Loading";
+import NoDataText from "@/components/comman/NoDataText";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getEmployeeWiseAction } from "@/services/apiServices/employee";
 import { EmployeeActionResponse } from "@/types/employee";
 import { useQuery } from "@tanstack/react-query";
 import ActionItemsList from "./ActionItemsList";
-import Loading from "@/components/comman/Error/Loading";
-import NoDataText from "@/components/comman/NoDataText";
 
-const ActionItems = () => {
+const ActionItems = ({ selectAssessment }: { selectAssessment: string }) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = userData?.query.detailsid;
 
   const { data, isLoading } = useQuery<EmployeeActionResponse>({
-    queryKey: [QUERY_KEYS.getEmployeeWiseAcion],
-    queryFn: () => getEmployeeWiseAction(userID),
+    queryKey: [QUERY_KEYS.getEmployeeWiseAcion, { selectAssessment }],
+    queryFn: () => getEmployeeWiseAction(userID, selectAssessment),
   });
 
   return (
