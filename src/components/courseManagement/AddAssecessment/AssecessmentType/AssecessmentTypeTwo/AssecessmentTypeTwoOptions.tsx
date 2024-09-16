@@ -24,44 +24,48 @@ const AssecessmentTypeTwoOptions = ({
 }: optionsProps) => {
   const { assesment, setAssesment } = useContext(AssesmentContext);
 
-  const handleCheck = (inx: number) => {
+  const handleCheck = () => {
+    const selectedOptionValue = data.option;
     setAssesment((prev: any) => {
-      return prev.map((item: any) => {
-        if (item?.ids === id) {
-          return {
-            ...item,
-            answer: item?.answer?.find((_: any) => _ === inx)
-              ? item?.answer?.filter((_: any) => _ !== inx)
-              : // @ts-ignore
-                [...item?.answer, inx],
-          };
-        }
-        return item;
-      });
+        return prev.map((item: any) => {
+            if (item?.ids === id) {
+                return {
+                    ...item,
+                    answer: item?.answer?.includes(selectedOptionValue)
+                        ? item?.answer?.filter((val: string) => val !== selectedOptionValue)
+                        : [...item?.answer, selectedOptionValue],
+                };
+            }
+            return item;
+        });
     });
     setErrors((prev: any) => ({
+        ...prev,
+        answer: "",
+    }));
+};
+
+const handleRemove = () => {
+  const optionToRemove = data.option;
+  setAssesment((prev: any) => {
+      return prev.map((item: any) => {
+          if (item?.ids === id) {
+              return {
+                  ...item,
+                  answer: item?.answer?.filter(
+                      (val: string) => val !== optionToRemove
+                  ),
+              };
+          }
+          return item;
+      });
+  });
+
+  setErrors((prev: any) => ({
       ...prev,
       answer: "",
-    }));
-  };
-
-  console.log("assesment ", iIndex);
-
-  const handleRemove = (index: number) => {
-    setAssesment((prev: any) => {
-      return prev.map((item: any) => {
-        if (item?.ids === id) {
-          return {
-            ...item,
-            options: item?.options?.filter(
-              (_: any, idx: number) => idx !== index
-            ), // Filter the options array
-          };
-        }
-        return item; // Return unchanged item
-      });
-    });
-  };
+  }));
+};
 
   const handleChange = (e: any, i: number) => {
     const { value } = e.target;
@@ -107,9 +111,7 @@ const AssecessmentTypeTwoOptions = ({
               <Button
                 type="button"
                 className="px-4 py-1 bg-[#FFD2D2] text-[#FF5252] rounded-sm hover:bg-[#FFD2D2] absolute right-4"
-                onClick={() => {
-                  handleRemove(iIndex);
-                }}
+                onClick={handleRemove}
               >
                 <Trash2 width={18} />
               </Button>
@@ -119,13 +121,9 @@ const AssecessmentTypeTwoOptions = ({
         <div className="w-[2%] text-right">
           <Checkbox
             className="border border-[#D9D9D9] w-[22px] h-[22px]"
-            onCheckedChange={() => handleCheck(iIndex)}
-            checked={
-              assesment
-                ?.find((item) => item.ids === id)
-                // @ts-ignore
-                ?.answer?.includes(iIndex) || false
-            }
+            onCheckedChange={handleCheck}
+            // @ts-ignore
+            checked={assesment?.find((item) => item.ids === id)?.answer?.includes(data?.option) || false}
           />
         </div>
       </div>

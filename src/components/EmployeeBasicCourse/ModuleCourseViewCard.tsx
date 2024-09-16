@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import ModuleCourseViewCardItems from "./ModuleCourseViewCardItems";
+import { cn } from "@/lib/utils";
 
 const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
   const { role } = useSelector((state: RootState) => state.user);
@@ -41,7 +42,13 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
           <div className="flex items-center justify-between w-full">
             <div>
               <h5
-                className={`sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
+                className={cn("sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block", {
+                  "pointer-events-none" : 
+                    +userData?.query?.role === 4 ?
+                    (data?.moduleSection || data?.moduleSections)?.some(
+                      (item: any) => item?.isStatus !== "Completed"
+                    ) : +userData?.query?.role === 1
+                })}
                 onClick={() => {
                   if (+userData?.query?.role !== 1) {
                     navigate(

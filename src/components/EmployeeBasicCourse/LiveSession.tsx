@@ -122,7 +122,7 @@ const LiveSession = ({
                       )}{" "}
                     </span>
                   </h6>
-                  <h6 className="flex items-center gap-2 text-xs text-[#777]">
+                  {list?.liveSection?.length > 0 && <h6 className="flex items-center gap-2 text-xs text-[#777]">
                     <Clock width={20} className="text-[#666666]" /> Time :{" "}
                     <span className="text-black">
                       {moment(list?.liveSection[0]?.startTime).format(
@@ -133,7 +133,7 @@ const LiveSession = ({
                         .add(list?.liveSection[0]?.sessionDuration, "m")
                         .format("hh:mm A")}
                     </span>
-                  </h6>
+                  </h6>}
                 </div>
               </div>
               {/* <div className="md:text-right text-left">

@@ -174,7 +174,7 @@ const MainHeader = () => {
               </button>
               <div className="flex items-center gap-1">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-1 ">
+                  <DropdownMenuTrigger className="sm:text-[18px] text-base flex items-center gap-3 ">
                     <Avatar>
                       <AvatarImage
                         src={
@@ -186,18 +186,28 @@ const MainHeader = () => {
                           userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>{" "}
-                    Hi,{" "}
-                    {userData?.query?.fname || userData?.query?.lname
-                      ? `${userData?.query?.fname || ""} ${
-                          userData?.query?.lname || ""
-                        }`.trim()
-                      : userData?.query?.email?.split("@")[0]}
+                    <div className="flex items-center">
+                      <div className="lg:block hidden text-left">
+                        <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
+                          Hi, {userData?.query?.fname || userData?.query?.lname
+                          ? `${userData?.query?.fname || ""} ${
+                              userData?.query?.lname || ""
+                            }`.trim()
+                          : userData?.query?.email?.split("@")[0]}
+                        </h5>
+                        <h6 className="xl:text-base text-sm font-calibri leading-1 text-black">
+                          {+userRole === 2 ? "Trainer Admin" : +userRole === 1 ? "SME Company" : "Trainer"}
+                        </h6>
+                        <p>{+userRole === 1 ? userData?.query?.name : +userRole === 2 ? userData?.trainerCompany?.providerName : 
+                      userData?.trainerCompany?.providerName}</p>
+                      </div>
+                      <IoMdArrowDropdown className="w-[20px] h-[20px] ml-2" />
+                    </div>
                     {/* {(userData?.query?.fname || userData?.query?.lname) ? (userData?.query?.fname &&
                       userData?.query?.fname) + " " + (userData?.query?.lname &&
                       userData?.query?.lname) :
                       userData?.query?.name ? userData?.query?.name :
                       userData?.query?.email?.split("@")[0]} */}
-                    <IoMdArrowDropdown className="w-[20px] h-[20px]" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem

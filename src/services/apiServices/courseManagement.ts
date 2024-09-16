@@ -226,8 +226,15 @@ export const createInquiry = async (data: {
   return res.data;
 };
 
-export const fetchCoursePublishAdminClient = async (id: number) => {
+export const fetchCoursePublishAdminClient = async (id: number, keyword: string, page: number) => {
   const url = `api/v1/client/coursePublishAdminClient/?clientId=${id}`;
-  const res = await api({ url });
+  const params: any = {};
+  if(keyword){
+    params["keyword"] = keyword;
+  }
+  if(page){
+    params["page"] = page;
+  }
+  const res = await api({ url, params });
   return res?.data;
 };

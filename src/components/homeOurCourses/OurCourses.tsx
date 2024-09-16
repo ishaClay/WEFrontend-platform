@@ -2,28 +2,32 @@ import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { RootState } from "@/redux/store";
 import { fetchCoursePublishAdminClient } from "@/services/apiServices/courseManagement";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "../comman/Loader";
 import HomeFooter from "../homePage/HomeFooter";
 import HomeHeader from "../homePage/HomeHeader";
 import OurCourseList from "./OurCourseList";
 import SearchBox from "../comman/SearchBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Paginations from "../comman/Pagination";
 
 const OurCourses = () => {
+  const queryClient = useQueryClient();
   const { clientId } = useAppSelector((state: RootState) => state.user);
   const [query, searchQuery] = useState("");
+  const [page, setPage] = useState(0);
 
-  const { data: course, isLoading } = useQuery({
+  const { data: course, isLoading, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.coursePublishAdminClient],
-    queryFn: () => fetchCoursePublishAdminClient(+clientId),
+    queryFn: () => fetchCoursePublishAdminClient(+clientId, query, page),
   });
 
-  const filteredData = course?.data
-    ? course?.data?.filter((item: any) =>
-        item.title?.toLowerCase()?.includes(query.toLowerCase())
-      )
-    : [];
+  useEffect(() => {
+    queryClient.invalidateQueries({ 
+      queryKey: [QUERY_KEYS.coursePublishAdminClient] 
+    });
+  }, [query, page]);
+
 
   return (
     <>
@@ -36,14 +40,21 @@ const OurCourses = () => {
           onChange={(e) => searchQuery(e.target.value)}
         />
         <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:px-0 md:px-3 px-4 py-7">
-          {isLoading ? (
+          {isLoading || isFetching ? (
             <Loader containerClassName="col-span-full" />
           ) : (
-            filteredData?.map((data: any, index: number) => {
+            course?.data?.map((data: any, index: number) => {
               return <OurCourseList key={index} data={data} />;
             })
           )}
         </div>
+        <Paginations 
+          className="mb-10"
+          itemsPerPage={course?.metadata?.itemsPerPage}
+          totalPages={course?.metadata?.totalPages}
+          currentPage={course?.metadata?.currentPage}
+          setCurrentPage={(page: number) => setPage(page)}
+        />
       </div>
       <HomeFooter />
     </>

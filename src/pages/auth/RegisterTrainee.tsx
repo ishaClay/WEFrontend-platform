@@ -2,13 +2,18 @@ import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import RegisterBanner from "@/components/RegisterTrainee/RegisterBanner";
 import RegisterTraineeForm from "@/components/RegisterTrainee/RegisterTraineeForm";
+import { useToast } from "@/components/ui/use-toast";
+import { employeeRegister } from "@/services/apiServices/employee";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterTrainee = () => {
-  // const navigate = useNavigate();
-  // const search = window.location.search;
-  // const params = new URLSearchParams(search);
-  // const email: string | null = params.get("email");
+  const navigate = useNavigate();
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const email: string | null = params.get("email");
+  const { toast } = useToast();
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -16,17 +21,21 @@ const RegisterTrainee = () => {
     });
   }, []);
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["employeeRegister"],
-  //   queryFn: () => employeeRegister(email || ""),
-  //   enabled: !!email,
-  // });
+  const { data } = useQuery({
+    queryKey: ["employeeRegister"],
+    queryFn: () => employeeRegister(email || ""),
+    enabled: !!email,
+  });
 
-  // useEffect(() => {
-  //   if (!!data) {
-  //     navigate("/auth");
-  //   }
-  // }, [data, email]);
+  useEffect(() => {
+    if (!!data?.data?.employeeDetails?.isRegister) {
+      navigate("/auth");
+      toast({
+        description: "Employee already registered",
+        variant: "success",
+      })
+    }
+  }, [data, email]);
 
   return (
     <>
