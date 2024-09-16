@@ -42,7 +42,7 @@ const ActionItems = ({ selectAssessment }: { selectAssessment: string }) => {
           </li>
         </ul>
       </div>
-      <div className="border border-[#D9D9D9] rounded-xl">
+      <div className="border border-[#D9D9D9] rounded-xl mb-10">
         {data?.data?.measureData?.length ? (
           data?.data?.measureData?.map((data, index) => {
             return <ActionItemsList data={data} key={index} />;

@@ -203,7 +203,7 @@ function SupportAddNewTicket() {
                             className="w-full"
                           >
                             <div className="flex items-center sm:gap-5 gap-2">
-                              <p className="text-left">
+                              <p className="text-left w-[110px]">
                                 {item?.userDetails?.role === UserRole?.Employee
                                   ? "Employee"
                                   : item?.userDetails?.role ===

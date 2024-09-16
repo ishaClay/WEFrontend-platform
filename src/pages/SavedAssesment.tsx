@@ -125,13 +125,7 @@ function SavedAssesment() {
                 ) : (
                   data?.data &&
                   data?.data?.length > 0 &&
-                  data?.data
-                    .sort((a, b) => {
-                      if (a.pillarName < b.pillarName) return -1;
-                      if (a.pillarName > b.pillarName) return 1;
-                      return 0;
-                    })
-                    .map((category, index: number) => {
+                  data?.data?.map((category, index: number) => {
                       return (
                         <div className="">
                           <div

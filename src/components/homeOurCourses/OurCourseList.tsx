@@ -126,7 +126,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
           className="bg-primary-button font-abhaya text-base px-5 py-2 h-auto"
           onClick={() => navigate(`/our-courses/${data.id}`)}
         >
-          Show info
+          Course info
         </Button>
 
         <Button

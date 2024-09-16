@@ -1,5 +1,6 @@
 import Loader from "@/components/comman/Loader";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { QUERY_KEYS } from "@/lib/constants";
 import { getTimeAgo } from "@/lib/utils";
 import { getItemHistory } from "@/services/apiServices/pillar";
@@ -55,39 +56,42 @@ const HistoryModel = ({
         <h5 className="font-abhaya text-[22px] font-semibold text-[#000] leading-6 pt-[30px]">
           {historyMasure}
         </h5>
-        <div className="pt-4 flex flex-col gap-5">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            data?.data?.map((items, index: number) => {
-              return (
-                <div className="flex items-center gap-2" key={index}>
-                  <div>
-                    <Avatar>
-                      {/* <AvatarImage src={items?.image} alt="Avatar" /> */}
-                      <AvatarFallback>
-                        {items.createdBy?.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div>
-                    <div className="flex items-center pb-1">
-                      <h6 className="text-[18px] font-abhaya font-bold">
-                        {items.createdBy?.name}
-                      </h6>
+        <div className="pt-4">
+          <ScrollArea className="h-[500px]">
+            {isLoading ? (
+              <Loader />
+            ) : <div className="flex flex-col gap-5 h-full">
+              {data?.data?.map((items, index: number) => {
+                console.log("items.createdBy", items);
+                return (
+                  <div className="flex items-center gap-2" key={index}>
+                    <div>
+                      <Avatar>
+                        {/* <AvatarImage src={items?.image} alt="Avatar" /> */}
+                        <AvatarFallback>
+                          {items.createdBy?.name?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                    <div>
+                      <div className="flex items-center pb-1">
+                        <h6 className="text-[18px] font-abhaya font-bold">
+                          {items.createdBy?.name}
+                        </h6>
                       ,{" "}
-                      <p className="text-[14px] font-abhaya text-[#777] font-[700] ml-1">
-                        {getTimeAgo(items.createdAt)}
-                      </p>
-                    </div>
-                    <div className="text-[15px] font-abhaya font-bold text-[#000]">
-                      {items.historyName}
+                        <p className="text-[14px] font-abhaya text-[#777] font-[700] ml-1">
+                          {getTimeAgo(items.createdAt)}
+                        </p>
+                      </div>
+                      <div className="text-[15px] font-abhaya font-bold text-[#000]">
+                        {items.historyName}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })
-          )}
+                );
+              })}
+            </div>}
+          </ScrollArea>
         </div>
       </div>
     </>
