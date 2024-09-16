@@ -114,7 +114,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
               </div>
             ) : (
               <div className="flex items-center pe-5 sm:m-0 m-auto sm:pb-0 pb-3">
-                <Switch disabled={progress?.[0] !== "100" ? true : false} />
+                <Switch disabled={true} defaultChecked={progress?.[0] === "100" ? true : false} />
                 <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
                   Completed
                 </span>
