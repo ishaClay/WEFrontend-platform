@@ -172,7 +172,9 @@ const Dashboard = () => {
     useQuery<UpcommingLiveSessionResponse>({
       queryKey: ["getSmeUpcomingLiveSession"],
       queryFn: () =>
-        getSmeUpcomingLiveSession({ userId: userData?.query?.detailsid }),
+        getSmeUpcomingLiveSession({
+          userId: userData?.query?.detailsid || userData?.company?.id,
+        }),
     });
 
   console.log("smeUpcomingLiveSession", smeUpcomingLiveSession);

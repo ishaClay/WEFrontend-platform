@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loading from "@/components/comman/Error/Loading";
 import InputWithLabel from "@/components/comman/InputWithLabel";
 import Loader from "@/components/comman/Loader";
@@ -459,7 +460,7 @@ const CourseInformation = ({
             </div>
           </div>
 
-          {!watch("freeCourse") && (
+          {provideDisc && (
             <div className="md:pb-8 sm:pb-6 pb-[15px]">
               <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-calibri sm:text-base text-sm text-[#515151]">
                 Discount provided by

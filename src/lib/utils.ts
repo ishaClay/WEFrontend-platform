@@ -573,13 +573,13 @@ export const getTotalDuration = (data: any) => {
       readingTime?.minute >= 0 &&
       readingTime?.second >= 0
       ? totalSeconds +
-          +readingTime?.hour * 3600 +
-          +readingTime?.minute * 60 +
-          +readingTime?.second
+      +readingTime?.hour * 3600 +
+      +readingTime?.minute * 60 +
+      +readingTime?.second
       : +totalSeconds +
-          +readingTime?.hours * 3600 +
-          +readingTime?.minutes * 60 +
-          +readingTime?.seconds;
+      +readingTime?.hours * 3600 +
+      +readingTime?.minutes * 60 +
+      +readingTime?.seconds;
   }, 0);
 };
 

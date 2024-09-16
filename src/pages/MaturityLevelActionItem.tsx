@@ -5,6 +5,7 @@ import planAction from "@/assets/images/planAction.svg";
 import selfAssess from "@/assets/images/selfAssess.svg";
 import Header from "@/components/Header";
 import AssignCard from "@/components/MaturityAssessment/Roadmap/AssignCard";
+import InviteMember from "@/components/Models/InviteMember";
 import Loader from "@/components/comman/Loader";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import { Button } from "@/components/ui/button";
@@ -14,10 +15,9 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { getCheckedMeasures } from "@/services/apiServices/pillar";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
-import InviteMember from "@/components/Models/InviteMember";
-import { useEffect, useState } from "react";
 
 function MaturityLevelActionItem() {
   const dispatch = useAppDispatch();
@@ -199,7 +199,7 @@ function MaturityLevelActionItem() {
         )}
         <h5 className="font-abhaya text-[20px] font-bold text-center">
           Please ensure that Employees/Delegates are added or invited first
-          before assigning Action Items. To do so, please click here.
+          before assigning Action Items.
         </h5>
         <div className="my-5 text-center">
           <Button

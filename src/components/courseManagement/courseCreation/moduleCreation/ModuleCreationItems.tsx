@@ -27,6 +27,7 @@ interface ModuleCreationItemsProps {
   errors: any;
   setUrlError: ((e: any) => void | undefined) | any;
   urlError?: string;
+  setErrors: any;
   informationError: string;
   setInformationError: (e: any) => void;
   setIsUploading?: any;
@@ -62,10 +63,11 @@ const ModuleCreationItems = ({
   watch,
   moduleListlength,
   urlError,
+  setErrors,
   setUrlError,
   informationError,
   setInformationError,
-  setIsUploading
+  setIsUploading,
 }: ModuleCreationItemsProps) => {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
@@ -99,10 +101,11 @@ const ModuleCreationItems = ({
     setSectionIndex(sectionIndex);
     const file = e.target.files[0];
 
-    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -195,7 +198,7 @@ const ModuleCreationItems = ({
                       className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
                     >
                       <CircleX className="me-1" width={18} />
-                      Add Remove
+                      Remove
                     </Button>
                   )}
                   <h6 className="sm:text-base text-sm flex gap-2 items-center font-calibri text-[#515151]">
@@ -205,6 +208,10 @@ const ModuleCreationItems = ({
                         setValue(
                           `modules.${index}.section.${sectionindex}.isLive`,
                           val
+                        );
+                        setErrors(
+                          `modules.${index}.section.${sectionindex}.information`,
+                          { message: "" }
                         );
                       }}
                     />
@@ -247,7 +254,7 @@ const ModuleCreationItems = ({
 
                     if (plainText.length > 5000) {
                       setInformationError(
-                        "You can not write information more than 5000 characters"
+                        "It should be Max 5000 chracters only"
                       );
                       setValue(
                         `modules.${index}.section.${sectionindex}.information`,
@@ -347,7 +354,7 @@ const ModuleCreationItems = ({
                         onClick={() => handleRemoveFile(sectionindex)}
                         className="p-0 h-auto hover:bg-transparent text-[#ff0000]"
                       >
-                        Remove File
+                        Remove
                       </Button>
                     )}
                   </div>
@@ -389,7 +396,7 @@ const ModuleCreationItems = ({
                 )}
                 <div className="mb-5 pt-5">
                   <h5 className="text-[#515151] text-sm font-calibri pb-2">
-                    Reading Time
+                    Duration (Reading or Watching Time)
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
                     <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
@@ -488,27 +495,92 @@ const ModuleCreationItems = ({
                   )}
               </>
             ) : (
-              <div className="flex sm:flex-row flex-col gap-5">
-                <div className="">
-                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-                    Section Duration (HH)
-                  </h6>
-                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                    {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
-                    <Input
-                      type="number"
-                      {...register(
-                        `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
-                        {
-                          setValueAs: (value: string) =>
-                            value === "" ? undefined : Number(value),
-                        }
-                      )}
-                      className="w-full p-3 pr-12 text-sm text-black h-full"
-                    />
-                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
-                      Hours
+              <div>
+                <div className="flex sm:flex-row flex-col gap-5">
+                  <div className="">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                      Section Duration (HH)
                     </h6>
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      {/* <Textarea className="border-none w-full  text-sm text-black" /> */}
+                      <Input
+                        type="number"
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.livesessionDuration.hour`,
+                          {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Hours
+                      </h6>
+                    </div>
+                  </div>
+                  <div className="">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                      Section Minute (MM)
+                    </h6>
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      <Input
+                        value={sectionItem.livesessionDuration?.minute}
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
+                          {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        type="number"
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Minute
+                      </h6>
+                    </div>
+                    {errors.modules?.[index]?.section?.[sectionindex]
+                      ?.livesessionDuration?.minute && (
+                      <FormError
+                        className="font-calibri not-italic"
+                        message={
+                          errors.modules?.[index]?.section?.[sectionindex]
+                            ?.livesessionDuration?.minute?.message
+                        }
+                      />
+                    )}
+                  </div>
+                  <div className="">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                      Section Seconds (SS)
+                    </h6>
+                    <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
+                      <Input
+                        {...register(
+                          `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
+                          {
+                            setValueAs: (value: string) =>
+                              value === "" ? undefined : Number(value),
+                          }
+                        )}
+                        type="number"
+                        className="w-full p-3 pr-12 text-sm text-black h-full"
+                      />
+                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                        Second
+                      </h6>
+                    </div>
+                    {errors.modules?.[index]?.section?.[sectionindex]
+                      ?.livesessionDuration?.second && (
+                      <FormError
+                        className="font-calibri not-italic"
+                        message={
+                          errors.modules?.[index]?.section?.[sectionindex]
+                            ?.livesessionDuration.second?.message
+                        }
+                      />
+                    )}
                   </div>
                 </div>
                 {errors.modules?.[index]?.section?.[sectionindex]
@@ -521,69 +593,6 @@ const ModuleCreationItems = ({
                     }
                   />
                 )}
-                <div className="">
-                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-                    Section Minute (MM)
-                  </h6>
-                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                    <Input
-                      value={sectionItem.livesessionDuration?.minute}
-                      {...register(
-                        `modules.${index}.section.${sectionindex}.livesessionDuration.minute`,
-                        {
-                          setValueAs: (value: string) =>
-                            value === "" ? undefined : Number(value),
-                        }
-                      )}
-                      type="number"
-                      className="w-full p-3 pr-12 text-sm text-black h-full"
-                    />
-                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
-                      Minute
-                    </h6>
-                  </div>
-                  {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.livesessionDuration?.minute && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors.modules?.[index]?.section?.[sectionindex]
-                          ?.livesessionDuration?.minute?.message
-                      }
-                    />
-                  )}
-                </div>
-                <div className="">
-                  <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
-                    Section Seconds (SS)
-                  </h6>
-                  <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
-                    <Input
-                      {...register(
-                        `modules.${index}.section.${sectionindex}.livesessionDuration.second`,
-                        {
-                          setValueAs: (value: string) =>
-                            value === "" ? undefined : Number(value),
-                        }
-                      )}
-                      type="number"
-                      className="w-full p-3 pr-12 text-sm text-black h-full"
-                    />
-                    <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
-                      Second
-                    </h6>
-                  </div>
-                  {errors.modules?.[index]?.section?.[sectionindex]
-                    ?.livesessionDuration?.second && (
-                    <FormError
-                      className="font-calibri not-italic"
-                      message={
-                        errors.modules?.[index]?.section?.[sectionindex]
-                          ?.livesessionDuration.second?.message
-                      }
-                    />
-                  )}
-                </div>
               </div>
             )}
           </div>

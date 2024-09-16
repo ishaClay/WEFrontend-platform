@@ -92,7 +92,7 @@ const AllCourses = () => {
                             link: null,
                           },
                           {
-                            label: "All Course",
+                            label: "All Courses",
                             link: `/${Role}/allcourse`,
                           },
                           {

@@ -100,7 +100,7 @@ export const createCourseTwoPage = ({
 };
 
 export const fetchNfqlLevel = async () => {
-  const url = `api/v1/course/nfqlevel/nfqlevellist`;
+  const url = `api/v1/course/nfqlevel/nfqlevellist?from=5&until=10`;
   const method = "get";
   const res = await api({ url, method });
   return res.data;

@@ -20,6 +20,7 @@ interface SectionFormProps {
   errors: any;
   watch: any;
   setValue: any;
+  setErrors: any;
   isLoading: boolean;
   urlError: string;
   setUrlError: (e: any) => void;
@@ -36,6 +37,7 @@ const SectionForm = ({
   isLoading,
   urlError,
   setUrlError,
+  setErrors,
   informationError,
   setInformationError,
   handleRemoveSection,
@@ -73,10 +75,11 @@ const SectionForm = ({
 
   const handleFileSelect = (e: any) => {
     const file = e.target.files[0];
-    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -132,16 +135,17 @@ const SectionForm = ({
               className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
             >
               <CircleX className="me-1" width={18} />
-              {sectionID ? "Cancel Editing" : "Remove"}
+              {sectionID ? "Cancel" : "Remove"}
             </Button>
             <h6 className="text-base flex items-center font-calibri text-[#515151]">
               <Switch
                 checked={section.isLive}
                 onCheckedChange={() => {
                   setValue(`isLive`, !section.isLive);
+                  setErrors("information", { message: "" });
                 }}
                 className={`me-3 text-[#0F172A] ${
-                  !!sectionID ? "pointer-events-none" : ""
+                  sectionID ? "pointer-events-none" : ""
                 }`}
               />
               Live Session
@@ -174,9 +178,7 @@ const SectionForm = ({
 
               if (plainText.length > 5000) {
                 setCharCount(5000);
-                setInformationError(
-                  "You can not write information more than 5000 characters"
-                );
+                setInformationError("It should be Max 5000 chracters only");
                 setValue(`information`, data);
               } else {
                 setCharCount(plainText.length);
@@ -247,7 +249,7 @@ const SectionForm = ({
                   onClick={handleRemoveFile}
                   className="p-0 h-auto hover:bg-transparent text-[#ff0000]"
                 >
-                  Remove File
+                  Remove
                 </Button>
               )}
             </div>
@@ -282,7 +284,7 @@ const SectionForm = ({
           )}
           <div className="mb-5">
             <h5 className="text-[#515151] text-sm font-calibri pb-2">
-              Reading Time
+              Duration (Reading or Watching Time)
             </h5>
             <div className="flex sm:flex-row flex-col gap-5">
               <div className="sm:w-[145px] sm:h-[46px] h-9 w-full flex justify-between items-center relative">

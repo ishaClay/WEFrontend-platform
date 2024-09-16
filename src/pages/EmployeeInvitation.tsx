@@ -90,6 +90,7 @@ const EmployeeInvitation = () => {
       toast({
         variant: "destructive",
         title: error.message,
+        description: error.message,
       });
     },
   });

@@ -287,7 +287,7 @@ const AllocatedCertificatePage = () => {
       <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
           <h6 className="text-[16px] font-semibold font-calibri pb-1">
-            Issued Certificate
+            Issue Certificate
           </h6>
           <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
             All the certificates you’ve awarded to trainees so far
@@ -327,7 +327,7 @@ const AllocatedCertificatePage = () => {
               );
             }}
           >
-            Issued Certificate
+            Issue Certificate
           </Button>
         </div>
       </div>

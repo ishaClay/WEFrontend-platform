@@ -314,7 +314,7 @@ const Addcertificate = () => {
                           fontFamily: Single_certificate?.data?.secondaryFont,
                         }}
                       >
-                        <h1 className="mb-2">OF PARTICIPATION</h1>
+                        {/* <h1 className="mb-2">OF PARTICIPATION</h1> */}
                         <h1>{watch("title")}</h1>
                       </div>
                     )}
