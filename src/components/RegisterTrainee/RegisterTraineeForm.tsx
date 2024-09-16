@@ -22,10 +22,10 @@ import * as Zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
 import Loading from "../comman/Error/Loading";
 import Loader from "../comman/Loader";
+import SelectMenu from "../comman/SelectMenu";
 import { InputWithLable } from "../ui/inputwithlable";
 import { toast } from "../ui/use-toast";
 import mandatory from "/assets/img/Mandatory.svg";
-import SelectMenu from "../comman/SelectMenu";
 
 const genderOptions: {
   label: string;
@@ -51,7 +51,6 @@ const RegisterTraineeForm = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const type = params.get("type");
   const email: string | null = params.get("email");
-  console.log("🚀 ~ RegisterTraineeForm ~ email:", email);
   const cName: string | null = params.get("cName");
   const fName: string | null = params.get("fName");
   const lName: string | null = params.get("lName");
@@ -68,51 +67,51 @@ const RegisterTraineeForm = () => {
   const navigate = useNavigate();
   const schema = Zod.object({
     email: Zod.string()
-      .email({ message: "Please enter valid email" })
+      .email({ message: "Please enter a valid email" })
       .optional(),
     ageRange: Zod.string({
-      required_error: "Please select age range",
+      required_error: "Please select an age range",
     }),
     gender: Zod.string({ required_error: "Please select gender" }),
     firstName: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid contact first name",
+        message: "Please enter a valid contact first name",
       })
-      .min(1, { message: "Please enter contact first name" }),
+      .min(1, { message: "Please enter a contact first name" }),
     surname: Zod.string()
       .regex(/^[A-Za-z ]+$/, {
-        message: "Please enter valid contact last name",
+        message: "Please enter a valid contact last name",
       })
-      .min(1, { message: "Please enter contact last name" }),
+      .min(1, { message: "Please enter a contact last name" }),
     phone: Zod.string({
-      required_error: "Please select phone number",
+      required_error: "Please enter a phone number",
     })
-      .min(8, { message: "Please enter valid phone number" })
-      .max(15, {
-        message: "Please enter valid phone number",
-      }),
+      .min(8, { message: "Please enter a valid phone number" })
+      .max(15, { message: "Phone number must be between 8 and 15 characters" }),
     currentHighestNFQ: Zod.string({
-      required_error: "Please select current highest NFQ",
-    }).min(1, { message: "Please enter NFQ" }),
+      required_error: "Please select the current highest NFQ",
+    }).min(1, { message: "Please enter the NFQ" }),
     employmentStatus: Zod.string().optional(),
     memberCompany: Zod.string().nullable(),
     occupationalCategory: Zod.string({
-      required_error: "Please select occupational category",
+      required_error: "Please select an occupational category",
     }),
     unemploymentTime: Zod.string().optional(),
     countyOfResidence: Zod.string({
-      required_error: "Please select county of residence",
+      required_error: "Please select the county of residence",
     }),
     attendedEvent: Zod.string().nullable(),
   }).superRefine((data, ctx) => {
-    if (data.employmentStatus === "Unemployed") {
+    // Ensure unemploymentTime is provided if employmentStatus is "Unemployed"
+    if (data.employmentStatus === "Unemployed" && !data.unemploymentTime) {
       ctx.addIssue({
-        code: "custom",
+        code: Zod.ZodIssueCode.custom,
         message: "Please select unemployment time",
         path: ["unemploymentTime"],
       });
     }
   });
+
   type ValidationSchema = Zod.infer<typeof schema>;
   const {
     register,
@@ -120,11 +119,14 @@ const RegisterTraineeForm = () => {
     reset,
     setValue,
     setError,
+    watch,
     formState: { errors },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(schema),
     mode: "all",
   });
+
+  console.log("+++++++", errors);
 
   const { data: getAgeRangesList, isPending: isAgeRangesPending } = useQuery({
     queryKey: [QUERY_KEYS.fetchAgeRanges],
@@ -403,7 +405,7 @@ const RegisterTraineeForm = () => {
             <InputWithLable
               {...register("email")}
               placeholder="Enter Email"
-              className={"!w-full disabled:opacity-100 font-normal"}
+              className={"!w-full disabled:opacity-50 font-normal"}
               // value={email ? email : ""}
               disable={email ? true : false}
             />
@@ -483,6 +485,15 @@ const RegisterTraineeForm = () => {
                   employmentStatus: value,
                 });
                 setValue("employmentStatus", value);
+                if (value === "Unemployed" && !watch("unemploymentTime")) {
+                  setError("unemploymentTime", {
+                    message: "Please select valid time",
+                  });
+                } else {
+                  setError("unemploymentTime", {
+                    message: "",
+                  });
+                }
               }}
               value={selectBoxValues.employmentStatus}
               placeholder="Employment Status - Select"
@@ -548,6 +559,9 @@ const RegisterTraineeForm = () => {
                   unemploymentTime: value,
                 });
                 setValue("unemploymentTime", value);
+                setError("unemploymentTime", {
+                  message: "",
+                });
               }}
               value={selectBoxValues.unemploymentTime}
               placeholder="Unemployment Time - Select"

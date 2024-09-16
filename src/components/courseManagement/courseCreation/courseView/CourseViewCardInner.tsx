@@ -74,10 +74,7 @@ const CourseViewCardInner = ({
         .string()
         .min(1, "Please enter section title")
         .max(250, "You can not write section title more than 250 characters"),
-      information: z
-        .string()
-        .min(500, "You must write at least 500 characters.")
-        .max(5000, "You can not write information more than 5000 characters"),
+      information: z.string().optional(),
       uploadContentType: z
         .number()
         // .min(1, "Upload content type is required")
@@ -109,7 +106,7 @@ const CourseViewCardInner = ({
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Live session duration is required when isLive is true",
+            message: "Live session duration is required",
             path: ["livesessionDuration.hour"],
           });
         }
@@ -122,6 +119,19 @@ const CourseViewCardInner = ({
         //     path: ["uploadedContentUrl", "uploadContentType", "youtubeUrl"],
         //   });
         // }
+        if (!data.information || data.information.trim().length < 500) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Information must be at least 500 characters",
+            path: ["information"],
+          });
+        } else if (data.information.trim().length > 5000) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Information can not be more than 5000 characters",
+            path: ["information"],
+          });
+        }
         if (
           !data.readingTime?.hour &&
           !data.readingTime?.minute &&
@@ -144,7 +154,7 @@ const CourseViewCardInner = ({
           if (!data.uploadedContentUrl) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: "Upload content url is required when isLive is false",
+              message: "Upload content url is required",
               path: ["uploadedContentUrl"],
             });
           }
@@ -177,6 +187,7 @@ const CourseViewCardInner = ({
     },
   });
 
+  console.log("🚀 ~ errors:", errors);
   const [isOpenAssessmentModal, setIsOpenAssessmentModal] = useState(false);
 
   const { mutate: ChangeSectionPosition } = useMutation({

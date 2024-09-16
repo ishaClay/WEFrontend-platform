@@ -112,19 +112,17 @@ const ChangePassword = () => {
           </div>
 
           <div className="w-full 2xl:px-0 px-5 max-w-[515px] mx-auto relative">
-            <div className="flex justify-end text-[#000]">
+            {/* <div className="flex justify-end text-[#000]">
               <label>
                 Already have an account?{" "}
                 <Link to={"/auth"} className="font-[700] text-[#042937]">
                   Sign In
                 </Link>
               </label>
-            </div>
+            </div> */}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative max-w-[418px] mx-auto lg:mt-[80px] md:mt-[50px] mt-[30px] lg:h-[650px] sm:h-[600px] h-[530px]">
-                <p className="text-[24px] font-[700] mb-4 text-color">
-                  Create Password
-                </p>
+                <p className="text-[24px] font-[700] mb-4">Reset Password</p>
                 <div className="mt-4">
                   <InputWithLabel
                     className="w-full h-[52px] secondary-background mt-1"
@@ -176,14 +174,14 @@ const ChangePassword = () => {
                   Protected by reCAPTCHA and subject to the Skillnet
                   <Link
                     to="/privacypolicy"
-                    className="text-color font-bold mx-1"
+                    className="text-[#000] font-bold mx-1"
                   >
                     Privacy Policy
                   </Link>
                   and
                   <Link
                     to={"/termsofservices"}
-                    className="text-color font-bold mx-1"
+                    className="text-[#000] font-bold mx-1"
                   >
                     Terms of Service.
                   </Link>

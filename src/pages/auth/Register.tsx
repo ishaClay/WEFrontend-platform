@@ -571,11 +571,11 @@ function Register() {
           onClose={() => setShowOtpPopup(false)}
           className="max-w-[550px]"
         >
-          <div className="mb-[2px] mt-2 text-center font-abhaya">
+          <div className="mb-[2px] mt-2 text-center font-calibri">
             <h2 className="text-xl font-semibold">
               Please verify the one-time password in your inbox
             </h2>
-            <p className="text-[#121212] text-[16px] font-abhaya">
+            <p className="text-[#121212] text-[16px] font-calibri">
               A one- time password has been sent to {email}
             </p>
           </div>
@@ -588,12 +588,12 @@ function Register() {
             >
               <InputOTPGroup>
                 <InputOTPGroup>
-                  <InputOTPSlot className="text-[#000]" index={0} />
-                  <InputOTPSlot className="text-[#000]" index={1} />
-                  <InputOTPSlot className="text-[#000]" index={2} />
-                  <InputOTPSlot className="text-[#000]" index={3} />
-                  <InputOTPSlot className="text-[#000]" index={4} />
-                  <InputOTPSlot className="text-[#000]" index={5} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={0} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={1} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={2} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={3} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={4} />
+                  <InputOTPSlot className="text-[#000] text-[16px]" index={5} />
                 </InputOTPGroup>
               </InputOTPGroup>
             </InputOTP>
@@ -617,12 +617,12 @@ function Register() {
                 variant={"ghost"}
                 disabled={time !== 0 || isPending}
                 onClick={() => handleResendOtp(email)}
-                className="text-[#121212] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-abhaya"
+                className="text-[#000] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
               >
                 Resend OTP
               </Button>
               {time !== 0 && (
-                <p className="text-[#121212] text-[16px] font-[700]">
+                <p className="text-[#121212] text-[16px] font-[700] font-calibri">
                   {formatTime(time)}
                 </p>
               )}
@@ -633,7 +633,7 @@ function Register() {
                 setShowOtpPopup(false);
                 setTime(0);
               }}
-              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-abhaya"
+              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-calibri"
             >
               Send to a different email?
             </Button>

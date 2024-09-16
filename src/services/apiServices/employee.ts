@@ -82,8 +82,8 @@ export const deleteEmployee = async (id: string) => {
   return res.data;
 };
 
-export const getEmployeeWiseAction = async (id: number) => {
-  const url = `api/v1/employee/getActions/${id}`;
+export const getEmployeeWiseAction = async (id: number, selectAssessment: string) => {
+  const url = `api/v1/employee/getActions/${id}?assessmentNumber=${selectAssessment}`;
   const res = await api({ url });
   return res.data;
 };

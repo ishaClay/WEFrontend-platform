@@ -125,7 +125,7 @@ const SectionForm = ({
               className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
             >
               <CircleX className="me-1" width={18} />
-              {sectionID ? "Cancel Editing" : "Add Remove"}
+              {sectionID ? "Cancel Editing" : "Remove"}
             </Button>
             <h6 className="text-base flex items-center font-calibri text-[#515151]">
               <Switch

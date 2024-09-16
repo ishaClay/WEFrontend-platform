@@ -156,7 +156,11 @@ const InviteMember = ({
             )}
           </div>
 
-          <div className="text-end mt-[10px] ">
+          <div className="flex items-center justify-between gap-4 mt-[10px] ">
+            <p className="text-[14px] leading-4 font-calibri font-medium text-[#000000]">
+              To add several members at once, use the 'Invite Team Members'
+              feature available in the 'Team Management' section.
+            </p>
             <Button
               type="submit"
               className="bg-[#64A70B] text-base leading-5 w-[100px] h-[40px] font-semibold font-nunito"

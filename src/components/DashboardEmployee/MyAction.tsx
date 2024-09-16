@@ -6,11 +6,13 @@ import { QUERY_KEYS } from "@/lib/constants";
 import { getDashboardEmployeeCourse } from "@/services/apiServices/employee";
 import { MyActionDataType } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import CustomCarousel from "../comman/CustomCarousel";
 import MyActionItems from "./MyActionItems";
 
 const MyAction = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -44,16 +46,26 @@ const MyAction = () => {
     },
   ];
 
+  const handleRedirect = () => {
+    // employee/maturityAssessment
+    navigate(`/employee/maturityAssessment?actionItem=2`);
+  };
+
   return (
     <div className="mb-6">
-      <h5 className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold">
+      <h3
+        className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold cursor-pointer"
+        onClick={handleRedirect}
+      >
         My Action Items
-      </h5>
+      </h3>
       <div className="lg:block hidden">
         <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
           {actionItems?.length ? (
             actionItems?.map((data, index) => {
-              return <MyActionItems data={data} key={index} isLoading={isLoading} />;
+              return (
+                <MyActionItems data={data} key={index} isLoading={isLoading} />
+              );
             })
           ) : (
             <p className="col-span-full flex items-center justify-center h-[300px]">
@@ -66,7 +78,9 @@ const MyAction = () => {
         <CustomCarousel dots={false} className="basis-1/3">
           {actionItems.length ? (
             actionItems?.map((data: any, index: number) => {
-              return <MyActionItems data={data} key={index} isLoading={isLoading} />;
+              return (
+                <MyActionItems data={data} key={index} isLoading={isLoading} />
+              );
             })
           ) : (
             <p className="col-span-full flex items-center justify-center h-[300px]">

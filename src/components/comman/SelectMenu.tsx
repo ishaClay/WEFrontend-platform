@@ -47,7 +47,7 @@ const SelectMenu: FC<IProps> = ({
       disabled={disabled}
     >
       <SelectTrigger
-        className={cn("bg-white", className, {
+        className={cn("bg-white font-normal ", className, {
           "text-[#A3A3A3]": !value,
         })}
       >

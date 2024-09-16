@@ -652,7 +652,7 @@ function RegisterTrainer() {
           <h2 className="text-xl font-semibold">
             If you can verify the one-time password emailed to you
           </h2>
-          <p className="text-[#121212] text-[16px] font-calibri">
+          <p className="text-[#121212] text-[17px] font-calibri">
             A one- time password has been sent to {email}
           </p>
         </div>
@@ -665,12 +665,12 @@ function RegisterTrainer() {
           >
             <InputOTPGroup>
               <InputOTPGroup>
-                <InputOTPSlot className="text-[#000]" index={0} />
-                <InputOTPSlot className="text-[#000]" index={1} />
-                <InputOTPSlot className="text-[#000]" index={2} />
-                <InputOTPSlot className="text-[#000]" index={3} />
-                <InputOTPSlot className="text-[#000]" index={4} />
-                <InputOTPSlot className="text-[#000]" index={5} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={0} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={1} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={2} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={3} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={4} />
+                <InputOTPSlot className="text-[#000] text-[16px]" index={5} />
               </InputOTPGroup>
             </InputOTPGroup>
           </InputOTP>
@@ -689,12 +689,12 @@ function RegisterTrainer() {
               variant={"ghost"}
               disabled={time !== 0 || isPending}
               onClick={() => handleResendOtp(email)}
-              className="text-[#121212] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
+              className="text-[#121212] text-[17px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
             >
               Resend OTP
             </Button>
             {time !== 0 && (
-              <p className="text-[#121212] text-[16px] font-[700]">
+              <p className="text-[#121212] text-[17px] font-[700] font-calibri">
                 {formatTime(time)}
               </p>
             )}

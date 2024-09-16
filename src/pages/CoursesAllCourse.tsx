@@ -62,6 +62,7 @@ function CoursesAllCourse() {
       setSelectedCourse(pillarcourse?.data.data[0]);
     }
   }, [pillarcourse?.data.data]);
+
   return (
     <div className="bg-[#f5f3ff]">
       <div className="bg-[#FFFFFF] rounded-[10px]">
