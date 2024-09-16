@@ -188,6 +188,13 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       });
       return;
     }
+    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+      toast({
+        variant: "destructive",
+        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+      });
+      return;
+    }
     createImageBitmap(file).then((imageBitmap) => {
       const { width, height } = imageBitmap;
       console.log("width, height ,", width, height);

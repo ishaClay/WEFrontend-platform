@@ -76,6 +76,15 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       event.preventDefault();
       setDragging(false);
       const file = event.dataTransfer.files[0];
+      
+      if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+        toast({
+          variant: "destructive",
+          title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        });
+        return;
+      }
+
       if (file) {
         if (isvalidation) {
           handleFileValidation(file);
@@ -89,10 +98,17 @@ const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(
       event.preventDefault();
       const file = event.target.files && event.target.files[0];
       if (file) {
-        if (isvalidation) {
-          handleFileValidation(file);
-        } else {
-          upload_file(file);
+        if(file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+          if (isvalidation) {
+            handleFileValidation(file);
+          } else {
+            upload_file(file);
+          }
+        } else{
+          toast({
+            variant: "destructive",
+            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+          });
         }
       }
     };

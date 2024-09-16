@@ -178,7 +178,16 @@ const Message = () => {
     const fileList = event.target.files;
     if (fileList) {
       Array.from(fileList).map((file) => {
-        upload_file(file);
+        const filename = file.name;
+        if(!filename.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+          toast({
+            variant: "destructive",
+            title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+          });
+          return;
+        } else{
+          upload_file(file);
+        }
       });
     }
 

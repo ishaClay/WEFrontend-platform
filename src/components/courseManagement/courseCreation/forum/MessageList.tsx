@@ -153,7 +153,7 @@ const MessageList = ({
                   </Avatar>
                 </div>
                 <div className="flex flex-col gap-2 w-full ">
-                  <div className="bg-[#F5F7FF] rounded-lg py-2.5 px-4">
+                  <div className="">
                     <h5 className="font-inter text-sm tetx-black font-semibold pb-1.5">
                       {com.user?.trainerCompanyDetails?.providerName || com.user?.trainerDetails?.providerName}
                     </h5>
@@ -238,16 +238,19 @@ const MessageList = ({
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="bg-[#F5F7FF] rounded-lg py-2.5 px-4 w-full">
+                <div className="w-full">
                   <h5 className="font-inter text-sm tetx-black font-semibold">
                     {userData?.query?.name}
                   </h5>
-                  <Input
+                  <p className="text-black text-sm font-inter">
+                    {com?.reply}
+                  </p>
+                  {/* <Input
                     placeholder={"messages"}
-                    className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
+                    className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black h-auto"
                     type="text"
                     value={com?.reply as string}
-                  />
+                  /> */}
                 </div>
               </div>
             </>
