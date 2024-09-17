@@ -66,7 +66,7 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                 className=""
               />
             </div>
-            <h5 className="text-[#1D2026] font-abhaya font-bold sm:text-base text-sm">
+            <h5 className="text-[#1D2026] font-font-droid font-bold sm:text-base text-sm">
               {data.pillarName}
             </h5>
           </div>
@@ -124,11 +124,11 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                   </div>
                   <div className="flex lg:flex-row flex-col lg:items-center items-start justify-between w-full sm:pl-[18px] pl-3">
                     <div>
-                      <h5 className="sm:text-base text-xs font-abhaya text-[#000] font-semibold sm:pb-[13px] pb-3">
+                      <h5 className="sm:text-base text-xs font-font-droid text-[#000] font-semibold sm:pb-[13px] pb-3">
                         {item?.measure}
                       </h5>
                       <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-4 gap-[9px] sm:pb-0 pb-[13px]">
-                        <div className="font-abhaya sm:text-[13px] text-xs">
+                        <div className="font-font-droid sm:text-[13px] text-xs">
                           <span className="text-[#A3A3A3]">
                             Last updated by:
                           </span>
@@ -136,7 +136,7 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                             {item?.measureHistory?.createdBy?.name}
                           </span>
                         </div>
-                        <div className="font-abhaya sm:text-[13px] text-xs">
+                        <div className="font-font-droid sm:text-[13px] text-xs">
                           <span className="text-[#A3A3A3]">Date:</span>
                           <span className="text-[#000000] font-semibold">
                             {moment(new Date(item?.createdAt)).format(
@@ -154,7 +154,7 @@ const AssignProf = ({ data }: { data: MeasuresItemsResponse }) => {
                           className="flex items-center sm:gap-[6px] gap-1 text-[#4285F4]"
                         >
                           <Eye className="sm:w-[20px] sm:h-[18px] w-[16px] h-[16px]" />
-                          <span className="sm:text-base text-xs font-abhaya font-semibold">
+                          <span className="sm:text-base text-xs font-font-droid font-semibold">
                             View Proof
                           </span>
                         </a>

@@ -144,7 +144,7 @@ function HomeHeader(props: headerProps) {
                   </Link>
                 </div>
                 <div className="text-[#1f1313]">
-                  <ul className="flex font-normal justify-center text-base leading-5 font-calibri mb-4">
+                  <ul className="flex font-normal justify-center text-base leading-5 font-droid mb-4">
                     <li className="group flex items-center gap-[5px]">
                       <Link
                         to={`/our-courses`}
@@ -189,20 +189,20 @@ function HomeHeader(props: headerProps) {
                           <PrimaryButton
                             onClick={handleGotoDashboard}
                             name="Go to Dashboard"
-                            className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                            className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-font-droid font-normal"
                           />
                         )}
                       {+JSON.parse(userData)?.query.role !== 1 && (
                         <PrimaryButton
                           onClick={handleGotoDashboard}
                           name="Go to Dashboard"
-                          className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                          className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-font-droid font-normal"
                         />
                       )}
                       <PrimaryButton
                         onClick={handleLogout}
                         name="Logout"
-                        className="xl:px-[60px] px-[45px] py-2 primary-background text-lg !font-abhaya font-semibold"
+                        className="xl:px-[60px] px-[45px] py-2 primary-background text-lg !font-font-droid font-normal"
                       />
                     </div>
                   ) : (
@@ -211,14 +211,14 @@ function HomeHeader(props: headerProps) {
                         <PrimaryButton
                           onClick={handleClickRegister}
                           name="Register"
-                          className="xl:px-[39px] px-[30px] py-2 primary-background text-lg !font-abhaya font-semibold w-[140px]"
+                          className="xl:px-[39px] px-[30px] py-2 primary-background text-lg !font-font-droid font-normal w-[140px]"
                         />
                         <PrimaryButton
                           onClick={() => {
                             navigate("/auth");
                           }}
                           name="Login"
-                          className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background text-lg !font-abhaya font-semibold w-[140px]"
+                          className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background text-lg !font-font-droid font-normal w-[140px]"
                         />
                       </>
                     )
@@ -303,13 +303,13 @@ function HomeHeader(props: headerProps) {
                                 <PrimaryButton
                                   onClick={handleGotoDashboard}
                                   name="Go to Dashboard"
-                                  className="xl:px-[30px] px-[15px] py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
+                                  className="xl:px-[30px] px-[15px] py-2 primary-background !font-droid text-lg font-normal sm:w-auto w-full"
                                 />
                               )}
                               <PrimaryButton
                                 onClick={handleLogout}
                                 name="Logout"
-                                className="py-2 primary-background !font-calibri text-lg font-bold sm:w-auto w-full"
+                                className="py-2 primary-background !font-droid text-lg font-normal sm:w-auto w-full"
                               />
                             </div>
                           ) : (
@@ -318,14 +318,14 @@ function HomeHeader(props: headerProps) {
                                 <PrimaryButton
                                   onClick={handleClickRegister}
                                   name="Register"
-                                  className="py-2 primary-background !font-calibri text-lg font-bold sm:w-[139px] w-full"
+                                  className="py-2 primary-background !font-droid text-lg font-normal sm:w-[139px] w-full"
                                 />
                                 <PrimaryButton
                                   onClick={() => {
                                     navigate("/auth");
                                   }}
                                   name="Login"
-                                  className="xl:px-[39px] px-[45px] py-2 primary-background !font-calibri text-lg font-bold sm:w-[139px] w-full"
+                                  className="xl:px-[39px] px-[45px] py-2 primary-background !font-droid text-lg font-normal sm:w-[139px] w-full"
                                 />
                               </div>
                             )

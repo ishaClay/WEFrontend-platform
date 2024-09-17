@@ -40,7 +40,7 @@ const EnrollCourseEmployeeDetailsList = ({
             <Button
               key={i}
               variant={"outlinePrimary"}
-              className="text-base font-calibri px-2.5"
+              className="text-base font-droid px-2.5"
               onClick={() => setIsOpen(true)}
             >
               <Video />

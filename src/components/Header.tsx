@@ -1,17 +1,17 @@
 import Logo1 from "@/assets/images/logo.png";
 import Logo2 from "@/assets/images/logo2.png";
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PrimaryButton } from "./comman/Button/CustomButton";
 import Loading from "./comman/Error/Loading";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import { toast } from "./ui/use-toast";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import Cookies from "js-cookie";
 
 interface headerProps {
   hasDiffHeader?: boolean;
@@ -20,18 +20,18 @@ interface headerProps {
 
 function Header(props: headerProps) {
   const navigate = useNavigate();
-const dispatch=useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const path = localStorage?.getItem("path");
   const userData = localStorage?.getItem("user");
-  const userToken = Cookies.get('accessToken') || "";
+  const userToken = Cookies.get("accessToken") || "";
 
   const { mutate, isPending } = useMutation({
     mutationFn: LogOut,
     onSuccess: () => {
-      Cookies.remove('accessToken');
+      Cookies.remove("accessToken");
       localStorage.removeItem("user");
       navigate("/");
       dispatch(setPath([]));
@@ -98,7 +98,7 @@ const dispatch=useAppDispatch();
               />
             </div>
             <div className="xl:ml-5 ml-3 text-[#1f1313]">
-              <ul className="flex gap-[31px] font-normal text-base leading-5 font-calibri mb-3">
+              <ul className="flex gap-[31px] font-normal text-base leading-5 font-droid mb-3">
                 <li className="group flex items-center gap-[5px]">
                   <span className="cursor-pointer">Our Courses</span>
                   <img
@@ -121,14 +121,14 @@ const dispatch=useAppDispatch();
                       <PrimaryButton
                         onClick={handleGotoDashboard}
                         name="Go to Dashboard"
-                        className="xl:px-[30px] px-[15px] py-2 primary-background font-semibold !font-abhaya text-lg"
+                        className="xl:px-[30px] px-[15px] py-2 primary-background font-semibold !font-font-droid text-lg"
                       />
                     )}
                   {!props?.isBtnHide && (
                     <PrimaryButton
                       onClick={handleLogout}
                       name="Logout"
-                      className="xl:px-[60px] px-[45px] py-2 primary-background font-semibold !font-abhaya text-lg="
+                      className="xl:px-[60px] px-[45px] py-2 primary-background font-semibold !font-font-droid text-lg="
                     />
                   )}
                 </div>
@@ -141,14 +141,14 @@ const dispatch=useAppDispatch();
                           navigate("/register");
                         }}
                         name="Register"
-                        className="xl:px-[39px] px-[30px] py-2 primary-background font-semibold !font-abhaya text-lg"
+                        className="xl:px-[39px] px-[30px] py-2 primary-background font-semibold !font-font-droid text-lg"
                       />
                       <PrimaryButton
                         onClick={() => {
                           navigate("/auth");
                         }}
                         name="Login"
-                        className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background font-semibold !font-abhaya text-lg"
+                        className="xl:px-[39px] px-[45px] ml-5 py-2 primary-background font-semibold !font-font-droid text-lg"
                       />
                     </>
                   )}

@@ -154,17 +154,17 @@ const EmployeeInvitation = () => {
       <div className="rounded-xl">
         <div className="bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between pb-[5px] p-5">
           <div className="">
-            <p className="text-[#000000] font-calibri font-bold text-base pb-2">
+            <p className="text-[#000000] font-droid font-bold text-base pb-2">
               Send Invitation
             </p>
-            <p className="text-[15px] font-abhaya text-[#606060] font-semibold">
+            <p className="text-[15px] font-font-droid text-[#606060] font-semibold">
               Drop them an invite so they can join you here with their sleeves
               rolled
             </p>
           </div>
           <div>
             <Button
-              className="bg-transparent hover:bg-transparent text-black font-nunito font-semibold text-base p-0 h-auto"
+              className="bg-transparent hover:bg-transparent text-black font-droid font-semibold text-base p-0 h-auto"
               onClick={handleBackClick}
             >
               <IoIosArrowRoundBack size={26} />
@@ -175,7 +175,7 @@ const EmployeeInvitation = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="py-6 px-5 bg-white rounded-lg">
-            <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
+            <h3 className="text-[16px] font-droid font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
               Enter Team Member Name & Email ID
             </h3>
             {inviteData?.map((data, index, arr) => (
@@ -238,14 +238,14 @@ const EmployeeInvitation = () => {
           <div className="bg-white p-5 mt-5 rounded-lg">
             <div className="">
               <p className="text-lg font-medium">Bulk Invite Team Members</p>
-              <p className="text-base font-abhaya text-[#000000] font-bold">
+              <p className="text-base font-font-droid text-[#000000] font-bold">
                 Want to invite a list of team members?
                 <br />
                 Simply prepare their details on a CSV file, keeping at least one
                 row per email user, and we’ll send an invitation to each person.
               </p>
             </div>
-            <p className="font-bold font-abhaya text-base">
+            <p className="font-bold font-font-droid text-base">
               <a
                 href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv"
                 className="text-[#0E9CFF] underline"
@@ -264,7 +264,7 @@ const EmployeeInvitation = () => {
                   acceptType=".csv"
                 >
                   <div className="flex">
-                    <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-abhaya">
+                    <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-font-droid">
                       Upload CSV File
                     </span>
                   </div>
@@ -284,9 +284,9 @@ const EmployeeInvitation = () => {
 
           <div className="mt-[20px]">
             <InputWithLabel
-              className="text-[#020817] border h-[60px] mt-[10px] text-[base] font-nunito"
+              className="text-[#020817] border h-[60px] mt-[10px] text-[base] font-droid"
               label="Invitation Message"
-              labelClassName="font-nunito font-semibold !text-base"
+              labelClassName="font-droid font-semibold !text-base"
               {...register("invitiondetail")}
               placeholder="Enter Details"
             />
@@ -298,7 +298,7 @@ const EmployeeInvitation = () => {
           <div className="text-end mt-[30px] ">
             <Button
               type="submit"
-              className="bg-[#64A70B] text-base leading-5 w-[100px] h-[52px] font-semibold font-nunito"
+              className="bg-[#64A70B] text-base leading-5 w-[100px] h-[52px] font-semibold font-droid"
             >
               {isPending ? (
                 <Loader containerClassName="h-auto" />

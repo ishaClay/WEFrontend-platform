@@ -188,10 +188,11 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       });
       return;
     }
-    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -263,7 +264,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
         <div className="">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="sm:pb-5 pb-[15px]">
-              <h6 className="text-[#515151] font-calibri text-base pb-3">
+              <h6 className="text-[#515151] font-droid text-base pb-3">
                 Information
               </h6>
               <CKEditorComponent
@@ -283,7 +284,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
               )}
             </div>
             <div className="sm:pb-5 pb-[15px]">
-              <h6 className="text-[#515151] font-calibri text-base pb-3">
+              <h6 className="text-[#515151] font-droid text-base pb-3">
                 Banner Image
               </h6>
               <div className="border flex items-center border-[#D9D9D9] sm:p-4 p-[10px] rounded-md">
@@ -305,10 +306,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                   </div>
                 </div>
                 <div className="xl:w-[40%] sm:text-center text-left sm:ps-4 ps-[10px] xl:ps-0">
-                  <h6 className="sm:text-base text-sm font-calibri sm:pb-3 pb-2">
+                  <h6 className="sm:text-base text-sm font-droid sm:pb-3 pb-2">
                     Size: 1024x768 pixels Max size 500KB
                   </h6>
-                  <h6 className="sm:text-base text-sm font-calibri pb-3">
+                  <h6 className="sm:text-base text-sm font-droid pb-3">
                     File Support: jpg, .jpeg
                   </h6>
                   <div>
@@ -338,7 +339,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
                 ))}
             </div>
             <div className="">
-              <h6 className="text-[#515151] font-calibri text-base pb-3">
+              <h6 className="text-[#515151] font-droid text-base pb-3">
                 Key Outcomes
               </h6>
               <CKEditorComponent
@@ -358,7 +359,7 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
             <div className="text-right mt-5">
               <Button
                 type="submit"
-                className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+                className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
                 disabled={isPending || isUpdatePending}
               >
                 {isPending || isUpdatePending ? (

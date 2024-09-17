@@ -473,7 +473,7 @@ const CourseViewCardInner = ({
                 <>
                   {/* <div
                     onClick={() => setAddSectionList(true)}
-                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
+                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-droid text-xs sm:h-[38px] h-9"
                     disabled={paramsType === "editminor"}
                   >
                     <CirclePlus width={18} /> Section
@@ -481,14 +481,14 @@ const CourseViewCardInner = ({
                   <Button
                     type="button"
                     onClick={() => setAddSectionList(true)}
-                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
+                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-droid text-xs sm:h-[38px] h-9 text-white w-auto flex gap-2 items-center rounded-[6px]"
                     disabled={paramsType === "editminor"}
                   >
                     <CirclePlus width={18} /> Section
                   </Button>
                   <Button
                     type="button"
-                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-[38px] h-9"
+                    className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-droid text-xs sm:h-[38px] h-9"
                     onClick={() => setIsOpenAssessmentModal(true)}
                     disabled={
                       paramsType === "editminor"
@@ -503,7 +503,7 @@ const CourseViewCardInner = ({
                 <Button
                   type="submit"
                   // onClick={handleSectionSave}
-                  className="bg-[#58BA66] px-5 py-3 font-inter text-md"
+                  className="bg-[#58BA66] px-5 py-3 font-droid text-md"
                   disabled={createSectionPending}
                 >
                   {createSectionPending && (

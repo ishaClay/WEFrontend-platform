@@ -184,7 +184,7 @@ const PillerCard = ({
               item?.checked ? "bg-[#414648]" : "bg-[#838383] text-white"
             } bg-[#414648] rounded-tl-lg rounded-br-lg px-1 pt-0 h-[28px] min-w-[176px] flex items-center justify-center`}
           >
-            <h2 className="text-sm font-inter">
+            <h2 className="text-sm font-droid">
               <span
                 className={`${
                   item?.checked ? "text-white" : "text-[#FFD56A]"
@@ -224,7 +224,7 @@ const PillerCard = ({
             </div>
           </div>
           <div className="md:col-span-2 col-span-8">
-            <h5 className="text-sm font-calibri text-[#8C94A3] flex items-center gap-2 mb-2">
+            <h5 className="text-sm font-droid text-[#8C94A3] flex items-center gap-2 mb-2">
               <FaStar className="text-[#FD8E1F]" /> RECOMMENDED
             </h5>
 
@@ -279,7 +279,7 @@ const PillerCard = ({
               </div>
             </div>
             <div>
-              <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-calibri">
+              <ul className="list-disc ml-6 sm:text-base text-sm text-[#8C94A3] font-droid">
                 {pid && +pid === item?.pillarid ? (
                   measuresPending ? (
                     <Loader containerClassName="h-auto" />
@@ -327,7 +327,7 @@ const PillerCard = ({
                     variant={"link"}
                     type="button"
                     onClick={() => handleChangesView(item.pillarid)}
-                    className="text-[#64A70B] font-calibri text-sm font-bold"
+                    className="text-[#64A70B] font-droid text-sm font-bold"
                   >
                     {view?.length &&
                     view?.find((it) => it.id === item.pillarid)?.view === 0
@@ -348,7 +348,7 @@ const PillerCard = ({
                 setOpen(true);
                 setselectMaturity(item.maturityNameRecommended);
               }}
-              className="bg-[#64A70B] text-sm font-calibri text-white py-2 px-4 rounded-md h-[40px] w-[150px] font-bold"
+              className="bg-[#64A70B] text-sm font-droid text-white py-2 px-4 rounded-md h-[40px] w-[150px] font-bold"
             >
               {item?.actionItem && item?.actionItem?.length > 0
                 ? "View Action Items"

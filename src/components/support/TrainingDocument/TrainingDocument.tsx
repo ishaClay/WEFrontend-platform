@@ -41,14 +41,14 @@ const TrainingDocument = () => {
       accessorKey: "id",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <h5 className="font-medium xl:text-[15px] text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             #{row.index + 1}
           </h6>
         );
@@ -61,7 +61,7 @@ const TrainingDocument = () => {
       accessorKey: "documentTitle",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <h5 className="font-medium xl:text-[15px] text-xs text-black font-droid">
             Document Title
           </h5>
         );
@@ -71,7 +71,7 @@ const TrainingDocument = () => {
           <div className="flex items-center">
             <a
               href={row.original?.documentUrl}
-              className="xl:text-[15px] text-xs font-calibri text-[#00778B]"
+              className="xl:text-[15px] text-xs font-droid text-[#00778B]"
               target="_blank"
             >
               {row.original?.title}
@@ -87,14 +87,14 @@ const TrainingDocument = () => {
       accessorKey: "type",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-[15px] text-xs text-black font-calibri">
+          <h5 className="font-medium xl:text-[15px] text-xs text-black font-droid">
             Type
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-calibri text-black line-clamp-2 xl:leading-6 leading-4 xl:w-[70%] w-full">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black line-clamp-2 xl:leading-6 leading-4 xl:w-[70%] w-full">
             {row.original?.type}
           </h6>
         );
@@ -107,10 +107,10 @@ const TrainingDocument = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="border-b border-[#D9D9D9] p-4">
-        <h6 className="text-[16px] text-[#000000] font-calibri font-semibold pb-2">
+        <h6 className="text-[16px] text-[#000000] font-droid font-semibold pb-2">
           Training Document
         </h6>
-        <p className="text-[#606060] text-[15px] font-abhaya sm:leading-[16px] leading-5">
+        <p className="text-[#606060] text-[15px] font-font-droid sm:leading-[16px] leading-5">
           Here’s the full list of training documents related to all your courses
         </p>
       </div>
@@ -118,7 +118,7 @@ const TrainingDocument = () => {
         <div className="flex items-center xl:w-[550px] md:w-[450px] sm:w-[350px] w-[290px] sm:h-[52px] h-[46px] rounded-lg relative">
           <Search className="text-[#A3A3A3] absolute left-4" width={18} />
           <Input
-            className=" xl:text-[15px] text-sm font-inter pr-4 pl-12 py-2 w-full h-full"
+            className=" xl:text-[15px] text-sm font-droid pr-4 pl-12 py-2 w-full h-full"
             placeholder="Search by name and type"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setSearch(e.target.value)

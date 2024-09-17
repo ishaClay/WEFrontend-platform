@@ -102,10 +102,10 @@ const EmployeeHeader = () => {
               <ChevronLeft />
             </Button>
             <h4
-              className={`xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black line-clamp-1 capitalize`}
+              className={`xl:text-2xl md:text-lg text-[18px] font-bold font-droid text-black line-clamp-1 capitalize`}
             >
               {/* {title} */}
-              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2">
+              <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-droid text-black capitalize leading-[22px] h-auto mb-2">
                 Welcome
                 {/* {userData?.query?.name?.split("@")[0]} */}
               </h3>
@@ -156,10 +156,10 @@ const EmployeeHeader = () => {
                   </div>
                   <div className="flex items-center">
                     <div className="lg:block hidden text-left">
-                      <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
+                      <h5 className="xl:text-base text-sm font-droid text-black font-semibold capitalize">
                         Hi, {userName}
                       </h5>
-                      <h6 className="xl:text-base text-sm font-calibri leading-1 text-black">
+                      <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
                         {+userRole === 4 && "Employee"}
                       </h6>
                       <p>{userData?.company?.userDetails?.name}</p>
@@ -205,7 +205,7 @@ const EmployeeHeader = () => {
         onClose={() => setIsOpen(false)}
         className="lg:max-w-[610px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
         header="Settings"
-        titleClassName="font-nunito text-xl text-black font-bold"
+        titleClassName="font-droid text-xl text-black font-bold"
       >
         <ModalTabs tab={openType} handleClose={() => setIsOpen(false)} />
       </Modal>

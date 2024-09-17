@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { QUERY_KEYS } from "@/lib/constants";
 import { createEvaluationScore } from "@/services/apiServices/enroll";
 import { EvaluteDataEntity } from "@/types/enroll";
 import { ErrorType } from "@/types/Errors";
@@ -7,7 +8,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import EvaluateQuestionsDetailsItem from "./EvaluateQuestionsDetailsItem";
-import { QUERY_KEYS } from "@/lib/constants";
 
 type evaluteModalProps = {
   data: EvaluteDataEntity;
@@ -93,14 +93,14 @@ const EvaluateModalDetailsItem = ({
       <div className="sm:p-5 p-4 border-b border-[#D9D9D9]">
         <div className="">
           <div className="flex items-center pb-3">
-            <h5 className="sm:text-base text-sm font-calibri font-bold pe-5">
+            <h5 className="sm:text-base text-sm font-droid font-bold pe-5">
               Module :<span className="ml-1">{index + 1}</span>
             </h5>
-            {/* <h5 className="sm:text-base text-sm font-calibri font-bold">
+            {/* <h5 className="sm:text-base text-sm font-droid font-bold">
             Session :<span>{data.sessionId}</span>
           </h5> */}
           </div>
-          {/* <h5 className="sm:text-base text-sm font-calibri font-bold pb-3">
+          {/* <h5 className="sm:text-base text-sm font-droid font-bold pb-3">
           Assessment :<span>{data.assessmentId}</span>
         </h5> */}
 
@@ -118,7 +118,7 @@ const EvaluateModalDetailsItem = ({
         </div>
         <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <p className="w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-calibri sm:text-4xl text-[26px]">
+            <p className="w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-droid sm:text-4xl text-[26px]">
               {/* {data.page1} */}
               <input
                 type="text"
@@ -128,13 +128,13 @@ const EvaluateModalDetailsItem = ({
                 onChange={(e) => handleAddPoints(e?.target?.value)}
               />
             </p>
-            <span className="text-[#1D2026] font-bold font-calibri sm:text-4xl text-[26px] cursor-pointer">
+            <span className="text-[#1D2026] font-bold font-droid sm:text-4xl text-[26px] cursor-pointer">
               /{totalPoints}
             </span>
           </div>
           <div className="">
             <Button
-              className=" sm:text-base text-sm font-calibri text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]"
+              className=" sm:text-base text-sm font-droid text-white bg-[#58BA66] py-6 px-8 sm:h-[52px] h-10 sm:w-[137px] w-[154px]"
               disabled={!!errors?.message || isPending || !!data?.score}
               onClick={() => {
                 onSubmit(data?.id);

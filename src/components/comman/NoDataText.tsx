@@ -8,7 +8,7 @@ const NoDataText = ({ message, className }: NoDataTextProps) => {
   return (
     <p
       className={cn(
-        "text-[20px] font-calibri font-[500] h-[200px] flex items-center text-gray-200 justify-center col-span-full",
+        "text-[20px] font-droid font-[500] h-[200px] flex items-center text-gray-200 justify-center col-span-full",
         className
       )}
     >

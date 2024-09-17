@@ -18,7 +18,7 @@ const FeedbackCard = ({ data }: { data: DataEntity }) => {
       <div className="w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-10">
-            <h4 className="text-[16px] font-[600] font-nunito">
+            <h4 className="text-[16px] font-[600] font-droid">
               {data?.user?.name || data?.user?.email?.split("@")[0]}Bloker
             </h4>
             <span className="flex items-center">
@@ -30,7 +30,7 @@ const FeedbackCard = ({ data }: { data: DataEntity }) => {
               )) || 0}
             </span>
           </div>
-          <p className="text-[14px] font-[400] font-nunito">
+          <p className="text-[14px] font-[400] font-droid">
             {moment(new Date(data?.createdAt))?.format("DD/MM/YYYY")}
           </p>
         </div>

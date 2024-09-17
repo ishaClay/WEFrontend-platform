@@ -191,7 +191,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
               <>
                 <div className="sm:flex block items-center sm:px-5 p-3 sm:py-2.5 justify-between w-full border-t border-[#D9D9D9]">
                   <div className="flex flex-col gap-2.5">
-                    <p className="text-black font-calibri text-base">
+                    <p className="text-black font-droid text-base">
                       {item?.measure}
                     </p>
                     {item?.employeeId && (
@@ -207,13 +207,13 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                                   ?.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
-                          <h6 className="text-black font-calibri text-base">
+                          <h6 className="text-black font-droid text-base">
                             {item?.employeeId?.name ||
                               item?.employeeId?.email?.split("@")[0]}
                           </h6>
                         </div>
                         <div className="sm:pb-0 pb-2.5">
-                          <h6 className="sm:text-sm text-xs text-[#00000099] font-nunito flex items-center">
+                          <h6 className="sm:text-sm text-xs text-[#00000099] font-droid flex items-center">
                             <MdOutlineCalendarMonth className="h-[20px] w-[20px] text-[#666666] me-2" />
                             Date:
                             <span className="text-black ps-2">
@@ -236,14 +236,14 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                             status() === "Delay"
                               ? "bg-[#F63636] text-white"
                               : "bg-[#FFD56A] text-black"
-                          } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
+                          } text-sm font-droid rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
                         >
                           {status()}
                         </Button>
                       )}
                     <div className="flex gap-3 items-center">
                       <Button
-                        className="text-base text-[#4285F4] underline bg-transparent font-abhaya font-semibold p-0"
+                        className="text-base text-[#4285F4] underline bg-transparent font-font-droid font-semibold p-0"
                         onClick={() => {
                           setIsOpenHistoryModel(item.id);
                           setHistoryMasure(item.measure);
@@ -275,7 +275,7 @@ const AssignCard = ({ data }: { data: MeasuresItemsResponse }) => {
                             </a>
                           )}
 
-                          <Button className="bg-transparent text-[#58BA66] text-base font-nunito font-semibold flex items-center px-2.5">
+                          <Button className="bg-transparent text-[#58BA66] text-base font-droid font-semibold flex items-center px-2.5">
                             <CircleCheck width={20} /> Completed
                           </Button>
                         </div>

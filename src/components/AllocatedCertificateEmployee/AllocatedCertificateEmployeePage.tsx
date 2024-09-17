@@ -207,7 +207,7 @@ const AllocatedCertificateEmployeePage = () => {
     <div className="bg-white">
       <div className="flex justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
-          <h6 className="font-calibri text-base font-bold">
+          <h6 className="font-droid text-base font-bold">
             Allocate Certificate
           </h6>
         </div>
@@ -227,7 +227,7 @@ const AllocatedCertificateEmployeePage = () => {
                 ])
               );
             }}
-            className="text-[16px] flex font-semibold items-center gap-[15px] font-abhaya"
+            className="text-[16px] flex font-semibold items-center gap-[15px] font-font-droid"
           >
             <HiOutlineArrowNarrowLeft />
             Back
@@ -338,7 +338,7 @@ const AllocatedCertificateEmployeePage = () => {
                                 )}
                               </div>
                               <div
-                                className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
+                                className="border-t font-droid font-medium xl:text-lg sm:text-base text-sm pt-2"
                                 style={{
                                   borderColor:
                                     selectedCertificate?.primaryColor,
@@ -385,7 +385,7 @@ const AllocatedCertificateEmployeePage = () => {
                               </div>
                               {selectedCertificate?.instructorTitle && (
                                 <div
-                                  className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
+                                  className="border-t font-droid font-medium xl:text-lg sm:text-base text-sm pt-2"
                                   style={{
                                     borderColor:
                                       selectedCertificate?.primaryColor,
@@ -414,26 +414,26 @@ const AllocatedCertificateEmployeePage = () => {
           <div className="2xl:col-span-4 col-span-12">
             <div className="border border-[#D9D9D9] rounded-lg mb-5">
               <div className="xl:p-4 p-2 border-b border-[#D9D9D9]">
-                <h5 className="text-base font-bold font-calibri">
+                <h5 className="text-base font-bold font-droid">
                   Trainee Details
                 </h5>
               </div>
               <div className="xl:p-5 p-3">
                 <div className="pb-3 flex flex-col gap-2">
-                  <Label className="text-base text-[#515151] font-normal font-calibri">
+                  <Label className="text-base text-[#515151] font-normal font-droid">
                     Certificate Template
                   </Label>
                   <SelectMenu
                     option={certificateOption || []}
                     setValue={(data: string) => setSelectCertificate(data)}
                     value={selectCertificate}
-                    className="text-[#A3A3A3] text-base font-calibri"
+                    className="text-[#A3A3A3] text-base font-droid"
                     placeholder="Select Certificate Template"
                     containClassName="max-w-[476px]"
                   />
                 </div>
                 <div className="pb-3 flex flex-col gap-2">
-                  <Label className="text-base text-[#515151] font-normal font-calibri">
+                  <Label className="text-base text-[#515151] font-normal font-droid">
                     Course Name
                   </Label>
                   <SelectMenu
@@ -448,14 +448,14 @@ const AllocatedCertificateEmployeePage = () => {
                     disabled={!!courseName || !!courseId || !!trainerId}
                     setValue={(data: string) => setSelectCourse(data)}
                     value={selectCourse}
-                    className="text-[#A3A3A3] text-base font-calibri"
+                    className="text-[#A3A3A3] text-base font-droid"
                     placeholder="Select Course"
                     containClassName="max-w-[476px]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <Label className="text-base text-[#515151] font-normal font-calibri">
+                  <Label className="text-base text-[#515151] font-normal font-droid">
                     Select Trainee
                   </Label>
                   <SelectMenu
@@ -463,7 +463,7 @@ const AllocatedCertificateEmployeePage = () => {
                     setValue={(data: string) => setSelectTrainee(data)}
                     value={selectTrainee}
                     disabled={!!courseName || !!courseId || !!trainerId}
-                    className="text-[#A3A3A3] text-base font-calibri"
+                    className="text-[#A3A3A3] text-base font-droid"
                     placeholder="Select Trainee"
                   />
                 </div>
@@ -471,11 +471,11 @@ const AllocatedCertificateEmployeePage = () => {
             </div>
             <div className="border border-[#D9D9D9] rounded-lg mb-5">
               <div className="xl:p-4 p-2 border-b border-[#D9D9D9]">
-                <h5 className="text-base font-bold font-calibri">Body</h5>
+                <h5 className="text-base font-bold font-droid">Body</h5>
               </div>
               <div className="xl:mx-4 mx-2 xl:my-3 my-2 rounded-lg">
                 <Textarea
-                  className="text-base font-calibri line-clamp-4 shadow-none outline-none focus:border-[#4b4b4b]"
+                  className="text-base font-droid line-clamp-4 shadow-none outline-none focus:border-[#4b4b4b]"
                   rows={5}
                   placeholder="Write here..."
                   value={body}
@@ -493,7 +493,7 @@ const AllocatedCertificateEmployeePage = () => {
             </div>
             <div className="">
               <Button
-                className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-nunito bg-[#58BA66] rounded-lg"
+                className="uppercase w-full xl:h-14 h-11 xl:text-base text-sm font-droid bg-[#58BA66] rounded-lg"
                 onClick={handleIssue}
                 disabled={selectTrainee === "" || selectCourse === ""}
                 isLoading={loading}

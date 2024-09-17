@@ -358,7 +358,7 @@ const ModuleCreationPage = () => {
           fit
         </p> */}
         <div className="">
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] sm:text-left text-center">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] sm:text-left text-center">
             {moduleCreationItem.length > 0
               ? "Please fill in all the learning material for this course, as you see fit"
               : "All the modules and chapters currently included in this course"}
@@ -372,7 +372,7 @@ const ModuleCreationPage = () => {
               ? true
               : moduleList?.length > 0 && moduleCreationItem.length > 0
           }
-          className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-inter text-xs sm:h-10 h-9"
+          className="bg-[#42A7C3] sm:px-4 px-3 py-2 font-droid text-xs sm:h-10 h-9"
         >
           <CirclePlus width={18} /> Add Module
         </Button>
@@ -431,7 +431,7 @@ const ModuleCreationPage = () => {
           <div className="text-right">
             <Button
               isLoading={CreateModuleAsync?.isPending}
-              className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+              className=" text-base font-droid text-white bg-[#58BA66] py-6 px-8"
               disabled={isUploading}
             >
               Save

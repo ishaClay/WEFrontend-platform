@@ -154,7 +154,7 @@ function EmployeeCompleted() {
                   alt="Course"
                 />
                 <div className="flex items-center absolute bottom-0 left-[220px] w-30  rounded-full py-1 px-2 mb-4    ">
-                  <button className="bg-[#00778B] font-abhaya text-white font-medium py-2  rounded-lg shadow h-[50px] w-[140px]">
+                  <button className="bg-[#00778B] font-font-droid text-white font-medium py-2  rounded-lg shadow h-[50px] w-[140px]">
                     view certificate
                   </button>
                 </div>
@@ -179,13 +179,13 @@ function EmployeeCompleted() {
                 />
               </div>
               <div className="flex flex-wrap gap-6 p-4">
-                <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] w-[110px] font-abhaya">
+                <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] w-[110px] font-font-droid">
                   Environmental
                 </button>
-                <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] w-[95px] font-abhaya">
+                <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] w-[95px] font-font-droid">
                   Governance
                 </button>
-                <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] w-[54px] font-abhaya">
+                <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] w-[54px] font-font-droid">
                   Social
                 </button>
               </div>

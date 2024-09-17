@@ -19,10 +19,10 @@ import { AiOutlineAppstore, AiOutlineBars } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import CohortModal from "../AllCourse/CohortModal";
-import GridViewTrainee from "./GridViewTrainee";
-import ListViewTrainee from "./listViewTrainee";
+import GridView from "../AllCourse/GridView";
+import ListView from "../AllCourse/listView";
 
-const MyCourseTrainee = () => {
+const MyCourse = () => {
   const dispatch = useAppDispatch();
   const { permissions } = useContext(PermissionContext);
   const [cohort, setCohort] = useState(false);
@@ -59,7 +59,7 @@ const MyCourseTrainee = () => {
         <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
           <div className="bg-white sm:pb-0 pb-3">
             <h3 className="text-[16px] font-semibold font-droid mb-1">
-              My Course
+              My Courses
             </h3>
             <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
               The full list of your courses, in snapshot view
@@ -79,7 +79,7 @@ const MyCourseTrainee = () => {
                         link: null,
                       },
                       {
-                        label: "My Course",
+                        label: "My Courses",
                         link: `/${Role}/mycourses`,
                       },
                       {
@@ -119,7 +119,7 @@ const MyCourseTrainee = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="All">All Courses</SelectItem>
-                  <SelectItem value="assign">Assign Courses</SelectItem>
+                  <SelectItem value="assign">Assigned Courses</SelectItem>
                 </SelectContent>
               </Select>
             )}
@@ -159,9 +159,9 @@ const MyCourseTrainee = () => {
               No course
             </p>
           ) : params === "0" || !params ? (
-            <GridViewTrainee list={fetchCourseAllCourseData?.data || []} />
+            <GridView list={fetchCourseAllCourseData?.data || []} />
           ) : (
-            <ListViewTrainee list={fetchCourseAllCourseData?.data || []} />
+            <ListView list={fetchCourseAllCourseData?.data || []} />
           )}
         </div>
       </div>
@@ -169,4 +169,4 @@ const MyCourseTrainee = () => {
   );
 };
 
-export default MyCourseTrainee;
+export default MyCourse;

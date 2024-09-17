@@ -45,7 +45,7 @@ const CustomTabInput = ({ setValue }: InputWithLabelProps) => {
         >
           {email}
           <button
-            className="ml-2 bg-none border-none cursor-pointer font-abhaya"
+            className="ml-2 bg-none border-none cursor-pointer font-font-droid"
             onClick={() => removeEmail(email)}
           >
             x

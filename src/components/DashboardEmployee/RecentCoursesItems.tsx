@@ -17,16 +17,16 @@ const RecentCoursesItems = ({ data }: recentCourseItemProps) => {
           />
         </div>
         <div className="sm:ps-5 sm:p-0 p-4 w-full">
-          <h6 className="text-base text-[#1D2026] font-inter pb-2 font-normal">
+          <h6 className="text-base text-[#1D2026] font-droid pb-2 font-normal">
             {data?.course?.courseData?.map((item) => {
               return item?.fetchPillar?.pillarName + " | ";
             })}{" "}
             {data?.course?.module?.length} Modules
           </h6>
-          <h5 className="text-base font-medium text-black font-inter pb-2">
+          <h5 className="text-base font-medium text-black font-droid pb-2">
             {data?.course?.title}
           </h5>
-          <span className="text-[#00778B] font-semibold text-[26px] font-abhaya">
+          <span className="text-[#00778B] font-semibold text-[26px] font-font-droid">
             {data?.course?.courseProgress}%
           </span>
           <Progress
@@ -34,7 +34,7 @@ const RecentCoursesItems = ({ data }: recentCourseItemProps) => {
             value={+Number(data?.course?.courseProgress)?.toFixed(0)}
             className="h-[8px] w-full rounded-full mb-2"
           />
-          <p className="text-base font-nunito text-black font-normal">
+          <p className="text-base font-droid text-black font-normal">
             {data?.course?.completedModule} of {data?.course?.totalmodules}{" "}
             Completed
           </p>

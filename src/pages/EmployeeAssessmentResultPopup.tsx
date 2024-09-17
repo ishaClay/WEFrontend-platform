@@ -22,7 +22,7 @@ function EmployeeAssessmentResultPopup() {
             </h2>
           </div>
           <div className="ml-2 md:ml-8">
-            <button className="text-[#1D2026] hover:text-red-500 font-abhaya">
+            <button className="text-[#1D2026] hover:text-red-500 font-font-droid">
               <RxCross2 className="h-6 w-6" />
             </button>
           </div>
@@ -33,7 +33,7 @@ function EmployeeAssessmentResultPopup() {
             <div className="mt-[5px] ml-[2px] bg-[#FFD56A] h-9 w-9 md:h-[36px] md:w-[38px] flex items-center justify-center rounded-full">
               <BsInfoLg className="text-white h-6 w-6 md:w-9" />
             </div>
-            <p className="text-[#606060] font-calibri text-sm md:text-[14.5px] ml-[20px]">
+            <p className="text-[#606060] font-droid text-sm md:text-[14.5px] ml-[20px]">
               Review this set of measures carefully, as they are designed to
               assist you in advancing to the next maturity level; we encourage
               you to consider them thoughtfully when creating your action items.
@@ -42,7 +42,7 @@ function EmployeeAssessmentResultPopup() {
         </div>
 
         <div className="flex flex-col space-y-4 mt-4">
-          <div className="text-[#1D2026] font-calibri font-bold">
+          <div className="text-[#1D2026] font-droid font-bold">
             Environmental
           </div>
 
@@ -50,13 +50,13 @@ function EmployeeAssessmentResultPopup() {
             <div className="h-full w-full md:h-[238px] md:w-[774px] border border-solid border-[#D9D9D9] rounded">
               <div className="w-full border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                 <div className="pb-2 pt-2 h-[42px] w-full md:w-[350px]">
-                  <div className="ml-4 text-[#1D2026] font-calibri font-bold">
+                  <div className="ml-4 text-[#1D2026] font-droid font-bold">
                     Measures
                   </div>
 
                   <div className="p-2">
                     <ScrollArea className="h-full md:h-[255px] w-full md:w-[755px] p-2 mt-3">
-                      <ul className="list-disc ml-6 text-sm md:text-[14.5px] font-calibri">
+                      <ul className="list-disc ml-6 text-sm md:text-[14.5px] font-droid">
                         <li className="mb-5">
                           Enhance and execute your Net Zero strategy with clear
                           goals and comprehensive actions.

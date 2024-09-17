@@ -253,7 +253,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="sm:mb-[18px] mb-[15px]">
-            <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
+            <Label className="font-primary font-[400] leading-normal font-droid sm:text-base text-sm text-[#515151]">
               Specify the NFQ level for this course (if applicable).
             </Label>
             <SelectMenu
@@ -265,7 +265,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               }}
               value={selectBoxValue.nfqLeval}
               placeholder="Select NFQ level"
-              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-droid text-[#1D2026] sm:mt-[9px] mt-[8px] sm:py-4 sm:px-[15px] p-[10px]"
             />
             {!errors?.nfqLeval?.ref?.value && (
               <ErrorMessage message={errors?.nfqLeval?.message as string} />
@@ -274,9 +274,9 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
               label="How many ECTS credits does this course offer? (Optional)"
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter credits"
-              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-droid text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
               {...register("ectsCredits")}
               error={errors.ectsCredits?.message as string}
             />
@@ -284,15 +284,15 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
               label="How many FET credits does this course offer? (Optional)"
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter credits"
-              className="border border-[#D9D9D9] rounded-md w-full  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              className="border border-[#D9D9D9] rounded-md w-full  font-base font-droid text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
               {...register("fetCredits")}
               error={errors.fetCredits?.message as string}
             />
           </div>
           <div className="sm:mb-[20px] mb-[15px]">
-            <Label className="font-primary font-[400] leading-normal font-calibri sm:text-base text-sm text-[#515151]">
+            <Label className="font-primary font-[400] leading-normal font-droid sm:text-base text-sm text-[#515151]">
               What type of certificate or award will the trainees receive upon
               course completion?
             </Label>
@@ -305,7 +305,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               }}
               value={selectBoxValue?.certificate}
               placeholder="Select certificate"
-              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
+              className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-droid text-[#1D2026] mt-[9px] sm:py-4 sm:px-[15px] p-[10px]"
             />
             {!errors?.certificate?.ref?.value && (
               <ErrorMessage message={errors?.certificate?.message as string} />
@@ -314,7 +314,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

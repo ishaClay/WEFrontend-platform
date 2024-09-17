@@ -125,19 +125,17 @@ const SectionForm = ({
     <div className="p-5 border-t border-[#D9D9D9]">
       <div className="pb-5">
         <div className="pb-2 flex justify-between items-center">
-          <h6 className="text-base font-calibri text-[#515151]">
-            Section Title
-          </h6>
+          <h6 className="text-base font-droid text-[#515151]">Section Title</h6>
           <div className="flex items-center">
             <Button
               type="button"
               onClick={() => handleRemoveSection()}
-              className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
+              className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-droid"
             >
               <CircleX className="me-1" width={18} />
               {sectionID ? "Cancel" : "Remove"}
             </Button>
-            <h6 className="text-base flex items-center font-calibri text-[#515151]">
+            <h6 className="text-base flex items-center font-droid text-[#515151]">
               <Switch
                 checked={section.isLive}
                 onCheckedChange={() => {
@@ -154,18 +152,18 @@ const SectionForm = ({
         </div>
         <Input
           {...register("sectionTitle")}
-          className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
+          className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-droid"
         />
         {errors?.sectionTitle && (
           <FormError
-            className="font-calibri not-italic"
+            className="font-droid not-italic"
             message={errors?.sectionTitle?.message}
           />
         )}
       </div>
       <div className="pb-5">
-        <h6 className="text-base font-calibri text-[#515151] pb-2">
-          Information <span className="text-xs">(Max 5000 words only)</span>
+        <h6 className="text-base font-droid text-[#515151] pb-2">
+          Information <span className="text-xs">(Max 5000 characters only)</span>
         </h6>
         <div className="relative">
           <CKEditorComponent
@@ -194,7 +192,7 @@ const SectionForm = ({
         </div>
         {errors?.information && (
           <FormError
-            className="font-calibri not-italic"
+            className="font-droid not-italic"
             message={errors.information?.message}
           />
         )}
@@ -210,7 +208,7 @@ const SectionForm = ({
             setIsUploading={setIsUploading}
           />
           <div className="pb-5">
-            <h6 className="text-base font-calibri text-[#515151] pb-2">
+            <h6 className="text-base font-droid text-[#515151] pb-2">
               OR Enter Youtube Video URL
             </h6>
             <Input
@@ -219,7 +217,7 @@ const SectionForm = ({
                 handleAddURL(e?.target?.value, `youtubeUrl`)
               }
               disabled={section?.uploadContentType > 0}
-              className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri
+              className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-droid
                 ${
                   section?.uploadContentType > 0
                     ? "bg-[#FBFBFB] border-[#d7d7d7]"
@@ -229,16 +227,16 @@ const SectionForm = ({
             {errors?.youtubeUrl ||
               (urlError && (
                 <FormError
-                  className="font-calibri not-italic"
+                  className="font-droid not-italic"
                   message={errors?.youtubeUrl?.message || urlError}
                 />
               ))}
           </div>
           <div className="pb-5">
             <div className="flex items-center justify-between">
-              <h6 className="text-base font-calibri text-[#515151] pb-2">
+              <h6 className="text-base font-droid text-[#515151] pb-2">
                 Upload Related Document to Download
-                <span className="text-xs">
+                <span className="text-xs ml-1">
                   (Supported File:- .Pdf, .Ppt, docx)
                 </span>
               </h6>
@@ -256,12 +254,12 @@ const SectionForm = ({
             <div className="border border-[#D9D9D9] rounded-md px-4 py-2 w-full flex justify-between items-center">
               <input
                 placeholder={attechmentName}
-                className="border-bone w-full  text-base text-[#606060] font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                className="border-bone w-full  text-base text-[#606060] font-droid focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                 disabled
               />
               <Label
                 htmlFor="AttechmentUpload"
-                className="bg-[#42A7C3] flex items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 py-3 rounded-lg"
+                className="bg-[#42A7C3] flex items-center min-w-[150px] font-medium text-xs font-droid text-white px-2 py-3 rounded-lg"
               >
                 <Link width={20} className="me-2" />
                 Upload Attachment
@@ -278,12 +276,12 @@ const SectionForm = ({
           </div>
           {errors?.uploadDocument && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errors.uploadDocument?.message}
             />
           )}
           <div className="mb-5">
-            <h5 className="text-[#515151] text-sm font-calibri pb-2">
+            <h5 className="text-[#515151] text-sm font-droid pb-2">
               Duration (Reading or Watching Time)
             </h5>
             <div className="flex sm:flex-row flex-col gap-5">
@@ -297,7 +295,7 @@ const SectionForm = ({
                   defaultValue={watch("readingTime.hour")}
                   className="w-full p-3 pr-10 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-0 pr-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-0 pr-3">
                   Hour
                 </h6>
               </div>
@@ -311,7 +309,7 @@ const SectionForm = ({
                   defaultValue={watch("readingTime.minute")}
                   className="p-3 w-full pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Minute
                 </h6>
               </div>
@@ -325,26 +323,26 @@ const SectionForm = ({
                   defaultValue={watch("readingTime.second")}
                   className="p-3 w-full pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Second
                 </h6>
               </div>
             </div>
             {errors.readingTime?.hour && (
               <FormError
-                className="font-calibri not-italic"
+                className="font-droid not-italic"
                 message={errors.readingTime?.hour?.message}
               />
             )}
             {errors?.readingTime?.minute && (
               <FormError
-                className="font-calibri not-italic"
+                className="font-droid not-italic"
                 message={errors.readingTime?.minute?.message}
               />
             )}
             {errors?.readingTime?.second && (
               <FormError
-                className="font-calibri not-italic"
+                className="font-droid not-italic"
                 message={errors.readingTime?.second?.message}
               />
             )}
@@ -353,7 +351,7 @@ const SectionForm = ({
             !section.youtubeUrl &&
             !section.uploadedContentUrl && (
               <FormError
-                className="font-calibri not-italic"
+                className="font-droid not-italic"
                 message={errors?.youtubeUrl?.message}
               />
             )}
@@ -362,7 +360,7 @@ const SectionForm = ({
         <div className="">
           <div className="flex">
             <div className="">
-              <h6 className="text-base text-[#515151] font-calibri pb-3">
+              <h6 className="text-base text-[#515151] font-droid pb-3">
                 Section Duration (HH)
               </h6>
               <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
@@ -376,13 +374,13 @@ const SectionForm = ({
                   defaultValue={watch("livesessionDuration.hour")}
                   className="w-full p-3 pr-10 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Hours
                 </h6>
               </div>
             </div>
             <div className="">
-              <h6 className="text-base text-[#515151] font-calibri pb-3">
+              <h6 className="text-base text-[#515151] font-droid pb-3">
                 Section Minute (MM)
               </h6>
               <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
@@ -395,13 +393,13 @@ const SectionForm = ({
                   defaultValue={watch("livesessionDuration.minute")}
                   className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Minute
                 </h6>
               </div>
             </div>
             <div className="">
-              <h6 className="text-base text-[#515151] font-calibri pb-3">
+              <h6 className="text-base text-[#515151] font-droid pb-3">
                 Section Seconds (SS)
               </h6>
               <div className="h-11 w-[145px] me-5 flex justify-between items-center relative">
@@ -414,7 +412,7 @@ const SectionForm = ({
                   defaultValue={watch("livesessionDuration.second")}
                   className="w-full p-3 pr-12 text-sm text-black h-full"
                 />
-                <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                   Second
                 </h6>
               </div>
@@ -422,19 +420,19 @@ const SectionForm = ({
           </div>
           {errors?.livesessionDuration?.hour && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errors?.livesessionDuration?.hour?.message}
             />
           )}
           {errors?.livesessionDuration?.minute && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errors?.livesessionDuration?.minute?.message}
             />
           )}
           {errors?.livesessionDuration?.second && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errors?.livesessionDuration?.second?.message}
             />
           )}
@@ -446,7 +444,7 @@ const SectionForm = ({
           <Button
             type="submit"
             // onClick={handleSectionSave}
-            className="bg-[#58BA66] px-5 py-3 font-inter text-md"
+            className="bg-[#58BA66] px-5 py-3 font-droid text-md"
             disabled={isLoading}
           >
             {isLoading && <Loader2 className="w-5 h-5 animate-spin" />} Save

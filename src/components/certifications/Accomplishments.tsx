@@ -106,7 +106,7 @@ const Accomplishments = () => {
                   </Avatar>
                 </div>
                 <div className="sm:pl-[15px] pl-[10px]">
-                  <h5 className="xl:text-lg md:text-base text-sm font-semibold capitalize font-inter leading-[22px]">
+                  <h5 className="xl:text-lg md:text-base text-sm font-semibold capitalize font-droid leading-[22px]">
                     {employeeData?.[0]?.name
                       ? employeeData?.[0]?.name
                       : employeeUserData?.name
@@ -115,22 +115,22 @@ const Accomplishments = () => {
                       ? employeeUserData?.fname + " " + employeeUserData?.lname
                       : userData?.query?.email?.split("@")[0]}
                   </h5>
-                  <p className="sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
+                  <p className="sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     {getEnrolledCourse?.data?.course?.title}
                   </p>
-                  <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
+                  <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Started : </p>
                     <span>
                       {moment(new Date(sData)).format("DD MMM, YYYY")}
                     </span>
                   </div>
-                  <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
+                  <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Completed : </p>
                     <span>
                       {moment(new Date(eData)).format("DD MMM, YYYY")}
                     </span>
                   </div>
-                  <div className="flex items-center sm:text-sm text-xs font-normal font-inter leading-4 sm:pt-3 pt-[10px]">
+                  <div className="flex items-center sm:text-sm text-xs font-normal font-droid leading-4 sm:pt-3 pt-[10px]">
                     <p>Sustainability Level : </p>
                     <span className="font-semibold ml-2">
                       {maturityLevelName}
@@ -147,7 +147,7 @@ const Accomplishments = () => {
               />
               <div className="flex xl:justify-end justify-center">
                 <Button
-                  className="sm:uppercase capitalize bg-[#00778B] sm:text-base mt-10 text-sm font-normal font-calibri leading-5 py-[8px] h-auto w-auto sm:px-[19px] px-[12px]"
+                  className="sm:uppercase capitalize bg-[#00778B] sm:text-base mt-10 text-sm font-normal font-droid leading-5 py-[8px] h-auto w-auto sm:px-[19px] px-[12px]"
                   onClick={handleDownload}
                   type="button"
                 >

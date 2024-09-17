@@ -36,14 +36,14 @@ const ConfirmationModel = ({
         <Button
           type="button"
           variant={"outline"}
-          className="h-auto px-5 py-1 font-inter text-md"
+          className="h-auto px-5 py-1 font-droid text-md"
           onClick={() => setOpen("")}
         >
           Cancel
         </Button>
         <Button
           type="button"
-          className="px-5 bg-[#58BA66] py-1 font-inter text-md"
+          className="px-5 bg-[#58BA66] py-1 font-droid text-md"
           isLoading={isLoader}
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
             handleSubmit(e, open)

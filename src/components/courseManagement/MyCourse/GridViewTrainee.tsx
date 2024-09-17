@@ -379,19 +379,19 @@ const GridViewTrainee = ({
                   alt={"bannerImage"}
                   className="object-cover w-full h-full static align-middle max-w-full inline-block inset-[50%_auto_auto_50%]"
                 />
-                <Badge className="absolute right-2 bottom-2 bg-white text-black hover:bg-[#eee] font-calibri text-base font-normal px-2 py-0">
+                <Badge className="absolute right-2 bottom-2 bg-white text-black hover:bg-[#eee] font-droid text-base font-normal px-2 py-0">
                   {item?.status === "READYTOPUBLISH"
-                    ? "Ready to Publish"
+                    ? "READY TO PUBLISH"
                     : item?.status || item?.status}
                 </Badge>
               </div>
               <div className="p-2 h-[calc(100%-220px)]">
-                <h5 className="text-base font-bold font-inter text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
+                <h5 className="text-base font-bold font-droid text-[#1D2026] sm:mb-[19px] mb-2.5 min-h-[48px] line-clamp-2">
                   {item?.title}
                 </h5>
                 <div className="flex items-center justify-between sm:mb-[11px] mb-5">
                   <div>
-                    <h6 className="text-sm leading-5 font-normal font-nunito capitalize">
+                    <h6 className="text-sm leading-5 font-normal font-droid capitalize">
                       Created By :{" "}
                       {item?.trainerId
                         ? (item?.trainerId?.contactFirstName || "") +
@@ -404,16 +404,16 @@ const GridViewTrainee = ({
                           item?.trainerCompanyId?.email?.split("@")[0]}
                     </h6>
                   </div>
-                  <div className="flex items-center text-[14px] leading-3 gap-1 font-nunito">
+                  <div className="flex items-center text-[14px] leading-3 gap-1 font-droid">
                     <img src={StarImage} alt="" className="pb-1" />
                     {item?.feedBack?.avgRate || 0}/5
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-[11px]">
-                  <h5 className="text-[14px] font-nunito">
+                  <h5 className="text-[14px] font-droid">
                     Module : {item?.module?.length || 0}
                   </h5>
-                  <p className="text-[14px] font-nunito min-w-[108px]">
+                  <p className="text-[14px] font-droid min-w-[108px]">
                     Duration : {item?.duration || "00"}
                   </p>
                 </div>
@@ -423,7 +423,7 @@ const GridViewTrainee = ({
                       <Badge
                         variant="outline"
                         key={item?.pillarId}
-                        className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                        className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-droid font-normal`}
                       >
                         {item?.fetchPillar?.pillarName}
                       </Badge>
@@ -439,7 +439,7 @@ const GridViewTrainee = ({
                     (+userData?.query?.role === UserRole?.Trainee &&
                       item?.status === "READYTOPUBLISH")
                   }
-                  className="py-[6px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto"
+                  className="py-[6px] font-droid bg-[#58BA66] hover:bg-[#58BA66] h-auto"
                   onClick={(
                     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                   ) => {
@@ -465,7 +465,7 @@ const GridViewTrainee = ({
                       e.stopPropagation();
                       handleCohort(e, item?.currentVersion?.id as number);
                     }}
-                    className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto w-full"
+                    className="2xl:max-w-[80px] md:max-w-[90px] sm:max-w-[80px] max-w-[88px] py-[6px] font-droid bg-[#000000] hover:bg-[#000000] h-auto w-full"
                   >
                     + Cohort
                   </Button>
@@ -494,7 +494,7 @@ const GridViewTrainee = ({
                       <DropdownMenuGroup>
                         {showCopy && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e: any) =>
                               handleCopy(e, item?.currentVersion?.id)
                             }
@@ -506,7 +506,7 @@ const GridViewTrainee = ({
 
                         {showEdit && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, item, "edit")}
                           >
                             <Pencil className="w-4 h-4" />
@@ -515,7 +515,7 @@ const GridViewTrainee = ({
                         )}
                         {showEditWithNew && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, item, "editWithNew")}
                           >
                             <Pencil className="w-4 h-4" />
@@ -525,7 +525,7 @@ const GridViewTrainee = ({
 
                         {showDelete && (
                           <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${
+                            className={`items-center gap-2 font-droid ${
                               item?.trainerId?.id ===
                               +userData?.query?.detailsid
                                 ? "flex"

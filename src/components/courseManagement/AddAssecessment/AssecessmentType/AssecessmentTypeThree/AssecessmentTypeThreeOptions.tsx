@@ -27,14 +27,14 @@ const AssecessmentTypeThreeOptions = ({
   return (
     <div className="space-x-2 flex items-center justify-between mb-4">
       <label htmlFor={data.optionTitle} className="flex items-center w-[95%]">
-        <span className="text-sm text-black font-inter w-[80px]">
+        <span className="text-sm text-black font-droid w-[80px]">
           Option {iIndex + 1}
         </span>
         <div className="border border-[#D9D9D9] rounded-md w-full flex justify-between items-center">
           <div className="flex">
             <input
               placeholder={data.option}
-              className="w-full  px-5 text-base font-calibri text-black focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+              className="w-full  px-5 text-base font-droid text-black focus:border focus:border-[#4b4b4b] shadow-none outline-none"
               type="file"
               onChange={(e) => {
                 dispatch(

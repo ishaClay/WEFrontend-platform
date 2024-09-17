@@ -173,7 +173,7 @@ const TrainerInvitation = () => {
     <div className="">
       <div className="px-[14px] py-[10px] flex items-center justify-between border-b bg-white">
         <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+          <h3 className="text-[16px] font-[700] font-droid mb-1">
             Trainer Management
           </h3>
           <p className="text-[#606060] text-[15px]">
@@ -193,7 +193,7 @@ const TrainerInvitation = () => {
               ])
             );
           }}
-          className="gap-4 font-nunito text-[16px]"
+          className="gap-4 font-droid text-[16px]"
         >
           <MoveLeft className="text-[#0f170d]" /> Back
         </Button>
@@ -201,7 +201,7 @@ const TrainerInvitation = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="py-6 px-5 bg-white rounded-lg">
-          <h3 className="text-[16px] font-nunito font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
+          <h3 className="text-[16px] font-droid font-semibold pb-2 flex sm:flex-row flex-col sm:gap-2 gap-1">
             Enter Trainer Email ID
           </h3>
           {inviteData?.map((data, index, arr) => (
@@ -257,14 +257,14 @@ const TrainerInvitation = () => {
         <div className="bg-white p-5 mt-5 rounded-lg">
           <div className="">
             <p className="text-lg font-medium">Bulk Invite Team Members</p>
-            <p className="text-base font-abhaya text-[#000000] font-bold">
+            <p className="text-base font-font-droid text-[#000000] font-bold">
               Want to invite a list of team members?
               <br />
               Simply prepare their details on a CSV file, keeping at least one
               row per email user, and we’ll send an invitation to each person.
             </p>
           </div>
-          <p className="font-bold font-abhaya text-base">
+          <p className="font-bold font-font-droid text-base">
             <a
               href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv"
               className="text-[#0E9CFF] underline"
@@ -288,7 +288,7 @@ const TrainerInvitation = () => {
                 acceptType=".csv"
               >
                 <div className="flex">
-                  <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-abhaya">
+                  <span className="bg-[#00778B] w-[134px] h-[52px] leading-[52px] rounded text-white cursor-pointer !p-0 text-base font-font-droid">
                     Upload CSV File
                   </span>
                 </div>
@@ -308,9 +308,9 @@ const TrainerInvitation = () => {
 
         <div className="mt-[20px]">
           <InputWithLabel
-            className="text-[#020817] border h-[60px] mt-[10px] text-[base] font-nunito"
+            className="text-[#020817] border h-[60px] mt-[10px] text-[base] font-droid"
             label="Invitation Message"
-            labelClassName="font-nunito font-semibold !text-base"
+            labelClassName="font-droid font-semibold !text-base"
             {...register("invitiondetail")}
             placeholder="Enter Details"
           />
@@ -326,11 +326,11 @@ const TrainerInvitation = () => {
           )}
         </div>
         <div className="w-full mb-[30px]">
-          <Label className="text-[16px] font-nunito font-[400]">
+          <Label className="text-[16px] font-droid font-[400]">
             Invitation Message
           </Label>
           <Textarea
-            className="!w-full mt-2 font-nunito focus:border-[#4b4b4b] shadow-none outline-none"
+            className="!w-full mt-2 font-droid focus:border-[#4b4b4b] shadow-none outline-none"
             {...register("details")}
             placeholder="Enter Details"
           />
@@ -342,7 +342,7 @@ const TrainerInvitation = () => {
         <div className="text-right mt-[30px]">
           <Button
             type="submit"
-            className="text-[16px] font-semibold min-w-[98px] font-nunito py-[14px] px-[8px] h-auto bg-[#58BA66]"
+            className="text-[16px] font-semibold min-w-[98px] font-droid py-[14px] px-[8px] h-auto bg-[#58BA66]"
           >
             {isPending ? <Loader containerClassName="h-auto" /> : "Send Invite"}
           </Button>

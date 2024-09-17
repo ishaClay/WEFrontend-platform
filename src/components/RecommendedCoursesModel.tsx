@@ -125,7 +125,7 @@ const RecommendedCoursesModel = ({
             <div key={index}>
               <div className="border border-[#D9D9D9] md:p-5 p-3 mb-6 rounded-md">
                 <div className="flex sm:flex-row flex-col sm:gap-0 gap-2 justify-between pb-[18px]">
-                  <div className="flex items-center text-base font-normal font-calibri gap-2 text-[#000]">
+                  <div className="flex items-center text-base font-normal font-droid gap-2 text-[#000]">
                     <input
                       type="radio"
                       value="button"
@@ -139,10 +139,10 @@ const RecommendedCoursesModel = ({
                       : "Without Discount"}
                   </div>
                   <div className="flex items-center gap-1">
-                    <p className="text-base font-calibri leading-5">
+                    <p className="text-base font-droid leading-5">
                       Course Price :{" "}
                     </p>
-                    <span className="font-calibri font-bold text-base leading-5 text-[#000]">
+                    <span className="font-droid font-bold text-base leading-5 text-[#000]">
                       € {courseList?.price}
                     </span>
                   </div>
@@ -156,12 +156,12 @@ const RecommendedCoursesModel = ({
                     />
                   </div>
                   <div className="">
-                    <h6 className="font-bold md:text-2xl text-lg font-calibri leading-7">
+                    <h6 className="font-bold md:text-2xl text-lg font-droid leading-7">
                       {courseList?.title}
                     </h6>
                     <div className="flex sm:flex-row flex-col sm:items-center items-start gap-6 mt-3">
                       <div>
-                        <p className="text-base font-normal font-calibri leading-5 pb-[6px]">
+                        <p className="text-base font-normal font-droid leading-5 pb-[6px]">
                           Number of Employee
                         </p>
                         <div className="inline-flex items-center border border-[#D9D9D9]">
@@ -196,10 +196,10 @@ const RecommendedCoursesModel = ({
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
-                        <p className="text-base font-normal font-calibri leading-5">
+                        <p className="text-base font-normal font-droid leading-5">
                           Total Price :{" "}
                         </p>
-                        <span className="text-base font-calibri font-bold leading-5">
+                        <span className="text-base font-droid font-bold leading-5">
                           € {courseList?.price * itemList[index]}
                         </span>
                       </div>
@@ -216,12 +216,12 @@ const RecommendedCoursesModel = ({
           option={filterOption}
           setValue={(data: string) => setSelectFilterByCategory(data)}
           value={selectFilterByCategory}
-          className="md:w-[391px] sm:w-[350px] w-[300px] sm:h-[52px] h-12 font-inter text-black border border-[#D9D9D9] sm:text-base text-sm font-normal"
-          itemClassName="text-base font-medium font-inter"
+          className="md:w-[391px] sm:w-[350px] w-[300px] sm:h-[52px] h-12 font-droid text-black border border-[#D9D9D9] sm:text-base text-sm font-normal"
+          itemClassName="text-base font-medium font-droid"
           placeholder="Select Cohort"
         />
         <Button
-          className="bg-[#64A70B] text-base font-semibold font-nunito leading-[22px] w-[137px] sm:h-[52px] h-12"
+          className="bg-[#64A70B] text-base font-semibold font-droid leading-[22px] w-[137px] sm:h-[52px] h-12"
           onClick={handleEnrollementRequest}
           disabled={
             data?.[0]?.isOnline === 1

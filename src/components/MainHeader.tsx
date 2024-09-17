@@ -114,7 +114,7 @@ const MainHeader = () => {
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
             <li className="pl-8">
               {/* {title} */}
-              <h3 className="xl:text-[20px] text-lg font-bold font-nunito text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
+              <h3 className="xl:text-[20px] text-lg font-bold font-droid text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome
                 {/* <span className="text-[14px]">
                   {+userData?.query?.role === 1
@@ -151,7 +151,7 @@ const MainHeader = () => {
             <div className="text-sm flex items-center xl:gap-9 sm:gap-6 gap-3 relative">
               <button
                 type="button"
-                className="relative inline-flex items-center justify-center w-[45px] h-[45px] text-sm  text-center bg-[#F5F5F5] rounded-[50%] focus:ring-4 font-abhaya"
+                className="relative inline-flex items-center justify-center w-[45px] h-[45px] text-sm  text-center bg-[#F5F5F5] rounded-[50%] focus:ring-4 font-font-droid"
               >
                 <IoIosNotificationsOutline
                   className="text-[30px]"
@@ -188,18 +188,28 @@ const MainHeader = () => {
                     </Avatar>{" "}
                     <div className="flex items-center">
                       <div className="lg:block hidden text-left">
-                        <h5 className="xl:text-base text-sm font-nunito text-black font-semibold capitalize">
-                          Hi, {userData?.query?.fname || userData?.query?.lname
-                          ? `${userData?.query?.fname || ""} ${
-                              userData?.query?.lname || ""
-                            }`.trim()
-                          : userData?.query?.email?.split("@")[0]}
+                        <h5 className="xl:text-base text-sm font-droid text-black font-semibold capitalize">
+                          Hi,{" "}
+                          {userData?.query?.fname || userData?.query?.lname
+                            ? `${userData?.query?.fname || ""} ${
+                                userData?.query?.lname || ""
+                              }`.trim()
+                            : userData?.query?.email?.split("@")[0]}
                         </h5>
-                        <h6 className="xl:text-base text-sm font-calibri leading-1 text-black">
-                          {+userRole === 2 ? "Trainer Admin" : +userRole === 1 ? "SME Company" : "Trainer"}
+                        <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
+                          {+userRole === 2
+                            ? "Trainer Admin"
+                            : +userRole === 1
+                            ? "SME Company"
+                            : "Trainer"}
                         </h6>
-                        <p>{+userRole === 1 ? userData?.query?.name : +userRole === 2 ? userData?.trainerCompany?.providerName : 
-                      userData?.trainerCompany?.providerName}</p>
+                        <p>
+                          {+userRole === 1
+                            ? userData?.query?.name
+                            : +userRole === 2
+                            ? userData?.trainerCompany?.providerName
+                            : userData?.trainerCompany?.providerName}
+                        </p>
                       </div>
                       <IoMdArrowDropdown className="w-[20px] h-[20px] ml-2" />
                     </div>
@@ -252,7 +262,7 @@ const MainHeader = () => {
                 />
               </div>
 
-              {/* <p className="text-xl font-bold font-nunito text-black line-clamp-1 capitalize">
+              {/* <p className="text-xl font-bold font-droid text-black line-clamp-1 capitalize">
                 {title[title?.length - 1]?.label}
               </p> */}
             </div>
@@ -332,7 +342,7 @@ const MainHeader = () => {
         onClose={() => setIsOpen(false)}
         className="lg:max-w-[610px] sm:max-w-xl max-w-[335px] p-5 rounded-xl"
         header="Settings"
-        titleClassName="font-nunito text-xl text-black font-bold"
+        titleClassName="font-droid text-xl text-black font-bold"
       >
         <ModalTabs tab={openType} handleClose={() => setIsOpen(false)} />
       </Modal>

@@ -16,7 +16,7 @@ const Journey = () => {
       </div>
       <div className="flex items-center lg:justify-end justify-center w-full max-w-[1160px] mr-5 lg:my-0 sm:my-10 my-5">
         <div className="border border-solid border-[#B9B9B9] z-10 lg:pl-[300px] lg:pr-0 md:pr-36 sm:pr-20 lg:py-6 py-5 px-5 max-w-[843px]">
-          <h3 className="md:text-[32px] text-[24px] font-semibold leading-9  font-UniNeue tracking-tighter xl:pr-28 lg:pr-20 pr-0">
+          <h3 className="md:text-[32px] text-[24px] font-semibold leading-9  font-droid tracking-tighter xl:pr-28 lg:pr-20 pr-0">
             Because with
             <span className="primary-text"> direction</span>,
             <br /> you can purposefully journey there
@@ -28,7 +28,7 @@ const Journey = () => {
               navigate("/register");
               setSelectedRole("");
             }}
-            className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] lg:text-[20px] text-lg leading-5 font-abhaya font-bold flex items-center justify-center gap-[10px] bg-[#75BD43]"
+            className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] lg:text-[20px] text-lg leading-5 font-font-droid font-bold flex items-center justify-center gap-[10px] bg-[#75BD43]"
           ></SecondaryButton>
         </div>
       </div>

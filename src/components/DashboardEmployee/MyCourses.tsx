@@ -45,7 +45,7 @@ const MyCourses = () => {
   ];
   return (
     <div className="mb-8">
-      <h5 className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold">
+      <h5 className="sm:text-base text-lg text-black font-droid pb-4 sm:font-medium font-bold">
         My Courses
       </h5>
       <div className="grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-4">

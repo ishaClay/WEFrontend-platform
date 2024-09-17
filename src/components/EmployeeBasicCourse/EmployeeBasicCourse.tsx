@@ -119,7 +119,7 @@ const EmployeeBasicCourse = () => {
       <div className="bg-white rounded-b-xl h-[calc(100vh-170px)] overflow-y-auto">
         <div className="">
           <div className="flex justify-between items-center px-5 py-5">
-            <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
+            <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-droid text-black sm:pb-0 pb-3">
               {course?.data?.course?.title}
             </h4>
             <div
@@ -180,19 +180,19 @@ const EmployeeBasicCourse = () => {
                 <div className="flex sm:order-1 order-2">
                   <TabsTrigger
                     value="information"
-                    className="text-base font-nunito text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                    className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                   >
                     Information
                   </TabsTrigger>
                   <TabsTrigger
                     value="module"
-                    className="text-base font-nunito text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                    className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                   >
                     Module
                   </TabsTrigger>
                   <TabsTrigger
                     value="feedback"
-                    className="text-base font-nunito text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                    className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                   >
                     Feedback
                   </TabsTrigger>
@@ -230,7 +230,7 @@ const EmployeeBasicCourse = () => {
                   </div>
                   {pathName === "employee" && (
                     <Popover>
-                      <PopoverTrigger className="flex items-center gap-5 text-base font-nunito text-black">
+                      <PopoverTrigger className="flex items-center gap-5 text-base font-droid text-black">
                         Modules Completed -{" "}
                         {
                           getModule?.moduleStatuses?.filter(
@@ -275,10 +275,10 @@ const EmployeeBasicCourse = () => {
                                     ></div>
                                   </div>
                                   <div className="">
-                                    <h5 className="text-[14px] text-black font-nunito font-[500]">
+                                    <h5 className="text-[14px] text-black font-droid font-[500]">
                                       {item?.title}
                                     </h5>
-                                    <h6 className="text-[14px] text-[#606060] font-nunito capitalize">
+                                    <h6 className="text-[14px] text-[#606060] font-droid capitalize">
                                       {item?.status === "inrogress"
                                         ? "inProgress"
                                         : item?.status}

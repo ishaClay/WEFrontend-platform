@@ -73,7 +73,7 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
           />
         </div>
       </div>
-      <h6 className="text-center font-abhaya font-bold text-black text-base pb-2 pt-2">
+      <h6 className="text-center font-font-droid font-bold text-black text-base pb-2 pt-2">
         {data?.templateName}
       </h6>
       <div className="flex items-center justify-between border-t border-[#D9D9D9] p-2.5">
@@ -82,7 +82,7 @@ const CertificateTempleteItems = ({ data }: CertificateTempleteItemsProps) => {
             type="button"
             disabled={Role === "trainee" ? !permissions?.certificate : false}
             onClick={handleAllocate}
-            className="bg-[#58BA66] xl:text-sm text-xs w-[90px] h-[32px] font-nunito leading-1 p-0 leading-0"
+            className="bg-[#58BA66] xl:text-sm text-xs w-[90px] h-[32px] font-droid leading-1 p-0 leading-0"
           >
             ALLOCATE
           </Button>

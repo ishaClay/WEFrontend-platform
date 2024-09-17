@@ -83,14 +83,14 @@ const TrainerSetting = () => {
       accessorKey: "id",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             #{row.original?.id}
           </h6>
         );
@@ -100,7 +100,7 @@ const TrainerSetting = () => {
       accessorKey: "name",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Team Member
           </h5>
         );
@@ -117,7 +117,7 @@ const TrainerSetting = () => {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <h6 className="xl:text-[15px] text-xs font-inter text-black">
+            <h6 className="xl:text-[15px] text-xs font-droid text-black">
               {row.original?.name || row.original?.email?.split("@")[0]}
             </h6>
           </div>
@@ -128,7 +128,7 @@ const TrainerSetting = () => {
       accessorKey: "editAction",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Create Course
           </h5>
         );
@@ -152,7 +152,7 @@ const TrainerSetting = () => {
       accessorKey: "selfAssessment",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Edit Course
           </h5>
         );
@@ -176,7 +176,7 @@ const TrainerSetting = () => {
       accessorKey: "assignCertificate",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Assign Certificate
           </h5>
         );
@@ -199,7 +199,7 @@ const TrainerSetting = () => {
   ];
   return (
     <div className="bg-white rounded-b-xl">
-      <h3 className="px-[19px] py-[22px] text-[16px] font-semibold font-calibri border-b">
+      <h3 className="px-[19px] py-[22px] text-[16px] font-semibold font-droid border-b">
         Setting
       </h3>
       <div className="px-[19px] py-[22px]">

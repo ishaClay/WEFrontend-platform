@@ -89,14 +89,14 @@ function EmployeePermission() {
       accessorKey: "id",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             #{row.original?.id}
           </h6>
         );
@@ -106,7 +106,7 @@ function EmployeePermission() {
       accessorKey: "name",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Team Member
           </h5>
         );
@@ -123,7 +123,7 @@ function EmployeePermission() {
                 </AvatarFallback>
               </Avatar>
             </div>
-            <h6 className="xl:text-[15px] text-xs font-inter text-black">
+            <h6 className="xl:text-[15px] text-xs font-droid text-black">
               {row.original?.name || row?.original?.email?.split("@")[0]}
             </h6>
           </div>
@@ -134,7 +134,7 @@ function EmployeePermission() {
       accessorKey: "editAction",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Edit Action Item
           </h5>
         );
@@ -158,7 +158,7 @@ function EmployeePermission() {
       accessorKey: "selfAssessment",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Retake Self-assessment
           </h5>
         );
@@ -182,7 +182,7 @@ function EmployeePermission() {
       accessorKey: "feedback",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Share Feedback
           </h5>
         );
@@ -208,7 +208,7 @@ function EmployeePermission() {
     <div className="bg-[#FFFFFF] rounded-xl sm:mt-5 mt-0">
       <div className="rounded-[10px]">
         <div className="p-5 border-b border-[#D9D9D9]">
-          <p className="text-[#000000] font-calibri font-bold">Setting</p>
+          <p className="text-[#000000] font-droid font-bold">Setting</p>
         </div>
 
         <div className="flex bg-[#FFFFFF] ">

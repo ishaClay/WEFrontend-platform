@@ -29,7 +29,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                 activeTab === "Assessment Result"
                   ? "text-[#00778B] font-semibold border-b border-[#00778B]"
                   : "text-[#000000]"
-              } py-2 px-4 text-[16px] h-[49px] font-abhaya`}
+              } py-2 px-4 text-[16px] h-[49px] font-font-droid`}
               onClick={() => handleTabChange("Assessment Result")}
             >
               Assessment Result
@@ -39,12 +39,12 @@ function MaturityAssessmentRoadmapAfterbuild() {
                 activeTab === "Roadmap"
                   ? "text-[#00778B] font-semibold border-b border-[#00778B]"
                   : "text-[#000000]"
-              } py-2 px-4 text-[16px] h-[49px] font-abhaya`}
+              } py-2 px-4 text-[16px] h-[49px] font-font-droid`}
               onClick={() => handleTabChange("Roadmap")}
             >
               Roadmap
             </button>
-            <button className="bg-[#00778B] text-white font-semibold w-[78px] h-[37px] rounded ml-[880px] font-abhaya">
+            <button className="bg-[#00778B] text-white font-semibold w-[78px] h-[37px] rounded ml-[880px] font-font-droid">
               Export
             </button>
           </div>
@@ -144,7 +144,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       >
                         History
                       </a>
-                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-abhaya">
+                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-font-droid">
                         Assign
                       </button>
                     </div>
@@ -190,10 +190,10 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="flex flex-col ml-[200px] gap-2 mt-6">
-                      <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-abhaya">
+                      <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-font-droid">
                         On time
                       </button>
-                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-abhaya">
+                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-font-droid">
                         <BsPencilFill className="mr-2 mt-2 ml-4" />
                         <div className="mt-1">Edit</div>
                       </button>
@@ -240,10 +240,10 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="ml-[200px] flex flex-col gap-2 mt-6">
-                      <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
+                      <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-font-droid">
                         Dealy
                       </button>
-                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-abhaya">
+                      <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex font-font-droid">
                         <BsPencilFill className="mr-2 mt-2 ml-4" />
                         <div className="mt-1">Edit</div>
                       </button>
@@ -292,13 +292,13 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       </div>
                     </div>
                     <div className="flex ml-[40px] gap-16 mt-6">
-                      <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-9 ml-6 font-abhaya">
+                      <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-9 ml-6 font-font-droid">
                         <BiShow className="mt-2 ml-3" />
                         <div className="mt-1">Edit</div>
                       </button>
                       <div className="flex flex-col">
                         <div>
-                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
+                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-font-droid">
                             Dealy
                           </button>
                         </div>
@@ -370,7 +370,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                       >
                         History
                       </a>
-                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-abhaya">
+                      <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-font-droid">
                         Assign
                       </button>
                     </div>

@@ -93,7 +93,7 @@ const MaturityLevelModel = ({
             </div>
 
             <div className="ml-2 mt-2 h-[25px] w-[203px]">
-              <h2 className="text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+              <h2 className="text-xm text-[#1D2026] font-droid text-lg font-semibold">
                 {pillerName}
               </h2>
             </div>
@@ -123,7 +123,7 @@ const MaturityLevelModel = ({
         </div>
         <div className="h-[105px] w-[270px] ">
           <div className="ml-3 mt-2 h-[25px] w-[230px]">
-            <h2 className=" text-xm text-[#1D2026] font-abhaya text-lg font-semibold">
+            <h2 className=" text-xm text-[#1D2026] font-font-droid text-lg font-semibold">
               Where your answers put you
             </h2>
           </div>
@@ -143,12 +143,12 @@ const MaturityLevelModel = ({
                   <div className="text-xs font-bold">
                     Question : {(i + 1).toString().padStart(2, "0")}
                   </div>
-                  <div className="mt-2 w-[210px] scroll-y-auto font-calibri text-sm font-normal leading-[17.4px] text-left">
+                  <div className="mt-2 w-[210px] scroll-y-auto font-droid text-sm font-normal leading-[17.4px] text-left">
                     {item.title}
                   </div>
                   <div className="text-xs font-bold mt-2">Answer :</div>
                   {item?.answers?.length > 0 && (
-                    <div className="mt-2 w-[210px] scroll-y-auto font-calibri text-sm font-normal leading-[17.4px] text-left">
+                    <div className="mt-2 w-[210px] scroll-y-auto font-droid text-sm font-normal leading-[17.4px] text-left">
                       {item?.answers?.[0]}
                     </div>
                   )}
@@ -156,7 +156,7 @@ const MaturityLevelModel = ({
                   {
                     item?.answers?.length > 0 && item?.answers?.map((answer, i) => {
                       return (
-                        <div className="mt-[10px]  font-calibri text-sm font-normal leading-[17.4px] text-left">
+                        <div className="mt-[10px]  font-droid text-sm font-normal leading-[17.4px] text-left">
                          {`${i + 1}. ${answer}`}
                         </div>
                       )
@@ -185,7 +185,7 @@ const MaturityLevelModel = ({
             setIsOpen(null);
             setPillerName("");
           }}
-          className="bg-[#64A70B] px-[42px] py-[14px] h-auto text-[16px] font-calibri"
+          className="bg-[#64A70B] px-[42px] py-[14px] h-auto text-[16px] font-droid"
         >
           Close
         </Button>

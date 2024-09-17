@@ -124,11 +124,11 @@ const CourseViewCardInnerList = ({
           )}
         </div>
         <div className="">
-          <h5 className="text-sm text-black font-inter pb-2">
+          <h5 className="text-sm text-black font-droid pb-2">
             {data.isLive == 1 || !data?.isLive ? data.title : data.liveSecTitle}
           </h5>
           <div className="">
-            <h6 className="text-[#747474] text-xs font-inter">
+            <h6 className="text-[#747474] text-xs font-droid">
               {data?.type ? (
                 <>
                   Duration:{" "}

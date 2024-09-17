@@ -103,7 +103,7 @@ const InviteMember = ({
       <div className="bg-[#FFFFFF] rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <h3 className="text-[16px] font-nunito font-semibold pt-5 pb-2">
+            <h3 className="text-[16px] font-droid font-semibold pt-5 pb-2">
               Enter Team Member Details
             </h3>
             <div className="mt-[10px]">
@@ -144,9 +144,9 @@ const InviteMember = ({
 
           <div className="mt-[33px]">
             <TextAreaWithLabel
-              className=" text-base font-nunito"
+              className=" text-base font-droid"
               label="Invitation Details"
-              labelClassName="font-nunito font-semibold !text-base"
+              labelClassName="font-droid font-semibold !text-base"
               {...register("invitiondetail")}
               placeholder="Enter Details"
               isLength={false}
@@ -157,13 +157,13 @@ const InviteMember = ({
           </div>
 
           <div className="flex items-center justify-between gap-4 mt-[10px] ">
-            <p className="text-[14px] leading-4 font-calibri font-medium text-[#000000]">
+            <p className="text-[14px] leading-4 font-droid font-medium text-[#000000]">
               To add several members at once, use the 'Invite Team Members'
               feature available in the 'Team Management' section.
             </p>
             <Button
               type="submit"
-              className="bg-[#64A70B] text-base leading-5 w-[100px] h-[40px] font-semibold font-nunito"
+              className="bg-[#64A70B] text-base leading-5 w-[100px] h-[40px] font-semibold font-droid"
               isLoading={isPending}
             >
               Send Invite

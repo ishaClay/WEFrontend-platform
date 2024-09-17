@@ -116,14 +116,14 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
         >
           {!isEdit ? (
             <div>
-              <h3 className="text-base font-bold font-calibri sm:pb-2 pb-1 text-left">
+              <h3 className="text-base font-bold font-droid sm:pb-2 pb-1 text-left">
                 Module: {data.title}
               </h3>
               <div className="flex items-center">
-                <h6 className="text-xs text-[#313131] font-inter pe-4">
+                <h6 className="text-xs text-[#313131] font-droid pe-4">
                   Section: {data.section?.length}
                 </h6>
-                <h6 className="text-xs text-[#313131] font-inter flex items-center">
+                <h6 className="text-xs text-[#313131] font-droid flex items-center">
                   <Dot />
                   {reading}
                 </h6>
@@ -131,16 +131,16 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
             </div>
           ) : (
             <div className="w-full">
-              <h4 className="font-bold font-calibri sm:text-xl text-base pb-2 text-left">
+              <h4 className="font-bold font-droid sm:text-xl text-base pb-2 text-left">
                 Module {currIndex + 1}
               </h4>
-              <h6 className="text-sm font-calibri text-[#515151] text-left">
+              <h6 className="text-sm font-droid text-[#515151] text-left">
                 Module Title
               </h6>
               <Input {...register("moduleTitle")} className="w-full" />
               {errors?.moduleTitle && (
                 <FormError
-                  className="font-calibri not-italic"
+                  className="font-droid not-italic"
                   message={errors.moduleTitle?.message}
                 />
               )}
@@ -154,7 +154,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
               <button type="button" onClick={() => onEditModule()}>
                 <FilePenLine
                   width={18}
-                  className="me-3 text-[#575757] cursor-pointer font-abhaya"
+                  className="me-3 text-[#575757] cursor-pointer font-font-droid"
                 />
               </button>
               <Button
@@ -176,7 +176,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
               <Button
                 type="submit"
                 isLoading={isLoadingModule}
-                className="text-sm font-nunito"
+                className="text-sm font-droid"
               >
                 Save
               </Button>
@@ -186,7 +186,7 @@ const CourseViewCardList = ({ data, currIndex }: CourseViewCardProps) => {
                   setIsEdit(false);
                   reset();
                 }}
-                className="text-sm font-nunito"
+                className="text-sm font-droid"
                 variant="outline"
               >
                 Cancel

@@ -44,7 +44,7 @@ const AddTraineeModal = ({
   setTraineeList,
   traineeList,
   fetchTraineeCompany,
-  sessionId
+  sessionId,
 }: TraineeModalProps) => {
   const { CompanyId } = useSelector((state: RootState) => state?.user);
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,17 +58,17 @@ const AddTraineeModal = ({
     refetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.fetchTrainee],
-    queryFn: () => getTrainee(+CompanyId, +selectCompany, searchQuery, sessionId),
+    queryFn: () =>
+      getTrainee(+CompanyId, +selectCompany, searchQuery, sessionId),
   });
 
   useEffect(() => {
-    if(sessionId){
+    if (sessionId) {
       queryclient.invalidateQueries({
-        queryKey: [QUERY_KEYS.fetchTrainee]
-      })
+        queryKey: [QUERY_KEYS.fetchTrainee],
+      });
     }
-  }, [sessionId])
-  
+  }, [sessionId]);
 
   const traineeEmployee =
     fetchTrainee?.data?.map((i: TraineeEmployee) => ({
@@ -97,10 +97,10 @@ const AddTraineeModal = ({
 
   return (
     <div className="">
-      <h5 className="text-[20px] text-black font-abhaya font-semibold">
+      <h5 className="text-[20px] text-black font-font-droid font-semibold">
         Add Trainee
       </h5>
-      <h6 className="text-[#606060] text-base font-abhaya">
+      <h6 className="text-[#606060] text-base font-font-droid">
         Add a trainee to the upcoming Live Session
       </h6>
       <div className="sm:flex block items-center justify-between mt-3">
@@ -173,15 +173,18 @@ const AddTraineeModal = ({
       </div>
       <div className="mt-3">
         <div className="flex items-center justify-between mb-5">
-          <h5 className="text-base text-black font-abhaya font-semibold">
+          <h5 className="text-base text-black font-font-droid font-semibold">
             Trainees
           </h5>
-          <span className="text-base text-black font-abhaya flex items-center font-semibold">
+          <span className="text-base text-black font-font-droid flex items-center font-semibold">
             Select All
             <Checkbox
               className="ms-3 border-[#D9D9D9] w-6 h-6"
               onCheckedChange={(e) => handleChanges(!!e, traineeEmployee)}
-              checked={traineeEmployee?.length > 0 && traineeList?.length === traineeEmployee?.length}
+              checked={
+                traineeEmployee?.length > 0 &&
+                traineeList?.length === traineeEmployee?.length
+              }
             />
           </span>
         </div>
@@ -212,7 +215,7 @@ const AddTraineeModal = ({
       </div>
       <div className="text-right mt-5">
         <Button
-          className="uppercase xl:text-base text-sm font-nunito bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
+          className="uppercase xl:text-base text-sm font-droid bg-[#58BA66] xl:h-12 h-10 xl:px-6 px-5"
           type="button"
           onClick={() => {
             traineeList?.length > 0

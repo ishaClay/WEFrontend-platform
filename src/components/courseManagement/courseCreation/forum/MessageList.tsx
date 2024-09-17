@@ -107,7 +107,7 @@ const MessageList = ({
         >
           <Input
             placeholder={"messages"}
-            className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
+            className="border-none bg-transparent text-black text-sm font-droid px-0 placeholder:text-black"
             type="text"
             onChange={(e) => setnewcommnet(e.target.value)}
             value={newcommnet ?? ""}
@@ -134,30 +134,27 @@ const MessageList = ({
               <div className={`flex gap-4 w-full`} key={com?.id}>
                 <div className="min-w-[30px] w-[30px] min-h-[30px] h-[30px] rounded-full overflow-hidden">
                   <Avatar className="w-full h-full">
-                    <AvatarImage
-                      src={""}
-                      alt="profileImage"
-                    />
+                    <AvatarImage src={""} alt="profileImage" />
                     <AvatarFallback
                       className="text-white text-xl"
                       style={{ background: chatDPColor(com?.user?.id) }}
                     >
-                      {com.user?.trainerCompanyDetails?.providerName?.charAt(0) || com.user?.email
-                          ?.split("@")[0]
-                          .charAt(0)  || com.user?.trainerDetails?.providerName?.charAt(0) ||
-                        com.user?.email
-                          ?.split("@")[0]
-                          .charAt(0)
-                          }
+                      {com.user?.trainerCompanyDetails?.providerName?.charAt(
+                        0
+                      ) ||
+                        com.user?.email?.split("@")[0].charAt(0) ||
+                        com.user?.trainerDetails?.providerName?.charAt(0) ||
+                        com.user?.email?.split("@")[0].charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
                 <div className="flex flex-col gap-2 w-full ">
                   <div className="">
-                    <h5 className="font-inter text-sm tetx-black font-semibold pb-1.5">
-                      {com.user?.trainerCompanyDetails?.providerName || com.user?.trainerDetails?.providerName}
+                    <h5 className="font-droid text-sm tetx-black font-semibold pb-1.5">
+                      {com.user?.trainerCompanyDetails?.providerName ||
+                        com.user?.trainerDetails?.providerName}
                     </h5>
-                    <p className="text-black text-sm font-inter">
+                    <p className="text-black text-sm font-droid">
                       {com?.comment}
                     </p>
                   </div>
@@ -165,7 +162,7 @@ const MessageList = ({
                     <div className="flex items-center gap-6 text-[#606060] text-xs">
                       {getTimeAgo(com.createdAt)}
                       <Button
-                        className={`cursor-pointer text-xs p-0 bg-transparent text-black font-inter h-4 ${
+                        className={`cursor-pointer text-xs p-0 bg-transparent text-black font-droid h-4 ${
                           com.reply ? "hidden" : "block"
                         }`}
                         onClick={() => setopen(com?.id)}
@@ -199,12 +196,12 @@ const MessageList = ({
                     onSubmit={handleSubmit}
                     className="bg-[#F5F7FF] rounded-lg py-2.5 px-4 w-full"
                   >
-                    <h5 className="font-inter text-sm tetx-black font-semibold">
+                    <h5 className="font-droid text-sm tetx-black font-semibold">
                       {userData?.query?.name}
                     </h5>
                     <Input
                       placeholder={"messages"}
-                      className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black"
+                      className="border-none bg-transparent text-black text-sm font-droid px-0 placeholder:text-black"
                       type="text"
                       onChange={(e) => setreplyMessage(e.target.value)}
                       // value={replyMessage ?? ""}
@@ -239,15 +236,13 @@ const MessageList = ({
                   </Avatar>
                 </div>
                 <div className="w-full">
-                  <h5 className="font-inter text-sm tetx-black font-semibold">
+                  <h5 className="font-droid text-sm tetx-black font-semibold">
                     {userData?.query?.name}
                   </h5>
-                  <p className="text-black text-sm font-inter">
-                    {com?.reply}
-                  </p>
+                  <p className="text-black text-sm font-droid">{com?.reply}</p>
                   {/* <Input
                     placeholder={"messages"}
-                    className="border-none bg-transparent text-black text-sm font-inter px-0 placeholder:text-black h-auto"
+                    className="border-none bg-transparent text-black text-sm font-droid px-0 placeholder:text-black h-auto"
                     type="text"
                     value={com?.reply as string}
                   /> */}

@@ -308,14 +308,14 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           <Loader />
         ) : (
           <div className="">
-            <div className="sm:text-2xl text-xl font-bold font-calibri leading-7 sm:pb-[18px] pb-3">
+            <div className="sm:text-2xl text-xl font-bold font-droid leading-7 sm:pb-[18px] pb-3">
               Add Cohort
             </div>
             {+userData?.query?.role === UserRole.Trainer && (
               <Button
                 variant={"ghost"}
                 onClick={handleAddRow}
-                className="hover:bg-transparent text-base font-bold text-[#4285F4] font-calibri h-auto p-0 sm:pb-5 pb-4"
+                className="hover:bg-transparent text-base font-bold text-[#4285F4] font-droid h-auto p-0 sm:pb-5 pb-4"
               >
                 + Add New Row
               </Button>
@@ -333,19 +333,19 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
               <Table mainClassName="lg:w-full lg:min-w-full lg:max-w-full min-w-[calc(750px-50px)] max-w-[calc(750px-50px)] overflow-auto">
                 <TableHeader className="border-t">
                   <TableRow>
-                    {/* <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                    {/* <TableHead className="w-[60px] px-[10px] py-[16px] text-black text-[15px] font-droid font-[600]">
                       Publish
                     </TableHead> */}
-                    <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                    <TableHead className="w-[234px] px-[10px] py-[16px] text-black text-[15px] font-droid font-[600]">
                       Cohort Name
                     </TableHead>
-                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-droid font-[600]">
                       Start Date
                     </TableHead>
-                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-inter font-[600]">
+                    <TableHead className="w-[157px] px-[10px] py-[16px] text-black text-[15px] font-droid font-[600]">
                       End Date
                     </TableHead>
-                    <TableHead className="w-[100px] px-2 py-[16px] text-black text-[15px] font-inter font-[600]">
+                    <TableHead className="w-[100px] px-2 py-[16px] text-black text-[15px] font-droid font-[600]">
                       Action
                     </TableHead>
                   </TableRow>
@@ -356,7 +356,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
 
                     return (
                       <TableRow key={item.id} className="border-0 py-[9px]">
-                        {/* <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-inter font-[600]">
+                        {/* <TableCell className="w-[60px] !px-[10px] py-[9px] text-black text-center text-[15px] font-droid font-[600]">
                           <Checkbox
                             checked={item?.publish}
                             disabled={
@@ -368,10 +368,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             className="w-6 h-6 border border-[#A3A3A3]"
                           />
                         </TableCell> */}
-                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-droid font-[600]">
                           <Input
                             value={item?.cohortName}
-                            className="h-[52px] text-[#000] text-base font-normal font-calibri"
+                            className="h-[52px] text-[#000] text-base font-normal font-droid"
                             placeholder="Enter Name"
                             name="cohortName"
                             disabled={
@@ -381,9 +381,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             onChange={(e) => handleChanges(e, item.id)}
                           />
                         </TableCell>
-                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-droid font-[600]">
                           <DatePicker
-                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
+                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-droid"
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.startDate}
                             disabled={
@@ -397,9 +397,9 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             labelText=""
                           />
                         </TableCell>
-                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-droid font-[600]">
                           <DatePicker
-                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-calibri"
+                            buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-droid"
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.endDate}
                             disabled={
@@ -413,7 +413,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             labelText=""
                           />
                         </TableCell>
-                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-inter font-[600]">
+                        <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-droid font-[600]">
                           <div className="flex items-center gap-2">
                             <Button
                               variant={"secondary"}
@@ -455,7 +455,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                   type="button"
                   variant={"secondary"}
                   onClick={handleClose}
-                  className="text-[#000] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+                  className="text-[#000] text-[16px] font-semibold font-droid leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
                 >
                   Cancel
                 </Button>
@@ -463,7 +463,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                   type="button"
                   onClick={handleSubmit}
                   variant={"default"}
-                  className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-nunito leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
+                  className="text-[#fff] bg-[#58BA66] text-[16px] font-semibold font-droid leading-[21px] md:py-[15px] py-3 h-auto md:w-[137px] w-[120px]"
                   isLoading={isPending}
                 >
                   Save

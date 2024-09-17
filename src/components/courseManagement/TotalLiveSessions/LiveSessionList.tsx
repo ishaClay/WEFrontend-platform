@@ -64,36 +64,36 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           isCompleted ? "border-[#72CC79]" : "border-[#D9D9D9]"
         }`}
       >
-        <h6 className="text-base text-black font-abhaya font-semibold">
+        <h6 className="text-base text-black font-font-droid font-normal">
           {data?.liveSecTitle}
         </h6>
-        <h6 className="text-base text-black font-abhaya font-semibold">
+        <h6 className="text-base text-black font-font-droid font-normal">
           {data?.subtitle}
         </h6>
-        <h6 className="text-base text-black font-abhaya font-semibold">
+        <h6 className="text-base text-black font-font-droid font-normal">
           <span className="text-[#606060]">Course: </span>
           {data?.course?.title}
         </h6>
         <div className="sm:flex bloack gap-10">
-          <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
+          <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Company: </span>
             {data?.company?.[0]?.name}
           </h6>
-          <h6 className="text-base text-black font-abhaya font-semibold">
+          <h6 className="text-base text-black font-font-droid font-normal">
             <span className="text-[#606060]">Number of Employee: </span>
             {data?.employee?.length || 0}
           </h6>
         </div>
         <div className="sm:flex block gap-10">
-          <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
+          <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Date: </span>
             {moment(data?.date)?.format("MM/DD/YYYY")}
           </h6>
-          <h6 className="text-base text-black font-abhaya font-semibold sm:mb-0 mb-3">
+          <h6 className="text-base text-black font-font-droid font-normal sm:mb-0 mb-3">
             <span className="text-[#606060]">Start Time: </span>
             {moment(data?.startTime).format("hh:mm A")}
           </h6>
-          <h6 className="text-base text-black font-abhaya font-semibold">
+          <h6 className="text-base text-black font-font-droid font-normal">
             <span className="text-[#606060]">Duration: </span>
             {`${Math.floor(data?.sessionDuration / 60)}:${
               data?.sessionDuration % 60
@@ -105,14 +105,14 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
         <div className=""></div>
         {isCompleted ? (
           <div className="">
-            <span className="text-[#58BA66] text-base font-nunito flex gap-3 items-center">
+            <span className="text-[#58BA66] text-base font-droid flex gap-3 items-center">
               <CircleCheck width={20} /> Completed Successfully
             </span>
           </div>
         ) : (
           <div className="flex flex-wrap sm:gap-4 gap-3">
             <Button
-              className={`bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]`}
+              className={`bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]`}
               onClick={() => {}}
               disabled={
                 !moment().isBetween(
@@ -136,7 +136,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
             </Button>
             <Button
               disabled={!data.zoomApiBaseUrl}
-              className="bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
+              className="bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
               onClick={() => {
                 navigator.clipboard.writeText(data.zoomApiBaseUrl);
                 toast({
@@ -150,7 +150,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
               Copy Invitation
             </Button>
             <Button
-              className="bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
+              className="bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
               onClick={() => {
                 navigate(
                   `/${currentUser}/schedule-live-session/edit/${data?.id}`
@@ -160,7 +160,7 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
               <Pencil width={20} /> Edit
             </Button>
             <Button
-              className="bg-transparent font-nunito sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
+              className="bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"
               onClick={() => setIsDelete(true)}
             >
               <X width={20} />

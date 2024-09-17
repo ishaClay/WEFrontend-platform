@@ -22,14 +22,14 @@ const AssessmentModal = ({
   return (
     <div>
       <div className="p-4">
-        <h5 className="font-bold text-black sm:text-xl text-base font-calibri pb-2.5">
+        <h5 className="font-bold text-black sm:text-xl text-base font-droid pb-2.5">
           Select Question Type
         </h5>
-        <p className="text-[#606060] sm:text-[15px] text-sm font-abhaya leading-[16px] pb-5">
+        <p className="text-[#606060] sm:text-[15px] text-sm font-font-droid leading-[16px] pb-5">
           Which format would best suit this particular assessment question?
         </p>
       </div>
-      <div className="flex items-center md:justify-center justify-center gap-[30px] flex-wrap !pt-0 p-[18px] ">
+      <div className="flex items-center justify-center gap-[20px] flex-wrap !pt-0 p-[18px] ">
         {assessmentOptions?.data?.data &&
           Object.entries(assessmentOptions?.data?.data)?.map((data, index) => {
             return (

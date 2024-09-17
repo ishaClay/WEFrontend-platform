@@ -196,11 +196,11 @@ const MaturityAssessment = () => {
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
         <div className="">
-          <h5 className="text-base tetx-black font-nunito font-bold pb-1.5">
+          <h5 className="text-base tetx-black font-droid font-bold pb-1.5">
             Baseline Self Assessment
           </h5>
           {getCheckedmeasures?.data?.data?.length > 0 && (
-            <h6 className="text-xs text-[#606060] font-bold font-calibri">
+            <h6 className="text-xs text-[#606060] font-bold font-droid">
               Completion Date : {completionDate}
             </h6>
           )}
@@ -231,7 +231,7 @@ const MaturityAssessment = () => {
               value={selectAssessment}
             >
               <SelectTrigger
-                className={`bg-white  w-[280px] text-black border-none bg-transparent text-xs font-nunito font-bold px-0 [&>span]:w-[280px]`}
+                className={`bg-white  w-[280px] text-black border-none bg-transparent text-xs font-droid font-bold px-0 [&>span]:w-[280px]`}
               >
                 <SelectValue />
               </SelectTrigger>
@@ -252,7 +252,7 @@ const MaturityAssessment = () => {
                       <SelectItem
                         key={index}
                         value={item.assessmentNumber?.toString()}
-                        className={`text-base font-medium font-abhaya bg-transparent`}
+                        className={`text-base font-medium font-font-droid bg-transparent`}
                       >
                         {item.assessmentName}
                         {item.completedAssessmentDate && (
@@ -282,20 +282,20 @@ const MaturityAssessment = () => {
               <div className="flex items-center sm:order-1 order-2">
                 <TabsTrigger
                   value="assessmentresult"
-                  className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                  className="sm:text-base text-xs sm:px-6 px-2 font-droid font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
                   Assessment Result
                 </TabsTrigger>
                 <TabsTrigger
                   value="maturityAssessment"
-                  className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                  className="sm:text-base text-xs sm:px-6 px-2 font-droid font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                 >
                   {Role === "employee" ? "Action Plan" : "My Action Plan"}
                 </TabsTrigger>
                 {Role !== "company" && (
                   <TabsTrigger
                     value="actionitems"
-                    className="sm:text-base text-xs sm:px-6 px-2 font-calibri font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                    className="sm:text-base text-xs sm:px-6 px-2 font-droid font-bold text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                   >
                     My Action Items
                   </TabsTrigger>
@@ -303,7 +303,7 @@ const MaturityAssessment = () => {
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
                 {activeTab !== "actionitems" && (
-                  <Button className="bg-[#00778B] font-abhaya font-semibold text-sm">
+                  <Button className="bg-[#00778B] font-font-droid font-semibold text-sm">
                     <PDFDownloadLink
                       document={
                         <AssessmentPdf

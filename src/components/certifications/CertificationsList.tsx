@@ -20,10 +20,10 @@ const CertificationsList = ({ data }: certificationListProps) => {
             />
           </div>
           <div>
-            <p className="sm:text-sm text-xs font-medium font-inter leading-4 sm:line-clamp-3 line-clamp-2 text-[#1D2026] mb-2">
+            <p className="sm:text-sm text-xs font-medium font-droid leading-4 sm:line-clamp-3 line-clamp-2 text-[#1D2026] mb-2">
               {data.course.title}
             </p>
-            <h6 className="sm:text-sm text-xs font-normal font-nunito leading-5 text-[#000000] sm:pb-2 pb-[6px]">
+            <h6 className="sm:text-sm text-xs font-normal font-droid leading-5 text-[#000000] sm:pb-2 pb-[6px]">
               {data?.course?.courseData
                 ?.map((item: any) => item?.fetchPillar?.pillarName)
                 ?.join(" | ")}{" "}
@@ -34,7 +34,7 @@ const CertificationsList = ({ data }: certificationListProps) => {
         </div>
         <div className="sm:col-span-3 col-span-2 text-right">
           <Button
-            className="sm:w-20 sm:h-10 w-[52px] h-9 rounded-md bg-[#00778B] sm:text-base text-sm sm:font-normal font-bold sm:uppercase font-calibri leading-5"
+            className="sm:w-20 sm:h-10 w-[52px] h-9 rounded-md bg-[#00778B] sm:text-base text-sm sm:font-normal font-bold sm:uppercase font-droid leading-5"
             onClick={() =>
               navigate(`/employee/my-accomplishments/${data.id}`, {
                 state: data?.course?.id,

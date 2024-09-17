@@ -2,6 +2,7 @@
 import s3Client from "@/s3Client";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { Buffer } from 'buffer';
+import moment from "moment";
 
 export const Uploads3imagesBase64 = async (base64Image: string) => {
     try {
@@ -11,7 +12,7 @@ export const Uploads3imagesBase64 = async (base64Image: string) => {
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const day = String(now.getDate()).padStart(2, '0');
-        const datePath = `${year}/${month}/${day}`;
+        const datePath = `${year}_${month}_${day}_${moment(now).format('HH:mm:ss')}`;
         const key = `images/${datePath}/download.jpg`;
 
         const params = {

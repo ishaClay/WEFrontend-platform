@@ -10,8 +10,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Label } from "./label";
 import { useState } from "react";
+import { Label } from "./label";
 
 interface DatePickerProps {
   date: Date | undefined;
@@ -45,7 +45,7 @@ export const DatePicker = ({
 
   return (
     <div className="flex flex-col">
-      <Label className={cn("text-md font-normal font-calibri", labelClassName)}>
+      <Label className={cn("text-md font-normal font-droid", labelClassName)}>
         {labelText}
       </Label>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -54,13 +54,13 @@ export const DatePicker = ({
             variant={"outline"}
             disabled={disabled}
             className={cn(
-              "w-[280px] justify-between text-left font-normal font-calibri",
+              "w-[280px] justify-between text-left font-normal font-droid",
               !date && "text-muted-foreground",
               buttonClassName
             )}
           >
             {date ? format(date, "dd-MM-yyyy") : <span>{placeHolder}</span>}
-            <CalendarIcon className="mr-2 h-4 w-4 font-calibri" />
+            <CalendarIcon className="mr-2 h-4 w-4 font-droid" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
@@ -70,7 +70,7 @@ export const DatePicker = ({
             onSelect={handleSelectDate}
             fromDate={fromDate}
             initialFocus
-            className="font-calibri"
+            className="font-droid"
           />
         </PopoverContent>
       </Popover>

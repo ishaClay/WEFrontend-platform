@@ -293,7 +293,7 @@ const QuestionPage = () => {
 
   return (
     <div
-      className={`font-calibri font-normal ${
+      className={`font-droid font-normal ${
         isHide ? "bg-white" : "bg-transparent"
       }`}
     >
@@ -341,7 +341,7 @@ const QuestionPage = () => {
                   <img src={path.img} alt="img" width={59.6} height={59.6} />
                 )}
                 <p
-                  className={`text-[13px] font-medium font-Poppins px-2 py-[2px] ${
+                  className={`text-[13px] font-medium font-droid px-2 py-[2px] ${
                     path.name === "Engage" ? "bg-[#64A70B] text-[#FFF]" : ""
                   }`}
                 >
@@ -559,7 +559,7 @@ const QuestionPage = () => {
                 </div>
 
                 <Button
-                  className="bg-[#64A70B] hover:bg-[#64A70B] text-white rounded text-base font-calibri w-full mt-[18px]"
+                  className="bg-[#64A70B] hover:bg-[#64A70B] text-white rounded text-base font-droid w-full mt-[18px]"
                   onClick={handleSubmit}
                   isLoading={isPending1}
                   disabled={

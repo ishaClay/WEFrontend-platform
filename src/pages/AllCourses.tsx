@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 import {
   BsFillHandThumbsDownFill,
   BsFillHandThumbsUpFill,
 } from "react-icons/bs";
 import { FaRegComment } from "react-icons/fa";
-import { Textarea } from "@/components/ui/textarea";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +25,7 @@ function AllCourses() {
     <div className="bg-[#FFFFFF] rounded-t-[10px]">
       <div className="px-[14px] py-[10px] flex items-center justify-between border-b">
         <div>
-          <h3 className="text-[16px] font-[700] font-nunito mb-1">
+          <h3 className="text-[16px] font-[700] font-droid mb-1">
             Certificate in the Sustainable Development Goals, Partnership,
             People, Planet and Prosperity
           </h3>
@@ -33,7 +33,7 @@ function AllCourses() {
         <Button
           type="button"
           onClick={() => navigate("")}
-          className="bg-transparent text-black font-nunito px-5 text-[16px]"
+          className="bg-transparent text-black font-droid px-5 text-[16px]"
         >
           <IoIosArrowRoundBack size={26} className="mr-4" />
           Back
@@ -88,8 +88,8 @@ function AllCourses() {
               </Avatar>
 
               <div>
-                <h3 className="font-calibri ">User Name Here</h3>
-                <p className="font-inter text-[12px] text-[#5B5B5B]">
+                <h3 className="font-droid ">User Name Here</h3>
+                <p className="font-droid text-[12px] text-[#5B5B5B]">
                   Trainer Admin
                 </p>
               </div>
@@ -114,8 +114,8 @@ function AllCourses() {
               </Avatar>
 
               <div>
-                <h3 className="font-calibri ">User Name Here</h3>
-                <p className="font-inter text-[12px] text-[#5B5B5B]">
+                <h3 className="font-droid ">User Name Here</h3>
+                <p className="font-droid text-[12px] text-[#5B5B5B]">
                   Trainer Admin 2 Day's ago
                 </p>
               </div>
@@ -151,10 +151,10 @@ function AllCourses() {
               </Avatar>
 
               <div className="w-full h-[auto] bg-[#F5F7FF] p-[15px] rounded-[15px]">
-                <h3 className="font-inter text-[14px] font-[600]">
+                <h3 className="font-droid text-[14px] font-[600]">
                   Comment Person Name
                 </h3>
-                <p className="font-inter text-[12px] mt-[6px]">
+                <p className="font-droid text-[12px] mt-[6px]">
                   Compared to other energy sources, the installation and running
                   costs of wind power facilities are very low. However, building
                   a wind farm does produce a certain amount of carbon emissions
@@ -168,11 +168,11 @@ function AllCourses() {
               </div>
             </div>
             <div className="flex gap-[23px] ml-[60px] mt-[10px]">
-              <p className="text-[#606060] font-inter text-[12px]">
+              <p className="text-[#606060] font-droid text-[12px]">
                 Few minutes ago
               </p>
               <a
-                className="font-inter text-[12px] cursor-pointer"
+                className="font-droid text-[12px] cursor-pointer"
                 onClick={() => handleReplyClick(1)}
               >
                 Reply

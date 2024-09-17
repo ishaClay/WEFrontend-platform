@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        "h-auto py-[10px] text-sm text-foreground text-[15px] font-medium font-inter",
+                        "h-auto py-[10px] text-sm text-foreground text-[15px] font-medium font-droid",
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
                         header?.column?.columnDef?.meta?.className
@@ -153,7 +153,7 @@ export function DataTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "h-auto py-[10px] text-sm text-foreground font-[400] text-[15px] font-inter",
+                        "h-auto py-[10px] text-sm text-foreground font-[400] text-[15px] font-droid",
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
                         cell?.column?.columnDef?.meta?.className

@@ -195,10 +195,10 @@ const TeaserScore = () => {
                       You've taken the first stride on your sustainability
                       journey!🌿
                     </CardDescription> */}
-                    <p className="font-bold font-abhaya text-[#002A3A] mt-[28px] mb-[12px]">
+                    <p className="font-bold font-font-droid text-[#002A3A] mt-[28px] mb-[12px]">
                       Nice work completing this.
                     </p>
-                    <p className="text-sm font-abhaya text-[#002A3A]">
+                    <p className="text-sm font-font-droid text-[#002A3A]">
                       To see the full breakdown of your score and start building
                       your sustainability action plan (based on personalised
                       recommendations!), register to get inside.
@@ -215,7 +215,7 @@ const TeaserScore = () => {
 
               <div className="flex justify-between lg:max-w-[calc(100%_-_382px)] sm:max-w-[calc(100%_-_250px)] w-full sm:mb-10 mb-2">
                 <div className="p-4 relative w-full">
-                  <h2 className="text-lg font-semibold font-abhaya">
+                  <h2 className="text-lg font-semibold font-font-droid">
                     A glimpse of your Sustainability Score
                   </h2>
                   <div className="flex sm:flex-row flex-col w-full justify-between">
@@ -232,7 +232,7 @@ const TeaserScore = () => {
                         <Badge
                           style={{ backgroundColor: currentLavel?.color }}
                           // color={currentLavel?.color}
-                          className="text-black text-base font-calibri font-bold py-1 px-4 mt-3 rounded"
+                          className="text-black text-base font-droid font-bold py-1 px-4 mt-3 rounded"
                         >
                           {currentLavel?.maturityLevelName}
                         </Badge>

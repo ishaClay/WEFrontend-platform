@@ -64,66 +64,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     setRecommendedCoursesById(null);
   };
 
-  const findMatchingSlot = (cohortData: any, formattedCurrentDate: any) => {
-    if (!cohortData?.cohortGroups?.length || !formattedCurrentDate) {
-      return null; // No cohort groups present or formattedCurrentDate is missing
-    }
-
-    // Convert formattedCurrentDate to Date object
-    const currentDate = new Date(
-      +formattedCurrentDate.year || 0,
-      (+formattedCurrentDate.month || 1) - 1,
-      +formattedCurrentDate.date || 1
-    );
-
-    // Function to convert date parts to Date object
-    const toDate = (dateParts: any) => {
-      if (
-        !dateParts ||
-        !dateParts.year ||
-        !dateParts.month ||
-        !dateParts.date
-      ) {
-        return null; // Return null if dateParts are missing
-      }
-      return new Date(
-        +dateParts.year || 0,
-        (+dateParts.month || 1) - 1,
-        +dateParts.date || 1
-      );
-    };
-
-    // Function to check if a slot is ongoing
-    const isOngoing = (startDate: any, endDate: any) => {
-      const start = toDate(startDate);
-      const end = toDate(endDate);
-      return start && end && currentDate >= start && currentDate <= end;
-    };
-
-    // Function to check if a slot is upcoming
-    const isUpcoming = (startDate: any) => {
-      const start = toDate(startDate);
-      return start && currentDate < start;
-    };
-
-    // Find ongoing slot
-    const ongoingSlot = cohortData.cohortGroups.find((slot: any) =>
-      isOngoing(slot.slotStartDate, slot.slotEndDate)
-    );
-
-    // If an ongoing slot is found, return it
-    if (ongoingSlot) {
-      return ongoingSlot;
-    }
-
-    // If no ongoing slot is found, find the next upcoming slot
-    const upcomingSlot = cohortData.cohortGroups.find((slot: any) =>
-      isUpcoming(slot.slotStartDate)
-    );
-
-    return upcomingSlot || null; // Return the upcoming slot or null if none found
-  };
-
   const getUpcommingCohort = (cohortData: AllCourse) => {
     const currentDate = new Date();
     const formattedCurrentDate = {
@@ -138,12 +78,20 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
     // @ts-ignore
     const courseEndDate = moment(currentDate).add(number, unit);
 
-    const matchingSlot = findMatchingSlot(cohortData, formattedCurrentDate);
-    console.log(
-      "matchingSlotmatchingSlot",
-      cohortData?.cohortGroups,
-      matchingSlot
-    );
+    const matchingSlot =
+      cohortData?.cohortGroups?.length > 0 &&
+      cohortData?.cohortGroups?.find(
+        (slot) =>
+          parseInt(slot?.slotStartDate?.year) > +formattedCurrentDate?.year ||
+          (parseInt(slot?.slotStartDate?.year) ===
+            +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) >
+              +formattedCurrentDate?.month) ||
+          (parseInt(slot.slotStartDate?.year) === +formattedCurrentDate?.year &&
+            parseInt(slot.slotStartDate?.month) ===
+              +formattedCurrentDate?.month &&
+            parseInt(slot.slotStartDate?.date) > +formattedCurrentDate?.date)
+      );
 
     const findIndex =
       matchingSlot &&
@@ -172,17 +120,17 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       : null;
 
     return (
-      <div className="2xl:col-span-5 xl:col-span-4 col-span-7">
+      <div className="xl:col-span-5 col-span-7 sm:w-[300px] w-[270px]">
         {upcomingData !== null && (
-          <div className="customeCohortShadow rounded-lg p-2 border flex flex-col gap-1 border-[#B6D8DF] bg-[#E4FBFF]">
-            <div className="flex items-center justify-between">
+          <div className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]">
+            <div className="flex items-center justify-between pb-[6px]">
               <p className="text-black text-xs">
-                <span className="font-medium text-xs font-inter">
+                <span className="font-medium text-xs font-droid">
                   Cohort {findIndex ? findIndex : 1} :
                 </span>{" "}
               </p>
               <p
-                className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
+                className="text-[#4285F4] text-[10px] font-droid font-medium cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsCohortShow(cohortData);
@@ -191,10 +139,10 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                 Show all cohorts
               </p>
             </div>
-            <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+            <div className="font-droid text-[10px] leading-3 text-[#000000] font-normal">
               <span>Start Date : </span>
               <span>
-                {`${upcomingData?.slotStartDate.date
+                {`${upcomingData.slotStartDate.date
                   .toString()
                   .padStart(2, "0")}/${upcomingData?.slotStartDate?.month
                   .toString()
@@ -292,7 +240,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                   />
                   <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                     <FaStar className="text-[#FD8E1F]" />
-                    <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
+                    <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">
                       {allcourse?.courseReconmendedStatus ||
                         maturityLevel?.fetchMaturity?.maturityLevelName}
                     </span>
@@ -301,7 +249,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
                 <div className="">
                   <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
-                    <p className="sm:text-base text-sm font-medium font-inter line-clamp-2 text-[#1D2026] sm:min-h-[50px] h-auto">
+                    <p className="sm:text-base text-sm font-medium font-droid line-clamp-2 text-[#1D2026] sm:min-h-[50px] h-auto">
                       {allcourse.title}
                     </p>
                     <div className="h-[178px]">
@@ -317,7 +265,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                                 )}
                                 alt="Image Alt Text"
                               />
-                              <p className="text-[#918A8A] text-base font-normal font-calibri">
+                              <p className="text-[#918A8A] text-base font-normal font-droid">
                                 {item?.fetchPillar?.pillarName}
                               </p>
                             </div>

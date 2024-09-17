@@ -131,7 +131,7 @@ const CourseManagement = () => {
           <TabsList className="w-full h-auto p-0 md:order-1 order-2 flex justify-start">
             <TabsTrigger
               value="0"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-droid text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
                 getSingleCourse && +getSingleCourse?.data?.course?.tab >= 0
                   ? "cursor-pointer"
                   : "cursor-default"
@@ -141,7 +141,7 @@ const CourseManagement = () => {
             </TabsTrigger>
             <TabsTrigger
               value="1"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-droid text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
                 getSingleCourse && +getSingleCourse?.data?.course?.tab >= 1
                   ? "cursor-pointer"
                   : "cursor-default"
@@ -152,7 +152,7 @@ const CourseManagement = () => {
             {+selectTargetPillarLimit?.data?.LMSaccess !== 0 && (
               <TabsTrigger
                 value="2"
-                className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+                className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-droid text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
                   getSingleCourse && +getSingleCourse?.data?.course?.tab >= 2
                     ? "cursor-pointer"
                     : "cursor-default"
@@ -163,7 +163,7 @@ const CourseManagement = () => {
             )}
             <TabsTrigger
               value="3"
-              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-calibri text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
+              className={`data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent sm:text-base text-xs font-bold font-droid text-[#000] sm:py-5 py-2 sm:px-5 px-2 ${
                 getSingleCourse && +getSingleCourse?.data?.course?.tab >= 3
                   ? "cursor-pointer"
                   : "cursor-default"

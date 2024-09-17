@@ -236,7 +236,7 @@ const ActionItemModel = ({
             <img src={Tree_Planting} alt="plant" />
           </div>
           <div>
-            <h2 className="text-base font-calibri font-bold text-[#1D2026]">
+            <h2 className="text-base font-droid font-bold text-[#1D2026]">
               Have you identified actionable items on provided measures?
             </h2>
           </div>
@@ -249,7 +249,7 @@ const ActionItemModel = ({
             <h6 className="text-[#606060] font-extrabold text-base pb-1">
               Nothing’s set in stone here!
             </h6>
-            <p className="text-[#606060] text-base lg:w-[65%] md:w-[80%] w-full font-abhaya font-semibold">
+            <p className="text-[#606060] text-base lg:w-[65%] md:w-[80%] w-full font-font-droid font-semibold">
               Discuss sustainability initiatives or action items with your
               colleagues. And come back to edit them anytime.
             </p>
@@ -264,7 +264,7 @@ const ActionItemModel = ({
               <div className="col-span-1 sm:h-[333px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
                 <div className="w-full">
                   <div className="px-5 py-2 border-b border-solid h-[42px]">
-                    <h5 className="text-[#1D2026] font-calibri font-bold">
+                    <h5 className="text-[#1D2026] font-droid font-bold">
                       Measures
                     </h5>
                   </div>
@@ -297,7 +297,7 @@ const ActionItemModel = ({
                 >
                   <div className="sm:h-[297px] h-[250px] border border-solid border-[#EBEAEA] rounded-xl overflow-auto">
                     <div className="px-5 py-2 border-b border-solid h-[42px] relative">
-                      <h5 className="text-[#1D2026] font-calibri font-bold">
+                      <h5 className="text-[#1D2026] font-droid font-bold">
                         Enter initiatives or action items
                       </h5>
                     </div>
@@ -330,7 +330,7 @@ const ActionItemModel = ({
                                           currentPiller
                                         )
                                       }
-                                      className="border-none  px-3 py-2 w-full text-base font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                                      className="border-none  px-3 py-2 w-full text-base font-droid focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                                     />
                                   </div>
                                   <div className="flex items-center gap-1">
@@ -343,7 +343,7 @@ const ActionItemModel = ({
                                     </button> */}
                                     <button
                                       type="button"
-                                      className="border-none bg-transparent text-lg cursor-pointer font-abhaya"
+                                      className="border-none bg-transparent text-lg cursor-pointer font-font-droid"
                                       onClick={() => {
                                         setRemoveData({
                                           // @ts-ignore
@@ -378,7 +378,7 @@ const ActionItemModel = ({
                     <Button
                       type="submit"
                       isLoading={createPending}
-                      className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-Poppins"
+                      className="bg-[#64A70B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] md:me-5 me-3 font-droid"
                       disabled={pillerItems[currentPiller]?.some(
                         (i: string) => !i
                       )}
@@ -388,7 +388,7 @@ const ActionItemModel = ({
                     <Button
                       type="button"
                       onClick={handleClose}
-                      className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-Poppins"
+                      className="bg-[#E41B1B] md:text-base text-sm font-bold md:h-12 h-10 lg:w-[120px] md:w-[100px] w-[80px] font-droid"
                     >
                       Close
                     </Button>

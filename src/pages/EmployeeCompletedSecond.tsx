@@ -137,7 +137,7 @@ function EmployeeCompletedSecond() {
         </div>
 
         <div className="mt-4 ml-5">
-          <button className="bg-white border border-[#EBEBEB] rounded-lg px-4 py-2 text-sm font-medium text-black flex items-center justify-between cursor-pointer hover:bg-gray-100 focus: w-48 font-abhaya">
+          <button className="bg-white border border-[#EBEBEB] rounded-lg px-4 py-2 text-sm font-medium text-black flex items-center justify-between cursor-pointer hover:bg-gray-100 focus: w-48 font-font-droid">
             Completed
             <span className="ml-2 text-lg cursor-pointer ">×</span>
           </button>
@@ -163,13 +163,13 @@ function EmployeeCompletedSecond() {
                     Partnership, People, Planet and Prosperity
                   </p>
                   <div className="flex gap-2 mt-3 flex-wrap">
-                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
+                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-font-droid">
                       Environmental
                     </button>
-                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
+                    <button className="bg-[#FFD56A] text-[#3A3A3A] rounded-full h-[28px] px-4 font-font-droid">
                       Governance
                     </button>
-                    <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] px-4 font-abhaya">
+                    <button className="bg-[#D6F5AC] text-[#3A3A3A] rounded-full h-[28px] px-4 font-font-droid">
                       Social
                     </button>
                   </div>
@@ -242,7 +242,7 @@ function EmployeeCompletedSecond() {
                 </div>
               </div>
               <div className="rounded-full py-1 px-2 mb-4 md:mb-0 md:ml-auto mt-4 md:mt-[120px]">
-                <button className="bg-[#00778B] text-white font-medium py-2 px-4 rounded-lg shadow h-[50px] w-[105px] font-abhaya">
+                <button className="bg-[#00778B] text-white font-medium py-2 px-4 rounded-lg shadow h-[50px] w-[105px] font-font-droid">
                   Continue
                 </button>
               </div>

@@ -28,14 +28,14 @@ const EmployeeDetailsPage = () => {
   }, [data]);
 
   return (
-    <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-nunitoSans overflow-auto">
+    <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-droidSans overflow-auto">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
-        <h2 className="text-base font-bold font-nunito pb-1">
+        <h2 className="text-base font-bold font-droid pb-1">
           Trainers Details
         </h2>
         <Button
           variant={"ghost"}
-          className="p-0 text-base font-nunito font-bold"
+          className="p-0 text-base font-droid font-bold"
           onClick={() => window.history.back()}
         >
           <IoIosArrowRoundBack size={26} />
@@ -51,7 +51,7 @@ const EmployeeDetailsPage = () => {
             <div className="mt-[17px]">
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">
-                  <h2 className="font-nunito text-base">
+                  <h2 className="font-droid text-base">
                     Trainer personal information
                   </h2>
                 </legend>
@@ -65,26 +65,22 @@ const EmployeeDetailsPage = () => {
                     </Avatar>
                   </div>
                   <div className="text-base xl:col-span-2 col-span-5 sm:ps-0 ps-3">
-                    <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
+                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
                       Trainer name
                     </h6>
-                    <p className="text-base font-nunito">{data?.name || "-"}</p>
+                    <p className="text-base font-droid">{data?.name || "-"}</p>
                   </div>
                   <div className="text-base xl:col-span-2 sm:col-span-4 col-span-9 xl:pt-0 pt-3">
-                    <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
+                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
                       Contact number
                     </h6>
-                    <p className="text-base font-nunito">
-                      {data?.phone || "-"}
-                    </p>
+                    <p className="text-base font-droid">{data?.phone || "-"}</p>
                   </div>
                   <div className="text-base xl:col-span-3 sm:col-span-5 col-span-9 xl:pt-0 pt-3">
-                    <h6 className="text-[#A3A3A3] text-base font-nunito pb-2.5">
+                    <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
                       Email address
                     </h6>
-                    <p className="text-base font-nunito">
-                      {data?.email || "-"}
-                    </p>
+                    <p className="text-base font-droid">{data?.email || "-"}</p>
                   </div>
                 </div>
               </fieldset>
@@ -129,7 +125,7 @@ const EmployeeDetailsPage = () => {
             <div className="xl:mt-[27px] mt-[22px]">
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">
-                  <h2 className="text-base font-nunito">Trainer Status</h2>
+                  <h2 className="text-base font-droid">Trainer Status</h2>
                 </legend>
                 <div className="pl-[25px] py-[20px] flex items-center gap-[59px]">
                   <RadioGroup
@@ -146,7 +142,7 @@ const EmployeeDetailsPage = () => {
                       />
                       <Label
                         htmlFor="r1"
-                        className="text-base font-nunito font-normal"
+                        className="text-base font-droid font-normal"
                       >
                         Active
                       </Label>
@@ -159,13 +155,13 @@ const EmployeeDetailsPage = () => {
                       />
                       <Label
                         htmlFor="r3"
-                        className="text-base font-nunito font-normal"
+                        className="text-base font-droid font-normal"
                       >
                         Inactive
                       </Label>
                     </div>
                   </RadioGroup>
-                  {/* <Button className="xl:text-base text-sm font-nunito font-semibold xl:w-[121px] xl:h-[52px] w-[100px] h-[40px] bg-[#58BA66]">
+                  {/* <Button className="xl:text-base text-sm font-droid font-semibold xl:w-[121px] xl:h-[52px] w-[100px] h-[40px] bg-[#58BA66]">
                     SUBMIT
                   </Button> */}
                 </div>

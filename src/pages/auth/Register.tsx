@@ -371,13 +371,13 @@ function Register() {
                 <div className="lg:h-[524px] h-[350px] relative md:mt-[92px] sm:mt-[70px] mt-[45px]">
                   <div className="">
                     <div className="flex items-center justify-between">
-                      <h3 className="sm:text-[24px] text-[22px] font-[700]  font-abhaya">
+                      <h3 className="sm:text-[24px] text-[22px] font-[700]  font-font-droid">
                         Which best describes you?
                       </h3>
                       <img className="" src={RunnerIcon} alt="RunnerIcon" />
                     </div>
                     <img className="" src="../assets/img/Line 23.png" />
-                    <p className="text-[16px] font-[400] font-calibri text-[#000]">
+                    <p className="text-[16px] font-[400] font-droid text-[#000]">
                       Select your role so we can get you to the right place.
                     </p>
                     <div className="flex sm:flex-nowrap flex-wrap sm:gap-[40px] gap-[20px] mt-[20px]">
@@ -386,7 +386,7 @@ function Register() {
                         onClick={() => {
                           navigate("/trainer-regestration");
                         }}
-                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
+                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-font-droid font-semibold"
                         symbol={<img src="../assets/img/Analyzing Skill.png" />}
                       />
 
@@ -395,7 +395,7 @@ function Register() {
                         onClick={() => {
                           setSelectedRole("company");
                         }}
-                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-abhaya font-semibold"
+                        className="sm:w-[198px] w-full sm:h-[72px] h-[60px] sm:text-lg text-base flex items-center justify-center gap-[8px] primary-background text-color !font-font-droid font-semibold"
                         symbol={<img src="../assets/img/Company.png" />}
                       />
                     </div>
@@ -571,11 +571,11 @@ function Register() {
           onClose={() => setShowOtpPopup(false)}
           className="max-w-[550px]"
         >
-          <div className="mb-[2px] mt-2 text-center font-calibri">
+          <div className="mb-[2px] mt-2 text-center font-droid">
             <h2 className="text-xl font-semibold">
               Please verify the one-time password in your inbox
             </h2>
-            <p className="text-[#121212] text-[16px] font-calibri">
+            <p className="text-[#121212] text-[16px] font-droid">
               A one- time password has been sent to {email}
             </p>
           </div>
@@ -617,12 +617,12 @@ function Register() {
                 variant={"ghost"}
                 disabled={time !== 0 || isPending}
                 onClick={() => handleResendOtp(email)}
-                className="text-[#000] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
+                className="text-[#000] text-[16px] font-[700] block p-0 h-auto hover:bg-transparent font-droid"
               >
                 Resend OTP
               </Button>
               {time !== 0 && (
-                <p className="text-[#121212] text-[16px] font-[700] font-calibri">
+                <p className="text-[#121212] text-[16px] font-[700] font-droid">
                   {formatTime(time)}
                 </p>
               )}
@@ -633,7 +633,7 @@ function Register() {
                 setShowOtpPopup(false);
                 setTime(0);
               }}
-              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-calibri"
+              className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-droid"
             >
               Send to a different email?
             </Button>

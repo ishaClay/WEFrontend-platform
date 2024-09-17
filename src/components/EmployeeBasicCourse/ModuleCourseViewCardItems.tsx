@@ -109,9 +109,9 @@ const ModuleCourseViewCardItems = ({
             //     : +userData?.query?.role === 1
             //     ? "pointer-events-none"
             //     : "pointer-events-auto"
-            // } sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block`}
+            // } sm:text-base text-sm text-black font-droid pb-2 cursor-pointer inline-block`}
             className={cn(
-              "sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block",
+              "sm:text-base text-sm text-black font-droid pb-2 cursor-pointer inline-block",
               {
                 "pointer-events-none":
                   +userData?.query?.role === 4
@@ -134,7 +134,7 @@ const ModuleCourseViewCardItems = ({
             {list?.title}
           </h5>
           {/* <div className="pb-1">
-            <h6 className="text-[#747474] text-xs font-nunito">
+            <h6 className="text-[#747474] text-xs font-droid">
               {list.durationType} 
               {list.duration}
             </h6>
@@ -142,22 +142,22 @@ const ModuleCourseViewCardItems = ({
           <div className="sm:flex block items-center">
             {list?.url && (
               <>
-                <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+                <h6 className="text-[#747474] text-xs uppercase font-droid sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
                   {list?.isLive === 0
                     ? documentType(list?.url ? "url" : list?.uploadContent)
                     : "Live Section"}
                 </h6>
               </>
             )}
-            <h6 className="text-[#747474] text-xs font-nunito">
+            <h6 className="text-[#747474] text-xs font-droid">
               Duration : {getTime()}
             </h6>
           </div>
           {/* <div className="sm:flex block items-center">
-            <h6 className="text-[#747474] text-xs font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+            <h6 className="text-[#747474] text-xs font-droid sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
               Date : {list.date}
             </h6>
-            <h6 className="text-[#747474] text-xs font-nunito">
+            <h6 className="text-[#747474] text-xs font-droid">
               Time : {list.time}
             </h6>
           </div> */}
@@ -166,7 +166,7 @@ const ModuleCourseViewCardItems = ({
       <div className="">
         {+list.isLive === 1 && list?.isStatus === "Started" && (
           <Button
-            className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+            className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-droid xl:w-[110px] w-[80px] xl:text-base text-sm"
             // onClick={() => navigate("/employee/live-session")}
             onClick={() => handleStatusChanges(1, list?.id)}
             isLoading={isPending}
@@ -176,7 +176,7 @@ const ModuleCourseViewCardItems = ({
           </Button>
         )}
         {list?.isStatus === "Completed" && (
-          <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-nunito font-semibold flex items-center sm:px-2.5 px-0">
+          <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-droid font-semibold flex items-center sm:px-2.5 px-0">
             <CircleCheck width={20} /> Completed
           </Button>
         )}
@@ -187,7 +187,7 @@ const ModuleCourseViewCardItems = ({
               setViewDocument(true);
               setDocumentFile(list?.url ? list?.url : list?.uploadContent);
             }}
-            className="bg-[#FFD56A] text-black xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+            className="bg-[#FFD56A] text-black xl:h-12 h-9 px-5 font-droid xl:w-[110px] w-[80px] xl:text-base text-sm"
           >
             In Progress
           </Button>
@@ -197,7 +197,7 @@ const ModuleCourseViewCardItems = ({
             type="button"
             onClick={() => handleStatusChanges(1, list?.id)}
             isLoading={isPending}
-            className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+            className="bg-[#00778B] xl:h-12 h-9 px-5 font-droid xl:w-[110px] w-[80px] xl:text-base text-sm"
             disabled={list?.prevStatus === "Completed" ? false : true}
           >
             Start

@@ -124,7 +124,7 @@ const MaturityLevel = () => {
               }}
               className={`w-[60px] h-[27px] rounded-l-lg rounded-r-none `}
             ></div>
-            <div className="text-base text-black font-nunito rounded-r-lg ms-[-30px]">
+            <div className="text-base text-black font-droid rounded-r-lg ms-[-30px]">
               {label?.maturityLevelName}
             </div>
           </div>
@@ -135,7 +135,7 @@ const MaturityLevel = () => {
   return (
     <div className="mb-8">
       <div className="mb-5">
-        <h3 className="font-bold font-nunito xl:text-[22px] text-[18px] border-b-2 inline-block border-[#75BD43] relative pb-1">
+        <h3 className="font-bold font-droid xl:text-[22px] text-[18px] border-b-2 inline-block border-[#75BD43] relative pb-1">
           Our Sustainability Level
           {/* <div className="bg-[#75BD43] w-full h-[2px] absolute left-0 bottom-0"></div> */}
         </h3>

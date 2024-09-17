@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { BsTicketPerforated } from "react-icons/bs";
 import { FaUserGroup } from "react-icons/fa6";
@@ -11,7 +12,6 @@ import { TfiBook } from "react-icons/tfi";
 import { Link } from "react-router-dom";
 import { AlertLogOutDialog } from "./Models/AlertLogOut";
 import sidebarlogo from "/assets/img/sidebarlogo.png";
-import Cookies from "js-cookie";
 
 const EmployeeListSidebar = () => {
   const [isOpen1, setIsOpen1] = useState(false);
@@ -71,7 +71,7 @@ const EmployeeListSidebar = () => {
 
             {isOpen1 && (
               <ul className="absolute left-0 right-0 bg-white rounded-md mt-[160px] list-disc pl-6 w-[245px] h-[90px]">
-                <li className="ml-[20px] mt-2 font-calibri text-base">
+                <li className="ml-[20px] mt-2 font-droid text-base">
                   <Link to="/allocatedcourses">Allocated Courses</Link>
                 </li>
 
@@ -160,7 +160,10 @@ const EmployeeListSidebar = () => {
       <AlertLogOutDialog
         isOpen={isAlertOpen}
         onClose={() => setIsAlertOpen(false)}
-        onConfirm={() => {localStorage.clear(); Cookies.remove('accessToken');}}
+        onConfirm={() => {
+          localStorage.clear();
+          Cookies.remove("accessToken");
+        }}
       />
     </>
   );

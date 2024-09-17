@@ -15,7 +15,7 @@ const SessionEmployeeItem = ({ data }: sessionEmpoyeeProps) => {
           <div className="w-[40px] h-[40px] rounded-full overflow-hidden me-4">
             <img src={data.image} />
           </div>
-          <div className="font-calibri text-base font-medium">
+          <div className="font-droid text-base font-medium">
             {data.empoyeeName}
           </div>
         </div>

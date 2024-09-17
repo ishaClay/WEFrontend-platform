@@ -47,7 +47,7 @@ function CoursesRecommended() {
         <div className="h-full">
           <div className="bg-[#FFFFFF] rounded-xl">
             <div className="border-b border-[#D9D9D9] p-5 flex justify-between items-center">
-              <p className="text-[16px] text-[#000000] font-calibri font-semibold">
+              <p className="text-[16px] text-[#000000] font-droid font-semibold">
                 Recommended Courses
               </p>
               <div className="flex gap-2 sm:hidden">

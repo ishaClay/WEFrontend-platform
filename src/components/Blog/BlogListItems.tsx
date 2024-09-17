@@ -1,6 +1,6 @@
 import { ChevronRight } from "lucide-react";
-import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
 
 type BlogList = {
   data: {
@@ -23,9 +23,9 @@ const BlogListItems = ({ data }: BlogList) => {
         </span>
       </div>
       <div className="flex flex-col gap-2.5 p-3 pt-0">
-        <h3 className="font-calibri text-2xl text-black">{data.title}</h3>
+        <h3 className="font-droid text-2xl text-black">{data.title}</h3>
         <span className="text-[#4E5566] text-base">{data.subTitle}</span>
-        <p className="line-clamp-4 text-base font-calibri text-[#4E5566]">
+        <p className="line-clamp-4 text-base font-droid text-[#4E5566]">
           {data.description}
         </p>
         <Button

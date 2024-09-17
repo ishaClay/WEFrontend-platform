@@ -20,7 +20,7 @@ const TraineeItems = ({
   data,
   setTraineeList,
   traineeList,
-}: TraineeEmployee) => {  
+}: TraineeEmployee) => {
   const handleChanges = (e: boolean, data: any): void => {
     if (e) {
       setTraineeList((prev: any[]) => [
@@ -53,7 +53,7 @@ const TraineeItems = ({
           </Avatar>
         </div>
         <div className="">
-          <h5 className="text-base font-abhaya text-black font-semibold">
+          <h5 className="text-base font-font-droid text-black font-semibold">
             {data?.name || data?.email?.split?.("@")?.[0]}
           </h5>
           <h6 className="text-[#606060] text-base">{data.companyName}</h6>
@@ -63,9 +63,7 @@ const TraineeItems = ({
         <Checkbox
           className="border-[#D9D9D9] w-6 h-6"
           onCheckedChange={(e) => handleChanges(!!e, data)}
-          checked={traineeList?.some(
-            (item: any) => +item?.id === +data?.id
-          )}
+          checked={traineeList?.some((item: any) => +item?.id === +data?.id)}
         />
       </div>
     </div>

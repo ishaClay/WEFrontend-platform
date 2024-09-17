@@ -23,11 +23,11 @@ const EnrolledCourses = ({ data }: EnrolledCourses) => {
           />
         </div>
         <div className="flex flex-col sm:pt-0 pt-2">
-          <span className="uppercase text-[#8C94A3] text-xs font-abhaya font-semibold flex items-center gap-1">
+          <span className="uppercase text-[#8C94A3] text-xs font-font-droid font-semibold flex items-center gap-1">
             <Star width={14} />
             {data?.courseReconmendedStatus}
           </span>
-          <p className="mb-2 text-[#000] text-sm font-abhaya font-semibold">
+          <p className="mb-2 text-[#000] text-sm font-font-droid font-semibold">
             {data?.course?.title}
           </p>
           <div className="flex sm:flex-nowrap flex-wrap gap-3">

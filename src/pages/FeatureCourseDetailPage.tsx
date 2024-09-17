@@ -37,7 +37,7 @@ const FeatureCourseDetailPage = () => {
         <div className="">
           <div className="bg-white h-[calc(100vh-393px)] overflow-y-auto rounded-b-xl">
             <div className="flex justify-between items-center bg-white py-5">
-              <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-nunito text-black sm:pb-0 pb-3">
+              <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-droid text-black sm:pb-0 pb-3">
                 {getSingleCourse?.data?.title}
               </h4>
               <div
@@ -61,7 +61,7 @@ const FeatureCourseDetailPage = () => {
                   <div className="flex sm:order-1 order-2">
                     <TabsTrigger
                       value="information"
-                      className="text-base font-nunito text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
+                      className="text-base font-droid text-black data-[state=active]:text-[#00778B] data-[state=active]:border-[#00778B] border-b rounded-none border-transparent"
                     >
                       Information
                     </TabsTrigger>

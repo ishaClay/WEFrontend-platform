@@ -54,7 +54,7 @@ const MyAction = () => {
   return (
     <div className="mb-6">
       <h3
-        className="sm:text-base text-lg text-black font-inter pb-4 sm:font-medium font-bold cursor-pointer"
+        className="sm:text-base text-lg text-black font-droid pb-4 sm:font-medium font-bold cursor-pointer"
         onClick={handleRedirect}
       >
         My Action Items

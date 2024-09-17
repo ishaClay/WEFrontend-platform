@@ -13,12 +13,7 @@ import NoDataText from "@/components/comman/NoDataText";
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
-import {
-  AllCourse,
-  CourseTime,
-  IsOnline,
-  Pillarcourse,
-} from "@/types/allcourses";
+import { AllCourse, CourseTime, IsOnline } from "@/types/allcourses";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -28,7 +23,7 @@ import CohortModel from "./CohortModel";
 
 type dataGridProps = {
   data: AllCourse[];
-  selectedCourse: Pillarcourse[];
+  selectedCourse: any;
 };
 
 const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
@@ -124,12 +119,12 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
           <div className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between pb-[6px]">
               <p className="text-black text-xs">
-                <span className="font-medium text-xs font-inter">
+                <span className="font-medium text-xs font-droid">
                   Cohort {findIndex ? findIndex : 1} :
                 </span>{" "}
               </p>
               <p
-                className="text-[#4285F4] text-[10px] font-inter font-medium cursor-pointer"
+                className="text-[#4285F4] text-[10px] font-droid font-medium cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsCohortShow(cohortData);
@@ -138,7 +133,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                 Show all cohorts
               </p>
             </div>
-            <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+            <div className="font-droid text-[10px] leading-3 text-[#000000] font-normal">
               <span>Start Date : </span>
               <span>
                 {`${upcomingData.slotStartDate.date
@@ -192,13 +187,11 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
       {data?.length > 0 ? (
         data?.map((allcourse: AllCourse) => {
           const maturityLevel =
-            selectedCourse?.length > 0
-              ? allcourse?.courseData?.find((item) =>
-                  selectedCourse.find(
-                    (it) => it.pillarName === item.fetchPillar?.pillarName
-                  )
-                )
-              : null;
+            selectedCourse &&
+            allcourse?.courseData?.find(
+              (item) =>
+                item.fetchPillar?.pillarName === selectedCourse?.pillarName
+            );
           return (
             <>
               <div
@@ -223,7 +216,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                     />
                     <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                       <FaStar className="text-[#FD8E1F]" />
-                      <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
+                      <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">
                         {allcourse?.courseReconmendedStatus ||
                           maturityLevel?.fetchMaturity?.maturityLevelName}
                       </span>
@@ -233,7 +226,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
 
                 <div className="xl:col-span-6 sm:col-span-5 col-span-8 xl:flex xl:flex-row flex-col items-center xl:justify-between justify-center sm:py-3 pb-3 pt-0 sm:px-0 px-3">
                   <div className="">
-                    <h4 className="sm:text-base text-sm font-medium font-inter xl:mb-3 line-clamp-3 text-[#1D2026] pb-3">
+                    <h4 className="sm:text-base text-sm font-medium font-droid xl:mb-3 line-clamp-3 text-[#1D2026] pb-3">
                       {allcourse.title}
                     </h4>
 
@@ -245,7 +238,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                             src={lightOn}
                             alt="Image Alt Text"
                           />
-                          <p className="text-[#918A8A] text-base font-normal font-calibri">
+                          <p className="text-[#918A8A] text-base font-normal font-droid">
                             {
                               allcourse?.courseData?.[0]?.fetchPillar
                                 ?.pillarName
@@ -299,7 +292,7 @@ const CourseListPage = ({ data, selectedCourse }: dataGridProps) => {
                             src={neighbour}
                             alt="Image Alt Text"
                           />
-                          <p className="text-[#918A8A] text-base font-normal font-calibri">
+                          <p className="text-[#918A8A] text-base font-normal font-droid">
                             Social
                           </p>
                         </div>

@@ -103,16 +103,8 @@ module.exports = {
       },
 
       fontFamily: {
-        inter: "Inter",
-        "d-din-pro": "D-DIN-PRO",
-        calibri: "Calibri",
-        "uni-neue-trial": "'Uni Neue-Trial'",
-        UniNeue: "UniNeue",
-        Poppins: "Poppins",
         abhaya: ["Abhaya Libre", "serif"],
-        nunito: ["Nunito Sans", "sans"],
-        greatvibes: ["Great Vibes", "cursive"],
-        droid: ["Droid Regular", "Sans"],
+        droid: ["Droid Sans"],
       },
       borderRadius: {
         lg: "var(--radius)",

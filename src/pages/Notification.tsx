@@ -87,7 +87,7 @@ function Notification() {
     delete_notification();
   };
   return (
-    <div className="h-full rounded-[10px] bg-[white] mb-[20px] font-nunitoSans">
+    <div className="h-full rounded-[10px] bg-[white] mb-[20px] font-droidSans">
       <div className="h-[70px] border-b-2 border-solid gray flex justify-between items-center pl-[20px] pr-[28px] ">
         <h2 className="font-[700] text-[16px]">Notification List</h2>
         <button
@@ -108,7 +108,7 @@ function Notification() {
         </button>
       </div>
 
-      <div className=" h-[auto]  border rounded-lg shadow m-[20px] px-[30px] py-[16px] font-nunitoSans">
+      <div className=" h-[auto]  border rounded-lg shadow m-[20px] px-[30px] py-[16px] font-droidSans">
         <p className="text-[12px] leading-[16px] text-[#A3A3A3] font-[400]">
           {notificationDetails?.createdAt &&
             getTimeAgo(notificationDetails?.createdAt)}

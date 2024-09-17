@@ -27,10 +27,10 @@ const LiveSessionsItems = ({ data }: liveSessionItemsProps) => {
           </a>
         </div>
         <div className="md:ps-5 ps-3">
-          <h5 className="md:text-base text-sm font-medium font-inter text-[#1D2026] mb-2 line-clamp-1">
+          <h5 className="md:text-base text-sm font-medium font-droid text-[#1D2026] mb-2 line-clamp-1">
             {data.subtitle}
           </h5>
-          <h6 className="text-[#1D2026] md:text-sm text-xs font-normal font-inter mb-2 line-clamp-2 min-h-[40px]">
+          <h6 className="text-[#1D2026] md:text-sm text-xs font-normal font-droid mb-2 line-clamp-2 min-h-[40px]">
             {data.description}
           </h6>
           <h6 className="flex items-center text-xs text-[#666666] pb-1">

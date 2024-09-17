@@ -105,7 +105,7 @@ function SavedAssesment() {
             <div className="xl:mt-[40px] xl:mb-0 mb-[30px]">
               <div className=" w-[430px] ">
                 <div className="flex items-end justify-between gap-x-[14px]">
-                  <h3 className="font-abhaya text-[24px] font-[400]">
+                  <h3 className="font-font-droid text-[24px] font-[400]">
                     Why, nice to have you back
                   </h3>
                   <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
@@ -117,7 +117,7 @@ function SavedAssesment() {
                 There's just some quenstions lefts to get your Sustainability
                 Score. but you're merrily on the way there...
               </p>
-              <p className="text-[Calibri] font-abhaya text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
+              <p className="text-[Calibri] font-font-droid text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
                 {" "}
                 What's left for you to complete:
               </p>

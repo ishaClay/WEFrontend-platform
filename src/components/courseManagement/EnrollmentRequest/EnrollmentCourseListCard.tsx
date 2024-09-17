@@ -119,7 +119,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
                 return (
                   <Badge
                     variant="outline"
-                    className={`bg-[${bg}] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                    className={`bg-[${bg}] border-[#EDF0F4] py-[5px] px-[10px] text-[#3A3A3A] text-xs font-droid font-normal`}
                   >
                     {pillarName}
                   </Badge>
@@ -128,17 +128,17 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             </div>
           </div>
 
-          <h6 className="text-base sm:leading-7 leading-5 text-[#1D2026] font-inter font-medium">
+          <h6 className="text-base sm:leading-7 leading-5 text-[#1D2026] font-droid font-medium">
             {data?.course?.title}
           </h6>
           <div className="flex flex-wrap justify-between items-center xl:pt-[18px] sm:pt-2 pt-3 2xl:gap-8 xl:gap-4 sm:gap-3 gap-[10px]">
-            <div className="font-calibri">
+            <div className="font-droid">
               <p className="sm:text-base text-sm font-medium">
                 Company Name :{" "}
                 <span className="font-bold">{data?.company?.name}</span>
               </p>
             </div>
-            <div className="font-calibri">
+            <div className="font-droid">
               <p className="sm:text-base text-sm font-medium">
                 Number Of Employee :{" "}
                 <span className="font-bold">
@@ -146,7 +146,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
                 </span>
               </p>
             </div>
-            <div className="flex items-center font-bold font-calibri sm:text-base text-sm">
+            <div className="flex items-center font-bold font-droid sm:text-base text-sm">
               <Euro className="sm:w-[16px] w-[14px] font-bold" />
               {data?.course?.price}
             </div>
@@ -206,7 +206,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       {data?.enroll === Enroll.accept && (
         <div className="flex items-center sm:pr-8 xl:justify-center sm:justify-end justify-center xl:p-0 sm:p-0 p-[15px]">
           <img src={AcceptedIcon} alt="" width={18} />
-          <span className="text-[#58BA66] font-calibri text-base pl-1">
+          <span className="text-[#58BA66] font-droid text-base pl-1">
             Accepted
           </span>
         </div>
@@ -214,7 +214,7 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
       {data?.enroll === Enroll.reject && (
         <div className="flex items-center pr-8 xl:justify-center sm:justify-end justify-center sm:p-0 sm:pt-3 p-[15px]">
           <img src={RejectedIcons} alt="" width={18} />
-          <span className="text-[#FF5252] font-calibri text-base pl-1">
+          <span className="text-[#FF5252] font-droid text-base pl-1">
             Rejected
           </span>
         </div>

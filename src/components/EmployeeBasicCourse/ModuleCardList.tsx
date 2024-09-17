@@ -29,15 +29,15 @@ const ModuleCardList = ({ data }: moduleCourseCardProps | any) => {
 
   return data ? (
     <div className="">
-      <h3 className="sm:text-base text-sm font-bold font-calibri pb-2 text-left flex items-center">
+      <h3 className="sm:text-base text-sm font-bold font-droid pb-2 text-left flex items-center">
         {/* <CircleAlert className="me-2 text-[#747474]" /> */}
         {data?.title}
       </h3>
       <div className="flex items-center">
-        <h6 className="text-xs text-[#747474] font-inter pe-3 me-3 border-e border-[#747474]">
+        <h6 className="text-xs text-[#747474] font-droid pe-3 me-3 border-e border-[#747474]">
           Section: {(data?.moduleSections || data?.moduleSection)?.length}
         </h6>
-        <h6 className="text-xs text-[#747474] font-inter">
+        <h6 className="text-xs text-[#747474] font-droid">
           Duration {hours}: {minutes}: {seconds}
         </h6>
       </div>

@@ -92,11 +92,11 @@ function SelectLevel() {
       </div>
       <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 py-3">
         <div className="my-6">
-          <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-calibri">
+          <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-droid">
             Select the sustainability pillars you want to progress on most—then
             choose an action item(s) for each of them.{" "}
           </h1>
-          <span className="text-[18px] leading-4 font-calibri">
+          <span className="text-[18px] leading-4 font-droid">
             (Not sure what actions to take? Head to your dashboard and view
             ‘Recommended Courses’ to see what training is available to
             specifically help you advance your green.)
@@ -116,7 +116,7 @@ function SelectLevel() {
             );
           })
         )}
-        <div className=" text-center font-abhaya  font-semibold mb-[23px]">
+        <div className=" text-center font-font-droid  font-semibold mb-[23px]">
           <p>
             <span className="text-[#F63636]"> An important note:</span> The
             action items you choose here are never fixed.
@@ -140,7 +140,7 @@ function SelectLevel() {
           </Button>
           <Button
             onClick={() => navigate("/company/allcourses")}
-            className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-abhaya w-[250px] h-[50px]"
+            className="bg-[#64A70B] text-[white] rounded-md text-base font-extrabold text-center font-font-droid w-[250px] h-[50px]"
           >
             Go to All Courses
           </Button>

@@ -332,9 +332,9 @@ const CourseInformation = ({
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
               label="What is the title of the course you're offering?"
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter course name or title"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-droid text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("title")}
               error={errors.title?.message as string}
             />
@@ -342,9 +342,9 @@ const CourseInformation = ({
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
               label="Please enter the name of the institute providing this course."
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter institute name"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-droid text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("institute")}
               error={errors.institute?.message as string}
             />
@@ -352,9 +352,9 @@ const CourseInformation = ({
           <div className="sm:mb-[18px] mb-[15px]">
             <InputWithLabel
               label="Provide a direct link to the course details on your institute's website. (Optional)"
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter URL"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-droid text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite")}
               error={errors.instituteWebsite?.message as string}
             />
@@ -362,9 +362,9 @@ const CourseInformation = ({
           <div className="sm:mb-[13px] mb-[15px]">
             <InputWithLabel
               label="Do you have any additional links for course materials or resources? (Optional)"
-              labelClassName="font-calibri sm:text-base text-sm text-[#515151]"
+              labelClassName="font-droid sm:text-base text-sm text-[#515151]"
               placeholder="Enter URL"
-              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-calibri text-[#1D2026] sm:mt-[9px] mt-2"
+              className="border border-[#D9D9D9] rounded-md w-full sm:px-4 sm:py-3 p-[10px] outline-none font-base font-droid text-[#1D2026] sm:mt-[9px] mt-2"
               {...register("instituteWebsite2")}
               error={errors.instituteWebsite2?.message as string}
             />
@@ -372,7 +372,7 @@ const CourseInformation = ({
           <div className="md:flex block items-center gap-10 sm:pb-6 pb-[15px]">
             <div className="flex md:flex-col flex-row md:gap-[50px] gap-[10px] md:pb-0 pb-[21px]">
               <div className="flex items-center">
-                <span className="pe-3 font-calibri md:text-base sm:text-sm text-xs text-black">
+                <span className="pe-3 font-droid md:text-base sm:text-sm text-xs text-black">
                   Free Course?
                 </span>
                 <Switch
@@ -386,7 +386,7 @@ const CourseInformation = ({
                 />
               </div>
               <div className="flex items-center">
-                <span className="pe-3 font-calibri md:text-base sm:text-sm text-xs text-black">
+                <span className="pe-3 font-droid md:text-base sm:text-sm text-xs text-black">
                   Discount provided?
                 </span>
                 <Switch
@@ -401,7 +401,7 @@ const CourseInformation = ({
 
             <div className="flex flex-col md:gap-[25px] gap-[15px]">
               <div className="flex items-center">
-                <span className="pe-3 font-calibri sm:text-base text-sm text-[#515151] xl:w-[130px]">
+                <span className="pe-3 font-droid sm:text-base text-sm text-[#515151] xl:w-[130px]">
                   Course Price
                 </span>
                 <InputWithLabel
@@ -431,7 +431,7 @@ const CourseInformation = ({
                 />
               </div>
               <div className="flex items-center">
-                <span className="pe-3 font-calibri sm:text-base text-sm text-[#515151] xl:w-[130px]">
+                <span className="pe-3 font-droid sm:text-base text-sm text-[#515151] xl:w-[130px]">
                   Discounted Price
                 </span>
                 <InputWithLabel
@@ -462,7 +462,7 @@ const CourseInformation = ({
 
           {provideDisc && (
             <div className="md:pb-8 sm:pb-6 pb-[15px]">
-              <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-calibri sm:text-base text-sm text-[#515151]">
+              <h6 className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-[400] md:text-[14px] font-droid sm:text-base text-sm text-[#515151]">
                 Discount provided by
               </h6>
               <Select
@@ -483,7 +483,7 @@ const CourseInformation = ({
                   )}
                 </SelectContent>
               </Select>
-              <span className="font-primary font-calibri text-sm text-red-400 undefined">
+              <span className="font-primary font-droid text-sm text-red-400 undefined">
                 {errors?.discountProvider?.message}
               </span>
             </div>
@@ -492,7 +492,7 @@ const CourseInformation = ({
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

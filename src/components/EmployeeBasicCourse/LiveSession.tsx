@@ -1,13 +1,13 @@
 import Zoom_Video from "@/assets/images/zoom-video.png";
 import { QUERY_KEYS } from "@/lib/constants";
+import { isSessionOngoingAtTime } from "@/lib/utils";
 import { updateEmployeeWiseCourseStatus } from "@/services/apiServices/courseSlider";
 import { ModuleSectionsEntity } from "@/types/employee";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarDays, Clock } from "lucide-react";
 import moment from "moment";
-import { Button } from "../ui/button";
-import { isSessionOngoingAtTime } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
+import { Button } from "../ui/button";
 
 const LiveSession = ({
   list,
@@ -109,7 +109,7 @@ const LiveSession = ({
             </div>
             <div className="md:flex block items-center justify-between w-full">
               <div className="">
-                <h5 className="md:text-base text-sm text-black font-bold font-nunito pb-1.5">
+                <h5 className="md:text-base text-sm text-black font-bold font-droid pb-1.5">
                   Live Session({list?.title})
                 </h5>
                 <div className="sm:flex block items-center gap-5 md:mb-0 mb-2">
@@ -122,26 +122,28 @@ const LiveSession = ({
                       )}{" "}
                     </span>
                   </h6>
-                  {list?.liveSection?.length > 0 && <h6 className="flex items-center gap-2 text-xs text-[#777]">
-                    <Clock width={20} className="text-[#666666]" /> Time :{" "}
-                    <span className="text-black">
-                      {moment(list?.liveSection[0]?.startTime).format(
-                        "hh:mm A"
-                      )}{" "}
-                      to{" "}
-                      {moment(list?.liveSection[0]?.startTime)
-                        .add(list?.liveSection[0]?.sessionDuration, "m")
-                        .format("hh:mm A")}
-                    </span>
-                  </h6>}
+                  {list?.liveSection?.length > 0 && (
+                    <h6 className="flex items-center gap-2 text-xs text-[#777]">
+                      <Clock width={20} className="text-[#666666]" /> Time :{" "}
+                      <span className="text-black">
+                        {moment(list?.liveSection[0]?.startTime).format(
+                          "hh:mm A"
+                        )}{" "}
+                        to{" "}
+                        {moment(list?.liveSection[0]?.startTime)
+                          .add(list?.liveSection[0]?.sessionDuration, "m")
+                          .format("hh:mm A")}
+                      </span>
+                    </h6>
+                  )}
                 </div>
               </div>
               {/* <div className="md:text-right text-left">
-                <h6 className="text-[#777] text-xs font-nunito pb-2.5">
+                <h6 className="text-[#777] text-xs font-droid pb-2.5">
                   Assign date :
                   <span className="text-black"> -</span>
                 </h6>
-                <h6 className="text-[#777] text-xs font-nunito">
+                <h6 className="text-[#777] text-xs font-droid">
                   Planned completed date :
                   <span className="text-black">20th April, 2024</span>
                 </h6>
@@ -151,7 +153,7 @@ const LiveSession = ({
         </div>
         <div className="bg-[#00778B1A] xl:h-[450px] sm:h-[425px] h-[380px] w-full rounded-xl flex justify-center items-center">
           <div className="text-center">
-            <p className="text-[#313131] sm:text-sm text-xs font-inter mb-5">
+            <p className="text-[#313131] sm:text-sm text-xs font-droid mb-5">
               The meeting link will be enabled{" "}
               {`${
                 timeRemaining?.days?.toString()?.padStart(2, "0") ?? 0
@@ -166,7 +168,7 @@ const LiveSession = ({
             <a
               target="_blank"
               href={list?.liveSection[0]?.zoomApiBaseUrl}
-              className={`bg-[#00778B] text-sm font-inter px-10 py-3 text-white rounded-[6px] sm:h-[42px] h-[36px] ${
+              className={`bg-[#00778B] text-sm font-droid px-10 py-3 text-white rounded-[6px] sm:h-[42px] h-[36px] ${
                 !joinButtonPermission
                   ? "!pointer-events-none opacity-50"
                   : "!pointer-events-auto opacity-100"
@@ -185,7 +187,7 @@ const LiveSession = ({
             isLoading={isPending}
             disabled={!isButtonPermission}
             onClick={() => handleStatusChanges(2, list?.id)}
-            className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-calibri xl:text-base text-sm"
+            className="bg-[#00778B] xl:h-12 sm:h-9 h-8 px-5 font-droid xl:text-base text-sm"
           >
             Mark As Completed
           </Button>

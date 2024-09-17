@@ -123,7 +123,7 @@ function EnrolledCourses() {
                 <AccordionContent>
                   <div className="w-full h-[auto] mt-[20px] border gray rounded-[10px]">
                     <div className="border-b gray h-[70px] flex  items-center pl-[20px]">
-                      <h3 className="font-calibri text-[16px] font-[700]">
+                      <h3 className="font-droid text-[16px] font-[700]">
                         Prime Infotech
                       </h3>
                     </div>

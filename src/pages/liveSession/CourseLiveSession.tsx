@@ -38,7 +38,7 @@ const CourseLiveSession = () => {
     <div className="rounded-xl bg-white">
       {params === "1" && (
         <div className="flex sm:flex-row flex-col justify-between sm:items-center items-start sm:gap-0 gap-3 sm:px-6 p-4 sm:py-5 border-b border-[#D9D9D9]">
-          <h5 className="text-[16px] font-semibold font-calibri">
+          <h5 className="text-[16px] font-semibold font-droid">
             Schedule Live Session
           </h5>
 

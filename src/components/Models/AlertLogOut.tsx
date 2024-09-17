@@ -44,14 +44,14 @@ export function AlertLogOutDialog({
             type="button"
             variant="secondary"
             onClick={onClose}
-            className="xl:px-[30px] w-full h-[40px] px-[15px] py-2 font-semibold !font-abhaya text-md text-[#020817]"
+            className="xl:px-[30px] w-full h-[40px] px-[15px] py-2 font-semibold !font-font-droid text-md text-[#020817]"
           >
             Cancel
           </Button>
           <PrimaryButton
             onClick={onConfirm}
             name="Log Out"
-            className="xl:px-[30px] w-full px-[15px] py-2 h-[40px] primary-background font-semibold !font-abhaya text-md !sm:ml-[14px]"
+            className="xl:px-[30px] w-full px-[15px] py-2 h-[40px] primary-background font-semibold !font-font-droid text-md !sm:ml-[14px]"
           />
         </AlertDialogFooter>
       </AlertDialogContent>

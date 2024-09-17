@@ -63,7 +63,7 @@ const AddNewTickets = () => {
                 ])
               )
             }
-            className="text-[16px] font-[600] flex items-center gap-[15px] font-abhaya"
+            className="text-[16px] font-[600] flex items-center gap-[15px] font-font-droid"
           >
             <HiOutlineArrowNarrowLeft />
             Back
@@ -74,45 +74,45 @@ const AddNewTickets = () => {
         <div className="p-5 border border-[#D9D9D9] rounded-xl">
           <div className="grid grid-cols-2 gap-5 mb-5">
             <div className="col-span-1">
-              <Label className="text-base text-black font-calibri block pb-2">
+              <Label className="text-base text-black font-droid block pb-2">
                 Assign To
               </Label>
               <SelectMenu
                 option={selectNameOption}
                 setValue={(data: string) => setSelectName(data)}
                 value={selectName}
-                className="text-[#A3A3A3] text-base font-calibri border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
+                className="text-[#A3A3A3] text-base font-droid border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
                 placeholder="Select Name"
               />
             </div>
             <div className="col-span-1">
-              <Label className="text-base text-black font-calibri block pb-2">
+              <Label className="text-base text-black font-droid block pb-2">
                 Ticket Priority
               </Label>
               <SelectMenu
                 option={ticketPriorityOption}
                 setValue={(data: string) => setTicketPriority(data)}
                 value={ticketPriority}
-                className="text-[#A3A3A3] text-base font-calibri border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
+                className="text-[#A3A3A3] text-base font-droid border-[#D9D9D9] xl:h-12 h-10 xl:px-5 px-3"
                 placeholder="High"
               />
             </div>
           </div>
           <div className="mb-5">
-            <Label className="text-base text-black font-calibri block pb-2">
+            <Label className="text-base text-black font-droid block pb-2">
               Ticket Subject
             </Label>
             <Input
-              className="border-[#D9D9D9] w-full  xl:h-12 h-10 placeholder:text-[#A3A3A3] text-[#A3A3A3] text-base font-calibri xl:px-5 px-3"
+              className="border-[#D9D9D9] w-full  xl:h-12 h-10 placeholder:text-[#A3A3A3] text-[#A3A3A3] text-base font-droid xl:px-5 px-3"
               placeholder="Enter ticket subject"
             />
           </div>
           <div className="mb-8">
-            <Label className="text-base text-black font-calibri block pb-2">
+            <Label className="text-base text-black font-droid block pb-2">
               Description
             </Label>
             <Textarea
-              className="w-full border-[#D9D9D9] text-[#A3A3A3] text-base font-calibri ! placeholder:text-[#A3A3A3] xl:px-5 px-3"
+              className="w-full border-[#D9D9D9] text-[#A3A3A3] text-base font-droid ! placeholder:text-[#A3A3A3] xl:px-5 px-3"
               placeholder="Enter details"
             />
           </div>
@@ -122,8 +122,8 @@ const AddNewTickets = () => {
                 <div className="w-[42px] h-[42px] rounded-full bg-[#E3E5F5] flex justify-center items-center me-4">
                   <Image />
                 </div>
-                <div className="text-base text-black font-calibri">
-                  <h5 className="tetx-base text-black font-calibri">
+                <div className="text-base text-black font-droid">
+                  <h5 className="tetx-base text-black font-droid">
                     Upload Document
                   </h5>
                 </div>
@@ -132,8 +132,8 @@ const AddNewTickets = () => {
                 <div className="w-[42px] h-[42px] rounded-full bg-[#E3E5F5] flex justify-center items-center me-4">
                   <Video />
                 </div>
-                <div className="text-base text-black font-calibri">
-                  <h5 className="tetx-base text-black font-calibri">
+                <div className="text-base text-black font-droid">
+                  <h5 className="tetx-base text-black font-droid">
                     Upload Video
                   </h5>
                 </div>

@@ -159,7 +159,7 @@ function EmployeeAssessmentResult() {
                   activeTab === "Assessment Result"
                     ? "  text-[#00778B]  font-semibold border-b border-[#00778B]"
                     : " text-[#000000] "
-                }  py-2 px-4  text-[16px] h-[49px]  font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px]  font-font-droid`}
                 onClick={() => handleTabChange("Assessment Result")}
               >
                 Assessment Result
@@ -169,7 +169,7 @@ function EmployeeAssessmentResult() {
                   activeTab === "Roadmap"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px] font-font-droid`}
                 onClick={() => handleTabChange("Roadmap")}
               >
                 Roadmap
@@ -180,13 +180,13 @@ function EmployeeAssessmentResult() {
                   activeTab === "My Action Items"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px] font-font-droid`}
                 onClick={() => handleTabChange("My Action Items")}
               >
                 My Action Items
               </button>
 
-              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px] font-abhaya">
+              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px] font-font-droid">
                 Export
               </button>
             </div>
@@ -321,7 +321,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>
@@ -419,7 +419,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>
@@ -513,7 +513,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>
@@ -606,7 +606,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>
@@ -697,7 +697,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>
@@ -780,7 +780,7 @@ function EmployeeAssessmentResult() {
                             </div>
                           </div>
                           <div className="mt-4 md:mt-8">
-                            <button className="bg-[#64A70B] font-abhaya text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
+                            <button className="bg-[#64A70B] font-font-droid text-white py-2 px-4 rounded-md flex justify-between h-[40px] w-[150px] items-center ml-4 md:ml-4">
                               <span className="font-Calibri text-xs">
                                 Define Action Items
                               </span>

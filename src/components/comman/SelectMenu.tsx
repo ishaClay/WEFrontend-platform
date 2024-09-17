@@ -66,7 +66,7 @@ const SelectMenu: FC<IProps> = ({
             <SelectItem
               key={index}
               value={item.value}
-              className={`font-calibri ${itemClassName}`}
+              className={`font-droid ${itemClassName}`}
             >
               {item.label}
             </SelectItem>

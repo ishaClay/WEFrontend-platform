@@ -210,17 +210,17 @@ const ViewSession = ({
                   <img src={documentIcon(documentFile)} alt="documentIcon" />
                 </div>
                 <div>
-                  <h5 className="sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block">
+                  <h5 className="sm:text-base text-sm text-black font-droid pb-2 cursor-pointer inline-block">
                     {documentFile?.split("/").pop()?.split(".")[0]}
                   </h5>
                   {/* <div className="pb-1">
-            <h6 className="text-[#747474] text-xs font-nunito">
+            <h6 className="text-[#747474] text-xs font-droid">
               {list.durationType} 
               {list.duration}
             </h6>
           </div> */}
                   <div className="sm:flex block items-center">
-                    <h6 className="text-[#747474] text-xs uppercase font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+                    <h6 className="text-[#747474] text-xs uppercase font-droid sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
                       {documentType(documentFile)}
                     </h6>
                   </div>
@@ -231,10 +231,10 @@ const ViewSession = ({
           <div className="mt-[20px]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <h3 className="text-[12px] text-[#A3A3A3] font-inter">
+                <h3 className="text-[12px] text-[#A3A3A3] font-droid">
                   Category:
                 </h3>
-                <p className="text-[12px] text-[#00778B] font-inter">
+                <p className="text-[12px] text-[#00778B] font-droid">
                   {data?.course?.courseData
                     ?.map((item: any) => item?.fetchPillar?.pillarName)
                     .join(", ")}
@@ -271,28 +271,28 @@ const ViewSession = ({
                 </div>
               )}
             </div>
-            <h3 className="text-[20px] font-nunito font-bold mt-2 mb-3">
+            <h3 className="text-[20px] font-droid font-bold mt-2 mb-3">
               {list?.title}
             </h3>
             <div className="flex items-center justify-end">
               {/* <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-500"></div>
                 <div>
-                  <h3 className="text-[16px] text-[#000] font-nunito">
+                  <h3 className="text-[16px] text-[#000] font-droid">
                     Devon Lane
                   </h3>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-[12px] text-[#A3A3A3] font-nunito">
+                    <h3 className="text-[12px] text-[#A3A3A3] font-droid">
                       Rating
                     </h3>
-                    <h3 className="text-[12px] text-[#A3A3A3] font-nunito">
+                    <h3 className="text-[12px] text-[#A3A3A3] font-droid">
                       <FaStar className="text-[#FFA25E]" />
                     </h3>
-                    <h3 className="text-[12px] text-[#A3A3A3] font-nunito">
+                    <h3 className="text-[12px] text-[#A3A3A3] font-droid">
                       4/5
                     </h3>
                     <ul className="list-disc list-inside">
-                      <li className="text-[12px] text-[#A3A3A3] font-nunito">
+                      <li className="text-[12px] text-[#A3A3A3] font-droid">
                         100 Views
                       </li>
                     </ul>
@@ -304,7 +304,7 @@ const ViewSession = ({
                   <Button
                     variant={"outline"}
                     type="button"
-                    className="text-[12px] font-nunito "
+                    className="text-[12px] font-droid "
                     onClick={handleCreateGroup}
                     isLoading={creatingCohortGroup}
                     loaderClassName={"text-stone-700"}
@@ -319,7 +319,7 @@ const ViewSession = ({
                     href=""
                     download={list?.attachment}
                     target="_blank"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-nunito cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-droid cursor-pointer"
                   >
                     <Download /> Download
                     {/* {documentType(documentFile)} */}
@@ -328,7 +328,7 @@ const ViewSession = ({
                 {/* <Button
                   variant={"outline"}
                   type="button"
-                  className="text-[12px] font-nunito p-2"
+                  className="text-[12px] font-droid p-2"
                 >
                   <TiArrowForwardOutline className="text-[24px]" />
                 </Button> */}
@@ -336,7 +336,7 @@ const ViewSession = ({
             </div>
             <p
               dangerouslySetInnerHTML={{ __html: list?.information }}
-              className="text-[14px] font-inter text-[#2D2D2D] mt-8 w-[98%] break-all"
+              className="text-[14px] font-droid text-[#2D2D2D] mt-8 w-[98%] break-all"
             ></p>
             {list?.isStatus !== "Completed" && +userData?.query?.role === 4 && (
               <div className="flex items-center justify-center mt-[56px]">
@@ -344,7 +344,7 @@ const ViewSession = ({
                   type="button"
                   isLoading={isPending}
                   onClick={() => handleStatusChanges(2, list?.id)}
-                  className="text-[14px] font-abhaya bg-[#00778B] p-[10px]"
+                  className="text-[14px] font-font-droid bg-[#00778B] p-[10px]"
                 >
                   Mark as Complete
                 </Button>

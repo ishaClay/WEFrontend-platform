@@ -138,7 +138,7 @@ function SupportAddNewTicket() {
   };
 
   return (
-    <div className="h-full bg-[white] rounded-[10px] font-nunitoSans overflow-auto">
+    <div className="h-full bg-[white] rounded-[10px] font-droidSans overflow-auto">
       <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px] ">
         <div>
           <h2 className="font-[700] text-[16px]">Add New Ticket</h2>
@@ -179,7 +179,7 @@ function SupportAddNewTicket() {
                 {...register("assignTo")}
               >
                 <SelectGroup>
-                  <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
+                  <SelectLabel className="mb-[11px] text-base p-0 font-[400]">
                     Assigned To <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
@@ -252,7 +252,7 @@ function SupportAddNewTicket() {
                 {...register("ticketPriority")}
               >
                 <SelectGroup>
-                  <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
+                  <SelectLabel className="mb-[11px] text-base p-0 font-[400]">
                     Ticket Priority <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
@@ -283,7 +283,7 @@ function SupportAddNewTicket() {
                 {...register("ticketType")}
               >
                 <SelectGroup>
-                  <SelectLabel className="mb-[11px] text-base p-0 font-[600]">
+                  <SelectLabel className="mb-[11px] text-base p-0 font-[400]">
                     Ticket Type <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
@@ -324,7 +324,7 @@ function SupportAddNewTicket() {
             <ErrorMessage message={errors?.ticketSubject?.message as string} />
           )}
           <div className="mt-5">
-            <Label className="mb-[10px] text-base p-0 font-[600] block">
+            <Label className="mb-[10px] text-base p-0 font-[400] block">
               Description <span className="text-red-400">*</span>
             </Label>
             <Textarea

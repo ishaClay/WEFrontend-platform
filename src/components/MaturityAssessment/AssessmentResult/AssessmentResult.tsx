@@ -203,7 +203,7 @@ const AssessmentResult = ({
                   background: `linear-gradient(to right, ${label?.color} 10%, #ffffff)`,
                 }}
               ></div>
-              <div className="sm:text-base text-sm text-black font-nunito rounded-r-lg ms-[-30px]">
+              <div className="sm:text-base text-sm text-black font-droid rounded-r-lg ms-[-30px]">
                 {label?.maturityLevelName}
                 {/* <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span> */}
               </div>
@@ -211,14 +211,14 @@ const AssessmentResult = ({
           );
         })}
       <div className="sm:mb-[35px] mb-5">
-        <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px]">
+        <p className="font-droid font-bold text-base text-[#3A3A3A] leading-[18.88px]">
           {/* Total Score - */}
-          {/* <span className="font-calibri font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
+          {/* <span className="font-droid font-bold text-[#3A3A3A] text-[42px] leading-[52px]">
             {assessmentData?.length > 0
               ? points?.totalPoint || 0
               : allassessmant?.data?.data?.avTotalpoints || 0}
           </span>
-          <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+          <span className="font-droid font-extrabold text-base leading-[18.88px] text-[#64A70B]">
             /
             {assessmentData?.length > 0
               ? points?.maxPoint
@@ -230,9 +230,9 @@ const AssessmentResult = ({
   );
 
   return (
-    <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-calibri">
+    <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-droid">
       <div className="">
-        <h4 className="md:text-base text-sm font-bold font-nunito lg:pb-4 pb-0 text-black">
+        <h4 className="md:text-base text-sm font-bold font-droid lg:pb-4 pb-0 text-black">
           Self Assessment Details
         </h4>
         <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5">
@@ -246,19 +246,19 @@ const AssessmentResult = ({
               <div className="w-[117px] h-[2px] bg-[#64A70B] lg:mt-4 mt-1 absolute bottom-0 left-0"></div>
             </h3>
             <div className="max-w-[602.78px]">
-              <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
+              <p className="text-[#3A3A3A] font-droid leading-[20px] lg:text-base sm:text-sm text-xs mb-5 ">
                 Here’s how you performed across the six pillars of
                 sustainability as a business!
               </p>
               <div className="pb-5">
-                <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
+                <h6 className="lg:text-base sm:text-sm-font-droid text-[#3A3A3A] font-semibold">
                   But what does your score really mean?{" "}
                 </h6>
-                <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
+                <h6 className="lg:text-base sm:text-sm font-font-droid text-[#64A70B] font-semibold">
                   This is where your journey begins.
                 </h6>
               </div>
-              <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base sm:text-sm text-xs">
+              <p className="text-[#3A3A3A] font-droid leading-[20px] lg:text-base sm:text-sm text-xs">
                 Now that you know where you stand, it’s time to develop an
                 action plan based on personalized insights to advance your
                 company to its next green stage.
@@ -281,11 +281,11 @@ const AssessmentResult = ({
               </div>
             </div>
             <div className="">
-              <p className="inline font-calibri text-[18px] text-black">
+              <p className="inline font-droid text-[18px] text-black">
                 Your overall sustainability level -
               </p>{" "}
               <Badge
-                className={`font-semibold text-[18px] text-[#000] leading-6 font-calibri bg-gradient-to-r from-[${currentLavel?.color}] from-10% via-[${currentLavel?.color}] via-10% to-transparent to-80% hover:bg-[#fff] border-0 bg-transparent`}
+                className={`font-semibold text-[18px] text-[#000] leading-6 font-droid bg-gradient-to-r from-[${currentLavel?.color}] from-10% via-[${currentLavel?.color}] via-10% to-transparent to-80% hover:bg-[#fff] border-0 bg-transparent`}
               >
                 {currentLavel?.maturityLevelName}
               </Badge>
@@ -296,7 +296,7 @@ const AssessmentResult = ({
 
       <div className="sm:block hidden">
         <div className="flex justify-between items-center mb-5">
-          <h2 className="lg:text-xl sm:text-lg text-base font-calibri font-bold">
+          <h2 className="lg:text-xl sm:text-lg text-base font-droid font-bold">
             How you fared across the maturity levels
           </h2>
         </div>
@@ -345,7 +345,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -363,7 +363,7 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="font-abhaya md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
+              <Button className="font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
                 Intermediate
               </Button>
             </div>
@@ -404,7 +404,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -422,7 +422,7 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-abhaya bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
+              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-font-droid bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
                 Advanced
               </Button>
             </div>
@@ -463,7 +463,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -486,19 +486,19 @@ const AssessmentResult = ({
           <TabsList className="p-0 h-[45px]">
             <TabsTrigger
               value="introductory"
-              className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
+              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
             >
               Introductory
             </TabsTrigger>
             <TabsTrigger
               value="intermediate"
-              className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
+              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
             >
               Intermediate
             </TabsTrigger>
             <TabsTrigger
               value="advanced"
-              className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
+              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
             >
               Advanced
             </TabsTrigger>
@@ -541,7 +541,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -594,7 +594,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -647,7 +647,7 @@ const AssessmentResult = ({
                                   className=""
                                 />
                               </div>
-                              <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                              <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                 {item.pillarname}
                               </h4>
                               <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">

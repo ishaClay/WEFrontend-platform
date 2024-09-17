@@ -65,14 +65,14 @@ const AllocatedCertificatePage = () => {
       accessorKey: "id",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="2xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="2xl:text-[15px] text-xs font-droid text-black">
             #{row.original?.id}
           </h6>
         );
@@ -82,7 +82,7 @@ const AllocatedCertificatePage = () => {
       accessorKey: "employeeName",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Employee Name
           </h5>
         );
@@ -114,14 +114,14 @@ const AllocatedCertificatePage = () => {
       accessorKey: "courseName",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Course Name
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2 2xl:leading-6 leading-4 2xl:w-[70%] w-full">
+          <h6 className="2xl:text-[15px] text-xs font-droid text-black line-clamp-2 2xl:leading-6 leading-4 2xl:w-[70%] w-full">
             {row?.original?.course?.title}
           </h6>
         );
@@ -131,14 +131,14 @@ const AllocatedCertificatePage = () => {
       accessorKey: "certificateTitle",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Certificate Title
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
+          <h6 className="2xl:text-[15px] text-xs font-droid text-black line-clamp-2">
             {row.original?.course?.certificate as any}
           </h6>
         );
@@ -148,14 +148,14 @@ const AllocatedCertificatePage = () => {
       accessorKey: "date",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Date
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="2xl:text-[15px] text-xs font-inter text-black line-clamp-2">
+          <h6 className="2xl:text-[15px] text-xs font-droid text-black line-clamp-2">
             {moment(new Date(row?.original?.employee?.createdAt || "")).format(
               "DD/MM/YYYY"
             )}
@@ -167,7 +167,7 @@ const AllocatedCertificatePage = () => {
       accessorKey: "status",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Status
           </h5>
         );
@@ -193,7 +193,7 @@ const AllocatedCertificatePage = () => {
       accessorKey: "action",
       header: () => {
         return (
-          <h5 className="font-medium 2xl:text-base text-xs text-black font-inter">
+          <h5 className="font-medium 2xl:text-base text-xs text-black font-droid">
             Action
           </h5>
         );
@@ -288,10 +288,10 @@ const AllocatedCertificatePage = () => {
     <div className="bg-white rounded-lg">
       <div className="sm:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
-          <h6 className="text-[16px] font-semibold font-calibri pb-1">
+          <h6 className="text-[16px] font-semibold font-droid pb-1">
             Issue Certificate
           </h6>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             All the certificates you’ve awarded to trainees so far
           </p>
         </div>
@@ -300,7 +300,7 @@ const AllocatedCertificatePage = () => {
             disabled={
               userData?.query?.role === "3" && !permissions?.certificate
             }
-            className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-nunito sm:mt-0 mt-3"
+            className="uppercase px-5 py-2 bg-[#00778B] xl:text-base text-sm text-white font-droid sm:mt-0 mt-3"
             onClick={() => {
               navigate(
                 `/${UserRole[
@@ -339,7 +339,7 @@ const AllocatedCertificatePage = () => {
           <Search className="text-[#A3A3A3] absolute left-4" width={18} />
           <Input
             value={search}
-            className=" text-[15px] font-inter pr-4 pl-12 h-full"
+            className=" text-[15px] font-droid pr-4 pl-12 h-full"
             placeholder="Search by name, course name, certificate name, etc."
             onChange={(e) => setSearch(e.target.value)}
           />

@@ -32,7 +32,7 @@ const UserManual = () => {
 
   return (
     <div className="bg-white rounded-md">
-      <h6 className="text-base font-calibri font-bold leading-5 sm:py-5 sm:px-7 p-5 border-b border-[#D9D9D9]">
+      <h6 className="text-base font-droid font-bold leading-5 sm:py-5 sm:px-7 p-5 border-b border-[#D9D9D9]">
         User Manual
       </h6>
       <div

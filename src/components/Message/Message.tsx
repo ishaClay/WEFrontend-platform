@@ -580,13 +580,13 @@ const Message = () => {
               <Input
                 type="text"
                 placeholder="Show Search by Name"
-                className="h-[42px] md:w-full sm:w-[400px] w-full border text-[15px] leading-[19.5] bg-[white] pl-[39px] pr-4 py-[13px] border-solid border-[#D9D9D9] font-inter"
+                className="h-[42px] md:w-full sm:w-[400px] w-full border text-[15px] leading-[19.5] bg-[white] pl-[39px] pr-4 py-[13px] border-solid border-[#D9D9D9] font-droid"
                 value={searchChat}
                 onChange={(e) => setSearchChat(e.target.value)}
               />
             </div>
             <Button
-              className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri md:hidden flex !mt-0"
+              className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-droid md:hidden flex !mt-0"
               onClick={() => {
                 dispatch(
                   setPath([
@@ -656,18 +656,18 @@ const Message = () => {
                       </div>
                       <div className="ml-[15px] w-[calc(100%-57px)]">
                         <div className="flex justify-between mb-0.5">
-                          <div className="leading-[19.53px] text-[black] text-base font-calibri">
+                          <div className="leading-[19.53px] text-[black] text-base font-droid">
                             {item?.group
                               ? item?.name
                               : item?.fname && item?.lname
                               ? item?.fname + " " + item?.lname
                               : item?.name || item?.email?.split("@")?.[0]}
                           </div>
-                          <div className="text-xs font-inter leading-[15.6px] text-[black]">
+                          <div className="text-xs font-droid leading-[15.6px] text-[black]">
                             {TimeFormatter(item?.last_msg_time)}
                           </div>
                         </div>
-                        <div className="text-xs font-calibri text-[#A3A3A3] mb-[5px] leading-[15.6px]">
+                        <div className="text-xs font-droid text-[#A3A3A3] mb-[5px] leading-[15.6px]">
                           {item?.role === UserRole.Company
                             ? "Company"
                             : item?.role === UserRole.Trainer
@@ -682,7 +682,7 @@ const Message = () => {
                             ? "Group"
                             : "Client"}
                         </div>
-                        <p className="text-[#606060] overflow-hidden flex justify-between items-center text-base font-calibri">
+                        <p className="text-[#606060] overflow-hidden flex justify-between items-center text-base font-droid">
                           <span className="w-[80%] text-sm overflow-hidden whitespace-nowrap text-ellipsis line-clamp-1">
                             {item?.last_msg}
                           </span>
@@ -747,7 +747,7 @@ const Message = () => {
               <div></div>
             )}
             <Button
-              className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-calibri"
+              className="p-2.5 bg-[#00778B] hover:bg-[#00778B] text-sm font-droid"
               onClick={() => {
                 dispatch(
                   setPath([

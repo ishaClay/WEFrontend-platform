@@ -184,14 +184,14 @@ const ForumPage = () => {
               </div>
 
               <div className="">
-                <h5 className="text-black text-base font-abhaya">
+                <h5 className="text-black text-base font-font-droid">
                   {userData?.query?.fname || userData?.query?.lname
                     ? `${userData?.query?.fname || ""} ${" "} ${
                         userData?.query?.lname || ""
                       }`.trim()
                     : userData?.query?.email?.split("@")[0]}
                 </h5>
-                <h6 className="text-[rgb(91,91,91)] text-xs font-inter">
+                <h6 className="text-[rgb(91,91,91)] text-xs font-droid">
                   {+userData?.query?.role === UserRole.Company
                     ? "Company"
                     : +userData?.query?.role === UserRole.Trainer
@@ -250,7 +250,7 @@ const ForumPage = () => {
                 key={x?.id}
               >
                 <div className="xl:px-6 px-4 xl:py-4 py-3 border-b border-[#D9D9D9]">
-                  <h3 className="text-lg text-black pb-2.5 font-bold font-inter">
+                  <h3 className="text-lg text-black pb-2.5 font-bold font-droid">
                     {x?.question}
                   </h3>
 
@@ -270,12 +270,12 @@ const ForumPage = () => {
                       </Avatar>
                     </div>
                     <div className="">
-                      <h5 className="text-black text-base font-abhaya">
-                        {x?.user?.fname+ " " + x?.user?.lname ||
+                      <h5 className="text-black text-base font-font-droid">
+                        {x?.user?.fname + " " + x?.user?.lname ||
                           x?.user?.email?.split("@")[0]}
                       </h5>
                       <div className="flex gap-2.5">
-                        <h6 className="text-[#5B5B5B] text-xs font-inter">
+                        <h6 className="text-[#5B5B5B] text-xs font-droid">
                           {userData?.role === UserRole.Company
                             ? "Company"
                             : userData?.role === UserRole.Trainer
@@ -288,7 +288,7 @@ const ForumPage = () => {
                             ? "Super Admin"
                             : "Client"}
                         </h6>
-                        <h6 className="text-[#5B5B5B] text-xs font-inter">
+                        <h6 className="text-[#5B5B5B] text-xs font-droid">
                           {getTimeAgo(x.createdAt)}
                         </h6>
                       </div>
@@ -308,7 +308,7 @@ const ForumPage = () => {
                           isLike: true,
                         });
                       }}
-                      className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
+                      className="text-base text-[#606060] font-droid flex items-center gap-2 cursor-pointer group"
                     >
                       <>
                         {likeDislikeLoading &&
@@ -347,7 +347,7 @@ const ForumPage = () => {
                           isLike: false,
                         });
                       }}
-                      className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
+                      className="text-base text-[#606060] font-droid flex items-center gap-2 cursor-pointer group"
                     >
                       <>
                         {likeDislikeLoading &&
@@ -376,7 +376,7 @@ const ForumPage = () => {
                       Dislike ({x?.unlike?.length})
                     </li>
                     <li
-                      className="text-base text-[#606060] font-inter flex items-center gap-2 cursor-pointer group"
+                      className="text-base text-[#606060] font-droid flex items-center gap-2 cursor-pointer group"
                       onClick={() => setopenCommnet(x?.id)}
                     >
                       <MessageCircle

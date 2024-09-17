@@ -136,7 +136,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">
           <div className="flex justify-between items-center">
-            <h6 className="text-base text-black font-calibri pb-3">
+            <h6 className="text-base text-black font-droid pb-3">
               Assessment Type
             </h6>
             <CircleX
@@ -148,10 +148,10 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
             <input
               placeholder="Free Text Response"
               disabled
-              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+              className="border border-[#D9D9D9] bg-[#FBFBFB] rounded-md w-full px-4 py-3  font-base font-droid text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             />
             <div className="flex items-center">
-              <label className="me-3 text-[#515151] text-base font-calibri">
+              <label className="me-3 text-[#515151] text-base font-droid">
                 Point
               </label>
               <Input
@@ -184,13 +184,13 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
           </div>
         </div>
         <div className="">
-          <h6 className="text-base text-black font-calibri pb-3">
+          <h6 className="text-base text-black font-droid pb-3">
             Enter Question
           </h6>
           <div className="flex justify-between items-center w-full">
             <Input
               placeholder="Enter the question"
-              className=" font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto"
+              className=" font-base font-droid text-[#1D2026] w-full px-4 py-3 h-auto"
               onChange={(e) => {
                 handleChangeValue(e);
               }}
@@ -207,7 +207,7 @@ const AssecessmentFreeText = forwardRef<Validatable, AssecessmentTypeProps>(
             <p className="text-red-500 text-sm">{errors.question}</p>
           )}
           <div className="mt-5">
-            <label className="mb-3 text-[#515151] text-base block font-calibri">
+            <label className="mb-3 text-[#515151] text-base block font-droid">
               Answer Keywords (Enter Comma Separated keywords)
             </label>
             <textarea

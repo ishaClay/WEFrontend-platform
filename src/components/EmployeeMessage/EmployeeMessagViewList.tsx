@@ -1,3 +1,4 @@
+import { useChatBotContext } from "@/context/chatBotContext";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { chatDPColor, TimeFormatter } from "@/lib/utils";
@@ -14,7 +15,6 @@ import Loader from "../comman/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
 import MessageDetails from "./MessageDetails";
-import { useChatBotContext } from "@/context/chatBotContext";
 
 const EmployeeMessagViewList = () => {
   const [empId, setEmpId] = useState<null | DataEntity>(null);
@@ -61,7 +61,7 @@ const EmployeeMessagViewList = () => {
           <div className="relative">
             <Input
               placeholder="Search..."
-              className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-inter text-[15px] h-10 ps-10"
+              className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-droid text-[15px] h-10 ps-10"
             />
             <Search
               width={16}
@@ -113,21 +113,21 @@ const EmployeeMessagViewList = () => {
                         </div>
                         <div className="relative">
                           <div className="flex items-start justify-between">
-                            <h5 className="text-[16px] font-abhaya font-semibold text-black">
+                            <h5 className="text-[16px] font-font-droid font-semibold text-black">
                               {data.name}
                             </h5>
                           </div>
-                          <p className="text-sm line-clamp-1 font-abhaya font-semibold text-[#606060] max-w-[92%]">
+                          <p className="text-sm line-clamp-1 font-font-droid font-semibold text-[#606060] max-w-[92%]">
                             {data.last_msg}
                           </p>
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm font-abhaya max-w-[50px] w-full font-semibold text-[#606060]">
+                        <div className="text-sm font-font-droid max-w-[50px] w-full font-semibold text-[#606060]">
                           <span>{TimeFormatter(data.last_msg_time)}</span>
                         </div>
                         {data?.count > 0 && (
-                          <span className="absolute bottom-0.5 right-0 text-[14px] flex items-center justify-center font-abhaya font-semibold bg-[#76BC41] w-4 h-4 rounded-full text-white">
+                          <span className="absolute bottom-0.5 right-0 text-[14px] flex items-center justify-center font-font-droid font-semibold bg-[#76BC41] w-4 h-4 rounded-full text-white">
                             {data?.count}
                           </span>
                         )}
