@@ -30,22 +30,22 @@ const TeamProgresslist = ({ data }: ProgressList) => {
       </div>
       <div className="xl:flex block 2xl:gap-[60px] gap-[30px] items-center">
         <div className="xl:mb-0 mb-3">
-          <h6 className="text-left text-base text-black font-font-droid font-semibold">
+          <h6 className="text-left text-base text-black font-font-droid font-normal">
             Action Items
           </h6>
           <ul className="flex md:flex-nowrap flex-wrap sm:gap-4 gap-2">
-            <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold text-black">
+            <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal text-black">
               Assigned
               <span className="block">{data?.measureStatus?.assigned}</span>
             </li>
-            <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold">
+            <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal">
               Delayed
               <span className="block">{data?.measureStatus?.delayed}</span>
             </li>
-            <li className="bg-[#FFD56A] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold text-black">
+            <li className="bg-[#FFD56A] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal text-black">
               Ontime<span className="block">{data?.measureStatus?.ontime}</span>
             </li>
-            <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold text-white">
+            <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal text-white">
               Completed
               <span className="block">{data?.measureStatus?.completed}</span>
             </li>
@@ -56,15 +56,15 @@ const TeamProgresslist = ({ data }: ProgressList) => {
             Courses
           </h6>
           <ul className="flex sm:gap-4 gap-2">
-            <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold text-black">
+            <li className="bg-[#dadada] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal text-black">
               Assigned
               <span className="block">{data?.courseStatus?.totalAssigned}</span>
             </li>
-            <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold">
+            <li className="bg-[#F63636] text-white rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal">
               In Progress
               <span className="block">{data?.courseStatus?.inprogress}</span>
             </li>
-            <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-semibold text-white">
+            <li className="bg-[#64A70B] rounded-full py-2 sm:w-[90px] w-[70px] text-xs font-font-droid font-normal text-white">
               Completed
               <span className="block">{data?.courseStatus?.completed}</span>
             </li>

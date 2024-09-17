@@ -1,4 +1,5 @@
 import Loader from "@/components/comman/Loader";
+import NoDataText from "@/components/comman/NoDataText";
 import Paginations from "@/components/comman/Pagination";
 import { QUERY_KEYS } from "@/lib/constants";
 import { fetchDocument } from "@/services/apiServices/Document";
@@ -49,11 +50,11 @@ const UserManual = () => {
             return <UserManualList list={user} index={index + 1} key={index} />;
           })
         ) : (
-          <span className="py-10 flex justify-center">No data</span>
+          <NoDataText message="No data found" />
         )}
       </div>
       <div className="pb-4">
-        {userManual_List?.metadata?.totalPages &&
+        {!!userManual_List?.metadata?.totalPages &&
           userManual_List?.metadata?.totalPages > 1 && (
             <Paginations
               currentPage={userManual_List?.metadata?.currentPage || 1}
