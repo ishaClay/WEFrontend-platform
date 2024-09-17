@@ -35,7 +35,7 @@ export function BreadcrumbWithCustomSeparator() {
                           index === paths?.length - 1 && index > 0
                             ? " "
                             : "text-[#000000]"
-                        } font-Nunito font-sans capitalize font-medium`}
+                        } capitalize font-medium`}
                         to={item.link}
                         onClick={() =>
                           dispatch(
@@ -58,7 +58,7 @@ export function BreadcrumbWithCustomSeparator() {
                     index === paths?.length - 1 && index > 0
                       ? "text-[#64748B] font-medium"
                       : "text-[#000000]"
-                  } font-Nunito font-sans capitalize font-medium`}
+                  } capitalize font-medium`}
                 >
                   {index > 0 && " / "} {item.label}
                 </BreadcrumbItem>

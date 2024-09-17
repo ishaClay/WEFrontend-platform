@@ -104,15 +104,16 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
         <div className="flex sm:justify-end justify-center items-center gap-5">
           <Button
             type="submit"
-            className="w-[100px] bg-[#64A70B] h-12 text-base font-droid font-bold"
+            className="w-[100px] bg-primary-button h-12 text-base font-droid font-bold"
             isLoading={isPendingMutation}
           >
             Save
           </Button>
           <Button
             type="button"
+            variant={"outline"}
             onClick={onClose}
-            className="w-[100px] bg-[#E41B1B] h-12 text-base font-droid font-bold"
+            className="w-[100px]  h-12 text-base font-droid "
           >
             Cancel
           </Button>

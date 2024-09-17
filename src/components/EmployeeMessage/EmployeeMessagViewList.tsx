@@ -113,21 +113,21 @@ const EmployeeMessagViewList = () => {
                         </div>
                         <div className="relative">
                           <div className="flex items-start justify-between">
-                            <h5 className="text-[16px] font-font-droid font-semibold text-black">
+                            <h5 className="text-[16px] font-font-droid text-black">
                               {data.name}
                             </h5>
                           </div>
-                          <p className="text-sm line-clamp-1 font-font-droid font-semibold text-[#606060] max-w-[92%]">
+                          <p className="text-sm line-clamp-1 font-font-droid text-[#606060] max-w-[92%]">
                             {data.last_msg}
                           </p>
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm font-font-droid max-w-[50px] w-full font-semibold text-[#606060]">
+                        <div className="text-sm font-font-droid max-w-[50px] w-full text-[#606060]">
                           <span>{TimeFormatter(data.last_msg_time)}</span>
                         </div>
                         {data?.count > 0 && (
-                          <span className="absolute bottom-0.5 right-0 text-[14px] flex items-center justify-center font-font-droid font-semibold bg-[#76BC41] w-4 h-4 rounded-full text-white">
+                          <span className="absolute bottom-0.5 right-0 text-[14px] flex items-center justify-center font-font-droid bg-[#76BC41] w-4 h-4 rounded-full text-white">
                             {data?.count}
                           </span>
                         )}

@@ -33,9 +33,7 @@ function TeamMemberDropdown() {
                 <span className="text-[16px] text-[#FFFFFF]">
                   Evergrow Green
                 </span>
-                <span className="text-[12px] font-sans text-[#FFFFFF]">
-                  Team Member
-                </span>
+                <span className="text-[12px]  text-[#FFFFFF]">Team Member</span>
               </div>
             </div>
           </DropdownMenuLabel>

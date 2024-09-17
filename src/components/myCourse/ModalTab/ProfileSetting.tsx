@@ -368,7 +368,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 />
                 <Label
                   htmlFor="option-one"
-                  className="text-[#000] text-sm font-sans peer-disabled:cursor-default"
+                  className="text-[#000] text-sm  peer-disabled:cursor-default"
                 >
                   Male
                 </Label>
@@ -382,7 +382,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 />
                 <Label
                   htmlFor="option-two"
-                  className="text-[#000] text-sm font-sans peer-disabled:cursor-default"
+                  className="text-[#000] text-sm  peer-disabled:cursor-default"
                 >
                   Female
                 </Label>

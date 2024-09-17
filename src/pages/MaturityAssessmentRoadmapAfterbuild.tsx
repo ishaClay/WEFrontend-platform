@@ -123,7 +123,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                               <path d="M87.85 41.551L5.545 1.167C2.414-0.369-0.979 2.725 0.263 5.984l14.342 37.648c0.336 0.881 0.336 1.854 0 2.735L0.263 84.016c-1.241 3.259 2.152 6.353 5.282 4.817L87.85 48.449C90.717 47.043 90.717 42.957 87.85 41.551z" />
                             </svg>
                           </div>
-                          <div className="text-white mt-4 text-center font-sans rounded-full bg-[#2C9367] bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">
+                          <div className="text-white mt-4 text-center  rounded-full bg-[#2C9367] bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">
                             Advanced
                           </div>
                         </div>
@@ -347,7 +347,7 @@ function MaturityAssessmentRoadmapAfterbuild() {
                               <path d="M 87.85 41.551 L 5.545 1.167 C 2.414 -0.369 -0.979 2.725 0.263 5.984 l 14.342 37.648 c 0.336 0.881 0.336 1.854 0 2.735 L 0.263 84.016 c -1.241 3.259 2.152 6.353 5.282 4.817 L 87.85 48.449 C 90.717 47.043 90.717 42.957 87.85 41.551 z" />
                             </svg>
                           </div>
-                          <div className=" text-white mt-4 text-center font-sans rounded-full bg-[#2C9367] bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">
+                          <div className=" text-white mt-4 text-center  rounded-full bg-[#2C9367] bg-opacity-70 h-8 w-24 flex items-center justify-center ml-[160px]">
                             Advanced
                           </div>
                         </div>

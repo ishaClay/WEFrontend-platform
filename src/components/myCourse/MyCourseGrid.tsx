@@ -134,7 +134,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               <div className="flex items-center">
                 <img src={TimesheetImage} alt="" />
                 <p className="text-xs font-droid font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.course?.duration}
+                  {grid?.course?.duration || "-"}
                 </p>
               </div>
             </div>
@@ -142,7 +142,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               <div className="flex items-center">
                 <img src={GraduationCapImage} alt="" />
                 <p className="text-xs font-droid font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.course?.otherInstitutionName}
+                  {grid?.course?.otherInstitutionName || "-"}
                 </p>
               </div>
               <div className="flex items-center">
@@ -163,7 +163,7 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
               <div className="flex items-center">
                 <img src={UniversityImage} alt="" />
                 <p className="text-xs font-droid font-normal text-[#3A3A3A] leading-6 pl-1 sm:line-clamp-2 line-clamp-1">
-                  {grid?.course?.institute}
+                  {grid?.course?.institute || "-"}
                 </p>
               </div>
             </div>

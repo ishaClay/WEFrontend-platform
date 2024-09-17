@@ -121,8 +121,8 @@ const MaturityLevelModel = ({
             </div>
           </div>
         </div>
-        <div className="h-[105px] w-[270px] ">
-          <div className="ml-3 mt-2 h-[25px] w-[230px]">
+        <div className="h-[105px] ">
+          <div className="ml-3 mt-2 h-[25px]">
             <h2 className=" text-xm text-[#1D2026] font-font-droid text-lg font-semibold">
               Where your answers put you
             </h2>

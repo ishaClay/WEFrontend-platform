@@ -89,7 +89,7 @@ const MyCourse = () => {
                     ])
                   );
                 }}
-                className="text-base font-medium leading-5 font-sans bg-[#00778B]"
+                className="text-base font-medium leading-5  bg-[#00778B]"
               >
                 ADD NEW COURSE
               </Button>
