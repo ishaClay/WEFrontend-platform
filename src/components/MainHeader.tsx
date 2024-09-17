@@ -188,12 +188,10 @@ const MainHeader = () => {
                     </Avatar>{" "}
                     <div className="flex items-center">
                       <div className="lg:block hidden text-left">
-                        <h5 className="xl:text-base text-sm font-droid text-black font-semibold capitalize">
+                        <h5 className="xl:text-base text-sm font-droid text-black font-medium capitalize">
                           Hi,{" "}
-                          {userData?.query?.fname || userData?.query?.lname
-                            ? `${userData?.query?.fname || ""} ${
-                                userData?.query?.lname || ""
-                              }`.trim()
+                          {userData?.query?.fname
+                            ? `${userData?.query?.fname || ""}`.trim()
                             : userData?.query?.email?.split("@")[0]}
                         </h5>
                         <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
@@ -203,7 +201,7 @@ const MainHeader = () => {
                             ? "SME Company"
                             : "Trainer"}
                         </h6>
-                        <p>
+                        <p className="max-w-[150px] truncate">
                           {+userRole === 1
                             ? userData?.query?.name
                             : +userRole === 2

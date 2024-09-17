@@ -30,7 +30,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Reach An Ireland-Wide Audience
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-medium traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
                 You’re never limited by your geography, reach a national
                 sustainability-ready audience.
               </p>
@@ -44,7 +44,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Deliver Your Courses With Ease
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-medium traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
                 The built-in learning management system enables you to focus on
                 your content, and we’ll take care of the delivery and
                 route-to-market
@@ -62,7 +62,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Engage & Collaborate With Trainers
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-medium traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
                 On our marketplace-oriented platform.
               </p>
             </div>
@@ -78,7 +78,7 @@ const TrainingProviders = () => {
               <h3 className="text-lg font-d-din-pro font-semibold leading-5">
                 Gain Strategic Insights Via Analytics
               </h3>
-              <p className="mt-[8px] leading-[18px] text-base font-bold traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
+              <p className="mt-[8px] leading-[18px] text-base font-medium traking-[-4%] font-droid text-[#4E5566] line-clamp-3">
                 Hone your training using our targeted analytics that reports on
                 learner performance and market demand.
               </p>
@@ -89,7 +89,7 @@ const TrainingProviders = () => {
           type="button"
           variant={"default"}
           onClick={() => navigate("/trainer-regestration")}
-          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-font-droid m-auto w-[278px] sm:h-[59px] h-[44px] bg-[#75BD43] secondary-text md:mt-8 mt-6"
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px] text-lg font-normal font-font-droid m-auto w-[278px] sm:h-[59px] h-[44px] bg-[#75BD43] secondary-text md:mt-8 mt-6"
         >
           <div>Register As A Trainer Now</div>
           <div>

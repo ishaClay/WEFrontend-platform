@@ -156,13 +156,15 @@ const EmployeeHeader = () => {
                   </div>
                   <div className="flex items-center">
                     <div className="lg:block hidden text-left">
-                      <h5 className="xl:text-base text-sm font-droid text-black font-semibold capitalize">
+                      <h5 className="xl:text-base text-sm font-droid text-black font-medium capitalize">
                         Hi, {userName}
                       </h5>
                       <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
                         {+userRole === 4 && "Employee"}
                       </h6>
-                      <p>{userData?.company?.userDetails?.name}</p>
+                      <p className="max-w-[150px] truncate">
+                        {userData?.company?.userDetails?.name}
+                      </p>
                     </div>
                     <IoMdArrowDropdown className="w-[20px] h-[20px] ml-2" />
                   </div>

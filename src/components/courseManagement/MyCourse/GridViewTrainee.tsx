@@ -325,10 +325,10 @@ const GridViewTrainee = ({
             item?.version &&
             item?.version
               .filter((itm: any) => {
-                if (
+                if (pv
                   isMyCoursesPath &&
                   isPublished &&
-                  userData?.query?.detailsid === itm
+                  userData?.query?.detailsid !== itm?.trainerId?.id
                 ) {
                   return itm.version === item?.currentVersion?.version;
                 }
@@ -352,10 +352,10 @@ const GridViewTrainee = ({
               ? permissions?.updateCourse
               : item.status === "PUBLISHED" && isSelfCreated);
 
-          const showEdit = pathName === "mycourses" && item.status === "DRAFT";
+          const showEdit = pathName === "mycourses" && item?.status === "DRAFT";
           const showDelete =
             pathName === "mycourses" &&
-            item.status !== "PUBLISHED" &&
+            item?.status !== "PUBLISHED" &&
             isSelfCreated;
 
           return (

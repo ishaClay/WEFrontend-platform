@@ -102,7 +102,7 @@ const AllocatedCertificatePage = () => {
               </AvatarFallback>
             </Avatar>
 
-            <p className={`font-bold px-3`}>
+            <p className={`font-normal px-3`}>
               {row?.original?.employee?.name ||
                 row?.original?.employee?.email?.split("@")[0]}
             </p>

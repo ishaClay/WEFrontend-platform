@@ -294,7 +294,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"SME Organisation"}
                   placeholder={"SME Organisation"}
                   {...register("smeOrganisation")}
-                  className="font-bold text-slate-900 disabled:font-normal disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:font-normal disabled:opacity-100 disabled:text-[#000]"
                   disabled
                   error={errors?.smeOrganisation?.message as string}
                 />
@@ -304,7 +304,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   label={"Company Id"}
                   placeholder={"Company Id"}
                   disabled
-                  className="font-bold text-slate-900 disabled:font-normal disabled:text-[#000]"
+                  className="font-bold text-slate-900 disabled:font-normal disabled:opacity-100 disabled:text-[#000]"
                   value={data?.data?.companyDetails?.companyId}
                   error={errors?.smeOrganisation?.message as string}
                 />

@@ -57,8 +57,6 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    --font-nunito: Nunito;
   }
 
   .dark {
@@ -146,6 +144,11 @@ body {
 code {
   /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", */
   font-family: "Droid Sans";
+}
+
+button {
+  /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", */
+  font-weight: 400 !important;
 }
 
 .slick-dots {

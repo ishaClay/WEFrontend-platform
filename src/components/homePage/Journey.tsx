@@ -28,7 +28,7 @@ const Journey = () => {
               navigate("/register");
               setSelectedRole("");
             }}
-            className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] lg:text-[20px] text-lg leading-5 font-font-droid font-bold flex items-center justify-center gap-[10px] bg-[#75BD43]"
+            className="w-[229px] h-[44px] rounded-[4px] md:mt-[36px] sm:mt-[28px] mt-[23px] lg:text-[20px] text-lg leading-5 font-font-droid font-normal flex items-center justify-center gap-[10px] bg-[#75BD43]"
           ></SecondaryButton>
         </div>
       </div>
