@@ -43,13 +43,12 @@ const SetTarget = ({
   >([]);
   const [actionItemsList, setActionItemsList] = useState<boolean>(true);
 
-  const { data: maturitypillar, isPending } = useQuery<AllActionDataPillerWise>(
-    {
+  const { data: maturitypillar, isFetching } =
+    useQuery<AllActionDataPillerWise>({
       queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
       queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
       enabled: !!selectAssessment,
-    }
-  );
+    });
   const path = 5 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
@@ -87,10 +86,12 @@ const SetTarget = ({
     EnumUpadate();
   };
 
+  console.log("isLoading", isFetching);
+
   return (
     <div>
       <div className="h-full w-full max-w-full mx-auto">
-        {isPending ? (
+        {isFetching ? (
           <Loader className="w-8 h-8" />
         ) : (
           checkedStates &&
