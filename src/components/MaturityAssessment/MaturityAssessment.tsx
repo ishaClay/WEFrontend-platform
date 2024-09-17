@@ -176,32 +176,49 @@ const MaturityAssessment = () => {
       }, 0)) ||
     0;
 
-  const completionDate =
-    assessmentData?.length > 0
-      ? // @ts-ignore
-        moment(new Date(assessmentData?.[0]?.createdAt || "")).format(
-          "DD/MM/YYYY"
-        )
-      : moment(
-          new Date(getCheckedmeasures?.data?.data?.[0]?.createdAt || "")
-        ).format("DD/MM/YYYY");
-
   console.log(
-    "++++++++++++++++++++++++++++++++++",
-    Role === "employee",
-    empPermissions?.retakeSelfAssessment
+    "assessmentQuestionScoreLIST?.data?.length",
+    assessmentQuestionScoreLIST?.data
   );
 
+  const completionDate = useMemo(() => {
+    if (assessmentQuestionScoreLIST?.data?.length) {
+      const lastAssessmentNumber = assessmentQuestionScoreLIST?.data.filter(
+        (a: any) => a.completedAssessmentDate
+      ); // Filter out assessments with no completed date
+      const data = {
+        name: lastAssessmentNumber?.find(
+          (item: any) => +item?.assessmentNumber === +selectAssessment
+        )?.assessmentName,
+        date: moment(
+          lastAssessmentNumber?.find(
+            (item: any) => +item?.assessmentNumber === +selectAssessment
+          )?.completedAssessmentDate
+        ).format("DD/MM/YYYY"),
+      };
+      return data;
+    } else {
+      const data = {
+        name: assessmentQuestionScoreLIST?.data?.[0]?.assessmentName,
+        date: moment(
+          assessmentQuestionScoreLIST?.data?.[0]?.completedAssessmentDate
+        ).format("DD/MM/YYYY"),
+      };
+      return data;
+    }
+  }, [assessmentQuestionScoreLIST, selectAssessment]);
+
+  console.log("🚀 ~ MaturityAssessment ~ completionDate:", completionDate);
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">
         <div className="">
           <h5 className="text-base tetx-black font-droid font-bold pb-1.5">
-            Baseline Self Assessment
+            {completionDate?.name || "Baseline Self Assessment"}
           </h5>
           {getCheckedmeasures?.data?.data?.length > 0 && (
             <h6 className="text-xs text-[#606060] font-bold font-droid">
-              Completion Date : {completionDate}
+              Completion Date : {completionDate?.date}
             </h6>
           )}
         </div>
@@ -231,7 +248,7 @@ const MaturityAssessment = () => {
               value={selectAssessment}
             >
               <SelectTrigger
-                className={`bg-white  w-[280px] text-black border-none bg-transparent text-xs font-droid font-bold px-0 [&>span]:w-[280px]`}
+                className={`bg-white  w-[200px] text-black border-none bg-transparent text-xs font-droid font-bold px-0 [&>span]:w-[200px]`}
               >
                 <SelectValue />
               </SelectTrigger>
@@ -315,7 +332,7 @@ const MaturityAssessment = () => {
                             fetchClientmaturitylevel?.data
                           }
                           assessmentPercentage={assessmentPercentage}
-                          completionDate={completionDate}
+                          completionDate={completionDate?.date}
                         />
                       }
                       fileName="Action-Items.pdf"

@@ -28,7 +28,7 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
     }
     return (
       <Badge
-        className={`py-[6px] px-2.5 rounded-full text-xs text-black ${
+        className={`py-[6px] px-2.5 font-normal rounded-full text-xs text-black ${
           statusName === "Completed"
             ? "bg-[#51FFCB] hover:bg-[#51FFCB]"
             : statusName === "Ongoing"
@@ -88,19 +88,19 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
 
   return (
     <div className="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 gap-2 w-full items-center">
-      <div className="col-span-1 text-left font-semibold sm:text-base text-[15px] font-droid">
+      <div className="col-span-1 text-left font-normal sm:text-base text-[15px] font-droid">
         <h5>Cohort Group:</h5>
         <h6>{data?.name}</h6>
       </div>
-      <div className="col-span-1 text-left font-semibold sm:text-base text-[15px] font-droid">
+      <div className="col-span-1 text-left font-normal sm:text-base text-[15px] font-droid">
         <h5>Enrolled Companies:</h5>
         <h6>{data.company?.length}</h6>
       </div>
-      <div className="col-span-1 text-left font-semibold sm:text-base text-[15px] font-droid">
+      <div className="col-span-1 text-left font-normal sm:text-base text-[15px] font-droid">
         <h5>Enrolled Employees:</h5>
         <h6>{data.employee?.length}</h6>
       </div>
-      <div className="col-span-1 sm:text-left text-right font-semibold sm:text-base text-[15px] font-droid">
+      <div className="col-span-1 sm:text-left text-right font-normal sm:text-base text-[15px] font-droid">
         {getDateBadgeStatus()}
       </div>
       <div className="col-span-1">
@@ -127,7 +127,7 @@ const EnrolledCourseDetailsItems = ({ data }: detailsListProps) => {
           </Button>
         )}
       </div>
-      <div className="sm:col-span-1 col-span-2 text-left font-semibold sm:text-base text-[15px] font-droid">
+      <div className="sm:col-span-1 col-span-2 text-left font-normal sm:text-base text-[15px] font-droid">
         <span className="block">
           Start Date: {data?.slotStartDate?.date}-{data?.slotStartDate?.month}-
           {data?.slotStartDate?.year}

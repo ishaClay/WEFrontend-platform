@@ -327,7 +327,7 @@ const ListViewTrainee = ({
 
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
           const isMyCoursesPath = pathName === "mycourses";
-          const isPublished = data.status === "PUBLISHED";
+          const isPublished = data?.status === "PUBLISHED";
           const versionOption =
             data?.version &&
             data?.version
@@ -353,12 +353,12 @@ const ListViewTrainee = ({
             pathName === "mycourses" &&
             (isAllocated
               ? permissions?.updateCourse
-              : data.status === "PUBLISHED" && isSelfCreated);
+              : data?.status === "PUBLISHED" && isSelfCreated);
 
-          const showEdit = pathName === "mycourses" && data.status === "DRAFT";
+          const showEdit = pathName === "mycourses" && data?.status === "DRAFT";
           const showDelete =
             pathName === "mycourses" &&
-            data.status !== "PUBLISHED" &&
+            data?.status !== "PUBLISHED" &&
             isSelfCreated;
 
           return (

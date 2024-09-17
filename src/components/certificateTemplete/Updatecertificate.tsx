@@ -509,7 +509,7 @@ const Addcertificate = () => {
                             message={errors?.backgroundImage?.message as string}
                           />
                         )}
-                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[155px] h-[44px]">
+                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[185px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
@@ -541,7 +541,7 @@ const Addcertificate = () => {
                             message={errors?.companyLogo1?.message as string}
                           />
                         )}
-                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[155px] h-[44px]">
+                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[185px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
@@ -619,9 +619,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-2 h-[48px]">
-                          <h2 className="font-normal font-font-droid">
-                            Body
-                          </h2>
+                          <h2 className="font-normal font-font-droid">Body</h2>
                         </AccordionTrigger>
                         <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel

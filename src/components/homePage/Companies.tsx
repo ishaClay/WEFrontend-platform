@@ -16,7 +16,7 @@ const Companies = () => {
           <h6 className="md:text-4xl sm:text-3xl text-2xl font-medium font-droid md:leading-10 sm:leading-8">
             There’s never been
             <br />
-            <span className="font-extrabold">a clear road for you before</span>
+            <span className="font-medium">a clear road for you before</span>
           </h6>
           <p className="xl:pt-6 pt-5 xl:text-xl text-lg font-droid text-[#000000] font-medium">
             As a mindful, aware business: the goal for greater sustainability

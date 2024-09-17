@@ -110,7 +110,7 @@ const MainHeader = () => {
             <ChevronRight className="sm:w-8 sm:h-8 h-6 w-6" />
           )}
         </Button>
-        <div className=" text-[#3A3A3A] font-[calibri] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
+        <div className=" text-[#3A3A3A] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
             <li className="pl-8">
               {/* {title} */}
@@ -188,12 +188,10 @@ const MainHeader = () => {
                     </Avatar>{" "}
                     <div className="flex items-center">
                       <div className="lg:block hidden text-left">
-                        <h5 className="xl:text-base text-sm font-droid text-black font-semibold capitalize">
+                        <h5 className="xl:text-base text-sm font-droid text-black font-medium capitalize">
                           Hi,{" "}
-                          {userData?.query?.fname || userData?.query?.lname
-                            ? `${userData?.query?.fname || ""} ${
-                                userData?.query?.lname || ""
-                              }`.trim()
+                          {userData?.query?.fname
+                            ? `${userData?.query?.fname || ""}`.trim()
                             : userData?.query?.email?.split("@")[0]}
                         </h5>
                         <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
@@ -203,7 +201,7 @@ const MainHeader = () => {
                             ? "SME Company"
                             : "Trainer"}
                         </h6>
-                        <p>
+                        <p className="max-w-[150px] truncate">
                           {+userRole === 1
                             ? userData?.query?.name
                             : +userRole === 2

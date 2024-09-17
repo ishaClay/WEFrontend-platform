@@ -110,7 +110,7 @@ const FeaturedCourses = () => {
                               symbol={
                                 <img src="../assets/img/Move Right.png" />
                               }
-                              className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-font-droid font-semibold text-lg"
+                              className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-font-droid font-normal text-lg"
                               onClick={() => {
                                 navigate(
                                   `/feature-course/${item?.courseTitle?.id}`

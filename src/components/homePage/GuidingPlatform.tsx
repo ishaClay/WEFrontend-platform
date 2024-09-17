@@ -14,7 +14,7 @@ const GuidingPlatform = () => {
           <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-droid traking-[4px] text-center sm:pb-8 pb-[40px] tracking-tighter">
             One guiding platform,
             <br />
-            <span className="font-extrabold">that grows your green feet</span>
+            <span className="font-medium">that grows your green feet</span>
           </h3>
         </div>
 
@@ -94,7 +94,7 @@ const GuidingPlatform = () => {
           </div>
         </div>
         <div
-          className="rounded-[4px] flex justify-center items-center text-left gap-[10px]  text-lg font-extrabold font-font-droid m-auto w-[249px] h-[59px] lg:mt-8 mt-6 bg-[#75BD43] text-color cursor-pointer"
+          className="rounded-[4px] flex justify-center items-center text-left gap-[10px]  text-lg font-normal font-font-droid m-auto w-[249px] h-[59px] lg:mt-8 mt-6 bg-[#75BD43] text-color cursor-pointer"
           onClick={() => {
             setSelectedRole("company");
             navigate("/register");

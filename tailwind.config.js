@@ -105,6 +105,7 @@ module.exports = {
       fontFamily: {
         abhaya: ["Abhaya Libre", "serif"],
         droid: ["Droid Sans"],
+        Calibri: ["Droid Sans"],
       },
       borderRadius: {
         lg: "var(--radius)",

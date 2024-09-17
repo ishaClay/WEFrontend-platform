@@ -53,13 +53,10 @@ const DashboardLayout = () => {
   console.log("userData", user?.query?.lastlogout, user?.query?.givefeedback);
 
   useEffect(() => {
-    if (
-      user?.query?.lastlogout !== null &&
-      user?.query?.givefeedback === null
-    ) {
+    if (+user?.query?.loginTime === 10 && !user?.query?.feedback) {
       setIsFeedbackModelOpen(true);
     }
-  }, [user?.query?.lastlogout, user?.query?.givefeedback]);
+  }, [user?.query?.loginTime]);
 
   useEffect(() => {
     switch (+userRole) {

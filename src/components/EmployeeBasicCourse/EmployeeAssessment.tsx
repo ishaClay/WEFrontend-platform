@@ -341,7 +341,7 @@ const EmployeeAssessment = () => {
                                 />
                                 <Label
                                   htmlFor={`option-${index}-${option.option}`}
-                                  className="text-sm font-sans"
+                                  className="text-sm "
                                 >
                                   {option.option}
                                 </Label>
@@ -424,7 +424,7 @@ const EmployeeAssessment = () => {
                               />
                               <Label
                                 htmlFor={`option-${index}-yes`}
-                                className="text-sm font-sans"
+                                className="text-sm "
                               >
                                 True
                               </Label>
@@ -440,7 +440,7 @@ const EmployeeAssessment = () => {
                               />
                               <Label
                                 htmlFor={`option-${index}-no`}
-                                className="text-sm font-sans"
+                                className="text-sm "
                               >
                                 False
                               </Label>
@@ -487,7 +487,7 @@ const EmployeeAssessment = () => {
                             />
                             <Label
                               htmlFor={`checkbox-${data?.id}-${i}`}
-                              className="text-sm font-sans"
+                              className="text-sm "
                               {...register(`assesdmentAnswer.${index}.answer`)}
                             >
                               {option.option}

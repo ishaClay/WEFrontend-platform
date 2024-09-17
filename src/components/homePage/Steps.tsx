@@ -45,7 +45,7 @@ const Steps = () => {
   ];
   return (
     <div className="xl:mb-[54px] sm:mb-[54px] mb-[30px]">
-      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-droid text-center font-bold tracking-tighter xl:mb-[54px] md:mb-[50px] mb-[30px]">
+      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-droid text-center font-medium tracking-tighter xl:mb-[54px] md:mb-[50px] mb-[30px]">
         Step by Step
         <br />
         <span className="font-medium">To better days ahead of you.</span>
@@ -82,7 +82,7 @@ const Steps = () => {
         </div>
       </div>
       <div
-        className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-font-droid m-auto w-[249px] h-[59px] lg:mt-[30px] mt-6 bg-[#75BD43] secondary-text cursor-pointer"
+        className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-normal font-font-droid m-auto w-[249px] h-[59px] lg:mt-[30px] mt-6 bg-[#75BD43] secondary-text cursor-pointer"
         onClick={() => {
           setSelectedRole("company");
           navigate("/register");

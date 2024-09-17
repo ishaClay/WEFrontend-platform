@@ -12,6 +12,7 @@ import React, { Dispatch, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AssignCard from "./AssignCard";
 import AssignProf from "./AssignProf";
+import NoDataText from "@/components/comman/NoDataText";
 
 const Assign = ({
   setStep,
@@ -54,13 +55,19 @@ const Assign = ({
       {isPending ? (
         <Loader />
       ) : Role !== "employee" ? (
-        getCheckedmeasures?.data?.data.map((data: any, index: number) => {
-          return <AssignCard key={index} data={data} />;
-        })
-      ) : (
+        getCheckedmeasures?.data?.data?.length ? (
+          getCheckedmeasures?.data?.data.map((data: any, index: number) => {
+            return <AssignCard key={index} data={data} />;
+          })
+        ) : (
+          <NoDataText message="No action item found" />
+        )
+      ) : getCheckedmeasures?.data?.data?.length ? (
         getCheckedmeasures?.data?.data.map((data: any, index: number) => {
           return <AssignProf key={index} data={data} />;
         })
+      ) : (
+        <NoDataText message="No action item found" />
       )}
       <div className="text-center">
         {/* <Button className="sm:w-[223px] w-[138px] bg-[#E5F1F3] text-[#00778B] sm:text-base text-sm font-bold font-droid sm:h-[48px] h-[40px]">
