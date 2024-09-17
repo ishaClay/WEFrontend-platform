@@ -5,18 +5,18 @@ const Information = ({ data }: getSingleCourseType | any) => {
   return (
     <div>
       <div className="mb-5">
-        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black pb-2">
+        <h5 className="font-bold font-droid xl:text-xl sm:text-lg text-sm text-black pb-2">
           Information
         </h5>
         <span
-          className="xl:text-base md:text-sm text-xs text-black font-nunito"
+          className="xl:text-base md:text-sm text-xs text-black font-droid"
           dangerouslySetInnerHTML={{ __html: data?.course?.description }}
         ></span>
-        <h5 className="font-bold font-nunito xl:text-xl sm:text-lg text-sm text-black py-2 ">
+        <h5 className="font-bold font-droid xl:text-xl sm:text-lg text-sm text-black py-2 ">
           Key Outcomes
         </h5>
         <span
-          className="xl:text-base md:text-sm text-xs text-black font-nunito block"
+          className="xl:text-base md:text-sm text-xs text-black font-droid block"
           dangerouslySetInnerHTML={{ __html: data?.course?.keys }}
         ></span>
       </div>
@@ -26,10 +26,10 @@ const Information = ({ data }: getSingleCourseType | any) => {
             <Users className="text-[#00778B]" />
           </div>
           <div className="">
-            <h5 className="text-base font-nunito font-bold text-black pb-1">
+            <h5 className="text-base font-droid font-bold text-black pb-1">
               {data?.courseEnroll}
             </h5>
-            <h6 className="text-xs text-black font-nunito">
+            <h6 className="text-xs text-black font-droid">
               Delegates Enrolled
             </h6>
           </div>
@@ -39,13 +39,13 @@ const Information = ({ data }: getSingleCourseType | any) => {
             <Star className="text-[#00778B]" />
           </div>
           <div className="">
-            <h5 className="text-base font-nunito font-bold text-black pb-1">
+            <h5 className="text-base font-droid font-bold text-black pb-1">
               {data?.feedBack?.avgRate}/5{" "}
               <span className="font-normal text-xs">
                 ({data?.feedBack?.peopleLikeCount} People like)
               </span>
             </h5>
-            <h6 className="text-xs text-black font-nunito">
+            <h6 className="text-xs text-black font-droid">
               Delegates Enrolled
             </h6>
           </div>

@@ -2,9 +2,9 @@ import SelectMenu from "@/components/comman/SelectMenu";
 import { Label } from "@/components/ui/label";
 import { isSessionOngoingAtTime } from "@/lib/utils";
 import { AllLivesessions } from "@/types/liveSession";
+import moment from "moment";
 import { useState } from "react";
 import LiveSessionList from "./LiveSessionList";
-import moment from "moment";
 
 const filter = [
   {
@@ -56,18 +56,18 @@ const TotalLiveSessionsPage = ({ allLiveSession }: AllLiveSessionsProps) => {
   return (
     <div className="rounded-xl bg-white sm:p-5 p-4">
       <div className="sm:flex block justify-between items-center lg:mb-[30px] mb-5">
-        <h5 className="text-base sm:pb-0 pb-3 text-black font-abhaya font-bold">
+        <h5 className="text-base sm:pb-0 pb-3 text-black font-font-droid font-bold">
           Total Live sessions ({filteredSessions?.length})
         </h5>
-        <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-10 gap-2">
-          <Label className="text-base text-black font-abhaya font-bold w-[100px]">
+        <div className="flex sm:flex-row flex-col sm:items-center items-start sm:gap-2 gap-2">
+          <Label className="text-base text-black font-font-droid font-bold w-[100px]">
             Filter By:
           </Label>
           <SelectMenu
             option={filter}
             setValue={(data: string) => setSelectFilter(data)}
             value={selectFilter}
-            className="text-black placeholder:text-[#A3A3A3] text-base min-w-[200px] font-abhaya sm:h-[52px] h-[48px] font-semibold"
+            className="text-black placeholder:text-[#A3A3A3] text-base min-w-[200px] font-font-droid sm:h-[52px] h-[48px] font-normal"
           />
         </div>
       </div>

@@ -54,7 +54,7 @@ const Stepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
         {steps.map((step, index) => (
           <Fragment key={index}>
             <h3
-              className={`min-w-[200px] w-full font-calibri mt-[6px] text-sm ${
+              className={`min-w-[200px] w-full font-droid mt-[6px] text-sm ${
                 currentStep === index ? "text-[#00778B]" : "text-grey"
               } ${
                 index === 0

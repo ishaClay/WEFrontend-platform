@@ -116,10 +116,10 @@ const AllocateCertificateModalDetails = ({
   };
   return (
     <div className="text-center">
-      <h3 className="text-xl font-abhaya font-bold pb-5">
+      <h3 className="text-xl font-font-droid font-bold pb-5">
         Issue A Certificate
       </h3>
-      <p className="text-[#606060] text-[15px] font-abhaya leading-[15px]">
+      <p className="text-[#606060] text-[15px] font-font-droid leading-[15px]">
         And share the great news of passing with the user!
       </p>
       <div
@@ -135,16 +135,16 @@ const AllocateCertificateModalDetails = ({
           {imagepending ? (
             <Loader />
           ) : upload ? (
-            <p className="text-[#9E9E9E] text-sm pb-6 font-calibri py-8">
+            <p className="text-[#9E9E9E] text-sm pb-6 font-droid py-8">
               {upload}
             </p>
           ) : (
             <>
               <img src={dropFile} className="m-auto pb-6" />
-              <h6 className="text-[#9E9E9E] text-sm pb-6 font-calibri">
+              <h6 className="text-[#9E9E9E] text-sm pb-6 font-droid">
                 Drag and drop files here
               </h6>
-              <h5 className="uppercase text-[#9E9E9E] pb-6 font-inter">-OR-</h5>
+              <h5 className="uppercase text-[#9E9E9E] pb-6 font-droid">-OR-</h5>
             </>
           )}
           <input
@@ -156,14 +156,14 @@ const AllocateCertificateModalDetails = ({
           />
           <label
             htmlFor="upload"
-            className=" text-base rounded-md font-calibri inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"
+            className=" text-base rounded-md font-droid inline-block text-white bg-[#42A7C3] py-5 px-14 cursor-pointer"
           >
             Browse Files
           </label>
         </div>
       </div>
-      <h5 className="text-xl font-bold font-calibri pb-4">OR</h5>
-      <h6 className="text-base font-calibri pb-8">
+      <h5 className="text-xl font-bold font-droid pb-4">OR</h5>
+      <h6 className="text-base font-droid pb-8">
         System Generated Certificate :
         <Link
           to={`/${UserRole[
@@ -179,7 +179,7 @@ const AllocateCertificateModalDetails = ({
         onClick={handleIssueCertificate}
         isLoading={isPending}
         disabled={!upload}
-        className=" text-base rounded-md font-nunito text-white bg-[#58BA66] py-7 px-3"
+        className=" text-base rounded-md font-droid text-white bg-[#58BA66] py-7 px-3"
       >
         Issue A Certificate
       </Button>

@@ -350,7 +350,7 @@ const EmployeeAssessment = () => {
                           </RadioGroup>
                           {errors.assesdmentAnswer?.[index]?.answer && (
                             <FormError
-                              className="font-calibri not-italic"
+                              className="font-droid not-italic"
                               message={
                                 errors.assesdmentAnswer[index].answer.message
                               }
@@ -380,7 +380,7 @@ const EmployeeAssessment = () => {
                         />
                         {errors.assesdmentAnswer?.[index]?.answer && (
                           <FormError
-                            className="font-calibri not-italic"
+                            className="font-droid not-italic"
                             message={
                               errors.assesdmentAnswer[index].answer.message
                             }
@@ -448,7 +448,7 @@ const EmployeeAssessment = () => {
                           </RadioGroup>
                           {errors.assesdmentAnswer?.[index]?.answer && (
                             <FormError
-                              className="font-calibri not-italic"
+                              className="font-droid not-italic"
                               message={
                                 errors.assesdmentAnswer[index].answer.message
                               }
@@ -496,7 +496,7 @@ const EmployeeAssessment = () => {
                         ))}
                         {errors.assesdmentAnswer?.[index]?.answer && (
                           <FormError
-                            className="font-calibri not-italic"
+                            className="font-droid not-italic"
                             message={
                               errors.assesdmentAnswer[index].answer.message
                             }

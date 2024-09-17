@@ -32,8 +32,8 @@ const FaqsList = () => {
   return (
     <div className="bg-white rounded-xl">
       <div className="border-b border-[#D9D9D9] p-5">
-        <h6 className="font-calibri text-base font-bold sm:pb-1 pb-2">FAQ’s</h6>
-        <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] font-bold">
+        <h6 className="font-droid text-base font-bold sm:pb-1 pb-2">FAQ’s</h6>
+        <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
           {userRole === 2
             ? "Here’s the full list of FAQs related to all your courses"
             : "Find answers to common questions below"}

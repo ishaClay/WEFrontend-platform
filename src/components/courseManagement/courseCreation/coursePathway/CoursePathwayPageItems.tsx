@@ -20,25 +20,25 @@ const CoursePathwayPageItems = ({
   return (
     <div className="md:h-[100px] h-auto border border-[#D9D9D9] rounded-md grid grid-cols-12 w-full mb-4 overflow-hidden">
       <div className="h-full flex items-center md:col-span-3 col-span-12 sm:p-4 p-2.5 bg-[#F5F7FF] align-middle border-e border-[#D9D9D9]">
-        <h4 className="align-middle sm:text-base text-sm font-calibri font-bold">
+        <h4 className="align-middle sm:text-base text-sm font-droid font-bold">
           {data?.pillarName}
         </h4>
       </div>
       {/* <div className="col-span-9 flex items-center">
         <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#FF5252] text-white text-base font-calibri">
+          <Button className="py-4 px-5 rounded-full  bg-[#FF5252] text-white text-base font-droid">
             <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
             Introductory
           </Button>
         </div>
         <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#FFD56A] text-black text-base font-calibri hover:text-white">
+          <Button className="py-4 px-5 rounded-full  bg-[#FFD56A] text-black text-base font-droid hover:text-white">
             <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
             Intermediate
           </Button>
         </div>
         <div className="2xl:ps-12 xl:ps-5 ps-3">
-          <Button className="py-4 px-5 rounded-full  bg-[#D6F5AC] text-black text-base font-calibri hover:text-white">
+          <Button className="py-4 px-5 rounded-full  bg-[#D6F5AC] text-black text-base font-droid hover:text-white">
             <Checkbox className="w-[24px] h-[24px] bg-white rounded-full border-bone me-3" />
             Advance
           </Button>
@@ -52,14 +52,14 @@ const CoursePathwayPageItems = ({
                 item.color
               }] ${
                 item?.color === "#FF5252" ? "text-white" : "text-black"
-              } text-base font-calibri`}
+              } text-base font-droid`}
             >
               <Checkbox
                 // onChange={() => handleSelected(item?.id.toString())}
                 value={item?.id.toString()}
                 onChange={(e:any) => console.log("eeeee++", e)}
               />
-              <span className="text-base font-calibri">
+              <span className="text-base font-droid">
                 {item?.maturityLevelName}
               </span>
             </Label>
@@ -77,7 +77,7 @@ const CoursePathwayPageItems = ({
                   item.color
                 }] ${
                   item?.color === "#FF5252" ? "text-white" : "text-black"
-                } text-base font-calibri`}
+                } text-base font-droid`}
               >
                 <label className="flex sm:gap-4 gap-3 items-center cursor-pointer">
                   <div className="w-[24px] h-[24px] flex justify-center items-center bg-white rounded-full border-bone">
@@ -122,7 +122,7 @@ const CoursePathwayPageItems = ({
                 item.color
               }] ${
                 item?.color === "#FF5252" ? "text-white" : "text-black"
-              } text-base font-calibri`}
+              } text-base font-droid`}
             >
               <RadioGroupItem
                 indicatorClassName="fill-[#58BA66]"
@@ -130,7 +130,7 @@ const CoursePathwayPageItems = ({
                 value={item?.id.toString()}
                 id={`r1_${item.id}-${data.id}`}
               />
-              <span className="text-base font-calibri">
+              <span className="text-base font-droid">
                 {item?.maturityLevelName}
               </span>
             </Label>
@@ -138,7 +138,7 @@ const CoursePathwayPageItems = ({
         })} */}
       {/* <Label
           htmlFor={`r2_${data.id}`}
-          className="flex items-center space-x-2 py-[10px] px-3 rounded-full  bg-[#FFD56A] text-black text-base font-calibri"
+          className="flex items-center space-x-2 py-[10px] px-3 rounded-full  bg-[#FFD56A] text-black text-base font-droid"
         >
           <RadioGroupItem
             indicatorClassName="fill-[#58BA66]"
@@ -146,11 +146,11 @@ const CoursePathwayPageItems = ({
             value="Intermediate"
             id={`r2_${data.id}`}
           />
-          <span className="text-base font-calibri">Intermediate</span>
+          <span className="text-base font-droid">Intermediate</span>
         </Label>
         <Label
           htmlFor={`r3_${data.id}`}
-          className="flex items-center space-x-2 py-[10px] px-3 rounded-full  bg-[#D6F5AC] text-black text-base font-calibri"
+          className="flex items-center space-x-2 py-[10px] px-3 rounded-full  bg-[#D6F5AC] text-black text-base font-droid"
         >
           <RadioGroupItem
             indicatorClassName="fill-[#58BA66]"
@@ -158,7 +158,7 @@ const CoursePathwayPageItems = ({
             value="Advance"
             id={`r3_${data.id}`}
           />
-          <span className="text-base font-calibri">Advance</span>
+          <span className="text-base font-droid">Advance</span>
         </Label> */}
       {/* </RadioGroup> */}
     </div>

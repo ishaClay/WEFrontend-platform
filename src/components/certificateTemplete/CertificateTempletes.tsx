@@ -17,10 +17,10 @@ const CertificateTemplete = () => {
     <div className="bg-white rounded-lg">
       <div className=" md:flex block justify-between items-center border-b border-[#D9D9D9] p-4">
         <div className="">
-          <h6 className="text-[16px] font-semibold font-calibri">
+          <h6 className="text-[16px] font-semibold font-droid">
             All Certificate
           </h6>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] mt-1">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] mt-1">
             All your created certificate templates
           </p>
         </div>

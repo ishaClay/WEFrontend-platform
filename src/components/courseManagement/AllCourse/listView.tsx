@@ -398,11 +398,11 @@ const ListView = ({
                   />
                 </div>
                 <div className="col-span-3 xl:pl-4 p-3">
-                  <h6 className="font-bold font-nunito text-base xl:pb-4 pb-3">
+                  <h6 className="font-bold font-droid text-base xl:pb-4 pb-3">
                     {data?.title}
                   </h6>
                   <div className="flex xl:pb-4 pb-3">
-                    <p className="text-sm font-normal font-nunito xl:pr-[61px] pr-[35px] text-[#000000]">
+                    <p className="text-sm font-normal font-droid xl:pr-[61px] pr-[35px] text-[#000000]">
                       Created By :{" "}
                       {data?.trainerId
                         ? (data?.trainerId?.contactFirstName || "") +
@@ -420,16 +420,16 @@ const ListView = ({
                         alt=""
                         className="w-[16px] h-[16px]"
                       />
-                      <p className="pl-1 font-semibold font-nunito text-sm mt-1">
+                      <p className="pl-1 font-semibold font-droid text-sm mt-1">
                         {data?.feedBack?.avgRate}/5
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center xl:pb-4 pb-3">
-                    <div className="text-sm font-normal font-nunito text-[#000] xl:pr-24 pr-16">
+                    <div className="text-sm font-normal font-droid text-[#000] xl:pr-24 pr-16">
                       Module : {data?.module?.length || 0}
                     </div>
-                    <div className="text-sm font-normal font-nunito text-[#000]">
+                    <div className="text-sm font-normal font-droid text-[#000]">
                       Duration : {data?.duration || "00"}
                     </div>
                   </div>
@@ -439,7 +439,7 @@ const ListView = ({
                         <div className="">
                           <Badge
                             variant="outline"
-                            className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-Poppins font-normal`}
+                            className={`bg-[${item?.fetchMaturity?.color}] border-[#EDF0F4] p-1 px-3 text-[#3A3A3A] text-xs font-droid font-normal`}
                           >
                             {item?.fetchPillar?.pillarName}
                           </Badge>
@@ -463,7 +463,7 @@ const ListView = ({
                       +userData?.query?.role === UserRole.Trainee
                         ? "xl:min-w-auto min-w-auto"
                         : "xl:max-w-[90px] max-w-[85px]"
-                    } xl:py-[6px] py-[8px] font-Poppins bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
+                    } xl:py-[6px] py-[8px] font-droid bg-[#58BA66] hover:bg-[#58BA66] h-auto`}
                     onClick={(
                       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                     ) => {
@@ -486,7 +486,7 @@ const ListView = ({
                       onClick={(e: any) =>
                         handleCohort(e, data?.currentVersion?.id as number)
                       }
-                      className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-Poppins bg-[#000000] hover:bg-[#000000] h-auto"
+                      className="xl:max-w-[90px] sm:text-sm text-xs w-auto xl:py-[6px] py-[8px] font-droid bg-[#000000] hover:bg-[#000000] h-auto"
                     >
                       + Cohort
                     </Button>
@@ -513,7 +513,7 @@ const ListView = ({
                     <DropdownMenuContent className="w-30">
                       <DropdownMenuGroup>
                         <DropdownMenuItem
-                          className="flex items-center gap-2 font-nunito"
+                          className="flex items-center gap-2 font-droid"
                           onClick={(e: any) =>
                             handleCopy(e, data?.currentVersion?.id)
                           }
@@ -523,7 +523,7 @@ const ListView = ({
                         </DropdownMenuItem>
                         {data.status === "PUBLISHED" && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleChangeStatus(e, data)}
                           >
                             <Pencil className="w-4 h-4" />
@@ -536,7 +536,7 @@ const ListView = ({
                         )}
                         {data.status === "READYTOPUBLISH" && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleChangeStatus(e, data)}
                           >
                             <Pencil className="w-4 h-4" />
@@ -545,7 +545,7 @@ const ListView = ({
                         )}
                         {data.status === "PUBLISHED" && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, data, "editminor")}
                           >
                             <Pencil className="w-4 h-4" />
@@ -554,7 +554,7 @@ const ListView = ({
                         )}
                         {["READYTOPUBLISH", "DRAFT"].includes(data.status) && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, data, "edit")}
                           >
                             <Pencil className="w-4 h-4" />
@@ -563,7 +563,7 @@ const ListView = ({
                         )}
                         {data.status === "PUBLISHED" && (
                           <DropdownMenuItem
-                            className="flex items-center gap-2 font-nunito"
+                            className="flex items-center gap-2 font-droid"
                             onClick={(e) => handleEdit(e, data, "editWithNew")}
                           >
                             <Pencil className="w-4 h-4" />
@@ -572,7 +572,7 @@ const ListView = ({
                         )}
                         {data.status === "PUBLISHED" && (
                           <DropdownMenuItem
-                            className={`flex items-center gap-2 font-nunito ${
+                            className={`flex items-center gap-2 font-droid ${
                               +userData?.query?.role === UserRole.Trainee
                                 ? "hidden"
                                 : "flex"
@@ -590,7 +590,7 @@ const ListView = ({
                         )}
                         {data.status !== "PUBLISHED" && (
                           <DropdownMenuItem
-                            className={`items-center gap-2 font-nunito ${
+                            className={`items-center gap-2 font-droid ${
                               pathName === "trainee" &&
                               data?.trainerId?.id ===
                                 +userData?.query?.detailsid

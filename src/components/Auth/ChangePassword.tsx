@@ -127,7 +127,7 @@ const ChangePassword = () => {
                   <InputWithLabel
                     className="w-full h-[52px] secondary-background mt-1"
                     label="Email"
-                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-calibri"
+                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-droid"
                     type="text"
                     placeholder="Enter Password"
                     {...register("email")}
@@ -138,7 +138,7 @@ const ChangePassword = () => {
                   <PasswordInputWithLabel
                     className="w-full h-[52px] secondary-background mt-1"
                     label="Password"
-                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-calibri"
+                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-droid"
                     type="text"
                     placeholder="Enter Password"
                     {...register("password")}
@@ -149,7 +149,7 @@ const ChangePassword = () => {
                   <PasswordInputWithLabel
                     className="w-full h-[52px] secondary-background mt-1"
                     label="Confirm Password"
-                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-calibri"
+                    labelClassName="text-[16px] text-[#3A3A3A] font-bold font-droid"
                     type="text"
                     placeholder="Re-enter Password"
                     {...register("confirmPassword")}
@@ -158,7 +158,7 @@ const ChangePassword = () => {
                 </div>
                 <button
                   type="submit"
-                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] font-abhaya"
+                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] font-font-droid"
                 >
                   {isPending ? (
                     <Loader containerClassName="h-auto" />

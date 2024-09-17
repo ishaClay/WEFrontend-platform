@@ -66,7 +66,7 @@ function IndividualEmployee() {
               </div>
             </div>
             <div className="bg-[#FFFFFF] ml-[190px]">
-              <button className="flex justify-between items-center mt-3 gap-2 font-abhaya">
+              <button className="flex justify-between items-center mt-3 gap-2 font-font-droid">
                 <LuMoveLeft className="mb-[10px]" />
 
                 <h1 className="text-black  py-1 rounded h-[45px] font-bold">

@@ -65,7 +65,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   return (
     <div className="flex flex-col gap-5">
-      <h4 className="text-lg text-black font-semibold font-nunito sm:block hidden">
+      <h4 className="text-lg text-black font-semibold font-droid sm:block hidden">
         Change password
       </h4>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
@@ -74,7 +74,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
             label="Old password"
             placeholder="Enter old password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
-            labelClassName="!text-base font-nunito text-black"
+            labelClassName="!text-base font-droid text-black"
             {...register("oldPassword")}
             error={errors?.oldPassword?.message as string}
           />
@@ -85,7 +85,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
             label="New password"
             placeholder="Enter new password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
-            labelClassName="!text-base font-nunito text-black"
+            labelClassName="!text-base font-droid text-black"
             {...register("password")}
             error={errors?.password?.message as string}
           />
@@ -96,7 +96,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
             label="Confirm New password"
             placeholder="Confirm new password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
-            labelClassName="!text-base font-nunito text-black"
+            labelClassName="!text-base font-droid text-black"
             {...register("confirmPassword")}
             error={errors?.confirmPassword?.message as string}
           />
@@ -104,7 +104,7 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
         <div className="flex sm:justify-end justify-center items-center gap-5">
           <Button
             type="submit"
-            className="w-[100px] bg-[#64A70B] h-12 text-base font-Poppins font-bold"
+            className="w-[100px] bg-[#64A70B] h-12 text-base font-droid font-bold"
             isLoading={isPendingMutation}
           >
             Save
@@ -112,14 +112,14 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
           <Button
             type="button"
             onClick={onClose}
-            className="w-[100px] bg-[#E41B1B] h-12 text-base font-Poppins font-bold"
+            className="w-[100px] bg-[#E41B1B] h-12 text-base font-droid font-bold"
           >
             Cancel
           </Button>
         </div>
       </form>
       {/* <div className="flex justify-between items-center sm:pt-5 pt-16 border-t border-[#E4E4E4]">
-        <Label className="sm:text-lg text-base font-nunito text-black font-semibold">
+        <Label className="sm:text-lg text-base font-droid text-black font-semibold">
           Notifications
         </Label>
         <Switch />

@@ -159,7 +159,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         }}
                         className={`relative group flex items-center ${
                           sidebarOpen ? "justify-between" : "justify-center"
-                        } text-[16px] leading-5 font-[400] p-[10px] rounded-md text-[#606060] font-calibri ${
+                        } text-[16px] leading-5 font-[400] p-[10px] rounded-md text-[#606060] font-droid ${
                           item.children.find(
                             (child) => child.link === location.pathname
                             // || isOpen?.[`bar${index + 1}`]
@@ -195,7 +195,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           }}
                           className={`relative group flex items-center ${
                             sidebarOpen ? "justify-between" : "justify-center"
-                          } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-calibri ${
+                          } text-[16px] leading-5 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] font-droid ${
                             item.children.find(
                               (child) =>
                                 child.link === location.pathname ||
@@ -250,7 +250,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                               {item.children.map(
                                 (child, childIndex: number) => (
                                   <li
-                                    className={`text-[16px] leading-5 text-[#606060] py-1 font-calibri ${
+                                    className={`text-[16px] leading-5 text-[#606060] py-1 font-droid ${
                                       location.pathname.includes(child.link)
                                         ? "font-[700]"
                                         : "font-[400]"
@@ -286,7 +286,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         <ul className="bg-white rounded-md list-disc pl-6 w-[245px]">
                           {item.children.map((child, childIndex: number) => (
                             <li
-                              className={`ml-[20px] text-[16px] leading-5 mt-2 text-[#606060] font-calibri ${
+                              className={`ml-[20px] text-[16px] leading-5 mt-2 text-[#606060] font-droid ${
                                 location.pathname.includes(child.link)
                                   ? "font-[700]"
                                   : "font-[400]"
@@ -323,7 +323,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                     onClick={handleLogout}
                     className={`group flex items-center ${
                       sidebarOpen ? "justify-start" : "justify-center"
-                    } text-[16px] leading-5 gap-2 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] !font-calibri w-full text-left`}
+                    } text-[16px] leading-5 gap-2 font-[400] p-[10px] hover:bg-[#00778B] hover:text-white rounded-md text-[#606060] !font-droid w-full text-left`}
                   >
                     <Icon size={22} />
                     {sidebarOpen && <h2>{item.label}</h2>}

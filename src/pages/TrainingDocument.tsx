@@ -45,7 +45,7 @@ function TrainingDocument() {
           <p className="text-[#000000] text-[Calibri] font-bold">
             Team Member List
           </p>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             Upload user manuals you think would be most helpful to your trainees
           </p>
         </div>

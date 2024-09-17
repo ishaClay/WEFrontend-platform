@@ -120,7 +120,7 @@ function EmployeeAssessmentResultFirst() {
                   activeTab === "Assessment Result"
                     ? "  text-[#00778B]  font-semibold border-b border-[#00778B]"
                     : " text-[#000000] "
-                }  py-2 px-4  text-[16px] h-[49px]  font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px]  font-font-droid`}
                 onClick={() => handleTabChange("Assessment Result")}
               >
                 Assessment Result
@@ -141,13 +141,13 @@ function EmployeeAssessmentResultFirst() {
                   activeTab === "My Action Items"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px] font-font-droid`}
                 onClick={() => handleTabChange("My Action Items")}
               >
                 My Action Items
               </button>
 
-              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px] font-abhaya">
+              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded md:ml-[720px] font-font-droid">
                 Export
               </button>
             </div>
@@ -255,7 +255,7 @@ function EmployeeAssessmentResultFirst() {
                         >
                           History
                         </a>
-                        <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-abhaya">
+                        <button className="bg-[#00778B] text-white rounded-[5px] px-4 py-1 text-sm h-[35px] font-font-droid">
                           Assign
                         </button>
                       </div>
@@ -300,10 +300,10 @@ function EmployeeAssessmentResultFirst() {
                       </div>
 
                       <div className="flex flex-col items-start md:items-center md:ml-[200px] gap-2 mt-4 md:mt-6">
-                        <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-abhaya">
+                        <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-font-droid">
                           On time
                         </button>
-                        <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-abhaya">
+                        <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-font-droid">
                           <BsPencilFill className="ml-4 mr-2" />
                           Edit
                         </button>
@@ -349,10 +349,10 @@ function EmployeeAssessmentResultFirst() {
                       </div>
 
                       <div className="ml-0 md:ml-[200px] flex flex-col gap-2 mt-4 md:mt-6 items-start md:items-center">
-                        <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
+                        <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-font-droid">
                           Dealy
                         </button>
-                        <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-abhaya">
+                        <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-font-droid">
                           <BsPencilFill className="ml-4 mr-2" />
                           Edit
                         </button>
@@ -400,12 +400,12 @@ function EmployeeAssessmentResultFirst() {
                       </div>
 
                       <div className="flex flex-col md:flex-row ml-0 md:ml-[40px] gap-2 md:gap-16 mt-4 md:mt-6 items-start md:items-center">
-                        <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-8 md:mt-8 font-abhaya items-center justify-center">
+                        <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-8 md:mt-8 font-font-droid items-center justify-center">
                           <BiShow className="mr-1" />
                           Edit
                         </button>
                         <div className="flex flex-col items-start md:items-center">
-                          <button className="bg-[#F63636] w-[75px] h-[28px] font-abhaya text-white rounded-full px-4 py-1 text-xs">
+                          <button className="bg-[#F63636] w-[75px] h-[28px] font-font-droid text-white rounded-full px-4 py-1 text-xs">
                             Dealy
                           </button>
                           <div className="flex text-green-500 mt-3 mr-4 items-center">
@@ -475,7 +475,7 @@ function EmployeeAssessmentResultFirst() {
                           >
                             History
                           </a>
-                          <button className="bg-[#00778B] text-white font-abhaya rounded-[5px] px-4 py-1 text-sm h-[35px]">
+                          <button className="bg-[#00778B] text-white font-font-droid rounded-[5px] px-4 py-1 text-sm h-[35px]">
                             Assign
                           </button>
                         </div>
@@ -520,10 +520,10 @@ function EmployeeAssessmentResultFirst() {
                         </div>
 
                         <div className="flex flex-col items-start md:items-center md:ml-[200px] gap-2 mt-4 md:mt-6">
-                          <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-abhaya">
+                          <button className="bg-[#FFD56A] w-[75px] h-[28px] text-black rounded-full px-4 py-1 text-xs font-font-droid">
                             On time
                           </button>
-                          <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-abhaya">
+                          <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-font-droid">
                             <BsPencilFill className="ml-4 mr-2" />
                             Edit
                           </button>
@@ -569,10 +569,10 @@ function EmployeeAssessmentResultFirst() {
                         </div>
 
                         <div className="ml-0 md:ml-[200px] flex flex-col gap-2 mt-4 md:mt-6 items-start md:items-center">
-                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
+                          <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-font-droid">
                             Dealy
                           </button>
-                          <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-abhaya">
+                          <button className="bg-[#00778B] text-white rounded text-sm h-[32px] w-[75px] flex items-center font-font-droid">
                             <BsPencilFill className="ml-4 mr-2" />
                             Edit
                           </button>
@@ -620,12 +620,12 @@ function EmployeeAssessmentResultFirst() {
                         </div>
 
                         <div className="flex flex-col md:flex-row ml-0 md:ml-[40px] gap-2 md:gap-16 mt-4 md:mt-6 items-start md:items-center">
-                          <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-8 md:mt-8 font-abhaya items-center justify-center">
+                          <button className="bg-[#00778B] text-white rounded gap-2 text-sm h-[32px] w-[75px] flex mt-8 md:mt-8 font-font-droid items-center justify-center">
                             <BiShow className="mr-1" />
                             Edit
                           </button>
                           <div className="flex flex-col items-start md:items-center">
-                            <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-abhaya">
+                            <button className="bg-[#F63636] w-[75px] h-[28px] text-white rounded-full px-4 py-1 text-xs font-font-droid">
                               Dealy
                             </button>
                             <div className="flex text-green-500 mt-3 mr-4 items-center">
@@ -638,7 +638,7 @@ function EmployeeAssessmentResultFirst() {
 
                       <div className="flex flex-col md:flex-row items-center mt-4">
                         <div className="w-full md:w-auto md:ml-[500px] mb-4 md:mb-0">
-                          <button className="bg-[#E5F1F3] text-[#00778B] text-[16px] py-2 rounded h-[48px] w-full md:w-[223px] font-abhaya">
+                          <button className="bg-[#E5F1F3] text-[#00778B] text-[16px] py-2 rounded h-[48px] w-full md:w-[223px] font-font-droid">
                             Retake Assessment
                           </button>
                         </div>

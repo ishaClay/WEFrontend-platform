@@ -1,5 +1,5 @@
-import { FC } from "react";
 import courseImage from "@/assets/images/Course_image.png";
+import { FC } from "react";
 
 interface iconProps {
   imgsrc: string;
@@ -23,7 +23,7 @@ const ImageCard: FC<iconProps> = ({ headone, textone, texttwo }) => {
             {" "}
             {headone}
           </h1>
-          <p className="font-primary font-inter text-sm font-[400] leading-[24px] ">
+          <p className="font-primary font-droid text-sm font-[400] leading-[24px] ">
             {textone} <br /> {texttwo}
           </p>
         </div>

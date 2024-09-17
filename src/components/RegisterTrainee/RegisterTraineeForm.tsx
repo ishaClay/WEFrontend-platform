@@ -285,7 +285,7 @@ const RegisterTraineeForm = () => {
         </label>
       </div> */}
       <div className="mb-4 xl:mt-[49px] sm:mt-[40px] mt-[20px]">
-        <span className="text-[#202020] text-2xl leading-[30px] font-bold drop-shadow-[0px_4px_4px_0px_#00000060] font-calibri">
+        <span className="text-[#202020] text-2xl leading-[30px] font-bold drop-shadow-[0px_4px_4px_0px_#00000060] font-droid">
           Registration
         </span>
         {/* <div className="flex overflow-hidden justify-evenly border-gainsboro-100 border-solid border-[1px] rounded-[5px] sm:w-[328px] w-[300px] h-[42px] sm:text-[18px] text-base leading-[18px] font-normal text-darkslategray-100 sm:mt-[27px] mt-5 sm:mb-[33px] mb-[25px]">
@@ -321,7 +321,7 @@ const RegisterTraineeForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 sm:gap-x-8 gap-x-[15px] text-[16px] leading-[19.53px] font-bold">
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Contact First Name
               <img src={mandatory} className="p-1" />
             </label>
@@ -337,7 +337,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Contact Last Name
               <img src={mandatory} className="p-1" />
             </label>
@@ -353,7 +353,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Gender
               <img src={mandatory} className="p-1" />
             </label>
@@ -373,7 +373,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Age Range
               <img src={mandatory} className="p-1" />
             </label>
@@ -394,7 +394,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Email
               <img src={mandatory} className="p-1" />
             </label>
@@ -412,7 +412,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Phone
             </label>
             <PhoneInput
@@ -441,7 +441,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Current Highest NFQ
               <img src={mandatory} className="p-1" />
             </label>
@@ -469,7 +469,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Employment Status
             </label>
             <SelectMenu
@@ -501,7 +501,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Member Company
             </label>
             <InputWithLable
@@ -517,7 +517,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Occupational Category
               <img src={mandatory} className="p-1" />
             </label>
@@ -543,7 +543,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Unemployment Time
             </label>
             <SelectMenu
@@ -569,7 +569,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               County Of Residence
               <img src={mandatory} className="p-1" />
             </label>
@@ -594,7 +594,7 @@ const RegisterTraineeForm = () => {
             )}
           </div>
           <div className="mb-4 col-span-1">
-            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+            <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
               Attended Event
             </label>
             <InputWithLable
@@ -611,7 +611,7 @@ const RegisterTraineeForm = () => {
         </div>
         <button
           type="submit"
-          className="xl:mt-4 sm:mt-6 mt-4 bg-primary-button rounded sm:w-[370px] w-[300px] h-12 text-white text-lg shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-abhaya font-bold"
+          className="xl:mt-4 sm:mt-6 mt-4 bg-primary-button rounded sm:w-[370px] w-[300px] h-12 text-white text-lg shadow-[0px_4px_4px_0px_#00000040] m-auto flex justify-center py-3 font-font-droid font-bold"
         >
           {isPending ? <Loader containerClassName="h-auto" /> : "Submit"}
         </button>

@@ -261,7 +261,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   ) : (
                     <>
                       <AvatarImage src={profile_image ? profile_image : ""} />
-                      <AvatarFallback className="uppercase shadow-lg text-[26px] font-nunito">
+                      <AvatarFallback className="uppercase shadow-lg text-[26px] font-droid">
                         {watch("firstname")?.[0] || watch("email")?.[0] || ""}
                       </AvatarFallback>
                     </>
@@ -390,7 +390,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             </RadioGroup>
           </div>
           <div className="flex flex-col gap-1">
-            {/* <Label className="sm:text-base text-sm font-nunito text-black">
+            {/* <Label className="sm:text-base text-sm font-droid text-black">
               Birth Date
             </Label>
             <div className="flex items-center gap-5">
@@ -398,21 +398,21 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 option={birthMonth}
                 setValue={(data: string) => setSelectBirthMonth(data)}
                 value={selectBirthMonth}
-                className="font-nunito text-sm text-black"
+                className="font-droid text-sm text-black"
                 placeholder="January"
               />
               <SelectMenu
                 option={birthDate}
                 setValue={(data: string) => setSelectBirthDate(data)}
                 value={selectBirthDate}
-                className="font-calibri text-sm text-black"
+                className="font-droid text-sm text-black"
                 placeholder="1"
               />
               <SelectMenu
                 option={birthYear}
                 setValue={(data: string) => setSelectBirthYear(data)}
                 value={selectBirthYear}
-                className="font-calibri text-sm text-black"
+                className="font-droid text-sm text-black"
                 placeholder="2000"
               />
             </div> */}
@@ -421,7 +421,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 type="submit"
                 isLoading={isPendingMutation}
                 disabled={!isDirty}
-                className="bg-[#00778B] font-calibri text-base px-7"
+                className="bg-[#00778B] font-droid text-base px-7"
               >
                 Save
               </Button>

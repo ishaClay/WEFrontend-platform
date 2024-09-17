@@ -111,26 +111,26 @@ const MyCoursePage = () => {
       <div className="flex flex-wrap gap-2 items-center justify-between sm:p-[18px] p-[15px] bg-[#F3F3F3] rounded-lg">
         <div className="flex items-center sm:gap-8 gap-[10px]">
           <div>
-            <Label className="text-xs font-normal font-Poppins mt-0">
+            <Label className="text-xs font-normal font-droid mt-0">
               Filter By Piller
             </Label>
             <SelectMenu
               option={pillerFilterOption || []}
               setValue={(data: string) => setSelectFilterByCategory(data)}
               value={selectFilterByCategory}
-              className="sm:w-[176px] w-[183px] h-[36px] sm:text-sm text-xs font-normal font-Poppins text-black border border-[#A3A3A3]"
+              className="sm:w-[176px] w-[183px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3]"
               placeholder="Filter By Piller"
             />
           </div>
           <div>
-            <Label className="text-xs font-normal font-Poppins mt-0">
+            <Label className="text-xs font-normal font-droid mt-0">
               Filter By Status
             </Label>
             <SelectMenu
               option={filter1Option}
               setValue={(data: string) => setSelectFilterByStatus(data)}
               value={selectFilterByStatus}
-              className="sm:w-[176px] w-[112px] h-[36px] sm:text-sm text-xs font-normal font-Poppins text-black border border-[#A3A3A3] sm:px-3 px-[6px]"
+              className="sm:w-[176px] w-[112px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3] sm:px-3 px-[6px]"
               placeholder="Filter By Status"
             />
           </div>
@@ -140,7 +140,7 @@ const MyCoursePage = () => {
             <Search className="text-[#D9D9D9] absolute left-4" />
             <Input
               placeholder="Search..."
-              className="text-[15px] bg-[#F3F3F3] outline-none font-inter pr-4 pl-12 py-3 h-full placeholder:text-[#A3A3A3]"
+              className="text-[15px] bg-[#F3F3F3] outline-none font-droid pr-4 pl-12 py-3 h-full placeholder:text-[#A3A3A3]"
               onChange={(e) => setKeyword(e.target.value)}
             />
           </div>

@@ -77,7 +77,7 @@ function CoursesAllCourse() {
       };
       getAllCourses(payload);
     }
-  }, [selectedCourse, getAllCourses]);
+  }, [selectedCourse, getAllCourses, search]);
 
   useEffect(() => {
     if (pillarcourse) {
@@ -90,7 +90,7 @@ function CoursesAllCourse() {
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="md:flex block items-center justify-between bg-white border-b border-[#D9D9D9] rounded-t-[10px] p-[14px]">
           <div className="flex items-center justify-between md:pb-0 pb-3">
-            <h4 className="text-[16px] text-[#000000] font-calibri font-semibold">
+            <h4 className="text-[16px] text-[#000000] font-droid font-semibold">
               All Courses
             </h4>
             <div className="sm:hidden block">

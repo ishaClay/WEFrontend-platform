@@ -37,7 +37,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
         />
       </div>
       <div className="px-4 py-[15px] border-b border-[#D9D9D9]">
-        <h5 className="text-base font-bold font-inter pb-3 sm:line-clamp-2 line-clamp-1 h-[53px]">
+        <h5 className="text-base font-bold font-droid pb-3 sm:line-clamp-2 line-clamp-1 h-[53px]">
           {data?.title}
         </h5>
         <div className="grid sm:grid-cols-2 grid-cols-1 items-start gap-y-2 mb-5 h-[80px]">
@@ -49,7 +49,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
                   src={getImages(item?.fetchPillar?.pillarName, true)}
                   alt="Image Alt Text"
                 />
-                <p className="text-[#918A8A] text-base font-normal font-calibri">
+                <p className="text-[#918A8A] text-base font-normal font-droid">
                   {item?.fetchPillar?.pillarName}
                 </p>
               </div>
@@ -123,7 +123,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
         />
         </div> */}
         <Button
-          className="bg-primary-button font-abhaya text-base px-5 py-2 h-auto"
+          className="bg-primary-button font-font-droid text-base px-5 py-2 h-auto"
           onClick={() => navigate(`/our-courses/${data.id}`)}
         >
           Course info
@@ -193,7 +193,7 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
               navigate("/auth");
             }
           }}
-          className="bg-[#64A70B] font-abhaya text-base px-5 py-2 h-auto"
+          className="bg-[#64A70B] font-font-droid text-base px-5 py-2 h-auto"
         >
           Enroll Now
         </Button>

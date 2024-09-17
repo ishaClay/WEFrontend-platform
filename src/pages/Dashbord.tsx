@@ -201,7 +201,7 @@ function Dashbord() {
     <div className="bg-[#F5F7FF] p-5">
       <div className="flex gap-6 mb-5">
         <button
-          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-abhaya"
+          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
           onClick={() => handleClick("companies")}
         >
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -216,7 +216,7 @@ function Dashbord() {
         </button>
 
         <button
-          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-abhaya"
+          className="py-[21px] h-[192px] w-[390px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
           onClick={() => handleClick("companies")}
         >
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -231,7 +231,7 @@ function Dashbord() {
         </button>
 
         <button
-          className="py-[21px]  w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-abhaya"
+          className="py-[21px]  w-[370px] h-[192px] bg-[#FFFFFF]  rounded-[10px] flex flex-col items-center font-font-droid"
           onClick={() => handleClick("companies")}
         >
           <div className="bg-[#F5F7FF] w-[68px] h-[70px] rounded-full">
@@ -250,7 +250,7 @@ function Dashbord() {
           <div className="flex justify-between">
             <div className="  font-semibold">Course Completion Trend</div>
 
-            <button className="bg-[#00778B] text-white px-4 py-2 rounded-[3px] font-abhaya">
+            <button className="bg-[#00778B] text-white px-4 py-2 rounded-[3px] font-font-droid">
               EXPORT REPORT
             </button>
           </div>
@@ -268,7 +268,7 @@ function Dashbord() {
                 Course Enrollment Trends Over Time
               </div>
 
-              <button className=" ml-[150px] bg-[#00778B] text-white px-2 py-2 rounded-[3px] font-abhaya">
+              <button className=" ml-[150px] bg-[#00778B] text-white px-2 py-2 rounded-[3px] font-font-droid">
                 EXPORT REPORT
               </button>
             </div>

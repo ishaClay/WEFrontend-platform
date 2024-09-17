@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useAppDispatch } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { getCountry } from "@/services/apiServices/company";
 import {
   getTrainerById,
@@ -13,6 +15,7 @@ import { AxiosError } from "axios";
 import { MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useParams } from "react-router-dom";
 import * as zod from "zod";
 import ErrorMessage from "../comman/Error/ErrorMessage";
@@ -34,9 +37,6 @@ import {
 } from "../ui/select";
 import { Switch } from "../ui/switch";
 import { toast } from "../ui/use-toast";
-import { setPath } from "@/redux/reducer/PathReducer";
-import { useAppDispatch } from "@/hooks/use-redux";
-import PhoneInputWithCountrySelect from "react-phone-number-input";
 
 const schema = zod.object({
   name: zod.string(),
@@ -190,10 +190,11 @@ const TrainerDetailsEdit = () => {
     // @ts-ignore
     formData.append("image", file);
     // @ts-ignore
-    if(!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name?.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -202,10 +203,10 @@ const TrainerDetailsEdit = () => {
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
-      <div className="font-nunitoSans text-[16px] leading-[22px] text-black">
+      <div className="font-droidSans text-[16px] leading-[22px] text-black">
         <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b mb-[36px]">
           <div>
-            <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            <h3 className="text-[16px] font-[700] font-droid mb-1">
               Trainer Details
             </h3>
             <p className="text-[#606060] text-[15px]">
@@ -226,7 +227,7 @@ const TrainerDetailsEdit = () => {
                   ])
                 )
               }
-              className="gap-4 font-nunito text-[16px] hover:bg-transparent pl-0"
+              className="gap-4 font-droid text-[16px] hover:bg-transparent pl-0"
             >
               <MoveLeft className="text-[#0f170d]" /> Back
             </Button>
@@ -247,7 +248,7 @@ const TrainerDetailsEdit = () => {
                   ])
                 );
               }}
-              className="bg-[#00778B] font-nunito px-5 text-[16px]"
+              className="bg-[#00778B] font-droid px-5 text-[16px]"
             >
               INVITE TRAINER
             </Button>
@@ -259,7 +260,7 @@ const TrainerDetailsEdit = () => {
           <form onSubmit={handleSubmit(handleUpdate)}>
             <div className="px-[15px] sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
               <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 sm:px-6 p-[15px] sm:py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
-                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                   Trainer personal information
                 </h2>
                 <div className="xl:col-span-1 sm:col-span-2 col-span-4 w-full flex justify-start mb-2 md:mb-0">
@@ -285,7 +286,7 @@ const TrainerDetailsEdit = () => {
                                 : clientDetails?.data?.profileImage || ""
                             }
                           />
-                          <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
+                          <AvatarFallback className="uppercase shadow-lg text-[40px] font-droid">
                             {clientDetails?.data?.name?.[0] ||
                               clientDetails?.data?.email?.[0]}
                           </AvatarFallback>
@@ -295,13 +296,13 @@ const TrainerDetailsEdit = () => {
                   </label>
                   {/* <Avatar className="w-28 h-28">
                     <AvatarImage src={clientDetails?.data?.imageUrl} />
-                    <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
+                    <AvatarFallback className="uppercase shadow-lg text-[40px] font-droid">
                       {clientDetails?.data?.name?.[0]}
                       {clientDetails?.data?.name?.[1]}
                     </AvatarFallback>
                   </Avatar> */}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
                   <InputWithLable
                     placeholder="John"
                     className="h-[46px]"
@@ -312,7 +313,7 @@ const TrainerDetailsEdit = () => {
                     <ErrorMessage message={errors.name.message as string} />
                   )}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
                   {/* <InputWithLable
                     placeholder="0044 1234 1234567"
                     className="h-[46px]"
@@ -354,7 +355,7 @@ const TrainerDetailsEdit = () => {
                     )}
                   </div>
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito w-full">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid w-full">
                   <InputWithLable
                     placeholder="john.sample@emailsample.com"
                     className="h-[46px]"
@@ -368,10 +369,10 @@ const TrainerDetailsEdit = () => {
                 </div>
               </div>
               <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 sm:px-6 px-[15px] py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
-                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                   Provider information
                 </h2>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
                     className="h-[46px]"
                     placeholder="Sample Consulting Company"
@@ -384,7 +385,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
                     placeholder="IT or University"
                     className="h-[46px]"
@@ -397,7 +398,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <Label className="mb-[8px]  font-bold text-[16px]">
                     County
                   </Label>
@@ -411,7 +412,7 @@ const TrainerDetailsEdit = () => {
                     value={watch("providerCounty") || ""}
                   />
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
                     placeholder="London"
                     className="h-[46px]"
@@ -424,7 +425,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <Select
                     onValueChange={(data) =>
                       // @ts-ignore
@@ -452,7 +453,7 @@ const TrainerDetailsEdit = () => {
                     />
                   )}
                 </div>
-                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-nunito">
+                <div className="xl:col-span-1 sm:col-span-2 col-span-4 font-droid">
                   <InputWithLable
                     placeholder="Notes 1"
                     className="h-[46px]"
@@ -467,7 +468,7 @@ const TrainerDetailsEdit = () => {
                 </div>
               </div>
               <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] sm:px-6 px-[15px] py-[30px] items-center sm:mb-[36px] mb-[20px]">
-                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                   Trainer Status
                 </h2>
                 <RadioGroup
@@ -517,7 +518,7 @@ const TrainerDetailsEdit = () => {
                 </RadioGroup>
               </div>
               <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] sm:px-6 px-[15px] py-[30px] items-center">
-                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+                <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                   Trainer Permission
                 </h2>
                 <div className="flex flex-wrap items-center gap-4">
@@ -536,7 +537,7 @@ const TrainerDetailsEdit = () => {
                     />
                     <Label
                       htmlFor="airplane-mode"
-                      className="text-[16px] font-nunito"
+                      className="text-[16px] font-droid"
                     >
                       Course Creation Permission
                     </Label>
@@ -556,7 +557,7 @@ const TrainerDetailsEdit = () => {
                     />
                     <Label
                       htmlFor="airplane-mode"
-                      className="text-[16px] font-nunito"
+                      className="text-[16px] font-droid"
                     >
                       Edit Course Permission
                     </Label>
@@ -578,7 +579,7 @@ const TrainerDetailsEdit = () => {
                     />
                     <Label
                       htmlFor="airplane-mode"
-                      className="text-[16px] font-nunito"
+                      className="text-[16px] font-droid"
                     >
                       Assign Certificate Permission
                     </Label>
@@ -589,7 +590,7 @@ const TrainerDetailsEdit = () => {
                 <Button
                   type="submit"
                   isLoading={isUpdate}
-                  className="text-[16px] font-semibold font-nunito uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
+                  className="text-[16px] font-semibold font-droid uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
                 >
                   Update
                 </Button>

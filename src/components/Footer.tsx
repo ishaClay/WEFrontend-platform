@@ -26,16 +26,16 @@ function Footer() {
             </div>
 
             <ul className=" text-white flex flex-col justify-center  gap-y-[3px] text-start secondary-text">
-              <a className="font-calibri text-lg font-normal">Our Courses</a>
-              <a className="font-calibri text-lg font-normal">Membership</a>
-              <a className="font-calibri text-lg font-normal">Testimonial</a>
-              <a className="font-calibri text-lg font-normal">News</a>
-              <a className="font-calibri text-lg font-normal">Contact Us</a>
+              <a className="font-droid text-lg font-normal">Our Courses</a>
+              <a className="font-droid text-lg font-normal">Membership</a>
+              <a className="font-droid text-lg font-normal">Testimonial</a>
+              <a className="font-droid text-lg font-normal">News</a>
+              <a className="font-droid text-lg font-normal">Contact Us</a>
             </ul>
           </div>
 
           <div className="secondary-text mt-[50px]">
-            <ul className="no-underline text-sm leading-5 font-calibri font-normal">
+            <ul className="no-underline text-sm leading-5 font-droid font-normal">
               © County Wexford Chamber 2023. All Rights Reserved.
             </ul>
 

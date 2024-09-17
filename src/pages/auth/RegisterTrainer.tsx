@@ -543,7 +543,7 @@ function RegisterTrainer() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-calibri sm:text-base text-[15px]">
+                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
                       Contact Telephone No.{" "}
                     </label>
                     <PhoneInput
@@ -598,7 +598,7 @@ function RegisterTrainer() {
                   <PrimaryButton
                     type="submit"
                     name="Submit"
-                    className="font-semibold !font-abhaya w-full text-lg h-12 primary-background"
+                    className="font-semibold !font-font-droid w-full text-lg h-12 primary-background"
                   />
                 </div>
                 <div className="w-[296px] h-[30px] font-[400] text-[12px] xl:mt-[112px] mt-2 mx-auto text-center text-[#898989]">
@@ -635,11 +635,11 @@ function RegisterTrainer() {
         onClose={() => setShowOtpPopup(false)}
         className="max-w-[550px]"
       >
-        <div className="mb-[2px] mt-2 text-center font-calibri">
+        <div className="mb-[2px] mt-2 text-center font-droid">
           <h2 className="text-xl font-semibold">
             If you can verify the one-time password emailed to you
           </h2>
-          <p className="text-[#121212] text-[17px] font-calibri">
+          <p className="text-[#121212] text-[17px] font-droid">
             A one- time password has been sent to {email}
           </p>
         </div>
@@ -676,12 +676,12 @@ function RegisterTrainer() {
               variant={"ghost"}
               disabled={time !== 0 || isPending}
               onClick={() => handleResendOtp(email)}
-              className="text-[#121212] text-[17px] font-[700] block p-0 h-auto hover:bg-transparent font-calibri"
+              className="text-[#121212] text-[17px] font-[700] block p-0 h-auto hover:bg-transparent font-droid"
             >
               Resend OTP
             </Button>
             {time !== 0 && (
-              <p className="text-[#121212] text-[17px] font-[700] font-calibri">
+              <p className="text-[#121212] text-[17px] font-[700] font-droid">
                 {formatTime(time)}
               </p>
             )}
@@ -692,7 +692,7 @@ function RegisterTrainer() {
               setShowOtpPopup(false);
               setTime(0);
             }}
-            className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-calibri"
+            className="text-[#369FFF] text-[16px] block p-0 h-auto hover:bg-transparent font-droid"
           >
             Send a different email?
           </Button>

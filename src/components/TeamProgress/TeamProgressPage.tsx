@@ -33,7 +33,7 @@ const TeamProgressPage = () => {
   return (
     <div className="bg-white rounded-xl sm:mt-5 mt-0">
       <div className="p-4 border-b border-[#D9D9D9]">
-        <h4 className="text-[16px] text-[#000000] font-calibri font-semibold">
+        <h4 className="text-[16px] text-[#000000] font-droid font-semibold">
           Team Progress
         </h4>
       </div>
@@ -41,7 +41,7 @@ const TeamProgressPage = () => {
         <div className="relative flex items-center gap-2 md:w-[550px] sm:w-[450px] w-[290px] rounded-lg sm:h-[52px] h-[46px]">
           <Search className="text-[#A3A3A3] absolute left-4" />
           <Input
-            className="pr-4 pl-12 py-2 text-[#A3A3A3] placeholder:text-[#A3A3A3] font-abhaya font-semibold h-full"
+            className="pr-4 pl-12 py-2 text-[#A3A3A3] placeholder:text-[#A3A3A3] font-font-droid font-semibold h-full"
             placeholder="Search by name, email etc."
             onChange={(e) => setSearch(e.target.value)}
           />

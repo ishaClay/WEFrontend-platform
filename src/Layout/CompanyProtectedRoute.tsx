@@ -7,13 +7,6 @@ const CompanyProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = userData ? JSON.parse(userData) : null;
   const userToken = Cookies.get("accessToken") || "";
 
-  console.log(
-    "!userToken || +user?.query?.role !== 1",
-    !userToken,
-    +user?.query?.role !== 1,
-    +user?.query?.role !== 4
-  );
-
   if (!userToken && (+user?.query?.role !== 1 || +user?.query?.role !== 4)) {
     return <Navigate to={"/auth"} />;
   }

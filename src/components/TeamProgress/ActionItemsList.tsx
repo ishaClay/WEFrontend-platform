@@ -34,18 +34,18 @@ const ActionItemsList = ({ data }: ActionItems) => {
           className={`w-[22px] h-[22px] min-w-[22px] min-h-[22px] rounded-sm ${status()}`}
         ></div>
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-black font-abhaya font-semibold">
+          <p className="text-sm text-black font-font-droid font-semibold">
             {data?.measure}
           </p>
           <div className="grid 2xl:grid-cols-2 grid-cols-1 gap-2">
             <div className="flex flex-col gap-2 col-span-1">
-              <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
+              <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Last Updated By :{" "}
                 <span className="text-black">
                   {data?.lastUpdeated?.createdBy?.name}
                 </span>
               </h6>
-              <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
+              <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Last Updated Date :{" "}
                 <span className="text-black">
                   {moment(data.updatedAt).format("DD/MM/YYYY")}
@@ -53,13 +53,13 @@ const ActionItemsList = ({ data }: ActionItems) => {
               </h6>
             </div>
             <div className="flex flex-col gap-2 col-span-1">
-              <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
+              <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Target Completion Date :{" "}
                 <span className="text-black">
                   {moment(data?.endDate)?.format("DD/MM/YYYY")}
                 </span>
               </h6>
-              <h6 className="text-[#606060] text-sm font-abhaya font-semibold">
+              <h6 className="text-[#606060] text-sm font-font-droid font-semibold">
                 Actual Completion Date :{" "}
                 <span className="text-black ml-2">
                   {data?.iscompleted === 1

@@ -87,10 +87,11 @@ const DelayModel = ({
   const handleChanges = (e: any) => {
     const { files } = e.target;
 
-    if(!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!files?.[0]?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -110,7 +111,7 @@ const DelayModel = ({
 
   return (
     <div>
-      <h6 className="text-base font-bold font-nunito pb-1 text-[#000]">
+      <h6 className="text-base font-bold font-droid pb-1 text-[#000]">
         Assigned Action Item Details
       </h6>
       <ScrollArea className="lg:h-auto h-[400px]">
@@ -121,15 +122,15 @@ const DelayModel = ({
                 status() === "Delay"
                   ? "bg-[#F63636] text-white"
                   : "bg-[#FFD56A] text-black"
-              } min-w-[53px] h-[28px] text-sm font-abhaya font-semibold`}
+              } min-w-[53px] h-[28px] text-sm font-font-droid font-semibold`}
             >
               {status()}
             </Badge>
-            <h6 className="font-abhaya text-xl font-bold leading-6 text-[#000] sm:pt-6 pt-4">
+            <h6 className="font-font-droid text-xl font-bold leading-6 text-[#000] sm:pt-6 pt-4">
               {uploadData?.measure}
             </h6>
             <div className="sm:pt-7 pt-5 flex flex-col gap-2.5">
-              <div className="flex items-center text-base font-abhaya font-semibold gap-1">
+              <div className="flex items-center text-base font-font-droid font-semibold gap-1">
                 <h6 className="text-[#777] sm:text-base text-sm">
                   Start date :
                 </h6>
@@ -139,13 +140,13 @@ const DelayModel = ({
                   )}
                 </span>
               </div>
-              <div className="flex items-center text-base font-abhaya font-semibold gap-1">
+              <div className="flex items-center text-base font-font-droid font-semibold gap-1">
                 <h6 className="text-[#777] sm:text-base text-sm">End date :</h6>
                 <span className="text-black sm:text-base text-sm">
                   {moment(new Date(uploadData?.endDate)).format("Do MMMM YYYY")}
                 </span>
               </div>
-              <div className="flex items-center text-base font-abhaya font-semibold gap-1">
+              <div className="flex items-center text-base font-font-droid font-semibold gap-1">
                 <h6 className="text-[#777] sm:text-base text-sm">
                   Last updated by :
                 </h6>
@@ -153,7 +154,7 @@ const DelayModel = ({
                   {userData?.name}
                 </span>
               </div>
-              <div className="flex items-center text-base font-abhaya font-semibold gap-1">
+              <div className="flex items-center text-base font-font-droid font-semibold gap-1">
                 <h6 className="text-[#777] sm:text-base text-sm">
                   Last updated date :
                 </h6>
@@ -172,20 +173,20 @@ const DelayModel = ({
               ) : file ? (
                 <>
                   <FileCheck className="w-[50px] h-[50px] mx-auto" />
-                  <p className="text-lg font-abhaya font-semibold pt-[18px]">
+                  <p className="text-lg font-font-droid font-semibold pt-[18px]">
                     Evidence
                   </p>
                 </>
               ) : (
                 <>
                   <img src={fileImage} alt="" className="mx-auto" />
-                  <p className="text-xs font-abhaya text-[#9E9E9E] font-medium pt-[18px]">
+                  <p className="text-xs font-font-droid text-[#9E9E9E] font-medium pt-[18px]">
                     Drag and drop evidence here
                   </p>
-                  <p className="text-xs font-inter text-[#9E9E9E] pt-2">-OR-</p>
+                  <p className="text-xs font-droid text-[#9E9E9E] pt-2">-OR-</p>
                   <Label
                     htmlFor="upload"
-                    className="w-[120px] h-[34px] flex items-center justify-center bg-[#42A7C3] rounded-[5px] text-[12px] text-white font-abhaya mx-auto mt-[13px] cursor-pointer"
+                    className="w-[120px] h-[34px] flex items-center justify-center bg-[#42A7C3] rounded-[5px] text-[12px] text-white font-font-droid mx-auto mt-[13px] cursor-pointer"
                   >
                     Upload Evidence
                   </Label>
@@ -205,7 +206,7 @@ const DelayModel = ({
                 isLoading={markPending}
                 onClick={handleSubmit}
                 disabled={!file}
-                className="xl:w-[200px] xl:h-[52px] w-[190px] sm:h-[45px] h-9 rounded-[6px] bg-[#58BA66] xl:text-base sm:text-[15px] text-sm font-nunito font-semibold"
+                className="xl:w-[200px] xl:h-[52px] w-[190px] sm:h-[45px] h-9 rounded-[6px] bg-[#58BA66] xl:text-base sm:text-[15px] text-sm font-droid font-semibold"
               >
                 Mark As Complete
               </Button>

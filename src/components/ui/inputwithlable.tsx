@@ -17,7 +17,7 @@ const InputWithLable = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col">
         {label && (
-          <label className="mb-[8px]  font-bold text-[16px]">
+          <label className="mb-[8px]  font-normal text-[16px]">
             {label}{" "}
             <span className="text-red-500">{isMendatory ? "*" : ""}</span>{" "}
           </label>

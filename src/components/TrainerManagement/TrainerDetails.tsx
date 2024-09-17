@@ -82,10 +82,10 @@ const TrainerDetails = () => {
 
   return (
     <div className="bg-white h-full rounded-[6px] overflow-auto">
-      <div className="font-nunitoSans text-[16px] leading-[22px] text-black">
+      <div className="font-droidSans text-[16px] leading-[22px] text-black">
         <div className="p-[15px] md:flex block items-center justify-between border-b mb-[36px]">
           <div>
-            <h3 className="text-[16px] font-[700] font-nunito mb-1">
+            <h3 className="text-[16px] font-[700] font-droid mb-1">
               Trainer Details
             </h3>
             <p className="text-[#606060] text-[15px]">
@@ -127,7 +127,7 @@ const TrainerDetails = () => {
                   ])
                 );
               }}
-              className="bg-[#00778B] font-nunito px-5 text-[16px]"
+              className="bg-[#00778B] font-droid px-5 text-[16px]"
             >
               INVITE TRAINER
             </Button>
@@ -138,19 +138,19 @@ const TrainerDetails = () => {
         ) : (
           <div className="px-[15px] sm:px-4 md:px-6  py-[17px] flex flex-col gap-5">
             <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-9 px-6 py-[30px] sm:gap-8 gap-4 sm:mb-[36px] mb-[20px]">
-              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                 Trainer personal information
               </h2>
               <div className="xl:col-span-2 col-span-4 w-full flex justify-start mb-2 md:mb-0">
                 <Avatar className="w-28 h-28">
                   <AvatarImage src={clientDetails?.data?.profileImage || ""} />
-                  <AvatarFallback className="uppercase shadow-lg text-[40px] font-nunito">
+                  <AvatarFallback className="uppercase shadow-lg text-[40px] font-droid">
                     {clientDetails?.data?.name?.[0] ||
                       clientDetails?.data?.email?.[0]}
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <div className="xl:col-span-2 col-span-5 flex items-center font-nunito w-full">
+              <div className="xl:col-span-2 col-span-5 flex items-center font-droid w-full">
                 <div>
                   <h3 className="text-[#A3A3A3]">Trainer name</h3>
                   <p className="text-[#000]">
@@ -160,7 +160,7 @@ const TrainerDetails = () => {
                   </p>
                 </div>
               </div>
-              <div className="xl:col-span-2 sm:col-span-4 col-span-9 flex items-center font-nunito w-full">
+              <div className="xl:col-span-2 sm:col-span-4 col-span-9 flex items-center font-droid w-full">
                 <div>
                   <h3 className="text-[#A3A3A3]">Contact number</h3>
                   <p className="text-[#000]">
@@ -168,7 +168,7 @@ const TrainerDetails = () => {
                   </p>
                 </div>
               </div>
-              <div className="xl:col-span-2 sm:col-span-5 col-span-9 flex items-center font-nunito w-full">
+              <div className="xl:col-span-2 sm:col-span-5 col-span-9 flex items-center font-droid w-full">
                 <div>
                   <h3 className="text-[#A3A3A3] sm:text-base">Email address</h3>
                   <p className="text-[#000]">
@@ -178,36 +178,36 @@ const TrainerDetails = () => {
               </div>
             </div>
             <div className="border relative border-[#D9D9D9] rounded-[10px] min-h-[160px] grid grid-cols-4 px-6 py-[30px] gap-8 sm:mb-[36px] mb-[20px]">
-              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                 Provider information
               </h2>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">Provider name</h3>
                 <p>{clientDetails?.data?.providerName || "--"}</p>
               </div>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">Provider type</h3>
                 <p>{clientDetails?.data?.providerType || "--"}</p>
               </div>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">County</h3>
                 <p>{clientDetails?.data?.providerCounty || "--"}</p>
               </div>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">City / Town</h3>
                 <p>{clientDetails?.data?.providerCity || "--"}</p>
               </div>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">Foreign provider</h3>
                 <p>{clientDetails?.data?.foreignProvider || "--"}</p>
               </div>
-              <div className="md:col-span-1 col-span-2 font-nunito">
+              <div className="md:col-span-1 col-span-2 font-droid">
                 <h3 className="text-[#A3A3A3] ">Provider note</h3>
                 <p>{clientDetails?.data?.providerNotes || "--"}</p>
               </div>
             </div>
             <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center sm:mb-[36px] mb-[20px]">
-              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                 Trainer Status
               </h2>
               <RadioGroup
@@ -261,7 +261,7 @@ const TrainerDetails = () => {
               </RadioGroup>
             </div>
             <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center">
-              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-nunito">
+              <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
                 Trainer Permission
               </h2>
               <div className="flex md:flex-row flex-col md:items-center items-start gap-4">
@@ -280,7 +280,7 @@ const TrainerDetails = () => {
                   />
                   <Label
                     htmlFor="airplane-mode"
-                    className="text-[16px] font-nunito"
+                    className="text-[16px] font-droid"
                   >
                     Course Creation Permission
                   </Label>
@@ -300,7 +300,7 @@ const TrainerDetails = () => {
                   />
                   <Label
                     htmlFor="airplane-mode"
-                    className="text-[16px] font-nunito"
+                    className="text-[16px] font-droid"
                   >
                     Edit Course Permission
                   </Label>
@@ -322,7 +322,7 @@ const TrainerDetails = () => {
                   />
                   <Label
                     htmlFor="airplane-mode"
-                    className="text-[16px] font-nunito"
+                    className="text-[16px] font-droid"
                   >
                     Assign Certificate Permission
                   </Label>
@@ -333,7 +333,7 @@ const TrainerDetails = () => {
               <Button
                 type="button"
                 onClick={handleSubmit}
-                className="text-[16px] font-semibold font-nunito uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
+                className="text-[16px] font-semibold font-droid uppercase sm:py-[15px] py-[10px] sm:px-[30px] px-[20px] h-auto bg-[#58BA66]"
               >
                 {isPendingUpdate ? (
                   <Loader containerClassName="h-auto" />
@@ -343,7 +343,7 @@ const TrainerDetails = () => {
               </Button>
             </div>
             <div>
-              <h4 className="text-[16px] font-abhaya font-semibold mb-[14px]">
+              <h4 className="text-[16px] font-font-droid font-semibold mb-[14px]">
                 Created Courses
               </h4>
               <div className="grid grid-cols-4 gap-4">
@@ -370,7 +370,7 @@ const TrainerDetails = () => {
                                 alt=""
                                 className="w-[16px] h-[16px]"
                               />
-                              <p className="pl-1 font-semibold font-nunito text-sm mt-1">
+                              <p className="pl-1 font-semibold font-droid text-sm mt-1">
                                 0/5
                               </p>
                             </div>
@@ -387,13 +387,13 @@ const TrainerDetails = () => {
                               })}
                             </div>
                           </div>
-                          <h3 className="text-[16px] font-inter font-[500] xl:mb-[12px] mb-2">
+                          <h3 className="text-[16px] font-droid font-[500] xl:mb-[12px] mb-2">
                             {course?.title}
                           </h3>
-                          <h5 className="text-[16px] font-abhaya font-semibold xl:mb-[13px] mb-2">
+                          <h5 className="text-[16px] font-font-droid font-semibold xl:mb-[13px] mb-2">
                             Company Name : {course?.trainerId?.name}
                           </h5>
-                          <h5 className="text-[16px] font-abhaya font-semibold">
+                          <h5 className="text-[16px] font-font-droid font-semibold">
                             Number Of Employee : 15
                           </h5>
                         </div>
@@ -401,7 +401,7 @@ const TrainerDetails = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="flex items-center justify-center h-[100px] col-span-full text-[16px] font-nunito font-semibold text-[#A3A3A3]">
+                  <p className="flex items-center justify-center h-[100px] col-span-full text-[16px] font-droid font-semibold text-[#A3A3A3]">
                     No Course Available
                   </p>
                 )}

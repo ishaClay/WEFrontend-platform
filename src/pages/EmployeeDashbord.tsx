@@ -405,14 +405,14 @@ function EmployeeDashboard() {
                   alt="nature"
                 />
                 <div>
-                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-abhaya">
+                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-font-droid">
                     <span>JOIN</span>
                     <FaArrowRightLong />
                   </button>
                 </div>
               </div>
               <div className="flex flex-col w-full lg:w-[280px] gap-2 mt-4">
-                <div className="text-[16px] text-[#1D2026] font-inter">
+                <div className="text-[16px] text-[#1D2026] font-droid">
                   Live Session (session title)
                 </div>
                 <h2 className="text-[14px] font-semibold">
@@ -445,14 +445,14 @@ function EmployeeDashboard() {
                   alt="nature"
                 />
                 <div>
-                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-abhaya">
+                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-font-droid">
                     <span>JOIN</span>
                     <FaArrowRightLong />
                   </button>
                 </div>
               </div>
               <div className="flex flex-col w-full lg:w-[280px] gap-2 mt-4">
-                <div className="text-[16px] text-[#1D2026] font-inter">
+                <div className="text-[16px] text-[#1D2026] font-droid">
                   Live Session (session title)
                 </div>
                 <h2 className="text-[14px] font-semibold">
@@ -484,14 +484,14 @@ function EmployeeDashboard() {
                   alt="nature"
                 />
                 <div>
-                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-abhaya">
+                  <button className="mt-[10px] text-[#00778B] font-bold rounded inline-flex items-center gap-2 font-font-droid">
                     <span>JOIN</span>
                     <FaArrowRightLong />
                   </button>
                 </div>
               </div>
               <div className="flex flex-col w-full lg:w-[280px] gap-2 mt-4">
-                <div className="text-[16px] text-[#1D2026] font-inter">
+                <div className="text-[16px] text-[#1D2026] font-droid">
                   Live Session (session title)
                 </div>
                 <h2 className="text-[14px] font-semibold">

@@ -42,13 +42,17 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
           <div className="flex items-center justify-between w-full">
             <div>
               <h5
-                className={cn("sm:text-base text-sm text-black font-nunito pb-2 cursor-pointer inline-block", {
-                  "pointer-events-none" : 
-                    +userData?.query?.role === 4 ?
-                    (data?.moduleSection || data?.moduleSections)?.some(
-                      (item: any) => item?.isStatus !== "Completed"
-                    ) : +userData?.query?.role === 1
-                })}
+                className={cn(
+                  "sm:text-base text-sm text-black font-droid pb-2 cursor-pointer inline-block",
+                  {
+                    "pointer-events-none":
+                      +userData?.query?.role === 4
+                        ? (data?.moduleSection || data?.moduleSections)?.some(
+                            (item: any) => item?.isStatus !== "Completed"
+                          )
+                        : +userData?.query?.role === 1,
+                  }
+                )}
                 onClick={() => {
                   if (+userData?.query?.role !== 1) {
                     navigate(
@@ -71,10 +75,10 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
                 {assessmentData?.title}
               </h5>
               <div className="sm:flex block items-center">
-                <h6 className="text-[#747474] text-xs font-nunito sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
+                <h6 className="text-[#747474] text-xs font-droid sm:pe-3 pe-2 sm:me-3 me-2 border-e border-[#747474]">
                   Assessment
                 </h6>
-                <h6 className="text-[#747474] text-xs font-nunito">
+                <h6 className="text-[#747474] text-xs font-droid">
                   Duration :{" "}
                   {assessmentData?.timeDuration?.hours
                     ?.toString()
@@ -109,7 +113,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
                   )
                 }
                 // isLoading={isPending}
-                className="bg-[#00778B] xl:h-12 h-9 px-5 font-calibri xl:w-[110px] w-[80px] xl:text-base text-sm"
+                className="bg-[#00778B] xl:h-12 h-9 px-5 font-droid xl:w-[110px] w-[80px] xl:text-base text-sm"
                 // disabled={assessmentData?.isCompleted}
               >
                 {data?.assessment?.[0]?.isCompleted ? "View" : "Start"}

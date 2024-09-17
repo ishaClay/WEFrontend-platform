@@ -27,45 +27,47 @@ const AssecessmentTypeTwoOptions = ({
   const handleCheck = () => {
     const selectedOptionValue = data.option;
     setAssesment((prev: any) => {
-        return prev.map((item: any) => {
-            if (item?.ids === id) {
-                return {
-                    ...item,
-                    answer: item?.answer?.includes(selectedOptionValue)
-                        ? item?.answer?.filter((val: string) => val !== selectedOptionValue)
-                        : [...item?.answer, selectedOptionValue],
-                };
-            }
-            return item;
-        });
+      return prev.map((item: any) => {
+        if (item?.ids === id) {
+          return {
+            ...item,
+            answer: item?.answer?.includes(selectedOptionValue)
+              ? item?.answer?.filter(
+                  (val: string) => val !== selectedOptionValue
+                )
+              : [...item?.answer, selectedOptionValue],
+          };
+        }
+        return item;
+      });
     });
     setErrors((prev: any) => ({
-        ...prev,
-        answer: "",
-    }));
-};
-
-const handleRemove = () => {
-  const optionToRemove = data.option;
-  setAssesment((prev: any) => {
-      return prev.map((item: any) => {
-          if (item?.ids === id) {
-              return {
-                  ...item,
-                  answer: item?.answer?.filter(
-                      (val: string) => val !== optionToRemove
-                  ),
-              };
-          }
-          return item;
-      });
-  });
-
-  setErrors((prev: any) => ({
       ...prev,
       answer: "",
-  }));
-};
+    }));
+  };
+
+  const handleRemove = () => {
+    const optionToRemove = data.option;
+    setAssesment((prev: any) => {
+      return prev.map((item: any) => {
+        if (item?.ids === id) {
+          return {
+            ...item,
+            answer: item?.answer?.filter(
+              (val: string) => val !== optionToRemove
+            ),
+          };
+        }
+        return item;
+      });
+    });
+
+    setErrors((prev: any) => ({
+      ...prev,
+      answer: "",
+    }));
+  };
 
   const handleChange = (e: any, i: number) => {
     const { value } = e.target;
@@ -91,14 +93,14 @@ const handleRemove = () => {
     <div className="mb-3">
       <div className="space-x-2 flex items-center justify-between">
         <label htmlFor={data.option} className="flex items-center w-[98%]">
-          <span className="text-sm text-black font-inter w-[80px]">
+          <span className="text-sm text-black font-droid w-[80px]">
             Option {iIndex + 1}
           </span>
           <div className="w-full">
             <div className="w-full flex justify-between items-center relative">
               <Input
                 placeholder={data.option}
-                className="w-full px-4 py-[15px] pr-[80px] text-base font-calibri text-black h-auto"
+                className="w-full px-4 py-[15px] pr-[80px] text-base font-droid text-black h-auto"
                 onChange={(e) => {
                   handleChange(e, iIndex);
                 }}
@@ -123,7 +125,12 @@ const handleRemove = () => {
             className="border border-[#D9D9D9] w-[22px] h-[22px]"
             onCheckedChange={handleCheck}
             // @ts-ignore
-            checked={assesment?.find((item) => item.ids === id)?.answer?.includes(data?.option) || false}
+            checked={
+              assesment
+                ?.find((item) => item.ids === id)
+                // @ts-ignore
+                ?.answer?.includes(data?.option) || false
+            }
           />
         </div>
       </div>

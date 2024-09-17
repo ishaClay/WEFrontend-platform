@@ -178,10 +178,10 @@ const CourseGridView = ({
         <div className="">
           <div className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between">
             <div>
-              <span className="font-inter lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
+              <span className="font-droid lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
                 {recommendeddata.title}
               </span>
-              <h3 className="text-[#000000] text-[18px] font-calibri font-[600] sm:w-[100px] w-[80px] mb-3">
+              <h3 className="text-[#000000] text-[18px] font-droid font-[600] sm:w-[100px] w-[80px] mb-3">
                 €{recommendeddata.price}
               </h3>
               <div className="mb-3">
@@ -190,7 +190,7 @@ const CourseGridView = ({
                     return (
                       <div className="flex gap-2 items-center">
                         <p
-                          className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full sm:text-base text-sm font-normal font-calibri leading-[22px]`}
+                          className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full sm:text-base text-sm font-normal font-droid leading-[22px]`}
                         >
                           {item?.fetchPillar?.pillarName}
                         </p>
@@ -333,7 +333,13 @@ const CourseGridView = ({
                 className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
                 disabled={recommendeddata?.enrolled}
               >
-                {recommendeddata?.enrolled ? recommendeddata?.enrolledStatus === 1 ? "Enrolled" : recommendeddata?.enrolledStatus === 0 ? "Pending Enrollment": " " : "Enroll Now"}
+                {recommendeddata?.enrolled
+                  ? recommendeddata?.enrolledStatus === 1
+                    ? "Enrolled"
+                    : recommendeddata?.enrolledStatus === 0
+                    ? "Pending Enrollment"
+                    : " "
+                  : "Enroll Now"}
               </Button>
             </div>
           </div>

@@ -54,7 +54,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
       </Modal>
       <div className="flex flex-col sm:gap-3 gap-2">
         <h5>{data.measure}</h5>
-        <h6 className="sm:text-sm text-xs text-[#00000099] font-nunito flex items-center xl:mb-0 mb-2">
+        <h6 className="sm:text-sm text-xs text-[#00000099] font-droid flex items-center xl:mb-0 mb-2">
           <MdOutlineCalendarMonth className="h-[20px] w-[20px] text-[#666666] me-2" />
           Date:
           <span className="text-black ps-2">
@@ -70,7 +70,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
               status() === "Delay"
                 ? "bg-[#F63636] text-white"
                 : "bg-[#FFD56A] text-black"
-            } text-sm font-calibri rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
+            } text-sm font-droid rounded-full h-[28px] px-2 min-w-[66px] sm:mb-2.5 mb-0`}
           >
             {status()}
           </Button>
@@ -102,7 +102,7 @@ const ActionItemsList = ({ data }: ActionItemsProps) => {
               </a>
             )}
 
-            <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-nunito font-semibold flex items-center sm:px-2.5 px-0">
+            <Button className="bg-transparent text-[#58BA66] sm:text-base text-sm font-droid font-semibold flex items-center sm:px-2.5 px-0">
               <CircleCheck width={20} /> Completed
             </Button>
           </div>

@@ -150,14 +150,14 @@ const ModuleCreationItems = ({
     <div className="border border-[#D9D9D9] rounded-lg mb-5">
       <div className="sm:p-5 p-4">
         <div className="flex justify-between items-center pb-4">
-          <h4 className="font-bold font-calibri sm:text-xl text-base">
+          <h4 className="font-bold font-droid sm:text-xl text-base">
             Module {moduleListlength ? moduleListlength + 1 : index + 1}
           </h4>
           {(index !== 0 || moduleListlength > 0) && (
             <Button
               type="button"
               onClick={() => removeModule(index)}
-              className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-calibri p-0 gap-1 h-auto"
+              className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-droid p-0 gap-1 h-auto"
             >
               <CircleX width={16} />
               Remove
@@ -165,17 +165,17 @@ const ModuleCreationItems = ({
           )}
         </div>
         <div className="">
-          <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+          <h6 className="sm:text-base text-sm font-droid text-[#515151] pb-2">
             Module Title
           </h6>
           <Input
             {...register(`modules.${index}.moduleTitle`)}
-            className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
+            className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-droid"
           />
           {errors.modules?.[index]?.moduleTitle && (
-            // <span className="font-primary text-xs font-calibri text-red-500">{errors.modules[index].moduleTitle?.message}</span>
+            // <span className="font-primary text-xs font-droid text-red-500">{errors.modules[index].moduleTitle?.message}</span>
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errors.modules?.[index]?.moduleTitle?.message}
             />
           )}
@@ -188,20 +188,20 @@ const ModuleCreationItems = ({
           <div key={index} className="sm:p-5 p-4 border-t border-[#D9D9D9]">
             <div className="pb-5">
               <div className="pb-2 flex flex-wrap justify-between items-center ">
-                <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+                <h6 className="sm:text-base text-sm font-droid text-[#515151]">
                   Section Title
                 </h6>
                 <div className="flex items-center">
                   {sectionindex !== 0 && (
                     <Button
                       onClick={() => removeSection(sectionindex)}
-                      className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-calibri"
+                      className="text-[#FF5252] flex items-center text-sm bg-transparent hover:bg-transparent font-droid"
                     >
                       <CircleX className="me-1" width={18} />
                       Remove
                     </Button>
                   )}
-                  <h6 className="sm:text-base text-sm flex gap-2 items-center font-calibri text-[#515151]">
+                  <h6 className="sm:text-base text-sm flex gap-2 items-center font-droid text-[#515151]">
                     <Switch
                       checked={sectionItem?.isLive}
                       onCheckedChange={(val) => {
@@ -223,12 +223,12 @@ const ModuleCreationItems = ({
                 {...register(
                   `modules.${index}.section.${sectionindex}.sectionTitle`
                 )}
-                className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-calibri"
+                className="border border-[#D9D9D9] rounded-md px-4 py-3 w-full  text-base text-[#1D2026] font-droid"
               />
               {errors.modules?.[index]?.section?.[sectionindex]
                 ?.sectionTitle && (
                 <FormError
-                  className="font-calibri not-italic"
+                  className="font-droid not-italic"
                   message={
                     errors.modules[index].section[sectionindex].sectionTitle
                       ?.message
@@ -237,9 +237,9 @@ const ModuleCreationItems = ({
               )}
             </div>
             <div className="pb-5">
-              <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+              <h6 className="sm:text-base text-sm font-droid text-[#515151] pb-2">
                 Information{" "}
-                <span className="text-xs">(Max 5000 words only)</span>
+                <span className="text-xs">(Max 5000 characters only)</span>
               </h6>
               <div className="relative">
                 <CKEditorComponent
@@ -284,7 +284,7 @@ const ModuleCreationItems = ({
                 errors.modules?.[index]?.section?.[sectionindex]
                   ?.information) && (
                 <FormError
-                  className="font-calibri not-italic"
+                  className="font-droid not-italic"
                   message={
                     informationError ||
                     errors.modules[index].section[sectionindex].information
@@ -306,7 +306,7 @@ const ModuleCreationItems = ({
                   setIsUploading={setIsUploading}
                 />
                 <div className="pb-5">
-                  <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+                  <h6 className="sm:text-base text-sm font-droid text-[#515151] pb-2">
                     OR Enter Youtube Video URL
                   </h6>
                   <Input
@@ -320,7 +320,7 @@ const ModuleCreationItems = ({
                       )
                     }
                     disabled={sectionItem.uploadContentType > 0}
-                    className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-calibri disabled:bg-[#e7e6e6] 
+                    className={`border border-[#D9D9D9] rounded-md px-4 py-3 w-full outline-none text-base text-[#1D2026] font-droid disabled:bg-[#e7e6e6] 
                       ${
                         sectionItem.uploadContentType > 0
                           ? "bg-[#e7e6e6] border-[#d7d7d7]"
@@ -331,7 +331,7 @@ const ModuleCreationItems = ({
                     ?.youtubeUrl ||
                     urlError) && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={
                         errors?.modules?.[index]?.section?.[sectionindex]
                           ?.youtubeUrl?.message || urlError
@@ -341,9 +341,9 @@ const ModuleCreationItems = ({
                 </div>
                 <div className="">
                   <div className="flex items-center justify-between pb-2">
-                    <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+                    <h6 className="sm:text-base text-sm font-droid text-[#515151]">
                       Upload Related Document to Download
-                      <span className="text-xs">
+                      <span className="text-xs ml-1">
                         (Supported File:- .Pdf, .Ppt, docx)
                       </span>
                     </h6>
@@ -363,12 +363,12 @@ const ModuleCreationItems = ({
                       placeholder={sectionItem.uploadDocument
                         ?.split("/")
                         .at(-1)}
-                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-calibri focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+                      className="border-bone w-full  sm:text-base text-sm bg-transparent text-[#606060] font-droid focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                       disabled
                     />
                     <Label
                       htmlFor={`modules.${index}.section.${sectionindex}.AttechmentUpload`}
-                      className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[144px] font-bold text-xs font-calibri text-white px-2 sm:py-3 py-1 rounded-lg"
+                      className="bg-[#42A7C3] flex sm:h-10 h-8 items-center min-w-[150px] font-medium text-xs font-droid text-white px-2 sm:py-3 py-1 rounded-lg"
                     >
                       {" "}
                       <Link width={18} className="me-2" />
@@ -387,7 +387,7 @@ const ModuleCreationItems = ({
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.uploadDocument && (
                   <FormError
-                    className="font-calibri not-italic"
+                    className="font-droid not-italic"
                     message={
                       errors.modules[index].section[sectionindex].uploadDocument
                         ?.message
@@ -395,7 +395,7 @@ const ModuleCreationItems = ({
                   />
                 )}
                 <div className="mb-5 pt-5">
-                  <h5 className="text-[#515151] text-sm font-calibri pb-2">
+                  <h5 className="text-[#515151] text-sm font-droid pb-2">
                     Duration (Reading or Watching Time)
                   </h5>
                   <div className="flex sm:flex-row flex-col gap-5">
@@ -411,7 +411,7 @@ const ModuleCreationItems = ({
                         )}
                         className="w-full p-3 pr-10 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Hour
                       </h6>
                     </div>
@@ -428,7 +428,7 @@ const ModuleCreationItems = ({
                         value={watch("readingTime.minute")}
                         className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Minute
                       </h6>
                     </div>
@@ -444,7 +444,7 @@ const ModuleCreationItems = ({
                         )}
                         className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Second
                       </h6>
                     </div>
@@ -452,7 +452,7 @@ const ModuleCreationItems = ({
                   {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
                     ?.hour && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={
                         errors.modules?.[index]?.section?.[sectionindex]
                           .readingTime?.hour?.message
@@ -462,7 +462,7 @@ const ModuleCreationItems = ({
                   {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
                     ?.minute && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={
                         errors.modules?.[index]?.section?.[sectionindex]
                           .readingTime?.minute?.message
@@ -472,7 +472,7 @@ const ModuleCreationItems = ({
                   {errors.modules?.[index]?.section?.[sectionindex]?.readingTime
                     ?.second && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={
                         errors.modules?.[index]?.section?.[sectionindex]
                           .readingTime?.second?.message
@@ -485,7 +485,7 @@ const ModuleCreationItems = ({
                   !sectionItem.youtubeUrl &&
                   !sectionItem.uploadedContentUrl && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={
                         errors.modules?.[index]?.section?.[sectionindex]
                           ?.uploadedContentUrl?.uploadContentType?.youtubeUrl
@@ -498,7 +498,7 @@ const ModuleCreationItems = ({
               <div>
                 <div className="flex sm:flex-row flex-col gap-5">
                   <div className="">
-                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Duration (HH)
                     </h6>
                     <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
@@ -514,13 +514,13 @@ const ModuleCreationItems = ({
                         )}
                         className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Hours
                       </h6>
                     </div>
                   </div>
                   <div className="">
-                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Minute (MM)
                     </h6>
                     <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
@@ -536,14 +536,14 @@ const ModuleCreationItems = ({
                         type="number"
                         className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Minute
                       </h6>
                     </div>
                     {errors.modules?.[index]?.section?.[sectionindex]
                       ?.livesessionDuration?.minute && (
                       <FormError
-                        className="font-calibri not-italic"
+                        className="font-droid not-italic"
                         message={
                           errors.modules?.[index]?.section?.[sectionindex]
                             ?.livesessionDuration?.minute?.message
@@ -552,7 +552,7 @@ const ModuleCreationItems = ({
                     )}
                   </div>
                   <div className="">
-                    <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+                    <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
                       Section Seconds (SS)
                     </h6>
                     <div className="sm:w-[145px] sm:h-[46px] h-11 w-full flex justify-between items-center relative">
@@ -567,14 +567,14 @@ const ModuleCreationItems = ({
                         type="number"
                         className="w-full p-3 pr-12 text-sm text-black h-full"
                       />
-                      <h6 className="text-[10px] text-[#515151] font-calibri absolute right-3">
+                      <h6 className="text-[10px] text-[#515151] font-droid absolute right-3">
                         Second
                       </h6>
                     </div>
                     {errors.modules?.[index]?.section?.[sectionindex]
                       ?.livesessionDuration?.second && (
                       <FormError
-                        className="font-calibri not-italic"
+                        className="font-droid not-italic"
                         message={
                           errors.modules?.[index]?.section?.[sectionindex]
                             ?.livesessionDuration.second?.message
@@ -586,7 +586,7 @@ const ModuleCreationItems = ({
                 {errors.modules?.[index]?.section?.[sectionindex]
                   ?.livesessionDuration?.hour && (
                   <FormError
-                    className="font-calibri not-italic"
+                    className="font-droid not-italic"
                     message={
                       errors.modules?.[index]?.section?.[sectionindex]
                         ?.livesessionDuration?.hour?.message
@@ -601,7 +601,7 @@ const ModuleCreationItems = ({
       <div className="flex sm:justify-end justify-center sm:gap-4 gap-2.5 sm:px-5 px-4 sm:pb-5 pb-4">
         <Button
           type="button"
-          className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[141px] w-[131px] h-9"
+          className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-droid text-xs sm:gap-2 gap-1 sm:w-[141px] w-[131px] h-9"
           onClick={() => setIsOpenAssessmentModal(true)}
           disabled
         >
@@ -611,9 +611,9 @@ const ModuleCreationItems = ({
           <Button
             type="button"
             onClick={() => appendSection({ ...intialSectionCreation })}
-            className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-inter text-xs sm:gap-2 gap-1 sm:w-[147px] w-[133px] h-9"
+            className="bg-[#42A7C3] sm:px-2 px-1 py-2 font-droid text-xs sm:gap-2 gap-1 sm:w-[147px] w-[133px] h-9"
           >
-            <CirclePlus width={18} /> Add More Section
+            <CirclePlus width={18} /> Add Section
           </Button>
         )}
       </div>

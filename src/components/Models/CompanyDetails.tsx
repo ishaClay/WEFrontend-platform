@@ -20,30 +20,30 @@ const CompanyDetails = ({
       open={isOpen}
       onClose={() => setIsOpen(false)}
       header="Company Details"
-      titleClassName="text-[20px] font-calibri font-semibold"
+      titleClassName="text-[20px] font-droid font-semibold"
     >
       <div>
         <div className="flex items-start">
-          <h3 className="text-[18px] font-calibri font-semibold max-w-[145px] w-full">
+          <h3 className="text-[18px] font-droid font-semibold max-w-[145px] w-full">
             Company Number:{" "}
           </h3>
-          <span className="text-[18px] font-calibri font-normal">
+          <span className="text-[18px] font-droid font-normal">
             {companyData?.company_num}
           </span>
         </div>
         <div className="flex items-start">
-          <h3 className="text-[18px] font-calibri font-semibold max-w-[145px] w-full">
+          <h3 className="text-[18px] font-droid font-semibold max-w-[145px] w-full">
             Company Name:{" "}
           </h3>
-          <span className="text-[18px] font-calibri font-normal">
+          <span className="text-[18px] font-droid font-normal">
             {companyData?.company_name}
           </span>
         </div>
         <div className="flex items-start">
-          <h3 className="text-[18px] font-calibri font-semibold max-w-[145px] w-full">
+          <h3 className="text-[18px] font-droid font-semibold max-w-[145px] w-full">
             Company Address:{" "}
           </h3>
-          <span className="text-[18px] font-calibri font-normal">
+          <span className="text-[18px] font-droid font-normal">
             {companyData?.company_addr_1}, {companyData?.company_addr_2}
             {companyData?.company_addr_3 ? "," : ""}{" "}
             {companyData?.company_addr_3}
@@ -52,10 +52,10 @@ const CompanyDetails = ({
           </span>
         </div>
         <div className="flex items-start">
-          <h3 className="text-[18px] font-calibri font-semibold max-w-[145px] w-full">
+          <h3 className="text-[18px] font-droid font-semibold max-w-[145px] w-full">
             Place of Business:{" "}
           </h3>
-          <span className="text-[18px] font-calibri font-normal">
+          <span className="text-[18px] font-droid font-normal">
             {companyData?.place_of_business}
           </span>
         </div>
@@ -63,14 +63,14 @@ const CompanyDetails = ({
           <Button
             type="button"
             onClick={handleReject}
-            className="w-full bg-slate-200 text-[#000] font-calibri text-[16px]"
+            className="w-full bg-slate-200 text-[#000] font-droid text-[16px]"
           >
             No
           </Button>
           <Button
             type="button"
             onClick={handleAccept}
-            className="w-full bg-[#297F94] text-[#fff] font-calibri text-[16px]"
+            className="w-full bg-[#297F94] text-[#fff] font-droid text-[16px]"
           >
             Yes
           </Button>

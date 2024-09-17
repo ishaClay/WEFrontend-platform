@@ -170,7 +170,7 @@ function EmployeeSupportRequestSecond() {
                 </div>
               </div>
               <div className="ml-0 md:ml-[20px] mt-2 md:mt-0">
-                <button className="bg-[#00778B] text-white px-3 py-1 rounded font-abhaya">
+                <button className="bg-[#00778B] text-white px-3 py-1 rounded font-font-droid">
                   DOWNLOAD
                 </button>
               </div>
@@ -211,7 +211,7 @@ function EmployeeSupportRequestSecond() {
                 </div>
               </div>
               <div className="ml-0 md:ml-[20px] mt-2 md:mt-0">
-                <button className="bg-[#00778B] text-white px-3 py-1 rounded font-abhaya">
+                <button className="bg-[#00778B] text-white px-3 py-1 rounded font-font-droid">
                   DOWNLOAD
                 </button>
               </div>
@@ -247,7 +247,7 @@ function EmployeeSupportRequestSecond() {
                 </div>
                 <span>Upload Document </span>
               </label>
-              <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4 md:mt-0 md:ml-auto font-abhaya">
+              <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mt-4 md:mt-0 md:ml-auto font-font-droid">
                 SUBMIT
               </button>
             </div>

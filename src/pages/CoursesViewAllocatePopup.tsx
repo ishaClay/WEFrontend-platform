@@ -266,7 +266,7 @@ function CourseViewAllocatePopup({
                       return (
                         <div className="flex gap-2 items-center">
                           <p
-                            className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full text-base font-normal font-calibri leading-[22px]`}
+                            className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full text-base font-normal font-droid leading-[22px]`}
                           >
                             {item?.fetchPillar?.pillarName}
                           </p>
@@ -382,7 +382,7 @@ function CourseViewAllocatePopup({
               {isInvite ? (
                 <div className="pt-[10px]">
                   <div className="mb-3">
-                    <h5 className="text-[16px] font-calibri font-bold leading-5 pb-[6px]">
+                    <h5 className="text-[16px] font-droid font-bold leading-5 pb-[6px]">
                       Invite Team Member
                     </h5>
                     <p className="text-[15px] text-[#606060] font-semibold">
@@ -396,9 +396,9 @@ function CourseViewAllocatePopup({
                         <InputWithLabel
                           type="text"
                           label="First Name"
-                          className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                          className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
                           placeholder="Enter First Name"
-                          labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                          labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                           {...register("fname")}
                           error={errors?.fname?.message as string}
                         />
@@ -408,8 +408,8 @@ function CourseViewAllocatePopup({
                           type="text"
                           label="Last Name"
                           placeholder="Enter Last Name"
-                          className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
-                          labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                          className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                          labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                           {...register("lname")}
                           error={errors?.lname?.message as string}
                         />
@@ -419,8 +419,8 @@ function CourseViewAllocatePopup({
                           type="text"
                           label="Team Member Email"
                           placeholder="Enter email id"
-                          className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
-                          labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                          className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                          labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                           {...register("email")}
                           error={errors?.email?.message as string}
                         />
@@ -429,8 +429,8 @@ function CourseViewAllocatePopup({
                         <TextAreaWithLabel
                           label="Invitation Details"
                           placeholder="Enter Details"
-                          className="font-nunito text-[#000000] sm:text-[16px] text-[14px]"
-                          labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                          className="font-droid text-[#000000] sm:text-[16px] text-[14px]"
+                          labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                           isLength={false}
                           {...register("message")}
                           error={errors?.message?.message as string}
@@ -523,12 +523,9 @@ function CourseViewAllocatePopup({
                       disabled={isReadOnly}
                       className="bg-[#58BA66] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                       onClick={handleAllocation}
+                      isLoading={isAllocatePending}
                     >
-                      {isAllocatePending ? (
-                        <Loader containerClassName="h-auto" />
-                      ) : (
-                        "Edit Allocation"
-                      )}
+                      Save
                     </Button>
                   </div>
                 </>

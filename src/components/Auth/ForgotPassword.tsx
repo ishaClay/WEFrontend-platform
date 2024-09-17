@@ -94,7 +94,7 @@ const ForgotPassword = () => {
                 <InputWithLabel
                   className="w-full h-[52px] secondary-background mt-1"
                   label="Email"
-                  labelClassName="text-[16px] text-[#3A3A3A] font-bold font-calibri"
+                  labelClassName="text-[16px] text-[#3A3A3A] font-bold font-droid"
                   type="email"
                   placeholder="Enter Email"
                   {...register("email")}
@@ -102,7 +102,7 @@ const ForgotPassword = () => {
                 />
                 <button
                   type="submit"
-                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] text-sm !font-abhaya font-semibold"
+                  className="primary-background rounded w-full h-[48px] secondary-text mt-[32px] text-sm !font-font-droid font-semibold"
                 >
                   {isPending ? <Loader containerClassName="h-auto" /> : "Send"}
                 </button>

@@ -201,7 +201,7 @@ export function AllocatedCertificateModal({
               <div className="pt-[10px]">
                 <div className="mb-3 flex items-end justify-between">
                   <div className="">
-                    <h5 className="text-[16px] font-calibri font-bold leading-5 pb-[6px]">
+                    <h5 className="text-[16px] font-droid font-bold leading-5 pb-[6px]">
                       Invite Team Member
                     </h5>
                     <p className="text-[15px] text-[#606060] font-semibold">
@@ -224,9 +224,9 @@ export function AllocatedCertificateModal({
                       <InputWithLabel
                         type="text"
                         label="First Name"
-                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
                         placeholder="Enter First Name"
-                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                         {...register("fname")}
                         error={errors?.fname?.message as string}
                       />
@@ -236,8 +236,8 @@ export function AllocatedCertificateModal({
                         type="text"
                         label="Last Name"
                         placeholder="Enter Last Name"
-                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
-                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                         {...register("lname")}
                         error={errors?.lname?.message as string}
                       />
@@ -247,8 +247,8 @@ export function AllocatedCertificateModal({
                         type="text"
                         label="Team Member Email"
                         placeholder="Enter email id"
-                        className="font-nunito mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
-                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        className="font-droid mt-[8px] text-[#000000] sm:text-[16px] text-[14px] sm:h-[52px] h-[45px]"
+                        labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                         {...register("email")}
                         error={errors?.email?.message as string}
                       />
@@ -257,8 +257,8 @@ export function AllocatedCertificateModal({
                       <TextAreaWithLabel
                         label="Invitation Details"
                         placeholder="Enter Details"
-                        className="font-nunito text-[#000000] sm:text-[16px] text-[14px]"
-                        labelClassName="text-[#000000] !text-[16px] font-nunito leading-[22px]"
+                        className="font-droid text-[#000000] sm:text-[16px] text-[14px]"
+                        labelClassName="text-[#000000] !text-[16px] font-droid leading-[22px]"
                         isLength={false}
                         {...register("message")}
                         error={errors?.message?.message as string}

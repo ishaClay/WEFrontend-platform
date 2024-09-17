@@ -345,11 +345,11 @@ const Compose = () => {
                 value={client}
               >
                 <SelectGroup>
-                  <SelectLabel className="mb-[11px] !mt-0 p-0 text-base font-calibri font-normal">
+                  <SelectLabel className="mb-[11px] !mt-0 p-0 text-base font-droid font-normal">
                     To <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
-                    className={`w-full px-[15px] py-4 h-[52px] text-base font-calibri${
+                    className={`w-full px-[15px] py-4 h-[52px] text-base font-droid${
                       !client ? "text-neutral-400 " : ""
                     } `}
                   >
@@ -422,13 +422,13 @@ const Compose = () => {
                 value={String(chatMessage)}
               >
                 <SelectGroup>
-                  <SelectLabel className="mb-[11px] p-0 text-base font-calibri font-normal">
+                  <SelectLabel className="mb-[11px] p-0 text-base font-droid font-normal">
                     {role === UserRole?.SuperAdmin
                       ? "Email Templates"
                       : "Message Templates"}
                   </SelectLabel>
                   <SelectTrigger
-                    className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-calibri`}
+                    className={`w-full px-[15px] py-4 h-[52px] placeholder:text-[#A3A3A3] text-base font-droid`}
                   >
                     <SelectValue placeholder="Select template" />
                   </SelectTrigger>
@@ -457,12 +457,12 @@ const Compose = () => {
               )}
             </div>
             <div>
-              <Label className="mb-[11px] inline-block text-base font-calibri font-normal">
+              <Label className="mb-[11px] inline-block text-base font-droid font-normal">
                 Message <span className="text-red-400">*</span>
               </Label>
               <div>
                 <Textarea
-                  className="h-[250px] px-[15px] py-[20px] shadow-none outline-none focus:border-[#4b4b4b] resize-none bg-white border border-[#d9d9d9] placeholder:text-[#A3A3A3] text-base font-calibri"
+                  className="h-[250px] px-[15px] py-[20px] shadow-none outline-none focus:border-[#4b4b4b] resize-none bg-white border border-[#d9d9d9] placeholder:text-[#A3A3A3] text-base font-droid"
                   placeholder="Enter message"
                   {...register("message")}
                   // onChange={(e) => setChatMessage(e.target.value)}

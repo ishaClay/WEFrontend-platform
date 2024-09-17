@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import HomeBannerImage from "@/assets/images/HomeBanner.png";
 import HomeBg from "@/assets/images/homeBgsocial.png";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -49,10 +50,10 @@ const HomeBanner = () => {
                     <div className="flex items-center justify-around md:flex-row flex-col w-full">
                       <div className="xl:max-w-[650px] md:max-w-[450px] max-w-full w-full flex flex-col md:gap-y-10 gap-y-10">
                         <div className="md:bg-transparent bg-[#1a5762] md:shadow-none rounded-lg shadow-md md:py-0 md:px-0 py-5 px-4 md:m-0 m-5 mt-0">
-                          <h6 className="md:text-[36px] text-[24px] font-bold secondary-text font-UniNeue xl:mb-5 sm:mb-4 mb-2.5 sm:max-w-[450px] w-full md:leading-10 leading-8">
+                          <h6 className="md:text-[36px] text-[24px] font-bold secondary-text font-droid xl:mb-5 sm:mb-4 mb-2.5 sm:max-w-[450px] w-full md:leading-10 leading-8">
                             {item.title}
                           </h6>
-                          <p className="sm:w-[500px] w-full font-medium secondary-text md:text-lg text-base font-Droid-Regular line-clamp-3 leading-5 xl:mb-10 sm:mb-5 mb-2.5">
+                          <p className="sm:w-[500px] w-full font-medium secondary-text md:text-lg text-base font-droid line-clamp-3 leading-5 xl:mb-10 sm:mb-5 mb-2.5">
                             {item.content}
                           </p>
                           <SecondaryButton
@@ -61,11 +62,11 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("company");
-                              var headerOffset = 60;
-                              var elementPosition =
+                              const headerOffset = 60;
+                              const elementPosition =
                                 // @ts-ignore
                                 element.getBoundingClientRect().top;
-                              var offsetPosition =
+                              const offsetPosition =
                                 elementPosition +
                                 window.pageYOffset -
                                 headerOffset;
@@ -81,7 +82,7 @@ const HomeBanner = () => {
                                 className="md:w-[26px] md:h-[26px] w-[15px] h-[15px]"
                               />
                             }
-                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
+                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-normal font-font-droid !bg-[#75BD43]"
                             // isLink={!!item?.primaryButtonUrl}
                           />
                           <SecondaryButton
@@ -90,11 +91,11 @@ const HomeBanner = () => {
                             onClick={() => {
                               const element =
                                 document.getElementById("trainer");
-                              var headerOffset = 60;
-                              var elementPosition =
+                              const headerOffset = 60;
+                              const elementPosition =
                                 // @ts-ignore
                                 element.getBoundingClientRect().top;
-                              var offsetPosition =
+                              const offsetPosition =
                                 elementPosition +
                                 window.pageYOffset -
                                 headerOffset;
@@ -110,7 +111,7 @@ const HomeBanner = () => {
                                 className="md:w-[26px] md:h-[26px] w-[15px] h-[15px]"
                               />
                             }
-                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[2.5rem] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-semibold font-abhaya !bg-[#75BD43]"
+                            className="xl:w-[278px] w-[258px] xl:h-[59px] md:h-[50px] h-7 xl:mt-[2.5rem] sm:mt-[20px] mt-2.5 flex gap-[10px] justify-center items-center rounded-[4px] md:text-lg text-sm font-normal font-font-droid !bg-[#75BD43]"
                             // isLink={!!item?.secondaryButtonUrl}
                           />
                         </div>
@@ -123,7 +124,7 @@ const HomeBanner = () => {
                         </div>
                         <div className="md:bg-transparent bg-[#1a5762] md:shadow-none shadow-md text-[#ACEBF5] text-[18px] flex md:flex-row flex-col md:items-center items-start md:gap-1 sm:gap-3 gap-6 md:py-0 md:px-0 py-5 px-4">
                           <div className="flex md:gap-1 gap-3 items-center">
-                            <div>
+                            <div className="w-5 h-5">
                               <img
                                 src="../assets/img/Arrow Right (1).png"
                                 className="w-5 h-5"
@@ -135,7 +136,7 @@ const HomeBanner = () => {
                             </h3>
                           </div>
                           <div className="flex md:gap-1 gap-3 items-center">
-                            <div>
+                            <div className="w-5 h-5">
                               <img
                                 src="../assets/img/Arrow Right (1).png"
                                 className="w-5 h-5"
@@ -147,7 +148,7 @@ const HomeBanner = () => {
                             </h3>
                           </div>
                           <div className="flex md:gap-1 gap-3 items-center">
-                            <div>
+                            <div className="w-5 h-5">
                               <img
                                 src="../assets/img/Arrow Right (1).png"
                                 className="w-5 h-5"

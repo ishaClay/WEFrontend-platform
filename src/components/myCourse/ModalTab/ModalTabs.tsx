@@ -59,25 +59,25 @@ const ModalTabs = ({
           <TabsList className="p-0 flex sm:flex-col justify-start gap-3 w-full h-full">
             <TabsTrigger
               value="profile"
-              className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] sm:inline-block hidden data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-left"
+              className="sm:text-[13px] text-xs font-droid w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] sm:inline-block hidden data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-left"
             >
               Profile Settings
             </TabsTrigger>
             <TabsTrigger
               value="account"
-              className="sm:text-[13px] text-xs font-Poppins w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] sm:inline-block hidden data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-left"
+              className="sm:text-[13px] text-xs font-droid w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] sm:inline-block hidden data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-left"
             >
               Account Settings
             </TabsTrigger>
             <TabsTrigger
               value="profile"
-              className="sm:hidden sm:text-[13px] text-xs font-Poppins w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-center"
+              className="sm:hidden sm:text-[13px] text-xs font-droid w-full py-2.5 hover:bg-[#00778B] hover:text-white rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-center"
             >
               Profile
             </TabsTrigger>
             <TabsTrigger
               value="account"
-              className="sm:hidden sm:text-[13px] text-xs font-Poppins w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-center"
+              className="sm:hidden sm:text-[13px] text-xs font-droid w-full hover:bg-[#00778B] hover:text-white py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] inline-block data-[state=active]:text-[#fff] data-[state=active]:bg-[#00778B] px-3 text-center"
             >
               Account
             </TabsTrigger>
@@ -85,7 +85,7 @@ const ModalTabs = ({
               variant={"ghost"}
               type="button"
               onClick={handleLogout}
-              className="sm:text-[13px] text-xs font-Poppins w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] hover:bg-[#00778B] hover:text-white px-3 sm:text-left text-center justify-center"
+              className="sm:text-[13px] text-xs font-droid w-full py-2.5 rounded-md bg-[#F5F5F5] text-[#606060] hover:bg-[#00778B] hover:text-white px-3 sm:text-left text-center justify-center"
             >
               Log Out
             </Button>

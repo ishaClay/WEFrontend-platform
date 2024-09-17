@@ -425,7 +425,7 @@ const AssecessmentPage = () => {
     <div className="bg-white rounded-lg">
       <div className="flex justify-between items-center py-3 px-5 border-b border-[#D9D9D9]">
         <div>
-          <h3 className="text-[16px] font-[700] font-nunito">Add Assessment</h3>
+          <h3 className="text-[16px] font-[700] font-droid">Add Assessment</h3>
           <p className="text-[#606060] text-[15px]">
             Create an assessment to test much your trainees have learnt
           </p>
@@ -440,7 +440,7 @@ const AssecessmentPage = () => {
           </div>
           <Button
             type="button"
-            className="bg-[#42A7C3] px-4 py-2 me-4 font-inter text-xs"
+            className="bg-[#42A7C3] px-4 py-2 me-4 font-droid text-xs"
             onClick={() => setIsOpenAssessmentModal(true)}
           >
             <CirclePlus width={20} className="me-2" /> Add Question
@@ -511,7 +511,7 @@ const AssecessmentPage = () => {
             <div className="flex items-center justify-between">
               <Button
                 type="button"
-                className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+                className=" text-base font-droid text-white bg-[#58BA66] py-6 px-8"
                 onClick={() => setIsOpenAssessmentModal(true)}
               >
                 Add Question
@@ -523,7 +523,7 @@ const AssecessmentPage = () => {
                   assessmentQuestionPending ||
                   isPending
                 }
-                className=" text-base font-inter text-white bg-[#58BA66] py-6 px-8"
+                className=" text-base font-droid text-white bg-[#58BA66] py-6 px-8"
                 isLoading={
                   createAssessmentPending ||
                   assessmentQuestionPending ||

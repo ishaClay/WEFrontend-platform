@@ -90,14 +90,14 @@ const DashboardTrainee = () => {
       accessorKey: "ID",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             {row.index + 1}
           </h6>
         );
@@ -110,14 +110,14 @@ const DashboardTrainee = () => {
       accessorKey: "CourseName",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Name
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+          <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.title}
           </h6>
         );
@@ -130,14 +130,14 @@ const DashboardTrainee = () => {
       accessorKey: "duration",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.duration}
           </h6>
         );
@@ -150,14 +150,14 @@ const DashboardTrainee = () => {
       accessorKey: "status",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.status}
           </h6>
         );
@@ -173,14 +173,14 @@ const DashboardTrainee = () => {
       accessorKey: "ID",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             {row.index + 1}
           </h6>
         );
@@ -193,14 +193,14 @@ const DashboardTrainee = () => {
       accessorKey: "CourseName",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Name
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+          <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.title}
           </h6>
         );
@@ -213,14 +213,14 @@ const DashboardTrainee = () => {
       accessorKey: "duration",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.duration}
           </h6>
         );
@@ -233,14 +233,14 @@ const DashboardTrainee = () => {
       accessorKey: "status",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.status}
           </h6>
         );
@@ -289,7 +289,7 @@ const DashboardTrainee = () => {
             <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
               {value}
             </h2>
-            <p className="text-base text-black font-calibri text-center">
+            <p className="text-base text-black font-droid text-center">
               {title}
             </p>
           </>
@@ -330,10 +330,10 @@ const DashboardTrainee = () => {
       <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
-            <h5 className="  text-base font-nunito font-bold">
+            <h5 className="  text-base font-droid font-bold">
               Top 5 Ongoing Courses
             </h5>
-            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            {/* <Button className="text-[#00778B] bg-transparent font-droid hover:bg-transparent p-0 h-6">
               View All
             </Button> */}
           </div>
@@ -360,10 +360,10 @@ const DashboardTrainee = () => {
         </div>
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
-            <h5 className="  text-base font-nunito font-bold">
+            <h5 className="  text-base font-droid font-bold">
               Top 5 Upcoming Courses
             </h5>
-            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            {/* <Button className="text-[#00778B] bg-transparent font-droid hover:bg-transparent p-0 h-6">
               View All
             </Button> */}
           </div>
@@ -389,7 +389,7 @@ const DashboardTrainee = () => {
           </div>
         </div>
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Upcoming Live Session
       </h3>
       <div className="sm:block hidden bg-white p-5 rounded">
@@ -410,7 +410,7 @@ const DashboardTrainee = () => {
               return <LiveSessionsItems data={data} key={index} />;
             })
           ) : (
-            <p className="text-base text-black font-calibri col-span-full text-center">
+            <p className="text-base text-black font-droid col-span-full text-center">
               No Data
             </p>
           )}

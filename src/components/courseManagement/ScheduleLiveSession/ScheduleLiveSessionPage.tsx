@@ -431,7 +431,7 @@ const ScheduleLiveSessionPage = () => {
             </h5>
             <Button
               type="button"
-              className="bg-transparent font-nunito flex items-center gap-3 text-base text-black font-semibold p-0 h-auto"
+              className="bg-transparent font-droid flex items-center gap-3 text-base text-black font-semibold p-0 h-auto"
               onClick={() => {
                 dispatch(
                   setPath([
@@ -452,7 +452,7 @@ const ScheduleLiveSessionPage = () => {
           </div>
           <div className="p-5 flex flex-col gap-5">
             <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
+              <Label className="text-base text-black font-medium font-font-droid">
                 Select Course
               </Label>
               <SelectMenu
@@ -463,7 +463,7 @@ const ScheduleLiveSessionPage = () => {
                 }}
                 value={watch("selectCourse")}
                 itemClassName="text-base"
-                className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="Select course name"
                 disabled={!!id}
                 isLoading={fetchCoursePending}
@@ -476,7 +476,7 @@ const ScheduleLiveSessionPage = () => {
             </div>
             <div className="flex items-center gap-5">
               <div className="flex flex-col gap-1 w-[calc(100%_-_200px)]">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Select Live session
                 </Label>
                 <SelectMenu
@@ -489,7 +489,7 @@ const ScheduleLiveSessionPage = () => {
                   }}
                   value={selectLiveSession}
                   itemClassName="text-base"
-                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   placeholder="Select live session name"
                   disabled={!!id}
                   isLoading={fetchLiveSessionPending}
@@ -504,7 +504,7 @@ const ScheduleLiveSessionPage = () => {
                 +selectTargetPillarLimit?.data?.videoDonferencingAccess ===
                   1 && (
                   <div className="flex flex-row gap-3 items-center">
-                    <Label className="text-base text-black font-semibold font-abhaya">
+                    <Label className="text-base text-black font-medium font-font-droid">
                       Use Platform
                     </Label>
                     <Switch
@@ -520,13 +520,13 @@ const ScheduleLiveSessionPage = () => {
             </div>
             {!watch("platform") && (
               <div className="flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Meeting Url
                 </Label>
                 <Input
                   {...register("zoomUrl")}
                   placeholder="Enter Meeting Url"
-                  className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   value={watch("zoomUrl")}
                 />
                 {errors?.zoomUrl && (
@@ -537,12 +537,12 @@ const ScheduleLiveSessionPage = () => {
               </div>
             )}
             <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
+              <Label className="text-base text-black font-medium font-font-droid">
                 Session Subtitle
               </Label>
               <Input
                 placeholder="Enter session title"
-                className="placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                className="placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 {...register("sessionSubtitle")}
               />
               {errors.sessionSubtitle && (
@@ -552,13 +552,13 @@ const ScheduleLiveSessionPage = () => {
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
+              <Label className="text-base text-black font-medium font-font-droid">
                 Session Description
               </Label>
               <Textarea
                 placeholder="Enter Description"
                 rows={4}
-                className="placeholder:text-[#A3A3A3] focus:border-[#4b4b4b] shadow-none outline-none sm:text-base text-[15px] font-abhaya sm:px-5 px-4"
+                className="placeholder:text-[#A3A3A3] focus:border-[#4b4b4b] shadow-none outline-none sm:text-base text-[15px] font-font-droid sm:px-5 px-4"
                 {...register("sessionDescription")}
               />
               {errors.sessionDescription && (
@@ -569,12 +569,12 @@ const ScheduleLiveSessionPage = () => {
             </div>
             <div className="grid grid-cols-12 md:gap-7 sm:gap-4 gap-3">
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Session Date
                 </Label>
                 <Input
                   placeholder="Enter Date"
-                  className="block placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   type="date"
                   min={new Date().toISOString().split("T")[0]}
                   {...register("sessionDate")}
@@ -586,11 +586,11 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
               <div className="xl:col-span-3 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Session Time
                 </Label>
                 <Input
-                  className="block placeholder:text-[#A3A3A3] text-base font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   {...register("sessionTime")}
                   aria-label="Time"
                   type="time"
@@ -603,7 +603,7 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
               <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Duration in Hours
                 </Label>
                 <SelectMenu
@@ -615,7 +615,7 @@ const ScheduleLiveSessionPage = () => {
                   }}
                   value={watch("selectDurationInHours")}
                   itemClassName="text-base"
-                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   placeholder="01"
                 />
                 {errors.selectDurationInHours && (
@@ -625,7 +625,7 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
               <div className="xl:col-span-2 md:col-span-4 col-span-6 flex flex-col gap-1">
-                <Label className="text-base text-black font-semibold font-abhaya">
+                <Label className="text-base text-black font-medium font-font-droid">
                   Duration in Minute
                 </Label>
                 <SelectMenu
@@ -637,7 +637,7 @@ const ScheduleLiveSessionPage = () => {
                   }}
                   value={watch("selectDurationInMinute")}
                   itemClassName="text-base"
-                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-abhaya sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   placeholder="30"
                 />
                 {errors.selectDurationInMinute && (
@@ -648,7 +648,7 @@ const ScheduleLiveSessionPage = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-semibold font-abhaya">
+              <Label className="text-base text-black font-medium font-font-droid">
                 Select Company
               </Label>
               <Multiselect
@@ -668,7 +668,7 @@ const ScheduleLiveSessionPage = () => {
             </div>
             <div className="flex flex-col gap-3">
               <Button
-                className="bg-transparent text-[#4285F4] text-base font-abhaya gap-2 items-center justify-start p-0 h-auto"
+                className="bg-transparent text-[#4285F4] text-base font-font-droid gap-2 items-center justify-start p-0 h-auto"
                 onClick={() => setIsOpen(true)}
                 disabled={!selectCompany?.length}
                 type="button"
@@ -696,7 +696,7 @@ const ScheduleLiveSessionPage = () => {
               </ul>
               <div className="text-right">
                 <Button
-                  className="bg-[#58BA66] uppercase md:text-base text-sm font-nunito md:h-12 h-10"
+                  className="bg-[#58BA66] uppercase md:text-base text-sm font-droid md:h-12 h-10"
                   type="submit"
                   disabled={isSaveSessionPending || isUpdateSessionPending}
                 >

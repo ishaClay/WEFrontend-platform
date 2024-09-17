@@ -69,10 +69,10 @@ const AllCourses = () => {
       <div className="bg-[#FFFFFF] rounded-[10px] w-full">
         <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] sm:px-5 sm:py-3 p-[15px]">
           <div className="bg-white sm:pb-0 pb-3">
-            <h3 className="text-[16px] font-semibold font-calibri mb-1">
+            <h3 className="text-[16px] font-semibold font-droid mb-1">
               Course Management
             </h3>
-            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+            <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
               The full list of your courses, in snapshot view
             </p>
           </div>
@@ -102,7 +102,7 @@ const AllCourses = () => {
                       navigate(`/${Role}/create_course?tab=0&step=0&version=1`);
                     }
                   }}
-                  className="sm:text-base text-sm font-semibold leading-5 font-sans bg-[#00778B] py-2.5 sm:px-5 px-3"
+                  className="sm:text-base text-sm font-medium leading-5 bg-[#00778B] py-2.5 sm:px-5 px-3"
                 >
                   ADD NEW COURSE
                 </Button>

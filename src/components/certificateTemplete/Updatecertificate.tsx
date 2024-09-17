@@ -249,7 +249,7 @@ const Addcertificate = () => {
     <div className="bg-white rounded-xl">
       <div className="border-b-2 border-solid gray flex justify-between items-center p-[16px]">
         <div>
-          <h2 className="font-[700] text-[16px] font-abhaya">
+          <h2 className="font-[700] text-[16px] font-font-droid">
             Edit Certificate
           </h2>
         </div>
@@ -266,7 +266,7 @@ const Addcertificate = () => {
                 ])
               );
             }}
-            className="text-[16px] flex font-semibold items-center gap-[15px] font-abhaya"
+            className="text-[16px] flex font-normal items-center gap-[15px] font-font-droid"
           >
             <HiOutlineArrowNarrowLeft />
             Back
@@ -295,7 +295,7 @@ const Addcertificate = () => {
                 <div className="absolute top-1/2 -translate-y-1/2 w-full 2xl:px-20 xl:px-8 md:px-5 px-3">
                   {Single_certificate?.data?.cretificateText && (
                     <h4
-                      className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-semibold pb-0`}
+                      className={`xl:text-[70px] md:text-[50px] sm:text-[38px] text-[28px] text-center font-normal pb-0`}
                       style={{
                         color: Single_certificate?.data?.primaryColor,
                         fontFamily: Single_certificate?.data?.primaryFont,
@@ -383,7 +383,7 @@ const Addcertificate = () => {
                           </div>
                           {watch("administratorTitle") && (
                             <div
-                              className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
+                              className="border-t font-droid font-medium xl:text-lg sm:text-base text-sm pt-2"
                               style={{
                                 borderColor:
                                   Single_certificate?.data?.primaryColor,
@@ -427,7 +427,7 @@ const Addcertificate = () => {
                           </div>
                           {watch("instructorTitle") && (
                             <div
-                              className="border-t font-nunito font-medium xl:text-lg sm:text-base text-sm pt-2"
+                              className="border-t font-droid font-medium xl:text-lg sm:text-base text-sm pt-2"
                               style={{
                                 borderColor:
                                   Single_certificate?.data?.primaryColor,
@@ -448,7 +448,7 @@ const Addcertificate = () => {
             <div className="2xl:max-w-[361px] w-auto">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                  <div className=" rounded-lg font-abhaya">
+                  <div className=" rounded-lg font-font-droid">
                     <Accordion
                       type="single"
                       collapsible
@@ -456,7 +456,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0 ">
                         <AccordionTrigger className="p-2 h-[48px] ">
-                          <h2 className="font-semibold font-abhaya">
+                          <h2 className="font-normal font-font-droid">
                             Certificate Template
                           </h2>
                         </AccordionTrigger>
@@ -464,8 +464,8 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Certificate Template Name"
                             type="text"
-                            labelClassName="font-semibold text-[16px] pb-1 pt-1"
-                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-normal text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-font-droid"
                             placeholder="Certificate template name"
                             {...register("templateName")}
                           />
@@ -481,7 +481,7 @@ const Addcertificate = () => {
 
                   <div className="border mt-5 p-2">
                     <div className="mt-2 p-2">
-                      <h2 className="font-semibold font-abhaya mb-1">
+                      <h2 className="font-normal font-font-droid mb-1">
                         Upload Background Image
                       </h2>
                       <div className="">
@@ -496,7 +496,7 @@ const Addcertificate = () => {
                           isExactDimension
                           validationValue={{ width: 1030, height: 734 }}
                         >
-                          <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                          <div className="flex items-center gap-2 sm:mb-0 mb-3 font-normal font-font-droid w-[323px] ">
                             <span className="border p-1 rounded-md text-[#515151]">
                               Choose File
                             </span>
@@ -509,14 +509,14 @@ const Addcertificate = () => {
                             message={errors?.backgroundImage?.message as string}
                           />
                         )}
-                        <h3 className="text-[#A3A3A3] text-[15px] font-abhaya mt-2 w-[155px] h-[44px]">
+                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[155px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
                       </div>
                     </div>
                     <div className=" p-2">
-                      <h2 className="font-semibold font-abhaya mb-1">
+                      <h2 className="font-normal font-font-droid mb-1">
                         Upload Logo Image
                       </h2>
                       <div>
@@ -528,7 +528,7 @@ const Addcertificate = () => {
                           className=" cursor-pointer p-[11px]"
                           acceptType=".jpg,.png"
                         >
-                          <div className="flex items-center gap-3 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                          <div className="flex items-center gap-3 sm:mb-0 mb-3 font-normal font-font-droid w-[323px] ">
                             <span className="border p-1 rounded-md text-[#515151]">
                               Choose File
                             </span>
@@ -541,7 +541,7 @@ const Addcertificate = () => {
                             message={errors?.companyLogo1?.message as string}
                           />
                         )}
-                        <h3 className="text-[#A3A3A3] text-[15px] font-abhaya mt-2 w-[155px] h-[44px]">
+                        <h3 className="text-[#A3A3A3] text-[15px] font-font-droid mt-2 w-[155px] h-[44px]">
                           Accepted Files: JPG, PNG <br />
                           Accepted Size: 1030 x 734
                         </h3>
@@ -557,7 +557,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-2 h-[48px] ">
-                          <h2 className="font-semibold font-abhaya">
+                          <h2 className="font-normal font-font-droid">
                             Certificate Title
                           </h2>
                         </AccordionTrigger>
@@ -565,8 +565,8 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Enter Certificate Title"
                             type="text"
-                            labelClassName="font-semibold text-[16px] pb-1 pt-1 font-abhaya"
-                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-normal text-[16px] pb-1 pt-1 font-font-droid"
+                            className="mt-2 p-[11px] font-font-droid"
                             placeholder="Certificate title"
                             {...register("title")}
                           />
@@ -588,7 +588,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-2 h-[48px] ">
-                          <h2 className="font-semibold font-abhaya">
+                          <h2 className="font-normal font-font-droid">
                             Employee Name
                           </h2>
                         </AccordionTrigger>
@@ -602,8 +602,8 @@ const Addcertificate = () => {
                               }
                             }}
                             value={empName}
-                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
-                            className="mt-2 p-[11px] font-abhaya"
+                            labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-font-droid"
                             placeholder="Employee Name"
                           />
                         </AccordionContent>
@@ -619,15 +619,17 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-2 h-[48px]">
-                          <h2 className="font-semibold font-abhaya">Body</h2>
+                          <h2 className="font-normal font-font-droid">
+                            Body
+                          </h2>
                         </AccordionTrigger>
                         <AccordionContent className="p-2 pb-4 border-t">
                           <InputWithLabel
                             label="Enter certificate body text"
                             type="text"
                             maxLength={100}
-                            className="mt-2 p-[11px] font-abhaya"
-                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-font-droid"
+                            labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
                             placeholder="[name] [course] Lorem ipsum dolor sit amet, consectetur adipiscing elit. A id amet metus pellentesque ac diam feugiat. Proin neque, enim sit tellus enim. Sed in nulla feugiat enim est lobortis euismod neque in."
                             {...register("bodyText")}
                           />
@@ -649,7 +651,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-2 h-[48px] ">
-                          <h2 className="font-semibold font-abhaya">
+                          <h2 className="font-normal font-font-droid">
                             Signature Title 01
                           </h2>
                         </AccordionTrigger>
@@ -657,8 +659,8 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Title"
                             type="text"
-                            className="mt-2 p-[11px] font-abhaya"
-                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-font-droid"
+                            labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
                             placeholder="Administrator"
                             {...register("administratorTitle")}
                           />
@@ -672,7 +674,7 @@ const Addcertificate = () => {
                         </AccordionContent>
 
                         <AccordionContent className="p-2 pb-4">
-                          <Label className="font-semibold font-abhaya ">
+                          <Label className="font-normal font-font-droid ">
                             Signature
                           </Label>
                           <FileUpload
@@ -682,7 +684,7 @@ const Addcertificate = () => {
                             }}
                             className=" cursor-pointer p-[11px] mt-2"
                           >
-                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-normal font-font-droid w-[323px] ">
                               <span className="border p-1 rounded-md text-[#515151]">
                                 Choose File
                               </span>
@@ -711,7 +713,7 @@ const Addcertificate = () => {
                     >
                       <AccordionItem value="item-1" className="p-0">
                         <AccordionTrigger className="p-3 ">
-                          <h2 className="font-semibold font-abhaya">
+                          <h2 className="font-normal font-font-droid">
                             Signature Title 02
                           </h2>
                         </AccordionTrigger>
@@ -719,8 +721,8 @@ const Addcertificate = () => {
                           <InputWithLabel
                             label="Title"
                             type="text"
-                            className="mt-2 p-[11px] font-abhaya"
-                            labelClassName="font-semibold font-abhaya text-[16px] pb-1 pt-1"
+                            className="mt-2 p-[11px] font-font-droid"
+                            labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
                             placeholder="Instructor"
                             {...register("instructorTitle")}
                           />
@@ -734,7 +736,7 @@ const Addcertificate = () => {
                         </AccordionContent>
 
                         <AccordionContent className="p-3 pt-0">
-                          <Label className="font-semibold font-abhaya ">
+                          <Label className="font-normal font-font-droid ">
                             Signature
                           </Label>
                           <FileUpload
@@ -744,7 +746,7 @@ const Addcertificate = () => {
                             }}
                             className=" cursor-pointer p-[11px] mt-2"
                           >
-                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-semibold font-abhaya w-[323px] ">
+                            <div className="flex items-center gap-2 sm:mb-0 mb-3 font-normal font-font-droid w-[323px] ">
                               <span className="border p-1 rounded-md text-[#515151]">
                                 Choose File
                               </span>

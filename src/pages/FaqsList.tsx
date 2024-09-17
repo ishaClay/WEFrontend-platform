@@ -6,7 +6,7 @@ function FaqsList() {
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="pt-[16px] pl-[30px] h-[60px] bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] flex items-center justify-between">
           <p className="text-[#000000] text-[Calibri] font-bold">FAQs</p>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             Some common questions answered. Need more help? Send a message to
             support
           </p>

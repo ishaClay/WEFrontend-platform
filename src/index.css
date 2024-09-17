@@ -13,28 +13,17 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "D-Din-pro-Regular";
-  src: url("assets/fonts/D-din-pro/D-DIN-PRO-400-Regular.otf");
-}
-
-@font-face {
-  font-family: "D-Din-pro-Medium";
-  src: url("assets/fonts/D-din-pro/D-DIN-PRO-500-Medium.otf");
-}
-
-@font-face {
-  font-family: "D-Din-pro-SemiBold";
-  src: url("assets/fonts/D-din-pro/D-DIN-PRO-600-SemiBold.otf");
-}
-
-@font-face {
-  font-family: "D-Din-pro-Bold";
-  src: url("assets/fonts/D-din-pro/D-DIN-PRO-700-Bold.otf");
-}
-
-@font-face {
   font-family: "Droid Sans Regular";
-  src: url("assets/fonts/Droid Sans/Droid\ Sans\ Regular.ttf");
+  src: url("assets/fonts/Droid\ Sans\ Regular.ttf");
+}
+
+@font-face {
+  font-family: "Droid Sans";
+  src: url("./assets/fonts/DroidSans.woff2") format("woff2"),
+    url("./assets/fonts/DroidSans.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @layer base {
@@ -113,7 +102,7 @@
 }
 
 .font-Droid-Regular {
-  font-family: "Droid Sans Regular";
+  font-family: "Droid Sans";
 }
 
 /* width */
@@ -141,9 +130,7 @@ body {
   /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
 		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
 		sans-serif, "Uni Neue"; */
-  font-family: "calibri", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Droid Sans";
 }
 
 *,
@@ -158,7 +145,7 @@ body {
 
 code {
   /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", */
-  font-family: --rkp-font-family, monospace;
+  font-family: "Droid Sans";
 }
 
 .slick-dots {

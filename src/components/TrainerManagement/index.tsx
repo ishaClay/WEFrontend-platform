@@ -56,7 +56,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="gap-1 p-0 text-[15px] font-medium font-inter h-auto"
+            className="gap-1 p-0 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             ID
@@ -80,7 +80,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 gap-1 text-[15px] font-medium font-inter h-auto"
+            className="p-0 gap-1 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Trainer Name
@@ -115,7 +115,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 gap-1 text-[15px] font-medium font-inter h-auto"
+            className="p-0 gap-1 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             County
@@ -136,7 +136,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 gap-1 text-[15px] font-medium font-inter h-auto"
+            className="p-0 gap-1 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Provider Name
@@ -157,7 +157,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-1 gap-1 text-[15px] font-medium font-inter h-auto"
+            className="p-1 gap-1 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Rating
@@ -182,7 +182,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 text-[15px] font-medium font-inter h-auto"
+            className="p-0 text-[15px] font-medium font-droid h-auto"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -220,7 +220,7 @@ const TrainerManagement = () => {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
           >
             Resend
           </Button>
@@ -265,7 +265,7 @@ const TrainerManagement = () => {
                   ])
                 );
               }}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-droid h-auto hover:bg-transparent"
             >
               <Eye className="text-[#A3A3A3] w-5" />
             </Button>
@@ -286,7 +286,7 @@ const TrainerManagement = () => {
                   ])
                 );
               }}
-              className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
+              className="p-0 gap-1 text-[15px] font-medium font-droid h-auto hover:bg-transparent"
             >
               <Pencil className="text-[#A3A3A3] w-4 h-4" />
             </Button>
@@ -296,7 +296,7 @@ const TrainerManagement = () => {
               <Button
                 onClick={() => setOpenDelete(row?.original)}
                 variant={"ghost"}
-                className="p-0 gap-1 text-[15px] font-medium font-inter h-auto hover:bg-transparent"
+                className="p-0 gap-1 text-[15px] font-medium font-droid h-auto hover:bg-transparent"
               >
                 <Trash2 className="text-[#A3A3A3] w-4 h-4" />
               </Button>
@@ -370,7 +370,7 @@ const TrainerManagement = () => {
     <div>
       <div className="px-[14px] py-[10px] md:flex block items-center justify-between border-b">
         <div>
-          <h3 className="text-[16px] font-semibold font-calibri mb-1">
+          <h3 className="text-[16px] font-semibold font-droid mb-1">
             Trainer Management
           </h3>
           <p className="text-[#606060] text-[15px]">
@@ -396,7 +396,7 @@ const TrainerManagement = () => {
               ])
             );
           }}
-          className="bg-[#00778B] font-nunito sm:px-5 px-4 sm:text-base text-sm md:mt-0 mt-3"
+          className="bg-[#00778B] font-droid sm:px-5 px-4 sm:text-base text-sm md:mt-0 mt-3"
         >
           INVITE TRAINER
         </Button>
@@ -408,7 +408,7 @@ const TrainerManagement = () => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               placeholder="Search by name, country, provider type, etc."
-              className="py-[17px] pl-[39px] !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[46px] placeholder:font-normal font-inter mr-[4px]"
+              className="py-[17px] pl-[39px] !w-full rounded-[6px] placeholder:text-[15px] placeholder:text-[#A3A3A3] bg-primary-foreground sm:h-[52px] h-[46px] placeholder:font-normal font-droid mr-[4px]"
               name={""}
             />
             <img

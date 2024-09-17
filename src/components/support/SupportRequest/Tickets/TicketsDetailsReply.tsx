@@ -187,7 +187,7 @@ const TicketsDetailsReply = () => {
   console.log("assigToUserList", assigToUserList);
 
   return (
-    <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-nunitoSans ">
+    <div className="h-[auto] bg-[white] rounded-[10px] mb-[21px] font-droidSans ">
       <div className="h-[70px] border-b-2 border-solid gray flex justify-between items-center pl-[20px] pr-[28px] ">
         <h2 className="font-[700] text-[16px]">Ticket Details</h2>
         <Button

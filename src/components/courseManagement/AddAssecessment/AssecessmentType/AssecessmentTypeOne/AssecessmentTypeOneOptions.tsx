@@ -89,13 +89,13 @@ const AssecessmentTypeOneOptions = ({
       <div className="">
         <div className="space-x-2 flex items-center justify-between">
           <label htmlFor={data.option} className="flex items-center w-[98%]">
-            <span className="text-sm text-black font-inter w-[80px]">
+            <span className="text-sm text-black font-droid w-[80px]">
               Option {iIndex + 1}
             </span>
             <div className="w-full flex justify-between items-center relative">
               <Input
                 placeholder={data.option}
-                className="w-full text-base font-calibri text-black h-full px-4 py-[15px] pr-[80px]"
+                className="w-full text-base font-droid text-black h-full px-4 py-[15px] pr-[80px]"
                 onChange={(e) => {
                   handleChange(e, iIndex);
                   setErrors((prev: any) => ({

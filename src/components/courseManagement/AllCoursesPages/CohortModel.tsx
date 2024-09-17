@@ -9,7 +9,7 @@ const CohortModel = ({ isCohortShow }: { isCohortShow: AllCourse | null }) => {
       month: String(currentDate.getMonth() + 1).padStart(2, "0"),
       year: String(currentDate.getFullYear()),
     };
-console.log("cohortDatacohortData", cohortData);
+    console.log("cohortDatacohortData", cohortData);
 
     const matchingSlot =
       cohortData?.cohortGroups?.length > 0 &&
@@ -37,19 +37,18 @@ console.log("cohortDatacohortData", cohortData);
         {upcomingData?.length > 0 ? (
           upcomingData?.map((item, i) => {
             console.log("itemitem", item);
-            
+
             return (
               <div key={i}>
                 <div className="rounded-[6px] py-[7px] px-[15px] my-[18px] border border-[#B6D8DF] bg-[#E4FBFF]">
                   <div className="pb-[6px]">
                     <p className="text-black text-xs">
-                      <span className="font-medium text-base font-inter leading-5">
+                      <span className="font-medium text-base font-droid leading-5">
                         Cohort : {item?.name}
                       </span>
-                      
                     </p>
                   </div>
-                  <div className="font-inter text-sm leading-3 text-[#000000] font-normal">
+                  <div className="font-droid text-sm leading-3 text-[#000000] font-normal">
                     <span>Start Date : </span>
                     <span>
                       {`${item.slotStartDate.date
@@ -71,7 +70,7 @@ console.log("cohortDatacohortData", cohortData);
           })
         ) : (
           <div className="h-[100px] flex items-center justify-center">
-            <p className="text-[18px] font-[600] font-calibri">No Cohort</p>
+            <p className="text-[18px] font-[600] font-droid">No Cohort</p>
           </div>
         )}
       </>
@@ -80,7 +79,7 @@ console.log("cohortDatacohortData", cohortData);
 
   return (
     <div>
-      <h6 className="text-2xl font-bold font-calibri leading-7">All Cohort</h6>
+      <h6 className="text-2xl font-bold font-droid leading-7">All Cohorts</h6>
       <div>{isCohortShow && getUpcommingCohort(isCohortShow)}</div>
     </div>
   );

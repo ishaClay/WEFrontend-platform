@@ -1,6 +1,6 @@
-import React from "react";
+import pathStepsIcon from "@/assets/images/PathSteps.png";
 import { Card } from "@/components/ui/card";
-import pathStepsIcon from "@/assets/images/PathSteps.png"
+import React from "react";
 
 function MaturityLevelAnswersPopup() {
   const [progress, setProgress] = React.useState(0);
@@ -44,7 +44,7 @@ function MaturityLevelAnswersPopup() {
               </div>
 
               <div className="ml-2 mt-2 h-[25px] w-[203px]">
-                <h2 className="text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+                <h2 className="text-xm text-[#1D2026] font-droid text-lg font-semibold">
                   Strategic Integration
                 </h2>
               </div>
@@ -74,7 +74,7 @@ function MaturityLevelAnswersPopup() {
           </div>
           <div className="h-[105px] w-[270px] ">
             <div className="ml-3 mt-2 h-[25px] w-[230px]">
-              <h2 className=" text-xm text-[#1D2026] font-calibri text-lg font-semibold">
+              <h2 className=" text-xm text-[#1D2026] font-droid text-lg font-semibold">
                 Maturity level of your answers
               </h2>
             </div>
@@ -105,7 +105,7 @@ function MaturityLevelAnswersPopup() {
           <div className="flex gap-2">
             <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
               <div className="text-xs font-bold">Question : 01</div>
-              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
+              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-droid text-[12px] font-normal leading-[17.4px] text-left">
                 {`Does your business have a clearly defined vision, mission, and values that reflect a commitment to sustainability and social responsibility?Equipment Sales Specialist`}
               </div>
 
@@ -119,7 +119,7 @@ function MaturityLevelAnswersPopup() {
 
             <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
               <div className="text-xs font-bold">Question : 02</div>
-              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
+              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-droid text-[12px] font-normal leading-[17.4px] text-left">
                 {`How does your business integrate sustainability into its overall business strategy and decision-making processes? `}
               </div>
 
@@ -133,7 +133,7 @@ function MaturityLevelAnswersPopup() {
 
             <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
               <div className="text-xs font-bold">Question : 03</div>
-              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
+              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-droid text-[12px] font-normal leading-[17.4px] text-left">
                 {`How well does your business align its strategy with United Nations Sustainable Development Goals (UNSDGs) or other recognised sustainability standards or goals?`}
               </div>
 
@@ -149,7 +149,7 @@ function MaturityLevelAnswersPopup() {
           <div className="flex gap-2 mt-[6px] h-[150px] w-[508px]">
             <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
               <div className="text-xs font-bold">Question : 04</div>
-              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
+              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-droid text-[12px] font-normal leading-[17.4px] text-left">
                 {`How do you communicate your commitment to sustainability to your customers, clients, and the public?`}
               </div>
 
@@ -163,7 +163,7 @@ function MaturityLevelAnswersPopup() {
 
             <div className="flex flex-col border p-3 rounded-lg w-[252px] h-[150px]">
               <div className="text-xs font-bold">Question : 05</div>
-              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-calibri text-[12px] font-normal leading-[17.4px] text-left">
+              <div className="mb-3 mt-2 h-[75px] w-[230px]  font-droid text-[12px] font-normal leading-[17.4px] text-left">
                 {`Does our business actively engage in collaborative efforts to influence policy and drive systemic changes that contribute to the global transition towards a sustainable future?`}
               </div>
 

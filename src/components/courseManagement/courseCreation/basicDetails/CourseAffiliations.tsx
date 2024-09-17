@@ -246,7 +246,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
-            <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+            <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
               Is this course accredited by any other institutes or organisation?
             </h6>
             <div className="md:mb-[28px] sm:mb-5 mb-[15px]">
@@ -264,7 +264,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                 }}
                 value={selectAffiliations?.instituteOther || ""}
                 placeholder="Select"
-                className="bg-[#FFF] text-foreground font-calibri font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
+                className="bg-[#FFF] text-foreground font-droid font-normal sm:text-base text-sm sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors.instituteOther?.ref?.value && (
                 <FormError message={errors.instituteOther?.message as string} />
@@ -272,7 +272,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
             </div>
           </div>
           <div className="">
-            <h6 className="sm:text-base text-sm text-[#515151] font-calibri pb-3">
+            <h6 className="sm:text-base text-sm text-[#515151] font-droid pb-3">
               Provide Institution or Organisation Name
             </h6>
             <div className="md:mb-[39px] sm:mb-[25px] mb-[20px]">
@@ -291,7 +291,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
                   }}
                   value={selectAffiliations?.otherInstitutionName || ""}
                   placeholder="Enter accreditor name"
-                  className="text-base font-calibri  shadow-none outline-none focus:border-[#4b4b4b] disabled:cursor-default"
+                  className="text-base font-droid  shadow-none outline-none focus:border-[#4b4b4b] disabled:cursor-default"
                   maxLength={100}
                 />
                 <div
@@ -314,7 +314,7 @@ const CourseAffiliations = ({ courseById }: CourseAffiliationsProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

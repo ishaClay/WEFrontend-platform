@@ -36,7 +36,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
   });
 
   console.log("datadatadata121312", data, course);
-  
+
   useEffect(() => {
     if (!isOpen) {
       setEmpId("");
@@ -85,10 +85,10 @@ const EnrollCourseEmployeeDetailsListItem = ({
             </Avatar>
           </div>
           <div className="w-[calc(100%-56px)]">
-            <h5 className="font-inter sm:text-base text-[15px] font-medium">
+            <h5 className="font-droid sm:text-base text-[15px] font-medium">
               {data?.name || data?.email?.split("@")[0]}
             </h5>
-            <h6 className="text-[12px] text-[#A3A3A3] font-normal font-inter">
+            <h6 className="text-[12px] text-[#A3A3A3] font-normal font-droid">
               {data?.company?.name}
             </h6>
           </div>
@@ -107,15 +107,18 @@ const EnrollCourseEmployeeDetailsListItem = ({
           <div className="flex sm:flex-nowrap flex-wrap items-center">
             {progress?.[0] === "100" && data?.certificate ? (
               <div className="pe-5">
-                <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+                <span className="text-[#58BA66] flex text-base font-droid pe-5">
                   <CircleCheck className="me-2" width={18} />
                   Completed
                 </span>
               </div>
             ) : (
               <div className="flex items-center pe-5 sm:m-0 m-auto sm:pb-0 pb-3">
-                <Switch disabled={true} defaultChecked={progress?.[0] === "100" ? true : false} />
-                <span className="text-[#515151] text-base font-calibri ps-2 pe-5">
+                <Switch
+                  disabled={true}
+                  defaultChecked={progress?.[0] === "100" ? true : false}
+                />
+                <span className="text-[#515151] text-base font-droid ps-2 pe-5">
                   Completed
                 </span>
               </div>
@@ -123,7 +126,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
 
             {progress?.[0] === "100" && data?.certificate ? (
               <div className="pe-5">
-                <span className="text-[#58BA66] flex text-base font-calibri pe-5">
+                <span className="text-[#58BA66] flex text-base font-droid pe-5">
                   <CircleCheck className="me-2" width={18} />
                   Certificate Issued
                 </span>
@@ -158,7 +161,7 @@ const EnrollCourseEmployeeDetailsListItem = ({
             ) : (
               <div className="">
                 <Button
-                  className="text-white flex bg-[#00778b] sm:px-5 w-[95px] sm:py-2 p-0 font-calibri sm:text-base text-sm rounded-none sm:h-10 h-[36px]"
+                  className="text-white flex bg-[#00778b] sm:px-5 w-[95px] sm:py-2 p-0 font-droid sm:text-base text-sm rounded-none sm:h-10 h-[36px]"
                   onClick={() => {
                     setIsOpen(true);
                     setEmpId(data?.id);

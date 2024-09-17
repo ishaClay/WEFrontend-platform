@@ -45,12 +45,12 @@ const EmployeeMessagView = () => {
           </AvatarFallback>
         </Avatar>
         {newMessageCount > 0 && (
-          <span className="absolute top-0 right-0 text-[14px] flex items-center justify-center font-abhaya font-semibold bg-[#76BC41] w-4 h-4 rounded-full text-white">
+          <span className="absolute top-0 right-0 text-[14px] flex items-center justify-center font-font-droid font-semibold bg-[#76BC41] w-4 h-4 rounded-full text-white">
             {newMessageCount}
           </span>
         )}
       </div>
-      <h3 className="lg:block hidden text-lg font-abhaya font-semibold text-black">
+      <h3 className="lg:block hidden text-lg font-font-droid font-semibold text-black">
         Messaging
       </h3>
     </div>

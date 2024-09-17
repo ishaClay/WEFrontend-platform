@@ -166,10 +166,10 @@ const CoursePathwayPage = () => {
     <div className="">
       <div className="flex items-center justify-between">
         <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
-          <span className="font-nunito font-bold">
+          <span className="font-droid font-bold">
             Target areas / pillars(Select applicable pillars)
           </span>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             Which sustainability pillars does your course apply to? And for
             which level?
           </p>
@@ -177,7 +177,7 @@ const CoursePathwayPage = () => {
         <Button
           type="button"
           variant={"ghost"}
-          className="p-0 hover:bg-transparent h-auto underline text-[#000] text-[15px] font-nunito font-[600] leading-[16px]"
+          className="p-0 hover:bg-transparent h-auto underline text-[#000] text-[15px] font-droid font-[600] leading-[16px]"
           onClick={() => setSelectedData([])}
         >
           Reset
@@ -205,7 +205,7 @@ const CoursePathwayPage = () => {
         <div className="w-full bg-[#F8D7DA] sm:p-4 p-3 flex rounded-md gap-3 xl:items-center items-start justify-between mb-5">
           <div className="flex items-center gap-3">
             <img src={CloseIcon} alt="close" />
-            <span className="text-[#842029] text-base font-calibri">
+            <span className="text-[#842029] text-base font-droid">
               You can tag up to {selectTargetPillarLimit?.data?.pillarLimit}{" "}
               pillars per course. If your course targets additional pillars,
               please reach out to your Skillnet admin to request more tags.
@@ -226,7 +226,7 @@ const CoursePathwayPage = () => {
         <Button
           type="button"
           onClick={handleSubmit}
-          className=" text-base font-inter text-white bg-[#58BA66] sm:py-6 py-4 px-8"
+          className=" text-base font-droid text-white bg-[#58BA66] sm:py-6 py-4 px-8"
           disabled={pillarMaturityLoading}
         >
           {pillarMaturityLoading ? (

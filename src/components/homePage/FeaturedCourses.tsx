@@ -67,7 +67,7 @@ const FeaturedCourses = () => {
     <div className="">
       <div className="xl:max-w-[1160px] max-w-full mx-auto md:my-[40px] my-0 xl:px-0 px-5 2xl:py-[30px] py-[24px] 2xl:pb-[100px] xl:pb-[100px] pb-[90px]">
         <div>
-          <h5 className="text-2xl font-abhaya font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
+          <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
             {title || "Featured Courses"}
           </h5>
         </div>
@@ -97,11 +97,11 @@ const FeaturedCourses = () => {
                     <div className="relative">
                       <div className="md:w-[697px] sm:h-[357px] h-auto flex sm:flex-row flex-col justify-between md:items-center items-start">
                         <div className="w-full sm:order-1 order-2 sm:mt-0 mt-3">
-                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-UniNeue pb-4">
+                          <h2 className="sm:w-[413px] w-[335px] min-h-[40px] xl:leading-9 sm:leading-8 leading-6 xl:text-[32px] sm:text-3xl text-2xl font-bold font-droid pb-4">
                             {item.courseTitle?.title}
                           </h2>
 
-                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-Droid-Regular line-clamp-3">
+                          <p className="sm:w-[413px] w-[335px] mb-8 text-lg leading-5 pr-4 font-droid line-clamp-3">
                             {item.content}
                           </p>
                           {item?.courseTitle?.id && item.buttonTitle && (
@@ -110,7 +110,7 @@ const FeaturedCourses = () => {
                               symbol={
                                 <img src="../assets/img/Move Right.png" />
                               }
-                              className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-abhaya font-semibold text-lg"
+                              className="sm:w-[195px] w-full xl:h-[62px] bg-[#75BD43] h-[50px] flex items-center justify-center gap-[10px] font-font-droid font-semibold text-lg"
                               onClick={() => {
                                 navigate(
                                   `/feature-course/${item?.courseTitle?.id}`

@@ -1,7 +1,7 @@
+import blog_details from "@/assets/images/blog_details.jpg";
 import { ArrowBigRightDash } from "lucide-react";
 import HomeFooter from "../homePage/HomeFooter";
 import HomeHeader from "../homePage/HomeHeader";
-import blog_details from "@/assets/images/blog_details.jpg";
 
 const BlogDetails = () => {
   return (
@@ -10,7 +10,7 @@ const BlogDetails = () => {
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-4 md:py-14 sm:py-10 py-8">
         <div className="bg-white p-4 rounded-md shadow-md flex flex-col gap-5">
           <div className="">
-            <h3 className="font-calibri text-2xl font-black mb-4">
+            <h3 className="font-droid text-2xl font-black mb-4">
               Ruby on Rose Accessories
             </h3>
             <img src={blog_details} alt="blog img" />
@@ -44,14 +44,14 @@ const BlogDetails = () => {
               ghost pled.
             </p>
             <ul className="flex flex-col gap-3 mb-4">
-              <li className="text-lg text-black font-calibri flex gap-1.5">
+              <li className="text-lg text-black font-droid flex gap-1.5">
                 <span>
                   <ArrowBigRightDash className="text-[#4E5566] mt-1" />
                 </span>
                 Separated they live in Bookmarksgrove right at the coast of the
                 Semantics, a large language ocean.
               </li>
-              <li className="text-lg text-black font-calibri flex gap-1.5">
+              <li className="text-lg text-black font-droid flex gap-1.5">
                 <span>
                   <ArrowBigRightDash className="text-[#4E5566] mt-1" />
                 </span>
@@ -60,7 +60,7 @@ const BlogDetails = () => {
                 small line of blind text by the name of Lorem Ipsum decided to
                 leave for the far World of Grammar.
               </li>
-              <li className="text-lg text-black font-calibri flex gap-1.5">
+              <li className="text-lg text-black font-droid flex gap-1.5">
                 <span>
                   <ArrowBigRightDash className="text-[#4E5566] mt-1" />
                 </span>
@@ -68,7 +68,7 @@ const BlogDetails = () => {
                 thousands of bad Commas, wild Question Marks and devious
                 Semikoli, but the Little Blind Text didn’t listen.
               </li>
-              <li className="text-lg text-black font-calibri flex gap-1.5">
+              <li className="text-lg text-black font-droid flex gap-1.5">
                 <span>
                   <ArrowBigRightDash className="text-[#4E5566] mt-1" />
                 </span>

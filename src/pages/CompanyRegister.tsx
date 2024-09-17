@@ -339,8 +339,8 @@ function CompanyRegister() {
           </div> */}
           <div className="mt-[20px] ">
             <div>
-              <h2 className="text-[25px] font-abhaya">Got it! </h2>
-              <h2 className="text-[25px] font-abhaya">
+              <h2 className="text-[25px] font-font-droid">Got it! </h2>
+              <h2 className="text-[25px] font-font-droid">
                 Let’s get your
                 <span className="text-[#64A70B] ml-1">
                   Sustainability Score
@@ -348,7 +348,7 @@ function CompanyRegister() {
                 then.
               </h2>
 
-              <p className="font-abhaya mt-[10px] text-[#000]">
+              <p className="font-font-droid mt-[10px] text-[#000]">
                 Fill in your details to start your self-assessment in a jiff.
               </p>
             </div>
@@ -661,7 +661,7 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
-                  className="w-[370px] h-[48px] mt-[30px] mx-auto !font-calibri !primary-background"
+                  className="w-[370px] h-[48px] mt-[30px] mx-auto !font-droid !primary-background"
                 />
                 <div className="max-w-[296px] mx-auto  mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
                   <label>

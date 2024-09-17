@@ -32,7 +32,7 @@ const HomeFooter = () => {
               /> */}
               <div className="flex lg:flex-row flex-col lg:justify-around justify-start lg:items-center items-start rounded-xl lg:bg-white bg-transparent xl:gap-3 sm:gap-2 gap-0 xl:w-[951px] lg:w-[850px] w-auto h-auto lg:py-[14px] lg:px-5 px-0">
                 <div className="lg:order-1 order-4">
-                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[32px] sm:border-b-0 font-Droid-Regular border-b border-white">
+                  <p className="lg:w-[300px] w-full text-justify sm:text-md text-sm sm:leading-4 leading-5 lg:text-[#002A3A] text-white text-semibold line-clamp-4 sm:pt-0 sm:pb-0 pt-[15px] pb-[15px] sm:mb-0 mb-[32px] sm:border-b-0 font-droid border-b border-white">
                     Skillnet Ireland is funded from the National Training Fund
                     through the Department of Further and Higher Education,
                     Research, Innovation and Science.
@@ -51,7 +51,7 @@ const HomeFooter = () => {
                   />
                 </div>
                 <div className="secondary-text sm:flex block justify-between items-center lg:hidden lg:order-3 order-3">
-                  <p className="lg:block hidden no-underline text-sm leading-5 font-Droid-Regular font-bold">
+                  <p className="lg:block hidden no-underline text-sm leading-5 font-droid font-bold">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
@@ -112,7 +112,7 @@ const HomeFooter = () => {
               </div>
               <div className="lg:block hidden">
                 <div className="secondary-text sm:flex block justify-between items-center py-3">
-                  <p className="lg:block hidden no-underline text-sm leading-5 font-abhaya font-bold">
+                  <p className="lg:block hidden no-underline text-sm leading-5 font-font-droid font-bold">
                     © All Rights Reserved. Green Tech Skillnet & County Wexford
                     Chamber Skillnet 2024.
                   </p>
@@ -155,7 +155,7 @@ const HomeFooter = () => {
               <ul className=" text-white flex flex-col  sm:gap-y-[3px] gap-y-[10px] text-start secondary-text lg:p-0 px-5 sm:pr-[35px] pr-[29px] underline">
                 <Link
                   to={"/our-courses"}
-                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
                 >
                   Our Courses
                 </Link>
@@ -167,24 +167,24 @@ const HomeFooter = () => {
                         ]?.toLowerCase()}/dashboard`
                       : "/register"
                   }
-                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
                 >
                   Join Us
                 </Link>
                 {/* <Link
                   to={"/blog"}
-                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
                 >
                   News
                 </Link> */}
                 <Link
                   to={"/contact"}
-                  className="font-abhaya text-base font-bold cursor-pointer leading-5"
+                  className="font-font-droid text-base font-bold cursor-pointer leading-5"
                 >
                   Contact Us
                 </Link>
               </ul>
-              <p className="lg:hidden block no-underline text-sm text-white leading-5 font-abhaya font-bold max-w-[165px] w-[165px] text-left">
+              <p className="lg:hidden block no-underline text-sm text-white leading-5 font-font-droid font-bold max-w-[165px] w-[165px] text-left">
                 © County Wexford Chamber 2023. All Rights Reserved.
               </p>
             </div>

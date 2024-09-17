@@ -90,7 +90,7 @@ function CourseListView({
 
   //     return <Badge
   //       variant="outline"
-  //       className={`${pillerColor} border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-Poppins font-normal`}
+  //       className={`${pillerColor} border-[#EDF0F4] p-1 px-3 text-[white] text-xs font-droid font-normal`}
   //     >
   //       {pillarName}
   //     </Badge>
@@ -218,7 +218,7 @@ function CourseListView({
                       return (
                         <div className="flex gap-2 items-center">
                           <p
-                            className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full text-base font-normal font-calibri leading-[22px]`}
+                            className={`bg-[${item?.fetchMaturity?.color}] text-[#000] py-[3px] px-[10px] rounded-full text-base font-normal font-droid leading-[22px]`}
                           >
                             {item?.fetchPillar?.pillarName}
                           </p>
@@ -231,7 +231,7 @@ function CourseListView({
                 <div className="grid grid-cols-12 justify-between xl:gap-[50px] gap-4 items-center">
                   <div className="xl:col-span-10 col-span-12">
                     {" "}
-                    <span className="font-inter lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
+                    <span className="font-droid lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
                       {recommendeddata.title}
                     </span>
                   </div>
@@ -312,7 +312,7 @@ function CourseListView({
             </div>
             <div className="sm:col-span-2 col-span-12">
               <div className="flex sm:flex-col flex-row gap-2 sm:items-end items-center">
-                <h3 className="text-[#000000] text-[font-calibri-bold] sm:w-[143px] w-[80px]">
+                <h3 className="text-[#000000] text-[font-droid-bold] sm:w-[143px] w-[80px]">
                   €{recommendeddata.price}
                 </h3>
 
@@ -325,7 +325,13 @@ function CourseListView({
                   className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
                   disabled={recommendeddata?.enrolled}
                 >
-                  {recommendeddata?.enrolled ? recommendeddata?.enrolledStatus === 1 ? "Enrolled" : recommendeddata?.enrolledStatus === 0 ? "Pending Enrollment": " " : "Enroll Now"}
+                  {recommendeddata?.enrolled
+                    ? recommendeddata?.enrolledStatus === 1
+                      ? "Enrolled"
+                      : recommendeddata?.enrolledStatus === 0
+                      ? "Pending Enrollment"
+                      : " "
+                    : "Enroll Now"}
                 </Button>
                 {recommendeddata?.inquire ? (
                   <Button

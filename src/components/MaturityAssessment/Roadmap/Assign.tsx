@@ -63,7 +63,7 @@ const Assign = ({
         })
       )}
       <div className="text-center">
-        {/* <Button className="sm:w-[223px] w-[138px] bg-[#E5F1F3] text-[#00778B] sm:text-base text-sm font-bold font-calibri sm:h-[48px] h-[40px]">
+        {/* <Button className="sm:w-[223px] w-[138px] bg-[#E5F1F3] text-[#00778B] sm:text-base text-sm font-bold font-droid sm:h-[48px] h-[40px]">
           Retake Assessment
         </Button> */}
         <div className="flex flex-wrap justify-center items-center gap-5 my-[35px]">

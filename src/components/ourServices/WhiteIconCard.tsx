@@ -27,7 +27,7 @@ const WhiteIconCard: FC<iconProps> = ({
           <h1 className="font-[700] text-headingtext text-[20px] font-primary leading-[24px] mb-[7px] ">
             {headone}
           </h1>
-          <p className="font-inter text-sm font-[400] leading-[24px] ">
+          <p className="font-droid text-sm font-[400] leading-[24px] ">
             {textone} <br /> {texttwo}
           </p>
         </div>

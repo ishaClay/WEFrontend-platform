@@ -45,12 +45,13 @@ function SavedAssesment() {
   // }, [allPillar, dispatch, pillarList?.data?.data]);
 
   const { data: enums } = useQuery({
-    queryKey: [QUERY_KEYS.authenums],
-    queryFn: () => enumApi(UserId),
+    queryKey: [QUERY_KEYS.authenums, { userID }],
+    queryFn: () => enumApi(userID),
   });
 
   const handleAssesment = () => {
     const pathStatus = enums?.data.data.pathStatus;
+    console.log("🚀 ~ handleAssesment ~ pathStatus:", pathStatus);
 
     switch (pathStatus) {
       case 1:
@@ -77,6 +78,7 @@ function SavedAssesment() {
     }
   };
 
+  console.log("🚀 ~ SavedAssesment ~ enums:", enums);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -103,7 +105,7 @@ function SavedAssesment() {
             <div className="xl:mt-[40px] xl:mb-0 mb-[30px]">
               <div className=" w-[430px] ">
                 <div className="flex items-end justify-between gap-x-[14px]">
-                  <h3 className="font-abhaya text-[24px] font-[400]">
+                  <h3 className="font-font-droid text-[24px] font-[400]">
                     Why, nice to have you back
                   </h3>
                   <img className="mb-[7px]" src={RunnerIcon} alt="RunnerIcon" />
@@ -115,7 +117,7 @@ function SavedAssesment() {
                 There's just some quenstions lefts to get your Sustainability
                 Score. but you're merrily on the way there...
               </p>
-              <p className="text-[Calibri] font-abhaya text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
+              <p className="text-[Calibri] font-font-droid text-[#3A3A3A xl:mt-[50px] mt-[20px] text-[24px]">
                 {" "}
                 What's left for you to complete:
               </p>
@@ -126,30 +128,30 @@ function SavedAssesment() {
                   data?.data &&
                   data?.data?.length > 0 &&
                   data?.data?.map((category, index: number) => {
-                      return (
-                        <div className="">
-                          <div
-                            key={index}
-                            className="border border-solid border-[#D9D9D9] xl:w-[223.4px] w-[150px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
-                          >
-                            <div>
-                              <img
-                                src={getImages(category.pillarName)}
-                                alt="img"
-                                className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
-                              />
-                            </div>
-                            <h4 className="xl:text-[16px] text-[14px] mt-3 text-center xl:min-h-[auto] min-h-[42px]">
-                              {category.pillarName}
-                            </h4>
-
-                            <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
-                              {category?.progress.toFixed()} %
-                            </span>
+                    return (
+                      <div className="">
+                        <div
+                          key={index}
+                          className="border border-solid border-[#D9D9D9] xl:w-[223.4px] w-[150px] h-[150px] rounded-[14.06px] flex flex-col  items-center p-3"
+                        >
+                          <div>
+                            <img
+                              src={getImages(category.pillarName)}
+                              alt="img"
+                              className="xl:w-[52px] xl:h-[52px] w-[30px] h-[30px]"
+                            />
                           </div>
+                          <h4 className="xl:text-[16px] text-[14px] mt-3 text-center xl:min-h-[auto] min-h-[42px]">
+                            {category.pillarName}
+                          </h4>
+
+                          <span className="mt-[6px] text-[32px] leading-[39.06px] font-bold ">
+                            {category?.progress.toFixed()} %
+                          </span>
                         </div>
-                      );
-                    })
+                      </div>
+                    );
+                  })
                 )}
               </div>
 

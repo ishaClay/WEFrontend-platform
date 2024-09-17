@@ -1,7 +1,7 @@
 const FaqsListAnswer = () => {
   return (
     <div>
-      <p className="text-base text-black font-calibri">
+      <p className="text-base text-black font-droid">
         If you want to make an FAQ section that resonates with your customers,
         don’t just slap some ordinary questions and answers on a site page.
         Carefully think about what questions to include, consider who will

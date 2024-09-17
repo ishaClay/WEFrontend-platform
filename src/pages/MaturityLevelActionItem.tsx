@@ -106,7 +106,7 @@ function MaturityLevelActionItem() {
       <Header />
       <div className="mainContailner">
         <div className="border-t border-b border-[#DED7D7]">
-          <div className="h-[120px] font-Poppins font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
+          <div className="h-[120px] font-droid font-medium text-[12.85px] leading-[16.64px] text-[#3A3A3A] flex justify-center pb-3 pt-[13px]">
             <div className="relative lg:gap-[79.4px] justify-between flex min-w-[640px] md:w-auto items-center mx-5">
               {paths.map((path) => (
                 <div
@@ -156,12 +156,12 @@ function MaturityLevelActionItem() {
           </div>
         </div>
         <div className="xl:mb-[20px] xl:mt-[76px] my-[20px]">
-          <div className=" text-center font-abhaya font-bold">
-            <h3 className="font-abhaya text-[30px]">
+          <div className=" text-center font-font-droid font-bold">
+            <h3 className="font-font-droid text-[30px]">
               Now, that’s worthy of a congrats.
             </h3>
 
-            <p className="xl:mt-[31px] mt-[25px] font-abhaya font-bold">
+            <p className="xl:mt-[31px] mt-[25px] font-font-droid font-bold">
               Because it’s one thing to have the will to be green.
               <br /> Another thing to know where you stand.
               <br /> And a whole other to have defined actions that will advance
@@ -173,20 +173,20 @@ function MaturityLevelActionItem() {
               type="button"
               isLoading={isLoading}
               onClick={handlematurityAction}
-              className="bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center text-base font-abhaya"
+              className="bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center text-base font-font-droid"
             >
               See Recommended Courses
             </Button>
             <button
               onClick={() => navigate("/company/dashboard")}
-              className="ml-4 bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center font-abhaya text-base"
+              className="ml-4 bg-[#64A70B] text-[white] w-[200px] h-[40px] rounded text-center font-font-droid text-base"
             >
               Go To My Dashboard
             </button>
           </div>
         </div>
         <div className="mb-5">
-          <h4 className="font-abhaya text-[30px] font-bold text-center">
+          <h4 className="font-font-droid text-[30px] font-bold text-center">
             My Action Items
           </h4>
         </div>
@@ -197,7 +197,7 @@ function MaturityLevelActionItem() {
             return <AssignCard data={item} />;
           })
         )}
-        <h5 className="font-abhaya text-[20px] font-bold text-center">
+        <h5 className="font-font-droid text-[20px] font-bold text-center">
           Please ensure that Employees/Delegates are added or invited first
           before assigning Action Items.
         </h5>

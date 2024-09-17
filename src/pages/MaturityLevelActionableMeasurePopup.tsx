@@ -47,13 +47,13 @@ function MaturityLevelActionableMeasurePopup() {
             <div className=" h-[333px] w-[380px] border border-solid border-[#D9D9D9] rounded">
               <div className="w-full h-74 border-b border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                 <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                  <div className="ml-4  text-[#1D2026] font-calibri font-bold">
+                  <div className="ml-4  text-[#1D2026] font-droid font-bold">
                     Measures
                   </div>
 
                   <div className="p-2 ">
                     <ScrollArea className="h-[255px] w-[355px] p-2 mt-3  ">
-                      <ul className="list-disc ml-6 text-[14.5px]  font-calibri">
+                      <ul className="list-disc ml-6 text-[14.5px]  font-droid">
                         <li className="mb-5">
                           Enhance and execute your Net Zero strategy with clear
                           goals and comprehensive actions.
@@ -80,7 +80,7 @@ function MaturityLevelActionableMeasurePopup() {
             <div className="ml-6 h-[297px]  border border-solid border-[#D9D9D9] rounded w-[380px] ">
               <div className="w-full h-74 border-b border-solid border-[#D9D9D9] rounded-tl-lg rounded-tr-lg">
                 <div className="pb-2 pt-2 h-[42px] w-[350px]">
-                  <div className="ml-6  text-[#1D2026] font-calibri font-bold">
+                  <div className="ml-6  text-[#1D2026] font-droid font-bold">
                     Enter initiatives or action items
                   </div>
 

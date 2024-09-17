@@ -35,14 +35,13 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
     enabled: !!course?.course?.id || !!userData?.query?.id,
   });
   console.log("data", data);
-  
 
   useEffect(() => {
     if (data) {
       setCourseRatting(data?.data?.courseRate);
       setTrainerRatting(data?.data?.trainerRate);
       setReview(data?.data?.discription);
-      setShareFeedback(data?.data?.shareFeedback)
+      setShareFeedback(data?.data?.shareFeedback);
     }
   }, [data]);
 
@@ -100,7 +99,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
 
   return (
     <div>
-      <h4 className="xl:text-[28px] text-[22px] font-bold font-nunito text-black pb-5 lg:text-left text-center">
+      <h4 className="xl:text-[28px] text-[22px] font-bold font-droid text-black pb-5 lg:text-left text-center">
         Your feedback would go a long way!
       </h4>
       {isLoading ? (
@@ -108,7 +107,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
       ) : (
         <>
           <div className="grid grid-cols-5 items-center mb-5 sm:gap-5 gap-2">
-            <span className="text-black lg:text-base text-sm font-nunito sm:col-span-3 col-span-5 font-semibold">
+            <span className="text-black lg:text-base text-sm font-droid sm:col-span-3 col-span-5 font-semibold">
               How would you rate the course?
             </span>
             <div className="flex md:gap-3 gap-2 items-center col-span-2">
@@ -121,7 +120,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
             </div>
           </div>
           <div className="grid grid-cols-5 items-center mb-6 sm:gap-5 gap-2">
-            <span className="text-black lg:text-base text-sm font-nunito sm:col-span-3 col-span-5 font-semibold">
+            <span className="text-black lg:text-base text-sm font-droid sm:col-span-3 col-span-5 font-semibold">
               And how would you rate the trainer?.
             </span>
             <div className="flex md:gap-3 gap-2 items-center col-span-2">
@@ -154,7 +153,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
             onCheckedChange={() => setShareFeedback(!shareFeedback)}
             defaultChecked={data?.data?.shareFeedback}
           />
-          <h5 className="text-[#888888] font-inter text-sm">
+          <h5 className="text-[#888888] font-droid text-sm">
             I’m totally fine with my review to be shared on social media.
           </h5>
         </div>
@@ -166,14 +165,14 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
             }
             isLoading={isPending || isPendingAdd}
             onClick={handleSubmit}
-            className="bg-[#64A70B] lg:text-base md:text-sm text-xs font-bold font-Poppins xl:w-[130px] w-[120px] xl:h-[48px] h-[42px]"
+            className="bg-[#64A70B] lg:text-base md:text-sm text-xs font-bold font-droid xl:w-[130px] w-[120px] xl:h-[48px] h-[42px]"
           >
             Share it
           </Button>
           <Button
             type="button"
             onClick={handleClose}
-            className="bg-[#E41B1B] lg:text-base md:text-sm text-xs font-bold font-Poppins xl:w-[130px] w-[120px] xl:h-[48px] h-[42px]"
+            className="bg-[#E41B1B] lg:text-base md:text-sm text-xs font-bold font-droid xl:w-[130px] w-[120px] xl:h-[48px] h-[42px]"
           >
             Cancel
           </Button>

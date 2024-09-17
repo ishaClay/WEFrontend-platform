@@ -66,14 +66,14 @@ const DashboardTrainer = () => {
       accessorKey: "ID",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             {row.index + 1}
           </h6>
         );
@@ -86,14 +86,14 @@ const DashboardTrainer = () => {
       accessorKey: "CourseName",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Name
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+          <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.course?.title}
           </h6>
         );
@@ -106,14 +106,14 @@ const DashboardTrainer = () => {
       accessorKey: "CourseName",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Enroll Company
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+          <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.enrolledCompanies?.length}
           </h6>
         );
@@ -126,14 +126,14 @@ const DashboardTrainer = () => {
       accessorKey: "duration",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.course?.duration}
           </h6>
         );
@@ -146,14 +146,14 @@ const DashboardTrainer = () => {
       accessorKey: "status",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.course?.status}
           </h6>
         );
@@ -228,7 +228,7 @@ const DashboardTrainer = () => {
           </SelectContent>
         </Select>
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Course overview
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -252,7 +252,7 @@ const DashboardTrainer = () => {
         />
       </div>
 
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">Enrollments</h3>
+      <h3 className="text-[22px] font-droid font-[500] mb-2">Enrollments</h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
@@ -270,7 +270,7 @@ const DashboardTrainer = () => {
         />
       </div>
 
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">Trainers</h3>
+      <h3 className="text-[22px] font-droid font-[500] mb-2">Trainers</h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
@@ -288,7 +288,7 @@ const DashboardTrainer = () => {
           title="Trainers feedback"
         />
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Support tickets
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -314,13 +314,13 @@ const DashboardTrainer = () => {
       <div className="grid xl:grid-cols-1 grid-cols-1 gap-5">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
-            <h5 className="  text-base font-nunito font-bold">
+            <h5 className="  text-base font-droid font-bold">
               Enrollment Request Figures
             </h5>
             <Button
               type="button"
               onClick={handleExport}
-              className="bg-[#00778B] font-nunito h-8"
+              className="bg-[#00778B] font-droid h-8"
               disabled={isLoading}
             >
               Export

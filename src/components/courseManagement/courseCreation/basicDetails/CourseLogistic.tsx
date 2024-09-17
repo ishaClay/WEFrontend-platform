@@ -302,7 +302,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
       <div className="border border-[#D9D9D9] rounded-md xl:p-[30px] md:p-[25px] p-[15px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="">
-            <h6 className="text-base text-[#515151] font-calibri sm:pb-3 pb-2">
+            <h6 className="text-base text-[#515151] font-droid sm:pb-3 pb-2">
               Is this course offered on a full-time or part-time basis?
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
@@ -317,7 +317,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 }}
                 value={selectBoxValue?.time || ""}
                 placeholder="Select course offering mode"
-                className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
+                className="bg-[#FFF] text-foreground font-droid font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors?.time?.ref?.value && (
                 <ErrorMessage message={errors?.time?.message as string} />
@@ -325,7 +325,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </div>
           </div>
           <div className="">
-            <h6 className="text-base text-[#515151] font-calibri sm:pb-3 pb-2">
+            <h6 className="text-base text-[#515151] font-droid sm:pb-3 pb-2">
               How is this course delivered? (e.g., Online, In-person, Hybrid)
             </h6>
             <div className="sm:mb-[18px] mb-[15px]">
@@ -343,7 +343,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 }}
                 value={selectBoxValue?.isOnline || ""}
                 placeholder="Select delivery mode"
-                className="bg-[#FFF] text-foreground font-calibri font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
+                className="bg-[#FFF] text-foreground font-droid font-normal text-base sm:py-4 sm:px-[15px] p-[10px] h-auto"
               />
               {!errors?.isOnline?.ref?.value && (
                 <ErrorMessage message={errors?.isOnline?.message as string} />
@@ -351,14 +351,14 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </div>
           </div>
           <div className="">
-            <h6 className="text-base text-[#515151] font-calibri sm:pb-3 pb-2">
+            <h6 className="text-base text-[#515151] font-droid sm:pb-3 pb-2">
               Where is this course physically located? (if applicable)
             </h6>
             <div className="sm:mb-[18px] mb-[15px] w-full">
               <InputWithLabel
                 type="text"
                 placeholder="Enter address (if the course is physically delivered)"
-                className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-black rounded-md text-base font-calibri"
+                className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-black rounded-md text-base font-droid"
                 {...register("universityAddress")}
                 value={watch("universityAddress")}
                 error={errors.universityAddress?.message as string}
@@ -366,7 +366,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
             </div>
           </div>
           <div className="">
-            <h6 className="text-base text-[#515151] font-calibri sm:pb-3 pb-2">
+            <h6 className="text-base text-[#515151] font-droid sm:pb-3 pb-2">
               What is the duration of the course? ( in days, weeks, months or
               years )
             </h6>
@@ -375,7 +375,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 <InputWithLabel
                   type="text"
                   placeholder={`Enter number / Select duration`}
-                  className="border-[#D9D9D9] placeholder:text-black border rounded-md font-calibri sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
+                  className="border-[#D9D9D9] placeholder:text-black border rounded-md font-droid sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
                   {...register("duration")}
                   value={watch("duration")?.split(" ")[0]}
                   error={errors.duration?.message as string}
@@ -394,8 +394,8 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                     setError("durationType", "");
                   }}
                   value={selectBoxValue?.durationType || ""}
-                  className="sm:w-[150px] w-[110px] border font-calibri border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
-                  itemClassName="text-[#1D2026] font-calibri"
+                  className="sm:w-[150px] w-[110px] border font-droid border-[#D9D9D9] rounded-md sm:py-[16px] py-2.5 h-auto"
+                  itemClassName="text-[#1D2026] font-droid"
                   placeholder="Select duration type"
                 />
                 {!errors?.durationType?.ref?.value && (
@@ -409,7 +409,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
           <div className="sm:text-right text-center">
             <Button
               type="submit"
-              className=" text-base font-inter text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
+              className=" text-base font-droid text-white bg-[#58BA66] sm:w-[120px] sm:h-[52px] w-[100px] h-[36px]"
               disabled={isPending || isUpdatePending}
             >
               {isPending || isUpdatePending ? (

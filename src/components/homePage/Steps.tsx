@@ -45,14 +45,14 @@ const Steps = () => {
   ];
   return (
     <div className="xl:mb-[54px] sm:mb-[54px] mb-[30px]">
-      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-UniNeue text-center font-bold tracking-tighter xl:mb-[54px] md:mb-[50px] mb-[30px]">
+      <h3 className="md:text-4xl sm:text-3xl text-2xl leading-tight font-droid text-center font-bold tracking-tighter xl:mb-[54px] md:mb-[50px] mb-[30px]">
         Step by Step
         <br />
         <span className="font-medium">To better days ahead of you.</span>
       </h3>
       <div className="grid grid-cols-9 max-w-[1913px] mx-auto">
         <div className="sm:col-span-2 col-span-9 bg-[#75BD43] flex justify-center items-center sm:h-[259px] h-[80px]">
-          <p className="secondary-text xl:text-[28px] text-2xl font-Droid-Regular text-center font-bold">
+          <p className="secondary-text xl:text-[28px] text-2xl font-droid text-center font-bold">
             Why Go Sustainable
           </p>
         </div>
@@ -72,7 +72,7 @@ const Steps = () => {
                       {steps.title}
                     </h6>
                   </div>
-                  <p className="text-[15px] font-Droid-Regular leading-[18px] font-medium">
+                  <p className="text-[15px] font-droid leading-[18px] font-medium">
                     {steps.desc}
                   </p>
                 </div>
@@ -82,7 +82,7 @@ const Steps = () => {
         </div>
       </div>
       <div
-        className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-abhaya m-auto w-[249px] h-[59px] lg:mt-[30px] mt-6 bg-[#75BD43] secondary-text cursor-pointer"
+        className="rounded-[4px] border border-solid flex justify-center items-center text-left gap-[10px] text-lg font-extrabold font-font-droid m-auto w-[249px] h-[59px] lg:mt-[30px] mt-6 bg-[#75BD43] secondary-text cursor-pointer"
         onClick={() => {
           setSelectedRole("company");
           navigate("/register");

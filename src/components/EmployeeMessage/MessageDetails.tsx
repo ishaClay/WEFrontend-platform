@@ -172,7 +172,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
               } z-[9] w-3 h-3 rounded-full`}
             ></span>
           </div>
-          <h5 className="text-[16px] font-abhaya font-semibold text-black">
+          <h5 className="text-[16px] font-font-droid font-semibold text-black">
             {empId.name}
           </h5>
         </div>

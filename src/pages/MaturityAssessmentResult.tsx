@@ -99,12 +99,12 @@ function MaturityAssessmentResult() {
         );
       })}
       <div className="mt-[20px] mb-[100px]">
-        <p className="font-abhaya font-extrabold text-base leading-[18.88px]">
+        <p className="font-font-droid font-extrabold text-base leading-[18.88px]">
           Total Score-
-          <span className="font-abhaya font-extrabold text-4xl leading-[49.55px]">
+          <span className="font-font-droid font-extrabold text-4xl leading-[49.55px]">
             57
           </span>
-          <span className="font-abhaya font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+          <span className="font-font-droid font-extrabold text-base leading-[18.88px] text-[#64A70B]">
             /90
           </span>
         </p>
@@ -142,7 +142,7 @@ function MaturityAssessmentResult() {
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2 font-abhaya"
+                className="flex items-center justify-between w-full py-3 pl-4 pr-6 text-left gap-2 font-font-droid"
               >
                 <span className="text-[12px] font-semibold">
                   Previous Assessment Details
@@ -183,7 +183,7 @@ function MaturityAssessmentResult() {
                   activeTab === "Assessment Result"
                     ? "  text-[#00778B]  font-semibold border-b border-[#00778B]"
                     : " text-[#000000] "
-                }  py-2 px-4  text-[16px] h-[49px]  font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px]  font-font-droid`}
                 onClick={() => handleTabChange("Assessment Result")}
               >
                 Assessment Result
@@ -193,12 +193,12 @@ function MaturityAssessmentResult() {
                   activeTab === "Roadmap"
                     ? "text-[#00778B]  font-semibold  border-b border-[#00778B]"
                     : " text-[#000000]"
-                }  py-2 px-4  text-[16px] h-[49px] font-abhaya`}
+                }  py-2 px-4  text-[16px] h-[49px] font-font-droid`}
                 onClick={() => handleTabChange("Roadmap")}
               >
                 Roadmap
               </button>
-              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[880px] font-abhaya">
+              <button className="bg-[#00778B] text-white font-semibold w-[78px]  h-[37px] rounded ml-[880px] font-font-droid">
                 Export
               </button>
             </div>

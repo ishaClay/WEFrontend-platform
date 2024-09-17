@@ -44,22 +44,20 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
   return (
     <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
       <div className="pb-8">
-        <h6 className="text-base text-black font-calibri pb-3">
+        <h6 className="text-base text-black font-droid pb-3">
           Assessment Type 12
         </h6>
         <input
           placeholder="Single Choice Question"
-          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+          className="border border-[#D9D9D9] rounded-md w-full px-4 py-3  font-base font-droid text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
         />
       </div>
       <div className="pb-8">
-        <h6 className="text-base text-black font-calibri pb-3">
-          Enter Question
-        </h6>
+        <h6 className="text-base text-black font-droid pb-3">Enter Question</h6>
         <div className="flex justify-between items-center border border-[#D9D9D9] rounded-md w-full px-4 py-1">
           <input
             placeholder="Enter the question"
-            className=" font-base font-calibri text-[#1D2026] w-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+            className=" font-base font-droid text-[#1D2026] w-full focus:border focus:border-[#4b4b4b] shadow-none outline-none"
             onChange={(e) =>
               dispatch(
                 addQuestion({
@@ -72,7 +70,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
             value={questionOption[i]?.question}
           />
           <div className="flex items-center">
-            <label className="me-3 text-[#515151] text-base font-calibri">
+            <label className="me-3 text-[#515151] text-base font-droid">
               Point
             </label>
             <input
@@ -93,7 +91,7 @@ const AssecessmentTypeThree = ({ i, type }: AssecessmentTypeProps) => {
       <div className="">
         <div className="text-right">
           <Button
-            className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+            className="bg-transparent text-[#4285F4] text-base font-droid text-right mb-5 hover:bg-transparent"
             onClick={addOption}
           >
             + Add Option

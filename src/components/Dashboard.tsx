@@ -71,14 +71,14 @@ const Dashboard = () => {
       accessorKey: "ID",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             ID
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-[15px] text-xs font-inter text-black">
+          <h6 className="xl:text-[15px] text-xs font-droid text-black">
             {row.index + 1}
           </h6>
         );
@@ -91,14 +91,14 @@ const Dashboard = () => {
       accessorKey: "CourseName",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Name
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="xl:text-sm text-xs font-inter text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
+          <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.course?.title}
           </h6>
         );
@@ -111,14 +111,14 @@ const Dashboard = () => {
       accessorKey: "duration",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Course Duration
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.course?.duration}
           </h6>
         );
@@ -131,14 +131,14 @@ const Dashboard = () => {
       accessorKey: "status",
       header: () => {
         return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-inter">
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
             Status
           </h5>
         );
       },
       cell: ({ row }) => {
         return (
-          <h6 className="text-xs font-inter text-black">
+          <h6 className="text-xs font-droid text-black">
             {row.original?.course?.status}
           </h6>
         );
@@ -459,10 +459,10 @@ const Dashboard = () => {
           <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
             30
           </h2>
-          <p className="text-base text-black font-calibri">Completed Courses</p>
+          <p className="text-base text-black font-droid">Completed Courses</p>
         </button> */}
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Total action items
       </h3>
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -493,7 +493,7 @@ const Dashboard = () => {
           }
         />
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Support Tickets
       </h3>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
@@ -516,13 +516,13 @@ const Dashboard = () => {
           value={resolveSupportTicket || 0}
         />
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Overview of Employee Performance
       </h3>
       <div className="grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <div className="col-span-2 bg-[#FFFFFF] rounded-lg shadow-sm p-5 flex items-center justify-around">
           <div className="w-60 text-center">
-            <p className="text-[16px] font-nunito font-bold mb-4">
+            <p className="text-[16px] font-droid font-bold mb-4">
               Course Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
@@ -541,18 +541,18 @@ const Dashboard = () => {
             <div className="flex items-center gap-6 justify-center mt-4">
               <div className="text-center">
                 <h3>{smeDashboardData3?.data?.overView?.totalCourse}</h3>
-                <p className="font-nunito font-bold text-slate-600">Courses</p>
+                <p className="font-droid font-bold text-slate-600">Courses</p>
               </div>
               <div className="text-center">
                 <h3>{smeDashboardData3?.data?.overView?.completedCourse}</h3>
-                <p className="font-nunito font-bold text-slate-600">
+                <p className="font-droid font-bold text-slate-600">
                   Completions
                 </p>
               </div>
             </div>
           </div>
           <div className="w-60 text-center">
-            <p className="text-[16px] font-nunito font-bold mb-4">
+            <p className="text-[16px] font-droid font-bold mb-4">
               Employee Completion Rate
             </p>
             <div className="w-40 h-40 mt-0 relative mx-auto">
@@ -574,14 +574,14 @@ const Dashboard = () => {
                   {smeDashboardData3?.data?.employeePerformanceOverview
                     ?.totalCourse || 0}
                 </h3>
-                <p className="font-nunito font-bold text-slate-600">Courses</p>
+                <p className="font-droid font-bold text-slate-600">Courses</p>
               </div>
               <div className="text-center">
                 <h3>
                   {smeDashboardData3?.data?.employeePerformanceOverview
                     ?.coursesCompletion || 0}
                 </h3>
-                <p className="font-nunito font-bold text-slate-600">
+                <p className="font-droid font-bold text-slate-600">
                   Completions
                 </p>
               </div>
@@ -612,7 +612,7 @@ const Dashboard = () => {
         />
       </div>
 
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Upcoming Live Sessions
       </h3>
       <div className="">
@@ -631,7 +631,7 @@ const Dashboard = () => {
           <NoDataText message="No records found" />
         )}
       </div>
-      <h3 className="text-[22px] font-calibri font-[500] mb-2">
+      <h3 className="text-[22px] font-droid font-[500] mb-2">
         Ongoing Live Sessions
       </h3>
       <div className="">
@@ -655,11 +655,11 @@ const Dashboard = () => {
         <div className="flex w-full">
           <div className=" w-full  m-4 bg-[#FFFFFF]">
             <div className="sm:flex block justify-between items-center">
-              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
+              <h5 className="text-base font-droid font-bold sm:pb-0 pb-3">
                 Course Completion Trend
               </h5>
               <Button
-                className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
+                className="font-droid font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
                 disabled={isCourseCompletionPending}
               >
                 <PDFDownloadLink
@@ -696,11 +696,11 @@ const Dashboard = () => {
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="pt-6 px-4 pb-4">
             <div className="sm:flex block justify-between items-center">
-              <h5 className="text-base font-nunito font-bold sm:pb-0 pb-3">
+              <h5 className="text-base font-droid font-bold sm:pb-0 pb-3">
                 Course Enrollment Trend Over Time
               </h5>
               <Button
-                className="font-nunito font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
+                className="font-droid font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
                 disabled={smeLoading4}
               >
                 <PDFDownloadLink
@@ -727,8 +727,8 @@ const Dashboard = () => {
         </div>
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
-            <h5 className="  text-base font-nunito font-bold">Top 5 Courses</h5>
-            {/* <Button className="text-[#00778B] bg-transparent font-nunito hover:bg-transparent p-0 h-6">
+            <h5 className="  text-base font-droid font-bold">Top 5 Courses</h5>
+            {/* <Button className="text-[#00778B] bg-transparent font-droid hover:bg-transparent p-0 h-6">
               View All
             </Button> */}
           </div>

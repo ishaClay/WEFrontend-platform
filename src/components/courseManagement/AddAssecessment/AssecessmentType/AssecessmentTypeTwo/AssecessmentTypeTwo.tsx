@@ -156,7 +156,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
       <div className="border border-[#D9D9D9] rounded-lg p-5 mb-5">
         <div className="pb-8">
           <div className="flex justify-between items-center">
-            <h6 className="text-base text-black font-calibri pb-3">
+            <h6 className="text-base text-black font-droid pb-3">
               Assessment Type
             </h6>
             <CircleX
@@ -167,17 +167,17 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
           <input
             placeholder="Multiple Choice Question"
             disabled
-            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 font-base font-calibri text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
+            className="bg-[#FBFBFB] border border-[#D9D9D9] rounded-md w-full px-4 py-3 font-base font-droid text-[#1D2026] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
           />
         </div>
         <div className="pb-8">
-          <h6 className="text-base text-black font-calibri pb-3">
+          <h6 className="text-base text-black font-droid pb-3">
             Enter Question
           </h6>
           <div className="flex justify-between items-center w-full">
             <Input
               placeholder="Enter the question"
-              className="font-base font-calibri text-[#1D2026] w-full px-4 py-3 h-auto mr-3"
+              className="font-base font-droid text-[#1D2026] w-full px-4 py-3 h-auto mr-3"
               name="question"
               onChange={(e) => {
                 handleChangeValue(e);
@@ -191,7 +191,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
               }
             />
             <div className="flex items-center">
-              <label className="me-3 text-[#515151] text-base font-calibri">
+              <label className="me-3 text-[#515151] text-base font-droid">
                 Point
               </label>
               <Input
@@ -223,7 +223,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
         <div className="">
           <div className="text-right">
             <Button
-              className="bg-transparent text-[#4285F4] text-base font-calibri text-right mb-5 hover:bg-transparent"
+              className="bg-transparent text-[#4285F4] text-base font-droid text-right mb-5 hover:bg-transparent"
               onClick={handleAddOption}
               type="button"
             >

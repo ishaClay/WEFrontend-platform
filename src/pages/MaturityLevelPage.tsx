@@ -172,7 +172,7 @@ const MaturityLevelPage = () => {
                   background: `linear-gradient(to right, ${label?.color} 10%, #ffffff)`,
                 }}
               ></div>
-              <div className="text-base text-black font-nunito rounded-r-lg ms-[-50px]">
+              <div className="text-base text-black font-droid rounded-r-lg ms-[-50px]">
                 {label?.maturityLevelName}
                 {/* <span className="font-semibold ml-2">{`(${label?.rangeStart} - ${label?.rangeEnd})`}</span> */}
               </div>
@@ -180,13 +180,13 @@ const MaturityLevelPage = () => {
           );
         })}
       {/* <div className="sm:mb-[35px] mb-5">
-        <p className="font-calibri font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
+        <p className="font-droid font-bold text-base text-[#3A3A3A] leading-[18.88px] flex items-center gap-5">
           Total Score -
           <div className="flex items-center">
-            <span className="font-calibri font-bold text-[#3A3A3A] lg:text-[42px] text-[30px] leading-[52px]">
+            <span className="font-droid font-bold text-[#3A3A3A] lg:text-[42px] text-[30px] leading-[52px]">
               {allassessmant?.data?.data?.avTotalpoints}
             </span>
-            <span className="font-calibri font-extrabold text-base leading-[18.88px] text-[#64A70B]">
+            <span className="font-droid font-extrabold text-base leading-[18.88px] text-[#64A70B]">
               /{allassessmant?.data?.data?.avTotalmaxpoint}
             </span>
           </div>
@@ -202,7 +202,7 @@ const MaturityLevelPage = () => {
 
   return (
     <>
-      <div className="font-normal text-darkslategray-100 font-calibri">
+      <div className="font-normal text-darkslategray-100 font-droid">
         {isShowHeader && <HomeHeader />}
         <div className="xl:max-w-[1160px] max-w-full w-full mx-auto">
           <div className="grid grid-cols-12 lg:mt-[50px] md:mt-[30px] mt-2.5 lg:mb-[30px] mb-5 xl:px-0 px-5">
@@ -212,19 +212,19 @@ const MaturityLevelPage = () => {
                 <div className="w-[117px] h-[2px] bg-[#64A70B] absolute bottom-0 left-0 lg:mt-4 mt-1"></div>
               </h3>
               <div className="max-w-[602.78px]">
-                <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base text-sm sm:mb-5 mb-3 ">
+                <p className="text-[#3A3A3A] font-droid leading-[20px] lg:text-base text-sm sm:mb-5 mb-3 ">
                   Here’s how you did across the 6 pillars of sustainability as a
                   business! 
                 </p>
                 <div className="sm:pb-5 pb-3">
-                  <h6 className="lg:text-base sm:text-sm-abhaya text-[#3A3A3A] font-semibold">
+                  <h6 className="lg:text-base sm:text-sm-font-droid text-[#3A3A3A] font-semibold">
                     But what does your score really mean?{" "}
                   </h6>
-                  <h6 className="lg:text-base sm:text-sm font-abhaya text-[#64A70B] font-semibold">
+                  <h6 className="lg:text-base sm:text-sm font-font-droid text-[#64A70B] font-semibold">
                     This is where your journey starts. 
                   </h6>
                 </div>
-                <p className="text-[#3A3A3A] font-calibri leading-[20px] lg:text-base text-sm">
+                <p className="text-[#3A3A3A] font-droid leading-[20px] lg:text-base text-sm">
                   Now that you know where you are, it’s time to get an action
                   plan built from personalised insights to advance your company
                   to its next green stage.
@@ -234,14 +234,14 @@ const MaturityLevelPage = () => {
                 <Button
                   type="button"
                   onClick={handleMaturity}
-                  className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya"
+                  className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-[200px] text-base font-font-droid"
                 >
                   Build My Action Plan
                 </Button>
                 <Button
                   type="button"
                   onClick={() => navigate("/company/dashboard")}
-                  className="bg-[#00778B] text-white h-12 sm:w-[223px] w-[200px] text-base font-abhaya"
+                  className="bg-[#00778B] text-white h-12 sm:w-[223px] w-[200px] text-base font-font-droid"
                 >
                   Go To My Dashboard
                 </Button>
@@ -263,11 +263,11 @@ const MaturityLevelPage = () => {
                 </div>
               </div>
               <div className="">
-                <p className="inline font-calibri text-[18px] text-black">
+                <p className="inline font-droid text-[18px] text-black">
                   Your overall sustainability level -
                 </p>{" "}
                 <Badge
-                  className={`font-semibold text-[18px] text-[#000] bg-transparent leading-6 font-calibri  bg-gradient-to-r from-[${currentLavel?.color}] from-10% via-[${currentLavel?.color}] via-10% to-transparent to-80% hover:bg-transparent border-0 `}
+                  className={`font-semibold text-[18px] text-[#000] bg-transparent leading-6 font-droid  bg-gradient-to-r from-[${currentLavel?.color}] from-10% via-[${currentLavel?.color}] via-10% to-transparent to-80% hover:bg-transparent border-0 `}
                 >
                   {currentLavel?.maturityLevelName}
                 </Badge>
@@ -278,7 +278,7 @@ const MaturityLevelPage = () => {
 
           <div className="sm:block hidden xl:px-0 px-5">
             <div className="flex justify-between items-center mb-5">
-              <h2 className="lg:text-xl sm:text-lg text-base font-calibri font-bold">
+              <h2 className="lg:text-xl sm:text-lg text-base font-droid font-bold">
                 How you fare across the Maturity levels
               </h2>
             </div>
@@ -325,7 +325,7 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                  <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                     {item.pillarname}
                                   </h4>
                                   <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -343,7 +343,7 @@ const MaturityLevelPage = () => {
 
               <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-                  <Button className="font-abhaya md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
+                  <Button className="font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
                     Intermediate
                   </Button>
                 </div>
@@ -382,10 +382,10 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs pb-2 font-abhaya">
+                                  <h4 className="mt-3 md:text-base text-xs pb-2 font-font-droid">
                                     {item.pillarname}
                                   </h4>
-                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
                                     {persantage?.toFixed(0)}%
                                   </span>
                                 </div>
@@ -399,7 +399,7 @@ const MaturityLevelPage = () => {
               </div>
               <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-                  <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-abhaya bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
+                  <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-font-droid bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
                     Advanced
                   </Button>
                 </div>
@@ -438,10 +438,10 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs font-abhaya pb-2">
+                                  <h4 className="mt-3 md:text-base text-xs font-font-droid pb-2">
                                     {item.pillarname}
                                   </h4>
-                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-abhaya">
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
                                     {persantage?.toFixed(0)}%
                                   </span>
                                 </div>
@@ -461,19 +461,19 @@ const MaturityLevelPage = () => {
                 <TabsList className="p-0 h-[45px]">
                   <TabsTrigger
                     value="introductory"
-                    className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Introductory
                   </TabsTrigger>
                   <TabsTrigger
                     value="intermediate"
-                    className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Intermediate
                   </TabsTrigger>
                   <TabsTrigger
                     value="advanced"
-                    className="text-xs sm:px-6 px-2 font-nunito font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Advanced
                   </TabsTrigger>
@@ -514,7 +514,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -565,7 +565,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -616,7 +616,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-calibri pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -638,7 +638,7 @@ const MaturityLevelPage = () => {
       </div>
 
       {/* <div className="text-center mb-[60px] mt-[30px]">
-        <p className="text-[#64A70B] font-abhaya pb-[24px] text-base font-bold">
+        <p className="text-[#64A70B] font-font-droid pb-[24px] text-base font-bold">
           Now...time to get a personalised action plan to advance your green
           feet!
         </p>

@@ -6,10 +6,10 @@ const EnrolledCourcesPage = () => {
     <div>
       <div className="flex justify-between items-center py-2 px-4 border-b border-[#D9D9D9] mb-7">
         <div>
-          <h6 className="text-[16px] font-semibold font-calibri pb-1">
+          <h6 className="text-[16px] font-semibold font-droid pb-1">
             Enrolled Courses
           </h6>
-          <p className="text-[#606060] text-[15px] font-abhaya leading-[16px]">
+          <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
             {+userData?.query?.role === 2
               ? "Here are all the companies and their cohorts who’ve been involved in this course"
               : +userData?.query?.role === 3

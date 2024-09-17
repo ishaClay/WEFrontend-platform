@@ -9,7 +9,7 @@ const TeamProgresslistInner = ({ data }: any) => {
     <div className="grid xl:grid-cols-2 grid-cols-1 gap-[30px] pt-5 border-t border-[#D9D9D9]">
       <div className="col-span-1 rounded-xl border border-[#D9D9D9]">
         <div className="py-3 px-4 border-b border-[#D9D9D9]">
-          <h5 className="text-base font-abhaya text-black font-semibold">
+          <h5 className="text-base font-font-droid text-black font-semibold">
             Action Items
           </h5>
         </div>
@@ -25,7 +25,7 @@ const TeamProgresslistInner = ({ data }: any) => {
       </div>
       <div className="col-span-1 rounded-xl border border-[#D9D9D9]">
         <div className="py-3 px-4 border-b border-[#D9D9D9]">
-          <h5 className="text-base font-abhaya text-black font-semibold">
+          <h5 className="text-base font-font-droid text-black font-semibold">
             Enrolled Courses
           </h5>
         </div>

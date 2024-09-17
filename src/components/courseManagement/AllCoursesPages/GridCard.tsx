@@ -131,15 +131,15 @@ const GridCard = ({
       >
         <div className="flex items-center justify-between pb-[6px]">
           <p className="text-black text-xs">
-            <span className="font-medium text-xs font-inter">
+            <span className="font-medium text-xs font-droid">
               Cohort {findIndex ? findIndex : 1} :
             </span>{" "}
           </p>
-          <p className="text-[#4285F4] text-[10px] font-inter font-medium">
+          <p className="text-[#4285F4] text-[10px] font-droid font-medium">
             Show all cohort
           </p>
         </div>
-        <div className="font-inter text-[10px] leading-3 text-[#000000] font-normal">
+        <div className="font-droid text-[10px] leading-3 text-[#000000] font-normal">
           <span>Start Date : </span>
           <span>
             {`${upcomingData.slotStartDate.date
@@ -176,7 +176,7 @@ const GridCard = ({
           />
           <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
             <FaStar className="text-[#FD8E1F]" />
-            <span className="text-[#3A3A3A] font-normal font-Poppins text-xs mr-2 ml-1">
+            <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">
               {maturityLevel?.fetchMaturity?.maturityLevelName}
             </span>
           </div>
@@ -184,7 +184,7 @@ const GridCard = ({
 
         <div className="">
           <div className="px-3 py-[14px] h-[calc(100%-78px)] flex flex-col justify-between">
-            <p className="text-base font-medium font-inter mb-3 line-clamp-3 text-[#1D2026]">
+            <p className="text-base font-medium font-droid mb-3 line-clamp-3 text-[#1D2026]">
               {allcourse.title}
             </p>
 
@@ -199,7 +199,7 @@ const GridCard = ({
                           src={getImages(item?.fetchPillar?.pillarName, true)}
                           alt="Image Alt Text"
                         />
-                        <p className="text-[#918A8A] text-base font-normal font-calibri leading-[22px]">
+                        <p className="text-[#918A8A] text-base font-normal font-droid leading-[22px]">
                           {item?.fetchPillar?.pillarName}
                         </p>
                       </div>

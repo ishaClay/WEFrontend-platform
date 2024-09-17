@@ -107,7 +107,7 @@ const NotificationListPage = () => {
   };
 
   return (
-    <div className="bg-primary-foreground rounded-[10px] h-full font-nunitoSans">
+    <div className="bg-primary-foreground rounded-[10px] h-full font-droidSans">
       <div className="border-b-2 flex justify-between items-center py-[24px] pl-[22px] pr-[32px]">
         <h2 className="text-base font-bold">Notification List</h2>
         <div className="flex items-center gap-[23px]">

@@ -10,7 +10,7 @@ const UserManualList = ({ list, index }: supportListProps) => {
   return (
     <a href={list?.documentUrl} target="_blank">
       <div className="shadow sm:p-4 p-3 border border-[#dddddd33] rounded-[10px] relative overflow-hidden ">
-        <div className="font-semibold font-abhaya">
+        <div className="font-semibold font-font-droid">
           <h6 className="sm:text-[15px] text-sm  leading-5 text-black sm:pb-3 pb-2.5">
             ID: #{index}
           </h6>

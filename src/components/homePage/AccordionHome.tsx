@@ -26,7 +26,7 @@ const AccordionHome = () => {
   return (
     <div className="bg-[#F7F8FC] sm:pt-[40px] pt-0 pb-[40px]">
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto xl:px-0 px-[35px]">
-        <h3 className="xl:text-[32px] text-2xl font-UniNeue leading-9 font-bold relative pb-3 inline-block pe-[50px] tracking-tighter">
+        <h3 className="xl:text-[32px] text-2xl font-droid leading-9 font-bold relative pb-3 inline-block pe-[50px] tracking-tighter">
           Frequently asked Questions
           <img
             src={titleCircle}

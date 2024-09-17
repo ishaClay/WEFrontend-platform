@@ -68,7 +68,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             ID
@@ -88,7 +88,7 @@ function CoursesAllocate() {
       cell: ({ row }) => {
         return (
           <div
-            className="font-normal font-inter text-[15px] cursor-pointer"
+            className="font-normal font-droid text-[15px] cursor-pointer"
             onClick={() => {
               navigate(`/company/employeelist/${row.original.id}`);
             }}
@@ -104,7 +104,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Team Member
@@ -146,7 +146,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Email ID
@@ -166,7 +166,7 @@ function CoursesAllocate() {
 
       cell: ({ row }) => {
         return (
-          <p className={`font-normal font-inter text-[15px] px-3`}>
+          <p className={`font-normal font-droid text-[15px] px-3`}>
             {row.original.email}
           </p>
         );
@@ -178,7 +178,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Mobile Number
@@ -198,7 +198,7 @@ function CoursesAllocate() {
 
       cell: ({ row }) => {
         return (
-          <p className={`font-normal font-inter text-[15px] px-3`}>
+          <p className={`font-normal font-droid text-[15px] px-3`}>
             {row.original.phone}
           </p>
         );
@@ -210,7 +210,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="px-0 font-inter text-[15px]"
+            className="px-0 font-droid text-[15px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -234,7 +234,7 @@ function CoursesAllocate() {
               row.original.status === "Registered"
                 ? "bg-[#00778B] text-white h-[26px] w-[82px]"
                 : "bg-[#0E9CFF] text-white h-[26px] w-[82px]"
-            } font-normal px-3 rounded-full text-center leading-[26px] text-xs font-inter`}
+            } font-normal px-3 rounded-full text-center leading-[26px] text-xs font-droid`}
           >
             {row.original.status}
           </p>
@@ -247,7 +247,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Activity
@@ -273,7 +273,7 @@ function CoursesAllocate() {
                 : row.original.employeeStatus === "Inactive"
                 ? "bg-[#FF5252]"
                 : "bg-[#FFD56A] text-white"
-            }  font-normal w-[80px] h-[32px] text-sm font-inter leading-8 rounded-md text-center text-white`}
+            }  font-normal w-[80px] h-[32px] text-sm font-droid leading-8 rounded-md text-center text-white`}
           >
             {row.original.employeeStatus === "IsNew"
               ? "Pending"
@@ -288,7 +288,7 @@ function CoursesAllocate() {
         return (
           <Button
             variant="ghost"
-            className="p-0 font-inter text-[15px] h-[52px]"
+            className="p-0 font-droid text-[15px] h-[52px]"
           >
             Resend
           </Button>
@@ -434,10 +434,10 @@ function CoursesAllocate() {
       <div className="bg-[#FFFFFF] rounded-[10px]">
         <div className="p-4 bg-[#FFFFFF] border-b border-[#D9D9D9] rounded-t-[10px] sm:flex block items-center justify-between">
           <div>
-            <p className="text-[#000000] font-calibri font-bold text-base pb-2">
+            <p className="text-[#000000] font-droid font-bold text-base pb-2">
               Team List
             </p>
-            <p className="text-[#606060] text-[15px] font-abhaya leading-[16px] font-bold">
+            <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] font-bold">
               The full list of team members working on your green initiatives
             </p>
           </div>
@@ -467,7 +467,7 @@ function CoursesAllocate() {
                 );
                 navigate(`/${Role}/employeelist/employeeinvition`);
               }}
-              className="p-[10px] bg-primary-button text-color font-abhaya text-sm rounded-sm"
+              className="p-[10px] bg-primary-button text-color font-font-droid text-sm rounded-sm"
             >
               Invite Team-members
             </Button>

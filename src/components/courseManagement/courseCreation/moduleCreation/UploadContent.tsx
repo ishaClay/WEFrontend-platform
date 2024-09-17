@@ -126,10 +126,11 @@ const UploadContent = ({
     setDragging(false);
     const file = event.dataTransfer.files[0];
 
-    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -153,10 +154,11 @@ const UploadContent = ({
     const file = event.target.files[0];
     console.log("file", file);
 
-    if(!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)){
+    if (!file?.name.match(/^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)?$/)) {
       toast({
         variant: "destructive",
-        title: "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
+        title:
+          "Invalid file name. Please use only letters, digits, underscores, hyphens, and a single period.",
       });
       return;
     }
@@ -211,19 +213,18 @@ const UploadContent = ({
 
   console.log("data+++", data);
   console.log("FileType", FileType);
-  
 
   return (
     <div className="">
       {!data.uploadContentType ? (
         <div className="pb-5">
-          <h6 className="sm:text-base text-sm font-calibri text-[#515151] pb-2">
+          <h6 className="sm:text-base text-sm font-droid text-[#515151] pb-2">
             Upload Content
           </h6>
           <div className="border border-[#D9D9D9] rounded-md sm:px-4 sm:py-2 p-2 w-full">
             <Button
               type="button"
-              className="bg-[#42A7C3] font-bold text-xs font-calibri px-2 sm:py-3 py-1 sm:h-10 h-8"
+              className="bg-[#42A7C3] font-medium text-xs font-droid px-2 sm:py-3 py-1 sm:h-10 h-8"
               onClick={() => setIsOpenUploadDocumnet(true)}
             >
               Select Upload Document Type
@@ -231,7 +232,7 @@ const UploadContent = ({
           </div>
           {errorkey?.uploadContentType && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errorkey.uploadContentType?.message}
             />
           )}
@@ -239,14 +240,14 @@ const UploadContent = ({
       ) : (
         <div className="pb-4">
           <div className="justify-between flex align-items-center mb-1">
-            <h6 className="sm:text-base text-sm font-calibri text-[#515151]">
+            <h6 className="sm:text-base text-sm font-droid text-[#515151]">
               Upload Content
             </h6>
             <div className="flex gap-3">
               <Button
                 type="button"
                 onClick={removeUploadContent}
-                className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-calibri p-0 gap-1 h-auto"
+                className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-droid p-0 gap-1 h-auto"
               >
                 <CircleX width={16} />
                 Remove
@@ -258,7 +259,7 @@ const UploadContent = ({
                   setIsOpenUploadDocumnet(true);
                   removeFile();
                 }}
-                className="sm:text-base text-sm font-calibri text-[#00778B] p-0 hover:bg-transparent h-auto"
+                className="sm:text-base text-sm font-droid text-[#00778B] p-0 hover:bg-transparent h-auto"
               >
                 Change document type
               </Button>
@@ -267,7 +268,7 @@ const UploadContent = ({
           <div className="md:p-4 p-2.5 border border-[#D9D9D9] rounded-md bg-[#FBFBFB]">
             <div className="flex md:flex-row flex-col items-center lg:gap-10 gap-5">
               <div className="md:w-2/5 w-full">
-                <div className="text-sm font-calibri font-normal text-[#515151] flex items-center lg:mb-5 mb-3">
+                <div className="text-sm font-droid font-normal text-[#515151] flex items-center lg:mb-5 mb-3">
                   Selected Document Type :{" "}
                   <img
                     src={FileType && FileType.image}
@@ -291,17 +292,17 @@ const UploadContent = ({
                       alt=""
                       className="mx-auto mb-5 sm:w-[75px] w-[55px] sm:h-[70px] h-[50px]"
                     />
-                    <h6 className="text-[#9E9E9E] text-xs font-calibri pb-4">
+                    <h6 className="text-[#9E9E9E] text-xs font-droid pb-4">
                       Drag and drop files here
                     </h6>
-                    <h6 className="text-[#9E9E9E] text-xs font-calibri font-bold pb-4">
+                    <h6 className="text-[#9E9E9E] text-xs font-droid font-bold pb-4">
                       -OR-
                     </h6>
                     <Label
                       htmlFor={`modules.${moduleIndex}.section.${sectionIndex}`}
-                      className="py-3 px-7 bg-[#42A7C3] text-xs font-calibri cursor-pointer rounded text-white"
+                      className="py-3 px-7 bg-[#42A7C3] text-xs font-droid cursor-pointer rounded text-white"
                     >
-                      {/* <Button className="py-3 px-7 bg-[#42A7C3] text-xs font-calibri"> */}
+                      {/* <Button className="py-3 px-7 bg-[#42A7C3] text-xs font-droid"> */}
                       Browse Files
                       {/* </Button> */}
                       <input
@@ -319,10 +320,10 @@ const UploadContent = ({
               <div className="md:w-3/5 w-full">
                 <div className="">
                   <div className="flex justify-between items-center pb-3">
-                    <h5 className="text-black text-sm font-calibri">
+                    <h5 className="text-black text-sm font-droid">
                       Upload Document
                     </h5>
-                    <h6 className="font-calibri text-[10px]">
+                    <h6 className="font-droid text-[10px]">
                       Supported File:- {FileType && FileType.fileTypeText}
                     </h6>
                   </div>
@@ -336,11 +337,11 @@ const UploadContent = ({
                         />
                       </div>
                       <div className="flex justify-between items-center ps-5 w-full">
-                        <h5 className="text-xs text-black font-calibri">
+                        <h5 className="text-xs text-black font-droid">
                           {fileName}
                         </h5>
                         {uploadProgress === 100 && (
-                          <h6 className="text-[#159800] text-[10px] font-calibri">
+                          <h6 className="text-[#159800] text-[10px] font-droid">
                             Completed
                           </h6>
                         )}
@@ -364,7 +365,7 @@ const UploadContent = ({
                   </div>
                   {errorkey?.uploadedContentUrl && (
                     <FormError
-                      className="font-calibri not-italic"
+                      className="font-droid not-italic"
                       message={errorkey.uploadedContentUrl?.message}
                     />
                   )}
@@ -374,7 +375,7 @@ const UploadContent = ({
           </div>
           {errorkey?.uploadedContentUrl?.uploadContentType && (
             <FormError
-              className="font-calibri not-italic"
+              className="font-droid not-italic"
               message={errorkey?.uploadedContentUrl?.uploadContentType?.message}
             />
           )}

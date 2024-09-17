@@ -40,7 +40,7 @@ const RecentCourses = () => {
   return (
     <div className="mb-8">
       <div className="mb-5 flex justify-between items-center">
-        <h3 className="font-bold font-nunito xl:text-[22px] text-lg border-b-2 inline-block border-[#75BD43] relative pb-1">
+        <h3 className="font-bold font-droid xl:text-[22px] text-lg border-b-2 inline-block border-[#75BD43] relative pb-1">
           Recent Courses
           {/* <div className="bg-[#75BD43] w-[115px] h-[2px] absolute left-0 bottom-0"></div> */}
         </h3>
@@ -50,7 +50,7 @@ const RecentCourses = () => {
             onClick={() => {
               navigate(`${location?.pathname?.split("/")[1]}/mycourses`);
             }}
-            className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-nunito"
+            className="bg-transparent text-base font-bold hover:bg-transparent text-[#00778B] font-droid"
           >
             View all
           </Button>

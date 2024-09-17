@@ -28,12 +28,12 @@ const RegisterTrainee = () => {
   });
 
   useEffect(() => {
-    if (!!data?.data?.employeeDetails?.isRegister) {
+    if (data?.data?.employeeDetails?.isRegister) {
       navigate("/auth");
       toast({
         description: "Employee already registered",
         variant: "success",
-      })
+      });
     }
   }, [data, email]);
 

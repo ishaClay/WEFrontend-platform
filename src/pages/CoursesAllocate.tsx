@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import RejectedIcons from "@/assets/images/Rejected_icons.png";
 import { FaStar } from "react-icons/fa";
 import { MdOutlineGroup } from "react-icons/md";
 // import { Course } from "@/types/Course";
@@ -39,7 +40,9 @@ import {
   EnrollmentRequestsResponse,
   IsOnline,
 } from "@/types/allocatedcourses";
+import { Enroll } from "@/types/enroll";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { OctagonAlert } from "lucide-react";
 import { useState } from "react";
 
 function CoursesAllocate() {
@@ -178,14 +181,14 @@ function CoursesAllocate() {
                             </div>
                           </div>
 
-                          <div className="xl:mt-[18px] mt-3 font-inter sm:text-base text-sm font-medium leading-[22px] text-left">
+                          <div className="xl:mt-[18px] mt-3 font-droid sm:text-base text-sm font-medium leading-[22px] text-left">
                             <h1>{courseallocate?.course?.title}</h1>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
                                   courseallocate?.course?.description || "",
                               }}
-                              className="line-clamp-1"
+                              className="max-w-[400px] w-full line-clamp-2 text-[#000000]"
                             ></span>
                           </div>
 
@@ -338,6 +341,32 @@ function CoursesAllocate() {
                           </Button>
                         </div>
                       )}
+                      <div className="xl:col-span-2 col-span-12 ml-auto mr-0">
+                        {courseallocate?.enroll === Enroll?.default && (
+                          <div className="flex items-center sm:pr-8 xl:justify-center sm:justify-end justify-center xl:p-0 sm:p-0 p-[15px]">
+                            <OctagonAlert className="w-5 h-5 text-[#FFCC00]" />
+                            <span className="text-[#FFCC00] font-droid text-base pl-1">
+                              Pending
+                            </span>
+                          </div>
+                        )}
+                        {courseallocate?.enroll === Enroll?.enquiry && (
+                          <div className="flex items-center sm:pr-8 xl:justify-center sm:justify-end justify-center xl:p-0 sm:p-0 p-[15px]">
+                            <OctagonAlert className="w-5 h-5 text-[#2572cb]" />
+                            <span className="text-[#2572cb] font-droid text-base pl-1">
+                              Enquiry
+                            </span>
+                          </div>
+                        )}
+                        {courseallocate?.enroll === Enroll.reject && (
+                          <div className="flex items-center pr-8 xl:justify-center sm:justify-end justify-center sm:p-0 sm:pt-3 p-[15px]">
+                            <img src={RejectedIcons} alt="" width={18} />
+                            <span className="text-[#FF5252] font-droid text-base pl-1">
+                              Rejected
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 

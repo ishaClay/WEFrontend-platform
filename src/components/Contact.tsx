@@ -18,10 +18,10 @@ const Contact = () => {
         <div className="grid grid-cols-1 gap-[20px] lg:grid-cols-3 sm:grid-cols-2">
           <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <NotebookTabs />
-            <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
+            <h1 className="text-xl text-center leading-[19px] font-[700] font-droid mb-[5px] pt-3 text-primary-button">
               Address
             </h1>
-            <p className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]">
+            <p className="text-[15px] font-droid text-center leading-[21px] font-medium mt-[5px]">
               Main St Rush, County Dublin Rush County Dublin Ireland
             </p>
             <img
@@ -43,12 +43,12 @@ const Contact = () => {
 
           <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <Headset />
-            <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
+            <h1 className="text-xl text-center leading-[19px] font-[700] font-droid mb-[5px] pt-3 text-primary-button">
               Telephone
             </h1>
             <Link
               to="tel:+353 8439314"
-              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
+              className="text-[15px] font-droid text-center leading-[21px] font-medium mt-[5px]"
             >
               +353 8439314
             </Link>
@@ -71,12 +71,12 @@ const Contact = () => {
 
           <div className="card p-3 text-center mb-2 flex flex-col justify-center items-center h-[160px] shadow-lg relative">
             <MailCheck />
-            <h1 className="text-xl text-center leading-[19px] font-[700] font-calibri mb-[5px] pt-3 text-primary-button">
+            <h1 className="text-xl text-center leading-[19px] font-[700] font-droid mb-[5px] pt-3 text-primary-button">
               Email Id
             </h1>
             <Link
               to="mailto:info@goinggreen.ie"
-              className="text-[15px] font-nunito text-center leading-[21px] font-medium mt-[5px]"
+              className="text-[15px] font-droid text-center leading-[21px] font-medium mt-[5px]"
             >
               info@goinggreen.ie
             </Link>
