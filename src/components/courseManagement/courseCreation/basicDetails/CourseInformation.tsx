@@ -199,6 +199,12 @@ const CourseInformation = ({
     }
   }, [isFreeCourse, data]);
 
+  useEffect(() => {
+    if (userData) {
+      setValue("institute", userData?.trainerCompany?.providerName);
+    }
+  }, []);
+
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
     onSuccess: (data) => {

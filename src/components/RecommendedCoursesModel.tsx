@@ -4,6 +4,7 @@ import { CourseDiscountDataEntity } from "@/types/course";
 import { ErrorType } from "@/types/Errors";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Minus, Plus } from "lucide-react";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import SelectMenu from "./comman/SelectMenu";
@@ -64,8 +65,29 @@ const RecommendedCoursesModel = ({
     }
   };
   console.log("index === selectCourseByIndex", itemList);
+
+  // Function to convert date object from the array to a Date object
+  function parseDate(year: string, month: string, date: string) {
+    // Note: month is 0-based in JavaScript Date, so we subtract 1
+    return new Date(`${year}-${month}-${date}`);
+  }
+
+  // Filter the array for upcoming dates
+  const upcomingItems = data?.[0]?.currentVersion?.cohortGroup
+    ? data?.[0]?.currentVersion?.cohortGroup?.filter((item) => {
+        const startDate = parseDate(
+          item.slotStartDate.year,
+          item.slotStartDate.month,
+          item.slotStartDate.date
+        );
+
+        // Check if the current date is within the start and end date range
+        return moment(startDate).isAfter(new Date());
+      })
+    : [];
+
   const filterOption =
-    data?.[0]?.currentVersion?.cohortGroup?.map((item, index) => {
+    upcomingItems?.map((item, index) => {
       return {
         label: `Cohort ${index + 1} : Start ${item?.slotStartDate?.date}/${
           item?.slotStartDate?.month
@@ -112,6 +134,8 @@ const RecommendedCoursesModel = ({
       setSelectCourse("0");
     }
   }, [data]);
+
+  console.log("filterOption", filterOption);
 
   return isLoading ? (
     <span className="h-full flex items-center justify-center">
