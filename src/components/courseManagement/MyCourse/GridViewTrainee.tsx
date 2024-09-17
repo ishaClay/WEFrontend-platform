@@ -325,10 +325,10 @@ const GridViewTrainee = ({
             item?.version &&
             item?.version
               .filter((itm: any) => {
-                if (pv
+                if (
                   isMyCoursesPath &&
                   isPublished &&
-                  userData?.query?.detailsid !== itm?.trainerId?.id
+                  userData?.query?.detailsid === itm?.trainerId?.id
                 ) {
                   return itm.version === item?.currentVersion?.version;
                 }
