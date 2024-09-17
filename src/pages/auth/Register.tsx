@@ -210,7 +210,7 @@ function Register() {
       localStorage.setItem("user", JSON?.stringify(data.data.data));
       localStorage.setItem(
         "path",
-        JSON.stringify(data.data.data?.query?.pathStatus)
+        JSON.stringify(data.data.data?.query?.pathstatus)
       );
       Cookies.set("accessToken", data?.data?.data?.accessToken);
       navigate("/assessment");

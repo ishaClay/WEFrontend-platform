@@ -523,12 +523,9 @@ function CourseViewAllocatePopup({
                       disabled={isReadOnly}
                       className="bg-[#58BA66] text-white lg:w-[137px] w-[130px] lg:h-[52px] h-[45px] rounded mt-[5px] text-base"
                       onClick={handleAllocation}
+                      isLoading={isAllocatePending}
                     >
-                      {isAllocatePending ? (
-                        <Loader containerClassName="h-auto" />
-                      ) : (
-                        "Edit Allocation"
-                      )}
+                      Save
                     </Button>
                   </div>
                 </>

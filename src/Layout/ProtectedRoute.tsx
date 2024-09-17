@@ -56,6 +56,9 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
       navigate(-1); // Use useNavigate to go back in the history
       return;
     }
+    if (user && +user?.query?.role === 1 && user.query.pathstatus < 4) {
+      navigate("/savedassesment");
+    }
   }, [userToken, routeUser]);
 
   return <>{children}</>;

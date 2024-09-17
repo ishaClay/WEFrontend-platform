@@ -103,7 +103,6 @@ const EmployeeBasicCourse = () => {
       }
     }
   }, [getModule?.moduleStatuses, userData?.query?.role]);
-  console.log("course?.datacourse?.data", course?.data?.course);
 
   return (
     <>
@@ -201,11 +200,12 @@ const EmployeeBasicCourse = () => {
                 <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block justify-end">
                   <div
                     className="md:flex hidden pr-5 cursor-pointer text-black"
-                    onClick={() =>
+                    onClick={() => {
+                      const newpath = paths.slice(0, paths.length - 1);
                       pathName !== "employee"
                         ? pathName === "company"
-                          ? (dispatch(setPath(paths)),
-                            navigate(paths?.at(-1)?.link || ""))
+                          ? (dispatch(setPath(newpath)),
+                            navigate(newpath?.at(-1)?.link || ""))
                           : dispatch(
                               setPath([
                                 { label: "Course Management", link: null },
@@ -222,8 +222,8 @@ const EmployeeBasicCourse = () => {
                                 link: `/${pathName}/mycourses`,
                               },
                             ])
-                          )
-                    }
+                          );
+                    }}
                   >
                     <MoveLeft />
                     <span className="text-base font-semibold pl-4">Back</span>

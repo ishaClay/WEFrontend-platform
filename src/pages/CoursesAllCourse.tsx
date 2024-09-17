@@ -77,7 +77,7 @@ function CoursesAllCourse() {
       };
       getAllCourses(payload);
     }
-  }, [selectedCourse, getAllCourses]);
+  }, [selectedCourse, getAllCourses, search]);
 
   useEffect(() => {
     if (pillarcourse) {

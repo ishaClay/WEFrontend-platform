@@ -161,6 +161,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       handleClose();
     },
     onError: (error: ErrorType) => {
+      console.log("🚀 ~ CohortModal ~ error.data.message:", error.data.message);
       toast({
         variant: "destructive",
         title: error.data.message,
@@ -268,22 +269,24 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     } else {
       toast({
         variant: "destructive",
-        title: "Please enter cohort name",
+        title: "Please enter cohort details",
       });
     }
   };
 
   const handleDeleteCohort = () => {
-    const deleteCohortData:any = isDeleteCohort?.data;
-    if(data?.data?.find((item) => item?.id === deleteCohortData?.id)){
+    const deleteCohortData: any = isDeleteCohort?.data;
+    if (data?.data?.find((item) => item?.id === deleteCohortData?.id)) {
       const cohortId = isDeleteCohort?.data && deleteCohortData?.id;
       deleteCohortFun(+cohortId);
-    } else{
-      setCohortData(cohortData?.filter((item:any) => item?.id !== deleteCohortData?.id));
+    } else {
+      setCohortData(
+        cohortData?.filter((item: any) => item?.id !== deleteCohortData?.id)
+      );
       setIsDeleteCohort({
         type: false,
         data: "",
-      })
+      });
     }
   };
 
