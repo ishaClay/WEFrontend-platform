@@ -1,16 +1,15 @@
-import { Dispatch } from "react";
 import Modal from "../comman/Modal";
 import { Button } from "../ui/button";
 
 const CompanyDetails = ({
   isOpen,
-  setIsOpen,
+  // setIsOpen,
   companyData,
   handleReject,
   handleAccept,
 }: {
   isOpen: boolean;
-  setIsOpen: Dispatch<React.SetStateAction<boolean>>;
+  // setIsOpen: Dispatch<React.SetStateAction<boolean>>;
   companyData: any;
   handleReject: () => void;
   handleAccept: () => void;
@@ -18,7 +17,7 @@ const CompanyDetails = ({
   return (
     <Modal
       open={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={() => {}}
       header="Company Details"
       titleClassName="text-[20px] font-droid font-semibold"
     >
