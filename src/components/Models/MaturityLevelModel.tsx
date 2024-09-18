@@ -13,34 +13,36 @@ interface MaturityLevelModelProps {
   setIsOpen: React.Dispatch<React.SetStateAction<number | null>>;
   pillerName: string;
   setPillerName: React.Dispatch<React.SetStateAction<string>>;
+  maturityLevel: any;
 }
 
-const maturityLevel = [
-  {
-    maturityLevelName: "Introductory",
-    rangeStart: 0,
-    rangeEnd: 39.9,
-    color: "#FF5252",
-  },
-  {
-    maturityLevelName: "Intermediate",
-    rangeStart: 40,
-    rangeEnd: 69.9,
-    color: "#FFD56A",
-  },
-  {
-    maturityLevelName: "Advance",
-    rangeStart: 70,
-    rangeEnd: 100,
-    color: "#D6F5AC",
-  },
-];
+// const maturityLevel = [
+//   {
+//     maturityLevelName: "Introductory",
+//     rangeStart: 0,
+//     rangeEnd: 39.9,
+//     color: "#FF5252",
+//   },
+//   {
+//     maturityLevelName: "Intermediate",
+//     rangeStart: 40,
+//     rangeEnd: 69.9,
+//     color: "#FFD56A",
+//   },
+//   {
+//     maturityLevelName: "Advance",
+//     rangeStart: 70,
+//     rangeEnd: 100,
+//     color: "#D6F5AC",
+//   },
+// ];
 
 const MaturityLevelModel = ({
   isOpen,
   setIsOpen,
   pillerName,
   setPillerName,
+  maturityLevel,
 }: MaturityLevelModelProps) => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { clientId, UserId } = useAppSelector((state) => state.user);
@@ -99,26 +101,20 @@ const MaturityLevelModel = ({
             </div>
           </div>
 
-          <div className="h-[19px] w-[270px]  flex mt-[35px]">
-            <div className="h-[19px] w-[86px] flex">
-              <div className="h-[12px] w-[12px] rounded  bg-[#F63636] mt-[3px]"></div>
-              <div className="h-[19px] w-[62.21px] text-xs ml-[10px]">
-                Introductory
-              </div>
-            </div>
-
-            <div className="h-[19px] w-[86px] flex ml-[12px]">
-              <div className="h-[12px] w-[12px] rounded  bg-[#FFD56A] mt-[3px] "></div>
-              <div className="h-[19px] w-[65px] text-xs ml-[10px]">
-                Intermediate
-              </div>
-            </div>
-            <div className="h-[19px] w-[86px] flex ml-[12px]">
-              <div className="h-[12px] w-[12px] rounded  bg-[#64A70B] mt-[3px] "></div>
-              <div className="h-[19px] w-[49px] text-xs ml-[10px]">
-                Advanced
-              </div>
-            </div>
+          <div className="h-[19px] w-[270px]  flex items-center gap-3 mt-[35px]">
+            {maturityLevel?.map((item: any) => {
+              const color = item?.color;
+              return (
+                <div className="h-[19px] w-[86px] flex items-center">
+                  <div
+                    className={`h-[12px] w-[12px] rounded  bg-[${color}]`}
+                  ></div>
+                  <div className="w-[62.21px] text-xs ml-[4px]">
+                    {item.maturityLevelName}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="h-[105px] ">
