@@ -355,7 +355,7 @@ function CompanyRegister() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
                 <div className="w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     Sole Trader <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
