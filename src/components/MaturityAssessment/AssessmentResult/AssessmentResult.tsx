@@ -229,6 +229,12 @@ const AssessmentResult = ({
     </>
   );
 
+  const colorLevel = {
+    level1: fetchClientmaturitylevel?.data?.[0]?.color,
+    level2: fetchClientmaturitylevel?.data?.[1]?.color,
+    level3: fetchClientmaturitylevel?.data?.[2]?.color,
+  };
+
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-droid">
       <div className="">
@@ -303,7 +309,9 @@ const AssessmentResult = ({
         <div className="flex flex-col gap-[26px]  mb-[60px]">
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold bg-gradient-to-r from-[#F63636] from-25% via-[#F63636] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
+              <Button
+                className={`md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold bg-gradient-to-r from-[${colorLevel?.level1}] from-25% via-[${colorLevel?.level1}] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start`}
+              >
                 Introductory
               </Button>
             </div>
@@ -337,7 +345,9 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#F63636] bg-[#F63636] text-white w-[225px] rounded-xl p-2.5">
+                            <div
+                              className={`border border-solid border-[${colorLevel?.level1}] bg-[${colorLevel?.level1}] text-white w-[225px] rounded-xl p-2.5`}
+                            >
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -363,7 +373,9 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[#FFD56A] from-25% via-[#FFD56A] via-25% to-transparent to-50% bg-[#fff] justify-start">
+              <Button
+                className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[${colorLevel?.level2}] from-25% via-[${colorLevel?.level2}] via-25% to-transparent to-50% bg-[#fff] justify-start`}
+              >
                 Intermediate
               </Button>
             </div>
@@ -396,7 +408,9 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] w-[225px] rounded-xl p-2.5">
+                            <div
+                              className={`border border-solid border-[${colorLevel?.level2}] bg-[${colorLevel?.level2}] w-[225px] rounded-xl p-2.5`}
+                            >
                               <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -422,7 +436,9 @@ const AssessmentResult = ({
 
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-              <Button className="md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-font-droid bg-gradient-to-r from-[#64A70B] from-25% via-[#64A70B] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start">
+              <Button
+                className={`md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-font-droid bg-gradient-to-r from-[${colorLevel?.level3}] from-25% via-[${colorLevel?.level3}] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start`}
+              >
                 Advanced
               </Button>
             </div>
@@ -455,7 +471,9 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white w-[225px] rounded-xl p-2.5">
+                            <div
+                              className={`border border-solid border-[${colorLevel?.level3}] bg-[${colorLevel?.level3}] w-[225px] rounded-xl p-2.5`}
+                            >
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -682,6 +700,7 @@ const AssessmentResult = ({
         setIsOpen={setIsOpen}
         pillerName={pillerName}
         setPillerName={setPillerName}
+        maturityLevel={fetchClientmaturitylevel?.data}
       />
       <Loading isLoading={isPending} />
     </div>

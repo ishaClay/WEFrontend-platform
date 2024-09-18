@@ -18,6 +18,7 @@ import Updatecertificate from "./components/certificateTemplete/Updatecertificat
 import Accomplishments from "./components/certifications/Accomplishments";
 import Loading from "./components/comman/Error/Loading";
 import AssecessmentPage from "./components/courseManagement/AddAssecessment/AssecessmentPage";
+import AllCourseTrainee from "./components/courseManagement/MyCourse/AllCourseTrainee";
 import MyCourseTrainee from "./components/courseManagement/MyCourse/MyCourseTrainee";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import SupportRequest from "./components/support/SupportRequest/SupportRequest";
@@ -88,7 +89,6 @@ import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
-import AllCourseTrainee from "./components/courseManagement/MyCourse/AllCourseTrainee";
 
 function App() {
   let socket: any;

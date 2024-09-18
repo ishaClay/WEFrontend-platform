@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loading from "@/components/comman/Error/Loading";
 import Loader from "@/components/comman/Loader";
-import Modal from "@/components/comman/Modal";
 import SelectMenu from "@/components/comman/SelectMenu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,22 +22,18 @@ import {
   scheduleUpdateLiveSession,
 } from "@/services/apiServices/liveSession";
 import { pillarLimit } from "@/services/apiServices/pillar";
-import { getTraineeCompany } from "@/services/apiServices/trainer";
 import { ErrorType } from "@/types/Errors";
-import { TraineeCompanyDetails } from "@/types/Trainer";
 import { UserRole } from "@/types/UserRole";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CirclePlus, Loader2, MoveLeft, X } from "lucide-react";
+import { Loader2, MoveLeft } from "lucide-react";
 import moment from "moment";
-import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
-import AddTraineeModal from "./AddTraineeModal";
 
 const durationInHours = Array.from({ length: 24 }, (_, i) => {
   const hour = i.toString().padStart(2, "0");
@@ -66,12 +62,7 @@ const ScheduleLiveSessionPage = () => {
     (state: RootState) => state.user
   );
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [isOpen, setIsOpen] = useState(false);
   const [courseVersion, setCourseVersion] = useState("");
-  const [selectCompany, setSelectCompany] = useState<string[]>([]);
-  const [traineeList, setTraineeList] = useState<
-    { name: string; id: string }[]
-  >([]);
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
   const queryclient = useQueryClient();
 
@@ -88,6 +79,9 @@ const ScheduleLiveSessionPage = () => {
   const ScheduleLiveSessionSchema = z
     .object({
       selectCourse: z.string({
+        required_error: "Please select course",
+      }),
+      selectCohort: z.string({
         required_error: "Please select course",
       }),
       selectLiveSession: z.string({
@@ -133,7 +127,6 @@ const ScheduleLiveSessionPage = () => {
     handleSubmit,
     setValue,
     watch,
-    control,
     clearErrors,
     reset,
     formState: { errors },
@@ -177,13 +170,6 @@ const ScheduleLiveSessionPage = () => {
       enabled: !!id,
     });
 
-  const { data: fetchTraineeCompany } = useQuery({
-    queryKey: [QUERY_KEYS.fetchTraineeCompany],
-    queryFn: () =>
-      getTraineeCompany(+CompanyId, +watch("selectCourse"), selectLiveSession),
-    enabled: !!CompanyId && !!watch("selectCourse") && !!selectLiveSession,
-  });
-
   useEffect(() => {
     queryclient.invalidateQueries({
       queryKey: [QUERY_KEYS.fetchTraineeCompany],
@@ -199,17 +185,11 @@ const ScheduleLiveSessionPage = () => {
       })
     : [];
 
-  const selectCompanyOptions =
-    fetchTraineeCompany?.data?.length > 0
-      ? fetchTraineeCompany?.data?.map((i: TraineeCompanyDetails) => i?.name)
-      : [];
-
   const { mutate: addLiveSession, isPending: isSaveSessionPending } =
     useMutation({
       mutationFn: createLiveSession,
       onSuccess: async (data) => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
-        setSelectCompany([]);
         reset();
         toast({
           title: data?.data?.message,
@@ -230,7 +210,6 @@ const ScheduleLiveSessionPage = () => {
       mutationFn: scheduleUpdateLiveSession,
       onSuccess: async (data) => {
         navigate(`/${currentUser}/CourseLiveSession?view=0`);
-        setSelectCompany([]);
         reset();
         toast({
           title: data?.data?.message,
@@ -289,9 +268,7 @@ const ScheduleLiveSessionPage = () => {
           description,
           date,
           sessionDuration,
-          employee,
           course,
-          company,
           startTime,
           platform,
           zoomApiBaseUrl,
@@ -314,15 +291,6 @@ const ScheduleLiveSessionPage = () => {
         setValue("sessionTime", moment(startTime).format("HH:mm"));
         setValue("platform", !!platform);
         setValue("zoomUrl", zoomApiBaseUrl || "");
-
-        setSelectCompany(
-          company?.map((item: any) => {
-            return item?.id;
-          })
-        );
-        setTraineeList(
-          employee?.map((item: any) => ({ id: item?.id, name: item?.name }))
-        );
       }
     }
   }, [fetchLiveSessionById?.data?.data, id]);
@@ -344,19 +312,6 @@ const ScheduleLiveSessionPage = () => {
       (item: any) => +item?.value === +data?.selectLiveSession
     );
 
-    const compnayIds = selectCompany?.flatMap((val) => {
-      return (
-        (fetchTraineeCompany?.data?.length > 0 &&
-          fetchTraineeCompany?.data?.map((item: any) => {
-            if (item?.name === val) {
-              return +item?.id;
-            }
-            return;
-          })) ||
-        []
-      );
-    });
-
     const transformedData = {
       course: data?.selectCourse,
       subtitle: data.sessionSubtitle,
@@ -367,10 +322,9 @@ const ScheduleLiveSessionPage = () => {
       date: data?.sessionDate,
       moduleSection: +liveSecTitle?.value || "",
       startTime: convertTo12HourFormat(data?.sessionTime),
-      companyId: compnayIds?.filter((val) => !!val) || [],
-      employeeId: traineeList?.map((val) => +val?.id) || [],
       platform: data?.platform ? 1 : 0,
       zoomApiBaseUrl: watch("platform") ? "" : data?.zoomUrl,
+      cohortGroupId: data?.selectCohort,
     };
 
     if (+userData?.query?.role === UserRole.Trainer) {
@@ -408,21 +362,6 @@ const ScheduleLiveSessionPage = () => {
 
   return (
     <>
-      <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="lg:max-w-3xl sm:max-w-xl max-w-[335px] xl:p-[30px] p-5 rounded-xl"
-      >
-        <AddTraineeModal
-          traineeList={traineeList}
-          setTraineeList={setTraineeList}
-          setIsOpen={setIsOpen}
-          watch={watch}
-          control={control}
-          fetchTraineeCompany={fetchTraineeCompany}
-          sessionId={selectLiveSession}
-        />
-      </Modal>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="bg-white rounded-xl">
           <div className="flex justify-between items-center sm:px-6 p-4 sm:py-5 border-b border-[#D9D9D9]">
@@ -471,6 +410,29 @@ const ScheduleLiveSessionPage = () => {
               {errors?.selectCourse?.message && (
                 <span className="text-red-500 text-sm">
                   {errors?.selectCourse?.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label className="text-base text-black font-medium font-font-droid">
+                Select Cohort
+              </Label>
+              <SelectMenu
+                option={selectCourseOption}
+                setValue={(e: string) => {
+                  setValue("selectCohort", e);
+                  clearErrors("selectCohort");
+                }}
+                value={watch("selectCohort")}
+                itemClassName="text-base"
+                className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                placeholder="Select Cohort"
+                disabled={!!id}
+                isLoading={fetchCoursePending}
+              />
+              {errors?.selectCohort?.message && (
+                <span className="text-red-500 text-sm">
+                  {errors?.selectCohort?.message}
                 </span>
               )}
             </div>
@@ -647,53 +609,7 @@ const ScheduleLiveSessionPage = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <Label className="text-base text-black font-medium font-font-droid">
-                Select Company
-              </Label>
-              <Multiselect
-                isObject={false}
-                onKeyPressFn={function noRefCheck() {}}
-                onRemove={function noRefCheck() {}}
-                onSearch={function noRefCheck() {}}
-                onSelect={(selectList: any) => {
-                  setSelectCompany(selectList);
-                }}
-                options={selectCompanyOptions}
-                placeholder="Select Company"
-                selectedValues={fetchLiveSessionById?.data?.data?.company?.map(
-                  (i: any) => i?.name
-                )}
-              />
-            </div>
             <div className="flex flex-col gap-3">
-              <Button
-                className="bg-transparent text-[#4285F4] text-base font-font-droid gap-2 items-center justify-start p-0 h-auto"
-                onClick={() => setIsOpen(true)}
-                disabled={!selectCompany?.length}
-                type="button"
-              >
-                <CirclePlus width={18} />
-                Add Trainee
-              </Button>
-              <ul className="flex items-center gap-2 overflow-x-auto overflow-y-hidden md:pb-0 pb-2">
-                {traineeList?.map((i: { name: string; id: string }) => (
-                  <li
-                    className="cursor-pointer justify-center flex text-base gap-2 rounded-full items-center p-2 bg-[#F5F7FF] text-black overflow-hidden min-w-[140px]"
-                    key={i.id}
-                  >
-                    {i?.name}
-                    <X
-                      width={16}
-                      onClick={() =>
-                        setTraineeList((prev) =>
-                          prev.filter((item) => item.id !== i.id)
-                        )
-                      }
-                    />
-                  </li>
-                ))}
-              </ul>
               <div className="text-right">
                 <Button
                   className="bg-[#58BA66] uppercase md:text-base text-sm font-droid md:h-12 h-10"

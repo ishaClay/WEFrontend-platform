@@ -65,7 +65,7 @@ const FeaturedCourses = () => {
 
   return (
     <div className="">
-      <div className="xl:max-w-[1160px] max-w-full mx-auto md:my-[40px] my-0 xl:px-0 px-5 2xl:py-[30px] py-[24px] 2xl:pb-[100px] xl:pb-[100px] pb-[90px]">
+      <div className="xl:max-w-[1160px] max-w-full mx-auto md:my-[40px] my-0 xl:px-0 px-5 2xl:py-[30px] py-[24px] ">
         <div>
           <h5 className="text-2xl font-font-droid font-bold text-[#64A70B] xl:text-left text-center sm:mb-0 mb-4">
             {title || "Featured Courses"}

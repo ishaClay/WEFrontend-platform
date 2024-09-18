@@ -355,7 +355,7 @@ function CompanyRegister() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
                 <div className="w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     Sole Trader <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
@@ -414,13 +414,14 @@ function CompanyRegister() {
                     />
                     <Label
                       htmlFor="isRegister"
-                      className="font-bold text-[16px]"
+                      className="font-normal text-[16px]"
                     >
-                      Is Register
+                      Is Registered
                     </Label>
                   </div>
                 )}
-                {watch("soleTrader") === "Yes" && watch("isRegister") && (
+                {((watch("soleTrader") === "Yes" && watch("isRegister")) ||
+                  watch("soleTrader") === "No") && (
                   <>
                     <div className="w-full">
                       <InputWithLable
@@ -523,7 +524,7 @@ function CompanyRegister() {
                   )}
                 </div>
                 <div className="sm:w-[241px] w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     County <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
@@ -541,7 +542,7 @@ function CompanyRegister() {
                   )}
                 </div>
                 <div className="sm:w-[241px] w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     Employees <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
@@ -564,7 +565,7 @@ function CompanyRegister() {
                 </div>
 
                 <div className="sm:w-[241px] w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     Sector <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
@@ -632,7 +633,7 @@ function CompanyRegister() {
                     />
                   )} */}
                 <div className="sm:w-[241px] w-full">
-                  <Label className="mb-[8px]  font-bold text-[16px]">
+                  <Label className="mb-[8px]  font-normal text-[16px]">
                     Parent Company County
                   </Label>
                   <SelectMenu
@@ -687,7 +688,7 @@ function CompanyRegister() {
       <HomeFooter />
       <CompanyDetails
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        // setIsOpen={setIsOpen}
         companyData={companyData}
         handleReject={handleReject}
         handleAccept={handleAccept}
