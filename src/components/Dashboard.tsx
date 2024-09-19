@@ -160,6 +160,10 @@ const Dashboard = () => {
         }),
     });
 
+  console.log(
+    "🚀 ~ Dashboard ~ firstInfirgraphicChart:",
+    firstInfirgraphicChart
+  );
   const { data: smeDashboardData, isLoading: smeLoading } =
     useQuery<DashboardData>({
       queryKey: ["getSmeDashboardData"],
@@ -318,11 +322,16 @@ const Dashboard = () => {
     data: data1,
     options: {
       scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Months",
+          },
+        },
         y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          ticks: {
-            stepSize: 25,
+          title: {
+            display: true,
+            text: "No of courses",
           },
         },
       },
@@ -427,42 +436,6 @@ const Dashboard = () => {
 
   return (
     <div className="rounded-xl">
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-6">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          title="Total points"
-          value={`${firstInfirgraphicChart?.data?.avTotalpoints || 0}/
-          ${firstInfirgraphicChart?.data?.avTotalmaxpoint || 0}`}
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Total_courses}
-          title="Total questions"
-          value={`${
-            firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0
-          }/
-          ${firstInfirgraphicChart?.data?.avTotalquestionsavailable || 0}`}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Upcoming courses"
-          value={smeDashboardData?.data?.upcomingCourses || 0}
-        />
-        {/* <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
-          </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            30
-          </h2>
-          <p className="text-base text-black font-droid">Completed Courses</p>
-        </button> */}
-      </div>
       <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 xl:mb-6 mb-5">
         <div>
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
@@ -470,26 +443,26 @@ const Dashboard = () => {
           </h3>
           <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl xl:p-0 sm:py-2">
             <DashboardCard
-            isLoading={smeLoading}
-            icon={Trainers}
-            title="Total"
-            className="flex items-center justify-center flex-col"
-            value={smeDashboardData3?.data?.overView?.totalCourse || 0}
-          />
-          <DashboardCard
-            isLoading={smeLoading}
-            icon={Total_courses}
-            title="Ongoing"
-            className="flex items-center justify-center flex-col"
-            value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
-          />
-          <DashboardCard
-            isLoading={smeLoading}
-            icon={Companies}
-            title="Completed"
-            className="flex items-center justify-center flex-col"
-            value={smeDashboardData3?.data?.overView?.completedCourse || 0}
-          />
+              isLoading={smeLoading}
+              icon={Trainers}
+              title="Total"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.totalCourse || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Total_courses}
+              title="Ongoing"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Companies}
+              title="Completed"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.completedCourse || 0}
+            />
           </div>
         </div>
         <div>
@@ -604,7 +577,11 @@ const Dashboard = () => {
               </h3>
               <Progress
                 color="#00778B"
-                value={Number(smeDashboardData?.data?.totalActionItems?.rodemapCompletion) || 0}
+                value={
+                  Number(
+                    smeDashboardData?.data?.totalActionItems?.rodemapCompletion
+                  ) || 0
+                }
                 className="h-[15px] w-full rounded-full"
                 isShow
               />
@@ -626,14 +603,17 @@ const Dashboard = () => {
                 isLoading={smeLoading}
                 icon={Companies}
                 title="Delayed"
-                value={smeDashboardData?.data?.totalActionItems?.report?.delayed || 0}
+                value={
+                  smeDashboardData?.data?.totalActionItems?.report?.delayed || 0
+                }
               />
               <DashboardCard
                 isLoading={smeLoading}
                 icon={Companies}
                 title="Completed"
                 value={
-                  smeDashboardData?.data?.totalActionItems?.report?.completed || 0
+                  smeDashboardData?.data?.totalActionItems?.report?.completed ||
+                  0
                 }
               />
             </div>
@@ -675,9 +655,11 @@ const Dashboard = () => {
             ) : smeUpcomingLiveSession?.upcomingSessions &&
               smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
               <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
-                {smeUpcomingLiveSession?.upcomingSessions?.map((data, index) => {
-                  return <LiveSessionsItems data={data} key={index} />;
-                }) || []}
+                {smeUpcomingLiveSession?.upcomingSessions?.map(
+                  (data, index) => {
+                    return <LiveSessionsItems data={data} key={index} />;
+                  }
+                ) || []}
               </CustomCarousel>
             ) : (
               <NoDataText message="No records found" />

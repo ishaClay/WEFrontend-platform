@@ -68,6 +68,15 @@ const Message = () => {
   const [searchParams] = useSearchParams();
   const messageType = searchParams.get("messageType");
 
+  const { data: chatUserList } = useQuery({
+    queryKey: [QUERY_KEYS.chatUserList],
+    queryFn: () => fetchChatUserList(userID as string),
+  });
+
+  const currentChat = chatUserList?.data?.data?.find(
+    (item) => item?.id === +chatId
+  );
+
   const updatemessageData = (chatId: string) => {
     updatemessage({
       userId1: userID,
@@ -84,11 +93,6 @@ const Message = () => {
     }
   }, [searchParams]);
 
-  const { data: chatUserList } = useQuery({
-    queryKey: [QUERY_KEYS.chatUserList],
-    queryFn: () => fetchChatUserList(userID as string),
-  });
-
   const { data: chatList } = useQuery({
     queryKey: [QUERY_KEYS.chatList, { userID, chatId }],
     queryFn: () => fetchChat(userID, chatId),
@@ -96,11 +100,15 @@ const Message = () => {
   });
 
   const { data: groupChat } = useQuery({
-    queryKey: [QUERY_KEYS.fetchGroupChat],
+    queryKey: [
+      QUERY_KEYS.fetchGroupChat,
+      { chatId, messageType, group: !!currentChat?.group },
+    ],
     queryFn: () => fetchGroupChat(chatId),
-    enabled: !!chatId && !!messageType,
+    enabled: !!chatId && (!!messageType || currentChat?.group),
   });
 
+  console.log("🚀 ~ Message ~ groupChat:", groupChat, currentChat);
   const { mutate: sendMessageMutation } = useMutation({
     mutationFn: sendGroupMessage,
     onSuccess: (data) => {
@@ -126,13 +134,15 @@ const Message = () => {
   });
 
   useEffect(() => {
-    if (messageType === "group") {
+    if (messageType === "group" || currentChat?.group) {
+      console.log("Heelo", groupChat);
+
       // @ts-ignore
       setAllMsg(groupChat?.data?.groupMessages || []);
     } else {
       setAllMsg(chatList?.data?.data || []);
     }
-  }, [chatList?.data?.data, groupChat?.data, messageType]);
+  }, [chatList?.data?.data, groupChat?.data, messageType, currentChat]);
 
   const filterByName = (item: any) => {
     return (
@@ -207,10 +217,6 @@ const Message = () => {
     });
   };
 
-  const currentChat = chatUserList?.data?.data?.find(
-    (item) => item?.id === +chatId
-  );
-
   // useEffect(() => {
   //   socket = io(import.meta.env.VITE_SOCKET_URL);
   //   socket.on("message recieved", (newMessageReceived: any) => {
@@ -274,7 +280,7 @@ const Message = () => {
 
   const handleSendMessage = () => {
     if (chatId && (chatMessage || images.length > 0)) {
-      if (messageType === "group") {
+      if (messageType === "group" || !!currentChat?.group) {
         const payload = {
           groupId: chatId,
           senderId: userID,

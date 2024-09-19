@@ -64,6 +64,7 @@ function RegisterTrainer() {
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
+  const [isSubmit, setIsSubmit] = useState(false);
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
   const schema = z.object({
@@ -246,6 +247,7 @@ function RegisterTrainer() {
         title: "OTP sent successfully",
       });
       setShowOtpPopup(true);
+      setIsSubmit(true);
     },
     onError: (error: ResponseError) => {
       toast({
@@ -385,6 +387,7 @@ function RegisterTrainer() {
                       placeholder="Enter company name"
                       label="Provider Name"
                       isMendatory={true}
+                      disabled={isSubmit}
                       {...register("providerName")}
                     />
                     {errors.providerName && (
@@ -401,6 +404,7 @@ function RegisterTrainer() {
                       option={providerTypesOption || []}
                       placeholder="Please select company type"
                       className="h-[46px] mt-2 text-left"
+                      disabled={isSubmit}
                       setValue={(data: string) => {
                         setValue("providerType", data);
                         setError("providerType", { message: "" });
@@ -418,6 +422,7 @@ function RegisterTrainer() {
                       placeholder="Enter your address"
                       className="h-[46px]"
                       label="Provider Address"
+                      disabled={isSubmit}
                       isMendatory={true}
                       {...register("providerAddress")}
                     />
@@ -432,6 +437,7 @@ function RegisterTrainer() {
                       placeholder="Enter city or town"
                       className="h-[46px]"
                       label="Provider City/Town"
+                      disabled={isSubmit}
                       isMendatory={true}
                       {...register("providerCity")}
                     />
@@ -448,6 +454,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={countryOption || []}
                       placeholder="Please select county"
+                      disabled={isSubmit}
                       className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
                       setValue={(data: string) => {
                         setValue("providerCounty", data);
@@ -469,6 +476,7 @@ function RegisterTrainer() {
                         setError("foreignProvider", { message: "" });
                       }}
                       value={watch("foreignProvider") || ""}
+                      disabled={isSubmit}
                     >
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
