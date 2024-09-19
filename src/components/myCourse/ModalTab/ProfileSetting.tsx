@@ -90,7 +90,7 @@ import * as zod from "zod";
 const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
-  // const [selectBirthYear, setSelectBirthYear] = useState("");
+  const [hasChange, setHasChange] = useState(false);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [profile_image, setProfileImage] = useState<string>("");
   const pathName = window.location.pathname;
@@ -169,6 +169,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     mutationFn: uploadImage,
     onSuccess: (data) => {
       setProfileImage(data.data?.data?.image);
+      setHasChange(true);
     },
     onError: (error) => {
       console.error(error);
@@ -177,8 +178,6 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   useEffect(() => {
     if (data) {
-      console.log("data", data);
-
       setValue("firstname", data?.data?.fname || "");
       setValue("lastname", data?.data?.lname || "");
       setValue(
@@ -236,6 +235,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   };
 
   console.log("data?.data", data?.data?.companyDetails?.companyId);
+  console.log("🚀 ~ ProfileSetting ~ watch('gender'):", watch("gender"));
 
   return (
     <div className="flex flex-col gap-5">
@@ -243,7 +243,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
         <Loader />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-2 gap-x-5">
+          <div className="grid grid-cols-2 gap-x-5 gap-y-2">
             <div className="col-span-full mx-auto text-center">
               <label htmlFor="upload" className="cursor-pointer">
                 <Avatar className="w-20 h-20">
@@ -321,6 +321,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 international
                 onChange={(e: any) => {
                   setValue("mobilenumber", e);
+                  setHasChange(true);
                   if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
                     setError("mobilenumber", {
                       message: "Please enter valid phone number",
@@ -350,12 +351,15 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               error={errors?.email?.message as string}
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 mt-2">
             <Label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
               Gender
             </Label>
             <RadioGroup
-              onValueChange={(data) => setValue("gender", data)}
+              onValueChange={(data) => {
+                setValue("gender", data);
+                setHasChange(true);
+              }}
               value={watch("gender")}
               disabled={data?.data?.gender ? true : false}
               className="flex sm:flex-nowrap flex-wrap gap-4"
@@ -452,7 +456,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               <Button
                 type="submit"
                 isLoading={isPendingMutation}
-                disabled={!isDirty}
+                disabled={!isDirty || !hasChange}
                 className="bg-[#00778B] font-droid text-base px-7"
               >
                 Save
