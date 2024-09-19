@@ -49,7 +49,10 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import { z } from "zod";
+
+let socket: any;
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
@@ -258,6 +261,8 @@ function RegisterTrainer() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
+      console.log("data++++++++++++", data);
+
       reset();
       toast({
         variant: "success",
@@ -266,6 +271,8 @@ function RegisterTrainer() {
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
+      socket = io(import.meta.env.VITE_SOCKET_URL);
+      socket.emit("new Traner", data.data.data?.user?.id);
     },
     onError: (error: ResponseError) => {
       toast({
@@ -488,7 +495,7 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div className="col-span-2">
+                  {/* <div className="col-span-2">
                     <InputWithLable
                       placeholder="Enter note, if any"
                       className="h-[46px]"
@@ -498,6 +505,36 @@ function RegisterTrainer() {
                     {errors.providerNotes && (
                       <ErrorMessage
                         message={errors.providerNotes.message as string}
+                      />
+                    )}
+                  </div> */}
+                  <div className="col-span-2">
+                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
+                      Contact Telephone No.{" "}
+                    </label>
+                    <PhoneInput
+                      {...register("contactTelephone")}
+                      placeholder="Country calling code (select from dropdown) + Number"
+                      value={phone}
+                      international
+                      onChange={(e: any) => {
+                        setValue("contactTelephone", e);
+                        setPhone(e);
+                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                          setError("contactTelephone", {
+                            message: "Please enter valid phone number",
+                          });
+                        } else {
+                          setError("contactTelephone", {
+                            message: "",
+                          });
+                        }
+                      }}
+                      className="phone-input"
+                    />
+                    {errors.contactTelephone && (
+                      <ErrorMessage
+                        message={errors.contactTelephone.message as string}
                       />
                     )}
                   </div>
@@ -539,36 +576,6 @@ function RegisterTrainer() {
                     {errors.contactSurname && (
                       <ErrorMessage
                         message={errors.contactSurname.message as string}
-                      />
-                    )}
-                  </div>
-                  <div className="col-span-2">
-                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
-                      Contact Telephone No.{" "}
-                    </label>
-                    <PhoneInput
-                      {...register("contactTelephone")}
-                      placeholder="Country calling code (select from dropdown) + Number"
-                      value={phone}
-                      international
-                      onChange={(e: any) => {
-                        setValue("contactTelephone", e);
-                        setPhone(e);
-                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
-                          setError("contactTelephone", {
-                            message: "Please enter valid phone number",
-                          });
-                        } else {
-                          setError("contactTelephone", {
-                            message: "",
-                          });
-                        }
-                      }}
-                      className="phone-input"
-                    />
-                    {errors.contactTelephone && (
-                      <ErrorMessage
-                        message={errors.contactTelephone.message as string}
                       />
                     )}
                   </div>

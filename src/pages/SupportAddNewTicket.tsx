@@ -299,7 +299,7 @@ function SupportAddNewTicket() {
                   </SelectItem>
                   <SelectItem value={"Suggestion"}>Suggestion</SelectItem>
                   <SelectItem value={"Data Actraction"}>
-                    Data Actraction
+                    Data Attraction
                   </SelectItem>
                   <SelectItem value={"Bug Report"}>Bug Report</SelectItem>
                   <SelectItem value={"General Inquiry"}>

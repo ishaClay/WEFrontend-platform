@@ -224,6 +224,9 @@ const EmployeeInvitation = () => {
                     <Button
                       variant={"ghost"}
                       type="button"
+                      className={`${
+                        arr.length - 1 === index ? "visible" : "invisible"
+                      }`}
                       onClick={() => handleAddEmail()}
                     >
                       <Plus />

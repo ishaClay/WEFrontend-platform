@@ -363,7 +363,7 @@ const MaturityLevelPage = () => {
                 <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
                   <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
                     <Button
-                      className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[${colorLevel?.level2}] from-25% via-[${colorLevel?.level2}] via-25% to-transparent to-50% bg-[#fff] justify-start`}
+                      className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[${colorLevel?.level2}] from-25% via-[${colorLevel?.level2}] via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
                     >
                       Intermediate
                     </Button>
@@ -663,6 +663,23 @@ const MaturityLevelPage = () => {
                 </TabsContent>
               </Tabs>
             </div>
+          </div>
+
+          <div className="flex items-center justify-center sm:gap-7 gap-1 lg:mt-10 mt-5 sm:mx-0 mx-4">
+            <Button
+              type="button"
+              onClick={handleMaturity}
+              className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-full text-base font-font-droid"
+            >
+              Build My Action Plan
+            </Button>
+            <Button
+              type="button"
+              onClick={() => navigate("/company/dashboard")}
+              className="bg-[#00778B] text-white h-12 sm:w-[223px] w-full text-base font-font-droid"
+            >
+              Go To My Dashboard
+            </Button>
           </div>
         </div>
       </div>

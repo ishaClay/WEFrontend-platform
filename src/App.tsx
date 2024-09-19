@@ -158,6 +158,17 @@ function App() {
       });
     });
 
+    socket.on("new trainer recieved", (data: any) => {
+      console.log("+++++++++++++++Hello+++++", data);
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.notificationCount],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.notificationList],
+      });
+    });
+
     return () => {
       socket.disconnect();
     };

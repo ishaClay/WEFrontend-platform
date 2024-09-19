@@ -135,7 +135,7 @@ const RecommendedCoursesModel = ({
     }
   }, [data]);
 
-  console.log("filterOption", filterOption);
+  console.log("filterOption", data);
 
   return isLoading ? (
     <span className="h-full flex items-center justify-center">
@@ -167,7 +167,10 @@ const RecommendedCoursesModel = ({
                       Course Price :{" "}
                     </p>
                     <span className="font-droid font-bold text-base leading-5 text-[#000]">
-                      € {courseList?.price}
+                      €{" "}
+                      {courseList?.isDiscounted
+                        ? courseList?.discountApplicable
+                        : courseList?.price}
                     </span>
                   </div>
                 </div>
@@ -224,7 +227,10 @@ const RecommendedCoursesModel = ({
                           Total Price :{" "}
                         </p>
                         <span className="text-base font-droid font-bold leading-5">
-                          € {courseList?.price * itemList[index]}
+                          €{" "}
+                          {(courseList?.isDiscounted
+                            ? courseList?.discountApplicable
+                            : courseList?.price) * itemList[index]}
                         </span>
                       </div>
                     </div>

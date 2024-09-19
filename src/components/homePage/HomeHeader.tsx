@@ -354,7 +354,6 @@ function HomeHeader(props: headerProps) {
               </Link>
             </div>
           </div>
-          <Loading isLoading={isPending} />
         </header>
       </div>
       <AlertLogOutDialog
@@ -362,6 +361,7 @@ function HomeHeader(props: headerProps) {
         onClose={() => setIsAlertOpen(false)}
         onConfirm={handleConfirmLogout}
       />
+      <Loading isLoading={isPending} />
     </div>
   );
 }

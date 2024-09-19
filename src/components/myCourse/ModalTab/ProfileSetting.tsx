@@ -358,13 +358,14 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               onValueChange={(data) => setValue("gender", data)}
               value={watch("gender")}
               disabled={data?.data?.gender ? true : false}
-              className="flex gap-4"
+              className="flex sm:flex-nowrap flex-wrap gap-4"
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-1">
                 <RadioGroupItem
                   value="male"
                   id="option-one"
-                  className="border-[#000] w-6 h-6"
+                  className="border-[#000] w-4 h-4"
+                  indicatorClassName="w-3 h-3"
                 />
                 <Label
                   htmlFor="option-one"
@@ -373,18 +374,49 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   Male
                 </Label>
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center gap-1">
                 <RadioGroupItem
                   value="female"
                   id="option-two"
-                  className="border-[#000] w-6 h-6
+                  className="border-[#000] w-4 h-4
                   "
+                  indicatorClassName="w-3 h-3"
                 />
                 <Label
                   htmlFor="option-two"
                   className="text-[#000] text-sm  peer-disabled:cursor-default"
                 >
                   Female
+                </Label>
+              </div>
+              <div className="flex items-center gap-1">
+                <RadioGroupItem
+                  value="N/A"
+                  id="option-three"
+                  className="border-[#000] w-4 h-4
+                  "
+                  indicatorClassName="w-3 h-3"
+                />
+                <Label
+                  htmlFor="option-three"
+                  className="text-[#000] text-sm  peer-disabled:cursor-default"
+                >
+                  N/A
+                </Label>
+              </div>
+              <div className="flex items-center gap-1">
+                <RadioGroupItem
+                  value="Don't want to disclose"
+                  id="option-four"
+                  className="border-[#000] w-4 h-4
+                  "
+                  indicatorClassName="w-3 h-3"
+                />
+                <Label
+                  htmlFor="option-four"
+                  className="text-[#000] text-sm  peer-disabled:cursor-default break-all"
+                >
+                  Don't want to disclose
                 </Label>
               </div>
             </RadioGroup>

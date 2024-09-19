@@ -91,7 +91,7 @@ const TrainerSetting = () => {
       cell: ({ row }) => {
         return (
           <h6 className="xl:text-[15px] text-xs font-droid text-black">
-            #{row.original?.id}
+            #{row.index + 1 + (page - 1) * 10}
           </h6>
         );
       },

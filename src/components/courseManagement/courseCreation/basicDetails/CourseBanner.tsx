@@ -49,9 +49,10 @@ const CourseBanner = ({ courseById }: CourseBannerProps) => {
       .min(1, "Information is required")
       .max(1000, "You can not write description more than 1000 characters")
       .nonempty("Description is required"),
-    bannerImage: zod
-      .string({ required_error: "Banner Image is required" })
-      .min(1, "Banner image is required"),
+    bannerImage: zod.string().optional(),
+    // bannerImage: zod
+    //   .string({ required_error: "Banner Image is required" })
+    //   .min(1, "Banner image is required"),
     keys: zod
       .string({ required_error: "Key outcomes is required" })
       .min(1, "Key outcomes is required")

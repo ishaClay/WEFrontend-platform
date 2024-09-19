@@ -111,7 +111,7 @@ const ListViewTrainee = ({
         if (data?.data?.data?.status === "UNPUBLISHED") {
           toast({
             title: "Success",
-            description: "Course unplished successfully",
+            description: "Course unpublished successfully",
             variant: "success",
           });
         } else {

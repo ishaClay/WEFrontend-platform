@@ -7,6 +7,7 @@ import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
 import PillerCard from "@/components/MaturityAssessment/Roadmap/PillerCard";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
 import { fetchMaturityPillar } from "@/services/apiServices/pillar";
@@ -97,9 +98,30 @@ function SelectLevel() {
             choose an action item(s) for each of them.{" "}
           </h1>
           <span className="text-[18px] leading-4 font-droid">
-            (Not sure what actions to take? Head to your dashboard and view
-            ‘Recommended Courses’ to see what training is available to
-            specifically help you advance your green.)
+            (Not sure what actions to take? Head to your dashboard and view ‘{" "}
+            <Button
+              variant={"ghost"}
+              className="p-0 h-auto text-[18px] hover:bg-transparent"
+              onClick={() => {
+                dispatch(
+                  setPath([
+                    {
+                      label: "Course Management",
+                      link: null,
+                    },
+                    {
+                      label: "Recommended Course",
+                      link: `/company/coursesrecommended`,
+                    },
+                  ])
+                );
+                navigate("/company/coursesrecommended");
+              }}
+            >
+              Recommended Courses
+            </Button>{" "}
+            ’ to see what training is available to specifically help you advance
+            your green.)
           </span>
         </div>
         {isPending || isPendingPillar ? (

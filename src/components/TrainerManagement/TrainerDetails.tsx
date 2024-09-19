@@ -262,7 +262,7 @@ const TrainerDetails = () => {
             </div>
             <div className="border relative border-[#D9D9D9] gap-8 rounded-[10px] px-6 py-[30px] items-center">
               <h2 className="absolute -top-3 left-6 bg-white px-1 text-[16px] font-[400] font-droid">
-                Trainer Permission
+                Trainer Permissions
               </h2>
               <div className="flex md:flex-row flex-col md:items-center items-start gap-4">
                 <div className="flex items-center space-x-2">
@@ -282,7 +282,7 @@ const TrainerDetails = () => {
                     htmlFor="airplane-mode"
                     className="text-[16px] font-droid"
                   >
-                    Course Creation Permission
+                    Course Creation
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -302,7 +302,7 @@ const TrainerDetails = () => {
                     htmlFor="airplane-mode"
                     className="text-[16px] font-droid"
                   >
-                    Edit Course Permission
+                    Edit Course
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -324,7 +324,7 @@ const TrainerDetails = () => {
                     htmlFor="airplane-mode"
                     className="text-[16px] font-droid"
                   >
-                    Assign Certificate Permission
+                    Assign Certificate
                   </Label>
                 </div>
               </div>

@@ -120,7 +120,8 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
       : null;
 
     return (
-      <div className="xl:col-span-5 col-span-7 sm:w-[300px] w-[270px]">
+      // <div className="xl:col-span-4 col-span-7 2xl:w-[265px] xl:w-auto sm:w-[270px] w-full">
+      <div className="xl:col-span-4 col-span-7 w-full">
         {upcomingData !== null && (
           <div className="customeCohortShadow rounded-[6px] p-[7px] border border-[#B6D8DF] bg-[#E4FBFF]">
             <div className="flex items-center justify-between pb-[6px]">
@@ -366,7 +367,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
                   <div className="border-t py-3 px-[8px] grid grid-cols-7 xl:items-center items-start xl:gap-0 gap-3">
                     {getUpcommingCohort(allcourse)}
-                    <div className="2xl:col-span-2 xl:col-span-3 col-span-5 xl:mr-0 xl:ml-auto m-0">
+                    <div className="2xl:col-span-3 xl:col-span-3 col-span-5 xl:mr-0 xl:ml-auto m-0">
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();

@@ -655,11 +655,11 @@ const Addcertificate = () => {
                         </AccordionTrigger>
                         <AccordionContent className="p-2 pb-2 border-t">
                           <InputWithLabel
-                            label="Title"
+                            label="Designation"
                             type="text"
                             className="mt-2 p-[11px] font-font-droid"
                             labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
-                            placeholder="Administrator"
+                            placeholder="Write your designation"
                             {...register("administratorTitle")}
                           />
                           {errors?.administratorTitle && (
@@ -717,11 +717,11 @@ const Addcertificate = () => {
                         </AccordionTrigger>
                         <AccordionContent className="p-3 border-t">
                           <InputWithLabel
-                            label="Title"
+                            label="Designation"
                             type="text"
                             className="mt-2 p-[11px] font-font-droid"
                             labelClassName="font-normal font-font-droid text-[16px] pb-1 pt-1"
-                            placeholder="Instructor"
+                            placeholder="Write your designation"
                             {...register("instructorTitle")}
                           />
                           {errors?.instructorTitle && (
