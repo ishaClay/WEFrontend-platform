@@ -42,10 +42,10 @@ const Roadmap = ({
 
   useEffect(() => {
     console.log("+++++++++++++ I Called +++++++++++++++");
-    const hasActionItems = maturitypillar?.data?.some(pillar => pillar.actionItem.length > 0);
+    const hasActionItems = maturitypillar?.data?.some(pillar => pillar?.actionItem?.length > 0);
     if (
       !isEdit &&
-      ((+userData?.query?.role === UserRole.Company && pathStatus > 5) ||
+      ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
         showButton !== 0)
     ) {
       console.log("+++++++++++++ I Called +++++++++++++++ 1");
