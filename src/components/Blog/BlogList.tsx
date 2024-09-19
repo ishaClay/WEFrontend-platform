@@ -5,7 +5,6 @@ import { blogList } from "@/blogs";
 
 const BlogList = () => {
   const blogLists = blogList;
-  console.log("blogLists", blogLists);
   
   return (
     <>
