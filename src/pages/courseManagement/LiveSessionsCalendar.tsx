@@ -224,7 +224,7 @@ const LiveSessionsCalendar = ({ allLiveSession }: AllLiveSessionsProps) => {
           {moment(event?.start).format("hh:mm a")} -
           {moment(event?.end).format("hh:mm a")}
         </p>
-        <p className="mb-2 text-wrap">
+        <p className="mb-2 text-wrap max-w-[450px] break-words">
           <strong>Description:</strong> {event?.description}
         </p>
         <Button

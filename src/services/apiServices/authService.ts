@@ -2,7 +2,7 @@ import { ResetPasswordType } from "@/types/auth";
 import api from "./api";
 
 
-export const Login = (data: { email: string, password: string }): Promise<any> => {
+export const Login = (data: { email: string, password: string, deviceToken: string }): Promise<any> => {
     const url = `api/v1/user/login`,
         method = "post";
 

@@ -115,7 +115,7 @@ const AssessmentResult = ({
         ).toFixed(0);
 
   const setScore = isNaN(Number(score)) ? 0 : score;
-  console.log("🚀 ~ assessmentData:", assessmentData);
+
   console.log("🚀 ~ setScore:", setScore);
   const currentLavel = findMaturityLevel(Number(setScore));
 
@@ -229,11 +229,22 @@ const AssessmentResult = ({
     </>
   );
 
-  const colorLevel = {
-    level1: fetchClientmaturitylevel?.data?.[0]?.color,
-    level2: fetchClientmaturitylevel?.data?.[1]?.color,
-    level3: fetchClientmaturitylevel?.data?.[2]?.color,
-  };
+  useEffect(() => {
+    if (fetchClientmaturitylevel) {
+      document.documentElement.style.setProperty(
+        "--introductory-pillar",
+        fetchClientmaturitylevel?.data?.[0]?.color
+      );
+      document.documentElement.style.setProperty(
+        "--intermediate-pillar",
+        fetchClientmaturitylevel?.data?.[1]?.color
+      );
+      document.documentElement.style.setProperty(
+        "--advanced-pillar",
+        fetchClientmaturitylevel?.data?.[2]?.color
+      );
+    }
+  }, [fetchClientmaturitylevel]);
 
   return (
     <div className="text-[16px] leading-[19.53px] font-normal text-darkslategray-100 font-droid">
@@ -310,7 +321,7 @@ const AssessmentResult = ({
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
-                className={`md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold bg-gradient-to-r from-[${colorLevel?.level1}] from-25% via-[${colorLevel?.level1}] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start`}
+                className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-introductory_pillar from-25% via-introductory_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
               >
                 Introductory
               </Button>
@@ -346,7 +357,7 @@ const AssessmentResult = ({
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
                             <div
-                              className={`border border-solid border-[${colorLevel?.level1}] bg-[${colorLevel?.level1}] text-white w-[225px] rounded-xl p-2.5`}
+                              className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white w-[225px] rounded-xl p-2.5`}
                             >
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
@@ -374,7 +385,7 @@ const AssessmentResult = ({
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
-                className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[${colorLevel?.level2}] from-25% via-[${colorLevel?.level2}] via-25% to-transparent to-50% bg-[#fff] justify-start`}
+                className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-intermediate_pillar from-25% via-intermediate_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
               >
                 Intermediate
               </Button>
@@ -409,7 +420,7 @@ const AssessmentResult = ({
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
                             <div
-                              className={`border border-solid border-[${colorLevel?.level2}] bg-[${colorLevel?.level2}] w-[225px] rounded-xl p-2.5`}
+                              className={`border border-solid border-intermediate_pillar bg-intermediate_pillar w-[225px] rounded-xl p-2.5`}
                             >
                               <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                 <img
@@ -437,7 +448,7 @@ const AssessmentResult = ({
           <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
-                className={`md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold font-font-droid bg-gradient-to-r from-[${colorLevel?.level3}] from-25% via-[${colorLevel?.level3}] via-25% to-transparent to-50% bg-[#fff] text-[#000] justify-start`}
+                className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-advanced_pillar from-25% via-advanced_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
               >
                 Advanced
               </Button>
@@ -472,7 +483,7 @@ const AssessmentResult = ({
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
                             <div
-                              className={`border border-solid border-[${colorLevel?.level3}] bg-[${colorLevel?.level3}] w-[225px] rounded-xl p-2.5`}
+                              className={`border border-solid border-advanced_pillar bg-advanced_pillar w-[225px] rounded-xl p-2.5`}
                             >
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
@@ -510,13 +521,13 @@ const AssessmentResult = ({
             </TabsTrigger>
             <TabsTrigger
               value="intermediate"
-              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
+              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-intermediate_pillar rounded-md border-transparent h-[36px] w-[100px]"
             >
               Intermediate
             </TabsTrigger>
             <TabsTrigger
               value="advanced"
-              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
+              className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-advanced_pillar rounded-md border-transparent h-[36px] w-[100px]"
             >
               Advanced
             </TabsTrigger>
@@ -604,7 +615,7 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[140px] rounded-xl p-2.5">
+                            <div className="border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[140px] rounded-xl p-2.5">
                               <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}
@@ -657,7 +668,7 @@ const AssessmentResult = ({
                           }}
                         >
                           <div className="flex flex-wrap lg:gap-5 gap-4">
-                            <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[140px] rounded-xl p-2.5">
+                            <div className="border border-solid border-advanced_pillar bg-advanced_pillar text-black lg:w-[225px] w-[140px] rounded-xl p-2.5">
                               <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                 <img
                                   src={getImages(item.pillarname)}

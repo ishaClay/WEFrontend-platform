@@ -3,6 +3,11 @@ import { UserRole } from "@/types/UserRole";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import Assign from "./Assign";
 import SetTarget from "./SetTarget";
+import { useQuery } from "@tanstack/react-query";
+import { AllActionDataPillerWise } from "@/types/MaturityLavel";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchMaturityPillar } from "@/services/apiServices/pillar";
+import { useAppSelector } from "@/hooks/use-redux";
 
 const Roadmap = ({
   showButton,
@@ -17,23 +22,39 @@ const Roadmap = ({
 }) => {
   const pathStatus = JSON.parse(localStorage.getItem("path") as string);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const { clientId, UserId } = useAppSelector((state) => state.user);
   const [step, setStep] = React.useState(3);
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
+
+  const { data: maturitypillar, isFetching } =
+    useQuery<AllActionDataPillerWise>({
+      queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+      queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
+      enabled: !!selectAssessment,
+    });
 
   useEffect(() => {
     console.log("+++++++++++++ I Called +++++++++++++++");
-
+    const hasActionItems = maturitypillar?.data?.some(pillar => pillar?.actionItem?.length > 0);
     if (
       !isEdit &&
-      ((+userData?.query?.role === UserRole.Company && pathStatus > 5) ||
+      ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
         showButton !== 0)
     ) {
       console.log("+++++++++++++ I Called +++++++++++++++ 1");
-      setStep(2);
+      setStep(hasActionItems ? 1 : 2);
     } else {
       console.log("+++++++++++++ I Called +++++++++++++++ 2");
       setStep(0);
     }
-  }, [isEdit, pathStatus, showButton, userData]);
+  }, []);
 
   return (
     <div className="">
@@ -53,8 +74,16 @@ const Roadmap = ({
           setStep={setStep}
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}
+          maturitypillar={maturitypillar?.data || []}
+          isMaturitypillarLoading={isFetching}
         />
-      ) : (
+      ) : step === 1 ? <SetTarget
+            setStep={setStep}
+            setIsEdit={setIsEdit}
+            selectAssessment={selectAssessment}
+            maturitypillar={maturitypillar?.data || []}
+            isMaturitypillarLoading={isFetching}
+          /> : (
         step === 2 && (
           <div className="w-full">
             <Assign

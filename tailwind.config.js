@@ -23,6 +23,9 @@ module.exports = {
         "primary-button": "#00778B",
         "secondary-button": "#64A70B",
         "primary-bg": "var(--rkp-primary-color)",
+        "introductory_pillar": "var(--introductory-pillar)",
+        "intermediate_pillar": "var(--intermediate-pillar)",
+        "advanced_pillar": "var(--advanced-pillar)",
 
         white: "#fff",
         silver: "#b9b9b9",

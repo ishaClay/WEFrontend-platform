@@ -26,6 +26,7 @@ export interface DashboardDataResponse {
 export interface TotalActionItems {
     metric: number;
     report: Report;
+    rodemapCompletion: string;
 }
 export interface Report {
     completed: number;

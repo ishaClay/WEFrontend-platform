@@ -414,7 +414,7 @@ const QuestionPage = () => {
                       </div>
                       <div>
                         <h2
-                          className={`leading-5 ${
+                          className={`leading-5 text-[14px] ${
                             activePillar === category
                               ? "text-white"
                               : "text-[#3A3A3A]"

@@ -49,7 +49,10 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { io } from "socket.io-client";
 import { z } from "zod";
+
+let socket: any;
 
 function RegisterTrainer() {
   const queryClient = useQueryClient();
@@ -61,6 +64,7 @@ function RegisterTrainer() {
   const [time, setTime] = useState<number>(0);
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
+  const [isSubmit, setIsSubmit] = useState(false);
   const defEmail = searchParams.get("email");
   const type = searchParams.get("type");
   const schema = z.object({
@@ -243,6 +247,7 @@ function RegisterTrainer() {
         title: "OTP sent successfully",
       });
       setShowOtpPopup(true);
+      setIsSubmit(true);
     },
     onError: (error: ResponseError) => {
       toast({
@@ -258,6 +263,8 @@ function RegisterTrainer() {
       await queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.trainerList],
       });
+      console.log("data++++++++++++", data);
+
       reset();
       toast({
         variant: "success",
@@ -266,6 +273,8 @@ function RegisterTrainer() {
         // "Registered successfully, But you can't login. Now your account verification is pending by admin.",
       });
       navigate("/auth");
+      socket = io(import.meta.env.VITE_SOCKET_URL);
+      socket.emit("new Traner", data.data.data?.user?.id);
     },
     onError: (error: ResponseError) => {
       toast({
@@ -378,6 +387,7 @@ function RegisterTrainer() {
                       placeholder="Enter company name"
                       label="Provider Name"
                       isMendatory={true}
+                      disabled={isSubmit}
                       {...register("providerName")}
                     />
                     {errors.providerName && (
@@ -394,6 +404,7 @@ function RegisterTrainer() {
                       option={providerTypesOption || []}
                       placeholder="Please select company type"
                       className="h-[46px] mt-2 text-left"
+                      disabled={isSubmit}
                       setValue={(data: string) => {
                         setValue("providerType", data);
                         setError("providerType", { message: "" });
@@ -411,6 +422,7 @@ function RegisterTrainer() {
                       placeholder="Enter your address"
                       className="h-[46px]"
                       label="Provider Address"
+                      disabled={isSubmit}
                       isMendatory={true}
                       {...register("providerAddress")}
                     />
@@ -425,6 +437,7 @@ function RegisterTrainer() {
                       placeholder="Enter city or town"
                       className="h-[46px]"
                       label="Provider City/Town"
+                      disabled={isSubmit}
                       isMendatory={true}
                       {...register("providerCity")}
                     />
@@ -441,6 +454,7 @@ function RegisterTrainer() {
                     <SelectMenu
                       option={countryOption || []}
                       placeholder="Please select county"
+                      disabled={isSubmit}
                       className="h-[46px] mt-2 placeholder:text-[#A3A3A3]"
                       setValue={(data: string) => {
                         setValue("providerCounty", data);
@@ -462,6 +476,7 @@ function RegisterTrainer() {
                         setError("foreignProvider", { message: "" });
                       }}
                       value={watch("foreignProvider") || ""}
+                      disabled={isSubmit}
                     >
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
@@ -488,7 +503,7 @@ function RegisterTrainer() {
                       />
                     )}
                   </div>
-                  <div className="col-span-2">
+                  {/* <div className="col-span-2">
                     <InputWithLable
                       placeholder="Enter note, if any"
                       className="h-[46px]"
@@ -498,6 +513,36 @@ function RegisterTrainer() {
                     {errors.providerNotes && (
                       <ErrorMessage
                         message={errors.providerNotes.message as string}
+                      />
+                    )}
+                  </div> */}
+                  <div className="col-span-2">
+                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
+                      Contact Telephone No.{" "}
+                    </label>
+                    <PhoneInput
+                      {...register("contactTelephone")}
+                      placeholder="Country calling code (select from dropdown) + Number"
+                      value={phone}
+                      international
+                      onChange={(e: any) => {
+                        setValue("contactTelephone", e);
+                        setPhone(e);
+                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                          setError("contactTelephone", {
+                            message: "Please enter valid phone number",
+                          });
+                        } else {
+                          setError("contactTelephone", {
+                            message: "",
+                          });
+                        }
+                      }}
+                      className="phone-input"
+                    />
+                    {errors.contactTelephone && (
+                      <ErrorMessage
+                        message={errors.contactTelephone.message as string}
                       />
                     )}
                   </div>
@@ -539,36 +584,6 @@ function RegisterTrainer() {
                     {errors.contactSurname && (
                       <ErrorMessage
                         message={errors.contactSurname.message as string}
-                      />
-                    )}
-                  </div>
-                  <div className="col-span-2">
-                    <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
-                      Contact Telephone No.{" "}
-                    </label>
-                    <PhoneInput
-                      {...register("contactTelephone")}
-                      placeholder="Country calling code (select from dropdown) + Number"
-                      value={phone}
-                      international
-                      onChange={(e: any) => {
-                        setValue("contactTelephone", e);
-                        setPhone(e);
-                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
-                          setError("contactTelephone", {
-                            message: "Please enter valid phone number",
-                          });
-                        } else {
-                          setError("contactTelephone", {
-                            message: "",
-                          });
-                        }
-                      }}
-                      className="phone-input"
-                    />
-                    {errors.contactTelephone && (
-                      <ErrorMessage
-                        message={errors.contactTelephone.message as string}
                       />
                     )}
                   </div>

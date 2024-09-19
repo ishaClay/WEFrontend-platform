@@ -403,6 +403,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.endDate}
                             disabled={
+                              !item?.startDate ||
                               !item?.isEdit ||
                               +userData?.query?.role === UserRole.Trainee
                             }

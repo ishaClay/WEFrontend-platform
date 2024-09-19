@@ -10,6 +10,11 @@ import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLev
 import { useQuery } from "@tanstack/react-query";
 import { Doughnut } from "react-chartjs-2";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
+import Arrow_Right from "@/assets/images/Arrow_Right.png";
+import { assessmentQuestionScore, getCheckedMeasuresByAssessment } from "@/services/apiServices/pillar";
+import { useMemo } from "react";
+import moment from "moment";
 
 const findMaturityLevel = (score: number, maturityLevel: any) => {
   for (const level of maturityLevel) {
@@ -109,34 +114,77 @@ const MaturityLevel = () => {
     },
   };
 
-  const Labels = () => (
-    <div className="left-0 top-0 h-full md:flex block items-center gap-5">
-      {fetchClientmaturitylevel?.data?.map((label, index) => {
-        localStorage.setItem(
-          "maturityLevelName",
-          JSON.stringify(label?.maturityLevelName)
-        );
-        return (
-          <div key={index} className="flex items-center relative mt-4">
-            <div
-              style={{
-                backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
-              }}
-              className={`w-[60px] h-[27px] rounded-l-lg rounded-r-none `}
-            ></div>
-            <div className="text-base text-black font-droid rounded-r-lg ms-[-30px]">
-              {label?.maturityLevelName}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+  // const Labels = () => (
+  //   <div className="left-0 top-0 h-full md:flex block items-center gap-5">
+  //     {fetchClientmaturitylevel?.data?.map((label, index) => {
+  //       localStorage.setItem(
+  //         "maturityLevelName",
+  //         JSON.stringify(label?.maturityLevelName)
+  //       );
+  //       return (
+  //         <div key={index} className="flex items-center relative mt-4">
+  //           <div
+  //             style={{
+  //               backgroundImage: `linear-gradient(to right, ${label?.color}, ${label?.color}, rgba(255, 82, 82, 0))`,
+  //             }}
+  //             className={`w-[60px] h-[27px] rounded-l-lg rounded-r-none `}
+  //           ></div>
+  //           <div className="text-base text-black font-droid rounded-r-lg ms-[-30px]">
+  //             {label?.maturityLevelName}
+  //           </div>
+  //         </div>
+  //       );
+  //     })}
+  //   </div>
+  // );
+
+  const getNextLevel = (currentLevel:string) => {
+    const maturityLevel:any = fetchClientmaturitylevel?.data?.map((item) => item?.maturityLevelName)
+    const currentIndex:any = maturityLevel?.indexOf(currentLevel);
+    if (currentIndex === -1) {
+        return "Level not found";
+    }
+    if (currentIndex < maturityLevel?.length - 1) {
+        return maturityLevel[currentIndex + 1];
+    } else {
+        return maturityLevel && maturityLevel[currentIndex];
+    }
+  };
+
+  // @ts-ignore
+  const { data: getCheckedmeasures, isFetching } = useQuery({
+    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
+    // @ts-ignore
+    queryFn: () =>
+      getCheckedMeasuresByAssessment({
+        userId: userID,
+        clientId,
+        assNumber: "1",
+      }),
+  });
+
+  // @ts-ignore
+  const pillarCompleted = useMemo(() => {
+    return getCheckedmeasures?.data?.data?.find(
+      (item: any) => +item?.progressPR === 100
+    );
+  }, [getCheckedmeasures]);
+
+  const { data: assessmentQuestionScoreLIST } = useQuery({
+    queryKey: [
+      QUERY_KEYS.assessmentQuestionScore,
+      { pillarCompleted: pillarCompleted?.id, userID, clientId },
+    ],
+    queryFn: () => assessmentQuestionScore(+userID, +clientId),
+  });
+  const assessmentQuestionScoreData = assessmentQuestionScoreLIST?.data;
+  
+  
   return (
     <div className="mb-8">
       <div className="mb-5">
         <h3 className="font-bold font-droid xl:text-[22px] text-[18px] border-b-2 inline-block border-[#75BD43] relative pb-1">
-          Our Sustainability Level
+          Current Sustainability Level
           {/* <div className="bg-[#75BD43] w-full h-[2px] absolute left-0 bottom-0"></div> */}
         </h3>
       </div>
@@ -151,15 +199,38 @@ const MaturityLevel = () => {
         </div>
         <div className="w-full sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl h-[200px] flex items-center relative overflow-hidden">
           <div className="sm:ps-10 ps-0">
-            <div className="md:mb-5 mb-0 sm:block hidden">
-              <p className="inline">Your overall sustainability Score -</p>{" "}
-              <span className="font-poppins font-bold text-[#000000] leading-6">
+            <div className="flex items-center relative lg:mt-0 mt-[21px] mb-5">
+              <Button
+                className={`${
+                  currentLavel?.maturityLevelName === "Advanced"
+                    ? "bg-[#258483]"
+                    : currentLavel?.maturityLevelName === "Introductory"
+                    ? "bg-[#C92C35]"
+                    : "bg-[#FFD56A]"
+                } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
+              >
                 {currentLavel?.maturityLevelName}
-              </span>
+              </Button>
+              <div className="relative border border-dashed border-[#A6A6A6] xl:w-40 lg:w-24 w-full">
+                <img
+                  src={Arrow_Right}
+                  alt="Arrow"
+                  className="absolute bottom-0 top-0 left-0 right-0 m-auto"
+                />
+              </div>
+              <Button
+                className={`text-black sm:text-base text-xs rounded-full xl:px-4 xl:py-2 p-2.5 ${
+                  currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName) === "Advanced"
+                    ? "bg-[#258483]"
+                    : getNextLevel(currentLavel?.maturityLevelName) === "Introductory"
+                    ? "bg-[#C92C35]"
+                    : "bg-[#FFD56A]"
+                } h-[30px]`}
+              >
+                {currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName)}
+              </Button>
             </div>
-            <div className="flex">
-              <Labels />
-            </div>
+            <h2>Last Assessment Taken On: {assessmentQuestionScoreData ? moment(new Date(assessmentQuestionScoreData[assessmentQuestionScoreData?.length - 1]?.completedAssessmentDate || "-"))?.format("DD-MM-YYYY") : "-"}</h2>
           </div>
           <img
             src={Ellipse_one}

@@ -77,16 +77,16 @@ const MaturityLevelModel = ({
   return (
     <Modal
       open={!!isOpen}
-      className="max-w-[815px] w-full gap-0 h-[800px]"
+      className="md:max-w-[815px] sm:max-w-[815px] max-w-[90%] w-full gap-0 2xl:h-[700px] h-[600px]"
       onClose={() => {
         setIsOpen(null);
         setPillerName("");
       }}
     >
-      <div className="flex">
-        <div className="h-[105px] w-[270px] flex flex-col">
+      <div className="flex md:items-center items-start md:flex-row flex-col">
+        <div className="md:h-[105px] w-[270px] flex flex-col">
           <div className="flex ">
-            <div className=" ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
+            <div className="md:ml-4 mt-0 bg-white rounded-full drop-shadow-md w-[42px] h-[42px] p-2 mb-2">
               <img
                 src={getImages(pillerName, true)}
                 alt="Leaf Icon"
@@ -101,7 +101,7 @@ const MaturityLevelModel = ({
             </div>
           </div>
 
-          <div className="h-[19px] w-[270px]  flex items-center gap-3 mt-[35px]">
+          <div className="h-[19px] w-[270px]  flex items-center gap-3 md:mt-[35px] mt-1">
             {maturityLevel?.map((item: any) => {
               const color = item?.color;
               return (
@@ -117,8 +117,8 @@ const MaturityLevelModel = ({
             })}
           </div>
         </div>
-        <div className="h-[105px] ">
-          <div className="ml-3 mt-2 h-[25px]">
+        <div className="md:h-[105px] ">
+          <div className="md:ml-3 mt-2 h-[25px]">
             <h2 className=" text-xm text-[#1D2026] font-font-droid text-lg font-semibold">
               Where your answers put you
             </h2>
@@ -130,21 +130,21 @@ const MaturityLevelModel = ({
         <Loader />
       ) : (
         // <div className="flex mt-6 h-[calc(100%_-_250px)] overflow-y-auto">
-        <div className="flex mt-6 h-[calc(800px_-_250px)] overflow-y-auto items-start flex-wrap gap-2">
+        <div className="flex mt-6 2xl:h-[calc(700px_-_250px)] overflow-y-auto items-start flex-wrap gap-2">
           {data?.data?.[pillerName as string]?.map((item, i) => {
             const color = findMaturityLevel(item?.questionScores)?.color || "";
             return (
-              <div className="flex flex-col border p-3 rounded-lg w-[242px] h-[255px]">
+              <div className="flex flex-col border p-3 rounded-lg xl:w-[242px] w-[220px] h-[255px]">
                 <div className="overflow-y-auto h-[calc(100%_-_16px)]">
                   <div className="text-xs font-bold">
                     Question : {(i + 1).toString().padStart(2, "0")}
                   </div>
-                  <div className="mt-2 w-[210px] scroll-y-auto font-droid text-sm font-normal leading-[17.4px] text-left">
+                  <div className="mt-2 break-all scroll-y-auto font-droid text-sm font-normal leading-[17.4px] text-left">
                     {item.title}
                   </div>
                   <div className="text-xs font-bold mt-2">Answer :</div>
                   {item?.answers?.length > 0 && (
-                    <div className="mt-2 w-[210px] scroll-y-auto font-droid text-sm font-normal leading-[17.4px] text-left">
+                    <div className="mt-2 scroll-y-auto break-all font-droid text-sm font-normal leading-[17.4px] text-left">
                       {item?.answers?.[0]}
                     </div>
                   )}

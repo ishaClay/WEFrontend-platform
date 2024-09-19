@@ -20,6 +20,7 @@ const CompanyDetails = ({
       onClose={() => {}}
       header="Company Details"
       titleClassName="text-[20px] font-droid font-semibold"
+      showCloseButton={false}
     >
       <div>
         <div className="flex items-start">

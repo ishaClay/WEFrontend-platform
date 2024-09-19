@@ -47,6 +47,7 @@ import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
 import CustomCarousel from "./comman/CustomCarousel";
 import DashboardCard from "./comman/DashboardCard";
 import NoDataText from "./comman/NoDataText";
+import { Progress } from "./ui/progress";
 
 Chart.register(
   CategoryScale,
@@ -159,6 +160,10 @@ const Dashboard = () => {
         }),
     });
 
+  console.log(
+    "🚀 ~ Dashboard ~ firstInfirgraphicChart:",
+    firstInfirgraphicChart
+  );
   const { data: smeDashboardData, isLoading: smeLoading } =
     useQuery<DashboardData>({
       queryKey: ["getSmeDashboardData"],
@@ -317,11 +322,16 @@ const Dashboard = () => {
     data: data1,
     options: {
       scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Months",
+          },
+        },
         y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          ticks: {
-            stepSize: 25,
+          title: {
+            display: true,
+            text: "No of courses",
           },
         },
       },
@@ -426,232 +436,239 @@ const Dashboard = () => {
 
   return (
     <div className="rounded-xl">
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-6">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          title="Total points"
-          value={`${firstInfirgraphicChart?.data?.avTotalpoints || 0}/
-          ${firstInfirgraphicChart?.data?.avTotalmaxpoint || 0}`}
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Total_courses}
-          title="Total questions"
-          value={`${
-            firstInfirgraphicChart?.data?.avTotalquestionsattempted || 0
-          }/
-          ${firstInfirgraphicChart?.data?.avTotalquestionsavailable || 0}`}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Upcoming courses"
-          value={smeDashboardData?.data?.upcomingCourses || 0}
-        />
-        {/* <button
-          className="col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl"
-          onClick={() => handleClick("companies")}
-        >
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={Companies} alt="" />
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 xl:mb-6 mb-5">
+        <div>
+          <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
+            Courses
+          </h3>
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl xl:p-0 sm:py-2">
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Trainers}
+              title="Total"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.totalCourse || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Total_courses}
+              title="Ongoing"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Companies}
+              title="Completed"
+              className="flex items-center justify-center flex-col"
+              value={smeDashboardData3?.data?.overView?.completedCourse || 0}
+            />
           </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-2xl xl:leading-10 leading-8 font-bold">
-            30
-          </h2>
-          <p className="text-base text-black font-droid">Completed Courses</p>
-        </button> */}
-      </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Total action items
-      </h3>
-      <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Trainers}
-          title="Total action items"
-          value={smeDashboardData?.data?.totalActionItems?.metric || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Total_courses}
-          title="Total pending action items"
-          value={smeDashboardData?.data?.pendingActionItems || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Total delayed action items"
-          value={smeDashboardData?.data?.totalActionItems?.report?.delayed || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Total completed action items"
-          value={
-            smeDashboardData?.data?.totalActionItems?.report?.completed || 0
-          }
-        />
-      </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Support Tickets
-      </h3>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Trainers}
-          title="Total support tickets"
-          value={openSupportTicket + resolveSupportTicket || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Total_courses}
-          title="Total open support tickets"
-          value={openSupportTicket || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Total resolved support tickets"
-          value={resolveSupportTicket || 0}
-        />
-      </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Overview of Employee Performance
-      </h3>
-      <div className="grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <div className="col-span-2 bg-[#FFFFFF] rounded-lg shadow-sm p-5 flex items-center justify-around">
-          <div className="w-60 text-center">
-            <p className="text-[16px] font-droid font-bold mb-4">
-              Course Completion Rate
-            </p>
-            <div className="w-40 h-40 mt-0 relative mx-auto">
-              {smeLoading3 ? (
-                <span className="flex justify-center items-center h-[160px]">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                </span>
-              ) : (
-                <Doughnut
-                  data={data3}
-                  options={options}
-                  plugins={[textCenter]}
-                />
-              )}
-            </div>
-            <div className="flex items-center gap-6 justify-center mt-4">
-              <div className="text-center">
-                <h3>{smeDashboardData3?.data?.overView?.totalCourse}</h3>
-                <p className="font-droid font-bold text-slate-600">Courses</p>
-              </div>
-              <div className="text-center">
-                <h3>{smeDashboardData3?.data?.overView?.completedCourse}</h3>
-                <p className="font-droid font-bold text-slate-600">
-                  Completions
-                </p>
-              </div>
-            </div>
+        </div>
+        <div>
+          <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
+            Support Tickets
+          </h3>
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl">
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Trainers}
+              title="Total"
+              value={openSupportTicket + resolveSupportTicket || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Total_courses}
+              title="Open"
+              value={openSupportTicket || 0}
+            />
+            <DashboardCard
+              isLoading={smeLoading}
+              icon={Companies}
+              title="Resolved"
+              value={resolveSupportTicket || 0}
+            />
           </div>
-          <div className="w-60 text-center">
-            <p className="text-[16px] font-droid font-bold mb-4">
-              Employee Completion Rate
-            </p>
-            <div className="w-40 h-40 mt-0 relative mx-auto">
-              {smeLoading3 ? (
-                <span className="flex justify-center items-center h-[160px]">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                </span>
-              ) : (
-                <Doughnut
-                  data={data4}
-                  options={options}
-                  plugins={[textCenter]}
-                />
-              )}
-            </div>
-            <div className="flex items-center gap-6 justify-center mt-4">
-              <div className="text-center">
-                <h3>
-                  {smeDashboardData3?.data?.employeePerformanceOverview
-                    ?.totalCourse || 0}
-                </h3>
-                <p className="font-droid font-bold text-slate-600">Courses</p>
+        </div>
+      </div>
+
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 xl:mb-6 mb-5">
+        <div>
+          <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
+            Overview of Employee Performance
+          </h3>
+          <div className="grid lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-5 bg-[#FFFFFF] rounded-lg shadow-sm p-5">
+            <div className="w-60 text-center m-auto">
+              <p className="text-[16px] font-droid font-bold mb-4">
+                Course Completion Rate
+              </p>
+              <div className="w-40 h-40 mt-0 relative mx-auto">
+                {smeLoading3 ? (
+                  <span className="flex justify-center items-center h-[160px]">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span>
+                ) : (
+                  <Doughnut
+                    data={data3}
+                    options={options}
+                    plugins={[textCenter]}
+                  />
+                )}
               </div>
-              <div className="text-center">
-                <h3>
-                  {smeDashboardData3?.data?.employeePerformanceOverview
-                    ?.coursesCompletion || 0}
-                </h3>
-                <p className="font-droid font-bold text-slate-600">
-                  Completions
-                </p>
+              <div className="flex items-center gap-6 justify-center mt-4">
+                <div className="text-center">
+                  <h3>{smeDashboardData3?.data?.overView?.totalCourse}</h3>
+                  <p className="font-droid font-bold text-slate-600">Courses</p>
+                </div>
+                <div className="text-center">
+                  <h3>{smeDashboardData3?.data?.overView?.completedCourse}</h3>
+                  <p className="font-droid font-bold text-slate-600">
+                    Completions
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="w-60 text-center m-auto">
+              <p className="text-[16px] font-droid font-bold mb-4">
+                Employee Completion Rate
+              </p>
+              <div className="w-40 h-40 mt-0 relative mx-auto">
+                {smeLoading3 ? (
+                  <span className="flex justify-center items-center h-[160px]">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </span>
+                ) : (
+                  <Doughnut
+                    data={data4}
+                    options={options}
+                    plugins={[textCenter]}
+                  />
+                )}
+              </div>
+              <div className="flex items-center gap-6 justify-center mt-4">
+                <div className="text-center">
+                  <h3>
+                    {smeDashboardData3?.data?.employeePerformanceOverview
+                      ?.totalCourse || 0}
+                  </h3>
+                  <p className="font-droid font-bold text-slate-600">Courses</p>
+                </div>
+                <div className="text-center">
+                  <h3>
+                    {smeDashboardData3?.data?.employeePerformanceOverview
+                      ?.coursesCompletion || 0}
+                  </h3>
+                  <p className="font-droid font-bold text-slate-600">
+                    Completions
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Trainers}
-          title="Total Courses"
-          className="flex items-center justify-center flex-col"
-          value={smeDashboardData3?.data?.overView?.totalCourse || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Total_courses}
-          title="Total Ongoing Courses"
-          className="flex items-center justify-center flex-col"
-          value={smeDashboardData3?.data?.overView?.onGoingCourse || 0}
-        />
-        <DashboardCard
-          isLoading={smeLoading}
-          icon={Companies}
-          title="Total Completed Courses"
-          className="flex items-center justify-center flex-col"
-          value={smeDashboardData3?.data?.overView?.completedCourse || 0}
-        />
+        <div className="">
+          <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
+            Action items
+          </h3>
+          <div className="xl:bg-white rounded-xl xl:h-[calc(100%-41px)]">
+            <div className="p-5 mb-5 xl:mb-0 bg-white rounded-xl xl:flex items-center">
+              <h3 className="xl:text-[20px] text-[16px] font-droid font-[500] mb-2">
+                Roadmap completion
+              </h3>
+              <Progress
+                color="#00778B"
+                value={
+                  Number(
+                    smeDashboardData?.data?.totalActionItems?.rodemapCompletion
+                  ) || 0
+                }
+                className="h-[15px] w-full rounded-full"
+                isShow
+              />
+            </div>
+            <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+              <DashboardCard
+                isLoading={smeLoading}
+                icon={Trainers}
+                title="Total"
+                value={smeDashboardData?.data?.totalActionItems?.metric || 0}
+              />
+              <DashboardCard
+                isLoading={smeLoading}
+                icon={Total_courses}
+                title="Pending"
+                value={smeDashboardData?.data?.pendingActionItems || 0}
+              />
+              <DashboardCard
+                isLoading={smeLoading}
+                icon={Companies}
+                title="Delayed"
+                value={
+                  smeDashboardData?.data?.totalActionItems?.report?.delayed || 0
+                }
+              />
+              <DashboardCard
+                isLoading={smeLoading}
+                icon={Companies}
+                title="Completed"
+                value={
+                  smeDashboardData?.data?.totalActionItems?.report?.completed ||
+                  0
+                }
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Upcoming Live Sessions
-      </h3>
-      <div className="">
-        {isLoading ? (
-          <span className="py-14 flex justify-center">
-            <Loader2 className="w-5 h-5 animate-spin" />
-          </span>
-        ) : smeUpcomingLiveSession?.upcomingSessions &&
-          smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
-          <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
-            {smeUpcomingLiveSession?.upcomingSessions?.map((data, index) => {
-              return <LiveSessionsItems data={data} key={index} />;
-            }) || []}
-          </CustomCarousel>
-        ) : (
-          <NoDataText message="No records found" />
-        )}
-      </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Ongoing Live Sessions
-      </h3>
-      <div className="">
-        {isLoading ? (
-          <span className="py-14 flex justify-center">
-            <Loader2 className="w-5 h-5 animate-spin" />
-          </span>
-        ) : smeUpcomingLiveSession?.ongoingSessions &&
-          smeUpcomingLiveSession?.ongoingSessions?.length > 0 ? (
-          <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
-            {smeUpcomingLiveSession?.ongoingSessions?.map((data, index) => {
-              return <LiveSessionsItems data={data} key={index} />;
-            }) || []}
-          </CustomCarousel>
-        ) : (
-          <NoDataText message="No records found" />
-        )}
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 xl:mb-6 mb-5">
+        <div>
+          <h3 className="text-[22px] font-droid font-[500] mb-2">
+            Ongoing Live Sessions
+          </h3>
+          <div className="bg-white rounded-xl">
+            {isLoading ? (
+              <span className="py-14 flex justify-center">
+                <Loader2 className="w-5 h-5 animate-spin" />
+              </span>
+            ) : smeUpcomingLiveSession?.ongoingSessions &&
+              smeUpcomingLiveSession?.ongoingSessions?.length > 0 ? (
+              <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
+                {smeUpcomingLiveSession?.ongoingSessions?.map((data, index) => {
+                  return <LiveSessionsItems data={data} key={index} />;
+                }) || []}
+              </CustomCarousel>
+            ) : (
+              <NoDataText message="No records found" />
+            )}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-[22px] font-droid font-[500] mb-2">
+            Upcoming Live Sessions
+          </h3>
+          <div className="bg-white rounded-xl">
+            {isLoading ? (
+              <span className="py-14 flex justify-center">
+                <Loader2 className="w-5 h-5 animate-spin" />
+              </span>
+            ) : smeUpcomingLiveSession?.upcomingSessions &&
+              smeUpcomingLiveSession?.upcomingSessions?.length > 0 ? (
+              <CustomCarousel className="xl:basis-1/3 md:basis-1/2">
+                {smeUpcomingLiveSession?.upcomingSessions?.map(
+                  (data, index) => {
+                    return <LiveSessionsItems data={data} key={index} />;
+                  }
+                ) || []}
+              </CustomCarousel>
+            ) : (
+              <NoDataText message="No records found" />
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm">
+      <div className="mb-10 bg-[#FFFFFF] rounded-lg shadow-sm hidden">
         <div className="flex w-full">
           <div className=" w-full  m-4 bg-[#FFFFFF]">
             <div className="sm:flex block justify-between items-center">
@@ -697,7 +714,7 @@ const Dashboard = () => {
           <div className="pt-6 px-4 pb-4">
             <div className="sm:flex block justify-between items-center">
               <h5 className="text-base font-droid font-bold sm:pb-0 pb-3">
-                Course Enrollment Trend Over Time
+                Course Enrollment Trend
               </h5>
               <Button
                 className="font-droid font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
@@ -725,7 +742,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
+        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm hidden">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-droid font-bold">Top 5 Courses</h5>
             {/* <Button className="text-[#00778B] bg-transparent font-droid hover:bg-transparent p-0 h-6">

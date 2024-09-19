@@ -8,13 +8,15 @@ type StepperProps = {
 
 const Stepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
   const activeColor = (index: number) =>
-    currentStep === index || currentStep > index ? "bg-muted" : "bg-muted";
+    currentStep === index || currentStep > index
+      ? "bg-[#00778B] text-white"
+      : "bg-[#D9D9D9] text-black";
 
   const activeTextColor = (index: number) =>
     currentStep === index ? "text-orange" : "text-grey";
 
   const activeColorLine = (index: number) =>
-    currentStep > index ? "bg-muted" : "bg-muted";
+    currentStep > index ? "bg-[#00778B]" : "bg-[#D9D9D9] text-black";
 
   const isFinalStep = (index: number) => index === steps.length - 1;
   return (
@@ -23,7 +25,7 @@ const Stepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
         {steps.map((step, index) => (
           <Fragment key={step}>
             <div
-              className={`relative flex cursor-pointer items-center justify-center rounded-full bg-muted ${activeColor(
+              className={`relative flex cursor-pointer items-center justify-center rounded-full  ${activeColor(
                 index
               )}`}
               onClick={() => {
@@ -31,11 +33,9 @@ const Stepper = ({ currentStep, steps, onChangeStep }: StepperProps) => {
               }}
             >
               <div
-                className={`h-8 w-8 px-4 flex items-center justify-center rounded-full ${
-                  currentStep === index
-                    ? "bg-[#00778B] text-white"
-                    : "bg-[#D9D9D9] text-black"
-                }`}
+                className={`h-8 w-8 px-4 flex items-center justify-center rounded-full ${activeColor(
+                  index
+                )}`}
               >
                 {index + 1}
               </div>

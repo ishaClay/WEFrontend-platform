@@ -99,8 +99,8 @@ export const createCourseTwoPage = ({
   return api({ url, data, method });
 };
 
-export const fetchNfqlLevel = async () => {
-  const url = `api/v1/course/nfqlevel/nfqlevellist?from=5&until=10`;
+export const fetchNfqlLevel = async (from?: number | undefined) => {
+  const url = `api/v1/course/nfqlevel/nfqlevellist?from=${from}&until=10`;
   const method = "get";
   const res = await api({ url, method });
   return res.data;
@@ -229,10 +229,10 @@ export const createInquiry = async (data: {
 export const fetchCoursePublishAdminClient = async (id: number, keyword: string, page: number) => {
   const url = `api/v1/client/coursePublishAdminClient/?clientId=${id}`;
   const params: any = {};
-  if(keyword){
+  if (keyword) {
     params["keyword"] = keyword;
   }
-  if(page){
+  if (page) {
     params["page"] = page;
   }
   const res = await api({ url, params });

@@ -239,15 +239,18 @@ const TrainerInvitation = () => {
                     <Minus />
                   </Button>
                 )}
-                {arr.length - 1 === index && (
+                {
                   <Button
                     variant={"ghost"}
                     type="button"
+                    className={`${
+                      arr.length - 1 === index ? "visible" : "invisible"
+                    }`}
                     onClick={() => handleAddEmail()}
                   >
                     <Plus />
                   </Button>
-                )}
+                }
               </div>
             </div>
           ))}

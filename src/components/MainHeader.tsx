@@ -194,14 +194,14 @@ const MainHeader = () => {
                             ? `${userData?.query?.fname || ""}`.trim()
                             : userData?.query?.email?.split("@")[0]}
                         </h5>
-                        <h6 className="xl:text-base text-sm font-droid leading-1 text-black">
+                        <h6 className="xl:text-[14px] text-[13px] font-droid leading-4 mb-1 text-black">
                           {+userRole === 2
                             ? "Trainer Admin"
                             : +userRole === 1
                             ? "SME Company"
                             : "Trainer"}
                         </h6>
-                        <p className="max-w-[150px] truncate">
+                        <p className="max-w-[150px] xl:text-[14px] text-[13px] leading-4 truncate">
                           {+userRole === 1
                             ? userData?.query?.name
                             : +userRole === 2

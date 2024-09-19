@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loading from "@/components/comman/Error/Loading";
@@ -13,10 +14,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
+import { getCohort, getSession } from "@/services/apiServices/allcourse";
 import { fetchCourseAllCourse } from "@/services/apiServices/courseManagement";
 import {
   createLiveSession,
-  getLiveSession,
   getLiveSessionById,
   getZoomSetting,
   scheduleUpdateLiveSession,
@@ -24,10 +25,11 @@ import {
 import { pillarLimit } from "@/services/apiServices/pillar";
 import { ErrorType } from "@/types/Errors";
 import { UserRole } from "@/types/UserRole";
+import { CohortDataResponse } from "@/types/cohort";
 import { AllCoursesResult } from "@/types/courseManagement";
 import { PermissionResponse } from "@/types/liveSession";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2, MoveLeft } from "lucide-react";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -58,13 +60,10 @@ const ScheduleLiveSessionPage = () => {
   const pathName = window.location.pathname;
   const currentUser = pathName.split("/")[1];
   const navigate = useNavigate();
-  const { UserId, CompanyId } = useAppSelector(
-    (state: RootState) => state.user
-  );
+  const { UserId } = useAppSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [courseVersion, setCourseVersion] = useState("");
+  const [LiveSession, setLiveSession] = useState("");
   const [selectLiveSession, setSelectLiveSession] = useState<string>("");
-  const queryclient = useQueryClient();
 
   const convertTo12HourFormat = (time24: string) => {
     const [hours, minutes] = time24.split(":").map(Number);
@@ -170,12 +169,6 @@ const ScheduleLiveSessionPage = () => {
       enabled: !!id,
     });
 
-  useEffect(() => {
-    queryclient.invalidateQueries({
-      queryKey: [QUERY_KEYS.fetchTraineeCompany],
-    });
-  }, [CompanyId, watch("selectCourse"), selectLiveSession]);
-
   const selectCourseOption = filteredAllCourseData?.length
     ? filteredAllCourseData?.map((i: AllCoursesResult) => {
         return {
@@ -225,37 +218,39 @@ const ScheduleLiveSessionPage = () => {
       },
     });
 
-  const {
-    data: fetchLiveSession,
-    refetch: fetchData,
-    isFetching: fetchLiveSessionPending,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.fetchLiveSession],
-    queryFn: () => (courseVersion ? getLiveSession(courseVersion) : null),
-    enabled: !!courseVersion,
+  const { data: getCohortData, isFetching: getCohortPending } =
+    useQuery<CohortDataResponse>({
+      queryKey: ["getCohort", { course: watch("selectCourse") }],
+      queryFn: () => getCohort(+watch("selectCourse")),
+      enabled: !!watch("selectCourse"),
+    });
+
+  const { data: getLiveSessionData, isFetching: getLiveSessionPending } =
+    useQuery<CohortDataResponse>({
+      queryKey: ["getSession", { cohort: watch("selectCohort") }],
+      queryFn: () => getSession(+watch("selectCohort")),
+      enabled: !!watch("selectCohort"),
+    });
+
+  const cohortOption = getCohortData?.data?.map((item) => {
+    const { month, date, year } = item?.slotStartDate;
+    const { month: endMonth, date: endDay, year: endYear } = item?.slotEndDate;
+    return {
+      label:
+        item?.name +
+        " (" +
+        `${date}/${month}/${year} - ${endDay}/${endMonth}/${endYear}` +
+        ") ",
+      value: item?.id?.toString(),
+    };
   });
 
-  useEffect(() => {
-    setCourseVersion(
-      fetchCourseAllCourseData?.data
-        ?.find((item) => +item?.id === +watch("selectCourse"))
-        ?.currentVersion?.id?.toString() || ""
-    );
-  }, [watch("selectCourse")]);
-
-  useEffect(() => {
-    fetchData();
-  }, [courseVersion]);
-
-  const selectLiveSessionOption = fetchLiveSession?.data?.data?.course?.module
-    ?.flatMap((i: any) => i?.moduleSections)
-    ?.filter((j: any) => +j?.isLive === 1)
-    ?.map((i: any) => {
-      return {
-        label: i?.title,
-        value: i?.id?.toString(),
-      };
-    });
+  const selectLiveSessionOption = getLiveSessionData?.data?.map((i: any) => {
+    return {
+      label: i?.title,
+      value: i?.id?.toString(),
+    };
+  });
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
@@ -272,7 +267,11 @@ const ScheduleLiveSessionPage = () => {
           startTime,
           platform,
           zoomApiBaseUrl,
+          cohortGroup,
+          moduleSection,
         } = fetchLiveSessionData;
+
+        console.log("+++++++++++++", moduleSection?.id?.toString());
 
         setValue("sessionSubtitle", subtitle);
         setValue("sessionDescription", description);
@@ -288,21 +287,16 @@ const ScheduleLiveSessionPage = () => {
           (+sessionDuration % 60).toString().padStart(2, "0")
         );
         setValue("selectCourse", (+course?.id)?.toString());
+        setValue("selectCohort", (+cohortGroup?.id)?.toString());
+        setValue("selectLiveSession", moduleSection?.id?.toString());
+        setSelectLiveSession(moduleSection?.id?.toString());
+        setLiveSession(moduleSection?.title);
         setValue("sessionTime", moment(startTime).format("HH:mm"));
         setValue("platform", !!platform);
         setValue("zoomUrl", zoomApiBaseUrl || "");
       }
     }
-  }, [fetchLiveSessionById?.data?.data, id]);
-
-  useEffect(() => {
-    const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
-    const liveSecTitle = selectLiveSessionOption?.find(
-      (item: any) => +item?.value === +fetchLiveSessionData?.moduleSection?.id
-    );
-    setValue("selectLiveSession", liveSecTitle?.value);
-    setSelectLiveSession(liveSecTitle?.value);
-  }, [fetchLiveSession?.data?.data]);
+  }, [fetchLiveSessionById?.data?.data]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     if (watch("platform")) {
@@ -345,7 +339,7 @@ const ScheduleLiveSessionPage = () => {
     } else {
       addLiveSession({
         data: transformedData,
-        id: liveSecTitle.value,
+        id: data?.selectLiveSession,
       });
     }
   };
@@ -353,7 +347,7 @@ const ScheduleLiveSessionPage = () => {
   if (
     (fetchZoomSettingLoading ||
       fetchCoursePending ||
-      fetchLiveSessionPending ||
+      getLiveSessionPending ||
       fetchLiveSessionByIdPending) &&
     !!id
   ) {
@@ -418,7 +412,7 @@ const ScheduleLiveSessionPage = () => {
                 Select Cohort
               </Label>
               <SelectMenu
-                option={selectCourseOption}
+                option={cohortOption || []}
                 setValue={(e: string) => {
                   setValue("selectCohort", e);
                   clearErrors("selectCohort");
@@ -428,7 +422,7 @@ const ScheduleLiveSessionPage = () => {
                 className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="Select Cohort"
                 disabled={!!id}
-                isLoading={fetchCoursePending}
+                isLoading={getCohortPending}
               />
               {errors?.selectCohort?.message && (
                 <span className="text-red-500 text-sm">
@@ -441,21 +435,30 @@ const ScheduleLiveSessionPage = () => {
                 <Label className="text-base text-black font-medium font-font-droid">
                   Select Live session
                 </Label>
-                <SelectMenu
-                  option={selectLiveSessionOption}
-                  {...register("selectLiveSession")}
-                  setValue={(e: string) => {
-                    setSelectLiveSession(e);
-                    setValue("selectLiveSession", e);
-                    clearErrors("selectLiveSession");
-                  }}
-                  value={selectLiveSession}
-                  itemClassName="text-base"
-                  className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                  placeholder="Select live session name"
-                  disabled={!!id}
-                  isLoading={fetchLiveSessionPending}
-                />
+                {id ? (
+                  <Button
+                    disabled
+                    className="flex w-full items-center justify-between rounded-md border border-input py-2 ring-offset-background focus: disabled:cursor-not-allowed disabled:opacity-60 [&>span]:line-clamp-1 bg-white font-normal data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10 text-black"
+                  >
+                    {LiveSession}
+                  </Button>
+                ) : (
+                  <SelectMenu
+                    option={selectLiveSessionOption || []}
+                    {...register("selectLiveSession")}
+                    setValue={(e: string) => {
+                      setSelectLiveSession(e);
+                      setValue("selectLiveSession", e);
+                      clearErrors("selectLiveSession");
+                    }}
+                    value={selectLiveSession}
+                    itemClassName="text-base"
+                    className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
+                    placeholder="Select live session name"
+                    disabled={!!id}
+                    isLoading={getLiveSessionPending}
+                  />
+                )}
                 {errors.selectLiveSession && (
                   <span className="text-red-500 text-sm">
                     {errors.selectLiveSession.message}

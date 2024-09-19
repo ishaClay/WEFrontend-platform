@@ -71,21 +71,9 @@ function CompanyRegister() {
     .object({
       name: z.string().optional(),
       address: z.string().optional(),
-      county: z
-        .string({
-          required_error: "Please select county",
-        })
-        .nonempty("Please select county"),
-      averageNumberOfEmployees: z
-        .string({
-          required_error: "Please select employees",
-        })
-        .min(1, { message: "Please select employees" }),
-      sector: z
-        .string({
-          required_error: "Please select sector",
-        })
-        .min(1, { message: "Please select sector" }),
+      county: z.string(),
+      averageNumberOfEmployees: z.string(),
+      sector: z.string(),
       parentCompanyAddress: z.string().nullable(),
       parentCompanyName: z.string().nullable(),
       email: z.string().min(1, { message: "Please enter email" }),
@@ -96,56 +84,62 @@ function CompanyRegister() {
       contactLastName: z
         .string()
         .min(1, { message: "Please enter contact last name" }),
-      soleTrader: z.string({ required_error: "Please select sole trader" }),
+      soleTrader: z.string(),
       companyNumberId: z.number().nullable().optional(),
       isRegister: z.boolean(),
     })
+    .partial()
     .superRefine((data, ctx) => {
-      if (data.isRegister) {
-        if (
-          data.companyNumberId === null ||
-          data.companyNumberId === undefined
-        ) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Please verify company number",
-            path: ["companyNumberId"],
-          });
-        } else {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "",
-            path: ["companyNumberId"],
-          });
-        }
+      if (data.isRegister && !data.companyNumberId) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please verify company number",
+          path: ["companyNumberId"],
+        });
+      }
+      if (data.isRegister && !data.name) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter name",
+          path: ["name"],
+        });
+      }
 
-        if (!data.name || data.name.trim().length === 0) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Please enter name",
-            path: ["name"],
-          });
-        } else {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "",
-            path: ["name"],
-          });
-        }
+      if (data.isRegister && !data.address) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please enter address",
+          path: ["address"],
+        });
+      }
 
-        if (!data.address || data.address.trim().length === 0) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Please enter address",
-            path: ["address"],
-          });
-        } else {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "",
-            path: ["address"],
-          });
-        }
+      if (!data.county) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select county",
+          path: ["county"],
+        });
+      }
+      if (!data.averageNumberOfEmployees) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select employees",
+          path: ["averageNumberOfEmployees"],
+        });
+      }
+      if (!data.sector) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select sector",
+          path: ["sector"],
+        });
+      }
+      if (!data.soleTrader) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please select sole trader",
+          path: ["soleTrader"],
+        });
       }
     });
 
@@ -164,8 +158,7 @@ function CompanyRegister() {
       isRegister: false,
     },
   });
-
-  console.log("+++++++++++", errors);
+  console.log("🚀 ~ CompanyRegister ~ errors:", errors);
 
   useEffect(() => {
     if (userData) {
@@ -255,19 +248,18 @@ function CompanyRegister() {
   });
 
   const onSubmit = async (data: FieldValues) => {
-    const token: any = await getDeviceToken();
+    const token = await getDeviceToken();
     const updatedData = {
       ...data,
-      companyId: companyNumberId as number,
+      companyId: companyNumberId,
       soleTrader: data?.soleTrader === "Yes" ? true : false,
       deviceToken: token,
-      name:
-        data?.name === undefined
-          ? `${data?.contactFirstName} ${data?.contactLastName}`
-          : data?.name,
+      name: !data?.name
+        ? `${data?.contactFirstName} ${data?.contactLastName}`
+        : data?.name,
       address: data?.address ? data?.address : "",
     };
-    updatecompany(updatedData as any);
+    updatecompany(updatedData);
   };
 
   const handleVerifyId = () => {
@@ -355,7 +347,7 @@ function CompanyRegister() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap gap-x-[10px] xl:gap-x-[20px] xl:gap-y-[14px] gap-y-[5px] mt-[30px]">
                 <div className="w-full">
-                  <Label className="mb-[8px]  font-normal text-[16px]">
+                  <Label className="mb-[8px] text-[16px]">
                     Sole Trader <span className="text-[#FF0000]">*</span>
                   </Label>
                   <SelectMenu
@@ -391,24 +383,24 @@ function CompanyRegister() {
                       id="isRegister"
                       onChange={(e) => {
                         setValue("isRegister", e.target.checked);
-                        if (e.target.checked) {
-                          setError("isRegister", { message: "" });
-                          if (!watch("companyNumberId")) {
-                            setError("companyNumberId", {
-                              message: "Please enter company number",
-                            });
-                          }
-                          if (!watch("name")) {
-                            setError("name", {
-                              message: "Please enter comapny name",
-                            });
-                          }
-                          if (!watch("address")) {
-                            setError("address", {
-                              message: "Please enter company address",
-                            });
-                          }
-                        }
+                        // if (e.target.checked) {
+                        //   setError("isRegister", { message: "" });
+                        //   if (!watch("companyNumberId")) {
+                        //     setError("companyNumberId", {
+                        //       message: "Please enter company number",
+                        //     });
+                        //   }
+                        //   if (!watch("name")) {
+                        //     setError("name", {
+                        //       message: "Please enter comapny name",
+                        //     });
+                        //   }
+                        //   if (!watch("address")) {
+                        //     setError("address", {
+                        //       message: "Please enter company address",
+                        //     });
+                        //   }
+                        // }
                       }}
                       checked={watch("isRegister") || false}
                     />
@@ -588,7 +580,7 @@ function CompanyRegister() {
                     className="sm:w-[241px] w-full h-[46px]"
                     label="Email Address"
                     {...register("email")}
-                    disabled
+                    // disabled
                     isMendatory={true}
                   />
                   {errors.email && (

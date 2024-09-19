@@ -198,11 +198,22 @@ const MaturityLevelPage = () => {
   const isShowHeader =
     location.pathname !== "/company/maturityassessmentroadmap";
 
-  const colorLevel = {
-    level1: fetchClientmaturitylevel?.data?.[0]?.color,
-    level2: fetchClientmaturitylevel?.data?.[1]?.color,
-    level3: fetchClientmaturitylevel?.data?.[2]?.color,
-  };
+  useEffect(() => {
+    if (fetchClientmaturitylevel) {
+      document.documentElement.style.setProperty(
+        "--introductory-pillar",
+        fetchClientmaturitylevel?.data?.[0]?.color || ""
+      );
+      document.documentElement.style.setProperty(
+        "--intermediate-pillar",
+        fetchClientmaturitylevel?.data?.[1]?.color || ""
+      );
+      document.documentElement.style.setProperty(
+        "--advanced-pillar",
+        fetchClientmaturitylevel?.data?.[2]?.color || ""
+      );
+    }
+  }, [fetchClientmaturitylevel]);
 
   return (
     <>
@@ -287,202 +298,196 @@ const MaturityLevelPage = () => {
               </h2>
             </div>
             <div className="flex flex-col gap-[26px]  mb-[60px]">
-              {colorLevel?.level1 && (
-                <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
-                  <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-                    <Button
-                      className={cn(
-                        `md:text-base sm:text-sm text-xs text-[#000] sm:w-[130px] bg-transparent w-[100px] font-bold bg-gradient-to-r from-[${colorLevel?.level1}] from-25% via-[${colorLevel?.level1}] via-25% to-transparent to-50% hover:bg-transparent cursor-default justify-start`
-                      )}
-                    >
-                      Introductory
-                    </Button>
-                  </div>
-
-                  <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-                    {assessmant?.data?.data.map((item: any) => {
-                      const persantage =
-                        (
-                          (+item?.totalpoints * 100) /
-                          +item?.totalmaxpoint
-                        )?.toFixed(0) !== "NaN"
-                          ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
-                          : 0;
-
-                      console.log(
-                        "fetchClientmaturitylevel?.data[0]",
-                        fetchClientmaturitylevel?.data?.[0]?.color
-                      );
-
-                      return (
-                        <>
-                          {fetchClientmaturitylevel?.data &&
-                            +persantage >=
-                              +fetchClientmaturitylevel?.data[0]?.rangeStart &&
-                            +persantage <=
-                              +fetchClientmaturitylevel?.data[0]?.rangeEnd && (
-                              <Button
-                                type="button"
-                                variant={"ghost"}
-                                className="h-auto p-0 bg-white hover:bg-transparent"
-                                key={item.pillarid}
-                                onClick={() => {
-                                  setIsOpen(item.pillarid);
-                                  setPillerName(item.pillarname);
-                                }}
-                              >
-                                <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div
-                                    className={`border border-solid border-[${fetchClientmaturitylevel?.data[0]?.color}] bg-[${fetchClientmaturitylevel?.data[0]?.color}] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5`}
-                                  >
-                                    <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                                      <img
-                                        src={getImages(item.pillarname)}
-                                        alt="img"
-                                        className=""
-                                      />
-                                    </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
-                                      {item.pillarname}
-                                    </h4>
-                                    <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
-                                      {persantage?.toFixed(0)}%
-                                    </span>
-                                  </div>
-                                </div>
-                              </Button>
-                            )}
-                        </>
-                      );
-                    })}
-                  </div>
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button
+                    className={cn(
+                      `md:text-base sm:text-sm text-xs text-[#000] sm:w-[130px] bg-transparent w-[100px] font-bold bg-gradient-to-r from-introductory_pillar from-25% via-introductory_pillar via-25% to-transparent to-50% hover:bg-transparent cursor-default justify-start`
+                    )}
+                  >
+                    Introductory
+                  </Button>
                 </div>
-              )}
 
-              {colorLevel?.level2 && (
-                <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
-                  <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-                    <Button
-                      className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-[${colorLevel?.level2}] from-25% via-[${colorLevel?.level2}] via-25% to-transparent to-50% bg-[#fff] justify-start`}
-                    >
-                      Intermediate
-                    </Button>
-                  </div>
-                  <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-                    {assessmant?.data?.data.map((item: any) => {
-                      const persantage =
-                        (
-                          (+item?.totalpoints * 100) /
-                          +item?.totalmaxpoint
-                        )?.toFixed(0) !== "NaN"
-                          ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
-                          : 0;
-                      return (
-                        <>
-                          {fetchClientmaturitylevel?.data &&
-                            +persantage >=
-                              +fetchClientmaturitylevel?.data[1]?.rangeStart &&
-                            +persantage <=
-                              +fetchClientmaturitylevel?.data[1]?.rangeEnd && (
-                              <Button
-                                type="button"
-                                variant={"ghost"}
-                                className="h-auto p-0 bg-white hover:bg-transparent"
-                                key={item.pillarid}
-                                onClick={() => {
-                                  setIsOpen(item.pillarid);
-                                  setPillerName(item.pillarname);
-                                }}
-                              >
-                                <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div
-                                    className={`border border-solid border-[${colorLevel?.level2}] bg-[${colorLevel?.level2}] lg:w-[225px] w-[145px] rounded-xl p-2.5`}
-                                  >
-                                    <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
-                                      <img
-                                        src={getImages(item.pillarname)}
-                                        alt="img"
-                                        className=""
-                                      />
-                                    </div>
-                                    <h4 className="mt-3 md:text-base text-xs pb-2 font-font-droid">
-                                      {item.pillarname}
-                                    </h4>
-                                    <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
-                                      {persantage?.toFixed(0)}%
-                                    </span>
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => {
+                    const persantage =
+                      (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0) !== "NaN"
+                        ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
+                        : 0;
+
+                    console.log(
+                      "fetchClientmaturitylevel?.data[0]",
+                      fetchClientmaturitylevel?.data?.[0]?.color
+                    );
+
+                    return (
+                      <>
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            +fetchClientmaturitylevel?.data[0]?.rangeStart &&
+                          +persantage <=
+                            +fetchClientmaturitylevel?.data[0]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div
+                                  className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                >
+                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
                                   </div>
+                                  <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
+                                    {persantage?.toFixed(0)}%
+                                  </span>
                                 </div>
-                              </Button>
-                            )}
-                        </>
-                      );
-                    })}
-                  </div>
+                              </div>
+                            </Button>
+                          )}
+                      </>
+                    );
+                  })}
                 </div>
-              )}
-              {colorLevel?.level3 && (
-                <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
-                  <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
-                    <Button
-                      className={`md:text-base sm:text-sm text-xs text-[#000] sm:w-[130px] bg-transparent w-[100px] font-bold bg-gradient-to-r from-[${colorLevel?.level3}] from-25% via-[${colorLevel?.level3}] via-25% to-transparent to-50% hover:bg-transparent cursor-default justify-start`}
-                    >
-                      Advanced
-                    </Button>
-                  </div>
-                  <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
-                    {assessmant?.data?.data.map((item: any) => {
-                      const persantage =
-                        (
-                          (+item?.totalpoints * 100) /
-                          +item?.totalmaxpoint
-                        )?.toFixed(0) !== "NaN"
-                          ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
-                          : 0;
-                      return (
-                        <>
-                          {fetchClientmaturitylevel?.data &&
-                            +persantage >=
-                              +fetchClientmaturitylevel?.data[2]?.rangeStart &&
-                            +persantage <=
-                              +fetchClientmaturitylevel?.data[2]?.rangeEnd && (
-                              <Button
-                                type="button"
-                                variant={"ghost"}
-                                className="h-auto p-0 bg-white hover:bg-transparent"
-                                key={item.pillarid}
-                                onClick={() => {
-                                  setIsOpen(item.pillarid);
-                                  setPillerName(item.pillarname);
-                                }}
-                              >
-                                <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div
-                                    className={`border border-solid border-[${colorLevel?.level3}] bg-[${colorLevel?.level3}] lg:w-[225px] w-[145px] rounded-xl p-2.5`}
-                                  >
-                                    <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
-                                      <img
-                                        src={getImages(item.pillarname)}
-                                        alt="img"
-                                        className=""
-                                      />
-                                    </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-font-droid pb-2">
-                                      {item.pillarname}
-                                    </h4>
-                                    <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
-                                      {persantage?.toFixed(0)}%
-                                    </span>
+              </div>
+
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button
+                    className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-intermediate_pillar from-25% via-intermediate_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
+                  >
+                    Intermediate
+                  </Button>
+                </div>
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => {
+                    const persantage =
+                      (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0) !== "NaN"
+                        ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
+                        : 0;
+                    return (
+                      <>
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            +fetchClientmaturitylevel?.data[1]?.rangeStart &&
+                          +persantage <=
+                            +fetchClientmaturitylevel?.data[1]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div
+                                  className={`border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                >
+                                  <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
                                   </div>
+                                  <h4 className="mt-3 md:text-base text-xs pb-2 font-font-droid">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
+                                    {persantage?.toFixed(0)}%
+                                  </span>
                                 </div>
-                              </Button>
-                            )}
-                        </>
-                      );
-                    })}
-                  </div>
+                              </div>
+                            </Button>
+                          )}
+                      </>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
+              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+                <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
+                  <Button
+                    className={`md:text-base sm:text-sm text-xs text-[#000] sm:w-[130px] bg-transparent w-[100px] font-bold bg-gradient-to-r from-advanced_pillar from-25% via-advanced_pillar via-25% to-transparent to-50% hover:bg-transparent cursor-default justify-start`}
+                  >
+                    Advanced
+                  </Button>
+                </div>
+                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                  {assessmant?.data?.data.map((item: any) => {
+                    const persantage =
+                      (
+                        (+item?.totalpoints * 100) /
+                        +item?.totalmaxpoint
+                      )?.toFixed(0) !== "NaN"
+                        ? (+item?.totalpoints * 100) / +item?.totalmaxpoint
+                        : 0;
+                    return (
+                      <>
+                        {fetchClientmaturitylevel?.data &&
+                          +persantage >=
+                            +fetchClientmaturitylevel?.data[2]?.rangeStart &&
+                          +persantage <=
+                            +fetchClientmaturitylevel?.data[2]?.rangeEnd && (
+                            <Button
+                              type="button"
+                              variant={"ghost"}
+                              className="h-auto p-0 bg-white hover:bg-transparent"
+                              key={item.pillarid}
+                              onClick={() => {
+                                setIsOpen(item.pillarid);
+                                setPillerName(item.pillarname);
+                              }}
+                            >
+                              <div className="flex flex-wrap lg:gap-5 gap-4">
+                                <div
+                                  className={`border border-solid border-advanced_pillar bg-advanced_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                >
+                                  <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
+                                    <img
+                                      src={getImages(item.pillarname)}
+                                      alt="img"
+                                      className=""
+                                    />
+                                  </div>
+                                  <h4 className="mt-3 md:text-base text-xs font-font-droid pb-2">
+                                    {item.pillarname}
+                                  </h4>
+                                  <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
+                                    {persantage?.toFixed(0)}%
+                                  </span>
+                                </div>
+                              </div>
+                            </Button>
+                          )}
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
           <div className="sm:hidden block">
@@ -491,19 +496,19 @@ const MaturityLevelPage = () => {
                 <TabsList className="p-0 h-[45px]">
                   <TabsTrigger
                     value="introductory"
-                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#F63636] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-introductory-pillar rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Introductory
                   </TabsTrigger>
                   <TabsTrigger
                     value="intermediate"
-                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-[#FFD56A] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[black] data-[state=active]:bg-intermediate_pillar rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Intermediate
                   </TabsTrigger>
                   <TabsTrigger
                     value="advanced"
-                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-[#64A70B] rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-advanced_pillar rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Advanced
                   </TabsTrigger>
@@ -536,7 +541,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-[#F63636] bg-[#F63636] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-introductory-pillar bg-introductory-pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
                                     <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -587,7 +592,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-[#FFD56A] bg-[#FFD56A] lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5">
                                     <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -638,7 +643,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-[#64A70B] bg-[#64A70B] text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-advanced_pillar bg-advanced_pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
                                     <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -663,6 +668,23 @@ const MaturityLevelPage = () => {
                 </TabsContent>
               </Tabs>
             </div>
+          </div>
+
+          <div className="flex items-center justify-center sm:gap-7 gap-1 lg:mt-10 mt-5 sm:mx-0 mx-4">
+            <Button
+              type="button"
+              onClick={handleMaturity}
+              className="bg-[#64A70B] text-white h-12 sm:w-[223px] w-full text-base font-font-droid"
+            >
+              Build My Action Plan
+            </Button>
+            <Button
+              type="button"
+              onClick={() => navigate("/company/dashboard")}
+              className="bg-[#00778B] text-white h-12 sm:w-[223px] w-full text-base font-font-droid"
+            >
+              Go To My Dashboard
+            </Button>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ type MyActionProps = {
 
 const MyActionItems = ({ data, isLoading }: MyActionProps) => {
   return (
-    <div className="col-span-1 py-2">
+    <div className="col-span-1 py-2 sm:py-0">
       <div className="sm:px-5 p-4 sm:py-6 shadow-md rounded-lg relative">
         {isLoading ? (
           <span className="flex justify-center lg:py-7 py-6">

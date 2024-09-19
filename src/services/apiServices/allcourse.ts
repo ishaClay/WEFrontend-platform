@@ -45,3 +45,15 @@ export const courseStatusUpdate = async (id: number) => {
   const res = await api({ url, method: "post" });
   return res.data;
 };
+
+export const getCohort = async (id: number) => {
+  const url = `api/v1/livesessions/get-cohort/${id}`;
+  const res = await api({ url });
+  return res.data;
+};
+
+export const getSession = async (id: number) => {
+  const url = `api/v1/livesessions/get-sesstion/${id}`;
+  const res = await api({ url });
+  return res.data;
+};

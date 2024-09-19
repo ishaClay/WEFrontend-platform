@@ -35,7 +35,7 @@ const FeatureCourseDetailPage = () => {
       <HomeHeader />
       <div className="xl:max-w-[1160px] max-w-full w-full mx-auto my-4 xl:px-0 px-6 bg-white">
         <div className="">
-          <div className="bg-white h-[calc(100vh-393px)] overflow-y-auto rounded-b-xl">
+          <div className="bg-white min-h-[calc(100vh-401px)] overflow-y-auto rounded-b-xl">
             <div className="flex justify-between items-center bg-white py-5">
               <h4 className="xl:text-[28px] md:text-[22px] text-[18px] leading-[normal] font-bold font-droid text-black sm:pb-0 pb-3">
                 {getSingleCourse?.data?.title}

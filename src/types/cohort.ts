@@ -63,3 +63,19 @@ export interface Data {
     clientId: number;
     userId: number;
 }
+
+
+export interface CohortDataResponse {
+    data?: (CohortDataResult)[] | null;
+    message: string;
+}
+export interface CohortDataResult {
+    id: number;
+    name: string;
+    publish: number;
+    slotStartDate: SlotStartDateOrSlotEndDate;
+    slotEndDate: SlotStartDateOrSlotEndDate;
+    deletedAt?: null;
+    createdAt: string;
+    updatedAt: string;
+}

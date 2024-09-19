@@ -52,7 +52,7 @@ const MyAction = () => {
   };
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 border sm:border-[#D9D9D9] border-transparent rounded-xl sm:p-5">
       <h3
         className="sm:text-base text-lg text-black font-droid pb-4 sm:font-medium font-bold cursor-pointer"
         onClick={handleRedirect}

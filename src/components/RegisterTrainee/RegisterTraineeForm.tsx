@@ -40,8 +40,12 @@ const genderOptions: {
     value: "Female",
   },
   {
-    label: "Other",
-    value: "Other",
+    label: "N/A",
+    value: "N/A",
+  },
+  {
+    label: "Don't want to disclose",
+    value: "Don't want to disclose",
   },
 ];
 
@@ -147,7 +151,7 @@ const RegisterTraineeForm = () => {
 
   const { data: getNfqlLevelList, isLoading: nfqPending } = useQuery({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel(),
+    queryFn: () => fetchNfqlLevel(0),
   });
 
   const nfqOption = getNfqlLevelList?.data
