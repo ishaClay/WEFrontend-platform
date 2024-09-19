@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 
 type BlogList = {
   data: {
+    id: number;
     image: string;
     date: string;
     title: string;
@@ -30,7 +31,7 @@ const BlogListItems = ({ data }: BlogList) => {
         </p>
         <Button
           className="text-black px-3 gap-1 w-[120px] text-base bg-transparent border-2 primary-border rounded-full hover:bg-primary-bg hover:text-white"
-          onClick={() => navigate("/blogDetails")}
+          onClick={() => navigate(`/blogDetails/${data.id}`)}
         >
           Read More <ChevronRight width={18} />
         </Button>

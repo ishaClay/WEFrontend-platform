@@ -44,7 +44,7 @@ const MyCourses = () => {
     },
   ];
   return (
-    <div className="mb-8">
+    <div className="mb-8 border sm:border-[#D9D9D9] border-transparent rounded-xl sm:p-5">
       <h5 className="sm:text-base text-lg text-black font-droid pb-4 sm:font-medium font-bold">
         My Courses
       </h5>

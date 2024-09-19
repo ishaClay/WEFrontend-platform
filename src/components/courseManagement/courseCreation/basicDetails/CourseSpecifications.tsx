@@ -78,7 +78,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
 
   const { data: nfql } = useQuery<NfqlLevelResponse>({
     queryKey: ["nfqllevel"],
-    queryFn: () => fetchNfqlLevel(),
+    queryFn: () => fetchNfqlLevel(5),
   });
 
   const { data: getSingleCourse, isFetching: getSingleCourseFetching } =

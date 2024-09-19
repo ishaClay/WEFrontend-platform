@@ -198,7 +198,7 @@ function App() {
         <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
-        <Route path="/blogDetails" element={<BlogDetailsPage />} />
+        <Route path="/blogDetails/:id" element={<BlogDetailsPage />} />
         <Route path="/termsofservices" element={<TermsOfServices />} />
 
         <Route path="/reset-password" element={<ChangePasswordPage />} />

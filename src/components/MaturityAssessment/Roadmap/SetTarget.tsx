@@ -6,12 +6,10 @@ import Loader from "@/components/comman/Loader";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
-import { fetchMaturityPillar } from "@/services/apiServices/pillar";
 import {
-  AllActionDataPillerWise,
   AllActionDataPillerWiseResult,
 } from "@/types/MaturityLavel";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, useEffect, useMemo, useState } from "react";
 import PillerCard from "./PillerCard";
 
@@ -19,15 +17,19 @@ const SetTarget = ({
   setStep,
   setIsEdit,
   selectAssessment = "1",
+  maturitypillar,
+  isMaturitypillarLoading
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
   selectAssessment: string;
+  maturitypillar: AllActionDataPillerWiseResult[];
+  isMaturitypillarLoading: boolean
 }) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const pillars = useAppSelector((state) => state.pillar?.maturitypillar);
-  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID =
     userData?.query?.role === "4"
@@ -43,12 +45,12 @@ const SetTarget = ({
   >([]);
   const [actionItemsList, setActionItemsList] = useState<boolean>(true);
 
-  const { data: maturitypillar, isFetching } =
-    useQuery<AllActionDataPillerWise>({
-      queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
-      queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
-      enabled: !!selectAssessment,
-    });
+  // const { data: maturitypillar, isFetching } =
+  //   useQuery<AllActionDataPillerWise>({
+  //     queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+  //     queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
+  //     enabled: !!selectAssessment,
+  //   });
   const path = 5 + 1;
   const { mutate: EnumUpadate } = useMutation({
     mutationFn: () => enumUpadate({ path: path.toString() }, userID),
@@ -76,22 +78,20 @@ const SetTarget = ({
   }, [pillars, pillarChecked]);
 
   useEffect(() => {
-    if (maturitypillar?.data && maturitypillar?.data?.length > 0) {
-      dispatch(setMaturitypillar(maturitypillar?.data));
-      setCheckedStates(maturitypillar?.data);
+    if (maturitypillar && maturitypillar?.length > 0) {
+      dispatch(setMaturitypillar(maturitypillar));
+      setCheckedStates(maturitypillar);
     }
-  }, [dispatch, maturitypillar?.data]);
+  }, [dispatch, maturitypillar]);
 
   const handleSelect = () => {
     EnumUpadate();
   };
 
-  console.log("isLoading", isFetching);
-
   return (
     <div>
       <div className="h-full w-full max-w-full mx-auto">
-        {isFetching ? (
+        {isMaturitypillarLoading ? (
           <Loader className="w-8 h-8" />
         ) : (
           checkedStates &&

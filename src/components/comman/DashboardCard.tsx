@@ -26,10 +26,10 @@ const DashboardCard = ({
         </span>
       ) : (
         <>
-          <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-            <img src={icon} alt="" />
+          <div className="bg-[#F5F7FF] xl:w-[74px] w-[64px] xl:h-[74px] h-[64px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+            <img src={icon} alt="" className="xl:w-[44px] w-[34px]" />
           </div>
-          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
+          <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-xl xl:leading-10 leading-8 font-bold">
             {value}
           </h2>
           <p className="text-base text-black font-droid text-center">{title}</p>
