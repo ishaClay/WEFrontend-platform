@@ -15,7 +15,7 @@ import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLev
 import { UserRole } from "@/types/UserRole";
 import { MaturityAssessmentTabs } from "@/types/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { Dispatch, SetStateAction, useEffect, useMemo } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
 
 type AssessmentResultProps = {
