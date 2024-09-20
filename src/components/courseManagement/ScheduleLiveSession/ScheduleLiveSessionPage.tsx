@@ -32,7 +32,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Loader2, MoveLeft } from "lucide-react";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
@@ -231,6 +231,23 @@ const ScheduleLiveSessionPage = () => {
       queryFn: () => getSession(+watch("selectCohort")),
       enabled: !!watch("selectCohort"),
     });
+  console.log(
+    "🚀 ~ ScheduleLiveSessionPage ~ watch('selectCohort'):",
+    watch("selectCohort")
+  );
+
+  const cohortStartDate = useMemo(() => {
+    if (watch("selectCohort")) {
+      const findCohort = getCohortData?.data?.find(
+        (item) => +item?.id === +watch("selectCohort")
+      );
+      // @ts-ignore
+      const { month, date, year } = findCohort?.slotStartDate;
+      const dateNew = new Date(`${year}-${month}-${date}`);
+      return dateNew || new Date();
+    }
+  }, [watch("selectCohort")]);
+  console.log("🚀 ~ cohortStartDate ~ cohortStartDate:", cohortStartDate);
 
   const cohortOption = getCohortData?.data?.map((item) => {
     const { month, date, year } = item?.slotStartDate;
@@ -554,7 +571,11 @@ const ScheduleLiveSessionPage = () => {
                   placeholder="Enter Date"
                   className="block placeholder:text-[#A3A3A3] text-base font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                   type="date"
-                  min={new Date().toISOString().split("T")[0]}
+                  min={
+                    // @ts-ignore
+                    new Date(cohortStartDate).toISOString().split("T")[0] ||
+                    new Date().toISOString().split("T")[0]
+                  }
                   {...register("sessionDate")}
                 />
                 {errors.sessionDate && (

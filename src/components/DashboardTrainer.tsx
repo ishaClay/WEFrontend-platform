@@ -5,6 +5,8 @@ import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
 
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
+import FeedbackIcon from "@/assets/svgs/feedbackStar.svg";
+import { QUERY_KEYS } from "@/lib/constants";
 import {
   fetchCourseOverview,
   fetchEnrollmentCounts,
@@ -12,6 +14,7 @@ import {
   fetchSupportTicketsCounts,
   fetchTrainerCounts,
 } from "@/services/apiServices/dashboard";
+import { DashBoardCardItem, DashboardFilterType } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -28,6 +31,7 @@ import {
 } from "chart.js";
 import { Loader2 } from "lucide-react";
 import * as XLSX from "xlsx";
+import DashboardCardWithDropdown from "./comman/DashboardCardWithDropdown";
 import { DataTable } from "./comman/DataTable";
 import { Button } from "./ui/button";
 import {
@@ -37,10 +41,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import DashboardCardWithDropdown from "./comman/DashboardCardWithDropdown";
-import { QUERY_KEYS } from "@/lib/constants";
-import { DashBoardCardItem, DashboardFilterType } from "@/types/common";
-import FeedbackIcon from "@/assets/svgs/feedbackStar.svg";
 
 Chart.register(
   CategoryScale,
@@ -461,7 +461,7 @@ const DashboardTrainer = () => {
                 type="button"
                 onClick={handleExport}
                 className="bg-[#00778B] font-droid h-8"
-                disabled={isLoading}
+                // disabled={isLoading}
               >
                 Export
               </Button>
