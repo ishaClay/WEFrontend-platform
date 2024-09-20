@@ -1,9 +1,9 @@
 import Companies from "@/assets/images/companies.svg";
+import Ellipse_two from "@/assets/images/Ellipse2.png";
+import Ellipse_three from "@/assets/images/Ellipse3.png";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
-import Ellipse_two from "@/assets/images/Ellipse2.png";
-import Ellipse_three from "@/assets/images/Ellipse3.png";
 
 import { DataTable } from "@/components/comman/DataTable";
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
@@ -21,12 +21,17 @@ import {
   LinearScale,
   PointElement,
   TimeScale,
-  Title
+  Title,
 } from "chart.js";
 import { Loader2 } from "lucide-react";
 import CustomCarousel from "./comman/CustomCarousel";
 import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 Chart.register(
   CategoryScale,
@@ -36,7 +41,7 @@ Chart.register(
   LineElement,
   Title,
   TimeScale,
-  Legend,
+  Legend
 );
 
 const employeeData = [
@@ -137,12 +142,22 @@ const DashboardTrainee = () => {
         );
       },
       cell: ({ row }) => {
-        const startDate = row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate;
-        console.log("rowrowrowrow", row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate);
-        
+        const startDate =
+          row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate;
+        console.log(
+          "rowrowrowrow",
+          row?.original?.currentVersion?.cohortGroup[0]?.slotStartDate
+        );
+
         return (
           <h6 className="text-xs font-droid text-black">
-            {startDate ? <>{startDate?.date}-{startDate?.month}-{startDate?.year}</> : "-"}
+            {startDate ? (
+              <>
+                {startDate?.date}-{startDate?.month}-{startDate?.year}
+              </>
+            ) : (
+              "-"
+            )}
           </h6>
         );
       },
@@ -300,49 +315,52 @@ const DashboardTrainee = () => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-          <div
-            className={cn(
-              "col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl relative",
-              className
-            )}
-          >
-            {isLoading ? (
-              <span className="flex justify-center py-[68px]">
-                <Loader2 className="w-6 h-6 animate-spin" />
-              </span>
-            ) : (
-              <>
-                <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
-                  <img src={icon} alt="" />
-                </div>
-                <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
-                  {value}
-                </h2>
-                <p className="text-base text-black font-droid text-center">
-                  {title}
-                </p>
-                <img
-                  src={Ellipse_two}
-                  alt="ellipse"
-                  className="absolute top-0 right-0 sm:block hidden"
-                />
-                <img
-                  src={Ellipse_three}
-                  alt="ellipse"
-                  className="absolute top-0 right-0 sm:block hidden"
-                />
-              </>
-            )}
-          </div>
-        </TooltipTrigger>
-        <TooltipContent side="bottom">
+            <div
+              className={cn(
+                "col-span-1 xl:p-5 p-3 bg-[#FFFFFF] rounded-xl relative",
+                className
+              )}
+            >
+              {isLoading ? (
+                <span className="flex justify-center py-[68px]">
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                </span>
+              ) : (
+                <>
+                  <div className="bg-[#F5F7FF] w-[74px] h-[74px] rounded-full flex items-center justify-center mx-auto xl:mb-3 mb-2">
+                    <img src={icon} alt="" />
+                  </div>
+                  <h2 className="xl:pb-2.5 pb-1 xl:text-[32px] text-center text-2xl xl:leading-10 leading-8 font-bold">
+                    {value}
+                  </h2>
+                  <p className="text-base text-black font-droid text-center">
+                    {title}
+                  </p>
+                  <img
+                    src={Ellipse_two}
+                    alt="ellipse"
+                    className="absolute top-0 right-0 sm:block hidden"
+                  />
+                  <img
+                    src={Ellipse_three}
+                    alt="ellipse"
+                    className="absolute top-0 right-0 sm:block hidden"
+                  />
+                </>
+              )}
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
             <p>{helptext}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );
   };
-console.log("smeDashboardData?.trainerUpcommingCourse", smeDashboardData?.trainerUpcommingCourse);
+  console.log(
+    "smeDashboardData?.trainerUpcommingCourse",
+    smeDashboardData?.trainerUpcommingCourse
+  );
 
   return (
     <div className="rounded-xl">
@@ -352,14 +370,14 @@ console.log("smeDashboardData?.trainerUpcommingCourse", smeDashboardData?.traine
           icon={Trainers}
           value={smeDashboardData?.trainerCourseCount || 0}
           title="Assigned Courses"
-          helptext="Total Assigned Courses"
+          helptext="Total assigned courses"
         />
         <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
           icon={Total_courses}
           value={smeDashboardData?.discussionForumActivity?.posts || 0}
           title="Posts"
-          helptext="Number of posts on Discussion Forum"
+          helptext="Number of posts on discussion forum"
         />
         <DashboardTotalListCard
           isLoading={isSmeDashboardPending}
@@ -373,7 +391,7 @@ console.log("smeDashboardData?.trainerUpcommingCourse", smeDashboardData?.traine
           icon={Companies}
           value={smeDashboardData?.discussionForumActivity?.activeUsers || 0}
           title="Active Users"
-          helptext="Number of Active Users"
+          helptext="Number of active users"
         />
       </div>
 

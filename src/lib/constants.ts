@@ -119,6 +119,10 @@ export const QUERY_KEYS = {
   fetchTrainerByEmailType: "fetchTrainerByEmailType",
   topCourses: "topCourses",
   courseCompletion: "courseCompletion",
+  trainerCourseOverview: "trainerCourseOverview",
+  trainerSupportTicketsDashboard: "trainerSupportTicketsDashboard",
+  trainerEnrollmentRequest: "trainerEnrollmentRequest",
+  trainerCountDashboard: "trainerCountDashboard",
 };
 
 export const urlRegex =

@@ -5,7 +5,13 @@ import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
 
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
-import { getTrainerData } from "@/services/apiServices/dashboard";
+import {
+  fetchCourseOverview,
+  fetchEnrollmentCounts,
+  fetchSupportTicketsCounts,
+  fetchTrainerCounts,
+  getTrainerData,
+} from "@/services/apiServices/dashboard";
 import { TrainerEnrollDashboardResponse } from "@/types/dashboard";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
@@ -22,9 +28,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Loader2 } from "lucide-react";
-import moment from "moment";
 import * as XLSX from "xlsx";
-import DashboardCard from "./comman/DashboardCard";
 import { DataTable } from "./comman/DataTable";
 import { Button } from "./ui/button";
 import {
@@ -34,6 +38,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import DashboardCardWithDropdown from "./comman/DashboardCardWithDropdown";
+import { QUERY_KEYS } from "@/lib/constants";
+import { DashBoardCardItem, DashboardFilterType } from "@/types/common";
+import FeedbackIcon from "@/assets/svgs/feedbackStar.svg";
 
 Chart.register(
   CategoryScale,
@@ -50,6 +58,14 @@ Chart.register(
 const DashboardTrainer = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [contentType, setContentType] = useState("today");
+  const [courseFilter, setCourseFilter] =
+    useState<DashboardFilterType>("today");
+  const [supportTicketFilter, setSupportTicketFilter] =
+    useState<DashboardFilterType>("today");
+  const [trainerCountFilter, setTrainerCountFilter] =
+    useState<DashboardFilterType>("today");
+  const [enrollmentRequestFilter, setEnrollmentRequestFilter] =
+    useState<DashboardFilterType>("today");
 
   const { data: smeDashboardData, isLoading } =
     useQuery<TrainerEnrollDashboardResponse>({
@@ -61,13 +77,60 @@ const DashboardTrainer = () => {
         }),
     });
 
+  const { data: courseOverviewData, isFetching: fetchingCourseOverview } =
+    useQuery({
+      queryKey: [
+        QUERY_KEYS.trainerCourseOverview,
+        { courseFilter, userid: userData?.query?.detailsid },
+      ],
+      queryFn: () =>
+        fetchCourseOverview(userData?.query?.detailsid, courseFilter),
+    });
+
+  const { data: enrollmentRequestData, isFetching: fetchingEnrollmentRequest } =
+    useQuery({
+      queryKey: [
+        QUERY_KEYS.trainerEnrollmentRequest,
+        { enrollmentRequestFilter, userid: userData?.query?.detailsid },
+      ],
+      queryFn: () =>
+        fetchEnrollmentCounts(
+          userData?.query?.detailsid,
+          enrollmentRequestFilter
+        ),
+    });
+
+  const { data: supportTicketsData, isFetching: fetchingSupportTickets } =
+    useQuery({
+      queryKey: [
+        QUERY_KEYS.trainerSupportTicketsDashboard,
+        { supportTicketFilter, userid: userData?.query?.detailsid },
+      ],
+      queryFn: () =>
+        fetchSupportTicketsCounts(
+          userData?.query?.detailsid,
+          supportTicketFilter
+        ),
+    });
+
+  const { data: trainerCountData, isFetching: fetchingTrainerCount } = useQuery(
+    {
+      queryKey: [
+        QUERY_KEYS.trainerCountDashboard,
+        { trainerCountFilter, userid: userData?.query?.detailsid },
+      ],
+      queryFn: () =>
+        fetchTrainerCounts(userData?.query?.detailsid, trainerCountFilter),
+    }
+  );
+
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "ID",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            ID
+              #
           </h5>
         );
       },
@@ -103,11 +166,11 @@ const DashboardTrainer = () => {
       },
     },
     {
-      accessorKey: "CourseName",
+      accessorKey: "enrolled_companies",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            Enroll Company
+            Enrolled Companies
           </h5>
         );
       },
@@ -115,6 +178,26 @@ const DashboardTrainer = () => {
         return (
           <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.enrolledCompanies?.length}
+          </h6>
+        );
+      },
+      meta: {
+        className: "py-[15px]",
+      },
+    },
+    {
+      accessorKey: "enrolled_employees",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
+            Enrolled Employees
+          </h5>
+        );
+      },
+      cell: ({ row }) => {        
+        return (
+          <h6 className="text-xs font-droid text-black">
+            {row.original?.course?.duration}
           </h6>
         );
       },
@@ -142,66 +225,37 @@ const DashboardTrainer = () => {
         className: "py-[15px]",
       },
     },
-    {
-      accessorKey: "status",
-      header: () => {
-        return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            Status
-          </h5>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <h6 className="text-xs font-droid text-black">
-            {row.original?.course?.status}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
-      },
-    },
   ];
 
-  console.log("smeDashboardData", smeDashboardData);
+  // const openSupportTicket =
+  //   smeDashboardData?.data?.supportTicketsCount?.open &&
+  //   Object.values(smeDashboardData?.data?.supportTicketsCount?.open).reduce(
+  //     // @ts-ignore
+  //     (a: number, b: number) => a + b,
+  //     0
+  //   );
 
-  const openSupportTicket =
-    smeDashboardData?.data?.supportTicketsCount?.open &&
-    Object.values(smeDashboardData?.data?.supportTicketsCount?.open).reduce(
-      // @ts-ignore
-      (a: number, b: number) => a + b,
-      0
-    );
-
-  const resolveSupportTicket =
-    smeDashboardData?.data?.supportTicketsCount?.resolved &&
-    Object.values(smeDashboardData?.data?.supportTicketsCount?.resolved).reduce(
-      // @ts-ignore
-      (a: number, b: number) => a + b,
-      0
-    );
+  // const resolveSupportTicket =
+  //   smeDashboardData?.data?.supportTicketsCount?.resolved &&
+  //   Object.values(smeDashboardData?.data?.supportTicketsCount?.resolved).reduce(
+  //     // @ts-ignore
+  //     (a: number, b: number) => a + b,
+  //     0
+  //   );
 
   const handleExport = () => {
     const formattedData: any =
       smeDashboardData?.data?.enrollmentsRequestsFigures?.map((item: any) => {
         const { enrolledCompanies, ...rest } = item;
         return {
-          ...rest?.course,
-          EnrolledCompanies: enrolledCompanies!
+          "#": rest?.course?.id,
+          "Course Name": rest?.course?.title,
+          "Enrolled Company": enrolledCompanies!
             .map((company: any) => company.name)
             .join(", "),
-          description: rest?.course?.description
-            ?.replace(/<\/?[^>]+(>|$)/g, "")
-            ?.replace(/\s+/g, " ")
-            ?.trim(),
-          keys: rest?.course?.keys
-            ?.replace(/<\/?[^>]+(>|$)/g, "")
-            ?.replace(/\s+/g, " ")
-            ?.trim(),
-          publishDate: moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
-          createdAt: moment(rest?.course?.createdAt).format("DD-MM-YYYY"),
-          updatedAt: moment(rest?.course?.updatedAt).format("DD-MM-YYYY"),
+          "Enrolled Delegates": "-",
+          "Start Date": "-"
+          // moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
         };
       });
 
@@ -213,6 +267,99 @@ const DashboardTrainer = () => {
     // Generate buffer and download
     XLSX.writeFile(workbook, "courses_data.xlsx");
   };
+
+  const courseOverviewItems: DashBoardCardItem[] = [
+    {
+      icon: Trainers,
+      title: "Published courses",
+      value: courseOverviewData?.data?.publishedCoursesCount || 0,
+    },
+    {
+      icon: Trainers,
+      title: "Recently updated courses",
+      value: courseOverviewData?.data?.recentlyUpdatedCourse || 0,
+    },
+    {
+      icon: FeedbackIcon,
+      title: "Courses feedback",
+      value: courseOverviewData?.data?.courseFeedbacksCount || 0,
+    },
+  ];
+
+  const enrollmentsItems: DashBoardCardItem[] = [
+    {
+      icon: Total_courses,
+      title: "Total",
+      value: enrollmentRequestData?.data?.total || 0,
+    },
+    {
+      icon: Companies,
+      title: "Approved",
+      value: enrollmentRequestData?.data?.approvalRequests || 0,
+    },
+    {
+      icon: Companies,
+      title: "Rejected",
+      value: enrollmentRequestData?.data?.rejectRequests || 0,
+    },
+    {
+      icon: Companies,
+      title: "Pending",
+      value: enrollmentRequestData?.data?.pendingRequest || 0,
+    },
+  ];
+
+  const trainerCountItems: DashBoardCardItem[] = [
+    {
+      icon: Companies,
+      title: "Total active trainer",
+      value: trainerCountData?.data?.trainersCount || 0,
+    },
+    {
+      icon: FeedbackIcon,
+      title: "Courses feedback",
+      value: trainerCountData?.data?.courseFeedBack || 0,
+    },
+  ];
+
+  const supportTicketItems: DashBoardCardItem[] = [
+    {
+      icon: Total_courses,
+      title: "Total",
+      value: supportTicketsData?.data?.supportTicketsCount?.total
+        ? supportTicketsData?.data?.supportTicketsCount?.total?.high +
+          supportTicketsData?.data?.supportTicketsCount?.total?.low +
+          supportTicketsData?.data?.supportTicketsCount?.total?.medium
+        : 0,
+    },
+    {
+      icon: Companies,
+      title: "Open",
+      value: supportTicketsData?.data?.supportTicketsCount?.open
+        ? supportTicketsData?.data?.supportTicketsCount?.open?.high +
+          supportTicketsData?.data?.supportTicketsCount?.open?.low +
+          supportTicketsData?.data?.supportTicketsCount?.open?.medium
+        : 0,
+    },
+    {
+      icon: Companies,
+      title: "Resolved",
+      value: supportTicketsData?.data?.supportTicketsCount?.resolved
+        ? supportTicketsData?.data?.supportTicketsCount?.resolved?.high +
+          supportTicketsData?.data?.supportTicketsCount?.resolved?.low +
+          supportTicketsData?.data?.supportTicketsCount?.resolved?.medium
+        : 0,
+    },
+    {
+      icon: Companies,
+      title: "Pending",
+      value: supportTicketsData?.data?.supportTicketsCount?.inProcess
+        ? supportTicketsData?.data?.supportTicketsCount?.inProcess?.high +
+          supportTicketsData?.data?.supportTicketsCount?.inProcess?.low +
+          supportTicketsData?.data?.supportTicketsCount?.inProcess?.medium
+        : 0,
+    },
+  ];
 
   return (
     <div className="rounded-xl">
@@ -228,37 +375,63 @@ const DashboardTrainer = () => {
           </SelectContent>
         </Select>
       </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Course overview
-      </h3>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          value={smeDashboardData?.data?.publishedCoursesCount || 0}
-          title="Total published courses"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          value={smeDashboardData?.data?.courseContentApprovalRequest || 0}
-          title="Total recently updated courses"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Companies}
-          value={smeDashboardData?.data?.courseFeedbacksCount?.toFixed(2) || 0}
-          title="Courses feedback"
-        />
+      <div className="flex items-center flex-wrap sm:flex-nowrap gap-5 mb-10">
+        <div className="w-full">
+          <h3 className="text-[22px] font-droid font-[500] mb-2">
+            Course overview
+          </h3>
+          <DashboardCardWithDropdown
+            isLoading={fetchingCourseOverview}
+            value={courseFilter}
+            items={courseOverviewItems}
+            onChangeSelect={(e) => setCourseFilter(e)}
+          />
+        </div>
+        <div className="w-full">
+          <h3 className="text-[22px] font-droid font-[500] mb-2">
+            Enrollments
+          </h3>
+          <DashboardCardWithDropdown
+            isLoading={fetchingEnrollmentRequest}
+            value={enrollmentRequestFilter}
+            items={enrollmentsItems}
+            onChangeSelect={(e) => setEnrollmentRequestFilter(e)}
+            className="w-full"
+          />
+        </div>
+      </div>
+      <div className="flex items-center flex-wrap sm:flex-nowrap gap-5 mb-10">
+        <div className="w-full">
+          <h3 className="text-[22px] font-droid font-[500] mb-2">Trainers</h3>
+          <DashboardCardWithDropdown
+            isLoading={fetchingTrainerCount}
+            value={trainerCountFilter}
+            items={trainerCountItems}
+            onChangeSelect={(e) => setTrainerCountFilter(e)}
+          />
+        </div>
+        <div className="w-full">
+          <h3 className="text-[22px] font-droid font-[500] mb-2">
+            Support tickets
+          </h3>
+          <DashboardCardWithDropdown
+            isLoading={fetchingSupportTickets}
+            value={supportTicketFilter}
+            items={supportTicketItems}
+            onChangeSelect={(e) => setSupportTicketFilter(e)}
+            className="w-full"
+          />
+        </div>
       </div>
 
-      <h3 className="text-[22px] font-droid font-[500] mb-2">Enrollments</h3>
+      {/* <h3 className="text-[22px] font-droid font-[500] mb-2">Trainers</h3>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
         <DashboardCard
           isLoading={isLoading}
           icon={Total_courses}
           value={
-            smeDashboardData?.data?.trainingProviderEnrollmentRequests || 0
+            smeDashboardData?.data?.trainingProviderEnrollmentRequests?.total ||
+            0
           }
           title="Total enrollment requests"
         />
@@ -310,21 +483,33 @@ const DashboardTrainer = () => {
           value={resolveSupportTicket || 0}
           title="Total resolved support tickets"
         />
-      </div>
+      </div> */}
       <div className="grid xl:grid-cols-1 grid-cols-1 gap-5">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-droid font-bold">
-              Enrollment Request Figures
+              Course Enrollment Figures
             </h5>
-            <Button
-              type="button"
-              onClick={handleExport}
-              className="bg-[#00778B] font-droid h-8"
-              disabled={isLoading}
-            >
-              Export
-            </Button>
+            <div className="flex items-center gap-5">
+              <Select value={contentType} onValueChange={(e) => setContentType(e)}>
+                <SelectTrigger className="border sm:w-[264px] w-[200px] h-[42px] rounded mr-4 sm:my-0 my-3">
+                  <SelectValue placeholder="Pending" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="today">Today</SelectItem>
+                  <SelectItem value="lastWeek">Last Week</SelectItem>
+                  <SelectItem value="lastMonth">Last Month</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                type="button"
+                onClick={handleExport}
+                className="bg-[#00778B] font-droid h-8"
+                disabled={isLoading}
+              >
+                Export
+              </Button>
+            </div>
           </div>
 
           <div className="">

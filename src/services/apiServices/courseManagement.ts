@@ -216,6 +216,13 @@ export const createNewVersion = async (data: { courseId: number, version: number
   return res.data;
 };
 
+export const courseMinorendit = async (courseId: number) => {
+  const url = `api/v1/course/course-minorendit/${courseId}`;
+  const method = "put";
+  const res = await api({ url, method });
+  return res.data;
+};
+
 export const createInquiry = async (data: {
   courseId: number;
   userId: number;

@@ -21,6 +21,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
+  courseMinorendit,
   createNewVersion,
   deleteCourse,
   publishCourse,
@@ -193,6 +194,11 @@ const GridView = ({
       },
     });
 
+  const { mutate: courseMinorenditFun } =
+    useMutation({
+      mutationFn: courseMinorendit,
+    });
+
   const handleChangeVersion = (versionId: string, item: AllCoursesResult) => {
     const payload = {
       mainCourseId: item?.currentVersion?.mainCourse?.id,
@@ -255,6 +261,7 @@ const GridView = ({
       item?.status === "READYTOPUBLISH"
     ) {
       if (type === "editminor" && item?.status !== "READYTOPUBLISH") {
+        courseMinorenditFun(item?.id)
         if (+item?.step === 5) {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${

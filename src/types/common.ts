@@ -8,3 +8,11 @@ export type MyActionDataType = {
   title: number;
   subTitle: string;
 };
+
+export type DashboardFilterType = "week" | "month" | "today";
+
+export type DashBoardCardItem = {
+  title: string;
+  value: number | string;
+  icon: string;
+};

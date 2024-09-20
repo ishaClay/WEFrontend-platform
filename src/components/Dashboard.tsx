@@ -2,7 +2,7 @@
 import Companies from "@/assets/images/companies.svg";
 import Total_courses from "@/assets/images/total_courses.svg";
 import Trainers from "@/assets/images/trainers.svg";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 
 import { DataTable } from "@/components/comman/DataTable";
@@ -48,6 +48,18 @@ import CustomCarousel from "./comman/CustomCarousel";
 import DashboardCard from "./comman/DashboardCard";
 import NoDataText from "./comman/NoDataText";
 import { Progress } from "./ui/progress";
+import { Link } from "react-router-dom";
+import Ellipse_one from "@/assets/images/Ellipse1.png";
+import Ellipse_two from "@/assets/images/Ellipse2.png";
+import Ellipse_three from "@/assets/images/Ellipse3.png";
+import Ellipse_four from "@/assets/images/Ellipse4.png";
+import Ellipse_five from "@/assets/images/Ellipse5.png";
+import Arrow_Right from "@/assets/images/Arrow_Right.png";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import { assessmentQuestionScore, getCheckedMeasuresByAssessment } from "@/services/apiServices/pillar";
+import { getAllassessment } from "@/services/apiServices/assessment";
+import moment from "moment";
+import Loader from "./comman/Loader";
 
 Chart.register(
   CategoryScale,
@@ -65,7 +77,15 @@ Chart.register(
 const Dashboard = () => {
   const [page, setPage] = useState(0);
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const { clientId } = useAppSelector((state) => state.user);
+  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const userID =
+    userData?.query?.role === "4"
+      ? userData?.company?.userDetails?.id
+      : UserId
+      ? +UserId
+      : userData?.query
+      ? userData?.query?.id
+      : userData?.id;
   console.log("+++", page);
   const column: ColumnDef<any>[] = [
     {
@@ -434,14 +454,189 @@ const Dashboard = () => {
     datasets: months.map((label) => fetchCourseCompletionData?.data[label]),
   };
 
+  const { data: allassessmant } = useQuery({
+    queryKey: [QUERY_KEYS.totalAssessment],
+    queryFn: () => getAllassessment(userID, clientId),
+  });
+
+  const score = (
+    (+allassessmant?.data?.data?.avTotalpoints /
+      +allassessmant?.data?.data?.avTotalmaxpoint) *
+    100
+  ).toFixed(2);
+
+  const findMaturityLevel = (score: number, maturityLevel: any) => {
+    for (const level of maturityLevel) {
+      if (score >= level.rangeStart && score <= level.rangeEnd) {
+        return level;
+      }
+    }
+    return null;
+  };
+
+  const { data: fetchClientmaturitylevel } = useQuery({
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+    queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+  });
+
+  const setScore = isNaN(Number(score)) ? 0 : score;
+  const currentLavel =
+    fetchClientmaturitylevel &&
+    findMaturityLevel(Number(setScore), fetchClientmaturitylevel?.data);
+
+  const maturityLevelData = {
+    labels: ["Introductory", "Intermediate", "Advanced"],
+    datasets: [
+      {
+        label: "Poll",
+        data: [setScore, 100 - Number(setScore)],
+        backgroundColor: [currentLavel?.color, "#D1D1D1"],
+        borderColor: [currentLavel?.color, "#D1D1D1"],
+        hoverColor: [currentLavel?.color, "#D1D1D1"],
+      },
+    ],
+  };
+
+  const getNextLevel = (currentLevel:string) => {
+    const maturityLevel:any = fetchClientmaturitylevel?.data?.map((item) => item?.maturityLevelName)
+    const currentIndex:any = maturityLevel?.indexOf(currentLevel);
+    if (currentIndex === -1) {
+        return "Level not found";
+    }
+    if (currentIndex < maturityLevel?.length - 1) {
+        return maturityLevel[currentIndex + 1];
+    } else {
+        return maturityLevel && maturityLevel[currentIndex];
+    }
+  };
+
+  // @ts-ignore
+  const { data: getCheckedmeasures, isFetching } = useQuery({
+    queryKey: [QUERY_KEYS.checkedMeasuresbyAssessment],
+    // @ts-ignore
+    queryFn: () =>
+      getCheckedMeasuresByAssessment({
+        userId: userID,
+        clientId,
+        assNumber: "1",
+      }),
+  });
+
+  // @ts-ignore
+  const pillarCompleted = useMemo(() => {
+    return getCheckedmeasures?.data?.data?.find(
+      (item: any) => +item?.progressPR === 100
+    );
+  }, [getCheckedmeasures]);
+
+  const { data: assessmentQuestionScoreLIST } = useQuery({
+    queryKey: [
+      QUERY_KEYS.assessmentQuestionScore,
+      { pillarCompleted: pillarCompleted?.id, userID, clientId },
+    ],
+    queryFn: () => assessmentQuestionScore(+userID, +clientId),
+  });
+  const assessmentQuestionScoreData = assessmentQuestionScoreLIST?.data;
+
   return (
     <div className="rounded-xl">
+      <div className="mb-5">
+        <div className="mb-2">
+          <h3 className="font-bold font-droid xl:text-[22px] text-[18px] inline-block relative">
+            Current Sustainability Level
+            {/* <div className="bg-[#75BD43] w-full h-[2px] absolute left-0 bottom-0"></div> */}
+          </h3>
+        </div>
+        <Link
+          to="/company/maturityAssessment"
+          className="relative sm:flex items-center gap-10 bg-white p-5 rounded-xl border border-[#D9D9D9]"
+        >
+          <div className="flex justify-center mb-5 sm:mb-0 sm:order-1 order-2">
+            <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
+              <Doughnut data={maturityLevelData} options={options} plugins={[textCenter]} />
+            </div>
+          </div>
+          <div className="w-full sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl sm:h-[200px] flex items-center relative overflow-hidden">
+            {!currentLavel ? <span className="w-full"><Loader /></span> : <div className="p-5">
+              <div className="flex relative lg:mt-0 sm:mb-7 mb-5">
+                <div className="flex flex-col">
+                  <Button
+                    className={`${
+                      currentLavel?.maturityLevelName === "Advanced"
+                        ? "bg-[#258483]"
+                        : currentLavel?.maturityLevelName === "Introductory"
+                        ? "bg-[#C92C35]"
+                        : "bg-[#FFD56A]"
+                    } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
+                  >
+                    {currentLavel?.maturityLevelName}
+                  </Button>
+                  <span className="mt-2 text-center text-sm">Current Level</span>
+                </div>
+                <div className="relative h-[1px] top-[15px] border border-dashed border-[#D9D9D9] xl:w-40 lg:w-24 w-full">
+                  <img
+                    src={Arrow_Right}
+                    alt="Arrow"
+                    className="absolute bottom-0 top-0 left-0 right-0 m-auto"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <Button
+                    className={`text-black sm:text-base text-xs rounded-full xl:px-4 xl:py-2 p-2.5 ${
+                      currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName) === "Advanced"
+                        ? "bg-[#258483]"
+                        : getNextLevel(currentLavel?.maturityLevelName) === "Introductory"
+                        ? "bg-[#C92C35]"
+                        : "bg-[#FFD56A]"
+                    } h-[30px]`}
+                  >
+                    {currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName)}
+                  </Button>
+                  <span className="mt-2 text-center text-sm">Desired Level</span>
+                </div>
+              </div>
+              <h2>Last Assessment Taken On: {assessmentQuestionScoreData ? moment(new Date(assessmentQuestionScoreData[assessmentQuestionScoreData?.length - 1]?.completedAssessmentDate || "-"))?.format("DD/MM/YYYY") : "-"}</h2>
+            </div>}
+            <img
+              src={Ellipse_one}
+              alt="ellipse"
+              className="absolute xl:right-[10%] right-[5%] bottom-0 m-auto sm:block hidden"
+            />
+            <img
+              src={Ellipse_two}
+              alt="ellipse"
+              className="absolute top-0 right-0 sm:block hidden"
+            />
+            <img
+              src={Ellipse_three}
+              alt="ellipse"
+              className="absolute top-0 right-0 sm:block hidden"
+            />
+            <img
+              src={Ellipse_four}
+              alt="ellipse"
+              className="absolute top-0 right-[20%] sm:block hidden"
+            />
+            <img
+              src={Ellipse_five}
+              alt="ellipse"
+              className="absolute bottom-0 right-[20%] sm:block hidden"
+            />
+            <img
+              src={Ellipse_five}
+              alt="ellipse"
+              className="absolute bottom-[-10px] right-[21%] sm:block hidden"
+            />
+          </div>
+        </Link>
+      </div>
+
       <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 xl:mb-6 mb-5">
         <div>
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
             Courses
           </h3>
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl xl:p-0 sm:py-2">
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl xl:p-0 sm:py-2 border-[#D9D9D9] border">
             <DashboardCard
               isLoading={smeLoading}
               icon={Trainers}
@@ -469,7 +664,7 @@ const Dashboard = () => {
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
             Support Tickets
           </h3>
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl">
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 xl:bg-white rounded-xl border-[#D9D9D9] border">
             <DashboardCard
               isLoading={smeLoading}
               icon={Trainers}
@@ -497,12 +692,12 @@ const Dashboard = () => {
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
             Overview of Employee Performance
           </h3>
-          <div className="grid lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-5 bg-[#FFFFFF] rounded-lg shadow-sm p-5">
+          <div className="grid lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-5 bg-[#FFFFFF] rounded-lg shadow-sm p-5 border-[#D9D9D9] border">
             <div className="w-60 text-center m-auto">
-              <p className="text-[16px] font-droid font-bold mb-4">
+              <p className="text-[16px] font-droid font-normal mb-4">
                 Course Completion Rate
               </p>
-              <div className="w-40 h-40 mt-0 relative mx-auto">
+              <div className="w-40 h-40 mt-0 relative mx-auto ">
                 {smeLoading3 ? (
                   <span className="flex justify-center items-center h-[160px]">
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -529,7 +724,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="w-60 text-center m-auto">
-              <p className="text-[16px] font-droid font-bold mb-4">
+              <p className="text-[16px] font-droid font-normal mb-4">
                 Employee Completion Rate
               </p>
               <div className="w-40 h-40 mt-0 relative mx-auto">
@@ -570,7 +765,7 @@ const Dashboard = () => {
           <h3 className="xl:text-[22px] text-[20px] font-droid font-[500] mb-2">
             Action items
           </h3>
-          <div className="xl:bg-white rounded-xl xl:h-[calc(100%-41px)]">
+          <div className="xl:bg-white rounded-xl xl:h-[calc(100%-41px)] border-[#D9D9D9] border">
             <div className="p-5 mb-5 xl:mb-0 bg-white rounded-xl xl:flex items-center">
               <h3 className="xl:text-[20px] text-[16px] font-droid font-[500] mb-2">
                 Roadmap completion
@@ -626,7 +821,7 @@ const Dashboard = () => {
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Ongoing Live Sessions
           </h3>
-          <div className="bg-white rounded-xl">
+          <div className="bg-white rounded-xl border-[#D9D9D9] border">
             {isLoading ? (
               <span className="py-14 flex justify-center">
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -647,7 +842,7 @@ const Dashboard = () => {
           <h3 className="text-[22px] font-droid font-[500] mb-2">
             Upcoming Live Sessions
           </h3>
-          <div className="bg-white rounded-xl">
+          <div className="bg-white rounded-xl border-[#D9D9D9] border">
             {isLoading ? (
               <span className="py-14 flex justify-center">
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -709,8 +904,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
-        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
+      <div className="grid xl:grid-cols-2 grid-cols-1 gap-5 ">
+        <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm border-[#D9D9D9] border">
           <div className="pt-6 px-4 pb-4">
             <div className="sm:flex block justify-between items-center">
               <h5 className="text-base font-droid font-bold sm:pb-0 pb-3">
