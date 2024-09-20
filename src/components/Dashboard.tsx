@@ -694,7 +694,7 @@ const Dashboard = () => {
           </h3>
           <div className="grid lg:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-5 bg-[#FFFFFF] rounded-lg shadow-sm p-5 border-[#D9D9D9] border">
             <div className="w-60 text-center m-auto">
-              <p className="text-[16px] font-droid font-bold mb-4">
+              <p className="text-[16px] font-droid font-normal mb-4">
                 Course Completion Rate
               </p>
               <div className="w-40 h-40 mt-0 relative mx-auto ">
@@ -724,7 +724,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="w-60 text-center m-auto">
-              <p className="text-[16px] font-droid font-bold mb-4">
+              <p className="text-[16px] font-droid font-normal mb-4">
                 Employee Completion Rate
               </p>
               <div className="w-40 h-40 mt-0 relative mx-auto">
