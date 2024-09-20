@@ -37,11 +37,13 @@ export const checkOTP = (data: {
 export const getCompanyDetailsById = async ({
   company_num,
   companyName,
+  clientId,
 }: {
   company_num: number;
   companyName: string;
+  clientId: string;
 }): Promise<CompanyResponse> => {
-  const url = `api/v1/thirdparty/getCompany?companyNumber=${company_num}&companyName=${companyName}`;
+  const url = `api/v1/thirdparty/getCompany?companyNumber=${company_num}&companyName=${companyName}&clientId=${clientId}`;
   const method = "post";
   const res = await api({ url, method, data: {} });
   return res.data;

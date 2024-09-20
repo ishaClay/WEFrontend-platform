@@ -123,6 +123,7 @@ export const QUERY_KEYS = {
   trainerSupportTicketsDashboard: "trainerSupportTicketsDashboard",
   trainerEnrollmentRequest: "trainerEnrollmentRequest",
   trainerCountDashboard: "trainerCountDashboard",
+  enrollmentFiguresDashboard: "enrollmentFiguresDashboard",
 };
 
 export const urlRegex =

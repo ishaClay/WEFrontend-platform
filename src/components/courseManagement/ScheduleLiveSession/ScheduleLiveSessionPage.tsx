@@ -254,9 +254,8 @@ const ScheduleLiveSessionPage = () => {
 
   useEffect(() => {
     const fetchLiveSessionData = fetchLiveSessionById?.data?.data;
-    console.log("fetchLiveSessionData", fetchLiveSessionData);
 
-    if (id !== undefined) {
+    if (id) {
       if (fetchLiveSessionData) {
         const {
           subtitle,
@@ -296,7 +295,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("zoomUrl", zoomApiBaseUrl || "");
       }
     }
-  }, [fetchLiveSessionById?.data?.data]);
+  }, [fetchLiveSessionById?.data?.data, id]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     if (watch("platform")) {
@@ -343,6 +342,20 @@ const ScheduleLiveSessionPage = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (getLiveSessionData?.data && selectLiveSession) {
+      const session = getLiveSessionData?.data?.find(
+        (item) => item.id?.toString() === selectLiveSession?.toString()
+      );
+      const htmlString = new DOMParser().parseFromString(
+        session?.information || "",
+        "text/html"
+      );
+      setValue("sessionSubtitle", session?.title || "");
+      setValue("sessionDescription", htmlString?.body?.innerText || "");
+    }
+  }, [selectLiveSession, getLiveSessionData?.data, setValue]);
 
   if (
     (fetchZoomSettingLoading ||
