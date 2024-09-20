@@ -2,6 +2,7 @@ import { DashboardFilterType } from "@/types/common";
 import api from "./api";
 import {
   EnrollmentCountResponse,
+  EnrollmentsRequestsFigureResponse,
   SupportTicketsCountResponse,
   TrainerCountResponse,
   TrainerCourseOverviewResponse,
@@ -125,6 +126,17 @@ export const fetchTrainerCounts = async (
   filter: DashboardFilterType
 ): Promise<TrainerCountResponse> => {
   const url = `api/v1/dashboard/get-trainer/${userID}?filter=${
+    filter === "today" ? "" : filter
+  }`;
+  const res = await api({ url });
+  return res.data;
+};
+
+export const fetchEnrollmentFigures = async (
+  userID: number,
+  filter: DashboardFilterType
+): Promise<EnrollmentsRequestsFigureResponse> => {
+  const url = `api/v1/dashboard/get-enrollment-figure/${userID}?filter=${
     filter === "today" ? "" : filter
   }`;
   const res = await api({ url });

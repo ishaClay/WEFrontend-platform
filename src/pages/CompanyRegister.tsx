@@ -57,6 +57,7 @@ interface DataEntity {
 function CompanyRegister() {
   const navigate = useNavigate();
   const UserId = useAppSelector((state) => state.user.UserId);
+  const clientId = useAppSelector((state) => state.user.clientId);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [companyData, setCompanyData] = useState<any | null>(null);
@@ -90,14 +91,17 @@ function CompanyRegister() {
     })
     .partial()
     .superRefine((data, ctx) => {
-      if (data.isRegister && !data.companyNumberId) {
+      if (
+        (data.isRegister || data.soleTrader === "No") &&
+        !data.companyNumberId
+      ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please verify company number",
           path: ["companyNumberId"],
         });
       }
-      if (data.isRegister && !data.name) {
+      if ((data.isRegister || data.soleTrader === "No") && !data.name) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please enter name",
@@ -105,7 +109,7 @@ function CompanyRegister() {
         });
       }
 
-      if (data.isRegister && !data.address) {
+      if ((data.isRegister || data.soleTrader === "No") && !data.address) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please enter address",
@@ -265,7 +269,11 @@ function CompanyRegister() {
   const handleVerifyId = () => {
     const companyName = watch("name");
     if (companyName && companyNumberId) {
-      mutate({ company_num: companyNumberId || 0, companyName: companyName });
+      mutate({
+        company_num: companyNumberId || 0,
+        companyName: companyName,
+        clientId,
+      });
     } else {
       toast({ variant: "destructive", title: "Please Enter Company Name" });
     }
@@ -580,7 +588,7 @@ function CompanyRegister() {
                     className="sm:w-[241px] w-full h-[46px]"
                     label="Email Address"
                     {...register("email")}
-                    // disabled
+                    disabled
                     isMendatory={true}
                   />
                   {errors.email && (

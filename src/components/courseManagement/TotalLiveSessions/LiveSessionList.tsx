@@ -3,7 +3,7 @@ import { ConfirmModal } from "@/components/comman/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { calculateEndTime } from "@/lib/utils";
+import { isSessionOngoingAtTime } from "@/lib/utils";
 import { deleteLiveSessions } from "@/services/apiServices/liveSession";
 import { AllLivesessions } from "@/types/liveSession";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -111,29 +111,17 @@ const LiveSessionList = ({ data }: LivesessionsListProps) => {
           </div>
         ) : (
           <div className="flex flex-wrap sm:gap-4 gap-3">
-            <Button
-              className={`bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]`}
-              onClick={() => {}}
-              disabled={
-                !moment().isBetween(
-                  moment(
-                    `${data.date} ${data.startTime} ${data.startAmPm}`,
-                    "YYYY-MM-DD hh:mm A"
-                  ),
-                  moment(
-                    `${data.date} ${calculateEndTime(
-                      data.startTime + " " + data.startAmPm,
-                      data?.sessionDuration?.toString()
-                    )} ${data.startAmPm}`,
-                    "YYYY-MM-DD hh:mm A"
-                  ),
-                  "minute",
-                  "[)"
-                )
-              }
+            <a
+              className={`bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 py-2 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B] rounded-md ${
+                !isSessionOngoingAtTime(data.startTime, data?.sessionDuration)
+                  ? "pointer-events-none opacity-70"
+                  : "pointer-events-auto opacity-100"
+              }`}
+              target="_blank"
+              href={data?.zoomApiBaseUrl}
             >
               Start
-            </Button>
+            </a>
             <Button
               disabled={!data.zoomApiBaseUrl}
               className="bg-transparent font-droid sm:text-base text-sm border border-[#606060] text-black px-5 sm:h-[42px] h-[38px] hover:bg-[#00778B] hover:text-white hover:border-[#00778B]"

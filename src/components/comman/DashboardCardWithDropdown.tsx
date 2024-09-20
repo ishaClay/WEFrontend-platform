@@ -17,11 +17,11 @@ const options = [
     value: "today",
   },
   {
-    label: "Weekly",
+    label: "Last week",
     value: "week",
   },
   {
-    label: "Monthly",
+    label: "Last Month",
     value: "month",
   },
 ];

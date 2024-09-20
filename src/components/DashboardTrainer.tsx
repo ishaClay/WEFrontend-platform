@@ -5,14 +5,16 @@ import Trainers from "@/assets/images/trainers.svg";
 import { useState } from "react";
 
 // import { getTraineeDashboardData } from "@/services/apiServices/dashboard";
+import FeedbackIcon from "@/assets/svgs/feedbackStar.svg";
+import { QUERY_KEYS } from "@/lib/constants";
 import {
   fetchCourseOverview,
   fetchEnrollmentCounts,
+  fetchEnrollmentFigures,
   fetchSupportTicketsCounts,
   fetchTrainerCounts,
-  getTrainerData,
 } from "@/services/apiServices/dashboard";
-import { TrainerEnrollDashboardResponse } from "@/types/dashboard";
+import { DashBoardCardItem, DashboardFilterType } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import {
@@ -29,6 +31,7 @@ import {
 } from "chart.js";
 import { Loader2 } from "lucide-react";
 import * as XLSX from "xlsx";
+import DashboardCardWithDropdown from "./comman/DashboardCardWithDropdown";
 import { DataTable } from "./comman/DataTable";
 import { Button } from "./ui/button";
 import {
@@ -38,10 +41,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import DashboardCardWithDropdown from "./comman/DashboardCardWithDropdown";
-import { QUERY_KEYS } from "@/lib/constants";
-import { DashBoardCardItem, DashboardFilterType } from "@/types/common";
-import FeedbackIcon from "@/assets/svgs/feedbackStar.svg";
 
 Chart.register(
   CategoryScale,
@@ -57,7 +56,6 @@ Chart.register(
 
 const DashboardTrainer = () => {
   const userData = JSON.parse(localStorage.getItem("user") as string);
-  const [contentType, setContentType] = useState("today");
   const [courseFilter, setCourseFilter] =
     useState<DashboardFilterType>("today");
   const [supportTicketFilter, setSupportTicketFilter] =
@@ -66,16 +64,8 @@ const DashboardTrainer = () => {
     useState<DashboardFilterType>("today");
   const [enrollmentRequestFilter, setEnrollmentRequestFilter] =
     useState<DashboardFilterType>("today");
-
-  const { data: smeDashboardData, isLoading } =
-    useQuery<TrainerEnrollDashboardResponse>({
-      queryKey: ["getTrainerDashboardData", { contentType }],
-      queryFn: () =>
-        getTrainerData({
-          userId: userData?.query?.detailsid,
-          contentType: contentType,
-        }),
-    });
+  const [enrollmentFiguresFilter, setEnrollmentFiguresFilter] =
+    useState<DashboardFilterType>("today");
 
   const { data: courseOverviewData, isFetching: fetchingCourseOverview } =
     useQuery({
@@ -124,13 +114,30 @@ const DashboardTrainer = () => {
     }
   );
 
+  const { data: enrollmentFiguresData, isFetching: fetchingEnrollmentFigures } =
+    useQuery({
+      queryKey: [
+        QUERY_KEYS.enrollmentFiguresDashboard,
+        { enrollmentFiguresFilter, userid: userData?.query?.detailsid },
+      ],
+      queryFn: () =>
+        fetchEnrollmentFigures(
+          userData?.query?.detailsid,
+          enrollmentFiguresFilter
+        ),
+    });
+  console.log(
+    "🚀 ~ DashboardTrainer ~ enrollmentFiguresData:",
+    enrollmentFiguresData
+  );
+
   const column: ColumnDef<any>[] = [
     {
       accessorKey: "ID",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-              #
+            #
           </h5>
         );
       },
@@ -194,10 +201,10 @@ const DashboardTrainer = () => {
           </h5>
         );
       },
-      cell: ({ row }) => {        
+      cell: ({ row }) => {
         return (
           <h6 className="text-xs font-droid text-black">
-            {row.original?.course?.duration}
+            {row.original?.enrolledEmployees?.length}
           </h6>
         );
       },
@@ -245,16 +252,20 @@ const DashboardTrainer = () => {
 
   const handleExport = () => {
     const formattedData: any =
-      smeDashboardData?.data?.enrollmentsRequestsFigures?.map((item: any) => {
+      enrollmentFiguresData?.data?.enrollmentsRequestsFigures?.map((item) => {
         const { enrolledCompanies, ...rest } = item;
+        const startDate =
+          item.course.courseEnroll?.[0]?.cohortGroup?.slotStartDate;
         return {
           "#": rest?.course?.id,
           "Course Name": rest?.course?.title,
           "Enrolled Company": enrolledCompanies!
             .map((company: any) => company.name)
             .join(", "),
-          "Enrolled Delegates": "-",
-          "Start Date": "-"
+          "Enrolled Delegates": item.enrolledEmployees?.length || "-",
+          "Start Date": startDate
+            ? `${startDate?.date}/${startDate?.month}/${startDate?.year}`
+            : "-",
           // moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
         };
       });
@@ -363,7 +374,7 @@ const DashboardTrainer = () => {
 
   return (
     <div className="rounded-xl">
-      <div className="mb-4 flex items-center justify-end">
+      {/* <div className="mb-4 flex items-center justify-end">
         <Select value={contentType} onValueChange={(e) => setContentType(e)}>
           <SelectTrigger className="border sm:w-[264px] w-[200px] h-[42px] rounded mr-4 sm:my-0 my-3">
             <SelectValue placeholder="Pending" />
@@ -374,7 +385,7 @@ const DashboardTrainer = () => {
             <SelectItem value="lastMonth">Last Month</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
       <div className="flex items-center flex-wrap sm:flex-nowrap gap-5 mb-10">
         <div className="w-full">
           <h3 className="text-[22px] font-droid font-[500] mb-2">
@@ -424,66 +435,6 @@ const DashboardTrainer = () => {
         </div>
       </div>
 
-      {/* <h3 className="text-[22px] font-droid font-[500] mb-2">Trainers</h3>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Total_courses}
-          value={
-            smeDashboardData?.data?.trainingProviderEnrollmentRequests?.total ||
-            0
-          }
-          title="Total enrollment requests"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Companies}
-          value={smeDashboardData?.data?.approvedEnrollmentRequests || 0}
-          title="Total approved enrollments"
-        />
-      </div>
-
-      <h3 className="text-[22px] font-droid font-[500] mb-2">Trainers</h3>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Companies}
-          value={smeDashboardData?.data?.trainersCount || 0}
-          title="Total active trainers"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Total_courses}
-          value={
-            smeDashboardData?.data?.trainerCompanyFeedbacksCount?.toFixed(2) ||
-            0
-          }
-          title="Trainers feedback"
-        />
-      </div>
-      <h3 className="text-[22px] font-droid font-[500] mb-2">
-        Support tickets
-      </h3>
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-10">
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Trainers}
-          value={openSupportTicket + resolveSupportTicket || 0}
-          title="Total support tickets"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Total_courses}
-          value={openSupportTicket || 0}
-          title="Total open support tickets"
-        />
-        <DashboardCard
-          isLoading={isLoading}
-          icon={Companies}
-          value={resolveSupportTicket || 0}
-          title="Total resolved support tickets"
-        />
-      </div> */}
       <div className="grid xl:grid-cols-1 grid-cols-1 gap-5">
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
@@ -491,21 +442,26 @@ const DashboardTrainer = () => {
               Course Enrollment Figures
             </h5>
             <div className="flex items-center gap-5">
-              <Select value={contentType} onValueChange={(e) => setContentType(e)}>
+              <Select
+                value={enrollmentFiguresFilter}
+                onValueChange={(e) =>
+                  setEnrollmentFiguresFilter(e as DashboardFilterType)
+                }
+              >
                 <SelectTrigger className="border sm:w-[264px] w-[200px] h-[42px] rounded mr-4 sm:my-0 my-3">
                   <SelectValue placeholder="Pending" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="today">Today</SelectItem>
-                  <SelectItem value="lastWeek">Last Week</SelectItem>
-                  <SelectItem value="lastMonth">Last Month</SelectItem>
+                  <SelectItem value="week">Last Week</SelectItem>
+                  <SelectItem value="month">Last Month</SelectItem>
                 </SelectContent>
               </Select>
               <Button
                 type="button"
                 onClick={handleExport}
                 className="bg-[#00778B] font-droid h-8"
-                disabled={isLoading}
+                // disabled={isLoading}
               >
                 Export
               </Button>
@@ -513,7 +469,7 @@ const DashboardTrainer = () => {
           </div>
 
           <div className="">
-            {isLoading ? (
+            {fetchingEnrollmentFigures ? (
               <span className="flex justify-center py-[68px]">
                 <Loader2 className="w-5 h-5 animate-spin" />
               </span>
@@ -522,7 +478,8 @@ const DashboardTrainer = () => {
                 <DataTable
                   columns={column}
                   data={
-                    smeDashboardData?.data?.enrollmentsRequestsFigures || []
+                    enrollmentFiguresData?.data?.enrollmentsRequestsFigures ||
+                    []
                   }
                   rounded={false}
                 />
