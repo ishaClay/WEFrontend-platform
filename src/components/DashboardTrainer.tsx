@@ -22,7 +22,6 @@ import {
   Tooltip,
 } from "chart.js";
 import { Loader2 } from "lucide-react";
-import moment from "moment";
 import * as XLSX from "xlsx";
 import DashboardCard from "./comman/DashboardCard";
 import { DataTable } from "./comman/DataTable";
@@ -67,7 +66,7 @@ const DashboardTrainer = () => {
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            ID
+              #
           </h5>
         );
       },
@@ -103,11 +102,11 @@ const DashboardTrainer = () => {
       },
     },
     {
-      accessorKey: "CourseName",
+      accessorKey: "enrolled_companies",
       header: () => {
         return (
           <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            Enroll Company
+            Enrolled Companies
           </h5>
         );
       },
@@ -115,6 +114,26 @@ const DashboardTrainer = () => {
         return (
           <h6 className="xl:text-sm text-xs font-droid text-[#002A3A] xl:w-[80%] w-full line-clamp-2 leading-5">
             {row.original?.enrolledCompanies?.length}
+          </h6>
+        );
+      },
+      meta: {
+        className: "py-[15px]",
+      },
+    },
+    {
+      accessorKey: "enrolled_employees",
+      header: () => {
+        return (
+          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
+            Enrolled Employees
+          </h5>
+        );
+      },
+      cell: ({ row }) => {        
+        return (
+          <h6 className="text-xs font-droid text-black">
+            {row.original?.course?.duration}
           </h6>
         );
       },
@@ -135,26 +154,6 @@ const DashboardTrainer = () => {
         return (
           <h6 className="text-xs font-droid text-black">
             {row.original?.course?.duration}
-          </h6>
-        );
-      },
-      meta: {
-        className: "py-[15px]",
-      },
-    },
-    {
-      accessorKey: "status",
-      header: () => {
-        return (
-          <h5 className="font-medium xl:text-sm text-xs text-black font-droid">
-            Status
-          </h5>
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <h6 className="text-xs font-droid text-black">
-            {row.original?.course?.status}
           </h6>
         );
       },
@@ -187,21 +186,14 @@ const DashboardTrainer = () => {
       smeDashboardData?.data?.enrollmentsRequestsFigures?.map((item: any) => {
         const { enrolledCompanies, ...rest } = item;
         return {
-          ...rest?.course,
-          EnrolledCompanies: enrolledCompanies!
+          "#": rest?.course?.id,
+          "Course Name": rest?.course?.title,
+          "Enrolled Company": enrolledCompanies!
             .map((company: any) => company.name)
             .join(", "),
-          description: rest?.course?.description
-            ?.replace(/<\/?[^>]+(>|$)/g, "")
-            ?.replace(/\s+/g, " ")
-            ?.trim(),
-          keys: rest?.course?.keys
-            ?.replace(/<\/?[^>]+(>|$)/g, "")
-            ?.replace(/\s+/g, " ")
-            ?.trim(),
-          publishDate: moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
-          createdAt: moment(rest?.course?.createdAt).format("DD-MM-YYYY"),
-          updatedAt: moment(rest?.course?.updatedAt).format("DD-MM-YYYY"),
+          "Enrolled Delegates": "-",
+          "Start Date": "-"
+          // moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
         };
       });
 
@@ -315,16 +307,28 @@ const DashboardTrainer = () => {
         <div className="col-span-1 bg-[#FFFFFF] rounded-xl shadow-sm">
           <div className="flex justify-between items-center px-5 py-6">
             <h5 className="  text-base font-droid font-bold">
-              Enrollment Request Figures
+              Course Enrollment Figures
             </h5>
-            <Button
-              type="button"
-              onClick={handleExport}
-              className="bg-[#00778B] font-droid h-8"
-              disabled={isLoading}
-            >
-              Export
-            </Button>
+            <div className="flex items-center gap-5">
+              <Select value={contentType} onValueChange={(e) => setContentType(e)}>
+                <SelectTrigger className="border sm:w-[264px] w-[200px] h-[42px] rounded mr-4 sm:my-0 my-3">
+                  <SelectValue placeholder="Pending" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="today">Today</SelectItem>
+                  <SelectItem value="lastWeek">Last Week</SelectItem>
+                  <SelectItem value="lastMonth">Last Month</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button
+                type="button"
+                onClick={handleExport}
+                className="bg-[#00778B] font-droid h-8"
+                disabled={isLoading}
+              >
+                Export
+              </Button>
+            </div>
           </div>
 
           <div className="">

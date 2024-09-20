@@ -22,6 +22,7 @@ import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import {
   copyCourse,
+  courseMinorendit,
   createNewVersion,
   deleteCourse,
   publishCourse,
@@ -238,6 +239,11 @@ const ListView = ({
     copyCourseFun({ id, userId: userData?.query?.id || 0 });
   };
 
+  const { mutate: courseMinorenditFun } =
+    useMutation({
+      mutationFn: courseMinorendit,
+  });
+
   const handleEdit = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     item: AllCoursesResult,
@@ -250,6 +256,7 @@ const ListView = ({
       item?.status === "UNPUBLISHED"
     ) {
       if (type === "editminor") {
+        courseMinorenditFun(item?.id);
         if (+item?.step === 5) {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${

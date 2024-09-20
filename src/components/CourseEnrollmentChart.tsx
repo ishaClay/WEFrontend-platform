@@ -44,6 +44,14 @@ const CourseEnrollmentChart = ({data} : CourseEnrollmentChartProps) => {
     return (
         <Document>
             <Page style={styles.page}>
+                <View style={{ flexDirection: "row", justifyContent: "center", columnGap: 22 , marginBottom: 20}}>
+                    <Text style={{ fontSize: 30, fontWeight: "bold", color: "#63953B" }}>
+                        G O I N G
+                    </Text>
+                    <Text style={{ fontSize: 30, fontWeight: "bold", color: "#376513" }}>
+                        G R E E N
+                    </Text>
+                </View>
                 <View style={[styles.table, { width: '100%', marginBottom: 10 }]}>
                     <View style={[styles.tableRow, {borderBottom: 1, backgroundColor: "#ebebeb" }]}>
                         {
