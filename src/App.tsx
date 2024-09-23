@@ -89,6 +89,7 @@ import TeamProgress from "./pages/teamProgress/TeamProgress";
 import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
+import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
 
 function App() {
   let socket: any;
@@ -109,6 +110,12 @@ function App() {
     queryKey: [QUERY_KEYS.themeChanges, { fetchByClientwise, clientId }],
     queryFn: () =>
       changeTheme(fetchByClientwise?.data?.data?.id || (clientId as string)),
+  });
+
+  const { data: fetchClientmaturitylevel } = useQuery<any>({
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity, { clientId }],
+    queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
+    enabled: !!clientId,
   });
 
   useEffect(() => {
@@ -173,6 +180,23 @@ function App() {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (fetchClientmaturitylevel) {
+      document.documentElement.style.setProperty(
+        "--introductory-pillar",
+        fetchClientmaturitylevel?.data?.[0]?.color
+      );
+      document.documentElement.style.setProperty(
+        "--intermediate-pillar",
+        fetchClientmaturitylevel?.data?.[1]?.color
+      );
+      document.documentElement.style.setProperty(
+        "--advanced-pillar",
+        fetchClientmaturitylevel?.data?.[2]?.color
+      );
+    }
+  }, [fetchClientmaturitylevel]);
 
   return (
     <div className="App mx-auto">

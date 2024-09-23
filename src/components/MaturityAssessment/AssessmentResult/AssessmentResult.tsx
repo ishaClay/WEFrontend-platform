@@ -69,7 +69,7 @@ const AssessmentResult = ({
     },
   });
   const { data: fetchClientmaturitylevel } = useQuery<any>({
-    queryKey: [QUERY_KEYS.fetchbyclientMaturity],
+    queryKey: [QUERY_KEYS.fetchbyclientMaturity, { clientId }],
     queryFn: () => fetchClientwiseMaturityLevel(clientId as string),
   });
 

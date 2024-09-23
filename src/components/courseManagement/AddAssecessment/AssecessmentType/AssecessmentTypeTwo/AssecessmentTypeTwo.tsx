@@ -147,6 +147,7 @@ const AssecessmentTypeTwo = forwardRef<Validatable, AssecessmentTypeProps>(
     };
 
     const handleRemoveQuestion = (id: number) => {
+      console.log("🚀 ~ handleRemoveQuestion ~ id:", id);
       setAssesment((prev: any) => {
         return prev.filter((item: any) => +item.ids !== +id);
       });

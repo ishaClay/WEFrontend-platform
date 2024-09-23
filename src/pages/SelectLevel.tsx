@@ -2,6 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { QUERY_KEYS } from "@/lib/constants";
 
+import advanceGreen from "@/assets/images/advanceGreen.svg";
+import apply from "@/assets/images/apply.svg";
+import develop from "@/assets/images/develop.svg";
+import planAction from "@/assets/images/planAction.svg";
+import selfAssess from "@/assets/images/selfAssess.svg";
 import Loader from "@/components/comman/Loader";
 import HomeFooter from "@/components/homePage/HomeFooter";
 import HomeHeader from "@/components/homePage/HomeHeader";
@@ -18,6 +23,35 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Correct from "/assets/img/Correct.png";
+
+const paths = [
+  {
+    name: "Self-assess",
+    img: selfAssess,
+    status: "indeterminate",
+  },
+  {
+    name: "Plan Action",
+    img: planAction,
+    status: "pending",
+  },
+  {
+    name: "Develop",
+    img: develop,
+    status: "pending",
+  },
+  {
+    name: " Apply",
+    img: apply,
+    status: "pending",
+  },
+  {
+    name: "Advance Your Green",
+    img: advanceGreen,
+    status: "pending",
+  },
+];
 
 function SelectLevel() {
   const queryClient = useQueryClient();
@@ -91,8 +125,38 @@ function SelectLevel() {
       <div className="border-b border-[#DED7D7] bg-[#FAFAFA]">
         <HomeHeader />
       </div>
-      <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 py-3">
-        <div className="my-6">
+      <div className="xl:max-w-[1124px] max-w-full mx-auto xl:px-0 px-5 pb-3">
+        <div
+          className={`h-[130px] flex justify-center pb-3 pt-[13px] overflow-x-auto overflow-y-hidden`}
+        >
+          <div className="relative sm:gap-[80px] gap-[50px] justify-between overflow-auto flex items-center mx-5">
+            {paths.map((path, index: number) => {
+              return (
+                <div
+                  className="flex flex-col self-end items-center min-w-[150px] w-[150px]"
+                  key={index}
+                >
+                  {path.status === "checked" ? (
+                    <img src={Correct} alt="img" width={59.6} height={59.6} />
+                  ) : path.status === "indeterminate" ? (
+                    <img src={path.img} alt="img" width={59.6} height={59.6} />
+                  ) : (
+                    <img src={path.img} alt="img" width={59.6} height={59.6} />
+                  )}
+                  <p
+                    className={`text-[13px] font-medium font-droid px-2 py-[2px] ${
+                      path.name === "Engage" ? "bg-[#64A70B] text-[#FFF]" : ""
+                    }`}
+                  >
+                    {path.name}
+                  </p>
+                </div>
+              );
+            })}
+            <div className="absolute top-1/2 -translate-Y-1/2 left-0 w-[900px] right-0 mx-auto border-2 border-dashed border-[#585858] -z-10"></div>
+          </div>
+        </div>
+        <div className="mb-6 mt-4">
           <h1 className="text-[#3A3A3A] font-extrabold sm:text-2xl text-xl leading-7 font-droid">
             Select the sustainability pillars you want to progress on most—then
             choose an action item(s) for each of them.{" "}

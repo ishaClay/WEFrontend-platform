@@ -235,10 +235,6 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                     src={allcourse?.bannerImage}
                     alt="Course"
                   />
-                  <input
-                    type="checkbox"
-                    className="absolute top-0 right-0 mt-2 mr-2 h-[23px] w-[24px] focus:border focus:border-[#4b4b4b] shadow-none outline-none"
-                  />
                   <div className="flex items-center absolute bottom-[10px] left-5 w-30 bg-[#FFFFFF] rounded-full py-[6px] px-2">
                     <FaStar className="text-[#FD8E1F]" />
                     <span className="text-[#3A3A3A] font-normal font-droid text-xs mr-2 ml-1">

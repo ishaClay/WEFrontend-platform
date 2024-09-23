@@ -84,8 +84,6 @@ const schema = zod
     }
   )
   .superRefine((data, ctx) => {
-    console.log("data.discountApplicable", data.discountApplicable);
-
     if (data.freeCourse && data.discountApplicable === undefined) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
@@ -194,10 +192,13 @@ const CourseInformation = ({
   }, [isFreeCourse]);
 
   useEffect(() => {
-    if (isFreeCourse) {
+    if (isFreeCourse && data) {
       setValue("discountApplicable", data?.data?.id);
+      setDiscountProvider(data?.data?.id?.toString());
     }
   }, [isFreeCourse, data]);
+
+  console.log("discountApplicable", discountProvider);
 
   useEffect(() => {
     if (userData) {
@@ -255,7 +256,8 @@ const CourseInformation = ({
       setDiscount(data?.discountApplicable);
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
       setProvideDisc(data.discout === 1 ? true : false);
-      setDiscountProvider(data?.providerName?.id);
+      setDiscountProvider(data?.providerName?.id?.toString());
+      console.log("🚀 ~ useEffect ~ data:", data);
     } else {
       setDiscountProvider(data?.data?.id?.toString() || "");
       setValue("discountProvider", data?.data?.id?.toString() || "");

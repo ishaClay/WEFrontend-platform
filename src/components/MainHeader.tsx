@@ -112,7 +112,7 @@ const MainHeader = () => {
         </Button>
         <div className=" text-[#3A3A3A] first-line:items-center justify-between items-center xl:px-6 sm:px-5 px-4 w-full sm:flex hidden h-[120px] sm:leading-[120px] leading-[90px]">
           <ul className="flex items-center font-normal text-[16px] sm:gap-5 gap-3 w-[33%]">
-            <li className="pl-8">
+            <li className="lg:pl-8">
               {/* {title} */}
               <h3 className="xl:text-[20px] text-lg font-bold font-droid text-black capitalize leading-[22px] h-auto mb-2 line-clamp-1">
                 Welcome

@@ -32,7 +32,7 @@ import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, ChevronLeft, FilePenLine, Loader2 } from "lucide-react";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
@@ -312,7 +312,7 @@ const Message = () => {
   console.log("chatUserList?.data?.data", chatUserList?.data?.data);
 
   return (
-    <>
+    <Fragment>
       <Drawer
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
@@ -574,8 +574,8 @@ const Message = () => {
           )}
         </Card>
       </Drawer>
-      <div className="grid grid-cols-12 min-h-[calc(100vh_-_162px)] gap-3">
-        <Card className="xl:col-span-3 md:col-span-5 col-span-12 shadow-none rounded-lg border-0">
+      <div className="grid grid-cols-12 h-full gap-3">
+        <Card className="xl:col-span-3 md:col-span-5 col-span-12 shadow-none rounded-lg border-0 h-[calc(100vh-160px)] overflow-y-auto">
           <CardHeader className="px-[11px] py-2.5 border-b-[#D9D9D9] border-b border-solid md:block flex justify-between flex-row items-center w-full sm:gap-0 gap-2">
             <div className="relative">
               <img
@@ -608,7 +608,7 @@ const Message = () => {
               <FilePenLine width={18} /> Compose
             </Button>
           </CardHeader>
-          <CardContent className="h-[700px] p-0 overflow-y-auto">
+          <CardContent className="h-[calc(100%-63px)] p-0 overflow-y-auto">
             {/* <ScrollArea className="h-full message-scroll" ref={chatContainerRef}> */}
             {chatUserList?.data?.data &&
             chatUserList?.data?.data?.length > 0 ? (
@@ -710,7 +710,7 @@ const Message = () => {
             {/* </ScrollArea> */}
           </CardContent>
         </Card>
-        <Card className="xl:col-span-9 md:col-span-7 col-span-12 border-0 rounded-lg shadow-none relative hidden md:block">
+        <Card className="xl:col-span-9 md:col-span-7 col-span-12 border-0 rounded-lg shadow-none relative hidden md:block h-[calc(100vh-160px)]">
           <CardHeader className="flex-row justify-between border-b-[#D9D9D9] border-b border-solid pl-[15px] pr-[9px] py-[9px]">
             {chatId && UserId ? (
               <div className="flex items-center">
@@ -775,7 +775,7 @@ const Message = () => {
                 className={`chatcontent pl-[15px] pr-[33px] pt-[30px] pb-3 overflow-y-auto ${
                   images?.length > 0
                     ? "h-[calc(100vh_-_436px)]"
-                    : "h-[calc(100vh_-_362px)]"
+                    : "h-[calc(100vh_-_382px)]"
                 }`}
                 ref={chatContainerRef}
               >
@@ -978,7 +978,7 @@ const Message = () => {
         </Card>
         {/* <Loading isLoading={userListPending} /> */}
       </div>
-    </>
+    </Fragment>
   );
 };
 

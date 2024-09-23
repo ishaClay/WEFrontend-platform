@@ -573,8 +573,9 @@ const ScheduleLiveSessionPage = () => {
                   type="date"
                   min={
                     // @ts-ignore
-                    new Date(cohortStartDate).toISOString().split("T")[0] ||
-                    new Date().toISOString().split("T")[0]
+                    cohortStartDate
+                      ? new Date(cohortStartDate)?.toISOString()?.split("T")[0]
+                      : new Date().toISOString().split("T")[0]
                   }
                   {...register("sessionDate")}
                 />

@@ -337,6 +337,15 @@ const AssecessmentPage = () => {
       valid = false;
     }
 
+    if (
+      createAssecessment?.passingPercentage &&
+      parseInt(createAssecessment.passingPercentage) > 100
+    ) {
+      newErrors.passingPercentage =
+        "Passing Percentage must less than or equal to 100";
+      valid = false;
+    }
+
     // Validate timeDuration
     if (
       !createAssecessment?.timeDuration?.hours &&

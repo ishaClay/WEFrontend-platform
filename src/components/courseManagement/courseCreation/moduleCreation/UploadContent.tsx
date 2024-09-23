@@ -249,7 +249,7 @@ const UploadContent = ({
                 onClick={removeUploadContent}
                 className="text-[#FF5252] text-sm bg-transparent hover:bg-transparent font-droid p-0 gap-1 h-auto"
               >
-                <CircleX width={16} />
+                {/* <CircleX width={16} /> */}
                 Remove
               </Button>
               <Button

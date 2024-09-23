@@ -141,14 +141,14 @@ const EnrollmentCourseListCard = ({ data }: { data: Data }) => {
             <div className="font-droid">
               <p className="sm:text-base text-sm font-medium">
                 Number Of Employee :{" "}
-                <span className="font-bold">
-                  {data?.employee?.length || data?.numberOfEmployee}
-                </span>
+                <span className="font-bold">{data?.numberOfEmployee}</span>
               </p>
             </div>
             <div className="flex items-center font-bold font-droid sm:text-base text-sm">
               <Euro className="sm:w-[16px] w-[14px] font-bold" />
-              {data?.course?.price}
+              {data?.course?.price
+                ? +data?.course?.price * +data?.numberOfEmployee
+                : 0}
             </div>
           </div>
         </div>

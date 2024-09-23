@@ -45,13 +45,24 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
 
   const toggleDropdown = (
     children: { label: string; link: string }[],
-    index: number
+    index: number,
+    val?: boolean
   ) => {
     if (children?.length > 0) {
       // setIsOpen({ ...isOpen, [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
-      setIsOpen({ [`bar${index + 1}`]: !isOpen[`bar${index + 1}`] });
+      if (sidebarOpen) {
+        setIsOpen((prev) => ({
+          [`bar${index + 1}`]: !prev[`bar${index + 1}`],
+        }));
+      } else {
+        setIsOpen({
+          [`bar${index + 1}`]: val!,
+        });
+      }
     }
   };
+
+  console.log("isOpen+++++++++++++", isOpen);
 
   useEffect(() => {
     sidebarItems.forEach((item, index) => {
@@ -224,10 +235,10 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                         </Link>
                       ) : (
                         <Popover
-                          onOpenChange={() => {
-                            toggleDropdown(item.children, index);
+                          onOpenChange={(val) => {
+                            toggleDropdown(item.children, index, val);
                           }}
-                          open={isOpen[`bar${index + 1}`]}
+                          open={!!isOpen[`bar${index + 1}`]}
                         >
                           <PopoverTrigger
                             className={`flex items-center justify-center rounded-md w-full h-full p-[10px] hover:bg-[#00778B] hover:text-white ${
@@ -260,12 +271,29 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                                     <Link
                                       to={child.link}
                                       onClick={() => {
-                                        toggleDropdown(item.children, index);
+                                        toggleDropdown(
+                                          item.children,
+                                          index,
+                                          false
+                                        );
+                                        // dispatch(
+                                        //   setPath([
+                                        //     {
+                                        //       label:
+                                        //         item.children[index]?.label,
+                                        //       link: item.children[index]?.link,
+                                        //     },
+                                        //   ])
+                                        // );
                                         dispatch(
                                           setPath([
                                             {
-                                              label: `${item.children[index]?.label}`,
-                                              link: `${item.children[index]?.link}`,
+                                              label: `${item.label}`,
+                                              link: null,
+                                            },
+                                            {
+                                              label: `${child?.label}`,
+                                              link: `${child?.link}`,
                                             },
                                           ])
                                         );

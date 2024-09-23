@@ -5,8 +5,8 @@ import { LogOut } from "@/services/apiServices/authService";
 import { ResponseError } from "@/types/Errors";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { Bell, ChevronLeft, Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Bell, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { BreadcrumbWithCustomSeparator } from "./comman/Breadcrumb";
@@ -25,12 +25,13 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { toast } from "./ui/use-toast";
+import { SidebarContext } from "@/context/Sidebarcontext";
 
 const EmployeeHeader = () => {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userRole = userData?.query?.role;
-  console.log("🚀 ~ EmployeeHeader ~ userData:", userData);
+  const { setSidebarOpen, sidebarOpen } = useContext(SidebarContext);
 
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -91,6 +92,18 @@ const EmployeeHeader = () => {
   return (
     <>
       <div className="lg:bg-white bg-transparent rounded-t-xl">
+        <Button
+          variant={"ghost"}
+          type="button"
+          className="lg:block hidden h-auto shadow-xl p-1 top-8 bg-white rounded-lg rounded-tl-none rounded-bl-none hover:bg-white absolute left-0 "
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
+          {sidebarOpen ? (
+            <ChevronLeft className="sm:w-8 sm:h-8 h-6 w-6" />
+          ) : (
+            <ChevronRight className="sm:w-8 sm:h-8 h-6 w-6" />
+          )}
+        </Button>
         <div className="flex justify-between items-center lg:border-b border-[#F1F1F1] px-5 sm:h-[130px] h-[70px]">
           <div className="flex items-center gap-1">
             <Button
@@ -101,8 +114,8 @@ const EmployeeHeader = () => {
             >
               <ChevronLeft />
             </Button>
-            <h4
-              className={`xl:text-2xl md:text-lg text-[18px] font-bold font-droid text-black line-clamp-1 capitalize`}
+            <div
+              className={`xl:text-2xl lg:pl-8 md:text-lg text-[18px] font-bold font-droid text-black line-clamp-1 capitalize`}
             >
               {/* {title} */}
               <h3 className="xl:text-2xl md:text-lg text-[18px] font-bold font-droid text-black capitalize leading-[22px] h-auto mb-2">
@@ -110,19 +123,19 @@ const EmployeeHeader = () => {
                 {/* {userData?.query?.name?.split("@")[0]} */}
               </h3>
               <BreadcrumbWithCustomSeparator />
-            </h4>
+            </div>
           </div>
           <div className="flex-col justify-end md:flex hidden">
             <div className="flex gap-[22px]">
               <Link
                 to={`/`}
-                className="cursor-pointer text-[#63953B] text-[48px] font-abhaya font-bold"
+                className="cursor-pointer text-[#63953B] 2xl:text-[48px] xl:text-[30px] text-[24px] font-abhaya font-bold"
               >
                 G O I N G
               </Link>
               <Link
                 to={`/`}
-                className="cursor-pointer text-[#376513] text-[48px] font-abhaya font-bold"
+                className="cursor-pointer text-[#376513] 2xl:text-[48px] xl:text-[30px] text-[24px] font-abhaya font-bold"
               >
                 G R E E N
               </Link>

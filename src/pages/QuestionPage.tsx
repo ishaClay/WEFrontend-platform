@@ -29,7 +29,6 @@ import { QuestionType } from "@/types/Question";
 import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
 import Correct from "/assets/img/Correct.png";
 import LeftArrow from "/assets/img/LeftArrow.png";
@@ -513,9 +512,6 @@ const QuestionPage = () => {
                   <p>
                     {totalAttemptedQuestions}/{totalQuestions}
                   </p>
-                  <span className="mr-2">
-                    <IoIosArrowDown className="w-[14px] h-[14px]" />
-                  </span>
                 </div>
                 <div className="font-normal text-[#3a3a3a]">
                   {allPillar.map((category: string, index: number) => {
@@ -550,9 +546,6 @@ const QuestionPage = () => {
                               )}
                           </div>
                         </div>
-                        <span className="mr-2 ml-[11px] mt-[10px]">
-                          <IoIosArrowDown className="w-[14px] h-[14px]" />
-                        </span>
                       </div>
                     );
                   })}

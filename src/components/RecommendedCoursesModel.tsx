@@ -32,6 +32,7 @@ const RecommendedCoursesModel = ({
     : userData?.query?.companyDetails?.id || userData?.query?.detailsid;
   const [selectFilterByCategory, setSelectFilterByCategory] = useState("");
   const [itemList, setItemList] = useState<number[]>([]);
+  const [maxEmployeeError, setMaxEmployeeError] = useState("");
   const [selectCourseByIndex, setSelectCourseByIndex] = useState<
     number | string
   >("");
@@ -45,6 +46,15 @@ const RecommendedCoursesModel = ({
   }, [data]);
 
   const handleIncrement = (index: number) => {
+    const currentValue = itemList[index];
+    const incrementedValue = currentValue + 1;
+
+    if(incrementedValue > +userData?.maxEmployeeLimit){
+      setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
+    } else{
+      setMaxEmployeeError("");
+    }   
+      
     if (index === selectCourseByIndex) {
       setItemList((prev) =>
         prev.map((item, idx) => (idx === index ? item + 1 : item))
@@ -58,6 +68,15 @@ const RecommendedCoursesModel = ({
   };
 
   const handleDecrement = (index: number) => {
+    const currentValue = itemList[index];
+    const incrementedValue = currentValue - 1;
+
+    if(incrementedValue > +userData?.maxEmployeeLimit){
+      setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
+    } else{
+      setMaxEmployeeError("");
+    }
+
     if (index === selectCourseByIndex && itemList[index] > 0) {
       setItemList((prevItemList) =>
         prevItemList.map((item, idx) => (idx === index ? item - 1 : item))
@@ -103,6 +122,9 @@ const RecommendedCoursesModel = ({
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchbycourse],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
       });
       toast({
         variant: "success",
@@ -203,7 +225,12 @@ const RecommendedCoursesModel = ({
                             type="text"
                             value={itemList[index]}
                             min={0}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              if(+e.target.value > +userData?.maxEmployeeLimit){
+                                setMaxEmployeeError(`Please enter max Employee Limit is ${userData?.maxEmployeeLimit}`);
+                              } else{
+                                setMaxEmployeeError("");
+                              }                              
                               setItemList((prevItemList) =>
                                 prevItemList?.map((item: any, idx: number) =>
                                   idx === index
@@ -211,6 +238,7 @@ const RecommendedCoursesModel = ({
                                     : item
                                 )
                               )
+                            }
                             }
                             className="w-[88px] h-[42px] text-center focus:border focus:border-[#4b4b4b] shadow-none outline-none"
                           />
@@ -234,6 +262,9 @@ const RecommendedCoursesModel = ({
                         </span>
                       </div>
                     </div>
+                    {
+                      maxEmployeeError && <p className="text-red-500 text-xs mt-1">{maxEmployeeError}</p>
+                    }
                   </div>
                 </div>
               </div>
@@ -255,8 +286,8 @@ const RecommendedCoursesModel = ({
           onClick={handleEnrollementRequest}
           disabled={
             data?.[0]?.isOnline === 1
-              ? false || !selectCourse || isPending
-              : isPending || !selectCourse || !selectFilterByCategory
+              ? false || !selectCourse || isPending || !!maxEmployeeError
+              : isPending || !selectCourse || !selectFilterByCategory || !!maxEmployeeError
           }
         >
           {isPending && <Loader2 className="w-5 h-5 animate-spin" />} Select

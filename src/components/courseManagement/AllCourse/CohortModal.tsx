@@ -263,7 +263,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       } else {
         toast({
           variant: "destructive",
-          title: "Previous data: no changes!",
+          title: "Please enter cohort details",
         });
       }
     } else {
