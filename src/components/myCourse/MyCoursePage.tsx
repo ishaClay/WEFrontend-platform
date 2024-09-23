@@ -112,7 +112,7 @@ const MyCoursePage = () => {
         <div className="flex items-center sm:gap-8 gap-[10px]">
           <div>
             <Label className="text-xs font-normal font-droid mt-0">
-              Filter By Piller
+              Filter By Pillar
             </Label>
             <SelectMenu
               option={pillerFilterOption || []}

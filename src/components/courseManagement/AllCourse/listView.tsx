@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { PermissionContext } from "@/context/PermissionContext";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
@@ -69,6 +69,7 @@ const ListView = ({
   const pathName = location?.pathname?.split("/")?.[2];
   const dispatch = useAppDispatch();
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const { paths } = useAppSelector((state) => state.path);
   const handleCohort = (e: Event, id: number) => {
     e.preventDefault();
     setCohort(true);
@@ -223,6 +224,18 @@ const ListView = ({
             data?.data?.id
           }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
         );
+
+        dispatch(
+          setPath([
+            ...paths,
+            {
+              label: "Edit Course",
+              link: `/${Role}/create_course/${
+                data?.data?.id
+              }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`,
+            },
+          ])
+        );
       },
       onError: (error) => {
         toast({
@@ -239,9 +252,8 @@ const ListView = ({
     copyCourseFun({ id, userId: userData?.query?.id || 0 });
   };
 
-  const { mutate: courseMinorenditFun } =
-    useMutation({
-      mutationFn: courseMinorendit,
+  const { mutate: courseMinorenditFun } = useMutation({
+    mutationFn: courseMinorendit,
   });
 
   const handleEdit = (
@@ -263,6 +275,17 @@ const ListView = ({
               +item?.tab === 4 ? 0 : item?.tab
             }&version=${item?.currentVersion?.id}&type=${type}`
           );
+          dispatch(
+            setPath([
+              ...paths,
+              {
+                label: "Edit Course",
+                link: `/${Role}/create_course/${item?.id}?tab=${
+                  +item?.tab === 4 ? 0 : item?.tab
+                }&version=${item?.currentVersion?.id}&type=${type}`,
+              },
+            ])
+          );
         } else {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
@@ -270,6 +293,19 @@ const ListView = ({
             }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
               item?.currentVersion?.id
             }&type=${type}`
+          );
+          dispatch(
+            setPath([
+              ...paths,
+              {
+                label: "Edit Course",
+                link: `/${Role}/create_course/${item?.id}?tab=${
+                  +item?.tab === 4 ? 0 : item?.tab
+                }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                  item?.currentVersion?.id
+                }&type=${type}`,
+              },
+            ])
           );
         }
       }
@@ -281,6 +317,19 @@ const ListView = ({
           }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
             item?.currentVersion?.id
           }&type=${type}`
+        );
+        dispatch(
+          setPath([
+            ...paths,
+            {
+              label: "Edit Course",
+              link: `/${Role}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
+              }&type=${type}`,
+            },
+          ])
         );
       }
 

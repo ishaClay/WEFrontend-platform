@@ -62,6 +62,8 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     }
   };
 
+  console.log("isOpen+++++++++++++", isOpen);
+
   useEffect(() => {
     sidebarItems.forEach((item, index) => {
       if (item?.children?.length > 0) {

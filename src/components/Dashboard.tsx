@@ -5,10 +5,17 @@ import Trainers from "@/assets/images/trainers.svg";
 import { useMemo, useState } from "react";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 
+import Arrow_Right from "@/assets/images/Arrow_Right.png";
+import Ellipse_one from "@/assets/images/Ellipse1.png";
+import Ellipse_two from "@/assets/images/Ellipse2.png";
+import Ellipse_three from "@/assets/images/Ellipse3.png";
+import Ellipse_four from "@/assets/images/Ellipse4.png";
+import Ellipse_five from "@/assets/images/Ellipse5.png";
 import { DataTable } from "@/components/comman/DataTable";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { getAllassessment } from "@/services/apiServices/assessment";
 import {
   fetchTopCourseList,
   getCourseCompletionData,
@@ -18,6 +25,11 @@ import {
   getSmeDashboardData,
   getSmeUpcomingLiveSession,
 } from "@/services/apiServices/dashboard";
+import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
+import {
+  assessmentQuestionScore,
+  getCheckedMeasuresByAssessment,
+} from "@/services/apiServices/pillar";
 import {
   AssesmentDashboardData,
   DashboardData,
@@ -42,24 +54,15 @@ import {
   Tooltip,
 } from "chart.js";
 import { Loader2 } from "lucide-react";
+import moment from "moment";
+import { Link } from "react-router-dom";
 import CourseEnrollmentChart from "./CourseEnrollmentChart";
 import LiveSessionsItems from "./DashboardEmployee/LiveSessionsItems";
 import CustomCarousel from "./comman/CustomCarousel";
 import DashboardCard from "./comman/DashboardCard";
+import Loader from "./comman/Loader";
 import NoDataText from "./comman/NoDataText";
 import { Progress } from "./ui/progress";
-import { Link } from "react-router-dom";
-import Ellipse_one from "@/assets/images/Ellipse1.png";
-import Ellipse_two from "@/assets/images/Ellipse2.png";
-import Ellipse_three from "@/assets/images/Ellipse3.png";
-import Ellipse_four from "@/assets/images/Ellipse4.png";
-import Ellipse_five from "@/assets/images/Ellipse5.png";
-import Arrow_Right from "@/assets/images/Arrow_Right.png";
-import { fetchClientwiseMaturityLevel } from "@/services/apiServices/maturityLevel";
-import { assessmentQuestionScore, getCheckedMeasuresByAssessment } from "@/services/apiServices/pillar";
-import { getAllassessment } from "@/services/apiServices/assessment";
-import moment from "moment";
-import Loader from "./comman/Loader";
 
 Chart.register(
   CategoryScale,
@@ -497,16 +500,18 @@ const Dashboard = () => {
     ],
   };
 
-  const getNextLevel = (currentLevel:string) => {
-    const maturityLevel:any = fetchClientmaturitylevel?.data?.map((item) => item?.maturityLevelName)
-    const currentIndex:any = maturityLevel?.indexOf(currentLevel);
+  const getNextLevel = (currentLevel: string) => {
+    const maturityLevel: any = fetchClientmaturitylevel?.data?.map(
+      (item) => item?.maturityLevelName
+    );
+    const currentIndex: any = maturityLevel?.indexOf(currentLevel);
     if (currentIndex === -1) {
-        return "Level not found";
+      return "Level not found";
     }
     if (currentIndex < maturityLevel?.length - 1) {
-        return maturityLevel[currentIndex + 1];
+      return maturityLevel[currentIndex + 1];
     } else {
-        return maturityLevel && maturityLevel[currentIndex];
+      return maturityLevel && maturityLevel[currentIndex];
     }
   };
 
@@ -553,50 +558,79 @@ const Dashboard = () => {
         >
           <div className="flex justify-center mb-5 sm:mb-0 sm:order-1 order-2">
             <div className="md:w-52 sm:w-[170px] w-[150px] h-[150px] sm:h-[170px] md:h-52 relative">
-              <Doughnut data={maturityLevelData} options={options} plugins={[textCenter]} />
+              <Doughnut
+                data={maturityLevelData}
+                options={options}
+                plugins={[textCenter]}
+              />
             </div>
           </div>
           <div className="w-full sm:order-2 order-1 border sm:border-[#D9D9D9] border-transparent rounded-xl sm:h-[200px] flex items-center relative overflow-hidden">
-            {!currentLavel ? <span className="w-full"><Loader /></span> : <div className="p-5">
-              <div className="flex relative lg:mt-0 sm:mb-7 mb-5">
-                <div className="flex flex-col">
-                  <Button
-                    className={`${
-                      currentLavel?.maturityLevelName === "Advanced"
-                        ? "bg-[#258483]"
-                        : currentLavel?.maturityLevelName === "Introductory"
-                        ? "bg-[#C92C35]"
-                        : "bg-[#FFD56A]"
-                    } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
-                  >
-                    {currentLavel?.maturityLevelName}
-                  </Button>
-                  <span className="mt-2 text-center text-sm">Current Level</span>
+            {!currentLavel ? (
+              <span className="w-full">
+                <Loader />
+              </span>
+            ) : (
+              <div className="p-5">
+                <div className="flex relative lg:mt-0 sm:mb-7 mb-5">
+                  <div className="flex flex-col">
+                    <Button
+                      className={`${
+                        currentLavel?.maturityLevelName === "Advanced"
+                          ? "bg-[#258483]"
+                          : currentLavel?.maturityLevelName === "Introductory"
+                          ? "bg-[#C92C35]"
+                          : "bg-[#FFD56A]"
+                      } text-black sm:text-base text-xs font-Calibri rounded-full h-[30px] xl:px-4 xl:py-2 p-2.5`}
+                    >
+                      {currentLavel?.maturityLevelName}
+                    </Button>
+                    <span className="mt-2 text-center text-sm">
+                      Current Level
+                    </span>
+                  </div>
+                  <div className="relative h-[1px] top-[15px] border border-dashed border-[#D9D9D9] xl:w-40 lg:w-24 w-full">
+                    <img
+                      src={Arrow_Right}
+                      alt="Arrow"
+                      className="absolute bottom-0 top-0 left-0 right-0 m-auto"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <Button
+                      className={`text-black sm:text-base text-xs rounded-full xl:px-4 xl:py-2 p-2.5 ${
+                        currentLavel?.maturityLevelName &&
+                        getNextLevel(currentLavel?.maturityLevelName) ===
+                          "Advanced"
+                          ? "bg-[#258483]"
+                          : getNextLevel(currentLavel?.maturityLevelName) ===
+                            "Introductory"
+                          ? "bg-[#C92C35]"
+                          : "bg-[#FFD56A]"
+                      } h-[30px]`}
+                    >
+                      {currentLavel?.maturityLevelName &&
+                        getNextLevel(currentLavel?.maturityLevelName)}
+                    </Button>
+                    <span className="mt-2 text-center text-sm">
+                      Desired Level
+                    </span>
+                  </div>
                 </div>
-                <div className="relative h-[1px] top-[15px] border border-dashed border-[#D9D9D9] xl:w-40 lg:w-24 w-full">
-                  <img
-                    src={Arrow_Right}
-                    alt="Arrow"
-                    className="absolute bottom-0 top-0 left-0 right-0 m-auto"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <Button
-                    className={`text-black sm:text-base text-xs rounded-full xl:px-4 xl:py-2 p-2.5 ${
-                      currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName) === "Advanced"
-                        ? "bg-[#258483]"
-                        : getNextLevel(currentLavel?.maturityLevelName) === "Introductory"
-                        ? "bg-[#C92C35]"
-                        : "bg-[#FFD56A]"
-                    } h-[30px]`}
-                  >
-                    {currentLavel?.maturityLevelName && getNextLevel(currentLavel?.maturityLevelName)}
-                  </Button>
-                  <span className="mt-2 text-center text-sm">Desired Level</span>
-                </div>
+                <h2>
+                  Last Assessment Taken On:{" "}
+                  {assessmentQuestionScoreData
+                    ? moment(
+                        new Date(
+                          assessmentQuestionScoreData[
+                            assessmentQuestionScoreData?.length - 1
+                          ]?.completedAssessmentDate || "-"
+                        )
+                      )?.format("DD/MM/YYYY")
+                    : "-"}
+                </h2>
               </div>
-              <h2>Last Assessment Taken On: {assessmentQuestionScoreData ? moment(new Date(assessmentQuestionScoreData[assessmentQuestionScoreData?.length - 1]?.completedAssessmentDate || "-"))?.format("DD/MM/YYYY") : "-"}</h2>
-            </div>}
+            )}
             <img
               src={Ellipse_one}
               alt="ellipse"

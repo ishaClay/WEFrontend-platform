@@ -91,6 +91,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   const [hasChange, setHasChange] = useState(false);
+  console.log("🚀 ~ ProfileSetting ~ hasChange:", hasChange);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [profile_image, setProfileImage] = useState<string>("");
   const pathName = window.location.pathname;
@@ -274,6 +275,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 label={"First name"}
                 placeholder={"First name"}
                 {...register("firstname")}
+                onChange={() => setHasChange(true)}
                 error={errors?.firstname?.message as string}
               />
             </div>
@@ -283,6 +285,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                 label={"Last name"}
                 placeholder={"Last name"}
                 {...register("lastname")}
+                onChange={() => setHasChange(true)}
                 error={errors?.lastname?.message as string}
               />
             </div>
@@ -456,7 +459,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               <Button
                 type="submit"
                 isLoading={isPendingMutation}
-                disabled={!isDirty || !hasChange}
+                disabled={!hasChange}
                 className="bg-[#00778B] font-droid text-base px-7"
               >
                 Save

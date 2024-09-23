@@ -49,13 +49,19 @@ const AssecessmentTypeTwoOptions = ({
 
   const handleRemove = () => {
     const optionToRemove = data.option;
+    console.log(
+      "🚀 ~ handleRemove ~ optionToRemove:",
+      optionToRemove,
+      assesment
+    );
     setAssesment((prev: any) => {
       return prev.map((item: any) => {
         if (item?.ids === id) {
           return {
             ...item,
-            answer: item?.answer?.filter(
-              (val: string) => val !== optionToRemove
+            options: item?.options?.filter(
+              // @ts-ignore
+              (val: string) => val?.option !== optionToRemove
             ),
           };
         }

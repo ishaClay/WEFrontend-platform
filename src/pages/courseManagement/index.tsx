@@ -1,7 +1,7 @@
 import Loading from "@/components/comman/Error/Loading";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { fetchSingleCourseById } from "@/services/apiServices/courseManagement";
@@ -29,6 +29,8 @@ const CourseManagement = () => {
   const courseId = +location?.pathname?.split("/")[3];
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [currentTab, setCurrentTab] = React.useState<string>("0");
+  const { paths } = useAppSelector((state) => state.path);
+  console.log("🚀 ~ CourseManagement ~ paths:", paths);
 
   // useEffect(() => {
   //   if (+courseId) {
@@ -175,12 +177,7 @@ const CourseManagement = () => {
           <Button
             className="flex cursor-pointer md:order-2 order-1 bg-transparent text-black"
             onClick={() => {
-              dispatch(
-                setPath([
-                  { label: "Course Management", link: null },
-                  { label: "All Courses", link: `/${pathName}/allcourse` },
-                ])
-              );
+              dispatch(setPath(paths.slice(0, paths.length - 1)));
             }}
           >
             <MoveLeft />

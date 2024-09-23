@@ -252,23 +252,25 @@ const DashboardTrainer = () => {
 
   const handleExport = () => {
     const formattedData: any =
-      enrollmentFiguresData?.data?.enrollmentsRequestsFigures?.map((item) => {
-        const { enrolledCompanies, ...rest } = item;
-        const startDate =
-          item.course.courseEnroll?.[0]?.cohortGroup?.slotStartDate;
-        return {
-          "#": rest?.course?.id,
-          "Course Name": rest?.course?.title,
-          "Enrolled Company": enrolledCompanies!
-            .map((company: any) => company.name)
-            .join(", "),
-          "Enrolled Delegates": item.enrolledEmployees?.length || "-",
-          "Start Date": startDate
-            ? `${startDate?.date}/${startDate?.month}/${startDate?.year}`
-            : "-",
-          // moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
-        };
-      });
+      enrollmentFiguresData?.data?.enrollmentsRequestsFigures?.map(
+        (item, i) => {
+          const { enrolledCompanies, ...rest } = item;
+          const startDate =
+            item.course.courseEnroll?.[0]?.cohortGroup?.slotStartDate;
+          return {
+            "#": i + 1,
+            "Course Name": rest?.course?.title,
+            "Enrolled Company": enrolledCompanies!
+              .map((company: any) => company.name)
+              .join(", "),
+            "Enrolled Delegates": item.enrolledEmployees?.length || "-",
+            "Start Date": startDate
+              ? `${startDate?.date}/${startDate?.month}/${startDate?.year}`
+              : "-",
+            // moment(rest?.course?.publishDate).format("DD-MM-YYYY"),
+          };
+        }
+      );
 
     // Create a new workbook and add the data
     const worksheet = XLSX.utils.json_to_sheet(formattedData);

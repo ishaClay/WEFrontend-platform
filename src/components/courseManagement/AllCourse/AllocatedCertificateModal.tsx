@@ -45,6 +45,7 @@ export function AllocatedCertificateModal({
 }: CourseViewAllocatePopupProps) {
   const [isInvite, setIsInvite] = useState(false);
   const [selectFilter, setSelectFilter] = useState<number[]>([]);
+  console.log("🚀 ~ selectFilter:", selectFilter);
   const {
     register,
     handleSubmit,
@@ -71,7 +72,9 @@ export function AllocatedCertificateModal({
     if (data?.data?.trainer) {
       data?.data?.trainer?.map((item) => {
         if (item?.courseAllocated?.find((itm) => itm?.id === courseId)) {
-          setSelectFilter((prev) => [...prev, item.id]);
+          setSelectFilter((prev) =>
+            prev?.includes(item.id) ? prev : [...prev, item.id]
+          );
         } else {
           setSelectFilter((prev) => [...prev]);
         }
@@ -139,6 +142,7 @@ export function AllocatedCertificateModal({
 
   const handleClose = () => {
     onClose();
+    setSelectFilter([]);
     setIsInvite(false);
     reset();
   };

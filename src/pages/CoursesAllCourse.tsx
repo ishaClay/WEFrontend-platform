@@ -54,7 +54,7 @@ function CoursesAllCourse() {
     navigate(`/company/allcourses?view=${id}`, { replace: true });
   };
 
-  const { data: pillarcourse } = useQuery({
+  const { data: pillarcourse, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.fetchbypillarcource],
     queryFn: () => fetchPillar(user?.clientId),
   });
@@ -180,32 +180,36 @@ function CoursesAllCourse() {
           >
             <p className="">All</p>
           </div> */}
-          {pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
-            return (
-              <div
-                className={`flex justify-center self-stretch py-2 gap-x-[10px] items-center min-w-[156px] w-[156px] rounded-[9px] px-2 shadow-b shadow-lg hover:bg-[#64A70B] ${
-                  selectedCourse.find((it) => it.id === pillarcourse.id)
-                    ? "bg-[#64A70B] !text-white"
-                    : "bg-[#EDF0F4] text-[#3A3A3A]"
-                }`}
-                key={pillarcourse.id}
-                onClick={() => {
-                  handleCourseClick(pillarcourse);
-                }}
-              >
-                <img
-                  className="w-[30px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
-                  src={getImages(
-                    pillarcourse.pillarName,
-                    !selectedCourse.find((it) => it.id === pillarcourse.id)
-                  )}
-                  alt={pillarcourse.pillarName} // Add alt text for accessibility
-                />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            pillarcourse?.data.data?.map((pillarcourse: Pillarcourse) => {
+              return (
+                <div
+                  className={`flex justify-center self-stretch py-2 gap-x-[10px] items-center min-w-[156px] w-[156px] rounded-[9px] px-2 shadow-b shadow-lg hover:bg-[#64A70B] ${
+                    selectedCourse.find((it) => it.id === pillarcourse.id)
+                      ? "bg-[#64A70B] !text-white"
+                      : "bg-[#EDF0F4] text-[#3A3A3A]"
+                  }`}
+                  key={pillarcourse.id}
+                  onClick={() => {
+                    handleCourseClick(pillarcourse);
+                  }}
+                >
+                  <img
+                    className="w-[30px] transition duration-900 ease-in-out filter grayscale hover:brightness-900"
+                    src={getImages(
+                      pillarcourse.pillarName,
+                      !selectedCourse.find((it) => it.id === pillarcourse.id)
+                    )}
+                    alt={pillarcourse.pillarName} // Add alt text for accessibility
+                  />
 
-                <p className="">{pillarcourse.pillarName}</p>
-              </div>
-            );
-          })}
+                  <p className="">{pillarcourse.pillarName}</p>
+                </div>
+              );
+            })
+          )}
         </div>
 
         <>

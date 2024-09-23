@@ -123,6 +123,9 @@ const RecommendedCoursesModel = ({
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.fetchbycourse],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.fetchbyrecommendedcourse],
+      });
       toast({
         variant: "success",
         title: data?.data?.message,
