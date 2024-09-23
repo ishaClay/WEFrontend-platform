@@ -103,7 +103,10 @@ const AssecessmentModuleSection = ({
                   }));
                   setErrors((prev: any) => ({
                     ...prev,
-                    passingPercentage: "",
+                    passingPercentage:
+                      parseFloat(e.target.value) > 100
+                        ? "Passing Percentage must less than or equal to 100"
+                        : "",
                   }));
                 }}
               />

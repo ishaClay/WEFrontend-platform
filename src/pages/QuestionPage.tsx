@@ -513,9 +513,6 @@ const QuestionPage = () => {
                   <p>
                     {totalAttemptedQuestions}/{totalQuestions}
                   </p>
-                  <span className="mr-2">
-                    <IoIosArrowDown className="w-[14px] h-[14px]" />
-                  </span>
                 </div>
                 <div className="font-normal text-[#3a3a3a]">
                   {allPillar.map((category: string, index: number) => {
@@ -550,9 +547,6 @@ const QuestionPage = () => {
                               )}
                           </div>
                         </div>
-                        <span className="mr-2 ml-[11px] mt-[10px]">
-                          <IoIosArrowDown className="w-[14px] h-[14px]" />
-                        </span>
                       </div>
                     );
                   })}

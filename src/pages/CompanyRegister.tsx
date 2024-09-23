@@ -101,7 +101,7 @@ function CompanyRegister() {
           path: ["companyNumberId"],
         });
       }
-      if ((data.isRegister || data.soleTrader === "No") && !data.name) {
+      if ((data.isRegister || data.soleTrader === "No") && !data.name?.trim()) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please enter name",
@@ -109,7 +109,10 @@ function CompanyRegister() {
         });
       }
 
-      if ((data.isRegister || data.soleTrader === "No") && !data.address) {
+      if (
+        (data.isRegister || data.soleTrader === "No") &&
+        !data.address?.trim()
+      ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Please enter address",

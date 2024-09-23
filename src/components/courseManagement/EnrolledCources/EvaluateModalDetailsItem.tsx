@@ -51,10 +51,10 @@ const EvaluateModalDetailsItem = ({
   // api/v1/evaluationScore/create
   const { mutate: createEvaluationScoreFun, isPending } = useMutation({
     mutationFn: createEvaluationScore,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Success",
-        description: data?.data?.message,
+        description: "Evaluation submitted successfully",
         variant: "success",
       });
       setModuleId("");
@@ -118,7 +118,7 @@ const EvaluateModalDetailsItem = ({
         </div>
         <div className="mt-5 flex sm:flex-row flex-col items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <p className="w-[62px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-droid sm:text-4xl text-[26px]">
+            <p className="w-[90px] h-[58px] border border-solid rounded-sm border-[#D9D9D9] text-[#1D2026] font-droid sm:text-4xl text-[26px]">
               {/* {data.page1} */}
               <input
                 type="text"
