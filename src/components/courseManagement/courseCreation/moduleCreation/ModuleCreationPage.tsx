@@ -361,7 +361,7 @@ const ModuleCreationPage = () => {
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px] sm:text-left text-center">
             {moduleCreationItem.length > 0
               ? "Please fill in all the learning material for this course, as you see fit"
-              : "All the modules and chapters currently included in this course"}
+              : "All the modules and sections currently included in this course"}
           </p>
         </div>
         <Button

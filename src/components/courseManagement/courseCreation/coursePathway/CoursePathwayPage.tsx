@@ -165,13 +165,12 @@ const CoursePathwayPage = () => {
   return (
     <div className="">
       <div className="flex items-center justify-between">
-        <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-[15px]">
+        <h4 className="text-[16px] text-black pb-4 flex flex-wrap items-center gap-1">
           <span className="font-droid font-bold">
-            Target areas / pillars (Select applicable pillars)
+            Target areas/pillars (Select applicable pillars) :
           </span>
           <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
-            Which sustainability pillars does your course apply to? And for
-            which level?
+            Which sustainability pillars does your course apply to, and at which level?
           </p>
         </h4>
         <Button

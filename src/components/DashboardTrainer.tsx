@@ -328,7 +328,7 @@ const DashboardTrainer = () => {
     },
     {
       icon: FeedbackIcon,
-      title: "Courses feedback",
+      title: "Trainer feedback",
       value: trainerCountData?.data?.courseFeedBack || 0,
     },
   ];

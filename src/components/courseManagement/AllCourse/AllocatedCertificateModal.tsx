@@ -312,8 +312,8 @@ export function AllocatedCertificateModal({
                             </AvatarFallback>
                           </Avatar>
                           <span>
-                            {`${employee.name && employee.name + " "}${
-                              employee.surname && employee.surname
+                            {`${employee?.contactFirstName && employee?.contactFirstName + " "}${
+                              employee?.contactSurname && employee?.contactSurname
                             }` || employee.email.split("@")?.[0]}
                           </span>
                         </div>

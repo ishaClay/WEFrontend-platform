@@ -316,7 +316,7 @@ function CoursesAllocate() {
       header: "",
       cell: ({ row }) => {
         return (
-          <div className="flex items-center gap-[12px] ">
+          <div className="flex items-center gap-[12px] w-[100px]">
             <Button
               onClick={() => {
                 dispatch(

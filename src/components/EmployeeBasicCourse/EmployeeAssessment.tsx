@@ -212,7 +212,7 @@ const EmployeeAssessment = () => {
     </span>
   ) : (
     <div className="lg:bg-white bg-transparent rounded-xl border border-[#D9D9D9] overflow-hidden">
-      <div className="text-right">
+      <div className="text-right pr-8">
         <Button variant={"ghost"} onClick={() => navigate(-1)} className="p-3">
           <HiOutlineArrowNarrowLeft className="w-5 h-5" /> Back
         </Button>
@@ -313,7 +313,7 @@ const EmployeeAssessment = () => {
                               {". "}
                               {data?.question}
                             </p>
-                            <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full w-[82px]">
+                            <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] block text-center w-[100px] rounded-full">
                               {data?.point} Point
                             </span>
                           </div>
@@ -367,7 +367,7 @@ const EmployeeAssessment = () => {
                             {". "}
                             {data?.question}
                           </p>
-                          <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full w-[82px]">
+                          <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full block text-center w-[100px]">
                             {data?.point} Point
                           </span>
                         </div>
@@ -399,7 +399,7 @@ const EmployeeAssessment = () => {
                               {". "}
                               {data?.question}
                             </p>
-                            <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full w-[82px]">
+                            <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full block text-center w-[100px]">
                               {data?.point} Point
                             </span>
                           </div>
@@ -465,7 +465,7 @@ const EmployeeAssessment = () => {
                             {". "}
                             {data?.question}
                           </p>
-                          <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full w-[82px]">
+                          <span className="px-[14px] py-[7px] bg-[#EAEBEA] text-[#000000] rounded-full block text-center w-[100px]">
                             {data?.point} Point
                           </span>
                         </div>

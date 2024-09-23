@@ -31,6 +31,8 @@ export interface TrainerEntity {
   profileImage?: null;
   ageRange?: null;
   email: string;
+  contactFirstName: string;
+  contactSurname: string;
   phone?: null;
   currentHighestNFQ?: null;
   employmentStatus: string;
