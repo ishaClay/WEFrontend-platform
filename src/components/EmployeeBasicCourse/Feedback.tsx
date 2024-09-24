@@ -49,7 +49,7 @@ const Feedback = ({ data }: any) => {
           })
         ) : (
           <div className="flex justify-center items-center py-10">
-            No Feedback
+            No records found
           </div>
         )}
       </div>

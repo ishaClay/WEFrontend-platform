@@ -52,9 +52,9 @@ const RatingModel = ({
     },
   });
 
-  const handleMouseEnter = (value: number) => {
-    setRating(value);
-  };
+  // const handleMouseEnter = (value: number) => {
+  //   setRating(value);
+  // };
 
   // const handleMouseLeave = () => {
   //   setRating(0);
@@ -115,7 +115,7 @@ const RatingModel = ({
             return (
               <span
                 key={value}
-                onMouseEnter={() => handleMouseEnter(value)}
+                // onMouseEnter={() => handleMouseEnter(value)}
                 // onMouseLeave={handleMouseLeave}
                 onClick={() => handleClick(value)}
                 style={{

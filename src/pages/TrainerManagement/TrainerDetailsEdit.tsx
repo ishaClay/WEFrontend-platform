@@ -21,7 +21,9 @@ import { useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { useNavigate, useParams } from "react-router-dom";
+import { io } from "socket.io-client";
 
+let socket: any;
 const TrainerEditDetails = () => {
   const [phoneError, setPhoneError] = useState("");
   const navigate = useNavigate();
@@ -40,9 +42,17 @@ const TrainerEditDetails = () => {
     queryFn: () => inviteSingleEmployeeDetail(params.id!),
   });
 
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_SOCKET_URL)
+  }, [])
+  
   const { mutate, isPending: isMutating } = useMutation({
     mutationFn: updateEmployee,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if(data?.data?.employeeStatus === "Inactive"){
+        socket.emit("employeeStatus", data?.data?.userDetails?.id);
+      }
+
       dispatch(
         setPath([
           {
@@ -130,7 +140,7 @@ const TrainerEditDetails = () => {
     <div className="pb-[36px] bg-primary-foreground rounded-[10px] sm:h-full h-[calc(100vh-190px)] font-droidSans overflow-auto">
       <div className="border-b-2 pb-[25px] flex justify-between pl-[22px] pr-[28px] items-center pt-[24px]">
         <h2 className="text-base font-bold font-droid pb-1">
-          Trainers Details
+          Trainee Details
         </h2>
         <Button
           variant={"ghost"}
@@ -151,7 +161,7 @@ const TrainerEditDetails = () => {
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">
                   <h2 className="font-droid text-base">
-                    Trainer personal information
+                    Trainee personal information
                   </h2>
                 </legend>
                 <div className="grid grid-cols-9 items-center gap-4 sm:px-[25px] sm:py-[20px] p-[15px]">
@@ -209,7 +219,7 @@ const TrainerEditDetails = () => {
                   </div>
                   <div className="text-base xl:col-span-2 col-span-5 gap-4 sm:ps-0 ps-3">
                     <h6 className="text-[#A3A3A3] text-base font-droid pb-2.5">
-                      Trainer name
+                      Trainee name
                     </h6>
                     <InputWithLabel
                       placeholder="John"
@@ -300,7 +310,7 @@ const TrainerEditDetails = () => {
             <div className="xl:mt-[27px] mt-[22px]">
               <fieldset className="border rounded-[10px]">
                 <legend className="mx-[35px] text-base">
-                  <h2 className="text-base font-droid">Trainer Status</h2>
+                  <h2 className="text-base font-droid">Trainee Status</h2>
                 </legend>
                 <div className="pl-[25px] py-[20px] flex items-center gap-[59px]">
                   <RadioGroup

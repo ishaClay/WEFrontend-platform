@@ -946,7 +946,7 @@ const Dashboard = () => {
                 Course Enrollment Trend
               </h5>
               <Button
-                className="font-droid font-semibold px-4 text-white bg-[#00778B] uppercase xl:h-12 h-10 xl:text-base text-sm"
+                className="font-droid font-semibold px-4 py-2 text-white bg-[#00778B] h-10 text-sm"
                 disabled={smeLoading4}
               >
                 <PDFDownloadLink

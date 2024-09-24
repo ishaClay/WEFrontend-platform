@@ -355,7 +355,7 @@ function CoursesAllocate() {
                       link: `/${Role}/employeelist`,
                     },
                     {
-                      label: "Edit Trainer Detail",
+                      label: "Edit Trainee Detail",
                       link: null,
                     },
                   ])

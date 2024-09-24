@@ -53,10 +53,11 @@ export const employeeList = async (
   page: string,
   limit: string,
   id: number,
-  keyword: string
+  keyword: string,
+  status: string
 ) => {
   const url = `api/v1/company/get/${id}/employee`;
-  const params = { page, limit, keyword };
+  const params = { page, limit, keyword, status };
   const res = await api({ url, params });
   return res.data;
 };

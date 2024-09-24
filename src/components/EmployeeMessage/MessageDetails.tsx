@@ -105,7 +105,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     },
   });
 
-  const { mutate: sendMessageMutation } = useMutation({
+  const { mutate: sendMessageMutation, isPending: sendMessagePending } = useMutation({
     mutationFn: sendGroupMessage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
@@ -261,8 +261,8 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
               mainClassName="w-full"
               {...register("message")}
             />
-            <Button disabled={!isValid} className="h-[36px] py-2 bg-[#76BC41]">
-              {sendPending ? <Loader /> : <SendHorizontal className="w-5" />}
+            <Button disabled={!isValid || sendMessagePending || sendPending} className="h-[36px] py-2 bg-[#76BC41]">
+              {sendPending || sendPending ? <Loader /> : <SendHorizontal className="w-5" />}
             </Button>
           </div>
         </form>

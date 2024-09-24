@@ -298,7 +298,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             >
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="male"
+                  value="Male"
                   id="option-one"
                   className="border-[#000] w-4 h-4"
                   indicatorClassName="w-3 h-3"
@@ -312,7 +312,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               </div>
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="female"
+                  value="Female"
                   id="option-two"
                   className="border-[#000] w-4 h-4
                   "

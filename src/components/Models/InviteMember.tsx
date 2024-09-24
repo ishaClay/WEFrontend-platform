@@ -55,15 +55,23 @@ const InviteMember = ({
 
   const { mutate: createEmployeeInvitionlist, isPending } = useMutation({
     mutationFn: createEmployeeInvition,
-    onSuccess: () => {
-      reset();
-      setEmails({
-        email: "",
-        fName: "",
-        lName: "",
-      });
-      setIsOpen(false);
-      toast({ title: "Invitation sent successfully", variant: "success" });
+    onSuccess: (data) => {
+      if (data?.data?.data?.employeeExist?.length > 0) {
+        toast({
+          title: "Error",
+          description: "Employee invitation already send.",
+          variant: "destructive",
+        });
+      } else {
+        reset();
+        setEmails({
+          email: "",
+          fName: "",
+          lName: "",
+        });
+        setIsOpen(false);
+        toast({ title: "Invitation sent successfully", variant: "success" });
+      }
     },
     onError: (error) => {
       toast({

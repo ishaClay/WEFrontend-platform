@@ -245,7 +245,6 @@ const EmployeeAssessment = () => {
             {getAssessmentSingleQuestion?.data?.timeDuration?.seconds
               ?.toString()
               ?.padStart(2, "0")}{" "}
-            Second{" "}
           </h5>
         </div>
       </div>

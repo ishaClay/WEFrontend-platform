@@ -205,7 +205,16 @@ const EmployeeBasicCourse = () => {
                       pathName !== "employee"
                         ? pathName === "company"
                           ? (dispatch(setPath(newpath)),
-                            navigate(newpath?.at(-1)?.link || ""))
+                            dispatch(
+                              setPath([
+                                { label: "Course Management", link: null },
+                                {
+                                  label: "Recommended Courses",
+                                  link: `/${pathName}/coursesrecommended`,
+                                },
+                              ])
+                            ),
+                            navigate(newpath?.at(-1)?.link || ""))                            
                           : dispatch(
                               setPath([
                                 { label: "Course Management", link: null },

@@ -253,31 +253,34 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                         )?.ids || 0
                       }
                     />
-                    <p
+                    <div
                       className={`${
                         index ===
                           assesment?.find(
                             // @ts-ignore
                             (item) => +item.ids === +assecessmentQuestion?.ids
                           )?.options?.length ?? 0 - 1
-                          ? "h-[24px]"
-                          : ""
+                          ? "h-[24px] flex justify-between"
+                          : "flex justify-between"
                       }`}
                     >
-                      {errors.options[index] && (
-                        <span className={`text-red-500 text-sm`}>
+                        <p className={`text-red-500 text-sm`}>
                           {errors.options[index]}
-                        </span>
+                        </p>
+
+                      {
+                        // @ts-ignore
+                      assesment
+              ?.find((item:any) => +item?.ids === +assecessmentQuestion?.ids)
+              ?.options?.length - 1 === index && errors.answer && (
+                        <p className="text-red-500 text-sm">
+                          {errors.answer}
+                        </p>
                       )}
-                    </p>
+                    </div>
                   </Fragment>
                 );
               })}
-            {errors.answer && (
-              <p className="text-red-500 text-sm absolute bottom-0 right-0">
-                {errors.answer}
-              </p>
-            )}
           </RadioGroup>
         </div>
       </div>

@@ -121,7 +121,7 @@ const ReviewModal = ({ course, onClose }: getSingleCourseType | any) => {
           </div>
           <div className="grid grid-cols-5 items-center mb-6 sm:gap-5 gap-2">
             <span className="text-black lg:text-base text-sm font-droid sm:col-span-3 col-span-5 font-semibold">
-              And how would you rate the trainer?.
+              And how would you rate the trainer?
             </span>
             <div className="flex md:gap-3 gap-2 items-center col-span-2">
               <Rating
