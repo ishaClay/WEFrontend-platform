@@ -3,7 +3,7 @@ import Loading from "@/components/comman/Error/Loading";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getTimeAgo } from "@/lib/utils";
+import { cn, getTimeAgo } from "@/lib/utils";
 import {
   deleteMultipleNotification,
   deleteNotificationById,
@@ -150,9 +150,12 @@ const NotificationListPage = () => {
               return (
                 <div
                   key={index}
-                  className={`flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px] cursor-pointer ${
-                    notification?.read && "opacity-90"
-                  } `}
+                  className={cn(
+                    "flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px] cursor-pointer",
+                    {
+                      "bg-[#e1e1e1]": notification.read,
+                    }
+                  )}
                   onClick={() =>
                     navigate(`/${currentUser}/notification/${notification.id}`)
                   }

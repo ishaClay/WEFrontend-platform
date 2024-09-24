@@ -183,7 +183,7 @@ function SupportAddNewTicket() {
                     Assigned To <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
-                    className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
+                    className={`w-full px-[15px] py-4 h-[52px] truncate placeholder:text-neutral-400 `}
                   >
                     <SelectValue placeholder={`Select Name`} />
                   </SelectTrigger>
@@ -196,41 +196,25 @@ function SupportAddNewTicket() {
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item: any) => {
                       return (
-                        <>
-                          <SelectItem
-                            key={item.id}
-                            value={String(item?.userDetails?.id)}
-                            className="w-full"
-                          >
-                            <div className="flex items-center sm:gap-5 gap-2">
-                              <p className="text-left w-[110px]">
-                                {item?.userDetails?.role === UserRole?.Employee
-                                  ? "Employee"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Company
-                                  ? "SME Company"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Trainer
-                                  ? "Trainer Provider"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Trainee
-                                  ? "Trainer"
-                                  : "Client Admin"}
-                              </p>{" "}
-                              <p className="text-neutral-400">--</p>{" "}
-                              <p className="max-w-[220px] break-all	">
-                                {item?.userDetails?.role === UserRole?.Trainer
-                                  ? item?.providerName
-                                  : item?.name || item?.email?.split("@")?.[0]}
-                              </p>
-                            </div>
-                            {/* {!!item?.userDetails
-                              ? item?.userDetails?.name ||
-                                item?.userDetails?.email?.split("@")?.[0]
-                              : item?.clientDetails?.name ||
-                                item?.clientDetails?.email?.split("@")?.[0]} */}
-                          </SelectItem>
-                        </>
+                        <SelectItem
+                          key={item.id}
+                          value={String(item?.userDetails?.id)}
+                          className="w-full"
+                        >
+                          {item?.userDetails?.role === UserRole?.Employee
+                            ? "Employee"
+                            : item?.userDetails?.role === UserRole?.Company
+                            ? "SME Company"
+                            : item?.userDetails?.role === UserRole?.Trainer
+                            ? "Trainer Provider"
+                            : item?.userDetails?.role === UserRole?.Trainee
+                            ? "Trainer"
+                            : "Client Admin"}{" "}
+                          {"--"}
+                          {item?.userDetails?.role === UserRole?.Trainer
+                            ? item?.providerName
+                            : item?.name || item?.email?.split("@")?.[0]}
+                        </SelectItem>
                       );
                     })
                   ) : (

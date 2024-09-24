@@ -203,6 +203,14 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                           to={item.link}
                           onClick={() => {
                             toggleDropdown(item.children, index);
+                            dispatch(
+                              setPath([
+                                {
+                                  label: item.label,
+                                  link: null,
+                                },
+                              ])
+                            );
                           }}
                           className={`relative group flex items-center ${
                             sidebarOpen ? "justify-between" : "justify-center"

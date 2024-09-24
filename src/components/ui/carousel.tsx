@@ -255,6 +255,7 @@ type CarouselDotsProps = {
   current: number;
 };
 const CarouselDots = ({ count, current }: CarouselDotsProps) => {
+  const { api } = useCarousel();
   return (
     <div className="mt-[10px] flex items-center justify-center gap-1">
       {Array.from({ length: count })
@@ -267,6 +268,9 @@ const CarouselDots = ({ count, current }: CarouselDotsProps) => {
                 "shadow-[0_0_4px_0_rgba(46, 35, 251, 0.4)] bg-[#00778B]":
                   current === index + 1,
               })}
+              onClick={() => {
+                api?.scrollTo(index);
+              }}
             ></div>
           );
         })}

@@ -480,7 +480,7 @@ function RegisterTrainer() {
                     >
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
-                          Foregin Provider
+                          Foreign Provider
                           <span className="text-red-500">*</span>
                         </SelectLabel>
 

@@ -33,7 +33,7 @@ const Roadmap = ({
       ? userData?.query?.id
       : userData?.id;
 
-  const { data: maturitypillar, isFetching } =
+  const { data: maturitypillar, isLoading: fetchingMaturitypillar } =
     useQuery<AllActionDataPillerWise>({
       queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
       queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
@@ -42,7 +42,9 @@ const Roadmap = ({
 
   useEffect(() => {
     console.log("+++++++++++++ I Called +++++++++++++++");
-    const hasActionItems = maturitypillar?.data?.some(pillar => pillar?.actionItem?.length > 0);
+    const hasActionItems = maturitypillar?.data?.some(
+      (pillar) => pillar?.actionItem?.length > 0
+    );
     if (
       !isEdit &&
       ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
@@ -75,15 +77,17 @@ const Roadmap = ({
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}
           maturitypillar={maturitypillar?.data || []}
-          isMaturitypillarLoading={isFetching}
+          isMaturitypillarLoading={fetchingMaturitypillar}
         />
-      ) : step === 1 ? <SetTarget
-            setStep={setStep}
-            setIsEdit={setIsEdit}
-            selectAssessment={selectAssessment}
-            maturitypillar={maturitypillar?.data || []}
-            isMaturitypillarLoading={isFetching}
-          /> : (
+      ) : step === 1 ? (
+        <SetTarget
+          setStep={setStep}
+          setIsEdit={setIsEdit}
+          selectAssessment={selectAssessment}
+          maturitypillar={maturitypillar?.data || []}
+          isMaturitypillarLoading={fetchingMaturitypillar}
+        />
+      ) : (
         step === 2 && (
           <div className="w-full">
             <Assign
