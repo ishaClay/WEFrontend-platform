@@ -183,7 +183,7 @@ function SupportAddNewTicket() {
                     Assigned To <span className="text-red-400">*</span>
                   </SelectLabel>
                   <SelectTrigger
-                    className={`w-full px-[15px] py-4 h-[52px] placeholder:text-neutral-400 `}
+                    className={`w-full px-[15px] py-4 h-[52px] truncate placeholder:text-neutral-400 `}
                   >
                     <SelectValue placeholder={`Select Name`} />
                   </SelectTrigger>
@@ -196,41 +196,25 @@ function SupportAddNewTicket() {
                   ) : assigToUserList && assigToUserList?.length > 0 ? (
                     assigToUserList?.map((item: any) => {
                       return (
-                        <>
-                          <SelectItem
-                            key={item.id}
-                            value={String(item?.userDetails?.id)}
-                            className="w-full"
-                          >
-                            <div className="flex items-center sm:gap-5 gap-2">
-                              <p className="text-left w-[110px]">
-                                {item?.userDetails?.role === UserRole?.Employee
-                                  ? "Employee"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Company
-                                  ? "SME Company"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Trainer
-                                  ? "Trainer Provider"
-                                  : item?.userDetails?.role ===
-                                    UserRole?.Trainee
-                                  ? "Trainer"
-                                  : "Client Admin"}
-                              </p>{" "}
-                              <p className="text-neutral-400">--</p>{" "}
-                              <p className="max-w-[220px] break-all	">
-                                {item?.userDetails?.role === UserRole?.Trainer
-                                  ? item?.providerName
-                                  : item?.name || item?.email?.split("@")?.[0]}
-                              </p>
-                            </div>
-                            {/* {!!item?.userDetails
-                              ? item?.userDetails?.name ||
-                                item?.userDetails?.email?.split("@")?.[0]
-                              : item?.clientDetails?.name ||
-                                item?.clientDetails?.email?.split("@")?.[0]} */}
-                          </SelectItem>
-                        </>
+                        <SelectItem
+                          key={item.id}
+                          value={String(item?.userDetails?.id)}
+                          className="w-full"
+                        >
+                          {item?.userDetails?.role === UserRole?.Employee
+                            ? "Employee"
+                            : item?.userDetails?.role === UserRole?.Company
+                            ? "SME Company"
+                            : item?.userDetails?.role === UserRole?.Trainer
+                            ? "Trainer Provider"
+                            : item?.userDetails?.role === UserRole?.Trainee
+                            ? "Trainer"
+                            : "Client Admin"}{" "}
+                          {"--"}
+                          {item?.userDetails?.role === UserRole?.Trainer
+                            ? item?.providerName
+                            : item?.name || item?.email?.split("@")?.[0]}
+                        </SelectItem>
                       );
                     })
                   ) : (
@@ -348,36 +332,38 @@ function SupportAddNewTicket() {
                 acceptType=".pdf"
               >
                 <div className="flex items-center justify-between sm:mb-0 mb-3">
-                  <div className="flex items-center gap-[10px]">
+                  <div className="flex items-center gap-[10px] relative">
                     <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                       <FiImage className="w-6 h-6" />
                     </div>
-                    <span>Upload Document</span>
+                    <span className="text-[14px] font-normal">
+                      Upload Document
+                    </span>
+                    {file && (
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        className="p-0 h-auto hover:bg-transparent absolute -top-3 -right-3"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFile("");
+                        }}
+                      >
+                        <X className="w-5 h-5" />
+                      </Button>
+                    )}
+                    {file && (
+                      <a
+                        href={file}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
+                      >
+                        View attachment
+                      </a>
+                    )}
                   </div>
-                  {file && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="p-0 h-auto hover:bg-transparent"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setFile("");
-                      }}
-                    >
-                      <X />
-                    </Button>
-                  )}
                 </div>
-                {file && (
-                  <a
-                    href={file}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
-                  >
-                    View attachment
-                  </a>
-                )}
               </FileUpload>
               <FileUpload
                 handleDrop={(e) => {
@@ -392,7 +378,9 @@ function SupportAddNewTicket() {
                     <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                       <FiVideo className="w-6 h-6" />
                     </div>
-                    <span>Upload Video</span>
+                    <span className="text-[14px] font-normal">
+                      Upload Video
+                    </span>
                   </div>
                   {video && (
                     <Button

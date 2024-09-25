@@ -1,8 +1,8 @@
 import "@cyntler/react-doc-viewer/dist/index.css";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import "react-phone-number-input/style.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { io } from "socket.io-client";
@@ -90,13 +90,20 @@ import { setClientId } from "./redux/reducer/CompanyReducer";
 import { fetchDataByClientwise } from "./services/apiServices/courseSlider";
 import { changeTheme } from "./services/apiServices/theme";
 import { fetchClientwiseMaturityLevel } from "./services/apiServices/maturityLevel";
+import { LogOut } from "./services/apiServices/authService";
+import Cookies from "js-cookie";
+import { useToast } from "./components/ui/use-toast";
+import { ResponseError } from "./types/Errors";
+import { setPath } from "./redux/reducer/PathReducer";
 
 function App() {
   let socket: any;
   const dispatch = useAppDispatch();
+  const {toast} = useToast();
   const queryClient = useQueryClient();
   const domain = document.location.origin;
-  const { clientId } = useAppSelector((state) => state.user);
+  const { clientId, UserId } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
   // const userData = JSON.parse(localStorage.getItem("user") as string);
 
   const { data: fetchByClientwise, isPending: fetchByClientwisePending } =
@@ -151,6 +158,23 @@ function App() {
   };
   handleGetToken();
 
+  const { mutate } = useMutation({
+    mutationFn: LogOut,
+    onSuccess: () => {
+      Cookies.remove("accessToken");
+      localStorage.removeItem("user");
+      navigate("/");
+      dispatch(setPath([]));
+    },
+    onError: (error: ResponseError) => {
+      toast({
+        title: "Error",
+        description: error?.data?.message || "Internal server error",
+        variant: "destructive",
+      });
+    },
+  });
+
   useEffect(() => {
     socket = io(import.meta.env.VITE_SOCKET_URL);
     socket.on("message recieved", () => {
@@ -175,6 +199,12 @@ function App() {
         queryKey: [QUERY_KEYS.notificationList],
       });
     });
+
+    socket.on("employee status", (data: any) => {      
+      if(data?.user?.employeeDetails?.employeeStatus === "Inactive" && data?.user?.id === +UserId) {
+        mutate(data?.user?.id);
+      }
+    })
 
     return () => {
       socket.disconnect();

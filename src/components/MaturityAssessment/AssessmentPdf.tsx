@@ -249,7 +249,7 @@ const AssessmentPdf: React.FC<MyDocumentProps> = ({
             </View>
           </View>
           <View style={[styles.overallContent, { flexDirection: "row", marginTop: 2 }]}>
-            <Text>Assesment completion date : </Text>
+            <Text>Assessment completion date : </Text>
             <Text style={{ fontSize: 12, fontWeight: "bold" }}>{completionDate}</Text>
           </View>
         </View>

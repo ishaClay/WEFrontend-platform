@@ -73,18 +73,18 @@ const PillerCard = ({
       onSuccess: async (data) => {
         setPId("");
         setCheckedStates((prev: AllActionDataPillerWiseResult[]) => {
-          return (
-            prev &&
-            prev.map((item) => {
-              if (item.pillarid === data?.data?.data[0].pillarid) {
-                return data?.data?.data[0];
-              }
-              return item;
-            })
-          );
+          return prev.map((item) => {
+            if (item.pillarid === data?.data?.data[0].pillarid) {
+              return { ...item, ...data?.data?.data[0] };
+            }
+            return item;
+          });
         });
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.maturitypillar],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.maturitypillarAssessment],
         });
       },
       onError: (error: ErrorType) => {

@@ -322,7 +322,7 @@ function CoursesAllocate() {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainee Management",
                       link: null,
                     },
                     {
@@ -347,7 +347,7 @@ function CoursesAllocate() {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainee Management",
                       link: null,
                     },
                     {
@@ -355,7 +355,7 @@ function CoursesAllocate() {
                       link: `/${Role}/employeelist`,
                     },
                     {
-                      label: "Edit Trainer Detail",
+                      label: "Edit Trainee Detail",
                       link: null,
                     },
                   ])
@@ -418,7 +418,7 @@ function CoursesAllocate() {
     dispatch(
       setPath([
         {
-          label: "Trainer Managment",
+          label: "Trainee Management",
           link: null,
         },
         {
@@ -452,7 +452,7 @@ function CoursesAllocate() {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainee Management",
                       link: null,
                     },
                     {

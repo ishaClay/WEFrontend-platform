@@ -1,4 +1,4 @@
-import InputWithLabel from "@/components/comman/InputWithLabel";
+import PasswordInputWithLabel from "@/components/comman/PasswordInputWithLabel";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { changePassword } from "@/services/apiServices/user";
@@ -70,33 +70,54 @@ const AccountSetting = ({ handleClose }: { handleClose: () => void }) => {
       </h4>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div className="flex flex-col gap-1">
-          <InputWithLabel
+          {/* <InputWithLabel
             label="Old password"
             placeholder="Enter old password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
             labelClassName="!text-base font-droid text-black"
             {...register("oldPassword")}
             error={errors?.oldPassword?.message as string}
+          /> */}
+          <PasswordInputWithLabel
+            className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
+            placeholder="Enter old password"
+            label="Old password"
+            {...register("oldPassword")}
+            error={errors?.oldPassword?.message as string}
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <InputWithLabel
+          {/* <InputWithLabel
             label="New password"
             placeholder="Enter new password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
             labelClassName="!text-base font-droid text-black"
             {...register("password")}
             error={errors?.password?.message as string}
+          /> */}
+          <PasswordInputWithLabel
+            className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
+            placeholder="Enter new password"
+            label="New password"
+            {...register("password")}
+            error={errors?.password?.message as string}
           />
         </div>
 
         <div className="flex flex-col gap-1">
-          <InputWithLabel
+          {/* <InputWithLabel
             label="Confirm New password"
             placeholder="Confirm new password"
             className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
             labelClassName="!text-base font-droid text-black"
+            {...register("confirmPassword")}
+            error={errors?.confirmPassword?.message as string}
+          /> */}
+          <PasswordInputWithLabel
+            className="border border-[#D9D9D9] placeholder:[#A3A3A3] text-sm"
+            placeholder="Confirm new password"
+            label="Confirm New password"
             {...register("confirmPassword")}
             error={errors?.confirmPassword?.message as string}
           />

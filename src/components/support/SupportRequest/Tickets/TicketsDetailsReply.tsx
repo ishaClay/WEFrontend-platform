@@ -254,7 +254,7 @@ const TicketsDetailsReply = () => {
                         : "text-[#0E9CFF]"
                     }`}
                   >
-                    {data?.data?.data?.status}
+                    {data?.data?.data?.status === "InProcess" ? "In Progress" : data?.data?.data?.status}
                   </Button>
                 )}
               </div>

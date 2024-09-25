@@ -347,11 +347,20 @@ const DashboardTrainer = () => {
     },
     {
       icon: Companies,
-      title: "Open",
+      title: "Pending",
       value: supportTicketsData?.data?.supportTicketsCount?.open
         ? supportTicketsData?.data?.supportTicketsCount?.open?.high +
           supportTicketsData?.data?.supportTicketsCount?.open?.low +
           supportTicketsData?.data?.supportTicketsCount?.open?.medium
+        : 0,
+    },
+    {
+      icon: Companies,
+      title: "In Progress",
+      value: supportTicketsData?.data?.supportTicketsCount?.inProcess
+        ? supportTicketsData?.data?.supportTicketsCount?.inProcess?.high +
+          supportTicketsData?.data?.supportTicketsCount?.inProcess?.low +
+          supportTicketsData?.data?.supportTicketsCount?.inProcess?.medium
         : 0,
     },
     {
@@ -361,15 +370,6 @@ const DashboardTrainer = () => {
         ? supportTicketsData?.data?.supportTicketsCount?.resolved?.high +
           supportTicketsData?.data?.supportTicketsCount?.resolved?.low +
           supportTicketsData?.data?.supportTicketsCount?.resolved?.medium
-        : 0,
-    },
-    {
-      icon: Companies,
-      title: "Pending",
-      value: supportTicketsData?.data?.supportTicketsCount?.inProcess
-        ? supportTicketsData?.data?.supportTicketsCount?.inProcess?.high +
-          supportTicketsData?.data?.supportTicketsCount?.inProcess?.low +
-          supportTicketsData?.data?.supportTicketsCount?.inProcess?.medium
         : 0,
     },
   ];

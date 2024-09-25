@@ -358,7 +358,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
               <InputWithLabel
                 type="text"
                 placeholder="Enter address (if the course is physically delivered)"
-                className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-black rounded-md text-base font-droid"
+                className="sm:py-4 sm:px-[15px] p-[10px] !text-[#000] placeholder:text-[#A3A3A3] rounded-md text-base font-droid"
                 {...register("universityAddress")}
                 value={watch("universityAddress")}
                 error={errors.universityAddress?.message as string}
@@ -375,7 +375,7 @@ const CourseLogistic = ({ courseById }: CourseLogisticProps) => {
                 <InputWithLabel
                   type="text"
                   placeholder={`Enter number / Select duration`}
-                  className="border-[#D9D9D9] placeholder:text-black border rounded-md font-droid sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
+                  className="border-[#D9D9D9] placeholder:text-[#A3A3A3] border rounded-md font-droid sm:text-base text-sm sm:px-3 sm:py-[14px] py-2.5"
                   {...register("duration")}
                   value={watch("duration")?.split(" ")[0]}
                   error={errors.duration?.message as string}

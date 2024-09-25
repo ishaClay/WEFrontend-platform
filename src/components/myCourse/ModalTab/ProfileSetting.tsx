@@ -18,80 +18,10 @@ import { FieldValues, useForm } from "react-hook-form";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import * as zod from "zod";
 
-// const birthMonth = [
-//   {
-//     label: "January",
-//     value: "january",
-//   },
-//   {
-//     label: "February",
-//     value: "february",
-//   },
-//   {
-//     label: "March",
-//     value: "march",
-//   },
-//   {
-//     label: "April",
-//     value: "april",
-//   },
-//   {
-//     label: "May",
-//     value: "may",
-//   },
-// ];
-
-// const birthDate = [
-//   {
-//     label: "1",
-//     value: "1",
-//   },
-//   {
-//     label: "2",
-//     value: "2",
-//   },
-//   {
-//     label: "3",
-//     value: "3",
-//   },
-//   {
-//     label: "4",
-//     value: "4",
-//   },
-//   {
-//     label: "5",
-//     value: "5",
-//   },
-// ];
-
-// const birthYear = [
-//   {
-//     label: "1998",
-//     value: "1",
-//   },
-//   {
-//     label: "1999",
-//     value: "2",
-//   },
-//   {
-//     label: "2000",
-//     value: "3",
-//   },
-//   {
-//     label: "2001",
-//     value: "4",
-//   },
-//   {
-//     label: "2002",
-//     value: "5",
-//   },
-// ];
-
 const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
   // const [selectBirthMonth, setSelectBirthMonth] = useState("");
   // const [selectBirthDate, setSelectBirthDate] = useState("");
   const [hasChange, setHasChange] = useState(false);
-  console.log("🚀 ~ ProfileSetting ~ hasChange:", hasChange);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [profile_image, setProfileImage] = useState<string>("");
   const pathName = window.location.pathname;
@@ -130,7 +60,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
 
   const {
     register,
-    formState: { errors, isDirty },
+    formState: { errors },
     setValue,
     setError,
     watch,
@@ -140,7 +70,6 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     resolver: zodResolver(schema),
     mode: "all",
   });
-  console.log("🚀 ~ ProfileSetting ~ isDirty:", isDirty);
 
   const { data, isPending } = useQuery({
     queryKey: [QUERY_KEYS.userDetails, { id: userData?.query?.id }],
@@ -235,9 +164,6 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
     upload(formData);
   };
 
-  console.log("data?.data", data?.data?.companyDetails?.companyId);
-  console.log("🚀 ~ ProfileSetting ~ watch('gender'):", watch("gender"));
-
   return (
     <div className="flex flex-col gap-5">
       {isPending ? (
@@ -263,7 +189,10 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                     <>
                       <AvatarImage src={profile_image ? profile_image : ""} />
                       <AvatarFallback className="uppercase shadow-lg text-[26px] font-droid">
-                        {watch("firstname")?.[0] || watch("email")?.[0] || ""}
+                        {data?.data?.fname?.charAt(0) +
+                          data?.data?.lname?.charAt(0) ||
+                          data?.data?.email?.charAt(0) ||
+                          ""}
                       </AvatarFallback>
                     </>
                   )}
@@ -292,7 +221,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
           </div>
           {currentUser === "company" && (
             <>
-              <div className="col-span-1 flex flex-col gap-1">
+              <div className="col-span-1 flex flex-col gap-1 mt-2">
                 <InputWithLabel
                   label={"SME Organisation"}
                   placeholder={"SME Organisation"}
@@ -302,7 +231,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
                   error={errors?.smeOrganisation?.message as string}
                 />
               </div>
-              <div className="col-span-1 flex flex-col gap-1">
+              <div className="col-span-1 flex flex-col gap-1 mt-2">
                 <InputWithLabel
                   label={"Company Id"}
                   placeholder={"Company Id"}
@@ -315,7 +244,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             </>
           )}
           {+userData?.query.role !== UserRole.Company && (
-            <div className="flex flex-col gap-1 py-2">
+            <div className="flex flex-col gap-1 py-2 mt-2">
               <label className="font-primary text-[14px] font-[400] leading-normal text-[#111821] md:text-[14px]">
                 Contact Number
               </label>
@@ -344,7 +273,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               )}
             </div>
           )}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 mt-2">
             <InputWithLabel
               label="Email"
               disabled={watch("email") ? true : false}
@@ -369,7 +298,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
             >
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="male"
+                  value="Male"
                   id="option-one"
                   className="border-[#000] w-4 h-4"
                   indicatorClassName="w-3 h-3"
@@ -383,7 +312,7 @@ const ProfileSetting = ({ handleClose }: { handleClose: () => void }) => {
               </div>
               <div className="flex items-center gap-1">
                 <RadioGroupItem
-                  value="female"
+                  value="Female"
                   id="option-two"
                   className="border-[#000] w-4 h-4
                   "

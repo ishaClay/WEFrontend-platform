@@ -250,7 +250,7 @@ const EmployeeInvitation = () => {
             </div>
             <p className="font-bold font-font-droid text-base">
               <a
-                href="https://greentech.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv"
+                href="https://greentechuat.s3.amazonaws.com/bulk_invite_team_members_sample_file.csv"
                 className="text-[#0E9CFF] underline"
               >
                 Download Sample File

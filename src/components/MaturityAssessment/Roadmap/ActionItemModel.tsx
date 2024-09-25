@@ -70,8 +70,11 @@ const ActionItemModel = ({
   const { mutate: createmeasuresitem, isPending: createPending } = useMutation({
     mutationFn: addMeasuresItems,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.maturitypillar],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.maturitypillarAssessment],
       });
 
       handleClose();
@@ -90,6 +93,9 @@ const ActionItemModel = ({
       onSuccess: async () => {
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.maturitypillar],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.maturitypillarAssessment],
         });
         await queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.getActionItems],

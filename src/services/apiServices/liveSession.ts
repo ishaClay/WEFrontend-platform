@@ -68,3 +68,9 @@ export const getZoomSetting = async () => {
   const res = await api({ url })
   return res.data
 }
+
+export const getSingleLiveSession = async (id: string) => {
+  const url = `api/v1/livesessions/getModuleLiveSessionWithEmployee/${id}`;
+  const res = await api({ url });
+  return res.data
+}

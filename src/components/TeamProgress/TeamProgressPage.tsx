@@ -1,10 +1,12 @@
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { getEmployeeProgress } from "@/services/apiServices/member";
 import { AccordionOption } from "@/types";
 import { EmployeeProgreeResponse } from "@/types/Invition";
 import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Accordions from "../comman/Accordions";
 import Loader from "../comman/Loader";
 import { Input } from "../ui/input";
@@ -12,6 +14,8 @@ import TeamProgresslist from "./TeamProgresslist";
 import TeamProgresslistInner from "./TeamProgresslistInner";
 
 const TeamProgressPage = () => {
+  const Role = location.pathname.split("/")[1];
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const companyId = userData?.query?.detailsid;
@@ -30,6 +34,22 @@ const TeamProgressPage = () => {
         };
       })) ||
     [];
+
+  useEffect(() => {
+    dispatch(
+      setPath([
+        {
+          label: "Trainee Management",
+          link: null,
+        },
+        {
+          label: "Team Progress",
+          link: `/${Role}/teamProgress`,
+        },
+      ])
+    );
+  }, []);
+
   return (
     <div className="bg-white rounded-xl sm:mt-5 mt-0">
       <div className="p-4 border-b border-[#D9D9D9]">

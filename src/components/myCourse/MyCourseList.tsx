@@ -19,6 +19,10 @@ type myPagesListProps = {
 };
 
 const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
+  console.log(
+    "🚀 ~ MyCourseList ~ selectFilterByCategory:",
+    selectFilterByCategory
+  );
   const dispatch = useAppDispatch();
   const Role = location.pathname.split("/")[1];
   console.log("listlist", list);
@@ -90,10 +94,8 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
                 <p className="text-xs font-droid font-normal text-[#3A3A3A] leading-6 pl-1">
                   Level-{" "}
                   {
-                    list?.course?.courseData?.find(
-                      (item) =>
-                        item?.fetchPillar?.pillarName === selectFilterByCategory
-                    )?.fetchMaturity?.maturityLevelName
+                    // @ts-ignore
+                    list?.course?.nfqLeval?.leval
                   }
                 </p>
               </div>

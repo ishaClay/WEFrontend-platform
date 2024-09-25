@@ -21,6 +21,7 @@ const EmployeeMessagViewList = () => {
   const queryClient = useQueryClient();
   const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
+  const [searchChat, setSearchChat] = useState("");
 
   const { group } = useChatBotContext();
   const userID = UserId
@@ -32,6 +33,7 @@ const EmployeeMessagViewList = () => {
     queryKey: [QUERY_KEYS.chatUserList],
     queryFn: () => fetchChatUserList(userID.toString() as string),
   });
+  const filterChatList = chatUserList?.data?.data?.filter((item) => item?.name?.toLowerCase()?.includes(searchChat?.toLowerCase())) || [];
 
   const { mutate: updatemessage } = useMutation({
     mutationFn: (data: {
@@ -61,7 +63,8 @@ const EmployeeMessagViewList = () => {
           <div className="relative">
             <Input
               placeholder="Search..."
-              className="text-[#A3A3A3] placeholder:text-[#A3A3A3] font-droid text-[15px] h-10 ps-10"
+              className="placeholder:text-[#A3A3A3] font-droid text-[15px] h-10 ps-10"
+              onChange={(e) => setSearchChat(e.target.value)}
             />
             <Search
               width={16}
@@ -76,8 +79,7 @@ const EmployeeMessagViewList = () => {
               {userListPending ? (
                 <Loader />
               ) : (
-                chatUserList?.data?.data &&
-                chatUserList?.data?.data?.map((data, index: number) => {
+                filterChatList?.length > 0 ? filterChatList?.map((data, index: number) => {
                   return (
                     <div
                       className="flex items-start justify-between cursor-pointer gap-2 pb-3 last:pb-0 border-b last:border-none border-[#E5E5E5]"
@@ -134,7 +136,7 @@ const EmployeeMessagViewList = () => {
                       </div>
                     </div>
                   );
-                })
+                }) : <span className="block text-center pt-20">No records found</span>
               )}
             </div>
           </ScrollArea>

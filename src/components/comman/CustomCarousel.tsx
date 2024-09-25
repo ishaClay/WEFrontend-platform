@@ -24,7 +24,6 @@ const CustomCarousel = ({
   className,
   containerClassName,
 }: CustomCarouselProps) => {
-
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);

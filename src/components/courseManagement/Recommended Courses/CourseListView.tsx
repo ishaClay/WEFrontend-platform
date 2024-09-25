@@ -10,7 +10,9 @@ import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import Modal from "@/components/comman/Modal";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { createInquiry } from "@/services/apiServices/courseManagement";
@@ -43,6 +45,7 @@ function CourseListView({
   const { UserId } = useSelector((state: RootState) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
+  const dispatch = useAppDispatch();
   const [isRecommendedCourseShow, setIsRecommendedCourseShow] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -188,12 +191,29 @@ function CourseListView({
           className={`bg-[#FFFFFF] pr-4 border border-[#D9D9D9] lg:p-5 p-4 rounded-md shadow-sm ${
             totalData && totalData - 1 === currentIndex ? "mb-0" : "mb-5"
           }`}
-          onClick={() =>
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: `Course Management`,
+                  link: null,
+                },
+                {
+                  label: `Recommended Courses`,
+                  link: `/${Role}/coursesrecommended`,
+                },
+                {
+                  label: `${recommendeddata.title}`,
+                  // @ts-ignore
+                  link: `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`,
+                },
+              ])
+            );
             navigate(
               // @ts-ignore
               `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
-            )
-          }
+            );
+          }}
         >
           <div className="grid grid-cols-12 gap-4">
             <div className="sm:col-span-10 col-span-12 flex sm:flex-row flex-col xl:gap-5 gap-3">

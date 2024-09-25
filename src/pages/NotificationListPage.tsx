@@ -3,7 +3,7 @@ import Loading from "@/components/comman/Error/Loading";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
 import { QUERY_KEYS } from "@/lib/constants";
-import { getTimeAgo } from "@/lib/utils";
+import { cn, getTimeAgo } from "@/lib/utils";
 import {
   deleteMultipleNotification,
   deleteNotificationById,
@@ -69,7 +69,7 @@ const NotificationListPage = () => {
         deleteMultipleNotification(notificationIds),
       onSuccess: () => {
         toast({
-          title: "Notifications delete Successfully",
+          title: "Notifications deleted successfully",
           variant: "success",
         });
         queryClient.invalidateQueries({
@@ -87,7 +87,8 @@ const NotificationListPage = () => {
       },
     });
 
-  const toggleNotificationSelection = (notificationId: string) => {
+  const toggleNotificationSelection = (e:any, notificationId: string) => {
+    e.stopPropagation();
     if (notificationIds.includes(notificationId)) {
       setNotificationIds(notificationIds.filter((id) => id !== notificationId));
     } else {
@@ -107,7 +108,7 @@ const NotificationListPage = () => {
   };
 
   return (
-    <div className="bg-primary-foreground rounded-[10px] h-full font-droidSans">
+    <div className="bg-primary-foreground rounded-[10px] h-full font-droidSans overflow-auto">
       <div className="border-b-2 flex justify-between items-center py-[24px] pl-[22px] pr-[32px]">
         <h2 className="text-base font-bold">Notification List</h2>
         <div className="flex items-center gap-[23px]">
@@ -150,33 +151,39 @@ const NotificationListPage = () => {
               return (
                 <div
                   key={index}
-                  className={`flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px] cursor-pointer ${
-                    notification?.read && "opacity-90"
-                  } `}
+                  className={cn(
+                    "flex items-center justify-between gap-[36px] shadow-[2px_2px_15px_0px_rgba(0,0,0,0.15)] py-[16px] pl-[17px] pr-[31px] rounded-[5px] cursor-pointer",
+                    {
+                      "bg-[#e1e1e1]": notification.read,
+                    }
+                  )}
                   onClick={() =>
                     navigate(`/${currentUser}/notification/${notification.id}`)
                   }
                 >
                   <Checkbox
                     checked={notificationIds.includes(notification.id)}
-                    onChange={() =>
-                      toggleNotificationSelection(notification.id)
+                    onChange={(e) =>
+                      toggleNotificationSelection(e, notification.id)
                     }
-                    onClick={() => toggleNotificationSelection(notification.id)}
+                    onClick={(e) => toggleNotificationSelection(e, notification.id)}
                   />
                   <div className="flex flex-col gap-[9px] w-[90%]">
                     <p className="text-[12px] text-[#A3A3A3] max-w-[1250px]">
                       {getTimeAgo(notification.createdAt)}
                     </p>
                     <h3 className="text-[16px] font-bold">
-                      {notification.title}
+                      {notification.title} 
                     </h3>
                     <p
                       className="text-[16px]"
                       dangerouslySetInnerHTML={{ __html: notification.content }}
                     ></p>
                   </div>
-                  <button onClick={() => delete_notification(notification.id)}>
+                  <button onClick={(e) => {
+                    e.stopPropagation();
+                    delete_notification(notification.id)
+                  }}>
                     <img src={delet} alt="" className="w-[14px] h-[17px]" />
                   </button>
                 </div>

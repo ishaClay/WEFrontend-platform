@@ -77,7 +77,7 @@ const EmployeeHeader = () => {
   const userName =
     userData &&
     (userData?.query?.fname && userData?.query?.lname
-      ? userData?.query?.fname + " " + userData?.query?.lname
+      ? userData?.query?.fname
       : userData?.query?.email?.split("@")[0]);
 
   const handleLogout = () => {
@@ -163,7 +163,9 @@ const EmployeeHeader = () => {
                     <Avatar className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full ">
                       <AvatarImage src="" />
                       <AvatarFallback className="bg-slate-300 uppercase">
-                        {userName?.charAt(0) + "" + userName?.charAt(1)}
+                        {userData?.query?.fname?.charAt(0) +
+                          userData?.query?.lname?.charAt(0) ||
+                          userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
                   </div>
@@ -190,16 +192,16 @@ const EmployeeHeader = () => {
                     setOpenType("profile");
                   }}
                 >
-                  Profile Setting
+                  User Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem
+                {/* <DropdownMenuItem
                   onClick={() => {
                     setIsOpen(true);
                     setOpenType("account");
                   }}
                 >
                   Account Setting
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem onClick={handleLogout}>
                   Log Out
                 </DropdownMenuItem>

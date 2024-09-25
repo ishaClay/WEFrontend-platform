@@ -255,7 +255,7 @@ const TrainerManagement = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
                     {
@@ -276,7 +276,7 @@ const TrainerManagement = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
                     {
@@ -385,7 +385,7 @@ const TrainerManagement = () => {
             dispatch(
               setPath([
                 {
-                  label: "Trainer Managment",
+                  label: "Trainer Management",
                   link: `/${Role}/trainer-management`,
                 },
 

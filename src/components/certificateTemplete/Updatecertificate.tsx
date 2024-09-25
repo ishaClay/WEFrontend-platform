@@ -258,7 +258,7 @@ const Addcertificate = () => {
             onClick={() => {
               dispatch(
                 setPath([
-                  { label: "Certificate Managment", link: null },
+                  { label: "Certificate Management", link: null },
                   {
                     label: "Certificate List",
                     link: `/${Role}/certificate-template`,

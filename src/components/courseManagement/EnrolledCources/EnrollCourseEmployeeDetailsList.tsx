@@ -14,7 +14,11 @@ const EnrollCourseEmployeeDetailsList = ({
   data,
   course,
 }: EnrollCourseEmployeeDetailsListProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<number | null>(null);
+  console.log(
+    "🚀 ~ {data?.moduleLiveSection?.map ~ data?.moduleLiveSection:",
+    data?.moduleLiveSection
+  );
   return (
     <div>
       <div className="">
@@ -41,21 +45,21 @@ const EnrollCourseEmployeeDetailsList = ({
               key={i}
               variant={"outlinePrimary"}
               className="text-base font-droid px-2.5"
-              onClick={() => setIsOpen(true)}
+              onClick={() => setIsOpen(item?.id)}
             >
               <Video />
-              {item?.liveSecTitle}
+              {item?.subtitle}
             </Button>
           );
         })}
       </div>
 
       <Modal
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
+        open={!!isOpen}
+        onClose={() => setIsOpen(null)}
         className="max-w-3xl"
       >
-        <SessionModalDetails />
+        <SessionModalDetails id={isOpen} />
       </Modal>
     </div>
   );

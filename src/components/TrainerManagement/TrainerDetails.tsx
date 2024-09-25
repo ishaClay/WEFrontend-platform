@@ -100,7 +100,7 @@ const TrainerDetails = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
                   ])
@@ -116,7 +116,7 @@ const TrainerDetails = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
 

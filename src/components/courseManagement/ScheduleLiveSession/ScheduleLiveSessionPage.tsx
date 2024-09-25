@@ -137,6 +137,8 @@ const ScheduleLiveSessionPage = () => {
     },
   });
 
+  const selectedCohort = watch("selectCohort");
+
   const { data: fetchCourseAllCourseData, isPending: fetchCoursePending } =
     useQuery({
       queryKey: [QUERY_KEYS.fetchAllCourse],
@@ -227,27 +229,23 @@ const ScheduleLiveSessionPage = () => {
 
   const { data: getLiveSessionData, isFetching: getLiveSessionPending } =
     useQuery<CohortDataResponse>({
-      queryKey: ["getSession", { cohort: watch("selectCohort") }],
-      queryFn: () => getSession(+watch("selectCohort")),
-      enabled: !!watch("selectCohort"),
+      queryKey: ["getSession", { cohort: selectedCohort }],
+      queryFn: () => getSession(+selectedCohort),
+      enabled: !!selectedCohort,
     });
-  console.log(
-    "🚀 ~ ScheduleLiveSessionPage ~ watch('selectCohort'):",
-    watch("selectCohort")
-  );
 
   const cohortStartDate = useMemo(() => {
-    if (watch("selectCohort")) {
+    if (selectedCohort) {
       const findCohort = getCohortData?.data?.find(
-        (item) => +item?.id === +watch("selectCohort")
+        (item) => +item?.id === +selectedCohort
       );
       // @ts-ignore
+      if (!findCohort) return;
       const { month, date, year } = findCohort?.slotStartDate;
       const dateNew = new Date(`${year}-${month}-${date}`);
       return dateNew || new Date();
     }
-  }, [watch("selectCohort")]);
-  console.log("🚀 ~ cohortStartDate ~ cohortStartDate:", cohortStartDate);
+  }, [selectedCohort, getCohortData]);
 
   const cohortOption = getCohortData?.data?.map((item) => {
     const { month, date, year } = item?.slotStartDate;
@@ -312,7 +310,7 @@ const ScheduleLiveSessionPage = () => {
         setValue("zoomUrl", zoomApiBaseUrl || "");
       }
     }
-  }, [fetchLiveSessionById?.data?.data, id]);
+  }, [fetchLiveSessionById?.data?.data, id, setValue]);
 
   const onSubmit = async (data: z.infer<typeof ScheduleLiveSessionSchema>) => {
     if (watch("platform")) {
@@ -447,7 +445,7 @@ const ScheduleLiveSessionPage = () => {
                   setValue("selectCohort", e);
                   clearErrors("selectCohort");
                 }}
-                value={watch("selectCohort")}
+                value={selectedCohort}
                 itemClassName="text-base"
                 className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
                 placeholder="Select Cohort"

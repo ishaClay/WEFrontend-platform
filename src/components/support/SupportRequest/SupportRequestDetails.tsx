@@ -19,13 +19,13 @@ const SupportRequestDetails = ({ data }: SupportRequestDetailsProps) => {
         iconName="totalTickets"
       />
       <SupportMetric
-        label="Responded"
-        value={data?.responded}
+        label="In Progress"
+        value={data?.resolved}
         iconName="responded"
       />
       <SupportMetric
         label="Resolved"
-        value={data?.resolved}
+        value={data?.responded}
         iconName="resolved"
       />
       <SupportMetric label="Pending" value={data?.pending} iconName="pending" />

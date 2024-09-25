@@ -33,16 +33,21 @@ const Roadmap = ({
       ? userData?.query?.id
       : userData?.id;
 
-  const { data: maturitypillar, isFetching } =
+  const { data: maturitypillar, isLoading: fetchingMaturitypillar } =
     useQuery<AllActionDataPillerWise>({
-      queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+      queryKey: [
+        QUERY_KEYS.maturitypillar,
+        { selectAssessment, clientId, userID },
+      ],
       queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
       enabled: !!selectAssessment,
     });
 
   useEffect(() => {
     console.log("+++++++++++++ I Called +++++++++++++++");
-    const hasActionItems = maturitypillar?.data?.some(pillar => pillar?.actionItem?.length > 0);
+    const hasActionItems = maturitypillar?.data?.some(
+      (pillar) => pillar?.actionItem?.length > 0
+    );
     if (
       !isEdit &&
       ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
@@ -71,19 +76,23 @@ const Roadmap = ({
       </div>
       {step === 0 ? (
         <SetTarget
+          key={"select_pillars"}
           setStep={setStep}
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}
           maturitypillar={maturitypillar?.data || []}
-          isMaturitypillarLoading={isFetching}
+          isMaturitypillarLoading={fetchingMaturitypillar}
         />
-      ) : step === 1 ? <SetTarget
-            setStep={setStep}
-            setIsEdit={setIsEdit}
-            selectAssessment={selectAssessment}
-            maturitypillar={maturitypillar?.data || []}
-            isMaturitypillarLoading={isFetching}
-          /> : (
+      ) : step === 1 ? (
+        <SetTarget
+          key={"define_action_item"}
+          setStep={setStep}
+          setIsEdit={setIsEdit}
+          selectAssessment={selectAssessment}
+          maturitypillar={maturitypillar?.data || []}
+          isMaturitypillarLoading={fetchingMaturitypillar}
+        />
+      ) : (
         step === 2 && (
           <div className="w-full">
             <Assign

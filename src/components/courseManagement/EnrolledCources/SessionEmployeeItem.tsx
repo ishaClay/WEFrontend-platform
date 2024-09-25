@@ -1,10 +1,8 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { EmployeeEntity } from "@/types/liveSession";
 
 type sessionEmpoyeeProps = {
-  data: {
-    image: string;
-    empoyeeName: string;
-  };
+  data: EmployeeEntity;
 };
 
 const SessionEmployeeItem = ({ data }: sessionEmpoyeeProps) => {
@@ -13,14 +11,14 @@ const SessionEmployeeItem = ({ data }: sessionEmpoyeeProps) => {
       <div className="flex items-center justify-between py-2.5 border-b border-[#D9D9D9]">
         <div className="flex items-center">
           <div className="w-[40px] h-[40px] rounded-full overflow-hidden me-4">
-            <img src={data.image} />
+            <Avatar>
+              <AvatarImage src={data.profileImage || ""} />
+              <AvatarFallback className="uppercase">
+                {data?.name?.at(0)}
+              </AvatarFallback>
+            </Avatar>
           </div>
-          <div className="font-droid text-base font-medium">
-            {data.empoyeeName}
-          </div>
-        </div>
-        <div className="">
-          <Checkbox className="w-[18px] h-[18px] border-[#D9D9D9]" />
+          <div className="font-droid text-base font-medium">{data.name}</div>
         </div>
       </div>
     </div>

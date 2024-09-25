@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/components/ui/use-toast";
 import { getDeviceToken } from "@/firebaseConfig";
 import { useAppSelector } from "@/hooks/use-redux";
@@ -480,7 +481,7 @@ function RegisterTrainer() {
                     >
                       <SelectGroup>
                         <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
-                          Foregin Provider
+                          Foreign Provider
                           <span className="text-red-500">*</span>
                         </SelectLabel>
 
@@ -516,36 +517,45 @@ function RegisterTrainer() {
                       />
                     )}
                   </div> */}
+                  <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
                   <div className="col-span-2">
                     <label className="mb-1  text-[#3A3A3A] font-bold flex items-center leading-5 font-droid sm:text-base text-[15px]">
                       Contact Telephone No.{" "}
                     </label>
-                    <PhoneInput
-                      {...register("contactTelephone")}
-                      placeholder="Country calling code (select from dropdown) + Number"
-                      value={phone}
-                      international
-                      onChange={(e: any) => {
-                        setValue("contactTelephone", e);
-                        setPhone(e);
-                        if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
-                          setError("contactTelephone", {
-                            message: "Please enter valid phone number",
-                          });
-                        } else {
-                          setError("contactTelephone", {
-                            message: "",
-                          });
-                        }
-                      }}
-                      className="phone-input"
-                    />
+                          <PhoneInput
+                            {...register("contactTelephone")}
+                            placeholder="Enter contact number"
+                            value={phone}
+                            international
+                            onChange={(e: any) => {
+                              setValue("contactTelephone", e);
+                              setPhone(e);
+                              if (e?.trim()?.length < 10 || e?.trim()?.length > 15) {
+                                setError("contactTelephone", {
+                                  message: "Please enter valid phone number",
+                                });
+                              } else {
+                                setError("contactTelephone", {
+                                  message: "",
+                                });
+                              }
+                            }}
+                            className="phone-input"
+                          />
                     {errors.contactTelephone && (
                       <ErrorMessage
                         message={errors.contactTelephone.message as string}
                       />
                     )}
                   </div>
+                  </TooltipTrigger>
+                        <TooltipContent side="bottom">
+                          <p>Country calling code (select from dropdown) + Number</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   <div className="col-span-2">
                     <InputWithLable
                       placeholder="Enter email address"

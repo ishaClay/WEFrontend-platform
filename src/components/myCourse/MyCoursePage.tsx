@@ -118,7 +118,7 @@ const MyCoursePage = () => {
               option={pillerFilterOption || []}
               setValue={(data: string) => setSelectFilterByCategory(data)}
               value={selectFilterByCategory}
-              className="sm:w-[176px] w-[183px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3]"
+              className="sm:min-w-[176px] min-w-[183px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3]"
               placeholder="Filter By Piller"
             />
           </div>
@@ -130,7 +130,7 @@ const MyCoursePage = () => {
               option={filter1Option}
               setValue={(data: string) => setSelectFilterByStatus(data)}
               value={selectFilterByStatus}
-              className="sm:w-[176px] w-[112px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3] sm:px-3 px-[6px]"
+              className="sm:min-w-[176px] min-w-[112px] h-[36px] sm:text-sm text-xs font-normal font-droid text-black border border-[#A3A3A3] sm:px-3 px-[6px]"
               placeholder="Filter By Status"
             />
           </div>

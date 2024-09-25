@@ -32,7 +32,7 @@ import { UserRole } from "@/types/UserRole";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, ChevronLeft, FilePenLine, Loader2 } from "lucide-react";
 import moment from "moment";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { FaImage } from "react-icons/fa6";
 import { IoIosDocument } from "react-icons/io";
 import { MdClose, MdOutlineAttachFile } from "react-icons/md";
@@ -57,6 +57,7 @@ const Message = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
   const [chatId, setChatId] = useState<number | string>("");
+  const [chatType, setChatType] = useState<boolean>(false);
   const [allMsg, setAllMsg] = useState<any[]>([]);
 
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -73,9 +74,12 @@ const Message = () => {
     queryFn: () => fetchChatUserList(userID as string),
   });
 
-  const currentChat = chatUserList?.data?.data?.find(
-    (item) => item?.id === +chatId
-  );
+  const currentChat = useMemo(() => {
+    return chatUserList?.data?.data?.find(
+      (item) => item?.id === +chatId && item.group === chatType
+    );
+  }, [chatUserList, chatId, chatType]);
+  console.log("🚀 ~ currentChat ~ currentChat:", currentChat);
 
   const updatemessageData = (chatId: string) => {
     updatemessage({
@@ -89,6 +93,7 @@ const Message = () => {
     const chatId = searchParams.get("chatId");
     if (chatId) {
       setChatId(chatId);
+      setChatType(searchParams.get("messageType") === "group");
       updatemessageData(chatId);
     }
   }, [searchParams]);
@@ -615,13 +620,23 @@ const Message = () => {
               chatUserList?.data?.data
                 ?.filter(filterByName)
                 ?.map((item: GetChatUserList | any) => {
+                  console.log(
+                    "currentChat?.group === item?.group",
+                    chatId,
+                    item?.id,
+                    currentChat?.group,
+                    item?.group
+                  );
+
                   return (
                     <div
                       key={item.id}
                       className="flex pl-5 pr-[17px] pt-[15px] pb-3 cursor-pointer hover:bg-[#EDEFF9]"
                       style={{
                         backgroundColor:
-                          chatId === item?.id || item?.count > 0
+                          (chatId === item?.id &&
+                            currentChat?.group === item?.group) ||
+                          item?.count > 0
                             ? "#EDEFF9"
                             : "white",
                       }}
@@ -630,6 +645,7 @@ const Message = () => {
                           setOpenDrawer(true);
                         }
                         setChatId(item?.id);
+                        setChatType(item?.group);
                         await updatemessage({
                           userId1: userID,
                           userId2: item?.id,
@@ -684,7 +700,7 @@ const Message = () => {
                             ? "Company Employee"
                             : item?.role === UserRole.SuperAdmin
                             ? "Super Admin"
-                            : currentChat?.group
+                            : item.group
                             ? "Group"
                             : "Client"}
                         </div>

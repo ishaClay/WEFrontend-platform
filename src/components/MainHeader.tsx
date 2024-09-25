@@ -182,7 +182,8 @@ const MainHeader = () => {
                         }
                       />
                       <AvatarFallback>
-                        {userData?.query?.fname?.charAt(0) ||
+                        {userData?.query?.fname?.charAt(0) +
+                          userData?.query?.lname?.charAt(0) ||
                           userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>{" "}
@@ -224,16 +225,16 @@ const MainHeader = () => {
                         setOpenType("profile");
                       }}
                     >
-                      Profile Setting
+                      User Settings
                     </DropdownMenuItem>
-                    <DropdownMenuItem
+                    {/* <DropdownMenuItem
                       onClick={() => {
                         setIsOpen(true);
                         setOpenType("account");
                       }}
                     >
                       Account Setting
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem onClick={handleLogout}>
                       Log Out
                     </DropdownMenuItem>
@@ -293,7 +294,8 @@ const MainHeader = () => {
                         }
                       />
                       <AvatarFallback>
-                        {userData?.query?.fname?.charAt(0) ||
+                        {userData?.query?.fname?.charAt(0) +
+                          userData?.query?.lname?.charAt(0) ||
                           userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>{" "}
@@ -309,16 +311,16 @@ const MainHeader = () => {
                         setOpenType("profile");
                       }}
                     >
-                      Profile Setting
+                      User Settings
                     </DropdownMenuItem>
-                    <DropdownMenuItem
+                    {/* <DropdownMenuItem
                       onClick={() => {
                         setIsOpen(true);
                         setOpenType("account");
                       }}
                     >
                       Account Setting
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem onClick={handleLogout}>
                       Log Out
                     </DropdownMenuItem>

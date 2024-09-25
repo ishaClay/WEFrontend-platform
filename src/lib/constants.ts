@@ -25,6 +25,7 @@ export const QUERY_KEYS = {
   maturityLevel: "maturity_level",
   fetchbyclientMaturity: "fetch_by_client_maturity",
   maturitypillar: "maturity_pillar",
+  maturitypillarAssessment: "maturitypillarAssessment",
   filterMaturityMeasures: "filter_maturity_measures",
   measuresItems: "measures_items",
   updatePillar: "update_pillar",

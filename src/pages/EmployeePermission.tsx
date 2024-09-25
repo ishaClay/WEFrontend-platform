@@ -41,7 +41,8 @@ function EmployeePermission() {
         userData?.query?.companyDetails
           ? userData?.query?.companyDetails?.id
           : userData?.query?.detailsid,
-        search
+        search,
+        "Registered"
       ),
   });
 
@@ -214,7 +215,7 @@ function EmployeePermission() {
         <div className="flex bg-[#FFFFFF] ">
           <div className="m-4 relative">
             <Input
-              placeholder="Search by Name, Email etc."
+              placeholder="Search by Name"
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setSearch(e.target.value)

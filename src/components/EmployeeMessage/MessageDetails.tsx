@@ -38,6 +38,7 @@ let socket: any;
 const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   const queryClient = useQueryClient();
   const [allMsg, setAllMsg] = useState<ChatDetailsList[]>([]);
+  console.log("🚀 ~ MessageDetails ~ allMsg:", allMsg);
   const { UserId } = useAppSelector((state) => state.user);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const { group } = useChatBotContext();
@@ -83,17 +84,18 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
   console.log("group", group);
 
   const { data: chatList, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.chatList],
+    queryKey: [QUERY_KEYS.chatList, { id: empId?.id, group: !empId?.group }],
     queryFn: () => fetchChat(userID, empId.id),
-    enabled: !!userID && !!empId?.id,
+    enabled: !!userID && !!empId?.id && !empId?.group,
   });
 
   const { data: groupChat } = useQuery({
-    queryKey: [QUERY_KEYS.fetchGroupChat],
-    queryFn: () => fetchGroupChat(group?.id),
-    enabled: !!group,
+    queryKey: [QUERY_KEYS.fetchGroupChat, { group: empId?.group }],
+    queryFn: () => fetchGroupChat(group?.id || empId?.id),
+    enabled: !!empId?.group || !!group,
   });
 
+  console.log("🚀 ~ MessageDetails ~ groupChat:", groupChat);
   const { mutate: Send, isPending: sendPending } = useMutation({
     mutationFn: sendMessage,
     onSuccess: ({ data }) => {
@@ -105,7 +107,7 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
     },
   });
 
-  const { mutate: sendMessageMutation } = useMutation({
+  const { mutate: sendMessageMutation, isPending: sendMessagePending } = useMutation({
     mutationFn: sendGroupMessage,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.fetchGroupChat] });
@@ -261,8 +263,8 @@ const MessageDetails = ({ empId, setEmpId }: MessageDetailsProps) => {
               mainClassName="w-full"
               {...register("message")}
             />
-            <Button disabled={!isValid} className="h-[36px] py-2 bg-[#76BC41]">
-              {sendPending ? <Loader /> : <SendHorizontal className="w-5" />}
+            <Button disabled={!isValid || sendMessagePending || sendPending} className="h-[36px] py-2 bg-[#76BC41]">
+              {sendPending || sendPending ? <Loader /> : <SendHorizontal className="w-5" />}
             </Button>
           </div>
         </form>

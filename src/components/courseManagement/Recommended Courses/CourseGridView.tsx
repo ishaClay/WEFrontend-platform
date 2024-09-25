@@ -10,8 +10,9 @@ import Modal from "@/components/comman/Modal";
 import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { createInquiry } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
@@ -35,6 +36,7 @@ const CourseGridView = ({
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const Role = location?.pathname?.split("/")[1];
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
@@ -159,15 +161,34 @@ const CourseGridView = ({
       </Modal>
       <div
         className="w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
-        onClick={() =>
-          navigate(
-            // @ts-ignore
-            `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
-          )
-        }
         key={recommendeddata.id}
       >
-        <div className="relative overflow-hidden h-[231px]">
+        <div
+          className="relative overflow-hidden h-[231px] cursor-pointer"
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: `Course Management`,
+                  link: null,
+                },
+                {
+                  label: `Recommended Courses`,
+                  link: `/${Role}/coursesrecommended`,
+                },
+                {
+                  label: `${recommendeddata.title}`,
+                  // @ts-ignore
+                  link: `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`,
+                },
+              ])
+            );
+            navigate(
+              // @ts-ignore
+              `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+            );
+          }}
+        >
           <img
             src={recommendeddata?.bannerImage}
             alt="course"
@@ -176,16 +197,41 @@ const CourseGridView = ({
         </div>
 
         <div className="">
-          <div className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between">
+          <div
+            className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between cursor-pointer"
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: `Course Management`,
+                    link: null,
+                  },
+                  {
+                    label: `Recommended Courses`,
+                    link: `/${Role}/coursesrecommended`,
+                  },
+                  {
+                    label: `${recommendeddata.title}`,
+                    // @ts-ignore
+                    link: `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`,
+                  },
+                ])
+              );
+              navigate(
+                // @ts-ignore
+                `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+              );
+            }}
+          >
             <div>
-              <span className="font-droid lg:text-base text-sm line-clamp-2 mb-3 font-semibold">
+              <span className="font-droid lg:text-base text-sm line-clamp-2 mb-3 font-semibold h-[48px]">
                 {recommendeddata.title}
               </span>
               <h3 className="text-[#000000] text-[18px] font-droid font-[600] sm:w-[100px] w-[80px] mb-3">
                 €{recommendeddata.price}
               </h3>
               <div className="mb-3">
-                <div className="flex items-center md:gap-4 sm:gap-3 gap-2 flex-wrap leading-[22px]">
+                <div className="flex start md:gap-4 sm:gap-3 gap-2 flex-wrap leading-[22px] min-h-[122px] 2xl:min-h-0 content-baseline">
                   {recommendeddata?.courseData?.map((item) => {
                     return (
                       <div className="flex gap-2 items-center">
@@ -206,7 +252,7 @@ const CourseGridView = ({
                 <div className="gap-2 col-span-2">
                   <div className="flex items-center gap-1 mb-[2px]">
                     <img className="h-[16] w-[18px]" src={speed} alt="Course" />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       Level-
                       {recommendeddata?.courseData?.[0]?.fetchMaturity
                         ?.maturityLevelName || "--"}
@@ -218,7 +264,7 @@ const CourseGridView = ({
                       src={fulltime}
                       alt="Course"
                     />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       {recommendeddata.time === CourseTime.FullTime && (
                         <span>Full-time</span>
                       )}
@@ -229,7 +275,7 @@ const CourseGridView = ({
                   </div>
                   <div className="flex items-center gap-1 mb-[2px]">
                     <img className=" h-[16] w-[18px]" src={time} alt="Course" />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       {recommendeddata.duration || "--"}
                     </p>
                   </div>
@@ -242,7 +288,7 @@ const CourseGridView = ({
                       src={diploma}
                       alt="Course"
                     />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       {recommendeddata?.universityAddress || "--"}
                     </p>
                   </div>
@@ -252,7 +298,7 @@ const CourseGridView = ({
                       src={online}
                       alt="Course"
                     />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       {recommendeddata.isOnline === IsOnline.Online && (
                         <span>Online</span>
                       )}
@@ -270,7 +316,7 @@ const CourseGridView = ({
                       src={unversity}
                       alt="Course"
                     />
-                    <p className="text-xs leading-[22px] text-[#3A3A3A]">
+                    <p className="text-xs leading-[22px] text-[#3A3A3A] line-clamp-1">
                       {recommendeddata?.otherInstitutionName || "--"}
                     </p>
                   </div>
@@ -287,10 +333,10 @@ const CourseGridView = ({
                 alt="Course"
               />
             </div>
-            <div className="2xl:col-span-5 col-span-4 xl:mr-0 ml-auto m-0 flex items-center 2xl:flex-row flex-col 2xl:gap-4 gap-2">
+            <div className="2xl:col-span-5 col-span-4 xl:mr-0 ml-auto m-0 flex items-center min-[1600px]:flex-col min-[1800px]:flex-row flex-col gap-2">
               {recommendeddata?.inquire ? (
                 <Button
-                  className="bg-[#00778B] sm:w-[125px] sm:h-[43px] px-4 sm:text-base text-sm w-[143px]"
+                  className="bg-[#00778B] sm:h-[43px] px-4 sm:text-base text-sm w-[143px]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(

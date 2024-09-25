@@ -205,31 +205,33 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
           return (
             <>
               <div
-                className="h-full w-full border border-solid border-[#D9D9D9] cursor-pointer rounded col-span-1"
-                onClick={() => {
-                  navigate(
-                    `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
-                  );
-                  dispatch(
-                    setPath([
-                      {
-                        label: `Course Management`,
-                        link: null,
-                      },
-                      {
-                        label: `All Courses`,
-                        link: `/company/allcourses`,
-                      },
-                      {
-                        label: allcourse.title,
-                        link: null,
-                      },
-                    ])
-                  );
-                }}
+                className="h-full w-full border border-solid border-[#D9D9D9] rounded col-span-1"
                 key={allcourse.id}
               >
-                <div className="relative overflow-hidden">
+                <div
+                  className="relative overflow-hidden cursor-pointer"
+                  onClick={() => {
+                    navigate(
+                      `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
+                    );
+                    dispatch(
+                      setPath([
+                        {
+                          label: `Course Management`,
+                          link: null,
+                        },
+                        {
+                          label: `All Courses`,
+                          link: `/company/allcourses`,
+                        },
+                        {
+                          label: allcourse.title,
+                          link: null,
+                        },
+                      ])
+                    );
+                  }}
+                >
                   <img
                     className="w-full object-cover lg:h-[231px] h-full object-center"
                     src={allcourse?.bannerImage}
@@ -245,7 +247,30 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                 </div>
 
                 <div className="">
-                  <div className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3">
+                  <div
+                    onClick={() => {
+                      navigate(
+                        `/${Role}/employee-basic-course/${allcourse?.currentVersion?.id}`
+                      );
+                      dispatch(
+                        setPath([
+                          {
+                            label: `Course Management`,
+                            link: null,
+                          },
+                          {
+                            label: `All Courses`,
+                            link: `/company/allcourses`,
+                          },
+                          {
+                            label: allcourse.title,
+                            link: null,
+                          },
+                        ])
+                      );
+                    }}
+                    className="md:px-5 px-3 md:py-[14px] py-3 h-[calc(100%-78px)] flex flex-col justify-between gap-3 cursor-pointer"
+                  >
                     <p className="sm:text-base text-sm font-medium font-droid line-clamp-2 text-[#1D2026] sm:min-h-[50px] h-auto">
                       {allcourse.title}
                     </p>

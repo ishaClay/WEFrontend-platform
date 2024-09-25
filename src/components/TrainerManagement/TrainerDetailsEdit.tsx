@@ -221,7 +221,7 @@ const TrainerDetailsEdit = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
                   ])
@@ -237,7 +237,7 @@ const TrainerDetailsEdit = () => {
                 dispatch(
                   setPath([
                     {
-                      label: "Trainer Managment",
+                      label: "Trainer Management",
                       link: `/${Role}/trainer-management`,
                     },
 
@@ -435,7 +435,7 @@ const TrainerDetailsEdit = () => {
                   >
                     <SelectGroup>
                       <SelectLabel className="text-[16px] font-[700] py-0 pb-[9px] mt-0">
-                        Foregin Provider
+                        Foreign Provider
                       </SelectLabel>
 
                       <SelectTrigger className="h-[46px] text-[gray]">
