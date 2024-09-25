@@ -684,7 +684,7 @@ const Message = () => {
                             ? "Company Employee"
                             : item?.role === UserRole.SuperAdmin
                             ? "Super Admin"
-                            : currentChat?.group
+                            : currentChat?.group || !item?.role
                             ? "Group"
                             : "Client"}
                         </div>

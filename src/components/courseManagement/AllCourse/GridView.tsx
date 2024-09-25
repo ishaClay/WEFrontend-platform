@@ -412,7 +412,7 @@ const GridView = ({
           const isTrainee = +userData?.query?.role === UserRole?.Trainee;
           const isMyCoursesPath = pathName === "mycourses";
           const CoursesPath =
-            pathName === "mycourses" ? "My Courses" : pathName;
+            pathName === "mycourses" ? "My Courses" : pathName === "allcourse" && "All Courses";
           const isPublished = item?.status === "PUBLISHED";
 
           const versionOption =

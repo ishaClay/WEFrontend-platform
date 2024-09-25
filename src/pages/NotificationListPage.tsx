@@ -69,7 +69,7 @@ const NotificationListPage = () => {
         deleteMultipleNotification(notificationIds),
       onSuccess: () => {
         toast({
-          title: "Notifications delete Successfully",
+          title: "Notifications deleted successfully",
           variant: "success",
         });
         queryClient.invalidateQueries({
@@ -87,7 +87,8 @@ const NotificationListPage = () => {
       },
     });
 
-  const toggleNotificationSelection = (notificationId: string) => {
+  const toggleNotificationSelection = (e:any, notificationId: string) => {
+    e.stopPropagation();
     if (notificationIds.includes(notificationId)) {
       setNotificationIds(notificationIds.filter((id) => id !== notificationId));
     } else {
@@ -162,24 +163,27 @@ const NotificationListPage = () => {
                 >
                   <Checkbox
                     checked={notificationIds.includes(notification.id)}
-                    onChange={() =>
-                      toggleNotificationSelection(notification.id)
+                    onChange={(e) =>
+                      toggleNotificationSelection(e, notification.id)
                     }
-                    onClick={() => toggleNotificationSelection(notification.id)}
+                    onClick={(e) => toggleNotificationSelection(e, notification.id)}
                   />
                   <div className="flex flex-col gap-[9px] w-[90%]">
                     <p className="text-[12px] text-[#A3A3A3] max-w-[1250px]">
                       {getTimeAgo(notification.createdAt)}
                     </p>
                     <h3 className="text-[16px] font-bold">
-                      {notification.title}
+                      {notification.title} 
                     </h3>
                     <p
                       className="text-[16px]"
                       dangerouslySetInnerHTML={{ __html: notification.content }}
                     ></p>
                   </div>
-                  <button onClick={() => delete_notification(notification.id)}>
+                  <button onClick={(e) => {
+                    e.stopPropagation();
+                    delete_notification(notification.id)
+                  }}>
                     <img src={delet} alt="" className="w-[14px] h-[17px]" />
                   </button>
                 </div>

@@ -51,7 +51,7 @@ const EnrolledCourseList = () => {
         if (index === indexToReplace) {
           if (!fetchEnrollmentAcceptedFilterList?.data?.id) {
             toast({
-              title: `No any enrolled SMEcompny found for this version`,
+              title: `No any enrolled SME Company found for this version`,
               variant: "destructive",
             });
             return item;

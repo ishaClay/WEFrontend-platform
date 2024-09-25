@@ -438,7 +438,7 @@ const ListView = ({
                 dispatch(
                   setPath([
                     { label: "Course Management", link: null },
-                    { label: `${pathName}`, link: `/${Role}/${pathName}` },
+                    { label: `${pathName === "allcourse" && "All Courses"}`, link: `/${Role}/${pathName}` },
                     { label: "Employee Basic Course", link: null },
                   ])
                 )
