@@ -262,22 +262,31 @@ const AssecessmentTypeOne = forwardRef<Validatable, AssecessmentTypeProps>(
                           )?.options?.length ?? 0 - 1
                           ? "h-[24px]"
                           : ""
-                      }`}
+                      } ${
+                        errors.options[index]
+                          ? "justify-between"
+                          : "justify-end"
+                      } flex items-center`}
                     >
                       {errors.options[index] && (
                         <span className={`text-red-500 text-sm`}>
                           {errors.options[index]}
                         </span>
                       )}
+                      {errors.answer && (
+                        <p className="text-red-500 text-sm self-end">
+                          {errors.answer}
+                        </p>
+                      )}
                     </p>
                   </Fragment>
                 );
               })}
-              {errors.answer && (
-                <p className="text-red-500 text-sm absolute bottom-0 right-0">
-                  {errors.answer}
-                </p>
-              )}
+            {errors.answer && (
+              <p className="text-red-500 text-sm absolute bottom-0 right-0">
+                {errors.answer}
+              </p>
+            )}
           </RadioGroup>
         </div>
       </div>

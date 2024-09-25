@@ -336,30 +336,32 @@ function SupportAddNewTicket() {
                     <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                       <FiImage className="w-6 h-6" />
                     </div>
-                    {!file && <span>Upload Document</span>}
+                    <span className="text-[14px] font-normal">
+                      Upload Document
+                    </span>
                     {file && (
-                    <Button
-                      type="button"
-                      variant={"ghost"}
-                      className="p-0 h-auto hover:bg-transparent absolute -top-3 -right-3"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setFile("");
-                      }}
-                    >
-                      <X className="w-5 h-5" />
-                    </Button>
-                  )}
-                  {file && (
-                    <a
-                      href={file}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
-                    >
-                      View attachment
-                    </a>
-                  )}
+                      <Button
+                        type="button"
+                        variant={"ghost"}
+                        className="p-0 h-auto hover:bg-transparent absolute -top-3 -right-3"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFile("");
+                        }}
+                      >
+                        <X className="w-5 h-5" />
+                      </Button>
+                    )}
+                    {file && (
+                      <a
+                        href={file}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
+                      >
+                        View attachment
+                      </a>
+                    )}
                   </div>
                 </div>
               </FileUpload>
@@ -376,7 +378,9 @@ function SupportAddNewTicket() {
                     <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                       <FiVideo className="w-6 h-6" />
                     </div>
-                    <span>Upload Video</span>
+                    <span className="text-[14px] font-normal">
+                      Upload Video
+                    </span>
                   </div>
                   {video && (
                     <Button

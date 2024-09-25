@@ -62,8 +62,6 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
     }
   };
 
-  console.log("isOpen+++++++++++++", isOpen);
-
   useEffect(() => {
     sidebarItems.forEach((item, index) => {
       if (item?.children?.length > 0) {
@@ -149,6 +147,7 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
         <div className="mt-4 flex flex-col gap-4 relative">
           {sidebarItems.map((item, index) => {
             const Icon = item.Icon;
+
             return (
               <div key={index}>
                 {item.label !== "Logout" ? (
@@ -163,7 +162,16 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                             item?.children.length === 0 &&
                               dispatch(
                                 setPath([
-                                  { label: `${item.label}`, link: null },
+                                  {
+                                    label: `${
+                                      location.pathname?.split("/")[1] ===
+                                        "company" &&
+                                      item.label === "Team Management"
+                                        ? "Trainee Management"
+                                        : item.label
+                                    }`,
+                                    link: null,
+                                  },
                                 ])
                               );
                           }
@@ -296,7 +304,14 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                                         dispatch(
                                           setPath([
                                             {
-                                              label: `${item.label}`,
+                                              label: `${
+                                                location.pathname?.split(
+                                                  "/"
+                                                )[1] === "company" &&
+                                                item.label === "Team Management"
+                                                  ? "Trainee Management"
+                                                  : item.label
+                                              }`,
                                               link: null,
                                             },
                                             {
@@ -335,7 +350,13 @@ const Sidebar = ({ sidebarItems }: { sidebarItems: SidebarItem[] }) => {
                                   dispatch(
                                     setPath([
                                       {
-                                        label: `${item.label}`,
+                                        label: `${
+                                          location.pathname?.split("/")[1] ===
+                                            "company" &&
+                                          item.label === "Team Management"
+                                            ? "Trainee Management"
+                                            : item.label
+                                        }`,
                                         link: null,
                                       },
                                       {

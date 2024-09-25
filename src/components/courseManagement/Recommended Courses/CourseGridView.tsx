@@ -10,8 +10,9 @@ import Modal from "@/components/comman/Modal";
 import RecommendedCoursesModel from "@/components/RecommendedCoursesModel";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { sendMessage } from "@/services/apiServices/chatServices";
 import { createInquiry } from "@/services/apiServices/courseManagement";
 import { fetchCourseDiscountEnroll } from "@/services/apiServices/enroll";
@@ -35,6 +36,7 @@ const CourseGridView = ({
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const userID = UserId ? UserId : userData?.query?.id;
   const queryClient = useQueryClient();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const Role = location?.pathname?.split("/")[1];
   const [recommendedCoursesById, setRecommendedCoursesById] = useState<
@@ -159,15 +161,34 @@ const CourseGridView = ({
       </Modal>
       <div
         className="w-full border border-solid border-[#D9D9D9] rounded col-span-1 overflow-hidden"
-        onClick={() =>
-          navigate(
-            // @ts-ignore
-            `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
-          )
-        }
         key={recommendeddata.id}
       >
-        <div className="relative overflow-hidden h-[231px]">
+        <div
+          className="relative overflow-hidden h-[231px] cursor-pointer"
+          onClick={() => {
+            dispatch(
+              setPath([
+                {
+                  label: `Course Management`,
+                  link: null,
+                },
+                {
+                  label: `Recommended Courses`,
+                  link: `/${Role}/coursesrecommended`,
+                },
+                {
+                  label: `${recommendeddata.title}`,
+                  // @ts-ignore
+                  link: `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`,
+                },
+              ])
+            );
+            navigate(
+              // @ts-ignore
+              `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+            );
+          }}
+        >
           <img
             src={recommendeddata?.bannerImage}
             alt="course"
@@ -176,7 +197,32 @@ const CourseGridView = ({
         </div>
 
         <div className="">
-          <div className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between">
+          <div
+            className="min-h-[291px] max-h-[335px] h-full sm:px-[19px] sm:py-[14px] p-3 flex flex-col justify-between cursor-pointer"
+            onClick={() => {
+              dispatch(
+                setPath([
+                  {
+                    label: `Course Management`,
+                    link: null,
+                  },
+                  {
+                    label: `Recommended Courses`,
+                    link: `/${Role}/coursesrecommended`,
+                  },
+                  {
+                    label: `${recommendeddata.title}`,
+                    // @ts-ignore
+                    link: `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`,
+                  },
+                ])
+              );
+              navigate(
+                // @ts-ignore
+                `/${Role}/employee-basic-course/${recommendeddata?.currentVersion?.id}`
+              );
+            }}
+          >
             <div>
               <span className="font-droid lg:text-base text-sm line-clamp-2 mb-3 font-semibold h-[48px]">
                 {recommendeddata.title}

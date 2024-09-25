@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import ClockImage from "@/assets/images/Clock.png";
 import GraduationCapImage from "@/assets/images/Graduationcap.png";
 import InternetImage from "@/assets/images/Internet.png";
@@ -19,6 +20,10 @@ type myPagesListProps = {
 };
 
 const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
+  console.log(
+    "🚀 ~ MyCourseGrid ~ selectFilterByCategory:",
+    selectFilterByCategory
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const Role = location.pathname.split("/")[1];
@@ -113,10 +118,8 @@ const MyCourseGrid = ({ grid, selectFilterByCategory }: myPagesListProps) => {
                 <p className="text-xs font-droid font-normal text-[#3A3A3A] leading-6 pl-1 line-clamp-1">
                   Level-{" "}
                   {
-                    grid?.course?.courseData?.find(
-                      (item) =>
-                        item?.fetchPillar?.pillarName === selectFilterByCategory
-                    )?.fetchMaturity?.maturityLevelName
+                    // @ts-ignore
+                    grid?.course?.nfqLeval?.leval
                   }
                 </p>
               </div>

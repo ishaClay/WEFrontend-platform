@@ -214,7 +214,9 @@ const SupportRequestTable = ({
                 : "text-[#FFD56A]"
             } w-20 h-8 font-bold px-3 flex items-center justify-center`}
           >
-            {row.original.status === "InProcess" ? "In Progress" : row.original.status}
+            {row.original.status === "InProcess"
+              ? "In Process"
+              : row.original.status}
           </p>
         );
       },

@@ -187,7 +187,7 @@ const TrainerInvitation = () => {
             dispatch(
               setPath([
                 {
-                  label: "Trainer Managment",
+                  label: "Trainer Management",
                   link: `/${Role}/trainer-management`,
                 },
               ])

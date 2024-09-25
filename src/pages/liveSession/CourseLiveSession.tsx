@@ -48,7 +48,7 @@ const CourseLiveSession = () => {
               onClick={() => {
                 dispatch(
                   setPath([
-                    { label: "Course Managment", link: null },
+                    { label: "Course Management", link: null },
                     {
                       label: "Live Session",
                       link: `/${currentUser}/CourseLiveSession`,

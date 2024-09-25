@@ -56,7 +56,7 @@ const TrainerEditDetails = () => {
       dispatch(
         setPath([
           {
-            label: "Trainer Managment",
+            label: "Trainee Management",
             link: null,
           },
           {

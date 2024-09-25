@@ -1,84 +1,78 @@
-import employee_face_1 from "@/assets/images/face_1.jfif";
-import employee_face_2 from "@/assets/images/face_2.jfif";
-import employee_face_3 from "@/assets/images/face_3.jfif";
-import employee_face_4 from "@/assets/images/face_4.jfif";
-import { Button } from "@/components/ui/button";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import Loader from "@/components/comman/Loader";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getSingleLiveSession } from "@/services/apiServices/liveSession";
+import { SingleLiveSession } from "@/types/liveSession";
+import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 import SessionEmployeeItem from "./SessionEmployeeItem";
 
-const SessionModalDetails = () => {
-  const sessionEmpoyee = [
-    {
-      image: employee_face_1,
-      empoyeeName: "Ankites Risher",
-    },
-    {
-      image: employee_face_2,
-      empoyeeName: "Liam Risher",
-    },
-    {
-      image: employee_face_3,
-      empoyeeName: "Honey Risher",
-    },
-    {
-      image: employee_face_4,
-      empoyeeName: "Honey Risher",
-    },
-    {
-      image: employee_face_1,
-      empoyeeName: "Ankites Risher",
-    },
-    {
-      image: employee_face_2,
-      empoyeeName: "Liam Risher",
-    },
-    {
-      image: employee_face_3,
-      empoyeeName: "Honey Risher",
-    },
-    {
-      image: employee_face_4,
-      empoyeeName: "Honey Risher",
-    },
-  ];
+const SessionModalDetails = ({ id }: { id: number | null }) => {
+  const { data, isLoading } = useQuery<SingleLiveSession>({
+    queryKey: ["getSingleLiveSession", { id }],
+    // @ts-ignore
+    queryFn: () => getSingleLiveSession(id.toString() || "0"),
+    enabled: !!id,
+  });
+  console.log("🚀 ~ SessionModalDetails ~ data:", data);
+
+  const differenceInMillis = moment(data?.data?.startTime)
+    .add(data?.data?.sessionDuration, "minutes")
+    .diff(data?.data?.startTime);
+
+  // Convert milliseconds to hours and minutes
+  const duration = moment.duration(differenceInMillis);
+  const hours = Math.floor(duration.asHours());
+  const minutes = duration.minutes();
+
   return (
     <div>
-      <div className="">
-        <h3 className="text-2xl font-droid font-bold pb-5">Live Session</h3>
-        <h5 className="pb-2.5 font-droid text-base font-bold">
-          Live session title goes here
-        </h5>
-        <h6 className="pb-2.5 font-droid text-base">
-          Session subtitle goes here
-        </h6>
-        <h6 className="pb-2.5 font-droid text-base">
-          Trainer : Trainer Name Here
-        </h6>
-        <div className="flex pb-5">
-          <h5 className="pe-5 text-[#606060] font-droid text-base">
-            Start Date: <span className="text-black">10/04/2024</span>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="">
+          <h3 className="text-2xl font-droid font-bold pb-5">Live Session</h3>
+          <h5 className="pb-2.5 font-droid text-base font-bold">
+            {data?.data?.subtitle}
           </h5>
-          <h5 className="pe-5 text-[#606060] font-droid text-base">
-            Start Time: <span className="text-black">11:00AM</span>
-          </h5>
-          <h5 className="font-droid text-[#606060] text-base">
-            Duration: <span className="text-black">1:30 Hours</span>
-          </h5>
+          <h6 className="pb-2.5 font-droid text-base">
+            {data?.data?.description}
+          </h6>
+          <h6 className="pb-2.5 font-droid text-base">
+            Trainer : Trainer Name Here
+          </h6>
+          <div className="flex pb-5">
+            <h5 className="pe-5 text-[#606060] font-droid text-base">
+              Start Date:{" "}
+              <span className="text-black">
+                {moment(data?.data?.startTime).format("DD-MM-YYYY")}
+              </span>
+            </h5>
+            <h5 className="pe-5 text-[#606060] font-droid text-base">
+              Start Time:{" "}
+              <span className="text-black">
+                {moment(data?.data?.startTime).format("hh:mm A")}
+              </span>
+            </h5>
+            <h5 className="font-droid text-[#606060] text-base">
+              Duration:{" "}
+              <span className="text-black">
+                {/* time2.diff(time1, 'minutes') */}
+                {hours?.toString().padStart(2, "0")}:
+                {minutes?.toString().padStart(2, "0")} Hours
+              </span>
+            </h5>
+          </div>
+          <h4 className="pb-3 font-droid text-base font-bold">
+            Employee Attendance
+          </h4>
+          <ScrollArea className="h-[300px]">
+            {data?.data?.employee?.map((data, index) => {
+              return <SessionEmployeeItem key={index} data={data} />;
+            })}
+          </ScrollArea>
         </div>
-        <h4 className="pb-3 font-droid text-base font-bold">
-          Employee Attendance
-        </h4>
-        <ScrollArea className="h-[300px]">
-          {sessionEmpoyee.map((data, index) => {
-            return <SessionEmployeeItem key={index} data={data} />;
-          })}
-        </ScrollArea>
-        <div className="mt-5 text-right">
-          <Button className=" text-base font-droid text-white bg-[#58BA66] py-6 px-8">
-            Submit
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

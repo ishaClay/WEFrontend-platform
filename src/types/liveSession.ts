@@ -94,3 +94,52 @@ export interface Data {
   createdAt: string;
   updatedAt: string;
 }
+
+
+export interface SingleLiveSession {
+  data: Data;
+  message: string;
+}
+export interface Data {
+  id: number;
+  platform: number;
+  zoomApiBaseUrl: string;
+  subtitle: string;
+  description: string;
+  date: string;
+  startTime: string;
+  startAmPm?: null;
+  sessionDuration: number;
+  position?: null;
+  liveSecinformation: string;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  employee?: (EmployeeEntity)[] | null;
+  cohortGroup?: null;
+}
+export interface EmployeeEntity {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  employeeStatus: string;
+  gender: string;
+  ageRange: string;
+  phone: string;
+  nFQ?: null;
+  employmentStatus: string;
+  memberCompany: string;
+  occupationalCategory: string;
+  unemploymentTime: string;
+  countyOfResidence: string;
+  attendedEvent: string;
+  profileImage?: null;
+  isRegister: boolean;
+  deletedAt?: null;
+  createdAt: string;
+  updatedAt: string;
+  editActionItem: boolean;
+  retakeSelfAssessment: boolean;
+  shareFeedback: boolean;
+}
