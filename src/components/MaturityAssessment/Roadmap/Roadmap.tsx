@@ -35,7 +35,10 @@ const Roadmap = ({
 
   const { data: maturitypillar, isLoading: fetchingMaturitypillar } =
     useQuery<AllActionDataPillerWise>({
-      queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+      queryKey: [
+        QUERY_KEYS.maturitypillar,
+        { selectAssessment, clientId, userID },
+      ],
       queryFn: () => fetchMaturityPillar(+clientId, userID, selectAssessment),
       enabled: !!selectAssessment,
     });
@@ -73,6 +76,7 @@ const Roadmap = ({
       </div>
       {step === 0 ? (
         <SetTarget
+          key={"select_pillars"}
           setStep={setStep}
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}
@@ -81,6 +85,7 @@ const Roadmap = ({
         />
       ) : step === 1 ? (
         <SetTarget
+          key={"define_action_item"}
           setStep={setStep}
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}

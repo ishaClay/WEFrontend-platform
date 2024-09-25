@@ -163,8 +163,8 @@ const EmployeeHeader = () => {
                     <Avatar className="lg:w-[42px] w-[40px] lg:h-[42px] h-[40px] rounded-full ">
                       <AvatarImage src="" />
                       <AvatarFallback className="bg-slate-300 uppercase">
-                        {userData?.query?.fname && userData?.query?.fname?.charAt(0) + "" +
-                          userData?.query?.lname && userData?.query?.lname?.charAt(0) || 
+                        {userData?.query?.fname?.charAt(0) +
+                          userData?.query?.lname?.charAt(0) ||
                           userData?.query?.email?.split("@")[0]?.charAt(0)}
                       </AvatarFallback>
                     </Avatar>

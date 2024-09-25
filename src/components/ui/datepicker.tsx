@@ -21,6 +21,7 @@ interface DatePickerProps {
   labelClassName?: string;
   placeHolder?: string;
   buttonClassName?: string;
+  placeholderClassName?: string;
   fromDate?: Date | undefined;
   disabled?: boolean;
 }
@@ -34,6 +35,7 @@ export const DatePicker = ({
   labelClassName,
   fromDate = undefined,
   disabled = false,
+  placeholderClassName,
 }: DatePickerProps) => {
   // const [date, setDate] = React.useState<Date>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -59,7 +61,11 @@ export const DatePicker = ({
               buttonClassName
             )}
           >
-            {date ? format(date, "dd-MM-yyyy") : <span>{placeHolder}</span>}
+            {date ? (
+              format(date, "dd-MM-yyyy")
+            ) : (
+              <span className={placeholderClassName}>{placeHolder}</span>
+            )}
             <CalendarIcon className="mr-2 h-4 w-4 font-droid" />
           </Button>
         </PopoverTrigger>

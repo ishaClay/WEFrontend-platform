@@ -135,7 +135,7 @@ const MaturityAssessment = () => {
   });
 
   const { data: maturitypillar } = useQuery<AllActionDataPillerWise>({
-    queryKey: [QUERY_KEYS.maturitypillar, { selectAssessment }],
+    queryKey: [QUERY_KEYS.maturitypillarAssessment, { selectAssessment }],
     queryFn: () =>
       fetchMaturityPillarAssessmentWise(userID, selectAssessment || "1"),
     enabled: !!selectAssessment,
@@ -210,7 +210,7 @@ const MaturityAssessment = () => {
 
   console.log("🚀 ~ MaturityAssessment ~ completionDate:", completionDate);
   console.log("getCheckedmeasures?.data?.data", getCheckedmeasures?.data?.data);
-  
+
   return (
     <div className="">
       <div className="sm:flex block items-center justify-between sm:px-5 px-4 sm:my-5 mb-4">

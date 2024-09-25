@@ -42,6 +42,7 @@ interface CohortDataType {
   startDate: Date | undefined;
   endDate: Date | undefined;
   isEdit: boolean;
+  isNew: boolean;
 }
 
 const InitialData = {
@@ -51,6 +52,7 @@ const InitialData = {
   startDate: undefined,
   endDate: undefined,
   isEdit: true,
+  isNew: true,
 };
 
 const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
@@ -88,6 +90,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
           startDate: startDate,
           endDate: endDate,
           isEdit: false,
+          isNew: false,
         };
       });
       setCohortData(newData);
@@ -121,12 +124,13 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
     setCohortData((prev) => [
       ...prev,
       {
-        id: cohortData?.length + 1,
+        id: prev?.length + 1,
         publish: true,
         cohortName: "",
         startDate: undefined,
         endDate: undefined,
         isEdit: true,
+        isNew: true,
       },
     ]);
   };
@@ -280,8 +284,10 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
       const cohortId = isDeleteCohort?.data && deleteCohortData?.id;
       deleteCohortFun(+cohortId);
     } else {
-      setCohortData(
-        cohortData?.filter((item: any) => item?.id !== deleteCohortData?.id)
+      setCohortData((prev) =>
+        prev.length === 1
+          ? prev
+          : prev?.filter((item: any) => item?.id !== deleteCohortData?.id)
       );
       setIsDeleteCohort({
         type: false,
@@ -291,7 +297,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
   };
 
   function isDateBetween(startDate: Date | undefined) {
-    const isBetDate = moment(startDate).diff(moment(), "days") > 0;
+    const isBetDate = moment(startDate).isAfter(new Date());
 
     // Check if the current date is between start date and end date
     return isBetDate;
@@ -351,7 +357,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {cohortData?.map((item) => {
+                  {cohortData?.map((item, _, arr) => {
                     const isEditeble = isDateBetween(item?.startDate);
 
                     return (
@@ -385,6 +391,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                           <DatePicker
                             buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-droid"
                             placeHolder={"dd-mm-yyyy"}
+                            placeholderClassName="text-muted-foreground"
                             date={item?.startDate}
                             disabled={
                               !item?.isEdit ||
@@ -402,6 +409,7 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                             buttonClassName="h-[52px] text-center w-full px-[10px] text-[#000] text-base font-normal font-droid"
                             placeHolder={"dd-mm-yyyy"}
                             date={item?.endDate}
+                            placeholderClassName="text-muted-foreground"
                             disabled={
                               !item?.startDate ||
                               !item?.isEdit ||
@@ -416,24 +424,27 @@ const CohortModal = ({ open, setOpen, id }: CohortModalProps) => {
                         </TableCell>
                         <TableCell className="px-[10px] py-[9px] text-black text-[15px] font-droid font-[600]">
                           <div className="flex items-center gap-2">
+                            {!item?.isNew && (
+                              <Button
+                                variant={"secondary"}
+                                type="button"
+                                disabled={
+                                  +userData?.query?.role === UserRole.Trainee ||
+                                  !isEditeble
+                                }
+                                className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
+                                onClick={() => handleEdit(item.id)}
+                              >
+                                <Pencil className="w-4 h-4 text-[#606060]" />
+                              </Button>
+                            )}
                             <Button
                               variant={"secondary"}
                               type="button"
                               disabled={
                                 +userData?.query?.role === UserRole.Trainee ||
-                                !isEditeble
-                              }
-                              className="border border-[#D9D9D9] p-0 h-[32px] w-[32px]"
-                              onClick={() => handleEdit(item.id)}
-                            >
-                              <Pencil className="w-4 h-4 text-[#606060]" />
-                            </Button>
-                            <Button
-                              variant={"secondary"}
-                              type="button"
-                              disabled={
-                                +userData?.query?.role === UserRole.Trainee ||
-                                !isEditeble
+                                (!isEditeble &&
+                                  (!item?.isNew || arr.length === 1))
                               }
                               onClick={() =>
                                 setIsDeleteCohort({ type: true, data: item })

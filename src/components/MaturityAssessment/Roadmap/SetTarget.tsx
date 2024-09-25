@@ -6,9 +6,7 @@ import Loader from "@/components/comman/Loader";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { setMaturitypillar } from "@/redux/reducer/PillarReducer";
 import { enumUpadate } from "@/services/apiServices/enum";
-import {
-  AllActionDataPillerWiseResult,
-} from "@/types/MaturityLavel";
+import { AllActionDataPillerWiseResult } from "@/types/MaturityLavel";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, useEffect, useMemo, useState } from "react";
 import PillerCard from "./PillerCard";
@@ -18,13 +16,13 @@ const SetTarget = ({
   setIsEdit,
   selectAssessment = "1",
   maturitypillar,
-  isMaturitypillarLoading
+  isMaturitypillarLoading,
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
   setIsEdit: Dispatch<React.SetStateAction<boolean>>;
   selectAssessment: string;
   maturitypillar: AllActionDataPillerWiseResult[];
-  isMaturitypillarLoading: boolean
+  isMaturitypillarLoading: boolean;
 }) => {
   const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
@@ -95,10 +93,11 @@ const SetTarget = ({
           <Loader className="w-8 h-8" />
         ) : (
           checkedStates &&
-          checkedStates?.map((item) => {
+          checkedStates?.map((item, index) => {
             return (
               <PillerCard
                 item={item}
+                key={index}
                 setCheckedStates={setCheckedStates}
                 selectAssessment={selectAssessment}
               />

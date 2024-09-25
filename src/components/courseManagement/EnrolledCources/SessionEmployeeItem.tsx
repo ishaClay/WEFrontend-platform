@@ -19,9 +19,7 @@ const SessionEmployeeItem = ({ data }: sessionEmpoyeeProps) => {
             {data.empoyeeName}
           </div>
         </div>
-        <div className="">
-          <Checkbox className="w-[18px] h-[18px] border-[#D9D9D9]" />
-        </div>
+        <Checkbox className="w-[18px] h-[18px] border-[#D9D9D9] mr-4" />
       </div>
     </div>
   );

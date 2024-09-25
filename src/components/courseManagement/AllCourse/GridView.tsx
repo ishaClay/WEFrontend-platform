@@ -113,10 +113,16 @@ const GridView = ({
             description: "Course unpublished successfully",
             variant: "success",
           });
-        } else {
+        } else if (data?.data?.data?.status === "PUBLISHED") {
           toast({
             title: "Success",
             description: "Course published successfully",
+            variant: "success",
+          });
+        } else if (data?.data?.data?.status === "DRAFT") {
+          toast({
+            title: "Success",
+            description: "Course rejected successfully",
             variant: "success",
           });
         }
@@ -371,7 +377,6 @@ const GridView = ({
     };
     publishCourseFun(payload);
   };
-  console.log("listlistlist", list);
 
   return list?.length > 0 && list ? (
     <>
