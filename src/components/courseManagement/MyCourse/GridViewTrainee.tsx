@@ -18,7 +18,6 @@ import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
-import { RootState } from "@/redux/store";
 import {
   copyCourse,
   createNewVersion,
@@ -33,7 +32,6 @@ import { UserRole } from "@/types/UserRole";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CohortModal from "../AllCourse/CohortModal";
 import ConfirmationModel from "../AllCourse/ConfirmationModel";
