@@ -363,12 +363,15 @@ const ScheduleLiveSessionPage = () => {
       const session = getLiveSessionData?.data?.find(
         (item) => item.id?.toString() === selectLiveSession?.toString()
       );
-      const htmlString = new DOMParser().parseFromString(
-        session?.information || "",
-        "text/html"
-      );
-      setValue("sessionSubtitle", session?.title || "");
-      setValue("sessionDescription", htmlString?.body?.innerText || "");
+      if (session) {
+        const htmlString = new DOMParser().parseFromString(
+          session?.information || "",
+          "text/html"
+        );
+
+        setValue("sessionSubtitle", session?.title || "");
+        setValue("sessionDescription", htmlString?.body?.innerText || "");
+      }
     }
   }, [selectLiveSession, getLiveSessionData?.data, setValue]);
 
@@ -614,7 +617,7 @@ const ScheduleLiveSessionPage = () => {
                   value={watch("selectDurationInHours")}
                   itemClassName="text-base"
                   className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                  placeholder="01"
+                  placeholder="Select hours"
                 />
                 {errors.selectDurationInHours && (
                   <span className="text-red-500 text-sm">
@@ -636,7 +639,7 @@ const ScheduleLiveSessionPage = () => {
                   value={watch("selectDurationInMinute")}
                   itemClassName="text-base"
                   className="data-[placeholder]:text-[#A3A3A3] sm:text-base text-[15px] font-font-droid sm:px-5 px-4 md:h-[52px] sm:h-12 h-10"
-                  placeholder="30"
+                  placeholder="Select minutes"
                 />
                 {errors.selectDurationInMinute && (
                   <span className="text-red-500 text-sm">

@@ -117,6 +117,7 @@ export const fetchSingleCourseById = async (
 export const fetchFeatureCourseById = async (
   id?: string
 ): Promise<GetSingleCourseByIdType> => {
+  console.log("🚀 ~ id:++++", id);
   const url = `api/v1/course/getOne/${id}`;
   const res = await api({ url });
   return res.data;
@@ -209,7 +210,11 @@ export const fetchgetCoursesNameList = async (): Promise<CoursesNameType> => {
   const res = await api({ url });
   return res?.data;
 };
-export const createNewVersion = async (data: { courseId: number, version: number, userId: number }) => {
+export const createNewVersion = async (data: {
+  courseId: number;
+  version: number;
+  userId: number;
+}) => {
   const url = `api/v1/course/createCourseWithNewVersion`;
   const method = "post";
   const res = await api({ url, data, method });
@@ -233,7 +238,11 @@ export const createInquiry = async (data: {
   return res.data;
 };
 
-export const fetchCoursePublishAdminClient = async (id: number, keyword: string, page: number) => {
+export const fetchCoursePublishAdminClient = async (
+  id: number,
+  keyword: string,
+  page: number
+) => {
   const url = `api/v1/client/coursePublishAdminClient/?clientId=${id}`;
   const params: any = {};
   if (keyword) {

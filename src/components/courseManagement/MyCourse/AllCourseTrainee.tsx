@@ -99,7 +99,7 @@ const AllCourseTrainee = () => {
                           },
                         ])
                       );
-                      navigate(`/${Role}/create_course?tab=0&step=0&version=1`);
+                      navigate(`/${Role}/create_course?tab=0&step=0`);
                     }
                   }}
                   className="sm:text-base text-sm font-medium leading-5  bg-[#00778B] py-2.5 sm:px-5 px-3"

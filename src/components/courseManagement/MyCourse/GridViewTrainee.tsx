@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { PermissionContext } from "@/context/PermissionContext";
-import { useAppDispatch } from "@/hooks/use-redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
 import { setPath } from "@/redux/reducer/PathReducer";
 import { RootState } from "@/redux/store";
@@ -49,7 +49,8 @@ const GridViewTrainee = ({
   const { permissions } = useContext(PermissionContext);
   console.log("🚀 ~ permissions:", permissions);
   const { toast } = useToast();
-  const { UserId } = useSelector((state: RootState) => state.user);
+  const { UserId } = useAppSelector((state) => state.user);
+  const { paths } = useAppSelector((state) => state.path);
   const userData = JSON.parse(localStorage.getItem("user") as string);
   const [cohort, setCohort] = useState(false);
   const [open, setOpen] = useState<string>("");
@@ -172,6 +173,17 @@ const GridViewTrainee = ({
             data?.data?.id
           }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`
         );
+        dispatch(
+          setPath([
+            ...paths,
+            {
+              label: "Edit Course",
+              link: `/${Role}/create_course/${
+                data?.data?.id
+              }?tab=${0}&step=${0}&version=${data?.data?.currentVersion?.id}`,
+            },
+          ])
+        );
       },
       onError: (error) => {
         toast({
@@ -246,6 +258,17 @@ const GridViewTrainee = ({
               +item?.tab === 4 ? 0 : item?.tab
             }&version=${item?.currentVersion?.id}&type=${type}`
           );
+          dispatch(
+            setPath([
+              ...paths,
+              {
+                label: "Edit Course",
+                link: `/${Role}/create_course/${item?.id}?tab=${
+                  +item?.tab === 4 ? 0 : item?.tab
+                }&version=${item?.currentVersion?.id}&type=${type}`,
+              },
+            ])
+          );
         } else {
           navigate(
             `/${Role}/create_course/${item?.id}?tab=${
@@ -253,6 +276,19 @@ const GridViewTrainee = ({
             }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
               item?.currentVersion?.id
             }&type=${type}`
+          );
+          dispatch(
+            setPath([
+              ...paths,
+              {
+                label: "Edit Course",
+                link: `/${Role}/create_course/${item?.id}?tab=${
+                  +item?.tab === 4 ? 0 : item?.tab
+                }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                  item?.currentVersion?.id
+                }&type=${type}`,
+              },
+            ])
           );
         }
       }
@@ -264,6 +300,19 @@ const GridViewTrainee = ({
           }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
             item?.currentVersion?.id
           }&type=${type}`
+        );
+        dispatch(
+          setPath([
+            ...paths,
+            {
+              label: "Edit Course",
+              link: `/${Role}/create_course/${item?.id}?tab=${
+                +item?.tab === 4 ? 0 : item?.tab
+              }&step=${+item?.step === 5 ? 0 : item?.step}&version=${
+                item?.currentVersion?.id
+              }&type=${type}`,
+            },
+          ])
         );
       }
 
