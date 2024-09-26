@@ -330,21 +330,21 @@ const MaturityAssessment = () => {
                 )}
               </div>
               <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end gap-2">
-                {(reTakeOption && Role !== "employee") ||
+                {((reTakeOption && Role !== "employee") ||
                   (reTakeOption &&
                     Role === "employee" &&
-                    empPermissions?.retakeSelfAssessment && (
-                      <Button
-                        type="button"
-                        variant={"destructive"}
-                        onClick={() => {
-                          navigate(`/question`);
-                          isFirstTime = true;
-                        }}
-                      >
-                        Re-take Assessment
-                      </Button>
-                    ))}
+                    empPermissions?.retakeSelfAssessment)) && (
+                  <Button
+                    type="button"
+                    variant={"destructive"}
+                    onClick={() => {
+                      navigate(`/question`);
+                      isFirstTime = true;
+                    }}
+                  >
+                    Re-take Assessment
+                  </Button>
+                )}
                 {activeTab !== "actionitems" && (
                   <Button className="bg-[#00778B] font-font-droid font-semibold text-sm">
                     <PDFDownloadLink
