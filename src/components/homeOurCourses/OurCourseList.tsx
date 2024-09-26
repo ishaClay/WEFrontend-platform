@@ -4,7 +4,9 @@ import fulltimeImage from "@/assets/images/fulltime.png";
 import onlineImage from "@/assets/images/online.png";
 import timeImage from "@/assets/images/time.png";
 import universityImage from "@/assets/images/unversity.png";
+import { useAppDispatch } from "@/hooks/use-redux";
 import { getImages } from "@/lib/utils";
+import { setPath } from "@/redux/reducer/PathReducer";
 import { UserRole } from "@/types/UserRole";
 import {
   CoursePublishAdminClientData,
@@ -13,8 +15,6 @@ import {
 } from "@/types/allcourses";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useAppDispatch } from "@/hooks/use-redux";
-import { setPath } from "@/redux/reducer/PathReducer";
 
 type OurCoursrseListProps = {
   data: CoursePublishAdminClientData;
@@ -97,8 +97,13 @@ const OurCourseList = ({ data }: OurCoursrseListProps) => {
               <img className="h-[16] w-[18px]" src={onlineImage} alt="Course" />
               <p className="text-xs leading-[22px] text-[#3A3A3A] sm:line-clamp-2 line-clamp-1">
                 {data?.isOnline === IsOnline.Online && <span>Online</span>}
-                {data?.isOnline === IsOnline.InPerson && <span>InPerson</span>}
+                {data?.isOnline === IsOnline["In-Person"] && (
+                  <span>InPerson</span>
+                )}
                 {data?.isOnline === IsOnline.Hybrid && <span>Hybrid</span>}
+                {data?.isOnline === IsOnline["Self-paced Online"] && (
+                  <span>Self-paced Online</span>
+                )}
               </p>
             </div>
             <div className="flex items-center gap-1 mb-[2px]">

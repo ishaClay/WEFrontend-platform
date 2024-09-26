@@ -122,11 +122,14 @@ const MyCourseList = ({ list, selectFilterByCategory }: myPagesListProps) => {
                   {list?.course?.isOnline === IsOnline.Online && (
                     <span>Online</span>
                   )}
-                  {list?.course?.isOnline === IsOnline.InPerson && (
+                  {list?.course?.isOnline === IsOnline["In-Person"] && (
                     <span>InPerson</span>
                   )}
                   {list?.course?.isOnline === IsOnline.Hybrid && (
                     <span>Hybrid</span>
+                  )}
+                  {list?.course?.isOnline === IsOnline["Self-paced Online"] && (
+                    <span>Self-paced Online</span>
                   )}
                 </p>
               </div>

@@ -1,8 +1,8 @@
 import { ArrowBigLeft } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 import HomeFooter from "./homePage/HomeFooter";
 import HomeHeader from "./homePage/HomeHeader";
+import { Button } from "./ui/button";
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
@@ -25,50 +25,6 @@ const PrivacyPolicy = () => {
         </div>
       </div>
       <main className="sm:py-12 py-10 xl:max-w-[1160px] max-w-full mx-auto xl:px-0 px-5">
-        <nav className="mb-8">
-          <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <li>
-              <Link
-                to="/"
-                className="block rounded-md bg-muted px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground font-droid"
-              >
-                Data Collection
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block rounded-md bg-muted px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground font-droid"
-              >
-                Data Usage
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block rounded-md bg-muted px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground font-droid"
-              >
-                Data Security
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block rounded-md bg-muted px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground font-droid"
-              >
-                User Rights
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                className="block rounded-md bg-muted px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground font-droid"
-              >
-                Contact Us
-              </Link>
-            </li>
-          </ul>
-        </nav>
         <section id="data-collection" className="xl:mb-10 mb-8">
           <h2 className="xl:mb-4 mb-3 text-2xl font-bold font-droid">
             Data Collection

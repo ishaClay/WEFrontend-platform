@@ -106,11 +106,20 @@ const MaturityAssessment = () => {
   //   queryFn: () => assessmentQuestionScore1(+userID, +clientId),
   // });
 
+  const assesmentOption = assessmentQuestionScoreLIST?.data?.filter(
+    (item: any) => !!item?.completedAssessmentDate
+  );
+
+  const reTakeOption = assessmentQuestionScoreLIST?.data?.find(
+    (item: any) => !item?.completedAssessmentDate
+  );
+
+  console.log("🚀 ~ MaturityAssessment ~ reTakeOption:", isFirstTime);
   useEffect(() => {
     if (isLoading || !isFirstTime) return;
 
-    if (assessmentQuestionScoreLIST?.data?.length) {
-      const lastAssessmentNumber = assessmentQuestionScoreLIST?.data.filter(
+    if (assesmentOption?.length) {
+      const lastAssessmentNumber = assesmentOption.filter(
         (a: any) => a.completedAssessmentDate
       ); // Filter out assessments with no completed date
       setSelectAssessment(
@@ -120,9 +129,11 @@ const MaturityAssessment = () => {
       setSelectAssessment("1");
     }
     isFirstTime = false;
-  }, [assessmentQuestionScoreLIST]);
+  }, [assesmentOption]);
 
   console.log("assessmentQuestionScoreLIST", assessmentQuestionScoreLIST);
+
+  console.log("🚀 ~ MaturityAssessment ~ assesmentOption:", assesmentOption);
 
   const { data: assessmant } = useQuery({
     queryKey: [QUERY_KEYS.assessment],
@@ -265,25 +276,23 @@ const MaturityAssessment = () => {
                     ).format("DD/MM/YYYY")}
                   </p>
                 </SelectItem> */}
-                {assessmentQuestionScoreLIST?.data &&
-                  assessmentQuestionScoreLIST?.data?.map(
-                    (item: any, index: number) => (
-                      <SelectItem
-                        key={index}
-                        value={item.assessmentNumber?.toString()}
-                        className={`text-base font-medium font-font-droid bg-transparent`}
-                      >
-                        {item.assessmentName}
-                        {item.completedAssessmentDate && (
-                          <p>
-                            {moment(item.completedAssessmentDate).format(
-                              "DD/MM/YYYY"
-                            )}
-                          </p>
-                        )}
-                      </SelectItem>
-                    )
-                  )}
+                {assesmentOption &&
+                  assesmentOption?.map((item: any, index: number) => (
+                    <SelectItem
+                      key={index}
+                      value={item.assessmentNumber?.toString()}
+                      className={`text-base font-medium font-font-droid bg-transparent`}
+                    >
+                      {item.assessmentName}
+                      {item.completedAssessmentDate && (
+                        <p>
+                          {moment(item.completedAssessmentDate).format(
+                            "DD/MM/YYYY"
+                          )}
+                        </p>
+                      )}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
@@ -320,7 +329,22 @@ const MaturityAssessment = () => {
                   </TabsTrigger>
                 )}
               </div>
-              <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end">
+              <div className="w-full sm:order-2 order-1 px-5 sm:mb-0 mb-3 sm:flex block text-right justify-end gap-2">
+                {(reTakeOption && Role !== "employee") ||
+                  (reTakeOption &&
+                    Role === "employee" &&
+                    empPermissions?.retakeSelfAssessment && (
+                      <Button
+                        type="button"
+                        variant={"destructive"}
+                        onClick={() => {
+                          navigate(`/question`);
+                          isFirstTime = true;
+                        }}
+                      >
+                        Re-take Assessment
+                      </Button>
+                    ))}
                 {activeTab !== "actionitems" && (
                   <Button className="bg-[#00778B] font-font-droid font-semibold text-sm">
                     <PDFDownloadLink

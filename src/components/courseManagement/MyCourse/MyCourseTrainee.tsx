@@ -59,7 +59,7 @@ const MyCourseTrainee = () => {
         <div className="sm:flex block items-center justify-between border-b border-[#D9D9D9] px-5 py-3">
           <div className="bg-white sm:pb-0 pb-3">
             <h3 className="text-[16px] font-semibold font-droid mb-1">
-              My Course
+              My Courses
             </h3>
             <p className="text-[#606060] text-[15px] font-font-droid leading-[16px]">
               The full list of your courses, in snapshot view

@@ -302,11 +302,15 @@ const CourseGridView = ({
                       {recommendeddata.isOnline === IsOnline.Online && (
                         <span>Online</span>
                       )}
-                      {recommendeddata.isOnline === IsOnline.InPerson && (
+                      {recommendeddata.isOnline === IsOnline["In-Person"] && (
                         <span>InPerson</span>
                       )}
                       {recommendeddata.isOnline === IsOnline.Hybrid && (
                         <span>Hybrid</span>
+                      )}
+                      {recommendeddata.isOnline ===
+                        IsOnline["Self-paced Online"] && (
+                        <span>Self-paced Online</span>
                       )}
                     </p>
                   </div>
@@ -377,14 +381,17 @@ const CourseGridView = ({
                   setRecommendedCoursesById(recommendeddata?.id);
                 }}
                 className="  bg-[#64A70B] hover:bg-[#64A70B] text-white px-4 py-2 rounded w-[143px]"
-                disabled={recommendeddata?.enrolled}
+                disabled={
+                  recommendeddata?.enrolledStatus === 1 ||
+                  recommendeddata?.enrolledStatus === 0
+                }
               >
                 {recommendeddata?.enrolled
                   ? recommendeddata?.enrolledStatus === 1
                     ? "Enrolled"
                     : recommendeddata?.enrolledStatus === 0
                     ? "Pending Enrollment"
-                    : " "
+                    : "Enroll Now"
                   : "Enroll Now"}
               </Button>
             </div>

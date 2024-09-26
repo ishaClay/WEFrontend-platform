@@ -104,7 +104,7 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
 
     const upcomingData = matchingSlot
       ? matchingSlot
-      : cohortData?.isOnline === IsOnline.Offline
+      : cohortData?.isOnline === IsOnline["Self-paced Online"]
       ? {
           slotStartDate: {
             date: moment(currentDate).format("DD"),
@@ -357,17 +357,15 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                               {allcourse.isOnline === IsOnline.Online && (
                                 <span>Online</span>
                               )}
-                              {allcourse.isOnline === IsOnline.InPerson && (
+                              {allcourse.isOnline === IsOnline["In-Person"] && (
                                 <span>InPerson</span>
                               )}
                               {allcourse.isOnline === IsOnline.Hybrid && (
                                 <span>Hybrid</span>
                               )}
-                              {allcourse.isOnline === IsOnline.Major && (
-                                <span>Major</span>
-                              )}
-                              {allcourse.isOnline === IsOnline.Offline && (
-                                <span>Offline</span>
+                              {allcourse.isOnline ===
+                                IsOnline["Self-paced Online"] && (
+                                <span>Self-paced Online</span>
                               )}
                             </p>
                           </div>
@@ -399,7 +397,10 @@ const CourseGridPage = ({ data, selectedCourse }: dataGridProps) => {
                         disabled={
                           allcourse?.isOnline === 1
                             ? false
-                            : allcourse?.enrolled ||
+                            : // @ts-ignore
+                              allcourse?.enrolledStatus === 1 ||
+                              // @ts-ignore
+                              allcourse?.enrolledStatus === 0 ||
                               !getUpcommingCohort(allcourse)?.props?.children
                         }
                       >
