@@ -255,15 +255,16 @@ const ModuleCreationPage = () => {
   console.log("courseEditId || courseID", courseEditId, courseID);
 
   const { data: CourseModule, isFetching: courseLoading } = useQuery({
-    queryKey: [QUERY_KEYS.fetchAllCourseModule, paramsVersion],
+    queryKey: [
+      QUERY_KEYS.fetchAllCourseModule,
+      { paramsVersion, courseEditId: courseEditId || courseID },
+    ],
     queryFn: () => getModuleData(+courseEditId || +courseID),
     enabled: !!courseID || !!courseEditId,
   });
 
   useEffect(() => {
-    if (CourseModule?.data?.data?.length) {
-      console.log("CourseModule?.data.data", CourseModule?.data.data);
-
+    if (CourseModule?.data?.data) {
       setModuleList(CourseModule?.data.data);
     }
     queryClient.invalidateQueries({

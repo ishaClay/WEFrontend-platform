@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import Loader from "@/components/comman/Loader";
+import NoDataText from "@/components/comman/NoDataText";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getSingleLiveSession } from "@/services/apiServices/liveSession";
 import { SingleLiveSession } from "@/types/liveSession";
@@ -39,9 +40,18 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
             {data?.data?.description}
           </h6>
           <h6 className="pb-2.5 font-droid text-base">
-            Trainer : Trainer Name Here
+            Trainer :{" "}
+            {data?.data?.trainerOrganization
+              ? `${
+                  data?.data?.trainerOrganization?.contactFirstName &&
+                  data?.data?.trainerOrganization?.contactFirstName
+                } ${
+                  data?.data?.trainerOrganization?.contactSurname &&
+                  data?.data?.trainerOrganization?.contactSurname
+                }`
+              : data?.data?.trainer?.name}
           </h6>
-          <div className="flex pb-5">
+          <div className="flex pb-2.5">
             <h5 className="pe-5 text-[#606060] font-droid text-base">
               Start Date:{" "}
               <span className="text-black">
@@ -63,13 +73,20 @@ const SessionModalDetails = ({ id }: { id: number | null }) => {
               </span>
             </h5>
           </div>
+          <h6 className="pb-5 font-droid text-base">
+            Status : {data?.data?.status}
+          </h6>
           <h4 className="pb-3 font-droid text-base font-bold">
             Employee Attendance
           </h4>
           <ScrollArea className="h-[300px]">
-            {data?.data?.employee?.map((data, index) => {
-              return <SessionEmployeeItem key={index} data={data} />;
-            })}
+            {data?.data?.employee && data?.data?.employee?.length > 0 ? (
+              data?.data?.employee?.map((data, index) => {
+                return <SessionEmployeeItem key={index} data={data} />;
+              })
+            ) : (
+              <NoDataText message="No Employee Found" />
+            )}
           </ScrollArea>
         </div>
       )}

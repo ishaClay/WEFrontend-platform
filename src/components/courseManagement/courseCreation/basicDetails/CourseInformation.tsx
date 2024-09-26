@@ -244,6 +244,7 @@ const CourseInformation = ({
       queryFn: () => fetchSingleCourseById(String(paramsVersion)),
       enabled: !!paramsVersion,
     });
+  console.log("🚀 ~ paramsVersion:", paramsVersion);
 
   useEffect(() => {
     if (getSingleCourse && getSingleCourse?.data?.course) {
@@ -251,7 +252,7 @@ const CourseInformation = ({
       (Object.keys(data) as Array<keyof CourseData>).forEach((key: any) => {
         setValue(key, data[key]);
         setValue("freeCourse", data.freeCourse === 1 ? true : false);
-        setValue("price", String(data?.price));
+        setValue("price", String(data?.price || 0));
       });
       setDiscount(data?.discountApplicable);
       setIsFreeCourse(data.freeCourse === 1 ? true : false);
@@ -274,7 +275,7 @@ const CourseInformation = ({
       return;
     }
 
-    const payload = {
+    const payload: any = {
       title: formdata?.title,
       institute: formdata?.institute,
       instituteWebsite: formdata?.instituteWebsite,
@@ -285,7 +286,6 @@ const CourseInformation = ({
       discout: provideDisc ? "1" : "0",
       providerName: isFreeCourse ? null : +discountProvider || 0,
       clientId: data?.data?.id || 0,
-      userId: userID,
       tab: "0",
       step: "1",
     };
@@ -308,6 +308,7 @@ const CourseInformation = ({
           version: getSingleCourse?.data?.version,
         });
       } else {
+        payload.userId = userID;
         mutate(payload);
       }
     } else {
@@ -422,7 +423,8 @@ const CourseInformation = ({
 
                     if (
                       value.match(/^[0-9]*$/) &&
-                      (value > 0 || value === "")
+                      (value > 0 || value === "") &&
+                      value <= 99999
                     ) {
                       setValue("price", value);
                       // @ts-ignore

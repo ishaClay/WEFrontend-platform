@@ -349,12 +349,13 @@ function CourseViewAllocatePopup({
                           <span>Online</span>
                         )}
                         {courseData?.course?.isOnline ===
-                          IsOnline?.InPerson && <span>InPerson</span>}
+                          IsOnline?.["In-Person"] && <span>InPerson</span>}
                         {courseData?.course?.isOnline === IsOnline?.Hybrid && (
                           <span>Hybrid</span>
                         )}
-                        {courseData?.course?.isOnline === IsOnline?.Major && (
-                          <span>Major</span>
+                        {courseData?.course?.isOnline ===
+                          IsOnline?.["Self-paced Online"] && (
+                          <span>Self-paced Online</span>
                         )}
                       </p>
                     </div>

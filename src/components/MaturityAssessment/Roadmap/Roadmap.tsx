@@ -1,13 +1,13 @@
 import Stepper from "@/components/comman/Stepper";
+import { useAppSelector } from "@/hooks/use-redux";
+import { QUERY_KEYS } from "@/lib/constants";
+import { fetchMaturityPillar } from "@/services/apiServices/pillar";
+import { AllActionDataPillerWise } from "@/types/MaturityLavel";
 import { UserRole } from "@/types/UserRole";
+import { useQuery } from "@tanstack/react-query";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import Assign from "./Assign";
 import SetTarget from "./SetTarget";
-import { useQuery } from "@tanstack/react-query";
-import { AllActionDataPillerWise } from "@/types/MaturityLavel";
-import { QUERY_KEYS } from "@/lib/constants";
-import { fetchMaturityPillar } from "@/services/apiServices/pillar";
-import { useAppSelector } from "@/hooks/use-redux";
 
 const Roadmap = ({
   showButton,
@@ -44,22 +44,21 @@ const Roadmap = ({
     });
 
   useEffect(() => {
-    console.log("+++++++++++++ I Called +++++++++++++++");
-    const hasActionItems = maturitypillar?.data?.some(
-      (pillar) => pillar?.actionItem?.length > 0
-    );
     if (
       !isEdit &&
       ((+userData?.query?.role === UserRole?.Company && pathStatus > 5) ||
         showButton !== 0)
     ) {
-      console.log("+++++++++++++ I Called +++++++++++++++ 1");
-      setStep(hasActionItems ? 1 : 2);
+      setStep(2);
     } else {
-      console.log("+++++++++++++ I Called +++++++++++++++ 2");
-      setStep(0);
+      const checkedItem = maturitypillar?.data?.some((item) => item.checked);
+      if (checkedItem) {
+        setStep(1);
+      } else {
+        setStep(0);
+      }
     }
-  }, []);
+  }, [maturitypillar?.data, pathStatus]);
 
   return (
     <div className="">
@@ -74,18 +73,8 @@ const Roadmap = ({
           onChangeStep={setStep}
         />
       </div>
-      {step === 0 ? (
+      {step === 0 || step === 1 ? (
         <SetTarget
-          key={"select_pillars"}
-          setStep={setStep}
-          setIsEdit={setIsEdit}
-          selectAssessment={selectAssessment}
-          maturitypillar={maturitypillar?.data || []}
-          isMaturitypillarLoading={fetchingMaturitypillar}
-        />
-      ) : step === 1 ? (
-        <SetTarget
-          key={"define_action_item"}
           setStep={setStep}
           setIsEdit={setIsEdit}
           selectAssessment={selectAssessment}

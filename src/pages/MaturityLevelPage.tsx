@@ -297,8 +297,8 @@ const MaturityLevelPage = () => {
                 How you fare across the Maturity levels
               </h2>
             </div>
-            <div className="flex flex-col gap-[26px]  mb-[60px]">
-              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+            <div className="grid grid-cols-3 gap-[26px]  mb-[60px]">
+              <div className="md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
                   <Button
                     className={cn(
@@ -309,7 +309,7 @@ const MaturityLevelPage = () => {
                   </Button>
                 </div>
 
-                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                <div className="flex items-center flex-wrap justify-center gap-[20px] p-4">
                   {assessmant?.data?.data.map((item: any) => {
                     const persantage =
                       (
@@ -343,7 +343,7 @@ const MaturityLevelPage = () => {
                             >
                               <div className="flex flex-wrap lg:gap-5 gap-4">
                                 <div
-                                  className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                  className={`border border-solid border-introductory_pillar bg-introductory_pillar text-white lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
                                   <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                     <img
@@ -352,7 +352,7 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
+                                  <h4 className="mt-3 lg:text-base text-xs font-droid pb-2 break-all">
                                     {item.pillarname}
                                   </h4>
                                   <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -368,7 +368,7 @@ const MaturityLevelPage = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+              <div className="md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
                   <Button
                     className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-intermediate_pillar from-25% via-intermediate_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
@@ -376,7 +376,7 @@ const MaturityLevelPage = () => {
                     Intermediate
                   </Button>
                 </div>
-                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                <div className="flex items-center flex-wrap justify-center gap-[20px] p-4">
                   {assessmant?.data?.data.map((item: any) => {
                     const persantage =
                       (
@@ -404,7 +404,7 @@ const MaturityLevelPage = () => {
                             >
                               <div className="flex flex-wrap lg:gap-5 gap-4">
                                 <div
-                                  className={`border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                  className={`border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
                                   <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                     <img
@@ -413,7 +413,7 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs pb-2 font-font-droid">
+                                  <h4 className="mt-3 lg:text-base text-xs pb-2 font-font-droid break-all">
                                     {item.pillarname}
                                   </h4>
                                   <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
@@ -428,7 +428,8 @@ const MaturityLevelPage = () => {
                   })}
                 </div>
               </div>
-              <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+
+              <div className="md:shadow shadow-none rounded-xl">
                 <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
                   <Button
                     className={`md:text-base sm:text-sm text-xs text-[#000] sm:w-[130px] bg-transparent w-[100px] font-bold bg-gradient-to-r from-advanced_pillar from-25% via-advanced_pillar via-25% to-transparent to-50% hover:bg-transparent cursor-default justify-start`}
@@ -436,7 +437,7 @@ const MaturityLevelPage = () => {
                     Advanced
                   </Button>
                 </div>
-                <div className="flex items-center flex-wrap gap-[20px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+                <div className="flex items-center flex-wrap justify-center gap-[20px] p-4">
                   {assessmant?.data?.data.map((item: any) => {
                     const persantage =
                       (
@@ -464,7 +465,7 @@ const MaturityLevelPage = () => {
                             >
                               <div className="flex flex-wrap lg:gap-5 gap-4">
                                 <div
-                                  className={`border border-solid border-advanced_pillar bg-advanced_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5`}
+                                  className={`border border-solid border-advanced_pillar bg-advanced_pillar lg:w-[225px] w-[145px] rounded-xl lg:p-2.5 px-1 py-2`}
                                 >
                                   <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                     <img
@@ -473,7 +474,7 @@ const MaturityLevelPage = () => {
                                       className=""
                                     />
                                   </div>
-                                  <h4 className="mt-3 md:text-base text-xs font-font-droid pb-2">
+                                  <h4 className="mt-3 lg:text-base text-xs font-font-droid pb-2 break-all">
                                     {item.pillarname}
                                   </h4>
                                   <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold font-font-droid">
@@ -496,7 +497,7 @@ const MaturityLevelPage = () => {
                 <TabsList className="p-0 h-[45px]">
                   <TabsTrigger
                     value="introductory"
-                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-introductory-pillar rounded-md border-transparent h-[36px] w-[100px]"
+                    className="text-xs sm:px-6 px-2 font-droid font-bold text-[#00000080] data-[state=active]:text-[white] data-[state=active]:bg-introductory_pillar rounded-md border-transparent h-[36px] w-[100px]"
                   >
                     Introductory
                   </TabsTrigger>
@@ -541,7 +542,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-introductory-pillar bg-introductory-pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-introductory_pillar bg-introductory_pillar text-white lg:w-[225px] w-[145px] rounded-xl py-2 px-1">
                                     <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -549,7 +550,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2 break-all">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -592,7 +593,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-intermediate_pillar bg-intermediate_pillar lg:w-[225px] w-[145px] rounded-xl py-2 px-1">
                                     <div className="p-2.5 bg-white rounded-full w-[52px] h-[52px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -600,7 +601,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2 break-all">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">
@@ -643,7 +644,7 @@ const MaturityLevelPage = () => {
                                 }}
                               >
                                 <div className="flex flex-wrap lg:gap-5 gap-4">
-                                  <div className="border border-solid border-advanced_pillar bg-advanced_pillar text-white lg:w-[225px] w-[145px] rounded-xl p-2.5">
+                                  <div className="border border-solid border-advanced_pillar bg-advanced_pillar lg:w-[225px] w-[145px] rounded-xl py-2 px-1">
                                     <div className="flex justify-center items-center bg-white rounded-full sm:w-[52px] w-[40px] sm:h-[52px] h-[40px] m-auto">
                                       <img
                                         src={getImages(item.pillarname)}
@@ -651,7 +652,7 @@ const MaturityLevelPage = () => {
                                         className=""
                                       />
                                     </div>
-                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2">
+                                    <h4 className="mt-3 md:text-base text-xs font-droid pb-2 break-all">
                                       {item.pillarname}
                                     </h4>
                                     <span className="md:text-[32px] sm:text-[24px] text-[18px] font-bold">

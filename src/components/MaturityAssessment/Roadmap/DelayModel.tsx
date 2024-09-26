@@ -205,7 +205,7 @@ const DelayModel = ({
                 type="button"
                 isLoading={markPending}
                 onClick={handleSubmit}
-                disabled={!file}
+                // disabled={!file}
                 className="xl:w-[200px] xl:h-[52px] w-[190px] sm:h-[45px] h-9 rounded-[6px] bg-[#58BA66] xl:text-base sm:text-[15px] text-sm font-droid font-semibold"
               >
                 Mark As Complete

@@ -71,9 +71,6 @@ const ModuleCourseViewCardItems = ({
     );
   };
 
-  console.log("++++++++++++++++", data);
-  console.log("list?.prevStatus", list?.isStatus);
-
   return !viewDocument ? (
     <div className="ml-6 border-b border-[#D9D9D9] px-0 py-4 flex items-center justify-between">
       <div className="flex items-center">
@@ -170,7 +167,7 @@ const ModuleCourseViewCardItems = ({
             // onClick={() => navigate("/employee/live-session")}
             onClick={() => handleStatusChanges(1, list?.id)}
             isLoading={isPending}
-            disabled={list?.prevStatus === "Completed" ? false : true}
+            // disabled={list?.prevStatus === "Completed" ? false : true}
           >
             Join
           </Button>

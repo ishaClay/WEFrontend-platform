@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { PermissionContext } from "@/context/PermissionContext";
 import { useAppDispatch, useAppSelector } from "@/hooks/use-redux";
 import { QUERY_KEYS } from "@/lib/constants";
@@ -6,8 +7,10 @@ import {
   fetchSingleCourse,
   getEmployeeSingeCourse,
 } from "@/services/apiServices/courseSlider";
+import { getOneFeedback } from "@/services/apiServices/feedback";
 import { getModuleById } from "@/services/apiServices/moduleCreation";
 import { SingleCourseEmployeeResponse } from "@/types/employee";
+import { FeedbackSingleResponse } from "@/types/feedback";
 import { ModuleStatusResponse } from "@/types/modulecreation";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, MoveLeft, PencilLine } from "lucide-react";
@@ -67,6 +70,17 @@ const EmployeeBasicCourse = () => {
   const course =
     userData?.query?.role !== "4" ? getSingleCourse : fetchEmployeeSingeCourse;
 
+  const { data: checkFeedback } = useQuery<FeedbackSingleResponse>({
+    queryKey: ["feedback", { id: course?.data?.course?.id }],
+    queryFn: () =>
+      getOneFeedback(course?.data?.course?.id, userData?.query?.id),
+    enabled: !!course?.data?.course?.id || !!userData?.query?.id,
+  });
+  console.log(
+    "🚀 ~ EmployeeBasicCourse ~ checkFeedback:",
+    !!checkFeedback?.data
+  );
+
   const { data: getModule } = useQuery<ModuleStatusResponse>({
     queryKey: [QUERY_KEYS.getSingleCourse, { mainCourseId, userData }],
     queryFn: () =>
@@ -88,22 +102,34 @@ const EmployeeBasicCourse = () => {
   }, [tab, location]);
 
   useEffect(() => {
-    if (+userData?.query?.role === 4) {
+    if (+userData?.query?.role === 4 && checkFeedback) {
       const check = getModule?.moduleStatuses?.every(
         (item) => item.status === "completed"
       );
+
+      const checkAssesment = getModule?.moduleStatuses?.every((item) => {
+        // @ts-ignore
+        return item?.assessment.every((item) => !!item?.isCompleted);
+      });
 
       const isFeedback = course?.data?.course?.feedBack?.find(
         (item: any) => item?.user?.id === userData?.query?.id
       );
       console.log("check", !isFeedback);
 
-      if (check && !isFeedback) {
+      if (check && checkAssesment && !isFeedback && !checkFeedback?.data) {
         setIsOpenReviewModal(true);
       }
     }
-  }, [getModule?.moduleStatuses, userData?.query?.role]);
+  }, [
+    checkFeedback,
+    course?.data?.course?.feedBack,
+    getModule?.moduleStatuses,
+    userData?.query?.id,
+    userData?.query?.role,
+  ]);
 
+  console.log("🚀 ~ useEffect ~ getModule:", getModule);
   return (
     <>
       <Modal
@@ -214,7 +240,7 @@ const EmployeeBasicCourse = () => {
                                 },
                               ])
                             ),
-                            navigate(newpath?.at(-1)?.link || ""))                            
+                            navigate(newpath?.at(-1)?.link || ""))
                           : dispatch(
                               setPath([
                                 { label: "Course Management", link: null },

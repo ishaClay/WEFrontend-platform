@@ -241,11 +241,15 @@ function CoursesAllocate() {
                                 {courseallocate?.course.isOnline ===
                                   IsOnline.Online && <span>Online</span>}
                                 {courseallocate?.course.isOnline ===
-                                  IsOnline.InPerson && <span>InPerson</span>}
+                                  IsOnline["In-Person"] && (
+                                  <span>InPerson</span>
+                                )}
                                 {courseallocate?.course.isOnline ===
                                   IsOnline.Hybrid && <span>Hybrid</span>}
                                 {courseallocate?.course.isOnline ===
-                                  IsOnline.Major && <span>Major</span>}
+                                  IsOnline["Self-paced Online"] && (
+                                  <span>Self-paced Online</span>
+                                )}
                               </p>
                             </div>
                             <div className="flex items-center gap-1">

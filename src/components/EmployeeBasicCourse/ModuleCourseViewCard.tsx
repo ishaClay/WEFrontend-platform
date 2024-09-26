@@ -98,7 +98,7 @@ const ModuleCourseViewCard = ({ data, allData, enrollData }: any) => {
               <Button
                 type="button"
                 disabled={(data?.moduleSection || data?.moduleSections)?.some(
-                  (item: any) => item?.isStatus !== "Completed"
+                  (item: any) => !item.isLive && item?.isStatus !== "Completed"
                 )}
                 onClick={() =>
                   navigate(

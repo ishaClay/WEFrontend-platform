@@ -116,6 +116,9 @@ export interface Data {
   createdAt: string;
   updatedAt: string;
   employee?: (EmployeeEntity)[] | null;
+  trainerOrganization: any;
+  trainer: any;
+  status: string;
   cohortGroup?: null;
 }
 export interface EmployeeEntity {

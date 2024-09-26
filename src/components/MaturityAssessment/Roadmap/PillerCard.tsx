@@ -46,6 +46,7 @@ const PillerCard = ({
   setCheckedStates,
   selectAssessment = "1",
 }: PillerItemProps) => {
+  console.log("🚀 ~ item:", item);
   const [view, setView] = useState<View[] | null>(null);
   const [selectmaturity, setselectMaturity] = useState("");
   const [pid, setPId] = useState<string | null>("");

@@ -86,6 +86,15 @@ const SetTarget = ({
     EnumUpadate();
   };
 
+  // useEffect(() => {
+  //   const checkedItem = checkedStates.some((item) => item.checked);
+  //   if (checkedItem) {
+  //     setStep(1);
+  //   } else {
+  //     setStep(0);
+  //   }
+  // }, [checkedStates]);
+
   return (
     <div>
       <div className="h-full w-full max-w-full mx-auto">

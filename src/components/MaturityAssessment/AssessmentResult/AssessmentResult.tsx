@@ -317,8 +317,8 @@ const AssessmentResult = ({
             How you fared across the maturity levels
           </h2>
         </div>
-        <div className="flex flex-col gap-[26px]  mb-[60px]">
-          <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-[26px]  mb-[60px]">
+          <div className="md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
                 className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-introductory_pillar from-25% via-introductory_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
@@ -327,7 +327,7 @@ const AssessmentResult = ({
               </Button>
             </div>
 
-            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap lg:justify-center sm:gap-[20px] gap-[15px] p-4">
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data
@@ -382,7 +382,7 @@ const AssessmentResult = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+          <div className="md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
                 className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-intermediate_pillar from-25% via-intermediate_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
@@ -390,7 +390,7 @@ const AssessmentResult = ({
                 Intermediate
               </Button>
             </div>
-            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap lg:justify-center sm:gap-[20px] gap-[15px] p-4">
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data
@@ -445,7 +445,7 @@ const AssessmentResult = ({
             </div>
           </div>
 
-          <div className="flex flex-wrap md:shadow shadow-none rounded-xl">
+          <div className="md:shadow shadow-none rounded-xl">
             <div className="w-full flex items-center md:pl-[17px] pl-0 border-b-[#D9D9D9] border-b border-solid h-[62px]">
               <Button
                 className={`font-font-droid md:text-base sm:text-sm text-xs sm:w-[130px] w-[100px] font-bold text-black bg-gradient-to-r from-advanced_pillar from-25% via-advanced_pillar via-25% to-transparent to-50% bg-[#fff] cursor-default justify-start`}
@@ -453,7 +453,7 @@ const AssessmentResult = ({
                 Advanced
               </Button>
             </div>
-            <div className="flex items-center flex-wrap sm:gap-[20px] gap-[15px] md:pt-8 pt-3 md:pl-[30px] pl-0 pb-5">
+            <div className="flex items-center flex-wrap lg:justify-center sm:gap-[20px] gap-[15px] p-4">
               {(assessmentData?.length > 0
                 ? assessmentData
                 : assessmant?.data?.data

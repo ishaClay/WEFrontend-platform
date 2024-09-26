@@ -178,7 +178,10 @@ const MainHeader = () => {
                     <Avatar>
                       <AvatarImage
                         src={
-                          userData?.query?.trainerCompanyDetails?.profileImage
+                          userData?.query?.trainerCompanyDetails
+                            ?.profileImage ||
+                          userData?.query?.companyDetails?.profileImage ||
+                          userData?.query?.trainerDetails?.profileImage
                         }
                       />
                       <AvatarFallback>

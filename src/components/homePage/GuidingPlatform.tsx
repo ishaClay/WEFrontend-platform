@@ -27,9 +27,9 @@ const GuidingPlatform = () => {
               <h3 className="font-bold text-[15px] font-droid tracking-wider leading-[18px]">
                 Find Out Where You Stand
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
                 Take a self-assessment across the 6 pillars of sustainability to
-                see where your company stands now, all in a detailed report
+                see your company’s current standing in a detailed report
               </p>
             </div>
 
@@ -38,7 +38,7 @@ const GuidingPlatform = () => {
                 {" "}
                 Get a Personalised Roadmap
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
                 With comprehensive measures presented to you based on your
                 Sustainability Score, you’ll never have to guess your journey
               </p>
@@ -48,7 +48,7 @@ const GuidingPlatform = () => {
               <h3 className="font-bold text-[15px] font-droid tracking-wider leading-[18px]">
                 See Training Recommendations
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
                 Connect with pre-vetted training providers to upskill and
                 develop your team the way you need to—right from your dashboard
               </p>
@@ -64,7 +64,7 @@ const GuidingPlatform = () => {
               <h3 className="font-bold text-[15px] font-droid tracking-wider leading-[18px]">
                 Invite & Assign Your Staff
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
                 Because it always takes teamwork, invite your employees to the
                 platform and assign them action items or training
               </p>
@@ -75,9 +75,9 @@ const GuidingPlatform = () => {
                 {" "}
                 Measure Your Progress
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
                 Once you’ve been walking the sustainability journey, retake the
-                self-assessment to see how measurably your company has developed
+                self-assessment to measure your company’s development.
               </p>
             </div>
 
@@ -85,10 +85,9 @@ const GuidingPlatform = () => {
               <h3 className="font-bold text-[15px] font-droid tracking-wider leading-[18px]">
                 Share Reports With Stakeholders
               </h3>
-              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-3 line-clamp-2">
-                Easily export your Sustainability Score report to show the
-                detailed measures of your progress—to your stakeholders,
-                investors, and customers.
+              <p className="sm:text-[15px] text-xs sm:leading-[18px] leading-3 md:pt-4 pt-2 font-droid lg:line-clamp-4 line-clamp-2">
+                Easily export your Sustainability Score report to share detailed
+                progress measures with stakeholders, investors, and customers.
               </p>
             </div>
           </div>
