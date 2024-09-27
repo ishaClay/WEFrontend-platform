@@ -331,7 +331,7 @@ function SupportAddNewTicket() {
                 className="border-none cursor-pointer !p-0 w-[200px]"
                 acceptType=".pdf"
               >
-                <div className="flex items-center justify-between sm:mb-0 mb-3">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-[10px] relative">
                     <div className="flex items-center justify-center bg-[#E3E5F5] h-[42px] w-[42px] rounded-full ">
                       <FiImage className="w-6 h-6" />
@@ -343,7 +343,7 @@ function SupportAddNewTicket() {
                       <Button
                         type="button"
                         variant={"ghost"}
-                        className="p-0 h-auto hover:bg-transparent absolute -top-3 -right-3"
+                        className="p-0 h-auto hover:bg-transparent"
                         onClick={(e) => {
                           e.preventDefault();
                           setFile("");
@@ -352,18 +352,18 @@ function SupportAddNewTicket() {
                         <X className="w-5 h-5" />
                       </Button>
                     )}
-                    {file && (
-                      <a
-                        href={file}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
-                      >
-                        View attachment
-                      </a>
-                    )}
                   </div>
                 </div>
+                {file && (
+                  <a
+                    href={file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
+                  >
+                    View attachment
+                  </a>
+                )}
               </FileUpload>
               <FileUpload
                 handleDrop={(e) => {
@@ -392,7 +392,7 @@ function SupportAddNewTicket() {
                         setVideo(null);
                       }}
                     >
-                      <X />
+                      <X className="w-5 h-5" />
                     </Button>
                   )}
                 </div>

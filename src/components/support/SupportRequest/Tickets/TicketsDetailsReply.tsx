@@ -254,7 +254,9 @@ const TicketsDetailsReply = () => {
                         : "text-[#0E9CFF]"
                     }`}
                   >
-                    {data?.data?.data?.status === "InProcess" ? "In Progress" : data?.data?.data?.status}
+                    {data?.data?.data?.status === "InProcess"
+                      ? "In Progress"
+                      : data?.data?.data?.status}
                   </Button>
                 )}
               </div>
@@ -549,9 +551,9 @@ const TicketsDetailsReply = () => {
                     href={file}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-3 w-full overflow-hidden text-ellipsis"
+                    className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
                   >
-                    {file}
+                    View attachment
                   </a>
                 )}
               </FileUpload>
@@ -574,9 +576,9 @@ const TicketsDetailsReply = () => {
                     href={file}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-3 w-full overflow-hidden text-ellipsis"
+                    className="mt-3 w-full overflow-hidden text-ellipsis bg-[#E3E5F5] p-3 rounded-sm"
                   >
-                    {file}
+                    View attachment
                   </a>
                 )}
               </FileUpload>

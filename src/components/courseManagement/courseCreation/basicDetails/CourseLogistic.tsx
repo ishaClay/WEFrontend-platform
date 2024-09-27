@@ -37,7 +37,7 @@ const isOnlineType = [
     value: "0",
   },
   {
-    label: "Self-paced Online",
+    label: "Self placed Online",
     value: "1",
   },
   {
@@ -53,7 +53,7 @@ const isOnlineType = [
   //   value: "4",
   // },
   // {
-  //   label: "Self-paced Online",
+  //   label: "Self placed Online",
   //   value: "5",
   // },
 ];

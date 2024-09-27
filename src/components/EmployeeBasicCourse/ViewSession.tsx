@@ -151,6 +151,15 @@ const ViewSession = ({
 
   console.log("🚀 ~ documentFile:", data?.course);
 
+  const handleDownload = () => {
+    const pdfUrl = list?.attachment;
+    const anchor = document.createElement("a");
+    anchor.href = pdfUrl;
+    anchor.target = "_blank";
+    anchor.download = "document.pdf";
+    anchor.click();
+  };
+
   return (
     <div className="bg-white p-4 min-h-[calc(100vh-170px)]">
       {viewDoc ? (
@@ -315,15 +324,15 @@ const ViewSession = ({
                   </Button>
                 )}
                 {list?.attachment && (
-                  <a
-                    href=""
-                    download={list?.attachment}
-                    target="_blank"
+                  <Button
+                    onClick={handleDownload}
+                    type="button"
+                    variant={"outline"}
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors border border-input bg-background h-10 px-4 py-2 hover:bg-accent hover:text-accent-foreground text-[12px] font-droid cursor-pointer"
                   >
                     <Download /> Download
                     {/* {documentType(documentFile)} */}
-                  </a>
+                  </Button>
                 )}
                 {/* <Button
                   variant={"outline"}

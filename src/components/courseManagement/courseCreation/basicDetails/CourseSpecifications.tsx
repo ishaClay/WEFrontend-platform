@@ -157,18 +157,18 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
     }
   }, [getSingleCourse, setValue]);
 
-  useEffect(() => {
-    if (getSingleCourse && getSingleCourse?.data?.course) {
-      setValue(
-        "nfqLeval",
-        getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
-      );
-      setSelectBoxValue((prev) => ({
-        ...prev,
-        nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
-      }));
-    }
-  }, [getSingleCourse]);
+  // useEffect(() => {
+  //   if (getSingleCourse && getSingleCourse?.data?.course) {
+  //     setValue(
+  //       "nfqLeval",
+  //       getSingleCourse?.data?.course?.nfqLeval?.id?.toString()
+  //     );
+  //     setSelectBoxValue((prev) => ({
+  //       ...prev,
+  //       nfqLeval: getSingleCourse?.data?.course?.nfqLeval?.id?.toString() || "",
+  //     }));
+  //   }
+  // }, [getSingleCourse]);
 
   const { mutate: updateCourseFun, isPending: isUpdatePending } = useMutation({
     mutationFn: (e: any) => updateCourse(e),
@@ -257,9 +257,11 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               Specify the NFQ level for this course (if applicable).
             </Label>
             <SelectMenu
-              {...register("nfqLeval")}
+              // {...register("nfqLeval")}
               option={nfqlLevelOption || []}
               setValue={(e: string) => {
+                console.log("Hello I am Called !");
+
                 setSelectBoxValue({ ...selectBoxValue, nfqLeval: e });
                 setValue("nfqLeval", e);
               }}
@@ -297,7 +299,7 @@ const CourseSpecifications = ({ courseById }: CourseSpecificationsProps) => {
               course completion?
             </Label>
             <SelectMenu
-              {...register("certificate")}
+              // {...register("certificate")}
               option={certificateOption || []}
               setValue={(e: string) => {
                 setSelectBoxValue({ ...selectBoxValue, certificate: e });

@@ -89,6 +89,10 @@ function HomeHeader(props: headerProps) {
     }
   };
 
+  const handleContinueJourney = () => {
+    navigate("/savedassesment");
+  };
+
   const handleClickRegister = () => {
     navigate("/register");
     setShowRegistrationForm(false);
@@ -183,6 +187,15 @@ function HomeHeader(props: headerProps) {
                 <div className="font-bold text-lg text-color">
                   {userData ? (
                     <div className="flex items-center xl:gap-5 gap-3">
+                      {+JSON.parse(userData)?.query.role === 1 &&
+                        !!path &&
+                        +path <= 3 && (
+                          <PrimaryButton
+                            onClick={handleContinueJourney}
+                            name="Continue Journey"
+                            className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-font-droid font-normal"
+                          />
+                        )}
                       {+JSON.parse(userData)?.query.role === 1 &&
                         !!path &&
                         (+path === 7 || +path > 3) && (
@@ -299,6 +312,15 @@ function HomeHeader(props: headerProps) {
                         <div className="font-bold text-lg text-color">
                           {userData ? (
                             <div className="flex sm:flex-row flex-col items-center xl:gap-5 gap-3">
+                              {+JSON.parse(userData)?.query.role === 1 &&
+                                !!path &&
+                                +path <= 3 && (
+                                  <PrimaryButton
+                                    onClick={handleContinueJourney}
+                                    name="Continue Journey"
+                                    className="xl:px-[30px] px-[15px] py-2 primary-background text-lg !font-font-droid font-normal"
+                                  />
+                                )}
                               {!!path && (+path === 7 || +path > 3) && (
                                 <PrimaryButton
                                   onClick={handleGotoDashboard}

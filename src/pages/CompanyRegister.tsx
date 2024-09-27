@@ -62,6 +62,8 @@ function CompanyRegister() {
   const [companyNumberId, setCompanyNumberId] = useState<number | null>(null);
   const [companyData, setCompanyData] = useState<any | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isCompanyVerified, setIsCompanyVerified] = useState(false);
+  console.log("🚀 ~ CompanyRegister ~ isCompanyVerified:", isCompanyVerified);
   const userID = UserId
     ? UserId
     : userData?.query
@@ -296,6 +298,7 @@ function CompanyRegister() {
 
     setValue("address", add);
     setValue("name", getData?.company_name);
+    setIsCompanyVerified(true);
     setIsOpen(false);
   };
 
@@ -304,6 +307,7 @@ function CompanyRegister() {
     setValue("address", "");
     setValue("companyNumberId", null);
     setIsOpen(false);
+    setIsCompanyVerified(false);
     toast({
       variant: "destructive",
       title: "Please Enter Valid Company Details",
@@ -377,6 +381,11 @@ function CompanyRegister() {
                     setValue={(data: string) => {
                       setValue("soleTrader", data);
                       setError("soleTrader", { message: "" });
+                      if (data === "Yes") {
+                        setIsCompanyVerified(true);
+                      } else {
+                        setIsCompanyVerified(false);
+                      }
                     }}
                     value={watch("soleTrader") || ""}
                   />
@@ -394,6 +403,15 @@ function CompanyRegister() {
                       id="isRegister"
                       onChange={(e) => {
                         setValue("isRegister", e.target.checked);
+                        console.log(
+                          "🚀 ~ CompanyRegister ~ e.target.checked:",
+                          e.target.checked
+                        );
+                        if (e.target.checked) {
+                          setIsCompanyVerified(false);
+                        } else {
+                          setIsCompanyVerified(true);
+                        }
                         // if (e.target.checked) {
                         //   setError("isRegister", { message: "" });
                         //   if (!watch("companyNumberId")) {
@@ -665,6 +683,7 @@ function CompanyRegister() {
                 <PrimaryButton
                   type="submit"
                   name="Submit"
+                  disabled={updatePanding || !isCompanyVerified}
                   className="w-[370px] h-[48px] mt-[30px] mx-auto !font-droid !primary-background"
                 />
                 <div className="max-w-[296px] mx-auto  mt-[20px] mb-[40px] h-[30px] font-[400] text-[12px] text-center text-[#898989]">
